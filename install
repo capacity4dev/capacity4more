@@ -77,19 +77,20 @@ fi
 
 # Run the build script (drush make + extra's).
 echo "> Run the build script (scripts/build)"
-#bash scripts/build
+bash scripts/build
 echo
 
 
 # Install the capacity4more profile
 echo "> Install Drupal with the capacity4more install profile"
 cd www
-#drush si -y capacity4more --locale=en \
-#	--account-name=$ADMIN_USERNAME \
-#	--account-pass=$ADMIN_PASSWORD \
-#	--account-mail=$ADMIN_EMAIL \
-#	--db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
-#	--uri=$BASE_DOMAIN_URL
+drush si -y $PROFILE_NAME \
+    --locale=en \
+	--account-name=$ADMIN_USERNAME \
+	--account-pass=$ADMIN_PASSWORD \
+	--account-mail=$ADMIN_EMAIL \
+	--db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
+	--uri=$BASE_DOMAIN_URL
 echo
 
 # Enable the development modules
