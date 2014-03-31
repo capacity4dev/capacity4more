@@ -1,12 +1,59 @@
-[![Build Status](https://travis-ci.org/capacity4dev/capacity.png?branch=master)](https://travis-ci.org/capacity4dev/capacity)
+[![Build Status](https://travis-ci.org/capacity4dev/capacity4more.png?branch=master)](https://travis-ci.org/capacity4dev/capacity4more)
 
 ## Installation
 
-```bash
-# One time - copy the installation script locally.
-cp default.install.sh install.sh
-echo "Edit the file with you credentials"
-```
+Checkout the project from GitHub.
 
-Everytime you want to re-build the distribution: ``bash install.sh``
+#### Create config file
+
+Copy the configuration file to config.sh:
+
+	$ cp default.config.sh config.sh 
+
+Edit the configuration file, fill in the blanks.
+
+
+#### Run the install script
+
+Run the install script from within the root of the repository:
+
+	$ ./install
+	
+	
+#### Configure web server
+
+Create a vhost for your webserver, point it to the `REPOSITORY/ROOT/www` folder.  
+(Restart/reload your webserver).
+
+Add the local domain to your ```/etc/hosts``` file.
+
+Open the URL in your favorite browser.
+
+
+
+## Update/reinstall
+
+You can update/reinstall the platform any type by running the install script.
+
+	$ ./install
+	
+#### The install script will perform following steps:
+
+1. Delete the /www folder.
+2. Recreate the /www folder.
+3. Download and extract all contrib modules, themes & libraries to the proper subfolders of the profile.
+4. Download and extract Drupal 7 core in the /www folder
+5. Create an empty sites/default/files directory
+6. Makes a symlink within the /www/profiles directory to the /capacity4more directory.
+
+#### Warning!
+
+* The install script will not preserve the data located in the sites/default/files directory.
+* The insstall script will clear the database during the installation.
+
+**You need to take backups before you run the install script!**
+
+
+
+
 
