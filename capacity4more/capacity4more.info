@@ -1,0 +1,58 @@
+; $Id: standard.info,v 1.2 2010/10/25 15:48:41 webchick Exp $
+name = Garmentbox
+description = Garmentbox PLM (Product Lifecycle Management)
+version = VERSION
+core = 7.x
+
+; Core
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = overlay
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = file
+dependencies[] = rdf
+
+; Contrib modules
+dependencies[] = admin_menu_toolbar
+dependencies[] = admin_views
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_popup
+dependencies[] = entity
+dependencies[] = entity_token
+dependencies[] = entityreference
+dependencies[] = entityreference_prepopulate
+dependencies[] = features
+dependencies[] = flag
+dependencies[] = inline_entity_form
+dependencies[] = libraries
+dependencies[] = message
+dependencies[] = module_filter
+dependencies[] = og
+dependencies[] = og_access
+dependencies[] = og_context
+dependencies[] = og_ui
+dependencies[] = og_purl
+dependencies[] = og_vocab
+dependencies[] = pathauto
+dependencies[] = strongarm
+dependencies[] = title
+dependencies[] = token
+dependencies[] = views
+dependencies[] = views_bulk_operations
+dependencies[] = views_content
+dependencies[] = title
+
+; Features

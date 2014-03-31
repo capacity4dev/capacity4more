@@ -1,0 +1,112 @@
+#!/bin/bash
+
+#########################################################################################
+#
+# This script will setup a local copy of the capacity4more distribution.
+#
+# Do not change the content of this file, 
+# all configuration variables are in the config.sh file.
+#
+#########################################################################################
+
+
+# Include some colors
+source scripts/helper-colors.sh
+
+
+
+
+# Check if we can load the config file
+if [ ! -f config.sh ]; then
+	echo
+    echo -e  "${BGRED}                                                                 ${RESTORE}"
+    echo -e "${BGLRED}  ERROR: No configuration file found!                            ${RESTORE}"
+    echo -e  "${BGRED}  > Check if the ${BGLRED}config.sh${BGRED} file exists in the same               ${RESTORE}"
+    echo -e  "${BGRED}    directory of the ${BGLRED}install.sh${BGRED} script.                          ${RESTORE}"
+    echo -e  "${BGRED}  > If not create one by creating a copy of ${BGLRED}default.config.sh${BGRED}.   ${RESTORE}"
+    echo -e  "${BGRED}                                                                 ${RESTORE}"
+    echo
+    exit 0
+fi
+
+# Include the configuration file
+source config.sh
+
+
+
+
+# Always ask confirmation before destroying the Database & Files!
+echo 
+echo -e  "${BGBLUE}                                                                 ${RESTORE}"
+echo -e "${BGLBLUE}  Install capacity4more                                          ${RESTORE}"
+echo -e  "${BGBLUE}                                                                 ${RESTORE}"
+echo -e  "${BGBLUE}  > This will delete the database, contrib code and files.       ${RESTORE}"
+echo -e  "${BGBLUE}  > This will recreate the environment                           ${RESTORE}"
+echo -e  "${BGBLUE}      (download Drupal + contrib modules & themes).              ${RESTORE}"
+echo -e  "${BGBLUE}  > This will install the capacity4more profile.                 ${RESTORE}"
+echo -e  "${BGBLUE}                                                                 ${RESTORE}"
+echo
+
+echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
+read -e -n 1 -r
+if [[ ! $REPLY =~ ^[Y]$ ]]; then
+  echo 
+  echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+  echo -e "${BGLYELLOW}  Installation aborted!                                          ${RESTORE}"
+  echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+  echo
+  exit 1
+fi
+echo
+
+# Cleanup the www directory
+if [ -d www/sites ]; then
+	echo "> Cleaning up the www directory"
+	chmod 777 www/sites/default
+	rm -rf www/
+	echo
+fi
+
+# Create the www directory if necessary
+if [ ! -d www ]; then
+	echo "> Creating the www directory"
+	mkdir www
+	echo
+fi
+
+
+# Run the build script (drush make + extra's).
+echo "> Run the build script (scripts/build)"
+#bash scripts/build
+echo
+
+
+# Install the capacity4more profile
+echo "> Install Drupal with the capacity4more install profile"
+cd www
+#drush si -y capacity4more --locale=en \
+#	--account-name=$ADMIN_USERNAME \
+#	--account-pass=$ADMIN_PASSWORD \
+#	--account-mail=$ADMIN_EMAIL \
+#	--db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
+#	--uri=$BASE_DOMAIN_URL
+echo
+
+# Enable the development modules
+echo "> Enabling the development modules"
+#drush en -y devel views_ui field_ui migrate_ui
+echo
+
+# These commands migrates dummy content and is used for development and testing. Comment out both lines if you wish to have a clean OpenScholar installation.
+#drush mi --all --user=1
+
+
+# This command does the login for you when the build script is done. It will open a new tab in your default browser and login to your project as the Administrator. Comment out this line if you do not want the login to happen automatically.
+#drush uli --uri=$BASE_DOMAIN_URL
+
+echo
+echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
+echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
+echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+echo
