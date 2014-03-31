@@ -1,5 +1,12 @@
 #!/bin/bash
+
+
+# Load the configuration file.
+source config.sh
+
+# Output what we are doing
 set -xe
+
 
 # Drush executable.
 [[ $DRUSH && ${DRUSH-x} ]] || DRUSH=drush
@@ -10,7 +17,7 @@ cd $ROOT
 
 # Build the profile itself.
 (
-  cd capacity
+  cd $PROFILE_NAME
   $DRUSH make --no-core --contrib-destination drupal-org.make .
   cd ..
 )
@@ -27,7 +34,7 @@ cd $ROOT
   rm -Rf www || true
 
   # Build core.
-  $DRUSH make capacity/drupal-org-core.make www
+  $DRUSH make $PROFILE_NAME/drupal-org-core.make www
 
   # Restore the sites directory.
   if [ -d sites-backup ]; then
@@ -36,5 +43,5 @@ cd $ROOT
   fi
 
   # Move the profile in place.
-  ln -s ../../capacity www/profiles/capacity
+  ln -s ../../$PROFILE_NAME www/profiles/$PROFILE_NAME
 )
