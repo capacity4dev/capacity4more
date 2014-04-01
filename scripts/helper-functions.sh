@@ -69,6 +69,55 @@ function delete_sites_default_content {
   fi
 }
 
+##
+# Cleanup the profile/ directory
+# - Remove contributed modules (modules/contrib)
+# - Remove development modules (modules/development)
+# - Remove contributed themes (themes/contrib)
+# - Remove libraries (libraries)
+##
+function delete_profile_contrib {
+  # Cleanup the contrib modules
+  if [ -d $ROOT/$PROFILE_NAME/modules/contrib ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/contrib directory${RESTORE}"
+
+    rm -rf $ROOT/$PROFILE_NAME/modules/contrib
+
+    echo
+  fi
+
+  # Cleanup the development modules
+  if [ -d $ROOT/$PROFILE_NAME/modules/development ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/development directory${RESTORE}"
+
+    rm -rf $ROOT/$PROFILE_NAME/modules/development
+
+    echo
+  fi
+
+  # Cleanup the contrib themes
+  if [ -d $ROOT/$PROFILE_NAME/themes/contrib ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/contrib directory${RESTORE}"
+
+    rm -rf $ROOT/$PROFILE_NAME/themes/contrib
+
+    echo
+  fi
+
+  # Cleanup the libraries folder
+  if [ -d $ROOT/$PROFILE_NAME/libraries ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/libraries directory${RESTORE}"
+
+    rm -rf $ROOT/$PROFILE_NAME/libraries
+
+    echo
+  fi
+}
+
+
+
+
+
 
 ##
 # Install the profile as configured in the config.sh file

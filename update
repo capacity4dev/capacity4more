@@ -10,37 +10,27 @@
 ################################################################################
 
 
-# Include some colors
-source scripts/helper-colors.sh
+# Define the root of the GIT repository
+ROOT=$(git rev-parse --show-toplevel)
+cd $ROOT
 
+# Load the colors
+source $ROOT/scripts/helper-colors.sh
 
+# Load the helpers
+source $ROOT/scripts/helper-functions.sh
 
+# Load the configuration
+load_config_file
 
-# Check if we can load the config file
-if [ ! -f config.sh ]; then
-	echo
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo -e "${BGLRED}  ERROR: No configuration file found!                            ${RESTORE}"
-    echo -e  "${BGRED}  > Check if the ${BGLRED}config.sh${BGRED} file exists in the same               ${RESTORE}"
-    echo -e  "${BGRED}    directory of the ${BGLRED}install.sh${BGRED} script.                          ${RESTORE}"
-    echo -e  "${BGRED}  > If not create one by creating a copy of ${BGLRED}default.config.sh${BGRED}.   ${RESTORE}"
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo
-    exit 1
-fi
-
-
-# Include the configuration file
-source config.sh
 
 
 # Check if we have a working Drupal bootstrap
-cd www
+cd $ROOT/www
 BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd ..
+cd $ROOT
 
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
-
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  No working Drupal installation!                                ${RESTORE}"
@@ -51,10 +41,7 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
   exit 1
-
 fi
-
-
 
 
 
@@ -81,53 +68,32 @@ fi
 echo
 
 
-
-# Cleanup the contrib modules
-if [ -d $PROFILE_NAME/modules/contrib ]; then
-  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/contrib directory${RESTORE}"
-  rm -rf $PROFILE_NAME/modules/contrib
-  echo
-fi
-
-# Cleanup the development modules
-if [ -d $PROFILE_NAME/modules/development ]; then
-  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/development directory${RESTORE}"
-  rm -rf $PROFILE_NAME/modules/development
-  echo
-fi
-
-# Cleanup the contrib themes
-if [ -d $PROFILE_NAME/themes/contrib ]; then
-  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/contrib directory${RESTORE}"
-  rm -rf $PROFILE_NAME/themes/contrib
-  echo
-fi
-
+# Cleanup contrib modules, themes & libraries from the profile directory.
+delete_profile_contrib
 
 
 # Run the build script (drush make + extra's).
 echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
-bash scripts/build
+bash $ROOT/scripts/build
 echo
-
 
 
 # Update the database
 echo -e "${LBLUE}> Run the Update Database script (drush -y updb)${RESTORE}"
-cd www
+cd $ROOT/www
 drush -y updb
+cd $ROOT
 echo
-cd ..
+
 
 
 
 # Check if we have a working bootstrap
-cd www
+cd $ROOT/www
 BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd ..
+cd $ROOT
 
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
-
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  Update failure!                                                ${RESTORE}"
@@ -135,7 +101,6 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
   exit 1
-
 fi
 
 
@@ -144,7 +109,7 @@ fi
 echo
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo -e "${BGLGREEN}  Update complete!                                               ${RESTORE}"
-echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
+echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}                           ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
 
