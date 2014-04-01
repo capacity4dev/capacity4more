@@ -70,6 +70,9 @@ projects[pathauto][version] = "1.2"
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
 
+projects[reldate][subdir] = "contrib"
+projects[reldate][version] = "1.x-dev"
+
 projects[rules][subdir] = "contrib"
 projects[rules][version] = 2.6
 

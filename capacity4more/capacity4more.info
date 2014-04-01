@@ -48,6 +48,7 @@ dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = pathauto
+dependencies[] = reldate
 ;dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = token
