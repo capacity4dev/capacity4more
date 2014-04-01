@@ -22,6 +22,7 @@ install:
   - phpenv rehash
 
 before_script:
+  - bash cp default.config.sh config.sh
   - bash scripts/ci/setup
   - bash scripts/build
   - cd www
