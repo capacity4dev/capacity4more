@@ -36,7 +36,9 @@ cd $ROOT
   # Save the sites/default directory if it exists.
   if [ -d www/sites/default ]; then
     echo -e "${LBLUE}> Create backup of the www/sites/default directory${RESTORE}"
+    chmod u+w www/sites/default
     mv www/sites/default sites-backup
+    echo
   else
     mkdir -p www/sites/default
   fi
@@ -51,6 +53,7 @@ cd $ROOT
     echo -e "${LBLUE}> Restore backup of the www/sites/default directory${RESTORE}"
     rm -Rf www/sites/default
     mv sites-backup/ www/sites/default
+    echo
   fi
 
   # Move the profile in place.
