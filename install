@@ -26,7 +26,7 @@ if [ ! -f config.sh ]; then
     echo -e  "${BGRED}  > If not create one by creating a copy of ${BGLRED}default.config.sh${BGRED}.   ${RESTORE}"
     echo -e  "${BGRED}                                                                 ${RESTORE}"
     echo
-    exit 0
+    exit 1
 fi
 
 # Include the configuration file
@@ -55,13 +55,36 @@ if [[ ! $REPLY =~ ^[Y]$ ]]; then
   echo -e "${BGLYELLOW}  Installation aborted!                                          ${RESTORE}"
   echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
   echo
-  exit 1
+  exit 0
 fi
 echo
 
+
+
+# Cleanup the contrib modules
+if [ -d $PROFILE_NAME/modules/contrib ]; then
+  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/contrib directory${RESTORE}"
+  rm -rf $PROFILE_NAME/modules/contrib
+  echo
+fi
+
+# Cleanup the development modules
+if [ -d $PROFILE_NAME/modules/development ]; then
+  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/development directory${RESTORE}"
+  rm -rf $PROFILE_NAME/modules/development
+  echo
+fi
+
+# Cleanup the contrib themes
+if [ -d $PROFILE_NAME/themes/contrib ]; then
+  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/contrib directory${RESTORE}"
+  rm -rf $PROFILE_NAME/themes/contrib
+  echo
+fi
+
 # Cleanup the www directory
 if [ -d www/sites ]; then
-	echo "> Cleaning up the www directory"
+	echo -e "${LBLUE}> Cleaning up the www directory${RESTORE}"
 	chmod 777 www/sites/default
 	rm -rf www/
 	echo
@@ -69,32 +92,34 @@ fi
 
 # Create the www directory if necessary
 if [ ! -d www ]; then
-	echo "> Creating the www directory"
+	echo -e "${LBLUE}> Creating the www directory${RESTORE}"
 	mkdir www
 	echo
 fi
 
 
 # Run the build script (drush make + extra's).
-echo "> Run the build script (scripts/build)"
+echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
 bash scripts/build
 echo
 
 
 # Install the capacity4more profile
-echo "> Install Drupal with the capacity4more install profile"
+echo -e "${LBLUE}> Install Drupal with the capacity4more install profile${RESTORE}"
 cd www
 drush si -y $PROFILE_NAME \
-    --locale=en \
-	--account-name=$ADMIN_USERNAME \
-	--account-pass=$ADMIN_PASSWORD \
-	--account-mail=$ADMIN_EMAIL \
-	--db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
-	--uri=$BASE_DOMAIN_URL
+  --locale=en \
+  --account-name=$ADMIN_USERNAME \
+  --account-pass=$ADMIN_PASSWORD \
+  --account-mail=$ADMIN_EMAIL \
+  --db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
+  --uri=$BASE_DOMAIN_URL
 echo
+cd ..
+
 
 # Enable the development modules
-echo "> Enabling the development modules"
+echo -e "${LBLUE}> Enabling the development modules${RESTORE}"
 #drush en -y devel views_ui field_ui migrate_ui
 echo
 
@@ -105,9 +130,33 @@ echo
 # This command does the login for you when the build script is done. It will open a new tab in your default browser and login to your project as the Administrator. Comment out this line if you do not want the login to happen automatically.
 #drush uli --uri=$BASE_DOMAIN_URL
 
-echo
-echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
-echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
-echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo
+
+
+# Check if we have a working bootstrap
+cd www
+BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
+cd ..
+
+if [ ! "$BOOTSTRAP_SUCCESS" ]; then
+
+  echo
+  echo -e  "${BGRED}                                                                 ${RESTORE}"
+  echo -e "${BGLRED}  Installation failure!                                          ${RESTORE}"
+  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully             ${RESTORE}"
+  echo -e  "${BGRED}                                                                 ${RESTORE}"
+  echo
+  exit 1
+
+else
+
+  echo
+  echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+  echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
+  echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
+  echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+  echo
+
+  exit 0
+
+fi
+
