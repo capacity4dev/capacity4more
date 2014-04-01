@@ -179,8 +179,8 @@ function create_sites_default_files_directory {
 
   echo -e "${LBLUE}> Set the file permissions on the sites/default/files directory${RESTORE}"
 
-  chmod -R 775 $ROOT/www/sites/default/files
-  umask 002 $ROOT/www/sites/default/files
+  chmod -R 777 $ROOT/www/sites/default/files
+  umask 000 $ROOT/www/sites/default/files
   chmod -R g+s $ROOT/www/sites/default/files
 
   echo

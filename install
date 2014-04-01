@@ -15,6 +15,7 @@ cd ${0%/*}
 ROOT=$(git rev-parse --show-toplevel)
 cd $ROOT
 
+
 # Load the colors
 source $ROOT/scripts/helper-colors.sh
 
@@ -54,6 +55,9 @@ echo
 
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
+
+# Cleanup the sites/default content
+delete_sites_default_content
 
 # Cleanup the www directory
 delete_www_content
