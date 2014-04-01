@@ -8,4 +8,4 @@ default:
     Drupal\DrupalExtension\Extension:
       api_driver: "drupal"
       drupal:
-        drupal_root: "/home/travis/build/capacity4dev/capacity/www"
+        drupal_root: "/home/travis/build/capacity4dev/capacity4more/www"
