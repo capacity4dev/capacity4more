@@ -51,6 +51,7 @@ dependencies[] = pathauto
 dependencies[] = reldate
 ;dependencies[] = rules
 dependencies[] = strongarm
+dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
