@@ -17,28 +17,20 @@ cd $ROOT
 # Load the colors
 source $ROOT/scripts/helper-colors.sh
 
+# Load the helpers
+source $ROOT/scripts/helper-functions.sh
 
-# Check if we can load the config file
-if [ ! -f $ROOT/config.sh ]; then
-	echo
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo -e "${BGLRED}  ERROR: No configuration file found!                            ${RESTORE}"
-    echo -e  "${BGRED}  > Check if the ${BGLRED}config.sh${BGRED} file exists in the same               ${RESTORE}"
-    echo -e  "${BGRED}    directory of the ${BGLRED}install.sh${BGRED} script.                          ${RESTORE}"
-    echo -e  "${BGRED}  > If not create one by creating a copy of ${BGLRED}default.config.sh${BGRED}.   ${RESTORE}"
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo
-    exit 1
-fi
 
-# Include the configuration file
-source $ROOT/config.sh
+
+# Load the configuration
+load_config_file
 
 
 # Check if we have a working Drupal bootstrap
 cd $ROOT/www
 BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
 cd $ROOT
+
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
@@ -81,57 +73,19 @@ echo
 
 
 # Cleanup the www/sites/default directory
-if [ -d $ROOT/www/sites ]; then
-	echo -e "${LBLUE}> Cleaning up the www/sites/default directory${RESTORE}"
-	chmod 777 $ROOT/www/sites/default
-	rm -rf $ROOT/www/sites/default/files
-	rm -f $ROOT/www/sites/default/settings.php
-	echo
-fi
-# Backup in case of we need sudo powers to get rid of the files directory.
-if [ -d $ROOT/www/sites/default/files ]; then
-	echo -e "${LBLUE}> Cleaning up the sites/default/files directory with sudo power!${RESTORE}"
-	sudo rm -rf $ROOT/www/sites/default/files
-	echo
-fi
-if [ -f $ROOT/www/sites/default/settings.php ]; then
-	echo -e "${LBLUE}> Cleaning up the sites/default/files directory with sudo power!${RESTORE}"
-	sudo rm -rf $ROOT/www/sites/default/files
-	echo
-fi
+delete_sites_default_content
 
 
 # Install the capacity4more profile
-echo -e "${LBLUE}> Install Drupal with the capacity4more install profile${RESTORE}"
-cd $ROOT/www
-drush si -y $PROFILE_NAME \
-  --locale=en \
-  --account-name=$ADMIN_USERNAME \
-  --account-pass=$ADMIN_PASSWORD \
-  --account-mail=$ADMIN_EMAIL \
-  --db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
-  --uri=$BASE_DOMAIN_URL
-echo
-cd ..
+install_drupal_profile
 
 
 # Setup the files directory
-if [ ! -d www/sites/default/files ]; then
-  echo -e "${LBLUE}> Create the files directory (sites/default/files directory)${RESTORE}"
-  mkdir -p www/sites/default/files
-fi
-
-echo -e "${LBLUE}> Set the file permissions on the sites/default/files directory${RESTORE}"
-chmod -R 775 www/sites/default/files
-umask 002 www/sites/default/files
-chmod -R g+s www/sites/default/files
-echo
+create_sites_default_files_directory
 
 
 # Enable the development modules
-echo -e "${LBLUE}> Enabling the development modules${RESTORE}"
-#drush en -y devel views_ui field_ui migrate_ui
-echo
+enable_development_modules
 
 
 
@@ -141,7 +95,6 @@ BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
 cd $ROOT
 
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
-
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  Reset failure!                                                 ${RESTORE}"
@@ -149,7 +102,6 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
   exit 1
-
 fi
 
 
@@ -157,7 +109,7 @@ fi
 echo
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo -e "${BGLGREEN}  Reset complete!                                                ${RESTORE}"
-echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
+echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}                           ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
 
