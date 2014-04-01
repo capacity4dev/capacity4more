@@ -194,7 +194,7 @@ function enable_development_modules {
   echo -e "${LBLUE}> Enabling the development modules${RESTORE}"
 
   cd $ROOT/www
-  drush en -y devel views_ui field_ui migrate_ui
+  drush en -y devel views_ui field_ui migrate_ui context_ui
   cd $ROOT
 
   echo
