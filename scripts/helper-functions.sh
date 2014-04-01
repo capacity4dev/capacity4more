@@ -114,6 +114,32 @@ function delete_profile_contrib {
   fi
 }
 
+##
+# Delete all the content within the /www folder
+##
+function delete_www_content {
+  if [ -d $ROOT/www/sites/default ]; then
+    chmod 777 $ROOT/www/sites/default
+  fi
+
+  if [ -d $ROOT/www/sites ]; then
+    echo -e "${LBLUE}> Cleaning up the www directory${RESTORE}"
+
+    rm -rf $ROOT/www/
+
+    echo
+  fi
+
+  # Create the www directory if necessary
+  if [ ! -d $ROOT/www ]; then
+    echo -e "${LBLUE}> Creating an empty www directory${RESTORE}"
+
+    mkdir $ROOT/www
+
+    echo
+  fi
+}
+
 
 
 
