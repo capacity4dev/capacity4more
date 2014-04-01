@@ -57,6 +57,7 @@ cd $ROOT
   fi
 
   # Move the profile in place.
+  echo
   echo -e "${LBLUE}> Create symbolic link to the $PROFILE_NAME profile${RESTORE}"
   ln -s ../../$PROFILE_NAME www/profiles/$PROFILE_NAME
 )

@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# This script will setup a local copy of the capacity4more distribution.
+# This script will reset a local copy of the capacity4more distribution.
 #
 # Do not change the content of this file, 
 # all configuration variables are in the config.sh file.
@@ -10,14 +10,16 @@
 ################################################################################
 
 
-# Include some colors
-source scripts/helper-colors.sh
+# Define the root of the GIT repository
+ROOT=$(git rev-parse --show-toplevel)
+cd $ROOT
 
-
+# Load the colors
+source $ROOT/scripts/helper-colors.sh
 
 
 # Check if we can load the config file
-if [ ! -f config.sh ]; then
+if [ ! -f $ROOT/config.sh ]; then
 	echo
     echo -e  "${BGRED}                                                                 ${RESTORE}"
     echo -e "${BGLRED}  ERROR: No configuration file found!                            ${RESTORE}"
@@ -30,7 +32,25 @@ if [ ! -f config.sh ]; then
 fi
 
 # Include the configuration file
-source config.sh
+source $ROOT/config.sh
+
+
+# Check if we have a working Drupal bootstrap
+cd $ROOT/www
+BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
+cd $ROOT
+if [ ! "$BOOTSTRAP_SUCCESS" ]; then
+  echo
+  echo -e  "${BGRED}                                                                 ${RESTORE}"
+  echo -e "${BGLRED}  No working Drupal installation!                                ${RESTORE}"
+  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
+  echo -e  "${BGRED}  > An update can only be run on a working environment.          ${RESTORE}"
+  echo -e  "${BGRED}                                                                 ${RESTORE}"
+  echo -e  "${BGRED}  Run the ${BGLRED}./install${BGRED} command to install the platform.             ${RESTORE}"
+  echo -e  "${BGRED}                                                                 ${RESTORE}"
+  echo
+  exit 1
+fi
 
 
 
@@ -38,12 +58,11 @@ source config.sh
 # Always ask confirmation before destroying the Database & Files!
 echo 
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-echo -e "${BGLBLUE}  Install capacity4more                                          ${RESTORE}"
+echo -e "${BGLBLUE}  Reset capacity4more                                            ${RESTORE}"
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-echo -e  "${BGBLUE}  > This will delete the database, contrib code and files.       ${RESTORE}"
-echo -e  "${BGBLUE}  > This will recreate the environment                           ${RESTORE}"
-echo -e  "${BGBLUE}      (download Drupal + contrib modules & themes).              ${RESTORE}"
+echo -e  "${BGBLUE}  > This will delete the database and the files directory.       ${RESTORE}"
 echo -e  "${BGBLUE}  > This will install the capacity4more profile.                 ${RESTORE}"
+echo -e  "${BGBLUE}  > Drupal core, contrib modules & themes will not be replaced.  ${RESTORE}"
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
 
@@ -52,7 +71,7 @@ read -e -n 1 -r
 if [[ ! $REPLY =~ ^[Y]$ ]]; then
   echo 
   echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
-  echo -e "${BGLYELLOW}  Installation aborted!                                          ${RESTORE}"
+  echo -e "${BGLYELLOW}  Reset aborted!                                                 ${RESTORE}"
   echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
   echo
   exit 0
@@ -61,65 +80,30 @@ echo
 
 
 
-# Cleanup the contrib modules
-if [ -d $PROFILE_NAME/modules/contrib ]; then
-  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/contrib directory${RESTORE}"
-  rm -rf $PROFILE_NAME/modules/contrib
-  echo
-fi
-
-# Cleanup the development modules
-if [ -d $PROFILE_NAME/modules/development ]; then
-  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/development directory${RESTORE}"
-  rm -rf $PROFILE_NAME/modules/development
-  echo
-fi
-
-# Cleanup the contrib themes
-if [ -d $PROFILE_NAME/themes/contrib ]; then
-  echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/contrib directory${RESTORE}"
-  rm -rf $PROFILE_NAME/themes/contrib
-  echo
-fi
-
-# Cleanup the sites/default/files directory
-if [ -d www/sites/default/files ]; then
-	echo -e "${LBLUE}> Cleaning up the sites/default/files directory${RESTORE}"
-	rm -rf www/sites/default/files
+# Cleanup the www/sites/default directory
+if [ -d $ROOT/www/sites ]; then
+	echo -e "${LBLUE}> Cleaning up the www/sites/default directory${RESTORE}"
+	chmod 777 $ROOT/www/sites/default
+	rm -rf $ROOT/www/sites/default/files
+	rm -f $ROOT/www/sites/default/settings.php
 	echo
 fi
 # Backup in case of we need sudo powers to get rid of the files directory.
-if [ -d www/sites/default/files ]; then
+if [ -d $ROOT/www/sites/default/files ]; then
 	echo -e "${LBLUE}> Cleaning up the sites/default/files directory with sudo power!${RESTORE}"
-	sudo rm -rf www/sites/default/files
+	sudo rm -rf $ROOT/www/sites/default/files
 	echo
 fi
-
-# Cleanup the www directory
-if [ -d www/sites ]; then
-	echo -e "${LBLUE}> Cleaning up the www directory${RESTORE}"
-	chmod 777 www/sites/default
-	rm -rf www/
+if [ -f $ROOT/www/sites/default/settings.php ]; then
+	echo -e "${LBLUE}> Cleaning up the sites/default/files directory with sudo power!${RESTORE}"
+	sudo rm -rf $ROOT/www/sites/default/files
 	echo
 fi
-
-# Create the www directory if necessary
-if [ ! -d www ]; then
-	echo -e "${LBLUE}> Creating the www directory${RESTORE}"
-	mkdir www
-	echo
-fi
-
-
-# Run the build script (drush make + extra's).
-echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
-bash scripts/build
-echo
 
 
 # Install the capacity4more profile
 echo -e "${LBLUE}> Install Drupal with the capacity4more install profile${RESTORE}"
-cd www
+cd $ROOT/www
 drush si -y $PROFILE_NAME \
   --locale=en \
   --account-name=$ADMIN_USERNAME \
@@ -149,40 +133,32 @@ echo -e "${LBLUE}> Enabling the development modules${RESTORE}"
 #drush en -y devel views_ui field_ui migrate_ui
 echo
 
-# These commands migrates dummy content and is used for development and testing. Comment out both lines if you wish to have a clean OpenScholar installation.
-#drush mi --all --user=1
-
-
-# This command does the login for you when the build script is done. It will open a new tab in your default browser and login to your project as the Administrator. Comment out this line if you do not want the login to happen automatically.
-#drush uli --uri=$BASE_DOMAIN_URL
-
 
 
 # Check if we have a working bootstrap
-cd www
+cd $ROOT/www
 BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd ..
+cd $ROOT
 
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
 
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo -e "${BGLRED}  Installation failure!                                          ${RESTORE}"
+  echo -e "${BGLRED}  Reset failure!                                                 ${RESTORE}"
   echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully             ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
   exit 1
 
-else
-
-  echo
-  echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-  echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
-  echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
-  echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-  echo
-
-  exit 0
-
 fi
 
+
+# If we managed to get to here, the reset was a success
+echo
+echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+echo -e "${BGLGREEN}  Reset complete!                                                ${RESTORE}"
+echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}.                          ${RESTORE}"
+echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+echo
+
+exit 0
