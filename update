@@ -11,6 +11,7 @@
 
 
 # Define the root of the GIT repository
+cd ${0%/*}
 ROOT=$(git rev-parse --show-toplevel)
 cd $ROOT
 
