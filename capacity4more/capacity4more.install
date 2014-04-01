@@ -1,49 +1,91 @@
 <?php
+/**
+ * @file
+ * Install, update and uninstall functions for the
+ * capacity4more installation profile.
+ */
 
 /**
  * Implements hook_install().
  */
 function capacity4more_install() {
-  capacity4more_standard_install();
-
   // Fixes problems when the CSV files used for importing have been created
   // on a Mac, by forcing PHP to detect the appropriate line endings.
   ini_set('auto_detect_line_endings', TRUE);
 
-  // Disable bartik.
-  theme_disable(array('bartik'));
+  // TEXT FORMATS
+  $filtered_html_format = _capacity4more_install_get_filtered_html_format();
+  filter_format_save($filtered_html_format);
+  $full_html_format = _capacity4more_install_get_full_html_format();
+  filter_format_save($full_html_format);
 
-  // Enable our themes.
-  theme_enable(array('seven'));
 
-  // Set the default theme.
-  variable_set('theme_default', 'bartik');
+  // ROLES & PERMISSIONS
+  _capacity4more_install_save_default_permissions($filtered_html_format);
 
-  // Enable node view page override by Page manager module.
-  variable_set('page_manager_node_view_disabled', FALSE);
+  // MENU
+  _capacity4more_install_save_default_menu();
+  menu_rebuild();
 
+  // THEMES
+  $theme_default = variable_get('theme_default', 'bartik');
+
+  $theme_admin = 'seven';
+  _capacity4more_install_save_theme($theme_admin, 1);
+  variable_set('admin_theme', $theme_admin);
   variable_set('node_admin_theme', TRUE);
 
-  // Set required date API variables.
-  // See date_api_status().
+  // TODO: Replace this with the actual theme when we have one!
+  $theme_capacity4more = $theme_default;
+  /*
+  $theme_capacity4more = 'capacity4more_theme_name';
+  _capacity4more_install_save_theme($theme_capacity4more, 1);
+  variable_set('theme_default', $theme_capacity4more);
+  // Disable Bartik
+  _capacity4more_install_save_theme($theme_default, 0);
+  */
+
+  // BLOCKS
+  $admin_blocks = _capacity4more_install_get_admin_theme_blocks($theme_admin);
+  _capacity4more_install_save_theme_blocks($admin_blocks);
+
+  $capacity4more_blocks = _capacity4more_install_get_capacity4more_theme_blocks($theme_capacity4more);
+  _capacity4more_install_save_theme_blocks($capacity4more_blocks);
+
+  _capacity4more_install_set_default_date_formats();
+
+
+  // DATE & DATE FORMAT
   date_default_timezone_set('Europe/Brussels');
   variable_set('date_default_timezone', 'Europe/Brussels');
   variable_set('date_first_day', 1);
+  _capacity4more_install_set_default_date_formats();
 
-  // Set OG-context handlers.
+  // OG CONTEXT negotiation
   $values = array(
-    'url' => TRUE,
-    'node' => TRUE,
+    'url'     => TRUE,
+    'node'    => TRUE,
     'og_purl' => TRUE,
   );
   variable_set("og_context_negotiation_group_context", $values);
+
 }
 
+
+
+
+/******************************************************************************
+ * TEXT FORMATS (Default filters)
+ ******************************************************************************/
+
 /**
- * Copied from Standard profile -- standard_install()
+ * Get the filtered_html format.
+ *
+ * @param void
+ *
+ * @return stdCLass
  */
-function capacity4more_standard_install() {
-  // Add text formats.
+function _capacity4more_install_get_filtered_html_format() {
   $filtered_html_format = array(
     'format' => 'filtered_html',
     'name' => 'Filtered HTML',
@@ -72,8 +114,18 @@ function capacity4more_standard_install() {
     ),
   );
   $filtered_html_format = (object) $filtered_html_format;
-  filter_format_save($filtered_html_format);
 
+  return $filtered_html_format;
+}
+
+/**
+ * Get the full_html format.
+ *
+ * @param void
+ *
+ * @return stdCLass
+ */
+function _capacity4more_install_get_full_html_format() {
   $full_html_format = array(
     'format' => 'full_html',
     'name' => 'Full HTML',
@@ -97,16 +149,159 @@ function capacity4more_standard_install() {
     ),
   );
   $full_html_format = (object) $full_html_format;
-  filter_format_save($full_html_format);
 
-  // Enable some standard blocks.
-  $default_theme = variable_get('theme_default', 'bartik');
+  return $full_html_format;
+}
 
-  $values = array(
+
+
+/******************************************************************************
+ * ROLES & PERMISSIONS
+ ******************************************************************************/
+
+/**
+ * Save the default permissions.
+ *
+ * @param stdClass $filtered_html_format
+ *
+ * @return void
+ */
+function _capacity4more_install_save_default_permissions($filtered_html_format) {
+  // Only admins can create new members.
+  variable_set('user_register', USER_REGISTER_ADMINISTRATOS_ONLY);
+
+  // Enable default permissions for system roles.
+  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  user_role_grant_permissions(
+    DRUPAL_ANONYMOUS_RID,
+    array(
+      'access content',
+      'access comments',
+      $filtered_html_permission
+    )
+  );
+  user_role_grant_permissions(
+    DRUPAL_AUTHENTICATED_RID,
+    array(
+      'access content',
+      'access comments',
+      'post comments',
+      'skip comment approval',
+      $filtered_html_permission
+    )
+  );
+
+  // Create a default role for site administrators, with all available permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions(
+    $admin_role->rid,
+    array_keys(module_invoke_all('permission'))
+  );
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+}
+
+
+
+/******************************************************************************
+ * MENU
+ ******************************************************************************/
+
+/**
+ * Set the default minimum menu items.
+ *
+ * @param void
+ *
+ * @return void
+ */
+function _capacity4more_install_save_default_menu() {
+  // Create a Home link in the main menu.
+  $item = array(
+    'link_title' => st('Home'),
+    'link_path' => '<front>',
+    'menu_name' => 'main-menu',
+    'weight'    => -50,
+  );
+  menu_link_save($item);
+}
+
+
+
+/******************************************************************************
+ * THEMES
+ ******************************************************************************/
+
+/**
+ * Save the the given theme status in the system table.
+ *
+ * @param string $name
+ *   The theme name.
+ * @param $status
+ *   The status of the theme.
+ *
+ * @return void
+ */
+function _capacity4more_install_save_theme($name, $status) {
+  db_update('system')
+    ->fields(array('status' => (int)$status))
+    ->condition('type', 'theme')
+    ->condition('name', $name)
+    ->execute();
+}
+
+
+
+/******************************************************************************
+ * BLOCKS
+ ******************************************************************************/
+
+/**
+ * Add an array of blocks to the given theme.
+ *
+ * @param array $blocks
+ *
+ * @return void
+ */
+function _capacity4more_install_save_theme_blocks($blocks) {
+  $query = db_insert('block')->fields(array(
+      'module',
+      'delta',
+      'theme',
+      'status',
+      'weight',
+      'region',
+      'pages',
+      'cache'
+    ));
+
+  foreach ($blocks as $block) {
+    $query->values($block);
+  }
+  $query->execute();
+}
+
+/**
+ * Get the default theme blocks
+ *
+ * @param string $theme
+ *   The name of the theme.
+ *
+ * @return array
+ */
+function _capacity4more_install_get_default_theme_blocks($theme) {
+  $blocks = array(
     array(
       'module' => 'system',
       'delta' => 'main',
-      'theme' => $default_theme,
+      'theme' => $theme,
       'status' => 1,
       'weight' => 0,
       'region' => 'content',
@@ -116,17 +311,27 @@ function capacity4more_standard_install() {
     array(
       'module' => 'search',
       'delta' => 'form',
-      'theme' => $default_theme,
+      'theme' => $theme,
       'status' => 1,
       'weight' => -1,
-      'region' => 'search_box',
+      'region' => 'sidebar_first',
       'pages' => '',
       'cache' => -1,
     ),
     array(
       'module' => 'user',
       'delta' => 'login',
-      'theme' => $default_theme,
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'sidebar_first',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'navigation',
+      'theme' => $theme,
       'status' => 1,
       'weight' => 0,
       'region' => 'sidebar_first',
@@ -136,7 +341,7 @@ function capacity4more_standard_install() {
     array(
       'module' => 'system',
       'delta' => 'powered-by',
-      'theme' => $default_theme,
+      'theme' => $theme,
       'status' => 1,
       'weight' => 10,
       'region' => 'footer',
@@ -146,7 +351,7 @@ function capacity4more_standard_install() {
     array(
       'module' => 'system',
       'delta' => 'help',
-      'theme' => $default_theme,
+      'theme' => $theme,
       'status' => 1,
       'weight' => 0,
       'region' => 'help',
@@ -154,253 +359,164 @@ function capacity4more_standard_install() {
       'cache' => -1,
     ),
   );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
-  foreach ($values as $record) {
-    $query->values($record);
-  }
-  $query->execute();
 
-  // Insert default pre-defined node types into the database. For a complete
-  // list of available node type attributes, refer to the node type API
-  // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
-  $types = array(
-    array(
-      'type' => 'page',
-      'name' => st('Basic page'),
-      'base' => 'node_content',
-      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
-      'custom' => 1,
-      'modified' => 1,
-      'locked' => 0,
-    ),
-    array(
-      'type' => 'article',
-      'name' => st('Article'),
-      'base' => 'node_content',
-      'description' => st('Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'),
-      'custom' => 1,
-      'modified' => 1,
-      'locked' => 0,
-    ),
-  );
-
-  foreach ($types as $type) {
-    $type = node_type_set_defaults($type);
-    node_type_save($type);
-    node_add_body_field($type);
-  }
-
-  // Insert default pre-defined RDF mapping into the database.
-  $rdf_mappings = array(
-    array(
-      'type' => 'node',
-      'bundle' => 'page',
-      'mapping' => array(
-        'rdftype' => array('foaf:Document'),
-      ),
-    ),
-    array(
-      'type' => 'node',
-      'bundle' => 'article',
-      'mapping' => array(
-        'rdftype' => array('sioc:Item', 'foaf:Document'),
-        'field_image' => array(
-          'predicates' => array('og:image', 'rdfs:seeAlso'),
-          'type' => 'rel',
-        ),
-        'field_tags' => array(
-          'predicates' => array('dc:subject'),
-          'type' => 'rel',
-        ),
-      ),
-    ),
-  );
-  foreach ($rdf_mappings as $rdf_mapping) {
-    rdf_mapping_save($rdf_mapping);
-  }
-
-  // Default "Basic page" to not be promoted and have comments disabled.
-  variable_set('node_options_page', array('status'));
-  variable_set('comment_page', COMMENT_NODE_HIDDEN);
-
-  // Don't display date and author information for "Basic page" nodes by default.
-  variable_set('node_submitted_page', FALSE);
-
-  // Enable user picture support and set the default to a square thumbnail option.
-  variable_set('user_pictures', '1');
-  variable_set('user_picture_dimensions', '1024x1024');
-  variable_set('user_picture_file_size', '800');
-  variable_set('user_picture_style', 'thumbnail');
-
-  // Allow visitor account creation with administrative approval.
-  variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
-
-  // Create a default vocabulary named "Tags", enabled for the 'article' content type.
-  $description = st('Use tags to group articles on similar topics into categories.');
-  $help = st('Enter a comma-separated list of words to describe your content.');
-  $vocabulary = (object) array(
-    'machine_name' => 'tags',
-    'name' => 'Tags',
-    'description' => $description,
-    'help' => $help,
-  );
-  taxonomy_vocabulary_save($vocabulary);
-
-  $field = array(
-    'field_name' => 'field_' . $vocabulary->machine_name,
-    'type' => 'taxonomy_term_reference',
-    // Set cardinality to unlimited for tagging.
-    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-    'settings' => array(
-      'allowed_values' => array(
-        array(
-          'vocabulary' => $vocabulary->machine_name,
-          'parent' => 0,
-        ),
-      ),
-    ),
-  );
-  field_create_field($field);
-
-  $instance = array(
-    'field_name' => 'field_' . $vocabulary->machine_name,
-    'entity_type' => 'node',
-    'label' => $vocabulary->name,
-    'bundle' => 'article',
-    'description' => $vocabulary->help,
-    'widget' => array(
-      'type' => 'taxonomy_autocomplete',
-      'weight' => -4,
-    ),
-    'display' => array(
-      'default' => array(
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
-      ),
-      'teaser' => array(
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
-      ),
-    ),
-  );
-  field_create_instance($instance);
-
-  // Create an image field named "Image", enabled for the 'article' content type.
-  // Many of the following values will be defaulted, they're included here as an illustrative examples.
-  // See http://api.drupal.org/api/function/field_create_field/7
-
-  $field = array(
-    'field_name' => 'field_image',
-    'type' => 'image',
-    'cardinality' => 1,
-    'translatable' => TRUE,
-    'locked' => FALSE,
-    'indexes' => array('fid' => array('fid')),
-    'settings' => array(
-      'uri_scheme' => 'public',
-      'default_image' => FALSE,
-    ),
-    'storage' => array(
-      'type' => 'field_sql_storage',
-      'settings' => array(),
-    ),
-  );
-  field_create_field($field);
-
-  // Many of the following values will be defaulted, they're included here as an illustrative examples.
-  // See http://api.drupal.org/api/function/field_create_instance/7
-  $instance = array(
-    'field_name' => 'field_image',
-    'entity_type' => 'node',
-    'label' => 'Image',
-    'bundle' => 'article',
-    'description' => st('Upload an image to go with this article.'),
-    'required' => FALSE,
-
-    'settings' => array(
-      'file_directory' => 'field/image',
-      'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'alt_field' => TRUE,
-      'title_field' => '',
-    ),
-
-    'widget' => array(
-      'type' => 'image_image',
-      'settings' => array(
-        'progress_indicator' => 'throbber',
-        'preview_image_style' => 'thumbnail',
-      ),
-      'weight' => -1,
-    ),
-
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'type' => 'image',
-        'settings' => array('image_style' => 'large', 'image_link' => ''),
-        'weight' => -1,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'type' => 'image',
-        'settings' => array('image_style' => 'medium', 'image_link' => 'content'),
-        'weight' => -1,
-      ),
-    ),
-  );
-  field_create_instance($instance);
-
-  // Enable default permissions for system roles.
-  $permissions = array(
-    'access content',
-    'access comments',
-    'post comments',
-    'skip comment approval',
-    'access overlay',
-    // "View user profiles" is for viewing the task_assignee field.
-    'access user profiles',
-    filter_permission_name($filtered_html_format),
-  );
-
-  // Add content permissions.
-  foreach (array_keys(node_type_get_types()) as $content_type) {
-    $permissions[] = "create $content_type content";
-    $permissions[] = "edit any $content_type content";
-    $permissions[] = "edit own $content_type content";
-    $permissions[] = "delete any $content_type content";
-    $permissions[] = "delete own $content_type content";
-  }
-
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
-
-  // Create a default role for site administrators, with all available permissions assigned.
-  $admin_role = new stdClass();
-  $admin_role->name = 'administrator';
-  $admin_role->weight = 2;
-  user_role_save($admin_role);
-  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
-  // Set this as the administrator role.
-  variable_set('user_admin_role', $admin_role->rid);
-
-  // Assign user 1 the "administrator" role.
-  db_insert('users_roles')
-    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
-    ->execute();
-
-  // Create a Home link in the main menu.
-  $item = array(
-    'link_title' => 'Home',
-    'link_path' => '<front>',
-    'menu_name' => 'main-menu',
-  );
-  menu_link_save($item);
-
-  // Update the menu router information.
-  variable_set('menu_rebuild_needed', TRUE);
-
-  node_access_rebuild(TRUE);
+  return $blocks;
 }
+
+/**
+ * Get the default theme blocks
+ *
+ * @param string $theme
+ *   The name of the theme.
+ *
+ * @return array
+ */
+function _capacity4more_install_get_admin_theme_blocks($theme) {
+  $blocks = array(
+    // Only if the dashboard module is in use...
+    /*array(
+      'module' => 'node',
+      'delta' => 'recent',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 10,
+      'region' => 'dashboard_main',
+      'pages' => '',
+      'cache' => -1,
+    ),*/
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'user',
+      'delta' => 'login',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 10,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    // Only if the dashboard module is in use...
+    /*array(
+      'module' => 'user',
+      'delta' => 'new',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'dashboard_sidebar',
+      'pages' => '',
+      'cache' => -1,
+    ),*/
+    // Only if the dashboard module is in use...
+    /*array(
+      'module' => 'search',
+      'delta' => 'form',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => -10,
+      'region' => 'dashboard_sidebar',
+      'pages' => '',
+      'cache' => -1,
+    ),*/
+  );
+
+  return $blocks;
+}
+
+/**
+ * Get the capacity4more theme blocks
+ *
+ * @param string $theme
+ *   The name of the theme.
+ *
+ * @return array
+ */
+function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
+  $blocks = array(
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Set the default time formats
+ *
+ * @param void
+ *
+ * @return array
+ */
+function _capacity4more_install_set_default_date_formats() {
+  $formats = array(
+    // Default.
+    'long'         => 'l, j F, Y - H:i',
+    'medium'       => 'D, d/m/Y - H:i',
+    'short'        => 'd/m/Y - H:i',
+
+    // Reldate module.
+    'day'          => 'l, j M',
+    'time'         => 'H:i',
+    'month_after'  => 'H:i j M, Y',
+    'month_within' => 'H:i D j M',
+  );
+
+  foreach ($formats AS $type => $format) {
+    variable_set('date_format_' . $type, $format);
+  }
+
+  return array(
+    'success' => TRUE,
+    'query' => st('Default date formats are set.')
+  );
+}
+
+
+
+
+/******************************************************************************
+ * UPDATES GO HERE
+ ******************************************************************************/
+
+
+
+
+
+
 
