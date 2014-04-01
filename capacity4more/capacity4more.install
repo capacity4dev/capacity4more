@@ -3,8 +3,8 @@
 /**
  * Implements hook_install().
  */
-function capacity_install() {
-  capacity_standard_install();
+function capacity4more_install() {
+  capacity4more_standard_install();
 
   // Fixes problems when the CSV files used for importing have been created
   // on a Mac, by forcing PHP to detect the appropriate line endings.
@@ -26,8 +26,8 @@ function capacity_install() {
 
   // Set required date API variables.
   // See date_api_status().
-  date_default_timezone_set('Asia/Jerusalem');
-  variable_set('date_default_timezone', 'Asia/Jerusalem');
+  date_default_timezone_set('Europe/Brussels');
+  variable_set('date_default_timezone', 'Europe/Brussels');
   variable_set('date_first_day', 1);
 
   // Set OG-context handlers.
@@ -42,7 +42,7 @@ function capacity_install() {
 /**
  * Copied from Standard profile -- standard_install()
  */
-function capacity_standard_install() {
+function capacity4more_standard_install() {
   // Add text formats.
   $filtered_html_format = array(
     'format' => 'filtered_html',

@@ -9,7 +9,7 @@
  *
  * Allows the profile to alter the site configuration form.
  */
-function capacity_form_install_configure_form_alter(&$form, $form_state) {
+function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
   // Pre-populate the site name with the server name.
   $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
 }
@@ -17,15 +17,15 @@ function capacity_form_install_configure_form_alter(&$form, $form_state) {
 /**
  * Implements hook_install_tasks().
  */
-function capacity_install_tasks() {
+function capacity4more_install_tasks() {
   $tasks = array();
 
-  $tasks['capacity_setup_blocks'] = array(
+  $tasks['capacity4more_setup_blocks'] = array(
     'display_name' => st('Setup Blocks'),
     'display' => FALSE,
   );
 
-  $tasks['capacity_setup_og_permissions'] = array(
+  $tasks['capacity4more_setup_og_permissions'] = array(
     'display_name' => st('Setup Blocks'),
     'display' => FALSE,
   );
@@ -35,7 +35,7 @@ function capacity_install_tasks() {
 /**
  * Task callback; Setup blocks.
  */
-function capacity_setup_blocks() {
+function capacity4more_setup_blocks() {
   $default_theme = variable_get('theme_default', 'bartik');
 
   $blocks = array(
@@ -73,7 +73,7 @@ function capacity_setup_blocks() {
  * We do this here, late enough to make sure all group-content were
  * created.
  */
-function capacity_setup_og_permissions() {
+function capacity4more_setup_og_permissions() {
   $og_roles = og_roles('node', 'company');
   $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
 

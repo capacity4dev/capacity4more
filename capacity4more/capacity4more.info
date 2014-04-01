@@ -1,12 +1,12 @@
 ; $Id: standard.info,v 1.2 2010/10/25 15:48:41 webchick Exp $
-name = Garmentbox
+name = capacity4more
 description = Garmentbox PLM (Product Lifecycle Management)
-version = VERSION
+version = 1.x-dev
 core = 7.x
 
 ; Core
 dependencies[] = block
-dependencies[] = color
+;dependencies[] = color
 dependencies[] = comment
 dependencies[] = contextual
 dependencies[] = help
@@ -27,6 +27,7 @@ dependencies[] = rdf
 ; Contrib modules
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
+dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_popup
@@ -36,9 +37,9 @@ dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
 dependencies[] = features
 dependencies[] = flag
-dependencies[] = inline_entity_form
+;dependencies[] = inline_entity_form
 dependencies[] = libraries
-dependencies[] = message
+;dependencies[] = message
 dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
@@ -47,12 +48,11 @@ dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = pathauto
+;dependencies[] = rules
 dependencies[] = strongarm
-dependencies[] = title
 dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = views_content
-dependencies[] = title
 
 ; Features
