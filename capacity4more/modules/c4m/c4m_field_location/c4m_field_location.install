@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ */
+
+
+/**
+ * Implements hook_install().
+ */
+function c4m_field_location_install() {
+  // Make sure that the marker cache is generated.
+  $t = get_t();
+
+  if (drupal_is_cli()) {
+    drupal_set_message(
+      $t('The Get Locations modules does not support generating Marker cache trough CLI commands, you need to create the cache on the Get Locations configuration page.'),
+      'info'
+    );
+  }
+
+  if (getlocations_regenerate_markers()) {
+    drupal_set_message(
+      $t('Get Locations marker cache generated.')
+    );
+  }
+  else {
+    drupal_set_message(
+      $t('Could not generate the Get Locations Marker cache, you need to create the cache on the Get Locations configuration page.'),
+      'warning'
+    );
+  }
+}
