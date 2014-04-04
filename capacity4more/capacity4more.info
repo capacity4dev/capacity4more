@@ -56,4 +56,6 @@ dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
 
-; Features
+
+; capacity4more
+dependencies[] = c4m_field_body

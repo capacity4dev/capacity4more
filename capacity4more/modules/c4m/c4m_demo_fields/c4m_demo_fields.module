@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Demo Fields feature.
+ */
+
+include_once 'c4m_demo_fields.features.inc';
