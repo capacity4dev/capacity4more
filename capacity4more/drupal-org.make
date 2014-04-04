@@ -164,3 +164,8 @@ libraries[plupload][download][type]= "get"
 libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v1.5.8.zip"
 libraries[plupload][directory_name] = "plupload"
 libraries[plupload][destination] = "libraries"
+
+libraries[getlocations_markers][download][type]= "get"
+libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
+libraries[getlocations_markers][directory_name] = "getlocations"
+libraries[getlocations_markers][destination] = "libraries"
