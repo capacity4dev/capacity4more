@@ -1,0 +1,9 @@
+name = Body Field
+description = Provides a simple body field for re-use by various capacity4more content types
+core = 7.x
+version = 7.x-1.x-dev
+package = capacity4more - Fields
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = c4m_body
