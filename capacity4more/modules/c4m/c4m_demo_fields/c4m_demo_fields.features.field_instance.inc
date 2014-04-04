@@ -499,7 +499,7 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-capacity4more_fields_demo-c4m_date'
+  // Exported field_instance: 'node-demo_fields-c4m_date'
   $field_instances['node-demo_fields-c4m_date'] = array(
     'bundle' => 'demo_fields',
     'deleted' => 0,
@@ -552,6 +552,67 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+// Exported field_instance: 'node-demo_fields-c4m_media'
+  $field_instances['node-demo_fields-c4m_media'] = array(
+    'bundle' => 'demo_fields',
+    'deleted' => 0,
+    'description' => 'The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_media',
+    'label' => 'c4m_media',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => 'c4m-field-demo/media',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'public' => 'public',
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 'document',
+          'image' => 'image',
+          'video' => 'video',
+        ),
+        'browser_plugins' => array(
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
+          'upload' => 'upload',
+        ),
+      ),
+      'type' => 'media_generic',
+      'weight' => 4,
+    ),
+  );
 
 
   
@@ -568,6 +629,8 @@ This field can have a WYSIWYG rich text editor interface.');
   t('c4m_location');
   t('A date field with an optional end date.');
   t('c4m_date');
+  t('The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.');
+  t('c4m_media');
 
   return $field_instances;
 }

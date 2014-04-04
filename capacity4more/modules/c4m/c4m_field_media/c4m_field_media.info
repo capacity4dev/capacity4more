@@ -1,0 +1,12 @@
+name = Media field
+description = Provides the base field for all files (images, documents, video, profile picture, ...) that should live in the media library
+core = 7.x
+package = capacity4more - Fields
+version = 7.x-1.x-dev
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = image
+dependencies[] = media
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[field_base][] = c4m_media
