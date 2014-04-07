@@ -117,5 +117,12 @@ function c4m_content_region_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_region'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_region_pattern';
+  $strongarm->value = 'region/[node:title]';
+  $export['pathauto_node_region_pattern'] = $strongarm;
+
   return $export;
 }
