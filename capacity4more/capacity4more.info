@@ -4,7 +4,8 @@ description = Garmentbox PLM (Product Lifecycle Management)
 version = 1.x-dev
 core = 7.x
 
-; Core
+
+; Core ------------------------------------------------------------------------
 dependencies[] = block
 ;dependencies[] = color
 dependencies[] = comment
@@ -24,7 +25,7 @@ dependencies[] = shortcut
 dependencies[] = file
 dependencies[] = rdf
 
-; Contrib modules
+; Contrib modules -------------------------------------------------------------
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
@@ -57,6 +58,11 @@ dependencies[] = views
 dependencies[] = views_bulk_operations
 
 
-; capacity4more
+; capacity4more ---------------------------------------------------------------
+
+; Fields
 dependencies[] = c4m_field_body
+
+; Content Types
+dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_region
