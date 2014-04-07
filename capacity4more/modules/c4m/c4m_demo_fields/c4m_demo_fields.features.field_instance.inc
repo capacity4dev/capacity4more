@@ -53,6 +53,59 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_date'
+  $field_instances['node-demo_fields-c4m_date'] = array(
+    'bundle' => 'demo_fields',
+    'deleted' => 0,
+    'description' => 'A date field with an optional end date.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_date',
+    'label' => 'c4m_date',
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'increment' => 15,
+        'input_format' => 'd/m/Y - H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 3,
+    ),
+  );
+
   // Exported field_instance: 'node-demo_fields-c4m_location'
   $field_instances['node-demo_fields-c4m_location'] = array(
     'bundle' => 'demo_fields',
@@ -499,60 +552,7 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_date'
-  $field_instances['node-demo_fields-c4m_date'] = array(
-    'bundle' => 'demo_fields',
-    'deleted' => 0,
-    'description' => 'A date field with an optional end date.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-        ),
-        'type' => 'date_default',
-        'weight' => 3,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_date',
-    'label' => 'c4m_date',
-    'required' => 0,
-    'settings' => array(
-      'default_value' => 'now',
-      'default_value2' => 'same',
-      'default_value_code' => '',
-      'default_value_code2' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'date',
-      'settings' => array(
-        'increment' => 15,
-        'input_format' => 'd/m/Y - H:i:s',
-        'input_format_custom' => '',
-        'label_position' => 'above',
-        'text_parts' => array(),
-        'year_range' => '-3:+3',
-      ),
-      'type' => 'date_popup',
-      'weight' => 3,
-    ),
-  );
-
-// Exported field_instance: 'node-demo_fields-c4m_media'
+  // Exported field_instance: 'node-demo_fields-c4m_media'
   $field_instances['node-demo_fields-c4m_media'] = array(
     'bundle' => 'demo_fields',
     'deleted' => 0,
@@ -614,23 +614,64 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-
-  
-  
-  
-  
+  // Exported field_instance: 'node-demo_fields-c4m_related_topic'
+  $field_instances['node-demo_fields-c4m_related_topic'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'Select 1 one or more topics that are related to this content.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_topic',
+    'label' => 'c4m_related_topic',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 5,
+    ),
+  );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('A date field with an optional end date.');
   t('A multiline text element that can be spitted in a summary and a full text part.
 This field can have a WYSIWYG rich text editor interface.');
-  t('c4m_body');
   t('An address is created & stored using the geocoder field.');
-  t('c4m_location');
-  t('A date field with an optional end date.');
-  t('c4m_date');
+  t('Select 1 one or more topics that are related to this content.');
   t('The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.');
+  t('c4m_body');
+  t('c4m_date');
+  t('c4m_location');
   t('c4m_media');
+  t('c4m_related_topic');
 
   return $field_instances;
 }
