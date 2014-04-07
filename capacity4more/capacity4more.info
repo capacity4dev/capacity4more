@@ -58,7 +58,6 @@ dependencies[] = views
 dependencies[] = views_bulk_operations
 
 
-
 ; capacity4more ---------------------------------------------------------------
 
 ; Fields
@@ -66,3 +65,4 @@ dependencies[] = c4m_field_body
 
 ; Content Types
 dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_region
