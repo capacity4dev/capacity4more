@@ -2,19 +2,21 @@
 
 # capacity4more
 
-A Drupal 7 powered distribution providing a community platform to share knowledge.
+A Drupal 7 powered distribution providing a community platform to share
+knowledge.
 
 
 
 ## Installation
 
-**Warning:** you need to setup [Drush](https://github.com/drush-ops/drush) first or the installation and update scripts will not work.
+**Warning:** you need to setup [Drush](https://github.com/drush-ops/drush)
+first or the installation and update scripts will not work.
 
-Checkout the project from GitHub.
+Clone the project from [GitHub](https://github.com/capacity4dev/capacity4more).
 
 #### Create config file
 
-Copy the configuration file to config.sh:
+Copy the example configuration file to config.sh:
 
 	$ cp default.config.sh config.sh 
 
@@ -49,37 +51,43 @@ You can Reinstall the platform any type by running the install script.
 
 1. Delete the /www folder.
 2. Recreate the /www folder.
-3. Download and extract all contrib modules, themes & libraries to the proper subfolders of the profile.
+3. Download and extract all contrib modules, themes & libraries to the proper
+   subfolders of the profile.
 4. Download and extract Drupal 7 core in the /www folder
 5. Create an empty sites/default/files directory
-6. Makes a symlink within the /www/profiles directory to the /capacity4more directory.
+6. Makes a symlink within the /www/profiles directory to the /capacity4more
+   directory.
 7. Run the Drupal installer (Drush) using the capacity4more profile.
 
 #### Warning!
 
-* The install script will not preserve the data located in the sites/default/files directory.
-* The insstall script will clear the database during the installation.
+* The install script will not preserve the data located in the
+  sites/default/files directory.
+* The install script will clear the database during the installation.
 
 **You need to take backups before you run the install script!**
 
 
 
-## Update
+## Upgrade
 
-It is also possible to update Drupal core and contributed modules and themes without destroying the data in tha database and the sites/default directory.
+It is also possible to upgrade Drupal core and contributed modules and themes
+without destroying the data in tha database and the sites/default directory.
 
 Run the update script:
 
-	$ ./update
+	$ ./upgrade
 	
-#### The update script will perform following steps:
+#### The upgrade script will perform following steps:
 
 1. Create a backup of the sites/default folder.
 2. Delete the /www folder.
 3. Recreate the /www folder.
-4. Download and extract all contrib modules, themes & libraries to the proper subfolders of the profile.
+4. Download and extract all contrib modules, themes & libraries to the proper
+   subfolders of the profile.
 5. Download and extract Drupal 7 core in the /www folder.
-6. Makes a symlink within the /www/profiles directory to the /capacity4more 7. directory.
+6. Makes a symlink within the /www/profiles directory to the
+   /capacity4more 7. directory.
 7. Restore the backup of the sites/default folder.
 
 

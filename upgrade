@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# This script will update an working copy of the capacity4more distribution.
+# This script will upgrade an working copy of the capacity4more distribution.
 #
 # Do not change the content of this file, 
 # all configuration variables are in the config.sh file.
@@ -36,7 +36,7 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  No working Drupal installation!                                ${RESTORE}"
   echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
-  echo -e  "${BGRED}  > An update can only be run on a working environment.          ${RESTORE}"
+  echo -e  "${BGRED}  > An upgrade can only be run on a working environment.         ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e  "${BGRED}  Run the ${BGLRED}./install${BGRED} command to install the platform.             ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
@@ -49,9 +49,9 @@ fi
 # Always ask confirmation before updating Files!
 echo
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-echo -e "${BGLBLUE}  Update capacity4more                                           ${RESTORE}"
+echo -e "${BGLBLUE}  Upgrade capacity4more                                          ${RESTORE}"
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-echo -e  "${BGBLUE}  > This will update core and contrib modules & themes.          ${RESTORE}"
+echo -e  "${BGBLUE}  > This will upgrade core and contrib modules & themes.         ${RESTORE}"
 echo -e  "${BGBLUE}  > This will run the update db command (drush updb).            ${RESTORE}"
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
@@ -61,7 +61,7 @@ read -e -n 1 -r
 if [[ ! $REPLY =~ ^[Y]$ ]]; then
   echo 
   echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
-  echo -e "${BGLYELLOW}  Update aborted!                                                ${RESTORE}"
+  echo -e "${BGLYELLOW}  Upgrade aborted!                                               ${RESTORE}"
   echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
   echo
   exit 0
@@ -97,7 +97,7 @@ cd $ROOT
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo -e "${BGLRED}  Update failure!                                                ${RESTORE}"
+  echo -e "${BGLRED}  Upgrade failure!                                               ${RESTORE}"
   echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully             ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
@@ -106,10 +106,10 @@ fi
 
 
 
-# If we managed to get here then the update was a success!
+# If we managed to get here then the upgrade was a success!
 echo
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo -e "${BGLGREEN}  Update complete!                                               ${RESTORE}"
+echo -e "${BGLGREEN}  Upgrade complete!                                              ${RESTORE}"
 echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}                           ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
