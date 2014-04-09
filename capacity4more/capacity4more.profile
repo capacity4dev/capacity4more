@@ -12,6 +12,13 @@
 function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
   // Pre-populate the site name with the server name.
   $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
+
+  // Disable the update module by default.
+  // It slows down accessing the administration back-end.
+  $form['update_notifications']['update_status_module']['#default_value'] = array(
+    0 => 0,
+    1 => 2,
+  );
 }
 
 /**
