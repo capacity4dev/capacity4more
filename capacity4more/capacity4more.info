@@ -37,6 +37,7 @@ dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
 dependencies[] = features
+dependencies[] = field_group
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = libraries
