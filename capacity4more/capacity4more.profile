@@ -36,6 +36,14 @@ function capacity4more_install_tasks() {
     'display_name' => st('Setup Blocks'),
     'display' => FALSE,
   );
+
+
+  // Run this as the last task!
+  $tasks['capacity4more_setup_rebuild_permissions'] = array(
+    'display_name' => st('Rebuild permissions'),
+    'display' => FALSE,
+  );
+
   return $tasks;
 }
 
@@ -94,4 +102,15 @@ function capacity4more_setup_og_permissions() {
     $permissions["update any $type content"] = TRUE;
   }
   og_role_change_permissions($rid, $permissions);
+}
+
+/**
+ * Task callback; Rebuild permissions (node access).
+ *
+ * Setting up the platform triggers the need to rebuild the permissions.
+ * We do this here so no manual rebuild is necessary when we finished the
+ * installation.
+ */
+function capacity4more_setup_rebuild_permissions() {
+  node_access_rebuild();
 }
