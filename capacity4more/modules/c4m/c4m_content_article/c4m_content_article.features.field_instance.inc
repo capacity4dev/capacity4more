@@ -52,6 +52,49 @@ function c4m_content_article_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-article-c4m_has_video'
+  $field_instances['node-article-c4m_has_video'] = array(
+    'bundle' => 'article',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_has_video',
+    'label' => 'Has Video',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 3,
+    ),
+  );
+
   // Exported field_instance: 'node-article-c4m_media'
   $field_instances['node-article-c4m_media'] = array(
     'bundle' => 'article',
@@ -114,6 +157,51 @@ function c4m_content_article_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-article-c4m_related_topic'
+  $field_instances['node-article-c4m_related_topic'] = array(
+    'bundle' => 'article',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_topic',
+    'label' => 'Topics',
+    'required' => 1,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-article-c4m_vocab_geo'
   $field_instances['node-article-c4m_vocab_geo'] = array(
     'bundle' => 'article',
@@ -147,50 +235,7 @@ function c4m_content_article_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 5,
-    ),
-  );
-
-  // Exported field_instance: 'node-article-c4m_has_video'
-  $field_instances['node-article-c4m_has_video'] = array(
-    'bundle' => 'article',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 3,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_has_video',
-    'label' => 'Has Video',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 3,
+      'weight' => 8,
     ),
   );
 
@@ -203,6 +248,7 @@ function c4m_content_article_field_default_field_instances() {
   t('Has Video');
   t('Image');
   t('Regions & Countries');
+  t('Topics');
 
   return $field_instances;
 }

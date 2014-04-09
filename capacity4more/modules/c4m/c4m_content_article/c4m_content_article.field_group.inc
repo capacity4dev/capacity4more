@@ -13,8 +13,8 @@ function c4m_content_article_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_c4m_group_metadata|node|article|form';
-  $field_group->group_name = 'group_c4m_group_metadata';
+  $field_group->identifier = 'c4m_metadata|node|article|form';
+  $field_group->group_name = 'c4m_metadata';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'article';
   $field_group->mode = 'form';
@@ -23,7 +23,8 @@ function c4m_content_article_field_group_info() {
     'label' => 'Metadata',
     'weight' => '4',
     'children' => array(
-      0 => 'c4m_vocab_geo',
+      0 => 'c4m_related_topic',
+      1 => 'c4m_vocab_geo',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -33,10 +34,10 @@ function c4m_content_article_field_group_info() {
         'classes' => 'c4m-metadata field-group-fieldset',
         'description' => '',
       ),
-      'formatter' => 'collapsed',
+      'formatter' => 'collapsible',
     ),
   );
-  $export['group_c4m_group_metadata|node|article|form'] = $field_group;
+  $export['c4m_metadata|node|article|form'] = $field_group;
 
   return $export;
 }
