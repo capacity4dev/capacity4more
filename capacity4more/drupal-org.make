@@ -39,7 +39,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.4"
+projects[entity][version] = "1.5"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
