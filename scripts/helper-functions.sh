@@ -154,6 +154,7 @@ function install_drupal_profile {
   cd $ROOT/www
   drush si -y $PROFILE_NAME \
     --locale=en \
+    --site-name=$PROFILE_NAME \
     --account-name=$ADMIN_USERNAME \
     --account-pass=$ADMIN_PASSWORD \
     --account-mail=$ADMIN_EMAIL \
