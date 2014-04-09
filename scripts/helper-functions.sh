@@ -154,11 +154,16 @@ function install_drupal_profile {
   cd $ROOT/www
   drush si -y $PROFILE_NAME \
     --locale=en \
+    --site-name=$PROFILE_NAME \
     --account-name=$ADMIN_USERNAME \
     --account-pass=$ADMIN_PASSWORD \
     --account-mail=$ADMIN_EMAIL \
     --db-url=mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME \
     --uri=$BASE_DOMAIN_URL
+  echo
+
+  echo -e "${LBLUE}> Disable the update module as it slows down admin access${RESTORE}"
+  drush -y dis update
 
   cd $ROOT
 

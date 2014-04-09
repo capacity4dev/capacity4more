@@ -32,6 +32,7 @@ dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_popup
+dependencies[] = diff
 dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference
