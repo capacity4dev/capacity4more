@@ -24,8 +24,9 @@ function c4m_content_project_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'c4m_date',
-      1 => 'c4m_source_of_funding',
-      2 => 'c4m_partner',
+      1 => 'c4m_partner',
+      2 => 'c4m_source_of_funding',
+      3 => 'c4m_implemented_by',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
