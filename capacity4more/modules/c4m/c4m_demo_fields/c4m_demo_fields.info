@@ -46,4 +46,3 @@ features[variable][] = menu_parent_demo_fields
 features[variable][] = node_options_demo_fields
 features[variable][] = node_preview_demo_fields
 features[variable][] = node_submitted_demo_fields
-features_exclude[field_base][c4m_money] = c4m_money
