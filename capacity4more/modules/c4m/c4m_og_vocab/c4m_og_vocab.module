@@ -1,0 +1,250 @@
+<?php
+/**
+ * @file
+ */
+
+
+define ('C4M_OG_VOCAB_INFO_VOCABULARIES', 'vocabularies');
+define ('C4M_OG_VOCAB_INFO_GROUPS', 'groups');
+define ('C4M_OG_VOCAB_INFO_CONTENT', 'content');
+
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically adds the Category taxonomy to a newly created group.
+ */
+function c4m_og_vocab_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Get all the defined group vocabularies.
+  $groups = c4m_og_vocab_get_info(C4M_OG_VOCAB_INFO_GROUPS);
+  if (!isset($groups[$node->type])) {
+    return;
+  }
+  $group_categories = array_combine($groups[$node->type], $groups[$node->type]);
+
+  // Get all the available vocabularies.
+  $vocabularies = c4m_og_vocab_get_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
+  $vocabularies = array_intersect_key($vocabularies, $group_categories);
+  if (empty($vocabularies)) {
+    return;
+  }
+
+  // Create the group vocabularies.
+  $vocabs = c4m_og_vocab_create_group_vocabularies($node, $vocabularies);
+
+  // Get all the defines content vocabularies.
+  $content_types = c4m_og_vocab_get_info(C4M_OG_VOCAB_INFO_CONTENT);
+  if (empty($content_types)) {
+    return;
+  }
+
+  // Enable the vocabularies on each content type.
+  c4m_og_vocab_enable_group_content_vocabularies(
+    $content_types,
+    $vocabs,
+    $vocabularies
+  );
+}
+
+/**
+ * Create all group vocabularies based on the given configuration.
+ *
+ * @param stdClass $group
+ *   The group node.
+ * @param array $vocabularies
+ *   The vocabularies we need to create.
+ *
+ * @return array
+ *   The vocabulary objects.
+ */
+function c4m_og_vocab_create_group_vocabularies($group, $vocabularies) {
+  $vocabs = array();
+
+  foreach ($vocabularies AS $vocabulary_name => $vocabulary) {
+    $search = array('/\[node:nid\]/', '/\[node:type\]/');
+    $replace = array($group->nid, $group->type);
+    $machine_name = preg_replace($search, $replace, $vocabulary['machine_name']);
+    $description = preg_replace($search, $replace, $vocabulary['description']);
+
+    // Create the new vocabulary.
+    $vocab = new StdClass();
+    $vocab->name = $vocabulary['name'];
+    $vocab->description = $description;
+    $vocab->machine_name = $machine_name;
+    $vocab->hierarchy = 1;
+    taxonomy_vocabulary_save($vocab);
+
+    // Set up the relationship between the vocabulary and the group.
+    og_vocab_relation_save($vocab->vid, 'node', $group->nid);
+
+    $vocabs[$vocabulary_name] = $vocab;
+  }
+
+  return $vocabs;
+}
+
+/**
+ * Create the link between the group vocabularies and the group content type.
+ *
+ * @param array $content_types
+ *   An array of settings per content type.
+ * @param array $vocabs
+ *   An array of group vocabularies.
+ * @param array $configuration
+ *   An array of settings per content type.
+ *
+ * @return void
+ */
+function c4m_og_vocab_enable_group_content_vocabularies(
+  $content_types, $vocabs, $configuration
+) {
+  foreach ($content_types AS $content_info) {
+    // We do not support group taxonomies of non group content types.
+    if (!og_is_group_content_type(
+      $content_info['entity_type'],
+      $content_info['bundle']
+    )) {
+      continue;
+    }
+
+    foreach ($content_info['vocabularies'] AS $vocab_name) {
+      if (!isset($vocabs[$vocab_name])) {
+        continue;
+      }
+      $vocab = $vocabs[$vocab_name];
+
+      if (!isset($configuration[$vocab_name])) {
+        continue;
+      }
+
+      $settings = isset($configuration[$vocab_name]['settings'])
+        ? $configuration[$vocab_name]['settings']
+        : array();
+
+      // Link the vocabulary to the content type.
+      $og_vocab = og_vocab_create_og_vocab(
+        $vocab->vid,
+        $content_info['entity_type'],
+        $content_info['bundle'],
+        OG_VOCAB_FIELD,
+        $settings
+      );
+      $og_vocab->save();
+    }
+  }
+}
+
+
+/**
+ * Load and cache all vocabularies info from implemented info_vocabulary hooks.
+ *
+ * @param string $part
+ *   The part of the info we need. Following parts are supported:
+ *   - vocabularies : Get all the Vocabulary types.
+ *   - groups : Get the Vocabulary names per Group type.
+ *   - content : Get the Vocabulary names per Group content type.
+ * @param bool $reset
+ *   Reset the cache, this will reload the config from the hooks.
+ *
+ * @return array
+ */
+function c4m_og_vocab_get_info($part, $reset = FALSE) {
+  $cache_key  = 'c4m_og_auto_vocab:info_' . $part;
+
+  // Cache in memory for multiple loads in 1 script.
+  if ($reset) {
+    drupal_static_reset($cache_key);
+  }
+  $info = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($info)) {
+    if (!$reset
+      && ($cache = cache_get($cache_key))
+      && !empty($cache->data)
+    ) {
+      $info = $cache->data;
+    }
+    else {
+      $hook = 'c4m_og_vocab_info_' . $part;
+      $info = module_invoke_all($hook);
+      cache_set($cache_key, $info);
+    }
+  }
+
+  return $info;
+}
+
+
+/**
+ * Implements hook_c4m_og_vocab_info_vocabularies()
+ */
+function c4m_og_vocab_c4m_og_vocab_info_vocabularies() {
+  return array(
+    'c4m_vocab_category' => array(
+      'name' => t('Categories'),
+      'description' => t('Categories for [node:type] (nid:[node:nid]).'),
+      'machine_name' => 'c4m_vocab_category_[node:nid]',
+      'settings' => array(
+        'required' => 0,
+        'widget_type' => 'options_buttons',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      )
+    ),
+    'c4m_vocab_tag' => array(
+      'name' => t('Tags'),
+      'description' => t('Tags for [node:type] (nid:[node:nid]).'),
+      'machine_name' => 'c4m_vocab_tag_[node:nid]',
+      'settings' => array(
+        'required' => 0,
+        'widget_type' => 'entityreference_autocomplete_tags',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      )
+    )
+  );
+}
+
+/**
+ * Implements hook_c4m_og_vocab_info_groups()
+ */
+function c4m_og_vocab_c4m_og_vocab_info_groups() {
+  return array(
+    'group' => array(
+      'c4m_vocab_category',
+      'c4m_vocab_tag',
+    ),
+    'project' => array(
+      'c4m_vocab_category',
+      'c4m_vocab_tag',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_og_vocab_info_content()
+ */
+function c4m_og_vocab_c4m_og_vocab_info_content() {
+  return array(
+    'test' => array(
+      'entity_type' => 'node',
+      'bundle' => 'test',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+    'test2' => array(
+      'entity_type' => 'node',
+      'bundle' => 'test2',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+  );
+}
