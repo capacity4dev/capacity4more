@@ -349,6 +349,86 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-c4m_cris_contract_number'
+  $field_instances['node-project-c4m_cris_contract_number'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Contract numbers from the CRIS platform.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_cris_contract_number',
+    'label' => 'CRIS Contract Number',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-c4m_cris_decision_number'
+  $field_instances['node-project-c4m_cris_decision_number'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Decision numbers from the CRIS platform.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_cris_decision_number',
+    'label' => 'CRIS Decision number',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-project-group_group'
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
@@ -411,6 +491,10 @@ function c4m_content_project_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('A picture to use on the Project dashboard and Project listings');
   t('Banner');
+  t('CRIS Contract Number');
+  t('CRIS Decision number');
+  t('Contract numbers from the CRIS platform.');
+  t('Decision numbers from the CRIS platform.');
   t('Description');
   t('Description about the Project.');
   t('Determine if this is an OG group.');
