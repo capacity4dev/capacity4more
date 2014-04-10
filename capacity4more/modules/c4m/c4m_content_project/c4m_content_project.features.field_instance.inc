@@ -269,6 +269,46 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-c4m_partner'
+  $field_instances['node-project-c4m_partner'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Partners of this project',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_partner',
+    'label' => 'Partners',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 10,
+    ),
+  );
+
   // Exported field_instance: 'node-project-group_group'
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
@@ -337,6 +377,8 @@ function c4m_content_project_field_default_field_instances() {
   t('Duration');
   t('Group');
   t('Image');
+  t('Partners');
+  t('Partners of this project');
   t('Source of funding');
   t('Start + End date of the Project.');
   t('This field is used to store the sources of funding for projects.');
