@@ -741,6 +741,55 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_related_document'
+  $field_instances['node-demo_fields-c4m_related_document'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_document',
+    'label' => 'c4m_related_document',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 9,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('A date field with an optional end date.');
@@ -748,13 +797,14 @@ This field can have a WYSIWYG rich text editor interface.',
 This field can have a WYSIWYG rich text editor interface.');
   t('An address is created & stored using the geocoder field.');
   t('Indicating your expertise enriches your profile and allows experts to connect with each other.');
-  t('Select one or more regions and countries related to this post.');
   t('Select 1 one or more topics that are related to this content.');
+  t('Select one or more regions and countries related to this post.');
   t('The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.');
   t('c4m_body');
   t('c4m_date');
   t('c4m_location');
   t('c4m_media');
+  t('c4m_related_document');
   t('c4m_related_topic');
   t('c4m_related_topic_expertise');
   t('c4m_vocab_geo');
