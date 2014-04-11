@@ -21,7 +21,7 @@ function c4m_content_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '7',
+    'weight' => '8',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_geo',
@@ -50,7 +50,7 @@ function c4m_content_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'EC Project',
-    'weight' => '6',
+    'weight' => '7',
     'children' => array(
       0 => 'c4m_cris_contract_number',
       1 => 'c4m_cris_decision_number',
@@ -79,13 +79,13 @@ function c4m_content_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Project details',
-    'weight' => '5',
+    'weight' => '6',
     'children' => array(
       0 => 'c4m_date',
-      1 => 'c4m_implemented_by',
-      2 => 'c4m_partner',
-      3 => 'c4m_source_of_funding',
-      4 => 'c4m_money',
+      1 => 'c4m_money',
+      2 => 'c4m_implemented_by',
+      3 => 'c4m_partner',
+      4 => 'c4m_source_of_funding',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -111,7 +111,7 @@ function c4m_content_project_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Related content',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_related_group',
       1 => 'c4m_related_projects',
