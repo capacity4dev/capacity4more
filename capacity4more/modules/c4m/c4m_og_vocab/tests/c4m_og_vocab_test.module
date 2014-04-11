@@ -194,31 +194,6 @@ function c4m_og_vocab_get_info($part, $reset = FALSE) {
 
 
 /**
- * Helper to fill in the node variables into a string.
- *
- * The supported placeholders are:
- * - [node:nid] : The node id
- * - [node:type] : The node type
- *
- * @param stdClass $node
- * @param string $string
- *
- * @return array
- */
-function c4m_og_vocab_fill_string($node, $string) {
-  $values = array(
-    '/\[node:nid\]/'  => $node->nid,
-    '/\[node:type\]/' => $node->type,
-  );
-
-  $search = array_keys($values);
-  $replace = array_values($values);
-
-  return preg_replace($search, $replace, $string);
-}
-
-
-/**
  * Implements hook_c4m_og_vocab_info_vocabularies()
  */
 function c4m_og_vocab_c4m_og_vocab_info_vocabularies() {
