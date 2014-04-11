@@ -120,7 +120,7 @@ function c4m_content_project_field_group_info() {
       'label' => 'Related content',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => 'c4d-related-content field-group-fieldset',
+        'classes' => 'c4m-related-content field-group-fieldset',
         'description' => '',
       ),
       'formatter' => 'collapsible',
