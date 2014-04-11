@@ -78,10 +78,8 @@ function c4m_og_vocab_create_group_vocabularies($group, $vocabularies) {
   $vocabs = array();
 
   foreach ($vocabularies AS $vocabulary_name => $vocabulary) {
-    $search = array('/\[node:nid\]/', '/\[node:type\]/');
-    $replace = array($group->nid, $group->type);
-    $machine_name = preg_replace($search, $replace, $vocabulary['machine_name']);
-    $description = preg_replace($search, $replace, $vocabulary['description']);
+    $machine_name = c4m_og_vocab_fill_string($group, $vocabulary['machine_name']);
+    $description = c4m_og_vocab_fill_string($group, $vocabulary['description']);
 
     // Create the new vocabulary.
     $vocab = new StdClass();
