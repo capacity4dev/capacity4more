@@ -1,6 +1,11 @@
 <?php
 /**
  * @file
+ *
+ * Module to support automatically created group vocabularies.
+ *
+ * This module is the glue between the og_vocab module and the capacity4more
+ * distribution.
  */
 
 
@@ -13,6 +18,13 @@ define ('C4M_OG_VOCAB_INFO_CONTENT', 'content');
  * Implements hook_node_insert().
  *
  * Automatically adds the Category taxonomy to a newly created group.
+ * It uses the information collected trough the implemented
+ * hook_c4m_og_vocab_info_groups() hooks to know what vocabularies to create per
+ * group node type.
+ *
+ * It will use the information collected trough the implemented
+ * hook_c4m_og_vocab_info_content() hooks to know for what group content types
+ * to enable the vocabularies.
  */
 function c4m_og_vocab_node_insert($node) {
   // Only for OG enabled content type.
