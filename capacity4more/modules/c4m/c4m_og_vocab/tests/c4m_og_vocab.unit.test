@@ -1,0 +1,8 @@
+<?php
+/**
+ * @file
+ * Unit tests for the c4m_og_vocab module.
+ */
+
+class SimpletestUnitTestExampleTestCase extends DrupalUnitTestCase {
+}
