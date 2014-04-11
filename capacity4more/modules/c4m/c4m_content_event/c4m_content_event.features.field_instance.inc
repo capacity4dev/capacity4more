@@ -56,7 +56,7 @@ function c4m_content_event_field_default_field_instances() {
   $field_instances['node-event-c4m_datetime'] = array(
     'bundle' => 'event',
     'deleted' => 0,
-    'description' => 'Start + End date of the Event.',
+    'description' => 'Start and end date of the Event.',
     'display' => array(
       'default' => array(
         'label' => 'above',
