@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Event content type feature.
+ */
+
+include_once 'c4m_content_event.features.inc';

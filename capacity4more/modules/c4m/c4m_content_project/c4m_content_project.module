@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Project content type feature.
+ */
+
+include_once 'c4m_content_project.features.inc';

@@ -1,0 +1,81 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_og_vocab module.
+ */
+
+/**
+ * Tests for the get info functionality.
+ */
+class C4mOgVocabInfo extends DrupalWebTestCase {
+  /**
+   * We are working in a profile!
+   *
+   * @TODO: why does installing and testing the modules not work when the
+   *        profile is not specifically set?
+   */
+  protected $profile = 'capacity4more';
+
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Group Vocabulary Info',
+      'description' => 'Test the get info functionality.',
+      'group' => 'capacity4more - og',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('og', 'og_vocab', 'c4m_og_vocab', 'c4m_og_vocab_test');
+    parent::setUp($modules);
+  }
+
+  /**
+   * Test the get info functionality.
+   */
+  public function testGetInfoVocabularies() {
+    $expected = c4m_og_vocab_test_c4m_og_vocab_info_vocabularies();
+    $result = c4m_og_vocab_info('vocabularies');
+
+    $this->assertEqual(
+      $result['c4m_vocab_test_category'],
+      $expected['c4m_vocab_test_category']
+    );
+  }
+
+  /**
+   * Test the get info functionality.
+   */
+  public function testGetInfoGroups() {
+    $expected = c4m_og_vocab_test_c4m_og_vocab_info_groups();
+    $result = c4m_og_vocab_info('groups');
+
+    $this->assertEqual(
+      $result['test_group'],
+      $expected['test_group']
+    );
+  }
+
+  /**
+   * Test the get info functionality.
+   */
+  public function testGetInfoContent() {
+    $expected = c4m_og_vocab_test_c4m_og_vocab_info_content();
+    $result = c4m_og_vocab_info('content');
+
+    $this->assertEqual(
+      $result['test_wiki'],
+      $expected['test_wiki']
+    );
+  }
+}
+
+

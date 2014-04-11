@@ -1,0 +1,72 @@
+<?php
+/**
+ * @file
+ *
+ * Module to support testing the c4m_og_vocab functionality.
+ */
+
+/**
+ * Implements hook_c4m_og_vocab_info_vocabularies()
+ */
+function c4m_og_vocab_test_c4m_og_vocab_info_vocabularies() {
+  return array(
+    'c4m_vocab_test_category' => array(
+      'name' => t('Test Categories'),
+      'description' => t('Test Categories for [node:type] (nid:[node:nid]).'),
+      'machine_name' => 'c4m_vocab_test_category_[node:nid]',
+      'settings' => array(
+        'required' => 0,
+        'widget_type' => 'options_buttons',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      )
+    ),
+    'c4m_vocab_test_tag' => array(
+      'name' => t('Test Tags'),
+      'description' => t('Test Tags for [node:type] (nid:[node:nid]).'),
+      'machine_name' => 'c4m_vocab_test_tag_[node:nid]',
+      'settings' => array(
+        'required' => 0,
+        'widget_type' => 'entityreference_autocomplete_tags',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      )
+    )
+  );
+}
+
+/**
+ * Implements hook_c4m_og_vocab_info_groups()
+ */
+function c4m_og_vocab_test_c4m_og_vocab_info_groups() {
+  return array(
+    'test_group' => array(
+      'c4m_vocab_test_category',
+      'c4m_vocab_test_tag',
+    ),
+    'test_project' => array(
+      'c4m_vocab_test_tag',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_og_vocab_info_content()
+ */
+function c4m_og_vocab_test_c4m_og_vocab_info_content() {
+  return array(
+    'test_blog' => array(
+      'entity_type' => 'node',
+      'bundle' => 'test_blog',
+      'vocabularies' => array(
+        'c4m_vocab_test_category',
+        'c4m_vocab_test_tag'
+      ),
+    ),
+    'test_wiki' => array(
+      'entity_type' => 'node',
+      'bundle' => 'test_wiki',
+      'vocabularies' => array(
+        'c4m_vocab_test_category',
+      ),
+    ),
+  );
+}

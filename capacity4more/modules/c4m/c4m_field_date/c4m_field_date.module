@@ -1,5 +1,11 @@
 <?php
 /**
  * @file
+ * Code for the Date field feature.
+ */
+
+include_once 'c4m_field_date.features.inc';
+/**
+ * @file
  * Drupal requires this empty file.
  */
