@@ -79,3 +79,27 @@ function c4m_og_vocab_info($part, $reset = FALSE) {
   return $info;
 }
 
+
+/**
+ * Load the group vocabulary by the given vocabulary name.
+ *
+ * @param stdClass $group
+ *   The group node
+ * @param string $name
+ *   The vocab name as set in the hook_c4m_og_vocab_info_vocabularies() hooks.
+ *
+ * @return stdClass $vocab
+ */
+function c4m_og_vocab_load_group_vocabulary($group, $name) {
+  $vocabularies = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
+  if (!isset($vocabularies[$name])) {
+    return;
+  }
+
+  module_load_include('inc', 'c4m_og_vocab');
+
+  $vocabulary = $vocabularies[$name];
+  $machine_name = c4m_og_vocab_fill_string($group, $vocabulary['machine_name']);
+  return taxonomy_vocabulary_machine_name_load($machine_name);
+}
+
