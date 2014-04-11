@@ -658,7 +658,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Location');
   t('Name of the person or organisation who organises the Event.');
   t('Organised by');
-  t('Start + End date of the Event.');
+  t('Start and end date of the Event.');
 
   return $field_instances;
 }
