@@ -71,10 +71,10 @@ function c4m_content_project_strongarm() {
           'weight' => '0',
         ),
         'og_purl' => array(
-          'weight' => '1',
+          'weight' => '2',
         ),
         'path' => array(
-          'weight' => '9',
+          'weight' => '10',
         ),
       ),
       'display' => array(),

@@ -68,7 +68,7 @@ function c4m_content_project_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -110,7 +110,7 @@ function c4m_content_project_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -287,49 +287,6 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_is_group'
-  $field_instances['node-project-c4m_is_group'] = array(
-    'bundle' => 'project',
-    'default_value' => array(
-      0 => array(
-        'value' => 1,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 15,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_is_group',
-    'label' => 'Is group',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 1,
-    ),
-  );
-
   // Exported field_instance: 'node-project-c4m_media'
   $field_instances['node-project-c4m_media'] = array(
     'bundle' => 'project',
@@ -388,7 +345,7 @@ function c4m_content_project_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
@@ -979,6 +936,50 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-group_group'
+  $field_instances['node-project-group_group'] = array(
+    'bundle' => 'project',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 15,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'group_group',
+    'label' => 'Group',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+        'og_hide' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 1,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('A picture to use on the Project dashboard and Project listings');
@@ -990,9 +991,9 @@ function c4m_content_project_field_default_field_instances() {
   t('Description');
   t('Description about the Project.');
   t('Duration');
+  t('Group');
   t('Image');
   t('Implemented by');
-  t('Is group');
   t('Names of organisations & companies who are the partners (stakeholders) of the Project.');
   t('Names of organisations & companies who fund the Project.');
   t('Names of organisations & companies who implement the project.');
