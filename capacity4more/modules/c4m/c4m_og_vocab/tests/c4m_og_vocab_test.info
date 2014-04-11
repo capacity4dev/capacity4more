@@ -1,6 +1,11 @@
-name = Group Vocabularies
-description = Creates automatically vocabularies for Group enabled content types. This is an API module, other modules have to implement provided hooks to define what vocabularies need to be created and what group content types should use them.
+name = Group Vocabularies Tests
+description = Tests for the capacity4more Group vocabularies.
 core = 7.x
 package = capacity4more - OG
 version = 7.x-1.x-dev
-dependencies[] = og_vocab
+dependencies[] = c4m_og_vocab
+hidden = TRUE
+
+; Test files
+files[] = c4m_og_vocab.web.test
+files[] = c4m_og_vocab.unit.test
