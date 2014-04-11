@@ -10,7 +10,7 @@
 function c4m_field_date_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_c4m_date'
+  // Exported field_base: 'c4m_date'
   $field_bases['c4m_date'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -26,10 +26,10 @@ function c4m_field_date_field_default_field_bases() {
       'cache_enabled' => 0,
       'granularity' => array(
         'day' => 'day',
-        'hour' => 'hour',
-        'minute' => 'minute',
+        'hour' => 0,
+        'minute' => 0,
         'month' => 'month',
-        'second' => 'second',
+        'second' => 0,
         'year' => 'year',
       ),
       'timezone_db' => 'UTC',

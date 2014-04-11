@@ -24,7 +24,7 @@ function c4m_field_money_field_default_field_bases() {
     'settings' => array(
       'max' => 99999999.99,
       'min' => -99999999.99,
-      'precision' => 10,
+      'precision' => 14,
       'scale' => 2,
     ),
     'translatable' => 0,
