@@ -71,3 +71,4 @@ dependencies[] = c4m_content_project
 dependencies[] = c4m_content_region
 dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_article
+dependencies[] = c4m_content_event
