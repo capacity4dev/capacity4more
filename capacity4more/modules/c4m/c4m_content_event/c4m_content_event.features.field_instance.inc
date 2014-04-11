@@ -595,6 +595,7 @@ function c4m_content_event_field_default_field_instances() {
   $field_instances['node-event-og_group_ref'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
+    'default_value_function' => '',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -614,8 +615,8 @@ function c4m_content_event_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'og_group_ref',
-    'label' => 'Groups audience',
-    'required' => FALSE,
+    'label' => 'Groups',
+    'required' => 0,
     'settings' => array(
       'behaviors' => array(
         'og_widget' => array(
@@ -626,6 +627,9 @@ function c4m_content_event_field_default_field_instances() {
             'widget_type' => 'options_select',
           ),
           'status' => TRUE,
+        ),
+        'prepopulate' => array(
+          'status' => 0,
         ),
       ),
       'user_register_form' => FALSE,
@@ -643,6 +647,7 @@ function c4m_content_event_field_default_field_instances() {
       ),
     ),
     'widget' => array(
+      'active' => 0,
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
@@ -654,7 +659,7 @@ function c4m_content_event_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Date');
   t('Description');
-  t('Groups audience');
+  t('Groups');
   t('Location');
   t('Name of the person or organisation who organises the Event.');
   t('Organised by');

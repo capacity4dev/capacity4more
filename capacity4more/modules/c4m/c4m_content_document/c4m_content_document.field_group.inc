@@ -46,14 +46,14 @@ function c4m_content_document_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'OG',
+    'label' => 'Groups',
     'weight' => '4',
     'children' => array(
       0 => 'og_group_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'OG',
+      'label' => 'Groups',
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-og field-group-fieldset',
