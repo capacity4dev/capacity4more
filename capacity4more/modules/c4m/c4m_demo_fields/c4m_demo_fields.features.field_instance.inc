@@ -106,6 +106,92 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_is_group'
+  $field_instances['node-demo_fields-c4m_is_group'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_is_group',
+    'label' => 'c4m_is_group',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 11,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_is_group_post'
+  $field_instances['node-demo_fields-c4m_is_group_post'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_is_group_post',
+    'label' => 'c4m_is_group_post',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 12,
+    ),
+  );
+
   // Exported field_instance: 'node-demo_fields-c4m_location'
   $field_instances['node-demo_fields-c4m_location'] = array(
     'bundle' => 'demo_fields',
@@ -610,134 +696,7 @@ This field can have a WYSIWYG rich text editor interface.',
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 5,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_related_topic'
-  $field_instances['node-demo_fields-c4m_related_topic'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => 'Select 1 one or more topics that are related to this content.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 6,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic',
-    'label' => 'c4m_related_topic',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 5,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_related_topic_expertise'
-  $field_instances['node-demo_fields-c4m_related_topic_expertise'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => 'Indicating your expertise enriches your profile and allows experts to connect with each other.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 7,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic_expertise',
-    'label' => 'c4m_related_topic_expertise',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
       'weight' => 6,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_vocab_geo'
-  $field_instances['node-demo_fields-c4m_vocab_geo'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Select one or more regions and countries related to this post.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 6,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_vocab_geo',
-    'label' => 'c4m_vocab_geo',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 8,
     ),
   );
 
@@ -1072,93 +1031,187 @@ This field can have a WYSIWYG rich text editor interface.',
         'decimals_display_mode' => 'field',
       ),
       'type' => 'money_widget',
-      'weight' => 9,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_is_group'
-  $field_instances['node-demo_fields-c4m_is_group'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 8,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_is_group',
-    'label' => 'c4m_is_group',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 9,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_is_group_post'
-  $field_instances['node-demo_fields-c4m_is_group_post'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 9,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_is_group_post',
-    'label' => 'c4m_is_group_post',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
       'weight' => 10,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_related_topic'
+  $field_instances['node-demo_fields-c4m_related_topic'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'Select 1 one or more topics that are related to this content.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_topic',
+    'label' => 'c4m_related_topic',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_related_topic_expertise'
+  $field_instances['node-demo_fields-c4m_related_topic_expertise'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'Indicating your expertise enriches your profile and allows experts to connect with each other.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_topic_expertise',
+    'label' => 'c4m_related_topic_expertise',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_vocab_geo'
+  $field_instances['node-demo_fields-c4m_vocab_geo'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Select one or more regions and countries related to this post.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_geo',
+    'label' => 'c4m_vocab_geo',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_datetime'
+  $field_instances['node-demo_fields-c4m_datetime'] = array(
+    'bundle' => 'demo_fields',
+    'deleted' => 0,
+    'description' => 'Start and end-date with time indication',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_datetime',
+    'label' => 'c4m_datetime',
+    'required' => 1,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'increment' => 15,
+        'input_format' => 'd/m/Y - H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 5,
     ),
   );
 
@@ -1171,9 +1224,11 @@ This field can have a WYSIWYG rich text editor interface.');
   t('Indicating your expertise enriches your profile and allows experts to connect with each other.');
   t('Select 1 one or more topics that are related to this content.');
   t('Select one or more regions and countries related to this post.');
+  t('Start and end-date with time indication');
   t('The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.');
   t('c4m_body');
   t('c4m_date');
+  t('c4m_datetime');
   t('c4m_is_group');
   t('c4m_is_group_post');
   t('c4m_location');

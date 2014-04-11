@@ -52,11 +52,11 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_date'
-  $field_instances['node-event-c4m_date'] = array(
+  // Exported field_instance: 'node-event-c4m_datetime'
+  $field_instances['node-event-c4m_datetime'] = array(
     'bundle' => 'event',
     'deleted' => 0,
-    'description' => 'Start and end date of the Event.',
+    'description' => 'Start + End date of the Event.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -69,7 +69,7 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 1,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -79,7 +79,7 @@ function c4m_content_event_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_date',
+    'field_name' => 'c4m_datetime',
     'label' => 'Date',
     'required' => 1,
     'settings' => array(
@@ -658,7 +658,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Location');
   t('Name of the person or organisation who organises the Event.');
   t('Organised by');
-  t('Start and end date of the Event.');
+  t('Start + End date of the Event.');
 
   return $field_instances;
 }
