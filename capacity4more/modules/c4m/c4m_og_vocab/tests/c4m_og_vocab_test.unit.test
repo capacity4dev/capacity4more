@@ -10,8 +10,7 @@ class C4mOgVocabUnit extends DrupalUnitTestCase {
    *
    * @return array
    */
-  public static function getInfo()
-  {
+  public static function getInfo() {
     return array(
       'name' => 'c4m - Group Vocabulary unit tests',
       'description' => 'Tests the functionality that does not require full install.',
@@ -22,8 +21,7 @@ class C4mOgVocabUnit extends DrupalUnitTestCase {
   /**
    * Test filling strings with node entity information.
    */
-  public function testC4mOgVocabFillString()
-  {
+  public function testC4mOgVocabFillString() {
     $node = new stdClass();
     $node->nid = 5;
     $node->type = 'group';

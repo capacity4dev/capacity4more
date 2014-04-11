@@ -7,5 +7,5 @@ dependencies[] = c4m_og_vocab
 hidden = TRUE
 
 ; Test files
-files[] = c4m_og_vocab.web.test
-files[] = c4m_og_vocab.unit.test
+files[] = c4m_og_vocab_test.web.test
+files[] = c4m_og_vocab_test.unit.test
