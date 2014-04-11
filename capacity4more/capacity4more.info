@@ -66,6 +66,7 @@ dependencies[] = views_bulk_operations
 dependencies[] = c4m_field_body
 
 ; Content Types
+dependencies[] = c4m_content_document
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_project
 dependencies[] = c4m_content_region
