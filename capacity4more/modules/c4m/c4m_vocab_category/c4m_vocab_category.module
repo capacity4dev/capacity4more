@@ -1,0 +1,38 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+define ('C4M_VOCAB_CATEGORY_NAME', 'c4m_vocab_category');
+
+/**
+ * Implmements hook_c4m_og_vocab_info_vocabularies().
+ */
+function c4m_vocab_category_c4m_og_vocab_info_vocabularies() {
+  return array(
+    C4M_VOCAB_CATEGORY_NAME => array(
+      'name' => t('Categories'),
+      'description' => t('Categories for [node:type] (nid:[node:nid]).'),
+      'machine_name' => 'c4m_vocab_category_[node:nid]',
+      'settings' => array(
+        'required' => 0,
+        'widget_type' => 'options_buttons',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      )
+    ),
+  );
+}
+
+/**
+ * Load the Category vocabulary for the given group.
+ *
+ * @param stdClass $group
+ *   Group node
+ *
+ * @return stdClass
+ *   The vocabulary (if any).
+ */
+function c4m_vocab_category_load($group) {
+  return c4m_og_vocab_load_group_vocabulary($group, C4M_VOCAB_CATEGORY_NAME);
+}
