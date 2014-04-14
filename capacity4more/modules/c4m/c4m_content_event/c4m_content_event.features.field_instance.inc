@@ -655,6 +655,44 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-event-og_vocabulary'
+  $field_instances['node-event-og_vocabulary'] = array(
+    'bundle' => 'event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_vocab',
+        'settings' => array(
+          'concatenate' => FALSE,
+        ),
+        'type' => 'og_vocab',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'og_vocabulary',
+    'label' => 'Metadata',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'og_vocab',
+      'settings' => array(),
+      'type' => 'og_vocab_complex',
+      'weight' => 6,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Date');
@@ -662,6 +700,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Groups');
   t('Location');
   t('Name of the person or organisation who organises the Event.');
+  t('Metadata');
   t('Organised by');
   t('Start and end date of the Event.');
 
