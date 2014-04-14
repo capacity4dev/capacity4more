@@ -699,8 +699,8 @@ function c4m_content_event_field_default_field_instances() {
   t('Description');
   t('Groups');
   t('Location');
-  t('Name of the person or organisation who organises the Event.');
   t('Metadata');
+  t('Name of the person or organisation who organises the Event.');
   t('Organised by');
   t('Start and end date of the Event.');
 
