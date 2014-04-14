@@ -10,3 +10,4 @@ features[field_base][] = c4m_is_group
 features[field_base][] = c4m_is_group_post
 features[field_base][] = og_group_ref
 features[field_base][] = group_group
+features[field_base][] = og_vocabulary
