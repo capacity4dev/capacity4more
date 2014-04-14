@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ */
+
+define ('C4M_VOCAB_TAG_NAME', 'c4m_vocab_tag');
+
+/**
+ * Implmements hook_c4m_og_vocab_info_vocabularies().
+ */
+function c4m_vocab_tag_c4m_og_vocab_info_vocabularies() {
+  return array(
+    C4M_VOCAB_TAG_NAME => array(
+      'name' => t('Tags'),
+      'description' => t('Tags for [node:type] (nid:[node:nid]).'),
+      'machine_name' => 'c4m_vocab_tag_[node:nid]',
+      'settings' => array(
+        'required' => 0,
+        'widget_type' => 'entityreference_autocomplete_tags',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      )
+    )
+  );
+}
+
+/**
+ * Load the Tag vocabulary for the given group.
+ *
+ * @param stdClass $group
+ *   Group node
+ *
+ * @return stdClass
+ *   The vocabulary (if any).
+ */
+function c4m_vocab_tag_load($group) {
+  return c4m_og_vocab_load_group_vocabulary($group, C4M_VOCAB_TAG_NAME);
+}

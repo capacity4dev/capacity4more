@@ -22,7 +22,9 @@ function c4m_content_event_field_group_info() {
   $field_group->data = array(
     'label' => 'Metadata',
     'weight' => '6',
-    'children' => array(),
+    'children' => array(
+      0 => 'og_vocabulary',
+    ),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'label' => 'Metadata',
