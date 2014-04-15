@@ -15,14 +15,14 @@ function c4m_content_book_install() {
   $key = array_search('book', $book_types);
   if (empty($key) && $key !== 0) {
     $book_types[] = 'book';
+    variable_set('book_allowed_types', $book_types);
   }
-  variable_set('book_allowed_types', $book_types);
 
   $book_child = variable_get('book_child_type', '');
   if (empty($book_child)) {
     $book_child = 'book';
+    variable_set('book_child_type', $book_child);
   }
-  variable_set('book_child_type', $book_child);
 }
 
 /**
@@ -33,8 +33,8 @@ function c4m_content_book_uninstall() {
   $key = array_search('book', $book_types);
   if (!empty($key) || $key === 0) {
     unset($book_types[$key]);
+    variable_set('book_allowed_types', $book_types);
   }
-  variable_set('book_allowed_types', $book_types);
 
   $book_child = variable_get('book_child_type', '');
   if ($book_child == 'book') {
