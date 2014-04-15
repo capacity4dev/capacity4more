@@ -12,7 +12,7 @@ function c4m_content_minisite_install() {
   variable_set('pathauto_node_minisite_pattern', 'minisite/[node:title]');
 
   $book_types = variable_get('book_allowed_types', array());
-  $key = array_search('book', $book_types);
+  $key = array_search('minisite', $book_types);
   if (empty($key) && $key !== 0) {
     $book_types[] = 'minisite';
     variable_set('book_allowed_types', $book_types);
