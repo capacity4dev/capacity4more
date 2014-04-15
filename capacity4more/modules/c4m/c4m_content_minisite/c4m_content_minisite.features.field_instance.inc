@@ -10,9 +10,9 @@
 function c4m_content_minisite_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-minisite_page-og_group_ref'
-  $field_instances['node-minisite_page-og_group_ref'] = array(
-    'bundle' => 'minisite_page',
+  // Exported field_instance: 'node-minisite-og_group_ref'
+  $field_instances['node-minisite-og_group_ref'] = array(
+    'bundle' => 'minisite',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',

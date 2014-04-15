@@ -22,7 +22,7 @@ function c4m_content_minisite_install() {
 /**
  * Implements hook_uninstall().
  */
-function c4m_content_book_uninstall() {
+function c4m_content_minisite_uninstall() {
   $book_types = variable_get('book_allowed_types', array());
   $key = array_search('minisite', $book_types);
   if (!empty($key) || $key === 0) {
