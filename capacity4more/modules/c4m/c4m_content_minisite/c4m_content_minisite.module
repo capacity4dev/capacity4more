@@ -5,3 +5,57 @@
  */
 
 include_once 'c4m_content_minisite.features.inc';
+
+/**
+ * Implements hook_token_info().
+ */
+function c4m_content_minisite_token_info() {
+  $info = array();
+
+  if(!module_exists('pathauto')) {
+    return;
+  }
+
+  $info['tokens']['array']['minisite-join-path'] = array(
+    'name' => t('Joined path without Master Page'),
+    'description' => t('The array values with the (empty) master (= root) page removed from the tree.'),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function c4m_content_minisite_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+
+  if(!module_exists('pathauto')) {
+    return;
+  }
+
+  if ($type == 'array' && !empty($data['array'])) {
+    $array = $data['array'];
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'minisite-join-path':
+          if (is_array($array)) {
+            array_shift($array);
+          }
+
+          module_load_include('inc', 'pathauto');
+          $values = array();
+          foreach (element_children($array) as $key) {
+            $value = is_array($array[$key]) ? render($array[$key]) : (string) $array[$key];
+            $value = pathauto_cleanstring($value);
+            $values[] = $value;
+          }
+          $replacements[$original] = implode('/', $values);
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}
