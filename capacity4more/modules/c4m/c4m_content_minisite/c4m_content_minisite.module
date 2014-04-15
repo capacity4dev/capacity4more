@@ -63,3 +63,21 @@ function c4m_content_minisite_tokens($type, $tokens, array $data = array(), arra
 
   return $replacements;
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically create a master minisite page if a group content type is created.
+ */
+function c4m_content_minisite_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Run the code to create all the vocabularies
+  // and link it with the content types.
+  module_load_include('inc', 'c4m_content_minisite');
+  c4m_content_minisite_create_root_minisite($node);
+}
+
