@@ -26,6 +26,9 @@ function c4m_content_minisite_token_info() {
 
 /**
  * Implements hook_tokens().
+ *
+ * Extends the pathauto_tokens() functionality. Shifts the first array key, which is the minisite master page
+ * in case of a minisite tree, and creates a joined path from the array like pathauto module does.
  */
 function c4m_content_minisite_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
@@ -41,6 +44,7 @@ function c4m_content_minisite_tokens($type, $tokens, array $data = array(), arra
       switch ($name) {
         case 'minisite-join-path':
           if (is_array($array)) {
+            // Remove the first (root) element of the tree.
             array_shift($array);
           }
 
