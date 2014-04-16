@@ -53,8 +53,8 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_date'
-  $field_instances['node-demo_fields-c4m_date'] = array(
+  // Exported field_instance: 'node-demo_fields-c4m_date_end'
+  $field_instances['node-demo_fields-c4m_date_end'] = array(
     'bundle' => 'demo_fields',
     'deleted' => 0,
     'description' => 'A date field with an optional end date.',
@@ -80,8 +80,8 @@ This field can have a WYSIWYG rich text editor interface.',
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_date',
-    'label' => 'c4m_date',
+    'field_name' => 'c4m_date_end',
+    'label' => 'c4m_date_end',
     'required' => 0,
     'settings' => array(
       'default_value' => 'now',
@@ -106,8 +106,8 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_datetime'
-  $field_instances['node-demo_fields-c4m_datetime'] = array(
+  // Exported field_instance: 'node-demo_fields-c4m_datetime_end'
+  $field_instances['node-demo_fields-c4m_datetime_end'] = array(
     'bundle' => 'demo_fields',
     'deleted' => 0,
     'description' => 'Start and end-date with time indication',
@@ -133,8 +133,8 @@ This field can have a WYSIWYG rich text editor interface.',
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_datetime',
-    'label' => 'c4m_datetime',
+    'field_name' => 'c4m_datetime_end',
+    'label' => 'c4m_datetime_end',
     'required' => 1,
     'settings' => array(
       'default_value' => 'now',
@@ -1325,8 +1325,8 @@ This field can have a WYSIWYG rich text editor interface.');
   t('Start and end-date with time indication');
   t('The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.');
   t('c4m_body');
-  t('c4m_date');
-  t('c4m_datetime');
+  t('c4m_date_end');
+  t('c4m_datetime_end');
   t('c4m_is_group');
   t('c4m_is_group_post');
   t('c4m_location');
