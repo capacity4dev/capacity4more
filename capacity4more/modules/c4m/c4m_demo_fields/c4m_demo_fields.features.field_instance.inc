@@ -53,6 +53,59 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_date'
+  $field_instances['node-demo_fields-c4m_date'] = array(
+    'bundle' => 'demo_fields',
+    'deleted' => 0,
+    'description' => 'Date field',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_date',
+    'label' => 'c4m_date',
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'increment' => 15,
+        'input_format' => 'd/m/Y - H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-demo_fields-c4m_date_end'
   $field_instances['node-demo_fields-c4m_date_end'] = array(
     'bundle' => 'demo_fields',
@@ -103,6 +156,59 @@ This field can have a WYSIWYG rich text editor interface.',
       ),
       'type' => 'date_popup',
       'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_datetime'
+  $field_instances['node-demo_fields-c4m_datetime'] = array(
+    'bundle' => 'demo_fields',
+    'deleted' => 0,
+    'description' => 'Date with time indication',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_datetime',
+    'label' => 'c4m_datetime',
+    'required' => 1,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'increment' => 15,
+        'input_format' => 'd/m/Y - H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 5,
     ),
   );
 
@@ -1227,43 +1333,6 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_vocab_geo'
-  $field_instances['node-demo_fields-c4m_vocab_geo'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Select one or more regions and countries related to this post.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 6,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_vocab_geo',
-    'label' => 'c4m_vocab_geo',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 8,
-    ),
-  );
-
   // Exported field_instance: 'node-demo_fields-c4m_related_user'
   $field_instances['node-demo_fields-c4m_related_user'] = array(
     'bundle' => 'demo_fields',
@@ -1313,19 +1382,109 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_vocab_geo'
+  $field_instances['node-demo_fields-c4m_vocab_geo'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Select one or more regions and countries related to this post.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_geo',
+    'label' => 'c4m_vocab_geo',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-demo_fields-c4m_related_tasklist'
+  $field_instances['node-demo_fields-c4m_related_tasklist'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 12,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_tasklist',
+    'label' => 'c4m_related_tasklist',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 15,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('A date field with an optional end date.');
   t('A multiline text element that can be spitted in a summary and a full text part.
 This field can have a WYSIWYG rich text editor interface.');
   t('An address is created & stored using the geocoder field.');
+  t('Date field');
+  t('Date with time indication');
   t('Indicating your expertise enriches your profile and allows experts to connect with each other.');
   t('Select 1 one or more topics that are related to this content.');
   t('Select one or more regions and countries related to this post.');
   t('Start and end-date with time indication');
   t('The media field can contain any upload. It can also contain remote media like Youtube or Vimeo.');
   t('c4m_body');
+  t('c4m_date');
   t('c4m_date_end');
+  t('c4m_datetime');
   t('c4m_datetime_end');
   t('c4m_is_group');
   t('c4m_is_group_post');
@@ -1333,6 +1492,7 @@ This field can have a WYSIWYG rich text editor interface.');
   t('c4m_media');
   t('c4m_money');
   t('c4m_related_document');
+  t('c4m_related_tasklist');
   t('c4m_related_topic');
   t('c4m_related_topic_expertise');
   t('c4m_related_user');
