@@ -5,3 +5,21 @@
  */
 
 include_once 'c4m_content_tasklist.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ *
+ * @return array
+ */
+function c4m_content_tasklist_c4m_og_vocab_info_content() {
+  return array(
+    'tasklist' => array(
+      'entity_type' => 'node',
+      'bundle' => 'tasklist',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+  );
+}

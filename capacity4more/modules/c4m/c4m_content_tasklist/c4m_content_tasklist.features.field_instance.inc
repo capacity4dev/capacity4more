@@ -10,9 +10,9 @@
 function c4m_content_tasklist_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-task_list-c4m_body'
-  $field_instances['node-task_list-c4m_body'] = array(
-    'bundle' => 'task_list',
+  // Exported field_instance: 'node-tasklist-c4m_body'
+  $field_instances['node-tasklist-c4m_body'] = array(
+    'bundle' => 'tasklist',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -52,9 +52,9 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task_list-c4m_related_document'
-  $field_instances['node-task_list-c4m_related_document'] = array(
-    'bundle' => 'task_list',
+  // Exported field_instance: 'node-tasklist-c4m_related_document'
+  $field_instances['node-tasklist-c4m_related_document'] = array(
+    'bundle' => 'tasklist',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -101,9 +101,9 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task_list-c4m_related_user'
-  $field_instances['node-task_list-c4m_related_user'] = array(
-    'bundle' => 'task_list',
+  // Exported field_instance: 'node-tasklist-c4m_related_user'
+  $field_instances['node-tasklist-c4m_related_user'] = array(
+    'bundle' => 'tasklist',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -150,9 +150,9 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task_list-c4m_tasklist_status'
-  $field_instances['node-task_list-c4m_tasklist_status'] = array(
-    'bundle' => 'task_list',
+  // Exported field_instance: 'node-tasklist-c4m_tasklist_status'
+  $field_instances['node-tasklist-c4m_tasklist_status'] = array(
+    'bundle' => 'tasklist',
     'default_value' => array(
       0 => array(
         'value' => 1,
@@ -191,9 +191,9 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task_list-og_group_ref'
-  $field_instances['node-task_list-og_group_ref'] = array(
-    'bundle' => 'task_list',
+  // Exported field_instance: 'node-tasklist-og_group_ref'
+  $field_instances['node-tasklist-og_group_ref'] = array(
+    'bundle' => 'tasklist',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -251,6 +251,54 @@ function c4m_content_tasklist_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-tasklist-og_vocabulary'
+  $field_instances['node-tasklist-og_vocabulary'] = array(
+    'bundle' => 'tasklist',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_vocab',
+        'settings' => array(
+          'concatenate' => FALSE,
+        ),
+        'type' => 'og_vocab',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'og_vocabulary',
+    'label' => 'Metadata',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+        'taxonomy-index' => array(
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og_vocab',
+      'settings' => array(),
+      'type' => 'og_vocab_complex',
       'weight' => 5,
     ),
   );
@@ -261,6 +309,7 @@ function c4m_content_tasklist_field_default_field_instances() {
   t('Documents');
   t('Groups');
   t('List managers');
+  t('Metadata');
   t('Tasklist status');
 
   return $field_instances;

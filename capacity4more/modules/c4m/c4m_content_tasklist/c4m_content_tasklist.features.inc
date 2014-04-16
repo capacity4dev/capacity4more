@@ -18,7 +18,7 @@ function c4m_content_tasklist_ctools_plugin_api($module = NULL, $api = NULL) {
  */
 function c4m_content_tasklist_node_info() {
   $items = array(
-    'task_list' => array(
+    'tasklist' => array(
       'name' => t('Task list'),
       'base' => 'node_content',
       'description' => t('A Tasklist is used within Groups and Projects.
