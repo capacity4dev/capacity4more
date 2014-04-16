@@ -114,6 +114,55 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-photo-node_gallery_ref_2'
+  $field_instances['node-photo-node_gallery_ref_2'] = array(
+    'bundle' => 'photo',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+      'node_gallery_node_thumbnail' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'node_gallery_ref_2',
+    'label' => 'Galleries',
+    'required' => 1,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 3,
+    ),
+  );
+
   // Exported field_instance: 'node-photo-og_group_ref'
   $field_instances['node-photo-og_group_ref'] = array(
     'bundle' => 'photo',
@@ -174,13 +223,14 @@ function c4m_content_photo_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('Description');
+  t('Galleries');
   t('Groups');
   t('Image');
 
