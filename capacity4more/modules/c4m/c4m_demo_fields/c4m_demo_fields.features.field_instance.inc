@@ -106,6 +106,59 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_datetime'
+  $field_instances['node-demo_fields-c4m_datetime'] = array(
+    'bundle' => 'demo_fields',
+    'deleted' => 0,
+    'description' => 'Start and end-date with time indication',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_datetime',
+    'label' => 'c4m_datetime',
+    'required' => 1,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'increment' => 15,
+        'input_format' => 'd/m/Y - H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 5,
+    ),
+  );
+
   // Exported field_instance: 'node-demo_fields-c4m_is_group'
   $field_instances['node-demo_fields-c4m_is_group'] = array(
     'bundle' => 'demo_fields',
@@ -1035,6 +1088,55 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
+  // Exported field_instance: 'node-demo_fields-c4m_related_document'
+  $field_instances['node-demo_fields-c4m_related_document'] = array(
+    'bundle' => 'demo_fields',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_document',
+    'label' => 'c4m_related_document',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-demo_fields-c4m_related_topic'
   $field_instances['node-demo_fields-c4m_related_topic'] = array(
     'bundle' => 'demo_fields',
@@ -1162,8 +1264,8 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_related_document'
-  $field_instances['node-demo_fields-c4m_related_document'] = array(
+  // Exported field_instance: 'node-demo_fields-c4m_related_user'
+  $field_instances['node-demo_fields-c4m_related_user'] = array(
     'bundle' => 'demo_fields',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -1177,7 +1279,7 @@ This field can have a WYSIWYG rich text editor interface.',
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 8,
+        'weight' => 11,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1187,8 +1289,8 @@ This field can have a WYSIWYG rich text editor interface.',
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_related_document',
-    'label' => 'c4m_related_document',
+    'field_name' => 'c4m_related_user',
+    'label' => 'c4m_related_user',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -1207,60 +1309,7 @@ This field can have a WYSIWYG rich text editor interface.',
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 9,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_datetime'
-  $field_instances['node-demo_fields-c4m_datetime'] = array(
-    'bundle' => 'demo_fields',
-    'deleted' => 0,
-    'description' => 'Start and end-date with time indication',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-        ),
-        'type' => 'date_default',
-        'weight' => 10,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_datetime',
-    'label' => 'c4m_datetime',
-    'required' => 1,
-    'settings' => array(
-      'default_value' => 'now',
-      'default_value2' => 'same',
-      'default_value_code' => '',
-      'default_value_code2' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'date',
-      'settings' => array(
-        'increment' => 15,
-        'input_format' => 'd/m/Y - H:i:s',
-        'input_format_custom' => '',
-        'label_position' => 'above',
-        'text_parts' => array(),
-        'year_range' => '-3:+3',
-      ),
-      'type' => 'date_popup',
-      'weight' => 5,
+      'weight' => 13,
     ),
   );
 
@@ -1282,10 +1331,11 @@ This field can have a WYSIWYG rich text editor interface.');
   t('c4m_is_group_post');
   t('c4m_location');
   t('c4m_media');
-  t('c4m_related_document');
   t('c4m_money');
+  t('c4m_related_document');
   t('c4m_related_topic');
   t('c4m_related_topic_expertise');
+  t('c4m_related_user');
   t('c4m_vocab_geo');
 
   return $field_instances;
