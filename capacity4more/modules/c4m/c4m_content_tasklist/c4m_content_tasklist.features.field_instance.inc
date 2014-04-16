@@ -195,6 +195,7 @@ function c4m_content_tasklist_field_default_field_instances() {
   $field_instances['node-task_list-og_group_ref'] = array(
     'bundle' => 'task_list',
     'default_value' => NULL,
+    'default_value_function' => '',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -214,8 +215,8 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'og_group_ref',
-    'label' => 'Groups audience',
-    'required' => FALSE,
+    'label' => 'Groups',
+    'required' => 1,
     'settings' => array(
       'behaviors' => array(
         'og_widget' => array(
@@ -226,6 +227,9 @@ function c4m_content_tasklist_field_default_field_instances() {
             'widget_type' => 'options_select',
           ),
           'status' => TRUE,
+        ),
+        'prepopulate' => array(
+          'status' => 0,
         ),
       ),
       'user_register_form' => FALSE,
@@ -243,6 +247,7 @@ function c4m_content_tasklist_field_default_field_instances() {
       ),
     ),
     'widget' => array(
+      'active' => 0,
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
@@ -254,7 +259,7 @@ function c4m_content_tasklist_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Description');
   t('Documents');
-  t('Groups audience');
+  t('Groups');
   t('List managers');
   t('Tasklist status');
 
