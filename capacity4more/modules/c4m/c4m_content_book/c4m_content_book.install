@@ -23,6 +23,15 @@ function c4m_content_book_install() {
     $book_child = 'book';
     variable_set('book_child_type', $book_child);
   }
+
+  // Delete the body field the book.module automatically adds.
+  $instances = field_info_instances('node');
+  if (!empty($instances['book']['body'])) {
+    field_delete_instance($instances['book']['body']);
+  }
+
+  // Revert features (description override by book.module).
+  features_revert(array('c4m_content_book' => array('node', 'field_instance')));
 }
 
 /**
