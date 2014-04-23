@@ -10,7 +10,7 @@
 function c4m_field_body_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_c4m_body'
+  // Exported field_base: 'c4m_body'
   $field_bases['c4m_body'] = array(
     'active' => 1,
     'cardinality' => 1,
