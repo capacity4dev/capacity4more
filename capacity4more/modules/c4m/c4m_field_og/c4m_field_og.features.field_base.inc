@@ -132,7 +132,7 @@ function c4m_field_og_field_default_field_bases() {
   // Exported field_base: 'og_vocabulary'
   $field_bases['og_vocabulary'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'og_vocabulary',

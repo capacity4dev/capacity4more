@@ -103,3 +103,64 @@ function c4m_og_vocab_load_group_vocabulary($group, $name) {
   return taxonomy_vocabulary_machine_name_load($machine_name);
 }
 
+/**
+ * Implements hook_field_widget_info().
+ */
+function c4m_og_vocab_field_widget_info() {
+  $widgets['c4m_og_vocab_complex'] = array(
+    'label' => t('Meta data (C4M OG Vocab)'),
+    'description' => t('Complex widget to reference taxonomy terms related to the current group.'),
+    'field types' => array('entityreference'),
+  );
+
+  return $widgets;
+}
+
+
+/**
+ * Implements hook_field_widget_form().
+ *
+ * Code taken from og_vocab, altered to display only the vocabularies of the group we are currently in.
+ */
+function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+  $field_name = $field['field_name'];
+
+  if (!$entity) {
+    return;
+  }
+
+  // Cache the processed entity, to make sure we call the widget only once.
+  $cache = &drupal_static(__FUNCTION__, array());
+  list($id,, $bundle) = entity_extract_ids($entity_type, $entity);
+  $identifier = $entity_type . ':' . $id . ':' . $field_name;
+
+  if (isset($cache[$identifier])) {
+    return array();
+  }
+  $cache[$identifier] = TRUE;
+
+  $node = menu_get_object();
+
+  // Retrieve the group from the context
+  $context = og_context();
+  if (empty($context['gid'])) {
+    // @TODO Return a warning message or something to notice the user this field becomes available AFTER saving/editing?
+    // Right now we do NOT know which group this node will be saved to, and an empty fieldset will appear.
+    return;
+  }
+
+  $group = node_load($context['gid']);
+  $all_group_vocabularies = c4m_og_vocab_info('groups');
+
+  // Iterate over all possible (enabled) vocabularies for our group type
+  foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
+    // Load vocabulary
+    $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
+    $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
+    $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
+  }
+
+  return $element;
+}
