@@ -106,92 +106,6 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_is_group'
-  $field_instances['node-demo_fields-c4m_is_group'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 8,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_is_group',
-    'label' => 'c4m_is_group',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 11,
-    ),
-  );
-
-  // Exported field_instance: 'node-demo_fields-c4m_is_group_post'
-  $field_instances['node-demo_fields-c4m_is_group_post'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 9,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_is_group_post',
-    'label' => 'c4m_is_group_post',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 12,
-    ),
-  );
-
   // Exported field_instance: 'node-demo_fields-c4m_location'
   $field_instances['node-demo_fields-c4m_location'] = array(
     'bundle' => 'demo_fields',
@@ -1278,8 +1192,6 @@ This field can have a WYSIWYG rich text editor interface.');
   t('c4m_body');
   t('c4m_date');
   t('c4m_datetime');
-  t('c4m_is_group');
-  t('c4m_is_group_post');
   t('c4m_location');
   t('c4m_media');
   t('c4m_related_document');
