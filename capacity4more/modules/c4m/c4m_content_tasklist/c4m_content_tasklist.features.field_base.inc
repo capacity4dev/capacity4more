@@ -10,32 +10,6 @@
 function c4m_content_tasklist_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_tasklist_status'
-  $field_bases['c4m_tasklist_status'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_tasklist_status',
-    'foreign keys' => array(),
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => 'Close',
-        1 => 'Open',
-      ),
-      'allowed_values_function' => '',
-    ),
-    'translatable' => 0,
-    'type' => 'list_boolean',
-  );
-
   // Exported field_base: 'c4m_related_tasklist'
   $field_bases['c4m_related_tasklist'] = array(
     'active' => 1,
@@ -43,14 +17,7 @@ function c4m_content_tasklist_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_related_tasklist',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
+    'foreign keys' => array(),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -77,6 +44,32 @@ function c4m_content_tasklist_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'c4m_tasklist_status'
+  $field_bases['c4m_tasklist_status'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_tasklist_status',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 'Close',
+        1 => 'Open',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
   );
 
   return $field_bases;
