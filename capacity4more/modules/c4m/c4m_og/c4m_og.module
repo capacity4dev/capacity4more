@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ *
+ * General Organic Groups functionality
+ */
+
+/**
+ * Helper function to get the human readable name of a group type
+ *
+ * @param object $group
+ *
+ * @return string
+ */
+function c4m_og_get_group_type_name($node = NULL) {
+  if (!$node) {
+    $node = og_get_group_context();
+  }
+  if (!$node || !og_is_group_type('node', $node->type)) {
+    return NULL;
+  }
+  return strtolower(node_type_get_name($node));
+}

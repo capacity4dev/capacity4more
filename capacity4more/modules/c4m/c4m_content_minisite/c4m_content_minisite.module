@@ -1,0 +1,83 @@
+<?php
+/**
+ * @file
+ * Code for the Minisite content type feature.
+ */
+
+include_once 'c4m_content_minisite.features.inc';
+
+/**
+ * Implements hook_token_info().
+ */
+function c4m_content_minisite_token_info() {
+  $info = array();
+
+  if(!module_exists('pathauto')) {
+    return;
+  }
+
+  $info['tokens']['array']['minisite-join-path'] = array(
+    'name' => t('Joined path without Master Page'),
+    'description' => t('The array values with the (empty) master (= root) page removed from the tree.'),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ * Extends the pathauto_tokens() functionality. Shifts the first array key, which is the minisite master page
+ * in case of a minisite tree, and creates a joined path from the array like pathauto module does.
+ */
+function c4m_content_minisite_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+
+  if(!module_exists('pathauto')) {
+    return;
+  }
+
+  if ($type == 'array' && !empty($data['array'])) {
+    $array = $data['array'];
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'minisite-join-path':
+          if (is_array($array)) {
+            // Remove the first (root) element of the tree.
+            array_shift($array);
+          }
+
+          module_load_include('inc', 'pathauto');
+          $values = array();
+          foreach (element_children($array) as $key) {
+            $value = is_array($array[$key]) ? render($array[$key]) : (string) $array[$key];
+            $value = pathauto_cleanstring($value);
+            $values[] = $value;
+          }
+          $replacements[$original] = implode('/', $values);
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically create a master minisite page if a group content type is created.
+ */
+function c4m_content_minisite_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Run the code to create all the vocabularies
+  // and link it with the content types.
+  module_load_include('inc', 'c4m_content_minisite');
+  c4m_content_minisite_create_root_minisite($node);
+}
+
