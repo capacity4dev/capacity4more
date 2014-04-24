@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_migrate_api().
+ */
+function c4m_demo_content_migrate_api() {
+  $migrations = array();
+
+  $classes = array(
+  );
+
+  foreach ($classes as $class_name) {
+    $migrations[$class_name] = array('class_name' => $class_name);
+  }
+
+  $api = array(
+    'api' => 2,
+    'migrations' => $migrations,
+  );
+  return $api;
+}
