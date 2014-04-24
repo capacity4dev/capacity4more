@@ -1,0 +1,9 @@
+ID,Title,Body,Image,Geo,UID
+region_1,1.Sub-Saharan Africa,,sub-saharan_africa.png,geo_1,user_4
+region_2,2.European Neighbourhood & Russia,,mediterannean_gulf_region_east_europe.png,geo_2,user_5
+region_3,3.Latin America & Caribbean,,latine_america.png,geo_3,user_2
+region_4,4.Asia, Gulf Region & Pacific,,asia_pacific_regions.png,geo_4,user_2
+region_5,5.EU candidate & potential candidate countries,,eu_candidate_and_potential_candidate_countriesv2.png,geo_5,user_1
+region_6,6.OCTs (Overseas Countries and Territories),"The Overseas Countries and Territories (OCTs) are non-European countries and territories that have special relations with Denmark, France, the Netherlands and the United Kingdom. The OCTs are to be found all over the globe.<br/>They are associated with the EU with a view to promoting their economic and social development and establishing close relations between them and the EU.<br/>The OCTs are covered by the Overseas Association Decision (OAD). The OAD's current provisions on development finance cooperation are intended to promote the sustainable development of the OCTs with the focus on the poverty reduction. Accordingly, development financing cooperation with the OCTs is financed from the EDF. The relationship between the EU and the OCTs will be modernised through a revision of the OAD.",oversea_OCT.png,geo_6,user_3
+region_7,7.EU Member States,,eu_members.png,geo_7,user_4
+region_8,8.Other Countries,,oversea_other_wold.png,geo_8,user_6
