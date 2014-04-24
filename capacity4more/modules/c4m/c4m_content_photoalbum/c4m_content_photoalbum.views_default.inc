@@ -49,33 +49,6 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['relationships']['nid']['relationship'] = 'node_gallery_relationship_ngid';
   $handler->display->display_options['relationships']['nid']['label'] = 'Gallery Item';
   $handler->display->display_options['relationships']['nid']['required'] = TRUE;
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['relationship'] = 'nid';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['relationship'] = 'nid';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['max_length'] = '20';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Content: Gallery Media  */
-  $handler->display->display_options['fields']['node_gallery_media']['id'] = 'node_gallery_media';
-  $handler->display->display_options['fields']['node_gallery_media']['table'] = 'field_data_node_gallery_media';
-  $handler->display->display_options['fields']['node_gallery_media']['field'] = 'node_gallery_media';
-  $handler->display->display_options['fields']['node_gallery_media']['relationship'] = 'nid';
-  $handler->display->display_options['fields']['node_gallery_media']['label'] = '';
-  $handler->display->display_options['fields']['node_gallery_media']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['node_gallery_media']['alter']['path'] = 'node/[nid]';
-  $handler->display->display_options['fields']['node_gallery_media']['element_label_colon'] = FALSE;
   /* Sort criterion: Node Gallery Relationship: Item Weight (Sort Order) */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'node_gallery_relationship';
@@ -105,6 +78,25 @@ function c4m_content_photoalbum_views_default_views() {
   /* Display: Image Thumbnail Grid */
   $handler = $view->new_display('embed', 'Image Thumbnail Grid', 'embed_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'grid';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Image */
+  $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
+  $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
+  $handler->display->display_options['fields']['c4m_media']['field'] = 'c4m_media';
+  $handler->display->display_options['fields']['c4m_media']['relationship'] = 'nid';
+  $handler->display->display_options['fields']['c4m_media']['label'] = '';
+  $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['c4m_media']['settings'] = array(
+    'image_style' => 'medium',
+    'image_link' => 'content',
+  );
 
   /* Display: Image Thumbnail Strip */
   $handler = $view->new_display('embed', 'Image Thumbnail Strip', 'embed_2');
