@@ -114,7 +114,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-node_gallery_ref_2'
+  // Exported field_instance: 'node-photo-node_gallery_ref_1'
   $field_instances['node-photo-node_gallery_ref_1'] = array(
     'bundle' => 'photo',
     'default_value' => NULL,
