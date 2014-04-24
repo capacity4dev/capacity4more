@@ -17,6 +17,12 @@ function c4m_content_page_install() {
     $book_types[] = 'page';
     variable_set('book_allowed_types', $book_types);
   }
+
+  // Delete the body field the book.module automatically adds.
+  $instances = field_info_instances('node');
+  if (!empty($instances['page']['body'])) {
+    field_delete_instance($instances['page']['body']);
+  }
 }
 
 /**
