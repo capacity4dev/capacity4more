@@ -194,8 +194,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_date'
-  $field_instances['node-project-c4m_date'] = array(
+  // Exported field_instance: 'node-project-c4m_date_end'
+  $field_instances['node-project-c4m_date_end'] = array(
     'bundle' => 'project',
     'deleted' => 0,
     'description' => 'Start + End date of the Project.',
@@ -221,7 +221,7 @@ function c4m_content_project_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_date',
+    'field_name' => 'c4m_date_end',
     'label' => 'Duration',
     'required' => 0,
     'settings' => array(
