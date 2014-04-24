@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Code for the Photo Album content type feature.
+ */
+
+include_once 'c4m_content_photoalbum.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ *
+ * @return array
+ */
+function c4m_content_photoalbum_c4m_og_vocab_info_content() {
+  return array(
+    'photoalbum' => array(
+      'entity_type' => 'node',
+      'bundle' => 'photoalbum',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+  );
+}
