@@ -52,8 +52,8 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_datetime'
-  $field_instances['node-event-c4m_datetime'] = array(
+  // Exported field_instance: 'node-event-c4m_datetime_end'
+  $field_instances['node-event-c4m_datetime_end'] = array(
     'bundle' => 'event',
     'deleted' => 0,
     'description' => 'Start and end date of the Event.',
@@ -79,7 +79,7 @@ function c4m_content_event_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_datetime',
+    'field_name' => 'c4m_datetime_end',
     'label' => 'Date',
     'required' => 1,
     'settings' => array(

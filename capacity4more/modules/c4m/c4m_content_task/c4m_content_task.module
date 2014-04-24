@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Task content type feature.
+ */
+
+include_once 'c4m_content_task.features.inc';
