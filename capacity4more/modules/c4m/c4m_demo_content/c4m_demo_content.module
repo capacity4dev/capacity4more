@@ -10,6 +10,7 @@ function c4m_demo_content_migrate_api() {
   $migrations = array();
 
   $classes = array(
+    'C4mMigrateUsers',
   );
 
   foreach ($classes as $class_name) {

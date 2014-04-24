@@ -1,0 +1,7 @@
+ID,Username,Password,Email,First name,Last name,Role
+user_1,red_ranger,drupal,Jason Lee,Scott,administrator
+user_2,black_ranger,drupal,Zack,Taylor,
+user_3,yellow_ranger,drupal,Trini,Kwan,
+user_4,pink_ranger,drupal,Kimberly,Hart,
+user_5,blue_ranger,drupal,Billy,Cranston,
+user_6,green_ranger,drupal,Thomas,Oliver,
