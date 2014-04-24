@@ -18,7 +18,7 @@ install:
 
   # install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require drush/drush:6.*
+  - composer global require drush/drush:6.*@dev
   - phpenv rehash
 
 before_script:

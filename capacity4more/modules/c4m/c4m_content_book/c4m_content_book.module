@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Book content type feature.
+ */
+
+include_once 'c4m_content_book.features.inc';
