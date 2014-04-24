@@ -32,10 +32,10 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-  $tasks['capacity4more_setup_og_permissions'] = array(
-    'display_name' => st('Setup Blocks'),
-    'display' => FALSE,
-  );
+//  $tasks['capacity4more_setup_og_permissions'] = array(
+//    'display_name' => st('Setup Blocks'),
+//    'display' => FALSE,
+//  );
 
 
   // Run this as the last task!
@@ -88,21 +88,21 @@ function capacity4more_setup_blocks() {
  * We do this here, late enough to make sure all group-content were
  * created.
  */
-function capacity4more_setup_og_permissions() {
-  $og_roles = og_roles('node', 'company');
-  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
-
-  $permissions = array();
-  $types = array(
-    'blog',
-  );
-  foreach ($types as $type) {
-    $permissions["create $type content"] = TRUE;
-    $permissions["update own $type content"] = TRUE;
-    $permissions["update any $type content"] = TRUE;
-  }
-  og_role_change_permissions($rid, $permissions);
-}
+//function capacity4more_setup_og_permissions() {
+//  $og_roles = og_roles('node', 'company');
+//  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
+//
+//  $permissions = array();
+//  $types = array(
+//    'blog',
+//  );
+//  foreach ($types as $type) {
+//    $permissions["create $type content"] = TRUE;
+//    $permissions["update own $type content"] = TRUE;
+//    $permissions["update any $type content"] = TRUE;
+//  }
+//  og_role_change_permissions($rid, $permissions);
+//}
 
 /**
  * Task callback; Rebuild permissions (node access).
