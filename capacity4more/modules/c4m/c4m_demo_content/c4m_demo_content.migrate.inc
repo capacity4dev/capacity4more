@@ -102,3 +102,11 @@ class C4mMigrateTopics extends C4mMigrate {
       ->sourceMigration('C4mMigrateUsers');
   }
 }
+
+/**
+ * Migrate "Regions" terms (hierarchically).
+ */
+class C4mMigrateRegionsVocab extends C4mMigrate {
+  public $entityType = 'taxonomy_term';
+  public $bundle = 'c4m_vocab_geo';
+}

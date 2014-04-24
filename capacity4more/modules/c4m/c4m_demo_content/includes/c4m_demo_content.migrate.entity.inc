@@ -29,9 +29,11 @@ abstract class C4mMigrate extends Migration {
 
       $csv_columns = array(
         array('id', 'ID'),
+        array('parent', 'Parent'),
         array('name', 'Name'),
         array('description', 'Description'),
       );
+      $this->addFieldMapping('parent_name', 'parent');
       $this->addFieldMapping('name', 'name');
       $this->addFieldMapping('description', 'description');
 

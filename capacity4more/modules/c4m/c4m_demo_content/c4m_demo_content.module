@@ -12,6 +12,7 @@ function c4m_demo_content_migrate_api() {
   $classes = array(
     'C4mMigrateUsers',
     'C4mMigrateTopics',
+    'C4mMigrateRegionsVocab',
   );
 
   foreach ($classes as $class_name) {
