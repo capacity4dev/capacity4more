@@ -81,7 +81,7 @@ function c4m_content_project_field_group_info() {
     'label' => 'Project details',
     'weight' => '6',
     'children' => array(
-      0 => 'c4m_date',
+      0 => 'c4m_date_end',
       1 => 'c4m_money',
       2 => 'c4m_implemented_by',
       3 => 'c4m_partner',

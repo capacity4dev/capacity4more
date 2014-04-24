@@ -1,0 +1,38 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_content_page_install() {
+  // Set the pathauto for the content type trough the install hook.
+  // It can then be overridden without interfere the feature settings.
+  variable_set('pathauto_node_page_pattern', 'minisite/[node:book:parents:minisite-join-path]/[node:title]');
+
+  $book_types = variable_get('book_allowed_types', array());
+  $key = array_search('page', $book_types);
+  if (empty($key) && $key !== 0) {
+    $book_types[] = 'page';
+    variable_set('book_allowed_types', $book_types);
+  }
+
+  // Delete the body field the book.module automatically adds.
+  $instances = field_info_instances('node');
+  if (!empty($instances['page']['body'])) {
+    field_delete_instance($instances['page']['body']);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_content_page_uninstall() {
+  $book_types = variable_get('book_allowed_types', array());
+  $key = array_search('page', $book_types);
+  if (!empty($key) || $key === 0) {
+    unset($book_types[$key]);
+    variable_set('book_allowed_types', $book_types);
+  }
+}

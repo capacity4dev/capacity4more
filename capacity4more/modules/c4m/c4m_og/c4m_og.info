@@ -1,0 +1,5 @@
+name = Organic Group Helpers
+description = This module provides Organic Group helper methods.
+core = 7.x
+package = capacity4more - OG
+version = 7.x-1.x-dev

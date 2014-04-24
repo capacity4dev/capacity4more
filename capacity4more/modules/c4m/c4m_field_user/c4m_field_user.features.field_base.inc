@@ -1,23 +1,30 @@
 <?php
 /**
  * @file
- * c4m_content_document.features.field_base.inc
+ * c4m_field_user.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function c4m_content_document_field_default_field_bases() {
+function c4m_field_user_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_related_document'
-  $field_bases['c4m_related_document'] = array(
+  // Exported field_base: 'c4m_related_user'
+  $field_bases['c4m_related_user'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m_related_document',
-    'foreign keys' => array(),
+    'field_name' => 'c4m_related_user',
+    'foreign keys' => array(
+      'users' => array(
+        'columns' => array(
+          'target_id' => 'uid',
+        ),
+        'table' => 'users',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -35,14 +42,12 @@ function c4m_content_document_field_default_field_bases() {
         ),
         'sort' => array(
           'direction' => 'ASC',
-          'property' => 'title',
+          'property' => 'name',
           'type' => 'property',
         ),
-        'target_bundles' => array(
-          'document' => 'document',
-        ),
+        'target_bundles' => array(),
       ),
-      'target_type' => 'node',
+      'target_type' => 'user',
     ),
     'translatable' => 0,
     'type' => 'entityreference',
