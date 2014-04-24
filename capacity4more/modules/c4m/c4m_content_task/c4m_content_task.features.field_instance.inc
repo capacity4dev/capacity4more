@@ -22,7 +22,7 @@ function c4m_content_task_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -48,7 +48,7 @@ function c4m_content_task_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 32,
+      'weight' => 6,
     ),
   );
 
@@ -69,7 +69,7 @@ function c4m_content_task_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -101,7 +101,7 @@ function c4m_content_task_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_popup',
-      'weight' => 34,
+      'weight' => 5,
     ),
   );
 
@@ -120,7 +120,7 @@ function c4m_content_task_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 3,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -150,7 +150,7 @@ function c4m_content_task_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 36,
+      'weight' => 7,
     ),
   );
 
@@ -169,7 +169,7 @@ function c4m_content_task_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 5,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -199,48 +199,7 @@ function c4m_content_task_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 38,
-    ),
-  );
-
-  // Exported field_instance: 'node-task-c4m_task_status'
-  $field_instances['node-task-c4m_task_status'] = array(
-    'bundle' => 'task',
-    'default_value' => array(
-      0 => array(
-        'value' => -1,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'The status of the Task.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 4,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_task_status',
-    'label' => 'Task status',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 37,
+      'weight' => 1,
     ),
   );
 
@@ -259,7 +218,7 @@ function c4m_content_task_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 7,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -289,7 +248,7 @@ function c4m_content_task_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 2,
+      'weight' => 4,
     ),
   );
 
@@ -309,7 +268,7 @@ function c4m_content_task_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 8,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -330,7 +289,7 @@ function c4m_content_task_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -350,7 +309,7 @@ function c4m_content_task_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 4,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -371,7 +330,7 @@ function c4m_content_task_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 3,
+      'weight' => 2,
     ),
   );
 
@@ -388,7 +347,7 @@ function c4m_content_task_field_default_field_instances() {
         'module' => 'og_ui',
         'settings' => array(),
         'type' => 'og_list_default',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -435,7 +394,7 @@ function c4m_content_task_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 0,
+      'weight' => 8,
     ),
   );
 
