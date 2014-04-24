@@ -66,3 +66,39 @@ class C4mMigrateUsers extends Migration {
     user_save($entity);
   }
 }
+
+/**
+ * Class C4mMigrateTopics
+ */
+class C4mMigrateTopics extends C4mMigrate {
+  public $entityType = 'node';
+  public $bundle = 'topic';
+
+  public $csvColumns = array(
+    array('id', 'ID'),
+    array('title', 'Title'),
+    array('body', 'Body'),
+    array('image', 'Image'),
+    array('uid', 'UID'),
+  );
+  public $dependencies = array(
+    'C4mMigrateUsers',
+  );
+
+  public function __construct() {
+    parent::__construct();
+
+     $this->addFieldMapping('c4m_body', 'body');
+
+    $this->addFieldMapping('c4m_media', 'image')
+      ->separator(';');
+    $this->addFieldMapping('c4m_media:file_replace')
+      ->defaultValue(FILE_EXISTS_REPLACE);
+    $this->addFieldMapping('c4m_media:source_dir')
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+    $this->addFieldMapping('c4m_media:destination_dir', 'destination');
+
+    $this->addFieldMapping('uid', 'uid')
+      ->sourceMigration('C4mMigrateUsers');
+  }
+}
