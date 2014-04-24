@@ -1,0 +1,7 @@
+ID,Title,PURL,Image,Body,Topics,Geo,Groups,UID
+group_1,Football Talk,football-talk,football.jpg,,topic_earth|topic_fire,geo_1|geo_2|geo_3|geo_4|geo_5|geo_6|geo_7|geo_8,,user_2
+group_2,Tennis Group,tennis-group,tennis.jpg,,topic_wind,geo_1,group_1,user_2
+group_3,Movie Popcorn Corner,movie-corner,movie.jpeg,,,geo_2|geo_4|geo_7,,user_5
+group_4,Music Lovers,music-lovers,music.jpg,,topic_wind|topic_fire,,,user_1
+group_5,Geologists,geology,geology.jpg,,topic_fire|topic_water,geo_5,group_1|group_2|group_3,user_3
+group_6,Architecture,architecture,architecture.jpg,,topic_earth|topic_wind|topic_fire|topic_water,geo_8|geo_be|geo_am,,user_6

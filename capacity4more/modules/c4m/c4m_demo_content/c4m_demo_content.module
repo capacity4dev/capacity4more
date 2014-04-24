@@ -14,6 +14,7 @@ function c4m_demo_content_migrate_api() {
     'C4mMigrateTopics',
     'C4mMigrateRegionsVocab',
     'C4mMigrateRegionsNodes',
+    'C4mMigrateGroups',
   );
 
   foreach ($classes as $class_name) {

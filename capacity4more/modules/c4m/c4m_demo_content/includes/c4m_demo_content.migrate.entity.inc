@@ -125,5 +125,26 @@ abstract class C4mMigrate extends Migration {
 
     og_vocab_relation_save($vocabulary->vid, 'node', $gid);
   }
+
+  protected function _filter_destid2_from_entity_reference($dest_field) {
+    $filtered_ids = array();
+
+    if (!empty($dest_field['destid1'])) {
+      $filtered_ids = array('destid1' => $dest_field['destid1']);
+      if (!empty($dest_field['destid2'])) {
+        $filtered_ids['destid2'] = $dest_field['destid2'];
+      }
+    }
+    elseif (is_array($dest_field)) {
+      foreach($dest_field as $key => $dest) {
+        $filtered_ids[$key] = array('destid1' => $dest['destid1']);
+        if (!empty($dest['destid2'])) {
+          $filtered_ids[$key]['destid2'] = $dest['destid2'];
+        }
+      }
+    }
+
+    return $filtered_ids;
+  }
 }
 
