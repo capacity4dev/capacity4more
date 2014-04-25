@@ -201,7 +201,6 @@ class C4mMigrateGroups extends C4mMigrate {
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
 
-
     $this->addFieldMapping('c4m_related_group', 'groups_list');
 
     $this->addFieldMapping('uid', 'uid')
@@ -209,6 +208,7 @@ class C4mMigrateGroups extends C4mMigrate {
   }
 
   public function prepareRow($row) {
+    parent::prepareRow($row);
     $unfiltered_ids = $this->handleSourceMigration('C4mMigrateTopics', explode('|', $row->topics), NULL, $this);
 
     // By default $unfiltered_ids is an array of arrays, containing the destid1 => destination_nid, but destid2 => NULL.

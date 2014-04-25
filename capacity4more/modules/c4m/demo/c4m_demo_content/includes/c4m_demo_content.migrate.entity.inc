@@ -22,6 +22,7 @@ abstract class C4mMigrate extends Migration {
 
     if ($this->entityType == 'node') {
       $this->addFieldMapping('title', 'title');
+      $this->addFieldMapping('created', 'created');
       $class_name = 'MigrateDestinationNode';
     }
     elseif ($this->entityType == 'taxonomy_term') {
