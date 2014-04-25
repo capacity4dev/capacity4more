@@ -34,44 +34,34 @@ function c4m_og_vocab_node_insert($node) {
   // Run the code to create all the vocabularies
   // and link it with the content types.
   module_load_include('inc', 'c4m_og_vocab');
-  c4m_og_vocab_trigger_create_group_categories($node);
+  c4m_og_vocab_trigger_create_group_vocabularies($node);
 }
 
 
 /**
  * Load and cache all vocabularies info from implemented info_vocabulary hooks.
  *
- * @param string $part
- *   The part of the info we need. Following parts are supported:
+ * @param string $type
+ *   The type of the info we need. Following types are supported:
  *   - vocabularies : Get all the Vocabulary types.
  *   - groups : Get the Vocabulary names per Group type.
  *   - content : Get the Vocabulary names per Group content type.
- * @param bool $reset
- *   Reset the cache, this will reload the config from the hooks.
  *
  * @return array
  *   Configuration as collected trough the implemented
- *   hook_c4m_og_vocab_info_<$part> hooks.
+ *   hook_c4m_og_vocab_info_<$type> hooks.
  */
-function c4m_og_vocab_info($part, $reset = FALSE) {
-  $cache_key  = 'c4m_og_auto_vocab:info_' . $part;
-
-  // Cache in memory for multiple loads in 1 script.
-  if ($reset) {
-    drupal_static_reset($cache_key);
-  }
+function c4m_og_vocab_info($type) {
+  $cache_key  = 'c4m_og_vocab:info_' . $type;
   $info = &drupal_static($cache_key);
 
   // Retrieve from Cache if not loaded before.
   if (!isset($info)) {
-    if (!$reset
-      && ($cache = cache_get($cache_key))
-      && !empty($cache->data)
-    ) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
       $info = $cache->data;
     }
     else {
-      $hook = 'c4m_og_vocab_info_' . $part;
+      $hook = 'c4m_og_vocab_info_' . $type;
       $info = module_invoke_all($hook);
       cache_set($cache_key, $info);
     }

@@ -5,29 +5,32 @@
  */
 
 /**
- * Function to trigger the creation of all group categories.
+ * Function to trigger the creation of all group vocabularies.
  *
  * This creates the vocabularies and links them to the group.
  * It also links the vocabularies to the group content nodes (if needed).
  * Both are based on the implemented info hooks in supporting modules.
+ *
+ * @param object $node
+ *   The group node for who we want to create the group vocabularies.
  */
-function c4m_og_vocab_trigger_create_group_categories($group) {
+function c4m_og_vocab_trigger_create_group_vocabularies($node) {
   // Get all the defined group vocabularies.
   $groups = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_GROUPS);
-  if (!isset($groups[$group->type])) {
+  if (!isset($groups[$node->type])) {
     return;
   }
-  $group_categories = array_combine($groups[$group->type], $groups[$group->type]);
+  $group_vocabs = array_combine($groups[$node->type], $groups[$node->type]);
 
   // Get all the available vocabularies.
   $vocabularies = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
-  $vocabularies = array_intersect_key($vocabularies, $group_categories);
+  $vocabularies = array_intersect_key($vocabularies, $group_vocabs);
   if (empty($vocabularies)) {
     return;
   }
 
   // Create the group vocabularies.
-  $vocabs = c4m_og_vocab_create_group_vocabularies($group, $vocabularies);
+  $vocabs = c4m_og_vocab_create_group_vocabularies($node, $vocabularies);
 
   // Enable the group vocabulary for all group content types that need it.
   foreach ($vocabs as $vocab_name => $vocab) {
@@ -154,7 +157,7 @@ function c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
 
 
 /**
- * Get all content types on witch the given category name should be enabled.
+ * Get all content types on which the given vocabulary type should be enabled.
  *
  * @param string $name
  *   The name (not the machine name) as defined in the
