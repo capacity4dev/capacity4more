@@ -141,14 +141,16 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   }
   $cache[$identifier] = TRUE;
 
-  $node = menu_get_object();
-
   // Retrieve the group from the context
   $context = og_context();
   if (empty($context['gid'])) {
-    // @TODO Return a warning message or something to notice the user this field becomes available AFTER saving/editing?
-    // Right now we do NOT know which group this node will be saved to, and an empty fieldset will appear.
-    return;
+    $element['no_group_context'] = array(
+      '#type' => 'markup',
+      '#markup' => t('There is no group context available. Please save your group content first and then edit it.'),
+      '#prefix' => '<span class="description">',
+      '#suffix' => '</span>',
+    );
+    return $element;
   }
 
   $group = node_load($context['gid']);
