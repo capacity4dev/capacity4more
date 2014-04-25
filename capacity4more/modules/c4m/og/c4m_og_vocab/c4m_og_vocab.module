@@ -103,3 +103,63 @@ function c4m_og_vocab_load_group_vocabulary($group, $name) {
   return taxonomy_vocabulary_machine_name_load($machine_name);
 }
 
+/**
+ * Implements hook_field_widget_info_alter().
+ *
+ * Alter the module that handles our widget to limit the vocabularies displayed.
+ */
+function c4m_og_vocab_field_widget_info_alter(&$info) {
+  $info['og_vocab_complex']['module'] = 'c4m_og_vocab';
+}
+
+/**
+ * Implements hook_field_widget_form().
+ *
+ * Code taken from og_vocab, altered to display only the vocabularies of the group we are currently in.
+ */
+function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+  $field_name = $field['field_name'];
+
+  if (!$entity) {
+    return;
+  }
+
+  // Cache the processed entity, to make sure we call the widget only once.
+  $cache = &drupal_static(__FUNCTION__, array());
+  list($id,, $bundle) = entity_extract_ids($entity_type, $entity);
+  $identifier = $entity_type . ':' . $id . ':' . $field_name;
+
+  if (isset($cache[$identifier])) {
+    return array();
+  }
+  $cache[$identifier] = TRUE;
+
+  // Retrieve the group from the context. Note: By default you can change the group manually in the node creation form.
+  // We are not handling this case, because we will prevent this. If you create content in a group,
+  // it will be only for THAT group (fixed).
+  $context = og_context();
+  if (empty($context['gid'])) {
+    $element['no_group_context'] = array(
+      '#type' => 'markup',
+      '#markup' => t('There is no group context available. Please save your group content first and then edit it.'),
+      '#prefix' => '<span class="description">',
+      '#suffix' => '</span>',
+    );
+    return $element;
+  }
+
+  $group = node_load($context['gid']);
+  $all_group_vocabularies = c4m_og_vocab_info('groups');
+
+  // Iterate over all possible (enabled) vocabularies for our group type
+  foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
+    // Load vocabulary
+    $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
+    $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
+    $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
+  }
+
+  return $element;
+}
