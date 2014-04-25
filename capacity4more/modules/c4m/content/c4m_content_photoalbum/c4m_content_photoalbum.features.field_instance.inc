@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * c4m_content_document.features.field_instance.inc
+ * c4m_content_photoalbum.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function c4m_content_document_field_default_field_instances() {
+function c4m_content_photoalbum_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-document-c4m_body'
-  $field_instances['node-document-c4m_body'] = array(
-    'bundle' => 'document',
+  // Exported field_instance: 'node-photoalbum-c4m_body'
+  $field_instances['node-photoalbum-c4m_body'] = array(
+    'bundle' => 'photoalbum',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -22,6 +22,12 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
+        'weight' => 1,
+      ),
+      'node_gallery_node_thumbnail' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'teaser' => array(
@@ -52,70 +58,9 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_media'
-  $field_instances['node-document-c4m_media'] = array(
-    'bundle' => 'document',
-    'deleted' => 0,
-    'description' => 'Document or image uploaded.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'file_entity',
-        'settings' => array(
-          'file_view_mode' => 'default',
-        ),
-        'type' => 'file_rendered',
-        'weight' => 1,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_media',
-    'label' => 'File',
-    'required' => 1,
-    'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 0,
-      'file_directory' => 'documents',
-      'file_extensions' => 'txt pdf doc docx xls xlsx pdt pdtx odt ods odp odf jpg jpeg gif png ppt pptx vsd zip pps',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'media',
-      'settings' => array(
-        'allowed_schemes' => array(
-          'public' => 'public',
-        ),
-        'allowed_types' => array(
-          'audio' => 'audio',
-          'document' => 'document',
-          'image' => 'image',
-          'video' => 'video',
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 'media_default--media_browser_1',
-          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'upload' => 'upload',
-        ),
-      ),
-      'type' => 'media_generic',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance: 'node-document-og_group_ref'
-  $field_instances['node-document-og_group_ref'] = array(
-    'bundle' => 'document',
+  // Exported field_instance: 'node-photoalbum-og_group_ref'
+  $field_instances['node-photoalbum-og_group_ref'] = array(
+    'bundle' => 'photoalbum',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -126,7 +71,13 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'og_ui',
         'settings' => array(),
         'type' => 'og_list_default',
-        'weight' => 2,
+        'weight' => 0,
+      ),
+      'node_gallery_node_thumbnail' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -173,14 +124,15 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 6,
+      'weight' => 3,
     ),
   );
 
-  // Exported field_instance: 'node-document-og_vocabulary'
-  $field_instances['node-document-og_vocabulary'] = array(
-    'bundle' => 'document',
+  // Exported field_instance: 'node-photoalbum-og_vocabulary'
+  $field_instances['node-photoalbum-og_vocabulary'] = array(
+    'bundle' => 'photoalbum',
     'default_value' => NULL,
+    'default_value_function' => '',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -191,7 +143,7 @@ function c4m_content_document_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -203,23 +155,30 @@ function c4m_content_document_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'og_vocabulary',
     'label' => 'Metadata',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+        'taxonomy-index' => array(
+          'status' => TRUE,
+        ),
+      ),
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'module' => 'og_vocab',
+      'active' => 0,
+      'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 7,
+      'weight' => 2,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('Description');
-  t('Document or image uploaded.');
-  t('File');
   t('Groups');
   t('Metadata');
 

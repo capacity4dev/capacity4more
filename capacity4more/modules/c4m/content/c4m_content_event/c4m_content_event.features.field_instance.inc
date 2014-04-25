@@ -686,7 +686,7 @@ function c4m_content_event_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'module' => 'og_vocab',
+      'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
       'weight' => 6,
