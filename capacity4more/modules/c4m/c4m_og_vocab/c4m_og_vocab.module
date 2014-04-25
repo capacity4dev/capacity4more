@@ -104,18 +104,13 @@ function c4m_og_vocab_load_group_vocabulary($group, $name) {
 }
 
 /**
- * Implements hook_field_widget_info().
+ * Implements hook_field_widget_info_alter().
+ *
+ * Alter the module that handles our widget to limit the vocabularies displayed.
  */
-function c4m_og_vocab_field_widget_info() {
-  $widgets['c4m_og_vocab_complex'] = array(
-    'label' => t('Meta data (C4M OG Vocab)'),
-    'description' => t('Complex widget to reference taxonomy terms related to the current group.'),
-    'field types' => array('entityreference'),
-  );
-
-  return $widgets;
+function c4m_og_vocab_field_widget_info_alter(&$info) {
+  $info['og_vocab_complex']['module'] = 'c4m_og_vocab';
 }
-
 
 /**
  * Implements hook_field_widget_form().

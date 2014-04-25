@@ -171,7 +171,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
       'active' => 0,
       'module' => 'c4m_og_vocab',
       'settings' => array(),
-      'type' => 'c4m_og_vocab_complex',
+      'type' => 'og_vocab_complex',
       'weight' => 2,
     ),
   );
