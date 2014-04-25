@@ -141,7 +141,9 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   }
   $cache[$identifier] = TRUE;
 
-  // Retrieve the group from the context
+  // Retrieve the group from the context. Note: By default you can change the group manually in the node creation form.
+  // We are not handling this case, because we will prevent this. If you create content in a group,
+  // it will be only for THAT group (fixed).
   $context = og_context();
   if (empty($context['gid'])) {
     $element['no_group_context'] = array(
