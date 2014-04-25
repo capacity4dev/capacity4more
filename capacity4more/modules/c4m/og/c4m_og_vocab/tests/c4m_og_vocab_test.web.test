@@ -19,8 +19,6 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
 
   /**
    * Get the test info.
-   *
-   * @return array
    */
   public static function getInfo() {
     return array(
@@ -77,5 +75,3 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
     );
   }
 }
-
-

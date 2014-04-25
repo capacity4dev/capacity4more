@@ -7,8 +7,6 @@
 class C4mOgVocabUnit extends DrupalUnitTestCase {
   /**
    * Get the test info.
-   *
-   * @return array
    */
   public static function getInfo() {
     return array(

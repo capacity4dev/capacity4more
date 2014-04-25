@@ -1,13 +1,15 @@
 <?php
 /**
  * @file
- *
  * All code needed to create all vocabularies when a new group is created.
  */
 
 /**
- * Function to trigger the creation of all group categories and to link al
- * content types to it.
+ * Function to trigger the creation of all group categories.
+ *
+ * This creates the vocabularies and links them to the group.
+ * It also links the vocabularies to the group content nodes (if needed).
+ * Both are based on the implemented info hooks in supporting modules.
  */
 function c4m_og_vocab_trigger_create_group_categories($group) {
   // Get all the defined group vocabularies.
@@ -28,15 +30,16 @@ function c4m_og_vocab_trigger_create_group_categories($group) {
   $vocabs = c4m_og_vocab_create_group_vocabularies($group, $vocabularies);
 
   // Enable the group vocabulary for all group content types that need it.
-  foreach ($vocabs AS $vocab_name => $vocab) {
+  foreach ($vocabs as $vocab_name => $vocab) {
     $types = c4m_og_vocab_get_info_content_types_by_vocabulary_name($vocab_name);
     if (empty($types)) {
       continue;
     }
 
-    $settings = (isset($vocabularies[$vocab_name]['settings']))
-      ? $vocabularies[$vocab_name]['settings']
-      : array();
+    $settings = array();
+    if (isset($vocabularies[$vocab_name]['settings'])) {
+      $settings = $vocabularies[$vocab_name]['settings'];
+    }
 
     c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
       $types,
@@ -49,7 +52,7 @@ function c4m_og_vocab_trigger_create_group_categories($group) {
 /**
  * Create all group vocabularies based on the given configuration.
  *
- * @param stdClass $group
+ * @param object $group
  *   The group node.
  * @param array $vocabularies
  *   The vocabularies we need to create.
@@ -60,7 +63,7 @@ function c4m_og_vocab_trigger_create_group_categories($group) {
 function c4m_og_vocab_create_group_vocabularies($group, $vocabularies) {
   $vocabs = array();
 
-  foreach ($vocabularies AS $vocabulary_name => $vocabulary) {
+  foreach ($vocabularies as $vocabulary_name => $vocabulary) {
     $vocabs[$vocabulary_name] = c4m_og_vocab_create_group_vocabulary(
       $group,
       $vocabulary['machine_name'],
@@ -76,13 +79,16 @@ function c4m_og_vocab_create_group_vocabularies($group, $vocabularies) {
 /**
  * Create a group vocabulary.
  *
- * @param stdClass $group
- *   The group node
+ * @param object $group
+ *   The group node.
  * @param string $machine_name
+ *   The machine name for the new vocabulary.
  * @param string $name
+ *   The human readable name of the vocabulary.
  * @param string $description
+ *   The description for the vocabulary.
  *
- * @return stdClass
+ * @return object
  *   The created vocabulary.
  */
 function c4m_og_vocab_create_group_vocabulary(
@@ -98,7 +104,7 @@ function c4m_og_vocab_create_group_vocabulary(
   $description = c4m_og_vocab_fill_string($group, $description);
 
   // Create the new vocabulary.
-  $vocab = new StdClass();
+  $vocab = new stdClass();
   $vocab->name = $name;
   $vocab->description = $description;
   $vocab->machine_name = $machine_name;
@@ -113,22 +119,19 @@ function c4m_og_vocab_create_group_vocabulary(
 
 
 /**
- * Create the link between all configured content types and the given group
- * vocabulary.
+ * Create link between group content and group vocabularies.
  *
  * @param array $types
  *   An array of settings per content type.
- * @param stdClass $vocab
- *   The vocabulary object
- * @param array settings
+ * @param object $vocab
+ *   The vocabulary object.
+ * @param array $settings
  *   Settings to use when creating the term reference widget.
- *
- * @return void
  */
 function c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
   $types, $vocab, $settings
 ) {
-  foreach ($types AS $info) {
+  foreach ($types as $info) {
     // We do not support group taxonomies of non group content types.
     if (!og_is_group_content_type(
       $info['entity_type'],
@@ -154,14 +157,17 @@ function c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
  * Get all content types on witch the given category name should be enabled.
  *
  * @param string $name
+ *   The name (not the machine name) as defined in the
+ *   hook_c4m_og_vocab_info_vocabularies() hooks.
  *
  * @return array
+ *   Array of content types, the machine name will be used as key.
  */
 function c4m_og_vocab_get_info_content_types_by_vocabulary_name($name) {
   $types = array();
 
   $all = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_CONTENT);
-  foreach ($all AS $type => $info) {
+  foreach ($all as $type => $info) {
     if (!in_array($name, $info['vocabularies'])) {
       continue;
     }
@@ -180,10 +186,13 @@ function c4m_og_vocab_get_info_content_types_by_vocabulary_name($name) {
  * - [node:nid] : The node id
  * - [node:type] : The node type
  *
- * @param stdClass $node
+ * @param object $node
+ *   The group node.
  * @param string $string
+ *   The string with tokens that need to be filled in.
  *
- * @return array
+ * @return string
+ *   The string with the filled in tokens.
  */
 function c4m_og_vocab_fill_string($node, $string) {
   $values = array(

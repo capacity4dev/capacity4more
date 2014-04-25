@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Module to support automatically created group vocabularies.
  *
  * This module is the glue between the og_vocab module and the capacity4more
@@ -9,9 +8,9 @@
  */
 
 
-define ('C4M_OG_VOCAB_INFO_VOCABULARIES', 'vocabularies');
-define ('C4M_OG_VOCAB_INFO_GROUPS', 'groups');
-define ('C4M_OG_VOCAB_INFO_CONTENT', 'content');
+define('C4M_OG_VOCAB_INFO_VOCABULARIES', 'vocabularies');
+define('C4M_OG_VOCAB_INFO_GROUPS', 'groups');
+define('C4M_OG_VOCAB_INFO_CONTENT', 'content');
 
 
 /**
@@ -51,6 +50,8 @@ function c4m_og_vocab_node_insert($node) {
  *   Reset the cache, this will reload the config from the hooks.
  *
  * @return array
+ *   Configuration as collected trough the implemented
+ *   hook_c4m_og_vocab_info_<$part> hooks.
  */
 function c4m_og_vocab_info($part, $reset = FALSE) {
   $cache_key  = 'c4m_og_auto_vocab:info_' . $part;
@@ -83,12 +84,13 @@ function c4m_og_vocab_info($part, $reset = FALSE) {
 /**
  * Load the group vocabulary by the given vocabulary name.
  *
- * @param stdClass $group
+ * @param object $group
  *   The group node
  * @param string $name
  *   The vocab name as set in the hook_c4m_og_vocab_info_vocabularies() hooks.
  *
- * @return stdClass $vocab
+ * @return object
+ *   Vocabulary object
  */
 function c4m_og_vocab_load_group_vocabulary($group, $name) {
   $vocabularies = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
@@ -115,7 +117,8 @@ function c4m_og_vocab_field_widget_info_alter(&$info) {
 /**
  * Implements hook_field_widget_form().
  *
- * Code taken from og_vocab, altered to display only the vocabularies of the group we are currently in.
+ * Code taken from og_vocab, altered to display only the vocabularies of the
+ * group we are currently in.
  */
 function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $entity_type = $instance['entity_type'];
@@ -128,7 +131,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   // Cache the processed entity, to make sure we call the widget only once.
   $cache = &drupal_static(__FUNCTION__, array());
-  list($id,, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
   $identifier = $entity_type . ':' . $id . ':' . $field_name;
 
   if (isset($cache[$identifier])) {
@@ -136,9 +139,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   }
   $cache[$identifier] = TRUE;
 
-  // Retrieve the group from the context. Note: By default you can change the group manually in the node creation form.
-  // We are not handling this case, because we will prevent this. If you create content in a group,
-  // it will be only for THAT group (fixed).
+  // Retrieve the group from the context. Note: By default you can change the
+  // group manually in the node creation form.
+  // We are not handling this case, because we will prevent this.
+  // If you create content in a group, it will be only for THAT group (fixed).
   $context = og_context();
   if (empty($context['gid'])) {
     $element['no_group_context'] = array(
@@ -153,9 +157,9 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $group = node_load($context['gid']);
   $all_group_vocabularies = c4m_og_vocab_info('groups');
 
-  // Iterate over all possible (enabled) vocabularies for our group type
+  // Iterate over all possible (enabled) vocabularies for our group type.
   foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
-    // Load vocabulary
+    // Load vocabulary.
     $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
     $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
     $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
