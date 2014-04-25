@@ -9,22 +9,15 @@
  */
 class C4mOgVocabInfo extends DrupalWebTestCase {
   /**
-   * We are working in a profile!
-   *
-   * @TODO: why does installing and testing the modules not work when the
-   *        profile is not specifically set?
-   */
-  protected $profile = 'capacity4more';
-
-
-  /**
    * Get the test info.
+   *
+   * @return array
    */
   public static function getInfo() {
     return array(
       'name' => 'c4m - Group Vocabulary Info',
       'description' => 'Test the get info functionality.',
-      'group' => 'capacity4more - og',
+      'group' => 'capacity4more:og:vocab',
     );
   }
 
@@ -39,7 +32,8 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
   /**
    * Test the get info functionality.
    */
-  public function testGetInfoVocabularies() {
+  public function testGetInfo() {
+    // Test getting the vocabularies information.
     $expected = c4m_og_vocab_test_c4m_og_vocab_info_vocabularies();
     $result = c4m_og_vocab_info('vocabularies');
 
@@ -47,12 +41,8 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
       $result['c4m_vocab_test_category'],
       $expected['c4m_vocab_test_category']
     );
-  }
 
-  /**
-   * Test the get info functionality.
-   */
-  public function testGetInfoGroups() {
+    // Test getting the groups information.
     $expected = c4m_og_vocab_test_c4m_og_vocab_info_groups();
     $result = c4m_og_vocab_info('groups');
 
@@ -60,12 +50,8 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
       $result['test_group'],
       $expected['test_group']
     );
-  }
 
-  /**
-   * Test the get info functionality.
-   */
-  public function testGetInfoContent() {
+    // Test getting the content information.
     $expected = c4m_og_vocab_test_c4m_og_vocab_info_content();
     $result = c4m_og_vocab_info('content');
 
@@ -74,4 +60,23 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
       $expected['test_wiki']
     );
   }
+
+  /**
+   * Test filling strings with node entity information.
+   */
+  public function testC4mOgVocabFillString() {
+    module_load_include('inc', 'c4m_og_vocab', 'c4m_og_vocab');
+
+    $node = new stdClass();
+    $node->nid = 5;
+    $node->type = 'group';
+
+    $string   = 'Test node [node:nid] string for node type [node:type] (nid:[node:nid])';
+    $expected = 'Test node 5 string for node type group (nid:5)';
+
+    $result = c4m_og_vocab_fill_string($node, $string);
+    $this->assertEqual($result, $expected, 'Variables should be filled in properly.');
+  }
 }
+
+
