@@ -205,3 +205,16 @@ function enable_development_modules {
   echo
 }
 
+##
+# Do dummy content migration
+##
+function migrate_dummy_content {
+  echo -e "${LBLUE}> Importing dummy data${RESTORE}"
+
+  cd $ROOT/www
+  drush en -y migrate migrate_ui c4m_demo_content
+  drush mi --update --all
+  cd $ROOT
+
+  echo
+}

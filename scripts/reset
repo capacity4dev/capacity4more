@@ -22,6 +22,16 @@ source $ROOT/scripts/helper-colors.sh
 source $ROOT/scripts/helper-functions.sh
 
 
+# Read parameters (http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/)
+while getopts "d" OPTION
+do
+     case $OPTION in
+         d)
+             DUMMY=1
+             ;;
+     esac
+done
+
 
 # Load the configuration
 load_config_file
@@ -87,6 +97,10 @@ create_sites_default_files_directory
 
 # Enable the development modules
 enable_development_modules
+
+if [ $DUMMY ]; then
+  migrate_dummy_content
+fi
 
 
 

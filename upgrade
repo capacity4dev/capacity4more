@@ -21,6 +21,17 @@ source $ROOT/scripts/helper-colors.sh
 # Load the helpers
 source $ROOT/scripts/helper-functions.sh
 
+
+# Read parameters (http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/)
+while getopts "d" OPTION
+do
+     case $OPTION in
+         d)
+             DUMMY=1
+             ;;
+     esac
+done
+
 # Load the configuration
 load_config_file
 
@@ -87,6 +98,9 @@ cd $ROOT
 echo
 
 
+if [ $DUMMY ]; then
+  migrate_dummy_content
+fi
 
 
 # Check if we have a working bootstrap
