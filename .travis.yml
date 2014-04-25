@@ -60,13 +60,8 @@ script:
   - ./bin/behat --tags=~@wip
 
 
-
   # Run WebTests ---------------------------------------------------------------
-  - cd www
+  # Add the tests here. Use the group name, classname or the file.
+  - drush @capacity4more test-run "capacity4more:og:vocab"
 
-  # Add the tests here.
-  # Use the group name, classname or the file.
-  - drush test-run "capacity4more:og:vocab"
-
-  - cd ..
   # End Run WebTests -----------------------------------------------------------
