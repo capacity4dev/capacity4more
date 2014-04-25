@@ -23,6 +23,8 @@ function c4m_content_minisite_create_root_minisite($node) {
   $minisite->uid = $user->uid;
   $minisite->name = $user->name;
 
+  $minisite->language = LANGUAGE_NONE;
+
   $minisite_type = c4m_og_get_group_type_name($node);
 
   $minisite->title = $node->title . ' ' . $minisite_type . " page";
