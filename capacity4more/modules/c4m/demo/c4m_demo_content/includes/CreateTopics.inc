@@ -4,10 +4,15 @@
  * Migrate class to create topics.
  */
 
-class C4mDemoContent_CreateTopics extends C4mDemoContent_CreateEntity {
+class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'topic';
 
+  /**
+   * CSV Column mapping.
+   *
+   * @var array
+   */
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
@@ -15,10 +20,19 @@ class C4mDemoContent_CreateTopics extends C4mDemoContent_CreateEntity {
     array('image', 'Image'),
     array('uid', 'UID'),
   );
+
+  /**
+   * Content creations that should run before this one.
+   *
+   * @var array
+   */
   public $dependencies = array(
-    'C4mDemoContent_CreateUsers',
+    'C4mDemoContentCreateUsers',
   );
 
+  /**
+   * Configure the object during creation.
+   */
   public function __construct() {
     parent::__construct();
 
@@ -33,6 +47,6 @@ class C4mDemoContent_CreateTopics extends C4mDemoContent_CreateEntity {
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
 
     $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('C4mDemoContent_CreateUsers');
+      ->sourceMigration('C4mDemoContentCreateUsers');
   }
 }

@@ -4,10 +4,15 @@
  * Class to create the Group nodes.
  */
 
-class C4mDemoContent_CreateGroups extends C4mDemoContent_CreateEntity {
+class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'group';
 
+  /**
+   * CSV column mapping.
+   *
+   * @var array
+   */
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
@@ -20,13 +25,21 @@ class C4mDemoContent_CreateGroups extends C4mDemoContent_CreateEntity {
     array('uid', 'UID'),
   );
 
+  /**
+   * Creation classes that should run before this one.
+   *
+   * @var array
+   */
   public $dependencies = array(
-    'C4mDemoContent_CreateUsers',
-    'C4mDemoContent_CreateTopics',
-    'C4mDemoContent_CreateRegionTerms',
-    'C4mDemoContent_CreateRegionNodes',
+    'C4mDemoContentCreateUsers',
+    'C4mDemoContentCreateTopics',
+    'C4mDemoContentCreateRegionTerms',
+    'C4mDemoContentCreateRegionNodes',
   );
 
+  /**
+   * COnfigure the migration class during creation.
+   */
   public function __construct() {
     parent::__construct();
 
@@ -44,26 +57,50 @@ class C4mDemoContent_CreateGroups extends C4mDemoContent_CreateEntity {
     $this->addFieldMapping('c4m_related_topic', 'topics_list');
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo')
-      ->sourceMigration('C4mDemoContent_CreateRegionTerms')
+      ->sourceMigration('C4mDemoContentCreateRegionTerms')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
 
     $this->addFieldMapping('c4m_related_group', 'groups_list');
 
     $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('C4mDemoContent_CreateUsers');
+      ->sourceMigration('C4mDemoContentCreateUsers');
   }
 
+  /**
+   * Prepare the row data loaded from the CSV.
+   *
+   * @param object $row
+   *   The data from the CSV file.
+   *
+   * @return bool
+   *   Success.
+   */
   public function prepareRow($row) {
     parent::prepareRow($row);
-    $unfiltered_ids = $this->handleSourceMigration('C4mDemoContent_CreateTopics', explode('|', $row->topics), NULL, $this);
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateTopics',
+      explode('|', $row->topics),
+      NULL,
+      $this
+    );
 
-    // By default $unfiltered_ids is an array of arrays, containing the destid1 => destination_nid, but destid2 => NULL.
-    // This NULL value is counted however and added to the query, resulting in errors.
-    // Therefore we need to filter it out.
-    $row->topics_list = $this->_filter_destid2_from_entity_reference($unfiltered_ids);
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->topics_list = $this->filterDestid2FromEntityReference($unfiltered_ids);
 
-    $unfiltered_ids = $this->handleSourceMigration('C4mDemoContent_CreateGroups', explode('|', $row->groups), NULL, $this);
-    $row->groups_list = $this->_filter_destid2_from_entity_reference($unfiltered_ids);
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateGroups',
+      explode('|', $row->groups),
+      NULL,
+      $this
+    );
+    $row->groups_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    return TRUE;
   }
 }

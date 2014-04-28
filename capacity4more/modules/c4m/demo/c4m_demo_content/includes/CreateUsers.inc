@@ -4,7 +4,7 @@
  * Migrate class to create dummy users.
  */
 
-class C4mDemoContent_CreateUsers extends Migration {
+class C4mDemoContentCreateUsers extends Migration {
   /**
    * Map the field and properties to the CSV header.
    */
@@ -20,8 +20,14 @@ class C4mDemoContent_CreateUsers extends Migration {
 
   public $entityType = 'user';
 
+  /**
+   * Configure the object during creation.
+   */
   public function __construct() {
-    parent::__construct();
+    parent::__construct(
+      MigrateGroup::getInstance(C4M_DEMO_CONTENT_MIGRATION_GROUP)
+    );
+
     $this->description = t('Import users from a CSV file.');
 
     $this->addFieldMapping('name', 'name');
@@ -34,7 +40,7 @@ class C4mDemoContent_CreateUsers extends Migration {
     $this->addFieldMapping('status')
       ->defaultValue(TRUE);
 
-    // Create a map object for tracking the relationships between source rows
+    // Create a map object for tracking the relationships between source rows.
     $key = array(
       'id' => array(
         'type' => 'varchar',
@@ -43,17 +49,31 @@ class C4mDemoContent_CreateUsers extends Migration {
       ),
     );
     $destination_handler = new MigrateDestinationUser();
-    $this->map = new MigrateSQLMap($this->machineName, $key, $destination_handler->getKeySchema());
+    $this->map = new MigrateSQLMap(
+      $this->machineName,
+      $key,
+      $destination_handler->getKeySchema()
+    );
 
     // Create a MigrateSource object.
-    $this->source = new MigrateSourceCSV(drupal_get_path('module', 'c4m_demo_content') . '/csv/' . $this->entityType . '/user.csv', $this->csvColumns, array('header_rows' => 1));
+    $csv_path = drupal_get_path('module', 'c4m_demo_content') . '/csv';
+    $this->source = new MigrateSourceCSV(
+      $csv_path . '/' . $this->entityType . '/user.csv',
+      $this->csvColumns,
+      array('header_rows' => 1)
+    );
     $this->destination = new MigrateDestinationUser();
   }
 
   /**
    * Granting a role to the user from the CSV.
+   *
+   * @param object $entity
+   *   The entity to create.
+   * @param object $row
+   *   The data from the CSV file.
    */
-  function complete($entity, $row) {
+  public function complete($entity, $row) {
     if (!$row->role) {
       return;
     }

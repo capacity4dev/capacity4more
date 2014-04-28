@@ -4,10 +4,15 @@
  * Class to create the Region Nodes.
  */
 
-class C4mDemoContent_CreateRegionNodes extends C4mDemoContent_CreateEntity {
+class C4mDemoContentCreateRegionNodes extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'region';
 
+  /**
+   * CSV column mapping.
+   *
+   * @var array
+   */
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
@@ -17,11 +22,19 @@ class C4mDemoContent_CreateRegionNodes extends C4mDemoContent_CreateEntity {
     array('uid', 'UID'),
   );
 
+  /**
+   * Content creations need to be run before this one.
+   *
+   * @var array
+   */
   public $dependencies = array(
-    'C4mDemoContent_CreateUsers',
-    'C4mDemoContent_CreateRegionTerms',
+    'C4mDemoContentCreateUsers',
+    'C4mDemoContentCreateRegionTerms',
   );
 
+  /**
+   * Configure the mapping during object creation.
+   */
   public function __construct() {
     parent::__construct();
 
@@ -36,10 +49,10 @@ class C4mDemoContent_CreateRegionNodes extends C4mDemoContent_CreateEntity {
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo')
-      ->sourceMigration('C4mDemoContent_CreateRegionTerms')
+      ->sourceMigration('C4mDemoContentCreateRegionTerms')
       ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('C4mDemoContent_CreateUsers');
+      ->sourceMigration('C4mDemoContentCreateUsers');
   }
 }
