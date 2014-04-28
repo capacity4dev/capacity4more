@@ -6,5 +6,11 @@ version = 7.x-1.x-dev
 dependencies[] = migrate
 dependencies[] = migrate_extras
 
-files[] = c4m_demo_content.migrate.inc
-files[] = includes/c4m_demo_content.migrate.entity.inc
+; Classes to create the dummy content.
+files[] = includes/CreateGroups.inc
+files[] = includes/CreateEntity.inc
+files[] = includes/CreateRegionNodes.inc
+files[] = includes/CreateRegionTerms.inc
+files[] = includes/CreateTopics.inc
+files[] = includes/CreateUsers.inc
+

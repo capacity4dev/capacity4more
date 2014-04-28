@@ -1,9 +1,10 @@
 <?php
 /**
- * Base entity class and functionality to be extended.
+ * @file
+ * Base class to create Entities.
  */
 
-abstract class C4mMigrate extends Migration {
+abstract class C4mDemoContent_CreateEntity extends Migration {
   /**
    * If the entity-type is "taxonomy_term", determine of the term should
    * be assigned to a vocabulary owned by OG-vocab.
@@ -15,7 +16,7 @@ abstract class C4mMigrate extends Migration {
 
     // Make sure we can use it for node and term only.
     if (!in_array($this->entityType, array('node', 'taxonomy_term', 'og_vocab'))) {
-      throw new Exception(format_string('C4mMigrate does not support @type', array('@type' => $this->entityType)));
+      throw new Exception(format_string('C4mDemoContent_CreateEntity does not support @type', array('@type' => $this->entityType)));
     }
 
     $this->description = t('Import @type - @bundle from CSV file.', array('@type' => $this->entityType, '@bundle' => $this->bundle));

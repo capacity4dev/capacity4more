@@ -10,11 +10,11 @@ function c4m_demo_content_migrate_api() {
   $migrations = array();
 
   $classes = array(
-    'C4mMigrateUsers',
-    'C4mMigrateTopics',
-    'C4mMigrateRegionsVocab',
-    'C4mMigrateRegionsNodes',
-    'C4mMigrateGroups',
+    'C4mDemoContent_CreateUsers',
+    'C4mDemoContent_CreateTopics',
+    'C4mDemoContent_CreateRegionTerms',
+    'C4mDemoContent_CreateRegionNodes',
+    'C4mDemoContent_CreateGroups',
   );
 
   foreach ($classes as $class_name) {
