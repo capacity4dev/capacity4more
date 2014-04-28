@@ -28,6 +28,11 @@ Edit the configuration file, fill in the blanks.
 Run the install script from within the root of the repository:
 
 	$ ./install
+
+The profile has a module to load demo data in to the platform.
+Loading that data during install can be requested by adding -d top the command:
+
+  $ ./install -d
 	
 	
 #### Configure web server
@@ -46,6 +51,7 @@ Open the URL in your favorite browser.
 You can Reinstall the platform any type by running the install script.
 
 	$ ./install
+
 	
 #### The install script will perform following steps:
 
@@ -77,6 +83,13 @@ without destroying the data in tha database and the sites/default directory.
 Run the update script:
 
 	$ ./upgrade
+
+The profile has a module to load demo data in to the platform.
+Loading or updating that data during an upgrade can be requested by
+adding -d top the command:
+
+  $ ./upgrade -d
+
 	
 #### The upgrade script will perform following steps:
 
