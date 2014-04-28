@@ -22,15 +22,46 @@ source $ROOT/scripts/helper-colors.sh
 source $ROOT/scripts/helper-functions.sh
 
 
-# Read parameters (http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/)
-while getopts "d" OPTION
+##
+# Function to explain the script arguments.
+##
+function arguments_usage {
+  USAGE=$(fill_string_spaces "Usage: $0 [options]" 61)
+
+  echo
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo -e "${BGLCYAN}  Upgrade capacity4more                                          ${RESTORE}"
+  echo -e  "${BGCYAN}  This will upgrade the Drupal core and Contrib modules.         ${RESTORE}"
+  echo -e  "${BGCYAN}  This will run the database update trough Drush.                ${RESTORE}"
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo -e  "${BGCYAN}  $USAGE  ${RESTORE}"
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo -e  "${BGCYAN}  OPTIONS:                                                       ${RESTORE}"
+  echo -e  "${BGCYAN}    -h   Show this message                                       ${RESTORE}"
+  echo -e  "${BGCYAN}    -d   Load or update demo content after the installation      ${RESTORE}"
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo
+}
+
+# Check and process arguments.
+# See http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
+while getopts "hd" OPTION
 do
-     case $OPTION in
-         d)
-             DUMMY=1
-             ;;
-     esac
+  case $OPTION in
+    h)
+      arguments_usage
+      exit 1
+      ;;
+    d)
+      DEMO_CONTENT=1
+      ;;
+    ?)
+      arguments_usage
+      exit
+      ;;
+  esac
 done
+
 
 # Load the configuration
 load_config_file
@@ -64,6 +95,10 @@ echo -e "${BGLBLUE}  Upgrade capacity4more                                      
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo -e  "${BGBLUE}  > This will upgrade core and contrib modules & themes.         ${RESTORE}"
 echo -e  "${BGBLUE}  > This will run the update db command (drush updb).            ${RESTORE}"
+if [ $DEMO_CONTENT ]; then
+  echo -e  "${BGBLUE}                                                                 ${RESTORE}"
+  echo -e  "${BGBLUE}  > Demo content will be loaded into the platform.               ${RESTORE}"
+fi
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
 
