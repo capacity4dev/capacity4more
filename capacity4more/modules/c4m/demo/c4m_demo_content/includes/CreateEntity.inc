@@ -164,29 +164,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
     $row->vocabulary_machine_name = $name;
   }
-//
-//  /**
-//   * Set relation of the vocabulary to the group.
-//   *
-//   * @param object $entity
-//   *   The term entity.
-//   * @param object $row
-//   *   The term data used to create the entity.
-//   */
-//  private function prepareTaxonomyTerm($entity, $row) {
-//    $vocabulary = taxonomy_vocabulary_machine_name_load(
-//      $entity->vocabulary_machine_name
-//    );
-//
-//    if (is_array($entity->og_group_ref)) {
-//      $gid = $entity->og_group_ref['destid1'];
-//    }
-//    else {
-//      $gid = $entity->og_group_ref;
-//    }
-//
-//    og_vocab_relation_save($vocabulary->vid, 'node', $gid);
-//  }
 
   /**
    * Filter the destiny field ID.
@@ -230,77 +207,4 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   protected function isEntityTypeSupported($type) {
     return in_array($type, $this->supportedEntityTypes);
   }
-}
-
-
-function os_get_bundles($include_status = array(OS_PUBLIC_APP)) {
-  $return_all = FALSE;
-  if ($include_status === TRUE) {
-    $return_all = TRUE;
-  }
-  elseif (!is_array($include_status)) {
-    $include_status = array($include_status);
-  }
-
-  $bundles = array();
-  $app_info = os_app_info();
-  $spaces_features = variable_get('spaces_features', array());
-
-  foreach ($app_info as $app_name => $info) {
-    if (!isset($info['nodetypes'])) {
-      continue;
-    }
-    $module = $info['module'];
-    if (!$return_all && (!isset($spaces_features[$module]) || !in_array($spaces_features[$module], $include_status))) {
-      continue;
-    }
-
-    $_node_types = _node_types_build();
-    foreach ($info['nodetypes'] as $nodetype) {
-      if (isset($_node_types->names[$nodetype])) {
-        $bundles[$nodetype] = $_node_types->names[$nodetype];
-      }
-      else {
-        $bundles[$nodetype] = $module;
-      }
-    }
-  }
-
-  // Sort the bundles in alphabetical order.
-  asort($bundles);
-
-  // Allow other modules to alter the os bundle list.
-  drupal_alter('os_get_bundles', $bundles);
-
-  return $bundles;
-}
-function os_app_info($app_name = NULL) {
-  $info = &drupal_static(__FUNCTION__, array());
-
-  if (empty($info)) {
-    foreach (module_implements('os_app_info') as $module) {
-      if ($apps = module_invoke($module, 'os_app_info')) {
-        foreach ($apps as $key => $app) {
-          // Adds default values.
-          $app += array(
-            'path' => '',
-            'searchable' => TRUE,
-            // Determine if author should be indexed in Solr.
-            'index author' => FALSE,
-            'importers' => array(),
-            'require_parent_node' => FALSE,
-            'browse_pages' => FALSE,
-          );
-
-          // Adds the module information.
-          $info[$key] = array_merge($app, array('module' => $module));
-        }
-      }
-    }
-
-    // Allows other modules to alter the app info.
-    drupal_alter('os_app_info', $info);
-  }
-
-  return empty($app_name) ? $info : $info[$app_name];
 }
