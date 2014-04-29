@@ -22,6 +22,45 @@ source $ROOT/scripts/helper-colors.sh
 source $ROOT/scripts/helper-functions.sh
 
 
+##
+# Function to explain the script arguments.
+##
+function arguments_usage {
+  USAGE=$(fill_string_spaces "Usage: $0 [options]" 61)
+  echo
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo -e "${BGLCYAN}  Reset capacity4more                                            ${RESTORE}"
+  echo -e  "${BGCYAN}  This will reset the installation back to a clean installation  ${RESTORE}"
+  echo -e  "${BGCYAN}  of the capacity4more profile.                                  ${RESTORE}"
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo -e  "${BGCYAN}  $USAGE  ${RESTORE}"
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo -e  "${BGCYAN}  OPTIONS:                                                       ${RESTORE}"
+  echo -e  "${BGCYAN}    -h   Show this message                                       ${RESTORE}"
+  echo -e  "${BGCYAN}    -d   Load demo content after the reset                       ${RESTORE}"
+  echo -e  "${BGCYAN}                                                                 ${RESTORE}"
+  echo
+}
+
+# Check and process arguments.
+# See http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
+while getopts "hd" OPTION
+do
+  case $OPTION in
+    h)
+      arguments_usage
+      exit 1
+      ;;
+    d)
+      DEMO_CONTENT=1
+      ;;
+    ?)
+      arguments_usage
+      exit
+      ;;
+  esac
+done
+
 
 # Load the configuration
 load_config_file
@@ -56,6 +95,10 @@ echo -e  "${BGBLUE}                                                             
 echo -e  "${BGBLUE}  > This will delete the database and the files directory.       ${RESTORE}"
 echo -e  "${BGBLUE}  > This will install the capacity4more profile.                 ${RESTORE}"
 echo -e  "${BGBLUE}  > Drupal core, contrib modules & themes will not be replaced.  ${RESTORE}"
+if [ $DEMO_CONTENT ]; then
+  echo -e  "${BGBLUE}                                                                 ${RESTORE}"
+  echo -e  "${BGBLUE}  > Demo content will be loaded into the platform.               ${RESTORE}"
+fi
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
 
@@ -87,6 +130,11 @@ create_sites_default_files_directory
 
 # Enable the development modules
 enable_development_modules
+
+# Load demo content if requested
+if [ $DEMO_CONTENT ]; then
+  migrate_dummy_content
+fi
 
 
 

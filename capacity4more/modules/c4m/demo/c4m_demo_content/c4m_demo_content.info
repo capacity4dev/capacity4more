@@ -1,0 +1,16 @@
+name = Content Demo
+description = Demonstration of all content types with dummy content
+core = 7.x
+package = capacity4more - Demo
+version = 7.x-1.x-dev
+dependencies[] = migrate
+dependencies[] = migrate_extras
+
+; Classes to create the dummy content.
+files[] = includes/CreateGroups.inc
+files[] = includes/CreateEntity.inc
+files[] = includes/CreateRegionNodes.inc
+files[] = includes/CreateRegionTerms.inc
+files[] = includes/CreateTopics.inc
+files[] = includes/CreateUsers.inc
+

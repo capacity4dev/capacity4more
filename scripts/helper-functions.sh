@@ -205,3 +205,36 @@ function enable_development_modules {
   echo
 }
 
+##
+# Do dummy content migration
+##
+function migrate_dummy_content {
+  echo -e "${LBLUE}> Importing dummy data${RESTORE}"
+
+  cd $ROOT/www
+  drush en -y migrate migrate_ui c4m_demo_content
+  drush mi --update --group=c4m_demo_content
+  cd $ROOT
+
+  echo
+}
+
+##
+# Fill string with spaces until required length
+#
+# @param string The string.
+# @param int The requested total length.
+##
+function fill_string_spaces {
+  STRING="$1"
+  STRING_LENGTH=${#STRING}
+  SPACES_LENGTH=$(($2-$STRING_LENGTH))
+
+  if [[ "0" -gt "SPACES_LENGTH" ]]; then
+    SPACES_LENGTH=0
+  fi
+
+  printf -v SPACES '%*s' $SPACES_LENGTH
+
+  echo "$STRING$SPACES"
+}
