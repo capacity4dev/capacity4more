@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Class to create the Group nodes.
+ * Migrate class to create articles.
  */
 
 /**
- * Class C4mDemoContentCreateGroups
+ * Class C4mDemoContentCreateArticles
  */
-class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
+class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
-  public $bundle = 'group';
+  public $bundle = 'article';
 
   /**
    * CSV column mapping.
@@ -19,12 +19,11 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
-    array('purl', 'PURL'),
-    array('image', 'Image'),
     array('body', 'Body'),
+    array('image', 'Image'),
+    array('video', 'Video'),
     array('topics', 'Topics'),
     array('geo', 'Geo'),
-    array('groups', 'Groups'),
     array('uid', 'UID'),
   );
 
@@ -46,8 +45,6 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
   public function __construct() {
     parent::__construct();
 
-    $this->addFieldMapping('og_purl', 'purl');
-
     $this->addFieldMapping('c4m_media', 'image')
       ->separator(';');
     $this->addFieldMapping('c4m_media:file_replace')
@@ -55,7 +52,10 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
-    $this->addFieldMapping('c4m_body', 'body');
+    $this->addFieldMapping('c4m_body', 'body')
+      ->arguments(array('format' => 'full_html'));
+
+    $this->addFieldMapping('c4m_has_video', 'video');
 
     $this->addFieldMapping('c4m_related_topic', 'topics_list');
 
@@ -63,8 +63,6 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
       ->sourceMigration('C4mDemoContentCreateRegionTerms')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
-
-    $this->addFieldMapping('c4m_related_group', 'groups_list');
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
@@ -93,16 +91,6 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
     // This NULL value is counted however and added to the query, resulting
     // in errors. Therefore we need to filter it out.
     $row->topics_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
-
-    $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateGroups',
-      explode('|', $row->groups),
-      NULL,
-      $this
-    );
-    $row->groups_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
 

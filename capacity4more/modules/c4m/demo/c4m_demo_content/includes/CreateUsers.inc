@@ -4,6 +4,9 @@
  * Migrate class to create dummy users.
  */
 
+/**
+ * Class C4mDemoContentCreateUsers
+ */
 class C4mDemoContentCreateUsers extends Migration {
   /**
    * Map the field and properties to the CSV header.

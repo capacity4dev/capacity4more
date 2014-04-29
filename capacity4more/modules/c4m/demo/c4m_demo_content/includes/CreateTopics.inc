@@ -4,6 +4,9 @@
  * Migrate class to create topics.
  */
 
+/**
+ * Class C4mDemoContentCreateTopics
+ */
 class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'topic';

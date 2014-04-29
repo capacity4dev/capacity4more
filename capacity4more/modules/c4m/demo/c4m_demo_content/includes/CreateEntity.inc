@@ -4,6 +4,9 @@
  * Base class to create Entities.
  */
 
+/**
+ * Class C4mDemoContentCreateEntity
+ */
 abstract class C4mDemoContentCreateEntity extends Migration {
   /**
    * If the entity-type is "taxonomy_term", determine of the term should
@@ -162,7 +165,8 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    */
   private function prepareRowTaxonomyTerm(&$row) {
     $name = $this->bundle . '_' . $row->{OG_AUDIENCE_FIELD};
-    if (!$vocabulary = taxonomy_vocabulary_machine_name_load($name)) {
+    $vocabulary = taxonomy_vocabulary_machine_name_load($name);
+    if (!$vocabulary) {
       // Create a vocabulary for the bundle in the VSite.
       $vocabulary = (object) array(
         'machine_name' => $name,

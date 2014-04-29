@@ -13,4 +13,5 @@ files[] = includes/CreateRegionNodes.inc
 files[] = includes/CreateRegionTerms.inc
 files[] = includes/CreateTopics.inc
 files[] = includes/CreateUsers.inc
+files[] = includes/CreateArticles.inc
 
