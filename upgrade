@@ -10,18 +10,18 @@
 ################################################################################
 
 
-# Define the root of the GIT repository
+# Define the root of the GIT repository.
 cd ${0%/*}
 ROOT=$(git rev-parse --show-toplevel)
 cd $ROOT
 
-# Load the colors
+# Load the colors.
 source $ROOT/scripts/helper-colors.sh
 
-# Load the helpers
+# Load the helpers.
 source $ROOT/scripts/helper-functions.sh
 
-# Load the configuration
+# Load the configuration.
 load_config_file
 
 
@@ -72,7 +72,7 @@ do
 done
 
 
-# Check if we have a working Drupal bootstrap
+# Check if we have a working Drupal bootstrap.
 cd $ROOT/www
 BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
 cd $ROOT
@@ -132,7 +132,7 @@ echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
 bash $ROOT/scripts/build
 echo
 
-# Update the database
+# Update the database.
 echo -e "${LBLUE}> Run the Update Database script (drush -y updb)${RESTORE}"
 cd $ROOT/www
 drush -y updb
@@ -144,7 +144,7 @@ if [ $DEMO_CONTENT ]; then
 fi
 
 
-# Check if we have a working bootstrap
+# Check if we have a working bootstrap.
 cd $ROOT/www
 BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
 cd $ROOT

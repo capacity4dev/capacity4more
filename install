@@ -16,7 +16,6 @@ cd ${0%/*}
 ROOT=$(git rev-parse --show-toplevel)
 cd $ROOT
 
-
 # Load the colors.
 source $ROOT/scripts/helper-colors.sh
 
@@ -108,7 +107,6 @@ if [[ ! $REPLY =~ ^[Y]$ ]]; then
   exit 0
 fi
 echo
-
 
 
 # Cleanup contrib modules, themes & libraries from the profile directory.
