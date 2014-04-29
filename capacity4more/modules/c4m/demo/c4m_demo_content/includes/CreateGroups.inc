@@ -4,6 +4,9 @@
  * Class to create the Group nodes.
  */
 
+/**
+ * Class C4mDemoContentCreateGroups
+ */
 class C4mDemoContentCreateGroups extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'group';

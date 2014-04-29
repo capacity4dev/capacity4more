@@ -4,6 +4,9 @@
  * Migrate class to create articles.
  */
 
+/**
+ * Class C4mDemoContentCreateArticles
+ */
 class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'article';
@@ -83,9 +86,10 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
       $this
     );
 
-    // By default $unfiltered_ids is an array of arrays, containing the destid1 => destination_nid, but destid2 => NULL.
-    // This NULL value is counted however and added to the query, resulting in errors.
-    // Therefore we need to filter it out.
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
     $row->topics_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
@@ -93,4 +97,3 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     return TRUE;
   }
 }
-
