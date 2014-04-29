@@ -78,5 +78,3 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
     $this->assertEqual($result, $expected, 'Variables should be filled in properly.');
   }
 }
-
-
