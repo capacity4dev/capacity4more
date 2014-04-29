@@ -86,14 +86,14 @@ function test_colors_all {
   echo
   
   echo "BACKGROUND with lighter colors"
-  echo -e "${BGLBLACK} BGBLACK text ${RESTORE}"
-  echo -e "${BGLRED} BGRED text ${RESTORE}"
-  echo -e "${BGLGREEN} BGREEN text ${RESTORE}"
-  echo -e "${BGLYELLOW} BGYELLOW text ${RESTORE}"
-  echo -e "${BGLBLUE} BGBLUE text ${RESTORE}"
-  echo -e "${BGLMAGENTA} BGMAGENTA text ${RESTORE}"
-  echo -e "${BGLCYAN} BGCYAN text ${RESTORE}"
-  echo -e "${BGLWHITE} BGWHITE text ${RESTORE}"
+  echo -e "${BGLBLACK} BGLBLACK text ${RESTORE}"
+  echo -e "${BGLRED} BGLRED text ${RESTORE}"
+  echo -e "${BGLGREEN} BGLREEN text ${RESTORE}"
+  echo -e "${BGLYELLOW} BGLYELLOW text ${RESTORE}"
+  echo -e "${BGLBLUE} BGLBLUE text ${RESTORE}"
+  echo -e "${BGLMAGENTA} BGLMAGENTA text ${RESTORE}"
+  echo -e "${BGLCYAN} BGLCYAN text ${RESTORE}"
+  echo -e "${BGLWHITE} BGLWHITE text ${RESTORE}"
   echo
 }
 
