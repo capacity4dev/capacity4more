@@ -18,7 +18,7 @@ function load_config_file {
       echo -e  "${BGRED}                                                                 ${RESTORE}"
       echo -e "${BGLRED}  ERROR: No configuration file found!                            ${RESTORE}"
       echo -e  "${BGRED}  > Check if the ${BGLRED}config.sh${BGRED} file exists in the same               ${RESTORE}"
-      echo -e  "${BGRED}    directory of the ${BGLRED}install.sh${BGRED} script.                          ${RESTORE}"
+      echo -e  "${BGRED}    directory of the ${BGLRED}install${BGRED} script.                             ${RESTORE}"
       echo -e  "${BGRED}  > If not create one by creating a copy of ${BGLRED}default.config.sh${BGRED}.   ${RESTORE}"
       echo -e  "${BGRED}                                                                 ${RESTORE}"
       echo
@@ -237,4 +237,17 @@ function fill_string_spaces {
   printf -v SPACES '%*s' $SPACES_LENGTH
 
   echo "$STRING$SPACES"
+}
+
+##
+# Login to Drupal
+#
+# This command does the login for you when the build script is done.
+# It will open a new tab in your default browser and login to your project as
+# the Administrator.
+##
+function drupal_login {
+  cd www
+  drush uli --uri=$BASE_DOMAIN_URL
+  cd ..
 }
