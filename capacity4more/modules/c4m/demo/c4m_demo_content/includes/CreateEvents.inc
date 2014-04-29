@@ -16,13 +16,12 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
-    array('body', 'Body'),
-    array('start', 'Start'),
-    array('end', 'End'),
+    array('field_date', 'Date'),
     array('organizer', 'Organizer'),
+    array('body', 'Body'),
     array('location', 'Location'),
-//    array('categories', 'Categories'),
-//    array('tags', 'Tags'),
+    array('categories', 'Categories'),
+    array('tags', 'Tags'),
     array(OG_AUDIENCE_FIELD, 'Group'),
     array('uid', 'UID'),
   );
@@ -42,16 +41,19 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
   public function __construct() {
     parent::__construct();
 
-    $this->addFieldMapping('body', 'body');
+    $this->addFieldMapping('c4m_body', 'body');
     $this->addFieldMapping('field_date', 'field_date');
     $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD)
-      ->sourceMigration(array('OsMigratePersonalNode', 'OsMigrateProjectNode'));
-    $this->addFieldMapping(OG_VOCAB_FIELD, OG_VOCAB_FIELD)
-      ->sourceMigration(array('OsMigrateAuthorsTaxonomyTerm'))
-      ->separator('|');
+      ->sourceMigration(array('C4mDemoContentCreateGroups'));
+//    $this->addFieldMapping(OG_VOCAB_FIELD, OG_VOCAB_FIELD)
+//      ->sourceMigration(array('OsMigrateAuthorsTaxonomyTerm'))
+//      ->separator('|');
+
+    $this->addFieldMapping('c4m_organised_by', 'organizer')
+      ->separator(';');
 
     $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('OsMigrateUsers');
+      ->sourceMigration('C4mDemoContentCreateUsers');
   }
 
   public function prepare($entity, $row) {
@@ -61,7 +63,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
       $date[0] = date('Y-m-d H:i', time());
     }
 
-    $entity->field_date[LANGUAGE_NONE][0] = array(
+    $entity->c4m_datetime_end[LANGUAGE_NONE][0] = array(
       'value' => $date[0],
       'date_type' => 'datetime',
     );
@@ -72,7 +74,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
         $date[1] = date('Y-m-d H:i', time());
       }
 
-      $entity->field_date[LANGUAGE_NONE][0]['value2'] = $date[1];
+      $entity->c4m_datetime_end[LANGUAGE_NONE][0]['value2'] = $date[1];
     }
   }
 }

@@ -111,6 +111,10 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     );
   }
 
+  public function prepare($entity, $row) {
+    // Stub
+  }
+
   /**
    * Prepare rows before passing the data to the entity creation.
    *

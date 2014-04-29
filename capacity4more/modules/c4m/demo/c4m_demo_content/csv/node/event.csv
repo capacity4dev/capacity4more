@@ -1,8 +1,4 @@
-ID,Title,Start,End,Organizer,Body,Location,Categories,Tags,Group,UID
-event_1,Barclays ATP World Tour Finals,2014-11-09 09:15:00,2014-11-16 19:00:00,ATP,"",,cat_atp|cat_wimbledon|cat_rolandgarros|cat_usopen|cat_ausopen,Hardcourt|Indoor|London,group_2,galileo
-event_2,Film Festival Ghent,2014-10-14 00:00:00,2014-10-25 23:59:59,"Belgacom, Kinepolis & ING","",,cat_horror|cat_comedy|cat_drama,,group_3,turing
-event_3,
-event_4,
-event_5,
-event_6,
-event_7,
+ID,Title,Date,Organizer,Body,Location,Categories,Tags,Group,UID
+event_1,Barclays ATP World Tour Finals,2014-11-09 09:15:00;2014-11-16 19:00:00,ATP,"",,cat_atp|cat_wimbledon|cat_rolandgarros|cat_usopen|cat_ausopen,Hardcourt|Indoor|London,group_2,galileo
+event_2,Film Festival Ghent,2014-10-14 00:00:00;2014-10-25 23:59:59,Belgacom;Kinepolis;ING,"",,cat_horror|cat_comedy|cat_drama,,group_3,turing
+event_3,Rock Werchter,2014-07-03 00:00:00;2014-07-06 00:00:00,,"Werchter, Belgium",,,group_4,turing
