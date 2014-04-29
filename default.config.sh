@@ -11,6 +11,8 @@
 
 # The profile used to install the platform.
 PROFILE_NAME="capacity4more"
+# The human name of the install profile
+PROFILE_TITLE="capacity4more"
 
 
 # Modify the URL below to match your local domain the site will be accessible on.
