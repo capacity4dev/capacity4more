@@ -2,7 +2,7 @@
 
 ################################################################################
 #
-# This script will upgrade an working copy of the capacity4more distribution.
+# This script will upgrade a working copy of the Installation Profile.
 #
 # Do not change the content of this file, 
 # all configuration variables are in the config.sh file.
@@ -21,16 +21,20 @@ source $ROOT/scripts/helper-colors.sh
 # Load the helpers
 source $ROOT/scripts/helper-functions.sh
 
+# Load the configuration
+load_config_file
+
 
 ##
 # Function to explain the script arguments.
 ##
 function arguments_usage {
+  TITLE=$(fill_string_spaces "Upgrade $PROFILE_TITLE" 61)
   USAGE=$(fill_string_spaces "Usage: $0 [options]" 61)
 
   echo
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
-  echo -e "${BGLCYAN}  Upgrade capacity4more                                          ${RESTORE}"
+  echo -e "${BGLCYAN}  $TITLE  ${RESTORE}"
   echo -e  "${BGCYAN}  This will upgrade the Drupal core and Contrib modules.         ${RESTORE}"
   echo -e  "${BGCYAN}  This will run the database update trough Drush.                ${RESTORE}"
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
@@ -39,13 +43,15 @@ function arguments_usage {
   echo -e  "${BGCYAN}  OPTIONS:                                                       ${RESTORE}"
   echo -e  "${BGCYAN}    -h   Show this message                                       ${RESTORE}"
   echo -e  "${BGCYAN}    -d   Load or update demo content after the installation      ${RESTORE}"
+  echo -e  "${BGCYAN}    -l   Open a new tab in your default browser and login to     ${RESTORE}"
+  echo -e  "${BGCYAN}         your project as the Administrator.                      ${RESTORE}"
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
   echo
 }
 
 # Check and process arguments.
 # See http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
-while getopts "hd" OPTION
+while getopts "hdl" OPTION
 do
   case $OPTION in
     h)
@@ -55,17 +61,15 @@ do
     d)
       DEMO_CONTENT=1
       ;;
+    l)
+      AUTO_LOGIN=1
+      ;;
     ?)
       arguments_usage
       exit
       ;;
   esac
 done
-
-
-# Load the configuration
-load_config_file
-
 
 
 # Check if we have a working Drupal bootstrap
@@ -87,17 +91,22 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
 fi
 
 
-
 # Always ask confirmation before updating Files!
+TITLE=$(fill_string_spaces "Upgrade $PROFILE_TITLE" 61)
 echo
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-echo -e "${BGLBLUE}  Upgrade capacity4more                                          ${RESTORE}"
+echo -e "${BGLBLUE}  $TITLE  ${RESTORE}"
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo -e  "${BGBLUE}  > This will upgrade core and contrib modules & themes.         ${RESTORE}"
 echo -e  "${BGBLUE}  > This will run the update db command (drush updb).            ${RESTORE}"
-if [ $DEMO_CONTENT ]; then
+if [ $DEMO_CONTENT ] || [ $AUTO_LOGIN ]; then
   echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-  echo -e  "${BGBLUE}  > Demo content will be loaded into the platform.               ${RESTORE}"
+fi
+if [ $DEMO_CONTENT ]; then
+  echo -e  "${BGBLUE}  • Demo content will be loaded into the platform.               ${RESTORE}"
+fi
+if [ $AUTO_LOGIN ]; then
+  echo -e  "${BGBLUE}  • A browser tab will open and log you in as Administrator.     ${RESTORE}"
 fi
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
@@ -118,12 +127,10 @@ echo
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
 
-
 # Run the build script (drush make + extra's).
 echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
 bash $ROOT/scripts/build
 echo
-
 
 # Update the database
 echo -e "${LBLUE}> Run the Update Database script (drush -y updb)${RESTORE}"
@@ -132,8 +139,7 @@ drush -y updb
 cd $ROOT
 echo
 
-
-if [ $DUMMY ]; then
+if [ $DEMO_CONTENT ]; then
   migrate_dummy_content
 fi
 
@@ -154,16 +160,21 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
 fi
 
 
-
 # If we managed to get here then the upgrade was a success!
+LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
 echo
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo -e "${BGLGREEN}  Upgrade complete!                                              ${RESTORE}"
-echo -e  "${BGGREEN}  > Visit the site : ${BGLGREEN}capacity4more.dev${BGGREEN}                           ${RESTORE}"
+echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
 
+
+# Auto Login?
+if [ $AUTO_LOGIN ]; then
+  drupal_login
+fi
+
+
+# DONE!
 exit 0
-
-
-
