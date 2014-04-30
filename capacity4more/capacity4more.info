@@ -62,8 +62,9 @@ dependencies[] = views_bulk_operations
 
 ; capacity4more ---------------------------------------------------------------
 
-; Fields
-dependencies[] = c4m_field_body
+; Vocabularies
+dependencies[] = c4m_vocab_category
+dependencies[] = c4m_vocab_tag
 
 ; Content Types
 dependencies[] = c4m_content_book
@@ -81,7 +82,4 @@ dependencies[] = c4m_content_photo
 dependencies[] = c4m_content_photoalbum
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_event
-
-; Vocabularies
-dependencies[] = c4m_vocab_category
-dependencies[] = c4m_vocab_tag
+dependencies[] = c4m_field_related_og
