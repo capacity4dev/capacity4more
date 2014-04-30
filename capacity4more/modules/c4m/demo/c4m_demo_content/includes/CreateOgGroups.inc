@@ -46,6 +46,8 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
+
+    $this->addFieldMapping('c4m_related_group', 'groups_list');
   }
 
   /**
@@ -71,6 +73,16 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     // This NULL value is counted however and added to the query, resulting
     // in errors. Therefore we need to filter it out.
     $row->topics_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateGroups',
+      explode('|', $row->groups),
+      NULL,
+      $this
+    );
+    $row->groups_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
 

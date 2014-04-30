@@ -38,6 +38,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('topics', 'Topics'),
     array('geo', 'Geo'),
     array('groups', 'Groups'),
+    array('projects', 'Projects'),
   );
 
   /**
@@ -53,8 +54,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     $this->addFieldMapping('c4m_banner:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
-    $this->addFieldMapping('c4m_related_group', 'groups_list');
-
     $this->addFieldMapping('c4m_source_of_funding', 'funding')
       ->separator(';');
 
@@ -69,6 +68,8 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping('c4m_cris_contract_number', 'cris_contract')
       ->separator(';');
+
+    $this->addFieldMapping('c4m_related_projects', 'projects_list');
   }
 
   /**
@@ -84,12 +85,12 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     parent::prepareRow($row);
 
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateGroups',
-      explode('|', $row->groups),
+      'C4mDemoContentCreateProjects',
+      explode('|', $row->projects),
       NULL,
       $this
     );
-    $row->groups_list = $this->filterDestid2FromEntityReference(
+    $row->projects_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
 
