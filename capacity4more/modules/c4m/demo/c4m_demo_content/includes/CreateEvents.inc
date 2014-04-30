@@ -42,13 +42,6 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
   );
 
   /**
-   * Holds the og_vocabulary taxonomies.
-   *
-   * @var array
-   */
-  public $taxonomyFields = array();
-
-  /**
    * Class constructor.
    */
   public function __construct() {
@@ -64,6 +57,8 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
+
+    $this->addFieldMapping('c4m_location', 'location');
 
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
       ->sourceMigration('C4mDemoContentCreateCategories')
@@ -83,5 +78,12 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
     $this->extractDateTimeEnd($entity, $row);
 
     $this->assignTags($entity, $row);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function complete($entity, $row) {
+    $this->extractAddress($entity, $row);
   }
 }
