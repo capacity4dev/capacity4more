@@ -7,8 +7,7 @@
 /**
  * Class C4mDemoContentCreateCategories
  */
-class C4mDemoContentCreateCategories extends C4mDemoContentCreateEntity {
-  public $entityType = 'taxonomy_term';
+class C4mDemoContentCreateCategories extends C4mDemoContentCreateVocabularyTerms {
   public $bundle = 'c4m_vocab_category';
 
   public $ogVocab = TRUE;

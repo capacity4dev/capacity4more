@@ -25,7 +25,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     'og_vocab',
   );
 
-
   /**
    * Class constructor.
    */
@@ -53,37 +52,18 @@ abstract class C4mDemoContentCreateEntity extends Migration {
         $this->addFieldMapping('title', 'title');
         $this->addFieldMapping('created', 'created');
         $class_name = 'MigrateDestinationNode';
-        break;
-
-      case 'taxonomy_term':
-        $class_name = 'MigrateDestinationTerm';
-
-        $csv_columns = array(
-          array('id', 'ID'),
-          array('parent', 'Parent'),
-          array('name', 'Name'),
-          array('description', 'Description'),
-        );
-        $this->addFieldMapping('parent_name', 'parent');
-        $this->addFieldMapping('name', 'name');
-        $this->addFieldMapping('description', 'description');
-
-        if ($this->ogVocab) {
-          $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD);
-          $this->addFieldMapping(
-            'vocabulary_machine_name',
-            'vocabulary_machine_name'
-          );
-          $csv_columns[] = array(OG_AUDIENCE_FIELD, 'Group');
-        }
-        $this->csvColumns = $csv_columns;
-        break;
-
-      case 'og_vocab':
-        $class_name = 'MigrateDestinationEntityAPI';
+        $this->postConstruct($class_name);
         break;
     }
+  }
 
+  /**
+   * Create the right mapping between destination and migration source.
+   *
+   * @param string $class_name
+   *   Class name depending on the type of entity.
+   */
+  public function postConstruct($class_name) {
     // Create a map object for tracking the relationships between source rows.
     $key = array(
       'id' => array(
@@ -111,10 +91,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     );
   }
 
-  public function prepare($entity, $row) {
-    // Stub
-  }
-
   /**
    * Prepare rows before passing the data to the entity creation.
    *
@@ -125,8 +101,8 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    *   Success.
    */
   public function prepareRow($row) {
-    // The migrate content isn't belong to any one, the default will be the
-    // admin user.
+    // The migrated content isn't belonging to any one,
+    // default to the admin user.
     if (!$row->uid) {
       $row->uid = 1;
     }
@@ -142,31 +118,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     }
 
     return TRUE;
-  }
-
-  /**
-   * Prepare a taxonomy term for storage within groups.
-   *
-   * Add the group identifier to the vocabulary name, and set OG-vocab
-   * relation to the newly created vocabulary.
-   *
-   * @param object $row
-   *   The term data that will be stored.
-   */
-  private function prepareRowTaxonomyTerm(&$row) {
-    $mapped_id = $this->handleSourceMigration(
-      'C4mDemoContentCreateGroups', $row->{OG_AUDIENCE_FIELD},
-      NULL,
-      $this
-    );
-
-    if (empty($mapped_id['destid1'])) {
-      return FALSE;
-    }
-
-    $name = $this->bundle . '_' . $mapped_id['destid1'];
-
-    $row->vocabulary_machine_name = $name;
   }
 
   /**

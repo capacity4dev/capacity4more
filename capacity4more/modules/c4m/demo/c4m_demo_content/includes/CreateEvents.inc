@@ -4,6 +4,9 @@
  * Migrate class to create group events.
  */
 
+/**
+ * Class C4mDemoContentCreateEvents
+ */
 class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'event';
@@ -38,6 +41,16 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
     'C4mDemoContentCreateTags',
   );
 
+  /**
+   * Holds the og_vocabulary taxonomies.
+   *
+   * @var array
+   */
+  public $taxonomyFields = array();
+
+  /**
+   * Class constructor.
+   */
   public function __construct() {
     parent::__construct();
 
@@ -45,18 +58,62 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('field_date', 'field_date');
     $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD)
       ->sourceMigration(array('C4mDemoContentCreateGroups'));
-//    $this->addFieldMapping(OG_VOCAB_FIELD, OG_VOCAB_FIELD)
-//      ->sourceMigration(array('OsMigrateAuthorsTaxonomyTerm'))
-//      ->separator('|');
 
     $this->addFieldMapping('c4m_organised_by', 'organizer')
       ->separator(';');
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
+
+    $this->addFieldMapping('c4m_vocab_categories', 'categories')
+      ->sourceMigration('C4mDemoContentCreateCategories')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_tag', 'tags')
+      ->sourceMigration('C4mDemoContentCreateTags')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function prepare($entity, $row) {
+    $this->extractDate($entity, $row);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareRow($row) {
+    $tids = array();
+
+    if (!empty($row->c4m_vocab_categories) && is_array($row->c4m_vocab_categories)) {
+      foreach ($row->c4m_vocab_categories as $id => $tid) {
+        $tids[] = $tid;
+      }
+    }
+
+    if (!empty($row->c4m_vocab_tags) && is_array($row->c4m_vocab_tags)) {
+      foreach ($row->c4m_vocab_tags as $id => $tid) {
+        $tids[] = $tid;
+      }
+    }
+
+    $row->{OG_VOCAB_FIELD} = $tids;
+  }
+
+  /**
+   * Prepare the date from a CSV file to the Drupal field.
+   *
+   * @param object $entity
+   *   The prepared entity that will be inserted in our Drupal 7.
+   * @param object $row
+   *   The mapped CSV row.
+   */
+  public function extractDate($entity, $row) {
+    // Fix start/end dates.
     $date = explode(';', $row->field_date);
 
     if ($date[0] == 'now') {

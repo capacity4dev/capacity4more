@@ -7,7 +7,6 @@
 /**
  * Class C4mDemoContentCreateRegionTerms
  */
-class C4mDemoContentCreateRegionTerms extends C4mDemoContentCreateEntity {
-  public $entityType = 'taxonomy_term';
+class C4mDemoContentCreateRegionTerms extends C4mDemoContentCreateVocabularyTerms {
   public $bundle = 'c4m_vocab_geo';
 }
