@@ -14,6 +14,9 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
   /**
    * CSV column mapping.
    *
+   * First columns are necessary and used in the parent (super) class:
+   * ID, UID, TITLE, PURL, IMAGE, BODY, TOPICS, GEO. Groups is related groups.
+   *
    * @var array
    */
   public $csvColumns = array(
