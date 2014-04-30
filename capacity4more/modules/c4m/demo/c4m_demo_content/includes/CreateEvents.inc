@@ -75,7 +75,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
    * {@inheritdoc}
    */
   public function prepare($entity, $row) {
-    $this->extractDateTimeEnd($entity, $row);
+    $this->extractDateTimeEnd($entity, $row, 'field_date');
 
     $this->assignTags($entity, $row);
   }
