@@ -12,12 +12,27 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
   public $bundle = 'group';
 
   /**
+   * CSV column mapping.
+   *
+   * @var array
+   */
+  public $csvColumns = array(
+    array('id', 'ID'),
+    array('uid', 'UID'),
+    array('title', 'Title'),
+    array('purl', 'PURL'),
+    array('image', 'Image'),
+    array('body', 'Body'),
+    array('topics', 'Topics'),
+    array('geo', 'Geo'),
+    array('groups', 'Groups'),
+  );
+
+  /**
    * Configure the migration class during creation.
    */
   public function __construct() {
     parent::__construct();
-
-    $this->csvColumns['groups'] = 'Groups';
 
     $this->addFieldMapping('c4m_related_group', 'groups_list');
   }

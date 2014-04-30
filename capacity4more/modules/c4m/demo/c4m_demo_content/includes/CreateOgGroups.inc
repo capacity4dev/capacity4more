@@ -9,22 +9,6 @@
  */
 abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   /**
-   * CSV column mapping.
-   *
-   * @var array
-   */
-  public $csvColumns = array(
-    array('id', 'ID'),
-    array('title', 'Title'),
-    array('purl', 'PURL'),
-    array('image', 'Image'),
-    array('body', 'Body'),
-    array('topics', 'Topics'),
-    array('geo', 'Geo'),
-    array('uid', 'UID'),
-  );
-
-  /**
    * Creation classes that should run before this one.
    *
    * @var array
