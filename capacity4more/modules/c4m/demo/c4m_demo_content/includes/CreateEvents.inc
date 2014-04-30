@@ -80,58 +80,8 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
    * {@inheritdoc}
    */
   public function prepare($entity, $row) {
-    $this->extractDate($entity, $row);
-  }
+    $this->extractDateTimeEnd($entity, $row);
 
-  /**
-   * {@inheritdoc}
-   */
-  public function prepareRow($row) {
-    $tids = array();
-
-    if (!empty($row->c4m_vocab_categories) && is_array($row->c4m_vocab_categories)) {
-      foreach ($row->c4m_vocab_categories as $id => $tid) {
-        $tids[] = $tid;
-      }
-    }
-
-    if (!empty($row->c4m_vocab_tags) && is_array($row->c4m_vocab_tags)) {
-      foreach ($row->c4m_vocab_tags as $id => $tid) {
-        $tids[] = $tid;
-      }
-    }
-
-    $row->{OG_VOCAB_FIELD} = $tids;
-  }
-
-  /**
-   * Prepare the date from a CSV file to the Drupal field.
-   *
-   * @param object $entity
-   *   The prepared entity that will be inserted in our Drupal 7.
-   * @param object $row
-   *   The mapped CSV row.
-   */
-  public function extractDate($entity, $row) {
-    // Fix start/end dates.
-    $date = explode(';', $row->field_date);
-
-    if ($date[0] == 'now') {
-      $date[0] = date('Y-m-d H:i', time());
-    }
-
-    $entity->c4m_datetime_end[LANGUAGE_NONE][0] = array(
-      'value' => $date[0],
-      'date_type' => 'datetime',
-    );
-
-    // Adding the end date of the event.
-    if (isset($date[1])) {
-      if ($date[1] == 'now') {
-        $date[1] = date('Y-m-d H:i', time());
-      }
-
-      $entity->c4m_datetime_end[LANGUAGE_NONE][0]['value2'] = $date[1];
-    }
+    $this->assignTags($entity, $row);
   }
 }

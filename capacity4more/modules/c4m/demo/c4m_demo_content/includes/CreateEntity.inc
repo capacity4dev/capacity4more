@@ -162,4 +162,90 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   protected function isEntityTypeSupported($type) {
     return in_array($type, $this->supportedEntityTypes);
   }
+
+  /**
+   * Helper method to extract categories and tags into og_vocabulary.
+   *
+   * Take the categories and tags from a row and combine/manipulate them
+   * into the right format to be stored in the og_vocabulary field.
+   *
+   * @param object $entity
+   *   The entity being created by Migrate.
+   * @param object $row
+   *   The row being processed.
+   */
+  protected function assignTags($entity, $row) {
+    // Retrieve and map the categories.
+    $mapped_cat = $this->handleSourceMigration(
+      'C4mDemoContentCreateCategories',
+      explode('|', $row->categories),
+      NULL,
+      $this
+    );
+
+    if (!is_array($mapped_cat) && !empty($mapped_cat)) {
+      $mapped_cat = array($mapped_cat);
+    }
+
+    // Retrieve and map the tags.
+    $mapped_tag = $this->handleSourceMigration(
+      'C4mDemoContentCreateTags',
+      explode('|', $row->tags),
+      NULL,
+      $this
+    );
+
+    if (!is_array($mapped_tag) && !empty($mapped_tag)) {
+      $mapped_tag = array($mapped_tag);
+    }
+
+    if (is_array($mapped_cat) && is_array($mapped_tag)) {
+      $terms = array_merge($mapped_cat, $mapped_tag);
+    }
+    elseif (empty($mapped_cat)) {
+      $terms = $mapped_tag;
+    }
+    elseif (empty($mapped_tag)) {
+      $terms = $mapped_cat;
+    }
+    else {
+      $terms = array();
+    }
+
+    foreach ($terms as $key => $term) {
+      $terms[$key] = array('target_id' => $term);
+    }
+    $entity->og_vocabulary[LANGUAGE_NONE] = $terms;
+  }
+
+  /**
+   * Prepare the date from a CSV file to the Drupal field.
+   *
+   * @param object $entity
+   *   The prepared entity that will be inserted in our Drupal 7.
+   * @param object $row
+   *   The mapped CSV row.
+   */
+  public function extractDateTimeEnd($entity, $row) {
+    // Fix start/end dates.
+    $date = explode(';', $row->field_date);
+
+    if ($date[0] == 'now') {
+      $date[0] = date('Y-m-d H:i', time());
+    }
+
+    $entity->c4m_datetime_end[LANGUAGE_NONE][0] = array(
+      'value' => $date[0],
+      'date_type' => 'datetime',
+    );
+
+    // Adding the end date of the event.
+    if (isset($date[1])) {
+      if ($date[1] == 'now') {
+        $date[1] = date('Y-m-d H:i', time());
+      }
+
+      $entity->c4m_datetime_end[LANGUAGE_NONE][0]['value2'] = $date[1];
+    }
+  }
 }

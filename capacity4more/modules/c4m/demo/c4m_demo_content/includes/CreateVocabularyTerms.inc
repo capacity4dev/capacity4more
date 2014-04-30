@@ -86,19 +86,11 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
   protected function prepareRowTaxonomyTerm(&$row) {
     switch ($row->group_type) {
       case 'group':
-        $mapped_id = $this->handleSourceMigration(
-          'C4mDemoContentCreateGroups', $row->{OG_AUDIENCE_FIELD},
-          NULL,
-          $this
-        );
+        $mapped_id = $this->getMappedIds('C4mDemoContentCreateGroups', $row->{OG_AUDIENCE_FIELD});
         break;
 
       case 'project':
-        $mapped_id = $this->handleSourceMigration(
-          'C4mDemoContentCreateProjects', $row->{OG_AUDIENCE_FIELD},
-          NULL,
-          $this
-        );
+        $mapped_id = $this->getMappedIds('C4mDemoContentCreateProjects', $row->{OG_AUDIENCE_FIELD});
         break;
     }
 
@@ -109,5 +101,25 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
     $name = $this->bundle . '_' . $mapped_id['destid1'];
 
     $row->vocabulary_machine_name = $name;
+  }
+
+  /**
+   * Helper method to retrieve mapped ids.
+   *
+   * @param string $source
+   *   Migration Source (used to map source to destination).
+   * @param string $row_field
+   *   The field in our row to extract.
+   *
+   * @return array
+   *   An array with destid1 and/or destid2.
+   */
+  protected function getMappedIds($source, $row_field) {
+    return $this->handleSourceMigration(
+      $source,
+      $row_field,
+      NULL,
+      $this
+    );
   }
 }
