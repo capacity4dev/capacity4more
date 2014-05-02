@@ -5,10 +5,10 @@
  */
 
 /**
- * Class C4mDemoContentCreateDocuments
+ * Class C4mDemoContentCreateBlogs
  */
-class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
-  public $bundle = 'document';
+class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
+  public $bundle = 'blog';
 
   /**
    * CSV column mapping.
@@ -19,7 +19,7 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
     array('id', 'ID'),
     array('title', 'Title'),
     array('body', 'Body'),
-    array('file', 'File'),
+    array('related_docs', 'Documents'),
     array('categories', 'Categories'),
     array('tags', 'Tags'),
     array('group_map', 'Group'),
@@ -33,14 +33,11 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
   public function __construct() {
     parent::__construct();
 
+    $this->dependencies[] = 'C4mDemoContentCreateDocuments';
+
     $this->addFieldMapping('c4m_body', 'body');
 
-    $this->addFieldMapping('c4m_media', 'file')
-      ->separator(';');
-    $this->addFieldMapping('c4m_media:file_replace')
-      ->defaultValue(FILE_EXISTS_REPLACE);
-    $this->addFieldMapping('c4m_media:source_dir')
-      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/files');
+    $this->addFieldMapping('c4m_related_document', 'documents');
 
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
@@ -52,6 +49,32 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
       ->sourceMigration('C4mDemoContentCreateTags')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
+  }
+  /**
+   * Prepare the row data loaded from the CSV.
+   *
+   * @param object $row
+   *   The data from the CSV file.
+   *
+   * @return bool
+   *   Success.
+   */
+  public function prepareRow($row) {
+    parent::prepareRow($row);
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateDocuments',
+      explode('|', $row->related_docs),
+      NULL,
+      $this
+    );
+
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->documents = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
   }
 
   /**
