@@ -7,8 +7,7 @@
 /**
  * Class C4mDemoContentCreateEvents
  */
-class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
-  public $entityType = 'node';
+class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public $bundle = 'event';
 
   /**
@@ -31,18 +30,6 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
   );
 
   /**
-   * Content creations need to be run before this one.
-   *
-   * @var array
-   */
-  public $dependencies = array(
-    'C4mDemoContentCreateUsers',
-    'C4mDemoContentCreateGroups',
-    'C4mDemoContentCreateCategories',
-    'C4mDemoContentCreateTags',
-  );
-
-  /**
    * Class constructor.
    */
   public function __construct() {
@@ -54,11 +41,9 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_organised_by', 'organizer')
       ->separator(';');
 
-    $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('C4mDemoContentCreateUsers');
-
     $this->addFieldMapping('c4m_location', 'location');
 
+    // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
       ->sourceMigration('C4mDemoContentCreateCategories')
       ->arguments(array('source_type' => 'tid'))
@@ -68,26 +53,13 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
       ->sourceMigration('C4mDemoContentCreateTags')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
-
-    $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD);
   }
 
   /**
    * {@inheritdoc}
    */
   public function prepareRow($row) {
-    switch ($row->group_type) {
-      case 'group':
-        $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateGroups', $row->group_map, NULL, $this);
-        break;
-
-      case 'project':
-        $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateProjects', $row->group_map, NULL, $this);
-        break;
-    }
-    $row->{OG_AUDIENCE_FIELD} = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
+    parent::prepareRow($row);
   }
 
   /**

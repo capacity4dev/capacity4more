@@ -8,6 +8,7 @@ dependencies[] = migrate_extras
 
 ; Classes to create the dummy content.
 files[] = includes/CreateOgGroups.inc
+files[] = includes/CreateOgContent.inc
 files[] = includes/CreateGroups.inc
 files[] = includes/CreateProjects.inc
 files[] = includes/CreateEntity.inc
