@@ -68,33 +68,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
 
     $this->addFieldMapping('c4m_cris_contract_number', 'cris_contract')
       ->separator(';');
-
-    $this->addFieldMapping('c4m_related_projects', 'projects_list');
-  }
-
-  /**
-   * Prepare the row data loaded from the CSV.
-   *
-   * @param object $row
-   *   The data from the CSV file.
-   *
-   * @return bool
-   *   Success.
-   */
-  public function prepareRow($row) {
-    parent::prepareRow($row);
-
-    $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateProjects',
-      explode('|', $row->projects),
-      NULL,
-      $this
-    );
-    $row->projects_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
-
-    return TRUE;
   }
 
   /**

@@ -48,6 +48,8 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       ->sourceMigration('C4mDemoContentCreateUsers');
 
     $this->addFieldMapping('c4m_related_group', 'groups_list');
+
+    $this->addFieldMapping('c4m_related_projects', 'projects_list');
   }
 
   /**
@@ -83,6 +85,16 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       $this
     );
     $row->groups_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateProjects',
+      explode('|', $row->projects),
+      NULL,
+      $this
+    );
+    $row->projects_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
 
