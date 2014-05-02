@@ -25,7 +25,8 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
     array('location', 'Location'),
     array('categories', 'Categories'),
     array('tags', 'Tags'),
-    array(OG_AUDIENCE_FIELD, 'Group'),
+    array('group_map', 'Group'),
+    array('group_type', 'Group Type'),
     array('uid', 'UID'),
   );
 
@@ -49,8 +50,6 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
     $this->addFieldMapping('field_date', 'field_date');
-    $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD)
-      ->sourceMigration(array('C4mDemoContentCreateGroups'));
 
     $this->addFieldMapping('c4m_organised_by', 'organizer')
       ->separator(';');
@@ -69,6 +68,26 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
       ->sourceMigration('C4mDemoContentCreateTags')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
+
+    $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareRow($row) {
+    switch ($row->group_type) {
+      case 'group':
+        $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateGroups', $row->group_map, NULL, $this);
+        break;
+
+      case 'project':
+        $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateProjects', $row->group_map, NULL, $this);
+        break;
+    }
+    $row->{OG_AUDIENCE_FIELD} = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
   }
 
   /**
