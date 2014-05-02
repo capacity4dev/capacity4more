@@ -1,0 +1,28 @@
+ID,Parent,Name,Description,Group
+cat_leagues,,Football leagues,"",group_1
+cat_jpl,Football leagues,Jupiler Pro League,"",group_1
+cat_epl,Football leagues,English Premier League,"",group_1
+cat_l1,Football leagues,League 1,"",group_1
+cat_masters,,Masters Tournaments,"",group_2
+cat_wimbledon,Masters Tournaments,Wimbledon,"",group_2
+cat_rolandgarros,Masters Tournaments,Roland Garros,"",group_2
+cat_usopen,Masters Tournaments,US Open,"",group_2
+cat_ausopen,Masters Tournaments,Australian Open,"",group_2
+cat_ligas,,World Ligas,"",group_2
+cat_atp,World Ligas,ATP,"",group_2
+cat_wta,World Ligas,WTA,"",group_2
+cat_genres,,Genres,"",group_3
+cat_horror,Genres,Horror,"",group_3
+cat_comedy,Genres,Comedy,"",group_3
+cat_drama,Genres,Drama,"",group_3
+cat_romance,Genres,Romance,"",group_3
+cat_music_genres,,Music Genres,"",group_4
+cat_rap,Music Genres,Rap & Hip-Hop,"",group_4
+cat_house,Music Genres,House,"",group_4
+cat_pop,Music Genres,Popular Music,"",group_4
+cat_dnb,Music Genres,Drum & Bass,"",group_4
+cat_science,,Science categories,"",group_5
+cat_earthsciences,Science categories,Earth Sciences,"Earth science (also known as geoscience, the geosciences, or the Earth Sciences), is an all-embracing term for the sciences related to the planet Earth. It is arguably a special case in planetary science, being the only known life-bearing planet known to Homo sapiens. There are both reductionist and holistic approaches to Earth science.",group_5
+cat_arch_genres,,Architecture Genres,"",group_6
+cat_artdeco,Architecture Genres,Art Deco,"",group_6
+cat_artnouveau,Architecture Genres,Art Nouveau,"",group_6

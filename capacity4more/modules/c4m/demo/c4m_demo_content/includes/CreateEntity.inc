@@ -74,7 +74,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
             'vocabulary_machine_name',
             'vocabulary_machine_name'
           );
-          $csv_columns[] = array(OG_AUDIENCE_FIELD, 'Site');
+          $csv_columns[] = array(OG_AUDIENCE_FIELD, 'Group');
         }
         $this->csvColumns = $csv_columns;
         break;
@@ -141,20 +141,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   }
 
   /**
-   * Prepare the entity.
-   *
-   * @param object $entity
-   *   The newly created entity.
-   * @param object $row
-   *   The row data.
-   */
-  public function prepare($entity, $row) {
-    if ($this->entityType == 'taxonomy_term' && $this->ogVocab) {
-      $this->prepareTaxonomyTerm($entity, $row);
-    }
-  }
-
-  /**
    * Prepare a taxonomy term for storage within groups.
    *
    * Add the group identifier to the vocabulary name, and set OG-vocab
@@ -164,45 +150,19 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    *   The term data that will be stored.
    */
   private function prepareRowTaxonomyTerm(&$row) {
-    $name = $this->bundle . '_' . $row->{OG_AUDIENCE_FIELD};
-    $vocabulary = taxonomy_vocabulary_machine_name_load($name);
-    if (!$vocabulary) {
-      // Create a vocabulary for the bundle in the VSite.
-      $vocabulary = (object) array(
-        'machine_name' => $name,
-        'name' => $this->bundle,
-        'description' => '',
-        'help' => '',
-      );
-      taxonomy_vocabulary_save($vocabulary);
+    $mapped_id = $this->handleSourceMigration(
+      'C4mDemoContentCreateGroups', $row->{OG_AUDIENCE_FIELD},
+      NULL,
+      $this
+    );
 
-      // Create an OG-vocab entity for all group-content bundles
-      // @todo: Move to "OG-Vocab" migrate.
-      // We can't save OG vocab for all bundles, as it fails in Travis.
-      foreach (array_keys(os_get_bundles()) as $bundle) {
-        $og_vocab = og_vocab_create_og_vocab($vocabulary->vid, 'node', $bundle);
-        $og_vocab->save();
-      }
+    if (empty($mapped_id['destid1'])) {
+      return FALSE;
     }
 
+    $name = $this->bundle . '_' . $mapped_id['destid1'];
+
     $row->vocabulary_machine_name = $name;
-  }
-
-  /**
-   * Set relation of the vocabulary to the group.
-   *
-   * @param object $entity
-   *   The term entity.
-   * @param object $row
-   *   The term data used to create the entity.
-   */
-  private function prepareTaxonomyTerm($entity, $row) {
-    $vocabulary = taxonomy_vocabulary_machine_name_load(
-      $entity->vocabulary_machine_name
-    );
-    $gid = $entity->og_group_ref['destid1'];
-
-    og_vocab_relation_save($vocabulary->vid, 'node', $gid);
   }
 
   /**
