@@ -26,3 +26,9 @@ cat_earthsciences,Science categories,Earth Sciences,"Earth science (also known a
 cat_arch_genres,,Architecture Genres,"",group_6,group
 cat_artdeco,Architecture Genres,Art Deco,"",group_6,group
 cat_artnouveau,Architecture Genres,Art Nouveau,"",group_6,group
+cat_p_science,,Science,"",project_2,project
+cat_p_dna,Science,DNA,"",project_2,project
+cat_p_arch,,Architecture,"",project_1,project
+cat_p_city,Architecture,City,"",project_1,project
+cat_p_art,Architecture,Artificial,"",project_1,project
+cat_p_stadium,Architecture,Stadium,"",project_1,project

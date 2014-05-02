@@ -7,8 +7,7 @@
 /**
  * Class C4mDemoContentCreateEvents
  */
-class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
-  public $entityType = 'node';
+class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public $bundle = 'event';
 
   /**
@@ -25,20 +24,9 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
     array('location', 'Location'),
     array('categories', 'Categories'),
     array('tags', 'Tags'),
-    array(OG_AUDIENCE_FIELD, 'Group'),
+    array('group_map', 'Group'),
+    array('group_type', 'Group Type'),
     array('uid', 'UID'),
-  );
-
-  /**
-   * Content creations need to be run before this one.
-   *
-   * @var array
-   */
-  public $dependencies = array(
-    'C4mDemoContentCreateUsers',
-    'C4mDemoContentCreateGroups',
-    'C4mDemoContentCreateCategories',
-    'C4mDemoContentCreateTags',
   );
 
   /**
@@ -49,17 +37,13 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
     $this->addFieldMapping('field_date', 'field_date');
-    $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD)
-      ->sourceMigration(array('C4mDemoContentCreateGroups'));
 
     $this->addFieldMapping('c4m_organised_by', 'organizer')
       ->separator(';');
 
-    $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('C4mDemoContentCreateUsers');
-
     $this->addFieldMapping('c4m_location', 'location');
 
+    // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
       ->sourceMigration('C4mDemoContentCreateCategories')
       ->arguments(array('source_type' => 'tid'))
@@ -74,8 +58,15 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateEntity {
   /**
    * {@inheritdoc}
    */
+  public function prepareRow($row) {
+    parent::prepareRow($row);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function prepare($entity, $row) {
-    $this->extractDateTimeEnd($entity, $row);
+    $this->extractDateTimeEnd($entity, $row, 'field_date');
 
     $this->assignTags($entity, $row);
   }

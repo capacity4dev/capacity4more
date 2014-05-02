@@ -225,10 +225,12 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    *   The prepared entity that will be inserted in our Drupal 7.
    * @param object $row
    *   The mapped CSV row.
+   * @param string $fieldname
+   *   The name of the field holding the date value.
    */
-  public function extractDateTimeEnd($entity, $row) {
+  public function extractDateTimeEnd($entity, $row, $fieldname) {
     // Fix start/end dates.
-    $date = explode(';', $row->field_date);
+    $date = explode(';', $row->{$fieldname});
 
     if ($date[0] == 'now') {
       $date[0] = date('Y-m-d H:i', time());
@@ -247,6 +249,61 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
       $entity->c4m_datetime_end[LANGUAGE_NONE][0]['value2'] = $date[1];
     }
+  }
+
+  /**
+   * Prepare the date from a CSV file to the Drupal field.
+   *
+   * @param object $entity
+   *   The prepared entity that will be inserted in our Drupal 7.
+   * @param object $row
+   *   The mapped CSV row.
+   * @param string $fieldname
+   *   The name of the field holding the date value.
+   */
+  public function extractDateEnd($entity, $row, $fieldname) {
+    // Fix start/end dates.
+    $date = explode(';', $row->{$fieldname});
+
+    if ($date[0] == 'now') {
+      $date[0] = date('Y-m-d', time());
+    }
+
+    $entity->c4m_date_end[LANGUAGE_NONE][0] = array(
+      'value' => $date[0],
+      'date_type' => 'datetime',
+    );
+
+    // Adding the end date of the event.
+    if (isset($date[1])) {
+      if ($date[1] == 'now') {
+        $date[1] = date('Y-m-d', time());
+      }
+
+      $entity->c4m_date_end[LANGUAGE_NONE][0]['value2'] = $date[1];
+    }
+  }
+
+  /**
+   * Helper method to combine an amount and currency for a "money" field.
+   *
+   * @param object $entity
+   *   The entity object AFTER it has been saved (nid available).
+   * @param object $row
+   *   The source row we are processing.
+   * @param string $amountfield
+   *   Name of the field holding the amount.
+   * @param string $currencyfield
+   *   Name of the field holding the currency (abbreviation).
+   */
+  public function extractBudget($entity, $row, $amountfield, $currencyfield) {
+    $amount = $row->{$amountfield};
+    $currency = $row->{$currencyfield};
+
+    $entity->c4m_money[LANGUAGE_NONE][0] = array(
+      'amount' => $amount,
+      'currency' => $currency,
+    );
   }
 
   /**

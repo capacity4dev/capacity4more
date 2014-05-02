@@ -10,7 +10,6 @@
  */
 define('C4M_DEMO_CONTENT_MIGRATION_GROUP', 'c4m_demo_content');
 
-
 /**
  * Implements hook_migrate_api().
  */
@@ -23,6 +22,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateRegionTerms',
     'C4mDemoContentCreateRegionNodes',
     'C4mDemoContentCreateGroups',
+    'C4mDemoContentCreateProjects',
     'C4mDemoContentCreateArticles',
     'C4mDemoContentCreateCategories',
     'C4mDemoContentCreateTags',
