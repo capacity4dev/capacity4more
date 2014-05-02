@@ -32,12 +32,17 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('projects', 'Projects'),
   );
 
-
-  public function __construct(){
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct() {
     parent::__construct();
   }
 
-  public function prepareRow($row){
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareRow($row) {
     parent::prepareRow($row);
   }
 }

@@ -293,7 +293,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    *   The source row we are processing.
    * @param string $amountfield
    *   Name of the field holding the amount.
-   * @param string $amountcurrency
+   * @param string $currencyfield
    *   Name of the field holding the currency (abbreviation).
    */
   public function extractBudget($entity, $row, $amountfield, $currencyfield) {
