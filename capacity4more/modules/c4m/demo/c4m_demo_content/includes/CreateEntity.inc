@@ -25,7 +25,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     'og_vocab',
   );
 
-
   /**
    * Class constructor.
    */
@@ -53,37 +52,18 @@ abstract class C4mDemoContentCreateEntity extends Migration {
         $this->addFieldMapping('title', 'title');
         $this->addFieldMapping('created', 'created');
         $class_name = 'MigrateDestinationNode';
-        break;
-
-      case 'taxonomy_term':
-        $class_name = 'MigrateDestinationTerm';
-
-        $csv_columns = array(
-          array('id', 'ID'),
-          array('parent', 'Parent'),
-          array('name', 'Name'),
-          array('description', 'Description'),
-        );
-        $this->addFieldMapping('parent_name', 'parent');
-        $this->addFieldMapping('name', 'name');
-        $this->addFieldMapping('description', 'description');
-
-        if ($this->ogVocab) {
-          $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD);
-          $this->addFieldMapping(
-            'vocabulary_machine_name',
-            'vocabulary_machine_name'
-          );
-          $csv_columns[] = array(OG_AUDIENCE_FIELD, 'Group');
-        }
-        $this->csvColumns = $csv_columns;
-        break;
-
-      case 'og_vocab':
-        $class_name = 'MigrateDestinationEntityAPI';
+        $this->postConstruct($class_name);
         break;
     }
+  }
 
+  /**
+   * Create the right mapping between destination and migration source.
+   *
+   * @param string $class_name
+   *   Class name depending on the type of entity.
+   */
+  public function postConstruct($class_name) {
     // Create a map object for tracking the relationships between source rows.
     $key = array(
       'id' => array(
@@ -121,8 +101,8 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    *   Success.
    */
   public function prepareRow($row) {
-    // The migrate content isn't belong to any one, the default will be the
-    // admin user.
+    // The migrated content isn't belonging to any one,
+    // default to the admin user.
     if (!$row->uid) {
       $row->uid = 1;
     }
@@ -138,31 +118,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     }
 
     return TRUE;
-  }
-
-  /**
-   * Prepare a taxonomy term for storage within groups.
-   *
-   * Add the group identifier to the vocabulary name, and set OG-vocab
-   * relation to the newly created vocabulary.
-   *
-   * @param object $row
-   *   The term data that will be stored.
-   */
-  private function prepareRowTaxonomyTerm(&$row) {
-    $mapped_id = $this->handleSourceMigration(
-      'C4mDemoContentCreateGroups', $row->{OG_AUDIENCE_FIELD},
-      NULL,
-      $this
-    );
-
-    if (empty($mapped_id['destid1'])) {
-      return FALSE;
-    }
-
-    $name = $this->bundle . '_' . $mapped_id['destid1'];
-
-    $row->vocabulary_machine_name = $name;
   }
 
   /**
@@ -206,5 +161,157 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    */
   protected function isEntityTypeSupported($type) {
     return in_array($type, $this->supportedEntityTypes);
+  }
+
+  /**
+   * Helper method to extract categories and tags into og_vocabulary.
+   *
+   * Take the categories and tags from a row and combine/manipulate them
+   * into the right format to be stored in the og_vocabulary field.
+   *
+   * @param object $entity
+   *   The entity being created by Migrate.
+   * @param object $row
+   *   The row being processed.
+   */
+  protected function assignTags($entity, $row) {
+    // Retrieve and map the categories.
+    $mapped_cat = $this->handleSourceMigration(
+      'C4mDemoContentCreateCategories',
+      explode('|', $row->categories),
+      NULL,
+      $this
+    );
+
+    if (!is_array($mapped_cat) && !empty($mapped_cat)) {
+      $mapped_cat = array($mapped_cat);
+    }
+
+    // Retrieve and map the tags.
+    $mapped_tag = $this->handleSourceMigration(
+      'C4mDemoContentCreateTags',
+      explode('|', $row->tags),
+      NULL,
+      $this
+    );
+
+    if (!is_array($mapped_tag) && !empty($mapped_tag)) {
+      $mapped_tag = array($mapped_tag);
+    }
+
+    if (is_array($mapped_cat) && is_array($mapped_tag)) {
+      $terms = array_merge($mapped_cat, $mapped_tag);
+    }
+    elseif (empty($mapped_cat)) {
+      $terms = $mapped_tag;
+    }
+    elseif (empty($mapped_tag)) {
+      $terms = $mapped_cat;
+    }
+    else {
+      $terms = array();
+    }
+
+    foreach ($terms as $key => $term) {
+      $terms[$key] = array('target_id' => $term);
+    }
+    $entity->og_vocabulary[LANGUAGE_NONE] = $terms;
+  }
+
+  /**
+   * Prepare the date from a CSV file to the Drupal field.
+   *
+   * @param object $entity
+   *   The prepared entity that will be inserted in our Drupal 7.
+   * @param object $row
+   *   The mapped CSV row.
+   */
+  public function extractDateTimeEnd($entity, $row) {
+    // Fix start/end dates.
+    $date = explode(';', $row->field_date);
+
+    if ($date[0] == 'now') {
+      $date[0] = date('Y-m-d H:i', time());
+    }
+
+    $entity->c4m_datetime_end[LANGUAGE_NONE][0] = array(
+      'value' => $date[0],
+      'date_type' => 'datetime',
+    );
+
+    // Adding the end date of the event.
+    if (isset($date[1])) {
+      if ($date[1] == 'now') {
+        $date[1] = date('Y-m-d H:i', time());
+      }
+
+      $entity->c4m_datetime_end[LANGUAGE_NONE][0]['value2'] = $date[1];
+    }
+  }
+
+  /**
+   * Helper method to turn a CSV address into a getlocation field.
+   *
+   * Will explode the CSV semi-colon separated address field and fill
+   * all properties of the getlocation field. It is important that all 11
+   * indices are present in the source file (even if empty).
+   *
+   * @param object $entity
+   *   The entity object AFTER it has been saved (nid available).
+   * @param object $row
+   *   The source row we are processing.
+   *
+   * @return bool
+   *   Will return TRUE if entity_save was successful.
+   */
+  public function extractAddress($entity, $row) {
+    $location = explode(';', $row->location);
+    if (count($location) <= 1) {
+      return FALSE;
+    }
+
+    $criteria = array(
+      'field_name' => 'c4m_location',
+      'vid' => $entity->vid,
+      'nid' => $entity->nid,
+    );
+
+    $field = field_info_field('c4m_location');
+    $instance = field_info_instance('node', 'c4m_location', $entity->type);
+
+    $settings = FALSE;
+    if (isset($field['settings'])) {
+      $settings = $field['settings'];
+    }
+
+    $settings['display_settings'] = getlocations_fields_get_display_settings($instance['display']['default']['settings']);
+
+    $locations = array(
+      array(
+        'name'        => $location[0] ? $location[0] : '',
+        'street'      => $location[1] ? $location[1] : '',
+        'additional'  => $location[2] ? $location[2] : '',
+        'city'        => $location[3] ? $location[3] : '',
+        'province'    => $location[4] ? $location[4] : '',
+        'postal_code' => $location[5] ? $location[5] : '',
+        'country'     => $location[6] ? $location[6] : '',
+        'address'     => $location[7] ? $location[7] : '',
+        'latitude'    => $location[8] ? $location[8] : '',
+        'longitude'   => $location[9] ? $location[9] : '',
+        'marker'      => $location[10] ? $location[10] : '',
+        'data'        => $location[11] ? $location[11] : '',
+      ),
+    );
+
+    $items = getlocations_fields_save_locations($locations, $criteria, $settings, 'insert');
+
+    if (is_array($items)) {
+      $entity->c4m_location[LANGUAGE_NONE][0] = $items[0];
+
+      entity_save('node', $entity);
+
+      return TRUE;
+    }
+    return FALSE;
   }
 }
