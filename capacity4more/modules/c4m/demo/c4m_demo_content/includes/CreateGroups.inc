@@ -29,39 +29,15 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('topics', 'Topics'),
     array('geo', 'Geo'),
     array('groups', 'Groups'),
+    array('projects', 'Projects'),
   );
 
-  /**
-   * Configure the migration class during creation.
-   */
-  public function __construct() {
-    parent::__construct();
 
-    $this->addFieldMapping('c4m_related_group', 'groups_list');
+  public function __construct(){
+    parent::__construct();
   }
 
-  /**
-   * Prepare the row data loaded from the CSV.
-   *
-   * @param object $row
-   *   The data from the CSV file.
-   *
-   * @return bool
-   *   Success.
-   */
-  public function prepareRow($row) {
+  public function prepareRow($row){
     parent::prepareRow($row);
-
-    $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateGroups',
-      explode('|', $row->groups),
-      NULL,
-      $this
-    );
-    $row->groups_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
-
-    return TRUE;
   }
 }

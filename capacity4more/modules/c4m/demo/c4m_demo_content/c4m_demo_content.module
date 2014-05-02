@@ -10,10 +10,6 @@
  */
 define('C4M_DEMO_CONTENT_MIGRATION_GROUP', 'c4m_demo_content');
 
-function c4m_demo_content_preprocess_page(&$vars) {
-  dsm($vars['node']);
-}
-
 /**
  * Implements hook_migrate_api().
  */
