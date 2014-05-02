@@ -27,7 +27,7 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
    */
   public function __construct() {
     parent::__construct();
-    
+
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
 
