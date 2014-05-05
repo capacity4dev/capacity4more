@@ -139,6 +139,7 @@ function c4m_content_minisite_get_book_by_nid($nid) {
  *
  * @param int $nid
  *   Entity node id.
+ * 
  * @return int|null
  *   Menu link ID if found, else NULL.
  */
