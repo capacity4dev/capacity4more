@@ -36,6 +36,8 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     parent::__construct();
 
     $this->dependencies[] = 'C4mDemoContentCreateDocuments';
+    $this->dependencies[] = 'C4mDemoContentCreateGroups';
+    $this->dependencies[] = 'C4mDemoContentCreateProjects';
 
     $this->addFieldMapping('c4m_body', 'body');
 
@@ -116,6 +118,12 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
    *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
+    if (!empty($entity->book)) {
+      if ($entity->book['nid'] !== 'new' || intval($entity->book['nid']) != 0) {
+        return;
+      }
+    }
+
     $og_id = $row->{OG_AUDIENCE_FIELD}['destid1'];
 
     if (!empty($row->pid)) {
