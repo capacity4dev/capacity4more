@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * All code to generate minisite (master) pages for all new group types.
  */
 
@@ -16,8 +15,8 @@ function c4m_content_minisite_create_root_minisite($node) {
   // The user who created the group will also be the author of the master page.
   $user = user_load($node->uid);
 
-  // Node data
-  $minisite = new stdClass;
+  // Node data.
+  $minisite = new stdClass();
   $minisite->type = "minisite";
   $minisite->status = 1;
   $minisite->uid = $user->uid;
