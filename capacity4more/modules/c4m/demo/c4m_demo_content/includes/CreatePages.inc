@@ -134,7 +134,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
       $parent_node = node_load($row->pid['destid1']);
     }
     else {
-      // Retrieve root book node if no parent was given.
+      // Retrieve root book node (master page) if no parent was given.
       $parent_node = c4m_content_minisite_get_book_by_gid($og_id);
     }
 
