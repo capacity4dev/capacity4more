@@ -118,9 +118,13 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
    *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
+    // Take care of import --update.
+    // Now there's an Integrity constraint violation
+    // Duplicate entry for key nid.
+    $update = FALSE;
     if (!empty($entity->book)) {
       if ($entity->book['nid'] !== 'new' || intval($entity->book['nid']) != 0) {
-        return;
+        $update = TRUE;
       }
     }
 
@@ -141,13 +145,21 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     $book = $parent_node->book;
 
     $book['plid'] = $book['mlid'];
-    unset($book['mlid']);
+    $book['nid'] = $entity->nid;
+
+    if ($update) {
+      $book['mlid'] = c4m_content_minisite_get_mlid_by_nid($entity->nid);
+    }
+    else {
+      unset($book['mlid']);
+    }
 
     $book['weight'] = $row->weight;
 
     $entity->book = $book;
     _book_update_outline($entity);
 
+    // Manually save the node.
     entity_save('node', $entity);
   }
 }
