@@ -45,6 +45,8 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
    *   Success.
    */
   public function prepareRow($row) {
+    parent::prepareRow($row);
+
     switch ($row->group_type) {
       case 'group':
         $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateGroups', $row->group_map, NULL, $this);
@@ -58,4 +60,5 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
       $unfiltered_ids
     );
   }
+
 }
