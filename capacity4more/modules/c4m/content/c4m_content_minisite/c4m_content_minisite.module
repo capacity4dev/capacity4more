@@ -6,6 +6,10 @@
 
 include_once 'c4m_content_minisite.features.inc';
 
+function c4m_content_minisite_preprocess_page(&$vars) {
+  dsm($vars['node']);
+}
+
 /**
  * Implements hook_token_info().
  */
@@ -81,3 +85,52 @@ function c4m_content_minisite_node_insert($node) {
   c4m_content_minisite_create_root_minisite($node);
 }
 
+/**
+ * Helper function to retrieve the book from a group nid.
+ *
+ * @param integer $gid
+ *   Group ID.
+ *
+ * @return bool|mixed|null
+ *   Book node if found, else NULL.
+ */
+function c4m_content_minisite_get_book_by_gid($gid) {
+  $q = db_select('node', 'node');
+  $q->join('og_membership', 'group_rel', 'node.nid = group_rel.etid');
+  $q->fields('node', array('nid'))
+    ->condition('group_rel.gid', $gid, '=')
+    ->condition('node.type', 'minisite', '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    $node = node_load($res[0]['nid']);
+    return $node;
+  }
+
+  return NULL;
+}
+
+/**
+ * Helper function to retrieve the book from a node id.
+ *
+ * @param integer $nid
+ *   Node ID.
+ *
+ * @return bool|mixed|null
+ *   Book node if found, else NULL.
+ */
+function c4m_content_minisite_get_book_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->addField('book', 'bid')
+    ->condition('book.nid', $nid, '=')
+    ->limit(0, 1)
+  ->execute();
+
+  if (!empty($q)) {
+    $node = node_load($q);
+    return $node;
+  }
+
+  return NULL;
+}
