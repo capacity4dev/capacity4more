@@ -6,10 +6,6 @@
 
 include_once 'c4m_content_minisite.features.inc';
 
-function c4m_content_minisite_preprocess_page(&$vars) {
-  dsm($vars['node']);
-}
-
 /**
  * Implements hook_token_info().
  */
