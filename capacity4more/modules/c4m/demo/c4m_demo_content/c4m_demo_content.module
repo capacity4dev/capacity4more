@@ -28,6 +28,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateTags',
     'C4mDemoContentCreateEvents',
     'C4mDemoContentCreateDocuments',
+    'C4mDemoContentCreateTasklists',
     'C4mDemoContentCreateBlogs',
   );
 
