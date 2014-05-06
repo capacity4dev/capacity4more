@@ -58,6 +58,7 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
   }
+
   /**
    * Prepare the row data loaded from the CSV.
    *
