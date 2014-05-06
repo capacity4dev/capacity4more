@@ -212,10 +212,12 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       $terms = array();
     }
 
-    foreach ($terms as $key => $term) {
-      $terms[$key] = array('target_id' => $term);
+    if (!empty($terms)) {
+      foreach ($terms as $key => $term) {
+        $terms[$key] = array('target_id' => $term);
+      }
+      $entity->og_vocabulary[LANGUAGE_NONE] = $terms;
     }
-    $entity->og_vocabulary[LANGUAGE_NONE] = $terms;
   }
 
   /**

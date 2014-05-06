@@ -26,6 +26,8 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateArticles',
     'C4mDemoContentCreateCategories',
     'C4mDemoContentCreateTags',
+    'C4mDemoContentCreatePhotoalbums',
+    'C4mDemoContentCreatePhotos',
     'C4mDemoContentCreateEvents',
     'C4mDemoContentCreateDocuments',
     'C4mDemoContentCreateTasklists',
