@@ -228,6 +228,30 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    * @param string $fieldname
    *   The name of the field holding the date value.
    */
+  public function extractDate($entity, $row, $fieldname) {
+    // Fix start date.
+    $date = $row->{$fieldname};
+
+    if ($date == 'now') {
+      $date = date('Y-m-d', time());
+    }
+
+    $entity->c4m_date[LANGUAGE_NONE][0] = array(
+      'value' => $date,
+      'date_type' => 'datetime',
+    );
+  }
+
+  /**
+   * Prepare the date from a CSV file to the Drupal field.
+   *
+   * @param object $entity
+   *   The prepared entity that will be inserted in our Drupal 7.
+   * @param object $row
+   *   The mapped CSV row.
+   * @param string $fieldname
+   *   The name of the field holding the date value.
+   */
   public function extractDateTimeEnd($entity, $row, $fieldname) {
     // Fix start/end dates.
     $date = explode(';', $row->{$fieldname});
