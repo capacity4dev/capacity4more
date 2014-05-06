@@ -63,7 +63,12 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   }
 
   /**
-   * {@inheritdoc}
+   * The entity has been created (not saved yet, so no nid created).
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
    */
   public function prepare($entity, $row) {
     $this->extractDateTimeEnd($entity, $row, 'field_date');
@@ -72,7 +77,12 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   }
 
   /**
-   * {@inheritdoc}
+   * The entity has been created and saved.
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
     $this->extractAddress($entity, $row);

@@ -83,7 +83,12 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
   }
 
   /**
-   * {@inheritdoc}
+   * The entity has been created (not saved yet, so no nid created).
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
    */
   public function prepare($entity, $row) {
     $this->extractDate($entity, $row, 'field_date');
