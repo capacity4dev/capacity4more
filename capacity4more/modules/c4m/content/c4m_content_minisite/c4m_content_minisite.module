@@ -12,7 +12,7 @@ include_once 'c4m_content_minisite.features.inc';
 function c4m_content_minisite_token_info() {
   $info = array();
 
-  if(!module_exists('pathauto')) {
+  if (!module_exists('pathauto')) {
     return;
   }
 
@@ -27,13 +27,15 @@ function c4m_content_minisite_token_info() {
 /**
  * Implements hook_tokens().
  *
- * Extends the pathauto_tokens() functionality. Shifts the first array key, which is the minisite master page
- * in case of a minisite tree, and creates a joined path from the array like pathauto module does.
+ * Extends the pathauto_tokens() functionality.
+ * Shifts the first array key, which is the minisite master page
+ * in case of a minisite tree,
+ * and creates a joined path from the array like pathauto module does.
  */
 function c4m_content_minisite_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
 
-  if(!module_exists('pathauto')) {
+  if (!module_exists('pathauto')) {
     return;
   }
 
@@ -67,7 +69,8 @@ function c4m_content_minisite_tokens($type, $tokens, array $data = array(), arra
 /**
  * Implements hook_node_insert().
  *
- * Automatically create a master minisite page if a group content type is created.
+ * Automatically create a master minisite page
+ * if a group content type is created.
  */
 function c4m_content_minisite_node_insert($node) {
   // Only for OG enabled content type.
@@ -81,3 +84,75 @@ function c4m_content_minisite_node_insert($node) {
   c4m_content_minisite_create_root_minisite($node);
 }
 
+/**
+ * Helper function to retrieve the book from a group nid.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool|mixed|null
+ *   Book node if found, else NULL.
+ */
+function c4m_content_minisite_get_book_by_gid($gid) {
+  $q = db_select('node', 'node');
+  $q->join('og_membership', 'group_rel', 'node.nid = group_rel.etid');
+  $q->fields('node', array('nid'))
+    ->condition('group_rel.gid', $gid, '=')
+    ->condition('node.type', 'minisite', '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    $node = node_load($res[0]['nid']);
+    return $node;
+  }
+
+  return NULL;
+}
+
+/**
+ * Helper function to retrieve the book from a node id.
+ *
+ * @param int $nid
+ *   Node ID.
+ *
+ * @return bool|mixed|null
+ *   Book node if found, else NULL.
+ */
+function c4m_content_minisite_get_book_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->fields('book', array('bid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['bid'];
+  }
+
+  return NULL;
+}
+
+/**
+ * Helper function to retrieve the menu mlid from a node id.
+ *
+ * @param int $nid
+ *   Entity node id.
+ *
+ * @return int|null
+ *   Menu link ID if found, else NULL.
+ */
+function c4m_content_minisite_get_mlid_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->fields('book', array('mlid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['mlid'];
+  }
+
+  return NULL;
+}

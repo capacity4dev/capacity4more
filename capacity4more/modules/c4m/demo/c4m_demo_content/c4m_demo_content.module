@@ -29,6 +29,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateEvents',
     'C4mDemoContentCreateDocuments',
     'C4mDemoContentCreateBlogs',
+    'C4mDemoContentCreatePages',
   );
 
   $group_name = 'c4m_demo_content';

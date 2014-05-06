@@ -11,6 +11,7 @@ files[] = includes/CreateOgGroups.inc
 files[] = includes/CreateOgContent.inc
 files[] = includes/CreateGroups.inc
 files[] = includes/CreateProjects.inc
+files[] = includes/CreatePages.inc
 files[] = includes/CreateEntity.inc
 files[] = includes/CreateVocabularyTerms.inc
 files[] = includes/CreateRegionNodes.inc
