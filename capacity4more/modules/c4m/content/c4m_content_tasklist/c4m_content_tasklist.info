@@ -7,6 +7,7 @@ dependencies[] = c4m_content_document
 dependencies[] = c4m_field_body
 dependencies[] = c4m_field_og
 dependencies[] = c4m_field_user
+dependencies[] = c4m_og_vocab
 dependencies[] = ctools
 dependencies[] = entityreference
 dependencies[] = features
