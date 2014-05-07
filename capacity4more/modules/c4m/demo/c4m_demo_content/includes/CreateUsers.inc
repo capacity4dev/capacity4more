@@ -12,7 +12,7 @@ class C4mDemoContentCreateUsers extends Migration {
    * Map the field and properties to the CSV header.
    */
   public $csvColumns = array(
-    array('id', 'Unique ID'),
+    array('id', 'ID'),
     array('name', 'Username'),
     array('pass', 'Password'),
     array('mail', 'Email'),
