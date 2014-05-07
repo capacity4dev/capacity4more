@@ -1,0 +1,7 @@
+ID,Parent,Status,NID,Name,Email,UID,Subject,Body
+ct_1,,1,task_3,Teamleader 1,teamleader@hotmail.com,,Be Prepared,"Be prepared for the worst guys"
+ct_1_1,ct_1,1,task_3,,,user_4,,"That doesn't sound too good."
+ct_1_1_1,ct_1_1,1,task_3,Teamleader 1,teamleader@hotmail.com,,,"Always keep the worst case scenario in mind and prepare for it"
+ct_1_2,ct_1,1,task_3,,,user_1,,"Is there anything we should know?"
+ct_1_2_1,ct_1_2,1,task_3,,,user_6,,"See previous answer from our teamleader, just be prepared"
+ct_1_2_1_1,ct_1_2_1,1,task_3,,,user_1,,"Okay I/we will!"

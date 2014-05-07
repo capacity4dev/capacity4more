@@ -32,6 +32,7 @@ files[] = includes/CreateDocuments.inc
 files[] = includes/CreateDocumentComments.inc
 files[] = includes/CreateTasklists.inc
 files[] = includes/CreateTasks.inc
+files[] = includes/CreateTaskComments.inc
 files[] = includes/CreateBlogs.inc
 files[] = includes/CreateBlogComments.inc
 
