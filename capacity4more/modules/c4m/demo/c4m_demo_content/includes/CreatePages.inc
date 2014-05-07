@@ -123,7 +123,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     // Now there's an Integrity constraint violation
     // Duplicate entry for key nid.
     $update = FALSE;
-    if (!empty($entity->book)) {
+    if (!empty($entity->book) && !empty($entity->book['nid'])) {
       if ($entity->book['nid'] !== 'new' || intval($entity->book['nid']) != 0) {
         $update = TRUE;
       }
