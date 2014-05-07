@@ -108,34 +108,6 @@ abstract class C4mDemoContentCreateComments extends Migration {
     return TRUE;
   }
 
-//  /**
-//   * The entity has been created but not yet saved (no nid).
-//   *
-//   * @param object $entity
-//   *   The entity object that was created.
-//   * @param object $row
-//   *   The CSV row we are manipulating.
-//   */
-//  public function complete($entity, $row) {
-//    $body = array(LANGUAGE_NONE => array(
-//      'value' => $row->body,
-//      'format' => 'filtered_html',
-//      'safe_value' => $row->body,
-//    ));
-//    $entity->comment_body = $body;
-////dsm($row->body);
-////    dsm($entity);
-//
-//    comment_save($entity);
-//
-//    dsm($entity);
-//
-//    $entity = comment_load(78);
-//
-//
-//    dsm($entity);
-//  }
-
   /**
    * Add a dependency to the Migration class (if not added earlier).
    *
