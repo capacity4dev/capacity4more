@@ -27,6 +27,7 @@ files[] = includes/CreatePhotoalbums.inc
 files[] = includes/CreatePhotos.inc
 files[] = includes/CreateEvents.inc
 files[] = includes/CreateDocuments.inc
+files[] = includes/CreateDocumentComments.inc
 files[] = includes/CreateTasklists.inc
 files[] = includes/CreateTasks.inc
 files[] = includes/CreateBlogs.inc
