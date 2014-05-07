@@ -34,6 +34,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateTasklists',
     'C4mDemoContentCreateTasks',
     'C4mDemoContentCreateBlogs',
+    'C4mDemoContentCreateBlogComments',
     'C4mDemoContentCreatePages',
   );
 
