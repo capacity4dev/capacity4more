@@ -52,6 +52,14 @@ class C4mDemoContentCreateUsers extends Migration {
       'c4m_country',
     ));
 
+    $this->addFieldMapping('c4m_media', 'picture')
+      ->separator(';');
+    $this->addFieldMapping('c4m_media:file_replace')
+      ->defaultValue(FILE_EXISTS_REPLACE);
+    $this->addFieldMapping('c4m_media:source_dir')
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+    $this->addFieldMapping('c4m_media:destination_dir', 'destination');
+
     $this->addFieldMapping('roles')
       ->defaultValue(DRUPAL_AUTHENTICATED_RID);
     $this->addFieldMapping('status')
