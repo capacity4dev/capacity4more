@@ -55,7 +55,7 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_related_document', 'documents');
   }
-  
+
   /**
    * Prepare the row data loaded from the CSV.
    *
