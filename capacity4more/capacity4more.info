@@ -66,6 +66,9 @@ dependencies[] = views_bulk_operations
 dependencies[] = c4m_vocab_category
 dependencies[] = c4m_vocab_tag
 
+; Users
+dependencies[] = c4m_user_profile
+
 ; Content Types
 dependencies[] = c4m_content_book
 dependencies[] = c4m_content_document
