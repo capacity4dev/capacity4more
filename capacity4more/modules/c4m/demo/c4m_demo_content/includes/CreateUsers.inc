@@ -16,9 +16,17 @@ class C4mDemoContentCreateUsers extends Migration {
     array('name', 'Username'),
     array('pass', 'Password'),
     array('mail', 'Email'),
-    array('first_name', 'First name'),
-    array('last_name', 'Last name'),
+    array('c4m_first_name', 'First name'),
+    array('c4m_last_name', 'Last name'),
+    array('picture', 'Picture'),
+    array('c4m_organisation', 'Organisation'),
+    array('c4m_organisation_type', 'Organisation Type'),
+    array('c4m_country', 'Country'),
+    array('topic_interest', 'Topic Interest'),
+    array('topic_expertise', 'Topic Expertise'),
+    array('vocab_geo', 'Related geo'),
     array('role', 'Role'),
+    array('groups_list', 'Group Memberships'),
   );
 
   public $entityType = 'user';
@@ -33,11 +41,17 @@ class C4mDemoContentCreateUsers extends Migration {
 
     $this->description = t('Import users from a CSV file.');
 
-    $this->addFieldMapping('name', 'name');
-    $this->addFieldMapping('pass', 'pass');
-    $this->addFieldMapping('mail', 'mail');
-    $this->addFieldMapping('field_first_name', 'first_name');
-    $this->addFieldMapping('field_last_name', 'last_name');
+    $this->addSimpleMappings(array(
+      'name',
+      'pass',
+      'mail',
+      'c4m_first_name',
+      'c4m_last_name',
+      'c4m_organisation',
+      'c4m_organisation_type',
+      'c4m_country',
+    ));
+
     $this->addFieldMapping('roles')
       ->defaultValue(DRUPAL_AUTHENTICATED_RID);
     $this->addFieldMapping('status')

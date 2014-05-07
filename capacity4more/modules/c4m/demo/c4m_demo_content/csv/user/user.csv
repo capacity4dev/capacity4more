@@ -1,7 +1,7 @@
-ID,Username,Password,Email,First name,Last name,Role
-user_1,mariecurie,drupal,radioactive@curie.fr,Marie,Curie,administrator
-user_2,isaacnewton,drupal,isaac@gravity.com,Isaac,Newton,
-user_3,badhairday,drupal,albert@emc2.com,Albert,Einstein,
-user_4,galileo,drupal,galileo@astronomy.com,Galileo,Galilei,
-user_5,survivalofthefittest,drupal,charles.darwin@evolution.com,Charles,Darwin,administrator
-user_6,turing,drupal,alan_turing@turingmachine.com,Alan,Turing,
+ID,Username,Password,Email,First name,Last name,Picture,Organisation,Organisation Type,Country,Topic Interest,Topic Expertise,Related Geo,Role,Group Memberships
+user_1,mariecurie,drupal,radioactive@curie.fr,Marie,Curie,,,,,,,,administrator,
+user_2,isaacnewton,drupal,isaac@gravity.com,Isaac,Newton,,,,,,,,,
+user_3,badhairday,drupal,albert@emc2.com,Albert,Einstein,,,,,,,,,
+user_4,galileo,drupal,galileo@astronomy.com,Galileo,Galilei,,,,,,,,,
+user_5,survivalofthefittest,drupal,charles.darwin@evolution.com,Charles,Darwin,,,,,,,,administrator,
+user_6,turing,drupal,alan_turing@turingmachine.com,Alan,Turing,,,,,,,,,
