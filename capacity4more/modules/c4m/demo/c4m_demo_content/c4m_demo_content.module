@@ -30,6 +30,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreatePhotoalbums',
     'C4mDemoContentCreatePhotos',
     'C4mDemoContentCreateEvents',
+    'C4mDemoContentCreateEventComments',
     'C4mDemoContentCreateDocuments',
     'C4mDemoContentCreateDocumentComments',
     'C4mDemoContentCreateTasklists',
