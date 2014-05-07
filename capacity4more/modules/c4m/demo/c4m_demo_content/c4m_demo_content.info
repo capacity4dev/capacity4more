@@ -20,6 +20,7 @@ files[] = includes/CreateRegionNodes.inc
 files[] = includes/CreateRegionTerms.inc
 files[] = includes/CreateTopics.inc
 files[] = includes/CreateArticles.inc
+files[] = includes/CreateArticleComments.inc
 files[] = includes/CreateCategories.inc
 files[] = includes/CreateTags.inc
 files[] = includes/CreatePhotoalbums.inc
