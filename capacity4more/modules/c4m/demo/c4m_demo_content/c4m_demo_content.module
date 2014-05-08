@@ -23,6 +23,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateRegionNodes',
     'C4mDemoContentCreateGroups',
     'C4mDemoContentCreateProjects',
+    'C4mDemoContentCreateUserProfiles',
     'C4mDemoContentCreateArticles',
     'C4mDemoContentCreateCategories',
     'C4mDemoContentCreateTags',

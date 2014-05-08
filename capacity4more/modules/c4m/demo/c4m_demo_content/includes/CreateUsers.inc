@@ -22,9 +22,9 @@ class C4mDemoContentCreateUsers extends Migration {
     array('c4m_organisation', 'Organisation'),
     array('c4m_organisation_type', 'Organisation Type'),
     array('c4m_country', 'Country'),
-    array('topic_interest', 'Topic Interest'),
-    array('topic_expertise', 'Topic Expertise'),
-    array('vocab_geo', 'Related geo'),
+    array('topics_interest', 'Topic Interest'),
+    array('topics_expertise', 'Topic Expertise'),
+    array('geo', 'Related geo'),
     array('role', 'Role'),
     array('groups_list', 'Group Memberships'),
   );
@@ -45,20 +45,7 @@ class C4mDemoContentCreateUsers extends Migration {
       'name',
       'pass',
       'mail',
-      'c4m_first_name',
-      'c4m_last_name',
-      'c4m_organisation',
-      'c4m_organisation_type',
-      'c4m_country',
     ));
-
-    $this->addFieldMapping('c4m_media', 'picture')
-      ->separator(';');
-    $this->addFieldMapping('c4m_media:file_replace')
-      ->defaultValue(FILE_EXISTS_REPLACE);
-    $this->addFieldMapping('c4m_media:source_dir')
-      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
-    $this->addFieldMapping('c4m_media:destination_dir', 'destination');
 
     $this->addFieldMapping('roles')
       ->defaultValue(DRUPAL_AUTHENTICATED_RID);
