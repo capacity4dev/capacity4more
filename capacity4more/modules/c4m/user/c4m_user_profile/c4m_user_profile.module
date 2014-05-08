@@ -1,5 +1,16 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * capacity4more User Profile module
  */
+
+/**
+ * Implements hook_field_extra_fields_alter()
+ */
+function c4m_user_profile_field_extra_fields_alter(&$info) {
+  // Make sure that the Account fields are always at the top of the
+  // user profile.
+  if(isset($info['user']['user']['form']['account']['weight'])) {
+    $info['user']['user']['form']['account']['weight'] = -100;
+  }
+}
