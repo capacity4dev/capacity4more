@@ -52,4 +52,30 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
   }
+
+  /**
+   * Create stub Topics (when creating users), who will be replaced afterwards.
+   *
+   * @param Migration $migration
+   *   The migration that is being done to create this stub.
+   * @param array $source_id
+   *   Array of strings with the source id(s).
+   *
+   * @return array|bool
+   */
+  public function createStub(Migration $migration, array $source_id) {
+    $node = new stdClass();
+    $node->title = t('Stub for @id', array('@id' => $source_id[0]));
+    $node->body[LANGUAGE_NONE][0] = t('Stub topic');
+    $node->type = $this->destination->getBundle();
+    $node->uid = 1;
+    $node->status = 0;
+    node_save($node);
+    if (isset($node->nid)) {
+      return array($node->nid);
+    }
+    else {
+      return FALSE;
+    }
+  }
 }
