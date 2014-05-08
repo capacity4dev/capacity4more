@@ -1,7 +1,7 @@
 ID,Username,Password,Email,First name,Last name,Picture,Organisation,Organisation Type,Country,Topic Interest,Topic Expertise,Related Geo,Role,Groups,Projects
-user_1,mariecurie,drupal,radioactive@curie.fr,Maria Salomea,Skłodowska-Curie,mariecurie.jpg,PoRa 84-88,Services,PL,topic_earth|topic_fire,topic_earth,geo_pl,administrator,,
-user_2,isaacnewton,drupal,isaac@gravity.com,Isaac,Newton,isaacnewton.jpg,F=m.a,non-profit,GB,topic_earth,topic_earth,geo_uk|geo_gb,,,
-user_3,badhairday,drupal,albert@emc2.com,Albert,Einstein,alberteinstein.jpeg,E=mc2,non-profit,DE,,,geo_de,,,
-user_4,galileo,drupal,galileo@astronomy.com,Galileo,Galilei,galilei.jpg,Telescopia,services,IT,topic_earth,topic_earth,geo_it,,,
-user_5,survivalofthefittest,drupal,charles.darwin@evolution.com,Charles,Darwin,charlesdarwin.jpg,The Daily Darwin,non-profit,GB,topic_wind|topic_fire,topic_fire,geo_gb|geo_uk,administrator,,
-user_6,turing,drupal,alan_turing@turingmachine.com,Alan,Turing,alanturing.gif,Turing Testing Inc.,services,GB,,,geo_gb|geo_uk,,,
+user_1,mariecurie,drupal,radioactive@curie.fr,Maria Salomea,Skłodowska-Curie,mariecurie.jpg,PoRa 84-88,Services,PL,topic_earth|topic_fire,topic_earth,geo_pl,administrator,group_6|group_5|group_4|group_3|group_2|group_1,project_1|project_2
+user_2,isaacnewton,drupal,isaac@gravity.com,Isaac,Newton,isaacnewton.jpg,F=m.a,non-profit,GB,topic_earth,topic_earth,geo_uk|geo_gb,,group_2,project_1
+user_3,badhairday,drupal,albert@emc2.com,Albert,Einstein,alberteinstein.jpeg,E=mc2,non-profit,DE,,,geo_de,,group_2,project_1
+user_4,galileo,drupal,galileo@astronomy.com,Galileo,Galilei,galilei.jpg,Telescopia,services,IT,topic_earth,topic_earth,geo_it,,group_2,project_1
+user_5,survivalofthefittest,drupal,charles.darwin@evolution.com,Charles,Darwin,charlesdarwin.jpg,The Daily Darwin,non-profit,GB,topic_wind|topic_fire,topic_fire,geo_gb|geo_uk,administrator,group_2,project_1
+user_6,turing,drupal,alan_turing@turingmachine.com,Alan,Turing,alanturing.gif,Turing Testing Inc.,services,GB,,,geo_gb|geo_uk,,group_2,project_1

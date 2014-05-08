@@ -74,6 +74,8 @@ class C4mDemoContentCreateUsers extends Migration {
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
 
+    $this->addFieldMapping('og_user_node', 'og_user_node');
+
     // Create a map object for tracking the relationships between source rows.
     $key = array(
       'id' => array(
@@ -132,6 +134,49 @@ class C4mDemoContentCreateUsers extends Migration {
       $unfiltered_ids
     );
 
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateGroups',
+      explode('|', $row->groups_list),
+      NULL,
+      $this
+    );
+
+    $groups = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateProjects',
+      explode('|', $row->projects_list),
+      NULL,
+      $this
+    );
+
+    $projects = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $gids = array();
+    foreach ($groups as $group) {
+      if (!empty($group['destid1'])) {
+        $gids[] = $group['destid1'];
+      }
+      else {
+        $gids[] = $group;
+      }
+    }
+    foreach ($projects as $project) {
+      if (!empty($project['destid1'])) {
+        $gids[] = $project['destid1'];
+      }
+      else {
+        $gids[] = $project;
+      }
+    }
+
+    // @TODO: ADD ROLES
+    $row->og_user_node = $gids;
+
     return TRUE;
   }
 
@@ -144,6 +189,7 @@ class C4mDemoContentCreateUsers extends Migration {
    *   The data from the CSV file.
    */
   public function complete($entity, $row) {
+    dsm($entity);
     if (!$row->role) {
       return;
     }
