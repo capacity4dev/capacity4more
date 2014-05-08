@@ -1,6 +1,6 @@
 ID,Username,Password,Email,First name,Last name,Picture,Organisation,Organisation Type,Country,Topic Interest,Topic Expertise,Related Geo,Role,Group Memberships
 user_1,mariecurie,drupal,radioactive@curie.fr,Maria Salomea,Skłodowska-Curie,mariecurie.jpg,PoRa 84-88,Services,PL,topic_earth|topic_fire,topic_earth,geo_pl,administrator,
-user_2,isaacnewton,drupal,isaac@gravity.com,Isaac,Newton,isaacnewton.jpg,F=m.a,non-profit,GB,,,,geo_uk|geo_gb,
+user_2,isaacnewton,drupal,isaac@gravity.com,Isaac,Newton,isaacnewton.jpg,F=m.a,non-profit,GB,,,geo_uk|geo_gb,,
 user_3,badhairday,drupal,albert@emc2.com,Albert,Einstein,alberteinstein.jpeg,E=mc2,non-profit,DE,,,,,
 user_4,galileo,drupal,galileo@astronomy.com,Galileo,Galilei,galilei.jpg,Telescopia,services,IT,,,,,
 user_5,survivalofthefittest,drupal,charles.darwin@evolution.com,Charles,Darwin,charlesdarwin.jpg,The Daily Darwin,non-profit,GB,,,,administrator,
