@@ -26,8 +26,6 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   public function __construct() {
     parent::__construct();
 
-    $this->addFieldMapping('og_purl', 'purl');
-
     $this->addFieldMapping('c4m_media', 'image')
       ->separator(';');
     $this->addFieldMapping('c4m_media:file_replace')

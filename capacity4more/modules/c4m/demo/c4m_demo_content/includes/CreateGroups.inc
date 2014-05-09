@@ -45,4 +45,48 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
   public function prepareRow($row) {
     parent::prepareRow($row);
   }
+
+  /**
+   * The entity has been created but not yet saved.
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
+   */
+  public function complete($entity, $row) {
+    $modifier = array(
+      'provider' => 'og_purl|node',
+      'value' => $row->purl,
+      'id' => $entity->nid,
+    );
+    purl_save($modifier);
+  }
+
+  /**
+   * Create stub Topics (when creating users), who will be replaced afterwards.
+   *
+   * @param Migration $migration
+   *   The migration that is being done to create this stub.
+   * @param array $source_id
+   *   Array of strings with the source id(s).
+   *
+   * @return array|bool
+   *   Array with group node id if term created, else FALSE.
+   */
+  public function createStub(Migration $migration, array $source_id) {
+    $node = new stdClass();
+    $node->title = t('Stub for @id', array('@id' => $source_id[0]));
+    $node->body[LANGUAGE_NONE][0] = t('Stub group');
+    $node->type = $this->destination->getBundle();
+    $node->uid = 1;
+    $node->status = 0;
+    node_save($node);
+    if (isset($node->nid)) {
+      return array($node->nid);
+    }
+    else {
+      return FALSE;
+    }
+  }
 }
