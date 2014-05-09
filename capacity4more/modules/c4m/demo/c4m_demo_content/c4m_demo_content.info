@@ -7,24 +7,32 @@ dependencies[] = migrate
 dependencies[] = migrate_extras
 
 ; Classes to create the dummy content.
+files[] = includes/CreateUsers.inc
+files[] = includes/CreateEntity.inc
+files[] = includes/CreateComments.inc
 files[] = includes/CreateOgGroups.inc
 files[] = includes/CreateOgContent.inc
 files[] = includes/CreateGroups.inc
 files[] = includes/CreateProjects.inc
 files[] = includes/CreatePages.inc
-files[] = includes/CreateEntity.inc
 files[] = includes/CreateVocabularyTerms.inc
 files[] = includes/CreateRegionNodes.inc
 files[] = includes/CreateRegionTerms.inc
 files[] = includes/CreateTopics.inc
-files[] = includes/CreateUsers.inc
 files[] = includes/CreateArticles.inc
+files[] = includes/CreateArticleComments.inc
 files[] = includes/CreateCategories.inc
 files[] = includes/CreateTags.inc
 files[] = includes/CreatePhotoalbums.inc
 files[] = includes/CreatePhotos.inc
+files[] = includes/CreatePhotoComments.inc
 files[] = includes/CreateEvents.inc
+files[] = includes/CreateEventComments.inc
 files[] = includes/CreateDocuments.inc
+files[] = includes/CreateDocumentComments.inc
 files[] = includes/CreateTasklists.inc
 files[] = includes/CreateTasks.inc
+files[] = includes/CreateTaskComments.inc
 files[] = includes/CreateBlogs.inc
+files[] = includes/CreateBlogComments.inc
+

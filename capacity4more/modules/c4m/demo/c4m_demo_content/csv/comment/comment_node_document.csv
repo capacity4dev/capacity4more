@@ -1,0 +1,4 @@
+ID,Parent,Status,NID,Name,Email,UID,Subject,Body
+cd_1,,1,doc_2,Dianne Joby,dianne@hotmail.com,,,"Very interesting document"
+cd_2,,1,doc_2,Mitch Raeburn,mraeburn@gmail.com,,"French","Is this document also available in French?"
+cd_2_1,cd_2,1,doc_2,,,user_1,,"Unfortunately it is not, but I'll see if I can get it to the translation service and will keep you posted if so."
