@@ -18,6 +18,7 @@ class C4mDemoContentCreateUsers extends Migration {
     array('mail', 'Email'),
     array('c4m_first_name', 'First name'),
     array('c4m_last_name', 'Last name'),
+    array('description', 'Description'),
     array('picture', 'Picture'),
     array('c4m_organisation', 'Organisation'),
     array('c4m_organisation_type', 'Organisation Type'),
@@ -52,6 +53,8 @@ class C4mDemoContentCreateUsers extends Migration {
       'c4m_organisation_type',
       'c4m_country',
     ));
+
+    $this->addFieldMapping('c4m_body', 'description');
 
     $this->addFieldMapping('c4m_media', 'picture')
       ->separator(';');
