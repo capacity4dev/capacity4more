@@ -12,6 +12,13 @@
 function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
   // Pre-populate the site name with the server name.
   $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
+
+  // Disable the update module by default.
+  // It slows down accessing the administration back-end.
+  $form['update_notifications']['update_status_module']['#default_value'] = array(
+    0 => 0,
+    1 => 2,
+  );
 }
 
 /**
@@ -25,10 +32,18 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-  $tasks['capacity4more_setup_og_permissions'] = array(
-    'display_name' => st('Setup Blocks'),
+//  $tasks['capacity4more_setup_og_permissions'] = array(
+//    'display_name' => st('Setup Blocks'),
+//    'display' => FALSE,
+//  );
+
+
+  // Run this as the last task!
+  $tasks['capacity4more_setup_rebuild_permissions'] = array(
+    'display_name' => st('Rebuild permissions'),
     'display' => FALSE,
   );
+
   return $tasks;
 }
 
@@ -73,18 +88,29 @@ function capacity4more_setup_blocks() {
  * We do this here, late enough to make sure all group-content were
  * created.
  */
-function capacity4more_setup_og_permissions() {
-  $og_roles = og_roles('node', 'company');
-  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
+//function capacity4more_setup_og_permissions() {
+//  $og_roles = og_roles('node', 'company');
+//  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
+//
+//  $permissions = array();
+//  $types = array(
+//    'blog',
+//  );
+//  foreach ($types as $type) {
+//    $permissions["create $type content"] = TRUE;
+//    $permissions["update own $type content"] = TRUE;
+//    $permissions["update any $type content"] = TRUE;
+//  }
+//  og_role_change_permissions($rid, $permissions);
+//}
 
-  $permissions = array();
-  $types = array(
-    'blog',
-  );
-  foreach ($types as $type) {
-    $permissions["create $type content"] = TRUE;
-    $permissions["update own $type content"] = TRUE;
-    $permissions["update any $type content"] = TRUE;
-  }
-  og_role_change_permissions($rid, $permissions);
+/**
+ * Task callback; Rebuild permissions (node access).
+ *
+ * Setting up the platform triggers the need to rebuild the permissions.
+ * We do this here so no manual rebuild is necessary when we finished the
+ * installation.
+ */
+function capacity4more_setup_rebuild_permissions() {
+  node_access_rebuild();
 }

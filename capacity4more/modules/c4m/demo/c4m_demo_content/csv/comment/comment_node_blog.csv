@@ -1,0 +1,4 @@
+ID,Parent,Status,NID,Name,Email,UID,Subject,Body
+cb_1,,1,blog_2,John Doe,john@doe.com,,"First Comment","This is the first comment on your blogpost"
+cb_1_1,cb_1,1,blog_2,,,user_6,,"Welcome to this blog! I hope it won't be your last one"
+cb_2,,1,blog_2,Jane Doe,jane™doe.com,,"Nice blog","Congratulations with your nice blog!"

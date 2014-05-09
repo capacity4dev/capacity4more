@@ -1,0 +1,37 @@
+name = Content Demo
+description = Demonstration of all content types with dummy content
+core = 7.x
+package = capacity4more - Demo
+version = 7.x-1.x-dev
+dependencies[] = migrate
+dependencies[] = migrate_extras
+
+; Classes to create the dummy content.
+files[] = includes/CreateArticleComments.inc
+files[] = includes/CreateArticles.inc
+files[] = includes/CreateBlogComments.inc
+files[] = includes/CreateBlogs.inc
+files[] = includes/CreateCategories.inc
+files[] = includes/CreateComments.inc
+files[] = includes/CreateDocumentComments.inc
+files[] = includes/CreateDocuments.inc
+files[] = includes/CreateEntity.inc
+files[] = includes/CreateEventComments.inc
+files[] = includes/CreateEvents.inc
+files[] = includes/CreateGroups.inc
+files[] = includes/CreateOgContent.inc
+files[] = includes/CreateOgGroups.inc
+files[] = includes/CreatePages.inc
+files[] = includes/CreatePhotoalbums.inc
+files[] = includes/CreatePhotoComments.inc
+files[] = includes/CreatePhotos.inc
+files[] = includes/CreateProjects.inc
+files[] = includes/CreateRegionNodes.inc
+files[] = includes/CreateRegionTerms.inc
+files[] = includes/CreateTags.inc
+files[] = includes/CreateTasklists.inc
+files[] = includes/CreateTaskComments.inc
+files[] = includes/CreateTasks.inc
+files[] = includes/CreateTopics.inc
+files[] = includes/CreateUsers.inc
+files[] = includes/CreateVocabularyTerms.inc

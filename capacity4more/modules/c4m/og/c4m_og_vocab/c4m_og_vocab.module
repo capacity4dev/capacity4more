@@ -1,0 +1,159 @@
+<?php
+/**
+ * @file
+ * Module to support automatically created group vocabularies.
+ *
+ * This module is the glue between the og_vocab module and the capacity4more
+ * distribution.
+ */
+
+
+define('C4M_OG_VOCAB_INFO_VOCABULARIES', 'vocabularies');
+define('C4M_OG_VOCAB_INFO_GROUPS', 'groups');
+define('C4M_OG_VOCAB_INFO_CONTENT', 'content');
+
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically adds the Category taxonomy to a newly created group.
+ * It uses the information collected trough the implemented
+ * hook_c4m_og_vocab_info_groups() hooks to know what vocabularies to create per
+ * group node type.
+ *
+ * It will use the information collected trough the implemented
+ * hook_c4m_og_vocab_info_content() hooks to know for what group content types
+ * to enable the vocabularies.
+ */
+function c4m_og_vocab_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Run the code to create all the vocabularies
+  // and link it with the content types.
+  module_load_include('inc', 'c4m_og_vocab');
+  c4m_og_vocab_trigger_create_group_vocabularies($node);
+}
+
+
+/**
+ * Load and cache all vocabularies info from implemented info_vocabulary hooks.
+ *
+ * @param string $type
+ *   The type of the info we need. Following types are supported:
+ *   - vocabularies : Get all the Vocabulary types.
+ *   - groups : Get the Vocabulary names per Group type.
+ *   - content : Get the Vocabulary names per Group content type.
+ *
+ * @return array
+ *   Configuration as collected trough the implemented
+ *   hook_c4m_og_vocab_info_<$type> hooks.
+ */
+function c4m_og_vocab_info($type) {
+  $cache_key  = 'c4m_og_vocab:info_' . $type;
+  $info = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($info)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $info = $cache->data;
+    }
+    else {
+      $hook = 'c4m_og_vocab_info_' . $type;
+      $info = module_invoke_all($hook);
+      cache_set($cache_key, $info);
+    }
+  }
+
+  return $info;
+}
+
+
+/**
+ * Load the group vocabulary by the given vocabulary name.
+ *
+ * @param object $group
+ *   The group node
+ * @param string $name
+ *   The vocab name as set in the hook_c4m_og_vocab_info_vocabularies() hooks.
+ *
+ * @return object
+ *   Vocabulary object
+ */
+function c4m_og_vocab_load_group_vocabulary($group, $name) {
+  $vocabularies = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
+  if (!isset($vocabularies[$name])) {
+    return;
+  }
+
+  module_load_include('inc', 'c4m_og_vocab');
+
+  $vocabulary = $vocabularies[$name];
+  $machine_name = c4m_og_vocab_fill_string($group, $vocabulary['machine_name']);
+  return taxonomy_vocabulary_machine_name_load($machine_name);
+}
+
+/**
+ * Implements hook_field_widget_info_alter().
+ *
+ * Alter the module that handles our widget to limit the vocabularies displayed.
+ */
+function c4m_og_vocab_field_widget_info_alter(&$info) {
+  $info['og_vocab_complex']['module'] = 'c4m_og_vocab';
+}
+
+/**
+ * Implements hook_field_widget_form().
+ *
+ * Code taken from og_vocab, altered to display only the vocabularies of the
+ * group we are currently in.
+ */
+function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+  $field_name = $field['field_name'];
+
+  if (!$entity) {
+    return;
+  }
+
+  // Cache the processed entity, to make sure we call the widget only once.
+  $cache = &drupal_static(__FUNCTION__, array());
+  list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $identifier = $entity_type . ':' . $id . ':' . $field_name;
+
+  if (isset($cache[$identifier])) {
+    return array();
+  }
+  $cache[$identifier] = TRUE;
+
+  // Retrieve the group from the context. Note: By default you can change the
+  // group manually in the node creation form.
+  // We are not handling this case, because we will prevent this.
+  // If you create content in a group, it will be only for THAT group (fixed).
+  $context = og_context();
+  if (empty($context['gid'])) {
+    $element['no_group_context'] = array(
+      '#type' => 'markup',
+      '#markup' => t('There is no group context available. Please save your group content first and then edit it.'),
+      '#prefix' => '<span class="description">',
+      '#suffix' => '</span>',
+    );
+    return $element;
+  }
+
+  $group = node_load($context['gid']);
+  $all_group_vocabularies = c4m_og_vocab_info('groups');
+
+  // Iterate over all possible (enabled) vocabularies for our group type.
+  foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
+    // Load vocabulary.
+    $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
+    $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
+    $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
+  }
+
+  return $element;
+}

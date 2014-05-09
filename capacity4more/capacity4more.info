@@ -1,10 +1,11 @@
 ; $Id: standard.info,v 1.2 2010/10/25 15:48:41 webchick Exp $
 name = capacity4more
-description = Garmentbox PLM (Product Lifecycle Management)
+description = Capacity4More platform installation profile
 version = 1.x-dev
 core = 7.x
 
-; Core
+
+; Core ------------------------------------------------------------------------
 dependencies[] = block
 ;dependencies[] = color
 dependencies[] = comment
@@ -24,18 +25,20 @@ dependencies[] = shortcut
 dependencies[] = file
 dependencies[] = rdf
 
-; Contrib modules
+; Contrib modules -------------------------------------------------------------
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_popup
+dependencies[] = diff
 dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
 dependencies[] = features
+dependencies[] = field_group
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = libraries
@@ -57,5 +60,29 @@ dependencies[] = views
 dependencies[] = views_bulk_operations
 
 
-; capacity4more
-dependencies[] = c4m_field_body
+; capacity4more ---------------------------------------------------------------
+
+; Vocabularies
+dependencies[] = c4m_vocab_category
+dependencies[] = c4m_vocab_tag
+
+; Users
+dependencies[] = c4m_user_profile
+
+; Content Types
+dependencies[] = c4m_content_book
+dependencies[] = c4m_content_document
+dependencies[] = c4m_content_group
+dependencies[] = c4m_content_project
+dependencies[] = c4m_content_tasklist
+dependencies[] = c4m_content_task
+dependencies[] = c4m_content_blog
+dependencies[] = c4m_content_region
+dependencies[] = c4m_content_minisite
+dependencies[] = c4m_content_page
+dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_photo
+dependencies[] = c4m_content_photoalbum
+dependencies[] = c4m_content_article
+dependencies[] = c4m_content_event
+dependencies[] = c4m_field_related_og

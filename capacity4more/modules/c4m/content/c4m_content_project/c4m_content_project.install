@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_content_project_install() {
+  // Set the pathauto for the content type trough the install hook.
+  // It can then be overridden without interfere the feature settings.
+  variable_set('pathauto_node_project_pattern', 'project/[node:title]');
+}

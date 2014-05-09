@@ -1,0 +1,80 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_og_vocab module.
+ */
+
+/**
+ * Tests for the get info functionality.
+ */
+class C4mOgVocabInfo extends DrupalWebTestCase {
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Group Vocabulary Info',
+      'description' => 'Test the get info functionality.',
+      'group' => 'capacity4more:og:vocab',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('og', 'og_vocab', 'c4m_og_vocab', 'c4m_og_vocab_test');
+    parent::setUp($modules);
+  }
+
+  /**
+   * Test the get info functionality.
+   */
+  public function testGetInfo() {
+    // Test getting the vocabularies information.
+    $expected = c4m_og_vocab_test_c4m_og_vocab_info_vocabularies();
+    $result = c4m_og_vocab_info('vocabularies');
+
+    $this->assertEqual(
+      $result['c4m_vocab_test_category'],
+      $expected['c4m_vocab_test_category']
+    );
+
+    // Test getting the groups information.
+    $expected = c4m_og_vocab_test_c4m_og_vocab_info_groups();
+    $result = c4m_og_vocab_info('groups');
+
+    $this->assertEqual(
+      $result['test_group'],
+      $expected['test_group']
+    );
+
+    // Test getting the content information.
+    $expected = c4m_og_vocab_test_c4m_og_vocab_info_content();
+    $result = c4m_og_vocab_info('content');
+
+    $this->assertEqual(
+      $result['test_wiki'],
+      $expected['test_wiki']
+    );
+  }
+
+  /**
+   * Test filling strings with node entity information.
+   */
+  public function testC4mOgVocabFillString() {
+    module_load_include('inc', 'c4m_og_vocab', 'c4m_og_vocab');
+
+    $node = new stdClass();
+    $node->nid = 5;
+    $node->type = 'group';
+
+    $string   = 'Test node [node:nid] string for node type [node:type] (nid:[node:nid])';
+    $expected = 'Test node 5 string for node type group (nid:5)';
+
+    $result = c4m_og_vocab_fill_string($node, $string);
+    $this->assertEqual($result, $expected, 'Variables should be filled in properly.');
+  }
+}

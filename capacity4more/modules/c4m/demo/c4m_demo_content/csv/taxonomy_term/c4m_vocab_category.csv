@@ -1,0 +1,34 @@
+ID,Parent,Name,Description,Group,Type
+cat_leagues,,Football leagues,"",group_1,group
+cat_jpl,Football leagues,Jupiler Pro League,"",group_1,group
+cat_epl,Football leagues,English Premier League,"",group_1,group
+cat_l1,Football leagues,League 1,"",group_1,group
+cat_masters,,Masters Tournaments,"",group_2,group
+cat_wimbledon,Masters Tournaments,Wimbledon,"",group_2,group
+cat_rolandgarros,Masters Tournaments,Roland Garros,"",group_2,group
+cat_usopen,Masters Tournaments,US Open,"",group_2,group
+cat_ausopen,Masters Tournaments,Australian Open,"",group_2,group
+cat_ligas,,World Ligas,"",group_2,group
+cat_atp,World Ligas,ATP,"",group_2,group
+cat_wta,World Ligas,WTA,"",group_2,group
+cat_genres,,Genres,"",group_3,group
+cat_horror,Genres,Horror,"",group_3,group
+cat_comedy,Genres,Comedy,"",group_3,group
+cat_drama,Genres,Drama,"",group_3,group
+cat_romance,Genres,Romance,"",group_3,group
+cat_music_genres,,Music Genres,"",group_4,group
+cat_rap,Music Genres,Rap & Hip-Hop,"",group_4,group
+cat_house,Music Genres,House,"",group_4,group
+cat_pop,Music Genres,Popular Music,"",group_4,group
+cat_dnb,Music Genres,Drum & Bass,"",group_4,group
+cat_science,,Science categories,"",group_5,group
+cat_earthsciences,Science categories,Earth Sciences,"Earth science (also known as geoscience, the geosciences, or the Earth Sciences), is an all-embracing term for the sciences related to the planet Earth. It is arguably a special case in planetary science, being the only known life-bearing planet known to Homo sapiens. There are both reductionist and holistic approaches to Earth science.",group_5,group
+cat_arch_genres,,Architecture Genres,"",group_6,group
+cat_artdeco,Architecture Genres,Art Deco,"",group_6,group
+cat_artnouveau,Architecture Genres,Art Nouveau,"",group_6,group
+cat_p_science,,Science,"",project_2,project
+cat_p_dna,Science,DNA,"",project_2,project
+cat_p_arch,,Architecture,"",project_1,project
+cat_p_city,Architecture,City,"",project_1,project
+cat_p_art,Architecture,Artificial,"",project_1,project
+cat_p_stadium,Architecture,Stadium,"",project_1,project

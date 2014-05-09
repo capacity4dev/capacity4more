@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Code for the Group content type feature.
+ */
+
+include_once 'c4m_content_group.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_groups().
+ *
+ * @return array
+ */
+function c4m_content_group_c4m_og_vocab_info_groups() {
+  return array(
+    'group' => array(
+      'c4m_vocab_category',
+      'c4m_vocab_tag',
+    ),
+  );
+}

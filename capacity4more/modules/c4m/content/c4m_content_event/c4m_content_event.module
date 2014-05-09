@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Code for the Event content type feature.
+ */
+
+include_once 'c4m_content_event.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ *
+ * @return array
+ */
+function c4m_content_event_c4m_og_vocab_info_content() {
+  return array(
+    'event' => array(
+      'entity_type' => 'node',
+      'bundle' => 'event',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+  );
+}

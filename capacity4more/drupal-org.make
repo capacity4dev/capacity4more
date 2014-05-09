@@ -39,7 +39,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.4"
+projects[entity][version] = "1.5"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
@@ -49,6 +49,9 @@ projects[entityreference_prepopulate][version] = "1.5"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
+
+projects[field_group][subdir] = "contrib"
+projects[field_group][version] = "1.3"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"

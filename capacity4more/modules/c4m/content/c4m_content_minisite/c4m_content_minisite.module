@@ -1,0 +1,158 @@
+<?php
+/**
+ * @file
+ * Code for the Minisite content type feature.
+ */
+
+include_once 'c4m_content_minisite.features.inc';
+
+/**
+ * Implements hook_token_info().
+ */
+function c4m_content_minisite_token_info() {
+  $info = array();
+
+  if (!module_exists('pathauto')) {
+    return;
+  }
+
+  $info['tokens']['array']['minisite-join-path'] = array(
+    'name' => t('Joined path without Master Page'),
+    'description' => t('The array values with the (empty) master (= root) page removed from the tree.'),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ * Extends the pathauto_tokens() functionality.
+ * Shifts the first array key, which is the minisite master page
+ * in case of a minisite tree,
+ * and creates a joined path from the array like pathauto module does.
+ */
+function c4m_content_minisite_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+
+  if (!module_exists('pathauto')) {
+    return;
+  }
+
+  if ($type == 'array' && !empty($data['array'])) {
+    $array = $data['array'];
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'minisite-join-path':
+          if (is_array($array)) {
+            // Remove the first (root) element of the tree.
+            array_shift($array);
+          }
+
+          module_load_include('inc', 'pathauto');
+          $values = array();
+          foreach (element_children($array) as $key) {
+            $value = is_array($array[$key]) ? render($array[$key]) : (string) $array[$key];
+            $value = pathauto_cleanstring($value);
+            $values[] = $value;
+          }
+          $replacements[$original] = implode('/', $values);
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically create a master minisite page
+ * if a group content type is created.
+ */
+function c4m_content_minisite_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Run the code to create all the vocabularies
+  // and link it with the content types.
+  module_load_include('inc', 'c4m_content_minisite');
+  c4m_content_minisite_create_root_minisite($node);
+}
+
+/**
+ * Helper function to retrieve the book from a group nid.
+ *
+ * @param int $gid
+ *   Group ID.
+ *
+ * @return bool|mixed|null
+ *   Book node if found, else NULL.
+ */
+function c4m_content_minisite_get_book_by_gid($gid) {
+  $q = db_select('node', 'node');
+  $q->join('og_membership', 'group_rel', 'node.nid = group_rel.etid');
+  $q->fields('node', array('nid'))
+    ->condition('group_rel.gid', $gid, '=')
+    ->condition('node.type', 'minisite', '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    $node = node_load($res[0]['nid']);
+    return $node;
+  }
+
+  return NULL;
+}
+
+/**
+ * Helper function to retrieve the book from a node id.
+ *
+ * @param int $nid
+ *   Node ID.
+ *
+ * @return bool|mixed|null
+ *   Book node if found, else NULL.
+ */
+function c4m_content_minisite_get_book_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->fields('book', array('bid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['bid'];
+  }
+
+  return NULL;
+}
+
+/**
+ * Helper function to retrieve the menu mlid from a node id.
+ *
+ * @param int $nid
+ *   Entity node id.
+ *
+ * @return int|null
+ *   Menu link ID if found, else NULL.
+ */
+function c4m_content_minisite_get_mlid_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->fields('book', array('mlid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['mlid'];
+  }
+
+  return NULL;
+}

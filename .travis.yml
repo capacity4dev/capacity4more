@@ -18,7 +18,7 @@ install:
 
   # install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require drush/drush:6.*
+  - composer global require drush/drush:6.*@dev
   - phpenv rehash
 
 before_script:
@@ -59,3 +59,11 @@ script:
 
   - ./bin/behat --tags=~@wip
 
+
+  # Run WebTests ---------------------------------------------------------------
+  - drush @capacity4more -y en simpletest
+
+  # Add the tests here. Use the group name, classname or the file.
+  - drush @capacity4more test-run "capacity4more:og:vocab"
+
+  # End Run WebTests -----------------------------------------------------------
