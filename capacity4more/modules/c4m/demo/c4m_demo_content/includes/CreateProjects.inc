@@ -110,6 +110,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
    *   Array of strings with the source id(s).
    *
    * @return array|bool
+   *   Array with project node id if term created, else FALSE.
    */
   public function createStub(Migration $migration, array $source_id) {
     $node = new stdClass();

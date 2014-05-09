@@ -189,7 +189,6 @@ class C4mDemoContentCreateUsers extends Migration {
    *   The data from the CSV file.
    */
   public function complete($entity, $row) {
-    dsm($entity);
     if (!$row->role) {
       return;
     }
@@ -223,7 +222,7 @@ class C4mDemoContentCreateUsers extends Migration {
         if (!empty($dest['destid1'])) {
           $filtered_ids[$key] = array('destid1' => $dest['destid1']);
         }
-        // stubs generate array('<value_1>', '<value_2>') without keys.
+        // Stubs generate array('<value_1>', '<value_2>') without keys.
         else {
           $filtered_ids[$key] = array('destid1' => $dest);
         }

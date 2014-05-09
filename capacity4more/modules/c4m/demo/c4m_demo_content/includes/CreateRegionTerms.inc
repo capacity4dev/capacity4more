@@ -28,6 +28,7 @@ class C4mDemoContentCreateRegionTerms extends C4mDemoContentCreateVocabularyTerm
    *   Array of strings with the source id(s).
    *
    * @return array|bool
+   *   Array with region term id if term created, else FALSE.
    */
   public function createStub(Migration $migration, array $source_id) {
     $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_geo');
