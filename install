@@ -46,13 +46,15 @@ function arguments_usage {
   echo -e  "${BGCYAN}    -d   Load demo content after the installation.               ${RESTORE}"
   echo -e  "${BGCYAN}    -l   Open a new tab in your default browser and login to     ${RESTORE}"
   echo -e  "${BGCYAN}         your project as the Administrator.                      ${RESTORE}"
+  echo -e  "${BGCYAN}    -y   Answer automatically yes to the confirmation question.  ${RESTORE}"
+  echo -e  "${BGCYAN}         Used to run the install unantended.                     ${RESTORE}"
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
   echo
 }
 
 # Check and process arguments.
 # See http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
-while getopts "hdl" OPTION
+while getopts "hdly" OPTION
 do
   case $OPTION in
     h)
@@ -64,6 +66,9 @@ do
       ;;
     l)
       AUTO_LOGIN=1
+      ;;
+    y)
+      UNATTENDED=1
       ;;
     ?)
       arguments_usage
@@ -96,17 +101,19 @@ fi
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
 
-echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
-read -e -n 1 -r
-if [[ ! $REPLY =~ ^[Y]$ ]]; then
-  echo 
-  echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
-  echo -e "${BGLYELLOW}  Installation aborted!                                          ${RESTORE}"
-  echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+if [ ! $UNATTENDED ]; then
+  echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
+  read -e -n 1 -r
+  if [[ ! $REPLY =~ ^[Y]$ ]]; then
+    echo
+    echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+    echo -e "${BGLYELLOW}  Installation aborted!                                          ${RESTORE}"
+    echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+    echo
+    exit 0
+  fi
   echo
-  exit 0
 fi
-echo
 
 
 # Cleanup contrib modules, themes & libraries from the profile directory.
