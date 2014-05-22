@@ -31,3 +31,17 @@ MYSQL_USERNAME=""
 MYSQL_PASSWORD=""
 MYSQL_HOSTNAME=""
 MYSQL_DB_NAME=""
+
+
+##
+# External folders or files that need to be symlinked into the www folder
+# AFTER the make files have been processed.
+# The variable is an array, add each with an unique index number.
+# Each line should contain the source path > target path.
+# The target path needs to be relative to the www folder (Drupal root).
+#
+# Example:
+#   SYMLINKS[0]="path/to/the/source/folder>subpath/of/the/www-folder"
+##
+#SYMLINKS[0]="/var/www/library/foldername>sites/all/library/foldername"
+#SYMLINKS[1]="/var/www/shared/filename.php>sites/all/modules/filename.php"
