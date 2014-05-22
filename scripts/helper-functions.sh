@@ -125,6 +125,15 @@ function delete_www_content {
 
 
 ##
+# Download & extract Drupal core + contrib based on the make files.
+##
+function drupal_make {
+  echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
+  bash $ROOT/scripts/build
+  echo
+}
+
+##
 # Install the profile as configured in the config.sh file.
 ##
 function install_drupal_profile {
