@@ -116,6 +116,7 @@ if [ ! $UNATTENDED ]; then
 fi
 
 
+
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
 
@@ -126,9 +127,12 @@ delete_sites_default_content
 delete_www_content
 
 # Run the build script (drush make + extra's).
-echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
+#echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
 bash $ROOT/scripts/build
 echo
+
+# Symlink extra modules (if any).
+symlink_externals
 
 # Install the Drupal profile as defined in the config.sh file.
 install_drupal_profile

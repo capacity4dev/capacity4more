@@ -139,6 +139,9 @@ echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
 bash $ROOT/scripts/build
 echo
 
+# Symlink extra modules (if any).
+symlink_externals
+
 # Update the database.
 echo -e "${LBLUE}> Run the Update Database script (drush -y updb)${RESTORE}"
 cd $ROOT/www

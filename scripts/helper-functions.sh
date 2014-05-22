@@ -224,3 +224,51 @@ function drupal_login {
   drush uli --uri=$BASE_DOMAIN_URL
   cd ..
 }
+
+##
+# Symlink external folders into www folder.
+#
+# This will use the SYMLINKS array from the config.sh file and create
+# the symlinks relative to the www folder in the folder structure.
+##
+function symlink_externals {
+  echo -e "${LBLUE}> Symlinking external directories & files${RESTORE}"
+  if [ ${#SYMLINKS[@]} -eq 0 ]; then
+    echo "No directories or files to symlink."
+    return 1
+  fi
+
+  # Loop trough the symlinks configuration.
+  for SOURCETARGET in "${SYMLINKS[@]}"; do
+    paths=($(echo $SOURCETARGET | tr ">" "\n"))
+    path_source=${paths[0]}
+    path_target="$ROOT/www/${paths[1]}"
+    basepath_target=${path_target%/*}
+
+    # check if the source exists
+    if [ ! -e "$path_source" ] && [ ! -L "$path_source" ]; then
+      echo "Source does not exists"
+      echo "  ($path_source)"
+      continue
+    fi
+
+    # Check if the target does not exist.
+    if [ -e "$path_target" ] || [ -L "$path_target" ]; then
+      echo "Target already exists"
+      echo "  ($path_target)"
+      continue
+    fi
+
+    # create basepath of the target if does not already exists.
+    if [ ! -d "$basepath_target" ]; then
+      mkdir -p "$basepath_target"
+    fi
+
+    # Create the symlink
+    ln -s "$path_source" "$path_target"
+    echo "Created symlink for $path_source"
+    echo "  > as $path_target"
+
+  done
+  echo
+}
