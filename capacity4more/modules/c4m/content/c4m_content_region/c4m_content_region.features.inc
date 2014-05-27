@@ -29,3 +29,20 @@ function c4m_content_region_node_info() {
   );
   return $items;
 }
+
+/**
+ * Implements hook_weight_features_default_settings().
+ */
+function c4m_content_region_weight_features_default_settings() {
+  $settings = array();
+
+  $settings['region'] = array(
+    'enabled' => 1,
+    'range' => 20,
+    'menu_weight' => 0,
+    'default' => 0,
+    'sync_translations' => 0,
+  );
+
+  return $settings;
+}
