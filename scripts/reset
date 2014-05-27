@@ -150,6 +150,9 @@ if [ $DEMO_CONTENT ]; then
   migrate_dummy_content
 fi
 
+# Run post script (if any).
+run_post_script "reset"
+
 
 # Check if we have a working bootstrap.
 cd $ROOT/www
@@ -160,7 +163,7 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  Reset failure!                                                 ${RESTORE}"
-  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully             ${RESTORE}"
+  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
   exit 1
