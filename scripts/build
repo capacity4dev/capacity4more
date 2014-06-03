@@ -44,7 +44,7 @@ cd $ROOT
 # Build core and move the profile in place.
 (
   # Save the sites/default directory if it exists.
-  if [ -d www/sites/default ]; then
+  if [ -d www/sites/default ] || [ -L www/sites/default ]; then
     echo -e "${LBLUE}> Create backup of the www/sites/default directory${RESTORE}"
     chmod u+w www/sites/default
     mv www/sites/default sites-backup
@@ -59,10 +59,10 @@ cd $ROOT
   $DRUSH make $PROFILE_NAME/drupal-org-core.make www
 
   # Restore the sites directory.
-  if [ -d sites-backup ]; then
+  if [ -d sites-backup ] || [ -L sites-backup ]; then
     echo -e "${LBLUE}> Restore backup of the www/sites/default directory${RESTORE}"
     rm -Rf www/sites/default
-    mv sites-backup/ www/sites/default
+    mv sites-backup www/sites/default
     echo
   fi
 
