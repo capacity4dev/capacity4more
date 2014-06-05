@@ -9,5 +9,5 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = options
 features[features_api][] = api:2
-features[field_instance][] = node-project-c4m_related_group
 features[field_instance][] = node-group-c4m_related_projects
+features[field_instance][] = node-project-c4m_related_group
