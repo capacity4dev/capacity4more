@@ -65,6 +65,9 @@ projects[getlocations][version] = "1.12"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
 
+projects[location][subdir] = "contrib"
+projects[location][version] = "3.2"
+
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
