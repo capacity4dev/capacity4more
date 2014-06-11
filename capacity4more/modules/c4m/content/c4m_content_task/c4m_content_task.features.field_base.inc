@@ -92,7 +92,7 @@ function c4m_content_task_field_default_field_bases() {
       'allowed_values' => array(
         -1 => 'Not started',
         0 => 'Ongoing',
-        1 => 'Complete',
+        1 => 'Completed',
       ),
       'allowed_values_function' => '',
     ),
