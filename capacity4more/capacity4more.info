@@ -1,6 +1,5 @@
-; $Id: standard.info,v 1.2 2010/10/25 15:48:41 webchick Exp $
 name = capacity4more
-description = Capacity4More platform installation profile
+description = capacity4more platform installation profile
 version = 1.x-dev
 core = 7.x
 
@@ -22,11 +21,11 @@ dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = search
 dependencies[] = shortcut
+dependencies[] = toolbar
 dependencies[] = file
 dependencies[] = rdf
 
 ; Contrib modules -------------------------------------------------------------
-dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
