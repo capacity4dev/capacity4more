@@ -120,6 +120,7 @@ projects[plupload][version] = "1.6"
 
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
+projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
