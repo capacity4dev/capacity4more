@@ -7,5 +7,6 @@ project = c4m_features_regions_overview
 dependencies[] = views
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
+features[views_view][] = c4m_overview_regions
 features[views_view][] = c4m_regions_countries
 features_exclude[dependencies][ctools] = ctools
