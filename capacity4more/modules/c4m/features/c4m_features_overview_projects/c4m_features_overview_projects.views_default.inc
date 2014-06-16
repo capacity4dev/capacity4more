@@ -11,8 +11,8 @@ function c4m_features_overview_projects_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_features_overview_projects';
-  $view->description = 'Overview table of project content.';
+  $view->name = 'c4m_overview_projects';
+  $view->description = 'Overview table of projects content.';
   $view->tag = 'default';
   $view->base_table = 'node';
   $view->human_name = 'Overview - Projects';
@@ -137,7 +137,6 @@ function c4m_features_overview_projects_views_default_views() {
   $handler->display->display_options['filters']['title']['exposed'] = TRUE;
   $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
   $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
-  $handler->display->display_options['filters']['title']['expose']['use_operator'] = TRUE;
   $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
   $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
   $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
@@ -159,7 +158,7 @@ function c4m_features_overview_projects_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_features_overview_projects'] = $view;
+  $export['c4m_overview_projects'] = $view;
 
   return $export;
 }

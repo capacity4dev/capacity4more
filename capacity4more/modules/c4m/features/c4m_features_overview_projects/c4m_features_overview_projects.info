@@ -6,5 +6,5 @@ version = 7.x-1.0
 dependencies[] = views
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
-features[views_view][] = c4m_features_overview_projects
+features[views_view][] = c4m_overview_projects
 features_exclude[dependencies][ctools] = ctools
