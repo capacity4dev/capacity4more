@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * c4m_overview_projects.views_default.inc
+ * c4m_features_overview_projects.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_overview_projects_views_default_views() {
+function c4m_features_overview_projects_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_overview_projects';
+  $view->name = 'c4m_features_overview_projects';
   $view->description = 'Overview table of project content.';
   $view->tag = 'default';
   $view->base_table = 'node';
@@ -159,7 +159,7 @@ function c4m_overview_projects_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_overview_projects'] = $view;
+  $export['c4m_features_overview_projects'] = $view;
 
   return $export;
 }
