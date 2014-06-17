@@ -88,14 +88,6 @@ function c4m_features_og_overview_tasks_views_default_views() {
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['relationship'] = 'uid';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
-  /* Field: Content: Post date */
-  $handler->display->display_options['fields']['created']['id'] = 'created';
-  $handler->display->display_options['fields']['created']['table'] = 'node';
-  $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['label'] = 'Creation Date';
-  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['created']['date_format'] = 'short';
-  $handler->display->display_options['fields']['created']['reldate'] = '0';
   /* Field: Content: Assign to */
   $handler->display->display_options['fields']['c4m_task_assigned_to']['id'] = 'c4m_task_assigned_to';
   $handler->display->display_options['fields']['c4m_task_assigned_to']['table'] = 'field_data_c4m_task_assigned_to';
@@ -122,6 +114,13 @@ function c4m_features_og_overview_tasks_views_default_views() {
   $handler->display->display_options['fields']['c4m_task_status']['id'] = 'c4m_task_status';
   $handler->display->display_options['fields']['c4m_task_status']['table'] = 'field_data_c4m_task_status';
   $handler->display->display_options['fields']['c4m_task_status']['field'] = 'c4m_task_status';
+  /* Field: Content: Updated date */
+  $handler->display->display_options['fields']['changed']['id'] = 'changed';
+  $handler->display->display_options['fields']['changed']['table'] = 'node';
+  $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['label'] = 'Last update';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'day';
+  $handler->display->display_options['fields']['changed']['reldate'] = '0';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
