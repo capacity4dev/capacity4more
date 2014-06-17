@@ -97,14 +97,6 @@ function c4m_features_og_overview_tasklists_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
   $handler->display->display_options['fields']['created']['reldate'] = '0';
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
-  $handler->display->display_options['fields']['title_1']['table'] = 'node';
-  $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['relationship'] = 'nid';
-  $handler->display->display_options['fields']['title_1']['label'] = 'Parent';
-  $handler->display->display_options['fields']['title_1']['alter']['max_length'] = '20';
-  $handler->display->display_options['fields']['title_1']['alter']['trim'] = TRUE;
   /* Field: Content: Tasklist status */
   $handler->display->display_options['fields']['c4m_tasklist_status']['id'] = 'c4m_tasklist_status';
   $handler->display->display_options['fields']['c4m_tasklist_status']['table'] = 'field_data_c4m_tasklist_status';
