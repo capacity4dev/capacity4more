@@ -1,0 +1,11 @@
+name = People overview
+description = Overview of all members of a group
+core = 7.x
+package = capacity4more - Features
+version = 7.x-1.0
+project = c4m_features_og_overview_people
+dependencies[] = ctools
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_overview_og_people
