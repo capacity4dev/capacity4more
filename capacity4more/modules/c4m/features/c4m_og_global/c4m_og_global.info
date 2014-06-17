@@ -1,0 +1,14 @@
+name = Global OG feature
+description = Global OG featured things
+core = 7.x
+package = capacity4more - OG
+version = 7.x-1.0
+dependencies[] = context
+dependencies[] = context_og
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = menu
+features[context][] = c4m_context_og_global
+features[ctools][] = context:context:3
+features[features_api][] = api:2
+features[menu_custom][] = menu-group-menu
