@@ -119,8 +119,8 @@ function c4m_features_og_overview_tasks_views_default_views() {
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
   $handler->display->display_options['fields']['changed']['label'] = 'Last update';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'day';
-  $handler->display->display_options['fields']['changed']['reldate'] = '0';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  $handler->display->display_options['fields']['changed']['reldate'] = 'reldate';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
