@@ -11,11 +11,11 @@ function c4m_feature_og_overview_blogs_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_overview_blogs';
+  $view->name = 'c4m_overview_og_blogs';
   $view->description = 'Overview table of blog content.';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Overview - Blogs';
+  $view->human_name = 'Overview - OG - Blogs';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -141,7 +141,7 @@ function c4m_feature_og_overview_blogs_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'menu-group-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_overview_blogs'] = $view;
+  $export['c4m_overview_og_blogs'] = $view;
 
   return $export;
 }
