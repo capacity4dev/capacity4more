@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_features_regions_overview.views_default.inc
+ * c4m_features_overview_regions.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_regions_overview_views_default_views() {
+function c4m_features_overview_regions_views_default_views() {
   $export = array();
 
   $view = new view();
