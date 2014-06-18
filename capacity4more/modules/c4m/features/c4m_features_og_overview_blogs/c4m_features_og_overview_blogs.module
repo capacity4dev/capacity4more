@@ -4,4 +4,4 @@
  * Code for the Blog overview feature.
  */
 
-include_once 'c4m_feature_og_overview_blogs.features.inc';
+include_once 'c4m_features_og_overview_blogs.features.inc';
