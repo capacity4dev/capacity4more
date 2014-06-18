@@ -101,21 +101,14 @@ function c4m_features_overview_regions_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
-    'weight' => 'weight',
     'c4m_media' => 'c4m_media',
     'title' => 'title',
     'name' => 'name',
     'created' => 'created',
+    'weight_value' => 'weight_value',
   );
-  $handler->display->display_options['style_options']['default'] = 'weight';
+  $handler->display->display_options['style_options']['default'] = 'weight_value';
   $handler->display->display_options['style_options']['info'] = array(
-    'weight' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
     'c4m_media' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
@@ -144,11 +137,23 @@ function c4m_features_overview_regions_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'weight_value' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
   );
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  /* Field: Weight: Weight value */
+  $handler->display->display_options['fields']['weight_value']['id'] = 'weight_value';
+  $handler->display->display_options['fields']['weight_value']['table'] = 'weight_weights';
+  $handler->display->display_options['fields']['weight_value']['field'] = 'weight_value';
+  $handler->display->display_options['fields']['weight_value']['label'] = 'Weight';
   /* Field: Field: Image */
   $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
   $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
@@ -181,10 +186,6 @@ function c4m_features_overview_regions_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
   $handler->display->display_options['fields']['created']['reldate'] = '0';
-  /* Sort criterion: Weight: Weight */
-  $handler->display->display_options['sorts']['weight']['id'] = 'weight';
-  $handler->display->display_options['sorts']['weight']['table'] = 'weight_weights';
-  $handler->display->display_options['sorts']['weight']['field'] = 'weight';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
