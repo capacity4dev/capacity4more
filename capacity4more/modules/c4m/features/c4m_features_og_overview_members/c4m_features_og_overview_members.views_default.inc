@@ -1,28 +1,28 @@
 <?php
 /**
  * @file
- * c4m_features_og_overview_people.views_default.inc
+ * c4m_features_og_overview_members.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_og_overview_people_views_default_views() {
+function c4m_features_og_overview_members_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_overview_og_people';
-  $view->description = '';
+  $view->name = 'c4m_overview_og_members';
+  $view->description = 'Table list of all members of a group.';
   $view->tag = 'default';
   $view->base_table = 'users';
-  $view->human_name = 'Overview - OG - People';
+  $view->human_name = 'Overview - OG - Members';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Overview - People';
+  $handler->display->display_options['title'] = 'Overview - Members';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'access user profiles';
@@ -185,14 +185,14 @@ function c4m_features_og_overview_people_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'people';
+  $handler->display->display_options['path'] = 'members';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'People';
+  $handler->display->display_options['menu']['title'] = 'Members';
   $handler->display->display_options['menu']['weight'] = '5';
   $handler->display->display_options['menu']['name'] = 'menu-group-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_overview_og_people'] = $view;
+  $export['c4m_overview_og_members'] = $view;
 
   return $export;
 }
