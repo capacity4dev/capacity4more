@@ -101,12 +101,28 @@ function c4m_features_overview_regions_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
+    'weight' => 'weight',
+    'c4m_media' => 'c4m_media',
     'title' => 'title',
     'name' => 'name',
     'created' => 'created',
   );
-  $handler->display->display_options['style_options']['default'] = 'created';
+  $handler->display->display_options['style_options']['default'] = 'weight';
   $handler->display->display_options['style_options']['info'] = array(
+    'weight' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'c4m_media' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'title' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
