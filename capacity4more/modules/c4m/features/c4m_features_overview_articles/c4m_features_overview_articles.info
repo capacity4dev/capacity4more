@@ -1,0 +1,10 @@
+name = Articles Overview
+description = Base feature containing the articles overview
+core = 7.x
+package = capacity4more - Features
+version = 7.x-1.0
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_overview_articles
+features_exclude[dependencies][ctools] = ctools
