@@ -177,6 +177,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     array(
       'access content',
       'access comments',
+      'access user profiles',
       $filtered_html_permission
     )
   );
@@ -187,6 +188,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
       'access comments',
       'post comments',
       'skip comment approval',
+      'access user profiles',
       $filtered_html_permission
     )
   );
