@@ -1,5 +1,5 @@
-name = Global OG feature
-description = Global OG featured things
+name = Group Menu
+description = Provides a menu within a group context.
 core = 7.x
 package = capacity4more - OG
 version = 7.x-1.0
