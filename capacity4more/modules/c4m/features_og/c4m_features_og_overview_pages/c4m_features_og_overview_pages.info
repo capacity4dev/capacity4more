@@ -1,7 +1,7 @@
 name = Minisite Pages overview
 description = Basic table overview of minisite pages
 core = 7.x
-package = capacity4more - Features
+package = capacity4more - Features Group
 version = 7.x-1.0
 dependencies[] = ctools
 dependencies[] = views

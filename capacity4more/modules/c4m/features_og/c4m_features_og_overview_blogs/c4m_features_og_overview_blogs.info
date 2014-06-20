@@ -1,7 +1,7 @@
 name = Blog overview
 description = Basic overview of blogposts in OG context
 core = 7.x
-package = capacity4more - Features
+package = capacity4more - Features Group
 version = 7.x-1.0
 dependencies[] = views
 features[ctools][] = views:views_default:3.0
