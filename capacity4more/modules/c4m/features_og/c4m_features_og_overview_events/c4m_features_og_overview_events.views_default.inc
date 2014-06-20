@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_features_og_overview_calendar.views_default.inc
+ * c4m_features_og_overview_events.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_og_overview_calendar_views_default_views() {
+function c4m_features_og_overview_events_views_default_views() {
   $export = array();
 
   $view = new view();
