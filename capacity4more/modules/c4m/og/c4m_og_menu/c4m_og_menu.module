@@ -4,4 +4,4 @@
  * Code for the Global OG feature feature.
  */
 
-include_once 'c4m_og_global.features.inc';
+include_once 'c4m_og_menu.features.inc';

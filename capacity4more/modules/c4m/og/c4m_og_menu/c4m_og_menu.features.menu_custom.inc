@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_og_global.features.menu_custom.inc
+ * c4m_og_menu.features.menu_custom.inc
  */
 
 /**
  * Implements hook_menu_default_menu_custom().
  */
-function c4m_og_global_menu_default_menu_custom() {
+function c4m_og_menu_menu_default_menu_custom() {
   $menus = array();
 
   // Exported menu: menu-group-menu.
