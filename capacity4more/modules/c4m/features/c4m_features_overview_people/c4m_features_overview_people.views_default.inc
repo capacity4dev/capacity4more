@@ -88,6 +88,17 @@ function c4m_features_overview_people_views_default_views() {
       'empty_column' => 0,
     ),
   );
+  /* Header: Global: Result summary */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No People found.';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Field: Field: Image */
   $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
   $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
