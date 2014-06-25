@@ -2,9 +2,6 @@ core = 7.x
 api = 2
 
 ; Modules
-projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
-
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.2"
 
@@ -65,6 +62,9 @@ projects[getlocations][version] = "1.12"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
 
+projects[location][subdir] = "contrib"
+projects[location][version] = "3.2"
+
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
@@ -120,6 +120,7 @@ projects[plupload][version] = "1.6"
 
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
+projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
@@ -141,6 +142,9 @@ projects[views][version] = "3.7"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
+
+projects[weight][subdir] = "contrib"
+projects[weight][version] = "2.3"
 
 
 

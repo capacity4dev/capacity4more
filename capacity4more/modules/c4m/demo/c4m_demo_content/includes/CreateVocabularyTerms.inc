@@ -67,6 +67,7 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
    *   Success.
    */
   public function prepareRow($row) {
+    parent::prepareRow($row);
     if ($this->entityType == 'taxonomy_term' && $this->ogVocab) {
       $this->prepareRowTaxonomyTerm($row);
     }

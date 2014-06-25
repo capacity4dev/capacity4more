@@ -93,6 +93,8 @@ abstract class C4mDemoContentCreateComments extends Migration {
    *   Success.
    */
   public function prepareRow($row) {
+    parent::prepareRow($row);
+
     // The migrated content isn't belonging to any one,
     // default to the admin user.
     if (!$row->uid) {

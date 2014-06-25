@@ -17,7 +17,14 @@ function c4m_content_task_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_task_assigned_to',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'users' => array(
+        'columns' => array(
+          'target_id' => 'uid',
+        ),
+        'table' => 'users',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -92,7 +99,7 @@ function c4m_content_task_field_default_field_bases() {
       'allowed_values' => array(
         -1 => 'Not started',
         0 => 'Ongoing',
-        1 => 'Complete',
+        1 => 'Completed',
       ),
       'allowed_values_function' => '',
     ),

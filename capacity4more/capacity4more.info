@@ -1,6 +1,5 @@
-; $Id: standard.info,v 1.2 2010/10/25 15:48:41 webchick Exp $
 name = capacity4more
-description = Capacity4More platform installation profile
+description = capacity4more platform installation profile
 version = 1.x-dev
 core = 7.x
 
@@ -16,17 +15,17 @@ dependencies[] = list
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
-dependencies[] = overlay
+;dependencies[] = overlay
 dependencies[] = path
 dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = search
 dependencies[] = shortcut
+dependencies[] = toolbar
 dependencies[] = file
 dependencies[] = rdf
 
 ; Contrib modules -------------------------------------------------------------
-dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
@@ -86,3 +85,22 @@ dependencies[] = c4m_content_photoalbum
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_event
 dependencies[] = c4m_field_related_og
+
+; Overview content
+dependencies[] = c4m_features_overview_articles
+dependencies[] = c4m_features_overview_events
+dependencies[] = c4m_features_overview_groups
+dependencies[] = c4m_features_overview_people
+dependencies[] = c4m_features_overview_projects
+dependencies[] = c4m_features_overview_regions
+dependencies[] = c4m_features_overview_topics
+
+; Overview content within groups
+dependencies[] = c4m_og_menu
+dependencies[] = c4m_features_og_overview_blogs
+dependencies[] = c4m_features_og_overview_documents
+dependencies[] = c4m_features_og_overview_events
+dependencies[] = c4m_features_og_overview_members
+dependencies[] = c4m_features_og_overview_pages
+dependencies[] = c4m_features_og_overview_tasklists
+dependencies[] = c4m_features_og_overview_tasks

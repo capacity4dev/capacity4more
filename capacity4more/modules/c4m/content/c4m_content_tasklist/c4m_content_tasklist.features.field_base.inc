@@ -63,7 +63,7 @@ function c4m_content_tasklist_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        0 => 'Close',
+        0 => 'Closed',
         1 => 'Open',
       ),
       'allowed_values_function' => '',

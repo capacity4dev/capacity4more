@@ -45,13 +45,15 @@ function arguments_usage {
   echo -e  "${BGCYAN}    -d   Load or update demo content after the installation      ${RESTORE}"
   echo -e  "${BGCYAN}    -l   Open a new tab in your default browser and login to     ${RESTORE}"
   echo -e  "${BGCYAN}         your project as the Administrator.                      ${RESTORE}"
+  echo -e  "${BGCYAN}    -y   Answer automatically yes to the confirmation question.  ${RESTORE}"
+  echo -e  "${BGCYAN}         Used to run the upgrade unantended.                     ${RESTORE}"
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
   echo
 }
 
 # Check and process arguments.
 # See http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
-while getopts "hdl" OPTION
+while getopts "hdly" OPTION
 do
   case $OPTION in
     h)
@@ -63,6 +65,9 @@ do
       ;;
     l)
       AUTO_LOGIN=1
+      ;;
+    y)
+      UNATTENDED=1
       ;;
     ?)
       arguments_usage
@@ -111,26 +116,29 @@ fi
 echo -e  "${BGBLUE}                                                                 ${RESTORE}"
 echo
 
-echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
-read -e -n 1 -r
-if [[ ! $REPLY =~ ^[Y]$ ]]; then
-  echo 
-  echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
-  echo -e "${BGLYELLOW}  Upgrade aborted!                                               ${RESTORE}"
-  echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+if [ ! $UNATTENDED ]; then
+  echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
+  read -e -n 1 -r
+  if [[ ! $REPLY =~ ^[Y]$ ]]; then
+    echo
+    echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+    echo -e "${BGLYELLOW}  Upgrade aborted!                                               ${RESTORE}"
+    echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
+    echo
+    exit 0
+  fi
   echo
-  exit 0
 fi
-echo
 
 
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
 
 # Run the build script (drush make + extra's).
-echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
-bash $ROOT/scripts/build
-echo
+drupal_make
+
+# Symlink extra modules (if any).
+symlink_externals
 
 # Update the database.
 echo -e "${LBLUE}> Run the Update Database script (drush -y updb)${RESTORE}"
@@ -143,6 +151,9 @@ if [ $DEMO_CONTENT ]; then
   migrate_dummy_content
 fi
 
+# Run post script (if any).
+run_post_script "upgrade"
+
 
 # Check if we have a working bootstrap.
 cd $ROOT/www
@@ -153,7 +164,7 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  Upgrade failure!                                               ${RESTORE}"
-  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully             ${RESTORE}"
+  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo
   exit 1
