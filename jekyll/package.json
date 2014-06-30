@@ -2,7 +2,7 @@
   "name": "capacity4more",
   "private": true,
   "version": "0.0.0",
-  "description": "C4D - workflow for capacity4more",
+  "description": "workflow for capacity4more",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",

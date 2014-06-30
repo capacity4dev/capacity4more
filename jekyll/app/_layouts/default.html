@@ -15,28 +15,11 @@
     <body>
 
         <div class="site">
-          <div class="header">
-            <h1 class="title"><a href="/">{{ site.name }}</a></h1>
-            <a class="extra" href="/">home</a>
-          </div>
+          {% include: header.html %}
 
           {{ content }}
 
-          <div class="footer">
-            <div class="contact">
-              <p>
-                Gizra<br />
-                <a href="mailto:info@gizra.com">info@gizra.com</a>
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://github.com/yourusername">github.com/yourusername</a><br />
-                <a href="https://twitter.com/yourusername">twitter.com/yourusername</a><br />
-              </p>
-            </div>
-          </div>
-        </div>
+          {% include: footer.html %}
 
     <!-- build:js(app) /js/scripts.js -->
     <script src="/js/main.js"></script>
