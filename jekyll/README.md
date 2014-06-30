@@ -18,6 +18,6 @@ Serve locally a from the built ``dist`` directory (no livereload)
 
 ``grunt serve:dist``
 
-Deploy to gizra.com
+Deploy
 
 ``grunt deploy``
