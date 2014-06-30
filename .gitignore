@@ -64,3 +64,11 @@ www
 # Local Configuration
 config.sh
 symlinks.sh
+
+# Ignore for Yeoman-Jekyll projects #
+jekyll/app/_bower_components
+jekyll/dist
+jekyll/node_modules
+jekyll/.tmp
+jekyll/.jekyll
+jekyll/.sass-cache
