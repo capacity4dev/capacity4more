@@ -1,8 +1,8 @@
 {
-  "name": "jekyll",
+  "name": "capacity4more",
   "private": true,
   "version": "0.0.0",
-  "description": "Yeoman workflow for jekyll",
+  "description": "C4D - workflow for capacity4more",
   "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.1",
