@@ -1,0 +1,68 @@
+.group {
+
+  .main-title {
+    color: #0086c4;
+    font-weight: normal;
+    font-family: 'OstrichSans-Medium';
+    font-size: 70px;
+    margin-top: 0;
+  }
+
+  .banner {
+    box-shadow: 0 10px 5px #888888;
+  }
+
+  .add-activity {
+
+    input[type='text'] {
+      height: 70px;
+    }
+
+    input[type='button'] {
+      background: url("../images/main/icons-sprite.png") 10px -925px no-repeat;
+      width: 57px;
+      height: 35px;
+      position: absolute;
+      top: 16px;
+      right: 0;
+    }
+  }
+
+  .filter {
+    margin: 20px auto;
+    float: left;
+    width: 100%;
+
+    li {
+      float: left;
+      margin-left: 10px;
+
+      a {
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+      }
+
+      &.discussion {
+
+        a {
+          background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
+        }
+      }
+
+      &.question {
+
+        a {
+          background: url("../images/main/icons-sprite.png") 0 -150px no-repeat;
+        }
+      }
+
+      &.idea {
+
+        a {
+          background: url("../images/main/icons-sprite.png") 0 -193px no-repeat;
+        }
+      }
+    }
+  }
+}
