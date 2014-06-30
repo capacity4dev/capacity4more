@@ -65,4 +65,148 @@
       }
     }
   }
+
+  .post {
+    float: left;
+    background-color: $background-gray;
+    width: 100%;
+    padding: 20px 0;
+    margin-bottom: 5px;
+
+    .user-info {
+      padding-left: 15px;
+
+      img {
+        max-width: 65%;
+        display: block;
+      }
+    }
+
+    .content-wrapper {
+
+      .post-action {
+        margin-bottom: 10px;
+
+        .icon {
+          border-right: 1px solid;
+          width: 30px;
+          height: 35px;
+          margin-right: 5px;
+          float: left;
+
+          &.discussion-icon {
+            background: url("../images/main/icons-sprite.png") 0 -33px no-repeat;
+          }
+
+          &.comment-icon {
+            background: url("../images/main/icons-sprite.png") 0 -106px no-repeat;
+          }
+
+          &.document-icon {
+            background: url("../images/main/icons-sprite.png") 0 -319px no-repeat;
+          }
+
+          &.event-icon {
+            background: url("../images/main/icons-sprite.png") 0 -409px no-repeat;
+          }
+
+          &.new-member-icon {
+            background: url("../images/main/icons-sprite.png") 0 -454px no-repeat;
+          }
+        }
+
+        .author {
+          display: inline-block;
+          float: left;
+          width: 85%;
+          margin-top: -6px;
+        }
+
+        .action {
+          font-weight: bold;
+          display: inline-block;
+          padding-right: 10px;
+          border-right: 2px solid;
+          line-height: 12px;
+        }
+
+        .date {
+          font-weight: bold;
+          padding-left: 10px;
+        }
+      }
+
+      .post-content {
+
+        img {
+          max-width: 65%;
+        }
+
+        .user-text {
+          margin-top: 10px;
+        }
+
+        .comments {
+          margin-top: 3px;
+          font-weight: bold;
+        }
+
+        .user-link {
+
+          .link-thumb {
+
+            img {
+              max-width: 95%;
+            }
+          }
+
+          .link-content {
+
+            .post-action {
+              color: $main-color;
+            }
+          }
+        }
+      }
+    }
+
+    &.blue {
+
+      .post-action {
+        color: $main-blue;
+      }
+    }
+
+    &.green {
+
+      .post-action {
+        color: $main-green;
+      }
+    }
+
+    &.brown {
+
+      .post-action {
+        color: $main-brown;
+      }
+    }
+
+    &.red {
+
+      .post-action {
+        color: $main-red;
+      }
+    }
+  }
+
+  .group-info,
+  .highlights {
+    padding-left: 30px;
+
+    .public {
+      background: url("../images/main/icons-sprite.png") 0 -794px no-repeat;
+      padding-left: 40px;
+      margin-bottom: 2px;
+    }
+  }
 }
