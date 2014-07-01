@@ -25,10 +25,13 @@ function c4m_message_init() {
  * Create a node-updated message.
  */
 function c4m_message_node_update($node) {
+  if (!og_is_group_content_type('node', $node->type)) {
+    return;
+  }
+
   // Check if an edit message was created in the past 24, to prevent multiple
   // messages from multiple edits.
   $time_ago = strtotime(date('r', time()) . '-1 day');
-
   $query = new entityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'message')
@@ -45,7 +48,7 @@ function c4m_message_node_update($node) {
     $wrapper->save();
   }
   else {
-    // Create a new "Project edited" message.
+    // Create a new node-edited message.
     $message = message_create('node_edited');
     $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_node->set($node);
@@ -59,6 +62,12 @@ function c4m_message_node_update($node) {
  * Create a node-added message.
  */
 function c4m_message_node_insert($node) {
+  if (!og_is_group_content_type('node', $node->type)) {
+    return;
+  }
+
+  $groups = og_get_entity_groups('node', $node);
+
   $message = message_create('node_added');
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node);
