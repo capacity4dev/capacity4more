@@ -96,15 +96,23 @@ html,body {
 
   header {
 
+    .col-sm-3 {
+      width: 29%;
+    }
+
+    .col-sm-6 {
+      width: 42%;
+    }
+
     #user-menu,
     #main-nav {
       float: left;
-      width: 100%;
+      width: 120%;
       color: black;
 
       li {
         float: left;
-        margin-right: 27px;
+        margin-right: 15px;
         font-size: 12px;
       }
     }
@@ -112,20 +120,20 @@ html,body {
     .eu-logo {
       float: left;
       background: url("../images/main/ec-logo.png") 0 0 no-repeat;
-      margin-top: 30px;
-      padding-left: 65px;
+      margin-top: 22px;
+      padding-left: 67px;
       min-height: 65px;
-      font-size: 14px;
+      font-size: 12px;
       letter-spacing: 2px;
       color: $main-blue;
     }
 
     .c4d-logo {
-      background: url("../images/main/c4d-logo.png") 0 20px no-repeat;
+      background: url("../images/main/c4d-logo.png") 0 6px no-repeat;
       margin-top: 30px;
       padding-left: 65px;
       min-height: 65px;
-      font-size: 65px;
+      font-size: 48px;
       letter-spacing: 3px;
 
       i {
@@ -136,6 +144,7 @@ html,body {
 
     #main-nav {
       float: right;
+      width: auto;
 
       li {
         border-right: 1px solid $main-blue;
@@ -150,19 +159,20 @@ html,body {
     }
 
     .inline-form {
-      top: 45px;
-      right: 0;
+      top: 29px;
+      float: right;
+      width: 98%;
 
       input[type='text'] {
-        height: 50px;
+        height: 40px;
       }
 
       input[type='button'] {
-        background: url("../images/main/icons-sprite.png") 4px -973px no-repeat;
-        width: 40px;
-        height: 40px;
+        background: url("../images/main/icons-sprite.png") 10px -984px no-repeat;
+        width: 48px;
+        height: 28px;
         position: absolute;
-        top: 16px;
+        top: 7px;
         right: 0;
       }
     }
@@ -170,10 +180,12 @@ html,body {
     .breadcrumb {
       background: none;
       border-top: 5px solid $main-blue;
-      margin: 0;
+      margin: 4px 4px 0;
+      padding: 2px 0 0;
       @include border-radius(0);
 
       > li {
+        font-size: 11px;
 
         &:before {
           color: $main-blue;
