@@ -18,6 +18,28 @@ function c4m_message_ctools_plugin_api($module = NULL, $api = NULL) {
  */
 function c4m_message_default_message_type() {
   $items = array();
+  $items['comment_added'] = entity_import('message_type', '{
+    "name" : "comment_added",
+    "description" : "Comment added",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Commented on a [message:field-comment:node:content-type]",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003ECommented on a [message:field-comment:node:content-type]\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['node_added'] = entity_import('message_type', '{
     "name" : "node_added",
     "description" : "Node added",

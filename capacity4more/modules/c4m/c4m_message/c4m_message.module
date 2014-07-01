@@ -46,9 +46,20 @@ function c4m_message_node_update($node) {
  * Create a node-added message.
  */
 function c4m_message_node_insert($node) {
-  // Create a new "Project edited" message.
   $message = message_create('node_added');
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node);
+  $wrapper->save();
+}
+
+/**
+ * Implements hook_comment_insert().
+ *
+ * Create a comment-added message.
+ */
+function c4m_message_comment_insert($comment) {
+  $message = message_create('comment_added');
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_comment->set($comment);
   $wrapper->save();
 }
