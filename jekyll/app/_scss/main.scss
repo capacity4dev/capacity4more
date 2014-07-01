@@ -55,11 +55,12 @@ html,body {
   a,
   a:hover {
     color: $main-blue;
+    text-decoration: none;
   }
 
   .sans-font {
-    font-weight: bold;
     font-family: 'OstrichSans-Medium';
+    font-weight: bold;
     font-size: 18px;
     letter-spacing: 1px;
   }
@@ -99,6 +100,7 @@ html,body {
     #main-nav {
       float: left;
       width: 100%;
+      color: black;
 
       li {
         float: left;
@@ -185,6 +187,110 @@ html,body {
           }
         }
       }
+    }
+  }
+
+  footer {
+
+    .stats {
+      background-color: $background-gray;
+      padding: 30px 0;
+      color: $main-blue;
+      text-align: center;
+
+      > div {
+        padding: 0;
+
+        a {
+          background-image: url("../images/main/icons-sprite.png");
+          background-repeat: no-repeat;
+          padding: 10px 0 10px 35px;
+
+          &.members {
+            background-position: 0 -550px;
+          }
+
+          &.posts {
+            background-position: 0 -610px;
+          }
+
+          &.groups {
+            background-position: 0 -678px;
+            padding-left: 40px;
+          }
+
+          &.projects {
+            background-position: 0 -743px;
+          }
+
+          &.articles {
+            background-position: 0 -867px;
+          }
+        }
+      }
+    }
+
+    .footer-links {
+      margin: 20px auto;
+
+      .links {
+        float: left;
+
+        li {
+          float: left;
+          padding-right: 10px;
+          margin-right: 10px;
+          border-right: 1px solid $main-color;
+          line-height: 10px;
+
+          &.last {
+            border-right: 0 none;
+          }
+        }
+
+        &.gray {
+
+          a {
+            color: $main-color;
+          }
+        }
+
+        &.social {
+          margin: -6px 0 0 7px;
+
+          li {
+            border: 0 none;
+            padding-right: 0;
+            margin-right: 0;
+
+            a {
+              width: 25px;
+              height: 25px;
+              background-image: url("../images/main/social-sprite.jpg");
+              background-repeat: no-repeat;
+              display: inline-block;
+
+              &.rss {
+                background-position: 2px -27px;
+              }
+
+              &.twitter {
+                background-position: 2px -53px;
+              }
+
+              &.youtube {
+                background-position: 2px -79px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .europeaid-site {
+      float: left;
+      display: block;
+      line-height: 10px;
     }
   }
 }
