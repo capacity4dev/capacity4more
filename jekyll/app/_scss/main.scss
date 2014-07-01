@@ -68,7 +68,7 @@ html,body {
   .green-title {
      font-family: 'OstrichSans-Medium';
      color: $main-green;
-     font-size: 50px;
+     font-size: 46px;
      letter-spacing: 2px;
   }
 
@@ -203,6 +203,7 @@ html,body {
   }
 
   footer {
+    margin-top: 104px;
 
     .stats {
       background-color: $background-gray;

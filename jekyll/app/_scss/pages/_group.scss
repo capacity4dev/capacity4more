@@ -4,24 +4,27 @@
     color: #0086c4;
     font-weight: normal;
     font-family: 'OstrichSans-Medium';
-    font-size: 70px;
-    margin-top: 0;
+    font-size: 65px;
+    margin: 0;
   }
 
   .banner {
+    margin-top: -5px;
     box-shadow: 0 10px 5px #888888;
   }
 
   .add-activity {
 
     input[type='text'] {
-      height: 70px;
+      height: 55px;
+      font-size: 12px;
+      padding-top: 10px;
     }
 
     input[type='button'] {
-      background: url("../images/main/icons-sprite.png") 10px -925px no-repeat;
+      background: url("../images/main/icons-sprite.png") 7px -931px no-repeat;
       width: 57px;
-      height: 35px;
+      height: 26px;
       position: absolute;
       top: 16px;
       right: 0;
@@ -29,13 +32,13 @@
   }
 
   .filter {
-    margin: 20px auto;
+    margin: 12px 0 18px;
     float: left;
     width: 100%;
 
     li {
       float: left;
-      margin-left: 10px;
+      margin: 0 4px 0 5px;
 
       a {
         width: 25px;
@@ -69,39 +72,37 @@
   .post {
     float: left;
     background-color: $background-gray;
-    width: 100%;
-    padding: 20px 0;
-    margin-bottom: 5px;
+    margin: 0 0 5px -1px;
+    width: 99.5%;
+    padding: 20px 0 24px;
+    font-size: 12px;
 
     .user-info {
-      padding-left: 15px;
+      padding-left: 23px;
 
       img {
-        max-width: 65%;
+        max-width: 73%;
         display: block;
       }
     }
 
     .content-wrapper {
+      margin-left: -23px;
 
       .post-action {
-        margin-bottom: 20px;
+        margin-bottom: 8px;
 
         .icon {
           border-right: 1px solid;
           width: 30px;
-          height: 35px;
-          margin-right: 5px;
+          height: 30px;
+          margin-right: 8px;
           float: left;
           background-image: url("../images/main/icons-sprite.png");
           background-repeat: no-repeat;
 
           &.discussion-icon {
-            background-position: 0 -33px;
-          }
-
-          &.discussion-icon {
-            background-position: 0 -33px;
+            background-position: 0 -30px;
           }
 
           &.comment-icon {
@@ -125,27 +126,29 @@
           display: inline-block;
           float: left;
           width: 85%;
-          margin-top: -6px;
+          margin: -1px 0 -3px 0;
+          letter-spacing: 3.4px;
+          font-size: 14px;
         }
 
         .action {
           font-weight: bold;
           display: inline-block;
-          padding-right: 10px;
+          padding-right: 13px;
           border-right: 2px solid;
-          line-height: 12px;
+          line-height: 10px;
         }
 
         .date {
           font-weight: bold;
-          padding-left: 10px;
+          padding-left: 11px;
         }
       }
 
       .post-content {
 
         img {
-          max-width: 65%;
+          max-width: 80%;
         }
 
         .user-text {
@@ -158,6 +161,8 @@
         }
 
         .user-link {
+          margin: 37px 0 -4px 0;
+          width: 105%;
 
           .link-thumb {
 
@@ -167,6 +172,7 @@
           }
 
           .link-content {
+            padding-left: 19px;
 
             .post-action {
               color: $main-color;
@@ -176,28 +182,31 @@
       }
     }
 
-    &.blue {
+    &.discussion-post {
 
       .post-action {
         color: $main-blue;
       }
     }
 
-    &.green {
+    &.document-post {
+      padding-bottom: 17px;
 
       .post-action {
         color: $main-green;
       }
     }
 
-    &.brown {
+    &.event-post {
+      padding-bottom: 17px;
 
       .post-action {
         color: $main-brown;
       }
     }
 
-    &.red {
+    &.new-member-post {
+      padding-bottom: 17px;
 
       .post-action {
         color: $main-red;
@@ -206,23 +215,25 @@
   }
 
   .group-info {
-    margin-left: 30px;
-    padding-bottom: 20px;
+    margin-left: 46px;
+    padding-bottom: 10px;
     border-bottom: 2px dotted $main-green;
+    font-size: 12px;
 
     .public {
       background: url("../images/main/icons-sprite.png") 0 -794px no-repeat;
-      padding-left: 40px;
-      margin-bottom: 2px;
+      padding-left: 41px;
+      margin-bottom: 8px;
     }
 
     .description {
-      margin-bottom: 30px;
+      margin: 0 0 16px 2px;
+      line-height: 18px;
 
       .more-link {
         color: $light-gray;
         display: block;
-        margin-top: 10px;
+        margin-top: 8px;
         font-weight: bold;
 
         span {
@@ -233,12 +244,13 @@
     }
 
     .info {
-      margin-bottom: 10px;
+      margin: 7px 0 0 2px;
       color: $main-blue;
 
       label {
         display: block;
         color: $main-color;
+        margin-bottom: 2px;
       }
 
       a {
@@ -248,11 +260,14 @@
   }
 
   .highlights {
-    margin-left: 30px;
+    margin: 40px 0 0 55px;
 
     .post {
       background: none;
       border-bottom: 1px dashed $light-gray;
+      margin-bottom: 10px;
+      padding: 1px 0 13px 23px;
+      width: 105%;
 
       &.last {
         border-bottom: 0 none;
@@ -291,7 +306,7 @@
         }
 
         .post-content {
-
+          margin-top: 12px;
         }
       }
     }
