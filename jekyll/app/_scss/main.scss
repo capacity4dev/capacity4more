@@ -27,8 +27,18 @@
   src: url("../fonts/ostrich_sans/OstrichSans-Medium.otf") format("opentype");
 }
 
-// Creating a custom padding between columns
+// Creating a custom padding between columns.
 $grid-gutter-width: 10px;
+
+// Creating a custom column set for the stats row in footer.
+.col-xs-15 {
+  width: 20%;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-right: $grid-gutter-width;
+  padding-left: $grid-gutter-width;
+}
 
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import "compass/css3/border-radius";
@@ -207,9 +217,9 @@ html,body {
 
     .stats {
       background-color: $background-gray;
-      padding: 30px 0;
+      padding: 24px 0;
       color: $main-blue;
-      text-align: center;
+      text-align: left;
 
       > div {
         padding: 0;
@@ -217,44 +227,52 @@ html,body {
         a {
           background-image: url("../images/main/icons-sprite.png");
           background-repeat: no-repeat;
-          padding: 10px 0 10px 35px;
+          padding-left: 57px;
+          font-size: 28px;
+          display: inline-block;
 
           &.members {
-            background-position: 0 -550px;
+            background-position: 26px -554px;
           }
 
           &.posts {
-            background-position: 0 -610px;
+            background-position: 42px -613px;
+            padding-left: 75px;
           }
 
           &.groups {
-            background-position: 0 -678px;
-            padding-left: 40px;
+            background-position: 25px -680px;
+            padding-left: 64px;
           }
 
           &.projects {
-            background-position: 0 -743px;
+            background-position: 15px -746px;
+            padding-left: 48px;
           }
 
           &.articles {
-            background-position: 0 -867px;
+            background-position: 15px -869px;
+            padding-left: 46px;
           }
         }
       }
     }
 
     .footer-links {
-      margin: 20px auto;
+      margin: 20px -5px;
 
       .links {
         float: left;
+        margin: 0 -15px 0 0;
 
         li {
           float: left;
-          padding-right: 10px;
-          margin-right: 10px;
-          border-right: 1px solid $main-color;
+          padding-right: 15px;
+          margin-right: 12px;
+          border-right: 1px solid #71716e;
           line-height: 10px;
+          text-transform: capitalize;
+          font-size: 12px;
 
           &.last {
             border-right: 0 none;
@@ -268,8 +286,12 @@ html,body {
           }
         }
 
+        &.blue {
+          margin-left: 10px;
+        }
+
         &.social {
-          margin: -6px 0 0 7px;
+          margin: -9px 0 0 24px;
 
           li {
             border: 0 none;
@@ -304,6 +326,8 @@ html,body {
       float: left;
       display: block;
       line-height: 10px;
+      font-size: 12px;
+      color: #345582;
     }
   }
 }
