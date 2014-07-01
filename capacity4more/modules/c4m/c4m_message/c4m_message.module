@@ -25,7 +25,7 @@ function c4m_message_init() {
  * Create a node-updated message.
  */
 function c4m_message_node_update($node) {
-  if (!og_is_group_content_type('node', $node->type)) {
+  if (!$group_nid = _c4m_message_get_node_group($node)) {
     return;
   }
 
@@ -45,6 +45,7 @@ function c4m_message_node_update($node) {
     // edit.
     $wrapper = entity_metadata_wrapper('message', key($result['message']));
     $wrapper->timestamp->set($node->changed);
+    $wrapper->field_group->set($group_nid);
     $wrapper->save();
   }
   else {
@@ -52,6 +53,7 @@ function c4m_message_node_update($node) {
     $message = message_create('node_edited');
     $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_node->set($node);
+    $wrapper->field_group->set($group_nid);
     $wrapper->save();
   }
 }
@@ -62,15 +64,13 @@ function c4m_message_node_update($node) {
  * Create a node-added message.
  */
 function c4m_message_node_insert($node) {
-  if (!og_is_group_content_type('node', $node->type)) {
+  if (!$group_nid = _c4m_message_get_node_group($node)) {
     return;
   }
-
-  $groups = og_get_entity_groups('node', $node);
-
   $message = message_create('node_added');
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_node->set($node);
+  $wrapper->field_group->set($group_nid);
   $wrapper->save();
 }
 
@@ -80,9 +80,15 @@ function c4m_message_node_insert($node) {
  * Create a comment-added message.
  */
 function c4m_message_comment_insert($comment) {
+  $node = node_load($comment->nid);
+  if (!$group_nid = _c4m_message_get_node_group($node)) {
+    return;
+  }
+
   $message = message_create('comment_added');
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_comment->set($comment);
+  $wrapper->field_group->set($group_nid);
   $wrapper->save();
 }
 
@@ -92,8 +98,15 @@ function c4m_message_comment_insert($comment) {
  * Create a user-added message.
  */
 function c4m_message_user_insert(&$edit, $account, $category) {
+  $groups = og_get_entity_groups('user', $account);
+  if (empty($groups['node'])) {
+    return;
+  }
+  $group_nid = reset($groups['node']);
+
   $message = message_create('user_added', array(), $account);
   $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group->set($group_nid);
   $wrapper->save();
 }
 
@@ -121,10 +134,13 @@ function c4m_message_preprocess_message(&$variables) {
   // TODO: Make a new message template, instead of overriding the main one.
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
 
+  $variables['user_picture'] = '';
   // Fetch user details.
   $wrapper = entity_metadata_wrapper('user', $message->uid);
-  $picture = $wrapper->c4m_media->value();
-  $variables['user_picture'] = $picture ? theme('image_style', array('style_name' => 'activity_stream_user_picture', 'path' => $picture['uri'], 'attributes' => array('class' => array('img-responsive')))) : '';
+  if (isset($wrapper->c4m_media)) {
+    $picture = $wrapper->c4m_media->value();
+    $variables['user_picture'] = $picture ? theme('image_style', array('style_name' => 'activity_stream_user_picture', 'path' => $picture['uri'], 'attributes' => array('class' => array('img-responsive')))) : '';
+  }
   $variables['user_name'] = $wrapper->c4m_first_name->value() . ' ' . $wrapper->c4m_last_name->value();
 
   $variables['created'] = format_date($message->timestamp, 'short');
@@ -174,4 +190,24 @@ function c4m_message_theme_registry_alter(&$theme_registry) {
   $path = drupal_get_path('module', 'c4m_message');
   $theme_registry['message']['theme path'] = $path;
   $theme_registry['message']['template'] = $path . '/message';
+}
+
+/**
+ * Fetch the group of a node.
+ *
+ * @param $node
+ *   A node to search its group.
+ *
+ * @return mixed
+ *   Group node ID or FALSE if none exist.
+ */
+function _c4m_message_get_node_group($node) {
+  if (!og_is_group_content_type('node', $node->type)) {
+    return FALSE;
+  }
+  $groups = og_get_entity_groups('node', $node);
+  if (empty($groups['node'])) {
+    return FALSE;
+  }
+  return reset($groups['node']);
 }
