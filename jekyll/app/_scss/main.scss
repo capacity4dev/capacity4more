@@ -22,5 +22,275 @@
   width: device-width;
 }
 
+@font-face {
+  font-family: OstrichSans-Medium;
+  src: url("../fonts/ostrich_sans/OstrichSans-Medium.otf") format("opentype");
+}
+
+// Creating a custom padding between columns
+$grid-gutter-width: 10px;
+
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import "compass/css3/border-radius";
+@import "mixins";
+@import "pages/group";
+
+html,body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+  height: 100%;
+  color: $main-color;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a,
+  a:hover {
+    color: $main-blue;
+    text-decoration: none;
+  }
+
+  .sans-font {
+    font-family: 'OstrichSans-Medium';
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  .green-title {
+     font-family: 'OstrichSans-Medium';
+     color: $main-green;
+     font-size: 50px;
+     letter-spacing: 2px;
+  }
+
+  form.inline-form {
+    position: relative;
+
+    input[type='text'] {
+      background: $background-gray;
+      border: 0 none;
+      padding: 5px 10px;
+      width: 100%;
+      @include border-radius(2px);
+    }
+
+    input[type='button'] {
+      border: 0 none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border-left: 1px solid $light-gray;
+    }
+  }
+
+
+  header {
+
+    #user-menu,
+    #main-nav {
+      float: left;
+      width: 100%;
+      color: black;
+
+      li {
+        float: left;
+        margin-right: 27px;
+        font-size: 12px;
+      }
+    }
+
+    .eu-logo {
+      float: left;
+      background: url("../images/main/ec-logo.png") 0 0 no-repeat;
+      margin-top: 30px;
+      padding-left: 65px;
+      min-height: 65px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: $main-blue;
+    }
+
+    .c4d-logo {
+      background: url("../images/main/c4d-logo.png") 0 20px no-repeat;
+      margin-top: 30px;
+      padding-left: 65px;
+      min-height: 65px;
+      font-size: 65px;
+      letter-spacing: 3px;
+
+      i {
+        font-style: normal;
+        color: $main-blue;
+      }
+    }
+
+    #main-nav {
+      float: right;
+
+      li {
+        border-right: 1px solid $main-blue;
+        margin-right: 7px;
+        padding-right: 7px;
+        line-height: 12px;
+
+        &.last {
+          border-right: 0 none;
+        }
+      }
+    }
+
+    .inline-form {
+      top: 45px;
+      right: 0;
+
+      input[type='text'] {
+        height: 50px;
+      }
+
+      input[type='button'] {
+        background: url("../images/main/icons-sprite.png") 4px -973px no-repeat;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 16px;
+        right: 0;
+      }
+    }
+
+    .breadcrumb {
+      background: none;
+      border-top: 5px solid $main-blue;
+      margin: 0;
+      @include border-radius(0);
+
+      > li {
+
+        &:before {
+          color: $main-blue;
+          content: ">";
+        }
+
+        &:first-child {
+
+          &:before {
+            content: "";
+          }
+        }
+      }
+    }
+  }
+
+  footer {
+
+    .stats {
+      background-color: $background-gray;
+      padding: 30px 0;
+      color: $main-blue;
+      text-align: center;
+
+      > div {
+        padding: 0;
+
+        a {
+          background-image: url("../images/main/icons-sprite.png");
+          background-repeat: no-repeat;
+          padding: 10px 0 10px 35px;
+
+          &.members {
+            background-position: 0 -550px;
+          }
+
+          &.posts {
+            background-position: 0 -610px;
+          }
+
+          &.groups {
+            background-position: 0 -678px;
+            padding-left: 40px;
+          }
+
+          &.projects {
+            background-position: 0 -743px;
+          }
+
+          &.articles {
+            background-position: 0 -867px;
+          }
+        }
+      }
+    }
+
+    .footer-links {
+      margin: 20px auto;
+
+      .links {
+        float: left;
+
+        li {
+          float: left;
+          padding-right: 10px;
+          margin-right: 10px;
+          border-right: 1px solid $main-color;
+          line-height: 10px;
+
+          &.last {
+            border-right: 0 none;
+          }
+        }
+
+        &.gray {
+
+          a {
+            color: $main-color;
+          }
+        }
+
+        &.social {
+          margin: -6px 0 0 7px;
+
+          li {
+            border: 0 none;
+            padding-right: 0;
+            margin-right: 0;
+
+            a {
+              width: 25px;
+              height: 25px;
+              background-image: url("../images/main/social-sprite.jpg");
+              background-repeat: no-repeat;
+              display: inline-block;
+
+              &.rss {
+                background-position: 2px -27px;
+              }
+
+              &.twitter {
+                background-position: 2px -53px;
+              }
+
+              &.youtube {
+                background-position: 2px -79px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .europeaid-site {
+      float: left;
+      display: block;
+      line-height: 10px;
+    }
+  }
+}

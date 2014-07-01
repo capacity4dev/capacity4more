@@ -6,23 +6,23 @@
         <title>{{ page.title }}</title>
         <meta name="viewport" content="width=device-width">
 
-        <!-- build:css({app,.tmp}) /css/main.css -->
+        <!-- build:css({app,.tmp}) css/main.css -->
         <!-- Custom CSS -->
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="css/main.css">
         <!-- endbuild -->
 
     </head>
     <body>
 
-        <div class="site">
+        <div class="container">
           {% include header.html %}
 
           {{ content }}
 
           {% include footer.html %}
-
-    <!-- build:js(app) /js/scripts.js -->
-    <script src="/js/main.js"></script>
+        </div>
+    <!-- build:js(app) js/scripts.js -->
+    <script src="js/main.js"></script>
     <!-- endbuild -->
     </body>
 </html>

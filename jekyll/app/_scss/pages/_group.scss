@@ -1,0 +1,299 @@
+.group {
+
+  .main-title {
+    color: #0086c4;
+    font-weight: normal;
+    font-family: 'OstrichSans-Medium';
+    font-size: 70px;
+    margin-top: 0;
+  }
+
+  .banner {
+    box-shadow: 0 10px 5px #888888;
+  }
+
+  .add-activity {
+
+    input[type='text'] {
+      height: 70px;
+    }
+
+    input[type='button'] {
+      background: url("../images/main/icons-sprite.png") 10px -925px no-repeat;
+      width: 57px;
+      height: 35px;
+      position: absolute;
+      top: 16px;
+      right: 0;
+    }
+  }
+
+  .filter {
+    margin: 20px auto;
+    float: left;
+    width: 100%;
+
+    li {
+      float: left;
+      margin-left: 10px;
+
+      a {
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+      }
+
+      &.discussion {
+
+        a {
+          background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
+        }
+      }
+
+      &.question {
+
+        a {
+          background: url("../images/main/icons-sprite.png") 0 -150px no-repeat;
+        }
+      }
+
+      &.idea {
+
+        a {
+          background: url("../images/main/icons-sprite.png") 0 -193px no-repeat;
+        }
+      }
+    }
+  }
+
+  .post {
+    float: left;
+    background-color: $background-gray;
+    width: 100%;
+    padding: 20px 0;
+    margin-bottom: 5px;
+
+    .user-info {
+      padding-left: 15px;
+
+      img {
+        max-width: 65%;
+        display: block;
+      }
+    }
+
+    .content-wrapper {
+
+      .post-action {
+        margin-bottom: 20px;
+
+        .icon {
+          border-right: 1px solid;
+          width: 30px;
+          height: 35px;
+          margin-right: 5px;
+          float: left;
+          background-image: url("../images/main/icons-sprite.png");
+          background-repeat: no-repeat;
+
+          &.discussion-icon {
+            background-position: 0 -33px;
+          }
+
+          &.discussion-icon {
+            background-position: 0 -33px;
+          }
+
+          &.comment-icon {
+            background-position: 0 -106px;
+          }
+
+          &.document-icon {
+            background-position: 0 -319px;
+          }
+
+          &.event-icon {
+            background-position: 0 -409px;
+          }
+
+          &.new-member-icon {
+            background-position: 0 -454px;
+          }
+        }
+
+        .author {
+          display: inline-block;
+          float: left;
+          width: 85%;
+          margin-top: -6px;
+        }
+
+        .action {
+          font-weight: bold;
+          display: inline-block;
+          padding-right: 10px;
+          border-right: 2px solid;
+          line-height: 12px;
+        }
+
+        .date {
+          font-weight: bold;
+          padding-left: 10px;
+        }
+      }
+
+      .post-content {
+
+        img {
+          max-width: 65%;
+        }
+
+        .user-text {
+          margin-top: 10px;
+        }
+
+        .comments {
+          margin-top: 3px;
+          font-weight: bold;
+        }
+
+        .user-link {
+
+          .link-thumb {
+
+            img {
+              max-width: 95%;
+            }
+          }
+
+          .link-content {
+
+            .post-action {
+              color: $main-color;
+            }
+          }
+        }
+      }
+    }
+
+    &.blue {
+
+      .post-action {
+        color: $main-blue;
+      }
+    }
+
+    &.green {
+
+      .post-action {
+        color: $main-green;
+      }
+    }
+
+    &.brown {
+
+      .post-action {
+        color: $main-brown;
+      }
+    }
+
+    &.red {
+
+      .post-action {
+        color: $main-red;
+      }
+    }
+  }
+
+  .group-info {
+    margin-left: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px dotted $main-green;
+
+    .public {
+      background: url("../images/main/icons-sprite.png") 0 -794px no-repeat;
+      padding-left: 40px;
+      margin-bottom: 2px;
+    }
+
+    .description {
+      margin-bottom: 30px;
+
+      .more-link {
+        color: $light-gray;
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+
+        span {
+          font-size: 20px;
+          display: inline-block;
+        }
+      }
+    }
+
+    .info {
+      margin-bottom: 10px;
+      color: $main-blue;
+
+      label {
+        display: block;
+        color: $main-color;
+      }
+
+      a {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .highlights {
+    margin-left: 30px;
+
+    .post {
+      background: none;
+      border-bottom: 1px dashed $light-gray;
+
+      &.last {
+        border-bottom: 0 none;
+      }
+
+      .content-wrapper {
+
+        .post-action {
+
+          .icon {
+
+            &.blog-icon {
+              background-position: 0 -230px;
+            }
+
+            &.discussion-icon {
+              background-position: 0 -66px;
+            }
+
+            &.comment-icon {
+              background-position: 0 -106px;
+            }
+
+            &.document-icon {
+              background-position: 0 -275px;
+            }
+
+            &.event-icon {
+              background-position: 0 -366px;
+            }
+
+            &.new-member-icon {
+              background-position: 0 -500px;
+            }
+          }
+        }
+
+        .post-content {
+
+        }
+      }
+    }
+  }
+}
