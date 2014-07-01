@@ -103,7 +103,7 @@ function c4m_message_preprocess_message(&$variables) {
 
   $variables['user_picture'] = $picture ? theme('image_style', array('style_name' => 'thumbnail', 'path' => $picture['uri'])) : '';
 
-  $variables['created'] = t('%time ago', array('%time' => format_interval(time() - $message->timestamp , 2)));
+  $variables['created'] = format_date($message->timestamp, 'short');
 
   $variables['activity_class'] = '';
 
