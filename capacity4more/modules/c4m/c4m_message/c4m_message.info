@@ -18,5 +18,6 @@ features[field_instance][] = message-node_edited-field_node
 features[message_type][] = comment_added
 features[message_type][] = node_added
 features[message_type][] = node_edited
+features[message_type][] = user_added
 features[variable][] = field_bundle_settings_message__comment_added
 features[variable][] = field_bundle_settings_message__node_edited

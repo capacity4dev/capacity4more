@@ -63,3 +63,14 @@ function c4m_message_comment_insert($comment) {
   $wrapper->field_comment->set($comment);
   $wrapper->save();
 }
+
+/**
+ * Implements hook_user_insert().
+ *
+ * Create a user-added message.
+ */
+function c4m_message_user_insert(&$edit, $account, $category) {
+  $message = message_create('user_added', array(), $account);
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->save();
+}

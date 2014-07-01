@@ -84,5 +84,27 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['user_added'] = entity_import('message_type', '{
+    "name" : "user_added",
+    "description" : "User added",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "New member",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003ENew member\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   return $items;
 }
