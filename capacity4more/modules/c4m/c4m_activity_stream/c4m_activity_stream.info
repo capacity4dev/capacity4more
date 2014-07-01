@@ -1,0 +1,6 @@
+name = Activity Stream
+description = This module handles creation of activity stream messages
+core = 7.x
+package = capacity4more
+dependencies[] = message
+features[features_api][] = api:2

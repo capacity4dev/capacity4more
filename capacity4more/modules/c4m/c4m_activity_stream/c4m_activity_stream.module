@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * Implements hook_node_update().
+ *
+ * Create a node updated message.
+ */
+function c4m_activity_stream_node_update($node) {
+  // TODO: Check node type.
+
+  // Check if an edit message was created in the past 24, to prevent multiple
+  // messages from multiple edits.
+  $time_ago = strtotime(date('r', time()) . '-1 day');
+
+  $query = new entityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'node_edited')
+    ->propertyCondition('timestamp', $time_ago, '>=')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->execute();
+
+  if (!empty($result['message'])) {
+    // A recent edit message already exists; Update its timestamp to the current
+    // edit.
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    $wrapper->timestamp->set($node->changed);
+    $wrapper->save();
+  }
+  else {
+    // Create a new "Project edited" message.
+    $message = message_create('node_edited');
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_node->set($node);
+    $wrapper->save();
+  }
+}
