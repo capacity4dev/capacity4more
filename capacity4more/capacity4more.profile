@@ -114,3 +114,30 @@ function capacity4more_setup_blocks() {
 function capacity4more_setup_rebuild_permissions() {
   node_access_rebuild();
 }
+
+/**
+ * Task callback; Set variables.
+ */
+function capacity4more_set_variables() {
+  $variables = array(
+    // Homepage
+    'site_frontpage' => 'homepage',
+
+    // Mime-mail
+    'mimemail_format' => 'full_html',
+    'mimemail_sitestyle' => FALSE,
+
+    // Message subscribe
+    'message_subscribe_notify_own_actions' => TRUE,
+
+    // Theme
+    'theme_default' => 'bootstrap_subtheme',
+    'admin_theme' => 'seven',
+    'node_admin_theme' => 1,
+    'page_manager_node_view_disabled' => FALSE,
+  );
+
+  foreach ($variables as $key => $value) {
+    variable_set($key, $value);
+  }
+}

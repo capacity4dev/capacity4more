@@ -176,6 +176,20 @@ echo -e  "${BGGREEN}                                                            
 echo
 
 
+# Build the jekyll to get the compiled CSS files.
+cd jekyll
+npm install
+bower install
+grunt build
+cd ..
+
+# Copy the custom assets folders.
+mkdir pipeline/libraries/pipeline
+rsync -avz --exclude '.git' jekyll/dist/ pipeline/libraries/pipeline
+
+
+cd www
+
 # Auto Login?
 if [ $AUTO_LOGIN ]; then
   drupal_login

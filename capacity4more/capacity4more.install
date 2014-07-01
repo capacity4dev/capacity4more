@@ -35,8 +35,11 @@ function capacity4more_install() {
   variable_set('admin_theme', $theme_admin);
   variable_set('node_admin_theme', TRUE);
 
-  // TODO: Replace this with the actual theme when we have one!
-  $theme_capacity4more = $theme_default;
+  $theme_capacity4more = 'bootstrap_subtheme';
+
+  // Enable our themes.
+  theme_enable(array('bootstrap_subtheme'));
+  theme_disable(array('bartik'));
   /*
   $theme_capacity4more = 'capacity4more_theme_name';
   _capacity4more_install_save_theme($theme_capacity4more, 1);
