@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file
+ * Code for the C4m Message feature.
+ */
+
+include_once 'c4m_message.features.inc';
 
 /**
  * Implements hook_node_update().
