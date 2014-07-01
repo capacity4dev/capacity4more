@@ -287,6 +287,16 @@ module.exports = function (grunt) {
         }]
       }
     },
+    buildcontrol: {
+      dist: {
+        options: {
+          remote: 'git@github.com:capacity4dev/capacity4more.git',
+          branch: 'gh-pages',
+          commit: true,
+          push: true
+        }
+      }
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -352,9 +362,9 @@ module.exports = function (grunt) {
   grunt.registerTask('check', [
     'clean:server',
     'jekyll:check',
-    'compass:server',
-    'jshint:all',
-    'csslint:check'
+    'compass:server'
+    // 'jshint:all',
+    // 'csslint:check'
   ]);
 
   grunt.registerTask('build', [
@@ -369,7 +379,7 @@ module.exports = function (grunt) {
     'uglify',
     'imagemin',
     'svgmin',
-    'filerev',
+    // 'filerev',
     'usemin',
     'htmlmin'
     ]);
@@ -379,7 +389,7 @@ module.exports = function (grunt) {
     'test',
     'build',
     'buildcontrol'
-  ]);
+    ]);
 
   grunt.registerTask('default', [
     'check',
