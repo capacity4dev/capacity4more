@@ -30,20 +30,25 @@
 // Creating a custom padding between columns.
 $grid-gutter-width: 10px;
 
+@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+@import "compass/css3/border-radius";
+@import "mixins";
+@import "pages/group";
+
 // Creating a custom column set for the stats row in footer.
-.col-xs-15 {
-  width: 20%;
-  float: left;
+.col-md-15 {
   position: relative;
   min-height: 1px;
   padding-right: $grid-gutter-width;
   padding-left: $grid-gutter-width;
 }
 
-@import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
-@import "compass/css3/border-radius";
-@import "mixins";
-@import "pages/group";
+@media (min-width: $screen-md-min) {
+  .col-md-15 {
+    width: 20%;
+    float: left;
+  }
+}
 
 html,body {
   margin: 0;
@@ -73,6 +78,10 @@ html,body {
     font-weight: bold;
     font-size: 18px;
     letter-spacing: 1px;
+
+    @media (max-width: $screen-xs) {
+      font-size: 14px;
+    }
   }
 
   .green-title {
@@ -80,6 +89,10 @@ html,body {
      color: $main-green;
      font-size: 46px;
      letter-spacing: 2px;
+
+    @media (max-width: $screen-xs) {
+      font-size: 30px;
+    }
   }
 
   form.inline-form {
@@ -106,12 +119,14 @@ html,body {
 
   header {
 
-    .col-sm-3 {
-      width: 29%;
-    }
+    @media (min-width: $screen-md-min) {
+      .col-sm-3 {
+        width: 29%;
+      }
 
-    .col-sm-6 {
-      width: 42%;
+      .col-sm-6 {
+        width: 42%;
+      }
     }
 
     #user-menu,
@@ -136,6 +151,10 @@ html,body {
       font-size: 12px;
       letter-spacing: 2px;
       color: $main-blue;
+
+      @media (max-width: $screen-xs-max) {
+        width: 80%;
+      }
     }
 
     .c4d-logo {
@@ -145,6 +164,10 @@ html,body {
       min-height: 65px;
       font-size: 48px;
       letter-spacing: 3px;
+
+      @media (max-width: $screen-xs-max) {
+        margin-top: 5px;
+      }
 
       i {
         font-style: normal;
@@ -172,6 +195,11 @@ html,body {
       top: 29px;
       float: right;
       width: 98%;
+
+      @media (max-width: $screen-xs-max) {
+        top: 3px;
+        width: 100%;
+      }
 
       input[type='text'] {
         height: 40px;
@@ -233,26 +261,50 @@ html,body {
 
           &.members {
             background-position: 26px -554px;
+
+            @media (max-width: $screen-xs-max) {
+              padding-left: 70px;
+            }
           }
 
           &.posts {
             background-position: 42px -613px;
             padding-left: 75px;
+
+            @media (max-width: $screen-xs-max) {
+              padding-left: 70px;
+              background-position: 25px -613px;
+            }
           }
 
           &.groups {
             background-position: 25px -680px;
             padding-left: 64px;
+
+            @media (max-width: $screen-xs-max) {
+              padding-left: 70px;
+              background-position: 20px -680px;
+            }
           }
 
           &.projects {
             background-position: 15px -746px;
             padding-left: 48px;
+
+            @media (max-width: $screen-xs-max) {
+              padding-left: 70px;
+              background-position: 25px -746px;
+            }
           }
 
           &.articles {
             background-position: 15px -869px;
             padding-left: 46px;
+
+            @media (max-width: $screen-xs-max) {
+              padding-left: 70px;
+              background-position: 25px -869px;
+            }
           }
         }
       }
@@ -273,6 +325,10 @@ html,body {
           line-height: 10px;
           text-transform: capitalize;
           font-size: 12px;
+          
+          @media (max-width: $screen-md) {
+            margin-bottom: 20px;
+          }
 
           &.last {
             border-right: 0 none;
@@ -288,6 +344,10 @@ html,body {
 
         &.blue {
           margin-left: 10px;
+
+          @media (max-width: $screen-md) {
+            margin-left: 0;
+          }
         }
 
         &.social {

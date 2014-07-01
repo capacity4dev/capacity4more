@@ -6,6 +6,11 @@
     font-family: 'OstrichSans-Medium';
     font-size: 65px;
     margin: 0;
+
+    @media (max-width: $screen-xs) {
+      font-size: 40px;
+      margin-bottom: 5px;
+    }
   }
 
   .banner {
@@ -19,6 +24,10 @@
       height: 55px;
       font-size: 12px;
       padding-top: 10px;
+
+      @media (max-width: $screen-xs) {
+        font-size: 9px;
+      }
     }
 
     input[type='button'] {
@@ -80,6 +89,10 @@
     .user-info {
       padding-left: 23px;
 
+      @media (max-width: $screen-xs) {
+        padding-left: 5px;
+      }
+
       img {
         max-width: 73%;
         display: block;
@@ -100,32 +113,13 @@
           float: left;
           background-image: url("../images/main/icons-sprite.png");
           background-repeat: no-repeat;
-
-          &.discussion-icon {
-            background-position: 0 -30px;
-          }
-
-          &.comment-icon {
-            background-position: 0 -106px;
-          }
-
-          &.document-icon {
-            background-position: 0 -319px;
-          }
-
-          &.event-icon {
-            background-position: 0 -409px;
-          }
-
-          &.new-member-icon {
-            background-position: 0 -454px;
-          }
+          background-position: 0 0;
         }
 
         .author {
           display: inline-block;
           float: left;
-          width: 85%;
+          width: 80%;
           margin: -1px 0 -3px 0;
           letter-spacing: 3.4px;
           font-size: 14px;
@@ -176,6 +170,10 @@
 
             .post-action {
               color: $main-color;
+
+              .icon {
+                background-position: 0 -105px;
+              }
             }
           }
         }
@@ -186,6 +184,10 @@
 
       .post-action {
         color: $main-blue;
+
+        .icon {
+          background-position: 0 -30px;
+        }
       }
     }
 
@@ -194,6 +196,10 @@
 
       .post-action {
         color: $main-green;
+
+        .icon {
+          background-position: 0 -319px;
+        }
       }
     }
 
@@ -202,6 +208,10 @@
 
       .post-action {
         color: $main-brown;
+
+        .icon {
+          background-position: 0 -409px;
+        }
       }
     }
 
@@ -210,6 +220,10 @@
 
       .post-action {
         color: $main-red;
+
+        .icon {
+          background-position: 0 -454px;
+        }
       }
     }
   }
@@ -219,6 +233,10 @@
     padding-bottom: 10px;
     border-bottom: 2px dotted $main-green;
     font-size: 12px;
+
+    @media (max-width: $screen-md) {
+      margin-left: 0;
+    }
 
     .public {
       background: url("../images/main/icons-sprite.png") 0 -794px no-repeat;
@@ -262,12 +280,20 @@
   .highlights {
     margin: 40px 0 0 55px;
 
+    @media (max-width: $screen-md) {
+      margin-left: 0;
+    }
+
     .post {
       background: none;
       border-bottom: 1px dashed $light-gray;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       padding: 1px 0 13px 23px;
       width: 105%;
+
+      @media (max-width: $screen-md) {
+        width: 98%;
+      }
 
       &.last {
         border-bottom: 0 none;
@@ -277,36 +303,55 @@
 
         .post-action {
 
-          .icon {
-
-            &.blog-icon {
-              background-position: 0 -230px;
-            }
-
-            &.discussion-icon {
-              background-position: 0 -66px;
-            }
-
-            &.comment-icon {
-              background-position: 0 -106px;
-            }
-
-            &.document-icon {
-              background-position: 0 -275px;
-            }
-
-            &.event-icon {
-              background-position: 0 -366px;
-            }
-
-            &.new-member-icon {
-              background-position: 0 -500px;
-            }
+          .author {
+            width: 85%;
           }
         }
 
         .post-content {
           margin-top: 12px;
+        }
+      }
+
+      &.blog {
+
+        .icon {
+          background-position: 0 -230px;
+        }
+      }
+
+      &.discussion {
+
+        .icon {
+          background-position: 0 -66px;
+        }
+      }
+
+      &.comment {
+
+        .icon {
+          background-position: 0 -106px;
+        }
+      }
+
+      &.document {
+
+        .icon {
+          background-position: 0 -275px;
+        }
+      }
+
+      &.event {
+
+        .icon {
+          background-position: 0 -366px;
+        }
+      }
+
+      &.new-member {
+
+        .icon {
+          background-position: 0 -500px;
         }
       }
     }
