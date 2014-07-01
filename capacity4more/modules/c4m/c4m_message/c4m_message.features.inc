@@ -18,6 +18,28 @@ function c4m_message_ctools_plugin_api($module = NULL, $api = NULL) {
  */
 function c4m_message_default_message_type() {
   $items = array();
+  $items['node_added'] = entity_import('message_type', '{
+    "name" : "node_added",
+    "description" : "Node added",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Added a [message:field-node:content-type:name]",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EAdded a [message:field-node:content-type:name]\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['node_edited'] = entity_import('message_type', '{
     "name" : "node_edited",
     "description" : "Node edited",
@@ -32,9 +54,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "Edited an [message:field-node:content-type:name]",
+          "value" : "Edited a [message:field-node:content-type:name]",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EEdited an [message:field-node:content-type:name]\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EEdited a [message:field-node:content-type:name]\\u003C\\/p\\u003E\\n"
         }
       ]
     },
