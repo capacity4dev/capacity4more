@@ -41,8 +41,8 @@ function c4m_message_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 259,
-          'height' => 288,
+          'width' => 266,
+          'height' => 161,
         ),
         'weight' => 1,
       ),
@@ -64,8 +64,8 @@ function c4m_message_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 75,
-          'height' => 84,
+          'width' => 78,
+          'height' => 87,
         ),
         'weight' => 1,
       ),
