@@ -7,6 +7,19 @@
 include_once 'c4m_message.features.inc';
 
 /**
+ * Implements hook_init().
+ *
+ * TODO: Temporary hack for adding the activity stream css. Should be moved to
+ * the theme.
+ */
+function c4m_message_init() {
+  $menu_item = menu_get_item();
+  if ($menu_item['path'] == 'activity') {
+    drupal_add_css(libraries_get_path('capacity4more') . '/css/main.css');
+  }
+}
+
+/**
  * Implements hook_node_update().
  *
  * Create a node-updated message.
@@ -96,18 +109,51 @@ function c4m_message_preprocess_message(&$variables) {
     return;
   }
 
+  // TODO: Make a new message template, instead of overriding the main one.
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
 
+  // Fetch user details.
   $wrapper = entity_metadata_wrapper('user', $message->uid);
   $picture = $wrapper->c4m_media->value();
-
-  $variables['user_picture'] = $picture ? theme('image_style', array('style_name' => 'thumbnail', 'path' => $picture['uri'])) : '';
+  $variables['user_picture'] = $picture ? theme('image_style', array('style_name' => 'activity_stream_user_picture', 'path' => $picture['uri'], 'attributes' => array('class' => array('img-responsive')))) : '';
+  $variables['user_name'] = $wrapper->c4m_first_name->value() . ' ' . $wrapper->c4m_last_name->value();
 
   $variables['created'] = format_date($message->timestamp, 'short');
 
-  $variables['activity_class'] = '';
+  $variables['message_type'] = drupal_html_class($message->type);
 
-  $variables['user_name'] = $wrapper->c4m_first_name->value() . ' ' . $wrapper->c4m_last_name->value();
+  $variables['body'] = '';
+  $variables['media'] = '';
+  $variables['comments_count'] = 0;
+  $variables['node_type'] = '';
+
+  // Fetch related node details.
+  $wrapper = entity_metadata_wrapper('message', $message);
+  if (isset($wrapper->field_node)) {
+
+    if (isset($wrapper->field_node->c4m_body)) {
+      $variables['body'] = $wrapper->field_node->c4m_body->value->value();
+    }
+
+    if (isset($wrapper->field_node->c4m_media)) {
+      $media = $wrapper->field_node->c4m_media->value();
+      if ($media['uri']) {
+        $variables['media'] = theme('image_style', array('style_name' => 'activity_stream_media', 'path' => $media['uri'], 'attributes' => array('class' => array('img-responsive'))));
+      }
+    }
+
+    $comments = $wrapper->field_node->comments->value();
+    $count = count($comments);
+    if ($count) {
+      $variables['comments_count'] = format_plural($count, t('1 Comment'), t('%count Comments', array('%count' => $count)));
+    }
+
+    $variables['node_type'] = drupal_html_class($wrapper->field_node->type->value());
+  }
+  // Fetch related comment details.
+  elseif (isset($wrapper->field_comment)) {
+    $variables['body'] = $wrapper->field_comment->comment_body->value->value();
+  }
 }
 
 /**
