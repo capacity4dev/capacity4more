@@ -1,0 +1,6 @@
+name = C4m Message
+description = This module handles creation and display of activity stream messages
+core = 7.x
+package = capacity4more
+dependencies[] = message
+features[features_api][] = api:2

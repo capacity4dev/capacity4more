@@ -5,7 +5,7 @@
  *
  * Create a node updated message.
  */
-function c4m_activity_stream_node_update($node) {
+function c4m_message_node_update($node) {
   // TODO: Check node type.
 
   // Check if an edit message was created in the past 24, to prevent multiple
