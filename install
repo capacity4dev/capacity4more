@@ -165,17 +165,6 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   exit 1
 fi
 
-# Build the jekyll to get the compiled CSS files.
-cd jekyll
-npm install
-bower install
-grunt build
-cd ..
-
-# Copy the custom assets folders.
-mkdir capacity4more/libraries/capacity4more
-rsync -avz --exclude '.git' jekyll/dist/ capacity4more/libraries/capacity4more
-
 # If we managed to get to here: the installation was successful!
 LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
 echo
