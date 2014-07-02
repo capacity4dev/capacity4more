@@ -187,20 +187,6 @@ echo
 
 cd www
 
-# Build the jekyll to get the compiled CSS files.
-cd jekyll
-npm install
-bower install
-grunt build
-cd ..
-
-# Copy the custom assets folders.
-mkdir capacity4more/libraries/capacity4more
-rsync -avz --exclude '.git' jekyll/dist/ capacity4more/libraries/capacity4more
-
-
-cd www
-
 # Auto Login?
 if [ $AUTO_LOGIN ]; then
   drupal_login
