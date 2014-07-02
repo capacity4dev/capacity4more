@@ -184,8 +184,8 @@ grunt build
 cd ..
 
 # Copy the custom assets folders.
-mkdir pipeline/libraries/pipeline
-rsync -avz --exclude '.git' jekyll/dist/ pipeline/libraries/pipeline
+mkdir capacity4more/libraries/capacity4more
+rsync -avz --exclude '.git' jekyll/dist/ capacity4more/libraries/capacity4more
 
 
 cd www
