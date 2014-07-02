@@ -68,6 +68,9 @@ function capacity4more_install() {
   variable_set('user_picture_dimensions', '1024x1024');
   variable_set('user_picture_file_size', '800');
   variable_set('user_picture_style', 'thumbnail');
+
+  // PAGE MANAGER
+  variable_set('page_manager_node_view_disabled', FALSE);
 }
 
 

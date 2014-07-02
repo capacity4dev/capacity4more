@@ -59,6 +59,7 @@ dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
+dependencies[] = views_content
 
 
 ; capacity4more ---------------------------------------------------------------
@@ -107,5 +108,8 @@ dependencies[] = c4m_features_og_overview_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
 
-; Activity strean
+; Activity Stream
 dependencies[] = c4m_message
+
+; Content Pages
+dependencies[] = c4m_pages

@@ -7,19 +7,6 @@
 include_once 'c4m_message.features.inc';
 
 /**
- * Implements hook_init().
- *
- * TODO: Temporary hack for adding the activity stream css. Should be moved to
- * the theme.
- */
-function c4m_message_init() {
-  $menu_item = menu_get_item();
-  if ($menu_item['path'] == 'activity') {
-    drupal_add_css(libraries_get_path('capacity4more') . '/css/main.css');
-  }
-}
-
-/**
  * Implements hook_node_update().
  *
  * Create a node-updated message.

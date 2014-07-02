@@ -41,6 +41,15 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Contextual filter: Message: Group (field_group) */
+  $handler->display->display_options['arguments']['field_group_target_id']['id'] = 'field_group_target_id';
+  $handler->display->display_options['arguments']['field_group_target_id']['table'] = 'field_data_field_group';
+  $handler->display->display_options['arguments']['field_group_target_id']['field'] = 'field_group_target_id';
+  $handler->display->display_options['arguments']['field_group_target_id']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['field_group_target_id']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_group_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_group_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_group_target_id']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Message: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'message';
@@ -55,6 +64,19 @@ function c4m_message_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['path'] = 'activity';
+
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_activity_stream');
+  $handler->display->display_options['argument_input'] = array(
+    'field_group_target_id' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Message: Group (field_group)',
+    ),
+  );
   $export['activity_stream'] = $view;
 
   return $export;
