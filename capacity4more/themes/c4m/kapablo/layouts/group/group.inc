@@ -7,5 +7,6 @@ $plugin = array(
   'icon' => 'group.png',
   'theme' => 'group',
   'regions' => array(
+    'activity_stream' => t('Activity Stream'),
   ),
 );

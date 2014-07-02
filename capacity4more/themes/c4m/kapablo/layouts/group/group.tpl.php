@@ -25,6 +25,8 @@
           <li class="idea"><a href="#"></a></li>
         </ul>
       </div>
+
+      <?php print $content['activity_stream']; ?>
       <!-- This is a post -->
       <div class="row post discussion-post">
         <div class="col-xs-3 user-info">
