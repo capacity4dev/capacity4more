@@ -57,6 +57,10 @@ function c4m_pages_default_page_manager_handlers() {
       'image' => NULL,
       'description' => NULL,
       'created' => NULL,
+      'group_owner' => NULL,
+      'members_count' => NULL,
+      'topics' => NULL,
+      'highlights' => NULL,
     ),
   );
   $display->cache = array();
@@ -142,6 +146,30 @@ function c4m_pages_default_page_manager_handlers() {
     $pane->uuid = '806aa31a-4b49-49aa-9c34-8fd8e749e356';
     $display->content['new-806aa31a-4b49-49aa-9c34-8fd8e749e356'] = $pane;
     $display->panels['description'][0] = 'new-806aa31a-4b49-49aa-9c34-8fd8e749e356';
+    $pane = new stdClass();
+    $pane->pid = 'new-6348f959-56af-4ab1-8851-add382a94177';
+    $pane->panel = 'group_owner';
+    $pane->type = 'node_author';
+    $pane->subtype = 'node_author';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'link' => 1,
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6348f959-56af-4ab1-8851-add382a94177';
+    $display->content['new-6348f959-56af-4ab1-8851-add382a94177'] = $pane;
+    $display->panels['group_owner'][0] = 'new-6348f959-56af-4ab1-8851-add382a94177';
     $pane = new stdClass();
     $pane->pid = 'new-9e16ad76-df80-4666-8152-dc727cbff52a';
     $pane->panel = 'image';
