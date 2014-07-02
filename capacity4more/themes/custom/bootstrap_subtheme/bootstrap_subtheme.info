@@ -24,14 +24,13 @@ regions[page_bottom]    = 'Page bottom'
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
-;Our design
-stylesheets[all][] = '../../../libraries/pipeline/css/main.css'
+stylesheets[all][] = '../../../libraries/capacity4more/css/main.css'
 
 ; ;;;;;;;;;;;;;;;;;;;;;
 ; ;; Custom Scripts
 ; ;;;;;;;;;;;;;;;;;;;;;
 
-scripts[] = '../../../libraries/pipeline/js/scripts.js'
+scripts[] = '../../../libraries/capacity4more/js/scripts.js'
 
 ; Bootstrap
 scripts[] = '../../../libraries/bootstrap_sass/vendor/assets/javascripts/bootstrap.js'
