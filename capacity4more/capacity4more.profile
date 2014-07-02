@@ -131,7 +131,7 @@ function capacity4more_set_variables() {
     'message_subscribe_notify_own_actions' => TRUE,
 
     // Theme
-    'theme_default' => 'bootstrap_subtheme',
+    'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 1,
     'page_manager_node_view_disabled' => FALSE,

@@ -28,7 +28,7 @@ function capacity4more_install() {
   menu_rebuild();
 
   // THEMES
-  $theme_capacity4more = 'bootstrap_subtheme';
+  $theme_capacity4more = 'kapablo';
   variable_set('theme_default', $theme_capacity4more);
 
   $theme_admin = 'seven';
