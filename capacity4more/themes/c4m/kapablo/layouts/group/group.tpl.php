@@ -11,7 +11,7 @@
   <div class="row">
     <div class="col-md-7 col-xs-12">
 
-      <h2 class="green-title">group activity</h2>
+      <h2 class="green-title"><?php print t('Group Activity'); ?></h2>
 
       <div class="add-activity">
         <form action="#" class="inline-form">
@@ -44,122 +44,21 @@
 
         <div class="info owner">
           <label><?php print t('Group owner'); ?>:</label>
-          <a href="#">De Caninock Sophie</a>
+          <?php print $content['group_owner']; ?>
         </div>
         <div class="info members-count">
-          <label>Members:</label>
-          <a href="#">1234</a>
+          <label><?php print t('Members'); ?>:</label>
+          <?php print $content['members_count']; ?>
         </div>
         <div class="info topics">
-          <label>Topic(s):</label>
-          <a href="#">agriculture & rural development</a>,
-          <a href="#">energy</a>,
-          <a href="#">environment & climate change</a>,
-          <a href="#">water & sanitation</a>
+          <label><?php print t('Topics'); ?>:</label>
+          <?php print $content['topics']; ?>
         </div>
       </div>
 
       <div class="highlights">
-        <h2 class="green-title">Highlights</h2>
-        <!-- This is a highlight post -->
-        <div class="post blog first">
-          <div class="content-wrapper">
-            <div class="post-action">
-              <span class="icon"></span>
-              <span class="author sans-font">Amitai Bursitne</span>
-              <span class="action">Created a blog post</span>
-              <span class="date">Today, 20:00</span>
-            </div>
-            <div class="post-content">
-              <p class="user-text">Farmer-driven research to improve food and
-                nutrition security.</p>
-
-              <p class="comments">2 Comments</p>
-            </div>
-          </div>
-        </div>
-        <!-- End of post -->
-        <!-- This is a highlight post -->
-        <div class="post discussion">
-          <div class="content-wrapper">
-            <div class="post-action">
-              <span class="icon"></span>
-              <span class="author sans-font">Keren Soref</span>
-              <span class="action">Added a discussion</span>
-              <span class="date">18/06/2014, 10:00</span>
-            </div>
-            <div class="post-content">
-              <p class="user-text">Last week capacity4dev launched the updated
-                Food & Nutrition Security – ROSA group. Laura Gualdi, Programme
-                Manager for Food Security</p>
-
-              <p class="comments">1 Comment</p>
-            </div>
-          </div>
-        </div>
-        <!-- End of post -->
-        <!-- This is a highlight post -->
-        <div class="post comment">
-          <div class="content-wrapper">
-            <div class="post-action">
-              <span class="icon"></span>
-              <span class="author sans-font">Bob Dylan</span>
-              <span class="action">Commented on discussion</span>
-              <span class="date">18/06/2014, 10:00</span>
-            </div>
-            <div class="post-content">
-              <p class="user-text">Last week capacity4dev launched the updated
-                Food & Nutrition Security – ROSA group. Laura Gualdi, Programme
-                Manager for Food Security</p>
-
-              <p class="comments">1 Comment</p>
-            </div>
-          </div>
-        </div>
-        <!-- End of post -->
-        <!-- This is a highlight post -->
-        <div class="post document">
-          <div class="content-wrapper">
-            <div class="post-action">
-              <span class="icon"></span>
-              <span class="author sans-font">Justin Bieber</span>
-              <span class="action">Uploaded a document</span>
-              <span class="date">17/06/2014, 14:48</span>
-            </div>
-            <div class="post-content">
-              <p class="user-text">Atui Rauti Para Report.ppt</p>
-            </div>
-          </div>
-        </div>
-        <!-- End of post -->
-        <!-- This is a highlight post -->
-        <div class="post event">
-          <div class="content-wrapper">
-            <div class="post-action">
-              <span class="icon"></span>
-              <span class="author sans-font">Asaf Soref</span>
-              <span class="action">Created an event</span>
-              <span class="date">16/06/2014, 14:48</span>
-            </div>
-            <div class="post-content">
-              <p class="user-text">10th Forest Governance Forum - Cameroon -
-                22-24 October 2014</p>
-            </div>
-          </div>
-        </div>
-        <!-- End of post -->
-        <!-- This is a highlight post -->
-        <div class="post new-member last">
-          <div class="content-wrapper">
-            <div class="post-action">
-              <span class="icon"></span>
-              <span class="author sans-font">Asaf Soref</span>
-              <span class="action">New member</span>
-              <span class="date">16/06/2014, 14:48</span>
-            </div>
-          </div>
-        </div>
-        <!-- End of post -->
+        <h2 class="green-title"><?php print t('Highlights'); ?></h2>
+        <?php print $content['highlights']; ?>
       </div>
     </div>
   </div>
