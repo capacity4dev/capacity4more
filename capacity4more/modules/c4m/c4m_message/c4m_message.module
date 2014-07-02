@@ -118,7 +118,6 @@ function c4m_message_preprocess_message(&$variables) {
     return;
   }
 
-  // TODO: Make a new message template, instead of overriding the main one.
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
 
   $variables['user_picture'] = '';
@@ -144,7 +143,17 @@ function c4m_message_preprocess_message(&$variables) {
   if (isset($wrapper->field_node)) {
 
     if (isset($wrapper->field_node->c4m_body)) {
-      $variables['body'] = $wrapper->field_node->c4m_body->value->value();
+      $alter = array(
+        'max_length' => 150,
+        'ellipsis' => TRUE,
+        'html' => TRUE
+      );
+      $body = $wrapper->field_node->c4m_body->value->value();
+      $summary = views_trim_text($alter, $body);
+      if ($summary != $body) {
+        $summary .= l(t('Read more'), 'node/' . $wrapper->field_node->getIdentifier());
+      }
+      $variables['body'] = $summary;
     }
 
     if (isset($wrapper->field_node->c4m_media)) {
@@ -166,17 +175,6 @@ function c4m_message_preprocess_message(&$variables) {
   elseif (isset($wrapper->field_comment)) {
     $variables['body'] = $wrapper->field_comment->comment_body->value->value();
   }
-}
-
-/**
- * Implements hook_theme_registry_alter().
- *
- * Override the message template.
- */
-function c4m_message_theme_registry_alter(&$theme_registry) {
-  $path = drupal_get_path('module', 'c4m_message');
-  $theme_registry['message']['theme path'] = $path;
-  $theme_registry['message']['template'] = $path . '/message';
 }
 
 /**

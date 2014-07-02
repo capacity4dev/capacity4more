@@ -16,5 +16,5 @@ function kapablo_preprocess_page(&$variables) {
   $variables['navigation'] = menu_tree('navigation');
 
   // TODO: Replace dummy search form.
-  $variables['search_form'] = '<form action="#" class="inline-form"><input type="text" placeholder="Search in groups"><input type="button"></form>';
+  $variables['search_form'] = '<form action="#" class="inline-form"><input type="text" placeholder="Search"><input type="button"></form>';
 }
