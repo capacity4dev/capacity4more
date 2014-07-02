@@ -165,17 +165,6 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   exit 1
 fi
 
-
-# If we managed to get to here: the installation was successful!
-LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
-echo
-echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
-echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
-echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo
-
-
 # Build the jekyll to get the compiled CSS files.
 cd jekyll
 npm install
@@ -187,6 +176,14 @@ cd ..
 mkdir capacity4more/libraries/capacity4more
 rsync -avz --exclude '.git' jekyll/dist/ capacity4more/libraries/capacity4more
 
+# If we managed to get to here: the installation was successful!
+LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
+echo
+echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
+echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
+echo -e  "${BGGREEN}                                                                 ${RESTORE}"
+echo
 
 cd www
 

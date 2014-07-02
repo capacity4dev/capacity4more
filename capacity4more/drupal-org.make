@@ -122,8 +122,13 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
 
 projects[purl][subdir] = "contrib"
-projects[purl][version] = "1.x-dev"
-projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
+projects[purl][download][type] = git
+projects[purl][download][branch] = 7.x-1.x
+projects[purl][download][revision] = 469e8668
+projects[purl][patch][] = "http://drupal.org/files/1473502-purl-init-2_0.patch"
+projects[purl][patch][] = "http://drupal.org/files/1982198-purl-cache-set-1.patch"
+projects[purl][patch][] = "http://drupal.org/files/729862-9-purl-inbound-alter-modifies-q.patch"
+projects[purl][patch][] = "http://drupal.org/files/issues/purl-integrate_redirect_keep_options-1735266-4.patch"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
