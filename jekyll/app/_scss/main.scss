@@ -129,16 +129,29 @@ html,body {
       }
     }
 
+    .welcome {
+      float: left;
+      margin-right: 10px;
+      font-size: 12px;
+
+      em {
+        font-style: normal;
+      }
+    }
+
     #user-menu,
     #main-nav {
       float: left;
-      width: 120%;
       color: black;
 
       li {
         float: left;
         margin-right: 15px;
         font-size: 12px;
+
+        a {
+          padding: 0;
+        }
       }
     }
 
