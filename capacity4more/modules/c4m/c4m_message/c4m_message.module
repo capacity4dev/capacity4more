@@ -183,16 +183,16 @@ function c4m_message_preprocess_message(&$variables) {
  * @param $node
  *   A node to search its group.
  *
- * @return mixed
- *   Group node ID or FALSE if none exist.
+ * @return int | NULL
+ *   Group node ID.
  */
 function _c4m_message_get_node_group($node) {
   if (!og_is_group_content_type('node', $node->type)) {
-    return FALSE;
+    return;
   }
   $groups = og_get_entity_groups('node', $node);
   if (empty($groups['node'])) {
-    return FALSE;
+    return;
   }
   return reset($groups['node']);
 }

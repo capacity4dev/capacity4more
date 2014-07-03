@@ -16,10 +16,6 @@
         </div>
       </div>
       <div class="col-sm-6 col-xs-12">
-        <div id="main-nav">
-          <?php print render($navigation_menu); ?>
-        </div>
-
         <?php if (isset($search_form)): ?>
           <?php print $search_form; ?>
         <?php endif; ?>

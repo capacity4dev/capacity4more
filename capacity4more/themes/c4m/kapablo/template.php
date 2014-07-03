@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Preprocess page.
+ */
 function kapablo_preprocess_page(&$variables) {
   global $user;
 
@@ -13,7 +16,6 @@ function kapablo_preprocess_page(&$variables) {
 
   // Prepare menus.
   $variables['user_menu'] = menu_tree('user-menu');
-  $variables['navigation'] = menu_tree('navigation');
 
   // TODO: Replace dummy search form.
   $variables['search_form'] = '<form action="#" class="inline-form"><input type="text" placeholder="Search"><input type="button"></form>';
