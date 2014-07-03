@@ -1,0 +1,198 @@
+<?php
+/**
+ * @file
+ * Code for the C4m Message feature.
+ */
+
+include_once 'c4m_message.features.inc';
+
+/**
+ * Implements hook_node_update().
+ *
+ * Create a node-updated message.
+ */
+function c4m_message_node_update($node) {
+  if (!$group_nid = _c4m_message_get_node_group($node)) {
+    return;
+  }
+
+  // Check if an edit message was created in the past 24, to prevent multiple
+  // messages from multiple edits.
+  $time_ago = strtotime(date('r', time()) . '-1 day');
+  $query = new entityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'node_edited')
+    ->propertyCondition('timestamp', $time_ago, '>=')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->execute();
+
+  if (!empty($result['message'])) {
+    // A recent edit message already exists; Update its timestamp to the current
+    // edit.
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    $wrapper->timestamp->set($node->changed);
+    $wrapper->field_group->set($group_nid);
+    $wrapper->save();
+  }
+  else {
+    // Create a new node-edited message.
+    $message = message_create('node_edited');
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_node->set($node);
+    $wrapper->field_group->set($group_nid);
+    $wrapper->save();
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Create a node-added message.
+ */
+function c4m_message_node_insert($node) {
+  if (!$group_nid = _c4m_message_get_node_group($node)) {
+    return;
+  }
+  $message = message_create('node_added');
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node->set($node);
+  $wrapper->field_group->set($group_nid);
+  $wrapper->save();
+}
+
+/**
+ * Implements hook_comment_insert().
+ *
+ * Create a comment-added message.
+ */
+function c4m_message_comment_insert($comment) {
+  $node = node_load($comment->nid);
+  if (!$group_nid = _c4m_message_get_node_group($node)) {
+    return;
+  }
+
+  $message = message_create('comment_added');
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_comment->set($comment);
+  $wrapper->field_group->set($group_nid);
+  $wrapper->save();
+}
+
+/**
+ * Implements hook_og_membership_insert().
+ *
+ * Create a user-added message.
+ */
+function c4m_message_og_membership_insert(OgMembership $og_membership) {
+  if ($og_membership->entity_type != 'user' || !$og_membership->is_new || $og_membership->group_type != 'node') {
+    return;
+  }
+
+  $group_nid = $og_membership->gid;
+  $account = user_load($og_membership->etid);
+  $message = message_create('user_added', array(), $account);
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_group->set($group_nid);
+  $wrapper->save();
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add "Activity stream" view mode.
+ */
+function c4m_message_entity_info_alter(&$entity_info) {
+  $entity_info['message']['view modes']['activity_stream'] = array(
+    'label' => t('Activity stream'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Activity stream messages preprocess.
+ */
+function c4m_message_preprocess_message(&$variables) {
+  $message = $variables['message'];
+  if (!in_array($message->type, array('node_added', 'node_edited', 'comment_added', 'user_added'))) {
+    return;
+  }
+
+  $variables['theme_hook_suggestions'][] = 'message__activity_stream';
+
+  $variables['user_picture'] = '';
+  // Fetch user details.
+  $wrapper = entity_metadata_wrapper('user', $message->uid);
+  if (isset($wrapper->c4m_media)) {
+    $picture = $wrapper->c4m_media->value();
+    $variables['user_picture'] = $picture ? theme('image_style', array('style_name' => 'activity_stream_user_picture', 'path' => $picture['uri'], 'attributes' => array('class' => array('img-responsive')))) : '';
+  }
+  $variables['user_name'] = $wrapper->c4m_first_name->value() . ' ' . $wrapper->c4m_last_name->value();
+
+  $variables['created'] = format_date($message->timestamp, 'short');
+
+  $variables['message_type'] = drupal_html_class($message->type);
+
+  $variables['body'] = '';
+  $variables['media'] = '';
+  $variables['comments_count'] = 0;
+  $variables['node_type'] = '';
+
+  // Fetch related node details.
+  $wrapper = entity_metadata_wrapper('message', $message);
+  if (isset($wrapper->field_node)) {
+
+    if (isset($wrapper->field_node->c4m_body)) {
+      $alter = array(
+        'max_length' => 150,
+        'ellipsis' => TRUE,
+        'html' => TRUE
+      );
+      $body = $wrapper->field_node->c4m_body->value->value();
+      $summary = views_trim_text($alter, $body);
+      if ($summary != $body) {
+        $summary .= l(t('Read more'), 'node/' . $wrapper->field_node->getIdentifier());
+      }
+      $variables['body'] = $summary;
+    }
+
+    if (isset($wrapper->field_node->c4m_media)) {
+      $media = $wrapper->field_node->c4m_media->value();
+      if ($media['uri']) {
+        $variables['media'] = theme('image_style', array('style_name' => 'activity_stream_media', 'path' => $media['uri'], 'attributes' => array('class' => array('img-responsive'))));
+      }
+    }
+
+    $comments = $wrapper->field_node->comments->value();
+    $count = count($comments);
+    if ($count) {
+      $variables['comments_count'] = format_plural($count, t('1 Comment'), t('%count Comments', array('%count' => $count)));
+    }
+
+    $variables['node_type'] = drupal_html_class($wrapper->field_node->type->value());
+  }
+  // Fetch related comment details.
+  elseif (isset($wrapper->field_comment)) {
+    $variables['body'] = $wrapper->field_comment->comment_body->value->value();
+  }
+}
+
+/**
+ * Fetch the group of a node.
+ *
+ * @param $node
+ *   A node to search its group.
+ *
+ * @return int | NULL
+ *   Group node ID.
+ */
+function _c4m_message_get_node_group($node) {
+  if (!og_is_group_content_type('node', $node->type)) {
+    return;
+  }
+  $groups = og_get_entity_groups('node', $node);
+  if (empty($groups['node'])) {
+    return;
+  }
+  return reset($groups['node']);
+}

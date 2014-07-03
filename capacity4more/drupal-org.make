@@ -170,6 +170,11 @@ projects[migrate_extras][subdir] = "development"
 
 
 ; Libraries
+
+libraries[bootstrap_sass][download][type] = "file"
+libraries[bootstrap_sass][type] = "libraries"
+libraries[bootstrap_sass][download][url] = "https://github.com/twbs/bootstrap-sass/archive/v3.1.1.zip"
+
 libraries[ckeditor][download][type]= "get"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.3.4/ckeditor_4.3.4_full.zip"
 libraries[ckeditor][directory_name] = "ckeditor"

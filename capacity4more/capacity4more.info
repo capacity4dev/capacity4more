@@ -41,7 +41,7 @@ dependencies[] = field_group
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = libraries
-;dependencies[] = message
+dependencies[] = message
 dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
@@ -59,6 +59,7 @@ dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
+dependencies[] = views_content
 
 
 ; capacity4more ---------------------------------------------------------------
@@ -106,3 +107,9 @@ dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+
+; Activity Stream
+dependencies[] = c4m_message
+
+; Content Pages
+dependencies[] = c4m_pages
