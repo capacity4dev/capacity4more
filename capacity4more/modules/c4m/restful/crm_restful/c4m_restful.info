@@ -1,0 +1,4 @@
+name = C4M RESTful
+description = C4M RESTful module.
+core = 7.x
+dependencies[] = restful

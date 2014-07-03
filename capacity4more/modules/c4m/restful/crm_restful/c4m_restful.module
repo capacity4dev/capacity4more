@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * C4M restful module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_restful_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}

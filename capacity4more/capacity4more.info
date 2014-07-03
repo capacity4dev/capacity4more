@@ -51,6 +51,7 @@ dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = pathauto
 dependencies[] = reldate
+dependencies[] = restful
 ;dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = transliteration
@@ -104,3 +105,6 @@ dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+
+; RESTful
+dependencies[] = c4m_restful
