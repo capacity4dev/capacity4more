@@ -19,6 +19,8 @@
   }
 
   .add-activity {
+    margin-top: 30px;
+    margin-bottom: 10px;
 
     input[type='text'] {
       height: 55px;
@@ -89,7 +91,7 @@
     font-size: 12px;
     border-bottom: 2px solid $background-gray;
 
-    &:first-child {
+    &.first {
       border-top: 2px solid $background-gray;
     }
 
@@ -185,6 +187,12 @@
           }
         }
       }
+
+      .round-bg {
+        padding: 8px 0;
+        width: 30px;
+        height: 30px;
+      }
     }
 
     &.discussion-post {
@@ -235,13 +243,38 @@
     }
   }
 
+  .show-more-wrapper {
+    width: 100%;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 100px;
+    float: left;
+    border-bottom: 2px solid $main-blue;
+
+    .show-more {
+      padding: 0 5px;
+      position: relative;
+      background-color: white;
+      display: inline-block;
+      top: 14px;
+
+       a {
+         background-color: $main-blue;
+         display: inline-block;
+         padding: 7px 20px 5px;
+         @include border-radius(20px);
+         color: white;
+         font-size: 12px;
+       }
+    }
+  }
+
   .article-teaser {
     background-color: #E8E8E8;
     padding: 10px 0 10px 20px;
-    margin-top: 30px;
     position: relative;
     color: black;
-    margin-left: 46px;
+    margin: 30px 0 0 10px;
 
     .title {
       padding: 5px 0 10px 0;
@@ -286,11 +319,11 @@
   }
 
   .group-info {
-    margin-left: 46px;
-    padding-bottom: 10px;
-    border-bottom: 2px dotted $main-blue;
+    margin-left: 10px;
+    padding-left: 20px;
     font-size: 12px;
     position: relative;
+    border-left: 2px solid $light-gray;
 
     @media (max-width: $screen-md) {
       margin-left: 0;
@@ -316,13 +349,31 @@
     .description {
       margin: 0 0 16px 2px;
       line-height: 18px;
+    }
 
-      .more-link {
+    .request-membership {
+      background: $main-blue;
+      @include border-radius(20px);
+      text-align: center;
+      display: inline-block;
+
+      a {
+        padding: 10px 30px;
+        font-size: 25px;
+        color: white;
+        font-family: 'OstrichSans-Medium';
+      }
+    }
+
+    .more-link {
+      display: block;
+      margin-top: 8px;
+      font-weight: bold;
+      border-bottom: 1px dashed $light-gray;
+      width: 100%;
+
+      a {
         color: $light-gray;
-        display: block;
-        margin-top: 8px;
-        font-weight: bold;
-        border-bottom: 1px dashed $light-gray;
 
         span {
           font-size: 20px;
@@ -335,6 +386,11 @@
       margin: 7px 0 0 2px;
       color: $main-blue;
 
+      .round-bg {
+        float: left;
+        margin-right: 10px;
+      }
+
       label {
         display: block;
         color: $main-color;
@@ -344,11 +400,19 @@
       a {
         text-transform: capitalize;
       }
+
+      &:last-child {
+        padding-bottom: 20px;
+        border-bottom: 2px dotted $main-blue;
+      }
     }
   }
 
   .highlights {
-    margin: 40px 0 0 55px;
+    margin: 40px 0 0 10px;
+    border-left: 2px solid $light-gray;
+    padding-left: 20px;
+    float: left;
 
     @media (max-width: $screen-md) {
       margin-left: 0;
@@ -428,6 +492,33 @@
   }
 
   .twitter-feed {
-    margin: 40px 0 0 55px;
+    margin: 40px 0 0 10px;
+    border-left: 2px solid $light-gray;
+    padding-left: 20px;
+    float: left;
+  }
+
+  .recent-members {
+    margin: 40px 0 0 10px;
+    border-left: 2px solid $light-gray;
+    padding-left: 20px;
+    float: left;
+
+    .title {
+
+      .new-member {
+        padding-left: 35px;
+        background: url("../images/main/icons-sprite.png") 0 -450px no-repeat;
+        font-size: 35px;
+        font-weight: bold;
+      }
+    }
+
+    .content {
+
+      > div {
+        padding-bottom: 10px;
+      }
+    }
   }
 }

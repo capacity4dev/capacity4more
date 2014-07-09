@@ -106,6 +106,17 @@ html,body {
     }
   }
 
+    .red-title {
+    font-family: 'OstrichSans-Medium';
+    color: $main-red;
+    font-size: 40px;
+    letter-spacing: 2px;
+
+    @media (max-width: $screen-xs) {
+      font-size: 30px;
+    }
+  }
+
   .inline-form {
     position: relative;
 
@@ -149,27 +160,17 @@ html,body {
   }
 
   header {
-    min-height: 40px;
-
-    @media (min-width: $screen-md-min) {
-      .col-sm-3 {
-        width: 29%;
-      }
-
-      .col-sm-6 {
-        width: 42%;
-      }
-    }
 
     .c4d-logo {
       background: url("../images/main/c4d-logo.png") 0 6px no-repeat;
       margin-top: 10px;
-      padding-top: 10px;
+      padding-top: 5px;
       padding-left: 65px;
       min-height: 65px;
-      font-size: 30px;
+      font-size: 40px;
       letter-spacing: 3px;
       color: black;
+      font-weight: bold;
 
       @media (max-width: $screen-xs-max) {
         margin-top: 5px;
@@ -188,7 +189,7 @@ html,body {
       padding-left: 67px;
       min-height: 65px;
       font-size: 12px;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       color: $main-blue;
 
       @media (max-width: $screen-xs-max) {
@@ -269,7 +270,7 @@ html,body {
       font-family: 'OstrichSans-Medium';
       font-size: 23px;
       font-weight: bold;
-      border-bottom: 1px dashed black;
+      border-bottom: 1px dashed $light-gray;
       padding: 10px 0;
       letter-spacing: 1px;
 
@@ -280,13 +281,30 @@ html,body {
         a,
         a:hover {
           color: black;
-          padding-left: 30px;
+          padding-left: 50px;
         }
 
         &:last-child {
           border-right: 0 none;
         }
       }
+    }
+
+    .round-bg {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: $light-gray;
+      text-transform: uppercase;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      overflow: hidden;
+      @include border-radius(100px);
     }
   }
 
