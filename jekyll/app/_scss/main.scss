@@ -95,15 +95,26 @@ html,body {
     }
   }
 
-  form.inline-form {
+  .blue-title {
+    font-family: 'OstrichSans-Medium';
+    color: $main-blue;
+    font-size: 46px;
+    letter-spacing: 2px;
+
+    @media (max-width: $screen-xs) {
+      font-size: 30px;
+    }
+  }
+
+  .inline-form {
     position: relative;
 
     input[type='text'] {
-      background: $background-gray;
+      background: transparent;
       border: 0 none;
       padding: 5px 10px;
       width: 100%;
-      @include border-radius(2px);
+      border-bottom: 1px solid $light-gray;
     }
 
     input[type='button'] {
@@ -116,8 +127,29 @@ html,body {
     }
   }
 
+  .post-form {
+    position: relative;
+
+    input[type='text'] {
+      background: $background-gray;
+      border: 0 none;
+      padding: 5px 10px;
+      width: 100%;
+      @include border-radius(30px);
+    }
+
+    input[type='button'] {
+      border: 0 none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border-left: 1px solid $light-gray;
+    }
+  }
 
   header {
+    min-height: 40px;
 
     @media (min-width: $screen-md-min) {
       .col-sm-3 {
@@ -129,16 +161,23 @@ html,body {
       }
     }
 
-    #user-menu,
-    #main-nav {
-      float: left;
-      width: 120%;
+    .c4d-logo {
+      background: url("../images/main/c4d-logo.png") 0 6px no-repeat;
+      margin-top: 10px;
+      padding-top: 10px;
+      padding-left: 65px;
+      min-height: 65px;
+      font-size: 30px;
+      letter-spacing: 3px;
       color: black;
 
-      li {
-        float: left;
-        margin-right: 15px;
-        font-size: 12px;
+      @media (max-width: $screen-xs-max) {
+        margin-top: 5px;
+      }
+
+      i {
+        font-style: normal;
+        color: $main-blue;
       }
     }
 
@@ -157,43 +196,9 @@ html,body {
       }
     }
 
-    .c4d-logo {
-      background: url("../images/main/c4d-logo.png") 0 6px no-repeat;
-      margin-top: 30px;
-      padding-left: 65px;
-      min-height: 65px;
-      font-size: 48px;
-      letter-spacing: 3px;
-
-      @media (max-width: $screen-xs-max) {
-        margin-top: 5px;
-      }
-
-      i {
-        font-style: normal;
-        color: $main-blue;
-      }
-    }
-
-    #main-nav {
-      float: right;
-      width: auto;
-
-      li {
-        border-right: 1px solid $main-blue;
-        margin-right: 7px;
-        padding-right: 7px;
-        line-height: 12px;
-
-        &.last {
-          border-right: 0 none;
-        }
-      }
-    }
-
     .inline-form {
       top: 29px;
-      float: right;
+      float: none;
       width: 98%;
 
       @media (max-width: $screen-xs-max) {
@@ -215,9 +220,22 @@ html,body {
       }
     }
 
+    #user-menu {
+      text-transform: uppercase;
+      position: relative;
+      top: 55px;
+      right: -10px;
+
+      li {
+        float: right;
+        margin-right: 15px;
+        font-size: 12px;
+      }
+    }
+
     .breadcrumb {
       background: none;
-      border-top: 5px solid $main-blue;
+      border-bottom: 5px solid black;
       margin: 4px 4px 0;
       padding: 2px 0 0;
       @include border-radius(0);
@@ -226,7 +244,7 @@ html,body {
         font-size: 11px;
 
         &:before {
-          color: $main-blue;
+          color: $main-color;
           content: ">";
         }
 
@@ -235,6 +253,38 @@ html,body {
           &:before {
             content: "";
           }
+        }
+
+        a,
+        a:hover {
+          color: $main-color;
+        }
+      }
+    }
+  }
+
+  section {
+
+    #main-nav {
+      font-family: 'OstrichSans-Medium';
+      font-size: 23px;
+      font-weight: bold;
+      border-bottom: 1px dashed black;
+      padding: 10px 0;
+      letter-spacing: 1px;
+
+      > div {
+        border-right: 1px solid black;
+        line-height: 18px;
+
+        a,
+        a:hover {
+          color: black;
+          padding-left: 30px;
+        }
+
+        &:last-child {
+          border-right: 0 none;
         }
       }
     }

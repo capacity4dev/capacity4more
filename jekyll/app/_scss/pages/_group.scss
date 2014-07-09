@@ -1,7 +1,7 @@
 .group {
 
   .main-title {
-    color: #0086c4;
+    color: black;
     font-weight: normal;
     font-family: 'OstrichSans-Medium';
     font-size: 65px;
@@ -15,7 +15,7 @@
 
   .banner {
     margin-top: -5px;
-    box-shadow: 0 10px 5px #888888;
+    //box-shadow: 0 10px 5px #888888;
   }
 
   .add-activity {
@@ -31,12 +31,15 @@
     }
 
     input[type='button'] {
-      background: url("../images/main/icons-sprite.png") 7px -931px no-repeat;
       width: 57px;
-      height: 26px;
+      height: 28px;
       position: absolute;
-      top: 16px;
+      top: 13px;
       right: 0;
+      text-transform: uppercase;
+      font-size: 14px;
+      line-height: 10px;
+      font-weight: bold;
     }
   }
 
@@ -51,7 +54,7 @@
 
       a {
         width: 25px;
-        height: 25px;
+        height: 30px;
         display: inline-block;
       }
 
@@ -65,14 +68,14 @@
       &.question {
 
         a {
-          background: url("../images/main/icons-sprite.png") 0 -150px no-repeat;
+          background: url("../images/main/icons-sprite.png") 0 -276px no-repeat;
         }
       }
 
       &.idea {
 
         a {
-          background: url("../images/main/icons-sprite.png") 0 -193px no-repeat;
+          background: url("../images/main/icons-sprite.png") 0 -366px no-repeat;
         }
       }
     }
@@ -80,11 +83,15 @@
 
   .post {
     float: left;
-    background-color: $background-gray;
-    margin: 0 0 5px -1px;
+    margin-left: -1px;
     width: 99.5%;
     padding: 20px 0 24px;
     font-size: 12px;
+    border-bottom: 2px solid $background-gray;
+
+    &:first-child {
+      border-top: 2px solid $background-gray;
+    }
 
     .user-info {
       padding-left: 23px;
@@ -228,20 +235,82 @@
     }
   }
 
+  .article-teaser {
+    background-color: #E8E8E8;
+    padding: 10px 0 10px 20px;
+    margin-top: 30px;
+    position: relative;
+    color: black;
+    margin-left: 46px;
+
+    .title {
+      padding: 5px 0 10px 0;
+
+      h3 {
+        margin: 0;
+        display: inline-block;
+        font-family: 'OstrichSans-Medium';
+        font-size: 50px;
+      }
+
+      .teaser-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 21px;
+        font-weight: bold;
+        line-height: 1;
+        color: black;
+        text-shadow: 0 1px 0 white;
+      }
+    }
+
+    .content {
+      font-size: 12px;
+
+      .cont-read {
+        margin-top: 10px;
+        color: $light-gray;
+        font-weight: bold;
+        display: inline-block;
+      }
+    }
+
+    .read-all {
+      position: absolute;
+      left: 20px;
+      bottom: 10px;
+      color: black;
+      font-weight: bold;
+    }
+  }
+
   .group-info {
     margin-left: 46px;
     padding-bottom: 10px;
-    border-bottom: 2px dotted $main-green;
+    border-bottom: 2px dotted $main-blue;
     font-size: 12px;
+    position: relative;
 
     @media (max-width: $screen-md) {
       margin-left: 0;
     }
 
     .public {
-      background: url("../images/main/icons-sprite.png") 0 -794px no-repeat;
+      background: url("../images/main/icons-sprite.png") 0 -738px no-repeat;
       padding-left: 41px;
-      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid $main-blue;
+    }
+
+    .edit {
+      font-size: 20px;
+      position: absolute;
+      right: 10px;
+      top: 20px;
+      border-left: 1px solid $main-blue;
+      padding-left: 30px;
+      line-height: 20px;
     }
 
     .description {
@@ -253,6 +322,7 @@
         display: block;
         margin-top: 8px;
         font-weight: bold;
+        border-bottom: 1px dashed $light-gray;
 
         span {
           font-size: 20px;
@@ -355,5 +425,9 @@
         }
       }
     }
+  }
+
+  .twitter-feed {
+    margin: 40px 0 0 55px;
   }
 }
