@@ -141,7 +141,8 @@ html,body {
   .post-form {
     position: relative;
 
-    input[type='text'] {
+    input[type='text'],
+    textarea {
       background: $background-gray;
       border: 0 none;
       padding: 5px 10px;
