@@ -19,14 +19,13 @@
   }
 
   .add-activity {
-    margin-top: 30px;
-    margin-bottom: 10px;
+    margin: 30px 5px 10px 0;
 
     input[type='text'],
     textarea {
-      height: 55px;
+      height: 43px;
       font-size: 12px;
-      padding-top: 10px;
+      padding: 0 70px 0 14px;
 
       @media (max-width: $screen-xs) {
         font-size: 9px;
@@ -42,23 +41,23 @@
       width: 57px;
       height: 28px;
       position: absolute;
-      top: 13px;
-      right: 0;
+      top: 6px;
+      right: 7px;
       text-transform: uppercase;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 10px;
       font-weight: bold;
     }
   }
 
   .filter {
-    margin: 12px 0 18px;
+    margin: 4px 0 33px;
     float: left;
     width: 100%;
 
     li {
       float: left;
-      margin: 0 4px 0 5px;
+      margin: 0 -4px 0 17px;
 
       a {
         width: 25px;
@@ -69,21 +68,21 @@
       &.discussion {
 
         a {
-          background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
+          background: url("../images/main/icons-sprite.png") 0 -984px no-repeat;
         }
       }
 
       &.question {
 
         a {
-          background: url("../images/main/icons-sprite.png") 0 -276px no-repeat;
+          background: url("../images/main/icons-sprite.png") 0 -278px no-repeat;
         }
       }
 
       &.idea {
 
         a {
-          background: url("../images/main/icons-sprite.png") 0 -366px no-repeat;
+          background: url("../images/main/icons-sprite.png") 0 -368px no-repeat;
         }
       }
     }
@@ -93,7 +92,7 @@
     float: left;
     margin-left: -1px;
     width: 99.5%;
-    padding: 20px 0 24px;
+    padding: 20px 0 5px;
     font-size: 12px;
     border-bottom: 2px solid $background-gray;
 
@@ -135,9 +134,10 @@
           display: inline-block;
           float: left;
           width: 80%;
-          margin: -1px 0 -3px 0;
-          letter-spacing: 3.4px;
-          font-size: 14px;
+          margin: -1px 0 -3px -2px;
+          font-size: 13px;
+          text-transform: uppercase;
+          font-weight: bold;
         }
 
         .action {
@@ -198,6 +198,7 @@
         padding: 8px 0;
         width: 30px;
         height: 30px;
+        margin-top: 10px;
       }
     }
 
@@ -207,7 +208,7 @@
         color: $main-blue;
 
         .icon {
-          background-position: 0 -30px;
+          background-position: 0 -32px;
         }
       }
     }
@@ -280,22 +281,22 @@
     padding: 10px 0 10px 20px;
     position: relative;
     color: black;
-    margin: 30px 0 0 10px;
+    margin: 28px 10px 0 22px;
 
     .title {
-      padding: 5px 0 10px 0;
+      padding: 2px 0 7px 0;
 
       h3 {
         margin: 0;
         display: inline-block;
         font-family: 'OstrichSans-Medium';
-        font-size: 50px;
+        font-size: 52px;
       }
 
       .teaser-close {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 15px;
+        right: 20px;
         font-size: 21px;
         font-weight: bold;
         line-height: 1;
@@ -325,8 +326,8 @@
   }
 
   .group-info {
-    margin-left: 10px;
-    padding-left: 20px;
+    margin: 29px 0 0 22px;
+    padding-left: 7px;
     font-size: 12px;
     position: relative;
     border-left: 2px solid $light-gray;
@@ -336,24 +337,29 @@
     }
 
     .public {
-      background: url("../images/main/icons-sprite.png") 0 -738px no-repeat;
-      padding-left: 41px;
-      padding-bottom: 8px;
+      background: url("../images/main/icons-sprite.png") 10px -739px no-repeat;
+      padding: 0 0 5px 49px;
+      margin-top: -3px;
       border-bottom: 1px solid $main-blue;
     }
 
     .edit {
-      font-size: 20px;
+      font-size: 19px;
       position: absolute;
-      right: 10px;
-      top: 20px;
-      border-left: 1px solid $main-blue;
-      padding-left: 30px;
-      line-height: 20px;
+      right: 14px;
+      top: 21px;
+      border-left: 2px solid $main-blue;
+      padding-left: 24px;
+      line-height: 17px;
+      letter-spacing: 0;
+    }
+
+    .creation {
+      padding: 8px 0 0 9px;
     }
 
     .description {
-      margin: 0 0 16px 2px;
+      margin: 0 0 24px 9px;
       line-height: 18px;
     }
 
@@ -364,7 +370,7 @@
       display: inline-block;
 
       a {
-        padding: 10px 30px;
+        padding: 10px 35px;
         font-size: 25px;
         color: white;
         font-family: 'OstrichSans-Medium';
@@ -373,10 +379,11 @@
 
     .more-link {
       display: block;
-      margin-top: 8px;
+      margin: 4px 0 0 10px;
+      padding-bottom: 2px;
       font-weight: bold;
       border-bottom: 1px dashed $light-gray;
-      width: 100%;
+      width: 97%;
 
       a {
         color: $light-gray;
@@ -389,12 +396,14 @@
     }
 
     .info {
-      margin: 7px 0 0 2px;
+      margin: 17px 0 0 2px;
       color: $main-blue;
 
       .round-bg {
         float: left;
-        margin-right: 10px;
+        margin: -8px 4px 0 0;
+        width: 50px;
+        height: 50px;
       }
 
       label {
@@ -408,16 +417,22 @@
       }
 
       &:last-child {
-        padding-bottom: 20px;
+        padding-bottom: 8px;
         border-bottom: 2px dotted $main-blue;
+      }
+
+      &.members-count,
+      &.moderators,
+      &.topics {
+        margin: 11px 0 0 10px;
       }
     }
   }
 
   .highlights {
-    margin: 40px 0 0 10px;
+    margin: 37px 0 0 22px;
     border-left: 2px solid $light-gray;
-    padding-left: 20px;
+    padding-left: 25px;
     float: left;
 
     @media (max-width: $screen-md) {
@@ -426,14 +441,10 @@
 
     .post {
       background: none;
-      border-bottom: 1px dashed $light-gray;
-      margin-bottom: 20px;
-      padding: 1px 0 13px 23px;
-      width: 105%;
-
-      @media (max-width: $screen-md) {
-        width: 98%;
-      }
+      border-bottom: 1px dashed #949494;
+      margin-bottom: 0;
+      padding: 0 0 15px 23px;
+      width: 98%;;
 
       &.last {
         border-bottom: 0 none;
@@ -442,7 +453,11 @@
       .content-wrapper {
 
         .post-content {
-          margin-top: 12px;
+          margin-top: 20px;
+          font-size: 12px;
+          text-transform: uppercase;
+          font-weight: bold;
+          padding-left: 39px;
         }
 
         .post-details {
@@ -501,14 +516,21 @@
   }
 
   .twitter-feed {
-    margin: 40px 0 0 10px;
+    margin: 40px 0 0 22px;
     border-left: 2px solid $light-gray;
     padding-left: 20px;
     float: left;
+
+    .twitter-icon {
+      background: url("../images/main/twitter.jpg") 0 0 no-repeat;
+      width: 178px;
+      height: 39px;
+
+    }
   }
 
   .recent-members {
-    margin: 40px 0 0 10px;
+    margin: 40px 0 0 22px;
     border-left: 2px solid $light-gray;
     padding-left: 20px;
     float: left;

@@ -84,36 +84,25 @@ html,body {
     }
   }
 
-  .green-title {
+  .green-title,
+  .blue-title,
+  .red-title {
      font-family: 'OstrichSans-Medium';
      color: $main-green;
      font-size: 46px;
      letter-spacing: 2px;
+     margin: 0;
 
     @media (max-width: $screen-xs) {
       font-size: 30px;
     }
-  }
 
-  .blue-title {
-    font-family: 'OstrichSans-Medium';
-    color: $main-blue;
-    font-size: 46px;
-    letter-spacing: 2px;
-
-    @media (max-width: $screen-xs) {
-      font-size: 30px;
+    &.blue-title {
+      color: $main-blue;
     }
-  }
 
-    .red-title {
-    font-family: 'OstrichSans-Medium';
-    color: $main-red;
-    font-size: 40px;
-    letter-spacing: 2px;
-
-    @media (max-width: $screen-xs) {
-      font-size: 30px;
+    &.red-title {
+      color: $main-red;
     }
   }
 
@@ -163,12 +152,12 @@ html,body {
   header {
 
     .c4d-logo {
-      background: url("../images/main/c4d-logo.png") 0 6px no-repeat;
+      background: url("../images/main/c4d-logo.png") 7px 8px no-repeat;
       margin-top: 10px;
       padding-top: 5px;
-      padding-left: 65px;
+      padding-left: 72px;
       min-height: 65px;
-      font-size: 40px;
+      font-size: 39px;
       letter-spacing: 3px;
       color: black;
       font-weight: bold;
@@ -185,11 +174,12 @@ html,body {
 
     .eu-logo {
       float: left;
-      background: url("../images/main/ec-logo.jpg") 0 0 no-repeat;
-      margin-top: 22px;
-      padding-left: 67px;
+      background: url("../images/main/ec-logo.jpg") 24px 0 no-repeat;
+      margin-top: 26px;
+      padding-left: 73px;
       min-height: 65px;
       font-size: 12px;
+      line-height: 15px;
       letter-spacing: 1px;
       color: $main-blue;
 
@@ -199,9 +189,10 @@ html,body {
     }
 
     .inline-form {
-      top: 29px;
+      top: 15px;
       float: none;
-      width: 98%;
+      width: 96%;
+      padding-left: 7px;
 
       @media (max-width: $screen-xs-max) {
         top: 3px;
@@ -209,15 +200,17 @@ html,body {
       }
 
       input[type='text'] {
-        height: 40px;
+        height: 33px;
+        font-size: 12px;
+        padding: 0 50px 0 2px;
       }
 
       input[type='button'] {
-        background: url("../images/main/icons-sprite.png") 10px -984px no-repeat;
-        width: 48px;
-        height: 28px;
+        background: url("../images/main/icons-sprite.png") 10px -1042px no-repeat;
+        width: 47px;
+        height: 21px;
         position: absolute;
-        top: 7px;
+        top: 5px;
         right: 0;
       }
     }
@@ -225,8 +218,8 @@ html,body {
     #user-menu {
       text-transform: uppercase;
       position: relative;
-      top: 55px;
-      right: -10px;
+      top: 62px;
+      right: 2px;
 
       li {
         float: right;
@@ -238,7 +231,7 @@ html,body {
     .breadcrumb {
       background: none;
       border-bottom: 5px solid black;
-      margin: 4px 4px 0;
+      margin: 1px 15px 0 6px;
       padding: 2px 0 0;
       @include border-radius(0);
 
@@ -274,19 +267,73 @@ html,body {
       border-bottom: 1px dashed $light-gray;
       padding: 10px 0;
       letter-spacing: 1px;
+      margin: 13px 15px 0 2px;
 
       > div {
-        border-right: 1px solid black;
         line-height: 18px;
 
         a,
         a:hover {
           color: black;
-          padding-left: 50px;
+          padding-left: 36px;
+          background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
+
+          &:after {
+            content: "|";
+            padding-left: 52px;
+          }
         }
 
-        &:last-child {
-          border-right: 0 none;
+        &.home {
+
+          a {
+            background-position: 6px -1172px;
+          }
+        }
+
+        &.pages {
+
+          a {
+            padding-left: 35px;
+            background-position: 8px -1226px;
+          }
+        }
+
+        &.blog {
+
+          a {
+            padding-left: 40px;
+            background-position: 1px -1273px;
+          }
+        }
+
+        &.library {
+
+          a {
+            padding-left: 34px;
+            background-position: 6px -1325px;
+          }
+        }
+
+        &.events {
+
+          a {
+            padding-left: 54px;
+            background-position: 22px -1383px;
+          }
+        }
+
+        &.tasks {
+
+          a {
+            padding-left: 69px;
+            background-position: 42px -1440px;
+
+            &:after {
+              content: "";
+              padding-left: 20px;
+            }
+          }
         }
       }
     }
@@ -357,12 +404,12 @@ html,body {
           }
 
           &.projects {
-            background-position: 15px -746px;
+            background-position: 15px -1103px;
             padding-left: 48px;
 
             @media (max-width: $screen-xs-max) {
               padding-left: 70px;
-              background-position: 25px -746px;
+              background-position: 25px -1103px;
             }
           }
 
