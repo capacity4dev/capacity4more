@@ -12,31 +12,118 @@ title: C4D - capacity4more
   </div>
 </div>
 <div class="row" id="main-nav">
-  <div class="col-md-2"><a href="#">home</a></div>
-  <div class="col-md-2"><a href="#">pages</a></div>
-  <div class="col-md-2"><a href="#">blog</a></div>
-  <div class="col-md-2"><a href="#">library</a></div>
-  <div class="col-md-2"><a href="#">events</a></div>
-  <div class="col-md-2"><a href="#">tasks</a></div>
+  <div class="col-md-2 home"><a href="#">home</a></div>
+  <div class="col-md-2 pages"><a href="#">pages</a></div>
+  <div class="col-md-2 blog"><a href="#">blog</a></div>
+  <div class="col-md-2 library"><a href="#">library</a></div>
+  <div class="col-md-2 events"><a href="#">events</a></div>
+  <div class="col-md-2 tasks"><a href="#">tasks</a></div>
 </div>
 <div class="row">
 <div class="col-md-7 col-xs-12">
 
-<div class="add-activity">
+<div class="add-activity active-form">
   <form action="#" class="post-form">
-  <div class="round-bg"><img src="images/main/profile.jpg" class="img-responsive"></div>
-    <input type="text" placeholder="Title"/>
-    <textarea placeholder="Add a descripttion"></textarea>
+    <div class="round-bg"><img src="images/main/profile.jpg" class="img-responsive"></div>
+    <div class="title-input">
+      <input type="text" placeholder="Title"/>
+    </div>
+    <div class="filter">
+      <ul>
+        <li class="discussion"><a href="#"></a></li>
+        <li class="question"><a href="#"></a></li>
+        <li class="idea"><a href="#"></a></li>
+      </ul>
+    </div>
+    <textarea placeholder="Add a description"></textarea>
+    <div class="post-wrapper">
+      <div class="post-type">
+        <ul>
+          <li class="discussion"><a href="#"></a></li>
+          <li class="question"><a href="#"></a></li>
+          <li class="idea"><a href="#"></a></li>
+        </ul>
+      </div>
+      <input type="button" value="post"/>
+    </div>
+    <div class="categories">
+      <div class="cats-title">
+        <h2 class="blue-title sans-font">categories</h2><span>Select one or more categories that apply</span>
+      </div>
+      <div class="options topics">
+        <label><span class="open">&#8964;</span>topic</label>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="checkbox" name="topics" id="energy" value="energy"/>
+            <label for="energy">energy</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" name="topics" id="transport" value="transport"/>
+            <label for="transport">transport</label>
+          </div>
+        </div>
+      </div>
+      <div class="options zone">
+        <label><span class="open">&#8964;</span>geographical zone</label>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="checkbox" name="zone" id="sub-saharan-africa" value="sub-saharan-africa"/>
+            <label for="sub-saharan-africa">1. sub-saharan africa</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" name="zone" id="asia-gulf-region-pacific" value="asia-gulf-region-pacific"/>
+            <label for="asia-gulf-region-pacific">4. asia, gulf region & pacific</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="checkbox" name="zone" id="european-neighborhood-russia" value="european-neighborhood-russia"/>
+            <label for="european-neighborhood-russia">2. european neighborhood & russia</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" name="zone" id="eu-candidate" value="eu-candidate"/>
+            <label for="eu-candidate">5. EU candidate and potential candidate</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <input type="checkbox" name="zone" id="latine-america-caribbean" value="latine-america-caribbean"/>
+            <label for="latine-america-caribbean">3. latine america & caribbean</label>
+          </div>
+          <div class="col-md-6">
+            <input type="checkbox" name="zone" id="octs" value="octs"/>
+            <label for="octs">6. OCTs</label>
+          </div>
+        </div>
+      </div>
+      <div class="options country">
+        <label><span class="closed">&#10095;</span>country</label>
+        <div class="row"></div>
+      </div>
+      <div class="options date">
+        <label><span class="closed">&#10095;</span>date</label>
+        <div class="row"></div>
+      </div>
+      <div class="options language">
+        <label><span class="closed">&#10095;</span>language</label>
+        <div class="row"></div>
+      </div>
+      <div class="options budget">
+        <label><span class="closed">&#10095;</span>budget</label>
+        <div class="row"></div>
+      </div>
+      <div class="options website">
+        <label><span class="closed">&#10095;</span>type of website</label>
+        <div class="row"></div>
+      </div>
+      <div class="tags">
+        <input type="text" name="tags" placeholder="Enter one or more tags separated by a , that apply"/>
+        <input type="button" value="&raquo;"/>
+      </div>
+    </div>
   </form>
 </div>
 
-<div class="filter">
-  <ul>
-    <li class="discussion"><a href="#"></a></li>
-    <li class="question"><a href="#"></a></li>
-    <li class="idea"><a href="#"></a></li>
-  </ul>
-</div>
 <!-- This is a post -->
 <div class="row post discussion-post first">
   <div class="col-xs-3 user-info">
@@ -45,7 +132,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Amitai Bursitne</span>
+      <span class="author">Amitai Bursitne</span>
       <span class="action">Added a discussion</span>
       <span class="date">Today, 20:00</span>
     </div>
@@ -55,7 +142,6 @@ title: C4D - capacity4more
       <div class="round-bg">eu</div>
       <div class="round-bg">giz</div>
       <div class="round-bg">ec</div>
-      <p class="comments">2 Comments</p>
     </div>
   </div>
 </div>
@@ -68,7 +154,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Keren Soref</span>
+      <span class="author">Keren Soref</span>
       <span class="action">Added a discussion</span>
       <span class="date">18/06/2014, 10:00</span>
     </div>
@@ -84,7 +170,7 @@ title: C4D - capacity4more
           <div class="col-xs-10 link-content">
             <div class="post-action">
               <span class="icon"></span>
-              <span class="author sans-font">Bob Dylan</span>
+              <span class="author">Bob Dylan</span>
               <span class="action">Commented on discussion</span>
               <span class="date">18/06/2014, 10:00</span>
             </div>
@@ -104,7 +190,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Justin Bieber</span>
+      <span class="author">Justin Bieber</span>
       <span class="action">Uploaded a document</span>
       <span class="date">17/06/2014, 14:48</span>
     </div>
@@ -123,7 +209,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Asaf Soref</span>
+      <span class="author">Asaf Soref</span>
       <span class="action">Created an event</span>
       <span class="date">16/06/2014, 14:48</span>
     </div>
@@ -142,7 +228,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Sponge Bob</span>
+      <span class="author">Sponge Bob</span>
       <span class="action">New member</span>
       <span class="date">16/06/2014, 14:48</span>
       <p>
@@ -160,7 +246,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Amitai Bursitne</span>
+      <span class="author">Amitai Bursitne</span>
       <span class="action">Added a discussion</span>
       <span class="date">Today, 20:00</span>
     </div>
@@ -183,7 +269,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Keren Soref</span>
+      <span class="author">Keren Soref</span>
       <span class="action">Added a discussion</span>
       <span class="date">18/06/2014, 10:00</span>
     </div>
@@ -199,7 +285,7 @@ title: C4D - capacity4more
           <div class="col-xs-10 link-content">
             <div class="post-action">
               <span class="icon"></span>
-              <span class="author sans-font">Bob Dylan</span>
+              <span class="author">Bob Dylan</span>
               <span class="action">Commented on discussion</span>
               <span class="date">18/06/2014, 10:00</span>
             </div>
@@ -219,7 +305,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Justin Bieber</span>
+      <span class="author">Justin Bieber</span>
       <span class="action">Uploaded a document</span>
       <span class="date">17/06/2014, 14:48</span>
     </div>
@@ -238,7 +324,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Asaf Soref</span>
+      <span class="author">Asaf Soref</span>
       <span class="action">Created an event</span>
       <span class="date">16/06/2014, 14:48</span>
     </div>
@@ -257,7 +343,7 @@ title: C4D - capacity4more
   <div class="col-xs-9 content-wrapper">
     <div class="post-action">
       <span class="icon"></span>
-      <span class="author sans-font">Sponge Bob</span>
+      <span class="author">Sponge Bob</span>
       <span class="action">New member</span>
       <span class="date">16/06/2014, 14:48</span>
       <p>
@@ -284,7 +370,8 @@ title: C4D - capacity4more
       <div class="row">
         <div class="col-md-4"><img src="images/main/post-pic.jpg" width="100%"/></div>
         <div class="col-md-8">
-          Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster Disaster...
+          <strong>Disaster preparedness in the South Pacific: Good practices from the Global Climate Change Alliance</strong>
+          They might not make global headlines, but for low-lying Pacific islands king tides are an ever-increasing threat. As sea levels rise, the highest tides can have catastrophic effects, particularly when combined with storm conditions.
           <a class="cont-read" href="#">Continue reading ></a>
         </div>
       </div>
@@ -307,6 +394,10 @@ title: C4D - capacity4more
     <div class="info owner">
       <div class="round-bg"><img src="images/main/profile.jpg" class="img-responsive"></div>
       <label>Group owner:</label>
+      <a href="#">De Caninock Sophie</a>
+    </div>
+    <div class="info moderators">
+      <label>Moderators:</label>
       <a href="#">De Caninock Sophie</a>
     </div>
     <div class="info members-count">
@@ -399,6 +490,7 @@ title: C4D - capacity4more
   </div>
 
   <div class="twitter-feed">
+    <div class="twitter-icon"></div>
     <a class="twitter-timeline" width="355px" data-chrome="noscrollbar noborders noheader nofooter transparent" data-tweet-limit="4" href="https://twitter.com/EU_Commission" data-widget-id="486826140258934784">Tweets by @EU_Commission</a>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
   </div>

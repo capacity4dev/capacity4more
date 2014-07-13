@@ -19,7 +19,9 @@
   }
 
   .add-activity {
-    margin: 30px 5px 10px 0;
+    margin: 30px 5px 33px 0;
+    float: left;
+    width: 99%;
 
     input[type='text'],
     textarea {
@@ -30,11 +32,6 @@
       @media (max-width: $screen-xs) {
         font-size: 9px;
       }
-    }
-
-    textarea {
-      margin-top: 10px;
-      height: 200px;
     }
 
     input[type='button'] {
@@ -48,41 +45,229 @@
       line-height: 10px;
       font-weight: bold;
     }
-  }
 
-  .filter {
-    margin: 4px 0 33px;
-    float: left;
-    width: 100%;
+    .filter,
+    .post-type {
+      margin: 14px 0 10px;
+      width: 100%;
 
-    li {
-      float: left;
-      margin: 0 -4px 0 17px;
-
-      a {
-        width: 25px;
-        height: 30px;
-        display: inline-block;
-      }
-
-      &.discussion {
+      li {
+        float: left;
+        margin: 0 -4px 0 17px;
 
         a {
-          background: url("../images/main/icons-sprite.png") 0 -984px no-repeat;
+          width: 25px;
+          height: 30px;
+          display: inline-block;
+        }
+
+        &.discussion {
+
+          a {
+            background: url("../images/main/icons-sprite.png") 0 -984px no-repeat;
+          }
+        }
+
+        &.question {
+
+          a {
+            background: url("../images/main/icons-sprite.png") 0 -276px no-repeat;
+          }
+        }
+
+        &.idea {
+
+          a {
+            background: url("../images/main/icons-sprite.png") 0 -368px no-repeat;
+          }
+        }
+      }
+    }
+
+    &.active-form {
+      margin: 29px 5px 33px 3px;
+
+      .round-bg {
+        float: left;
+        width: 45px;
+        height: 45px;
+      }
+
+      .title-input {
+        position: relative;
+
+        &:before {
+          content: "◄";
+          position: absolute;
+          top: 15px;
+          left: 52px;
+          color: $background-gray;
+        }
+
+        input[type="text"] {
+          width: 88%;
+          margin-left: 17px;
+          padding: 4px 10px 0 20px;
         }
       }
 
-      &.question {
+      textarea {
+        margin-top: -2px;
+        height: 147px;
+        @include border-radius(2px);
+        padding: 10px;
+      }
 
-        a {
-          background: url("../images/main/icons-sprite.png") 0 -278px no-repeat;
+      .filter {
+        margin: 16px 0 10px;
+
+        li {
+          margin: 0 -2px 0 14px;
+
+          &.discussion {
+
+            a {
+              background-position:0 -932px;
+            }
+          }
         }
       }
 
-      &.idea {
+      .post-wrapper {
+        text-align: right;
+        margin: 5px 0 7px 0;
+        width: 40%;
+        float: right;
 
-        a {
-          background: url("../images/main/icons-sprite.png") 0 -368px no-repeat;
+        .post-type {
+          margin: 0;
+
+          li {
+            margin: 0 -8px 0 18px;
+
+            &.discussion {
+
+              a {
+                background: url("../images/main/icons-sprite.png") 0 -32px no-repeat;
+              }
+            }
+
+            &.question {
+
+              a {
+                background: url("../images/main/icons-sprite.png") 0 -148px no-repeat;
+              }
+            }
+
+            &.idea {
+
+              a {
+                background: url("../images/main/icons-sprite.png") 0 -190px no-repeat;
+              }
+            }
+          }
+        }
+
+        input[type='button'] {
+          width: 82px;
+          height: 33px;
+          position: relative;
+          top: -2px;
+          right: 5px;
+          text-transform: uppercase;
+          font-size: 12px;
+          line-height: 14px;
+          font-weight: bold;
+          border-left: 0 none;
+          color: white;
+          background-color: $main-color;
+          @include border-radius(20px);
+        }
+      }
+
+      .categories {
+        float: left;
+        width: 100%;
+
+        .cats-title {
+          color: $main-blue;
+          border-bottom: 1px solid $main-blue;
+          padding-bottom: 6px;
+          margin-bottom: 30px;
+
+          h2 {
+            margin: 0;
+            display: inline-block;
+          }
+
+          span {
+            font-size: 13px;
+            padding-left: 7px;
+          }
+        }
+
+        .options {
+          margin: 4px 0 0 7px;
+
+          > label {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: $main-blue;
+          }
+
+          input[type="checkbox"] {
+            position: absolute;
+            border: 0 none;
+            opacity: 0;
+          }
+
+          input[type="checkbox"] + label {
+            position:relative;
+            padding: 0 0 0 25px;
+            font-size: 12px;
+            line-height: 16px;
+            text-transform: capitalize;
+            font-weight: normal;
+          }
+
+          input[type="checkbox"] + label:before {
+            content:"";
+            display:block;
+            position:absolute;
+            top:2px;
+            left: 5px;
+            height: 14px;
+            width: 14px;
+            background-color: $background-gray;
+            @include border-radius(4px);
+          }
+
+          input[type="checkbox"]:checked + label:before {
+            content:"";
+            background: $main-color;
+            border: 3px solid $background-gray;
+          }
+        }
+      }
+
+      .tags {
+        position: relative;
+
+        input[type='text'] {
+          background: transparent;
+          border: 0 none;
+          padding: 5px 10px;
+          width: 100%;
+          border-bottom: 1px solid $light-gray;
+          @include border-radius(0);
+        }
+
+        input[type='button'] {
+          top: 6px;
+          right: 0;
+          font-size: 30px;
+          font-weight: normal;
+          border-left: 1px solid $light-gray;
         }
       }
     }
@@ -170,7 +355,7 @@
         }
 
         .user-link {
-          margin: 37px 0 -4px 0;
+          margin: 10px 0 -4px 0;
           width: 105%;
 
           .link-thumb {
@@ -254,7 +439,7 @@
     width: 100%;
     text-transform: uppercase;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 120px;
     float: left;
     border-bottom: 2px solid $main-blue;
 
@@ -263,15 +448,16 @@
       position: relative;
       background-color: white;
       display: inline-block;
-      top: 14px;
+      top: 13px;
+      left: -5px;
 
        a {
          background-color: $main-blue;
          display: inline-block;
-         padding: 7px 20px 5px;
-         @include border-radius(20px);
+         padding: 5px 22px 4px;
          color: white;
-         font-size: 12px;
+         font-size: 11px;
+         @include border-radius(20px);
        }
     }
   }
@@ -538,10 +724,10 @@
     .title {
 
       .new-member {
-        padding-left: 35px;
+        padding-left: 36px;
         background: url("../images/main/icons-sprite.png") 0 -450px no-repeat;
-        font-size: 35px;
-        font-weight: bold;
+        font-size: 46px;
+        font-weight: normal;
       }
     }
 
