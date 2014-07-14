@@ -280,7 +280,7 @@ html,body {
 
           &:after {
             content: "|";
-            padding-left: 52px;
+            padding-left: 45px;
           }
         }
 
@@ -294,7 +294,7 @@ html,body {
         &.pages {
 
           a {
-            padding-left: 35px;
+            padding-left: 33px;
             background-position: 8px -1226px;
           }
         }
@@ -302,36 +302,36 @@ html,body {
         &.blog {
 
           a {
-            padding-left: 40px;
-            background-position: 1px -1273px;
+            padding-left: 47px;
+            background-position: 12px -1273px;
           }
         }
 
         &.library {
 
           a {
-            padding-left: 34px;
-            background-position: 6px -1325px;
+            padding-left: 46px;
+            background-position: 15px -1325px;
           }
         }
 
         &.events {
 
           a {
-            padding-left: 54px;
-            background-position: 22px -1383px;
+            padding-left: 74px;
+            background-position: 41px -1383px;
           }
         }
 
         &.tasks {
 
           a {
-            padding-left: 69px;
-            background-position: 42px -1440px;
+            padding-left: 89px;
+            background-position: 63px -1439px;
 
             &:after {
               content: "";
-              padding-left: 20px;
+              padding-left: 0;
             }
           }
         }
@@ -357,7 +357,7 @@ html,body {
   }
 
   footer {
-    margin-top: 104px;
+    margin-top: 24px;
 
     .stats {
       background-color: $background-gray;
@@ -371,7 +371,7 @@ html,body {
         a {
           background-image: url("../images/main/icons-sprite.png");
           background-repeat: no-repeat;
-          padding-left: 57px;
+          padding-left: 59px;
           font-size: 28px;
           display: inline-block;
 
@@ -394,8 +394,8 @@ html,body {
           }
 
           &.groups {
-            background-position: 25px -680px;
-            padding-left: 64px;
+            background-position: 21px -680px;
+            padding-left: 60px;
 
             @media (max-width: $screen-xs-max) {
               padding-left: 70px;
@@ -404,8 +404,8 @@ html,body {
           }
 
           &.projects {
-            background-position: 15px -1103px;
-            padding-left: 48px;
+            background-position: 13px -1103px;
+            padding-left: 41px;
 
             @media (max-width: $screen-xs-max) {
               padding-left: 70px;
@@ -414,8 +414,8 @@ html,body {
           }
 
           &.articles {
-            background-position: 15px -869px;
-            padding-left: 46px;
+            background-position: 7px -869px;
+            padding-left: 37px;
 
             @media (max-width: $screen-xs-max) {
               padding-left: 70px;
@@ -503,7 +503,8 @@ html,body {
       display: block;
       line-height: 10px;
       font-size: 12px;
-      color: #345582;
+      color: $dark-blue;
+      margin-left: -9px;
     }
   }
 }

@@ -19,7 +19,7 @@
   }
 
   .add-activity {
-    margin: 30px 5px 33px 0;
+    margin: 30px 5px 26px 0;
     float: left;
     width: 99%;
 
@@ -277,7 +277,7 @@
     float: left;
     margin-left: -1px;
     width: 99.5%;
-    padding: 20px 0 5px;
+    padding: 20px 0;
     font-size: 12px;
     border-bottom: 2px solid $background-gray;
 
@@ -439,7 +439,7 @@
     width: 100%;
     text-transform: uppercase;
     text-align: center;
-    margin-top: 120px;
+    margin-top: 132px;
     float: left;
     border-bottom: 2px solid $main-blue;
 
@@ -499,6 +499,8 @@
         color: $light-gray;
         font-weight: bold;
         display: inline-block;
+        font-size: 12px;
+        padding-left: 15px;
       }
     }
 
@@ -508,6 +510,7 @@
       bottom: 10px;
       color: black;
       font-weight: bold;
+      font-size: 12px;
     }
   }
 
@@ -603,20 +606,23 @@
       }
 
       &:last-child {
-        padding-bottom: 8px;
+        padding-bottom: 12px;
         border-bottom: 2px dotted $main-blue;
       }
 
+      &.moderators {
+        margin: 17px 0 0 10px;
+      }
+
       &.members-count,
-      &.moderators,
       &.topics {
-        margin: 11px 0 0 10px;
+        margin: 6px 0 0 10px;
       }
     }
   }
 
   .highlights {
-    margin: 37px 0 0 22px;
+    margin: 41px 0 0 22px;
     border-left: 2px solid $light-gray;
     padding-left: 25px;
     float: left;
@@ -629,7 +635,7 @@
       background: none;
       border-bottom: 1px dashed #949494;
       margin-bottom: 0;
-      padding: 0 0 15px 23px;
+      padding: 0 0 10px 23px;
       width: 98%;;
 
       &.last {
@@ -702,10 +708,12 @@
   }
 
   .twitter-feed {
-    margin: 40px 0 0 22px;
+    margin: 55px 0 0 22px;
     border-left: 2px solid $light-gray;
     padding-left: 20px;
     float: left;
+    height: 422px;
+    overflow: hidden;
 
     .twitter-icon {
       background: url("../images/main/twitter.jpg") 0 0 no-repeat;
@@ -720,12 +728,13 @@
     border-left: 2px solid $light-gray;
     padding-left: 20px;
     float: left;
+    width: 90%;
 
     .title {
 
       .new-member {
-        padding-left: 36px;
-        background: url("../images/main/icons-sprite.png") 0 -450px no-repeat;
+        padding-left: 35px;
+        background: url("../images/main/icons-sprite.png") 2px -446px no-repeat;
         font-size: 46px;
         font-weight: normal;
       }
@@ -734,7 +743,7 @@
     .content {
 
       > div {
-        padding-bottom: 10px;
+        padding-bottom: 5px;
       }
     }
   }
