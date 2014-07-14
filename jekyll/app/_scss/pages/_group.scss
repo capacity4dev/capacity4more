@@ -207,12 +207,23 @@
         }
 
         .options {
-          margin: 4px 0 0 7px;
+          margin: 1px 0 0 7px;
+
+          &.open {
+            margin-top: 17px;
+          }
+
+          &.zone {
+            margin-bottom: 25px;
+          }
 
           > label {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             color: $main-blue;
+            font-weight: normal;
+            padding-left: 11px;
+            margin: 0 0 4px 0;
           }
 
           input[type="checkbox"] {
@@ -222,12 +233,13 @@
           }
 
           input[type="checkbox"] + label {
-            position:relative;
+            position: relative;
             padding: 0 0 0 25px;
             font-size: 12px;
             line-height: 16px;
             text-transform: capitalize;
             font-weight: normal;
+            margin: 0;
           }
 
           input[type="checkbox"] + label:before {
@@ -252,22 +264,24 @@
 
       .tags {
         position: relative;
+        margin-top: 13px;
 
         input[type='text'] {
           background: transparent;
           border: 0 none;
-          padding: 5px 10px;
+          padding: 10px 10px 0;
           width: 100%;
           border-bottom: 1px solid $light-gray;
           @include border-radius(0);
         }
 
         input[type='button'] {
-          top: 6px;
+          top: 11px;
           right: 0;
           font-size: 30px;
           font-weight: normal;
           border-left: 1px solid $light-gray;
+          width: 50px;
         }
       }
     }
