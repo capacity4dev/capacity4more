@@ -99,12 +99,13 @@ html,body {
   .red-title {
      font-family: 'gillSans-light', Arial;
      color: $main-green;
-     font-size: 46px;
+     font-size: 33px;
      letter-spacing: 2px;
      margin: 0;
+    text-transform: uppercase;
 
     @media (max-width: $screen-xs) {
-      font-size: 30px;
+      font-size: 26px;
     }
 
     &.blue-title {
@@ -214,19 +215,18 @@ html,body {
     }
 
     .inline-form {
-      margin-top: 20px;
+      margin-top: 29px;
       float: none;
-      width: 96%;
+      width: 100%;
+      margin-left: -8px;
 
       @media (max-width: $screen-xs-max) {
-        top: 3px;
-        width: 100%;
+        margin-left: 0;
       }
 
       input[type='text'] {
         height: 33px;
-        font-size: 12px;
-        padding: 0 50px 0 2px;
+        padding: 0 50px 0 12px;
       }
 
       input[type='button'] {
@@ -241,19 +241,18 @@ html,body {
 
     #user-menu {
       text-transform: uppercase;
-      margin-top: 20px;
+      margin-top: 29px;
 
       li {
         float: right;
-        margin-right: 15px;
-        font-size: 12px;
+        margin-right: 4px;
         background-color: #A5AE5C;
         box-shadow: -2px 2px 3px #949B62;
         @include border-radius(30px);
 
         a {
           color: white;
-          padding: 6px 20px;
+          padding: 6px 24px;
           display: inline-block;
         }
       }
@@ -264,72 +263,74 @@ html,body {
 
     #main-nav {
       font-family: 'gillSans-light', Arial;
-      font-size: 23px;
+      font-size: 18px;
       font-weight: bold;
-      border-bottom: 1px dashed $light-gray;
+      border-bottom: 1px dashed #949494;
       padding: 10px 0;
-      letter-spacing: 1px;
-      margin: 13px 15px 0 2px;
+      margin: 17px 0 0;
+      text-transform: uppercase;
 
       > div {
-        line-height: 18px;
+        line-height: 20px;
+        padding: 0;
 
         a,
         a:hover {
           color: black;
-          padding-left: 36px;
+          padding-left: 35px;
           background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
 
           &:after {
             content: "|";
-            padding-left: 45px;
+            padding-left: 31px;
           }
         }
 
         &.home {
 
           a {
-            background-position: 6px -1172px;
+            background-position: 2px -1172px;
           }
         }
 
         &.pages {
 
           a {
-            padding-left: 33px;
-            background-position: 8px -1226px;
+            padding-left: 25px;
+            background-position: 0 -1226px;
           }
         }
 
-        &.blog {
+        &.discussions {
+          margin-left: -9px;
 
           a {
-            padding-left: 47px;
-            background-position: 12px -1273px;
+            padding-left: 31px;
+            background-position: 0 -1273px;
           }
         }
 
         &.library {
 
           a {
-            padding-left: 46px;
-            background-position: 15px -1325px;
+            padding-left: 89px;
+            background-position: 61px -1326px;
           }
         }
 
         &.events {
 
           a {
-            padding-left: 74px;
-            background-position: 41px -1383px;
+            padding-left: 99px;
+            background-position: 69px -1383px;
           }
         }
 
         &.tasks {
 
           a {
-            padding-left: 89px;
-            background-position: 63px -1439px;
+            padding-left: 102px;
+            background-position: 76px -1439px;
 
             &:after {
               content: "";
@@ -374,7 +375,8 @@ html,body {
           background-image: url("../images/main/icons-sprite.png");
           background-repeat: no-repeat;
           padding-left: 59px;
-          font-size: 28px;
+          font-size: 18px;
+          line-height: 36px;
           display: inline-block;
 
           &.members {
