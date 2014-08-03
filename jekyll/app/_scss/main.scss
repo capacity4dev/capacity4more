@@ -42,6 +42,7 @@ $grid-gutter-width: 10px;
 @import 'bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import "compass/css3/border-radius";
 @import "mixins";
+@import "pages/homepage";
 @import "pages/group";
 
 // Creating a custom column set for the stats row in footer.
@@ -59,7 +60,7 @@ $grid-gutter-width: 10px;
   }
 }
 
-html,body {
+body {
   margin: 0;
   padding: 0;
   font-family: 'gillSans-light', Arial;
@@ -260,6 +261,7 @@ html,body {
   }
 
   section {
+    background: url("../images/main/main-bg-pattern.png") 0 0 repeat-x white;
 
     #main-nav {
       font-family: 'gillSans-light', Arial;

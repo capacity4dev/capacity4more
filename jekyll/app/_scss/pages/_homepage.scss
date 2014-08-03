@@ -1,0 +1,23 @@
+.homepage {
+
+  .container {
+
+    .banner {
+      position: relative;
+
+      .watch-link {
+        background: url("../images/homepage/play-bg.png") 2px 1px no-repeat #305660;
+        position: absolute;
+        left: 33%;
+        bottom: 35px;
+        color: white;
+        font-weight: bold;
+        padding:  8px 20px 8px 50px;
+        text-transform: uppercase;
+        cursor: pointer;
+        opacity: 0.9;
+        @include border-radius(30px);
+      }
+    }
+  }
+}
