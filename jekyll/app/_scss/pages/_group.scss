@@ -410,7 +410,7 @@
       &.discussion-post {
 
         .post-action {
-          color: $main-blue;
+          color: $dark-blue;
 
           .icon {
             background-position: 0 -32px;
@@ -550,7 +550,7 @@
         border-bottom: 1px solid $main-blue;
       }
 
-      .edit {
+     /*.edit {
         font-size: 19px;
         position: absolute;
         right: 14px;
@@ -559,7 +559,7 @@
         padding-left: 24px;
         line-height: 17px;
         letter-spacing: 0;
-      }
+      }*/
 
       .creation {
         padding: 8px 0 0 9px;
@@ -570,7 +570,7 @@
         line-height: 18px;
       }
 
-      .request-membership {
+      /*.request-membership {
         background: $main-blue;
         @include border-radius(20px);
         text-align: center;
@@ -582,7 +582,7 @@
           color: white;
           font-family: 'gillSans-light', Arial;
         }
-      }
+      }*/
 
       .more-link {
         display: block;
@@ -604,7 +604,6 @@
 
       .info {
         margin: 17px 0 0 2px;
-        color: $main-blue;
 
         .round-bg {
           float: left;
@@ -621,6 +620,7 @@
 
         a {
           text-transform: capitalize;
+          color: $dark-blue;
         }
 
         &:last-child {
