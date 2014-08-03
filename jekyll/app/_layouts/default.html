@@ -13,14 +13,11 @@
 
     </head>
     <body>
+        {% include header.html %}
 
-        <div class="container">
-          {% include header.html %}
+        {{ content }}
 
-          {{ content }}
-
-          {% include footer.html %}
-        </div>
+        {% include footer.html %}
     <!-- build:js(app) js/scripts.js -->
     <script src="js/main.js"></script>
     <!-- endbuild -->

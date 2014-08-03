@@ -23,8 +23,17 @@
 }
 
 @font-face {
-  font-family: OstrichSans-Medium;
-  src: url("../fonts/ostrich_sans/OstrichSans-Medium.otf") format("opentype");
+  font-family: gillSans;
+  src: url("../fonts/gillsans/gillsans.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: gillSans-light;
+  src: url('../fonts/gillsans_light/gillsans_light-webfont.eot');
+  src: url('../fonts/gillsans_light/gillsans_light-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/gillsans_light/gillsans_light-webfont.woff') format('woff'),
+  url('../fonts/gillsans_light/gillsans_light-webfont.ttf') format('truetype'),
+  url('../fonts/gillsans_light/gillsans_light-webfont.svg#gillsans_lightregular') format('svg');
 }
 
 // Creating a custom padding between columns.
@@ -53,7 +62,7 @@ $grid-gutter-width: 10px;
 html,body {
   margin: 0;
   padding: 0;
-  font-family: Arial;
+  font-family: 'gillSans-light', Arial;
   height: 100%;
   color: $main-color;
 
@@ -74,10 +83,11 @@ html,body {
   }
 
   .sans-font {
-    font-family: 'OstrichSans-Medium';
+    font-family: 'gillSans-light', Arial;
     font-weight: bold;
     font-size: 18px;
     letter-spacing: 1px;
+    text-transform: uppercase;
 
     @media (max-width: $screen-xs) {
       font-size: 14px;
@@ -87,7 +97,7 @@ html,body {
   .green-title,
   .blue-title,
   .red-title {
-     font-family: 'OstrichSans-Medium';
+     font-family: 'gillSans-light', Arial;
      color: $main-green;
      font-size: 46px;
      letter-spacing: 2px;
@@ -110,11 +120,12 @@ html,body {
     position: relative;
 
     input[type='text'] {
-      background: transparent;
+      background: white;
       border: 0 none;
       padding: 5px 10px;
       width: 100%;
-      border-bottom: 1px solid $light-gray;
+      color: $main-blue;
+      @include border-radius(30px);
     }
 
     input[type='button'] {
@@ -123,7 +134,7 @@ html,body {
       top: 0;
       right: 0;
       background: none;
-      border-left: 1px solid $light-gray;
+      border-left: 1px solid $main-blue;
     }
   }
 
@@ -150,34 +161,14 @@ html,body {
   }
 
   header {
-
-    .c4d-logo {
-      background: url("../images/main/c4d-logo.png") 7px 8px no-repeat;
-      margin-top: 10px;
-      padding-top: 5px;
-      padding-left: 72px;
-      min-height: 65px;
-      font-size: 39px;
-      letter-spacing: 3px;
-      color: black;
-      font-weight: bold;
-
-      @media (max-width: $screen-xs-max) {
-        margin-top: 5px;
-      }
-
-      i {
-        font-style: normal;
-        color: $main-blue;
-      }
-    }
+    background-color: $header-bg;
 
     .eu-logo {
       float: left;
       background: url("../images/main/ec-logo.jpg") 24px 0 no-repeat;
-      margin-top: 26px;
-      padding-left: 73px;
-      min-height: 65px;
+      margin-top: 20px;
+      width: 100px;
+      height: 61px;
       font-size: 12px;
       line-height: 15px;
       letter-spacing: 1px;
@@ -188,11 +179,44 @@ html,body {
       }
     }
 
+    .c4d-logo {
+      background: url("../images/main/c4d-logo.png") 100% 0 no-repeat;
+      float: left;
+      margin-top: 12px;
+      padding: 5px 69px 0 19px;
+      min-height: 61px;
+
+      @media (max-width: $screen-xs-max) {
+        margin-top: 5px;
+      }
+
+      p {
+        font-size: 28px;
+        letter-spacing: 3px;
+        color: black;
+        font-weight: bold;
+        margin-top: 5px;
+        line-height: 25px;
+
+        &.slogan {
+          font-size: 15px;
+          font-weight: normal;
+          letter-spacing: 1px;
+          text-transform: none;
+          margin-top: 0;
+        }
+
+        i {
+          font-style: normal;
+          color: $dark-blue;
+        }
+      }
+    }
+
     .inline-form {
-      top: 15px;
+      margin-top: 20px;
       float: none;
       width: 96%;
-      padding-left: 7px;
 
       @media (max-width: $screen-xs-max) {
         top: 3px;
@@ -217,42 +241,20 @@ html,body {
 
     #user-menu {
       text-transform: uppercase;
-      position: relative;
-      top: 62px;
-      right: 2px;
+      margin-top: 20px;
 
       li {
         float: right;
         margin-right: 15px;
         font-size: 12px;
-      }
-    }
+        background-color: #A5AE5C;
+        box-shadow: -2px 2px 3px #949B62;
+        @include border-radius(30px);
 
-    .breadcrumb {
-      background: none;
-      border-bottom: 5px solid black;
-      margin: 1px 15px 0 6px;
-      padding: 2px 0 0;
-      @include border-radius(0);
-
-      > li {
-        font-size: 11px;
-
-        &:before {
-          color: $main-color;
-          content: ">";
-        }
-
-        &:first-child {
-
-          &:before {
-            content: "";
-          }
-        }
-
-        a,
-        a:hover {
-          color: $main-color;
+        a {
+          color: white;
+          padding: 6px 20px;
+          display: inline-block;
         }
       }
     }
@@ -261,7 +263,7 @@ html,body {
   section {
 
     #main-nav {
-      font-family: 'OstrichSans-Medium';
+      font-family: 'gillSans-light', Arial;
       font-size: 23px;
       font-weight: bold;
       border-bottom: 1px dashed $light-gray;

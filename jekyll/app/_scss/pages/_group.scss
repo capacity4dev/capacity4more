@@ -1,11 +1,13 @@
 .group {
+  background: url("../images/main/main-bg-pattern.png") 0 0 repeat-x white;
 
   .main-title {
-    color: black;
+    color: white;
     font-weight: normal;
-    font-family: 'OstrichSans-Medium';
-    font-size: 65px;
+    font-family: 'gillSans-light', Arial;
+    font-size: 45px;
     margin: 0;
+    text-transform: uppercase;
 
     @media (max-width: $screen-xs) {
       font-size: 40px;
@@ -489,7 +491,7 @@
       h3 {
         margin: 0;
         display: inline-block;
-        font-family: 'OstrichSans-Medium';
+        font-family: 'gillSans-light', Arial;
         font-size: 52px;
       }
 
@@ -576,7 +578,7 @@
         padding: 10px 35px;
         font-size: 25px;
         color: white;
-        font-family: 'OstrichSans-Medium';
+        font-family: 'gillSans-light', Arial;
       }
     }
 
