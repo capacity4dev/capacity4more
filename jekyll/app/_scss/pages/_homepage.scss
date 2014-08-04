@@ -11,7 +11,12 @@
       margin-left: 10px;
     }
 
-    .watch-link {
+    #homepage-video {
+      width: 100%;
+      display: none;
+    }
+
+    #watch-video-link {
       background: url("../images/homepage/play-bg.png") 3px 2px no-repeat #305660;
       position: absolute;
       left: 33.4%;
@@ -99,6 +104,7 @@
     text-align: center;
     margin: 40px 0 0 24px;
     position: relative;
+    overflow: hidden;
 
     h2 {
       margin-left: 2px;
