@@ -67,6 +67,15 @@ body {
   height: 100%;
   color: $main-color;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+
   ul {
     list-style: none;
     padding: 0;
@@ -97,7 +106,8 @@ body {
 
   .green-title,
   .blue-title,
-  .red-title {
+  .red-title,
+  .brown-title {
      font-family: 'gillSans-light', Arial;
      color: $main-green;
      font-size: 33px;
@@ -115,6 +125,10 @@ body {
 
     &.red-title {
       color: $main-red;
+    }
+
+    &.brown-title {
+      color: $main-brown;
     }
   }
 
@@ -255,6 +269,7 @@ body {
           color: white;
           padding: 6px 24px;
           display: inline-block;
+          font-weight: bold;
         }
       }
     }
@@ -272,71 +287,331 @@ body {
       margin: 17px 0 0;
       text-transform: uppercase;
 
-      > div {
+      .navbar-nav {
         line-height: 20px;
         padding: 0;
 
-        a,
-        a:hover {
-          color: black;
-          padding-left: 35px;
-          background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
-
-          &:after {
-            content: "|";
-            padding-left: 31px;
-          }
-        }
-
-        &.home {
-
-          a {
-            background-position: 2px -1172px;
-          }
-        }
-
-        &.pages {
-
-          a {
-            padding-left: 25px;
-            background-position: 0 -1226px;
-          }
-        }
-
-        &.discussions {
-          margin-left: -9px;
-
-          a {
-            padding-left: 31px;
-            background-position: 0 -1273px;
-          }
-        }
-
-        &.library {
-
-          a {
-            padding-left: 89px;
-            background-position: 61px -1326px;
-          }
-        }
-
-        &.events {
-
-          a {
-            padding-left: 99px;
-            background-position: 69px -1383px;
-          }
-        }
-
-        &.tasks {
-
-          a {
-            padding-left: 102px;
-            background-position: 76px -1439px;
+        li {
+          a,
+          a:hover {
+            color: black;
+            padding: 0 0 0 35px;
+            background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
 
             &:after {
-              content: "";
-              padding-left: 0;
+              content: "|";
+              padding-left: 31px;
+            }
+          }
+
+          &.home {
+
+            a {
+              background-position: 2px -1172px;
+            }
+          }
+
+          &.pages {
+
+            a {
+              padding-left: 25px;
+              background-position: 0 -1226px;
+            }
+          }
+
+          &.discussions {
+            margin-left: -9px;
+
+            a {
+              padding-left: 31px;
+              background-position: 0 -1273px;
+            }
+          }
+
+          &.library {
+
+            a {
+              padding-left: 89px;
+              background-position: 61px -1326px;
+            }
+          }
+
+          &.events {
+
+            a {
+              padding-left: 99px;
+              background-position: 69px -1383px;
+            }
+          }
+
+          &.tasks {
+
+            a {
+              padding-left: 102px;
+              background-position: 76px -1439px;
+            }
+          }
+
+          &:last-child {
+
+            a {
+
+              &:after {
+                content: "";
+                padding-left: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .post {
+      float: left;
+      margin-left: -1px;
+      width: 99.5%;
+      padding: 20px 0;
+      font-size: 12px;
+      border-bottom: 2px solid $background-gray;
+
+      &.first {
+        border-top: 2px solid $background-gray;
+      }
+
+      .user-info {
+        padding-left: 23px;
+
+        @media (max-width: $screen-xs) {
+          padding-left: 5px;
+        }
+
+        img {
+          max-width: 73%;
+          display: block;
+        }
+      }
+
+      .content-wrapper {
+        margin-left: -23px;
+
+        .post-action {
+          margin-bottom: 8px;
+
+          .icon {
+            border-right: 1px solid;
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+            float: left;
+            background-image: url("../images/main/icons-sprite.png");
+            background-repeat: no-repeat;
+            background-position: 0 0;
+          }
+
+          .author {
+            display: inline-block;
+            float: left;
+            width: 80%;
+            margin: -1px 0 -3px -2px;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: bold;
+          }
+
+          .action {
+            font-weight: bold;
+            display: inline-block;
+            padding-right: 13px;
+            border-right: 2px solid;
+            line-height: 10px;
+          }
+
+          .date {
+            font-weight: bold;
+            padding-left: 11px;
+          }
+        }
+
+        .post-content {
+
+          img {
+            max-width: 80%;
+          }
+
+          .user-text {
+            margin-top: 10px;
+          }
+
+          .comments {
+            margin-top: 3px;
+            font-weight: bold;
+          }
+
+          .user-link {
+            margin: 10px 0 -4px 0;
+            width: 105%;
+
+            .link-thumb {
+
+              img {
+                max-width: 95%;
+              }
+            }
+
+            .link-content {
+              padding-left: 19px;
+
+              .post-action {
+                color: $main-color;
+
+                .icon {
+                  background-position: 0 -105px;
+                }
+              }
+            }
+          }
+        }
+
+        .round-bg {
+          padding: 8px 0;
+          width: 30px;
+          height: 30px;
+          margin-top: 10px;
+        }
+      }
+
+      &.discussion-post {
+
+        .post-action {
+          color: $dark-blue;
+
+          .icon {
+            background-position: 0 -32px;
+          }
+        }
+      }
+
+      &.document-post {
+        padding-bottom: 17px;
+
+        .post-action {
+          color: $main-green;
+
+          .icon {
+            background-position: 0 -319px;
+          }
+        }
+      }
+
+      &.event-post {
+        padding-bottom: 17px;
+
+        .post-action {
+          color: $main-brown;
+
+          .icon {
+            background-position: 0 -409px;
+          }
+        }
+      }
+
+      &.new-member-post {
+        padding-bottom: 17px;
+
+        .post-action {
+          color: $main-red;
+
+          .icon {
+            background-position: 0 -454px;
+          }
+        }
+      }
+    }
+
+    .show-more-wrapper {
+      width: 100%;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 132px;
+      float: left;
+
+      .show-more {
+        padding: 0 5px;
+        position: relative;
+        background-color: white;
+        display: inline-block;
+        top: 0;
+        left: -5px;
+
+        a {
+          font-family: 'gillSans', Arial;
+          background-color: $main-blue;
+          display: inline-block;
+          padding: 12px 43px 9px;
+          color: white;
+          font-weight: bold;
+          @include border-radius(20px);
+        }
+      }
+    }
+
+    .pager {
+      margin: 10px 0;
+
+      ul {
+        float: left;
+        margin-top: 4px;
+
+        li {
+
+          > a {
+            border: 0 none;
+            background-color: $main-blue;
+            color: white;
+            padding: 2px 8px;
+
+            &:hover,
+            &:active,
+            &.active {
+              background-color: white;
+            }
+          }
+        }
+      }
+
+      .back,
+      .next {
+        float: left;
+
+        > a {
+          float: none;
+          background-color: white;
+          color: $dark-blue;
+          font-size: $font-size-h3;
+          padding-left: 4px;
+        }
+      }
+
+      .back {
+        margin-right: 23px;
+      }
+
+      .next {
+        margin-left: 11px;
+      }
+
+      &.small-pager {
+
+        li {
+
+          > a {
+            padding: 5px;
+            margin-right: 5px;
+
+            &:hover,
+            &:active,
+            &.active {
+              background-color: white;
             }
           }
         }
@@ -441,26 +716,36 @@ body {
 
         li {
           float: left;
-          padding-right: 15px;
-          margin-right: 12px;
-          border-right: 1px solid #71716e;
+          font-weight: bold;
+          padding-right: 18px;
+          margin-right: 15px;
           line-height: 10px;
+          border-right: 1px solid $main-blue;
           text-transform: capitalize;
-          font-size: 12px;
-          
+
           @media (max-width: $screen-md) {
             margin-bottom: 20px;
           }
 
           &.last {
             border-right: 0 none;
+            padding-right: 0;
+            margin-right: 0;
           }
         }
 
         &.gray {
 
-          a {
-            color: $main-color;
+          li {
+            border-right: 1px solid #AEAEAC;
+
+            a {
+              color: #AEAEAC;
+            }
+
+            &.last {
+              border-right: 0 none;
+            }
           }
         }
 
@@ -473,7 +758,7 @@ body {
         }
 
         &.social {
-          margin: -9px 0 0 24px;
+          margin: 12px 0 0 55px;
 
           li {
             border: 0 none;
@@ -502,15 +787,41 @@ body {
           }
         }
       }
-    }
 
-    .europeaid-site {
-      float: left;
-      display: block;
-      line-height: 10px;
-      font-size: 12px;
-      color: $dark-blue;
-      margin-left: -9px;
+      .blog-link {
+        text-transform: uppercase;
+
+        .blogger-pic {
+          display: block;
+          width: 50px;
+          height: 50px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+          float: left;
+
+          img {
+            @include border-radius(50%);
+          }
+        }
+
+        .blog-name {
+          float: left;
+          margin: 15px 0 0 5px;
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+
+      .unit-name,
+      .europeaid-site {
+        float: left;
+        display: block;
+        margin: 15px 0 0;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
     }
   }
 }

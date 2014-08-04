@@ -1,22 +1,152 @@
 .homepage {
 
-  .container {
+  .row {
+    margin: 0;
+  }
 
-    .banner {
-      position: relative;
+  .banner {
+    position: relative;
 
-      .watch-link {
-        background: url("../images/homepage/play-bg.png") 2px 1px no-repeat #305660;
-        position: absolute;
-        left: 33%;
-        bottom: 35px;
+    .watch-link {
+      background: url("../images/homepage/play-bg.png") 2px 1px no-repeat #305660;
+      position: absolute;
+      left: 33%;
+      bottom: 35px;
+      color: white;
+      font-weight: bold;
+      padding:  8px 20px 8px 50px;
+      text-transform: uppercase;
+      cursor: pointer;
+      opacity: 0.9;
+      @include border-radius(30px);
+    }
+  }
+
+  #main-nav {
+    border-bottom: 2px solid $main-blue;
+
+    .container {
+
+      li {
+
+        a,
+        a:hover {
+          background: none;
+          padding-left: 18px;
+
+          &.active {
+            color: $main-blue;
+          }
+        }
+      }
+    }
+  }
+
+  #about {
+    text-align: center;
+    background-color: $background-gray;
+    color: $main-navy;
+    font-size: 16px;
+
+    .container {
+      padding: 20px 5px;
+
+      .close {
+        opacity: 1;
+        margin-right: 20px;
+      }
+
+      .about-content {
+        padding: 0 10px;
+      }
+
+      .join-members {
+        padding: 5px 30px;
+        background: $main-orange;
+        color: white;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        @include border-radius(30px);
+      }
+    }
+  }
+
+  .voices-views {
+    text-align: center;
+    margin-top: 50px;
+    position: relative;
+
+    .read-all {
+      float: right;
+      font-weight: bold;
+      margin: -22px 26px 20px 0;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 60px;
+      right: 33px;
+      background: rgba(25, 25, 25, .4);
+      padding: 10px 50px 5px;
+      width: 40%;
+      color: white;
+      text-align: left;
+      line-height: 20px;
+
+      .overlay-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .overlay-date {
+        color: $dark-blue;
+        font-weight: bold;
+      }
+
+      .overlay-content {
+        font-weight: bold;
+      }
+
+      .continue-reading {
         color: white;
         font-weight: bold;
-        padding:  8px 20px 8px 50px;
-        text-transform: uppercase;
-        cursor: pointer;
-        opacity: 0.9;
-        @include border-radius(30px);
+        font-size: 16px;
+        line-height: 25px;
+      }
+    }
+  }
+
+  .post-row {
+    margin-top: 100px;
+    border-bottom: 2px solid $background-gray;
+
+    .side-col {
+      min-height: 470px;
+      border-right: 2px solid $background-gray;;
+
+      .update,
+      .events {
+        padding-top: 30px;
+
+        .title {
+          font-weight: bold;
+        }
+
+        .content {
+          font-size: 18px;
+          line-height: 24px;
+        }
+      }
+    }
+
+    .post {
+
+      &:last-child {
+        border-bottom: 0 none;
       }
     }
   }
