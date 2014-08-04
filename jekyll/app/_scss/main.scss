@@ -185,14 +185,6 @@ body {
       margin-top: 20px;
       width: 100px;
       height: 61px;
-      font-size: 12px;
-      line-height: 15px;
-      letter-spacing: 1px;
-      color: $main-blue;
-
-      @media (max-width: $screen-xs-max) {
-        width: 80%;
-      }
     }
 
     .c4d-logo {
@@ -214,12 +206,29 @@ body {
         margin-top: 5px;
         line-height: 25px;
 
+        @media (max-width: $screen-xs) {
+          font-size: 20px;
+        }
+
+        @media (min-width: $screen-sm-max) and (max-width: $screen-md-max) {
+          font-size: 23px;
+        }
+
         &.slogan {
           font-size: 15px;
           font-weight: normal;
           letter-spacing: 1px;
           text-transform: none;
           margin-top: 0;
+
+          @media (max-width: $screen-xs) {
+            font-size: 13px;
+            letter-spacing: 0;
+          }
+
+          @media (min-width: $screen-sm-max) and (max-width: $screen-md-max) {
+            letter-spacing: 0;
+          }
         }
 
         i {
@@ -257,6 +266,7 @@ body {
     #user-menu {
       text-transform: uppercase;
       margin-top: 29px;
+      height: 60px;
 
       li {
         float: right;
