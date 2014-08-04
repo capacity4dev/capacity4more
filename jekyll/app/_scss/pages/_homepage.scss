@@ -7,23 +7,30 @@
   .banner {
     position: relative;
 
+    img {
+      margin-left: 10px;
+    }
+
     .watch-link {
-      background: url("../images/homepage/play-bg.png") 2px 1px no-repeat #305660;
+      background: url("../images/homepage/play-bg.png") 3px 2px no-repeat #305660;
       position: absolute;
-      left: 33%;
-      bottom: 35px;
+      left: 33.4%;
+      bottom: 30px;
       color: white;
       font-weight: bold;
-      padding:  8px 20px 8px 50px;
+      padding: 10px 39px 10px 58px;
       text-transform: uppercase;
       cursor: pointer;
       opacity: 0.9;
-      @include border-radius(30px);
+      font-size: 15px;
+      @include border-radius(50px);
     }
   }
 
   #main-nav {
     border-bottom: 2px solid $main-blue;
+    margin-top: 8px;
+    padding-bottom: 14px;
 
     .container {
 
@@ -32,10 +39,16 @@
         a,
         a:hover {
           background: none;
-          padding-left: 18px;
+          padding-left: 29px;
+          font-size: 16px;
 
           &.active {
             color: $main-blue;
+          }
+
+          &:after {
+            padding-left: 28px;
+            line-height: 1px;
           }
         }
       }
@@ -53,20 +66,28 @@
 
       .close {
         opacity: 1;
-        margin-right: 20px;
+        margin-right: 6px;
+      }
+
+      h2 {
+        letter-spacing: 0.1px;
+        margin-left: 42px;
       }
 
       .about-content {
-        padding: 0 10px;
+        padding: 6px 8px 4px;
+        margin-left: 7px;
+        font-size: 17px;
+        line-height: 22px;
       }
 
       .join-members {
-        padding: 5px 30px;
+        padding: 5px 33px;
         background: $main-orange;
         color: white;
         display: inline-block;
-        font-size: 16px;
-        margin-top: 10px;
+        font-size: 18px;
+        margin: 10px 0 0 19px;
         font-weight: bold;
         text-transform: uppercase;
         @include border-radius(30px);
@@ -76,28 +97,35 @@
 
   .voices-views {
     text-align: center;
-    margin-top: 50px;
+    margin: 40px 0 0 24px;
     position: relative;
+
+    h2 {
+      margin-left: 2px;
+      word-spacing: -5px;
+    }
 
     .read-all {
       float: right;
       font-weight: bold;
-      margin: -22px 26px 20px 0;
+      margin: -21px 5px 11px 0;
     }
 
     #overlay {
       position: absolute;
-      top: 60px;
-      right: 33px;
-      background: rgba(25, 25, 25, .4);
-      padding: 10px 50px 5px;
-      width: 40%;
+      top: 56px;
+      right: 13px;
+      background: rgba(25, 25, 25, 0.4);
+      padding: 28px 37px 5px;
+      width: 40.5%;
       color: white;
       text-align: left;
       line-height: 20px;
+      letter-spacing: 0.8px;
 
       .overlay-title {
         font-size: 20px;
+        line-height: 23px;
         font-weight: bold;
         text-transform: uppercase;
       }
@@ -109,6 +137,9 @@
 
       .overlay-content {
         font-weight: bold;
+        margin-top: 10px;
+        font-size: 15px;
+        line-height: 18px;
       }
 
       .continue-reading {
@@ -117,23 +148,37 @@
         font-size: 16px;
         line-height: 25px;
       }
+
+      .pager {
+        margin: -4px 0 0 3px;
+      }
     }
   }
 
   .post-row {
-    margin-top: 100px;
+    margin-top: 93px;
     border-bottom: 2px solid $background-gray;
+    width: 100%;
+    margin-left: 17px;
 
     .side-col {
-      min-height: 470px;
-      border-right: 2px solid $background-gray;;
 
       .update,
       .events {
-        padding-top: 30px;
+        padding-top: 19px;
+        width: 85%;
+
+        .blue-title {
+          letter-spacing: 1.1px;
+        }
 
         .title {
           font-weight: bold;
+          margin-top: 18px;
+          margin-left: 2px;
+          letter-spacing: 0.3px;
+          word-spacing: 1px;
+          line-height: 23px;
         }
 
         .content {
@@ -143,11 +188,77 @@
       }
     }
 
+    .col-sm-8 {
+      border-left: 2px solid $background-gray;
+      margin-left: -52px;
+    }
+
     .post {
+      margin-left: 23px;
+      width: 108%;
+
+      .user-info {
+        padding-left: 0;
+
+        img {
+          max-width: 46%;
+          display: block;
+        }
+      }
+
+      .content-wrapper {
+        margin-left: -80px;
+      }
 
       &:last-child {
         border-bottom: 0 none;
       }
+
+      &.document-post {
+        padding-bottom: 24px;
+      }
+
+      &.event-post {
+        padding: 25px 0 22px;
+
+        .action {
+          border-right: 0 none;
+          font-size: 17px;
+          line-height: 25px;
+          margin-left: 2px;
+        }
+
+        .title {
+          width: 100%;
+          float: left;
+          font-size: 25px;
+          margin: 13px 0 0;
+          font-weight: bold;
+          line-height: 20px;
+        }
+
+        .post-content {
+          font-size: 17px;
+          float: left;
+
+          .user-text {
+            margin-top: 5px;
+          }
+        }
+
+        .author {
+          color: $main-brown;
+          font-weight: bold;
+          font-size: 15px;
+          margin-top: 6px;
+          float: left;
+          width: 100%;
+        }
+      }
+    }
+
+    &:last-child {
+      margin-top: 137px;
     }
   }
 }
