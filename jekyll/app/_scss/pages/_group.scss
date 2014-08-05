@@ -3,18 +3,36 @@
   .container {
     padding-left: 30px;
 
+    @media (max-width: $screen-md) {
+      padding-left: 5px;
+    }
+
     .main-title {
       color: white;
       font-weight: normal;
       font-family: 'gillSans-light', Arial;
       font-size: 47px;
-      padding: 30px 0 57px 8px;
+      padding: 30px 0 1px 8px;
       margin: 0;
       text-transform: uppercase;
 
       @media (max-width: $screen-xs) {
-        font-size: 40px;
+        font-size: 25px;
         margin-bottom: 5px;
+      }
+    }
+
+    .public {
+      background: url("../images/main/icons-sprite.png") 11px -1500px no-repeat;
+      padding: 3px 0 0 44px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      color: white;
+      font-size: 31px;
+      font-weight: bold;
+
+      @media (max-width: $screen-xs) {
+        font-size: 25px;
       }
     }
 
@@ -24,9 +42,9 @@
     }
 
     .add-activity {
-      margin: 30px 5px 26px 0;
+      margin: 39px 5px 26px 0;
       float: left;
-      width: 99%;
+      width: 100%;
 
       input[type='text'],
       textarea {
@@ -378,6 +396,7 @@
       .description {
         margin: 0 0 24px 9px;
         line-height: 18px;
+        font-weight: bold;
       }
 
       /*.request-membership {
@@ -394,7 +413,7 @@
         }
       }*/
 
-      .more-link {
+      .more-settings {
         display: block;
         margin: 4px 0 0 10px;
         padding-bottom: 2px;
@@ -408,6 +427,28 @@
           span {
             font-size: 20px;
             display: inline-block;
+          }
+        }
+
+        .config {
+          float: right;
+          position: relative;
+          top: -28px;
+
+          li {
+            width: 25px;
+            height: 25px;
+            float: left;
+            margin-left: 5px;
+            background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
+
+            &.notification {
+              background-position: 0 -1570px;
+            }
+
+            &.settings {
+              background-position: 0 -1633px;
+            }
           }
         }
       }
@@ -462,9 +503,14 @@
       .post {
         background: none;
         border-bottom: 1px dashed #949494;
-        margin-bottom: 0;
-        padding: 0 0 10px 23px;
-        width: 98%;;
+        margin: 6px 0 13px -16px;
+        padding: 0 0 10px 0;
+        width: 98%;
+
+        &.first {
+          margin-top: 27px;
+          border-top: 0 none;
+        }
 
         &.last {
           border-bottom: 0 none;
@@ -472,17 +518,28 @@
 
         .content-wrapper {
 
+          .post-action {
+            float: left;
+          }
+
           .post-content {
-            margin-top: 20px;
+            margin-top: 0;
             font-size: 12px;
             text-transform: uppercase;
             font-weight: bold;
-            padding-left: 39px;
+            padding-left: 0;
+            float: left;
+            width: 80%;
+
+            .user-text {
+              margin-top: 0;
+            }
           }
 
           .post-details {
             color: $main-green;
-            padding-left: 38px;
+            padding-left: 54px;
+            float: left;
 
             a,
             a:hover {
@@ -542,6 +599,10 @@
       float: left;
       overflow: hidden;
 
+      @media (max-width: $screen-md) {
+        margin-left: 0;
+      }
+
       .twitter-icon {
         background: url("../images/main/twitter.jpg") 0 0 no-repeat;
         width: 178px;
@@ -556,6 +617,10 @@
       padding-left: 20px;
       float: left;
       width: 90%;
+
+      @media (max-width: $screen-md) {
+        margin-left: 0;
+      }
 
       .title {
 

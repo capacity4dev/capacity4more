@@ -63,6 +63,7 @@
         a:hover {
           background: none;
           padding-left: 29px;
+          letter-spacing: 0;
 
           &.active {
             color: $main-blue;
@@ -308,6 +309,14 @@
 
         @media (min-width: $screen-xs-min) and (max-width: $screen-sm-max) {
           margin-left: -55px;
+        }
+
+        .author {
+          margin-top: 0;
+          padding-right: 0;
+          border-right: 0 none;
+          line-height: 13px;
+          display: inline;
         }
       }
 
