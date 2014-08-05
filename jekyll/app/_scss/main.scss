@@ -265,8 +265,8 @@ body {
 
     #user-menu {
       text-transform: uppercase;
-      margin-top: 29px;
-      height: 60px;
+      margin-top: 30px;
+      height: 51px;
 
       li {
         float: right;
@@ -290,12 +290,20 @@ body {
 
     #main-nav {
       font-family: 'gillSans-light', Arial;
-      font-size: 18px;
-      font-weight: bold;
       border-bottom: 1px dashed #949494;
       padding: 10px 0;
       margin: 17px 0 0;
       text-transform: uppercase;
+
+      .navbar-toggle {
+        margin-bottom: 0;
+
+        .icon-bar {
+          width: 33px;
+          height: 3px;
+          background-color: $main-blue;
+        }
+      }
 
       .navbar-nav {
         line-height: 20px;
@@ -307,6 +315,13 @@ body {
             color: black;
             padding: 0 0 0 35px;
             background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
+            font-size: 16px;
+            font-weight: bold;
+
+            @media (max-width: $screen-md-max) {
+              font-size: 14px;
+            }
+
 
             &:after {
               content: "|";
@@ -650,6 +665,10 @@ body {
     margin-top: 57px;
     margin-left: 50px;
 
+    @media (max-width: $screen-md-max) {
+      margin-left: 0;
+    }
+
     .stats {
       background-color: $background-gray;
       padding: 24px 0;
@@ -666,6 +685,10 @@ body {
           font-size: 18px;
           line-height: 36px;
           display: inline-block;
+
+          @media (min-width: $screen-xs-max) and (max-width: $screen-md-max) {
+            font-size: 16px;
+          }
 
           &.members {
             background-position: 26px -554px;
@@ -769,7 +792,8 @@ body {
         }
 
         &.social {
-          margin: 25px 0 0 53px;
+          margin: 25px 0 0 0;
+          float: right;
 
           li {
             border: 0 none;
