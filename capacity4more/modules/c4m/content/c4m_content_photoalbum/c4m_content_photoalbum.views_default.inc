@@ -85,7 +85,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Image */
+  /* Field: Field: Image */
   $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
   $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
   $handler->display->display_options['fields']['c4m_media']['field'] = 'c4m_media';
