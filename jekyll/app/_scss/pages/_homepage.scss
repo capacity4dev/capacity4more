@@ -105,11 +105,6 @@
     .container {
       padding: 20px 5px;
 
-      .close {
-        opacity: 1;
-        margin-right: 6px;
-      }
-
       h2 {
         letter-spacing: 0.1px;
         margin-left: 42px;
@@ -196,10 +191,15 @@
       }
 
       .overlay-title {
-        font-size: 20px;
-        line-height: 23px;
+        font-size: 18px;
+        line-height: 20px;
         font-weight: bold;
         text-transform: uppercase;
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+          font-size: 20px;
+          line-height: 23px;
+        }
 
         @media (max-width: $screen-sm-max) {
           font-size: 13px;
@@ -215,8 +215,12 @@
       .overlay-content {
         font-weight: bold;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 13px;
         line-height: 18px;
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+          font-size: 15px;
+        }
 
         @media (max-width: $screen-md-min) {
           font-size: 13px;
@@ -333,10 +337,14 @@
 
         .action {
           border-right: 0 none;
-          font-size: 17px;
+          font-size: 15px;
           line-height: 25px;
           margin-left: 2px;
           float: left;
+
+          @media screen and (-webkit-min-device-pixel-ratio:0) {
+            font-size: 17px;
+          }
 
           @media (max-width: $screen-md-max) {
             width: 80%;
@@ -351,6 +359,7 @@
           margin: 13px 0 0;
           font-weight: bold;
           line-height: 20px;
+
           @media (max-width: $screen-xs-max) {
             font-size: 18px;
           }
