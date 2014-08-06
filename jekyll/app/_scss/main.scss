@@ -413,7 +413,8 @@ body {
 
           &:last-child {
 
-            a {
+            a,
+            a:hover {
 
               &:after {
                 content: "";
