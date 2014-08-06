@@ -164,7 +164,7 @@
       margin: -21px 5px 11px 0;
     }
 
-    #overlay {
+    .overlay {
       position: absolute;
       top: 56px;
       right: 13px;
@@ -190,53 +190,56 @@
         padding: 5px;
       }
 
-      .overlay-title {
-        font-size: 18px;
-        line-height: 20px;
-        font-weight: bold;
-        text-transform: uppercase;
+      .carousel-inner {
+        max-height: 238px;
 
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-          font-size: 20px;
-          line-height: 23px;
+        .item {
+
+          .overlay-title {
+            font-size: 18px;
+            line-height: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            @media screen and (-webkit-min-device-pixel-ratio:0) {
+              font-size: 20px;
+              line-height: 23px;
+            }
+
+            @media (max-width: $screen-sm-max) {
+              font-size: 13px;
+              line-height: 13px;
+            }
+          }
+
+          .overlay-date {
+            color: $dark-blue;
+            font-weight: bold;
+          }
+
+          .overlay-content {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 18px;
+
+            @media screen and (-webkit-min-device-pixel-ratio:0) {
+              font-size: 15px;
+            }
+
+            @media (max-width: $screen-md-min) {
+              font-size: 13px;
+              line-height: 13px;
+            }
+          }
+
+          .continue-reading {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 25px;
+          }
         }
-
-        @media (max-width: $screen-sm-max) {
-          font-size: 13px;
-          line-height: 13px;
-        }
-      }
-
-      .overlay-date {
-        color: $dark-blue;
-        font-weight: bold;
-      }
-
-      .overlay-content {
-        font-weight: bold;
-        margin-top: 10px;
-        font-size: 13px;
-        line-height: 18px;
-
-        @media screen and (-webkit-min-device-pixel-ratio:0) {
-          font-size: 15px;
-        }
-
-        @media (max-width: $screen-md-min) {
-          font-size: 13px;
-          line-height: 13px;
-        }
-      }
-
-      .continue-reading {
-        color: white;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 25px;
-      }
-
-      .pager {
-        margin: -4px 0 0 3px;
       }
     }
   }

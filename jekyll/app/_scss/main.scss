@@ -674,65 +674,21 @@ body {
       }
     }
 
-    .pager {
-      margin: 10px 0;
+    .carousel-indicators {
+      margin: 2px 0 0 3px;
+      position: static;
+      float: left;
+      width: auto;
 
-      ul {
-        float: left;
-        margin-top: 4px;
+      li {
+        background-color: $main-blue;
+        border: 0 none;
 
-        li {
-
-          > a {
-            border: 0 none;
-            background-color: $main-blue;
-            color: white;
-            padding: 2px 8px;
-
-            &:hover,
-            &:active,
-            &.active {
-              background-color: white;
-            }
-          }
-        }
-      }
-
-      .back,
-      .next {
-        float: left;
-
-        > a {
-          float: none;
+        &.active {
           background-color: white;
-          color: $dark-blue;
-          font-size: $font-size-h3;
-          padding-left: 4px;
-        }
-      }
-
-      .back {
-        margin-right: 23px;
-      }
-
-      .next {
-        margin-left: 11px;
-      }
-
-      &.small-pager {
-
-        li {
-
-          > a {
-            padding: 5px;
-            margin-right: 4px;
-
-            &:hover,
-            &:active,
-            &.active {
-              background-color: white;
-            }
-          }
+          height: 10px;
+          width: 10px;
+          margin: 1px;
         }
       }
     }
