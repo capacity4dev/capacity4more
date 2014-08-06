@@ -479,6 +479,10 @@ body {
       font-size: 12px;
       border-bottom: 2px solid $background-gray;
 
+      @media (max-width: $screen-xs-max) {
+        width: 95%;
+      }
+
       &.first {
         border-top: 2px solid $background-gray;
       }
@@ -805,11 +809,16 @@ body {
         li {
           float: left;
           font-weight: bold;
-          padding-right: 18px;
-          margin-right: 15px;
+          padding-right: 14px;
+          margin-right: 13px;
           line-height: 10px;
           border-right: 1px solid $main-blue;
           text-transform: capitalize;
+
+          @media screen and (-webkit-min-device-pixel-ratio:0) {
+            padding-right: 18px;
+            margin-right: 15px;
+          }
 
           @media (max-width: $screen-md) {
             margin-bottom: 20px;
