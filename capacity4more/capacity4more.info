@@ -69,6 +69,7 @@ dependencies[] = c4m_vocab_tag
 dependencies[] = c4m_user_profile
 
 ; Content Types
+dependencies[] = c4m_content
 dependencies[] = c4m_content_book
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_group
