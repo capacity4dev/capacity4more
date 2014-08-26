@@ -39,17 +39,13 @@ function c4m_content_minisite_create_root_minisite($node) {
     'weight'             => '0',
   );
 
+  $minisite->created = $node->created;
+  $minisite->changed = $node->changed;
+  $minisite->revision = FALSE;
+
   if ($minisite = node_submit($minisite)) {
     node_save($minisite);
   }
-
-  db_update('node')->fields(array('changed' => $node->changed))
-  ->condition('nid', $minisite->nid, '=')
-  ->execute();
-  db_update('node_revision')->fields(array('timestamp' => $node->changed))
-  ->condition('nid', $minisite->nid, '=')
-  ->condition('vid', $minisite->vid, '=')
-  ->execute();
 
   // Attach the new node to the group.
   $values = array(
@@ -59,6 +55,17 @@ function c4m_content_minisite_create_root_minisite($node) {
   );
 
   og_group('node', $node->nid, $values);
+
+  db_update('node')->fields(array('created' => $node->changed))
+    ->condition('nid', $minisite->nid, '=')
+    ->execute();
+  db_update('node')->fields(array('changed' => $node->changed))
+    ->condition('nid', $minisite->nid, '=')
+    ->execute();
+  db_update('node_revision')->fields(array('timestamp' => $node->changed))
+    ->condition('nid', $minisite->nid, '=')
+    ->condition('vid', $minisite->vid, '=')
+    ->execute();
 
   return $minisite;
 }
