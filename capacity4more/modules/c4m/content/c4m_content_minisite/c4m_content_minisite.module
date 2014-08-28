@@ -17,7 +17,7 @@ function c4m_content_minisite_token_info() {
   }
 
   $info['tokens']['array']['minisite-join-path'] = array(
-    'name' => t('Joined path without Master Page'),
+    'name'        => t('Joined path without Master Page'),
     'description' => t('The array values with the (empty) master (= root) page removed from the tree.'),
   );
 
@@ -53,8 +53,8 @@ function c4m_content_minisite_tokens($type, $tokens, array $data = array(), arra
           module_load_include('inc', 'pathauto');
           $values = array();
           foreach (element_children($array) as $key) {
-            $value = is_array($array[$key]) ? render($array[$key]) : (string) $array[$key];
-            $value = pathauto_cleanstring($value);
+            $value    = is_array($array[$key]) ? render($array[$key]) : (string) $array[$key];
+            $value    = pathauto_cleanstring($value);
             $values[] = $value;
           }
           $replacements[$original] = implode('/', $values);
@@ -105,6 +105,7 @@ function c4m_content_minisite_get_book_by_gid($gid) {
 
   if (!empty($res[0])) {
     $node = node_load($res[0]['nid']);
+
     return $node;
   }
 
@@ -122,9 +123,9 @@ function c4m_content_minisite_get_book_by_gid($gid) {
  */
 function c4m_content_minisite_get_book_by_nid($nid) {
   $q = db_select('book', 'book')
-    ->fields('book', array('bid'))
-    ->condition('book.nid', $nid, '=')
-    ->range(0, 1);
+       ->fields('book', array('bid'))
+       ->condition('book.nid', $nid, '=')
+       ->range(0, 1);
 
   $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
 
@@ -145,10 +146,10 @@ function c4m_content_minisite_get_book_by_nid($nid) {
  *   Menu link ID if found, else NULL.
  */
 function c4m_content_minisite_get_mlid_by_nid($nid) {
-  $q = db_select('book', 'book')
-    ->fields('book', array('mlid'))
-    ->condition('book.nid', $nid, '=')
-    ->range(0, 1);
+  $q   = db_select('book', 'book')
+         ->fields('book', array('mlid'))
+         ->condition('book.nid', $nid, '=')
+         ->range(0, 1);
   $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
 
   if (!empty($res[0])) {

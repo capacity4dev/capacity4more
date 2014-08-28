@@ -637,7 +637,7 @@ function c4m_content_event_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 8,
+      'weight' => 5,
     ),
   );
 
