@@ -1,0 +1,42 @@
+// Custom colors.
+$main-green: #8DAC6C;
+$main-blue: #80BFC9;
+$dark-blue: #0086B0;
+$main-red: #E95547;
+$main-brown: #9B7752;
+$main-navy: #39555E;
+$main-orange: #FF9C41;
+$background-gray: #F3F1ED;
+$light-gray: #949494;
+$main-color: #71716E;
+$header-bg: #EDF6F9;
+
+
+// Custom container size.
+.container {
+
+  @media (min-width: $screen-lg-desktop ) {
+    width: 990px;
+  }
+
+  @media (max-width: $screen-xs)  {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+// Custom color for placeholder.
+::-webkit-input-placeholder { /* WebKit browsers */
+  color:    $main-blue;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    $main-blue;
+  opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    $main-blue;
+  opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color:    $main-blue;
+}

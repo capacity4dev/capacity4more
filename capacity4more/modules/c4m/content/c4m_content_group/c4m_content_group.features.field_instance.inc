@@ -34,9 +34,10 @@ function c4m_content_group_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
     'label' => 'Description',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
-      'display_summary' => 0,
+      'display_summary' => 1,
+      'summary_display' => 'required',
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
@@ -45,6 +46,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'text',
       'settings' => array(
         'rows' => 20,
+        'summary_display' => 'default',
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{{ page.title }}</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- build:css({app,.tmp}) css/main.css -->
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/main.css">
+        <!-- endbuild -->
+
+    </head>
+    <body>
+        {% include header.html %}
+
+        {{ content }}
+
+        {% include footer.html %}
+    <!-- build:js(app) js/scripts.js -->
+        <script src="_bower_components/jquery/jquery.min.js"></script>
+        <script src="_bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
+        <script src="js/main.js"></script>
+    <!-- endbuild -->
+    </body>
+</html>

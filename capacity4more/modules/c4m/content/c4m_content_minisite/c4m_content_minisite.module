@@ -98,6 +98,7 @@ function c4m_content_minisite_get_book_by_gid($gid) {
   $q->join('og_membership', 'group_rel', 'node.nid = group_rel.etid');
   $q->fields('node', array('nid'))
     ->condition('group_rel.gid', $gid, '=')
+    ->condition('group_rel.entity_type', 'node', '=')
     ->condition('node.type', 'minisite', '=')
     ->range(0, 1);
   $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
