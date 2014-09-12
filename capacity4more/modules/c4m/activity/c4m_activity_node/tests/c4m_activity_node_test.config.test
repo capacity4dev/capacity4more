@@ -1,0 +1,118 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_node module configuration functionality.
+ */
+
+/**
+ * Tests about the node activity configuration.
+ */
+class C4mActivityNodeTestConfig extends DrupalWebTestCase {
+  /**
+   * Node type name to use in the tests.
+   *
+   * @var string
+   */
+  const TYPE = 'c4m_activity_node_test';
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Node Configuration',
+      'description' => 'Test the activity configuration for node types.',
+      'group' => 'capacity4more:activity:node',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'c4m_activity_node');
+    parent::setUp($modules);
+
+    // create a new user with some permissions you need; then log in.
+    $admin = $this->drupalCreateUser(array(
+        'administer content types',
+        'administer nodes'
+      ));
+    $this->drupalLogin($admin);
+
+    // Create a new node type.
+    $info = (object) array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_node_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
+    );
+    node_type_save($info);
+  }
+
+  /**
+   * Test the functionality to set the activity configuration for node types.
+   */
+  public function testConfig() {
+    // Test the variable name creator.
+    $name = c4m_activity_node_variable_name(self::TYPE);
+    $this->assertEqual('c4m_activity_node_' . self::TYPE, $name);
+
+    // Test the default variable value.
+    $this->assertFalse(variable_get($name, FALSE));
+
+    // Edit the activity settings.
+    $edit = array(
+      'c4m_activity_node[insert]' => 'insert',
+      'c4m_activity_node[update]' => 'update',
+    );
+    $this->drupalPost(
+      'admin/structure/types/manage/' . self::TYPE,
+      $edit,
+      t('Save content type')
+    );
+
+    // Check if the settings are saved in the variable.
+    $config = variable_get($name, array());
+    $this->assertEqual(
+      $config,
+      array('insert' => 'insert', 'update' => 'update', 'delete' => 0)
+    );
+
+    // Rename the node type.
+    $new_type = self::TYPE . '_new';
+    $new_name = $name . '_new';
+    $edit = array(
+      'type' => $new_type,
+    );
+    $this->drupalPost(
+      'admin/structure/types/manage/' . self::TYPE,
+      $edit,
+      t('Save content type')
+    );
+
+    // Check if the old variable is deleted and a new one is created.
+    $this->assertFALSE(variable_get($name, FALSE));
+    $this->assertEqual(
+      variable_get($new_name, array()),
+      array('insert' => 'insert', 'update' => 'update', 'delete' => 0)
+    );
+
+    // Delete the node type.
+    node_type_delete($new_type);
+
+    // Check if the variable is deleted.
+    $this->assertFALSE(variable_get($new_name, FALSE));
+  }
+
+}

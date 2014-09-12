@@ -1,0 +1,94 @@
+<?php
+/**
+ * @file
+ * Code to support logging node activities using the messaging module.
+ */
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add messaging settings configuration to the node settings form.
+ *
+ * @see c4m_activity_node_node_type_form_save
+ */
+function c4m_activity_node_form_node_type_form_alter(
+  &$form, &$form_state, $form_id
+) {
+
+  $info = $form['#node_type'];
+  $default_config = array();
+  if (!empty($info->type)) {
+    $default_config = variable_get(
+      c4m_activity_node_variable_name($info->type),
+      array()
+    );
+  }
+
+  $form['c4m_activity'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Activity'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#group' => 'additional_settings',
+  );
+  $form['c4m_activity']['c4m_activity_node'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Log node activity when'),
+    '#description' => t('Select what node activities should be saved in the activity log.'),
+    '#options' => array(
+      'insert' => t('A node is created'),
+      'update' => t('A node is updated'),
+      'delete' => t('A node is deleted'),
+    ),
+    '#default_value' => $default_config,
+  );
+
+  $form['#submit'][] = 'c4m_activity_node_node_type_form_save';
+}
+
+/**
+ * Saves the node type specific message settings.
+ *
+ * @see c4m_activity_node_form_node_type_form_alter
+ */
+function c4m_activity_node_node_type_form_save($form, $form_state) {
+  $values = $form_state['values'];
+
+  // Save the configuration.
+  variable_set(
+    c4m_activity_node_variable_name($values['type']),
+    $values['c4m_activity_node']
+  );
+
+  // Delete the old variable if the machine name has changed.
+  if ($values['type'] !== $values['old_type']) {
+    variable_del(
+      c4m_activity_node_variable_name($values['old_type'])
+    );
+  }
+}
+
+/**
+ * Implements hook_node_type_delete().
+ *
+ * Delete the activity settings if the node type is deleted.
+ */
+function c4m_activity_node_node_type_delete($info) {
+  variable_del(
+    c4m_activity_node_variable_name($info->type)
+  );
+}
+
+/**
+ * Helper to get the variable name to access the activity config per content type.
+ *
+ * @param string $type
+ *   The content type.
+ *
+ * @return string
+ *   The variable name.
+ */
+function c4m_activity_node_variable_name($type) {
+  return 'c4m_activity_node_' . $type;
+}

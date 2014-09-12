@@ -64,6 +64,7 @@ script:
   - drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
+  - drush @capacity4more test-run "capacity4more:activity:node"
   - drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------

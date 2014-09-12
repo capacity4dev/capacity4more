@@ -1,0 +1,6 @@
+name = Node activities
+description = Logs activities on nodes and provides the message formats related to these acivities.
+core = 7.x
+package = capacity4more - Activity
+version = 7.x-1.x-dev
+dependencies[] = message
