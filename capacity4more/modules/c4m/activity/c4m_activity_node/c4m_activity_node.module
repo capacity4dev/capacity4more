@@ -4,6 +4,11 @@
  * Code to support logging node activities using the messaging module.
  */
 
+include_once 'c4m_activity_node.features.inc';
+
+/******************************************************************************
+ * Configuration
+ ******************************************************************************/
 
 /**
  * Implements hook_form_FORM_ID_alter().
