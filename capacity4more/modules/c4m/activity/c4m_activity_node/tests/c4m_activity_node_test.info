@@ -8,3 +8,4 @@ hidden = TRUE
 
 ; Test files
 files[] = c4m_activity_node_test.config.test
+files[] = c4m_activity_node_test.logging.test

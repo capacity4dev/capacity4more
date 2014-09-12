@@ -124,3 +124,68 @@ function c4m_activity_node_needs_message($type, $action) {
 function c4m_activity_node_variable_name($type) {
   return 'c4m_activity_node_' . $type;
 }
+
+
+/******************************************************************************
+ * Message logging
+ ******************************************************************************/
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Adds a node created message to the message table.
+ */
+function c4m_activity_node_node_insert($node) {
+  if (!c4m_activity_node_needs_message($node->type, 'insert')) {
+    return;
+  }
+
+  $message = c4m_activity_node_create_message($node, 'insert');
+  $message->save();
+}
+
+
+/**
+ * Create a message for a node based on the given action.
+ *
+ * @param stdClass $node
+ *   The node that needs an message.
+ * @param string $action
+ *   The action performed on the node.
+ *
+ * @return EntityMetadataWrapper
+ */
+function c4m_activity_node_create_message($node, $action) {
+  $message = message_create('c4m_activity_node_' . $action);
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->c4m_activity_node->set($node);
+  if ($group_nid = _c4m_activity_node_get_node_group($node)) {
+    $wrapper->c4m_activity_group->set($group_nid);
+  }
+
+  return $wrapper;
+}
+
+/**
+ * Fetch the group of a node.
+ *
+ * @param stdClass $node
+ *   A node to search its group.
+ *
+ * @return int | NULL
+ *   Group node ID.
+ */
+function _c4m_activity_node_get_node_group($node) {
+  if (!og_is_group_content_type('node', $node->type)) {
+    return;
+  }
+
+  $groups = og_get_entity_groups('node', $node);
+  if (empty($groups['node'])) {
+    return;
+  }
+
+  // TODO: What if a node is added to another group then the original group?
+  return reset($groups['node']);
+}

@@ -1,0 +1,104 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_node module configuration functionality.
+ */
+
+/**
+ * Tests about the node activity logging.
+ */
+class C4mActivityNodeTestLogging extends DrupalWebTestCase {
+  /**
+   * Node type name to use in the tests.
+   *
+   * @var string
+   */
+  const TYPE = 'c4m_activity_node_test';
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Node Action logging',
+      'description' => 'Test the activity logging for node types.',
+      'group' => 'capacity4more:activity:node',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'c4m_activity_node');
+    parent::setUp($modules);
+
+    // create a new user with some permissions you need; then log in.
+    $admin = $this->drupalCreateUser(array(
+        'administer content types',
+        'administer nodes'
+      ));
+    $this->drupalLogin($admin);
+
+    // Create a new node type.
+    $info = (object) array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_node_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
+    );
+    node_type_save($info);
+
+    // Enable activity logging.
+    $name = c4m_activity_node_variable_name(self::TYPE);
+    variable_set(
+      $name,
+      array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
+    );
+  }
+
+  /**
+   * Test the functionality to set the activity configuration for node types.
+   */
+  public function testLogging() {
+    $this->drupalCreateNode();
+    $this->assertEqual(0, $this->countMessages());
+
+    $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+      ));
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('insert'));
+  }
+
+  /**
+   * Helper to get the number of mesages in the message table.
+   *
+   * @param string $action
+   *   The action type we want to see the messages for.
+   *
+   * @return int
+   *   The number of items in the message table.
+   */
+  protected function countMessages($action = NULL) {
+    $query = new entityFieldQuery();
+    $query
+      ->count()
+      ->entityCondition('entity_type', 'message');
+
+    $count = (int)$query->execute();
+    return $count;
+  }
+
+
+}
