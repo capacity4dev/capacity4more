@@ -170,9 +170,9 @@ function c4m_activity_node_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_activity_node_updated-c4m_activity_group'
-  $field_instances['message-c4m_activity_node_updated-c4m_activity_group'] = array(
-    'bundle' => 'c4m_activity_node_updated',
+  // Exported field_instance: 'message-c4m_activity_node_update-c4m_activity_group'
+  $field_instances['message-c4m_activity_node_update-c4m_activity_group'] = array(
+    'bundle' => 'c4m_activity_node_update',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -210,9 +210,9 @@ function c4m_activity_node_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_activity_node_updated-c4m_activity_node'
-  $field_instances['message-c4m_activity_node_updated-c4m_activity_node'] = array(
-    'bundle' => 'c4m_activity_node_updated',
+  // Exported field_instance: 'message-c4m_activity_node_update-c4m_activity_node'
+  $field_instances['message-c4m_activity_node_update-c4m_activity_node'] = array(
+    'bundle' => 'c4m_activity_node_update',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,

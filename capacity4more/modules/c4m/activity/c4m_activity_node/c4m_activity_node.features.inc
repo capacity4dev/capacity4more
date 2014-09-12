@@ -53,8 +53,8 @@ function c4m_activity_node_default_message_type() {
     },
     "rdf_mapping" : []
   }');
-  $items['c4m_activity_node_updated'] = entity_import('message_type', '{
-    "name" : "c4m_activity_node_updated",
+  $items['c4m_activity_node_update'] = entity_import('message_type', '{
+    "name" : "c4m_activity_node_update",
     "description" : "Node : Update",
     "argument_keys" : [],
     "argument" : [],
