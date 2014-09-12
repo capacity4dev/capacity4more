@@ -16,6 +16,13 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   const TYPE = 'c4m_activity_node_test';
 
   /**
+   * The logged in admin user.
+   *
+   * @var stdClass
+   */
+  protected $admin;
+
+  /**
    * Get the test info.
    *
    * @return array
@@ -34,13 +41,6 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   public function setUp() {
     $modules = array('message', 'c4m_activity_node');
     parent::setUp($modules);
-
-    // create a new user with some permissions you need; then log in.
-    $admin = $this->drupalCreateUser(array(
-        'administer content types',
-        'administer nodes'
-      ));
-    $this->drupalLogin($admin);
 
     // Create a new node type.
     $info = (object) array(
@@ -65,6 +65,14 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
       $name,
       array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
     );
+
+    // create a new user with some permissions you need; then log in.
+    $permissions = array(
+      'administer nodes',
+      'bypass node access',
+    );
+    $this->admin = $this->drupalCreateUser($permissions);
+    $this->drupalLogin($this->admin);
   }
 
   /**
@@ -74,11 +82,35 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $this->drupalCreateNode();
     $this->assertEqual(0, $this->countMessages());
 
-    $this->drupalCreateNode(array(
+    // Create a node.
+    $node = $this->drupalCreateNode(array(
         'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
       ));
     $this->assertEqual(1, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('insert'));
+    $this->assertEqual(0, $this->countMessages('update'));
+    $this->assertEqual(0, $this->countMessages('delete'));
+
+    // Update a node.
+    $edit = array('title' => $this->randomName());
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('update'));
+
+    // Another update.
+    $edit = array('title' => $this->randomName());
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(3, $this->countMessages());
+    $this->assertEqual(2, $this->countMessages('update'));
   }
 
   /**
@@ -95,6 +127,10 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $query
       ->count()
       ->entityCondition('entity_type', 'message');
+
+    if ($action) {
+      $query->propertyCondition('type', 'c4m_activity_node_' . $action);
+    }
 
     $count = (int)$query->execute();
     return $count;

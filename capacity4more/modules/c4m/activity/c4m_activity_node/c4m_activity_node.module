@@ -144,6 +144,21 @@ function c4m_activity_node_node_insert($node) {
   $message->save();
 }
 
+/**
+ * Implements hook_node_update().
+ *
+ * Adds a node updated message to the message table.
+ * The message will only be created if the last insert/update of the node was
+ * not done during the last 6 hours.
+ */
+function c4m_activity_node_node_update($node) {
+  if (!c4m_activity_node_needs_message($node->type, 'update')) {
+    return;
+  }
+
+  $message = c4m_activity_node_create_message($node, 'update');
+  $message->save();
+}
 
 /**
  * Create a message for a node based on the given action.
@@ -168,6 +183,39 @@ function c4m_activity_node_create_message($node, $action) {
 }
 
 /**
+ * Get the last stored message for a given node.
+ *
+ * @param stdClass $node
+ *   The node we want to load the message for.
+ * @param int $time_ago
+ *   The minimum timestamp the record must have to be included in the query.
+ *
+ * @return NULL | EntityMetadataWrapper
+ *
+ * @deprecated
+ */
+function c4m_activity_node_get_last_message($node, $time_ago = 0) {
+  $query = new entityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'message')
+    ->fieldCondition('c4m_activity_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'DESC');
+
+  if ($time_ago > 0) {
+    $query->propertyCondition('timestamp', (int)$time_ago, '>=');
+  }
+
+  $result = $query->execute();
+  if (empty($result['message'])) {
+    return;
+  }
+
+  $message = entity_metadata_wrapper('message', key($result['message']));
+  return $message;
+}
+
+
+/**
  * Fetch the group of a node.
  *
  * @param stdClass $node
@@ -177,6 +225,10 @@ function c4m_activity_node_create_message($node, $action) {
  *   Group node ID.
  */
 function _c4m_activity_node_get_node_group($node) {
+  if (!module_exists('og')) {
+    return;
+  }
+
   if (!og_is_group_content_type('node', $node->type)) {
     return;
   }
@@ -187,5 +239,10 @@ function _c4m_activity_node_get_node_group($node) {
   }
 
   // TODO: What if a node is added to another group then the original group?
-  return reset($groups['node']);
+  $group = reset($groups['node']);
+  if (!$group) {
+    return;
+  }
+
+  return $group;
 }
