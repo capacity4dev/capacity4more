@@ -70,6 +70,9 @@ class C4mActivityNodeTestConfig extends DrupalWebTestCase {
 
     // Test the default variable value.
     $this->assertFalse(variable_get($name, FALSE));
+    $this->assertFalse(c4m_activity_node_needs_message(self::TYPE, 'insert'));
+    $this->assertFalse(c4m_activity_node_needs_message(self::TYPE, 'update'));
+    $this->assertFalse(c4m_activity_node_needs_message(self::TYPE, 'delete'));
 
     // Edit the activity settings.
     $edit = array(
@@ -88,6 +91,9 @@ class C4mActivityNodeTestConfig extends DrupalWebTestCase {
       $config,
       array('insert' => 'insert', 'update' => 'update', 'delete' => 0)
     );
+    $this->assertTrue(c4m_activity_node_needs_message(self::TYPE, 'insert'));
+    $this->assertTrue(c4m_activity_node_needs_message(self::TYPE, 'update'));
+    $this->assertFalse(c4m_activity_node_needs_message(self::TYPE, 'delete'));
 
     // Rename the node type.
     $new_type = self::TYPE . '_new';

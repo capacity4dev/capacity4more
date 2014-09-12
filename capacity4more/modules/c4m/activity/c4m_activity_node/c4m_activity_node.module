@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code to support logging node activities using the messaging module.
+ * Code to support logging type activities using the messaging module.
  */
 
 include_once 'c4m_activity_node.features.inc';
@@ -13,7 +13,7 @@ include_once 'c4m_activity_node.features.inc';
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Add messaging settings configuration to the node settings form.
+ * Add messaging settings configuration to the type settings form.
  *
  * @see c4m_activity_node_node_type_form_save
  */
@@ -53,7 +53,7 @@ function c4m_activity_node_form_node_type_form_alter(
 }
 
 /**
- * Saves the node type specific message settings.
+ * Saves the type type specific message settings.
  *
  * @see c4m_activity_node_form_node_type_form_alter
  */
@@ -77,12 +77,39 @@ function c4m_activity_node_node_type_form_save($form, $form_state) {
 /**
  * Implements hook_node_type_delete().
  *
- * Delete the activity settings if the node type is deleted.
+ * Delete the activity settings if the type type is deleted.
  */
 function c4m_activity_node_node_type_delete($info) {
   variable_del(
     c4m_activity_node_variable_name($info->type)
   );
+}
+
+/**
+ * Helper to determine if the type action needs a message or not.
+ *
+ * The config from the variables table is used to check if the given type type
+ * requires messages.
+ *
+ * @param string $type
+ *   The type type we want to log a message for.
+ * @param string $action
+ *   The action performed on the type.
+ *
+ * @return bool
+ *   Needs an message yes/no.
+ */
+function c4m_activity_node_needs_message($type, $action) {
+  $config = variable_get(c4m_activity_node_variable_name($type), FALSE);
+  if (!$config) {
+    return FALSE;
+  }
+
+  if (empty($config[$action]) || $config[$action] !== $action) {
+    return;
+  }
+
+  return TRUE;
 }
 
 /**
