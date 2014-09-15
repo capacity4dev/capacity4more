@@ -95,6 +95,18 @@ class C4mActivityNodeTestConfig extends DrupalWebTestCase {
     $this->assertTrue(c4m_activity_node_needs_message(self::TYPE, 'update'));
     $this->assertFalse(c4m_activity_node_needs_message(self::TYPE, 'delete'));
 
+    // Check messages when deleting nodes in combinations with the message
+    // module settings.
+    variable_set(
+      $name,
+      array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
+    );
+
+    $this->assertFalse(c4m_activity_node_needs_message(self::TYPE, 'delete'));
+    variable_set('message_delete_on_entity_delete', array());
+    $this->assertTrue(c4m_activity_node_needs_message(self::TYPE, 'delete'));
+
+
     // Rename the node type.
     $new_type = self::TYPE . '_new';
     $new_name = $name . '_new';
@@ -108,7 +120,7 @@ class C4mActivityNodeTestConfig extends DrupalWebTestCase {
     );
 
     // Check if the old variable is deleted and a new one is created.
-    $this->assertFALSE(variable_get($name, FALSE));
+    $this->assertFalse(variable_get($name, FALSE));
     $this->assertEqual(
       variable_get($new_name, array()),
       array('insert' => 'insert', 'update' => 'update', 'delete' => 0)
@@ -118,7 +130,7 @@ class C4mActivityNodeTestConfig extends DrupalWebTestCase {
     node_type_delete($new_type);
 
     // Check if the variable is deleted.
-    $this->assertFALSE(variable_get($new_name, FALSE));
+    $this->assertFalse(variable_get($new_name, FALSE));
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code to support logging type activities using the messaging module.
+ * Code to support logging node activities using the messaging module.
  */
 
 include_once 'c4m_activity_node.features.inc';
@@ -13,9 +13,9 @@ include_once 'c4m_activity_node.features.inc';
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Add messaging settings configuration to the type settings form.
+ * Add messaging settings configuration to the node settings form.
  *
- * @see c4m_activity_node_node_type_form_save
+ * @see c4m_activity_node_node_type_form_save()
  */
 function c4m_activity_node_form_node_type_form_alter(
   &$form, &$form_state, $form_id
@@ -55,7 +55,7 @@ function c4m_activity_node_form_node_type_form_alter(
 /**
  * Saves the type type specific message settings.
  *
- * @see c4m_activity_node_form_node_type_form_alter
+ * @see c4m_activity_node_form_node_type_form_alter()
  */
 function c4m_activity_node_node_type_form_save($form, $form_state) {
   $values = $form_state['values'];
@@ -94,7 +94,10 @@ function c4m_activity_node_node_type_delete($info) {
  * @param string $type
  *   The type type we want to log a message for.
  * @param string $action
- *   The action performed on the type.
+ *   The action performed on the type. The supported actions are:
+ *   - insert
+ *   - update
+ *   - delete
  *
  * @return bool
  *   Needs an message yes/no.
@@ -106,7 +109,17 @@ function c4m_activity_node_needs_message($type, $action) {
   }
 
   if (empty($config[$action]) || $config[$action] !== $action) {
-    return;
+    return FALSE;
+  }
+
+  // Check if messages are deleted when the node is deleted.
+  // If so => no message needed.
+  if ($action === 'delete'
+    && in_array('node', variable_get(
+        'message_delete_on_entity_delete', array('node', 'user', 'taxonomy_term', 'comment')
+      ))
+  ) {
+    return FALSE;
   }
 
   return TRUE;
@@ -217,6 +230,23 @@ function c4m_activity_node_node_update($node) {
 }
 
 /**
+ * Implements hook_node_delete().
+ *
+ * Adds a node updated message to the message table.
+ */
+function c4m_activity_node_node_delete($node) {
+  // Avoid duplicated message due to updates by the same user within 6 hours.
+  if (!c4m_activity_node_needs_message($node->type, 'delete')) {
+    return;
+  }
+
+  // No update, create a new one.
+  $message = c4m_activity_node_create_message($node, 'delete');
+  $message->save();
+}
+
+
+/**
  * Create a message for a node based on the given action.
  *
  * @param stdClass $node
@@ -227,11 +257,23 @@ function c4m_activity_node_node_update($node) {
  * @return EntityMetadataWrapper
  */
 function c4m_activity_node_create_message($node, $action) {
-  $message = message_create('c4m_activity_node_' . $action);
+  $group_nid = _c4m_activity_node_get_node_group($node);
+
+  $arguments = array(
+    '%node_nid' => (int)$node->nid,
+    '%node_title' => $node->title,
+    '!node_uid' => $node->uid,
+    '!group_nid' => $group_nid,
+  );
+
+  $message = message_create(
+    'c4m_activity_node_' . $action,
+    array('arguments' => $arguments)
+  );
 
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->c4m_activity_node->set($node);
-  if ($group_nid = _c4m_activity_node_get_node_group($node)) {
+  if ($group_nid) {
     $wrapper->c4m_activity_group->set($group_nid);
   }
 
