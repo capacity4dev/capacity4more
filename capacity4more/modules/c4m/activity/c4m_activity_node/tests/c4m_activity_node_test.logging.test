@@ -23,6 +23,14 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   protected $admin;
 
   /**
+   * Another user to test with.
+   *
+   * @var stdClass
+   */
+  protected $editor;
+
+
+  /**
    * Get the test info.
    *
    * @return array
@@ -72,6 +80,8 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
       'bypass node access',
     );
     $this->admin = $this->drupalCreateUser($permissions);
+    $this->editor = $this->drupalCreateUser($permissions);
+
     $this->drupalLogin($this->admin);
   }
 
@@ -92,8 +102,9 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $this->assertEqual(0, $this->countMessages('update'));
     $this->assertEqual(0, $this->countMessages('delete'));
 
+
     // Update a node.
-    $edit = array('title' => $this->randomName());
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
     $this->drupalPost(
       'node/' . $node->nid . '/edit',
       $edit,
@@ -102,8 +113,22 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $this->assertEqual(2, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('update'));
 
-    // Another update.
-    $edit = array('title' => $this->randomName());
+    // Another update by same user within 6 hours => no update.
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(2, $this->countMessages());
+
+    // Update after more then 6 hours by the same user.
+    $timestamp = strtotime(date('r', time()) . '-24 hours');
+    $query = db_update('message');
+    $query->fields(array('timestamp' => $timestamp))
+          ->execute();
+
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
     $this->drupalPost(
       'node/' . $node->nid . '/edit',
       $edit,
@@ -111,6 +136,28 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     );
     $this->assertEqual(3, $this->countMessages());
     $this->assertEqual(2, $this->countMessages('update'));
+
+    // Update by another user.
+    $this->drupalLogin($this->editor);
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(4, $this->countMessages());
+    $this->assertEqual(3, $this->countMessages('update'));
+
+    // Update by the original user.
+    $this->drupalLogin($this->admin);
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(5, $this->countMessages());
+    $this->assertEqual(4, $this->countMessages('update'));
   }
 
   /**

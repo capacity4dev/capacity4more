@@ -113,6 +113,60 @@ function c4m_activity_node_needs_message($type, $action) {
 }
 
 /**
+ * Helper to determine if a node update needs a revision.
+ *
+ * This is different then @see c4m_activity_node_needs_message() as this:
+ *   1. Checks the configuration for the node type.
+ *   2. Checks if there is an message withn the last 6 hours.
+ *   3. Checks if the last message type is one of the types we don't want
+ *      duplicates for.
+ *   4. Checks if that message is by the same user as the one updating the node.
+ *
+ * @param stdClass $node
+ *   The node that is being updated.
+ *
+ * @return bool
+ *   Needs an update yes/no.
+ */
+function c4m_activity_node_update_needs_message($node) {
+  // 1. Check config for the node type.
+  if (!c4m_activity_node_needs_message($node->type, 'update')) {
+    return FALSE;
+  }
+
+  // 2. Load the last previous message within the last 6 hours timeframe.
+  $time_ago = strtotime(date('r', time()) . '-6 hours');
+  $message = c4m_activity_node_get_last_message($node, $time_ago);
+  if (!$message) {
+    return TRUE;
+  }
+
+  // 3. Check if last message was one of the types we don't want to duplicate.
+  $types = array('c4m_activity_node_insert', 'c4m_activity_node_update');
+  if (!in_array($message->getBundle(), $types)) {
+    return TRUE;
+  }
+
+  // 4. Check if the last message was for another user then the new revision uid.
+  if (empty($node->old_vid)) {
+    // If revisions is of we can't validate if the update is done by another
+    // user then the last update.
+    return TRUE;
+  }
+  $new_revision = entity_revision_load('node', $node->vid);
+  if ((int)$new_revision->revision_uid !== (int)$message->user->uid->value()) {
+    return TRUE;
+  }
+
+  // No update needed.
+  // @TODO: should we update the message timestamp? This could lead to wrong data.
+  // $message->timestamp->set($node->changed);
+  // $message->save();
+
+  return FALSE;
+}
+
+/**
  * Helper to get the variable name to access the activity config per content type.
  *
  * @param string $type
@@ -152,10 +206,12 @@ function c4m_activity_node_node_insert($node) {
  * not done during the last 6 hours.
  */
 function c4m_activity_node_node_update($node) {
-  if (!c4m_activity_node_needs_message($node->type, 'update')) {
+  // Avoid duplicated message due to updates by the same user within 6 hours.
+  if (!c4m_activity_node_update_needs_message($node)) {
     return;
   }
 
+  // No update, create a new one.
   $message = c4m_activity_node_create_message($node, 'update');
   $message->save();
 }
@@ -191,8 +247,6 @@ function c4m_activity_node_create_message($node, $action) {
  *   The minimum timestamp the record must have to be included in the query.
  *
  * @return NULL | EntityMetadataWrapper
- *
- * @deprecated
  */
 function c4m_activity_node_get_last_message($node, $time_ago = 0) {
   $query = new entityFieldQuery();
