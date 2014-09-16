@@ -11,7 +11,7 @@ function c4m_activity_comment_default_message_type() {
   $items = array();
   $items['c4m_activity_comment_delete'] = entity_import('message_type', '{
     "name" : "c4m_activity_comment_delete",
-    "description" : "Node : Delete",
+    "description" : "Comment : Delete",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
@@ -33,7 +33,7 @@ function c4m_activity_comment_default_message_type() {
   }');
   $items['c4m_activity_comment_insert'] = entity_import('message_type', '{
     "name" : "c4m_activity_comment_insert",
-    "description" : "Node : Create",
+    "description" : "Comment : Create",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
@@ -55,7 +55,7 @@ function c4m_activity_comment_default_message_type() {
   }');
   $items['c4m_activity_comment_update'] = entity_import('message_type', '{
     "name" : "c4m_activity_comment_update",
-    "description" : "Node : Update",
+    "description" : "Comment : Update",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
