@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Web tests for the c4m_activity_node module configuration functionality.
+ * Web tests for the c4m_activity_comment module configuration functionality.
  */
 
 /**
  * Tests about the node activity logging.
  */
-class C4mActivityNodeTestLogging extends DrupalWebTestCase {
+class C4mActivityCommentTestLogging extends DrupalWebTestCase {
   /**
    * Node type name to use in the tests.
    *
@@ -39,7 +39,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     return array(
       'name' => 'c4m - Activity Node Action logging',
       'description' => 'Test the activity logging for node types.',
-      'group' => 'capacity4more:activity:node',
+      'group' => 'capacity4more:activity:comment',
     );
   }
 
@@ -47,7 +47,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
    * Setup the test environment.
    */
   public function setUp() {
-    $modules = array('message', 'c4m_activity_node');
+    $modules = array('message', 'c4m_activity_node', 'c4m_activity_comment');
     parent::setUp($modules);
 
     // Create a new node type.
@@ -67,8 +67,8 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     );
     node_type_save($info);
 
-    // Enable activity logging.
-    $name = c4m_activity_node_variable_name(self::TYPE);
+    // Enable comment activity logging.
+    $name = c4m_activity_comment_variable_name(self::TYPE);
     variable_set(
       $name,
       array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
@@ -78,6 +78,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $permissions = array(
       'administer nodes',
       'bypass node access',
+      'administer comments',
     );
     $this->admin = $this->drupalCreateUser($permissions);
     $this->editor = $this->drupalCreateUser($permissions);
@@ -86,41 +87,42 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   }
 
   /**
-   * Test the logging functionality for node types.
+   * Test the logging functionality for comments.
    */
   public function testLogging() {
-    $this->drupalCreateNode();
-    $this->assertEqual(0, $this->countMessages());
-
     // Create a node.
     $node = $this->drupalCreateNode(array(
         'type' => self::TYPE,
         'uid'  => $this->admin->uid,
       ));
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a comment.
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'node/' . $node->nid,
+      $edit,
+      t('Save')
+    );
     $this->assertEqual(1, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('insert'));
+
+    // An update by same user within 6 hours => no update.
+    $comment = current(comment_get_recent(1));
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'comment/' . $comment->cid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(1, $this->countMessages());
     $this->assertEqual(0, $this->countMessages('update'));
-    $this->assertEqual(0, $this->countMessages('delete'));
-
-
-    // Update a node.
-    $edit = array('title' => $this->randomName(), 'revision' => 1);
-    $this->drupalPost(
-      'node/' . $node->nid . '/edit',
-      $edit,
-      t('Save')
-    );
-    $this->assertEqual(2, $this->countMessages());
-    $this->assertEqual(1, $this->countMessages('update'));
-
-    // Another update by same user within 6 hours => no update.
-    $edit = array('title' => $this->randomName(), 'revision' => 1);
-    $this->drupalPost(
-      'node/' . $node->nid . '/edit',
-      $edit,
-      t('Save')
-    );
-    $this->assertEqual(2, $this->countMessages());
 
     // Update after more then 6 hours by the same user.
     $timestamp = strtotime(date('r', time()) . '-24 hours');
@@ -128,53 +130,45 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $query->fields(array('timestamp' => $timestamp))
           ->execute();
 
-    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
     $this->drupalPost(
-      'node/' . $node->nid . '/edit',
+      'comment/' . $comment->cid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('update'));
+
+    // Update by another user.
+    $this->drupalLogin($this->editor);
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'comment/' . $comment->cid . '/edit',
       $edit,
       t('Save')
     );
     $this->assertEqual(3, $this->countMessages());
     $this->assertEqual(2, $this->countMessages('update'));
 
-    // Update by another user.
-    $this->drupalLogin($this->editor);
-    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    // Update by the original user.
+    $this->drupalLogin($this->admin);
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
     $this->drupalPost(
-      'node/' . $node->nid . '/edit',
+      'comment/' . $comment->cid . '/edit',
       $edit,
       t('Save')
     );
     $this->assertEqual(4, $this->countMessages());
     $this->assertEqual(3, $this->countMessages('update'));
-
-    // Update by the original user.
-    $this->drupalLogin($this->admin);
-    $edit = array('title' => $this->randomName(), 'revision' => 1);
-    $this->drupalPost(
-      'node/' . $node->nid . '/edit',
-      $edit,
-      t('Save')
-    );
-    $this->assertEqual(5, $this->countMessages());
-    $this->assertEqual(4, $this->countMessages('update'));
-
-
-    // Delete a node, this will also delete all messages related to it.
-    node_delete($node->nid);
-    $this->assertEqual(0, $this->countMessages());
-
-
-    // Avoid automatic deletion of the messages if the node is deleted.
-    variable_set('message_delete_on_entity_delete', array());
-    $node = $this->drupalCreateNode(array(
-        'type' => self::TYPE,
-        'uid'  => $this->admin->uid,
-      ));
-    $this->assertEqual(1, $this->countMessages());
-    node_delete($node->nid);
-    $this->assertEqual(2, $this->countMessages());
-    $this->assertEqual(1, $this->countMessages('delete'));
   }
 
   /**
@@ -193,7 +187,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
       ->entityCondition('entity_type', 'message');
 
     if ($action) {
-      $query->propertyCondition('type', 'c4m_activity_node_' . $action);
+      $query->propertyCondition('type', 'c4m_activity_comment_' . $action);
     }
 
     $count = (int)$query->execute();
