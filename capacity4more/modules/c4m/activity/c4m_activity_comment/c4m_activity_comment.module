@@ -95,7 +95,8 @@ function c4m_activity_comment_node_type_delete($info) {
  * requires messages.
  *
  * @param string $type
- *   The type type we want to log a message for.
+ *   The content type we want to log a message for.
+ *   This supports also content types prefixed with the "comment_node_" prefix.
  * @param string $action
  *   The action performed on the type. The supported actions are:
  *   - insert
@@ -106,6 +107,9 @@ function c4m_activity_comment_node_type_delete($info) {
  *   Needs an message yes/no.
  */
 function c4m_activity_comment_needs_message($type, $action) {
+  // Cleanup types received from a comment.
+  $type = preg_replace('/^comment_node_/', '', $type);
+
   $config = variable_get(c4m_activity_comment_variable_name($type), FALSE);
   if (!$config) {
     return FALSE;

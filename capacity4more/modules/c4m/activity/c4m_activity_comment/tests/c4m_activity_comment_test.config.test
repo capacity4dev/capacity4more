@@ -98,6 +98,17 @@ class C4mActivityCommentTestConfig extends DrupalWebTestCase {
     $this->assertTrue(c4m_activity_comment_needs_message(self::TYPE, 'update'));
     $this->assertFalse(c4m_activity_comment_needs_message(self::TYPE, 'delete'));
 
+    // Check if the content type comes from a comment object.
+    $this->assertTrue(
+      c4m_activity_comment_needs_message('comment_node_' . self::TYPE, 'insert')
+    );
+    $this->assertTrue(
+      c4m_activity_comment_needs_message('comment_node_' . self::TYPE, 'update')
+    );
+    $this->assertFalse(
+      c4m_activity_comment_needs_message('comment_node_' . self::TYPE, 'delete')
+    );
+
     // Check messages when deleting nodes in combinations with the message
     // module settings.
     variable_set(
