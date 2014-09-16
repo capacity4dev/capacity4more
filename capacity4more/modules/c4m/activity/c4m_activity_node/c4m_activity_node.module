@@ -30,13 +30,15 @@ function c4m_activity_node_form_node_type_form_alter(
     );
   }
 
-  $form['c4m_activity'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Activity'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-    '#group' => 'additional_settings',
-  );
+  if (empty($form['c4m_activity'])) {
+    $form['c4m_activity'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Activity'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#group' => 'additional_settings',
+    );
+  }
   $form['c4m_activity']['c4m_activity_node'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Log node activity when'),

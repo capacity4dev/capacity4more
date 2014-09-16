@@ -1,0 +1,142 @@
+<?php
+/**
+ * @file
+ * Code to support logging comment activities using the messaging module.
+ */
+
+include_once 'c4m_activity_comment.features.inc';
+
+/******************************************************************************
+ * Configuration
+ ******************************************************************************/
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add messaging settings configuration to the node settings form.
+ *
+ * @see c4m_activity_comment_node_type_form_save()
+ */
+function c4m_activity_comment_form_node_type_form_alter(
+  &$form, &$form_state, $form_id
+) {
+
+  $info = $form['#node_type'];
+  $default_config = array();
+  if (!empty($info->type)) {
+    $default_config = variable_get(
+      c4m_activity_comment_variable_name($info->type),
+      array()
+    );
+  }
+
+  if (empty($form['c4m_activity'])) {
+    $form['c4m_activity'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Activity'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#group' => 'additional_settings',
+    );
+  }
+  $form['c4m_activity']['c4m_activity_comment'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Log comment activity when'),
+    '#description' => t('Select what comment activities should be saved in the activity log.'),
+    '#options' => array(
+      'insert' => t('A comment is created'),
+      'update' => t('A comment is updated'),
+      'delete' => t('A comment is deleted'),
+    ),
+    '#default_value' => $default_config,
+    '#weight' => 1,
+  );
+
+  $form['#submit'][] = 'c4m_activity_comment_node_type_form_save';
+}
+
+/**
+ * Saves the type type specific message settings.
+ *
+ * @see c4m_activity_comment_form_node_type_form_alter
+ */
+function c4m_activity_comment_node_type_form_save($form, $form_state) {
+  $values = $form_state['values'];
+
+  // Save the configuration.
+  variable_set(
+    c4m_activity_comment_variable_name($values['type']),
+    $values['c4m_activity_comment']
+  );
+
+  // Delete the old variable if the machine name has changed.
+  if ($values['type'] !== $values['old_type']) {
+    variable_del(
+      c4m_activity_comment_variable_name($values['old_type'])
+    );
+  }
+}
+
+/**
+ * Implements hook_node_type_delete().
+ *
+ * Delete the activity settings if the type type is deleted.
+ */
+function c4m_activity_comment_node_type_delete($info) {
+  variable_del(
+    c4m_activity_comment_variable_name($info->type)
+  );
+}
+
+/**
+ * Helper to determine if the type action needs a message or not.
+ *
+ * The config from the variables table is used to check if the given type type
+ * requires messages.
+ *
+ * @param string $type
+ *   The type type we want to log a message for.
+ * @param string $action
+ *   The action performed on the type. The supported actions are:
+ *   - insert
+ *   - update
+ *   - delete
+ *
+ * @return bool
+ *   Needs an message yes/no.
+ */
+function c4m_activity_comment_needs_message($type, $action) {
+  $config = variable_get(c4m_activity_comment_variable_name($type), FALSE);
+  if (!$config) {
+    return FALSE;
+  }
+
+  if (empty($config[$action]) || $config[$action] !== $action) {
+    return FALSE;
+  }
+
+  // Check if messages are deleted when the node is deleted.
+  // If so => no message needed.
+  if ($action === 'delete'
+    && in_array('comment', variable_get(
+        'message_delete_on_entity_delete', array('node', 'user', 'taxonomy_term', 'comment')
+      ))
+  ) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Helper to get the variable name to access the activity config per content type.
+ *
+ * @param string $type
+ *   The content type.
+ *
+ * @return string
+ *   The variable name.
+ */
+function c4m_activity_comment_variable_name($type) {
+  return 'c4m_activity_comment_' . $type;
+}
