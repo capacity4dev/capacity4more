@@ -76,34 +76,23 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'leave'));
-    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'promote'));
-    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'demote'));
-    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'transfer'));
 
     // Check if the form fields are not present on a non group node type.
     $this->drupalGet('admin/structure/types/manage/page');
     $this->assertNoFieldByName('c4m_activity_og[request]');
     $this->assertNoFieldByName('c4m_activity_og[join]');
     $this->assertNoFieldByName('c4m_activity_og[leave]');
-    $this->assertNoFieldByName('c4m_activity_og[promote]');
-    $this->assertNoFieldByName('c4m_activity_og[demote]');
-    $this->assertNoFieldByName('c4m_activity_og[transfer]');
 
     // Check if the form fields are present on a non group node type.
     $this->drupalGet('admin/structure/types/manage/' . self::TYPE);
     $this->assertFieldByName('c4m_activity_og[request]');
     $this->assertFieldByName('c4m_activity_og[join]');
     $this->assertFieldByName('c4m_activity_og[leave]');
-    $this->assertFieldByName('c4m_activity_og[promote]');
-    $this->assertFieldByName('c4m_activity_og[demote]');
-    $this->assertFieldByName('c4m_activity_og[transfer]');
 
     // Edit the activity settings.
     $edit = array(
       'c4m_activity_og[join]' => 'join',
       'c4m_activity_og[leave]' => 'leave',
-      'c4m_activity_og[promote]' => 'promote',
-      'c4m_activity_og[demote]' => 'demote',
     );
     $this->drupalPost(
       'admin/structure/types/manage/' . self::TYPE,
@@ -119,17 +108,11 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
         'request' => 0,
         'join' => 'join',
         'leave' => 'leave',
-        'promote' => 'promote',
-        'demote' => 'demote',
-        'transfer' => 0
       )
     );
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'leave'));
-    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'promote'));
-    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'demote'));
-    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'transfer'));
 
 
     // Rename the node type.
@@ -152,9 +135,6 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
         'request' => 0,
         'join' => 'join',
         'leave' => 'leave',
-        'promote' => 'promote',
-        'demote' => 'demote',
-        'transfer' => 0
       )
     );
 

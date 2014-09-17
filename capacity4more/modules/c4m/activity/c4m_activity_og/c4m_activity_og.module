@@ -49,9 +49,6 @@ function c4m_activity_og_form_node_type_form_alter(
       'request' => t('A user requested group membership.'),
       'join' => t('A user joined the group.'),
       'leave' => t('A user left the group.'),
-      'promote' => t('A user has been granted extra roles.'),
-      'demote' => t('A user has been revoked extra roles.'),
-      'transfer' => t('The group ownership has been transferred to another user.'),
     ),
     '#default_value' => $default_config,
     '#weight' => 3,
@@ -106,9 +103,6 @@ function c4m_activity_og_node_type_delete($info) {
  *   - request
  *   - join
  *   - leave
- *   - promote
- *   - demote
- *   - transfer
  *
  * @return bool
  *   Needs an message yes/no.
