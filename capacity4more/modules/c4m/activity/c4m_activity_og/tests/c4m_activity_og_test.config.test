@@ -1,0 +1,173 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_og module configuration functionality.
+ */
+
+/**
+ * Tests about the og activity configuration.
+ */
+class C4mActivityOgTestConfig extends DrupalWebTestCase {
+  /**
+   * Node type name to use in the tests.
+   *
+   * @var string
+   */
+  const TYPE = 'c4m_activity_og_test';
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Organic Groups Configuration',
+      'description' => 'Test the activity configuration for Organic Groups.',
+      'group' => 'capacity4more:activity:og',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'og', 'og_ui', 'c4m_activity_node', 'c4m_activity_og');
+    parent::setUp($modules);
+
+    // create a new user with some permissions you need; then log in.
+    $admin = $this->drupalCreateUser(array(
+        'administer content types',
+        'administer nodes'
+      ));
+    $this->drupalLogin($admin);
+
+    // Create a new group node type.
+    $info = (object) array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_og_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
+    );
+    node_type_save($info);
+    og_create_field(OG_GROUP_FIELD, 'node', self::TYPE);
+
+    $this->assertTrue(og_is_group_type('node', self::TYPE));
+  }
+
+  /**
+   * Test the functionality to set the activity configuration for node types.
+   */
+  public function testConfig() {
+    // Test the variable name creator.
+    $name = c4m_activity_og_variable_name(self::TYPE);
+    $this->assertEqual('c4m_activity_og_' . self::TYPE, $name);
+
+    // Test the default variable value.
+    $this->assertFalse(variable_get($name, FALSE));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'join'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'leave'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'promote'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'demote'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'transfer'));
+
+    // Check if the form fields are not present on a non group node type.
+    $this->drupalGet('admin/structure/types/manage/page');
+    $this->assertNoFieldByName('c4m_activity_og[request]');
+    $this->assertNoFieldByName('c4m_activity_og[join]');
+    $this->assertNoFieldByName('c4m_activity_og[leave]');
+    $this->assertNoFieldByName('c4m_activity_og[promote]');
+    $this->assertNoFieldByName('c4m_activity_og[demote]');
+    $this->assertNoFieldByName('c4m_activity_og[transfer]');
+
+    // Check if the form fields are present on a non group node type.
+    $this->drupalGet('admin/structure/types/manage/' . self::TYPE);
+    $this->assertFieldByName('c4m_activity_og[request]');
+    $this->assertFieldByName('c4m_activity_og[join]');
+    $this->assertFieldByName('c4m_activity_og[leave]');
+    $this->assertFieldByName('c4m_activity_og[promote]');
+    $this->assertFieldByName('c4m_activity_og[demote]');
+    $this->assertFieldByName('c4m_activity_og[transfer]');
+
+    // Edit the activity settings.
+    $edit = array(
+      'c4m_activity_og[join]' => 'join',
+      'c4m_activity_og[leave]' => 'leave',
+      'c4m_activity_og[promote]' => 'promote',
+      'c4m_activity_og[demote]' => 'demote',
+    );
+    $this->drupalPost(
+      'admin/structure/types/manage/' . self::TYPE,
+      $edit,
+      t('Save content type')
+    );
+
+    // Check if the settings are saved in the variable.
+    $config = variable_get($name, array());
+    $this->assertEqual(
+      $config,
+      array(
+        'request' => 0,
+        'join' => 'join',
+        'leave' => 'leave',
+        'promote' => 'promote',
+        'demote' => 'demote',
+        'transfer' => 0
+      )
+    );
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
+    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'join'));
+    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'leave'));
+    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'promote'));
+    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'demote'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'transfer'));
+
+
+    // Rename the node type.
+    $new_type = self::TYPE . '_new';
+    $new_name = $name . '_new';
+    $edit = array(
+      'type' => $new_type,
+    );
+    $this->drupalPost(
+      'admin/structure/types/manage/' . self::TYPE,
+      $edit,
+      t('Save content type')
+    );
+
+    // Check if the old variable is deleted and a new one is created.
+    $this->assertFalse(variable_get($name, FALSE));
+    $this->assertEqual(
+      variable_get($new_name, array()),
+      array(
+        'request' => 0,
+        'join' => 'join',
+        'leave' => 'leave',
+        'promote' => 'promote',
+        'demote' => 'demote',
+        'transfer' => 0
+      )
+    );
+
+    // Delete the node type.
+    $edit = array();
+    $this->drupalPost(
+      'admin/structure/types/manage/' . $new_type . '/delete',
+      $edit,
+      t('Delete')
+    );
+
+    // Check if the variable is deleted.
+    $this->assertFalse(variable_get($new_name, FALSE));
+  }
+
+}
