@@ -4,6 +4,8 @@
  * Code to support logging Organic groups related activities using the messaging module.
  */
 
+include_once 'c4m_activity_og.features.inc';
+
 /******************************************************************************
  * Configuration
  ******************************************************************************/
