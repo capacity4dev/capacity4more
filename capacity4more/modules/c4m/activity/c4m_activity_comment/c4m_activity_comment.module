@@ -268,6 +268,20 @@ function c4m_activity_comment_comment_update($comment) {
   $message->save();
 }
 
+/**
+ * Implements hook_comment_delete().
+ *
+ * Adds a node deleted message to the message table.
+ */
+function c4m_activity_comment_comment_delete($comment) {
+  if (!c4m_activity_comment_needs_message($comment->node_type, 'delete')) {
+    return;
+  }
+
+  $message = c4m_activity_comment_create_message($comment, 'delete');
+  $message->save();
+}
+
 
 /**
  * Get the last stored message for a given comment.

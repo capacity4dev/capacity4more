@@ -169,6 +169,34 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
     );
     $this->assertEqual(4, $this->countMessages());
     $this->assertEqual(3, $this->countMessages('update'));
+
+
+    // Delete a comment, this will also delete all messages related to it.
+    comment_delete($comment->cid);
+    $this->assertEqual(0, $this->countMessages());
+
+
+    // Avoid automatic deletion of the messages if the node is deleted.
+    variable_set('message_delete_on_entity_delete', array());
+
+    // Create & delete
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'node/' . $node->nid,
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('insert'));
+
+    // Delete the comment with a log message.
+    $comment = current(comment_get_recent(1));
+    comment_delete($comment->cid);
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('delete'));
   }
 
   /**
