@@ -9,6 +9,28 @@
  */
 function c4m_activity_og_default_message_type() {
   $items = array();
+  $items['c4m_activity_og_approve'] = entity_import('message_type', '{
+    "name" : "c4m_activity_og_approve",
+    "description" : "Organic Groups : Approved membership",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Approved membership request for [message:c4m-activity-group:content-type:name]",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EApproved membership request for [message:c4m-activity-group:content-type:name]\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   $items['c4m_activity_og_request'] = entity_import('message_type', '{
     "name" : "c4m_activity_og_request",
     "description" : "Organic Groups : Requested membership",

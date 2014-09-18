@@ -1,0 +1,90 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_og module configuration functionality.
+ */
+
+/**
+ * Tests about the og activity configuration.
+ */
+class C4mActivityOgTestLogging extends DrupalWebTestCase {
+  /**
+   * Group node type name to use in the tests.
+   *
+   * @var string
+   */
+  const TYPE = 'c4m_activity_og_test';
+
+  /**
+   * Users used in the test.
+   *
+   * @var stdClass
+   */
+  protected $user1;
+  protected $user2;
+
+  /**
+   * The group we use in the tests.
+   *
+   * @var stdClass
+   */
+  protected $group;
+
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Organic Groups Logging',
+      'description' => 'Test the activity logging for Organic Groups.',
+      'group' => 'capacity4more:activity:og',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'og', 'c4m_activity_og');
+    parent::setUp($modules);
+
+    // Make Article type a group content type.
+    og_create_field(OG_GROUP_FIELD, 'node', 'article');
+
+    // Create some test users.
+    $this->user1 = $this->drupalCreateUser();
+    $this->user2 = $this->drupalCreateUser();
+    $this->drupalLogin($this->user1);
+
+    // Create a group.
+    $settings = array();
+    $settings['type'] = 'article';
+    $settings['uid'] = $this->user1->uid;
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $this->group = $this->drupalCreateNode($settings);
+
+    // Enable group activity logging.
+    variable_set(
+      'c4m_activity_og_article',
+      array(
+        'request' => 'request',
+        'join' => 'join',
+        'leave' => 'leave',
+      )
+    );
+
+  }
+
+  /**
+   * Test the functionality to set the activity configuration for node types.
+   */
+  public function testConfig() {
+    return;
+
+
+  }
+
+}

@@ -51,9 +51,10 @@ function c4m_activity_og_form_node_type_form_alter(
       'request' => t('A user requested group membership.'),
       'join' => t('A user joined the group.'),
       'leave' => t('A user left the group.'),
-      'remove' => t('A user was removed from the group.'),
-      'block' => t('A user group membership was blocked .'),
-      'unblock' => t('A user group membership was unblocked.'),
+      'approve' => t('A group administrator approves a membership request.'),
+      'remove' => t('A group administrator removes a group membership.'),
+      'block' => t('A group administrator blocks a group membership.'),
+      'unblock' => t('A group administrator unblocked a group membership.'),
     ),
     '#default_value' => $default_config,
     '#weight' => 3,
@@ -196,6 +197,8 @@ function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
  * Log a message when the membership type changes.
  */
 function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
+  global $user;
+
   if ($og_membership->entity_type != 'user') {
     return;
   }
@@ -210,34 +213,40 @@ function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
     return;
   }
 
-  // Define the action.
-  $action = NULL;
+  // Define the action(s).
+  $actions = array();
   if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_PENDING) {
-    $action = 'join';
+    if ((int)$user->uid !== (int)$og_membership->etid) {
+      $actions[] = 'approve';
+    }
+    $actions[] = 'join';
   }
 
   if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_BLOCKED) {
-    $action = 'unblock';
+    $actions[] = 'unblock';
   }
 
   if ($new_state === OG_STATE_BLOCKED) {
-    $action = 'block';
+    $actions[] = 'block';
   }
 
-  if (!$action) {
+  if (!$actions) {
     return;
   }
 
-  $group_node = node_load($og_membership->gid);
-  if (!c4m_activity_og_needs_message($group_node->type, $action)) {
-    return;
-  }
+  // Process the action(s).
+  foreach ($actions as $action) {
+    $group_node = node_load($og_membership->gid);
+    if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+      continue;
+    }
 
-  $message_wrapper = c4m_activity_og_create_membership_message(
-    $og_membership,
-    $action
-  );
-  $message_wrapper->save();
+    $message_wrapper = c4m_activity_og_create_membership_message(
+      $og_membership,
+      $action
+    );
+    $message_wrapper->save();
+  }
 }
 
 /**
