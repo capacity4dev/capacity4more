@@ -144,3 +144,167 @@ function c4m_activity_og_needs_message($type, $action) {
 function c4m_activity_og_variable_name($type) {
   return 'c4m_activity_og_' . $type;
 }
+
+
+/******************************************************************************
+ * Logging
+ ******************************************************************************/
+
+/**
+ * Implements hook_og_membership_insert().
+ *
+ * Log a message when a user joins a group.
+ */
+function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+
+  if (!$og_membership->is_new) {
+    return;
+  }
+
+  // Define the action.
+  switch($og_membership->state) {
+    case OG_STATE_PENDING:
+      $action = 'request';
+      break;
+    case OG_STATE_ACTIVE:
+      $action = 'join';
+      break;
+
+    default:
+      return;
+      break;
+  }
+
+  $group_node = node_load($og_membership->gid);
+  if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+    return;
+  }
+
+  $message_wrapper = c4m_activity_og_create_membership_message(
+    $og_membership,
+    $action
+  );
+  $message_wrapper->save();
+}
+
+/**
+ * Implements hook_og_membership_update().
+ *
+ * Log a message when the membership type changes.
+ */
+function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+
+  // No message needed if the state of the membership did not change.
+  if (!isset($og_membership->original)) {
+    return;
+  }
+  $new_state = (int)$og_membership->state;
+  $old_state = (int)$og_membership->original->state;
+  if ($new_state === $old_state) {
+    return;
+  }
+
+  // Define the action.
+  $action = NULL;
+  if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_PENDING) {
+    $action = 'join';
+  }
+
+  if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_BLOCKED) {
+    $action = 'unblock';
+  }
+
+  if ($new_state === OG_STATE_BLOCKED) {
+    $action = 'block';
+  }
+
+  if (!$action) {
+    return;
+  }
+
+  $group_node = node_load($og_membership->gid);
+  if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+    return;
+  }
+
+  $message_wrapper = c4m_activity_og_create_membership_message(
+    $og_membership,
+    $action
+  );
+  $message_wrapper->save();
+}
+
+/**
+ * Implements hook_og_membership_delete().
+ *
+ * Log a message when the membership is removed.
+ */
+function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+
+  $action = 'leave';
+
+  // If the membership was not deleted by the user itself
+  // => the user was removed from the group!
+  global $user;
+  if ((int)$user->uid !== (int)$og_membership->etid) {
+    $action = 'remove';
+  }
+  // Do not log a message if the user revokes his membership request.
+  elseif ((int)$og_membership->state === OG_STATE_PENDING) {
+    return;
+  }
+
+  $group_node = node_load($og_membership->gid);
+  if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+    return;
+  }
+
+  $message_wrapper = c4m_activity_og_create_membership_message(
+    $og_membership,
+    $action
+  );
+  $message_wrapper->save();
+}
+
+/**
+ * Create a message out of the membership based on the given action.
+ *
+ * @param OgMembership $og_membership
+ *   The membership that needs an message.
+ * @param string $action
+ *   The action performed on the membership.
+ *
+ * @return EntityMetadataWrapper
+ */
+function c4m_activity_og_create_membership_message(
+  OgMembership $og_membership,
+  $action
+) {
+  $group_nid = $og_membership->gid;
+  $account = user_load($og_membership->etid);
+
+  $arguments = array(
+    'group_nid' => $group_nid,
+    'user_uid' => $account->uid,
+  );
+
+  $message = message_create(
+    'c4m_activity_og_' . $action,
+    array('arguments' => $arguments)
+  );
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->c4m_activity_group->set($group_nid);
+  $wrapper->c4m_activity_user->set($account);
+
+  return $wrapper;
+}
