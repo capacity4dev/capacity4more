@@ -76,18 +76,27 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'leave'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'remove'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'block'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'unblock'));
 
     // Check if the form fields are not present on a non group node type.
     $this->drupalGet('admin/structure/types/manage/page');
     $this->assertNoFieldByName('c4m_activity_og[request]');
     $this->assertNoFieldByName('c4m_activity_og[join]');
     $this->assertNoFieldByName('c4m_activity_og[leave]');
+    $this->assertNoFieldByName('c4m_activity_og[remove]');
+    $this->assertNoFieldByName('c4m_activity_og[block]');
+    $this->assertNoFieldByName('c4m_activity_og[unblock]');
 
     // Check if the form fields are present on a non group node type.
     $this->drupalGet('admin/structure/types/manage/' . self::TYPE);
     $this->assertFieldByName('c4m_activity_og[request]');
     $this->assertFieldByName('c4m_activity_og[join]');
     $this->assertFieldByName('c4m_activity_og[leave]');
+    $this->assertFieldByName('c4m_activity_og[remove]');
+    $this->assertFieldByName('c4m_activity_og[block]');
+    $this->assertFieldByName('c4m_activity_og[unblock]');
 
     // Edit the activity settings.
     $edit = array(
@@ -108,11 +117,17 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
         'request' => 0,
         'join' => 'join',
         'leave' => 'leave',
+        'remove' => 0,
+        'block' => 0,
+        'unblock' => 0,
       )
     );
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'leave'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'remove'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'block'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'unblock'));
 
 
     // Rename the node type.
@@ -135,6 +150,9 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
         'request' => 0,
         'join' => 'join',
         'leave' => 'leave',
+        'remove' => 0,
+        'block' => 0,
+        'unblock' => 0,
       )
     );
 

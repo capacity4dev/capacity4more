@@ -51,6 +51,9 @@ function c4m_activity_og_form_node_type_form_alter(
       'request' => t('A user requested group membership.'),
       'join' => t('A user joined the group.'),
       'leave' => t('A user left the group.'),
+      'remove' => t('A user was removed from the group.'),
+      'block' => t('A user group membership was blocked .'),
+      'unblock' => t('A user group membership was unblocked.'),
     ),
     '#default_value' => $default_config,
     '#weight' => 3,
@@ -105,6 +108,9 @@ function c4m_activity_og_node_type_delete($info) {
  *   - request
  *   - join
  *   - leave
+ *   - remove
+ *   - block
+ *   - unblock
  *
  * @return bool
  *   Needs an message yes/no.

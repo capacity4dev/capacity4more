@@ -75,6 +75,72 @@ function c4m_activity_og_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_activity_og_remove'] = entity_import('message_type', '{
+    "name" : "c4m_activity_og_remove",
+    "description" : "Organic Groups : Removed from group",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Removed from group [message:c4m-activity-group:content-type:name]",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003ERemoved from group [message:c4m-activity-group:content-type:name]\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_activity_og_block'] = entity_import('message_type', '{
+    "name" : "c4m_activity_og_block",
+    "description" : "Organic Groups : Blocked from group",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Blocked from group [message:c4m-activity-group:content-type:name]",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EBlocked from group [message:c4m-activity-group:content-type:name]\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_activity_og_unblock'] = entity_import('message_type', '{
+    "name" : "c4m_activity_og_unblock",
+    "description" : "Organic Groups : Unblocked from group",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Unblocked from group [message:c4m-activity-group:content-type:name]",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EUnblocked from group [message:c4m-activity-group:content-type:name]\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
 
 
   return $items;
