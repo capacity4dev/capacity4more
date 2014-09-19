@@ -118,7 +118,7 @@ function c4m_activity_og_node_type_delete($info) {
  */
 function c4m_activity_og_needs_message($type, $action) {
   if (!og_is_group_type('node', $type)) {
-    return;
+    return FALSE;
   }
 
   $config = variable_get(c4m_activity_og_variable_name($type), FALSE);
@@ -166,17 +166,19 @@ function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
   }
 
   // Define the action.
-  switch($og_membership->state) {
+  $action = NULL;
+  switch ($og_membership->state) {
     case OG_STATE_PENDING:
       $action = 'request';
       break;
+
     case OG_STATE_ACTIVE:
       $action = 'join';
       break;
+  }
 
-    default:
-      return;
-      break;
+  if (!$action) {
+    return;
   }
 
   $group_node = node_load($og_membership->gid);
@@ -207,8 +209,8 @@ function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
   if (!isset($og_membership->original)) {
     return;
   }
-  $new_state = (int)$og_membership->state;
-  $old_state = (int)$og_membership->original->state;
+  $new_state = (int) $og_membership->state;
+  $old_state = (int) $og_membership->original->state;
   if ($new_state === $old_state) {
     return;
   }
@@ -216,7 +218,7 @@ function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
   // Define the action(s).
   $actions = array();
   if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_PENDING) {
-    if ((int)$user->uid !== (int)$og_membership->etid) {
+    if ((int) $user->uid !== (int) $og_membership->etid) {
       $actions[] = 'approve';
     }
     $actions[] = 'join';
@@ -264,11 +266,11 @@ function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
   // If the membership was not deleted by the user itself
   // => the user was removed from the group!
   global $user;
-  if ((int)$user->uid !== (int)$og_membership->etid) {
+  if ((int) $user->uid !== (int) $og_membership->etid) {
     $action = 'remove';
   }
   // Do not log a message if the user revokes his membership request.
-  elseif ((int)$og_membership->state === OG_STATE_PENDING) {
+  elseif ((int) $og_membership->state === OG_STATE_PENDING) {
     return;
   }
 

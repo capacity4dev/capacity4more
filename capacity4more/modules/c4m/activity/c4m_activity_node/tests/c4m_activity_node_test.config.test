@@ -106,7 +106,6 @@ class C4mActivityNodeTestConfig extends DrupalWebTestCase {
     variable_set('message_delete_on_entity_delete', array());
     $this->assertTrue(c4m_activity_node_needs_message(self::TYPE, 'delete'));
 
-
     // Rename the node type.
     $new_type = self::TYPE . '_new';
     $new_name = $name . '_new';

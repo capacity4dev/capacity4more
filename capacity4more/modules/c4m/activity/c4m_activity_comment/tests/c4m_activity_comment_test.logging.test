@@ -170,11 +170,9 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
     $this->assertEqual(4, $this->countMessages());
     $this->assertEqual(3, $this->countMessages('update'));
 
-
     // Delete a comment, this will also delete all messages related to it.
     comment_delete($comment->cid);
     $this->assertEqual(0, $this->countMessages());
-
 
     // Avoid automatic deletion of the messages if the node is deleted.
     variable_set('message_delete_on_entity_delete', array());
@@ -218,7 +216,7 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
       $query->propertyCondition('type', 'c4m_activity_comment_' . $action);
     }
 
-    $count = (int)$query->execute();
+    $count = (int) $query->execute();
     return $count;
   }
 

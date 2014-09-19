@@ -169,7 +169,7 @@ function c4m_activity_node_update_needs_message($node) {
     return TRUE;
   }
   $new_revision = entity_revision_load('node', $node->vid);
-  if ((int)$new_revision->revision_uid !== (int)$message->user->uid->value()) {
+  if ((int) $new_revision->revision_uid !== (int) $message->user->uid->value()) {
     return TRUE;
   }
 
@@ -262,7 +262,7 @@ function c4m_activity_node_create_message($node, $action) {
   $group_nid = _c4m_activity_node_get_node_group($node);
 
   $arguments = array(
-    '%node_nid' => (int)$node->nid,
+    '%node_nid' => (int) $node->nid,
     '%node_title' => $node->title,
     '!node_uid' => $node->uid,
     '!group_nid' => $group_nid,
@@ -300,12 +300,12 @@ function c4m_activity_node_get_last_message($node, $time_ago = 0) {
     ->propertyOrderBy('timestamp', 'DESC');
 
   if ($time_ago > 0) {
-    $query->propertyCondition('timestamp', (int)$time_ago, '>=');
+    $query->propertyCondition('timestamp', (int) $time_ago, '>=');
   }
 
   $result = $query->execute();
   if (empty($result['message'])) {
-    return;
+    return NULL;
   }
 
   $message = entity_metadata_wrapper('message', key($result['message']));
@@ -324,22 +324,22 @@ function c4m_activity_node_get_last_message($node, $time_ago = 0) {
  */
 function _c4m_activity_node_get_node_group($node) {
   if (!module_exists('og')) {
-    return;
+    return NULL;
   }
 
   if (!og_is_group_content_type('node', $node->type)) {
-    return;
+    return NULL;
   }
 
   $groups = og_get_entity_groups('node', $node);
   if (empty($groups['node'])) {
-    return;
+    return NULL;
   }
 
   // TODO: What if a node is added to another group then the original group?
   $group = reset($groups['node']);
   if (!$group) {
-    return;
+    return NULL;
   }
 
   return $group;

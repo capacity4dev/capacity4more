@@ -8,4 +8,4 @@ hidden = TRUE
 
 ; Test files
 files[] = c4m_activity_og_test.config.test
-;files[] = c4m_activity_og_test.logging.test
+files[] = c4m_activity_og_test.logging.test

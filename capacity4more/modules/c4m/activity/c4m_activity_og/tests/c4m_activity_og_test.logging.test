@@ -82,9 +82,6 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
    * Test the functionality to set the activity configuration for node types.
    */
   public function testConfig() {
-    return;
-
 
   }
-
 }

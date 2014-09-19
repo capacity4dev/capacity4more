@@ -76,6 +76,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'leave'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'approve'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'remove'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'block'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'unblock'));
@@ -85,6 +86,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $this->assertNoFieldByName('c4m_activity_og[request]');
     $this->assertNoFieldByName('c4m_activity_og[join]');
     $this->assertNoFieldByName('c4m_activity_og[leave]');
+    $this->assertNoFieldByName('c4m_activity_og[approve]');
     $this->assertNoFieldByName('c4m_activity_og[remove]');
     $this->assertNoFieldByName('c4m_activity_og[block]');
     $this->assertNoFieldByName('c4m_activity_og[unblock]');
@@ -94,6 +96,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $this->assertFieldByName('c4m_activity_og[request]');
     $this->assertFieldByName('c4m_activity_og[join]');
     $this->assertFieldByName('c4m_activity_og[leave]');
+    $this->assertFieldByName('c4m_activity_og[approve]');
     $this->assertFieldByName('c4m_activity_og[remove]');
     $this->assertFieldByName('c4m_activity_og[block]');
     $this->assertFieldByName('c4m_activity_og[unblock]');
@@ -102,6 +105,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $edit = array(
       'c4m_activity_og[join]' => 'join',
       'c4m_activity_og[leave]' => 'leave',
+      'c4m_activity_og[approve]' => 'approve',
     );
     $this->drupalPost(
       'admin/structure/types/manage/' . self::TYPE,
@@ -117,6 +121,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
         'request' => 0,
         'join' => 'join',
         'leave' => 'leave',
+        'approve' => 'approve',
         'remove' => 0,
         'block' => 0,
         'unblock' => 0,
@@ -125,10 +130,10 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'leave'));
+    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'approve'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'remove'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'block'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'unblock'));
-
 
     // Rename the node type.
     $new_type = self::TYPE . '_new';
@@ -150,6 +155,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
         'request' => 0,
         'join' => 'join',
         'leave' => 'leave',
+        'approve' => 'approve',
         'remove' => 0,
         'block' => 0,
         'unblock' => 0,

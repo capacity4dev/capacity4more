@@ -164,6 +164,5 @@ function c4m_activity_og_default_message_type() {
     "rdf_mapping" : []
   }');
 
-
   return $items;
 }
