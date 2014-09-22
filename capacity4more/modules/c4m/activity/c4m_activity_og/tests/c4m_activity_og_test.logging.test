@@ -9,26 +9,28 @@
  */
 class C4mActivityOgTestLogging extends DrupalWebTestCase {
   /**
-   * Group node type name to use in the tests.
-   *
-   * @var string
+   * The content type used for testing.
    */
-  const TYPE = 'c4m_activity_og_test';
+  const TYPE = 'c4m_activity_test';
 
   /**
-   * Users used in the test.
+   * The group content type.
    *
    * @var stdClass
    */
-  protected $user1;
-  protected $user2;
+  protected $group_content_type;
 
   /**
    * The group we use in the tests.
    *
    * @var stdClass
    */
-  protected $group;
+  protected $group_node;
+
+  /**
+   * The group administrator.
+   */
+  protected $admin;
 
 
   /**
@@ -48,40 +50,143 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
    * Setup the test environment.
    */
   public function setUp() {
-    $modules = array('message', 'og', 'c4m_activity_og');
+    $modules = array('message', 'og', 'og_ui', 'c4m_activity_node', 'c4m_activity_og');
     parent::setUp($modules);
 
-    // Make Article type a group content type.
-    og_create_field(OG_GROUP_FIELD, 'node', 'article');
+    // create a new user with some permissions you need; then log in.
+    $this->admin = $this->drupalCreateUser(array(
+        'administer content types',
+        'administer nodes'
+      ));
+    $this->drupalLogin($this->admin);
 
-    // Create some test users.
-    $this->user1 = $this->drupalCreateUser();
-    $this->user2 = $this->drupalCreateUser();
-    $this->drupalLogin($this->user1);
-
-    // Create a group.
-    $settings = array();
-    $settings['type'] = 'article';
-    $settings['uid'] = $this->user1->uid;
-    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
-    $this->group = $this->drupalCreateNode($settings);
-
-    // Enable group activity logging.
-    variable_set(
-      'c4m_activity_og_article',
-      array(
-        'request' => 'request',
-        'join' => 'join',
-        'leave' => 'leave',
-      )
+    // Create a new group node type.
+    $info = (object) array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_og_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
     );
+    node_type_save($info);
+    og_create_field(OG_GROUP_FIELD, 'node', self::TYPE);
+    og_create_field(OG_AUDIENCE_FIELD, 'node', self::TYPE);
+    $this->assertTrue(og_is_group_type('node', self::TYPE));
 
+    // Enable activity logging.
+    $name = c4m_activity_og_variable_name(self::TYPE);
+    $settings = array(
+      'request' => 'request',
+      'join' => 'join',
+      'leave' => 'leave',
+      'approve' => 'approve',
+      'remove' => 'remove',
+      'block' => 'block',
+      'unblock' => 'unblock',
+    );
+    variable_set($name, $settings);
+
+    // Create a group node and enable access.
+    $settings = array();
+    $settings['type'] = self::TYPE;
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings[OG_ACCESS_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings['uid'] = $this->admin->uid;
+    $this->group_node = $this->drupalCreateNode($settings);
+    $this->assertTrue(og_is_group('node', $this->group_node));
+
+    // One join message for the owner.
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('join'));
   }
 
   /**
    * Test the functionality to set the activity configuration for node types.
    */
-  public function testConfig() {
+  public function testLogging() {
+    $this->drupalGet('admin/structure/types/manage');
+    $this->drupalGet('admin/structure/types/manage/' . self::TYPE);
+    $this->drupalGet('node/' . $this->group_node->nid);
 
+    // Some test users.
+    $user1 = $this->drupalCreateUser();
+    $user2 = $this->drupalCreateUser();
+    $user3 = $this->drupalCreateUser();
+
+    // Let User 1 request membership.
+    $this->drupalLogin($user1);
+    $edit = array();
+    $this->drupalPost(
+      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
+      $edit,
+      t('Join')
+    );
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('request'));
+
+    // Approve the membership request of User 1
+    $og_membership = $this->getLastMembership($user1->uid);
+    $this->assertTrue(is_a($og_membership, 'OgMembership'));
+
+    $this->drupalLogin($this->admin);
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
+    $edit = array(
+      'state' => OG_STATE_ACTIVE,
+    );
+    $this->drupalPost($path, $edit, t('Update membership'));
+    $this->assertEqual(4, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('approve'));
+    $this->assertEqual(2, $this->countMessages('join'));
+
+    // User 1 leaves the group by himself.
+    $this->drupalLogin($user1);
+    $path = 'group/node/' . $this->group_node->nid . '/unsubscribe';
+    $this->drupalPost($path, array(), t('Remove'));
+    $this->assertEqual(5, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('leave'));
   }
+
+  /**
+   * Helper to get the number of messages in the message table.
+   *
+   * @param string $action
+   *   The action type we want to see the messages for.
+   *
+   * @return int
+   *   The number of items in the message table.
+   */
+  protected function countMessages($action = NULL) {
+    $query = new entityFieldQuery();
+    $query
+      ->count()
+      ->entityCondition('entity_type', 'message');
+
+    if ($action) {
+      $query->propertyCondition('type', 'c4m_activity_og_' . $action);
+    }
+
+    $count = (int) $query->execute();
+    return $count;
+  }
+
+  /**
+   * Get the last user membership record based on the given gid.
+   *
+   * @param int $uid
+   *   The user we want the membership for.
+   *
+   * @return OgMembership
+   *   The membership.
+   */
+  protected function getLastMembership($uid) {
+    return og_get_membership('node', $this->group_node->nid, 'user', $uid);
+  }
+
 }
