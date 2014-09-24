@@ -113,10 +113,6 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
    * Test the functionality to set the activity configuration for node types.
    */
   public function testLogging() {
-    $this->drupalGet('admin/structure/types/manage');
-    $this->drupalGet('admin/structure/types/manage/' . self::TYPE);
-    $this->drupalGet('node/' . $this->group_node->nid);
-
     // Some test users.
     $user1 = $this->drupalCreateUser();
     $user2 = $this->drupalCreateUser();
@@ -124,20 +120,16 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $user4 = $this->drupalCreateUser();
     $user5 = $this->drupalCreateUser();
 
-    // Let User 1 request membership.
+    // User 1 requests group membership.
     $this->drupalLogin($user1);
-    $edit = array();
-    $this->drupalPost(
-      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
-      $edit,
-      t('Join')
-    );
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
     $og_membership = $this->getLastMembership($user1->uid);
     $this->assertTrue(is_a($og_membership, 'OgMembership'));
     $this->assertEqual(2, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('request'));
 
-    // Approve the membership request of User 1
+    // User 1 membership request approved by group administrator.
     $this->drupalLogin($this->admin);
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
     $edit = array(
@@ -148,26 +140,22 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(1, $this->countMessages('approve'));
     $this->assertEqual(2, $this->countMessages('join'));
 
-    // User 1 leaves the group by himself.
+    // User 1 leaves the group.
     $this->drupalLogin($user1);
     $path = 'group/node/' . $this->group_node->nid . '/unsubscribe';
     $this->drupalPost($path, array(), t('Remove'));
     $this->assertEqual(5, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('leave'));
 
-    // User 2 requests membership.
+    // User 2 requests group membership.
     $this->drupalLogin($user2);
-    $edit = array();
-    $this->drupalPost(
-      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
-      $edit,
-      t('Join')
-    );
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
     $og_membership = $this->getLastMembership($user2->uid);
     $this->assertEqual(6, $this->countMessages());
     $this->assertEqual(2, $this->countMessages('request'));
 
-    // Approve the membership request of User 2.
+    // User 2 membership request approved by group administrator.
     $this->drupalLogin($this->admin);
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
     $edit = array(
@@ -178,26 +166,21 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(2, $this->countMessages('approve'));
     $this->assertEqual(3, $this->countMessages('join'));
 
-    // Remove the user from the group.
+    // User 2 is removed from group by group administrator.
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/delete-membership/' . $og_membership->id;
-    $edit = array();
-    $this->drupalPost($path, $edit, t('Remove'));
+    $this->drupalPost($path, array(), t('Remove'));
     $this->assertEqual(9, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('remove'));
 
-    // User 3 requests membership.
+    // User 3 requests group membership.
     $this->drupalLogin($user3);
-    $edit = array();
-    $this->drupalPost(
-      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
-      $edit,
-      t('Join')
-    );
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
     $og_membership = $this->getLastMembership($user3->uid);
     $this->assertEqual(10, $this->countMessages());
     $this->assertEqual(3, $this->countMessages('request'));
 
-    // Approve the membership request of User 3.
+    // User 3 membership request approved by group administrator.
     $this->drupalLogin($this->admin);
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
     $edit = array(
@@ -208,7 +191,7 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(3, $this->countMessages('approve'));
     $this->assertEqual(4, $this->countMessages('join'));
 
-    // Admin blocks membership of User 3.
+    // User 3 group membership blocked by the group administrator.
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
     $edit = array(
       'state' => OG_STATE_BLOCKED,
@@ -217,7 +200,7 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(13, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('block'));
 
-    // Admin unblocks the membership of User 3.
+    // User 3 group membership unblocked by the group administrator.
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
     $edit = array(
       'state' => OG_STATE_ACTIVE,
@@ -226,43 +209,31 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(14, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('unblock'));
 
-    // User 4 requests membership.
+    // User 4 requests group membership.
     $this->drupalLogin($user4);
-    $edit = array();
-    $this->drupalPost(
-      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
-      $edit,
-      t('Join')
-    );
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
     $og_membership = $this->getLastMembership($user4->uid);
     $this->assertEqual(15, $this->countMessages());
     $this->assertEqual(4, $this->countMessages('request'));
 
-    // Rejects the membership request of User 4.
+    // User 4 membership request rejected by the group administrator.
     $this->drupalLogin($this->admin);
-    $this->drupalGet('group/node/' . $this->group_node->nid . '/admin/people');
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/delete-membership/' . $og_membership->id;
-    $edit = array();
-    $this->drupalPost($path, $edit, t('Remove'));
+    $this->drupalPost($path, array(), t('Remove'));
     $this->assertEqual(16, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('reject'));
 
-    // User 5 requests membership.
+    // User 5 requests group membership.
     $this->drupalLogin($user5);
-    $edit = array();
-    $this->drupalPost(
-      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
-      $edit,
-      t('Join')
-    );
-    $og_membership = $this->getLastMembership($user5->uid);
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
     $this->assertEqual(17, $this->countMessages());
     $this->assertEqual(5, $this->countMessages('request'));
 
-    // User 5 revokes his membership request.
+    // User 5 revokes his group membership request.
     $path = 'group/node/' . $this->group_node->nid . '/unsubscribe';
-    $edit = array();
-    $this->drupalPost($path, $edit, t('Remove'));
+    $this->drupalPost($path, array(), t('Remove'));
     $this->assertEqual(18, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('revoke'));
   }

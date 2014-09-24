@@ -23,9 +23,9 @@ function c4m_activity_node_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "Deleted a [message:field-node:content-type:name]",
+          "value" : "\\u003Ca href=\\u0022user\\/@{message:user:uid}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E deleted @{message:c4m-activity-node:type} : @{message:c4m-activity-node:title}",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EDeleted a [message:field-node:content-type:name]\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022user\\/@{message:user:uid}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E deleted @{message:c4m-activity-node:type} : @{message:c4m-activity-node:title}\\u003C\\/p\\u003E\\n"
         }
       ]
     },
@@ -38,16 +38,16 @@ function c4m_activity_node_default_message_type() {
     "argument" : [],
     "category" : "message_type",
     "data" : {
-      "token options" : { "clear" : 0 },
+      "token options" : { "clear" : 1 },
       "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
     },
     "language" : "",
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "Added a [message:field-node:content-type:name]",
+          "value" : "\\u003Ca href=\\u0022user\\/[message:user:uid]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E created @{message:c4m-activity-node:type}: \\u003Ca href=\\u0022node\\/[message:c4m-activity-node:nid]\\u0022\\u003E[message:c4m-activity-node:title]\\u003C\\/a\\u003E.",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EAdded a [message:field-node:content-type:name]\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022user\\/[message:user:uid]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E created @{message:c4m-activity-node:type}: \\u003Ca href=\\u0022node\\/[message:c4m-activity-node:nid]\\u0022\\u003E[message:c4m-activity-node:title]\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n"
         }
       ]
     },
@@ -60,16 +60,16 @@ function c4m_activity_node_default_message_type() {
     "argument" : [],
     "category" : "message_type",
     "data" : {
-      "token options" : { "clear" : 0 },
+      "token options" : { "clear" : 1 },
       "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
     },
     "language" : "",
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "Edited a [message:field-node:content-type:name]",
+          "value" : "\\u003Ca href=\\u0022user\\/[message:user:uid]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E updated @{message:c4m-activity-node:type}: \\u003Ca href=\\u0022node\\/[message:c4m-activity-node:nid]\\u0022\\u003E[message:c4m-activity-node:title]\\u003C\\/a\\u003E.",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EEdited a [message:field-node:content-type:name]\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022user\\/[message:user:uid]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E updated @{message:c4m-activity-node:type}: \\u003Ca href=\\u0022node\\/[message:c4m-activity-node:nid]\\u0022\\u003E[message:c4m-activity-node:title]\\u003C\\/a\\u003E.\\u003C\\/p\\u003E\\n"
         }
       ]
     },

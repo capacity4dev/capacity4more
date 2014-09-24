@@ -160,6 +160,9 @@ function c4m_activity_og_variable_name($type) {
  * Implements hook_og_membership_insert().
  *
  * Log a message when a user joins a group.
+ *
+ * @param OgMembership $og_membership
+ *   The OG Membership as saved in the database.
  */
 function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
   if ($og_membership->entity_type != 'user') {
@@ -202,6 +205,9 @@ function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
  * Implements hook_og_membership_update().
  *
  * Log a message when the membership type changes.
+ *
+ * @param OgMembership $og_membership
+ *   The OG Membership as saved in the database.
  */
 function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
   global $user;
@@ -260,6 +266,9 @@ function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
  * Implements hook_og_membership_delete().
  *
  * Log a message when the membership is removed.
+ *
+ * @param OgMembership $og_membership
+ *   The OG Membership that will be deleted.
  */
 function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
   if ($og_membership->entity_type != 'user') {

@@ -262,10 +262,11 @@ function c4m_activity_node_create_message($node, $action) {
   $group_nid = _c4m_activity_node_get_node_group($node);
 
   $arguments = array(
-    '%node_nid' => (int) $node->nid,
-    '%node_title' => $node->title,
-    '!node_uid' => $node->uid,
-    '!group_nid' => $group_nid,
+    'node_nid' => (int) $node->nid,
+    'node_type' => $node->type,
+    'node_uid' => (int) $node->uid,
+    'node_title' => $node->title,
+    'group_nid' => $group_nid,
   );
 
   $message = message_create(
@@ -342,5 +343,5 @@ function _c4m_activity_node_get_node_group($node) {
     return NULL;
   }
 
-  return $group;
+  return (int) $group;
 }
