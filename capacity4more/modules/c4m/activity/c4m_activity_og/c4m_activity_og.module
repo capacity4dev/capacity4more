@@ -49,6 +49,7 @@ function c4m_activity_og_form_node_type_form_alter(
     '#description' => t('Select what group activities should be saved in the activity log.'),
     '#options' => array(
       'request' => t('A user requested group membership.'),
+      'revoke' => t('A user revoked his group membership request.'),
       'join' => t('A user joined the group.'),
       'leave' => t('A user left the group.'),
       'approve' => t('A group administrator approves a membership request.'),
@@ -108,6 +109,7 @@ function c4m_activity_og_node_type_delete($info) {
  * @param string $action
  *   The action performed on the type. The supported actions are:
  *   - request
+ *   - revoke
  *   - join
  *   - leave
  *   - approve
@@ -273,9 +275,9 @@ function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
       ? 'reject'
       : 'remove';
   }
-  // Do not log a message if the user revokes his membership request.
+  // Log a message if the user revokes his pending membership request.
   elseif ((int) $og_membership->state === OG_STATE_PENDING) {
-    return;
+    $action = 'revoke';
   }
 
   $group_node = node_load($og_membership->gid);

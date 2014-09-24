@@ -122,6 +122,7 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $user2 = $this->drupalCreateUser();
     $user3 = $this->drupalCreateUser();
     $user4 = $this->drupalCreateUser();
+    $user5 = $this->drupalCreateUser();
 
     // Let User 1 request membership.
     $this->drupalLogin($user1);
@@ -246,6 +247,24 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(16, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('reject'));
 
+    // User 5 requests membership.
+    $this->drupalLogin($user5);
+    $edit = array();
+    $this->drupalPost(
+      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
+      $edit,
+      t('Join')
+    );
+    $og_membership = $this->getLastMembership($user5->uid);
+    $this->assertEqual(17, $this->countMessages());
+    $this->assertEqual(5, $this->countMessages('request'));
+
+    // User 5 revokes his membership request.
+    $path = 'group/node/' . $this->group_node->nid . '/unsubscribe';
+    $edit = array();
+    $this->drupalPost($path, $edit, t('Remove'));
+    $this->assertEqual(18, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('revoke'));
   }
 
   /**

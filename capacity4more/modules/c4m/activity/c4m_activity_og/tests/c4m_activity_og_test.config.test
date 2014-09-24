@@ -74,6 +74,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     // Test the default variable value.
     $this->assertFalse(variable_get($name, FALSE));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
+    $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'revoke'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'leave'));
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'approve'));
@@ -85,6 +86,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     // Check if the form fields are not present on a non group node type.
     $this->drupalGet('admin/structure/types/manage/page');
     $this->assertNoFieldByName('c4m_activity_og[request]');
+    $this->assertNoFieldByName('c4m_activity_og[revoke]');
     $this->assertNoFieldByName('c4m_activity_og[join]');
     $this->assertNoFieldByName('c4m_activity_og[leave]');
     $this->assertNoFieldByName('c4m_activity_og[approve]');
@@ -96,6 +98,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
     // Check if the form fields are present on a non group node type.
     $this->drupalGet('admin/structure/types/manage/' . self::TYPE);
     $this->assertFieldByName('c4m_activity_og[request]');
+    $this->assertFieldByName('c4m_activity_og[revoke]');
     $this->assertFieldByName('c4m_activity_og[join]');
     $this->assertFieldByName('c4m_activity_og[leave]');
     $this->assertFieldByName('c4m_activity_og[approve]');
@@ -106,6 +109,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
 
     // Edit the activity settings.
     $edit = array(
+      'c4m_activity_og[revoke]' => 'revoke',
       'c4m_activity_og[join]' => 'join',
       'c4m_activity_og[leave]' => 'leave',
       'c4m_activity_og[approve]' => 'approve',
@@ -123,6 +127,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
       $config,
       array(
         'request' => 0,
+        'revoke' => 'revoke',
         'join' => 'join',
         'leave' => 'leave',
         'approve' => 'approve',
@@ -133,6 +138,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
       )
     );
     $this->assertFalse(c4m_activity_og_needs_message(self::TYPE, 'request'));
+    $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'revoke'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'join'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'leave'));
     $this->assertTrue(c4m_activity_og_needs_message(self::TYPE, 'approve'));
@@ -159,6 +165,7 @@ class C4mActivityOgTestConfig extends DrupalWebTestCase {
       variable_get($new_name, array()),
       array(
         'request' => 0,
+        'revoke' => 'revoke',
         'join' => 'join',
         'leave' => 'leave',
         'approve' => 'approve',
