@@ -87,6 +87,34 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   }
 
   /**
+   * Test create message.
+   */
+  public function testCreateMessage() {
+    $node = $this->drupalCreateNode(
+      array(
+        'type' => 'article',
+        'uid'  => $this->admin->uid,
+      )
+    );
+
+    $message = c4m_activity_node_create_message($node, 'insert');
+    $wrapper = entity_metadata_wrapper('message', $message);
+
+    // Check the arguments extracted from the node.
+    $arguments = $message->arguments;
+    $this->assertEqual((int) $node->nid, (int) $arguments['node_nid']);
+    $this->assertEqual((int) $node->uid, (int) $arguments['node_uid']);
+    $this->assertEqual($node->type, $arguments['node_type']);
+    $this->assertEqual($node->title, $arguments['node_title']);
+
+    // Check the field(s) extracted from the node.
+    $this->assertEqual(
+      (int) $node->nid,
+      (int) $wrapper->c4m_activity_node->nid->value()
+    );
+  }
+
+  /**
    * Test the logging functionality for node types.
    */
   public function testLogging() {
