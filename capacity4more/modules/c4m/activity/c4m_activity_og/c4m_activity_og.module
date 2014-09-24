@@ -52,6 +52,7 @@ function c4m_activity_og_form_node_type_form_alter(
       'join' => t('A user joined the group.'),
       'leave' => t('A user left the group.'),
       'approve' => t('A group administrator approves a membership request.'),
+      'reject' => t('A group administrator rejects a membership request.'),
       'remove' => t('A group administrator removes a group membership.'),
       'block' => t('A group administrator blocks a group membership.'),
       'unblock' => t('A group administrator unblocked a group membership.'),
@@ -109,6 +110,8 @@ function c4m_activity_og_node_type_delete($info) {
  *   - request
  *   - join
  *   - leave
+ *   - approve
+ *   - reject
  *   - remove
  *   - block
  *   - unblock
@@ -263,11 +266,12 @@ function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
 
   $action = 'leave';
 
-  // If the membership was not deleted by the user itself
-  // => the user was removed from the group!
+  // If the membership was not deleted by the user itself.
   global $user;
   if ((int) $user->uid !== (int) $og_membership->etid) {
-    $action = 'remove';
+    $action = ((int) $og_membership->state === OG_STATE_PENDING)
+      ? 'reject'
+      : 'remove';
   }
   // Do not log a message if the user revokes his membership request.
   elseif ((int) $og_membership->state === OG_STATE_PENDING) {

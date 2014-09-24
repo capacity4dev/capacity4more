@@ -84,9 +84,11 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $name = c4m_activity_og_variable_name(self::TYPE);
     $settings = array(
       'request' => 'request',
+      'revoke' => 'revoke',
       'join' => 'join',
       'leave' => 'leave',
       'approve' => 'approve',
+      'reject' => 'reject',
       'remove' => 'remove',
       'block' => 'block',
       'unblock' => 'unblock',
@@ -119,6 +121,7 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $user1 = $this->drupalCreateUser();
     $user2 = $this->drupalCreateUser();
     $user3 = $this->drupalCreateUser();
+    $user4 = $this->drupalCreateUser();
 
     // Let User 1 request membership.
     $this->drupalLogin($user1);
@@ -193,7 +196,7 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(10, $this->countMessages());
     $this->assertEqual(3, $this->countMessages('request'));
 
-    // Approve the membership request of User 2.
+    // Approve the membership request of User 3.
     $this->drupalLogin($this->admin);
     $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
     $edit = array(
@@ -222,6 +225,26 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     $this->assertEqual(14, $this->countMessages());
     $this->assertEqual(1, $this->countMessages('unblock'));
 
+    // User 4 requests membership.
+    $this->drupalLogin($user4);
+    $edit = array();
+    $this->drupalPost(
+      'group/node/' . $this->group_node->nid . '/subscribe/og_user_node',
+      $edit,
+      t('Join')
+    );
+    $og_membership = $this->getLastMembership($user4->uid);
+    $this->assertEqual(15, $this->countMessages());
+    $this->assertEqual(4, $this->countMessages('request'));
+
+    // Rejects the membership request of User 4.
+    $this->drupalLogin($this->admin);
+    $this->drupalGet('group/node/' . $this->group_node->nid . '/admin/people');
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/delete-membership/' . $og_membership->id;
+    $edit = array();
+    $this->drupalPost($path, $edit, t('Remove'));
+    $this->assertEqual(16, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('reject'));
 
   }
 
