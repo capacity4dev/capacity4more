@@ -209,8 +209,7 @@ function c4m_activity_node_node_insert($node) {
     return;
   }
 
-  $message = c4m_activity_node_create_message($node, 'insert');
-  $message->save();
+  c4m_activity_node_create_message($node, 'insert');
 }
 
 /**
@@ -227,8 +226,7 @@ function c4m_activity_node_node_update($node) {
   }
 
   // No update, create a new one.
-  $message = c4m_activity_node_create_message($node, 'update');
-  $message->save();
+  c4m_activity_node_create_message($node, 'update');
 }
 
 /**
@@ -243,8 +241,7 @@ function c4m_activity_node_node_delete($node) {
   }
 
   // No update, create a new one.
-  $message = c4m_activity_node_create_message($node, 'delete');
-  $message->save();
+  c4m_activity_node_create_message($node, 'delete');
 }
 
 
@@ -256,7 +253,8 @@ function c4m_activity_node_node_delete($node) {
  * @param string $action
  *   The action performed on the node.
  *
- * @return EntityMetadataWrapper
+ * @return stdClass
+ *   The saved message.
  */
 function c4m_activity_node_create_message($node, $action) {
   $group_nid = _c4m_activity_node_get_node_group($node);
@@ -279,8 +277,9 @@ function c4m_activity_node_create_message($node, $action) {
   if ($group_nid) {
     $wrapper->c4m_activity_group->set($group_nid);
   }
+  $wrapper->save();
 
-  return $wrapper;
+  return $message;
 }
 
 /**

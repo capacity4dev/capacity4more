@@ -51,7 +51,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     parent::setUp($modules);
 
     // Create a new node type.
-    $info = (object) array(
+    $info = array(
       'name' => self::TYPE,
       'type' => self::TYPE,
       'base' => 'node_content',
@@ -65,7 +65,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
       'disabled' => 0,
       'orig_type' => self::TYPE,
     );
-    node_type_save($info);
+    $this->drupalCreateContentType($info);
 
     // Enable activity logging.
     $name = c4m_activity_node_variable_name(self::TYPE);
@@ -73,6 +73,7 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
       $name,
       array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
     );
+    $this->refreshVariables();
 
     // create a new user with some permissions you need; then log in.
     $permissions = array(
