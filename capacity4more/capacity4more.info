@@ -104,3 +104,6 @@ dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+
+; Message, Notify & Activity
+dependencies[] = c4m_activity_node
