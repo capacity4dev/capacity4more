@@ -1,15 +1,36 @@
 <?php
 /**
  * @file
- * c4m_activity_og.features.inc
+ * Install hooks for the c4m_activity_og module.
  */
 
 /**
- * Implements hook_default_message_type().
+ * Implements hook_install().
  */
-function c4m_activity_og_default_message_type() {
-  $items = array();
-  $items['c4m_activity_og_approve'] = entity_import('message_type', '{
+function c4m_activity_og_install() {
+  $actions = array(
+    'approve',
+    'request',
+    'join',
+    'leave',
+    'reject',
+    'remove',
+    'revoke',
+    'block',
+    'unblock',
+  );
+
+  _c4m_activity_og_install_message_types();
+  _c4m_activity_og_install_create_fields($actions);
+}
+
+/**
+ * Create the message types.
+ */
+function _c4m_activity_og_install_message_types() {
+  $types   = array();
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_approve",
     "description" : "Organic Groups : Approved membership",
     "argument_keys" : [],
@@ -30,8 +51,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_request'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_request",
     "description" : "Organic Groups : Requested membership",
     "argument_keys" : [],
@@ -52,8 +75,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_join'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_join",
     "description" : "Organic Groups : Joined group",
     "argument_keys" : [],
@@ -74,8 +99,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_leave'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_leave",
     "description" : "Organic Groups : Left group",
     "argument_keys" : [],
@@ -96,8 +123,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_reject'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_reject",
     "description" : "Organic Groups : Rejected membership request",
     "argument_keys" : [],
@@ -118,8 +147,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_remove'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_remove",
     "description" : "Organic Groups : Removed from group",
     "argument_keys" : [],
@@ -140,8 +171,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_revoke'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_revoke",
     "description" : "Organic Groups : Revoke membership request",
     "argument_keys" : [],
@@ -162,8 +195,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_block'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_block",
     "description" : "Organic Groups : Blocked from group",
     "argument_keys" : [],
@@ -184,8 +219,10 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $items['c4m_activity_og_unblock'] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_og_unblock",
     "description" : "Organic Groups : Unblocked from group",
     "argument_keys" : [],
@@ -206,7 +243,132 @@ function c4m_activity_og_default_message_type() {
       ]
     },
     "rdf_mapping" : []
-  }');
+  }'
+  );
 
-  return $items;
+  foreach ($types as $type) {
+    message_type_save($type);
+  }
+}
+
+/**
+ * Helper to create the node reference fields.
+ *
+ * @param array $actions
+ *   The possible action types.
+ */
+function _c4m_activity_og_install_create_fields($actions) {
+  $types = array(
+    'c4m_activity_user' => array(
+      'label' => st('User'),
+      'description' => st('The user the membership is about.'),
+      'target_type' => 'user',
+      'foreign keys' => array(
+        'users' => array(
+          'columns' => array(
+            'target_id' => 'uid',
+          ),
+          'table' => 'users',
+        ),
+      ),
+    ),
+    'c4m_activity_group' => array(
+      'label' => st('Group'),
+      'description' => st('The group the membership is about.'),
+      'target_type' => 'node',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+    ),
+  );
+
+  $weight = 0;
+  foreach ($types as $type => $info) {
+    $weight++;
+
+    $field = field_info_field($type);
+    if (!$field) {
+      $field = array(
+        'active' => 1,
+        'cardinality' => 1,
+        'deleted' => 0,
+        'entity_types' => array(),
+        'field_name' => $type,
+        'foreign keys' => $info['foreign keys'],
+        'indexes' => array(
+          'target_id' => array(
+            0 => 'target_id',
+          ),
+        ),
+        'locked' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'handler' => 'base',
+          'handler_settings' => array(
+            'behaviors' => array(
+              'views-select-list' => array(
+                'status' => 0,
+              ),
+            ),
+            'sort' => array(
+              'type' => 'none',
+            ),
+            'target_bundles' => array(),
+          ),
+          'target_type' => $info['target_type'],
+        ),
+        'translatable' => 0,
+        'type' => 'entityreference',
+      );
+      field_create_field($field);
+    }
+
+    foreach ($actions as $action) {
+      // e.g. message-c4m_activity_og_ACTION-c4m_activity_user
+      $instance = array(
+        'bundle' => 'c4m_activity_og_' . $action,
+        'default_value' => NULL,
+        'default_value_function' => '',
+        'deleted' => 0,
+        'description' => $info['description'],
+        'display' => array(
+          'default' => array(
+            'label' => 'above',
+            'settings' => array(),
+            'type' => 'hidden',
+            'weight' => 1,
+          ),
+        ),
+        'entity_type' => 'message',
+        'field_name' => $type,
+        'label' => $info['label'],
+        'required' => 1,
+        'settings' => array(
+          'behaviors' => array(
+            'prepopulate' => array(
+              'status' => 0,
+            ),
+          ),
+          'user_register_form' => FALSE,
+        ),
+        'widget' => array(
+          'active' => 1,
+          'module' => 'entityreference',
+          'settings' => array(
+            'match_operator' => 'CONTAINS',
+            'path' => '',
+            'size' => 60,
+          ),
+          'type' => 'entityreference_autocomplete',
+          'weight' => $weight,
+        ),
+      );
+      field_create_instance($instance);
+    }
+  }
 }
