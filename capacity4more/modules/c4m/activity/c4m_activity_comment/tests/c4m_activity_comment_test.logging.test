@@ -171,6 +171,7 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
     $this->assertEqual(3, $this->countMessages('update'));
 
     // Delete a comment, this will also delete all messages related to it.
+    variable_set('message_delete_on_entity_delete', array('comment'));
     comment_delete($comment->cid);
     $this->assertEqual(0, $this->countMessages());
 

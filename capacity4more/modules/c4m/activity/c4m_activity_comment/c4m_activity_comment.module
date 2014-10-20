@@ -4,8 +4,6 @@
  * Code to support logging comment activities using the messaging module.
  */
 
-include_once 'c4m_activity_comment.features.inc';
-
 /******************************************************************************
  * Configuration
  ******************************************************************************/
