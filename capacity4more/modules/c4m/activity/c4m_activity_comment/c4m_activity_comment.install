@@ -22,8 +22,9 @@ function c4m_activity_comment_install() {
  * Create the message types.
  */
 function _c4m_activity_comment_install_message_types() {
-  $types = array();
-  $types[] = entity_import('message_type', '{
+  $types   = array();
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_comment_delete",
     "description" : "Comment : Delete",
     "argument_keys" : [],
@@ -44,8 +45,10 @@ function _c4m_activity_comment_install_message_types() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $types[] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_comment_insert",
     "description" : "Comment : Create",
     "argument_keys" : [],
@@ -66,8 +69,10 @@ function _c4m_activity_comment_install_message_types() {
       ]
     },
     "rdf_mapping" : []
-  }');
-  $types[] = entity_import('message_type', '{
+  }'
+  );
+  $types[] = entity_import(
+    'message_type', '{
     "name" : "c4m_activity_comment_update",
     "description" : "Comment : Update",
     "argument_keys" : [],
@@ -88,7 +93,8 @@ function _c4m_activity_comment_install_message_types() {
       ]
     },
     "rdf_mapping" : []
-  }');
+  }'
+  );
 
   foreach ($types as $type) {
     message_type_save($type);
@@ -108,39 +114,39 @@ function _c4m_activity_comment_install_create_fields($actions) {
       'description' => st('The comment where this message is about.'),
       'target_type' => 'comment',
       'foreign keys' => array(
-					'comment' => array(
-						'columns' => array(
-							'target_id' => 'cid',
-						),
-						'table' => 'comment',
-					),
-				),
+        'comment' => array(
+          'columns' => array(
+            'target_id' => 'cid',
+          ),
+          'table' => 'comment',
+        ),
+      ),
     ),
     'c4m_activity_group' => array(
       'label' => st('Group'),
       'description' => st('The (optional) group the node belongs to.'),
       'target_type' => 'node',
       'foreign keys' => array(
-					'node' => array(
-						'columns' => array(
-							'target_id' => 'nid',
-						),
-						'table' => 'node',
-					),
-				),
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
     ),
     'c4m_activity_node' => array(
       'label' => st('Node'),
       'description' => st('The node where this message is about.'),
       'target_type' => 'node',
       'foreign keys' => array(
-					'node' => array(
-						'columns' => array(
-							'target_id' => 'nid',
-						),
-						'table' => 'node',
-					),
-				),
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
     ),
   );
 
@@ -148,42 +154,42 @@ function _c4m_activity_comment_install_create_fields($actions) {
   foreach ($types as $type => $info) {
     $weight++;
 
-	  $field = field_info_field($type);
-	  if (!$field) {
-	  	$field = array(
-				'active' => 1,
-				'cardinality' => 1,
-				'deleted' => 0,
-				'entity_types' => array(),
-				'field_name' => $type,
-				'foreign keys' => $info['foreign keys'],
-				'indexes' => array(
-					'target_id' => array(
-						0 => 'target_id',
-					),
-				),
-				'locked' => 0,
-				'module' => 'entityreference',
-				'settings' => array(
-					'handler' => 'base',
-					'handler_settings' => array(
-						'behaviors' => array(
-							'views-select-list' => array(
-								'status' => 0,
-							),
-						),
-						'sort' => array(
-							'type' => 'none',
-						),
-						'target_bundles' => array(),
-					),
-					'target_type' => $info['target_type'],
-				),
-				'translatable' => 0,
-				'type' => 'entityreference',
-			);
-			field_create_field($field);
-	  }
+    $field = field_info_field($type);
+    if (!$field) {
+      $field = array(
+        'active' => 1,
+        'cardinality' => 1,
+        'deleted' => 0,
+        'entity_types' => array(),
+        'field_name' => $type,
+        'foreign keys' => $info['foreign keys'],
+        'indexes' => array(
+          'target_id' => array(
+            0 => 'target_id',
+          ),
+        ),
+        'locked' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'handler' => 'base',
+          'handler_settings' => array(
+            'behaviors' => array(
+              'views-select-list' => array(
+                'status' => 0,
+              ),
+            ),
+            'sort' => array(
+              'type' => 'none',
+            ),
+            'target_bundles' => array(),
+          ),
+          'target_type' => $info['target_type'],
+        ),
+        'translatable' => 0,
+        'type' => 'entityreference',
+      );
+      field_create_field($field);
+    }
 
     foreach ($actions as $action) {
       // e.g. message-c4m_activity_comment_ACTION-c4m_activity_node
