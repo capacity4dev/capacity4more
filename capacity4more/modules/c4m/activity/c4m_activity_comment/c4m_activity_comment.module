@@ -200,12 +200,15 @@ function c4m_activity_comment_variable_name($type) {
 /**
  * Create a message for a comment based on the given action.
  *
+ * This will also save the message in the database.
+ *
  * @param stdClass $comment
  *   The comment that needs an message.
  * @param string $action
  *   The action performed on the node.
  *
- * @return EntityMetadataWrapper
+ * @return stdClass
+ *   The saved message.
  */
 function c4m_activity_comment_create_message($comment, $action) {
   $node = node_load($comment->nid);
@@ -229,8 +232,9 @@ function c4m_activity_comment_create_message($comment, $action) {
   if ($group_nid) {
     $wrapper->c4m_activity_group->set($group_nid);
   }
+  $wrapper->save();
 
-  return $wrapper;
+  return $message;
 }
 
 /**
@@ -246,8 +250,7 @@ function c4m_activity_comment_comment_insert($comment) {
     return;
   }
 
-  $message = c4m_activity_comment_create_message($comment, 'insert');
-  $message->save();
+  c4m_activity_comment_create_message($comment, 'insert');
 }
 
 /**
@@ -265,8 +268,7 @@ function c4m_activity_comment_comment_update($comment) {
     return;
   }
 
-  $message = c4m_activity_comment_create_message($comment, 'update');
-  $message->save();
+  c4m_activity_comment_create_message($comment, 'update');
 }
 
 /**
@@ -279,8 +281,7 @@ function c4m_activity_comment_comment_delete($comment) {
     return;
   }
 
-  $message = c4m_activity_comment_create_message($comment, 'delete');
-  $message->save();
+  c4m_activity_comment_create_message($comment, 'delete');
 }
 
 
