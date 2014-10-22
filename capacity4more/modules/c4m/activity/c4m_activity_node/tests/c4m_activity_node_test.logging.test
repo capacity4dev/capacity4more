@@ -206,21 +206,40 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   /**
    * Test disabling the creation of new activity messages.
    */
-  public function testDisableLogging() {
+  public function testDisableEnableLogging() {
+    $this->assertTrue(c4m_activity_node_is_enabled());
+    c4m_activity_node_disable();
+    $this->assertFalse(c4m_activity_node_is_enabled());
+
     // Create a node with activity disabled.
     $node = $this->drupalCreateNode(array(
         'type' => self::TYPE,
         'uid'  => $this->admin->uid,
-        'c4m_activity_disabled' => TRUE,
+        'title' => $this->randomName(),
       ));
     $this->assertEqual(0, $this->countMessages());
 
     // Update a node with activity disabled.
     $node->title = $this->randomName();
     $node->revision = 1;
-    $node->c4m_activity_disabled = TRUE;
     node_save($node);
     $this->assertEqual(0, $this->countMessages());
+
+    // Delete a node without activity disabled.
+    variable_set('message_delete_on_entity_delete', array());
+    node_delete($node->nid);
+
+    c4m_activity_node_enable();
+    $this->assertTrue(c4m_activity_node_is_enabled());
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a node with activity enabled.
+    $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+        'title' => $this->randomName(),
+      ));
+    $this->assertEqual(1, $this->countMessages());
   }
 
   /**
