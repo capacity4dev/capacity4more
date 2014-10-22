@@ -239,7 +239,9 @@ function c4m_activity_comment_create_message($comment, $action) {
  * Adds a node created message to the message table.
  */
 function c4m_activity_comment_comment_insert($comment) {
-
+  if (!empty($comment->c4m_activity_disabled)) {
+    return;
+  }
   if (!c4m_activity_comment_needs_message($comment->node_type, 'insert')) {
     return;
   }
@@ -256,12 +258,13 @@ function c4m_activity_comment_comment_insert($comment) {
  * not done during the last 6 hours.
  */
 function c4m_activity_comment_comment_update($comment) {
-  // Avoid duplicated message due to updates by the same user within 6 hours.
+  if (!empty($comment->c4m_activity_disabled)) {
+    return;
+  }
   if (!c4m_activity_comment_update_needs_message($comment)) {
     return;
   }
 
-  // No update, create a new one.
   $message = c4m_activity_comment_create_message($comment, 'update');
   $message->save();
 }

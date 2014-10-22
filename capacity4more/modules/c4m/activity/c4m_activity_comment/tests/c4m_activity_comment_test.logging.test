@@ -199,6 +199,37 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
   }
 
   /**
+   * Test disabling the creation of new activity messages.
+   */
+  public function testDisableLogging() {
+    // Create a node.
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+      ));
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a comment with activity disabled.
+    $comment = new stdClass();
+    $comment->cid = NULL;
+    $comment->pid = 0;
+    $comment->nid = $node->nid;
+    $comment->uid = $this->admin->uid;
+    $comment->subject = $this->randomName();
+    $comment->comment_body[LANGUAGE_NONE][0]['value'] = $this->randomName();
+    $comment->c4m_activity_disabled = TRUE;
+    comment_save($comment);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Update a comment with activity disabled.
+    $comment->subject = $this->randomName();
+    $comment->uid = $this->editor->uid;
+    $comment->c4m_activity_disabled = TRUE;
+    comment_save($comment);
+    $this->assertEqual(0, $this->countMessages());
+  }
+
+  /**
    * Helper to get the number of messages in the message table.
    *
    * @param string $action
@@ -220,6 +251,4 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
     $count = (int) $query->execute();
     return $count;
   }
-
-
 }
