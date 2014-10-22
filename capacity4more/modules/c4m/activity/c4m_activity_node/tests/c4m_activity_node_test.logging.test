@@ -204,6 +204,26 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   }
 
   /**
+   * Test disabling the creation of new activity messages.
+   */
+  public function testDisableLogging() {
+    // Create a node with activity disabled.
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+        'c4m_activity_disabled' => TRUE,
+      ));
+    $this->assertEqual(0, $this->countMessages());
+
+    // Update a node with activity disabled.
+    $node->title = $this->randomName();
+    $node->revision = 1;
+    $node->c4m_activity_disabled = TRUE;
+    node_save($node);
+    $this->assertEqual(0, $this->countMessages());
+  }
+
+  /**
    * Helper to get the number of messages in the message table.
    *
    * @param string $action
@@ -225,6 +245,4 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     $count = (int) $query->execute();
     return $count;
   }
-
-
 }

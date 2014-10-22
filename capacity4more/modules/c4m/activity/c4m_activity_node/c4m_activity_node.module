@@ -203,6 +203,9 @@ function c4m_activity_node_variable_name($type) {
  * Adds a node created message to the message table.
  */
 function c4m_activity_node_node_insert($node) {
+  if (!empty($node->c4m_activity_disabled)) {
+    return;
+  }
   if (!c4m_activity_node_needs_message($node->type, 'insert')) {
     return;
   }
@@ -218,12 +221,13 @@ function c4m_activity_node_node_insert($node) {
  * not done during the last 6 hours.
  */
 function c4m_activity_node_node_update($node) {
-  // Avoid duplicated message due to updates by the same user within 6 hours.
+  if (!empty($node->c4m_activity_disabled)) {
+    return;
+  }
   if (!c4m_activity_node_update_needs_message($node)) {
     return;
   }
 
-  // No update, create a new one.
   c4m_activity_node_create_message($node, 'update');
 }
 
@@ -233,12 +237,10 @@ function c4m_activity_node_node_update($node) {
  * Adds a node updated message to the message table.
  */
 function c4m_activity_node_node_delete($node) {
-  // Avoid duplicated message due to updates by the same user within 6 hours.
   if (!c4m_activity_node_needs_message($node->type, 'delete')) {
     return;
   }
 
-  // No update, create a new one.
   c4m_activity_node_create_message($node, 'delete');
 }
 
