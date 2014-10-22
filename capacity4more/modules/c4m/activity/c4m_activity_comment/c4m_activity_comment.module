@@ -105,6 +105,10 @@ function c4m_activity_comment_node_type_delete($info) {
  *   Needs an message yes/no.
  */
 function c4m_activity_comment_needs_message($type, $action) {
+  if (!c4m_activity_comment_is_enabled()) {
+    return FALSE;
+  }
+
   // Cleanup types received from a comment.
   $type = preg_replace('/^comment_node_/', '', $type);
 
@@ -147,6 +151,10 @@ function c4m_activity_comment_needs_message($type, $action) {
  *   Needs an update yes/no.
  */
 function c4m_activity_comment_update_needs_message($comment) {
+  if (!c4m_activity_comment_is_enabled()) {
+    return FALSE;
+  }
+
   // 1. Check config for the node type.
   if (!c4m_activity_comment_needs_message($comment->node_type, 'update')) {
     return FALSE;
@@ -243,9 +251,6 @@ function c4m_activity_comment_create_message($comment, $action) {
  * Adds a node created message to the message table.
  */
 function c4m_activity_comment_comment_insert($comment) {
-  if (!empty($comment->c4m_activity_disabled)) {
-    return;
-  }
   if (!c4m_activity_comment_needs_message($comment->node_type, 'insert')) {
     return;
   }
@@ -261,9 +266,6 @@ function c4m_activity_comment_comment_insert($comment) {
  * not done during the last 6 hours.
  */
 function c4m_activity_comment_comment_update($comment) {
-  if (!empty($comment->c4m_activity_disabled)) {
-    return;
-  }
   if (!c4m_activity_comment_update_needs_message($comment)) {
     return;
   }
@@ -313,4 +315,44 @@ function c4m_activity_comment_get_last_message($comment, $time_ago = 0) {
 
   $message = entity_metadata_wrapper('message', key($result['message']));
   return $message;
+}
+
+
+/******************************************************************************
+ * (Temporary) disable/enable activity logging.
+ ******************************************************************************/
+
+/**
+ * Disable comment activity logging.
+ *
+ * The activity will only be disabled during the script execution.
+ * It is not persistent over different requests.
+ */
+function c4m_activity_comment_disable() {
+  $enabled = &drupal_static('c4m_activity_comment_status');
+  $enabled = 0;
+}
+
+/**
+ * Enable the comment activity logging (default state).
+ */
+function c4m_activity_comment_enable() {
+  $enabled = &drupal_static('c4m_activity_comment_status');
+  $enabled = 1;
+}
+
+/**
+ * Check if the comment activity logging is enabled.
+ *
+ * @return bool
+ *   Enabled.
+ */
+function c4m_activity_comment_is_enabled() {
+  $enabled = &drupal_static('c4m_activity_comment_status', 1);
+  // By default enabled.
+  if (is_null($enabled)) {
+    $enabled = 1;
+  }
+
+  return (bool) $enabled;
 }

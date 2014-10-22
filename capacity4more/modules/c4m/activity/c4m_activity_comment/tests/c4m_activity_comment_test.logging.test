@@ -202,10 +202,16 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
    * Test disabling the creation of new activity messages.
    */
   public function testDisableLogging() {
+    $this->assertTrue(c4m_activity_comment_is_enabled());
+    c4m_activity_comment_disable();
+    $this->assertFalse(c4m_activity_comment_is_enabled());
+
+
     // Create a node.
     $node = $this->drupalCreateNode(array(
         'type' => self::TYPE,
-        'uid'  => $this->admin->uid,
+        'uid' => $this->admin->uid,
+        'title' => $this->randomName(),
       ));
     $this->assertEqual(0, $this->countMessages());
 
@@ -227,6 +233,27 @@ class C4mActivityCommentTestLogging extends DrupalWebTestCase {
     $comment->c4m_activity_disabled = TRUE;
     comment_save($comment);
     $this->assertEqual(0, $this->countMessages());
+
+    // Delete a comment with activity disabled.
+    variable_set('message_delete_on_entity_delete', array());
+    comment_delete($comment->cid);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Enable the logging again.
+    c4m_activity_comment_enable();
+    $this->assertTrue(c4m_activity_comment_is_enabled());
+
+    // Create a comment with enabled.
+    $comment = new stdClass();
+    $comment->cid = NULL;
+    $comment->pid = 0;
+    $comment->nid = $node->nid;
+    $comment->uid = $this->admin->uid;
+    $comment->subject = $this->randomName();
+    $comment->comment_body[LANGUAGE_NONE][0]['value'] = $this->randomName();
+    $comment->c4m_activity_disabled = TRUE;
+    comment_save($comment);
+    $this->assertEqual(1, $this->countMessages());
   }
 
   /**
