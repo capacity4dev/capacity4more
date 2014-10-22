@@ -163,10 +163,12 @@ function c4m_activity_og_variable_name($type) {
  *   The OG Membership as saved in the database.
  */
 function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
+  if (!c4m_activity_og_is_enabled()) {
+    return;
+  }
   if ($og_membership->entity_type != 'user') {
     return;
   }
-
   if (!$og_membership->is_new) {
     return;
   }
@@ -210,6 +212,9 @@ function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
 function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
   global $user;
 
+  if (!c4m_activity_og_is_enabled()) {
+    return;
+  }
   if ($og_membership->entity_type != 'user') {
     return;
   }
@@ -269,6 +274,9 @@ function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
  *   The OG Membership that will be deleted.
  */
 function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
+  if (!c4m_activity_og_is_enabled()) {
+    return;
+  }
   if ($og_membership->entity_type != 'user') {
     return;
   }
@@ -331,4 +339,44 @@ function c4m_activity_og_create_membership_message(
   $wrapper->c4m_activity_user->set($account);
 
   return $wrapper;
+}
+
+/******************************************************************************
+ * (Temporary) disable/enable activity logging.
+ ******************************************************************************/
+
+/**
+ * Disable og activity logging.
+ *
+ * The activity will only be disabled during the script execution.
+ * It is not persistent over different requests.
+ */
+function c4m_activity_og_disable() {
+  $enabled = &drupal_static('c4m_activity_og_status');
+  $enabled = 0;
+}
+
+/**
+ * Enable the og activity logging (default state).
+ */
+function c4m_activity_og_enable() {
+  $enabled = &drupal_static('c4m_activity_og_status');
+  $enabled = 1;
+}
+
+/**
+ * Check if the og activity logging is enabled.
+ *
+ * @return bool
+ *   Enabled.
+ */
+function c4m_activity_og_is_enabled() {
+  $enabled = &drupal_static('c4m_activity_og_status', 1);
+
+  // By default enabled.
+  if (is_null($enabled)) {
+    $enabled = 1;
+  }
+
+  return (bool) $enabled;
 }

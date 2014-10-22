@@ -239,6 +239,65 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
   }
 
   /**
+   * Test disabling the creation of new activity messages.
+   */
+  public function testDisableLogging() {
+    $this->assertTrue(c4m_activity_og_is_enabled());
+    c4m_activity_og_disable();
+    $this->assertFalse(c4m_activity_og_is_enabled());
+
+    // User 1 requests group membership.
+    $user1 = $this->drupalCreateUser();
+    $og_membership_1 = og_group(
+      'node',
+      $this->group_node->nid,
+      array(
+        'entity' => $user1,
+        'state' => OG_STATE_PENDING,
+      )
+    );
+    $this->assertEqual(1, $this->countMessages());
+
+    // User 2 joins group.
+    $user2 = $this->drupalCreateUser();
+    og_group(
+      'node',
+      $this->group_node->nid,
+      array(
+        'entity' => $user2,
+        'state' => OG_STATE_ACTIVE,
+      )
+    );
+    $this->assertEqual(1, $this->countMessages());
+
+    // User 1 membership is approved.
+    $og_membership_1->state = OG_STATE_ACTIVE;
+    $og_membership_1->save();
+    $this->assertEqual(1, $this->countMessages());
+
+    // User 1 leaves the group.
+    $og_membership_1->delete();
+    $this->assertEqual(1, $this->countMessages());
+
+    // Test with logging activated.
+    c4m_activity_og_enable();
+    $this->assertTrue(c4m_activity_og_is_enabled());
+
+    // User 3 joins group.
+    $user3 = $this->drupalCreateUser();
+    og_group(
+      'node',
+      $this->group_node->nid,
+      array(
+        'entity' => $user3,
+        'state' => OG_STATE_ACTIVE,
+      )
+    );
+    $this->assertEqual(2, $this->countMessages());
+  }
+
+
+  /**
    * Helper to get the number of messages in the message table.
    *
    * @param string $action
