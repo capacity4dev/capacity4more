@@ -1,0 +1,8 @@
+name = Date vocabulary
+description = Provides the Date vocabulary.
+core = 7.x
+package = capacity4more - Vocabulary
+dependencies[] = features
+dependencies[] = taxonomy
+features[features_api][] = api:2
+features[taxonomy][] = date
