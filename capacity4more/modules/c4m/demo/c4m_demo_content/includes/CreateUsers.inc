@@ -222,13 +222,7 @@ class C4mDemoContentCreateUsers extends Migration {
     }
     elseif (is_array($dest_field)) {
       foreach ($dest_field as $key => $dest) {
-        if (!empty($dest['destid1'])) {
-          $filtered_ids[$key] = array('destid1' => $dest['destid1']);
-        }
-        // Stubs generate array('<value_1>', '<value_2>') without keys.
-        else {
-          $filtered_ids[$key] = array('destid1' => $dest);
-        }
+        $filtered_ids[$key] = array('destid1' => $dest['destid1']);
         if (!empty($dest['destid2'])) {
           $filtered_ids[$key]['destid2'] = $dest['destid2'];
         }
