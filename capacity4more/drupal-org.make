@@ -3,13 +3,10 @@ api = 2
 
 ; Modules
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.2"
+projects[admin_views][version] = "1.3"
 
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
-
-projects[currency][subdir] = "contrib"
-projects[currency][version] = "2.3"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.2"
@@ -29,8 +26,11 @@ projects[context_og][version] = "2.1"
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
+projects[currency][subdir] = "contrib"
+projects[currency][version] = "2.4"
+
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.7"
+projects[date][version] = "2.8"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -45,25 +45,25 @@ projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0"
+projects[features][version] = "2.2"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.3"
+projects[field_group][version] = "1.4"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.4"
+projects[flag][version] = "3.5"
 
 projects[getlocations][subdir] = "contrib"
-projects[getlocations][version] = "1.12"
+projects[getlocations][version] = "1.13"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
 
 projects[location][subdir] = "contrib"
-projects[location][version] = "3.2"
+projects[location][version] = "3.3"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -104,7 +104,7 @@ projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.0"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.6"
+projects[og][version] = "2.7"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.2"
@@ -141,7 +141,7 @@ projects[transliteration][subdir] = contrib
 projects[transliteration][version] = "3.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
