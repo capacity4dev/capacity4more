@@ -71,10 +71,10 @@ function c4m_content_photoalbum_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '6',
         ),
         'locations' => array(
-          'weight' => '6',
+          'weight' => '7',
         ),
       ),
       'display' => array(),

@@ -96,6 +96,43 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-photoalbum-c4m_vocab_language'
+  $field_instances['node-photoalbum-c4m_vocab_language'] = array(
+    'bundle' => 'photoalbum',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_language',
+    'label' => 'Language',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-photoalbum-og_group_ref'
   $field_instances['node-photoalbum-og_group_ref'] = array(
     'bundle' => 'photoalbum',
@@ -162,7 +199,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -219,6 +256,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
   t('Date');
   t('Description');
   t('Groups');
+  t('Language');
   t('Metadata');
 
   return $field_instances;

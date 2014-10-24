@@ -229,6 +229,43 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-tasklist-c4m_vocab_language'
+  $field_instances['node-tasklist-c4m_vocab_language'] = array(
+    'bundle' => 'tasklist',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_language',
+    'label' => 'Language',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-tasklist-og_group_ref'
   $field_instances['node-tasklist-og_group_ref'] = array(
     'bundle' => 'tasklist',
@@ -289,7 +326,7 @@ function c4m_content_tasklist_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -347,6 +384,7 @@ function c4m_content_tasklist_field_default_field_instances() {
   t('Description');
   t('Documents');
   t('Groups');
+  t('Language');
   t('List managers');
   t('Metadata');
   t('Tasklist status');
