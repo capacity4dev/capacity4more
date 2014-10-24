@@ -24,6 +24,7 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
     array('uid', 'UID'),
   );
 
@@ -52,6 +53,9 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
       ->sourceMigration('C4mDemoContentCreateTags')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
 
   /**
@@ -64,5 +68,20 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
    */
   public function prepare($entity, $row) {
     $this->assignTags($entity, $row);
+  }
+
+  /**
+   * Prepare the row data loaded from the CSV.
+   *
+   * @param object $row
+   *   The data from the CSV file.
+   *
+   * @return bool
+   *   Success.
+   */
+  public function prepareRow($row) {
+    parent::prepareRow($row);
+
+    $row->date_entries = $this->mapDateVocab($row->date);
   }
 }

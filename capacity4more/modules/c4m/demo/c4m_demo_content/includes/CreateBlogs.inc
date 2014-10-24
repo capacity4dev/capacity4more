@@ -54,6 +54,7 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
     $this->addFieldMapping('c4m_vocab_date', 'date_entries')
          ->arguments(array('source_type' => 'tid'));
   }
+
   /**
    * Prepare the row data loaded from the CSV.
    *
