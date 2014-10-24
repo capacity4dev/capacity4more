@@ -1,0 +1,64 @@
+<?php
+/**
+ * @file
+ * Installation hooks for Language vocabulary.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_vocab_language_install() {
+  c4m_vocab_language_update_7000();
+  c4m_vocab_language_update_7001();
+}
+
+/**
+ * Create language vocabulary.
+ */
+function c4m_vocab_language_update_7000() {
+  $language_vocab = (object) array(
+    'name'         => 'Language Vocabulary',
+    'description'  => 'Language indication for content',
+    'machine_name' => 'c4m_vocab_language',
+  );
+
+  taxonomy_vocabulary_save($language_vocab);
+}
+
+/**
+ * Create default taxonomy terms for the Language vocab.
+ */
+function c4m_vocab_language_update_7001() {
+  $messages = array();
+
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
+
+  $terms = array(
+    'en' => -99,
+    'fr' => -5,
+    'es' => -4,
+  );
+
+  foreach ($terms as $term => $weight) {
+    $to              = new StdClass();
+    $to->name        = $term;
+    $to->description = 'Content in ' . $term;
+    $to->vid         = $vocab->vid;
+    $to->weight      = $weight;
+
+    taxonomy_term_save($to);
+  }
+
+  return implode('<br />', $messages);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_vocab_language_uninstall() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
+
+  if (!empty($vocab)) {
+    taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
