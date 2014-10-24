@@ -23,6 +23,7 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
     array('image', 'Image'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
     array('uid', 'UID'),
   );
 
@@ -46,6 +47,9 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
 
   /**
@@ -53,5 +57,7 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
+
+    $row->date_entries = $this->mapDateVocab($row->date);
   }
 }
