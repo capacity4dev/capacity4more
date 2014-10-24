@@ -26,6 +26,7 @@ features[field_instance][] = node-tasklist-c4m_body
 features[field_instance][] = node-tasklist-c4m_related_document
 features[field_instance][] = node-tasklist-c4m_related_user
 features[field_instance][] = node-tasklist-c4m_tasklist_status
+features[field_instance][] = node-tasklist-c4m_vocab_date
 features[field_instance][] = node-tasklist-og_group_ref
 features[field_instance][] = node-tasklist-og_vocabulary
 features[node][] = tasklist
