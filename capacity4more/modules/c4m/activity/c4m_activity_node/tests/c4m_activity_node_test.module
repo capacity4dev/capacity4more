@@ -1,0 +1,5 @@
+<?php
+/**
+ * @file
+ * Module to support tests for the c4m_activity_node module.
+ */

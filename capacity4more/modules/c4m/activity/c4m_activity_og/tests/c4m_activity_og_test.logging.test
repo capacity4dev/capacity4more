@@ -1,0 +1,336 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_og module configuration functionality.
+ */
+
+/**
+ * Tests about the og activity configuration.
+ */
+class C4mActivityOgTestLogging extends DrupalWebTestCase {
+  /**
+   * The content type used for testing.
+   */
+  const TYPE = 'c4m_activity_test';
+
+  /**
+   * The group content type.
+   *
+   * @var stdClass
+   */
+  protected $group_content_type;
+
+  /**
+   * The group we use in the tests.
+   *
+   * @var stdClass
+   */
+  protected $group_node;
+
+  /**
+   * The group administrator.
+   */
+  protected $admin;
+
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Organic Groups Logging',
+      'description' => 'Test the activity logging for Organic Groups.',
+      'group' => 'capacity4more:activity:og',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'og', 'og_ui', 'c4m_activity_node', 'c4m_activity_og');
+    parent::setUp($modules);
+
+    // create a new user with some permissions you need; then log in.
+    $this->admin = $this->drupalCreateUser(array(
+        'administer content types',
+        'administer nodes'
+      ));
+    $this->drupalLogin($this->admin);
+
+    // Create a new group node type.
+    $info = (object) array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_og_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
+    );
+    node_type_save($info);
+    og_create_field(OG_GROUP_FIELD, 'node', self::TYPE);
+    og_create_field(OG_AUDIENCE_FIELD, 'node', self::TYPE);
+    $this->assertTrue(og_is_group_type('node', self::TYPE));
+
+    // Enable activity logging.
+    $name = c4m_activity_og_variable_name(self::TYPE);
+    $settings = array(
+      'request' => 'request',
+      'revoke' => 'revoke',
+      'join' => 'join',
+      'leave' => 'leave',
+      'approve' => 'approve',
+      'reject' => 'reject',
+      'remove' => 'remove',
+      'block' => 'block',
+      'unblock' => 'unblock',
+    );
+    variable_set($name, $settings);
+
+    // Create a group node and enable access.
+    $settings = array();
+    $settings['type'] = self::TYPE;
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings[OG_ACCESS_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings['uid'] = $this->admin->uid;
+    $this->group_node = $this->drupalCreateNode($settings);
+    $this->assertTrue(og_is_group('node', $this->group_node));
+
+    // One join message for the owner.
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('join'));
+  }
+
+  /**
+   * Test the functionality to set the activity configuration for node types.
+   */
+  public function testLogging() {
+    // Some test users.
+    $user1 = $this->drupalCreateUser();
+    $user2 = $this->drupalCreateUser();
+    $user3 = $this->drupalCreateUser();
+    $user4 = $this->drupalCreateUser();
+    $user5 = $this->drupalCreateUser();
+
+    // User 1 requests group membership.
+    $this->drupalLogin($user1);
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
+    $og_membership = $this->getLastMembership($user1->uid);
+    $this->assertTrue(is_a($og_membership, 'OgMembership'));
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('request'));
+
+    // User 1 membership request approved by group administrator.
+    $this->drupalLogin($this->admin);
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
+    $edit = array(
+      'state' => OG_STATE_ACTIVE,
+    );
+    $this->drupalPost($path, $edit, t('Update membership'));
+    $this->assertEqual(4, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('approve'));
+    $this->assertEqual(2, $this->countMessages('join'));
+
+    // User 1 leaves the group.
+    $this->drupalLogin($user1);
+    $path = 'group/node/' . $this->group_node->nid . '/unsubscribe';
+    $this->drupalPost($path, array(), t('Remove'));
+    $this->assertEqual(5, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('leave'));
+
+    // User 2 requests group membership.
+    $this->drupalLogin($user2);
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
+    $og_membership = $this->getLastMembership($user2->uid);
+    $this->assertEqual(6, $this->countMessages());
+    $this->assertEqual(2, $this->countMessages('request'));
+
+    // User 2 membership request approved by group administrator.
+    $this->drupalLogin($this->admin);
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
+    $edit = array(
+      'state' => OG_STATE_ACTIVE,
+    );
+    $this->drupalPost($path, $edit, t('Update membership'));
+    $this->assertEqual(8, $this->countMessages());
+    $this->assertEqual(2, $this->countMessages('approve'));
+    $this->assertEqual(3, $this->countMessages('join'));
+
+    // User 2 is removed from group by group administrator.
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/delete-membership/' . $og_membership->id;
+    $this->drupalPost($path, array(), t('Remove'));
+    $this->assertEqual(9, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('remove'));
+
+    // User 3 requests group membership.
+    $this->drupalLogin($user3);
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
+    $og_membership = $this->getLastMembership($user3->uid);
+    $this->assertEqual(10, $this->countMessages());
+    $this->assertEqual(3, $this->countMessages('request'));
+
+    // User 3 membership request approved by group administrator.
+    $this->drupalLogin($this->admin);
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
+    $edit = array(
+      'state' => OG_STATE_ACTIVE,
+    );
+    $this->drupalPost($path, $edit, t('Update membership'));
+    $this->assertEqual(12, $this->countMessages());
+    $this->assertEqual(3, $this->countMessages('approve'));
+    $this->assertEqual(4, $this->countMessages('join'));
+
+    // User 3 group membership blocked by the group administrator.
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
+    $edit = array(
+      'state' => OG_STATE_BLOCKED,
+    );
+    $this->drupalPost($path, $edit, t('Update membership'));
+    $this->assertEqual(13, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('block'));
+
+    // User 3 group membership unblocked by the group administrator.
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/edit-membership/' . $og_membership->id;
+    $edit = array(
+      'state' => OG_STATE_ACTIVE,
+    );
+    $this->drupalPost($path, $edit, t('Update membership'));
+    $this->assertEqual(14, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('unblock'));
+
+    // User 4 requests group membership.
+    $this->drupalLogin($user4);
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
+    $og_membership = $this->getLastMembership($user4->uid);
+    $this->assertEqual(15, $this->countMessages());
+    $this->assertEqual(4, $this->countMessages('request'));
+
+    // User 4 membership request rejected by the group administrator.
+    $this->drupalLogin($this->admin);
+    $path = 'group/node/' . $this->group_node->nid . '/admin/people/delete-membership/' . $og_membership->id;
+    $this->drupalPost($path, array(), t('Remove'));
+    $this->assertEqual(16, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('reject'));
+
+    // User 5 requests group membership.
+    $this->drupalLogin($user5);
+    $path = 'group/node/' . $this->group_node->nid . '/subscribe/og_user_node';
+    $this->drupalPost($path, array(), t('Join'));
+    $this->assertEqual(17, $this->countMessages());
+    $this->assertEqual(5, $this->countMessages('request'));
+
+    // User 5 revokes his group membership request.
+    $path = 'group/node/' . $this->group_node->nid . '/unsubscribe';
+    $this->drupalPost($path, array(), t('Remove'));
+    $this->assertEqual(18, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('revoke'));
+  }
+
+  /**
+   * Test disabling the creation of new activity messages.
+   */
+  public function testDisableLogging() {
+    $this->assertTrue(c4m_activity_og_is_enabled());
+    c4m_activity_og_disable();
+    $this->assertFalse(c4m_activity_og_is_enabled());
+
+    // User 1 requests group membership.
+    $user1 = $this->drupalCreateUser();
+    $og_membership_1 = og_group(
+      'node',
+      $this->group_node->nid,
+      array(
+        'entity' => $user1,
+        'state' => OG_STATE_PENDING,
+      )
+    );
+    $this->assertEqual(1, $this->countMessages());
+
+    // User 2 joins group.
+    $user2 = $this->drupalCreateUser();
+    og_group(
+      'node',
+      $this->group_node->nid,
+      array(
+        'entity' => $user2,
+        'state' => OG_STATE_ACTIVE,
+      )
+    );
+    $this->assertEqual(1, $this->countMessages());
+
+    // User 1 membership is approved.
+    $og_membership_1->state = OG_STATE_ACTIVE;
+    $og_membership_1->save();
+    $this->assertEqual(1, $this->countMessages());
+
+    // User 1 leaves the group.
+    $og_membership_1->delete();
+    $this->assertEqual(1, $this->countMessages());
+
+    // Test with logging activated.
+    c4m_activity_og_enable();
+    $this->assertTrue(c4m_activity_og_is_enabled());
+
+    // User 3 joins group.
+    $user3 = $this->drupalCreateUser();
+    og_group(
+      'node',
+      $this->group_node->nid,
+      array(
+        'entity' => $user3,
+        'state' => OG_STATE_ACTIVE,
+      )
+    );
+    $this->assertEqual(2, $this->countMessages());
+  }
+
+
+  /**
+   * Helper to get the number of messages in the message table.
+   *
+   * @param string $action
+   *   The action type we want to see the messages for.
+   *
+   * @return int
+   *   The number of items in the message table.
+   */
+  protected function countMessages($action = NULL) {
+    $query = new entityFieldQuery();
+    $query
+      ->count()
+      ->entityCondition('entity_type', 'message');
+
+    if ($action) {
+      $query->propertyCondition('type', 'c4m_activity_og_' . $action);
+    }
+
+    $count = (int) $query->execute();
+    return $count;
+  }
+
+  /**
+   * Get the last user membership record based on the given gid.
+   *
+   * @param int $uid
+   *   The user we want the membership for.
+   *
+   * @return OgMembership
+   *   The membership.
+   */
+  protected function getLastMembership($uid) {
+    return og_get_membership('node', $this->group_node->nid, 'user', $uid);
+  }
+
+}
