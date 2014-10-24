@@ -27,6 +27,7 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
     array('related_docs', 'Documents'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
     array('uid', 'UID'),
   );
 
@@ -40,20 +41,23 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
     $this->dependencies[] = 'C4mDemoContentCreateTasklists';
 
     $this->addFieldMapping('c4m_related_tasklist', 'tasklist')
-      ->sourceMigration('C4mDemoContentCreateTasklists');
+         ->sourceMigration('C4mDemoContentCreateTasklists');
 
     $this->addFieldMapping('c4m_task_status', 'status');
 
     $this->addFieldMapping('c4m_task_priority', 'priority');
 
     $this->addFieldMapping('c4m_task_assigned_to', 'assigned_to')
-      ->sourceMigration('C4mDemoContentCreateUsers');
+         ->sourceMigration('C4mDemoContentCreateUsers');
 
     $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_tasklist_status', 'status');
 
     $this->addFieldMapping('c4m_related_document', 'documents');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
 
   /**
@@ -68,10 +72,10 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
   public function prepareRow($row) {
     parent::prepareRow($row);
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateDocuments',
-      explode('|', $row->related_docs),
-      NULL,
-      $this
+                           'C4mDemoContentCreateDocuments',
+                             explode('|', $row->related_docs),
+                             NULL,
+                             $this
     );
 
     // By default $unfiltered_ids is an array of arrays, containing the
@@ -79,8 +83,10 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
     // This NULL value is counted however and added to the query, resulting
     // in errors. Therefore we need to filter it out.
     $row->documents = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                           $unfiltered_ids
     );
+
+    $row->date_entries = $this->mapDateVocab($row->date);
   }
 
   /**
