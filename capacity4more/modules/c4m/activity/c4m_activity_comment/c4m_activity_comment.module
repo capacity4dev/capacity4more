@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code to support logging comment activities using the messaging module.
+ * Code to support logging comment activities using the Message module.
  */
 
 /******************************************************************************
@@ -15,9 +15,7 @@
  *
  * @see c4m_activity_comment_node_type_form_save()
  */
-function c4m_activity_comment_form_node_type_form_alter(
-  &$form, &$form_state, $form_id
-) {
+function c4m_activity_comment_form_node_type_form_alter(&$form, &$form_state, $form_id) {
 
   $info = $form['#node_type'];
   $default_config = array();
@@ -62,10 +60,7 @@ function c4m_activity_comment_node_type_form_save($form, $form_state) {
   $values = $form_state['values'];
 
   // Save the configuration.
-  variable_set(
-    c4m_activity_comment_variable_name($values['type']),
-    $values['c4m_activity_comment']
-  );
+  variable_set(c4m_activity_comment_variable_name($values['type']), $values['c4m_activity_comment']);
 
   // Delete the old variable if the machine name has changed.
   if ($values['type'] !== $values['old_type']) {
@@ -89,22 +84,22 @@ function c4m_activity_comment_node_type_delete($info) {
 /**
  * Helper to determine if the type action needs a message or not.
  *
- * The config from the variables table is used to check if the given type type
+ * The config from the variables table is used to check if the given type
  * requires messages.
  *
  * @param string $type
  *   The content type we want to log a message for.
  *   This supports also content types prefixed with the "comment_node_" prefix.
- * @param string $action
- *   The action performed on the type. The supported actions are:
+ * @param string $operation
+ *   The operation performed on the type. The supported operations are:
  *   - insert
  *   - update
  *   - delete
  *
  * @return bool
- *   Needs an message yes/no.
+ *   TRUE if a message needs to be created or updated.
  */
-function c4m_activity_comment_needs_message($type, $action) {
+function c4m_activity_comment_needs_message($type, $operation) {
   if (!c4m_activity_comment_is_enabled()) {
     return FALSE;
   }
@@ -112,22 +107,19 @@ function c4m_activity_comment_needs_message($type, $action) {
   // Cleanup types received from a comment.
   $type = preg_replace('/^comment_node_/', '', $type);
 
-  $config = variable_get(c4m_activity_comment_variable_name($type), FALSE);
-  if (!$config) {
+  if (!$config = variable_get(c4m_activity_comment_variable_name($type), FALSE)) {
+    // No config has been set for messages for this content type.
     return FALSE;
   }
 
-  if (empty($config[$action]) || $config[$action] !== $action) {
+  if (empty($config[$operation]) || $config[$operation] !== $operation) {
+    // No message should be created for this specific action.
     return FALSE;
   }
 
   // Check if messages are deleted when the node is deleted.
   // If so => no message needed.
-  if ($action === 'delete'
-    && in_array('comment', variable_get(
-        'message_delete_on_entity_delete', array('node', 'user', 'taxonomy_term', 'comment')
-      ))
-  ) {
+  if ($operation === 'delete' && in_array('comment', variable_get('message_delete_on_entity_delete', array('node', 'user', 'taxonomy_term', 'comment')))) {
     return FALSE;
   }
 
@@ -142,7 +134,8 @@ function c4m_activity_comment_needs_message($type, $action) {
  *   2. Checks if there is an message within the last 6 hours.
  *   3. Checks if the last message type is one of the types we don't want
  *      duplicates for.
- *   4. Checks if that message is by the same user as the one updating the node.
+ *   4. Checks if that message is by the same user as the one updating the
+ *      comment.
  *
  * @param stdClass $comment
  *   The comment that is being updated.
@@ -151,6 +144,8 @@ function c4m_activity_comment_needs_message($type, $action) {
  *   Needs an update yes/no.
  */
 function c4m_activity_comment_update_needs_message($comment) {
+  global $user;
+  
   if (!c4m_activity_comment_is_enabled()) {
     return FALSE;
   }
@@ -174,8 +169,7 @@ function c4m_activity_comment_update_needs_message($comment) {
   }
 
   // @TODO: 4. Check if the last message was for another user then the one updating the comment.
-  $account = $GLOBALS['user'];
-  if ((int) $account->uid !== (int) $message->user->uid->value()) {
+  if ($user->uid !== $message->user->getIdentifier()) {
     return TRUE;
   }
 
