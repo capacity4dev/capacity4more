@@ -145,7 +145,7 @@ function c4m_activity_comment_needs_message($type, $operation) {
  */
 function c4m_activity_comment_update_needs_message($comment) {
   global $user;
-  
+
   if (!c4m_activity_comment_is_enabled()) {
     return FALSE;
   }
