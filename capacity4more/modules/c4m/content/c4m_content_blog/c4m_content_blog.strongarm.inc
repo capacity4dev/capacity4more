@@ -98,6 +98,9 @@ function c4m_content_blog_strongarm() {
         'path' => array(
           'weight' => '5',
         ),
+        'locations' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(),
     ),

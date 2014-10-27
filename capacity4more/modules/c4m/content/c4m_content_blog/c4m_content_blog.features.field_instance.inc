@@ -102,6 +102,47 @@ function c4m_content_blog_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-blog-field_discussion_type'
+  $field_instances['node-blog-field_discussion_type'] = array(
+    'bundle' => 'blog',
+    'default_value' => array(
+      0 => array(
+        'value' => 'inforamtion',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_discussion_type',
+    'label' => 'Discussion type',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-blog-og_group_ref'
   $field_instances['node-blog-og_group_ref'] = array(
     'bundle' => 'blog',
@@ -202,6 +243,7 @@ function c4m_content_blog_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Discussion type');
   t('Documents');
   t('Groups');
   t('Metadata');
