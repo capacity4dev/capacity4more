@@ -190,17 +190,6 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
     // Delete a node, this will also delete all messages related to it.
     node_delete($node->nid);
     $this->assertEqual(0, $this->countMessages());
-
-    // Avoid automatic deletion of the messages if the node is deleted.
-    variable_set('message_delete_on_entity_delete', array());
-    $node = $this->drupalCreateNode(array(
-        'type' => self::TYPE,
-        'uid'  => $this->admin->uid,
-      ));
-    $this->assertEqual(1, $this->countMessages());
-    node_delete($node->nid);
-    $this->assertEqual(2, $this->countMessages());
-    $this->assertEqual(1, $this->countMessages('delete'));
   }
 
   /**
@@ -243,10 +232,10 @@ class C4mActivityNodeTestLogging extends DrupalWebTestCase {
   }
 
   /**
-   * Helper to get the number of messages in the message table.
+   * Get the number of messages in the message table.
    *
    * @param string $action
-   *   The action type we want to see the messages for.
+   *   The action type we want to see the messages for. Defaults to NULL.
    *
    * @return int
    *   The number of items in the message table.

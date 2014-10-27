@@ -320,7 +320,7 @@ function c4m_activity_node_get_last_message($node, $time_ago = 0) {
  * @return int | NULL
  *   Group node ID.
  */
-function _c4m_activity_node_get_node_group($node) {
+function c4m_activity_node_get_node_group($node) {
   if (!module_exists('og')) {
     return NULL;
   }
@@ -335,12 +335,12 @@ function _c4m_activity_node_get_node_group($node) {
   }
 
   // TODO: What if a node is added to another group then the original group?
-  $group = reset($groups['node']);
-  if (!$group) {
+  $group_id = reset($groups['node']);
+  if (!$group_id) {
     return NULL;
   }
 
-  return (int) $group;
+  return (int) $group_id;
 }
 
 
