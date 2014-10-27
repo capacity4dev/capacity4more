@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * c4m_content_blog.features.field_instance.inc
+ * c4m_content_discussion.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function c4m_content_blog_field_default_field_instances() {
+function c4m_content_discussion_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-blog-c4m_body'
-  $field_instances['node-blog-c4m_body'] = array(
-    'bundle' => 'blog',
+  // Exported field_instance: 'node-discussion-c4m_body'
+  $field_instances['node-discussion-c4m_body'] = array(
+    'bundle' => 'discussion',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -53,9 +53,9 @@ function c4m_content_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog-c4m_related_document'
-  $field_instances['node-blog-c4m_related_document'] = array(
-    'bundle' => 'blog',
+  // Exported field_instance: 'node-discussion-c4m_related_document'
+  $field_instances['node-discussion-c4m_related_document'] = array(
+    'bundle' => 'discussion',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -102,9 +102,9 @@ function c4m_content_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog-c4m_vocab_date'
-  $field_instances['node-blog-c4m_vocab_date'] = array(
-    'bundle' => 'blog',
+  // Exported field_instance: 'node-discussion-c4m_vocab_date'
+  $field_instances['node-discussion-c4m_vocab_date'] = array(
+    'bundle' => 'discussion',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -139,9 +139,9 @@ function c4m_content_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog-c4m_vocab_language'
-  $field_instances['node-blog-c4m_vocab_language'] = array(
-    'bundle' => 'blog',
+  // Exported field_instance: 'node-discussion-c4m_vocab_language'
+  $field_instances['node-discussion-c4m_vocab_language'] = array(
+    'bundle' => 'discussion',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -176,9 +176,9 @@ function c4m_content_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog-og_group_ref'
-  $field_instances['node-blog-og_group_ref'] = array(
-    'bundle' => 'blog',
+  // Exported field_instance: 'node-discussion-og_group_ref'
+  $field_instances['node-discussion-og_group_ref'] = array(
+    'bundle' => 'discussion',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -235,9 +235,9 @@ function c4m_content_blog_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-blog-og_vocabulary'
-  $field_instances['node-blog-og_vocabulary'] = array(
-    'bundle' => 'blog',
+  // Exported field_instance: 'node-discussion-og_vocabulary'
+  $field_instances['node-discussion-og_vocabulary'] = array(
+    'bundle' => 'discussion',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
