@@ -81,13 +81,7 @@ module.exports = function(grunt) {
       },
       livereload: {
         options: {
-          middleware: function (connect) {
-            return [
-              lrSnippet,
-              mountFolder(connect, '.tmp'),
-              mountFolder(connect, yeomanConfig.src)
-            ];
-          }
+          build: yeomanConfig.build
         }
       }
     },
@@ -203,6 +197,8 @@ module.exports = function(grunt) {
     'bump-commit'
   ]);
 
-  grunt.registerTask('default', ['build']);
+  grunt.registerTask('default', [
+    'watch'
+  ]);
 
 };

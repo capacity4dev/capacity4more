@@ -16,14 +16,14 @@ angular.module('c4mApp')
      * Get the base path of the Drupal installation.
      */
     this.getBasePath = function() {
-      return (angular.isDefined(self.settings.drupalAngular.basePath)) ? self.settings.drupalAngular.basePath : undefined;
+      return (angular.isDefined(self.settings.c4m.basePath)) ? self.settings.c4m.basePath : undefined;
     };
 
     /**
      * Get the base path of the Drupal installation.
      */
     this.getCsrfToken = function() {
-      return (angular.isDefined(self.settings.drupalAngular.csrfToken)) ? self.settings.drupalAngular.csrfToken : undefined;
+      return (angular.isDefined(self.settings.c4m.csrfToken)) ? self.settings.c4m.csrfToken : undefined;
     };
 
     /**
@@ -36,6 +36,6 @@ angular.module('c4mApp')
      *   The form schema if exists, or an empty object.
      */
     this.getData = function(id) {
-      return (angular.isDefined(self.settings.drupalAngular.data[id])) ? self.settings.drupalAngular.data[id] : {};
+      return (angular.isDefined(self.settings.c4m.data[id])) ? self.settings.c4m.data[id] : {};
     }
   });

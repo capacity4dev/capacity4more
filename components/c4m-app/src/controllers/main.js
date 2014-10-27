@@ -10,9 +10,6 @@ angular.module('c4mApp')
       'events': 'Event'
     };
     $scope.selections = {};
-    $scope.serverSide = {
-      data: {}
-    };
 
     /**
      * Update the bundle of the entity to send to the right API.
@@ -26,7 +23,7 @@ angular.module('c4mApp')
       elem.addClass( "active" );
       // Update Bundle.
       $scope.bundleName = bundle;
-    }
+    };
 
     /**
      * Submit form (even if not validated via client).
@@ -36,29 +33,6 @@ angular.module('c4mApp')
       if(entityForm.$valid) {
         // Cope data.
         var submitData = angular.copy(data);
-        // Setup Date and time for events.
-        if (bundle == 'events') {
-          // Convert  to a timestamp for restful.
-          submitData.date =  {
-            value: new Date($filter('date')(data.startDate, 'shortDate') + ' ' + $filter('date')(data.startTime, 'shortTime')).getTime() / 1000,
-            value2: new Date($filter('date')(data.endDate, 'shortDate') + ' ' + $filter('date')(data.endTime, 'shortTime')).getTime() / 1000
-          };
-          // Delete time because RESTful will try to check their values.
-          delete submitData['startDate'];
-          delete submitData['endDate'];
-          delete submitData['startTime'];
-          delete submitData['endTime'];
-        }
-
-        // Add selected categories to data.
-        var categories = [];
-        var id = 0;
-        angular.forEach($scope.selections, function (value, termId) {
-          categories[id] = termId;
-          id++;
-        });
-
-        submitData.categories = categories;
 
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)

@@ -28,7 +28,7 @@ function capacity4more_install() {
   menu_rebuild();
 
   // THEMES
-  $theme_default = variable_get('theme_default', 'bartik');
+  $theme_default = variable_get('theme_default', 'bootstrap');
 
   $theme_admin = 'seven';
   _capacity4more_install_save_theme($theme_admin, 1);

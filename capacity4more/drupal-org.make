@@ -65,6 +65,9 @@ projects[getlocations][version] = "1.13"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
 
+projects[jquery_update][subdir] = "contrib"
+projects[jquery_update][version] = "2.4"
+
 projects[location][subdir] = "contrib"
 projects[location][version] = "3.3"
 
@@ -114,6 +117,9 @@ projects[og_purl][version] = "1.2"
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
+
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.4"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
@@ -188,3 +194,12 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
+
+libraries[bootstrap_sass][download][type] = "file"
+libraries[bootstrap_sass][type] = "libraries"
+libraries[bootstrap_sass][download][url] = "https://github.com/twbs/bootstrap-sass/archive/v3.1.1.zip"
+
+; Themes
+projects[bootstrap][subdir] = "contrib"
+projects[bootstrap][version] = "3.0"
+projects[bootstrap][type] = "theme"

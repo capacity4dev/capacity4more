@@ -166,6 +166,19 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
 fi
 
 
+# Build last version of angular application.
+cd ./components/c4m-app
+
+npm install
+grunt build
+
+cd ../..
+
+# Install angular components via bower.
+bower cache clean
+bower install ./components/c4m-app
+
+
 # If we managed to get to here: the installation was successful!
 LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
 echo
@@ -175,18 +188,6 @@ echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
 
-# Build last version of angular application.
-
-cd ./components/c4m-app
-
-npm install
-grunt build
-
-cd ../../
-
-# Install angular components via bower.
-bower cache clean
-bower install ./components/c4m-app
 
 # Auto Login?
 if [ $AUTO_LOGIN ]; then

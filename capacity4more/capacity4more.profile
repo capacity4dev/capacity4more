@@ -37,6 +37,10 @@ function capacity4more_install_tasks() {
 //    'display' => FALSE,
 //  );
 
+  $tasks['capacity4more_setup_set_variables'] = array(
+    'display_name' => st('Rebuild permissions'),
+    'display' => FALSE,
+  );
 
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
@@ -113,4 +117,27 @@ function capacity4more_setup_blocks() {
  */
 function capacity4more_setup_rebuild_permissions() {
   node_access_rebuild();
+}
+
+/**
+ * Task callback; Set variables.
+ */
+function capacity4more_setup_set_variables() {
+  $variables = array(
+    // Homepage
+    'site_frontpage' => 'homepage',
+
+    // Theme
+    'theme_default' => 'bootstrap',
+    'admin_theme' => 'seven',
+    'node_admin_theme' => 1,
+    'jquery_update_jquery_version' => 1.8,
+    'jquery_update_jquery_admin_version' => 1.5,
+    'page_manager_node_view_disabled' => FALSE,
+    'page_manager_term_view_disabled' => FALSE,
+  );
+
+  foreach ($variables as $key => $value) {
+    variable_set($key, $value);
+  }
 }
