@@ -1,0 +1,12 @@
+name = Activity stream
+core = 7.x
+package = capacity4more - Features
+dependencies[] = page_manager
+dependencies[] = views
+features[ctools][] = page_manager:pages_default:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[page_manager_handlers][] = node_view_panel_context
+features[page_manager_handlers][] = node_view_panel_context_2
+features[views_view][] = active_stream
+features_exclude[dependencies][ctools] = ctools

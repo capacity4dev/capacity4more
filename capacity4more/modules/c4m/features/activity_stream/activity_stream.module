@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Activity stream feature.
+ */
+
+include_once 'activity_stream.features.inc';
