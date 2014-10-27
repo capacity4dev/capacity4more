@@ -112,6 +112,9 @@ projects[og_purl][version] = "1.2"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "7.x-3.4"
+
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
