@@ -1,0 +1,267 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_node module configuration functionality.
+ */
+
+/**
+ * Tests about the node activity logging.
+ */
+class C4mActivityNodeTestLogging extends DrupalWebTestCase {
+  /**
+   * Node type name to use in the tests.
+   *
+   * @var string
+   */
+  const TYPE = 'c4m_activity_node_test';
+
+  /**
+   * The logged in admin user.
+   *
+   * @var stdClass
+   */
+  protected $admin;
+
+  /**
+   * Another user to test with.
+   *
+   * @var stdClass
+   */
+  protected $editor;
+
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Node Action logging',
+      'description' => 'Test the activity logging for node types.',
+      'group' => 'capacity4more:activity:node',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'c4m_activity_node');
+    parent::setUp($modules);
+
+    // Create a new node type.
+    $info = array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_node_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
+    );
+    $this->drupalCreateContentType($info);
+
+    // Enable activity logging.
+    $name = c4m_activity_node_variable_name(self::TYPE);
+    variable_set(
+      $name,
+      array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
+    );
+    $this->refreshVariables();
+
+    // create a new user with some permissions you need; then log in.
+    $permissions = array(
+      'administer nodes',
+      'bypass node access',
+    );
+    $this->admin = $this->drupalCreateUser($permissions);
+    $this->editor = $this->drupalCreateUser($permissions);
+
+    $this->drupalLogin($this->admin);
+  }
+
+  /**
+   * Test create message.
+   */
+  public function testCreateMessage() {
+    $node = $this->drupalCreateNode(
+      array(
+        'type' => 'article',
+        'uid'  => $this->admin->uid,
+      )
+    );
+
+    $message = c4m_activity_node_create_message($node, 'insert');
+    $wrapper = entity_metadata_wrapper('message', $message);
+
+    // Check the arguments extracted from the node.
+    $arguments = $message->arguments;
+    $this->assertEqual((int) $node->nid, (int) $arguments['node_nid']);
+    $this->assertEqual((int) $node->uid, (int) $arguments['node_uid']);
+    $this->assertEqual($node->type, $arguments['node_type']);
+    $this->assertEqual($node->title, $arguments['node_title']);
+
+    // Check the field(s) extracted from the node.
+    $this->assertEqual(
+      (int) $node->nid,
+      (int) $wrapper->c4m_activity_node->nid->value()
+    );
+  }
+
+  /**
+   * Test the logging functionality for node types.
+   */
+  public function testLogging() {
+    $this->drupalCreateNode();
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a node.
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+      ));
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('insert'));
+    $this->assertEqual(0, $this->countMessages('update'));
+    $this->assertEqual(0, $this->countMessages('delete'));
+
+    // Update a node.
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('update'));
+
+    // Another update by same user within 6 hours => no update.
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(2, $this->countMessages());
+
+    // Update after more then 6 hours by the same user.
+    $timestamp = strtotime(date('r', time()) . '-24 hours');
+    $query = db_update('message');
+    $query->fields(array('timestamp' => $timestamp))
+          ->execute();
+
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(3, $this->countMessages());
+    $this->assertEqual(2, $this->countMessages('update'));
+
+    // Update by another user.
+    $this->drupalLogin($this->editor);
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(4, $this->countMessages());
+    $this->assertEqual(3, $this->countMessages('update'));
+
+    // Update by the original user.
+    $this->drupalLogin($this->admin);
+    $edit = array('title' => $this->randomName(), 'revision' => 1);
+    $this->drupalPost(
+      'node/' . $node->nid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(5, $this->countMessages());
+    $this->assertEqual(4, $this->countMessages('update'));
+
+    // Delete a node, this will also delete all messages related to it.
+    node_delete($node->nid);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Avoid automatic deletion of the messages if the node is deleted.
+    variable_set('message_delete_on_entity_delete', array());
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+      ));
+    $this->assertEqual(1, $this->countMessages());
+    node_delete($node->nid);
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('delete'));
+  }
+
+  /**
+   * Test disabling the creation of new activity messages.
+   */
+  public function testDisableEnableLogging() {
+    $this->assertTrue(c4m_activity_node_is_enabled());
+    c4m_activity_node_disable();
+    $this->assertFalse(c4m_activity_node_is_enabled());
+
+    // Create a node with activity disabled.
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+        'title' => $this->randomName(),
+      ));
+    $this->assertEqual(0, $this->countMessages());
+
+    // Update a node with activity disabled.
+    $node->title = $this->randomName();
+    $node->revision = 1;
+    node_save($node);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Delete a node without activity disabled.
+    variable_set('message_delete_on_entity_delete', array());
+    node_delete($node->nid);
+
+    c4m_activity_node_enable();
+    $this->assertTrue(c4m_activity_node_is_enabled());
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a node with activity enabled.
+    $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+        'title' => $this->randomName(),
+      ));
+    $this->assertEqual(1, $this->countMessages());
+  }
+
+  /**
+   * Helper to get the number of messages in the message table.
+   *
+   * @param string $action
+   *   The action type we want to see the messages for.
+   *
+   * @return int
+   *   The number of items in the message table.
+   */
+  protected function countMessages($action = NULL) {
+    $query = new entityFieldQuery();
+    $query
+      ->count()
+      ->entityCondition('entity_type', 'message');
+
+    if ($action) {
+      $query->propertyCondition('type', 'c4m_activity_node_' . $action);
+    }
+
+    $count = (int) $query->execute();
+    return $count;
+  }
+}
