@@ -320,4 +320,17 @@ class C4mActivityOgTestLogging extends DrupalWebTestCase {
     return $count;
   }
 
+  /**
+   * Get the last user membership record based on the given gid.
+   *
+   * @param int $uid
+   *   The user we want the membership for.
+   *
+   * @return OgMembership
+   *   The membership.
+   */
+  protected function getLastMembership($uid) {
+    return og_get_membership('node', $this->group_node->nid, 'user', $uid);
+  }
+
 }

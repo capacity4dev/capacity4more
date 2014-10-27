@@ -156,7 +156,8 @@ function c4m_activity_comment_update_needs_message($comment) {
   }
 
   // 2. Load the last previous message within the last 6 hours timeframe.
-  $time_ago = strtotime(date('r', time()) . '-6 hours');
+  $timeframe = variable_get('comment_timeframe', '6 hours');
+  $time_ago = strtotime(date('r', time()) . '-' . $timeframe);
   $message = c4m_activity_comment_get_last_message($comment, $time_ago);
   if (!$message) {
     return TRUE;
@@ -174,9 +175,9 @@ function c4m_activity_comment_update_needs_message($comment) {
   }
 
   // No update needed.
-  // @TODO: should we update the message timestamp? This could lead to wrong data.
-  // $message->timestamp->set($node->changed);
-  // $message->save();
+  $wrapper = entity_metadata_wrapper('comment', $comment);
+  $message->timestamp->set($wrapper->node->changed->value());
+  $message->save();
 
   return FALSE;
 }
@@ -231,6 +232,8 @@ function c4m_activity_comment_create_message($comment, $action) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->c4m_activity_comment->set($comment);
   $wrapper->c4m_activity_node->set($node);
+
+  // Check if the message is for a group content.
   if ($group_nid) {
     $wrapper->c4m_activity_group->set($group_nid);
   }
