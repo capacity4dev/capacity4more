@@ -1,0 +1,14 @@
+<div ng-controller="dateCtrl">
+  <div class="col-md-6">
+    <p class="input-group">
+      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="openStart($event)" placeholder="Start Date" ng-model="data.startDate" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" name="startDate"/>
+      <timepicker ng-model="data.startTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
+    </p>
+  </div>
+  <div class="col-md-6">
+    <p class="input-group">
+      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="openEnd($event)" placeholder="End Date" ng-model="data.endDate" is-open="endOpened" init-date="data.startDate" min-date="data.startDate" datepicker-options="dateOptions" close-text="Close"  name="endDate"/>
+      <timepicker ng-model="data.endTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
+    </p>
+  </div>
+</div>
