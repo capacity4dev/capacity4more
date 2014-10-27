@@ -6,7 +6,7 @@ $plugin = array(
   'name' => 'blog_posts__1_0',
   'entity_type' => 'node',
   'bundle' => 'blog',
-  'description' => t('Create "blog" content type.'),
+  'description' => t('Expose the "Discussion" resource.'),
   'class' => 'C4mRestfulBlogPostsResource',
   'authentication_types' => TRUE,
 );
