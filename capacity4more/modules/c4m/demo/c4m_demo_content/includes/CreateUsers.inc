@@ -38,7 +38,7 @@ class C4mDemoContentCreateUsers extends Migration {
    */
   public function __construct() {
     parent::__construct(
-      MigrateGroup::getInstance(C4M_DEMO_CONTENT_MIGRATION_GROUP)
+          MigrateGroup::getInstance(C4M_DEMO_CONTENT_MIGRATION_GROUP)
     );
 
     $this->description = t('Import users from a CSV file.');
@@ -57,46 +57,46 @@ class C4mDemoContentCreateUsers extends Migration {
     $this->addFieldMapping('c4m_body', 'description');
 
     $this->addFieldMapping('c4m_media', 'picture')
-      ->separator(';');
+         ->separator(';');
     $this->addFieldMapping('c4m_media:file_replace')
-      ->defaultValue(FILE_EXISTS_REPLACE);
+         ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_media:source_dir')
-      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+         ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
 
     $this->addFieldMapping('roles')
-      ->defaultValue(DRUPAL_AUTHENTICATED_RID);
+         ->defaultValue(DRUPAL_AUTHENTICATED_RID);
     $this->addFieldMapping('status')
-      ->defaultValue(TRUE);
+         ->defaultValue(TRUE);
 
     $this->addFieldMapping('c4m_related_topic', 'topics_interest_list');
     $this->addFieldMapping('c4m_related_topic_expertise', 'topics_expertise_list');
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo')
-      ->sourceMigration('C4mDemoContentCreateRegionTerms')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+         ->sourceMigration('C4mDemoContentCreateRegionTerms')
+         ->arguments(array('source_type' => 'tid'))
+         ->separator('|');
 
     $this->addFieldMapping('og_user_node', 'og_user_node');
 
     // Create a map object for tracking the relationships between source rows.
-    $key = array(
+    $key                 = array(
       'id' => array(
-        'type' => 'varchar',
-        'length' => 255,
+        'type'     => 'varchar',
+        'length'   => 255,
         'not null' => TRUE,
       ),
     );
     $destination_handler = new MigrateDestinationUser();
-    $this->map = new MigrateSQLMap(
+    $this->map           = new MigrateSQLMap(
       $this->machineName,
       $key,
       $destination_handler->getKeySchema()
     );
 
     // Create a MigrateSource object.
-    $csv_path = drupal_get_path('module', 'c4m_demo_content') . '/csv';
-    $this->source = new MigrateSourceCSV(
+    $csv_path          = drupal_get_path('module', 'c4m_demo_content') . '/csv';
+    $this->source      = new MigrateSourceCSV(
       $csv_path . '/' . $this->entityType . '/user.csv',
       $this->csvColumns,
       array('header_rows' => 1)
@@ -116,47 +116,47 @@ class C4mDemoContentCreateUsers extends Migration {
   public function prepareRow($row) {
     parent::prepareRow($row);
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateTopics',
-      explode('|', $row->topics_interest),
-      NULL,
-      $this
+                           'C4mDemoContentCreateTopics',
+                             explode('|', $row->topics_interest),
+                             NULL,
+                             $this
     );
 
     $row->topics_interest_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                                      $unfiltered_ids
     );
 
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateTopics',
-      explode('|', $row->topics_expertise),
-      NULL,
-      $this
+                           'C4mDemoContentCreateTopics',
+                             explode('|', $row->topics_expertise),
+                             NULL,
+                             $this
     );
 
     $row->topics_expertise_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                                       $unfiltered_ids
     );
 
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateGroups',
-      explode('|', $row->groups_list),
-      NULL,
-      $this
+                           'C4mDemoContentCreateGroups',
+                             explode('|', $row->groups_list),
+                             NULL,
+                             $this
     );
 
     $groups = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                   $unfiltered_ids
     );
 
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateProjects',
-      explode('|', $row->projects_list),
-      NULL,
-      $this
+                           'C4mDemoContentCreateProjects',
+                             explode('|', $row->projects_list),
+                             NULL,
+                             $this
     );
 
     $projects = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                     $unfiltered_ids
     );
 
     $gids = array();
@@ -196,7 +196,7 @@ class C4mDemoContentCreateUsers extends Migration {
       return;
     }
 
-    $role = user_role_load_by_name($row->role);
+    $role                      = user_role_load_by_name($row->role);
     $entity->roles[$role->rid] = $row->role;
 
     user_save($entity);
