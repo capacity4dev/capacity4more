@@ -34,9 +34,9 @@ function c4m_vocab_language_update_7001() {
   $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
 
   $terms = array(
-    'en' => -99,
-    'fr' => -5,
-    'es' => -4,
+    'en' => 0,
+    'fr' => 1,
+    'es' => 2,
   );
 
   foreach ($terms as $term => $weight) {
