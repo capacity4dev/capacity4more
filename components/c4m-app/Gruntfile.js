@@ -154,7 +154,7 @@ module.exports = function(grunt) {
         stripBanners: true
       },
       dist: {
-        src: ['<%= yeoman.src %>/restful-app.js', '<%= yeoman.src %>/**/*.js'],
+        src: ['<%= yeoman.src %>/c4m-app.js', '<%= yeoman.src %>/**/*.js'],
         dest: '<%= yeoman.dist %>/<%= pkg.name %>.js'
       }
     },

@@ -1,5 +1,5 @@
 <div class="explanation">
- <em>This is Angular!</em>
+ <em>C4M!</em>
 </div>
 
 <form name="entityForm" ng-submit="submitForm(entityForm, data, bundleName)">
@@ -16,8 +16,6 @@
     </div>
   </div>
 
-  <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundleName"></bundle-select>
-
   <div ng-show="bundles[bundleName]">
     <div class="form-group textarea" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
       <label>Description</label>
@@ -27,13 +25,6 @@
         <ul ng-show="serverSide.data.errors.body">
           <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
         </ul>
-      </div>
-    </div>
-
-    <div class="form-group date" ng-show="bundleName == 'events'">
-      <label>Date</label>
-      <div class="row">
-        <calendar data="data"></calendar>
       </div>
     </div>
 

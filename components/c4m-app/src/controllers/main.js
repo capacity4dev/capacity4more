@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('restfulApp')
+angular.module('c4mApp')
   .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $filter, $log) {
     $scope.data = DrupalSettings.getData('entity');
     $scope.bundleName = '';

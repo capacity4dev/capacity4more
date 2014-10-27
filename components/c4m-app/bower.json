@@ -1,12 +1,12 @@
 {
-  "name": "restful-app",
+  "name": "c4m-app",
   "version": "0.0.1",
-  "homepage": "https://github.com/nader77/drupal_angular_forms",
+  "homepage": "https://github.com/capacity4dev/capacity4more",
   "authors": [
     "Gizra"
   ],
   "description": "Angular application for RESTFul angularJs forms.",
-  "main": "dist/restful-app.js",
+  "main": "dist/c4m-app.js",
   "license": "MIT",
   "private": true,
   "ignore": [

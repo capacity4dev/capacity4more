@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('restfulApp')
+angular.module('c4mApp')
   .service('DrupalSettings', function($window) {
     var self = this;
 

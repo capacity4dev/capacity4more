@@ -175,6 +175,18 @@ echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
 
+# Build last version of angular application.
+
+cd ./components/c4m-app
+
+npm install
+grunt build
+
+cd ../../
+
+# Install angular components via bower.
+bower cache clean
+bower install ./components/c4m-app
 
 # Auto Login?
 if [ $AUTO_LOGIN ]; then

@@ -25,7 +25,7 @@ module.exports = function(config) {
       'bower_components/danialfarid-angular-file-upload/dist/angular-file-upload-html5-shim.min.js',
       'bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
       'bower_components/eh-boxes/dist/eh-boxes.js',
-      'src/restful-app.js',
+      'src/c4m-app.js',
       'src/controllers/login.js',
       'src/services/backendURL-interceptor.js',
       'src/services/job.js',

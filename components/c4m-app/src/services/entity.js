@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('restfulApp')
+angular.module('c4mApp')
   .service('EntityResource', function(DrupalSettings, $http) {
 
     /**

@@ -1,7 +1,7 @@
 {
   "name": "c4m-app",
   "version": "0.0.1",
-  "description": "RESTFul AngularJS example.",
+  "description": "global C4M component.",
   "main": "src/c4m-app.js",
   "scripts": {
     "test": "grunt test"
