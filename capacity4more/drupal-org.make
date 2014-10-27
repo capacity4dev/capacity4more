@@ -125,6 +125,10 @@ projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
+projects[restful][subdir] = "contrib"
+projects[restful][download][type] = "git"
+projects[restful][download][branch] = "7.x-1.x"
+
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
 

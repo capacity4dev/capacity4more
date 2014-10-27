@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Pipe restful module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_overview_restful_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}
