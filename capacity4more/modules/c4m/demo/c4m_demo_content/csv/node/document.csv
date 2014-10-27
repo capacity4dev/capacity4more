@@ -1,3 +1,3 @@
-ID,Title,Body,File,Categories,Tags,Group,Group Type,Date,Language,UID
-doc_1,Lusail City Development PDF,"",2011-05-lusail-development-project.pdf,cat_p_art|cat_p_city,tag_doha|tag_lusail,project_1,project,2001,fr|en,user_3
-doc_2,Lusail Marina Brochure,"",Lusail_Marina_Brochure.pdf,cat_p_art|cat_p_city,tag_doha|tag_lusail|tag_sea,project_1,project,Before 2000|2000|2001,es,user_1
+ID,Title,Body,File,Categories,Tags,Group,Group Type,Document Type,Date,Language,UID
+doc_1,Lusail City Development PDF,"",2011-05-lusail-development-project.pdf,cat_p_art|cat_p_city,tag_doha|tag_lusail,project_1,project,Presentation|Report,2001,fr|en,user_3
+doc_2,Lusail Marina Brochure,"",Lusail_Marina_Brochure.pdf,cat_p_art|cat_p_city,tag_doha|tag_lusail|tag_sea,project_1,project,Other,Before 2000|2000|2001,es,user_1
