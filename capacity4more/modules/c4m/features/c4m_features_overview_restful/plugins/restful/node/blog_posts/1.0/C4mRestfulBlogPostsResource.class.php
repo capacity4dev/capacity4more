@@ -19,8 +19,10 @@ class C4mRestfulBlogPostsResource extends RestfulEntityBaseNode {
     );
 
     $public_fields['group'] = array(
-      'property' => 'og_group_ref',
-      'sub_property' => 'title',
+      'property' => OG_AUDIENCE_FIELD,
+      'resource' => array(
+        'group' => 'groups',
+      ),
     );
 
     return $public_fields;
