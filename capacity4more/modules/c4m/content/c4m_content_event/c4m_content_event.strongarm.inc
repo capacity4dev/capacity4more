@@ -96,10 +96,10 @@ function c4m_content_event_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '10',
         ),
         'locations' => array(
-          'weight' => '12',
+          'weight' => '15',
         ),
       ),
       'display' => array(),

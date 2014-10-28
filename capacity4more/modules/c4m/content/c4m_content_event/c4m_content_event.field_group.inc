@@ -21,7 +21,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '8',
+    'weight' => '11',
     'children' => array(
       0 => 'og_vocabulary',
     ),
@@ -49,7 +49,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '11',
+    'weight' => '14',
     'children' => array(
       0 => 'og_group_ref',
     ),
