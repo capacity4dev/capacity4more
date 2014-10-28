@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_content_blog.features.inc
+ * c4m_content_discussion.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function c4m_content_blog_ctools_plugin_api($module = NULL, $api = NULL) {
+function c4m_content_discussion_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
@@ -19,16 +19,17 @@ function c4m_content_blog_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_node_info().
  */
-function c4m_content_blog_node_info() {
+function c4m_content_discussion_node_info() {
   $items = array(
-    'blog' => array(
-      'name' => t('Blog post'),
+    'discussion' => array(
+      'name' => t('Discussion'),
       'base' => 'node_content',
-      'description' => t('A Blog is used within Groups and Projects.'),
+      'description' => t('A Discussion within Groups and Projects.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

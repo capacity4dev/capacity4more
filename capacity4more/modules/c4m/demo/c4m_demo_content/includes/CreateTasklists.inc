@@ -26,6 +26,8 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
+    array('lang', 'Language'),
     array('uid', 'UID'),
   );
 
@@ -40,8 +42,8 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
     $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_related_user', 'managers')
-      ->sourceMigration('C4mDemoContentCreateUsers')
-      ->separator('|');
+         ->sourceMigration('C4mDemoContentCreateUsers')
+         ->separator('|');
 
     $this->addFieldMapping('c4m_tasklist_status', 'status');
 
@@ -49,14 +51,20 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
 
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
-      ->sourceMigration('C4mDemoContentCreateCategories')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+         ->sourceMigration('C4mDemoContentCreateCategories')
+         ->arguments(array('source_type' => 'tid'))
+         ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_tag', 'tags')
-      ->sourceMigration('C4mDemoContentCreateTags')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+         ->sourceMigration('C4mDemoContentCreateTags')
+         ->arguments(array('source_type' => 'tid'))
+         ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_vocab_language', 'lang_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
 
   /**
@@ -71,10 +79,10 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
   public function prepareRow($row) {
     parent::prepareRow($row);
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateDocuments',
-      explode('|', $row->related_docs),
-      NULL,
-      $this
+                           'C4mDemoContentCreateDocuments',
+                             explode('|', $row->related_docs),
+                             NULL,
+                             $this
     );
 
     // By default $unfiltered_ids is an array of arrays, containing the
@@ -82,8 +90,12 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
     // This NULL value is counted however and added to the query, resulting
     // in errors. Therefore we need to filter it out.
     $row->documents = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                           $unfiltered_ids
     );
+
+    $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
+
+    $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
   }
 
   /**

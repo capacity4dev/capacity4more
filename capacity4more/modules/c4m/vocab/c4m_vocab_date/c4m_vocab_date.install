@@ -1,0 +1,84 @@
+<?php
+/**
+ * @file
+ * Installation hooks for Date vocabulary.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_vocab_date_install() {
+  c4m_vocab_date_update_7000();
+  c4m_vocab_date_update_7001();
+}
+
+/**
+ * Create date vocabulary.
+ */
+function c4m_vocab_date_update_7000() {
+  $date_vocab = (object) array(
+    'name'         => 'Date Vocabulary',
+    'description'  => 'Date indication for content',
+    'machine_name' => 'c4m_vocab_date',
+  );
+
+  taxonomy_vocabulary_save($date_vocab);
+}
+
+/**
+ * Create default taxonomy terms for the Date vocab.
+ */
+function c4m_vocab_date_update_7001() {
+  $messages = array();
+
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+
+  $terms = array(
+    'Before 2000' => -10,
+    '2000'        => -9,
+    '2001'        => -8,
+    '2002'        => -7,
+    '2003'        => -6,
+    '2004'        => -5,
+    '2005'        => -4,
+    '2006'        => -3,
+    '2007'        => -2,
+    '2008'        => -1,
+    '2009'        => 0,
+    '2010'        => 1,
+    '2011'        => 2,
+    '2012'        => 3,
+    '2013'        => 4,
+    '2014'        => 5,
+    '2015'        => 6,
+    '2016'        => 7,
+    '2017'        => 8,
+    '2018'        => 9,
+    '2019'        => 10,
+    '2020'        => 11,
+    'After 2020'  => 12,
+  );
+
+  foreach ($terms as $term => $weight) {
+    $to              = new StdClass();
+    $to->name        = $term;
+    $to->description = 'Content from ' . $term;
+    $to->vid         = $vocab->vid;
+    $to->weight      = $weight;
+
+    taxonomy_term_save($to);
+  }
+
+  return implode('<br />', $messages);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_vocab_date_uninstall() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+
+  if (!empty($vocab)) {
+    taxonomy_vocabulary_delete($vocab->vid);
+  }
+}

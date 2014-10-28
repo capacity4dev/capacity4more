@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Migrate class to create group documents.
+ * Migrate class to create group discussions.
  */
 
 /**
- * Class C4mDemoContentCreateBlogs
+ * Class C4mDemoContentCreateDiscussions
  */
-class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
-  public $bundle = 'blog';
+class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
+  public $bundle = 'discussion';
 
   /**
    * CSV column mapping.
@@ -24,6 +24,8 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
+    array('lang', 'Language'),
     array('uid', 'UID'),
   );
 
@@ -49,7 +51,14 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
       ->sourceMigration('C4mDemoContentCreateTags')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_vocab_language', 'lang_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
+
   /**
    * Prepare the row data loaded from the CSV.
    *
@@ -75,6 +84,10 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
     $row->documents = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
+
+    $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
+
+    $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
   }
 
   /**

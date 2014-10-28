@@ -35,5 +35,6 @@ This content type is powered by the Node Gallery module.'),
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

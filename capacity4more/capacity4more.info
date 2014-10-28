@@ -79,7 +79,7 @@ dependencies[] = c4m_content_group
 dependencies[] = c4m_content_project
 dependencies[] = c4m_content_tasklist
 dependencies[] = c4m_content_task
-dependencies[] = c4m_content_blog
+dependencies[] = c4m_content_discussion
 dependencies[] = c4m_content_region
 dependencies[] = c4m_content_minisite
 dependencies[] = c4m_content_page
@@ -103,7 +103,7 @@ dependencies[] = c4m_features_overview_topics
 
 ; Overview content within groups
 dependencies[] = c4m_og_menu
-dependencies[] = c4m_features_og_overview_blogs
+dependencies[] = c4m_features_og_overview_discussions
 dependencies[] = c4m_features_og_overview_documents
 dependencies[] = c4m_features_og_overview_events
 dependencies[] = c4m_features_og_overview_members

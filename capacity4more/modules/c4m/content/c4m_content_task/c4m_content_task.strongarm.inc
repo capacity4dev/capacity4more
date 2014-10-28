@@ -96,7 +96,10 @@ function c4m_content_task_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '9',
+          'weight' => '11',
+        ),
+        'locations' => array(
+          'weight' => '12',
         ),
       ),
       'display' => array(),

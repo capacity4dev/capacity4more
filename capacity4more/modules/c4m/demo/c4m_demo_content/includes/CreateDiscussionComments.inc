@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Migrate class to create comments for blog posts.
+ * Migrate class to create comments for discussions.
  */
 
 /**
- * Class C4mDemoContentCreateBlogComments
+ * Class C4mDemoContentCreateDiscussionComments
  */
-class C4mDemoContentCreateBlogComments extends C4mDemoContentCreateComments {
-  public $bundle = 'comment_node_blog';
+class C4mDemoContentCreateDiscussionComments extends C4mDemoContentCreateComments {
+  public $bundle = 'comment_node_discussion';
 
   /**
    * Configure the migration class during creation.
@@ -16,12 +16,12 @@ class C4mDemoContentCreateBlogComments extends C4mDemoContentCreateComments {
   public function __construct() {
     parent::__construct();
 
-    $this->addDependency('C4mDemoContentCreateBlogs');
+    $this->addDependency('C4mDemoContentCreateDiscussions');
 
     $this->addFieldMapping('nid', 'nid');
 
     $this->addFieldMapping('pid', 'pid')
-      ->sourceMigration('C4mDemoContentCreateBlogComments');
+      ->sourceMigration('C4mDemoContentCreateDiscussionComments');
   }
 
 
@@ -37,7 +37,7 @@ class C4mDemoContentCreateBlogComments extends C4mDemoContentCreateComments {
   public function prepareRow($row) {
     parent::prepareRow($row);
     $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateBlogs',
+      'C4mDemoContentCreateDiscussions',
       $row->node_id,
       NULL,
       $this

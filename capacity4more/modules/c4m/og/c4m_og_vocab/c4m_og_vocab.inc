@@ -100,7 +100,7 @@ function c4m_og_vocab_create_group_vocabulary(
   // Make sure that the machine name is unique.
   // We do this by adding the nid to the machine name.
   if (!preg_match('/\[node:nid\]/', $machine_name)) {
-    $machine_name += '_[node:nid]';
+    $machine_name .= '_[node:nid]';
   }
 
   $machine_name = c4m_og_vocab_fill_string($group, $machine_name);

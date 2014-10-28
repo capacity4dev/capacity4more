@@ -374,6 +374,13 @@ function c4m_content_event_field_default_field_instances() {
           'geojson_enable' => 0,
           'geojson_options' => '',
           'getdirections_link' => 0,
+          'gps_bubble' => 0,
+          'gps_button' => 0,
+          'gps_button_label' => '',
+          'gps_center' => 0,
+          'gps_geocode' => 0,
+          'gps_marker' => '',
+          'gps_marker_title' => '',
           'highlight_enable' => 0,
           'highlight_fillcolor' => '#FF0000',
           'highlight_fillopacity' => 0.35,
@@ -641,6 +648,80 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-event-c4m_vocab_date'
+  $field_instances['node-event-c4m_vocab_date'] = array(
+    'bundle' => 'event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_date',
+    'label' => 'Date',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-event-c4m_vocab_language'
+  $field_instances['node-event-c4m_vocab_language'] = array(
+    'bundle' => 'event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_language',
+    'label' => 'Language',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-event-og_group_ref'
   $field_instances['node-event-og_group_ref'] = array(
     'bundle' => 'event',
@@ -749,6 +830,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Description');
   t('Documents');
   t('Groups');
+  t('Language');
   t('Location');
   t('Metadata');
   t('Name of the person or organisation who organises the Event.');

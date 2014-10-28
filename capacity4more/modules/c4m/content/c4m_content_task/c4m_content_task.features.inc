@@ -28,5 +28,6 @@ A task list is always related to an Tasklist.'),
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }
