@@ -15,7 +15,7 @@ angular.module('c4mApp')
     $scope.debug = DrupalSettings.getDebugStatus();
 
     $scope.serverSide = {
-      status: '',
+      status: 0,
       data: {}
     };
 
