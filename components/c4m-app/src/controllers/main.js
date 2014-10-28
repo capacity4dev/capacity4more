@@ -3,6 +3,7 @@
 angular.module('c4mApp')
   .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $filter, $log) {
     $scope.data = DrupalSettings.getData('entity');
+    // Setting default content type to "Discussion".
     $scope.bundleName = 'blog_posts';
     $scope.bundles = {
       // This is temporary, The content type names should be changed.
@@ -10,7 +11,6 @@ angular.module('c4mApp')
       'documents': 'Document',
       'events': 'Event'
     };
-    $scope.selections = {};
 
     $scope.serverSide = {
       data: {}

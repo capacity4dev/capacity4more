@@ -1,6 +1,6 @@
 <div ng-app="c4mApp" ng-controller="MainCtrl">
   <div class="explanation">
-    <em><?php t('Quick Post') ?></em>
+    <em><?php print t('Quick Post') ?></em>
   </div>
 
   <form name="entityForm" ng-submit="submitForm(entityForm, data, bundleName)">

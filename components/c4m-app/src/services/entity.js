@@ -18,7 +18,7 @@ angular.module('c4mApp')
     this.createEntity = function(data, bundle) {
       return $http({
         method: 'POST',
-        url: DrupalSettings.getBasePath() + 'api/v1/' + bundle,
+        url: DrupalSettings.getBasePath() + 'api/' + bundle,
         data: jQuery.param(data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
