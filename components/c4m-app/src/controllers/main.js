@@ -5,11 +5,16 @@ angular.module('c4mApp')
     $scope.data = DrupalSettings.getData('entity');
     $scope.bundleName = '';
     $scope.bundles = {
-      'discussions': 'Discussion',
+      // This is temporary, The content type name should be changed.
+      'blog_posts': 'Discussion',
       'documents': 'Document',
       'events': 'Event'
     };
     $scope.selections = {};
+
+    $scope.serverSide = {
+      data: {}
+    };
 
     /**
      * Update the bundle of the entity to send to the right API.

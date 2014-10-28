@@ -57,6 +57,7 @@ function c4m_features_overview_quick_post_form($nid) {
     'data' => array(
       'entity' => array(
         'label' => NULL,
+        'group' => $nid,
       ),
     ),
   );

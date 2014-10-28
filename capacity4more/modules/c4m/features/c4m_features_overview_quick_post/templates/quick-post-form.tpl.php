@@ -36,4 +36,21 @@
       </div>
     </div>
   </form>
+  <h2>Console (Server side)</h2>
+
+  <div>
+    <div ng-show="serverSide.status == 200" class="create-success">
+      <strong>
+        New {{ bundleName }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.id }})
+      </strong>
+    </div>
+    <div ng-show="serverSide.status">
+      <div>
+        Status: {{ serverSide.status }}
+      </div>
+      <div>
+        Data: <pre pretty-json="serverSide.data" />
+      </div>
+    </div>
+  </div>
 </div>

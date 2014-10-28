@@ -63,11 +63,18 @@ module.exports = function(grunt) {
         files: [
           '<%= yeoman.src %>/{,*/}*.html',
           '{.tmp,<%= yeoman.src %>}/{,*/}*.css',
-          '{.tmp,<%= yeoman.src %>}/{,*/}*.js'
+          '{.tmp,<%= yeoman.src %>}/{,*/}*.js',
+          '{.tmp,<%= yeoman.src %>}/{,*/}*/{,*/}*.js',
+          '{.tmp,<%= yeoman.src %>}/{,*/}*/{,*/}*.html'
         ],
         options: {
           livereload: yeomanConfig.livereload
-        }
+        },
+        tasks: [
+          'clean:dist',
+          'copy:dist',
+          'concat:dist'
+        ]
       },
       test: {
         files: '<%= jshint.test.src %>',
@@ -81,7 +88,13 @@ module.exports = function(grunt) {
       },
       livereload: {
         options: {
-          build: yeomanConfig.build
+          middleware: function (connect) {
+            return [
+              lrSnippet,
+              mountFolder(connect, '.tmp'),
+              mountFolder(connect, yeomanConfig.src)
+            ];
+          }
         }
       }
     },

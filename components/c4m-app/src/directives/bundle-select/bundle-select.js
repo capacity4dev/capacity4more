@@ -19,7 +19,6 @@ angular.module('c4mApp')
       link: function postLink(scope) {
         // On changing type => update the bundleName.
         scope.updateBundle = function(bundle, e) {
-          console.log(bundle);
           return scope.onChange(bundle, e);
         }
       }
