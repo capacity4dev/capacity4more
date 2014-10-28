@@ -907,7 +907,7 @@ function c4m_content_event_field_default_field_instances() {
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -1045,7 +1045,7 @@ function c4m_content_event_field_default_field_instances() {
     'bundle' => 'event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'You can select up to 3 Regions and unlimited Countries within these Regions.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -1239,6 +1239,8 @@ function c4m_content_event_field_default_field_instances() {
   t('Start and end date of the Event.');
   t('Twitter page');
   t('Type of Event');
+  t('You can select up to 3 Regions and unlimited Countries within these Regions.');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }
