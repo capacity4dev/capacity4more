@@ -19,13 +19,10 @@ angular.module('c4mApp')
       return $http({
         method: 'POST',
         url: DrupalSettings.getBasePath() + 'api/' + bundle,
-        data: jQuery.param(data),
+        data: data,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          "X-CSRF-Token": DrupalSettings.getCsrfToken(),
-          // Call the correct resource version (v1.5) that has the "body" and
-          // "image" fields exposed.
-          "X-Restful-Minor-Version": 5
+          "X-CSRF-Token": DrupalSettings.getCsrfToken()
         },
         withCredentials: true
       });

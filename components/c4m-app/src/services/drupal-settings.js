@@ -27,6 +27,13 @@ angular.module('c4mApp')
     };
 
     /**
+     * Get the debug status of the Drupal installation.
+     */
+    this.getDebugStatus = function() {
+      return (angular.isDefined(self.settings.c4m.debug)) ? self.settings.c4m.debug : undefined;
+    };
+
+    /**
      * Return the form schema.
      *
      * @param int id

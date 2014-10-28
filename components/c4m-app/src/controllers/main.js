@@ -12,7 +12,10 @@ angular.module('c4mApp')
       'events': 'Event'
     };
 
+    $scope.debug = DrupalSettings.getDebugStatus();
+
     $scope.serverSide = {
+      status: '',
       data: {}
     };
 

@@ -20,16 +20,25 @@ function c4m_features_overview_quick_post_theme() {
   $theme['c4m_features_overview_quick_post_angular_form'] = array(
     'template' => 'quick-post-form',
     'path' => drupal_get_path('module', 'c4m_features_overview_quick_post') . '/templates',
-    'variables' => array(),
+    'variables' => NULL,
   );
 
   return $theme;
 }
 
 /**
-* Page callback; Load the AngularJs form.
+ * Page callback; Load the AngularJs form.
+ *
+ * @param int $node
+ *  The ID of the current group.
+ *
+ * @param bool $debug
+ *  Determines if to show the server side response.
+ *
+ * @return string
+ *  A rendered form of the Quick Post.
  */
-function c4m_features_overview_quick_post_form($nid) {
+function c4m_features_overview_quick_post_form($node, $debug = FALSE) {
   $bower_path = libraries_get_path('bower_components');
 
   // Load the libraries.
@@ -54,15 +63,16 @@ function c4m_features_overview_quick_post_form($nid) {
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'debug' => $debug,
     'data' => array(
       'entity' => array(
         'label' => NULL,
-        'group' => $nid,
+        'group' => $node,
       ),
     ),
   );
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
-  return theme('c4m_features_overview_quick_post_angular_form', array());
+  return theme('c4m_features_overview_quick_post_angular_form');
 }

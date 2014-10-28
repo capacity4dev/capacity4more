@@ -36,9 +36,9 @@
       </div>
     </div>
   </form>
-  <h2>Console (Server side)</h2>
 
-  <div>
+  <div ng-show="debug">
+    <h2>Console (Server side)</h2>
     <div ng-show="serverSide.status == 200" class="create-success">
       <strong>
         New {{ bundleName }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
@@ -51,6 +51,12 @@
       <div>
         Data: <pre pretty-json="serverSide.data" />
       </div>
+    </div>
+  </div>
+  <br/>
+  <div ng-show="serverSide.status == 200 && !debug">
+    <div class="alert alert-success">
+      <?php print t('The {{ bundles[bundleName] }} was saved successfully.') ?>
     </div>
   </div>
 </div>
