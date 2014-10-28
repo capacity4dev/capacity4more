@@ -94,7 +94,7 @@ function capacity4more_setup_blocks() {
 //
 //  $permissions = array();
 //  $types = array(
-//    'blog',
+//    'discussion',
 //  );
 //  foreach ($types as $type) {
 //    $permissions["create $type content"] = TRUE;

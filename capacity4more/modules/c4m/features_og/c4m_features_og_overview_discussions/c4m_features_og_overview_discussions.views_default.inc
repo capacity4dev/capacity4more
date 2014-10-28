@@ -1,28 +1,28 @@
 <?php
 /**
  * @file
- * c4m_features_og_overview_blogs.views_default.inc
+ * c4m_features_og_overview_discussions.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_og_overview_blogs_views_default_views() {
+function c4m_features_og_overview_discussions_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_overview_og_blogs';
-  $view->description = 'Overview table of blog content.';
+  $view->name = 'c4m_overview_og_discussions';
+  $view->description = 'Overview table of discussion content.';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Overview - OG - Blogs';
+  $view->human_name = 'Overview - OG - Discussions';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Blogs Overview';
+  $handler->display->display_options['title'] = 'Discussions Overview';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -73,7 +73,7 @@ function c4m_features_og_overview_blogs_views_default_views() {
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No Blog posts found.';
+  $handler->display->display_options['empty']['area']['content'] = 'No Discussions found.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -126,7 +126,7 @@ function c4m_features_og_overview_blogs_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'blog' => 'blog',
+    'discussion' => 'discussion',
   );
   /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
@@ -150,14 +150,14 @@ function c4m_features_og_overview_blogs_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'blogs';
+  $handler->display->display_options['path'] = 'discussions';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Blogs';
+  $handler->display->display_options['menu']['title'] = 'Discussions';
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['name'] = 'menu-group-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_overview_og_blogs'] = $view;
+  $export['c4m_overview_og_discussions'] = $view;
 
   return $export;
 }
