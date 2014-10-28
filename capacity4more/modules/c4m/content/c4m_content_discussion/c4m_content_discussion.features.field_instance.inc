@@ -49,6 +49,47 @@ function c4m_content_discussion_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'node-discussion-c4m_discussion_type'
+  $field_instances['node-discussion-c4m_discussion_type'] = array(
+    'bundle' => 'discussion',
+    'default_value' => array(
+      0 => array(
+        'value' => 'info',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_discussion_type',
+    'label' => 'Type of Discussion',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
       'weight' => 1,
     ),
   );
@@ -98,7 +139,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -143,7 +184,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
@@ -180,7 +221,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -217,7 +258,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -254,7 +295,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -313,7 +354,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -351,7 +392,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -365,6 +406,7 @@ function c4m_content_discussion_field_default_field_instances() {
   t('Metadata');
   t('Regions & Countries');
   t('Topics');
+  t('Type of Discussion');
   t('You can select up to 3 Regions and unlimited Countries within these Regions.');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
