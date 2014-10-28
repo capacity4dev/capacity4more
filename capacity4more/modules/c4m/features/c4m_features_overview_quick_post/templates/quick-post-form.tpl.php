@@ -41,7 +41,7 @@
   <div>
     <div ng-show="serverSide.status == 200" class="create-success">
       <strong>
-        New {{ bundleName }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.id }})
+        New {{ bundleName }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
       </strong>
     </div>
     <div ng-show="serverSide.status">

@@ -63,7 +63,6 @@ function c4m_features_overview_quick_post_form($nid) {
   );
   drupal_add_js($settings, 'setting');
 
-  // Theme function simply declares the angular app, and ng-includes the app's
-  // view.
+  // Theme function adds the Quick post form.
   return theme('c4m_features_overview_quick_post_angular_form', array());
 }

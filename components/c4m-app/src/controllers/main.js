@@ -3,9 +3,9 @@
 angular.module('c4mApp')
   .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $filter, $log) {
     $scope.data = DrupalSettings.getData('entity');
-    $scope.bundleName = '';
+    $scope.bundleName = 'blog_posts';
     $scope.bundles = {
-      // This is temporary, The content type name should be changed.
+      // This is temporary, The content type names should be changed.
       'blog_posts': 'Discussion',
       'documents': 'Document',
       'events': 'Event'

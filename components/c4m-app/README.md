@@ -1,13 +1,25 @@
-# ehAuth
+# c4mApp
 
 ## Getting Started
 
-_(Coming soon)_
+```bash
+npm install
+bower install
+grunt build
+```
 
 ## Documentation
-_(Coming soon)_
 
+In development, You should activate the Grunt Watcher.
 
-## Examples
-_(Coming soon)_
+```bash
+grunt
+```
 
+OR
+
+```bash
+grunt watch
+```
+
+ Will watch for any changes in the ``src`` app files and copy them to ``distribution``.
