@@ -10,6 +10,33 @@
 function c4m_content_event_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'c4m_event_type'
+  $field_bases['c4m_event_type'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_event_type',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'event' => 'Event',
+        'learning' => 'Learning',
+        'meeting' => 'Meeting',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'c4m_organised_by'
   $field_bases['c4m_organised_by'] = array(
     'active' => 1,

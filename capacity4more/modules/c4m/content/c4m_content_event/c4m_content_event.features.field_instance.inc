@@ -49,7 +49,7 @@ function c4m_content_event_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
+      'weight' => 2,
     ),
   );
 
@@ -102,6 +102,47 @@ function c4m_content_event_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_popup',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'node-event-c4m_event_type'
+  $field_instances['node-event-c4m_event_type'] = array(
+    'bundle' => 'event',
+    'default_value' => array(
+      0 => array(
+        'value' => 'event',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_event_type',
+    'label' => 'Type of Event',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
       'weight' => 1,
     ),
   );
@@ -555,7 +596,7 @@ function c4m_content_event_field_default_field_instances() {
         'use_country_dropdown' => 1,
       ),
       'type' => 'getlocations_fields',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -595,7 +636,7 @@ function c4m_content_event_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -644,7 +685,7 @@ function c4m_content_event_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -681,7 +722,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -718,7 +759,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -836,6 +877,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Name of the person or organisation who organises the Event.');
   t('Organised by');
   t('Start and end date of the Event.');
+  t('Type of Event');
 
   return $field_instances;
 }
