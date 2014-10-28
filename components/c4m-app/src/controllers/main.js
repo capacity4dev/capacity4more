@@ -4,13 +4,18 @@ angular.module('c4mApp')
   .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $filter, $log) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
-    $scope.bundleName = 'blog_posts';
+    $scope.bundle_name = 'discussions';
     $scope.bundles = {
-      // This is temporary, The content type names should be changed.
-      'blog_posts': 'Discussion',
+      'discussions': 'Discussion',
       'documents': 'Document',
       'events': 'Event'
     };
+
+    // Getting all the fields information.
+    $scope.field_schema = DrupalSettings.getFieldSchema();
+
+    // Setting default discussion type to "Start a debate".
+    $scope.data.discussion_type = 'debate';
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
@@ -26,11 +31,25 @@ angular.module('c4mApp')
       // Get element clicked in the event.
       var elem = angular.element(e.srcElement);
       // Remove class "active" from all elements.
-      angular.element( ".active" ).removeClass( "active" );
+      angular.element( ".bundle-select" ).removeClass( "active" );
       // Add class "active" to clicked element.
       elem.addClass( "active" );
       // Update Bundle.
-      $scope.bundleName = bundle;
+      $scope.bundle_name = bundle;
+    };
+
+    /**
+     * Update the type of the discussion.
+     */
+    $scope.updateDiscussionType = function(type, e) {
+      // Get element clicked in the event.
+      var elem = angular.element(e.srcElement);
+      // Remove class "active" from all elements.
+      angular.element( ".discussion-types" ).removeClass( "active" );
+      // Add class "active" to clicked element.
+      elem.addClass( "active" );
+      // Update Bundle.
+      $scope.data.discussion_type = type;
     };
 
     /**

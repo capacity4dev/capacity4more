@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('c4mApp', [
-    'ngPrettyJson'
+    'ngPrettyJson',
+    'textAngular'
   ], function($httpProvider) {
 
     // Use x-www-form-urlencoded Content-Type

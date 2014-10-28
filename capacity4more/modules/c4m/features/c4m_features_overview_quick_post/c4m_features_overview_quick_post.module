@@ -38,12 +38,25 @@ function c4m_features_overview_quick_post_theme() {
 function c4m_features_overview_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
+  // Get "discussion" fields.
+  $handler = restful_get_restful_handler('discussions');
+  $field_schema = $handler->options();
+
   // Load the libraries.
   drupal_add_js($bower_path . '/angular/angular.js');
 
   // JSON pretty print library.
   drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
   drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
+
+  // TextAngular library.
+  drupal_add_css($bower_path . '/textAngular/src/textAngular.css');
+  drupal_add_js($bower_path . '/textAngular/dist/textAngular-rangy.min.js');
+  drupal_add_js($bower_path . '/textAngular/dist/textAngular-sanitize.min.js');
+  drupal_add_js($bower_path . '/textAngular/dist/textAngular.min.js');
+
+  // Font-awesome library.
+  drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
 
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
@@ -64,10 +77,12 @@ function c4m_features_overview_quick_post_form($node) {
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => array(
         'label' => NULL,
+        'discussion_type' => NULL,
         'group' => $node,
       ),
     ),

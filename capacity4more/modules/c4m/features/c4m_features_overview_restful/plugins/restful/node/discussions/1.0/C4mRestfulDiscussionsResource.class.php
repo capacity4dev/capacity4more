@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains C4mRestfulBlogPostsResource.
+ * Contains C4mRestfulDiscussionsResource.
  */
 
-class C4mRestfulBlogPostsResource extends RestfulEntityBaseNode {
+class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
 
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
@@ -16,6 +16,7 @@ class C4mRestfulBlogPostsResource extends RestfulEntityBaseNode {
     $public_fields['body'] = array(
       'property' => 'c4m_body',
       'sub_property' => 'value',
+      'format' => 'full_html',
     );
 
     $public_fields['group'] = array(
@@ -26,6 +27,10 @@ class C4mRestfulBlogPostsResource extends RestfulEntityBaseNode {
           'full_view' => FALSE,
         ),
       ),
+    );
+
+    $public_fields['discussion_type'] = array(
+      'property' => 'c4m_discussion_type',
     );
 
     return $public_fields;

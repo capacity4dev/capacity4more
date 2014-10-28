@@ -1,6 +1,5 @@
-<div class="form-group btn-group btn-group">
-  <div class="btn-group" ng-repeat="(key, value) in items">
-    <button type="button" ng-value="key" ng-class="{active: key==bundleName}" ng-model="bundleName" ng-required="!bundleName" ng-click="updateBundle(key, $event)" class="btn btn-default">{{ value }}</button>
-  </div>
-  <p class="errors" ng-show="!bundleName">Please select type.</p>
+<div class="form-group btn-group">
+    <button type="button" ng-value="key" ng-class="{active: key==bundleName}" ng-model="bundleName" ng-required="!bundleName" ng-click="updateBundle(key, $event)" class="btn btn-default bundle-select" ng-repeat="(key, value) in items">
+      {{ value }}
+    </button>
 </div>

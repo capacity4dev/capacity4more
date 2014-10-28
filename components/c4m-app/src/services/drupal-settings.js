@@ -34,6 +34,13 @@ angular.module('c4mApp')
     };
 
     /**
+     * Get the debug status of the Drupal installation.
+     */
+    this.getFieldSchema = function() {
+      return (angular.isDefined(self.settings.c4m.field_schema)) ? self.settings.c4m.field_schema : undefined;
+    };
+
+    /**
      * Return the form schema.
      *
      * @param int id
