@@ -51,8 +51,7 @@ function c4m_features_overview_quick_post_form($node) {
   drupal_add_css($app_path . '/css/c4m-app.css');
 
   // The quick post debugger.
-  // In order to activate the debug:
-  // ``drush vset c4m_quick_post_debug 1``
+  // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
   $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
 
   // Pass info via Drupal.settings.
