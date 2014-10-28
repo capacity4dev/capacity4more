@@ -19,7 +19,7 @@ angular.module('c4mApp')
       return $http({
         method: 'POST',
         url: DrupalSettings.getBasePath() + 'api/' + bundle,
-        data: data,
+        data: jQuery.param(data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           "X-CSRF-Token": DrupalSettings.getCsrfToken()

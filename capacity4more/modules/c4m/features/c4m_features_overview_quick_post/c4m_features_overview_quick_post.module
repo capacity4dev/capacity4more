@@ -32,13 +32,10 @@ function c4m_features_overview_quick_post_theme() {
  * @param int $node
  *  The ID of the current group.
  *
- * @param bool $c4m_quick_post_debug
- *  Determines if to show the server side response.
- *
  * @return string
  *  A rendered form of the Quick Post.
  */
-function c4m_features_overview_quick_post_form($node, $c4m_quick_post_debug = FALSE) {
+function c4m_features_overview_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
   // Load the libraries.
@@ -52,6 +49,11 @@ function c4m_features_overview_quick_post_form($node, $c4m_quick_post_debug = FA
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
+
+  // The quick post debugger.
+  // In order to activate the debug:
+  // ``drush vset c4m_quick_post_debug 1``
+  $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
 
   // Pass info via Drupal.settings.
   $options = array(
