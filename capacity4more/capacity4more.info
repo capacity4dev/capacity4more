@@ -41,6 +41,7 @@ dependencies[] = field_group
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = libraries
+dependencies[] = link
 ;dependencies[] = message
 dependencies[] = module_filter
 dependencies[] = og
