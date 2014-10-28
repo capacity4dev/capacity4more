@@ -54,12 +54,12 @@
     </div>
   </div>
   <br/>
-  <div ng-show="serverSide.status == 200 && !debug">
+  <div ng-show="serverSide.status == 200 && debug == 0">
     <div class="alert alert-success">
       <?php print t('The {{ bundles[bundleName] }} was saved successfully.') ?>
     </div>
   </div>
-  <div ng-show="serverSide.status > 0 && serverSide.status != 200 && !debug">
+  <div ng-show="serverSide.status > 0 && serverSide.status != 200 && debug == 0">
     <div class="alert alert-danger">
       <?php print t('Error saving {{ bundles[bundleName] }}.') ?>
     </div>
