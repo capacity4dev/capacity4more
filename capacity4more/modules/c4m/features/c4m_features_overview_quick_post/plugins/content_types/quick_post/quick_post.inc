@@ -19,12 +19,12 @@ $plugin = array(
 function c4m_features_overview_quick_post_quick_post_content_type_render($subtype, $conf, $args, $context) {
   $nid = $context->data->nid;
 
-  $debug = $conf['debug'];
+  $c4m_quick_post_debug = $conf['debug'];
 
   $block = new stdClass();
   $block->module = 'c4m_feature_overview_quick_post';
   $block->title = '';
-  $block->content = c4m_features_overview_quick_post_form($nid, $debug);
+  $block->content = c4m_features_overview_quick_post_form($nid, $c4m_quick_post_debug);
   return $block;
 }
 
@@ -35,7 +35,7 @@ function c4m_features_overview_quick_post_quick_post_content_type_edit_form($for
   $conf = $form_state['conf'];
 
   $form['debug'] = array(
-    '#title' => t('Debug results'),
+    '#title' => t('Debug quick post'),
     '#type' => 'checkbox',
     '#default_value' => $conf['debug'],
   );

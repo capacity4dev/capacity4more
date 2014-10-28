@@ -32,13 +32,13 @@ function c4m_features_overview_quick_post_theme() {
  * @param int $node
  *  The ID of the current group.
  *
- * @param bool $debug
+ * @param bool $c4m_quick_post_debug
  *  Determines if to show the server side response.
  *
  * @return string
  *  A rendered form of the Quick Post.
  */
-function c4m_features_overview_quick_post_form($node, $debug = FALSE) {
+function c4m_features_overview_quick_post_form($node, $c4m_quick_post_debug = FALSE) {
   $bower_path = libraries_get_path('bower_components');
 
   // Load the libraries.
@@ -63,7 +63,7 @@ function c4m_features_overview_quick_post_form($node, $debug = FALSE) {
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
-    'debug' => $debug,
+    'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => array(
         'label' => NULL,
