@@ -38,13 +38,13 @@ function capacity4more_install_tasks() {
 //  );
 
   $tasks['capacity4more_setup_set_variables'] = array(
-    'display_name' => st('Rebuild permissions'),
+    'display_name' => st('Set variables'),
     'display' => FALSE,
   );
 
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
-    'display_name' => st('Set variables'),
+    'display_name' => st('Rebuild permissions'),
     'display' => FALSE,
   );
 
