@@ -24,6 +24,7 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
     array('date', 'Date'),
+    array('lang', 'Language'),
     array('uid', 'UID'),
   );
 
@@ -50,6 +51,9 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_vocab_date', 'date_entries')
          ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_vocab_language', 'lang_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
 
   /**
@@ -58,6 +62,8 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
   public function prepareRow($row) {
     parent::prepareRow($row);
 
-    $row->date_entries = $this->mapDateVocab($row->date);
+    $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
+
+    $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
   }
 }

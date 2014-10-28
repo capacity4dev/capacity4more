@@ -99,7 +99,7 @@ function c4m_content_event_strongarm() {
           'weight' => '6',
         ),
         'locations' => array(
-          'weight' => '10',
+          'weight' => '11',
         ),
       ),
       'display' => array(),

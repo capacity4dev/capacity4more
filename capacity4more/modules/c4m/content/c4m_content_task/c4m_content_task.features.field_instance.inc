@@ -372,6 +372,43 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-task-c4m_vocab_language'
+  $field_instances['node-task-c4m_vocab_language'] = array(
+    'bundle' => 'task',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_language',
+    'label' => 'Language',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-task-og_group_ref'
   $field_instances['node-task-og_group_ref'] = array(
     'bundle' => 'task',
@@ -432,7 +469,7 @@ function c4m_content_task_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -444,6 +481,7 @@ function c4m_content_task_field_default_field_instances() {
   t('Description');
   t('Documents');
   t('Groups');
+  t('Language');
   t('Priority');
   t('Task list');
   t('Task status');
