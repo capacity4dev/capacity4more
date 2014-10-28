@@ -106,6 +106,104 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-event-c4m_document_agenda'
+  $field_instances['node-event-c4m_document_agenda'] = array(
+    'bundle' => 'event',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 16,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_document_agenda',
+    'label' => 'Agenda & Information',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 16,
+    ),
+  );
+
+  // Exported field_instance: 'node-event-c4m_document_presentation'
+  $field_instances['node-event-c4m_document_presentation'] = array(
+    'bundle' => 'event',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 17,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_document_presentation',
+    'label' => 'Presentations',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 17,
+    ),
+  );
+
   // Exported field_instance: 'node-event-c4m_event_type'
   $field_instances['node-event-c4m_event_type'] = array(
     'bundle' => 'event',
@@ -780,7 +878,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'c4m_related_document',
-    'label' => 'Documents',
+    'label' => 'Additional',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -799,7 +897,7 @@ function c4m_content_event_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 9,
+      'weight' => 18,
     ),
   );
 
@@ -1121,9 +1219,10 @@ function c4m_content_event_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t(' Link to the Event facebook page.');
+  t('Additional');
+  t('Agenda & Information');
   t('Date');
   t('Description');
-  t('Documents');
   t('Event website');
   t('Facebook page');
   t('Groups');
@@ -1134,6 +1233,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Metadata');
   t('Name of the person or organisation who organises the Event.');
   t('Organised by');
+  t('Presentations');
   t('Regions & Countries');
   t('Related Topics');
   t('Start and end date of the Event.');
