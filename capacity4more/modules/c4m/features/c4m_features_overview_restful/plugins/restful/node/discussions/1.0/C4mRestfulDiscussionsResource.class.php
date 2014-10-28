@@ -16,7 +16,6 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
     $public_fields['body'] = array(
       'property' => 'c4m_body',
       'sub_property' => 'value',
-      'format' => 'full_html',
     );
 
     $public_fields['group'] = array(
