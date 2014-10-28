@@ -28,5 +28,6 @@ It groups tasks.'),
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

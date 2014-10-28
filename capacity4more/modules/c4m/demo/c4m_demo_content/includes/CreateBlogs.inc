@@ -24,6 +24,7 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
     array('uid', 'UID'),
   );
 
@@ -49,7 +50,11 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
       ->sourceMigration('C4mDemoContentCreateTags')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
+
   /**
    * Prepare the row data loaded from the CSV.
    *
@@ -75,6 +80,8 @@ class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
     $row->documents = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
+
+    $row->date_entries = $this->mapDateVocab($row->date);
   }
 
   /**

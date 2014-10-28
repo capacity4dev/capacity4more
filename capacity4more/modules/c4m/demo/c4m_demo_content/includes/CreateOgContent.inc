@@ -29,7 +29,7 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
     parent::__construct();
 
     $this->addFieldMapping('uid', 'uid')
-      ->sourceMigration('C4mDemoContentCreateUsers');
+         ->sourceMigration('C4mDemoContentCreateUsers');
 
     $this->addFieldMapping(OG_AUDIENCE_FIELD, OG_AUDIENCE_FIELD);
 
@@ -57,8 +57,33 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
         break;
     }
     $row->{OG_AUDIENCE_FIELD} = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
+                                     $unfiltered_ids
     );
   }
 
+  /**
+   * Map the date terms to the existing (install hook) terms in the database.
+   *
+   * @param $sourcefield
+   */
+  public function mapDateVocab($sourcefield) {
+    $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+
+    if (!empty($vocab)) {
+      $terms = explode('|', $sourcefield);
+      if (!empty($terms)) {
+        $tids = array();
+        foreach ($terms as $term_name) {
+          $term = taxonomy_get_term_by_name($term_name, 'c4m_vocab_date');
+          if (!empty($term)) {
+            reset($term);
+            $tid = key($term);
+            $tids[] = $tid;
+          };
+        }
+
+        return $tids;
+      }
+    }
+  }
 }

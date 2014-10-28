@@ -23,6 +23,7 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('date', 'Date'),
     array('uid', 'UID'),
   );
 
@@ -36,14 +37,17 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
 
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
-      ->sourceMigration('C4mDemoContentCreateCategories')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+         ->sourceMigration('C4mDemoContentCreateCategories')
+         ->arguments(array('source_type' => 'tid'))
+         ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_tag', 'tags')
-      ->sourceMigration('C4mDemoContentCreateTags')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+         ->sourceMigration('C4mDemoContentCreateTags')
+         ->arguments(array('source_type' => 'tid'))
+         ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_date', 'date_entries')
+         ->arguments(array('source_type' => 'tid'));
   }
 
   /**
@@ -51,6 +55,9 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
+
+    $row->date_entries = $this->mapDateVocab($row->date);
+
   }
 
   /**

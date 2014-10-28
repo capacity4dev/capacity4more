@@ -83,6 +83,8 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
    *
    * @param object $row
    *   The term data that will be stored.
+   *
+   * @return bool
    */
   protected function prepareRowTaxonomyTerm(&$row) {
     switch ($row->group_type) {

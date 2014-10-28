@@ -31,6 +31,7 @@ features[field_instance][] = node-event-c4m_datetime_end
 features[field_instance][] = node-event-c4m_location
 features[field_instance][] = node-event-c4m_organised_by
 features[field_instance][] = node-event-c4m_related_document
+features[field_instance][] = node-event-c4m_vocab_date
 features[field_instance][] = node-event-og_group_ref
 features[field_instance][] = node-event-og_vocabulary
 features[node][] = event

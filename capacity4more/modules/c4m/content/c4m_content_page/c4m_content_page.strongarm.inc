@@ -98,6 +98,9 @@ function c4m_content_page_strongarm() {
         'path' => array(
           'weight' => '6',
         ),
+        'locations' => array(
+          'weight' => '7',
+        ),
       ),
       'display' => array(),
     ),
