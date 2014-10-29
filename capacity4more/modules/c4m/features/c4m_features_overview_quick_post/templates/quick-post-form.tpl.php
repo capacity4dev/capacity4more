@@ -26,7 +26,7 @@
 
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
         <label><?php print t('Description'); ?></label>
-        <div id="body" text-angular text-angular-name="body" ng-model="data.body"></div>
+        <div id="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body"></div>
         <div class="errors">
           <ul ng-show="serverSide.data.errors.body">
             <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
