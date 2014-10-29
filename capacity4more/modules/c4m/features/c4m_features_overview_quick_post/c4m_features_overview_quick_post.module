@@ -42,6 +42,7 @@ function c4m_features_overview_quick_post_form($node) {
   //@TODO: Add document and event resources.
   $handler = restful_get_restful_handler('discussions');
   $field_schema = $handler->options();
+  $public_fields = $handler->getPublicFields();
 
   // Load the libraries.
   drupal_add_js($bower_path . '/angular/angular.js');
@@ -64,11 +65,18 @@ function c4m_features_overview_quick_post_form($node) {
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
-  // Adding entityreference values.
-  //@TODO: Add all of the entityreference values.
-  // Calling Topic.
-  $handler = restful_get_restful_handler('topics');
-  $topics = $handler->get();
+  // Adding entity-reference values.
+  $reference_values = array();
+  foreach($public_fields as $public_field_name => $value) {
+
+    if(!$value['resource']) {
+      continue;
+    }
+
+    $resource_name = $value['resource'][$public_field_name]['name'];
+    $handler = restful_get_restful_handler($resource_name);
+    $reference_values[$public_field_name] = $handler->get();
+  }
 
   // The quick post debugger.
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
@@ -85,15 +93,14 @@ function c4m_features_overview_quick_post_form($node) {
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'field_schema' => $field_schema,
-    'reference_values' => array(
-      'topics' => $topics,
-    ),
+    'reference_values' => $reference_values,
     'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => array(
         'label' => NULL,
         'discussion_type' => NULL,
         'topic' => new stdClass(),
+        'c4m_vocab_geo' => new stdClass(),
         'group' => $node,
       ),
     ),

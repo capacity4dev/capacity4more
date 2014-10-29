@@ -32,21 +32,45 @@
         </div>
       </div>
 
-      <label>{{field_schema.topic.info.label}}</label>
-      <span class="description">{{field_schema.topic.info.description}}</span>
-      <div class="checkboxes-wrapper">
-        <div class="form-group btn-group">
-          <button id="select-topics-button" type="button" ng-click="togglePopover(this, 'topics')" class="btn btn-primary"><?php print t('Select Topic'); ?></button>
-        </div>
+      <div class="form-group btn-group">
+        <label>{{field_schema.topic.info.label}}</label>
+        <span class="description">{{field_schema.topic.info.description}}</span>
+        <div class="checkboxes-wrapper">
+          <div>
+            <button id="select-topics-button" type="button" ng-click="togglePopover('topic')" class="btn btn-primary"><?php print t('Select Topic'); ?></button>
+          </div>
 
-        <!-- Hidden topic checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.topics">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <div class="checkbox" ng-repeat="topic in reference_values.topics">
-              <label>
-                <input type="checkbox" name="topic" ng-model="data.topic[topic.id]"> {{topic.label}}
-              </label>
+          <!-- Hidden topic checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.topic">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <div class="checkbox" ng-repeat="topic in reference_values.topic">
+                <label>
+                  <input type="checkbox" name="topic" ng-model="data.topic[topic.id]"> {{topic.label}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group btn-group">
+        <label>{{field_schema.c4m_vocab_geo.info.label}}</label>
+        <span class="description">{{field_schema.c4m_vocab_geo.info.description}}</span>
+        <div class="checkboxes-wrapper">
+          <div>
+            <button type="button" ng-click="togglePopover('c4m_vocab_geo')" class="btn btn-primary"><?php print t('Select Region'); ?></button>
+          </div>
+
+          <!-- Hidden geo checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <div class="checkbox" ng-repeat="geo in reference_values.c4m_vocab_geo">
+                <label>
+                  <input type="checkbox" name="geo" ng-model="data.c4m_vocab_geo[geo.id]"> {{geo.label}}
+                </label>
+              </div>
             </div>
           </div>
         </div>

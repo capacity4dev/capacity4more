@@ -42,6 +42,16 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
       ),
     );
 
+    $public_fields['c4m_vocab_geo'] = array(
+      'property' => 'c4m_vocab_geo',
+      'resource' => array(
+        'c4m_vocab_geo' => array(
+          'name' => 'geo',
+          'full_view' => FALSE,
+        ),
+      ),
+    );
+
     return $public_fields;
   }
 }

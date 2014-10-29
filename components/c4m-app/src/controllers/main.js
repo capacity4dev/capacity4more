@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $compile, $templateCache) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
     $scope.bundle_name = 'discussions';
@@ -26,9 +26,11 @@ angular.module('c4mApp')
       data: {}
     };
 
-    $scope.popups = {
-      topics: 0
-    };
+    // Add popups for each entity-reference in order to hide them.
+    $scope.popups = {};
+    angular.forEach($scope.reference_values, function (value, key) {
+      $scope.popups[key] = 0;
+    });
 
     /**
      * Update the bundle of the entity to send to the right API.
@@ -58,7 +60,10 @@ angular.module('c4mApp')
       $scope.data.discussion_type = type;
     };
 
-    $scope.togglePopover = function(element, type) {
+    /**
+     * Toggle the visibility of the popovers.
+     */
+    $scope.togglePopover = function(type) {
       $scope.popups[type] = $scope.popups[type] == 0 ? 1 : 0;
     };
 
@@ -69,12 +74,14 @@ angular.module('c4mApp')
       // Check if angular thinks that the form is valid.
       if(entityForm.$valid) {
 
-        // Get the IDs of the topics.
-        data.topic = Object.keys(data.topic);
+        // Get the IDs of the references.
+        angular.forEach(data, function (value, field) {
+          if(typeof(value) == 'object') {
+            data[field] = Object.keys(value);
+          }
+        });
 
-        console.log(data);
-
-        // Cope data.
+        // Copy data.
         var submitData = angular.copy(data);
 
         // Call the create entity function service.
