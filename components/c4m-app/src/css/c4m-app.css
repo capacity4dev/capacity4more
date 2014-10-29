@@ -37,3 +37,13 @@
   height: 50px;
   width: 50px;
 }
+
+.checkboxes-wrapper {
+  position: relative;
+}
+
+.checkboxes-wrapper .hidden-checkboxes {
+  display: block;
+  left: 102px;
+  top: -40px;
+}

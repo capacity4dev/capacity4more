@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $filter, $log) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $compile, $templateCache) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
     $scope.bundle_name = 'discussions';
     $scope.bundles = {
-      'discussions': 'Discussion',
-      'documents': 'Document',
-      'events': 'Event'
+      'discussions': 'Add a Discussion',
+      'documents': 'Upload a Document',
+      'events': 'Add an Event'
     };
 
     // Getting all the fields information.
@@ -19,9 +19,15 @@ angular.module('c4mApp')
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
+    $scope.reference_values = DrupalSettings.getReferneceValues();
+
     $scope.serverSide = {
       status: 0,
       data: {}
+    };
+
+    $scope.popups = {
+      topics: 0
     };
 
     /**
@@ -52,12 +58,22 @@ angular.module('c4mApp')
       $scope.data.discussion_type = type;
     };
 
+    $scope.togglePopover = function(element, type) {
+      $scope.popups[type] = $scope.popups[type] == 0 ? 1 : 0;
+    };
+
     /**
      * Submit form (even if not validated via client).
      */
     $scope.submitForm = function(entityForm, data, bundle) {
       // Check if angular thinks that the form is valid.
       if(entityForm.$valid) {
+
+        // Get the IDs of the topics.
+        data.topic = Object.keys(data.topic);
+
+        console.log(data);
+
         // Cope data.
         var submitData = angular.copy(data);
 

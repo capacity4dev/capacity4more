@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc directive
- * @name c4mApp.directive:bundleSelect
+ * @name c4mApp.directive:discussionTypes
  * @description
- * # bundleSelect
+ * # The types of the discussion.
  */
 angular.module('c4mApp')
   .directive('discussionTypes', function ($window, DrupalSettings) {

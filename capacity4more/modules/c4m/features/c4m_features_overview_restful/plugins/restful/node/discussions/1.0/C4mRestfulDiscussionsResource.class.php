@@ -32,6 +32,16 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
       'property' => 'c4m_discussion_type',
     );
 
+    $public_fields['topic'] = array(
+      'property' => 'c4m_related_topic',
+      'resource' => array(
+        'topic' => array(
+          'name' => 'topics',
+          'full_view' => FALSE,
+        ),
+      ),
+    );
+
     return $public_fields;
   }
 }

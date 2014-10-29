@@ -39,6 +39,7 @@ function c4m_features_overview_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
   // Get "discussion" fields.
+  //@TODO: Add document and event resources.
   $handler = restful_get_restful_handler('discussions');
   $field_schema = $handler->options();
 
@@ -63,6 +64,12 @@ function c4m_features_overview_quick_post_form($node) {
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
+  // Adding entityreference values.
+  //@TODO: Add all of the entityreference values.
+  // Calling Topic.
+  $handler = restful_get_restful_handler('topics');
+  $topics = $handler->get();
+
   // The quick post debugger.
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
   $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
@@ -78,11 +85,15 @@ function c4m_features_overview_quick_post_form($node) {
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'field_schema' => $field_schema,
+    'reference_values' => array(
+      'topics' => $topics,
+    ),
     'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => array(
         'label' => NULL,
         'discussion_type' => NULL,
+        'topic' => new stdClass(),
         'group' => $node,
       ),
     ),

@@ -27,6 +27,13 @@ angular.module('c4mApp')
     };
 
     /**
+     * Get the reference values of the Drupal installation.
+     */
+    this.getReferneceValues = function() {
+      return (angular.isDefined(self.settings.c4m.reference_values)) ? self.settings.c4m.reference_values : undefined;
+    };
+
+    /**
      * Get the debug status of the Drupal installation.
      */
     this.getDebugStatus = function() {

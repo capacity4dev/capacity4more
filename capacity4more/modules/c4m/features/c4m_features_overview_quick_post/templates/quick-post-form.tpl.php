@@ -8,7 +8,6 @@
     <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
 
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
-      <label><?php print t('Title'); ?></label>
       <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
 
@@ -22,15 +21,34 @@
 
     <div ng-show="bundles[bundle_name]" on-change="updateDiscussionType">
 
-      <discussion-types field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
+      <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
-        <label><?php print t('Description'); ?></label>
-        <div id="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body"></div>
+        <div id="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
           <ul ng-show="serverSide.data.errors.body">
             <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
           </ul>
+        </div>
+      </div>
+
+      <label>{{field_schema.topic.info.label}}</label>
+      <span class="description">{{field_schema.topic.info.description}}</span>
+      <div class="checkboxes-wrapper">
+        <div class="form-group btn-group">
+          <button id="select-topics-button" type="button" ng-click="togglePopover(this, 'topics')" class="btn btn-primary"><?php print t('Select Topic'); ?></button>
+        </div>
+
+        <!-- Hidden topic checkboxes.-->
+        <div class="popover right hidden-checkboxes" ng-show="popups.topics">
+          <div class="arrow"></div>
+          <div class="popover-content">
+            <div class="checkbox" ng-repeat="topic in reference_values.topics">
+              <label>
+                <input type="checkbox" name="topic" ng-model="data.topic[topic.id]"> {{topic.label}}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
