@@ -36,14 +36,12 @@ function capacity4more_install() {
   variable_set('node_admin_theme', TRUE);
 
   // TODO: Replace this with the actual theme when we have one!
-  $theme_capacity4more = $theme_default;
-  /*
-  $theme_capacity4more = 'capacity4more_theme_name';
+  $theme_capacity4more = 'kapablo';
   _capacity4more_install_save_theme($theme_capacity4more, 1);
   variable_set('theme_default', $theme_capacity4more);
   // Disable Bartik
   _capacity4more_install_save_theme($theme_default, 0);
-  */
+
 
   // BLOCKS
   $admin_blocks = _capacity4more_install_get_admin_theme_blocks($theme_admin);

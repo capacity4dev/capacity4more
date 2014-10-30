@@ -1,0 +1,4 @@
+name = Kapablo Theme
+description = Capacity4more Kapablo theme, based on bootstrap
+core = 7.x
+base theme = bootstrap

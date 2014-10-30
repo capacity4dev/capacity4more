@@ -179,3 +179,7 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
+
+; Themes
+projects[bootstrap][subdir] = "contrib"
+projects[bootstrap][version] = "3.0"
