@@ -39,7 +39,7 @@
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary"><i class="fa fa-plus"></i> <?php print t('Select Topic'); ?></button>
+            <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
           </div>
 
           <!-- Hidden topic checkboxes.-->
@@ -59,7 +59,7 @@
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('c4m_vocab_date', $event)" class="btn btn-primary"><i class="fa fa-plus"></i> <?php print t('Select Date'); ?></button>
+            <button type="button" ng-click="togglePopover('c4m_vocab_date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
           </div>
 
           <!-- Hidden topic checkboxes.-->
@@ -79,7 +79,7 @@
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('c4m_vocab_language', $event)" class="btn btn-primary"><i class="fa fa-plus"></i> <?php print t('Select Language'); ?></button>
+            <button type="button" ng-click="togglePopover('c4m_vocab_language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
           </div>
 
           <!-- Hidden topic checkboxes.-->
@@ -99,7 +99,7 @@
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('c4m_vocab_geo', $event)" class="btn btn-primary"><i class="fa fa-plus"></i> <?php print t('Select Region'); ?></button>
+            <button type="button" ng-click="togglePopover('c4m_vocab_geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
           </div>
 
           <!-- Hidden geo checkboxes.-->
