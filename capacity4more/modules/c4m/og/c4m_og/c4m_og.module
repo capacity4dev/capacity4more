@@ -24,3 +24,67 @@ function c4m_og_get_group_type_name($node = NULL) {
   }
   return strtolower(node_type_get_name($node));
 }
+
+/**
+ * Implements hook_FORM_ID_form_alter().
+ */
+function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
+  // Get default domain lists.
+  $ec_domains = variable_get('c4m_og_ec_domains', array(
+    'ec.europa.eu',
+    'echofield.eu',
+    'eeas.europa.eu',
+    'ext.eeas.europa.eu',
+    'ext.jrc.ec.europa.eu',
+    'jrc.ec.europa.eu',
+  ));
+
+  $eu_domains = variable_get('c4m_og_eu_domains', array(
+    'ada.gv.at',
+    'adetef.finances.gouv.fr',
+    'aecid.es',
+    'afd.fr',
+  ));
+
+  $form['group_access'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Group access'),
+    '#required' => TRUE,
+  );
+  $form['group_access']['public'] = array(
+    '#type' => 'radio',
+    '#title' => t('Public'),
+    '#weight' => 10,
+    '#description' => t('All users may view public content from this Group. Users must request to join this Group.'),
+  );
+  $form['group_access']['restricted'] = array(
+    '#type' => 'radio',
+    '#title' => t('Restricted'),
+    '#weight' => 20,
+    '#description' => t('Define by organisation and/or email domain what users can view this Group. Only members can post content to the Group.'),
+  );
+  $form['group_access']['restricted_organisations'] = array(
+    '#weight' => 25,
+    '#title' => t('Allow users to access this Group by their organisation'),
+    '#description' => t('Users belonging to these organisations will have access to this Group. Users must request to join this Group.'),
+    '#type' => 'checkboxes',
+    '#options' => array(
+      'ec' => t('EC/EEAS') . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $ec_domains))) . '</div>',
+      'eu' => t('EU') . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $eu_domains))) . '</div>',
+    ),
+  );
+  $form['group_access']['restricted_by_domain'] = array(
+    '#weight' => 25,
+    '#title' => t('Allow users to access this Group by their email domain'),
+    '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group.'),
+    '#type' => 'checkboxes',
+  );
+
+  $form['group_access']['private'] = array(
+    '#type' => 'radio',
+    '#title' => t('Private'),
+    '#weight' => 30,
+    '#description' => t('Only Group members will be able to access this Group.'),
+
+  );
+}
