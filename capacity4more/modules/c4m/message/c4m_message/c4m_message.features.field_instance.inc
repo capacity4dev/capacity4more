@@ -10,8 +10,8 @@
 function c4m_message_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-c4m_insert__node__discussion-field_node_discussion_ref'
-  $field_instances['message-c4m_insert__node__discussion-field_node_discussion_ref'] = array(
+  // Exported field_instance: 'message-c4m_insert__node__discussion-field_node'
+  $field_instances['message-c4m_insert__node__discussion-field_node'] = array(
     'bundle' => 'c4m_insert__node__discussion',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -29,8 +29,8 @@ function c4m_message_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_node_discussion_ref',
-    'label' => 'node discussion ref',
+    'field_name' => 'field_node',
+    'label' => 'Node',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -51,7 +51,7 @@ function c4m_message_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('node discussion ref');
+  t('Node');
 
   return $field_instances;
 }
