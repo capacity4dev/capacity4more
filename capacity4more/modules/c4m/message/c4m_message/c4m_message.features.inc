@@ -14,6 +14,13 @@ function c4m_message_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function c4m_message_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_default_message_type().
  */
 function c4m_message_default_message_type() {
@@ -25,16 +32,16 @@ function c4m_message_default_message_type() {
     "argument" : [],
     "category" : "message_type",
     "data" : {
-      "token options" : { "clear" : 0 },
+      "token options" : { "clear" : 1 },
       "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
     },
     "language" : "",
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "Discussion was created.",
-          "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EDiscussion was created.\\u003C\\/p\\u003E\\n"
+          "value" : "\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\r\\n\\r\\n\\u003Ca href=\\u0022[message:node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\r\\n [message:field-node:c4m_media] [message:field-node:summary]",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[message:node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E [message:field-node:c4m_media] [message:field-node:summary]\\u003C\\/p\\u003E\\n"
         }
       ]
     },
