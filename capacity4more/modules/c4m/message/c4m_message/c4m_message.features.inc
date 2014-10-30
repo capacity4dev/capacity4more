@@ -39,9 +39,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\r\\n\\r\\n\\u003Ca href=\\u0022[message:node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\r\\n [message:field-node:c4m_media] [message:field-node:summary]",
+          "value" : "\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\r\\n\\r\\n\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\r\\n [message:field-node:c4m_media] \\r\\n\\r\\n [message:field-node:c4m_body]\\r\\n\\r\\nRecommendations | [message:field-node:comment-count] Comments |  Views",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[message:node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E [message:field-node:c4m_media] [message:field-node:summary]\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E [message:field-node:c4m_media] \\u003C\\/p\\u003E\\n\\u003Cp\\u003E [message:field-node:c4m_body]\\u003C\\/p\\u003E\\n\\u003Cp\\u003ERecommendations | [message:field-node:comment-count] Comments |  Views\\u003C\\/p\\u003E\\n"
         }
       ]
     },

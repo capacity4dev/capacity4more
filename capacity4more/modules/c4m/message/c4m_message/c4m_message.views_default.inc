@@ -36,6 +36,7 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['fields']['mid']['id'] = 'mid';
   $handler->display->display_options['fields']['mid']['table'] = 'message';
   $handler->display->display_options['fields']['mid']['field'] = 'mid';
+  $handler->display->display_options['fields']['mid']['exclude'] = TRUE;
   /* Field: Message: Render message (Get text) */
   $handler->display->display_options['fields']['message_render']['id'] = 'message_render';
   $handler->display->display_options['fields']['message_render']['table'] = 'message';
