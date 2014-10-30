@@ -72,12 +72,36 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
       'ec' => t('EC/EEAS') . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $ec_domains))) . '</div>',
       'eu' => t('EU') . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $eu_domains))) . '</div>',
     ),
+    '#states' => array(
+      // Show the checkboxes only when "restricted" is selected
+      'visible' => array(
+        ':input[name="restricted"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['group_access']['restricted_by_domain'] = array(
-    '#weight' => 25,
+    '#weight' => 26,
     '#title' => t('Allow users to access this Group by their email domain'),
-    '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group.'),
-    '#type' => 'checkboxes',
+    '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group. Add one or more email domains. The email domain is the part of the email address after the @. Example: add gmail.com to allow users with an email address like jane.doo@gmail.com.'),
+    '#type' => 'select',
+    '#multiple' => TRUE,
+    '#options' => array(),
+    '#states' => array(
+      // Show the checkboxes only when "restricted" is selected
+      'visible' => array(
+        ':input[name="restricted"]' => array('checked' => TRUE),
+      ),
+      '#attached' => array(
+        'css' => array(
+          libraries_get_path('select2') . '/select2.css',
+          drupal_get_path('module', 'gizra_select') . '/css/select2-widget.css',
+        ),
+        'js' => array(
+          libraries_get_path('select2') . '/select2.min.js',
+          drupal_get_path('module', 'gizra_select') . '/js/select2-widget.js',
+        ),
+      ),
+    ),
   );
 
   $form['group_access']['private'] = array(
