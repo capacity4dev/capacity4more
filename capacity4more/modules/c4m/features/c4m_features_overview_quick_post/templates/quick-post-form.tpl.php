@@ -58,6 +58,30 @@
 
       <div class="form-group btn-group">
         <div class="label-wrapper">
+          <label>{{field_schema.c4m_vocab_date.info.label}}</label>
+          <span class="description">{{field_schema.c4m_vocab_date.info.description}}</span>
+        </div>
+        <div class="checkboxes-wrapper">
+          <div>
+            <button type="button" ng-click="togglePopover('c4m_vocab_date', $event)" class="btn btn-primary"><i class="fa fa-plus"></i> <?php print t('Select Date'); ?></button>
+          </div>
+
+          <!-- Hidden topic checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_date">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <div class="checkbox" ng-repeat="date in reference_values.c4m_vocab_date">
+                <label>
+                  <input type="checkbox" name="date" ng-model="data.c4m_vocab_date[date.id]"> {{date.label}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group btn-group">
+        <div class="label-wrapper">
           <label>{{field_schema.c4m_vocab_geo.info.label}}</label>
           <span class="description">{{field_schema.c4m_vocab_geo.info.description}}</span>
         </div>
