@@ -72,3 +72,25 @@ This a temporary file.
 .actions {
   margin-top: 20px;
 }
+
+.actions .btn-primary {
+  float: left;
+}
+
+#full-from-button {
+  margin: 15px 0 0 30px;
+  display: inline-block;
+  float: left;
+}
+
+
+#clear-button {
+  margin: 15px 0 0 30px;
+  display: inline-block;
+  float: right;
+}
+.messages {
+  float: left;
+  width: 100%;
+  margin-top: 20px;
+}

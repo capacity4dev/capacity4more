@@ -3,7 +3,7 @@
     <em><?php print t('Quick Post') ?></em>
   </div>
 
-  <form name="entityForm" ng-submit="submitForm(entityForm, data, bundle_name)">
+  <form name="entityForm" ng-submit="submitForm(entityForm, data, bundle_name, 'submit')">
 
     <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
 
@@ -114,6 +114,8 @@
 
       <div class="actions">
         <button type="submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
+        <a href="javascript://" id="full-from-button" ng-click="submitForm(entityForm, data, bundle_name, 'full_form')"><?php print t('Create in full form'); ?></a>
+        <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
       </div>
     </div>
   </form>

@@ -92,7 +92,16 @@ angular.module('c4mApp')
     /**
      * Submit form (even if not validated via client).
      */
-    $scope.submitForm = function(entityForm, data, bundle) {
+    $scope.submitForm = function(entityForm, data, bundle, type) {
+      // Check the type of the submit.
+      if(type == 'full_form') {
+        // Make node unpublished.
+        data.status = 0;
+      }
+      else {
+        data.status = 1;
+      }
+
       // Check if angular thinks that the form is valid.
       if(entityForm.$valid) {
 
@@ -109,8 +118,14 @@ angular.module('c4mApp')
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
           .success(function(data, status) {
-            $scope.serverSide.data = data;
-            $scope.serverSide.status = status;
+            if(type == 'full_form') {
+              var node_id = data.data[0].id;
+              $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
+            }
+            else {
+              $scope.serverSide.data = data;
+              $scope.serverSide.status = status;
+            }
           })
           .error(function(data, status) {
             $scope.serverSide.data = data;
