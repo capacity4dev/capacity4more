@@ -112,6 +112,9 @@ projects[og_purl][version] = "1.2"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.4"
+
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
@@ -179,3 +182,10 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
+
+
+
+; Themes
+projects[bootstrap][subdir] = "contrib"
+projects[bootstrap][version] = "3.0"
+projects[bootstrap][type] = "theme"
