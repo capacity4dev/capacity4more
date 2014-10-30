@@ -46,11 +46,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.topic">
             <div class="arrow"></div>
             <div class="popover-content">
-              <div class="checkbox" ng-repeat="topic in reference_values.topic">
-                <label>
-                  <input type="checkbox" name="topic" ng-model="data.topic[topic.id]"> {{topic.label}}
-                </label>
-              </div>
+              <list-terms type="topic" model="data.topic" items="reference_values.topic"></list-terms>
             </div>
           </div>
         </div>
@@ -70,11 +66,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_date">
             <div class="arrow"></div>
             <div class="popover-content">
-              <div class="checkbox" ng-repeat="date in reference_values.c4m_vocab_date">
-                <label>
-                  <input type="checkbox" name="date" ng-model="data.c4m_vocab_date[date.id]"> {{date.label}}
-                </label>
-              </div>
+              <list-terms type="date" model="data.c4m_vocab_date" items="reference_values.c4m_vocab_date"></list-terms>
             </div>
           </div>
         </div>
@@ -94,11 +86,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_language">
             <div class="arrow"></div>
             <div class="popover-content">
-              <div class="checkbox" ng-repeat="language in reference_values.c4m_vocab_language">
-                <label>
-                  <input type="checkbox" name="language" ng-model="data.c4m_vocab_language[language.id]"> {{language.label}}
-                </label>
-              </div>
+              <list-terms type="language" model="data.c4m_vocab_language" items="reference_values.c4m_vocab_language"></list-terms>
             </div>
           </div>
         </div>
@@ -118,11 +106,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo">
             <div class="arrow"></div>
             <div class="popover-content">
-              <div class="checkbox" ng-repeat="geo in reference_values.c4m_vocab_geo">
-                <label>
-                  <input type="checkbox" name="geo" ng-model="data.c4m_vocab_geo[geo.id]"> {{geo.label}}
-                </label>
-              </div>
+              <list-terms type="geo" model="data.c4m_vocab_geo" items="reference_values.c4m_vocab_geo"></list-terms>
             </div>
           </div>
         </div>

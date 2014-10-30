@@ -1,0 +1,14 @@
+<form action="#" class="search">
+  <input ng-model="searchTerm" class="form-control" type="text" placeholder="Search"/>
+</form>
+<div ng-show="searchTerm" class="checkbox" ng-repeat="item in items | listFilter: searchTerm">
+  <label>
+    <input type="checkbox" ng-name="type" ng-model="model[item.id]"> {{item.label}}
+  </label>
+</div>
+<div ng-hide="searchTerm" class="checkbox" ng-repeat="item in items">
+  <label>
+    <input type="checkbox" ng-name="type" ng-model="model[item.id]"> {{item.label}}
+  </label>
+</div>
+
