@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Code for the Message feature.
+ */
+
+include_once 'c4m_message.features.inc';
+
+/**
+ * Implements hook_entity_insert().
+ *
+ * Delegate message creation for inserted entities.
+ */
+function c4m_message_entity_insert($entity, $entity_type) {
+  $message = NULL;
+
+  $func = 'c4m_message_insert__' . $entity_type;
+  list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+  $bundle_func = $func . '__' . $bundle;
+
+  if (function_exists($bundle_func)) {
+    // Call the bundle specific function.
+    $message = $bundle_func($entity);
+  }
+  elseif (function_exists($func)) {
+    // Call the entity specific function.
+    $message = $func($entity);
+  }
+
+  if ($message) {
+    $message->save();
+  }
+}
+
+/**
+ * Create a discussion message.
+ *
+ * @param $node
+ *   The discussion node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message_insert__node__discussion($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__discussion', $values);
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_node_discussion_ref->set($node);
+  return $message;
+}
