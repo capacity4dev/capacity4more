@@ -7,14 +7,6 @@
 
 class RestfulEntityTaxonomyTermGeo extends \RestfulEntityBaseTaxonomyTerm {
 
-  public function getQueryForList() {
-    $query = parent::getQueryForList();
-    $query->propertyOrderBy('name');
-    // Make sure the custom ordering is the first.
-    $query->order = array_reverse($query->order);
-    return $query;
-  }
-
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */

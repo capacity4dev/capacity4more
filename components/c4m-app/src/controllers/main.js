@@ -26,10 +26,21 @@ angular.module('c4mApp')
       data: {}
     };
 
-    // Add popups for each entity-reference in order to hide them.
+    // Responsible for toggling the visibility of the taxonomy-terms.
+    // Set it to 0, as to hide all of the pop-overs on load.
+    // Also prepare the referenced "data" to be objects.
     $scope.popups = {};
     angular.forEach($scope.reference_values, function (value, key) {
       $scope.popups[key] = 0;
+      if($scope.data[key]) {
+        angular.forEach($scope.data[key], function (term) {
+          $scope.data[key] = {};
+          $scope.data[key][term] = true;
+        });
+      }
+      else {
+        $scope.data[key] = {};
+      }
     });
 
     /**
@@ -63,8 +74,17 @@ angular.module('c4mApp')
     /**
      * Toggle the visibility of the popovers.
      */
-    $scope.togglePopover = function(type) {
+    $scope.togglePopover = function(type, e) {
+      // Hide all pop-overs first.
+      angular.forEach($scope.popups, function (value, key) {
+        $scope.popups[key] = 0;
+      });
+      // Get element width clicked in the event.
+      var elem_width = angular.element(e.srcElement).outerWidth();
+      // Toggle the visibility variable.
       $scope.popups[type] = $scope.popups[type] == 0 ? 1 : 0;
+      // Move the popover to be at the end of the button.
+      angular.element(".hidden-checkboxes").css('left', elem_width);
     };
 
     /**

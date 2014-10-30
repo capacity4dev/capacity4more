@@ -1,3 +1,8 @@
+/*
+This a temporary file.
+@TODO: Move all this css to website's SCSS.
+*/
+
 .explanation {
   margin: 20px 0;
   font-size: 22px;
@@ -16,6 +21,17 @@
 
 .input-wrapper {
   margin-bottom: 20px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-group .label-wrapper {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+  width: 100%;
+  display: block;
 }
 
 .drop-box {
@@ -44,8 +60,15 @@
 
 .checkboxes-wrapper .hidden-checkboxes {
   display: block;
-  left: 102px;
-  top: -40px;
-  max-height: 150px;
-  overflow: auto;
+  left: 120px;
+  top: -60px;
+}
+
+.popover-content {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.actions {
+  margin-top: 20px;
 }

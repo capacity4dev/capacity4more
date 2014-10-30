@@ -89,6 +89,8 @@ function c4m_features_overview_quick_post_form($node) {
     ),
     'absolute' => TRUE,
   );
+
+  // @TODO: Fields should not be static.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
@@ -99,9 +101,9 @@ function c4m_features_overview_quick_post_form($node) {
       'entity' => array(
         'label' => NULL,
         'discussion_type' => NULL,
-        'topic' => new stdClass(),
-        'c4m_vocab_geo' => new stdClass(),
-        'group' => $node,
+        'topic' => NULL,
+        'c4m_vocab_geo' => NULL,
+        'group' =>  $node,
       ),
     ),
   );
