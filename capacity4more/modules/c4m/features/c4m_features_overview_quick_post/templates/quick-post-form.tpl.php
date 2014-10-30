@@ -112,6 +112,11 @@
         </div>
       </div>
 
+      <div class="input-wrapper tags">
+        <label><?php print t('Tags') ?></label>
+        <input multiple type="hidden" ui-select2="{query: tagsQuery, minimumInputLength: 2}" ng-model="data.tags" class="form-control"/>
+      </div>
+
       <div class="actions">
         <button type="submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
         <a href="javascript://" id="full-from-button" ng-click="submitForm(entityForm, data, bundle_name, 'full_form')"><?php print t('Create in full form'); ?></a>

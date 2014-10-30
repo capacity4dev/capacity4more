@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $http) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
     $scope.bundle_name = 'discussions';
@@ -26,6 +26,8 @@ angular.module('c4mApp')
       data: {}
     };
 
+    $scope.tagsQueryCache = [];
+
     // Responsible for toggling the visibility of the taxonomy-terms.
     // Set it to 0, as to hide all of the pop-overs on load.
     // Also prepare the referenced "data" to be objects.
@@ -42,6 +44,52 @@ angular.module('c4mApp')
         $scope.data[key] = {};
       }
     });
+
+    /**
+     * Get matching tags.
+     *
+     * @param query
+     *   The query string.
+     */
+    $scope.tagsQuery = function (query) {
+      var url = DrupalSettings.getBasePath() + 'api/tags';
+      var terms = {results: []};
+
+      var lowerCaseTerm = query.term.toLowerCase();
+      if (angular.isDefined($scope.tagsQueryCache[lowerCaseTerm])) {
+        // Add caching.
+        terms.results = $scope.tagsQueryCache[lowerCaseTerm];
+        query.callback(terms);
+        return;
+      }
+
+      $http.get(url, {
+        params: {
+          string: query.term
+        }
+      }).success(function(data) {
+
+        if (data.length == 0) {
+          terms.results.push({
+            text: query.term,
+            id: query.term,
+            isNew: true
+          });
+        }
+        else {
+          angular.forEach(data, function (label, id) {
+            terms.results.push({
+              text: label,
+              id: id,
+              isNew: false
+            });
+          });
+          $scope.tagsQueryCache[lowerCaseTerm] = terms;
+        }
+
+        query.callback(terms);
+      });
+    };
 
     /**
      * Update the bundle of the entity to send to the right API.

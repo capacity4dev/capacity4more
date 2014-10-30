@@ -57,6 +57,12 @@ function c4m_features_overview_quick_post_form($node) {
   drupal_add_js($bower_path . '/textAngular/dist/textAngular-sanitize.min.js');
   drupal_add_js($bower_path . '/textAngular/dist/textAngular.min.js');
 
+  // Select UI
+  drupal_add_css($bower_path . '/select2/select2.css');
+  drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
+  drupal_add_js($bower_path . '/select2/select2.js');
+  drupal_add_js($bower_path . '/angular-ui-select2/src/select2.js');
+
   // Font-awesome library.
   drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
 

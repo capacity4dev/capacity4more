@@ -2,7 +2,8 @@
 
 angular.module('c4mApp', [
     'ngPrettyJson',
-    'textAngular'
+    'textAngular',
+    'ui.select2'
   ], function($httpProvider) {
 
     // Use x-www-form-urlencoded Content-Type
