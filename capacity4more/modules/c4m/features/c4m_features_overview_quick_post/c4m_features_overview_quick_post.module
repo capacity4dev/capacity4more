@@ -65,9 +65,26 @@ function c4m_features_overview_quick_post_form($node) {
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
+  // Gathering all the fields to send to AngularJs.
   // Adding entity-reference values.
+  $entity_fields = array();
   $reference_values = array();
+  $skipped_fields = array(
+    'id',
+    'self',
+  );
   foreach($public_fields as $public_field_name => $value) {
+    // Skip id and self.
+    if (in_array($public_field_name, $skipped_fields)) {
+      continue;
+    }
+
+    $entity_fields[$public_field_name] = NULL;
+
+    // Set the current Group.
+    if ($public_field_name == 'group') {
+      $entity_fields[$public_field_name] = $node;
+    }
 
     if(!$value['resource']) {
       continue;
@@ -82,7 +99,7 @@ function c4m_features_overview_quick_post_form($node) {
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
   $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
 
-  // Pass info via Drupal.settings.
+  // URL options.
   $options = array(
     'purl' => array(
       'disabled' => TRUE,
@@ -90,7 +107,7 @@ function c4m_features_overview_quick_post_form($node) {
     'absolute' => TRUE,
   );
 
-  // @TODO: Fields should not be static.
+  // Pass info via Drupal.settings.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
@@ -98,13 +115,7 @@ function c4m_features_overview_quick_post_form($node) {
     'reference_values' => $reference_values,
     'debug' => $c4m_quick_post_debug,
     'data' => array(
-      'entity' => array(
-        'label' => NULL,
-        'discussion_type' => NULL,
-        'topic' => NULL,
-        'c4m_vocab_geo' => NULL,
-        'group' =>  $node,
-      ),
+      'entity' => $entity_fields,
     ),
   );
   drupal_add_js($settings, 'setting');

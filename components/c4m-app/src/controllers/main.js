@@ -75,9 +75,11 @@ angular.module('c4mApp')
      * Toggle the visibility of the popovers.
      */
     $scope.togglePopover = function(type, e) {
-      // Hide all pop-overs first.
+      // Hide all the other pop-overs first.
       angular.forEach($scope.popups, function (value, key) {
-        $scope.popups[key] = 0;
+        if ($scope.popups[type] != $scope.popups[key]) {
+          $scope.popups[key] = 0;
+        }
       });
       // Get element width clicked in the event.
       var elem_width = angular.element(e.srcElement).outerWidth();
@@ -96,7 +98,7 @@ angular.module('c4mApp')
 
         // Get the IDs of the references.
         angular.forEach(data, function (value, field) {
-          if(typeof(value) == 'object') {
+          if(value && typeof(value) == 'object') {
             data[field] = Object.keys(value);
           }
         });

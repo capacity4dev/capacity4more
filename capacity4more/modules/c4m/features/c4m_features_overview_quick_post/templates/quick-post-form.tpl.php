@@ -58,30 +58,6 @@
 
       <div class="form-group btn-group">
         <div class="label-wrapper">
-          <label>{{field_schema.group.info.label}}</label>
-          <span class="description">{{field_schema.group.info.description}}</span>
-        </div>
-        <div class="checkboxes-wrapper">
-          <div>
-            <button type="button" ng-click="togglePopover('group', $event)" class="btn btn-primary"><i class="fa fa-plus"></i> <?php print t('Select Category'); ?></button>
-          </div>
-
-          <!-- Hidden topic checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.group">
-            <div class="arrow"></div>
-            <div class="popover-content">
-              <div class="checkbox" ng-repeat="group in reference_values.group">
-                <label>
-                  <input type="checkbox" ng-checked="data.group[group.id]" name="group" ng-model="data.group[group.id]"> {{group.label}}
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group btn-group">
-        <div class="label-wrapper">
           <label>{{field_schema.c4m_vocab_geo.info.label}}</label>
           <span class="description">{{field_schema.c4m_vocab_geo.info.description}}</span>
         </div>
