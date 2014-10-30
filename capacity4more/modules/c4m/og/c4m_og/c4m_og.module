@@ -83,23 +83,12 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#weight' => 26,
     '#title' => t('Allow users to access this Group by their email domain'),
     '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group. Add one or more email domains. The email domain is the part of the email address after the @. Example: add gmail.com to allow users with an email address like jane.doo@gmail.com.'),
-    '#type' => 'select',
-    '#multiple' => TRUE,
+    '#type' => 'textfield',
     '#options' => array(),
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
         ':input[name="restricted"]' => array('checked' => TRUE),
-      ),
-      '#attached' => array(
-        'css' => array(
-          libraries_get_path('select2') . '/select2.css',
-          drupal_get_path('module', 'gizra_select') . '/css/select2-widget.css',
-        ),
-        'js' => array(
-          libraries_get_path('select2') . '/select2.min.js',
-          drupal_get_path('module', 'gizra_select') . '/js/select2-widget.js',
-        ),
       ),
     ),
   );

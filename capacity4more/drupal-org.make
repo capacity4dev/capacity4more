@@ -179,7 +179,3 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
-
-libraries[select2][type] = "libraries"
-libraries[select2][download][type] = "file"
-libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.4.3.zip"
