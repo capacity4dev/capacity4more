@@ -10,6 +10,7 @@
 function c4m_vocab_language_install() {
   c4m_vocab_language_update_7000();
   c4m_vocab_language_update_7001();
+  c4m_vocab_language_update_7002();
 }
 
 /**
@@ -26,9 +27,21 @@ function c4m_vocab_language_update_7000() {
 }
 
 /**
- * Create default taxonomy terms for the Language vocab.
+ * Set pathauto pattern.
  */
 function c4m_vocab_language_update_7001() {
+  $messages = array();
+
+  // 'language/...' results in an error. Probably system reserved alias.
+  variable_set('pathauto_taxonomy_term_c4m_vocab_language_pattern', 'content-language/[term:name]');
+
+  return implode('<br />', $messages);
+}
+
+/**
+ * Create default taxonomy terms for the Language vocab.
+ */
+function c4m_vocab_language_update_7002() {
   $messages = array();
 
   $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
@@ -68,3 +81,4 @@ function c4m_vocab_language_uninstall() {
     taxonomy_vocabulary_delete($vocab->vid);
   }
 }
+
