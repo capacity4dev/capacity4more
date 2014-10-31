@@ -1,3 +1,5 @@
-.content-user {
-  background: #000;
-}
+// Common utility classes to extend or settings.
+@import "base/settings";
+
+// Layout
+@import "layout/header";
