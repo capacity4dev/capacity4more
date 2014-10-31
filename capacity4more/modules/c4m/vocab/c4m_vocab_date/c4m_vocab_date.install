@@ -10,6 +10,7 @@
 function c4m_vocab_date_install() {
   c4m_vocab_date_update_7000();
   c4m_vocab_date_update_7001();
+  c4m_vocab_date_update_7002();
 }
 
 /**
@@ -26,9 +27,21 @@ function c4m_vocab_date_update_7000() {
 }
 
 /**
- * Create default taxonomy terms for the Date vocab.
+ * Set pathauto pattern.
  */
 function c4m_vocab_date_update_7001() {
+  $messages = array();
+
+  // 'language/...' results in an error. Probably system reserved alias.
+  variable_set('pathauto_taxonomy_term_c4m_vocab_date_pattern', 'content-date/[term:name]');
+
+  return implode('<br />', $messages);
+}
+
+/**
+ * Create default taxonomy terms for the Date vocab.
+ */
+function c4m_vocab_date_update_7002() {
   $messages = array();
 
   $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
