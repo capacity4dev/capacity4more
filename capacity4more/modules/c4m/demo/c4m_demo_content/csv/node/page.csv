@@ -1,10 +1,10 @@
 ID,PID,Weight,Title,Body,Documents,Categories,Tags,Group,Group Type,Date,Language,UID
-page_1,,0,History,,doc_1,cat_jpl,tag_seizoen|tag_rsca,group_1,group,Before 2000,fr,user_4
-page_2,page_1,-10,2012-2013,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2012|2013,en,user_1
-page_3,page_1,-15,2011-2012,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2011|2012,en,user_3
-page_4,page_1,-16,2010-2011,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2010|2011,en,user_4
-page_5,page_1,-17,2009-2010,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2009|2010,en,user_6
-page_6,,0,Lusail Intro,,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail,project_1,project,,fr,user_2
-page_7,,1,Lusail History,,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail,project_1,project,,fr,user_5
-page_8,,2,Lusail Architecture,,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail,project_1,project,,en|es,user_5
-page_9,page_8,0,Lusail Soccer Stadium,,,cat_p_arch|cat_p_city|cat_p_art|cat_p_stadium,tag_lusail,project_1,project,Before 2000|After 2020,,user_1
+page_1,,0,History,,doc_1,cat_jpl,tag_seizoen|tag_rsca,group_1,group,Before 2000,Portuguese,user_4
+page_2,page_1,-10,2012-2013,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2012|2013,English,user_1
+page_3,page_1,-15,2011-2012,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2011|2012,English,user_3
+page_4,page_1,-16,2010-2011,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2010|2011,English,user_4
+page_5,page_1,-17,2009-2010,,,cat_jpl,tag_seizoen|tag_rsca,group_1,group,2009|2010,English,user_6
+page_6,,0,Lusail Intro,,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail,project_1,project,,Arabic,user_2
+page_7,,1,Lusail History,,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail,project_1,project,,Arabic,user_5
+page_8,,2,Lusail Architecture,,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail,project_1,project,,Arabic,user_5
+page_9,page_8,0,Lusail Soccer Stadium,,,cat_p_arch|cat_p_city|cat_p_art|cat_p_stadium,tag_lusail,project_1,project,Before 2000|After 2020,Arabic|Chinese|Other,user_1

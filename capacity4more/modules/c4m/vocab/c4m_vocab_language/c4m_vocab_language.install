@@ -34,9 +34,15 @@ function c4m_vocab_language_update_7001() {
   $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
 
   $terms = array(
-    'en' => 0,
-    'fr' => 1,
-    'es' => 2,
+    'English'    => -20,
+    'French'     => -19,
+    'Spanish'    => -18,
+    'German'     => -17,
+    'Portuguese' => -16,
+    'Arabic'     => -15,
+    'Chinese'    => -14,
+    'Russian'    => -13,
+    'Other'      => 20,
   );
 
   foreach ($terms as $term => $weight) {
