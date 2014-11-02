@@ -60,10 +60,10 @@ function c4m_content_group_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-0be4e6d6-7aa7-47fe-9719-72ab181133c5';
+    $pane->pid = 'new-77fa710c-3cb0-468f-bab6-17badd6c5ed2';
     $pane->panel = 'left';
-    $pane->type = 'quick_post';
-    $pane->subtype = 'quick_post';
+    $pane->type = 'quick_form';
+    $pane->subtype = 'quick_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -79,9 +79,9 @@ function c4m_content_group_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = '0be4e6d6-7aa7-47fe-9719-72ab181133c5';
-    $display->content['new-0be4e6d6-7aa7-47fe-9719-72ab181133c5'] = $pane;
-    $display->panels['left'][0] = 'new-0be4e6d6-7aa7-47fe-9719-72ab181133c5';
+    $pane->uuid = '77fa710c-3cb0-468f-bab6-17badd6c5ed2';
+    $display->content['new-77fa710c-3cb0-468f-bab6-17badd6c5ed2'] = $pane;
+    $display->panels['left'][0] = 'new-77fa710c-3cb0-468f-bab6-17badd6c5ed2';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

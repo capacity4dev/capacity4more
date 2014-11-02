@@ -7,7 +7,7 @@
 /**
  * Implements hook_ctools_plugin_directory().
  */
-function c4m_features_overview_quick_post_ctools_plugin_directory($module, $plugin) {
+function c4m_restful_quick_post_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools') {
     return 'plugins/' . $plugin;
   }
@@ -16,10 +16,10 @@ function c4m_features_overview_quick_post_ctools_plugin_directory($module, $plug
 /**
  * Implements hook_theme().
  */
-function c4m_features_overview_quick_post_theme() {
-  $theme['c4m_features_overview_quick_post_angular_form'] = array(
+function c4m_restful_quick_post_theme() {
+  $theme['c4m_restful_quick_post_angular_form'] = array(
     'template' => 'quick-post-form',
-    'path' => drupal_get_path('module', 'c4m_features_overview_quick_post') . '/templates',
+    'path' => drupal_get_path('module', 'c4m_restful_quick_post') . '/templates',
     'variables' => NULL,
   );
 
@@ -35,7 +35,7 @@ function c4m_features_overview_quick_post_theme() {
  * @return string
  *  A rendered form of the Quick Post.
  */
-function c4m_features_overview_quick_post_form($node) {
+function c4m_restful_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
   // Get "discussion" fields.
@@ -127,5 +127,5 @@ function c4m_features_overview_quick_post_form($node) {
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
-  return theme('c4m_features_overview_quick_post_angular_form');
+  return theme('c4m_restful_quick_post_angular_form');
 }

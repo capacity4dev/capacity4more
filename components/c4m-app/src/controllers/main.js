@@ -52,6 +52,7 @@ angular.module('c4mApp')
      *   The query string.
      */
     $scope.tagsQuery = function (query) {
+      var group = {id: Object.keys($scope.data.group)};
       var url = DrupalSettings.getBasePath() + 'api/tags';
       var terms = {results: []};
 
@@ -65,11 +66,12 @@ angular.module('c4mApp')
 
       $http.get(url, {
         params: {
-          string: query.term
+          string: query.term,
+          group: group.id
         }
       }).success(function(data) {
 
-        if (data.length == 0) {
+        if (data.data.length == 0) {
           terms.results.push({
             text: query.term,
             id: query.term,
@@ -77,10 +79,10 @@ angular.module('c4mApp')
           });
         }
         else {
-          angular.forEach(data, function (label, id) {
+          angular.forEach(data.data, function (tag) {
             terms.results.push({
-              text: label,
-              id: id,
+              text: tag.label,
+              id: tag.id,
               isNew: false
             });
           });
