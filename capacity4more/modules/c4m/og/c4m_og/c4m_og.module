@@ -29,6 +29,9 @@ function c4m_og_get_group_type_name($node = NULL) {
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
+  // Add javascript behaviors.
+  drupal_add_js(drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js');
+
   // Get default domain lists.
   $ec_domains = variable_get('c4m_og_ec_domains', array(
     'ec.europa.eu',
@@ -46,10 +49,17 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     'afd.fr',
   ));
 
+  $options = array(
+    'public' => t('Public'),
+    'restricted' => t('Restricted'),
+    'private' => t('Private'),
+  );
+
   $form['group_access'] = array(
-    '#type' => 'fieldset',
+    '#type' => 'radios',
     '#title' => t('Group access'),
     '#required' => TRUE,
+    '#options' => $options,
   );
   $form['group_access']['public'] = array(
     '#type' => 'radio',
@@ -75,7 +85,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
-        ':input[name="restricted"]' => array('checked' => TRUE),
+        ':input[name="group_access"]' => array('value' => 'restricted'),
       ),
     ),
   );
@@ -88,7 +98,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
-        ':input[name="restricted"]' => array('checked' => TRUE),
+        ':input[name="group_access"]' => array('value' => 'restricted'),
       ),
     ),
   );
