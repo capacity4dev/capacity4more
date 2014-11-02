@@ -48,6 +48,10 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     'aecid.es',
     'afd.fr',
   ));
+  drupal_add_js(array('c4m_og' => array(
+    'ec_domains' => $ec_domains,
+    'eu_domains' => $eu_domains,
+  )), 'setting');
 
   $options = array(
     'public' => t('Public'),
