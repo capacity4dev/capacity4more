@@ -4,6 +4,6 @@
   </div>
 
   <div class="col-sm-10">
-    <?php print $message; ?>
+    <?php print $content; ?>
   </div>
 </div>
