@@ -10,7 +10,6 @@
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
       <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
-
       <div class="errors">
         <ul ng-show="serverSide.data.errors.label">
           <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
@@ -18,13 +17,12 @@
       </div>
     </div>
 
-
     <div ng-show="bundles[bundle_name]" on-change="updateDiscussionType">
 
       <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
-        <div id="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
+        <div id="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" name="body" required ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
           <ul ng-show="serverSide.data.errors.body">
             <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
@@ -41,7 +39,6 @@
           <div>
             <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
           </div>
-
           <!-- Hidden topic checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.topic">
             <div class="arrow"></div>
@@ -61,7 +58,6 @@
           <div>
             <button type="button" ng-click="togglePopover('c4m_vocab_date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
           </div>
-
           <!-- Hidden topic checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_date">
             <div class="arrow"></div>
@@ -81,7 +77,6 @@
           <div>
             <button type="button" ng-click="togglePopover('c4m_vocab_language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
           </div>
-
           <!-- Hidden topic checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_language">
             <div class="arrow"></div>
@@ -101,7 +96,6 @@
           <div>
             <button type="button" ng-click="togglePopover('c4m_vocab_geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
           </div>
-
           <!-- Hidden geo checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo">
             <div class="arrow"></div>

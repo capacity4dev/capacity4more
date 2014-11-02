@@ -142,13 +142,8 @@ angular.module('c4mApp')
      */
     $scope.submitForm = function(entityForm, data, bundle, type) {
       // Check the type of the submit.
-      if(type == 'full_form') {
-        // Make node unpublished.
-        data.status = 0;
-      }
-      else {
-        data.status = 1;
-      }
+      // Make node unpublished if requested to create in full form.
+      data.status = type == 'full_form' ? 0 : 1;
 
       // Check if angular thinks that the form is valid.
       if(entityForm.$valid) {
@@ -166,6 +161,7 @@ angular.module('c4mApp')
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
           .success(function(data, status) {
+            // If requested to create in full form, Redirect user to the edit page.
             if(type == 'full_form') {
               var node_id = data.data[0].id;
               $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
