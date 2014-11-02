@@ -12,7 +12,7 @@ include_once 'c4m_message.features.inc';
  * Delegate message creation for inserted entities.
  */
 function c4m_message_entity_insert($entity, $entity_type) {
-  c4m_message_crud_message($entity, $entity_type, 'insert');
+  c4m_message_crud_message($entity_type, $entity, 'insert');
 }
 
 /**
@@ -21,7 +21,7 @@ function c4m_message_entity_insert($entity, $entity_type) {
  * Delegate message creation for inserted entities.
  */
 function c4m_message_entity_update($entity, $entity_type) {
-  c4m_message_crud_message($entity, $entity_type, 'update');
+  c4m_message_crud_message($entity_type, $entity, 'update');
 }
 
 /**
@@ -61,6 +61,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     'taxonomy_term',
     'og_membership',
   );
+
   if (!in_array($entity_type, $valid_entity_types)) {
     return;
   }
@@ -83,6 +84,8 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   if ($message) {
     $message->save();
   }
+
+  return $message;
 }
 
 /**
