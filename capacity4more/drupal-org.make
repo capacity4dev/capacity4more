@@ -35,6 +35,9 @@ projects[date][version] = "2.8"
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
+projects[dragndrop_upload][subdir] = "contrib"
+projects[dragndrop_upload][version] = "1.x-dev"
+
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.5"
 ; Patches for RESTful
@@ -68,11 +71,14 @@ projects[inline_entity_form][version] = "1.5"
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.4"
 
-projects[location][subdir] = "contrib"
-projects[location][version] = "3.3"
-
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
+
+projects[link][subdir] = "contrib"
+projects[link][version] = "1.3"
+
+projects[location][subdir] = "contrib"
+projects[location][version] = "3.3"
 
 projects[mailsystem][version] = "2.34"
 projects[mailsystem][subdir] = "contrib"

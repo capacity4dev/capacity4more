@@ -42,6 +42,7 @@ dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
 dependencies[] = libraries
+dependencies[] = link
 ;dependencies[] = message
 dependencies[] = module_filter
 dependencies[] = og
