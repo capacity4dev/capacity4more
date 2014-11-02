@@ -1,26 +1,14 @@
 <form action="#" class="search">
   <input ng-model="searchTerm" class="form-control" type="text" placeholder="Search"/>
 </form>
-<div ng-hide="searchTerm" class="checkbox" ng-repeat="item in items">
+<div class="checkbox" ng-repeat="(id, item) in items | geoFilter: items:searchTerm">
   <label>
-    <input type="checkbox" ng-name="type" ng-model="model[item.value]"> {{item.label}}
+    <input type="checkbox" ng-name="type" ng-model="model[id]"> {{item.label}}
   </label>
   <ul ng-show="item.children" class="indent">
     <li ng-repeat="child in item.children">
       <label>
-        <input type="checkbox" ng-name="type" ng-model="model[child.value]"> {{child.label}}
-      </label>
-    </li>
-  </ul>
-</div>
-<div ng-show="searchTerm" class="checkbox" ng-repeat="item in items">
-  <label ng-hide="searchTerm">
-    <input type="checkbox" ng-name="type" ng-model="model[item.value]"> {{item.label}}
-  </label>
-  <ul ng-show="item.children" class="indent">
-    <li ng-repeat="child in item.children | geoFilter: searchTerm">
-      <label>
-        <input type="checkbox" ng-name="type" ng-model="model[child.value]"> {{child.label}}
+        <input type="checkbox" ng-name="type" ng-model="model[child.id]"> {{child.label}}
       </label>
     </li>
   </ul>

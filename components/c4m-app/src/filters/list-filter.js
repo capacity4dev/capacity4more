@@ -11,12 +11,15 @@ angular.module('c4mApp')
   .filter('listFilter',[ function () {
   return function(items, searchText) {
     if(searchText) {
-      var filtered = [];
+      var filtered = {};
       searchText = searchText.toLowerCase();
-      angular.forEach(items, function(item) {
-        if( item.toLowerCase().indexOf(searchText) >= 0 ) filtered.push(item);
+      angular.forEach(items, function(label, id) {
+        if( label.toLowerCase().indexOf(searchText) >= 0 ) filtered[id] = label;
       });
       return filtered;
+    }
+    else {
+      return items;
     }
   }
 }]);

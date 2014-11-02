@@ -58,7 +58,6 @@ angular.module('c4mApp')
       if(label.indexOf('-')) {
         parent = id;
         $scope.c4m_vocab_geo[id] = {
-          value: id,
           label: label,
           children: []
         };
@@ -66,7 +65,7 @@ angular.module('c4mApp')
       else {
         if (parent > 0) {
           $scope.c4m_vocab_geo[parent]['children'].push({
-            value: id,
+            id: id,
             label: label.replace("-","")
           });
         }

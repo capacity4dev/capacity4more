@@ -97,7 +97,7 @@
             <button type="button" ng-click="togglePopover('c4m_vocab_geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
           </div>
           <!-- Hidden geo checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo">
+          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo" >
             <div class="arrow"></div>
             <div class="popover-content">
               <list-geo type="geo" model="data.c4m_vocab_geo" items="c4m_vocab_geo"></list-geo>
