@@ -12,9 +12,62 @@ include_once 'c4m_message.features.inc';
  * Delegate message creation for inserted entities.
  */
 function c4m_message_entity_insert($entity, $entity_type) {
+  c4m_message_crud_message($entity, $entity_type, 'insert');
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * Delegate message creation for inserted entities.
+ */
+function c4m_message_entity_update($entity, $entity_type) {
+  c4m_message_crud_message($entity, $entity_type, 'update');
+}
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * @todo: Push item to queue.
+ */
+function c4m_message_entity_delete($entity, $entity_type) {
+
+}
+
+
+
+
+/**
+ * Delegate message CRUD to message type specific functions.
+ *
+ * @param $entity_type
+ *   The entity type.
+ * @param $entity
+ *   The entity object.
+ * @param $op
+ *   The operation to perform. Possible values are "insert" or "update"
+ *
+ * @return Message
+ *   The saved message object, or NULL if not created or updated.
+ */
+function c4m_message_crud_message($entity_type, $entity, $op) {
+  if (!empty($entity->_skip_message)) {
+    // Entity should not create a message.
+    return;
+  }
+
+  $valid_entity_types = array(
+    'comment',
+    'node',
+    'taxonomy_term',
+    'og_membership',
+  );
+  if (!in_array($entity_type, $valid_entity_types)) {
+    return;
+  }
+
   $message = NULL;
 
-  $func = 'c4m_message_insert__' . $entity_type;
+  $func = 'c4m_message__' . $op . '__' . $entity_type;
   list(,, $bundle) = entity_extract_ids($entity_type, $entity);
   $bundle_func = $func . '__' . $bundle;
 
@@ -41,16 +94,20 @@ function c4m_message_entity_insert($entity, $entity_type) {
  * @return Message
  *   The non-saved message entity.
  */
-function c4m_message_insert__node__discussion($node) {
+function c4m_message__insert__node__discussion($node) {
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__discussion', $values);
-  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $message_wrapper = entity_metadata_wrapper('message', $message);
   $node_wrapper = entity_metadata_wrapper('node', $node);
-  // @todo: There should be only a single group.
+
+  // @todo: There should be only a single group attached to a content, so we
+  // need to change OG_AUDIENCE_FIELD to cardinality 1.
   $group_ids = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $group_id = reset($group_ids);
-  $wrapper->field_group_node->set($group_id);
-  $wrapper->field_node->set($node);
+  $message_wrapper->field_group_node->set($group_id);
+  $message_wrapper->field_node->set($node);
+
   return $message;
 }
 

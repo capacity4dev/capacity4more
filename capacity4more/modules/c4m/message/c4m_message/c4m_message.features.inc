@@ -32,16 +32,16 @@ function c4m_message_default_message_type() {
     "argument" : [],
     "category" : "message_type",
     "data" : {
-      "token options" : { "clear" : 1 },
+      "token options" : { "clear" : 0 },
       "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
     },
     "language" : "",
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\r\\n\\r\\n\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\r\\n [message:field-node:c4m_media] \\r\\n\\r\\n [message:field-node:c4m_body]\\r\\n\\r\\nRecommendations | [message:field-node:comment-count] Comments |  Views",
+          "value" : "\\u003Cdiv class=\\u0022row\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E posted @type | @date\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022[message:user:url]\\u0022\\u003E[message:user:name]\\u003C\\/a\\u003E posted [message:field-node:c4m-discussion-type] | [message:field-node:created]\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E [message:field-node:c4m_media] \\u003C\\/p\\u003E\\n\\u003Cp\\u003E [message:field-node:c4m_body]\\u003C\\/p\\u003E\\n\\u003Cp\\u003ERecommendations | [message:field-node:comment-count] Comments |  Views\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row\\u0022\\u003E\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E posted @type | @date\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row\\u0022\\u003E\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row\\u0022\\u003E\\n  !content\\n\\u003C\\/div\\u003E\\n"
         }
       ]
     },
