@@ -149,7 +149,7 @@ function c4m_message_format_date_for_message(Message $message) {
     return format_date($message->timestamp);
   }
 
-  $interval = format_interval(time() - $message->timestamp);
+  $interval = format_interval(time() - $message->timestamp, 1);
   return t('@interval ago', array('@interval' => $interval));
 }
 
@@ -171,6 +171,11 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
 }
@@ -209,6 +214,9 @@ function c4m_message_format_node_discussion_type(Message $message) {
  *
  * @param Message $message
  *   The Message entity.
+ *
+ * @return string
+ *   The formated string.
  */
 function c4m_message_format_rendered_node(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -216,6 +224,18 @@ function c4m_message_format_rendered_node(Message $message) {
   return drupal_render($view);
 }
 
+/**
+ * Return the formatted footer.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The formated string.
+ */
+function c4m_message_format_footer(Message $message) {
+  return '245 recommendations | 25 comments | 1 view';
+}
 /**
  * Create a discussion message.
  *
@@ -278,7 +298,7 @@ function c4m_message_preprocess_message(&$variables) {
   if ($variables['view_mode'] != 'activity_stream') {
     return;
   }
-  
+
   $message = $variables['message'];
 
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
