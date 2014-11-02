@@ -121,16 +121,15 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   return $message;
 }
 
-
 /**
- * Delegated hook_entity_load().
+ * A gerenal function to add arguments for node related messges.
  *
  * Add Message arguments callbacks.
  *
  * @param Message $message
  *   The Message entity.
  */
-function c4m_message_load__c4m_insert__node__discussion(Message $message) {
+function c4m_message_load_general_arguments(Message $message) {
   $message->arguments['@date'] = array(
     'callback' => 'c4m_message_format_date_for_message',
     'pass message' => TRUE,
@@ -149,6 +148,48 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
  */
 function c4m_message_format_date_for_message(Message $message) {
   return format_date($message->timestamp);
+}
+
+
+/**
+ * Delegated hook_entity_load() for node of "discussion" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__discussion(Message $message) {
+  c4m_message_load_general_arguments($message);
+  $message->arguments['@type'] = array(
+    'callback' => 'c4m_message_node_discussion_type',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Return the formatted discussion type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_node_discussion_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
+
+  switch ($discussion_type) {
+    case 'info':
+      return t('posted Information');
+
+    case 'idea':
+      return t('posted an Idea');
+
+    case 'question':
+      return t('Asked a Question');
+
+    case 'debate':
+      return t('started a Debate');
+  }
 }
 
 /**
