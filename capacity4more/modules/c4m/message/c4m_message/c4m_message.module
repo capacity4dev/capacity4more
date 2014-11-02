@@ -139,15 +139,18 @@ function c4m_message_load_general_arguments(Message $message) {
 /**
  * Replace the date value of a message with a formatted value.
  *
- * @todo: Change value according to spec to use format_interval() when needed.
- *
  * @param Message $message
  *   The Message entity.
  * @return string
  *   The formatted date.
  */
 function c4m_message_format_date_for_message(Message $message) {
-  return format_date($message->timestamp);
+  if (strtotime('now - 1 day') > $message->timestamp) {
+    return format_date($message->timestamp);
+  }
+
+  $interval = format_interval(time() - $message->timestamp);
+  return t('@interval ago', array('@interval' => $interval));
 }
 
 
