@@ -15,6 +15,7 @@ class RestfulEntityTaxonomyTermGeo extends \RestfulEntityBaseTaxonomyTerm {
 
     $public_fields['parent'] = array(
       'property' => 'parent',
+      'sub_property' => 'tid',
     );
 
     return $public_fields;

@@ -23,6 +23,10 @@ This a temporary file.
   margin-bottom: 20px;
 }
 
+ul, ol {
+  list-style: none;
+}
+
 .form-group {
   width: 100%;
 }

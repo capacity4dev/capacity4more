@@ -118,7 +118,6 @@ function c4m_restful_quick_post_form($node) {
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'field_schema' => $field_schema,
-    'reference_values' => $reference_values,
     'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => $entity_fields,

@@ -14,34 +14,62 @@ angular.module('c4mApp')
     // Getting all the fields information.
     $scope.field_schema = DrupalSettings.getFieldSchema();
 
-    // Setting default discussion type to "Start a debate".
-    $scope.data.discussion_type = 'debate';
-
     $scope.debug = DrupalSettings.getDebugStatus();
 
-    $scope.reference_values = DrupalSettings.getReferneceValues();
+    $scope.reference_values = {};
 
     $scope.serverSide = {
       status: 0,
       data: {}
     };
 
+    $scope.c4m_vocab_geo = {};
+
     $scope.tagsQueryCache = [];
 
     // Responsible for toggling the visibility of the taxonomy-terms.
-    // Set it to 0, as to hide all of the pop-overs on load.
+    // Set "popups" to 0, as to hide all of the pop-overs on load.
     // Also prepare the referenced "data" to be objects.
     $scope.popups = {};
-    angular.forEach($scope.reference_values, function (value, key) {
-      $scope.popups[key] = 0;
-      if($scope.data[key]) {
-        angular.forEach($scope.data[key], function (term) {
-          $scope.data[key] = {};
-          $scope.data[key][term] = true;
-        });
+    angular.forEach($scope.field_schema, function (data, field) {
+      var allowed_values = data.form_element.allowed_values;
+      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length) {
+        $scope.reference_values[field] = data.form_element.allowed_values;
+
+        $scope.popups[field] = 0;
+        if($scope.data[field]) {
+          angular.forEach($scope.data[field], function (term) {
+            $scope.data[field] = {};
+            $scope.data[field][term] = true;
+          });
+        }
+        else {
+          $scope.data[field] = {};
+        }
+      }
+    });
+
+    // Setting default discussion type to "Start a debate".
+    $scope.data.discussion_type = 'debate';
+
+    // Prepare the "Regions & Countries" to be a tree object.
+    var parent = 0;
+    angular.forEach($scope.reference_values.c4m_vocab_geo, function (label, id) {
+      if(label.indexOf('-')) {
+        parent = id;
+        $scope.c4m_vocab_geo[id] = {
+          value: id,
+          label: label,
+          children: []
+        };
       }
       else {
-        $scope.data[key] = {};
+        if (parent > 0) {
+          $scope.c4m_vocab_geo[parent]['children'].push({
+            value: id,
+            label: label.replace('-','',label)
+          });
+        }
       }
     });
 
