@@ -57,7 +57,7 @@ script:
   - java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
   - sleep 5
 
-  - ./bin/behat --tags=~@wip
+  - ./bin/behat -p phantomjs --tags=~@wip
 
 
   # Run WebTests ---------------------------------------------------------------
