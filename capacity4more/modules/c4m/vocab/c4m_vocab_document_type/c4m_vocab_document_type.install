@@ -8,154 +8,8 @@
  * Implements hook_install().
  */
 function c4m_vocab_document_type_install() {
-  c4m_vocab_document_type_update_7000();
-  c4m_vocab_document_type_update_7001();
-  c4m_vocab_document_type_update_7002();
-}
-
-/**
- * Create language vocabulary.
- */
-function c4m_vocab_document_type_update_7000() {
-  $language_vocab = (object) array(
-    'name'         => 'Type of Document Vocabulary',
-    'description'  => 'Type indication for documents',
-    'machine_name' => 'c4m_vocab_document_type',
-  );
-
-  taxonomy_vocabulary_save($language_vocab);
-}
-
-/**
- * Set pathauto pattern.
- */
-function c4m_vocab_document_type_update_7001() {
-  $messages = array();
-
-  variable_set('pathauto_taxonomy_term_c4m_vocab_document_type_pattern', 'document-type/[term:name]');
-
-  return implode('<br />', $messages);
-}
-
-/**
- * Create default taxonomy terms for the Document Type vocab.
- */
-function c4m_vocab_document_type_update_7002() {
-  $messages = array();
-
-  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_document_type');
-
-  $terms = array(
-    'Study'                           => array(
-      '#weight' => -20
-    ),
-    'Research Paper'                  => array(
-      '#weight' => -19
-    ),
-    'Policy report / Briefing'        => array(
-      '#weight' => -18
-    ),
-    'Background material'             => array(
-      '#weight' => -17
-    ),
-    'Strategies & Action Plans'       => array(
-      '#weight' => -16
-    ),
-    'Evaluation & Monitoring'         => array(
-      '#weight'   => -15,
-      '#children' => array(
-        'Evaluation report' => array('#weight' => -2),
-        'Monitoring report' => array('#weight' => -1)
-      )
-    ),
-    'Action document / Project fiche' => array(
-      '#weight' => -14
-    ),
-    'Contractual documentation'       => array(
-      '#weight'   => -13,
-      '#children' => array(
-        'Contract'                            => array('#weight' => -5),
-        'Terms of Reference'                  => array('#weight' => -4),
-        'Technical Administrative Provisions' => array('#weight' => -3),
-        'Budget'                              => array('#weight' => -2),
-        'Logical Framework'                   => array('#weight' => -1),
-      )
-    ),
-    'Learning material'               => array(
-      '#weight'   => -12,
-      '#children' => array(
-        'E-learning & MOOC'          => array('#weight' => -3),
-        'Training agenda & outlines' => array('#weight' => -2),
-        'Training presentations'     => array('#weight' => -1),
-      ),
-    ),
-    'Guidelines, toolkits & manuals'  => array(
-      '#weight'   => -11,
-      '#children' => array(
-        'Operational guidance' => array('#weight' => -3),
-        'Handbooks & Toolkits' => array('#weight' => -2),
-        'Manuals'              => array('#weight' => -1),
-      ),
-    ),
-    'Case study & Lessons learned'    => array(
-      '#weight' => -10
-    ),
-    'Communication material'          => array(
-      '#weight'   => -9,
-      '#children' => array(
-        'Newsletter'            => array('#weight' => -6),
-        'Leaflets'              => array('#weight' => -5),
-        'Press release'         => array('#weight' => -4),
-        'Articles & Interviews' => array('#weight' => -3),
-        'Picture'               => array('#weight' => -2),
-        'Video'                 => array('#weight' => -1),
-      ),
-    ),
-    'EU document'                     => array(
-      '#weight' => -8
-    ),
-    'Other'                           => array(
-      '#weight' => -7
-    ),
-  );
-
-  foreach ($terms as $name => $term) {
-    _c4m_vocab_document_type_create($vocab, $name, $term);
-  }
-
-  return implode('<br />', $messages);
-}
-
-/**
- * Create a term.
- *
- * @param $term
- */
-function _c4m_vocab_document_type_create($vocab, $name, $term, $parent = NULL) {
-  $to              = new StdClass();
-  $to->name        = $name;
-  $to->description = 'Document type ' . $name;
-  $to->vid         = $vocab->vid;
-  $to->weight      = $term['#weight'];
-
-  if (!empty($parent)) {
-    $to->parent = $parent->tid;
-  }
-
-  taxonomy_term_save($to);
-
-  if (!empty($term['#children'])) {
-    // Retrieve our current term to pass as a parameter.
-    $parent_array = taxonomy_get_term_by_name($name, $vocab->machine_name);
-
-    if (!empty($parent_array)) {
-      $parent = array_shift($parent_array);
-    }
-
-    foreach ($term['#children'] as $child_name => $child_term) {
-      _c4m_vocab_document_type_create($vocab, $child_name, $child_term, $parent);
-    }
-  }
+  c4m_vocab_document_type_install_vocabulary();
+  c4m_vocab_document_type_install_terms();
 }
 
 /**
@@ -166,5 +20,138 @@ function c4m_vocab_document_type_uninstall() {
 
   if (!empty($vocab)) {
     taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
+
+
+/**
+ * Create language vocabulary.
+ */
+function c4m_vocab_document_type_install_vocabulary() {
+  $language_vocab = (object) array(
+    'name'         => 'Type of Document Vocabulary',
+    'description'  => 'Type indication for documents',
+    'machine_name' => 'c4m_vocab_document_type',
+  );
+  taxonomy_vocabulary_save($language_vocab);
+
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_document_type_pattern',
+    'document-type/[term:name]'
+  );
+}
+
+/**
+ * Create default taxonomy terms for the Document Type vocab.
+ */
+function c4m_vocab_document_type_install_terms() {
+  $messages = array();
+
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_document_type');
+
+  $terms = array(
+    'Study' => array(),
+    'Research Paper' => array(),
+    'Policy report / Briefing' => array(),
+    'Background material' => array(),
+    'Strategies & Action Plans' => array(),
+    'Evaluation & Monitoring' => array(
+      array('Evaluation report' => array()),
+      array('Monitoring report' => array()),
+    ),
+    'Action document / Project fiche' => array(),
+    --
+    'Contractual documentation' => array(
+      '#weight' => -13,
+      '#children' => array(
+        'Contract' => array('#weight' => -5),
+        'Terms of Reference' => array('#weight' => -4),
+        'Technical Administrative Provisions' => array('#weight' => -3),
+        'Budget' => array('#weight' => -2),
+        'Logical Framework' => array('#weight' => -1),
+      )
+    ),
+    'Learning material' => array(
+      '#weight' => -12,
+      '#children' => array(
+        'E-learning & MOOC' => array('#weight' => -3),
+        'Training agenda & outlines' => array('#weight' => -2),
+        'Training presentations' => array('#weight' => -1),
+      ),
+    ),
+    'Guidelines, toolkits & manuals' => array(
+      '#weight' => -11,
+      '#children' => array(
+        'Operational guidance' => array('#weight' => -3),
+        'Handbooks & Toolkits' => array('#weight' => -2),
+        'Manuals' => array('#weight' => -1),
+      ),
+    ),
+    'Case study & Lessons learned' => array(
+      '#weight' => -10
+    ),
+    'Communication material' => array(
+      '#weight' => -9,
+      '#children' => array(
+        'Newsletter' => array('#weight' => -6),
+        'Leaflets' => array('#weight' => -5),
+        'Press release' => array('#weight' => -4),
+        'Articles & Interviews' => array('#weight' => -3),
+        'Picture' => array('#weight' => -2),
+        'Video' => array('#weight' => -1),
+      ),
+    ),
+    'EU document' => array(
+      '#weight' => -8
+    ),
+    'Other' => array(
+      '#weight' => -7
+    ),
+  );
+
+  $weight = -20;
+  foreach ($terms as $name => $term) {
+    c4m_vocab_document_type_install_terms_create($vocab, $name, $term, $weight);
+    $weight++;
+  }
+
+  return implode('<br />', $messages);
+}
+
+/**
+ * Create a term.
+ *
+ * @param stdClass $vocab
+ *   The vocabulary to create the term for.
+ * @param string $name
+ *   The term name.
+ * @param array $children
+ *   An array of children terms.
+ * @param int $weight
+ *   The weight the term should get.
+ * @param stdClass $parent
+ *   The parent term (if any).
+ */
+function c4m_vocab_document_type_install_terms_create(
+  $vocab, $name, $children, $weight, $parent = NULL
+) {
+  $term              = new StdClass();
+  $term->name        = $name;
+  $term->description = 'Document type ' . $name;
+  $term->vid         = $vocab->vid;
+  $term->weight      = $weight;
+  if (!empty($parent)) {
+    $term->parent = $parent->tid;
+  }
+  taxonomy_term_save($term);
+
+  if (!empty($children)) {
+    $child_weight = -20;
+    foreach ($children as $child_name => $child_children) {
+      c4m_vocab_document_type_install_terms_create(
+        $vocab, $child_name, $child_children, $child_weight, $term
+      );
+      $child_weight++;
+    }
   }
 }
