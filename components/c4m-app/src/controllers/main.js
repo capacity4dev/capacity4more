@@ -37,11 +37,12 @@ angular.module('c4mApp')
         $scope.reference_values[field] = data.form_element.allowed_values;
 
         $scope.popups[field] = 0;
+        // If the field has value sent from drupal (e.g: group),
+        // Save the value as an object.
         if($scope.data[field]) {
-          angular.forEach($scope.data[field], function (term) {
-            $scope.data[field] = {};
-            $scope.data[field][term] = true;
-          });
+          var id = $scope.data[field];
+          $scope.data[field] = {};
+          $scope.data[field][id] = true;
         }
         else {
           $scope.data[field] = {};
