@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Migrate class to create group documents.
+ * Migrate class to create group discussions.
  */
 
 /**
- * Class C4mDemoContentCreateBlogs
+ * Class C4mDemoContentCreateDiscussions
  */
-class C4mDemoContentCreateBlogs extends C4mDemoContentCreateOgContent {
-  public $bundle = 'blog';
+class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
+  public $bundle = 'discussion';
 
   /**
    * CSV column mapping.

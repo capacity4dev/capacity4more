@@ -93,13 +93,13 @@ function c4m_content_document_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '10',
         ),
         'locations' => array(
-          'weight' => '8',
+          'weight' => '11',
         ),
       ),
       'display' => array(),
