@@ -1,0 +1,281 @@
+<?php
+/**
+ * @file
+ * Web tests for the c4m_activity_comment module configuration functionality.
+ */
+
+/**
+ * Tests about the node activity logging.
+ */
+class C4mActivityCommentTestLogging extends DrupalWebTestCase {
+  /**
+   * Node type name to use in the tests.
+   *
+   * @var string
+   */
+  const TYPE = 'c4m_activity_node_test';
+
+  /**
+   * The logged in admin user.
+   *
+   * @var stdClass
+   */
+  protected $admin;
+
+  /**
+   * Another user to test with.
+   *
+   * @var stdClass
+   */
+  protected $editor;
+
+
+  /**
+   * Get the test info.
+   *
+   * @return array
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'c4m - Activity Node Action logging',
+      'description' => 'Test the activity logging for node types.',
+      'group' => 'capacity4more:activity:comment',
+    );
+  }
+
+  /**
+   * Setup the test environment.
+   */
+  public function setUp() {
+    $modules = array('message', 'c4m_activity_node', 'c4m_activity_comment');
+    parent::setUp($modules);
+
+    // Create a new node type.
+    $info = (object) array(
+      'name' => self::TYPE,
+      'type' => self::TYPE,
+      'base' => 'node_content',
+      'module' => 'node',
+      'description' => t('Test content type for c4m_activity_node_test.'),
+      'has_title' => 1,
+      'title_label' => t('Title'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+      'disabled' => 0,
+      'orig_type' => self::TYPE,
+    );
+    node_type_save($info);
+
+    // Enable comment activity logging.
+    $name = c4m_activity_comment_variable_name(self::TYPE);
+    variable_set(
+      $name,
+      array('insert' => 'insert', 'update' => 'update', 'delete' => 'delete')
+    );
+
+    // create a new user with some permissions you need; then log in.
+    $permissions = array(
+      'administer nodes',
+      'bypass node access',
+      'administer comments',
+    );
+    $this->admin = $this->drupalCreateUser($permissions);
+    $this->editor = $this->drupalCreateUser($permissions);
+
+    $this->drupalLogin($this->admin);
+  }
+
+  /**
+   * Test the logging functionality for comments.
+   */
+  public function testLogging() {
+    // Create a node.
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid'  => $this->admin->uid,
+      ));
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a comment.
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'node/' . $node->nid,
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('insert'));
+
+    // An update by same user within 6 hours => no update.
+    $comment = current(comment_get_recent(1));
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'comment/' . $comment->cid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(0, $this->countMessages('update'));
+
+    // Update after more then 6 hours by the same user.
+    $timestamp = strtotime(date('r', time()) . '-24 hours');
+    $query = db_update('message');
+    $query->fields(array('timestamp' => $timestamp))
+          ->execute();
+
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'comment/' . $comment->cid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('update'));
+
+    // Update by another user.
+    $this->drupalLogin($this->editor);
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'comment/' . $comment->cid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(3, $this->countMessages());
+    $this->assertEqual(2, $this->countMessages('update'));
+
+    // Update by the original user.
+    $this->drupalLogin($this->admin);
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'comment/' . $comment->cid . '/edit',
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(4, $this->countMessages());
+    $this->assertEqual(3, $this->countMessages('update'));
+
+    // Delete a comment, this will also delete all messages related to it.
+    variable_set('message_delete_on_entity_delete', array('comment'));
+    comment_delete($comment->cid);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Avoid automatic deletion of the messages if the node is deleted.
+    variable_set('message_delete_on_entity_delete', array());
+
+    // Create & delete
+    $edit = array(
+      'subject' => $this->randomName(),
+      'comment_body[und][0][value]' => $this->randomName()
+    );
+    $this->drupalPost(
+      'node/' . $node->nid,
+      $edit,
+      t('Save')
+    );
+    $this->assertEqual(1, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('insert'));
+
+    // Delete the comment with a log message.
+    $comment = current(comment_get_recent(1));
+    comment_delete($comment->cid);
+    $this->assertEqual(2, $this->countMessages());
+    $this->assertEqual(1, $this->countMessages('delete'));
+  }
+
+  /**
+   * Test disabling the creation of new activity messages.
+   */
+  public function testDisableLogging() {
+    $this->assertTrue(c4m_activity_comment_is_enabled());
+    c4m_activity_comment_disable();
+    $this->assertFalse(c4m_activity_comment_is_enabled());
+
+
+    // Create a node.
+    $node = $this->drupalCreateNode(array(
+        'type' => self::TYPE,
+        'uid' => $this->admin->uid,
+        'title' => $this->randomName(),
+      ));
+    $this->assertEqual(0, $this->countMessages());
+
+    // Create a comment with activity disabled.
+    $comment = new stdClass();
+    $comment->cid = NULL;
+    $comment->pid = 0;
+    $comment->nid = $node->nid;
+    $comment->uid = $this->admin->uid;
+    $comment->subject = $this->randomName();
+    $comment->comment_body[LANGUAGE_NONE][0]['value'] = $this->randomName();
+    $comment->c4m_activity_disabled = TRUE;
+    comment_save($comment);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Update a comment with activity disabled.
+    $comment->subject = $this->randomName();
+    $comment->uid = $this->editor->uid;
+    $comment->c4m_activity_disabled = TRUE;
+    comment_save($comment);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Delete a comment with activity disabled.
+    variable_set('message_delete_on_entity_delete', array());
+    comment_delete($comment->cid);
+    $this->assertEqual(0, $this->countMessages());
+
+    // Enable the logging again.
+    c4m_activity_comment_enable();
+    $this->assertTrue(c4m_activity_comment_is_enabled());
+
+    // Create a comment with enabled.
+    $comment = new stdClass();
+    $comment->cid = NULL;
+    $comment->pid = 0;
+    $comment->nid = $node->nid;
+    $comment->uid = $this->admin->uid;
+    $comment->subject = $this->randomName();
+    $comment->comment_body[LANGUAGE_NONE][0]['value'] = $this->randomName();
+    $comment->c4m_activity_disabled = TRUE;
+    comment_save($comment);
+    $this->assertEqual(1, $this->countMessages());
+  }
+
+  /**
+   * Helper to get the number of messages in the message table.
+   *
+   * @param string $action
+   *   The action type we want to see the messages for.
+   *
+   * @return int
+   *   The number of items in the message table.
+   */
+  protected function countMessages($action = NULL) {
+    $query = new entityFieldQuery();
+    $query
+      ->count()
+      ->entityCondition('entity_type', 'message');
+
+    if ($action) {
+      $query->propertyCondition('type', 'c4m_activity_comment_' . $action);
+    }
+
+    $count = (int) $query->execute();
+    return $count;
+  }
+}

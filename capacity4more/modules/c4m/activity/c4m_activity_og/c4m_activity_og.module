@@ -1,0 +1,382 @@
+<?php
+/**
+ * @file
+ * Code to support logging Organic groups related activities using the messaging module.
+ */
+
+/******************************************************************************
+ * Configuration
+ ******************************************************************************/
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add messaging settings configuration to the node settings form.
+ *
+ * @see c4m_activity_og_node_type_form_save()
+ */
+function c4m_activity_og_form_node_type_form_alter(
+  &$form, &$form_state, $form_id
+) {
+
+  $info = $form['#node_type'];
+  if (!og_is_group_type('node', $info->type)) {
+    return;
+  }
+
+  $default_config = array();
+  if (!empty($info->type)) {
+    $default_config = variable_get(
+      c4m_activity_og_variable_name($info->type),
+      array()
+    );
+  }
+
+  if (empty($form['c4m_activity'])) {
+    $form['c4m_activity'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Activity'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#group' => 'additional_settings',
+    );
+  }
+  $form['c4m_activity']['c4m_activity_og'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Log group activity when'),
+    '#description' => t('Select what group activities should be saved in the activity log.'),
+    '#options' => array(
+      'request' => t('A user requested group membership.'),
+      'revoke' => t('A user revoked his group membership request.'),
+      'join' => t('A user joined the group.'),
+      'leave' => t('A user left the group.'),
+      'approve' => t('A group administrator approves a membership request.'),
+      'reject' => t('A group administrator rejects a membership request.'),
+      'remove' => t('A group administrator removes a group membership.'),
+      'block' => t('A group administrator blocks a group membership.'),
+      'unblock' => t('A group administrator unblocked a group membership.'),
+    ),
+    '#default_value' => $default_config,
+    '#weight' => 3,
+  );
+
+  $form['#submit'][] = 'c4m_activity_og_node_type_form_save';
+}
+
+/**
+ * Saves the type type specific message settings.
+ *
+ * @see c4m_activity_og_form_node_type_form_alter()
+ */
+function c4m_activity_og_node_type_form_save($form, $form_state) {
+  $values = $form_state['values'];
+
+  // Save the configuration.
+  variable_set(
+    c4m_activity_og_variable_name($values['type']),
+    $values['c4m_activity_og']
+  );
+
+  // Delete the old variable if the machine name has changed.
+  if ($values['type'] !== $values['old_type']) {
+    variable_del(
+      c4m_activity_og_variable_name($values['old_type'])
+    );
+  }
+}
+
+/**
+ * Implements hook_node_type_delete().
+ *
+ * Delete the activity settings if the type type is deleted.
+ */
+function c4m_activity_og_node_type_delete($info) {
+  variable_del(
+    c4m_activity_og_variable_name($info->type)
+  );
+}
+
+/**
+ * Helper to determine if the type action needs a message or not.
+ *
+ * The config from the variables table is used to check if the given group
+ * action type requires messages.
+ *
+ * @param string $type
+ *   The type type we want to log a message for.
+ * @param string $action
+ *   The action performed on the type. The supported actions are:
+ *   - request
+ *   - revoke
+ *   - join
+ *   - leave
+ *   - approve
+ *   - reject
+ *   - remove
+ *   - block
+ *   - unblock
+ *
+ * @return bool
+ *   Needs an message yes/no.
+ */
+function c4m_activity_og_needs_message($type, $action) {
+  if (!og_is_group_type('node', $type)) {
+    return FALSE;
+  }
+
+  $config = variable_get(c4m_activity_og_variable_name($type), FALSE);
+  if (!$config) {
+    return FALSE;
+  }
+
+  if (empty($config[$action]) || $config[$action] !== $action) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Helper to get the variable name to access the activity config per content type.
+ *
+ * @param string $type
+ *   The content type.
+ *
+ * @return string
+ *   The variable name.
+ */
+function c4m_activity_og_variable_name($type) {
+  return 'c4m_activity_og_' . $type;
+}
+
+
+/******************************************************************************
+ * Logging
+ ******************************************************************************/
+
+/**
+ * Implements hook_og_membership_insert().
+ *
+ * Log a message when a user joins a group.
+ *
+ * @param OgMembership $og_membership
+ *   The OG Membership as saved in the database.
+ */
+function c4m_activity_og_og_membership_insert(OgMembership $og_membership) {
+  if (!c4m_activity_og_is_enabled()) {
+    return;
+  }
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+  if (!$og_membership->is_new) {
+    return;
+  }
+
+  // Define the action.
+  $action = NULL;
+  switch ($og_membership->state) {
+    case OG_STATE_PENDING:
+      $action = 'request';
+      break;
+
+    case OG_STATE_ACTIVE:
+      $action = 'join';
+      break;
+  }
+
+  if (!$action) {
+    return;
+  }
+
+  $group_node = node_load($og_membership->gid);
+  if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+    return;
+  }
+
+  $message_wrapper = c4m_activity_og_create_membership_message(
+    $og_membership,
+    $action
+  );
+  $message_wrapper->save();
+}
+
+/**
+ * Implements hook_og_membership_update().
+ *
+ * Log a message when the membership type changes.
+ *
+ * @param OgMembership $og_membership
+ *   The OG Membership as saved in the database.
+ */
+function c4m_activity_og_og_membership_update(OgMembership $og_membership) {
+  global $user;
+
+  if (!c4m_activity_og_is_enabled()) {
+    return;
+  }
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+
+  // No message needed if the state of the membership did not change.
+  if (!isset($og_membership->original)) {
+    return;
+  }
+  $new_state = (int) $og_membership->state;
+  $old_state = (int) $og_membership->original->state;
+  if ($new_state === $old_state) {
+    return;
+  }
+
+  // Define the action(s).
+  $actions = array();
+  if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_PENDING) {
+    if ((int) $user->uid !== (int) $og_membership->etid) {
+      $actions[] = 'approve';
+    }
+    $actions[] = 'join';
+  }
+
+  if ($new_state === OG_STATE_ACTIVE && $old_state === OG_STATE_BLOCKED) {
+    $actions[] = 'unblock';
+  }
+
+  if ($new_state === OG_STATE_BLOCKED) {
+    $actions[] = 'block';
+  }
+
+  if (!$actions) {
+    return;
+  }
+
+  // Process the action(s).
+  foreach ($actions as $action) {
+    $group_node = node_load($og_membership->gid);
+    if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+      continue;
+    }
+
+    $message_wrapper = c4m_activity_og_create_membership_message(
+      $og_membership,
+      $action
+    );
+    $message_wrapper->save();
+  }
+}
+
+/**
+ * Implements hook_og_membership_delete().
+ *
+ * Log a message when the membership is removed.
+ *
+ * @param OgMembership $og_membership
+ *   The OG Membership that will be deleted.
+ */
+function c4m_activity_og_og_membership_delete(OgMembership $og_membership) {
+  if (!c4m_activity_og_is_enabled()) {
+    return;
+  }
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+
+  $action = 'leave';
+
+  // If the membership was not deleted by the user itself.
+  global $user;
+  if ((int) $user->uid !== (int) $og_membership->etid) {
+    $action = ((int) $og_membership->state === OG_STATE_PENDING)
+      ? 'reject'
+      : 'remove';
+  }
+  // Log a message if the user revokes his pending membership request.
+  elseif ((int) $og_membership->state === OG_STATE_PENDING) {
+    $action = 'revoke';
+  }
+
+  $group_node = node_load($og_membership->gid);
+  if (!c4m_activity_og_needs_message($group_node->type, $action)) {
+    return;
+  }
+
+  $message_wrapper = c4m_activity_og_create_membership_message(
+    $og_membership,
+    $action
+  );
+  $message_wrapper->save();
+}
+
+/**
+ * Create a message out of the membership based on the given action.
+ *
+ * @param OgMembership $og_membership
+ *   The membership that needs an message.
+ * @param string $action
+ *   The action performed on the membership.
+ *
+ * @return EntityMetadataWrapper
+ */
+function c4m_activity_og_create_membership_message(
+  OgMembership $og_membership,
+  $action
+) {
+  $group_nid = $og_membership->gid;
+  $account = user_load($og_membership->etid);
+
+  $arguments = array(
+    'group_nid' => $group_nid,
+    'user_uid' => $account->uid,
+  );
+
+  $message = message_create(
+    'c4m_activity_og_' . $action,
+    array('arguments' => $arguments)
+  );
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->c4m_activity_group->set($group_nid);
+  $wrapper->c4m_activity_user->set($account);
+
+  return $wrapper;
+}
+
+/******************************************************************************
+ * (Temporary) disable/enable activity logging.
+ ******************************************************************************/
+
+/**
+ * Disable og activity logging.
+ *
+ * The activity will only be disabled during the script execution.
+ * It is not persistent over different requests.
+ */
+function c4m_activity_og_disable() {
+  $enabled = &drupal_static('c4m_activity_og_status');
+  $enabled = 0;
+}
+
+/**
+ * Enable the og activity logging (default state).
+ */
+function c4m_activity_og_enable() {
+  $enabled = &drupal_static('c4m_activity_og_status');
+  $enabled = 1;
+}
+
+/**
+ * Check if the og activity logging is enabled.
+ *
+ * @return bool
+ *   Enabled.
+ */
+function c4m_activity_og_is_enabled() {
+  $enabled = &drupal_static('c4m_activity_og_status', 1);
+
+  // By default enabled.
+  if (is_null($enabled)) {
+    $enabled = 1;
+  }
+
+  return (bool) $enabled;
+}
