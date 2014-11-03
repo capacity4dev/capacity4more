@@ -8,67 +8,8 @@
  * Implements hook_install().
  */
 function c4m_vocab_language_install() {
-  c4m_vocab_language_update_7000();
-  c4m_vocab_language_update_7001();
-  c4m_vocab_language_update_7002();
-}
-
-/**
- * Create language vocabulary.
- */
-function c4m_vocab_language_update_7000() {
-  $language_vocab = (object) array(
-    'name'         => 'Language Vocabulary',
-    'description'  => 'Language indication for content',
-    'machine_name' => 'c4m_vocab_language',
-  );
-
-  taxonomy_vocabulary_save($language_vocab);
-}
-
-/**
- * Set pathauto pattern.
- */
-function c4m_vocab_language_update_7001() {
-  $messages = array();
-
-  // 'language/...' results in an error. Probably system reserved alias.
-  variable_set('pathauto_taxonomy_term_c4m_vocab_language_pattern', 'content-language/[term:name]');
-
-  return implode('<br />', $messages);
-}
-
-/**
- * Create default taxonomy terms for the Language vocab.
- */
-function c4m_vocab_language_update_7002() {
-  $messages = array();
-
-  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
-
-  $terms = array(
-    'English'    => -20,
-    'French'     => -19,
-    'Spanish'    => -18,
-    'German'     => -17,
-    'Portuguese' => -16,
-    'Arabic'     => -15,
-    'Chinese'    => -14,
-    'Russian'    => -13,
-    'Other'      => 20,
-  );
-
-  foreach ($terms as $term => $weight) {
-    $to              = new StdClass();
-    $to->name        = $term;
-    $to->description = 'Content in ' . $term;
-    $to->vid         = $vocab->vid;
-    $to->weight      = $weight;
-
-    taxonomy_term_save($to);
-  }
-
-  return implode('<br />', $messages);
+  c4m_vocab_language_install_vocabulary();
+  c4m_vocab_language_install_terms();
 }
 
 /**
@@ -82,3 +23,51 @@ function c4m_vocab_language_uninstall() {
   }
 }
 
+
+/**
+ * Create language vocabulary.
+ */
+function c4m_vocab_language_install_vocabulary() {
+  $language_vocab = (object) array(
+    'name'         => 'Language Vocabulary',
+    'description'  => 'Language indication for content',
+    'machine_name' => 'c4m_vocab_language',
+  );
+  taxonomy_vocabulary_save($language_vocab);
+
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_language_pattern',
+    'content-language/[term:name]'
+  );
+}
+
+/**
+ * Set pathauto pattern.
+ */
+function c4m_vocab_language_install_terms() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
+
+  $terms = array(
+    'English',
+    'French',
+    'Spanish',
+    'German',
+    'Portuguese',
+    'Arabic',
+    'Chinese',
+    'Russian',
+    'Other',
+  );
+
+  $weight = -20;
+  foreach ($terms as $term) {
+    $to              = new StdClass();
+    $to->name        = $term;
+    $to->description = 'Content in ' . $term;
+    $to->vid         = $vocab->vid;
+    $to->weight      = $weight;
+    taxonomy_term_save($to);
+
+    $weight++;
+  }
+}
