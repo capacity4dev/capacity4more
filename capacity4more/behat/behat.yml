@@ -1,4 +1,9 @@
 default:
+  context:
+    parameters:
+      drupal_users:
+        admin:
+          'admin'
   paths:
     features: 'features'
   extensions:
@@ -8,6 +13,16 @@ default:
       javascript_session: 'selenium2'
     Drupal\DrupalExtension\Extension:
       blackbox: ~
+
+phantomjs:
+  context:
+      class:  'FeatureContext'
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: 'http://localhost/capacity4more/www'
+      goutte: ~
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
 
 imports:
   - behat.local.yml
