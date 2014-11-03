@@ -93,7 +93,6 @@ body {
   }
 
   .sans-font {
-    font-family: 'gillSans-light', Arial;
     font-weight: bold;
     font-size: 18px;
     letter-spacing: 1px;
@@ -108,7 +107,6 @@ body {
   .blue-title,
   .red-title,
   .brown-title {
-     font-family: 'gillSans-light', Arial;
      color: $main-green;
      font-size: 33px;
      letter-spacing: 2px;
@@ -195,7 +193,7 @@ body {
       background: url("../images/main/c4d-logo.png") 100% 0 no-repeat;
       float: left;
       margin-top: 12px;
-      padding: 5px 69px 0 19px;
+      padding: 5px 65px 0 10px;
       min-height: 59px;
       text-transform: none;
 
@@ -294,7 +292,6 @@ body {
     background: url("../images/main/main-bg-pattern.png") 0 0 repeat-x white;
 
     #main-nav {
-      font-family: 'gillSans-light', Arial;
       border-bottom: 1px dashed #949494;
       padding: 10px 0;
       margin: 17px 0 0;
@@ -320,9 +317,13 @@ body {
             color: black;
             padding: 5px 0 5px 30px;
             background: url("../images/main/icons-sprite.png") 0 0 no-repeat;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             letter-spacing: 2px;
+
+            @media screen and (-webkit-min-device-pixel-ratio:0) {
+              font-size: 16px;
+            }
 
             @media (min-width: $screen-xs-max) and (max-width: $screen-md-max) {
               font-size: 14px;
@@ -477,6 +478,10 @@ body {
       padding: 27px 0;
       font-size: 12px;
       border-bottom: 2px solid $background-gray;
+
+      @media (max-width: $screen-xs-max) {
+        width: 95%;
+      }
 
       &.first {
         border-top: 2px solid $background-gray;
@@ -673,65 +678,21 @@ body {
       }
     }
 
-    .pager {
-      margin: 10px 0;
+    .carousel-indicators {
+      margin: 2px 0 0 3px;
+      position: static;
+      float: left;
+      width: auto;
 
-      ul {
-        float: left;
-        margin-top: 4px;
+      li {
+        background-color: $main-blue;
+        border: 0 none;
 
-        li {
-
-          > a {
-            border: 0 none;
-            background-color: $main-blue;
-            color: white;
-            padding: 2px 8px;
-
-            &:hover,
-            &:active,
-            &.active {
-              background-color: white;
-            }
-          }
-        }
-      }
-
-      .back,
-      .next {
-        float: left;
-
-        > a {
-          float: none;
+        &.active {
           background-color: white;
-          color: $dark-blue;
-          font-size: $font-size-h3;
-          padding-left: 4px;
-        }
-      }
-
-      .back {
-        margin-right: 23px;
-      }
-
-      .next {
-        margin-left: 11px;
-      }
-
-      &.small-pager {
-
-        li {
-
-          > a {
-            padding: 5px;
-            margin-right: 4px;
-
-            &:hover,
-            &:active,
-            &.active {
-              background-color: white;
-            }
-          }
+          height: 10px;
+          width: 10px;
+          margin: 1px;
         }
       }
     }
@@ -775,9 +736,13 @@ body {
           background-image: url("../images/main/icons-sprite.png");
           background-repeat: no-repeat;
           padding-left: 59px;
-          font-size: 18px;
+          font-size: 16px;
           line-height: 36px;
           display: inline-block;
+
+          @media screen and (-webkit-min-device-pixel-ratio:0) {
+              font-size: 18px;
+          }
 
           @media (min-width: $screen-xs-max) and (max-width: $screen-md-max) {
             font-size: 16px;
@@ -844,11 +809,16 @@ body {
         li {
           float: left;
           font-weight: bold;
-          padding-right: 18px;
-          margin-right: 15px;
+          padding-right: 14px;
+          margin-right: 13px;
           line-height: 10px;
           border-right: 1px solid $main-blue;
           text-transform: capitalize;
+
+          @media screen and (-webkit-min-device-pixel-ratio:0) {
+            padding-right: 18px;
+            margin-right: 15px;
+          }
 
           @media (max-width: $screen-md) {
             margin-bottom: 20px;
@@ -947,9 +917,13 @@ body {
         float: left;
         display: block;
         margin: 28px 0 0;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         text-transform: uppercase;
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+          font-size: 16px;
+        }
       }
     }
   }
