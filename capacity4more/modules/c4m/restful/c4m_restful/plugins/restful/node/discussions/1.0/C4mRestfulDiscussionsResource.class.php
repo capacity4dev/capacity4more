@@ -72,7 +72,6 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
       ),
     );
 
-
     $public_fields['status'] = array(
       'property' => 'status',
     );

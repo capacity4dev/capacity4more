@@ -71,34 +71,25 @@ function c4m_restful_quick_post_form($node) {
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
-  // Gathering all the fields to send to AngularJs.
-  // Adding entity-reference values.
+  // Gathering all the fields to pass to the angular-app.
   $entity_fields = array();
-  $reference_values = array();
   $skipped_fields = array(
     'id',
     'self',
   );
   foreach($public_fields as $public_field_name => $value) {
-    // Skip id and self.
+    // Skipped fields.
     if (in_array($public_field_name, $skipped_fields)) {
       continue;
     }
 
+    // Set all fields values to NULL.
     $entity_fields[$public_field_name] = NULL;
 
     // Set the current Group.
     if ($public_field_name == 'group') {
       $entity_fields[$public_field_name] = $node;
     }
-
-    if(!$value['resource']) {
-      continue;
-    }
-
-    $resource_name = $value['resource'][$public_field_name]['name'];
-    $handler = restful_get_restful_handler($resource_name);
-    $reference_values[$public_field_name] = $handler->get();
   }
 
   // The quick post debugger.

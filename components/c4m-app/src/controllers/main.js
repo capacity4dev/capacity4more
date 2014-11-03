@@ -11,21 +11,21 @@ angular.module('c4mApp')
       'events': 'Add an Event'
     };
 
-    // Getting all the fields information.
+    // Getting the fields information.
     $scope.field_schema = DrupalSettings.getFieldSchema();
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
     $scope.reference_values = {};
 
-    $scope.serverSide = {
+    $scope.server_side = {
       status: 0,
       data: {}
     };
 
     $scope.c4m_vocab_geo = {};
 
-    $scope.tagsQueryCache = [];
+    $scope.tags_query_cache = [];
 
     // Responsible for toggling the visibility of the taxonomy-terms.
     // Set "popups" to 0, as to hide all of the pop-overs on load.
@@ -85,9 +85,9 @@ angular.module('c4mApp')
       var terms = {results: []};
 
       var lowerCaseTerm = query.term.toLowerCase();
-      if (angular.isDefined($scope.tagsQueryCache[lowerCaseTerm])) {
+      if (angular.isDefined($scope.tags_query_cache[lowerCaseTerm])) {
         // Add caching.
-        terms.results = $scope.tagsQueryCache[lowerCaseTerm];
+        terms.results = $scope.tags_query_cache[lowerCaseTerm];
         query.callback(terms);
         return;
       }
@@ -114,7 +114,7 @@ angular.module('c4mApp')
               isNew: false
             });
           });
-          $scope.tagsQueryCache[lowerCaseTerm] = terms;
+          $scope.tags_query_cache[lowerCaseTerm] = terms;
         }
 
         query.callback(terms);
@@ -123,46 +123,64 @@ angular.module('c4mApp')
 
     /**
      * Update the bundle of the entity to send to the right API.
+     *
+     * @param bundle
+     *  The bundle name.
+     *
+     *  @param event
+     *    The click event.
      */
-    $scope.updateBundle = function(bundle, e) {
+    $scope.updateBundle = function(bundle, event) {
       // Get element clicked in the event.
-      var elem = angular.element(e.srcElement);
+      var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
       angular.element( ".bundle-select" ).removeClass( "active" );
       // Add class "active" to clicked element.
-      elem.addClass( "active" );
+      element.addClass( "active" );
       // Update Bundle.
       $scope.bundle_name = bundle;
     };
 
     /**
      * Update the type of the discussion.
+     *
+     * @param type
+     *  The type of the discussion.
+     *
+     *  @param event
+     *    The click event.
      */
-    $scope.updateDiscussionType = function(type, e) {
+    $scope.updateDiscussionType = function(type, event) {
       // Get element clicked in the event.
-      var elem = angular.element(e.srcElement);
+      var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
       angular.element( ".discussion-types" ).removeClass( "active" );
       // Add class "active" to clicked element.
-      elem.addClass( "active" );
+      element.addClass( "active" );
       // Update Bundle.
       $scope.data.discussion_type = type;
     };
 
     /**
      * Toggle the visibility of the popovers.
+     *
+     * @param name
+     *  The name of the pop-over.
+     *
+     *  @param event
+     *    The click event.
      */
-    $scope.togglePopover = function(type, e) {
-      // Hide all the other pop-overs first.
+    $scope.togglePopover = function(name, event) {
+      // Hide all the other pop-overs, Except the one the user clicked on.
       angular.forEach($scope.popups, function (value, key) {
-        if ($scope.popups[type] != $scope.popups[key]) {
+        if (name != key) {
           $scope.popups[key] = 0;
         }
       });
-      // Get element width clicked in the event.
-      var elem_width = angular.element(e.srcElement).outerWidth();
+      // Get the width of the element clicked in the event.
+      var elem_width = angular.element(event.srcElement).outerWidth();
       // Toggle the visibility variable.
-      $scope.popups[type] = $scope.popups[type] == 0 ? 1 : 0;
+      $scope.popups[name] = $scope.popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
       angular.element(".hidden-checkboxes").css('left', elem_width);
     };
@@ -179,10 +197,23 @@ angular.module('c4mApp')
         });
       }
     };
+    // Call the keyUpHandler function on key-up.
     $document.on('keyup', $scope.keyUpHandler);
 
     /**
-     * Submit form (even if not validated via client).
+     * Submit form.
+     *
+     * @param entityForm
+     *  The form.
+     *
+     *  @param data
+     *    The submitted data.
+     *
+     *  @param bundle
+     *    The bundle of the node submitted.
+     *
+     *  @param type
+     *    The type of the submission.
      */
     $scope.submitForm = function(entityForm, data, bundle, type) {
       // Check the type of the submit.
@@ -192,10 +223,9 @@ angular.module('c4mApp')
       // Check if angular thinks that the form is valid.
       if(entityForm.$valid) {
 
-
         // Get the IDs of the selected references.
         angular.forEach(data, function (values, field) {
-          if(values && typeof(values) === 'object') {
+          if(values && angular.isObject(values)) {
             data[field] = [];
             angular.forEach(values, function (value, index) {
               if(value === true) {
@@ -217,13 +247,13 @@ angular.module('c4mApp')
               $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
             }
             else {
-              $scope.serverSide.data = data;
-              $scope.serverSide.status = status;
+              $scope.server_side.data = data;
+              $scope.server_side.status = status;
             }
           })
           .error(function(data, status) {
-            $scope.serverSide.data = data;
-            $scope.serverSide.status = status;
+            $scope.server_side.data = data;
+            $scope.server_side.status = status;
           });
       }
     };

@@ -16,7 +16,7 @@ function c4m_restful_ctools_plugin_directory($module, $plugin) {
 
 
 /**
- * Gets the og_vocab by it's group_id.
+ * Gets the og_vocab by it's group ID.
  *
  * @param $group_type.
  *  The type of the group.

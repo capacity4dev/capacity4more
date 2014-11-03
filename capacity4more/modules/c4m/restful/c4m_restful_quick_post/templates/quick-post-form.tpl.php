@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div ng-show="bundles[bundle_name]" on-change="updateDiscussionType">
+    <div ng-show="bundles[bundle_name]">
 
       <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
@@ -121,28 +121,28 @@
 
   <div ng-show="debug">
     <h2>Console (Server side)</h2>
-    <div ng-show="serverSide.status == 200" class="create-success">
+    <div ng-show="server_side.status == 200" class="create-success">
       <strong>
-        New {{ bundle_name }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
+        New {{ bundle_name }} created: <a ng-href="{{ server_side.data.self }}" target="_blank">{{ server_side.data.label }}</a> (node ID {{ server_side.data.data[0].id }})
       </strong>
     </div>
-    <div ng-show="serverSide.status">
+    <div ng-show="server_side.status">
       <div>
-        Status: {{ serverSide.status }}
+        Status: {{ server_side.status }}
       </div>
       <div>
-        Data: <pre pretty-json="serverSide.data" />
+        Data: <pre pretty-json="server_side.data" />
       </div>
     </div>
   </div>
   <br/>
   <div class="messages" ng-show="debug == 0">
-    <div ng-show="serverSide.status == 200">
+    <div ng-show="server_side.status == 200">
       <div class="alert alert-success">
         <?php print t('The {{ bundles[bundle_name] }} was saved successfully.') ?>
       </div>
     </div>
-    <div ng-show="serverSide.status > 0 && serverSide.status != 200">
+    <div ng-show="server_side.status > 0 && server_side.status != 200">
       <div class="alert alert-danger">
         <?php print t('Error saving {{ bundles[bundle_name] }}.') ?>
       </div>
