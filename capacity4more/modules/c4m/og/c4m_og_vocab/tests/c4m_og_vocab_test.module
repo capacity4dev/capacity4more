@@ -52,9 +52,9 @@ function c4m_og_vocab_test_c4m_og_vocab_info_groups() {
  */
 function c4m_og_vocab_test_c4m_og_vocab_info_content() {
   return array(
-    'test_blog' => array(
+    'test_discussion' => array(
       'entity_type' => 'node',
-      'bundle' => 'test_blog',
+      'bundle' => 'test_discussion',
       'vocabularies' => array(
         'c4m_vocab_test_category',
         'c4m_vocab_test_tag',

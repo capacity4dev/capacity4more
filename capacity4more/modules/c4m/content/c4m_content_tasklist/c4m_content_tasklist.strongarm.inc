@@ -96,10 +96,10 @@ function c4m_content_tasklist_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '8',
+          'weight' => '9',
         ),
         'locations' => array(
-          'weight' => '9',
+          'weight' => '10',
         ),
       ),
       'display' => array(),

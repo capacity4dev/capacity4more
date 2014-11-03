@@ -31,6 +31,7 @@ features[field_instance][] = node-task-c4m_task_assigned_to
 features[field_instance][] = node-task-c4m_task_priority
 features[field_instance][] = node-task-c4m_task_status
 features[field_instance][] = node-task-c4m_vocab_date
+features[field_instance][] = node-task-c4m_vocab_language
 features[field_instance][] = node-task-og_group_ref
 features[node][] = task
 features[variable][] = comment_anonymous_task

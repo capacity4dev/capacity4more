@@ -62,19 +62,19 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
   }
 
   /**
-   * Map the date terms to the existing (install hook) terms in the database.
+   * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
    *
    * @param $sourcefield
    */
-  public function mapDateVocab($sourcefield) {
-    $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+  public function mapTaxonomyVocab($sourcefield, $vocabname) {
+    $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
 
     if (!empty($vocab)) {
       $terms = explode('|', $sourcefield);
       if (!empty($terms)) {
         $tids = array();
         foreach ($terms as $term_name) {
-          $term = taxonomy_get_term_by_name($term_name, 'c4m_vocab_date');
+          $term = taxonomy_get_term_by_name($term_name, $vocabname);
           if (!empty($term)) {
             reset($term);
             $tid = key($term);
