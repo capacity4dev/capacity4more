@@ -134,9 +134,9 @@ function hook_c4m_og_vocab_info_groups() {
  */
 function hook_c4m_og_vocab_info_content() {
   return array(
-    'blog' => array(
+    'discussion' => array(
       'entity_type' => 'node',
-      'bundle' => 'blog',
+      'bundle' => 'discussion',
       'vocabularies' => array(
         'c4m_vocab_category',
         'c4m_vocab_tag'
