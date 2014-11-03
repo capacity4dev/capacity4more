@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $http) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, $filter) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
     $scope.bundle_name = 'discussions';
@@ -58,6 +58,7 @@ angular.module('c4mApp')
       if(label.indexOf('-')) {
         parent = id;
         $scope.c4m_vocab_geo[id] = {
+          id: id,
           label: label,
           children: []
         };
@@ -167,6 +168,20 @@ angular.module('c4mApp')
     };
 
     /**
+     * Close all popovers on "ESC" key press.
+     */
+    $scope.keyUpHandler = function(keyEvent) {
+      if(keyEvent.which == 27) {
+        angular.forEach($scope.popups, function (value, key) {
+          $scope.popups[key] = 0;
+          // Re-Bind the JS with the HTML with "digest".
+          $scope.$digest();
+        });
+      }
+    };
+    $document.on('keyup', $scope.keyUpHandler);
+
+    /**
      * Submit form (even if not validated via client).
      */
     $scope.submitForm = function(entityForm, data, bundle, type) {
@@ -177,10 +192,16 @@ angular.module('c4mApp')
       // Check if angular thinks that the form is valid.
       if(entityForm.$valid) {
 
-        // Get the IDs of the references.
-        angular.forEach(data, function (value, field) {
-          if(value && typeof(value) == 'object') {
-            data[field] = Object.keys(value);
+
+        // Get the IDs of the selected references.
+        angular.forEach(data, function (values, field) {
+          if(values && typeof(values) === 'object') {
+            data[field] = [];
+            angular.forEach(values, function (value, index) {
+              if(value === true) {
+                data[field].push(index);
+              }
+            });
           }
         });
 

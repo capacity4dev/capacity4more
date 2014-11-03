@@ -1,9 +1,9 @@
 <form action="#" class="search">
-  <input ng-model="searchTerm" class="form-control" type="text" placeholder="Search"/>
+  <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
 </form>
-<div class="checkbox" ng-repeat="(id, item) in items | geoFilter: items:searchTerm">
+<div class="checkbox" ng-repeat="item in filteredGeo">
   <label>
-    <input type="checkbox" ng-name="type" ng-model="model[id]"> {{item.label}}
+    <input type="checkbox" ng-name="type" ng-model="model[item.id]" ng-change="updateSelectedGeo()"> {{item.label}}
   </label>
   <ul ng-show="item.children" class="indent">
     <li ng-repeat="child in item.children">

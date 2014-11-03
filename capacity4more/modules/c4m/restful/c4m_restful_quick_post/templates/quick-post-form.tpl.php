@@ -90,7 +90,7 @@
       <div class="form-group btn-group">
         <div class="label-wrapper">
           <label>{{field_schema.c4m_vocab_geo.info.label}}</label>
-          <span class="description">{{field_schema.c4m_vocab_geo.info.description}}</span>
+          <span id="geo_description" class="description">{{field_schema.c4m_vocab_geo.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
