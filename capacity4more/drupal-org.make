@@ -118,6 +118,9 @@ projects[og_purl][version] = "1.2"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.4"
+
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
@@ -125,8 +128,13 @@ projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
 
 projects[purl][subdir] = "contrib"
-projects[purl][version] = "1.x-dev"
-projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
+projects[purl][download][type] = git
+projects[purl][download][branch] = 7.x-1.x
+projects[purl][download][revision] = 469e8668
+projects[purl][patch][] = "http://drupal.org/files/1473502-purl-init-2_0.patch"
+projects[purl][patch][] = "http://drupal.org/files/1982198-purl-cache-set-1.patch"
+projects[purl][patch][] = "http://drupal.org/files/729862-9-purl-inbound-alter-modifies-q.patch"
+projects[purl][patch][] = "http://drupal.org/files/issues/purl-integrate_redirect_keep_options-1735266-4.patch"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
@@ -185,3 +193,10 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
+
+
+
+; Themes
+projects[bootstrap][subdir] = "contrib"
+projects[bootstrap][version] = "3.0"
+projects[bootstrap][type] = "theme"

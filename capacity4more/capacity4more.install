@@ -28,22 +28,16 @@ function capacity4more_install() {
   menu_rebuild();
 
   // THEMES
-  $theme_default = variable_get('theme_default', 'bartik');
+  $theme_capacity4more = 'kapablo';
+  variable_set('theme_default', $theme_capacity4more);
 
   $theme_admin = 'seven';
-  _capacity4more_install_save_theme($theme_admin, 1);
   variable_set('admin_theme', $theme_admin);
   variable_set('node_admin_theme', TRUE);
 
-  // TODO: Replace this with the actual theme when we have one!
-  $theme_capacity4more = $theme_default;
-  /*
-  $theme_capacity4more = 'capacity4more_theme_name';
-  _capacity4more_install_save_theme($theme_capacity4more, 1);
-  variable_set('theme_default', $theme_capacity4more);
-  // Disable Bartik
-  _capacity4more_install_save_theme($theme_default, 0);
-  */
+  // Enable our themes.
+  theme_enable(array($theme_capacity4more, $theme_admin));
+  theme_disable(array('bartik'));
 
   // BLOCKS
   $admin_blocks = _capacity4more_install_get_admin_theme_blocks($theme_admin);
@@ -69,6 +63,14 @@ function capacity4more_install() {
   );
   variable_set("og_context_negotiation_group_context", $values);
 
+  // Enable user picture support and set the default to a square thumbnail option.
+  variable_set('user_pictures', '1');
+  variable_set('user_picture_dimensions', '1024x1024');
+  variable_set('user_picture_file_size', '800');
+  variable_set('user_picture_style', 'thumbnail');
+
+  // PAGE MANAGER
+  variable_set('page_manager_node_view_disabled', FALSE);
 }
 
 
@@ -234,32 +236,6 @@ function _capacity4more_install_save_default_menu() {
   );
   menu_link_save($item);
 }
-
-
-
-/******************************************************************************
- * THEMES
- ******************************************************************************/
-
-/**
- * Save the the given theme status in the system table.
- *
- * @param string $name
- *   The theme name.
- * @param $status
- *   The status of the theme.
- *
- * @return void
- */
-function _capacity4more_install_save_theme($name, $status) {
-  db_update('system')
-    ->fields(array('status' => (int)$status))
-    ->condition('type', 'theme')
-    ->condition('name', $name)
-    ->execute();
-}
-
-
 
 /******************************************************************************
  * BLOCKS
