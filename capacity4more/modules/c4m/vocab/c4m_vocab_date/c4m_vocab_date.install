@@ -8,81 +8,8 @@
  * Implements hook_install().
  */
 function c4m_vocab_date_install() {
-  c4m_vocab_date_update_7000();
-  c4m_vocab_date_update_7001();
-  c4m_vocab_date_update_7002();
-}
-
-/**
- * Create date vocabulary.
- */
-function c4m_vocab_date_update_7000() {
-  $date_vocab = (object) array(
-    'name'         => 'Date Vocabulary',
-    'description'  => 'Date indication for content',
-    'machine_name' => 'c4m_vocab_date',
-  );
-
-  taxonomy_vocabulary_save($date_vocab);
-}
-
-/**
- * Set pathauto pattern.
- */
-function c4m_vocab_date_update_7001() {
-  $messages = array();
-
-  // 'language/...' results in an error. Probably system reserved alias.
-  variable_set('pathauto_taxonomy_term_c4m_vocab_date_pattern', 'content-date/[term:name]');
-
-  return implode('<br />', $messages);
-}
-
-/**
- * Create default taxonomy terms for the Date vocab.
- */
-function c4m_vocab_date_update_7002() {
-  $messages = array();
-
-  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
-
-  $terms = array(
-    'Before 2000' => -99,
-    '2000'        => -98,
-    '2001'        => -97,
-    '2002'        => -96,
-    '2003'        => -95,
-    '2004'        => -94,
-    '2005'        => -93,
-    '2006'        => -92,
-    '2007'        => -91,
-    '2008'        => -90,
-    '2009'        => -89,
-    '2010'        => -88,
-    '2011'        => -87,
-    '2012'        => -86,
-    '2013'        => -85,
-    '2014'        => 0,
-    '2015'        => 93,
-    '2016'        => 94,
-    '2017'        => 95,
-    '2018'        => 96,
-    '2019'        => 97,
-    '2020'        => 98,
-    'After 2020'  => 99,
-  );
-
-  foreach ($terms as $term => $weight) {
-    $to              = new StdClass();
-    $to->name        = $term;
-    $to->description = 'Content from ' . $term;
-    $to->vid         = $vocab->vid;
-    $to->weight      = $weight;
-
-    taxonomy_term_save($to);
-  }
-
-  return implode('<br />', $messages);
+  c4m_vocab_date_install_vocab();
+  c4m_vocab_date_install_terms();
 }
 
 /**
@@ -93,5 +20,79 @@ function c4m_vocab_date_uninstall() {
 
   if (!empty($vocab)) {
     taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
+
+
+/**
+ * Create date vocabulary.
+ */
+function c4m_vocab_date_install_vocab() {
+  $date_vocab = (object) array(
+    'name'         => 'Date Vocabulary',
+    'description'  => 'Date indication for content',
+    'machine_name' => 'c4m_vocab_date',
+  );
+  taxonomy_vocabulary_save($date_vocab);
+
+  // 'language/...' results in an error. Probably system reserved alias.
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_date_pattern',
+    'content-date/[term:name]'
+  );
+}
+
+/**
+ * Create default taxonomy terms for the Date vocab.
+ */
+function c4m_vocab_date_install_terms() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+  $terms = array(
+    'Before 1990',
+    '1990',
+    '1991',
+    '1992',
+    '1993',
+    '1994',
+    '1995',
+    '1996',
+    '1997',
+    '1998',
+    '1999',
+    '2000',
+    '2001',
+    '2002',
+    '2003',
+    '2004',
+    '2005',
+    '2006',
+    '2007',
+    '2008',
+    '2009',
+    '2010',
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    'After 2020',
+  );
+
+  $weight = -100;
+  foreach ($terms as $term) {
+    $to              = new StdClass();
+    $to->name        = $term;
+    $to->description = 'Content from ' . $term;
+    $to->vid         = $vocab->vid;
+    $to->weight      = $weight;
+
+    taxonomy_term_save($to);
+
+    $weight++;
   }
 }
