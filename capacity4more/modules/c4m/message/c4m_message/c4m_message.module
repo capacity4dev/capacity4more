@@ -277,7 +277,7 @@ function c4m_message__update__node__discussion($node) {
   $nid = $node->nid;
   $messages = array();
   $time_since = time() - 3600;
-  // Load existing message for the current node.
+  // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'message')
