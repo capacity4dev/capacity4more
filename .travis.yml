@@ -55,6 +55,18 @@ before_script:
   - cp aliases.drushrc.php ~/.drush/
   - composer install --prefer-source
 
+  # Build last version of angular application.
+  - cd ./components/c4m-app
+
+  - npm install
+  - grunt build
+
+  - cd ../..
+
+  # Install angular components via bower.
+  - bower cache clean
+  - bower install ./components/c4m-app
+
 
 script:
   # Create display.

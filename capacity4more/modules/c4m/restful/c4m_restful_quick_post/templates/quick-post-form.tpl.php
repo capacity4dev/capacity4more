@@ -12,7 +12,7 @@
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
       <div class="errors">
         <ul ng-show="serverSide.data.errors.label">
-          <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
+          <li ng-repeat="error in server_side.data.errors.label">{{error}}</li>
         </ul>
       </div>
     </div>
@@ -24,8 +24,8 @@
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
         <div id="body" ng-name="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
-          <ul ng-show="serverSide.data.errors.body">
-            <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
+          <ul ng-show="server_side.data.errors.body">
+            <li ng-repeat="error in server_side.data.errors.body">{{error}}</li>
           </ul>
         </div>
       </div>
