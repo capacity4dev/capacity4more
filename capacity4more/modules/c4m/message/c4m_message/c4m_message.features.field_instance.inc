@@ -10,6 +10,47 @@
 function c4m_message_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'message-c4m_insert__node__discussion-field_entity_published'
+  $field_instances['message-c4m_insert__node__discussion-field_entity_published'] = array(
+    'bundle' => 'c4m_insert__node__discussion',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_entity_published',
+    'label' => 'Entity Published',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 3,
+    ),
+  );
+
   // Exported field_instance: 'message-c4m_insert__node__discussion-field_group_node'
   $field_instances['message-c4m_insert__node__discussion-field_group_node'] = array(
     'bundle' => 'c4m_insert__node__discussion',
@@ -110,6 +151,7 @@ function c4m_message_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Entity Published');
   t('Group node');
   t('Node');
 

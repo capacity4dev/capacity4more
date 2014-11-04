@@ -60,6 +60,17 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['field_group_node_target_id']['summary_options']['items_per_page'] = '25';
+  /* Filter criterion: Message: Entity Published (field_entity_published) */
+  $handler->display->display_options['filters']['field_entity_published_value']['id'] = 'field_entity_published_value';
+  $handler->display->display_options['filters']['field_entity_published_value']['table'] = 'field_data_field_entity_published';
+  $handler->display->display_options['filters']['field_entity_published_value']['field'] = 'field_entity_published_value';
+  $handler->display->display_options['filters']['field_entity_published_value']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['filters']['field_entity_published_value']['expose']['operator_id'] = 'field_entity_published_value_op';
+  $handler->display->display_options['filters']['field_entity_published_value']['expose']['label'] = 'Entity Published (field_entity_published)';
+  $handler->display->display_options['filters']['field_entity_published_value']['expose']['operator'] = 'field_entity_published_value_op';
+  $handler->display->display_options['filters']['field_entity_published_value']['expose']['identifier'] = 'field_entity_published_value';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
