@@ -20,8 +20,9 @@ phantomjs:
       class:  'FeatureContext'
   extensions:
     Behat\MinkExtension\Extension:
-      base_url: 'http://127.0.0.1/capacity4more/www'
       goutte: ~
+      javascript_session: sahi
+      browser_name: phantomjs
       selenium2:
         wd_host: "http://127.0.0.1:8643/wd/hub"
 
