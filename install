@@ -146,8 +146,12 @@ if [ $DEMO_CONTENT ]; then
   migrate_dummy_content
 fi
 
+# Build the AngularJs application.
+build_angular_app
+
 # Run post script (if any).
 run_post_script "install"
+
 
 
 # Check if we have a working bootstrap.
@@ -164,19 +168,6 @@ if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo
   exit 1
 fi
-
-
-# Build last version of angular application.
-cd ./components/c4m-app
-
-npm install
-grunt build
-
-cd ../..
-
-# Install angular components via bower.
-bower cache clean
-bower install ./components/c4m-app
 
 
 # If we managed to get to here: the installation was successful!

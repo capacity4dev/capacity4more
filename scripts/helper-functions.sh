@@ -307,3 +307,22 @@ function run_post_script {
   $POST_FUNCT_NAME
   echo
 }
+
+##
+# Build the javascript dependencies
+##
+function build_angular_app {
+  echo -e "${LBLUE}> Build dependencies & AngularJs App.${RESTORE}"
+
+  # Build the dependencies.
+  cd $ROOT/components/c4m-app
+  npm install
+  grunt build
+  cd $ROOT
+
+  # Install angular components via bower.
+  bower cache clean
+  bower install $ROOT/components/c4m-app
+
+  echo
+}
