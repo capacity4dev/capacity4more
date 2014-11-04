@@ -11,6 +11,10 @@ mysql:
 before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
+  - wget http://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-i686.tar.bz2
+  - tar -xf phantomjs-1.9.0-linux-i686.tar.bz2
+  - sudo rm -rf /usr/local/phantomjs
+  - sudo mv phantomjs-1.9.0-linux-i686 /usr/local/phantomjs
 
 install:
   # install php packages required for running a web server from drush on php 5.3
