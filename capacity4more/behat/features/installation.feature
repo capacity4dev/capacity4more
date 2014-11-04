@@ -19,4 +19,4 @@ Feature: Test tasks
     When  I fill in "label" with "foobar"
     And   I press the "quick-submit" button
     And   I wait
-    Then  I should see "The Add a Discussion was saved successfully."
+    Then  I should see "The discussions was saved successfully."

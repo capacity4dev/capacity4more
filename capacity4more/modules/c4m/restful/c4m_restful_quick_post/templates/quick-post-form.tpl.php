@@ -21,8 +21,9 @@
 
       <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
+      <!-- @TODO: Need to add required to this field, Add angularJs validations, Add Behat test. -->
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
-        <div id="body" name="data-body" required text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
+        <div id="body" name="data-body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
           <ul ng-show="server_side.data.errors.body">
             <li ng-repeat="error in server_side.data.errors.body">{{error}}</li>
@@ -139,12 +140,12 @@
   <div class="messages" ng-show="debug == 0">
     <div ng-show="server_side.status == 200">
       <div class="alert alert-success">
-        <?php print t('The {{ bundles[bundle_name] }} was saved successfully.') ?>
+        <?php print t('The {{ bundle_name }} was saved successfully.') ?>
       </div>
     </div>
     <div ng-show="server_side.status > 0 && server_side.status != 200">
       <div class="alert alert-danger">
-        <?php print t('Error saving {{ bundles[bundle_name] }}.') ?>
+        <?php print t('Error saving {{ bundle_name }}.') ?>
       </div>
     </div>
   </div>
