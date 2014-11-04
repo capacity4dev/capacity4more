@@ -11,10 +11,13 @@ mysql:
 before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
+
+  # Install phantomJs.
   - wget http://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-i686.tar.bz2
   - tar -xf phantomjs-1.9.0-linux-i686.tar.bz2
   - sudo rm -rf /usr/local/phantomjs
   - sudo mv phantomjs-1.9.0-linux-i686 /usr/local/phantomjs
+  - sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 
 install:
   # install php packages required for running a web server from drush on php 5.3
@@ -60,6 +63,9 @@ script:
   - wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
   - java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
   - sleep 5
+
+  # Run phantomJs.
+  - phantomjs --webdriver=8643
 
   - ./bin/behat -p phantomjs --tags=~@wip
 
