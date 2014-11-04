@@ -492,7 +492,8 @@ function c4m_message_preprocess_node__document(&$variables) {
     $download = !empty($document) ? file_entity_download_uri(file_load($document['fid'])) : array();
     $variables['download_link'] = !empty($download) ? l('Download this Document', $download['path'], $download['options']) : '';
     $variables['file_size'] = !empty($document) ? format_size($document['filesize']) : '0 KB';
-    $variables['file_type'] = !empty($document) ? format_size($document['type']) : 'none';
+    $variables['file_type'] = !empty($document) ? $document['type'] : 'none';
+    dpm($document['type']);
   }
 
 }
