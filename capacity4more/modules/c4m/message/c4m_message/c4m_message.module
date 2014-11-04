@@ -183,6 +183,28 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
 }
 
 /**
+ * Delegated hook_entity_load() for node of "document" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__document(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Return the formatted discussion type.
  *
  * @param Message $message
@@ -222,7 +244,17 @@ function c4m_message_format_node_discussion_type(Message $message) {
  */
 function c4m_message_format_rendered_node(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $view = node_view($wrapper->field_node->value(), 'activity_stream');
+  $node_type = '';
+  switch ($message->type) {
+    case 'c4m_insert__node__discussion':
+      $node_type = '';
+      break;
+    case 'c4m_insert__node__document' :
+      $node_type = '_document';
+      break;
+  }
+  $view = node_view($wrapper->{'field_node' . $node_type}->value(), 'activity_stream');
+
   return drupal_render($view);
 }
 
@@ -236,7 +268,13 @@ function c4m_message_format_rendered_node(Message $message) {
  *   The formated string.
  */
 function c4m_message_format_footer(Message $message) {
-  return '245 recommendations | 25 comments | 1 view';
+  switch ($message->type) {
+    case 'c4m_insert__node__discussion':
+      return '245 recommendations | 25 comments | 1 view';
+
+    case 'c4m_insert__node__document' :
+      return '245 recommendations | 25 comments | 1 view | 15 Downloads';
+  }
 }
 
 /**
@@ -252,7 +290,7 @@ function c4m_message__insert__node__discussion($node) {
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__discussion', $values);
 
-  c4m_message_set_message_info ($message, $node);
+  c4m_message_prepare_insert_entity($message, 'node', $node);
   return $message;
 }
 
@@ -291,26 +329,90 @@ function c4m_message__update__node__discussion($node) {
     $message = message_create('c4m_insert__node__discussion', $values);
   }
 
-  c4m_message_set_message_info ($message, $node);
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Create a document message.
+ *
+ * @param $node
+ *   The document node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__document($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__document', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a document message.
+ *
+ * @param $node
+ *   The document node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__document($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__document')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node_document', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__document', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
   return $message;
 }
 
 /**
  * @param $message
  *    Get message to create of to update.
- * @param $node
- *    Get node for which we create/update message.
+ * @param $entity_type
+ *    Get type of the entity.
+ * @param $entity
+ *    Get node or term and so on for which we create/update message.
  */
-function c4m_message_set_message_info (&$message, $node) {
+function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
-  $node_wrapper = entity_metadata_wrapper('node', $node);
+  $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
 
-  // @todo: There should be only a single group attached to a content, so we
-  // need to change OG_AUDIENCE_FIELD to cardinality 1.
-  $group_ids = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
-  $group_id = reset($group_ids);
-  $message_wrapper->field_group_node->set($group_id);
-  $message_wrapper->field_node->set($node);
+  if ($entity_type == 'node') {
+    $node_type = '';
+    if ($entity->type == 'document') {
+      $node_type = '_' . $entity->type;
+    }
+    // @todo: There should be only a single group attached to a content, so we
+    // need to change OG_AUDIENCE_FIELD to cardinality 1.
+    $group_ids = $entity_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+    $group_id = reset($group_ids);
+    $message_wrapper->field_group_node->set($group_id);
+    $message_wrapper->{'field_node' . $node_type}->set($entity);
+  }
 }
 
 /**
