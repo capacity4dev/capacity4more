@@ -238,6 +238,7 @@ function c4m_message_format_rendered_node(Message $message) {
 function c4m_message_format_footer(Message $message) {
   return '245 recommendations | 25 comments | 1 view';
 }
+
 /**
  * Create a discussion message.
  *
@@ -251,6 +252,54 @@ function c4m_message__insert__node__discussion($node) {
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__discussion', $values);
 
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // @todo: There should be only a single group attached to a content, so we
+  // need to change OG_AUDIENCE_FIELD to cardinality 1.
+  $group_ids = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $group_id = reset($group_ids);
+  $message_wrapper->field_group_node->set($group_id);
+  $message_wrapper->field_node->set($node);
+  return $message;
+}
+
+/**
+ * Updating a discussion message.
+ *
+ * @param $node
+ *   The discussion node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__discussion($node) {
+  $nid = $node->nid;
+  $messages = array();
+  $time_since = time() - 3600;
+  // Load existing message for the current node.
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__discussion')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1);
+  $result = $query->execute();
+  if (!empty($result['message'])) {
+    $messages = message_load_multiple(array_keys($result['message']));
+  }
+
+  if (!empty($messages)) {
+    // Message exists.
+    $message = reset($messages);
+  }
+  else {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__discussion', $values);
+  }
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
@@ -309,8 +358,6 @@ function c4m_message_preprocess_message(&$variables) {
   $variables['icon'] = 'icon for ' . $message->type;
 
   $message_wrapper = entity_metadata_wrapper('message', $message);
-//  $message_wrapper->field_entity_published->set(TRUE);
-  dpm($message);
 }
 
 /**
