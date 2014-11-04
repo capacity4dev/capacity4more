@@ -17,7 +17,6 @@ before_install:
   - tar -xf phantomjs-1.9.0-linux-i686.tar.bz2
   - sudo rm -rf /usr/local/phantomjs
   - sudo mv phantomjs-1.9.0-linux-i686 /usr/local/phantomjs
-  - sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 
 install:
   # install php packages required for running a web server from drush on php 5.3
