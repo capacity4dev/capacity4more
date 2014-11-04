@@ -94,7 +94,6 @@ script:
   # Run behat tests.
   - ./bin/behat -p phantomjs --tags=~@wip
 
-
   # Run WebTests ---------------------------------------------------------------
   - drush @capacity4more -y en simpletest
 
