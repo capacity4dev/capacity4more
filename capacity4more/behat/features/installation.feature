@@ -17,7 +17,7 @@ Feature: Test tasks
     Given I am logged in as the "admin"
     And   I visit "stub-for-group-2/group/tennis-group"
     When  I fill in "label" with "foobar"
-    And   I fill in "data-body" with "foobar text"
+    And   Edit
     And   I press the "quick-submit" button
     And   I wait
     Then  I should see "The Add a Discussion was saved successfully."

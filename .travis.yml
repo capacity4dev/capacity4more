@@ -92,6 +92,7 @@ script:
   - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
+  - cd capacity4more/behat
   - ./bin/behat -p phantomjs --tags=~@wip
 
   # Run WebTests ---------------------------------------------------------------
