@@ -72,7 +72,7 @@ script:
   - sleep 5
 
   # Run phantomJs.
-  - phantomjs --webdriver=8643
+  - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
   - ./bin/behat -p phantomjs --tags=~@wip
