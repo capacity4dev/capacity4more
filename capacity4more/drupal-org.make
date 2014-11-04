@@ -5,9 +5,6 @@ api = 2
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.3"
 
-projects[ckeditor][subdir] = "contrib"
-projects[ckeditor][version] = "1.x-dev"
-
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.2"
 
