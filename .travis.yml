@@ -41,10 +41,8 @@ install:
 
 before_script:
   - cp default.config.sh config.sh
-  - bash scripts/ci/setup
-  - bash scripts/build
+  - ./install -d -y
   - cd www
-  - drush si capacity4more --db-url=mysql://root:@127.0.0.1/drupal --account-pass=admin --yes
   - drush cc all --yes
   # Use drush migrate command to import dummy content, as user 1, so we don't have node access issues.
   # - drush mi --all --user=1
@@ -58,20 +56,6 @@ before_script:
   # Create Drush alias.
   - cp aliases.drushrc.php ~/.drush/
   - composer install --prefer-source
-
-  # Build last version of angular application.
-  - cd ../..
-  - cd ./components/c4m-app
-
-  - npm install
-  - grunt build
-
-  - cd ../..
-
-  # Install angular components via bower.
-  - bower cache clean
-  - bower install ./components/c4m-app
-
 
 script:
   # Create display.
@@ -92,7 +76,6 @@ script:
   - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
-  - cd capacity4more/behat
   - ./bin/behat -p phantomjs --tags=~@wip
 
   # Run WebTests ---------------------------------------------------------------
