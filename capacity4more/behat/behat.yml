@@ -21,7 +21,7 @@ phantomjs:
   extensions:
     Behat\MinkExtension\Extension:
       goutte: ~
-      javascript_session: sahi
+      default_session: selenium2
       browser_name: phantomjs
       selenium2:
         wd_host: "http://127.0.0.1:8643/wd/hub"
