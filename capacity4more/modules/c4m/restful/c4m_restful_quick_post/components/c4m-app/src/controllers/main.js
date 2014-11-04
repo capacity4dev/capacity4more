@@ -33,7 +33,7 @@ angular.module('c4mApp')
     $scope.popups = {};
     angular.forEach($scope.field_schema, function (data, field) {
       var allowed_values = data.form_element.allowed_values;
-      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length) {
+      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
         $scope.reference_values[field] = data.form_element.allowed_values;
 
         $scope.popups[field] = 0;
@@ -221,7 +221,7 @@ angular.module('c4mApp')
 
         // Get the IDs of the selected references.
         angular.forEach(data, function (values, field) {
-          if(values && angular.isObject(values)) {
+          if(values && angular.isObject(values) && field != 'tags') {
             data[field] = [];
             angular.forEach(values, function (value, index) {
               if(value === true) {
@@ -233,6 +233,22 @@ angular.module('c4mApp')
 
         // Copy data.
         var submitData = angular.copy(data);
+
+        // Assign tags.
+        var tags = {};
+        angular.forEach(submitData.tags, function (term, index) {
+          if (term.isNew) {
+            // New term.
+            tags[index] = {};
+            tags[index].label = term.id;
+          }
+          else {
+            // Existing term.
+            tags[index] = term.id;
+          }
+        });
+
+        submitData.tags = tags;
 
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
