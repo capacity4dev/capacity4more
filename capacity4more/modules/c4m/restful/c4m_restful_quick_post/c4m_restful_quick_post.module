@@ -45,7 +45,9 @@ function c4m_restful_quick_post_form($node) {
   $public_fields = $handler->getPublicFields();
 
   // Load the libraries.
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
   drupal_add_js($bower_path . '/angular/angular.js');
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
 
   // JSON pretty print library.
   drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');

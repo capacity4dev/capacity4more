@@ -7,12 +7,32 @@
 
     <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
 
+    <div class="input-wrapper file-wrapper" ng-show="bundle_name == 'documents'">
+      <div ng-show="dropSupported" class="drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+
+        <div ng-hide="server_side.image">
+          <?php print t('Drop files here to upload'); ?>
+        </div>
+
+        <div ng-show="server_side.image">
+          <img ng-src="{{ server_side.image.self }}" />
+        </div>
+      </div>
+
+      <div class="errors">
+        <ul ng-show="server_side.data.errors.image">
+          <li ng-repeat="error in server_side.data.errors.image">{{error}}</li>
+        </ul>
+      </div>
+
+    </div>
+
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
       <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
       <div class="errors">
-        <ul ng-show="serverSide.data.errors.label">
-          <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
+        <ul ng-show="server_side.data.errors.label">
+          <li ng-repeat="error in server_side.data.errors.label">{{error}}</li>
         </ul>
       </div>
     </div>
@@ -24,8 +44,8 @@
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
         <div id="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" name="body" required ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
-          <ul ng-show="serverSide.data.errors.body">
-            <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
+          <ul ng-show="server_side.data.errors.body">
+            <li ng-repeat="error in server_side.data.errors.body">{{error}}</li>
           </ul>
         </div>
       </div>

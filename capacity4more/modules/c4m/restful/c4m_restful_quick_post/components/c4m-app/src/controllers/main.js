@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, $filter) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, FileUpload) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
     $scope.bundle_name = 'discussions';
@@ -252,21 +252,32 @@ angular.module('c4mApp')
 
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
-          .success(function(data, status) {
-            // If requested to create in full form, Redirect user to the edit page.
-            if(type == 'full_form') {
-              var node_id = data.data[0].id;
-              $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
-            }
-            else {
-              $scope.server_side.data = data;
-              $scope.server_side.status = status;
-            }
-          })
-          .error(function(data, status) {
+        .success(function(data, status) {
+          // If requested to create in full form, Redirect user to the edit page.
+          if(type == 'full_form') {
+            var node_id = data.data[0].id;
+            $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
+          }
+          else {
             $scope.server_side.data = data;
             $scope.server_side.status = status;
-          });
+          }
+        })
+        .error(function(data, status) {
+          $scope.server_side.data = data;
+          $scope.server_side.status = status;
+        });
+      }
+    };
+
+    $scope.onFileSelect = function($files) {
+      //$files: an array of files selected, each file has name, size, and type.
+      for (var i = 0; i < $files.length; i++) {
+        var file = $files[i];
+        FileUpload.upload(file).then(function(data) {
+          $scope.data.image = data.data.list[0].id;
+          $scope.serverSide.image = data.data.list[0];
+        });
       }
     };
   });
