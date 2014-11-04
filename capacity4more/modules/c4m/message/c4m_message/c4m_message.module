@@ -252,15 +252,7 @@ function c4m_message__insert__node__discussion($node) {
   $values = array('uid' => $node->uid);
   $message = message_create('c4m_insert__node__discussion', $values);
 
-  $message_wrapper = entity_metadata_wrapper('message', $message);
-  $node_wrapper = entity_metadata_wrapper('node', $node);
-
-  // @todo: There should be only a single group attached to a content, so we
-  // need to change OG_AUDIENCE_FIELD to cardinality 1.
-  $group_ids = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
-  $group_id = reset($group_ids);
-  $message_wrapper->field_group_node->set($group_id);
-  $message_wrapper->field_node->set($node);
+  c4m_message_set_message_info ($message, $node);
   return $message;
 }
 
@@ -274,32 +266,42 @@ function c4m_message__insert__node__discussion($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__discussion($node) {
-  $nid = $node->nid;
-  $messages = array();
-  $time_since = time() - 3600;
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
-  $query
+  $result = $query
     ->entityCondition('entity_type', 'message')
     ->propertyCondition('type', 'c4m_insert__node__discussion')
     ->propertyCondition('timestamp', $time_since, '>')
-    ->fieldCondition('field_node', 'target_id', $nid)
+    ->fieldCondition('field_node', 'target_id', $node->nid)
     ->propertyOrderBy('timestamp', 'desc')
-    ->range(0, 1);
-  $result = $query->execute();
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
   if (!empty($result['message'])) {
-    $messages = message_load_multiple(array_keys($result['message']));
+    $id = key($result['message']);
+    $message = message_load($id);
   }
 
-  if (!empty($messages)) {
-    // Message exists.
-    $message = reset($messages);
-  }
-  else {
+  if (!$message) {
     // Message doesn't exist - create a new message.
     $values = array('uid' => $node->uid);
     $message = message_create('c4m_insert__node__discussion', $values);
   }
+
+  c4m_message_set_message_info ($message, $node);
+  return $message;
+}
+
+/**
+ * @param $message
+ *    Get message to create of to update.
+ * @param $node
+ *    Get node for which we create/update message.
+ */
+function c4m_message_set_message_info (&$message, $node) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
@@ -309,7 +311,6 @@ function c4m_message__update__node__discussion($node) {
   $group_id = reset($group_ids);
   $message_wrapper->field_group_node->set($group_id);
   $message_wrapper->field_node->set($node);
-  return $message;
 }
 
 /**
