@@ -25,6 +25,9 @@ before_install:
   - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin/phantomjs
   - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/bin/phantomjs
 
+  # Install grunt.
+  - npm install -g grunt-cli
+
 
 install:
   # install php packages required for running a web server from drush on php 5.3
