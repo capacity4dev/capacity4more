@@ -30,7 +30,9 @@ function c4m_og_get_group_type_name($node = NULL) {
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   // Add javascript behaviors.
-  drupal_add_js(drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js');
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js',
+  );
 
   // Get default domain lists.
   $ec_domains = variable_get('c4m_og_ec_domains', array(
