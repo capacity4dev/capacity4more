@@ -27,6 +27,7 @@ before_install:
 
   # Install grunt.
   - npm install -g grunt-cli
+  - npm install -g bower
 
 
 install:
