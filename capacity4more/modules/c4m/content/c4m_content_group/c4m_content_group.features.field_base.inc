@@ -48,5 +48,31 @@ function c4m_content_group_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
+  // Exported field_base: 'field_membership_requests'
+  $field_bases['field_membership_requests'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_membership_requests',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'open' => '<strong>Open</strong><span>Any member of capacity4dev who has access to this Group can become a member without approval by the Group owner or one of the Group administrators.</span>',
+        'moderated' => '<strong>Moderated</strong><span>Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request.</span>',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   return $field_bases;
 }

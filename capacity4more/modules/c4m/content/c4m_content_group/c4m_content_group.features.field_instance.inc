@@ -50,7 +50,7 @@ function c4m_content_group_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
@@ -112,7 +112,7 @@ function c4m_content_group_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -161,7 +161,7 @@ function c4m_content_group_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -206,7 +206,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -243,7 +243,48 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 7,
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-group-field_membership_requests'
+  $field_instances['node-group-field_membership_requests'] = array(
+    'bundle' => 'group',
+    'default_value' => array(
+      0 => array(
+        'value' => 'open',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'how should membership requests be handled in this Group ?',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_membership_requests',
+    'label' => 'Membership requests',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 1,
     ),
   );
 
@@ -301,7 +342,7 @@ function c4m_content_group_field_default_field_instances() {
         'og_hide' => TRUE,
       ),
       'type' => 'options_onoff',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -313,10 +354,12 @@ function c4m_content_group_field_default_field_instances() {
   t('Determine if this is an OG group.');
   t('Group');
   t('Image');
+  t('Membership requests');
   t('Region & Countries');
   t('Related Groups');
   t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
   t('Topics');
+  t('how should membership requests be handled in this Group ?');
 
   return $field_instances;
 }
