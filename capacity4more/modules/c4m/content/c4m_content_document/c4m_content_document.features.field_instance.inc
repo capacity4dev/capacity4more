@@ -49,24 +49,22 @@ function c4m_content_document_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_media'
-  $field_instances['node-document-c4m_media'] = array(
+  // Exported field_instance: 'node-document-c4m_document'
+  $field_instances['node-document-c4m_document'] = array(
     'bundle' => 'document',
     'deleted' => 0,
-    'description' => 'Document or image uploaded.',
+    'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'file_entity',
-        'settings' => array(
-          'file_view_mode' => 'default',
-        ),
-        'type' => 'file_rendered',
-        'weight' => 1,
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -76,41 +74,76 @@ function c4m_content_document_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m_media',
-    'label' => 'File',
-    'required' => 1,
+    'field_name' => 'c4m_document',
+    'label' => 'Document',
+    'required' => 0,
     'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 0,
+      'description_field' => 0,
       'file_directory' => 'documents',
-      'file_extensions' => 'txt pdf doc docx xls xlsx pdt pdtx odt ods odp odf jpg jpeg gif png ppt pptx vsd zip pps',
+      'file_extensions' => 'txt pdf doc docx xls xlsx png bmp jpg jpeg',
       'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'media',
+      'module' => 'dragndrop_upload_file',
       'settings' => array(
-        'allowed_schemes' => array(
-          'public' => 'public',
+        'allow_replace' => 1,
+        'droppable_area_text' => 'Drop a file here to upload',
+        'media_browser' => 0,
+        'multiupload' => 0,
+        'progress_indicator' => 'bar',
+        'standard_upload' => 1,
+        'upload_button_text' => 'Upload',
+        'upload_event' => 'auto',
+      ),
+      'type' => 'dragndrop_upload_file',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance: 'node-document-c4m_related_topic'
+  $field_instances['node-document-c4m_related_topic'] = array(
+    'bundle' => 'document',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
         ),
-        'allowed_types' => array(
-          'audio' => 'audio',
-          'document' => 'document',
-          'image' => 'image',
-          'video' => 'video',
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 'media_default--media_browser_1',
-          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'upload' => 'upload',
+        'type' => 'entityreference_label',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_topic',
+    'label' => 'Topics',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
         ),
       ),
-      'type' => 'media_generic',
-      'weight' => 2,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 4,
     ),
   );
 
@@ -147,7 +180,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -184,7 +217,44 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 4,
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'node-document-c4m_vocab_geo'
+  $field_instances['node-document-c4m_vocab_geo'] = array(
+    'bundle' => 'document',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'You can select up to 3 Regions and unlimited Countries within these Regions.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_geo',
+    'label' => 'Regions & Countries',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 8,
     ),
   );
 
@@ -221,7 +291,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -323,7 +393,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 7,
+      'weight' => 5,
     ),
   );
 
@@ -331,12 +401,15 @@ function c4m_content_document_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Date');
   t('Description');
-  t('Document or image uploaded.');
-  t('File');
+  t('Document');
   t('Groups');
   t('Language');
   t('Metadata');
+  t('Regions & Countries');
+  t('Topics');
   t('Type of Document');
+  t('You can select up to 3 Regions and unlimited Countries within these Regions.');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }
