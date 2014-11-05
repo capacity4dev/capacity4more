@@ -1,0 +1,123 @@
+<?php
+/**
+ * @file
+ * Code for the Quick Post feature.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_restful_quick_post_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_restful_quick_post_theme() {
+  $theme['c4m_restful_quick_post_angular_form'] = array(
+    'template' => 'quick-post-form',
+    'path' => drupal_get_path('module', 'c4m_restful_quick_post') . '/templates',
+    'variables' => NULL,
+  );
+
+  return $theme;
+}
+
+/**
+ * Page callback; Load the AngularJs form.
+ *
+ * @param int $node
+ *  The ID of the current group.
+ *
+ * @return string
+ *  A rendered form of the Quick Post.
+ */
+function c4m_restful_quick_post_form($node) {
+  $bower_path = libraries_get_path('bower_components');
+
+  // Get "discussion" fields.
+  //@TODO: Add document and event resources.
+  $handler = restful_get_restful_handler('discussions');
+  $field_schema = $handler->options();
+  $public_fields = $handler->getPublicFields();
+
+  // Load the libraries.
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
+  drupal_add_js($bower_path . '/angular/angular.js');
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
+
+  // JSON pretty print library.
+  drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
+  drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
+
+  // TextAngular library.
+  drupal_add_css($bower_path . '/textAngular/src/textAngular.css');
+  drupal_add_js($bower_path . '/textAngular/dist/textAngular-rangy.min.js');
+  drupal_add_js($bower_path . '/textAngular/dist/textAngular-sanitize.min.js');
+  drupal_add_js($bower_path . '/textAngular/dist/textAngular.min.js');
+
+  // Select UI
+  drupal_add_css($bower_path . '/select2/select2.css');
+  drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
+  drupal_add_js($bower_path . '/select2/select2.js');
+  drupal_add_js($bower_path . '/angular-ui-select2/src/select2.js');
+
+  // Font-awesome library.
+  drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
+
+  // Load our custom app.
+  $app_path = $bower_path . '/c4m-app/dist';
+  drupal_add_js($app_path . '/c4m-app.js');
+  drupal_add_css($app_path . '/css/c4m-app.css');
+
+  // Gathering all the fields to pass to the angular-app.
+  $entity_fields = array();
+  $skipped_fields = array(
+    'id',
+    'self',
+  );
+  foreach($public_fields as $public_field_name => $value) {
+    // Skipped fields.
+    if (in_array($public_field_name, $skipped_fields)) {
+      continue;
+    }
+
+    // Set all fields values to NULL.
+    $entity_fields[$public_field_name] = NULL;
+
+    // Set the current Group.
+    if ($public_field_name == 'group') {
+      $entity_fields[$public_field_name] = $node;
+    }
+  }
+
+  // The quick post debugger.
+  // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
+  $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'field_schema' => $field_schema,
+    'debug' => $c4m_quick_post_debug,
+    'data' => array(
+      'entity' => $entity_fields,
+    ),
+  );
+  drupal_add_js($settings, 'setting');
+
+  // Theme function adds the Quick post form.
+  return theme('c4m_restful_quick_post_angular_form');
+}
