@@ -100,7 +100,6 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#title' => t('Allow users to access this Group by their email domain'),
     '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group. Add one or more email domains. The email domain is the part of the email address after the @. Example: add gmail.com to allow users with an email address like jane.doo@gmail.com.'),
     '#type' => 'textfield',
-    '#options' => array(),
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
@@ -118,14 +117,48 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
 
   // Adds submit handler.
   $form['#submit'][] = 'c4m_og_group_form_submit';
+
+  // Hide original pluggable_node_access field.
+  $form['pluggable_node_access']['#access'] = FALSE;
 }
 
 /**
  * Submit handler.
  */
 function c4m_og_group_form_submit($form, &$form_state) {
-  // Check whether we already have a
-  dpm('momo');
+  // Check whether we already have referenced entity in pluggable_node_access.
+  $node = $form_state['node'];
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  // Get the new domain values.
+  $domains = array();
+  $group_access = $form_state['values']['group_access'];
+  if ($group_access == 'restricted') {
+    foreach (explode(',', $form_state['values']['restricted_by_domain']) as $doamin) {
+      $domains[] = trim($doamin);
+    }
+  }
+
+  if (!$pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+    // Create new pluggable_node_access entity.
+    $values = array(
+      'type' => 'email_domain',
+      'data' => $domains,
+    );
+    $entity = entity_create('pluggable_node_access', $values);
+    $entity->save();
+
+    // Save reference to the new entity.
+    // @todo: better way to set the value ?
+    $form_state['values']['pluggable_node_access']['und'][0]['target_id'] = $entity->id;
+  }
+  else {
+    dpm($pluggable_node_access);
+    $entity = reset($pluggable_node_access);
+    $wrapper = entity_metadata_wrapper('pluggable_node_access', $entity);
+    $entity->data = $domains;
+    entity_save('pluggable_node_access', $entity);
+  }
 }
 
 function c4m_og_node_presave($node) {
