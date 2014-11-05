@@ -10,14 +10,14 @@ Feature: Test tasks
   @javascript
   Scenario: Check Quick post error validation.
     Given I am logged in as the "admin"
-    And   I visit "/stub-for-group-2/group/tennis-group"
+    And   I visit "/node/10"
     When  I fill in "label" with "fo"
     Then  I should see "Label is too short."
 
   @javascript
   Scenario: Check Quick post submit.
     Given I am logged in as the "admin"
-    And   I visit "/stub-for-group-2/group/tennis-group"
+    And   I visit "/node/10"
     When  I fill in "label" with "foobar"
     And   I press the "quick-submit" button
     And   I wait
