@@ -288,6 +288,57 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-group-group_access'
+  $field_instances['node-group-group_access'] = array(
+    'bundle' => 'group',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'group_access',
+    'label' => 'Group visibility',
+    'required' => TRUE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'label' => 'above',
+        'type' => 'options_onoff',
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'type' => 'options_onoff',
+      ),
+    ),
+    'widget' => array(
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 14,
+    ),
+    'widget_type' => 'options_select',
+  );
+
   // Exported field_instance: 'node-group-group_group'
   $field_instances['node-group-group_group'] = array(
     'bundle' => 'group',
@@ -346,6 +397,48 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-group-pluggable_node_access'
+  $field_instances['node-group-pluggable_node_access'] = array(
+    'bundle' => 'group',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Reference to Pluggable node access entities.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'pluggable_node_access',
+    'label' => 'Pluggable node access',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 13,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
@@ -353,8 +446,11 @@ function c4m_content_group_field_default_field_instances() {
   t('Description');
   t('Determine if this is an OG group.');
   t('Group');
+  t('Group visibility');
   t('Image');
   t('Membership requests');
+  t('Pluggable node access');
+  t('Reference to Pluggable node access entities.');
   t('Region & Countries');
   t('Related Groups');
   t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
