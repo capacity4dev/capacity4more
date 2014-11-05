@@ -40,7 +40,7 @@ install:
   - phpenv rehash
 
 before_script:
-  - cp default.config.sh config.sh
+  - cp capacity4more/behat/travis-ci.config.sh config.sh
   - ./install -d -y
   - cd www
   - drush cc all --yes
