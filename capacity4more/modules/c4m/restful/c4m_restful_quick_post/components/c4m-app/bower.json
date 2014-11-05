@@ -1,0 +1,33 @@
+{
+  "name": "c4m-app",
+  "version": "0.0.1",
+  "homepage": "https://github.com/capacity4dev/capacity4more",
+  "authors": [
+    "Gizra"
+  ],
+  "description": "Angular application for RESTFul angularJs forms.",
+  "main": "dist/c4m-app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16",
+    "ng-prettyjson": "~0.1.3",
+    "textAngular": "~1.3.x",
+    "components-font-awesome": "latest",
+    "angular-ui-select2": "~0.0.5"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.3.0"
+  },
+  "resolutions": {
+    "angular": "1.2.16"
+  }
+}

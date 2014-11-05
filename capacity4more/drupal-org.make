@@ -40,6 +40,9 @@ projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.5"
+; Patches for RESTful
+projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
+projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-node-create-3.patch"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
@@ -64,6 +67,9 @@ projects[getlocations][version] = "1.13"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
+
+projects[jquery_update][subdir] = "contrib"
+projects[jquery_update][version] = "2.4"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -118,6 +124,9 @@ projects[og_purl][version] = "1.2"
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.4"
+
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
@@ -130,6 +139,12 @@ projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
+
+projects[restful][download][type] = "git"
+projects[restful][download][url] = "https://github.com/Gizra/restful.git"
+projects[restful][download][branch] = 7.x-1.x
+projects[restful][subdir] = "contrib"
+projects[restful][type] = "module"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
@@ -186,6 +201,11 @@ libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/414891
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
 
+libraries[bootstrap_sass][download][type] = "file"
+libraries[bootstrap_sass][type] = "libraries"
+libraries[bootstrap_sass][download][url] = "https://github.com/twbs/bootstrap-sass/archive/v3.1.1.zip"
+
 ; Themes
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.0"
+projects[bootstrap][type] = "theme"

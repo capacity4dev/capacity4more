@@ -8,48 +8,9 @@
  * Implements hook_install().
  */
 function c4m_vocab_document_type_install() {
-  c4m_vocab_document_type_update_7000();
-  c4m_vocab_document_type_update_7001();
-}
-
-/**
- * Create language vocabulary.
- */
-function c4m_vocab_document_type_update_7000() {
-  $language_vocab = (object) array(
-    'name'         => 'Type of Document Vocabulary',
-    'description'  => 'Type indication for documents',
-    'machine_name' => 'c4m_vocab_document_type',
-  );
-
-  taxonomy_vocabulary_save($language_vocab);
-}
-
-/**
- * Create default taxonomy terms for the Document Type vocab.
- */
-function c4m_vocab_document_type_update_7001() {
-  $messages = array();
-
-  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_document_type');
-
-  $terms = array(
-    'Presentation' => 0,
-    'Report'       => 1,
-    'Other'        => 2,
-  );
-
-  foreach ($terms as $term => $weight) {
-    $to              = new StdClass();
-    $to->name        = $term;
-    $to->description = 'Document type ' . $term;
-    $to->vid         = $vocab->vid;
-    $to->weight      = $weight;
-
-    taxonomy_term_save($to);
-  }
-
-  return implode('<br />', $messages);
+  $vocabulary = _c4m_vocab_document_type_install_vocabulary();
+  $terms = _c4m_vocab_document_type_install_get_terms();
+  _c4m_vocab_document_type_install_terms($vocabulary, $terms);
 }
 
 /**
@@ -61,4 +22,107 @@ function c4m_vocab_document_type_uninstall() {
   if (!empty($vocab)) {
     taxonomy_vocabulary_delete($vocab->vid);
   }
+}
+
+
+/**
+ * Create Document type vocabulary.
+ *
+ * @return stdClass
+ *   The Document types vocabulary.
+ */
+function _c4m_vocab_document_type_install_vocabulary() {
+  $vocabulary = (object) array(
+    'name'         => st('Type of Document Vocabulary'),
+    'description'  => st('Type indication for documents'),
+    'machine_name' => 'c4m_vocab_document_type',
+  );
+  taxonomy_vocabulary_save($vocabulary);
+
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_document_type_pattern',
+    'document-type/[term:name]'
+  );
+
+  return $vocabulary;
+}
+
+/**
+ * Create default taxonomy terms for the Document Type vocabulary.
+ *
+ * @param stdClass $vocabulary
+ *   The vocabulary to which the terms should be added.
+ * @param array $terms
+ *   Array of terms.
+ * @param stdClass $parent
+ *   (optional) Parent term.
+ */
+function _c4m_vocab_document_type_install_terms($vocabulary, $terms, $parent = NULL) {
+  $weight = -20;
+  foreach ($terms as $name => $children) {
+    $term              = new stdClass();
+    $term->name        = $name;
+    $term->description = 'Document type ' . $name;
+    $term->vid         = $vocabulary->vid;
+    $term->weight      = $weight;
+    if (!empty($parent)) {
+      $term->parent = $parent->tid;
+    }
+    taxonomy_term_save($term);
+
+    if (!empty($children)) {
+      _c4m_vocab_document_type_install_terms($vocabulary, $children, $term);
+    }
+    $weight++;
+  }
+}
+
+/**
+ * Get a list of type of documents terms to use during the install.
+ *
+ * @return array
+ */
+function _c4m_vocab_document_type_install_get_terms() {
+  $terms = array(
+    st('Study') => array(),
+    st('Research Paper') => array(),
+    st('Policy report / Briefing') => array(),
+    st('Background material') => array(),
+    st('Strategies & Action Plans') => array(),
+    st('Evaluation & Monitoring') => array(
+      st('Evaluation report') => array(),
+      st('Monitoring report') => array(),
+    ),
+    st('Action document / Project fiche') => array(),
+    st('Contractual documentation') => array(
+      st('Contract') => array(),
+      st('Terms of Reference') => array(),
+      st('Technical Administrative Provisions') => array(),
+      st('Budget') => array(),
+      st('Logical Framework') => array(),
+    ),
+    st('Learning material') => array(
+      st('E-learning & MOOC') => array(),
+      st('Training agenda & outlines') => array(),
+      st('Training presentations') => array(),
+    ),
+    st('Guidelines, toolkits & manuals') => array(
+      st('Operational guidance') => array(),
+      st('Handbooks & Toolkits') => array(),
+      st('Manuals') => array(),
+    ),
+    st('Case study & Lessons learned') => array(),
+    st('Communication material') => array(
+      st('Newsletter') => array(),
+      st('Leaflets') => array(),
+      st('Press release') => array(),
+      st('Articles & Interviews') => array(),
+      st('Picture') => array(),
+      st('Video') => array(),
+    ),
+    st('EU document') => array(),
+    st('Other') => array(),
+  );
+
+  return $terms;
 }
