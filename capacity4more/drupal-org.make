@@ -140,10 +140,9 @@ projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
-# @TODO: Change branch when changes are merged.
 projects[restful][download][type] = "git"
 projects[restful][download][url] = "https://github.com/Gizra/restful.git"
-projects[restful][download][branch] = allowed-values
+projects[restful][download][branch] = 7.x-1.x
 projects[restful][subdir] = "contrib"
 projects[restful][type] = "module"
 
