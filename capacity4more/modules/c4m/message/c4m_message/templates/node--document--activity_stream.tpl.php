@@ -22,7 +22,7 @@
     <?php print $download_link; ?>
   </div>
   <div class="row">
-    <?php print t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size)); ?>
+    <?php print $file_info; ?>
   </div>
 
 </div>

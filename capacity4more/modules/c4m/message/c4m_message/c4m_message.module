@@ -491,12 +491,20 @@ function c4m_message_preprocess_node__document(&$variables) {
   if ($variables['view_mode'] == 'activity_stream') {
     $node = $variables['node'];
     $node_wrapper = entity_metadata_wrapper('node', $node);
-    $variables['description'] = $node_wrapper->c4m_body->value() ?  $node_wrapper->c4m_body->value->value() : '';
+    $variables['description'] = $node_wrapper->c4m_body->value() ?  $node_wrapper->c4m_body->summary->value() : '';
     $document = $node_wrapper->c4m_document->value();
     $variables['document'] = $document;
-    $download = !empty($document) ? file_entity_download_uri(file_load($document['fid'])) : array();
-    $variables['download_link'] = !empty($download) ? l('Download this Document', $download['path'], $download['options']) : '';
-    $variables['file_size'] = !empty($document) ? format_size($document['filesize']) : '0 KB';
-    $variables['file_type'] = !empty($document) ? $document['type'] : 'none';
+    if (empty($document)) {
+      // There is no file.
+      $variables['download_link'] = '';
+      $variables['file_info'] = '';
+      return;
+    }
+    $file_uri = file_load($document['fid']);
+    $download = file_entity_download_uri($file_uri);
+    $variables['download_link'] = l('Download this Document', $download['path'], $download['options']);
+    $file_size = format_size($document['filesize']);
+    $file_type = $document['type'];
+    $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
   }
 }
