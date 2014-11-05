@@ -35,6 +35,9 @@ function capacity4more_install() {
   variable_set('admin_theme', $theme_admin);
   variable_set('node_admin_theme', TRUE);
 
+  // Enable counting views of the entity.
+  variable_set('statistics_count_content_views', TRUE);
+
   // TODO: Replace this with the actual theme when we have one!
   $theme_capacity4more = $theme_default;
   /*
