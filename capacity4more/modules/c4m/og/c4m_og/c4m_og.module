@@ -114,6 +114,24 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#title' => t('Private'),
     '#weight' => 30,
     '#description' => t('Only Group members will be able to access this Group.'),
-
   );
+
+  // Adds submit handler.
+  $form['#submit'][] = 'c4m_og_group_form_submit';
+}
+
+/**
+ * Submit handler.
+ */
+function c4m_og_group_form_submit($form, &$form_state) {
+  // Check whether we already have a
+  dpm('momo');
+}
+
+function c4m_og_node_presave($node) {
+  if (!$node->type == 'group') {
+    return;
+  }
+
+  // Create
 }
