@@ -54,6 +54,9 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     prepareData();
 
+    // Set "Start a Debate" as default discussion type.
+    $scope.data.discussion_type = 'debate';
+
     // Prepare the "Regions & Countries" to be a tree object.
     angular.forEach($scope.reference_values, function (data, field) {
       var parent = 0;
