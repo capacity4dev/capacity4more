@@ -61,25 +61,25 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     'private' => t('Private'),
   );
 
-  $form['group_access'] = array(
+  $form['pluggable_group_access'] = array(
     '#type' => 'radios',
     '#title' => t('Group access'),
     '#required' => TRUE,
     '#options' => $options,
   );
-  $form['group_access']['public'] = array(
+  $form['pluggable_group_access']['public'] = array(
     '#type' => 'radio',
     '#title' => t('Public'),
     '#weight' => 10,
     '#description' => t('All users may view public content from this Group. Users must request to join this Group.'),
   );
-  $form['group_access']['restricted'] = array(
+  $form['pluggable_group_access']['restricted'] = array(
     '#type' => 'radio',
     '#title' => t('Restricted'),
     '#weight' => 20,
     '#description' => t('Define by organisation and/or email domain what users can view this Group. Only members can post content to the Group.'),
   );
-  $form['group_access']['restricted_organisations'] = array(
+  $form['pluggable_group_access']['restricted_organisations'] = array(
     '#weight' => 25,
     '#title' => t('Allow users to access this Group by their organisation'),
     '#description' => t('Users belonging to these organisations will have access to this Group. Users must request to join this Group.'),
@@ -95,7 +95,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
       ),
     ),
   );
-  $form['group_access']['restricted_by_domain'] = array(
+  $form['pluggable_group_access']['restricted_by_domain'] = array(
     '#weight' => 26,
     '#title' => t('Allow users to access this Group by their email domain'),
     '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group. Add one or more email domains. The email domain is the part of the email address after the @. Example: add gmail.com to allow users with an email address like jane.doo@gmail.com.'),
@@ -108,7 +108,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     ),
   );
 
-  $form['group_access']['private'] = array(
+  $form['pluggable_group_access']['private'] = array(
     '#type' => 'radio',
     '#title' => t('Private'),
     '#weight' => 30,
@@ -132,7 +132,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
 
   // Get the new domain values.
   $domains = array();
-  $group_access = $form_state['values']['group_access'];
+  $group_access = $form_state['values']['pluggable_group_access'];
   if ($group_access == 'restricted') {
     foreach (explode(',', $form_state['values']['restricted_by_domain']) as $doamin) {
       $domains[] = trim($doamin);
