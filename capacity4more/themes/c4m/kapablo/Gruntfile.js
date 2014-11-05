@@ -1,10 +1,10 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         sass: {
             dist: {
                 files: {
-                    'css/style.css' : 'sass/style.scss'
+                    'css/style.css': 'sass/style.scss'
                 },
                 options: {                       // Target options
                     style: 'expanded',
@@ -21,5 +21,13 @@ module.exports = function(grunt) {
     });
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.registerTask('default',['watch']);
+
+    grunt.registerTask('build', [
+        'sass'
+    ]);
+
+    grunt.registerTask('default', [
+        'sass',
+        'watch'
+    ]);
 }

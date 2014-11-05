@@ -149,6 +149,9 @@ fi
 # Build the AngularJs application.
 build_angular_app
 
+# Build Kapablo theme.
+build_kapablo_theme
+
 # Run post script (if any).
 run_post_script "install"
 

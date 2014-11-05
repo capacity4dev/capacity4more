@@ -326,3 +326,19 @@ function build_angular_app {
 
   echo
 }
+
+##
+# Build the Kapablo theme dependencies
+##
+function build_kapablo_theme {
+  echo -e "${LBLUE}> Build dependencies for Kapablo theme.${RESTORE}"
+
+  # Build the dependencies.
+  cd $ROOT/capacity4more/themes/c4m/kapablo
+  npm install
+  grunt build
+  cd $ROOT
+
+  echo
+}
+
