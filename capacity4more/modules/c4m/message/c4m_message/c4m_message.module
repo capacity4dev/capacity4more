@@ -306,6 +306,12 @@ function c4m_message_format_rendered_node(Message $message) {
   return drupal_render($view);
 }
 
+/**
+ * Return the body of the comment.
+ *
+ * @param Message $message
+ * @return string
+ */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   return $wrapper->field_comment->comment_body->value->value();
@@ -335,7 +341,15 @@ function c4m_message_format_footer(Message $message) {
   return implode(' | ', $items);
 }
 
-
+/**
+ * Create a comment message.
+ *
+ * @param $comment
+ *   The comment object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
 function c4m_message__insert__comment($comment) {
   $values = array('uid' => $comment->uid);
   $message = message_create('c4m_insert__comment', $values);
@@ -348,7 +362,7 @@ function c4m_message__insert__comment($comment) {
  * Updating a comment message.
  *
  * @param $node
- *   The discussion node object.
+ *   The commented node object.
  *
  * @return Message
  *   The non-saved message entity.
