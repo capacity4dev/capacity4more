@@ -22,7 +22,6 @@ function c4m_message_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Group activity stream';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -72,9 +71,18 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['filters']['field_entity_published_value']['expose']['operator'] = 'field_entity_published_value_op';
   $handler->display->display_options['filters']['field_entity_published_value']['expose']['identifier'] = 'field_entity_published_value';
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'group-activity-stream';
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['argument_input'] = array(
+    'field_group_node_target_id' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Message: Group node (field_group_node)',
+    ),
+  );
   $export['group_activity_stream'] = $view;
 
   return $export;
