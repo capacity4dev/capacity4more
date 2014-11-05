@@ -706,4 +706,12 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iWait() {
     sleep(10);
   }
+
+  /**
+   * @Then /^I should print page$/
+   */
+  public function iShouldPrintPage() {
+    $element = $this->getSession()->getPage();
+    print_r($element->getContent());
+  }
 }

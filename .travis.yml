@@ -29,7 +29,8 @@ before_script:
   - drush si capacity4more --db-url=mysql://root:@127.0.0.1/drupal --account-pass=admin --yes
   - drush cc all --yes
   # Use drush migrate command to import dummy content, as user 1, so we don't have node access issues.
-  # - drush mi --all --user=1
+  - drush en -y migrate migrate_ui c4m_demo_content
+  - drush mi --update --group=c4m_demo_content --user=1
 
   - cd ..
 

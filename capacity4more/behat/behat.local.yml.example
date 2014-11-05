@@ -1,4 +1,19 @@
 default:
+  context:
+    parameters:
+      drupal_users:
+        mariecurie:
+          'drupal'
+        isaacnewton:
+          'drupal'
+        badhairday:
+          'drupal'
+        galileo:
+          'drupal'
+        survivalofthefittest:
+          'drupal'
+        turing:
+          'drupal'
   extensions:
     Behat\MinkExtension\Extension:
       base_url: http://localhost/capacity4more/www

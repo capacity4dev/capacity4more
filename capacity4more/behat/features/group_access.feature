@@ -3,5 +3,5 @@ Feature: Group access
 
   @api
   Scenario: Check restricted access by domain
-    Given I visit "/user"
-     Then I should see "Log in"
+    Given I am logged in as the "mariecurie"
+     Then I should not see "Log in"
