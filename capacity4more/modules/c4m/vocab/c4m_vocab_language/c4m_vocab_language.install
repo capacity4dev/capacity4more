@@ -8,48 +8,8 @@
  * Implements hook_install().
  */
 function c4m_vocab_language_install() {
-  c4m_vocab_language_update_7000();
-  c4m_vocab_language_update_7001();
-}
-
-/**
- * Create language vocabulary.
- */
-function c4m_vocab_language_update_7000() {
-  $language_vocab = (object) array(
-    'name'         => 'Language Vocabulary',
-    'description'  => 'Language indication for content',
-    'machine_name' => 'c4m_vocab_language',
-  );
-
-  taxonomy_vocabulary_save($language_vocab);
-}
-
-/**
- * Create default taxonomy terms for the Language vocab.
- */
-function c4m_vocab_language_update_7001() {
-  $messages = array();
-
-  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
-
-  $terms = array(
-    'en' => 0,
-    'fr' => 1,
-    'es' => 2,
-  );
-
-  foreach ($terms as $term => $weight) {
-    $to              = new StdClass();
-    $to->name        = $term;
-    $to->description = 'Content in ' . $term;
-    $to->vid         = $vocab->vid;
-    $to->weight      = $weight;
-
-    taxonomy_term_save($to);
-  }
-
-  return implode('<br />', $messages);
+  c4m_vocab_language_install_vocabulary();
+  c4m_vocab_language_install_terms();
 }
 
 /**
@@ -60,5 +20,54 @@ function c4m_vocab_language_uninstall() {
 
   if (!empty($vocab)) {
     taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
+
+
+/**
+ * Create language vocabulary.
+ */
+function c4m_vocab_language_install_vocabulary() {
+  $language_vocab = (object) array(
+    'name'         => 'Language Vocabulary',
+    'description'  => 'Language indication for content',
+    'machine_name' => 'c4m_vocab_language',
+  );
+  taxonomy_vocabulary_save($language_vocab);
+
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_language_pattern',
+    'content-language/[term:name]'
+  );
+}
+
+/**
+ * Set pathauto pattern.
+ */
+function c4m_vocab_language_install_terms() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
+
+  $terms = array(
+    'English',
+    'French',
+    'Spanish',
+    'German',
+    'Portuguese',
+    'Arabic',
+    'Chinese',
+    'Russian',
+    'Other',
+  );
+
+  $weight = -20;
+  foreach ($terms as $term) {
+    $to              = new StdClass();
+    $to->name        = $term;
+    $to->description = 'Content in ' . $term;
+    $to->vid         = $vocab->vid;
+    $to->weight      = $weight;
+    taxonomy_term_save($to);
+
+    $weight++;
   }
 }

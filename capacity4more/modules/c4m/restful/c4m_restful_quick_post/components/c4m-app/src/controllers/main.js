@@ -33,7 +33,7 @@ angular.module('c4mApp')
     $scope.popups = {};
     angular.forEach($scope.field_schema, function (data, field) {
       var allowed_values = data.form_element.allowed_values;
-      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length) {
+      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
         $scope.reference_values[field] = data.form_element.allowed_values;
 
         $scope.popups[field] = 0;
@@ -93,13 +93,8 @@ angular.module('c4mApp')
         return;
       }
 
-      $http.get(url, {
-        params: {
-          string: query.term,
-          group: group.id
-        }
-      }).success(function(data) {
-
+      $http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
+      .success(function(data) {
         if (data.data.length == 0) {
           terms.results.push({
             text: query.term,
@@ -108,10 +103,10 @@ angular.module('c4mApp')
           });
         }
         else {
-          angular.forEach(data.data, function (tag) {
+          angular.forEach(data.data, function (label, id) {
             terms.results.push({
-              text: tag.label,
-              id: tag.id,
+              text: label,
+              id: id,
               isNew: false
             });
           });
@@ -226,7 +221,7 @@ angular.module('c4mApp')
 
         // Get the IDs of the selected references.
         angular.forEach(data, function (values, field) {
-          if(values && angular.isObject(values)) {
+          if(values && angular.isObject(values) && field != 'tags') {
             data[field] = [];
             angular.forEach(values, function (value, index) {
               if(value === true) {
@@ -238,6 +233,22 @@ angular.module('c4mApp')
 
         // Copy data.
         var submitData = angular.copy(data);
+
+        // Assign tags.
+        var tags = {};
+        angular.forEach(submitData.tags, function (term, index) {
+          if (term.isNew) {
+            // New term.
+            tags[index] = {};
+            tags[index].label = term.id;
+          }
+          else {
+            // Existing term.
+            tags[index] = term.id;
+          }
+        });
+
+        submitData.tags = tags;
 
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
