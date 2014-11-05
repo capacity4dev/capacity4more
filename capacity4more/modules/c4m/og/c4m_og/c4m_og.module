@@ -29,6 +29,10 @@ function c4m_og_get_group_type_name($node = NULL) {
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
+  // Retrieve value from og_access and set pluggable_group_access accordingly.
+  $default_value = 'restricted';
+  $restricted_organisations = array('eu');
+
   // Add javascript behaviors.
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js',
@@ -66,6 +70,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#title' => t('Group access'),
     '#required' => TRUE,
     '#options' => $options,
+    '#default_value' => $default_value,
   );
   $form['pluggable_group_access']['public'] = array(
     '#type' => 'radio',
@@ -91,9 +96,10 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
-        ':input[name="group_access"]' => array('value' => 'restricted'),
+        ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
     ),
+    '#default_value' => $restricted_organisations,
   );
   $form['pluggable_group_access']['restricted_by_domain'] = array(
     '#weight' => 26,
@@ -103,7 +109,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
-        ':input[name="group_access"]' => array('value' => 'restricted'),
+        ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
     ),
   );
@@ -120,6 +126,9 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
 
   // Hide original pluggable_node_access field.
   $form['pluggable_node_access']['#access'] = FALSE;
+
+  // Hide group visibility field.
+  $form['group_access']['#access'] = FALSE;
 }
 
 /**
@@ -133,31 +142,48 @@ function c4m_og_group_form_submit($form, &$form_state) {
   // Get the new domain values.
   $domains = array();
   $group_access = $form_state['values']['pluggable_group_access'];
-  if ($group_access == 'restricted') {
-    foreach (explode(',', $form_state['values']['restricted_by_domain']) as $doamin) {
-      $domains[] = trim($doamin);
-    }
+  switch ($group_access) {
+    case 'restricted':
+      // Set og_group value to 0.
+
+      // Edit/create pluggable_node_access
+      foreach (explode(',', $form_state['values']['restricted_by_domain']) as $doamin) {
+        $domains[] = trim($doamin);
+      }
+
+      if (!$pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+        // Create new pluggable_node_access entity.
+        $values = array(
+          'type' => 'email_domain',
+          'data' => $domains,
+        );
+        $entity = entity_create('pluggable_node_access', $values);
+        $entity->save();
+
+        // Save reference to the new entity.
+        // @todo: better way to set the value ?
+        $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $entity->id;
+      }
+      else {
+        $entity = reset($pluggable_node_access);
+        $entity->data = $domains;
+        $entity->save();
+      }
+
+      break;
+    case 'public':
+      // - Set og_group value to 0.
+      // - Delete pluggable_node_access entity if exist.
+
+      break;
+    case 'private':
+      // - Set og_group value to 1.
+      // - Delete pluggable_node_access entity if exist.
+
+    break;
   }
 
-  if (!$pluggable_node_access = $wrapper->pluggable_node_access->value()) {
-    // Create new pluggable_node_access entity.
-    $values = array(
-      'type' => 'email_domain',
-      'data' => $domains,
-    );
-    $entity = entity_create('pluggable_node_access', $values);
-    $entity->save();
 
-    // Save reference to the new entity.
-    // @todo: better way to set the value ?
-    $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $entity->id;
-  }
-  else {
-    $entity = reset($pluggable_node_access);
-    $entity->data = $domains;
-    $entity->save();
-//    entity_save('pluggable_node_access', $entity);
-  }
 }
 
 function c4m_og_node_presave($node) {
