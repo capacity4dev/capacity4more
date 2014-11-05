@@ -267,12 +267,47 @@ function c4m_message_format_rendered_node(Message $message) {
  *   The formated string.
  */
 function c4m_message_format_footer(Message $message) {
+  $footer_info = array();
+  $message_wrapper = entity_metadata_wrapper('message', $message);
   switch ($message->type) {
     case 'c4m_insert__node__discussion':
-      return '245 recommendations | 25 comments | 1 view';
+      $type = '';
+      break;
 
     case 'c4m_insert__node__document' :
-      return '245 recommendations | 25 comments | 1 view | 15 Downloads';
+      $type = '_document';
+      break;
+  }
+  $node = $message_wrapper->{'field_node' . $type}->value();
+  $footer_info['recomendations'] = 245;
+  $footer_info['comments'] = $node->comment_count;
+  $footer_info['views']['value'] = 1;
+  $footer_info['views']['view_text'] =  $footer_info['views']['value'] == 1 ? 'view' : 'views';
+  $footer_info['downloads'] = isset ($node->c4m_document) && !empty($node->c4m_document) ? 15 : 0;
+
+  switch ($message->type) {
+    case 'c4m_insert__node__discussion':
+      return t(
+        '@recommendations recommendations | @comments comments | @view @view_text',
+        array(
+          '@recommendations' => $footer_info['recomendations'],
+          '@comments' => $footer_info['comments'],
+          '@view' => $footer_info['views']['value'],
+          '@view_text' => $footer_info['views']['view_text'],
+        )
+      );
+
+    case 'c4m_insert__node__document' :
+      return t(
+        '@recommendations recommendations | @comments comments | @view @view_text | @downloads Downloads',
+        array(
+          '@recommendations' => $footer_info['recomendations'],
+          '@comments' => $footer_info['comments'],
+          '@view' => $footer_info['views']['value'],
+          '@view_text' => $footer_info['views']['view_text'],
+          '@downloads' =>  $footer_info['downloads'],
+        )
+      );
   }
 }
 
