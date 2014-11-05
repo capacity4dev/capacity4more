@@ -20,8 +20,6 @@
   </div>
   <div class="row">
     <?php print $download_link; ?>
-  </div>
-  <div class="row">
     <?php print $file_info; ?>
   </div>
 
