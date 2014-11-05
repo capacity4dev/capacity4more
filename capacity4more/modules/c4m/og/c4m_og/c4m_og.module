@@ -153,7 +153,6 @@ function c4m_og_group_form_submit($form, &$form_state) {
     $form_state['values']['pluggable_node_access']['und'][0]['target_id'] = $entity->id;
   }
   else {
-    dpm($pluggable_node_access);
     $entity = reset($pluggable_node_access);
     $wrapper = entity_metadata_wrapper('pluggable_node_access', $entity);
     $entity->data = $domains;
