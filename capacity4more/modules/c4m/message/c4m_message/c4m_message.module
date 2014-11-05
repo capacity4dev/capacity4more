@@ -279,9 +279,10 @@ function c4m_message_format_footer(Message $message) {
       break;
   }
   $node = $message_wrapper->{'field_node' . $type}->value();
+  $statistic = statistics_get($node->nid);
   $footer_info['recomendations'] = 245;
   $footer_info['comments'] = $node->comment_count;
-  $footer_info['views']['value'] = 1;
+  $footer_info['views']['value'] = $statistic['totalcount'] ? $statistic['totalcount'] : 0;
   $footer_info['views']['view_text'] =  $footer_info['views']['value'] == 1 ? 'view' : 'views';
   $footer_info['downloads'] = isset ($node->c4m_document) && !empty($node->c4m_document) ? 15 : 0;
 

@@ -17,6 +17,7 @@ dependencies[] = number
 dependencies[] = options
 ;dependencies[] = overlay
 dependencies[] = path
+dependencies[] = statistics
 dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = search
