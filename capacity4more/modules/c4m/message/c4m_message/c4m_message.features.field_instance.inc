@@ -96,8 +96,8 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_insert__comment-field_node_commented'
-  $field_instances['message-c4m_insert__comment-field_node_commented'] = array(
+  // Exported field_instance: 'message-c4m_insert__comment-field_node'
+  $field_instances['message-c4m_insert__comment-field_node'] = array(
     'bundle' => 'c4m_insert__comment',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -117,12 +117,12 @@ function c4m_message_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 1,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_node_commented',
-    'label' => 'Node Commented',
+    'field_name' => 'field_node',
+    'label' => 'Node',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -141,7 +141,7 @@ function c4m_message_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 0,
+      'weight' => 4,
     ),
   );
 
@@ -370,8 +370,8 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_insert__node__document-field_node_document'
-  $field_instances['message-c4m_insert__node__document-field_node_document'] = array(
+  // Exported field_instance: 'message-c4m_insert__node__document-field_node'
+  $field_instances['message-c4m_insert__node__document-field_node'] = array(
     'bundle' => 'c4m_insert__node__document',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -391,12 +391,12 @@ function c4m_message_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 0,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_node_document',
-    'label' => 'Node Document',
+    'field_name' => 'field_node',
+    'label' => 'Node',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -415,7 +415,7 @@ function c4m_message_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 1,
+      'weight' => 7,
     ),
   );
 
@@ -424,8 +424,6 @@ function c4m_message_field_default_field_instances() {
   t('Entity Published');
   t('Group node');
   t('Node');
-  t('Node Commented');
-  t('Node Document');
 
   return $field_instances;
 }

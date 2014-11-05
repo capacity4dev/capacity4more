@@ -262,10 +262,11 @@ function c4m_message_format_node_discussion_type(Message $message) {
  */
 function c4m_message_format_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $node_type = $wrapper->field_node_commented->type->value();
+  $node_type = $wrapper->field_node->type->value();
+  dpm($node_type);
 
   if ($node_type == 'discussion') {
-    $discussion_type = $wrapper->field_node_commented->c4m_discussion_type->value();
+    $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
     switch ($discussion_type) {
       case 'info':
         return t('Information');
@@ -306,10 +307,10 @@ function c4m_message_format_rendered_node(Message $message) {
       $node_type = '';
       break;
     case 'c4m_insert__node__document' :
-      $node_type = '_document';
+      $node_type = '';
       break;
     case 'c4m_insert__comment' :
-      $node_type = '_commented';
+      $node_type = '';
       break;
   }
 
@@ -329,20 +330,11 @@ function c4m_message_format_rendered_node(Message $message) {
  */
 function c4m_message_format_footer(Message $message) {
   $items = array();
-  $message_wrapper = entity_metadata_wrapper('message', $message);
-  switch ($message->type) {
-    case 'c4m_insert__node__discussion':
-      $node = $message_wrapper->field_node->value();
-      break;
-
-    case 'c4m_insert__node__document' :
-      $node = $message_wrapper->field_node_document->value();
-      break;
-
-    case 'c4m_insert__comment' :
-      return '';
+  if ($message->type == 'c4m_insert__comment') {
+    return '';
   }
-
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $node = $message_wrapper->field_node->value();
   $statistic = statistics_get($node->nid);
 
   $items['comments'] = format_plural($node->comment_count, '@count comment', '@count comments');
@@ -450,7 +442,7 @@ function c4m_message__update__node__document($node) {
     ->entityCondition('entity_type', 'message')
     ->propertyCondition('type', 'c4m_insert__node__document')
     ->propertyCondition('timestamp', $time_since, '>')
-    ->fieldCondition('field_node_document', 'target_id', $node->nid)
+    ->fieldCondition('field_node', 'target_id', $node->nid)
     ->propertyOrderBy('timestamp', 'desc')
     ->range(0, 1)
     ->execute();
@@ -488,15 +480,12 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
   if ($entity_type == 'node') {
     $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     $node_type = '';
-    if ($entity->type == 'document') {
-      $node_type = '_' . $entity->type;
-    }
     // @todo: There should be only a single group attached to a content, so we
     // need to change OG_AUDIENCE_FIELD to cardinality 1.
     $group_ids = $entity_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
     $group_id = reset($group_ids);
     $message_wrapper->field_group_node->set($group_id);
-    $message_wrapper->{'field_node' . $node_type}->set($entity);
+    $message_wrapper->field_node->set($entity);
   }
   elseif ($entity_type == 'comment') {
     $node_commented = node_load($entity->nid);
@@ -504,7 +493,7 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
     $group_ids = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
     $group_id = reset($group_ids);
     $message_wrapper->field_group_node->set($group_id);
-    $message_wrapper->field_node_commented->set($node_commented);
+    $message_wrapper->field_node->set($node_commented);
   }
 
 }
