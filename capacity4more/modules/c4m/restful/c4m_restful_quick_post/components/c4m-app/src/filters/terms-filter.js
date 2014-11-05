@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc filter
- * @name c4mApp.filter:geoFilter
+ * @name c4mApp.filter:termsFilter
  * @description
- * # Filter "Regions & Countries" according to the search input by the user and return filtered items.
+ * # Filter taxonomy-terms according to the search input by the user and return filtered items.
  */
 
 angular.module('c4mApp')
-  .filter('geoFilter',[ function () {
+  .filter('termsFilter',[ function () {
   return function(items, searchText) {
     if(searchText) {
       var filtered = {};

@@ -54,24 +54,27 @@ angular.module('c4mApp')
     $scope.data.discussion_type = 'debate';
 
     // Prepare the "Regions & Countries" to be a tree object.
-    var parent = 0;
-    angular.forEach($scope.reference_values.c4m_vocab_geo, function (label, id) {
-      if(label.indexOf('-')) {
-        parent = id;
-        $scope.c4m_vocab_geo[id] = {
-          id: id,
-          label: label,
-          children: []
-        };
-      }
-      else {
-        if (parent > 0) {
-          $scope.c4m_vocab_geo[parent]['children'].push({
+    angular.forEach($scope.reference_values, function (data, field) {
+      var parent = 0;
+      $scope[field] = {};
+      angular.forEach($scope.reference_values[field], function (label, id) {
+        if(label.indexOf('-')) {
+          parent = id;
+          $scope[field][id] = {
             id: id,
-            label: label.replace("-","")
-          });
+            label: label,
+            children: []
+          };
         }
-      }
+        else {
+          if (parent > 0) {
+            $scope[field][parent]['children'].push({
+              id: id,
+              label: label.replace("-","")
+            });
+          }
+        }
+      });
     });
 
     /**

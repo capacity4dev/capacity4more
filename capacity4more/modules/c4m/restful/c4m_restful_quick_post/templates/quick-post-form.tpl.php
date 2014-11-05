@@ -7,7 +7,7 @@
 
     <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
 
-    <div class="input-wrapper file-wrapper" ng-show="bundle_name == 'documents'">
+    <div class="form-group input-wrapper file-wrapper" ng-show="bundle_name == 'documents'">
       <div ng-show="dropSupported" class="drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
         <div ng-hide="server_side.image">
@@ -50,10 +50,29 @@
         </div>
       </div>
 
+      <div class="form-group btn-group" ng-show="bundle_name == 'documents'">
+        <div class="label-wrapper">
+          <label>{{field_schema.c4m_vocab_document_type.info.label}}</label>
+          <span id="document_type_description" class="description">{{field_schema.c4m_vocab_document_type.info.description}}</span>
+        </div>
+        <div class="checkboxes-wrapper">
+          <div>
+            <button type="button" ng-click="togglePopover('c4m_vocab_document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
+          </div>
+          <!-- Hidden c4m_vocab_document_type checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_document_type">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <list-terms type="document_type" model="data.c4m_vocab_document_type" items="c4m_vocab_document_type"></list-terms>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group btn-group">
         <div class="label-wrapper">
           <label>{{field_schema.topic.info.label}}</label>
-          <span class="description">{{field_schema.topic.info.description}}</span>
+          <span id="topic_description" class="description">{{field_schema.topic.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
@@ -63,7 +82,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.topic">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="topic" model="data.topic" items="reference_values.topic"></list-terms>
+              <list-terms type="topic" model="data.topic" items="topic"></list-terms>
             </div>
           </div>
         </div>
@@ -72,7 +91,7 @@
       <div class="form-group btn-group">
         <div class="label-wrapper">
           <label>{{field_schema.c4m_vocab_date.info.label}}</label>
-          <span class="description">{{field_schema.c4m_vocab_date.info.description}}</span>
+          <span id="date_description" class="description">{{field_schema.c4m_vocab_date.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
@@ -82,7 +101,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_date">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="date" model="data.c4m_vocab_date" items="reference_values.c4m_vocab_date"></list-terms>
+              <list-terms type="date" model="data.c4m_vocab_date" items="c4m_vocab_date"></list-terms>
             </div>
           </div>
         </div>
@@ -91,7 +110,7 @@
       <div class="form-group btn-group">
         <div class="label-wrapper">
           <label>{{field_schema.c4m_vocab_language.info.label}}</label>
-          <span class="description">{{field_schema.c4m_vocab_language.info.description}}</span>
+          <span id="language_description" class="description">{{field_schema.c4m_vocab_language.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
@@ -101,7 +120,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_language">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="language" model="data.c4m_vocab_language" items="reference_values.c4m_vocab_language"></list-terms>
+              <list-terms type="language" model="data.c4m_vocab_language" items="c4m_vocab_language"></list-terms>
             </div>
           </div>
         </div>
@@ -120,7 +139,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo" >
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-geo type="geo" model="data.c4m_vocab_geo" items="c4m_vocab_geo"></list-geo>
+              <list-terms type="geo" model="data.c4m_vocab_geo" items="c4m_vocab_geo"></list-terms>
             </div>
           </div>
         </div>
