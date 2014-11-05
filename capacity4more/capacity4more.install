@@ -28,7 +28,7 @@ function capacity4more_install() {
   menu_rebuild();
 
   // THEMES
-  $theme_default = variable_get('theme_default', 'bartik');
+  $theme_default = variable_get('theme_default', 'bootstrap');
 
   $theme_admin = 'seven';
   _capacity4more_install_save_theme($theme_admin, 1);
@@ -69,6 +69,8 @@ function capacity4more_install() {
   );
   variable_set("og_context_negotiation_group_context", $values);
 
+  // Quick post debug, Disabled by default.
+  variable_set('c4m_quick_post_debug', 0);
 }
 
 

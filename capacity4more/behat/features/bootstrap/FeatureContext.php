@@ -706,4 +706,30 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iWait() {
     sleep(10);
   }
+
+  /**
+   * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
+   */
+  public function iVisitNodePageOfType($title, $type) {
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($type))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $nid = key($result['node']);
+    // Use Drupal Context 'I am at'.
+    return new Given("I am at \"node/$nid\"");
+  }
 }

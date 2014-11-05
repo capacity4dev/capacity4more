@@ -40,6 +40,7 @@ dependencies[] = features
 dependencies[] = field_group
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
+dependencies[] = jquery_update
 dependencies[] = libraries
 dependencies[] = link
 ;dependencies[] = message
@@ -50,8 +51,11 @@ dependencies[] = og_context
 dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
+dependencies[] = page_manager
+dependencies[] = panels
 dependencies[] = pathauto
 dependencies[] = reldate
+dependencies[] = restful
 ;dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = transliteration
@@ -95,6 +99,10 @@ dependencies[] = c4m_features_overview_people
 dependencies[] = c4m_features_overview_projects
 dependencies[] = c4m_features_overview_regions
 dependencies[] = c4m_features_overview_topics
+
+; RESTful
+dependencies[] = c4m_restful_quick_post
+dependencies[] = c4m_restful
 
 ; Overview content within groups
 dependencies[] = c4m_og_menu
