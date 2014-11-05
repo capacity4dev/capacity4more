@@ -29,8 +29,22 @@ function c4m_og_get_group_type_name($node = NULL) {
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
+  $domains = NULL;
+
   // Retrieve value from og_access and set pluggable_group_access accordingly.
-  $default_value = 'restricted';
+  if ($form['group_access']['und']['#default_value']) {
+    $default_value = 'private';
+  }
+  else {
+    $default_value = 'public';
+    // Check if pluggable_group_access.
+    if ($entity_id = $form_state['node']->pluggable_node_access['und'][0]['target_id']) {
+      $default_value = 'restricted';
+      $entities = entity_load('pluggable_node_access', array($entity_id));
+      $pluggable_node_access = reset($entities);
+      $domains = $pluggable_node_access->data;
+    }
+  }
   $restricted_organisations = array('eu');
 
   // Add javascript behaviors.
@@ -112,6 +126,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
         ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
     ),
+    '#default_value' => implode(', ', $domains),
   );
 
   $form['pluggable_group_access']['private'] = array(
@@ -128,7 +143,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $form['pluggable_node_access']['#access'] = FALSE;
 
   // Hide group visibility field.
-  $form['group_access']['#access'] = FALSE;
+ // $form['group_access']['#access'] = FALSE;
 }
 
 /**
@@ -145,8 +160,9 @@ function c4m_og_group_form_submit($form, &$form_state) {
   switch ($group_access) {
     case 'restricted':
       // Set og_group value to 0.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
-      // Edit/create pluggable_node_access
+      // Edit/create pluggable_node_access.
       foreach (explode(',', $form_state['values']['restricted_by_domain']) as $doamin) {
         $domains[] = trim($doamin);
       }
@@ -161,7 +177,6 @@ function c4m_og_group_form_submit($form, &$form_state) {
         $entity->save();
 
         // Save reference to the new entity.
-        // @todo: better way to set the value ?
         $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $entity->id;
       }
       else {
@@ -173,12 +188,25 @@ function c4m_og_group_form_submit($form, &$form_state) {
       break;
     case 'public':
       // - Set og_group value to 0.
-      // - Delete pluggable_node_access entity if exist.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
+      // - Delete pluggable_node_access entity if exist.
+      $pluggable_node_access = $wrapper->pluggable_node_access->value();
+      $entity = reset($pluggable_node_access);
+      $entity->delete();
+
+      $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
       break;
     case 'private':
       // - Set og_group value to 1.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
+
       // - Delete pluggable_node_access entity if exist.
+      $pluggable_node_access = $wrapper->pluggable_node_access->value();
+      $entity = reset($pluggable_node_access);
+      $entity->delete();
+
+      $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
 
     break;
   }
