@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * Implements hook_install. Creates pluggable_node_access field in group.
+ */
+function c4m_og_install() {
+  $field = array(
+    'field_name' => 'pluggable_node_access',
+    'type' => 'entityreference',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+    'settings' => array(
+      'target_type' => 'pluggable_node_access',
+    ),
+  );
+  field_create_field($field);
+  $instance = array(
+    'label' => t('Pluggable node access'),
+    'description' => t('Reference to Pluggable node access entities.'),
+    'field_name' => 'pluggable_node_access',
+    'entity_type' => 'node',
+    'bundle' => 'group',
+  );
+  field_create_instance($instance);
+}
