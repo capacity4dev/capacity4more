@@ -203,6 +203,33 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 }
 
 /**
+ * Delegated hook_entity_load() for comment.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__comment(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['@node_type'] = array(
+    'callback' => 'c4m_message_format_comment',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Return the formatted discussion type.
  *
  * @param Message $message
@@ -228,6 +255,37 @@ function c4m_message_format_node_discussion_type(Message $message) {
 }
 
 /**
+ * Return the formatted node type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_format_comment(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node_type = $wrapper->field_node_commented->type->value();
+
+  if ($node_type == 'discussion') {
+    $discussion_type = $wrapper->field_node_commented->c4m_discussion_type->value();
+    switch ($discussion_type) {
+      case 'info':
+        return t('Information');
+
+      case 'idea':
+        return t('Idea');
+
+      case 'question':
+        return t('Question');
+
+      case 'debate':
+        return t('Debate');
+    }
+  }
+  elseif ($node_type == 'document') {
+    return t('Document');
+  }
+}
+
+/**
  * Return the formatted body and image.
  *
  * We get the body and image on te fly, in case a user edited the content - not
@@ -249,6 +307,9 @@ function c4m_message_format_rendered_node(Message $message) {
       break;
     case 'c4m_insert__node__document' :
       $node_type = '_document';
+      break;
+    case 'c4m_insert__comment' :
+      $node_type = '_commented';
       break;
   }
 
@@ -277,6 +338,9 @@ function c4m_message_format_footer(Message $message) {
     case 'c4m_insert__node__document' :
       $node = $message_wrapper->field_node_document->value();
       break;
+
+    case 'c4m_insert__comment' :
+      return '';
   }
 
   $statistic = statistics_get($node->nid);
@@ -285,6 +349,15 @@ function c4m_message_format_footer(Message $message) {
   $items['views'] = format_plural($statistic['totalcount'], '@count views', '@count views');
 
   return implode(' | ', $items);
+}
+
+
+function c4m_message__insert__comment($comment) {
+  $values = array('uid' => $comment->uid);
+  $message = message_create('c4m_insert__comment', $values);
+
+  c4m_message_prepare_insert_entity($message, 'comment', $comment);
+  return $message;
 }
 
 /**
@@ -411,9 +484,9 @@ function c4m_message__update__node__document($node) {
  */
 function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
-  $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
 
   if ($entity_type == 'node') {
+    $entity_wrapper = entity_metadata_wrapper($entity_type, $entity);
     $node_type = '';
     if ($entity->type == 'document') {
       $node_type = '_' . $entity->type;
@@ -425,6 +498,15 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
     $message_wrapper->field_group_node->set($group_id);
     $message_wrapper->{'field_node' . $node_type}->set($entity);
   }
+  elseif ($entity_type == 'comment') {
+    $node_commented = node_load($entity->nid);
+    $node_wrapper = entity_metadata_wrapper('node', $node_commented);
+    $group_ids = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+    $group_id = reset($group_ids);
+    $message_wrapper->field_group_node->set($group_id);
+    $message_wrapper->field_node_commented->set($node_commented);
+  }
+
 }
 
 /**
