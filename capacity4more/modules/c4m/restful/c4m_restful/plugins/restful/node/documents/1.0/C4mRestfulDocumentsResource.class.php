@@ -32,7 +32,7 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
       'property' => 'c4m_vocab_document_type',
       'resource' => array(
         'c4m_vocab_document_type' => array(
-          'name' => 'c4m_vocab_document_type',
+          'name' => 'document_types',
           'full_view' => FALSE,
         ),
       ),

@@ -27,31 +27,32 @@ angular.module('c4mApp')
 
     $scope.tags_query_cache = [];
 
-    // Responsible for toggling the visibility of the taxonomy-terms.
-    // Set "popups" to 0, as to hide all of the pop-overs on load.
-    // Also prepare the referenced "data" to be objects.
-    $scope.popups = {};
-    angular.forEach($scope.field_schema, function (data, field) {
-      var allowed_values = data.form_element.allowed_values;
-      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
-        $scope.reference_values[field] = data.form_element.allowed_values;
+    /**
+     * Prepares the referenced "data" to be objects and normal field to be empty.
+     * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
+     * Set "popups" to 0, as to hide all of the pop-overs on load.
+     */
+    function prepareData() {
+      $scope.popups = {};
+      angular.forEach($scope.field_schema, function (data, field) {
+        var allowed_values = data.form_element.allowed_values;
+        if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
+          $scope.reference_values[field] = data.form_element.allowed_values;
 
-        $scope.popups[field] = 0;
-        // If the field has value sent from drupal (e.g: group),
-        // Save the value as an object.
-        if($scope.data[field]) {
-          var id = $scope.data[field];
+          $scope.popups[field] = 0;
           $scope.data[field] = {};
-          $scope.data[field][id] = true;
-        }
-        else {
-          $scope.data[field] = {};
-        }
-      }
-    });
 
-    // Setting default discussion type to "Start a debate".
-    $scope.data.discussion_type = 'debate';
+          if ($scope.data[field] == 'group') {
+            var id = $scope.data[field];
+            $scope.data[field] = {};
+            $scope.data[field][id] = true;
+          }
+        }
+      });
+    }
+
+    // Preparing the data for the form.
+    prepareData();
 
     // Prepare the "Regions & Countries" to be a tree object.
     angular.forEach($scope.reference_values, function (data, field) {
@@ -215,6 +216,19 @@ angular.module('c4mApp')
      *    The type of the submission.
      */
     $scope.submitForm = function(entityForm, data, bundle, type) {
+      // @TODO: Clean the form in a more generic way.
+      // Clean request from un-needed fields.
+      switch (bundle) {
+        case 'discussions':
+          delete data['c4m_vocab_document_type'];
+          break;
+        case 'documents':
+          delete data['discussion_type'];
+          break;
+        default:
+          break;
+      }
+
       // Check the type of the submit.
       // Make node unpublished if requested to create in full form.
       data.status = type == 'full_form' ? 0 : 1;
@@ -264,11 +278,13 @@ angular.module('c4mApp')
           else {
             $scope.server_side.data = data;
             $scope.server_side.status = status;
+            prepareData();
           }
         })
         .error(function(data, status) {
           $scope.server_side.data = data;
           $scope.server_side.status = status;
+          prepareData();
         });
       }
     };
