@@ -235,9 +235,6 @@ function c4m_og_group_form_submit($form, &$form_state) {
 
       // Delete pluggable_node_access entity if exist.
       c4m_og_remove_pluggable_node_access($wrapper, $form_state);
-      break;
-
-    break;
   }
 }
 
