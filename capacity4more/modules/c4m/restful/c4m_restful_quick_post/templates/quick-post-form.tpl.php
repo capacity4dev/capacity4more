@@ -7,11 +7,35 @@
 
     <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
 
+    <div class="form-group input-wrapper file-wrapper" ng-show="bundle_name == 'documents'">
+      <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+
+        <div ng-hide="server_side.file">
+          <?php print t('Drop file here to upload or'); ?>
+          <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+          <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+        </div>
+
+        <div ng-show="server_side.file.status == 200">
+          <div class="alert alert-success">
+            <?php print t('The document "{{ server_side.file.data.data[0].label }}" was saved successfully.') ?>
+          </div>
+        </div>
+      </div>
+
+      <div class="errors">
+        <ul ng-show="server_side.data.errors.image">
+          <li ng-repeat="error in server_side.data.errors.image">{{error}}</li>
+        </ul>
+      </div>
+
+    </div>
+
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
       <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
       <div class="errors">
-        <ul ng-show="serverSide.data.errors.label">
+        <ul ng-show="server_side.data.errors.label">
           <li ng-repeat="error in server_side.data.errors.label">{{error}}</li>
         </ul>
       </div>
@@ -21,7 +45,7 @@
 
       <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
-      <!-- @TODO: Need to add required to this field, Add angularJs validations, Add Behat test. -->
+      <!-- @TODO: Need to add required to this field, AngularJs validations, Behat test. -->
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
         <div id="body" name="data-body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
@@ -31,10 +55,29 @@
         </div>
       </div>
 
+      <div class="form-group btn-group" ng-show="bundle_name == 'documents'">
+        <div class="label-wrapper">
+          <label>{{field_schema.document_type.info.label}}</label>
+          <span id="document_type_description" class="description">{{field_schema.document_type.info.description}}</span>
+        </div>
+        <div class="checkboxes-wrapper">
+          <div>
+            <button type="button" ng-click="togglePopover('document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
+          </div>
+          <!-- Hidden document_type checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <list-terms type="document_type" model="data.document_type" items="document_type"></list-terms>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group btn-group">
         <div class="label-wrapper">
           <label>{{field_schema.topic.info.label}}</label>
-          <span class="description">{{field_schema.topic.info.description}}</span>
+          <span id="topic_description" class="description">{{field_schema.topic.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
@@ -44,7 +87,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.topic">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="topic" model="data.topic" items="reference_values.topic"></list-terms>
+              <list-terms type="topic" model="data.topic" items="topic"></list-terms>
             </div>
           </div>
         </div>
@@ -52,18 +95,18 @@
 
       <div class="form-group btn-group">
         <div class="label-wrapper">
-          <label>{{field_schema.c4m_vocab_date.info.label}}</label>
-          <span class="description">{{field_schema.c4m_vocab_date.info.description}}</span>
+          <label>{{field_schema.date.info.label}}</label>
+          <span id="date_description" class="description">{{field_schema.date.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('c4m_vocab_date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
+            <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
           </div>
-          <!-- Hidden topic checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_date">
+          <!-- Hidden date checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.date">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="date" model="data.c4m_vocab_date" items="reference_values.c4m_vocab_date"></list-terms>
+              <list-terms type="date" model="data.date" items="date"></list-terms>
             </div>
           </div>
         </div>
@@ -71,18 +114,18 @@
 
       <div class="form-group btn-group">
         <div class="label-wrapper">
-          <label>{{field_schema.c4m_vocab_language.info.label}}</label>
-          <span class="description">{{field_schema.c4m_vocab_language.info.description}}</span>
+          <label>{{field_schema.language.info.label}}</label>
+          <span id="language_description" class="description">{{field_schema.language.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('c4m_vocab_language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
+            <button type="button" ng-click="togglePopover('language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
           </div>
-          <!-- Hidden topic checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_language">
+          <!-- Hidden language checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.language">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="language" model="data.c4m_vocab_language" items="reference_values.c4m_vocab_language"></list-terms>
+              <list-terms type="language" model="data.language" items="language"></list-terms>
             </div>
           </div>
         </div>
@@ -90,18 +133,18 @@
 
       <div class="form-group btn-group">
         <div class="label-wrapper">
-          <label>{{field_schema.c4m_vocab_geo.info.label}}</label>
-          <span id="geo_description" class="description">{{field_schema.c4m_vocab_geo.info.description}}</span>
+          <label>{{field_schema.geo.info.label}}</label>
+          <span id="geo_description" class="description">{{field_schema.geo.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover('c4m_vocab_geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
+            <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
           </div>
           <!-- Hidden geo checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.c4m_vocab_geo" >
+          <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-geo type="geo" model="data.c4m_vocab_geo" items="c4m_vocab_geo"></list-geo>
+              <list-terms type="geo" model="data.geo" items="geo"></list-terms>
             </div>
           </div>
         </div>

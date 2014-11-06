@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, $filter) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, FileUpload) {
     $scope.data = DrupalSettings.getData('entity');
     // Setting default content type to "Discussion".
     $scope.bundle_name = 'discussions';
@@ -23,55 +23,62 @@ angular.module('c4mApp')
       data: {}
     };
 
-    $scope.c4m_vocab_geo = {};
-
     $scope.tags_query_cache = [];
 
-    // Responsible for toggling the visibility of the taxonomy-terms.
-    // Set "popups" to 0, as to hide all of the pop-overs on load.
-    // Also prepare the referenced "data" to be objects.
-    $scope.popups = {};
-    angular.forEach($scope.field_schema, function (data, field) {
-      var allowed_values = data.form_element.allowed_values;
-      if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
-        $scope.reference_values[field] = data.form_element.allowed_values;
+    /**
+     * Prepares the referenced "data" to be objects and normal field to be empty.
+     * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
+     * Set "popups" to 0, as to hide all of the pop-overs on load.
+     */
+    function prepareData() {
+      $scope.popups = {};
+      angular.forEach($scope.field_schema, function (data, field) {
+        var allowed_values = data.form_element.allowed_values;
+        if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
+          $scope.reference_values[field] = data.form_element.allowed_values;
 
-        $scope.popups[field] = 0;
-        // If the field has value sent from drupal (e.g: group),
-        // Save the value as an object.
-        if($scope.data[field]) {
-          var id = $scope.data[field];
-          $scope.data[field] = {};
-          $scope.data[field][id] = true;
+          // Save the "group" ID.
+          if (field == 'group') {
+            var id = $scope.data[field];
+            $scope.data[field] = {};
+            $scope.data[field][id] = true;
+          }
+          else {
+            $scope.popups[field] = 0;
+            $scope.data[field] = {};
+          }
         }
-        else {
-          $scope.data[field] = {};
-        }
-      }
-    });
+      });
+    }
 
-    // Setting default discussion type to "Start a debate".
+    // Preparing the data for the form.
+    prepareData();
+
+    // Set "Start a Debate" as default discussion type.
     $scope.data.discussion_type = 'debate';
 
     // Prepare the "Regions & Countries" to be a tree object.
-    var parent = 0;
-    angular.forEach($scope.reference_values.c4m_vocab_geo, function (label, id) {
-      if(label.indexOf('-')) {
-        parent = id;
-        $scope.c4m_vocab_geo[id] = {
-          id: id,
-          label: label,
-          children: []
-        };
-      }
-      else {
-        if (parent > 0) {
-          $scope.c4m_vocab_geo[parent]['children'].push({
+    angular.forEach($scope.reference_values, function (data, field) {
+      var parent = 0;
+      $scope[field] = {};
+      angular.forEach($scope.reference_values[field], function (label, id) {
+        if(label.indexOf('-')) {
+          parent = id;
+          $scope[field][id] = {
             id: id,
-            label: label.replace("-","")
-          });
+            label: label,
+            children: []
+          };
         }
-      }
+        else {
+          if (parent > 0) {
+            $scope[field][parent]['children'].push({
+              id: id,
+              label: label.replace("-","")
+            });
+          }
+        }
+      });
     });
 
     /**
@@ -212,6 +219,20 @@ angular.module('c4mApp')
      *    The type of the submission.
      */
     $scope.submitForm = function(entityForm, data, bundle, type) {
+      // @TODO: Clean the form in a more generic way.
+      // Clean request from un-needed fields.
+      switch (bundle) {
+        case 'discussions':
+          delete data['document'];
+          delete data['document_type'];
+          break;
+        case 'documents':
+          delete data['discussion_type'];
+          break;
+        default:
+          break;
+      }
+
       // Check the type of the submit.
       // Make node unpublished if requested to create in full form.
       data.status = type == 'full_form' ? 0 : 1;
@@ -235,7 +256,7 @@ angular.module('c4mApp')
         var submitData = angular.copy(data);
 
         // Assign tags.
-        var tags = {};
+        var tags = [];
         angular.forEach(submitData.tags, function (term, index) {
           if (term.isNew) {
             // New term.
@@ -250,23 +271,54 @@ angular.module('c4mApp')
 
         submitData.tags = tags;
 
+        // Deleting the "document" field when it's empty.
+        if (submitData.document == null) {
+          delete submitData['document'];
+        }
+
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
-          .success(function(data, status) {
-            // If requested to create in full form, Redirect user to the edit page.
-            if(type == 'full_form') {
-              var node_id = data.data[0].id;
-              $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
-            }
-            else {
-              $scope.server_side.data = data;
-              $scope.server_side.status = status;
-            }
-          })
-          .error(function(data, status) {
+        .success(function(data, status) {
+          // If requested to create in full form, Redirect user to the edit page.
+          if(type == 'full_form') {
+            var node_id = data.data[0].id;
+            $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
+          }
+          else {
             $scope.server_side.data = data;
             $scope.server_side.status = status;
-          });
+            prepareData();
+          }
+        })
+        .error(function(data, status) {
+          $scope.server_side.data = data;
+          $scope.server_side.status = status;
+          prepareData();
+        });
       }
+    };
+
+    /**
+     * Uploading document file.
+     *
+     * @param $files
+     *  The file.
+     */
+    $scope.onFileSelect = function($files) {
+      //$files: an array of files selected, each file has name, size, and type.
+      for (var i = 0; i < $files.length; i++) {
+        var file = $files[i];
+        FileUpload.upload(file).then(function(data) {
+          $scope.data.document = data.data.data[0].id;
+          $scope.server_side.file = data;
+        });
+      }
+    };
+
+    /**
+     * Opens the system's file browser.
+     */
+    $scope.browseFiles = function() {
+      angular.element('#document_file').click();
     };
   });
