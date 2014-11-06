@@ -26,6 +26,35 @@ function c4m_og_get_group_type_name($node = NULL) {
 }
 
 /**
+ * Utility function; Return the organizations info from code or from variable.
+ */
+function c4m_og_organisations_info() {
+  $default_info = array(
+    'ec' => array(
+      'title' => t('EC/EEAS'),
+      'domains' => array(
+        'ec.europa.eu',
+        'echofield.eu',
+        'eeas.europa.eu',
+        'ext.eeas.europa.eu',
+        'ext.jrc.ec.europa.eu',
+        'jrc.ec.europa.eu',
+      ),
+    ),
+    'eu' => array(
+      'title' => t('EU'),
+      'domains' => array(
+        'ada.gv.at',
+        'adetef.finances.gouv.fr',
+        'aecid.es',
+        'afd.fr',
+      ),
+    ),
+  );
+  return variable_get('c4m_og_organisations', $default_info);
+}
+
+/**
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
@@ -33,62 +62,43 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $restricted_organisations = array();
 
   // Get default domain lists.
-  $ec_domains = variable_get('c4m_og_ec_domains', array(
-    'ec.europa.eu',
-    'echofield.eu',
-    'eeas.europa.eu',
-    'ext.eeas.europa.eu',
-    'ext.jrc.ec.europa.eu',
-    'jrc.ec.europa.eu',
-  ));
-
-  $eu_domains = variable_get('c4m_og_eu_domains', array(
-    'ada.gv.at',
-    'adetef.finances.gouv.fr',
-    'aecid.es',
-    'afd.fr',
-  ));
+  $organisations_info = c4m_og_organisations_info();
 
   // Retrieve value from og_access and set pluggable_group_access accordingly.
-  if ($form['group_access']['und']['#default_value']) {
-    $default_value = 'private';
+  if ($form['group_access'][LANGUAGE_NONE]['#default_value']) {
+    $access_type = 'private';
   }
   else {
-    $default_value = 'public';
-    // Check if pluggable_group_access.
-    if ($entity_id = $form_state['node']->pluggable_node_access['und'][0]['target_id']) {
-      $default_value = 'restricted';
+    $access_type = 'public';
+    // Check if pluggable_group_access exists.
+    if ($entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
+      $access_type = 'restricted';
       $entities = entity_load('pluggable_node_access', array($entity_id));
       $pluggable_node_access = reset($entities);
       $domains = $pluggable_node_access->data;
+    }
+  }
 
-      // Check if "ec" should be marked.
-      if (count($domains) >= count($ec_domains)) {
-        $include_ec = TRUE;
-        foreach ($ec_domains as $ec_domain) {
-          if (!in_array($ec_domain, $domains)) {
-            $include_ec = FALSE;
-            break;
-          }
-        }
-        if ($include_ec) {
-          $restricted_organisations[] = 'ec';
+  // Go over all organizations, gather info and verify which to check.
+  $domains_to_js = array();
+  $organisation_field_options = array();
+  foreach ($organisations_info as $name => $organisation) {
+    // Set arrays for later use.
+    $domains_to_js['domains'][$name] = $organisation['domains'];
+    $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $organisation['domains']))) . '</div>';
+
+    if (count($domains) < count($organisation['domains'])) {
+      $organisations_info['checked'] = FALSE;
+    }
+    else {
+      $checked = TRUE;
+      foreach ($organisation['domains'] as $domain) {
+        if (!in_array($domain, $domains)) {
+          $checked = FALSE;
+          break;
         }
       }
-
-      // Check if "eu" should be marked.
-      if (count($domains) >= count($eu_domains)) {
-        $include_eu = TRUE;
-        foreach ($eu_domains as $eu_domain) {
-          if (!in_array($eu_domain, $domains)) {
-            $include_eu = FALSE;
-            break;
-          }
-        }
-        if ($include_eu) {
-          $restricted_organisations[] = 'eu';
-        }
-      }
+      $organisations_info['checked'] = $checked;
     }
   }
 
@@ -97,10 +107,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js',
   );
 
-  drupal_add_js(array('c4m_og' => array(
-    'ec_domains' => $ec_domains,
-    'eu_domains' => $eu_domains,
-  )), 'setting');
+  drupal_add_js(array('c4m_og' => $domains_to_js), 'setting');
 
   $options = array(
     'public' => t('Public'),
@@ -113,7 +120,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#title' => t('Group access'),
     '#required' => TRUE,
     '#options' => $options,
-    '#default_value' => $default_value,
+    '#default_value' => $access_type,
   );
   $form['pluggable_group_access']['public'] = array(
     '#type' => 'radio',
@@ -132,10 +139,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#title' => t('Allow users to access this Group by their organisation'),
     '#description' => t('Users belonging to these organisations will have access to this Group. Users must request to join this Group.'),
     '#type' => 'checkboxes',
-    '#options' => array(
-      'ec' => t('EC/EEAS') . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $ec_domains))) . '</div>',
-      'eu' => t('EU') . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $eu_domains))) . '</div>',
-    ),
+    '#options' => $organisation_field_options,
     '#states' => array(
       // Show the checkboxes only when "restricted" is selected
       'visible' => array(
@@ -176,7 +180,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
 }
 
 /**
- * Submit handler.
+ * Submit handler; Handle group access type.
  */
 function c4m_og_group_form_submit($form, &$form_state) {
   // Check whether we already have referenced entity in pluggable_node_access.
@@ -192,8 +196,8 @@ function c4m_og_group_form_submit($form, &$form_state) {
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
       // Edit/create pluggable_node_access.
-      foreach (explode(',', $form_state['values']['restricted_by_domain']) as $doamin) {
-        $domains[] = trim($doamin);
+      foreach (explode(',', $form_state['values']['restricted_by_domain']) as $domain) {
+        $domains[] = trim($domain);
       }
 
       if (!$pluggable_node_access = $wrapper->pluggable_node_access->value()) {

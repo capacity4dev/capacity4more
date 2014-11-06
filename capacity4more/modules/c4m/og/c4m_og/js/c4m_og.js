@@ -43,24 +43,10 @@
     },
     attach: function (context) {
       var tool = this;
-      $('#edit-restricted-organisations-ec').change(function(event) {
-        var isChecked = $(event.currentTarget).attr('checked');
-        var domains = Drupal.settings.c4m_og.ec_domains;
-        var existingDomains = $('#edit-restricted-by-domain').val().split(',');
-        var newValue;
-        if (isChecked) {
-          // Add all needed domains.
-          newValue = tool.mergeArrays(existingDomains.concat(domains));
-        }
-        else {
-          // Remove all needed domains.
-          newValue = tool.cleanArray(existingDomains, domains);
-        }
-        $('#edit-restricted-by-domain').val(newValue);
-      });
-      $('#edit-restricted-organisations-eu').change(function(event) {
-        var isChecked = $(event.currentTarget).attr('checked');
-        var domains = Drupal.settings.c4m_og.eu_domains;
+      $("#edit-restricted-organisations").find(":input").change(function(event) {
+        var checkbox = $(event.currentTarget);
+        var isChecked = checkbox.attr('checked');
+        var domains = Drupal.settings.c4m_og.domains[checkbox.val()];
         var existingDomains = $('#edit-restricted-by-domain').val().split(',');
         var newValue;
         if (isChecked) {
