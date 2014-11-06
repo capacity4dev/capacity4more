@@ -18,8 +18,7 @@
     ?>
   </div>
   <div class="row">
-    <?php print $download_link; ?>
-    <?php print $file_info; ?>
+    <?php print $event_info; ?>
   </div>
 
 </div>

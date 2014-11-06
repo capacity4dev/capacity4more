@@ -203,6 +203,28 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 }
 
 /**
+ * Delegated hook_entity_load() for node of "event" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__event(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Delegated hook_entity_load() for comment.
  *
  * Add Message arguments callbacks.
@@ -524,6 +546,61 @@ function c4m_message__update__node__document($node) {
   c4m_message_prepare_insert_entity($message, 'node', $node);
   return $message;
 }
+/**
+ * Create an event message.
+ *
+ * @param $node
+ *   The event node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__event($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__event', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating an event message.
+ *
+ * @param $node
+ *   The event node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__event($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__event')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__event', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
 
 /**
  * Set the message fields values.
@@ -655,8 +732,6 @@ function c4m_message_preprocess_node__document(&$variables) {
   $node = $variables['node'];
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
-  $variables['description'] = drupal_render($variables['content']['c4m_body']);
-
   $document = $node_wrapper->c4m_document->value();
   if (empty($document)) {
     // There is no file.
@@ -671,4 +746,29 @@ function c4m_message_preprocess_node__document(&$variables) {
   $file_size = format_size($document['filesize']);
   $file_type = $document['type'];
   $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
+}
+
+/**
+ * Node__event preprocess.
+ *
+ * Add the the "Event Activity stream" tpl.
+ *
+ * @todo: Copy the provided tpl to the theme.
+ */
+function c4m_message_preprocess_node__event(&$variables) {
+  if ($variables['view_mode'] != 'activity_stream') {
+    // Current view mode is not an 'activity stream'.
+    return;
+  }
+
+  $node = $variables['node'];
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  $start_date = $node_wrapper->c4m_datetime_end->value->value();
+  $end_date = $node_wrapper->c4m_datetime_end->value2->value();
+
+  $start_date = format_date($start_date ,'custom', 'd/m/Y H:i');
+  $end_date = format_date($end_date ,'custom', 'd/m/Y H:i');
+
+  $variables['event_info'] = t('From @start to @end', array('@start' => $start_date, '@end' => $end_date));
 }
