@@ -38,14 +38,11 @@ ul, ol {
   display: block;
 }
 
-.drop-box {
+.form-group .drop-box {
   height: 80px;
-  width: 200px;
-  background: lightBlue;
-  border: 1px solid grey;
   text-align: center;
-  padding-top: 50px;
-  margin: 20px 0;
+  display: table-cell;
+  width: 565px;
 }
 
 .file-upload-drag {

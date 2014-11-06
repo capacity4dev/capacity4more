@@ -8,14 +8,16 @@
     <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
 
     <div class="form-group input-wrapper file-wrapper" ng-show="bundle_name == 'documents'">
-      <div ng-show="dropSupported" class="drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+      <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
-        <div ng-hide="server_side.image">
-          <?php print t('Drop files here to upload'); ?>
+        <div ng-hide="server_side.file">
+          <?php print t('Drop file here to upload'); ?>
         </div>
 
-        <div ng-show="server_side.image">
-          <img ng-src="{{ server_side.image.self }}" />
+        <div ng-show="server_side.file.status == 200">
+          <div class="alert alert-success">
+            <?php print t('The document "{{ server_side.file.data.data[0].label }}" was saved successfully.') ?>
+          </div>
         </div>
       </div>
 

@@ -13,6 +13,10 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
+    $public_fields['document_file'] = array(
+      'property' => 'c4m_document',
+    );
+
     $public_fields['body'] = array(
       'property' => 'c4m_body',
       'sub_property' => 'value',
