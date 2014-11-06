@@ -130,6 +130,9 @@ projects[panels][version] = "3.4"
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
+projects[pluggable_node_access][subdir] = "contrib"
+projects[pluggable_node_access][version] = "1.x-dev"
+
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
 

@@ -172,7 +172,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $form['pluggable_node_access']['#access'] = FALSE;
 
   // Hide group visibility field.
- // $form['group_access']['#access'] = FALSE;
+  $form['group_access']['#access'] = FALSE;
 }
 
 /**
