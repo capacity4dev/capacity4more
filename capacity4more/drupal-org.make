@@ -50,6 +50,9 @@ projects[entityreference][version] = "1.1"
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 
+projects[facetapi][subdir] = "contrib"
+projects[facetapi][version] = "1.5"
+
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.2"
 
@@ -88,6 +91,9 @@ projects[media][version] = "2.x-dev"
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "2.x-dev"
+
+projects[mefibs][subdir] = "contrib"
+projects[mefibs][version] = "1.x-dev"
 
 projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.0"
@@ -148,6 +154,11 @@ projects[restful][type] = "module"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
+
+projects[search_api][subdir] = "contrib"
+projects[search_api][version] = "1.13"
+projects[search_api_solr][subdir] = "contrib"
+projects[search_api_solr][version] = "1.6"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
