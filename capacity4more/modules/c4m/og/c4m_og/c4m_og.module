@@ -30,27 +30,7 @@ function c4m_og_get_group_type_name($node = NULL) {
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $domains = NULL;
-
-  // Retrieve value from og_access and set pluggable_group_access accordingly.
-  if ($form['group_access']['und']['#default_value']) {
-    $default_value = 'private';
-  }
-  else {
-    $default_value = 'public';
-    // Check if pluggable_group_access.
-    if ($entity_id = $form_state['node']->pluggable_node_access['und'][0]['target_id']) {
-      $default_value = 'restricted';
-      $entities = entity_load('pluggable_node_access', array($entity_id));
-      $pluggable_node_access = reset($entities);
-      $domains = $pluggable_node_access->data;
-    }
-  }
-  $restricted_organisations = array('eu');
-
-  // Add javascript behaviors.
-  $form['#attached']['js'] = array(
-    drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js',
-  );
+  $restricted_organisations = array();
 
   // Get default domain lists.
   $ec_domains = variable_get('c4m_og_ec_domains', array(
@@ -68,6 +48,55 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     'aecid.es',
     'afd.fr',
   ));
+
+  // Retrieve value from og_access and set pluggable_group_access accordingly.
+  if ($form['group_access']['und']['#default_value']) {
+    $default_value = 'private';
+  }
+  else {
+    $default_value = 'public';
+    // Check if pluggable_group_access.
+    if ($entity_id = $form_state['node']->pluggable_node_access['und'][0]['target_id']) {
+      $default_value = 'restricted';
+      $entities = entity_load('pluggable_node_access', array($entity_id));
+      $pluggable_node_access = reset($entities);
+      $domains = $pluggable_node_access->data;
+
+      // Check if "ec" should be marked.
+      if (count($domains) >= count($ec_domains)) {
+        $include_ec = TRUE;
+        foreach ($ec_domains as $ec_domain) {
+          if (!in_array($ec_domain, $domains)) {
+            $include_ec = FALSE;
+            break;
+          }
+        }
+        if ($include_ec) {
+          $restricted_organisations[] = 'ec';
+        }
+      }
+
+      // Check if "eu" should be marked.
+      if (count($domains) >= count($eu_domains)) {
+        $include_eu = TRUE;
+        foreach ($eu_domains as $eu_domain) {
+          if (!in_array($eu_domain, $domains)) {
+            $include_eu = FALSE;
+            break;
+          }
+        }
+        if ($include_eu) {
+          $restricted_organisations[] = 'eu';
+        }
+      }
+    }
+  }
+
+  // Add javascript behaviors.
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js',
+  );
+
   drupal_add_js(array('c4m_og' => array(
     'ec_domains' => $ec_domains,
     'eu_domains' => $eu_domains,
