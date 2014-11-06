@@ -224,6 +224,7 @@ angular.module('c4mApp')
       switch (bundle) {
         case 'discussions':
           delete data['c4m_vocab_document_type'];
+          delete data['document_file'];
           break;
         case 'documents':
           delete data['discussion_type'];
@@ -292,6 +293,12 @@ angular.module('c4mApp')
       }
     };
 
+    /**
+     * Uploading document file.
+     *
+     * @param $files
+     *  The file.
+     */
     $scope.onFileSelect = function($files) {
       //$files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
@@ -301,5 +308,12 @@ angular.module('c4mApp')
           $scope.server_side.file = data;
         });
       }
+    };
+
+    /**
+     * Opens the system's file browser.
+     */
+    $scope.browseFiles = function() {
+      angular.element('#document_file').click();
     };
   });
