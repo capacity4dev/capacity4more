@@ -134,6 +134,9 @@ fi
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
 
+# Cleanup npm and grunt builds.
+delete_profile_dist
+
 # Run the build script (drush make + extra's).
 drupal_make
 

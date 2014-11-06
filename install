@@ -120,6 +120,9 @@ fi
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
 
+# Cleanup npm and grunt builds.
+delete_profile_dist
+
 # Cleanup the sites/default content.
 delete_sites_default_content
 

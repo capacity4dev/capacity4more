@@ -201,11 +201,13 @@ libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/414891
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
 
-libraries[bootstrap_sass][download][type] = "file"
-libraries[bootstrap_sass][type] = "libraries"
-libraries[bootstrap_sass][download][url] = "https://github.com/twbs/bootstrap-sass/archive/v3.1.1.zip"
-
 ; Themes
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.0"
 projects[bootstrap][type] = "theme"
+
+libraries[bootstrap][download][type] = "get"
+libraries[bootstrap][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.0.zip"
+libraries[bootstrap][directory_name] = "bootstrap"
+libraries[bootstrap][destination] = "themes/c4m/kapablo"
+libraries[bootstrap][overwrite] = TRUE
