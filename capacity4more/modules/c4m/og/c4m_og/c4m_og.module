@@ -175,11 +175,11 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $form['pluggable_node_access']['#access'] = FALSE;
 
   // Hide group visibility field.
-  //$form['group_access']['#access'] = FALSE;
+  $form['group_access']['#access'] = FALSE;
 
-  // Group visibility field is required even when hidden, so we put default
-  // value in it.
-
+  // Group visibility field is required even when hidden, so we change it in
+  // order to avoid validation errors.
+  $form['group_access']['und']['#required'] = FALSE;
 }
 
 /**
