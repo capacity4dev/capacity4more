@@ -292,6 +292,8 @@ function c4m_message_format_comment(Message $message) {
         return t('Photo album');
       case 'photo':
         return t('Photo');
+      case 'task':
+        return t('Task');
     }
   }
 }
@@ -592,18 +594,34 @@ function c4m_message_preprocess_message(&$variables) {
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
   $variables['content'] = $message->getText();
+  // @todo: Copy icon images to the theme/images/activity_stream_icons.
   $icons = array(
-    'photo' => theme('image', array('path' => drupal_get_path('module', 'c4m_message') . '/images/activity_stream_icons/photo.png', 'attributes' => array('class' => 'responsive'))),
-
+    'photo' => theme('image', array('path' => drupal_get_path('theme', 'bartik') . '/images/activity_stream_icons/photo.png', 'attributes' => array('class' => 'img-responsive'))),
+    'idea' => theme('image', array('path' => drupal_get_path('theme', 'bartik') . '/images/activity_stream_icons/idea.png', 'attributes' => array('class' => 'img-responsive'))),
+    'info' => theme('image', array('path' => drupal_get_path('theme', 'bartik') . '/images/activity_stream_icons/debate.png', 'attributes' => array('class' => 'img-responsive'))),
+    'question' => theme('image', array('path' => drupal_get_path('theme', 'bartik') . '/images/activity_stream_icons/question.png', 'attributes' => array('class' => 'img-responsive'))),
+    'debate' => theme('image', array('path' => drupal_get_path('theme', 'bartik') . '/images/activity_stream_icons/debate.png', 'attributes' => array('class' => 'img-responsive'))),
+    'event' => theme('image', array('path' => drupal_get_path('theme', 'bartik') . '/images/activity_stream_icons/event.png', 'attributes' => array('class' => 'img-responsive'))),
   );
 
-  $entity = entity_metadata_wrapper('message', $message)->field_node->value();
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $entity = $message_wrapper->field_node->value();
   $type = $entity->type;
   if ($type == 'photo') {
     $variables['icon'] = $icons['photo'];
   }
+  elseif ($type == 'discussion') {
+    $discussion_type = $message_wrapper->field_node->c4m_discussion_type->value();
+    $variables['icon'] = $icons[$discussion_type];
+  }
+  elseif ($type == 'event') {
+    $variables['icon'] = $icons['event'];
+  }
+  elseif ($type == 'document') {
+    $variables['icon'] = $icons['event'];
+  }
   else {
-    $variables['icon'] = 'icon for ' . $message->type;
+    $variables['icon'] = 'icon for ' . $type;
   }
 }
 
