@@ -62,11 +62,11 @@ ul, ol {
 .checkboxes-wrapper .hidden-checkboxes {
   display: block;
   left: 120px;
-  top: -60px;
+  top: -80px;
 }
 
 .popover-content {
-  height: 150px;
+  height: 190px;
   overflow-y: scroll;
 }
 

@@ -45,7 +45,7 @@
 
       <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
-      <!-- @TODO: Need to add required to this field, Add angularJs validations, Add Behat test. -->
+      <!-- @TODO: Need to add required to this field, AngularJs validations, Behat test. -->
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
         <div id="body" name="data-body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
         <div class="errors">
@@ -102,7 +102,7 @@
           <div>
             <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
           </div>
-          <!-- Hidden topic checkboxes.-->
+          <!-- Hidden date checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.date">
             <div class="arrow"></div>
             <div class="popover-content">
@@ -121,7 +121,7 @@
           <div>
             <button type="button" ng-click="togglePopover('language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
           </div>
-          <!-- Hidden topic checkboxes.-->
+          <!-- Hidden language checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.language">
             <div class="arrow"></div>
             <div class="popover-content">
