@@ -255,3 +255,29 @@ function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
   // Clean form value.
   $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
 }
+
+/**
+ * Implements hook_og_user_access_alter().
+ */
+function c4m_og_og_user_access_alter(&$perm, $context) {
+  if (!in_array($context['string'], array('subscribe', 'subscribe without approval'))) {
+    return;
+  }
+
+  if ($context['group_type'] != 'node') {
+    return;
+  }
+  if (!($group = $context['group']) || $group->type != 'group') {
+    return;
+  }
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  $membership_request = $wrapper->field_membership_requests->value();
+  if ($membership_request == 'open') {
+    $perm['subscribe'] = TRUE;
+  }
+  else {
+    $perm['subscribe'] = FALSE;
+    $perm['subscribe without approval'] = TRUE;
+  }
+}
