@@ -257,7 +257,8 @@ function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
 }
 
 /**
- * Implements hook_og_user_access_alter().
+ * Implements hook_og_user_access_alter(). Allow subscribing
+ * based on field_membership_requests value.
  */
 function c4m_og_og_user_access_alter(&$perm, $context) {
   if (!in_array($context['string'], array('subscribe', 'subscribe without approval'))) {
@@ -274,10 +275,11 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
 
   $membership_request = $wrapper->field_membership_requests->value();
   if ($membership_request == 'open') {
+    $perm['subscribe without approval'] = TRUE;
     $perm['subscribe'] = TRUE;
   }
   else {
-    $perm['subscribe'] = FALSE;
-    $perm['subscribe without approval'] = TRUE;
+    $perm['subscribe'] = TRUE;
+    $perm['subscribe without approval'] = FALSE;
   }
 }
