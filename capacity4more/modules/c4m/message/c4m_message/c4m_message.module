@@ -764,11 +764,14 @@ function c4m_message_preprocess_node__event(&$variables) {
   $node = $variables['node'];
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
-  $start_date = $node_wrapper->c4m_datetime_end->value->value();
-  $end_date = $node_wrapper->c4m_datetime_end->value2->value();
+  $start = $node_wrapper->c4m_datetime_end->value->value();
+  $end = $node_wrapper->c4m_datetime_end->value2->value();
 
-  $start_date = format_date($start_date ,'custom', 'd/m/Y H:i');
-  $end_date = format_date($end_date ,'custom', 'd/m/Y H:i');
+  $start_date = format_date($start ,'custom', 'd/m/Y');
+  $end_date = format_date($end ,'custom', 'd/m/Y');
 
-  $variables['event_info'] = t('From @start to @end', array('@start' => $start_date, '@end' => $end_date));
+  $start_date_time = format_date($start ,'custom', 'd/m/Y H:i');
+  $end_date_time = $start_date == $end_date ? format_date($end ,'custom', 'H:i') : format_date($end ,'custom', 'd/m/Y H:i');
+
+  $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
 }
