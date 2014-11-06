@@ -54,6 +54,7 @@ dependencies[] = og_vocab
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = pathauto
+dependencies[] = pluggable_node_access
 dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
@@ -112,6 +113,3 @@ dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
-
-; Custom
-dependencies[] = pluggable_node_access
