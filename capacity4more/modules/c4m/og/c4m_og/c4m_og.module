@@ -58,7 +58,7 @@ function c4m_og_organisations_info() {
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
-  $domains = NULL;
+  $domains = array();
   $restricted_organisations = array();
 
   // Get default domain lists.
@@ -71,7 +71,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   else {
     $access_type = 'public';
     // Check if pluggable_group_access exists.
-    if ($entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
+    if (isset($form_state['node']->pluggable_node_access) && isset($form_state['node']->pluggable_node_access[LANGUAGE_NONE]) && $entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
       $access_type = 'restricted';
       $entities = entity_load('pluggable_node_access', array($entity_id));
       $pluggable_node_access = reset($entities);
@@ -87,10 +87,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     $domains_to_js['domains'][$name] = $organisation['domains'];
     $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $organisation['domains']))) . '</div>';
 
-    if (count($domains) < count($organisation['domains'])) {
-      $organisations_info['checked'] = FALSE;
-    }
-    else {
+    if (count($domains) >= count($organisation['domains'])) {
       $checked = TRUE;
       foreach ($organisation['domains'] as $domain) {
         if (!in_array($domain, $domains)) {
@@ -98,7 +95,9 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
           break;
         }
       }
-      $organisations_info['checked'] = $checked;
+      if ($checked) {
+        $restricted_organisations[] = $name;
+      }
     }
   }
 
@@ -176,7 +175,11 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $form['pluggable_node_access']['#access'] = FALSE;
 
   // Hide group visibility field.
-  $form['group_access']['#access'] = FALSE;
+  //$form['group_access']['#access'] = FALSE;
+
+  // Group visibility field is required even when hidden, so we put default
+  // value in it.
+
 }
 
 /**
@@ -192,7 +195,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
   $group_access = $form_state['values']['pluggable_group_access'];
   switch ($group_access) {
     case 'restricted':
-      // Set og_group value to 0.
+      // Set group_access value to 0.
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
       // Edit/create pluggable_node_access.
@@ -213,44 +216,45 @@ function c4m_og_group_form_submit($form, &$form_state) {
         $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $entity->id;
       }
       else {
-        $entity = reset($pluggable_node_access);
-        $entity->data = $domains;
-        $entity->save();
+        $pluggable_node_access->data = $domains;
+        $pluggable_node_access->save();
       }
 
       break;
     case 'public':
-      // - Set og_group value to 0.
+      // Set group_access value to 0.
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
-      // - Delete pluggable_node_access entity if exist.
-      $pluggable_node_access = $wrapper->pluggable_node_access->value();
-      $entity = reset($pluggable_node_access);
-      $entity->delete();
-
-      $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
+      // Delete pluggable_node_access entity if exist.
+      c4m_og_remove_pluggable_node_access($wrapper, $form_state);
       break;
+
     case 'private':
-      // - Set og_group value to 1.
+      // Set group_access value to 1.
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
 
-      // - Delete pluggable_node_access entity if exist.
-      $pluggable_node_access = $wrapper->pluggable_node_access->value();
-      $entity = reset($pluggable_node_access);
-      $entity->delete();
-
-      $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
+      // Delete pluggable_node_access entity if exist.
+      c4m_og_remove_pluggable_node_access($wrapper, $form_state);
+      break;
 
     break;
   }
-
-
 }
 
-function c4m_og_node_presave($node) {
-  if (!$node->type == 'group') {
-    return;
+/**
+ * Utility function; Removes referenced entity and form value.
+ *
+ * @param $wrapper
+ *   Node wrapper object.
+ * @param $form_state
+ *   Form state array.
+ */
+function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
+  // Delete referenced entity.
+  if ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+    $pluggable_node_access->delete();
   }
 
-  // Create
+  // Clean form value.
+  $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
 }
