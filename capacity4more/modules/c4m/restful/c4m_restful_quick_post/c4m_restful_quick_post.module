@@ -38,13 +38,13 @@ function c4m_restful_quick_post_theme() {
 function c4m_restful_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
-  // Get "discussion" fields.
-  // @TODO: Add "events" resources to this list.
   $resources = array(
     'discussions',
     'documents',
+    'events',
   );
 
+  // Get fields.
   $field_schema = array();
   $public_fields = array();
   foreach ($resources as $resource) {
