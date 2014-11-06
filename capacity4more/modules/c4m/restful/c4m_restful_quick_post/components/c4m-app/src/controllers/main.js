@@ -39,13 +39,15 @@ angular.module('c4mApp')
         if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
           $scope.reference_values[field] = data.form_element.allowed_values;
 
-          $scope.popups[field] = 0;
-          $scope.data[field] = {};
-
-          if ($scope.data[field] == 'group') {
+          // Save the "group" ID.
+          if (field == 'group') {
             var id = $scope.data[field];
             $scope.data[field] = {};
             $scope.data[field][id] = true;
+          }
+          else {
+            $scope.popups[field] = 0;
+            $scope.data[field] = {};
           }
         }
       });
@@ -224,7 +226,6 @@ angular.module('c4mApp')
       switch (bundle) {
         case 'discussions':
           delete data['c4m_vocab_document_type'];
-          delete data['document_file'];
           break;
         case 'documents':
           delete data['discussion_type'];
@@ -256,7 +257,7 @@ angular.module('c4mApp')
         var submitData = angular.copy(data);
 
         // Assign tags.
-        var tags = {};
+        var tags = [];
         angular.forEach(submitData.tags, function (term, index) {
           if (term.isNew) {
             // New term.
@@ -270,6 +271,11 @@ angular.module('c4mApp')
         });
 
         submitData.tags = tags;
+
+        // Deleting the "document" field when it's empty.
+        if (submitData.document == null) {
+          delete submitData['document'];
+        }
 
         // Call the create entity function service.
         EntityResource.createEntity(submitData, bundle)
@@ -304,7 +310,7 @@ angular.module('c4mApp')
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
         FileUpload.upload(file).then(function(data) {
-          $scope.data.document_file = data.data.data[0].id;
+          $scope.data.document = data.data.data[0].id;
           $scope.server_side.file = data;
         });
       }

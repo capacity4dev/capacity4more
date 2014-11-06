@@ -13,8 +13,11 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
-    $public_fields['document_file'] = array(
+    $public_fields['document'] = array(
       'property' => 'c4m_document',
+      'process_callbacks' => array(
+        array($this, 'processDocument'),
+      ),
     );
 
     $public_fields['body'] = array(
@@ -32,7 +35,7 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_document_type'] = array(
+    $public_fields['document_type'] = array(
       'property' => 'c4m_vocab_document_type',
       'resource' => array(
         'c4m_vocab_document_type' => array(
@@ -62,7 +65,7 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_date'] = array(
+    $public_fields['date'] = array(
       'property' => 'c4m_vocab_date',
       'resource' => array(
         'c4m_vocab_date' => array(
@@ -72,7 +75,7 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_language'] = array(
+    $public_fields['language'] = array(
       'property' => 'c4m_vocab_language',
       'resource' => array(
         'c4m_vocab_language' => array(
@@ -82,7 +85,7 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_geo'] = array(
+    $public_fields['geo'] = array(
       'property' => 'c4m_vocab_geo',
       'resource' => array(
         'c4m_vocab_geo' => array(
@@ -97,5 +100,15 @@ class C4mRestfulDocumentsResource extends RestfulEntityBaseNode {
     );
 
     return $public_fields;
+  }
+
+  protected function processDocument($value) {
+    return array(
+      'id' => $value['fid'],
+      'filename' => $value['filename'],
+      'filesize' => $value['filesize'],
+      'filemime' => $value['filemime'],
+      'url' => file_create_url($value['uri']),
+    );
   }
 }

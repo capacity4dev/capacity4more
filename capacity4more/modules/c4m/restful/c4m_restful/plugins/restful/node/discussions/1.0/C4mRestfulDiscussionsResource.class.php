@@ -52,7 +52,7 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_date'] = array(
+    $public_fields['date'] = array(
       'property' => 'c4m_vocab_date',
       'resource' => array(
         'c4m_vocab_date' => array(
@@ -62,7 +62,7 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_language'] = array(
+    $public_fields['language'] = array(
       'property' => 'c4m_vocab_language',
       'resource' => array(
         'c4m_vocab_language' => array(
@@ -72,7 +72,7 @@ class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['c4m_vocab_geo'] = array(
+    $public_fields['geo'] = array(
       'property' => 'c4m_vocab_geo',
       'resource' => array(
         'c4m_vocab_geo' => array(
