@@ -1,5 +1,7 @@
 (function ($) {
   Drupal.behaviors.c4m_og = {
+    // Utility function; Takes an array, trim its values and removes empty
+    // values.
     setupArray: function (array) {
 
       // Trim values.
@@ -15,6 +17,8 @@
       }
       return array;
     },
+
+    // Utility function; Remove list of values from another array.
     cleanArray: function (values, toRemove) {
       values = this.setupArray(values);
 
@@ -28,7 +32,9 @@
 
       return values;
     },
-    mergeArrays: function (array) {
+
+    // Utility function; Remove duplications.
+    removeDuplications: function (array) {
       var a = this.setupArray(array.concat());
 
       // Remove duplications.
@@ -44,6 +50,8 @@
     attach: function (context) {
       var tool = this;
       $("#edit-restricted-organisations").find(":input").change(function(event) {
+        // On check - add all given domains to the text field.
+        // On uncheck - remove the given domains from the text field.
         var checkbox = $(event.currentTarget);
         var isChecked = checkbox.attr('checked');
         var domains = Drupal.settings.c4m_og.domains[checkbox.val()];
@@ -51,7 +59,7 @@
         var newValue;
         if (isChecked) {
           // Add all needed domains.
-          newValue = tool.mergeArrays(existingDomains.concat(domains));
+          newValue = tool.removeDuplications(existingDomains.concat(domains));
         }
         else {
           // Remove all needed domains.
