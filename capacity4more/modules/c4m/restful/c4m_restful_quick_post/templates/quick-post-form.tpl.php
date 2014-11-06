@@ -64,7 +64,7 @@
           <div>
             <button type="button" ng-click="togglePopover('document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
           </div>
-          <!-- Hidden c4m_vocab_document_type checkboxes.-->
+          <!-- Hidden document_type checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
             <div class="arrow"></div>
             <div class="popover-content">

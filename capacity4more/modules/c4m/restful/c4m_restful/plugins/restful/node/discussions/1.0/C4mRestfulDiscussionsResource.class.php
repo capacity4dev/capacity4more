@@ -5,7 +5,7 @@
  * Contains C4mRestfulDiscussionsResource.
  */
 
-class C4mRestfulDiscussionsResource extends RestfulEntityBaseNode {
+class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
 
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().

@@ -23,8 +23,6 @@ angular.module('c4mApp')
       data: {}
     };
 
-    $scope.c4m_vocab_geo = {};
-
     $scope.tags_query_cache = [];
 
     /**
@@ -225,7 +223,8 @@ angular.module('c4mApp')
       // Clean request from un-needed fields.
       switch (bundle) {
         case 'discussions':
-          delete data['c4m_vocab_document_type'];
+          delete data['document'];
+          delete data['document_type'];
           break;
         case 'documents':
           delete data['discussion_type'];
