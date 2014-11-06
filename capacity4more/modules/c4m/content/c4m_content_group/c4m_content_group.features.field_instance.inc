@@ -401,6 +401,7 @@ function c4m_content_group_field_default_field_instances() {
   $field_instances['node-group-pluggable_node_access'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
+    'default_value_function' => '',
     'deleted' => 0,
     'description' => 'Reference to Pluggable node access entities.',
     'display' => array(
@@ -423,11 +424,17 @@ function c4m_content_group_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'pluggable_node_access',
     'label' => 'Pluggable node access',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
       'user_register_form' => FALSE,
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'entityreference',
       'settings' => array(
         'match_operator' => 'CONTAINS',

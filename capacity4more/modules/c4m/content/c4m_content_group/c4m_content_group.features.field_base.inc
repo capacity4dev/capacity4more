@@ -104,7 +104,7 @@ function c4m_content_group_field_default_field_bases() {
   // Exported field_base: 'pluggable_node_access'
   $field_bases['pluggable_node_access'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'pluggable_node_access',
@@ -125,7 +125,17 @@ function c4m_content_group_field_default_field_bases() {
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'base',
-      'handler_settings' => array(),
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(),
+      ),
       'target_type' => 'pluggable_node_access',
     ),
     'translatable' => 0,
