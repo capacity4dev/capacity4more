@@ -1,7 +1,7 @@
 Feature: Group access
   Test group access
 
-  @api @momo
+  @api
   Scenario: Check public group
     Given I am logged in as user "turing"
      When I create new group titled "My badhairday new group" linked as "newgroup4"
