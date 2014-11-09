@@ -942,13 +942,17 @@ function c4m_message_preprocess_node__discussion(&$variables) {
     preg_match($pattern, $body, $images_uri);
     $image_uri = $images_uri[1];
     $body = preg_replace('/<img[^>]+\>/i', '', $body);
-    $params = array(
-      'path' => $image_uri,
-      'attributes' => array(
-        'class' => 'img-responsive',
-      ),
-    );
-    $image = theme('image', $params);
+
+    $image = theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'img',
+        '#attributes' => array(
+          'class' => 'img-responsive',
+          'typeof' => 'foaf:Image',
+          'src' => $image_uri,
+        ),
+      )
+    ));
   }
 
   $variables['image'] = $image;

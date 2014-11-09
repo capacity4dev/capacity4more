@@ -11,20 +11,31 @@
 
   <div class="content"<?php print $content_attributes; ?>>
     <?php
-      // We hide the comments and links now so that we can render them later.
-      hide($content['comments']);
-      hide($content['links']);
-      print render($content);
+    // We hide the comments and links now so that we can render them later.
+    hide($content['comments']);
+    hide($content['links']);
+    hide($content);
 
     ?>
   </div>
   <div class="row">
-    <div class="col-sm-4">
+    <?php if($image != ''):?>
+
+    <div class="col-sm-6">
       <?php print $image; ?>
     </div>
-    <div class="col-sm-8">
-      <?php print $description; ?>
-    </div>
-  </div>
 
-</div>
+    <div class="col-sm-6">
+
+      <?php else: ?>
+
+      <div class="col-sm-12">
+
+        <?php endif; ?>
+
+        <?php print $description; ?>
+      </div>
+
+    </div>
+
+  </div>
