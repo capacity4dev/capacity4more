@@ -1,7 +1,7 @@
 (function ($) {
   Drupal.behaviors.c4m_og = {
     // Utility function; Takes an array, trim its values and removes empty
-    // values.
+    // values. Used to properly handle add/remove from domain field.
     setupArray: function (array) {
 
       // Trim values.
