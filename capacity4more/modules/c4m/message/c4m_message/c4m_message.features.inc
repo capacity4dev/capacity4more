@@ -106,8 +106,8 @@ function c4m_message_default_message_type() {
     "message_text" : { "und" : [
         {
           "value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Event | @date\\r\\n\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\r\\n  !footer\\r\\n\\u003C\\/div\\u003E",
-          "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Event | @date\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  \\u003Ca href=\\u0022url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !content\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !footer\\u003C\\/p\\u003E\\n"
+          "format" : "full_html",
+          "safe_value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Event | @date\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\n  !content\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\n  !footer\\n\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -128,8 +128,8 @@ function c4m_message_default_message_type() {
     "message_text" : { "und" : [
         {
           "value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo | @date\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\r\\n  !footer\\r\\n\\u003C\\/div\\u003E",
-          "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo | @date\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  \\u003Ca href=\\u0022url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !content\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !footer\\u003C\\/p\\u003E\\n"
+          "format" : "full_html",
+          "safe_value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo | @date\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\n  !content\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\n  !footer\\n\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -150,8 +150,8 @@ function c4m_message_default_message_type() {
     "message_text" : { "und" : [
         {
           "value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo album | @date\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\r\\n  !footer\\r\\n\\u003C\\/div\\u003E",
-          "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo album | @date\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  \\u003Ca href=\\u0022url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !content\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !footer\\u003C\\/p\\u003E\\n"
+          "format" : "full_html",
+          "safe_value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo album | @date\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\n  !content\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\n  !footer\\n\\u003C\\/div\\u003E\\n"
         }
       ]
     },
