@@ -135,5 +135,27 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_insert__node__photoalbum'] = entity_import('message_type', '{
+    "name" : "c4m_insert__node__photoalbum",
+    "description" : "c4m Insert Node Photo Album",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E added a new Photo | @date\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\r\\n  !footer\\r\\n\\u003C\\/div\\u003E",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E added a new Photo | @date\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  \\u003Ca href=\\u0022url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !content\\u003C\\/p\\u003E\\n\\u003Cp\\u003E  !footer\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   return $items;
 }
