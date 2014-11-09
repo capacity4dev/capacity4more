@@ -13,19 +13,19 @@ Feature: Group access
   @api @wip
   Scenario: Check allowed access by domain
     Given I am logged in as the "mariecurie"
-    then I edit group "momo"
-    then I set permissions to "restricted"
-    the I set email domain to "gravity.com"
-    the I visit "momo" to see owner can still see the group
-    Then I login as "isaacnewton"
-  when I visit "momo"
-  I should see "quick post"
+     Then I edit group "momo"
+     Then I set permissions to "restricted"
+     Then I set email domain to "gravity.com"
+     Then I visit "momo" to see owner can still see the group
+     Then I login as "isaacnewton"
+     Then I visit "momo"
+     Then I should see "quick post"
 
   @api @wip
   Scenario: Check restricted access by domain
     Given I am logged in as the "mariecurie"
-  then I edit group "momo"
-  the I set email domain to "gravity2.com"
-    Then I login as "isaacnewton"
-  when I visit "momo"
-  I should get 403
+     Then I edit group "momo"
+     Then I set email domain to "gravity2.com"
+     Then I login as "isaacnewton"
+     Then I visit "momo"
+     Then I should get 403
