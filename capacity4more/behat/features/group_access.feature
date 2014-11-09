@@ -1,19 +1,12 @@
 Feature: Group access
   Test group access
 
-  @api
+  @api @momo
   Scenario: Check public group
-    Given I am logged in as the "turing"
-      And I should not see "Log in"
-     When I visit "node/add/group"
-      And I fill in "title" with "My badhairday new group"
-      And I fill in "edit-purl-value" with "mybadhairdaygroup"
-      And I fill in "edit-c4m-body-und-0-summary" with "This is my summary"
-      And I check the box "Fire"
-      And I press "Save"
-     Then I am logged in as the "isaacnewton"
-      And I visit "/mybadhairdaygroup"
-      And I should print page to "mybadhairday"
+    Given I am logged in as user "turing"
+     When I create new group titled "My badhairday new group" linked as "newgroup4"
+     Then I am logged in as user "isaacnewton"
+      And I visit "newgroup4"
       And I should get a "200" HTTP response
 
 

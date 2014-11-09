@@ -52,7 +52,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   /**
    * Authenticates a user with password from configuration.
    *
-   * @Given /^I am logged in as the "([^"]*)"$/
+   * @Given /^I am logged in as user "([^"]*)"$/
    */
   public function iAmLoggedInAs($username) {
     $this->user = new stdClass();
@@ -789,6 +789,21 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldGet($arg1) {
     throw new Exception();
+  }
+
+  /**
+   * @When /^I create new group titled "([^"]*)" linked as "([^"]*)"$/
+   */
+  public function iCreateNewGroupTitledLinkedAs($title, $link) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/group"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $link .'"');
+    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I press "Save"');
+
+    return $steps;
   }
 
 }
