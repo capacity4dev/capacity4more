@@ -76,7 +76,7 @@
       <div class="form-group date" ng-show="current_resource == 'events'">
         <label><?php print t('When') ?></label>
         <div class="row">
-          <calendar data="data"></calendar>
+          <calendar></calendar>
         </div>
       </div>
 

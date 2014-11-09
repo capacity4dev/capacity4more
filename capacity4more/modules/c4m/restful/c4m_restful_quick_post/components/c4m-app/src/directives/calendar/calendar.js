@@ -11,8 +11,6 @@ angular.module('c4mApp')
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/calendar/calendar.html',
       restrict: 'E',
-      scope: {
-        data: '='
-      }
+      scope: true
     };
   });

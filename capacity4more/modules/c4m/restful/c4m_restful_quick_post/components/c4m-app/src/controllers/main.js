@@ -16,12 +16,45 @@ angular.module('c4mApp')
 
     $scope.reference_values = {};
 
+    $scope.errors = {};
+
     $scope.server_side = {
       status: 0,
       data: {}
     };
 
     $scope.tags_query_cache = [];
+
+    // Date Calendar options.
+    $scope.minDate = new Date();
+
+    $scope.openStart = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.startOpened = true;
+    };
+
+    $scope.openEnd = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.endOpened = true;
+    };
+
+    $scope.dateOptions = {
+      formatYear: 'yyyy',
+      startingDay: 1
+    };
+    // /Date Calendar options.
+
+    // Time picker options
+    $scope.startTime = new Date();
+    $scope.endTime = new Date();
+
+    $scope.hstep = 1;
+    $scope.mstep = 1;
+    // /Time picker options.
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -276,6 +309,11 @@ angular.module('c4mApp')
 
         // Setup Date and time for events.
         if (resource == 'events') {
+          // If the user didn't choose the date, Display an error.
+          if (!$scope.data.start_time || !$scope.data.end_time) {
+            $scope.errors.start_date = 'This field is required';
+            $scope.errors.end_date = 'This field is required';
+          }
           // If the user didn't choose the time, Fill the current time.
           if (!$scope.data.start_time || !$scope.data.end_time) {
             $scope.data.start_time = new Date();
@@ -283,8 +321,8 @@ angular.module('c4mApp')
           }
           // Convert  to a timestamp for restful.
           submitData.datetime =  {
-            value: $filter('date')($scope.data.start_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.start_time, 'HH-mm-ss'),
-            value2: $filter('date')($scope.data.end_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.end_time, 'HH-mm-ss')
+            value: $filter('date')($scope.data.start_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.start_time, 'HH:mm:ss'),
+            value2: $filter('date')($scope.data.end_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.end_time, 'HH:mm:ss')
           };
           // Delete time because RESTful will try to check their values.
           delete submitData['start_date'];
