@@ -740,4 +740,47 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     // Use Drupal Context 'I am at'.
     return new Given("I am at \"node/$nid\"");
   }
+
+  /**
+   * @Then /^I create group "([^"]*)" with "([^"]*)" permission$/
+   */
+  public function iCreateGroupWithPermission($arg1, $arg2) {
+    throw new Exception();
+  }
+
+  /**
+   * @Then /^I edit group "([^"]*)"$/
+   */
+  public function iEditGroup($arg1) {
+    throw new Exception();
+  }
+
+  /**
+   * @Then /^I set permissions to "([^"]*)"$/
+   */
+  public function iSetPermissionsTo($arg1) {
+    throw new Exception();
+  }
+
+  /**
+   * @Then /^I set email domain to "([^"]*)"$/
+   */
+  public function iSetEmailDomainTo($arg1) {
+    throw new Exception();
+  }
+
+  /**
+   * @Then /^I visit "([^"]*)" to see owner can still see the group$/
+   */
+  public function iVisitToSeeOwnerCanStillSeeTheGroup($arg1) {
+    throw new Exception();
+  }
+
+  /**
+   * @Then /^I should get (\d+)$/
+   */
+  public function iShouldGet($arg1) {
+    throw new Exception();
+  }
+
 }
