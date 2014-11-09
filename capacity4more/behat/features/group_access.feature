@@ -3,11 +3,17 @@ Feature: Group access
 
   @api @momo
   Scenario: Check public group
-    Given I am logged in as the "badhairday"
-     Then I should not see "Log in"
-     Then I create group "momo" with "public" permission
-     Then I login as "isaacnewton"
-     Then I visit "momo"
+    Given I am logged in as a user with the "authenticated user" role
+      And I should not see "Log in"
+     When I visit "node/add/group"
+      And I fill in "title" with "My badhairday new group"
+      And I fill in "edit-purl-value" with "mybadhairdaygroup"
+      And I fill in "edit-c4m-body-und-0-summary" with "This is my summary"
+      And I check the box "Fire"
+      And I press "Save"
+     Then I should print page to "mybadhairday"
+     Then I am logged in as the "isaacnewton"
+     Then I visit "mybadhairdaygroup"
      Then I should see "quick post"
 
   @api @wip

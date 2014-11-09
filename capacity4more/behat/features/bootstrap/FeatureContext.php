@@ -716,6 +716,14 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Then /^I should print page to "([^"]*)"$/
+   */
+  public function iShouldPrintPageTo($file) {
+    $element = $this->getSession()->getPage();
+    file_put_contents($file, $element->getContent());
+  }
+
+  /**
    * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
    */
   public function iVisitNodePageOfType($title, $type) {
