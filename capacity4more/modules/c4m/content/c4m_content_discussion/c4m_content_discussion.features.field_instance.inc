@@ -17,6 +17,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -64,6 +70,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -102,6 +114,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -151,6 +169,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -195,6 +219,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -232,6 +262,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'You can select up to 3 Regions and unlimited Countries within these Regions.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -269,6 +305,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -299,6 +341,63 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-discussion-group_content_access'
+  $field_instances['node-discussion-group_content_access'] = array(
+    'bundle' => 'discussion',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'group_content_access',
+    'label' => 'Group content visibility',
+    'required' => TRUE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'label' => 'above',
+        'type' => 'list_default',
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'type' => 'list_default',
+      ),
+    ),
+    'widget' => array(
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 12,
+    ),
+    'widget_type' => 'options_select',
+  );
+
   // Exported field_instance: 'node-discussion-og_group_ref'
   $field_instances['node-discussion-og_group_ref'] = array(
     'bundle' => 'discussion',
@@ -306,6 +405,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'og_ui',
@@ -365,6 +470,12 @@ function c4m_content_discussion_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'og_vocab',
@@ -401,6 +512,7 @@ function c4m_content_discussion_field_default_field_instances() {
   t('Body');
   t('Date');
   t('Documents');
+  t('Group content visibility');
   t('Groups');
   t('Language');
   t('Metadata');
