@@ -227,6 +227,9 @@ angular.module('c4mApp')
               if(value === true) {
                 data[field].push(index);
               }
+              if (field == 'group') {
+                data[field] = index;
+              }
             });
           }
         });
