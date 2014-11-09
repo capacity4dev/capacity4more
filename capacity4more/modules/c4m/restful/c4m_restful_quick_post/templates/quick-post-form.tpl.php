@@ -3,11 +3,11 @@
     <em><?php print t('Quick Post') ?></em>
   </div>
 
-  <form name="entityForm" ng-submit="submitForm(entityForm, data, bundle_name, 'submit')">
+  <form name="entityForm" ng-submit="submitForm(entityForm, data, current_resource, 'submit')">
 
-    <bundle-select items="bundles" on-change="updateBundle" bundle-name="bundle_name"></bundle-select>
+    <bundle-select items="resources" on-change="updateResource" current-resource="current_resource"></bundle-select>
 
-    <div class="form-group input-wrapper file-wrapper" ng-show="bundle_name == 'documents'">
+    <div class="form-group input-wrapper file-wrapper" ng-show="current_resource == 'documents'">
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
         <div ng-hide="server_side.file">
@@ -41,9 +41,9 @@
       </div>
     </div>
 
-    <div ng-show="bundles[bundle_name]">
+    <div ng-show="resources[current_resource]">
 
-      <discussion-types ng-show="bundle_name == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
+      <discussion-types ng-show="current_resource == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
 
       <!-- @TODO: Need to add required to this field, AngularJs validations, Behat test. -->
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group" ng-show="bundle_name == 'documents'">
+      <div class="form-group btn-group" ng-show="current_resource == 'documents'">
         <div class="label-wrapper">
           <label>{{field_schema.document_type.info.label}}</label>
           <span id="document_type_description" class="description">{{field_schema.document_type.info.description}}</span>
@@ -157,7 +157,7 @@
 
       <div class="actions">
         <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
-        <a href="javascript://" id="full-from-button" ng-click="submitForm(entityForm, data, bundle_name, 'full_form')"><?php print t('Create in full form'); ?></a>
+        <a href="javascript://" id="full-from-button" ng-click="submitForm(entityForm, data, current_resource, 'full_form')"><?php print t('Create in full form'); ?></a>
         <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
       </div>
     </div>
@@ -167,7 +167,7 @@
     <h2>Console (Server side)</h2>
     <div ng-show="server_side.status == 200" class="create-success">
       <strong>
-        New {{ bundle_name }} created: <a ng-href="{{ server_side.data.self }}" target="_blank">{{ server_side.data.label }}</a> (node ID {{ server_side.data.data[0].id }})
+        New {{ resources[current_resource].bundle }} created: <a ng-href="{{ server_side.data.self }}" target="_blank">{{ server_side.data.label }}</a> (node ID {{ server_side.data.data[0].id }})
       </strong>
     </div>
     <div ng-show="server_side.status">
@@ -183,12 +183,12 @@
   <div class="messages" ng-show="debug == 0">
     <div ng-show="server_side.status == 200">
       <div class="alert alert-success">
-        <?php print t('The {{ bundle_name }} was saved successfully.') ?>
+        <?php print t('The {{ resources[current_resource].bundle }} was saved successfully.') ?>
       </div>
     </div>
     <div ng-show="server_side.status > 0 && server_side.status != 200">
       <div class="alert alert-danger">
-        <?php print t('Error saving {{ bundle_name }}.') ?>
+        <?php print t('Error saving {{ resources[current_resource].bundle }}.') ?>
       </div>
     </div>
   </div>

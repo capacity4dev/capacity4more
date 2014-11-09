@@ -3,13 +3,11 @@
 angular.module('c4mApp')
   .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, FileUpload) {
     $scope.data = DrupalSettings.getData('entity');
-    // Setting default content type to "Discussion".
-    $scope.bundle_name = 'discussions';
-    $scope.bundles = {
-      'discussions': 'Add a Discussion',
-      'documents': 'Upload a Document',
-      'events': 'Add an Event'
-    };
+    // Getting the resources information.
+    $scope.resources = DrupalSettings.getResources();
+
+    // Setting default resource to "Discussion".
+    $scope.current_resource = 'discussions';
 
     // Getting the fields information.
     $scope.field_schema = DrupalSettings.getFieldSchema();
@@ -127,13 +125,13 @@ angular.module('c4mApp')
     /**
      * Update the bundle of the entity to send to the right API.
      *
-     * @param bundle
-     *  The bundle name.
+     * @param resource
+     *  The resource name.
      *
      *  @param event
      *    The click event.
      */
-    $scope.updateBundle = function(bundle, event) {
+    $scope.updateResource = function(resource, event) {
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
@@ -141,7 +139,7 @@ angular.module('c4mApp')
       // Add class "active" to clicked element.
       element.addClass( "active" );
       // Update Bundle.
-      $scope.bundle_name = bundle;
+      $scope.current_resource = resource;
     };
 
     /**
@@ -218,16 +216,21 @@ angular.module('c4mApp')
      *  @param type
      *    The type of the submission.
      */
-    $scope.submitForm = function(entityForm, data, bundle, type) {
+    $scope.submitForm = function(entityForm, data, resource, type) {
       // @TODO: Clean the form in a more generic way.
       // Clean request from un-needed fields.
-      switch (bundle) {
+      switch (resource) {
         case 'discussions':
           delete data['document'];
           delete data['document_type'];
           break;
         case 'documents':
           delete data['discussion_type'];
+          break;
+        case 'events':
+          delete data['discussion_type'];
+          delete data['document'];
+          delete data['document_type'];
           break;
         default:
           break;
@@ -277,7 +280,7 @@ angular.module('c4mApp')
         }
 
         // Call the create entity function service.
-        EntityResource.createEntity(submitData, bundle)
+        EntityResource.createEntity(submitData, resource)
         .success(function(data, status) {
           // If requested to create in full form, Redirect user to the edit page.
           if(type == 'full_form') {

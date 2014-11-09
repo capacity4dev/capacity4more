@@ -39,15 +39,24 @@ function c4m_restful_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
   $resources = array(
-    'discussions',
-    'documents',
-    'events',
+    'discussions' => array(
+      'bundle' => 'Discussion',
+      'description' => 'Add a Discussion',
+    ),
+    'documents' => array(
+      'bundle' => 'Document',
+      'description' => 'Upload a Document',
+    ),
+    'events' => array(
+      'bundle' => 'Event',
+      'description' => 'Add an Event',
+    ),
   );
 
   // Get fields.
   $field_schema = array();
   $public_fields = array();
-  foreach ($resources as $resource) {
+  foreach ($resources as $resource => $value) {
     $handler = restful_get_restful_handler($resource);
     $field_schema += $handler->options();
     $public_fields += $handler->getPublicFields();
@@ -119,6 +128,7 @@ function c4m_restful_quick_post_form($node) {
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'resources' => $resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
     'data' => array(

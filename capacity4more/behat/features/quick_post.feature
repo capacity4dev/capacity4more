@@ -15,7 +15,7 @@ Feature: Test quick post
     And   I fill in "label" with "foobar"
     And   I press the "quick-submit" button
     And   I wait
-    Then  I should see "The discussions was saved successfully."
+    Then  I should see "The Discussion was saved successfully."
 
   @javascript
   Scenario: Check Quick post "document" submit.
@@ -26,4 +26,4 @@ Feature: Test quick post
     And   I fill in "label" with "foobar"
     And   I press the "quick-submit" button
     And   I wait
-    Then  I should see "The documents was saved successfully."
+    Then  I should see "The Document was saved successfully."
