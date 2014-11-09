@@ -116,6 +116,9 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   if ($message) {
     $message_wrapper = entity_metadata_wrapper('message', $message);
     $message_wrapper->field_entity_published->set($entity->status);
+    if (isset($message_wrapper->field_operation)) {
+      $message_wrapper->field_operation->set($op);
+    }
     $message->save();
   }
 
@@ -200,6 +203,11 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
     'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -220,6 +228,11 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
 
   $message->arguments['!footer'] = array(
     'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
 }
@@ -244,6 +257,11 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
     'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -264,6 +282,11 @@ function c4m_message_load__c4m_insert__node__event(Message $message) {
 
   $message->arguments['!footer'] = array(
     'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
 }
@@ -304,19 +327,41 @@ function c4m_message_load__c4m_insert__comment(Message $message) {
 function c4m_message_format_node_discussion_type(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
+  $operation = $wrapper->field_operation->value();
 
   switch ($discussion_type) {
     case 'info':
-      return t('posted Information');
+      return $operation == 'insert' ? t('posted Information') : t('updated the Information');
 
     case 'idea':
-      return t('posted an Idea');
+      return $operation == 'insert' ? t('posted an Idea') : t('updated the Idea');
 
     case 'question':
-      return t('Asked a Question');
+      return $operation == 'insert' ? t('asked a Question') : t('updated the Question');
 
     case 'debate':
-      return t('started a Debate');
+      return $operation == 'insert' ? t('started a Debate') : t('updated the Debate');
+  }
+}
+
+/**
+ * Return the formatted operation name (added or updated).
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_format_operation(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $operation = $wrapper->field_operation->value();
+  switch ($message->type) {
+    case 'c4m_insert__node__event':
+      return $operation == 'insert' ? t('added a new') : t('updated the');
+    case 'c4m_insert__node__document':
+      return $operation == 'insert' ? t('uploaded a new') : t('updated the');
+    case 'c4m_insert__node__photo':
+      return $operation == 'insert' ? t('added a new') : t('updated the');
+    case 'c4m_insert__node__photoalbum':
+      return $operation == 'insert' ? t('created a new') : t('updated the');
   }
 }
 

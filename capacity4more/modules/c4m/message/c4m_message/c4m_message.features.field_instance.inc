@@ -333,6 +333,43 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'message-c4m_insert__node__discussion-field_operation'
+  $field_instances['message-c4m_insert__node__discussion-field_operation'] = array(
+    'bundle' => 'c4m_insert__node__discussion',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_operation',
+    'label' => 'Operation',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 5,
+    ),
+  );
+
   // Exported field_instance: 'message-c4m_insert__node__document-field_entity_published'
   $field_instances['message-c4m_insert__node__document-field_entity_published'] = array(
     'bundle' => 'c4m_insert__node__document',
@@ -465,6 +502,43 @@ function c4m_message_field_default_field_instances() {
       ),
       'type' => 'entityreference_autocomplete',
       'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'message-c4m_insert__node__document-field_operation'
+  $field_instances['message-c4m_insert__node__document-field_operation'] = array(
+    'bundle' => 'c4m_insert__node__document',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_operation',
+    'label' => 'Operation',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 9,
     ),
   );
 
@@ -603,6 +677,43 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'message-c4m_insert__node__event-field_operation'
+  $field_instances['message-c4m_insert__node__event-field_operation'] = array(
+    'bundle' => 'c4m_insert__node__event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_operation',
+    'label' => 'Operation',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'message-c4m_insert__node__photo-field_entity_published'
   $field_instances['message-c4m_insert__node__photo-field_entity_published'] = array(
     'bundle' => 'c4m_insert__node__photo',
@@ -735,6 +846,43 @@ function c4m_message_field_default_field_instances() {
       ),
       'type' => 'entityreference_autocomplete',
       'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'message-c4m_insert__node__photo-field_operation'
+  $field_instances['message-c4m_insert__node__photo-field_operation'] = array(
+    'bundle' => 'c4m_insert__node__photo',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_operation',
+    'label' => 'Operation',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 8,
     ),
   );
 
@@ -873,12 +1021,50 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'message-c4m_insert__node__photoalbum-field_operation'
+  $field_instances['message-c4m_insert__node__photoalbum-field_operation'] = array(
+    'bundle' => 'c4m_insert__node__photoalbum',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_operation',
+    'label' => 'Operation',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 8,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Comment');
   t('Entity Published');
   t('Group node');
   t('Node');
+  t('Operation');
 
   return $field_instances;
 }
