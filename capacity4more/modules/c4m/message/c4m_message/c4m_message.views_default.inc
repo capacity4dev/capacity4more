@@ -32,10 +32,6 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'activity_stream';
-  /* Relationship: Entity Reference: Referenced Entity */
-  $handler->display->display_options['relationships']['field_node_target_id']['id'] = 'field_node_target_id';
-  $handler->display->display_options['relationships']['field_node_target_id']['table'] = 'field_data_field_node';
-  $handler->display->display_options['relationships']['field_node_target_id']['field'] = 'field_node_target_id';
   /* Field: Message: Message ID */
   $handler->display->display_options['fields']['mid']['id'] = 'mid';
   $handler->display->display_options['fields']['mid']['table'] = 'message';
@@ -74,11 +70,6 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['filters']['field_entity_published_value']['expose']['label'] = 'Entity Published (field_entity_published)';
   $handler->display->display_options['filters']['field_entity_published_value']['expose']['operator'] = 'field_entity_published_value_op';
   $handler->display->display_options['filters']['field_entity_published_value']['expose']['identifier'] = 'field_entity_published_value';
-  /* Filter criterion: Content access: Access */
-  $handler->display->display_options['filters']['nid']['id'] = 'nid';
-  $handler->display->display_options['filters']['nid']['table'] = 'node_access';
-  $handler->display->display_options['filters']['nid']['field'] = 'nid';
-  $handler->display->display_options['filters']['nid']['relationship'] = 'field_node_target_id';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');

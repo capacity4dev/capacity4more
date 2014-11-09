@@ -277,63 +277,6 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-group_access'
-  $field_instances['node-group-group_access'] = array(
-    'bundle' => 'group',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_stream' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 7,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'group_access',
-    'label' => 'Group visibility',
-    'required' => TRUE,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'view modes' => array(
-      'full' => array(
-        'label' => 'above',
-        'type' => 'options_onoff',
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'type' => 'options_onoff',
-      ),
-    ),
-    'widget' => array(
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 31,
-    ),
-    'widget_type' => 'options_select',
-  );
-
   // Exported field_instance: 'node-group-group_group'
   $field_instances['node-group-group_group'] = array(
     'bundle' => 'group',
@@ -405,7 +348,6 @@ function c4m_content_group_field_default_field_instances() {
   t('Description');
   t('Determine if this is an OG group.');
   t('Group');
-  t('Group visibility');
   t('Image');
   t('Region & Countries');
   t('Related Groups');
