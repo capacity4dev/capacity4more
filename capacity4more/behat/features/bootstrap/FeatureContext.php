@@ -750,13 +750,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Then /^I create group "([^"]*)" with "([^"]*)" permission$/
-   */
-  public function iCreateGroupWithPermission($arg1, $arg2) {
-    throw new Exception();
-  }
-
-  /**
    * @Then /^I edit group "([^"]*)"$/
    */
   public function iEditGroup($arg1) {
@@ -792,11 +785,30 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I create new group titled "([^"]*)" linked as "([^"]*)"$/
+   * @Given /^a group "([^"]*)" with "([^"]*)" access and "([^"]*)" url is created with group manager "([^"]*)"$/
    */
-  public function iCreateNewGroupTitledLinkedAs($title, $link) {
+  public function aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username) {
+
     $steps = array();
+    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
+    $steps[] = new Step\When('I select the radio button "' . $access . '"');
+    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I press "Save"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I change group "([^"]*)" permission to restricted with domains "([^"]*)"$/
+   */
+  public function iChangeGroupPermissionToWithDomains($group, $domains) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $group . '"');
+    $steps[] = new Step\When('I ');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $link .'"');
