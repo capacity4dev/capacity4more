@@ -14,28 +14,8 @@
     // We hide the comments and links now so that we can render them later.
     hide($content['comments']);
     hide($content['links']);
-    hide($content);
+    print render($content);
 
     ?>
   </div>
-  <div class="row">
-    <?php if($image != ''):?>
-
-    <div class="col-sm-6">
-      <?php print $image; ?>
-    </div>
-
-    <div class="col-sm-6">
-
-      <?php else: ?>
-
-      <div class="col-sm-12">
-
-        <?php endif; ?>
-
-        <?php print $description; ?>
-      </div>
-
-    </div>
-
-  </div>
+</div>

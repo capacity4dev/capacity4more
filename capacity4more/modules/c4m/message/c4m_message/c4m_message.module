@@ -857,6 +857,13 @@ function c4m_message_theme(){
       'template' => 'templates/message--activity_stream',
       'render element' => 'entity'
     ),
+    'c4m_message_summary_with_image' => array(
+      'template' => 'templates/field_summary_with_image',
+      'variables' => array(
+        'image' => NULL,
+        'description' => NULL,
+      ),
+    ),
   );
 }
 
@@ -957,6 +964,60 @@ function c4m_message_preprocess_node__discussion(&$variables) {
 
   $variables['image'] = $image;
   $variables['description'] = substr($body, 0, 600);
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_message_field_formatter_info() {
+  return array(
+    'summary_with_image' => array(
+      'label' => t('Summary or trimmed with image'),
+      'field types' => array('text_with_summary'),
+    )
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_message_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'summary_with_image':
+      foreach ($items as $delta => $item) {
+
+        $wrapper = entity_metadata_wrapper($entity_type, $entity);
+        $body = $wrapper->c4m_body->value->value();
+        $image = '';
+
+        if (strpos($body, '<img') && strpos($body, '<img') < 600) {
+          $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
+          preg_match($pattern, $body, $images_uri);
+          $image_uri = $images_uri[1];
+          $body = preg_replace('/<img[^>]+\>/i', '', $body);
+
+          $image = theme('html_tag', array(
+            'element' => array(
+              '#tag' => 'img',
+              '#attributes' => array(
+                'class' => 'img-responsive',
+                'typeof' => 'foaf:Image',
+                'src' => $image_uri,
+              ),
+            )
+          ));
+        }
+
+        $element[$delta] = array(
+          '#theme' => 'c4m_message_summary_with_image',
+          '#image' => $image,
+          '#description' => substr($body, 0, 600),
+        );
+      }
+      break;
+  }
+  return $element;
 }
 
 /**
