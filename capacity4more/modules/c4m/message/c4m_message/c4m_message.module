@@ -203,6 +203,28 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 }
 
 /**
+ * Delegated hook_entity_load() for node of "photo" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__photo(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Delegated hook_entity_load() for node of "event" bundle.
  *
  * Add Message arguments callbacks.
@@ -546,6 +568,63 @@ function c4m_message__update__node__document($node) {
   c4m_message_prepare_insert_entity($message, 'node', $node);
   return $message;
 }
+
+/**
+ * Create a document message.
+ *
+ * @param $node
+ *   The document node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__photo($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__photo', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a photo message.
+ *
+ * @param $node
+ *   The photo node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__photo($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__photo')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__photo', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
 /**
  * Create an event message.
  *
