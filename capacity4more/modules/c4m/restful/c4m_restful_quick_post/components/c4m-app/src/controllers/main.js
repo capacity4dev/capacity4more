@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, FileUpload, $filter) {
     $scope.data = DrupalSettings.getData('entity');
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
-    // Setting default resource to "Discussion".
-    $scope.current_resource = 'discussions';
+    // Setting empty default resource.
+    $scope.current_resource = '';
 
     // Getting the fields information.
     $scope.field_schema = DrupalSettings.getFieldSchema();
@@ -78,6 +78,15 @@ angular.module('c4mApp')
         }
       });
     });
+
+    /**
+     * Display the fields upon clicking on the label field.
+     */
+    $scope.showFields = function () {
+      if (!$scope.current_resource) {
+        $scope.current_resource = 'discussions';
+      }
+    };
 
     /**
      * Get matching tags.
@@ -151,15 +160,15 @@ angular.module('c4mApp')
      *  @param event
      *    The click event.
      */
-    $scope.updateDiscussionType = function(type, event) {
+    $scope.updateType = function(type, field, event) {
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
-      angular.element( ".discussion-types" ).removeClass( "active" );
+      angular.element( "." + field ).removeClass( "active" );
       // Add class "active" to clicked element.
       element.addClass( "active" );
       // Update Bundle.
-      $scope.data.discussion_type = type;
+      $scope.data[field] = type;
     };
 
     /**
@@ -210,7 +219,7 @@ angular.module('c4mApp')
      *  @param data
      *    The submitted data.
      *
-     *  @param bundle
+     *  @param resource
      *    The bundle of the node submitted.
      *
      *  @param type
@@ -231,6 +240,7 @@ angular.module('c4mApp')
           delete data['discussion_type'];
           delete data['document'];
           delete data['document_type'];
+          delete data['date'];
           break;
         default:
           break;
@@ -245,7 +255,7 @@ angular.module('c4mApp')
 
         // Get the IDs of the selected references.
         angular.forEach(data, function (values, field) {
-          if(values && angular.isObject(values) && field != 'tags') {
+          if(values && angular.isObject(values)  && Object.keys(values).length && field != 'tags') {
             data[field] = [];
             angular.forEach(values, function (value, index) {
               if(value === true) {
@@ -257,6 +267,25 @@ angular.module('c4mApp')
 
         // Copy data.
         var submitData = angular.copy(data);
+
+        // Setup Date and time for events.
+        if (resource == 'events') {
+          // If the user didn't choose the time, Fill the current time.
+          if (!$scope.data.start_time || !$scope.data.end_time) {
+            $scope.data.start_time = new Date();
+            $scope.data.end_time = new Date();
+          }
+          // Convert  to a timestamp for restful.
+          submitData.datetime =  {
+            value: $filter('date')($scope.data.start_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.start_time, 'HH-mm-ss'),
+            value2: $filter('date')($scope.data.end_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.end_time, 'HH-mm-ss')
+          };
+          // Delete time because RESTful will try to check their values.
+          delete submitData['start_date'];
+          delete submitData['end_date'];
+          delete submitData['start_time'];
+          delete submitData['end_time'];
+        }
 
         // Assign tags.
         var tags = [];

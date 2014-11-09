@@ -4,6 +4,7 @@ angular.module('c4mApp', [
     'ngPrettyJson',
     'textAngular',
     'ui.select2',
+    'ui.bootstrap',
     'angularFileUpload'
   ], function($httpProvider) {
 

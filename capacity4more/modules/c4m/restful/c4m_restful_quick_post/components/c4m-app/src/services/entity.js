@@ -9,7 +9,7 @@ angular.module('c4mApp')
      * @param data
      *   The data object to POST.
 
-     * @param bundle
+     * @param resource
      *   The bundle of the entity.
      *
      * @returns {*}

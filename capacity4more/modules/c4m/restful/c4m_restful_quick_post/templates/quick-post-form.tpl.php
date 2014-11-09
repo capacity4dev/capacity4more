@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
-      <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
+      <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
       <div class="errors">
         <ul ng-show="server_side.data.errors.label">
@@ -43,7 +43,15 @@
 
     <div ng-show="resources[current_resource]">
 
-      <discussion-types ng-show="current_resource == 'discussions'" field-schema="field_schema" discussion-type="data.discussion_type" on-change="updateDiscussionType"></discussion-types>
+      <div ng-show="current_resource == 'discussions'">
+        <label>{{field_schema.discussion_type.info.label}}</label>
+        <types field="'discussion_type'" field-schema="field_schema" type="data.discussion_type" on-change="updateType"></types>
+      </div>
+
+      <div ng-show="current_resource == 'events'">
+        <label>{{field_schema.event_type.info.label}}</label>
+        <types field="'event_type'" field-schema="field_schema" type="data.event_type" on-change="updateType"></types>
+      </div>
 
       <!-- @TODO: Need to add required to this field, AngularJs validations, Behat test. -->
       <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
@@ -52,6 +60,23 @@
           <ul ng-show="server_side.data.errors.body">
             <li ng-repeat="error in server_side.data.errors.body">{{error}}</li>
           </ul>
+        </div>
+      </div>
+
+      <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+        <label>{{field_schema.organiser.info.label}}</label>
+        <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
+        <div class="errors">
+          <ul ng-show="server_side.data.errors.organiser">
+            <li ng-repeat="error in server_side.data.errors.organiser">{{error}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form-group date" ng-show="current_resource == 'events'">
+        <label><?php print t('When') ?></label>
+        <div class="row">
+          <calendar data="data"></calendar>
         </div>
       </div>
 
@@ -93,7 +118,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group">
+      <div class="form-group btn-group" ng-show="current_resource != 'events'">
         <div class="label-wrapper">
           <label>{{field_schema.date.info.label}}</label>
           <span id="date_description" class="description">{{field_schema.date.info.description}}</span>

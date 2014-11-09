@@ -22,6 +22,21 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       'sub_property' => 'value',
     );
 
+    $public_fields['organiser'] = array(
+      'property' => 'c4m_organised_by',
+    );
+
+    $public_fields['datetime'] = array(
+      'property' => 'c4m_datetime_end',
+    );
+
+//    $public_fields['location'] = array(
+//      'property' => 'c4m_location',
+//      'process_callbacks' => array(
+//        array($this, 'processLocation'),
+//      ),
+//    );
+
     $public_fields['group'] = array(
       'property' => OG_AUDIENCE_FIELD,
       'resource' => array(
@@ -47,16 +62,6 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       'resource' => array(
         'topic' => array(
           'name' => 'topics',
-          'full_view' => FALSE,
-        ),
-      ),
-    );
-
-    $public_fields['date'] = array(
-      'property' => 'c4m_vocab_date',
-      'resource' => array(
-        'c4m_vocab_date' => array(
-          'name' => 'dates',
           'full_view' => FALSE,
         ),
       ),
@@ -89,13 +94,18 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
     return $public_fields;
   }
 
-  protected function processDocument($value) {
+  /**
+   * Location process callback.
+   *
+   * @param $value
+   *
+   * @return array
+   */
+  protected function processLocation($value) {
+    dpm($value);
     return array(
-      'id' => $value['fid'],
-      'filename' => $value['filename'],
-      'filesize' => $value['filesize'],
-      'filemime' => $value['filemime'],
-      'url' => file_create_url($value['uri']),
+      'lat' => $value['lat'],
+      'lng' => $value['lng'],
     );
   }
 }
