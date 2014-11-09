@@ -480,7 +480,7 @@ function c4m_message__insert__comment($comment) {
 
   $node = node_load($comment->nid);
   c4m_message_prepare_insert_entity($message, 'node', $node);
-  $message_wrapper = entity_metadata_wrapper('comment', $comment);
+  $message_wrapper = entity_metadata_wrapper('message', $message);
   $message_wrapper->field_comment->set($comment);
   return $message;
 }
