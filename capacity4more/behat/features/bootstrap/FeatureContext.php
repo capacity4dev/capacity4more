@@ -785,9 +785,16 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^a group "([^"]*)" with "([^"]*)" restriction and "([^"]*)" url is created with group manager "([^"]*)"$/
+   */
+  public function aGroupWithRestrictionAndUrlIsCreatedWithGroupManager($title, $domains, $url, $username) {
+    return $this->aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, 'Restricted', $url, $username, $domains);
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access and "([^"]*)" url is created with group manager "([^"]*)"$/
    */
-  public function aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username) {
+  public function aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username, $domains = NULL) {
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
@@ -796,6 +803,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
+    if ($access == 'Restricted') {
+      $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
+    }
+
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Save"');
 
