@@ -1,13 +1,13 @@
 <div ng-controller="dateCtrl">
   <div class="col-md-6">
     <p class="input-group">
-      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="openStart($event)" placeholder="Start Date" ng-model="data.start_date" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" name="start_date" required/>
+      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="openStart($event)" placeholder="Start Date" ng-model="data.start_date" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" name="start_date"/>
       <timepicker ng-model="data.start_time" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
     </p>
   </div>
   <div class="col-md-6">
     <p class="input-group">
-      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="openEnd($event)" placeholder="End Date" ng-model="data.end_date" is-open="endOpened" init-date="data.startDate" min-date="data.startDate" datepicker-options="dateOptions" close-text="Close"  name="end_date" required/>
+      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="openEnd($event)" placeholder="End Date" ng-model="data.end_date" is-open="endOpened" init-date="data.startDate" min-date="data.startDate" datepicker-options="dateOptions" close-text="Close"  name="end_date"/>
       <timepicker ng-model="data.end_time" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
     </p>
   </div>

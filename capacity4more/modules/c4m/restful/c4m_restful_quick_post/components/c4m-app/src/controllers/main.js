@@ -232,9 +232,15 @@ angular.module('c4mApp')
         case 'discussions':
           delete data['document'];
           delete data['document_type'];
+          delete data['organiser'];
+          delete data['datetime'];
+          delete data['location'];
           break;
         case 'documents':
           delete data['discussion_type'];
+          delete data['organiser'];
+          delete data['datetime'];
+          delete data['location'];
           break;
         case 'events':
           delete data['discussion_type'];
