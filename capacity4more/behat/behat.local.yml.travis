@@ -2,6 +2,8 @@ default:
   context:
     parameters:
       drupal_users:
+        admin:
+          'admin'
         mariecurie:
           'drupal'
         isaacnewton:
