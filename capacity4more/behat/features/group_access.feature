@@ -1,9 +1,9 @@
 Feature: Group access
   Test group access
 
-  @api @momo
+  @api
   Scenario: Check public group
-    Given I am logged in as a user with the "authenticated user" role
+    Given I am logged in as the "turing"
       And I should not see "Log in"
      When I visit "node/add/group"
       And I fill in "title" with "My badhairday new group"
@@ -11,10 +11,11 @@ Feature: Group access
       And I fill in "edit-c4m-body-und-0-summary" with "This is my summary"
       And I check the box "Fire"
       And I press "Save"
-     Then I should print page to "mybadhairday"
      Then I am logged in as the "isaacnewton"
-     Then I visit "mybadhairdaygroup"
-     Then I should see "quick post"
+      And I visit "/mybadhairdaygroup"
+      And I should print page to "mybadhairday"
+      And I should get a "200" HTTP response
+
 
   @api @wip
   Scenario: Check allowed access by domain
