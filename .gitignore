@@ -72,3 +72,8 @@ jekyll/node_modules
 jekyll/.tmp
 jekyll/.jekyll
 jekyll/.sass-cache
+
+node_modules
+.sass-cache
+capacity4more/themes/c4m/kapablo/css
+capacity4more/themes/c4m/kapablo/bootstrap
