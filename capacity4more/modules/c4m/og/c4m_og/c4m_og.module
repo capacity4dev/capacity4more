@@ -87,15 +87,19 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     $domains_to_js['domains'][$name] = $organisation['domains'];
     $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(' ', $organisation['domains']))) . '</div>';
 
+    // If number of domains is at least the same as the domains in the organization
+    // we should verify whether the organization checkbox needs to be checked or not.
     if (count($domains) >= count($organisation['domains'])) {
-      $checked = TRUE;
+      $check_organization_checkbox = TRUE;
       foreach ($organisation['domains'] as $domain) {
         if (!in_array($domain, $domains)) {
-          $checked = FALSE;
+          // At least one domain from the organization is not set - no need to mark
+          // the checkbox.
+          $check_organization_checkbox = FALSE;
           break;
         }
       }
-      if ($checked) {
+      if ($check_organization_checkbox) {
         $restricted_organisations[] = $name;
       }
     }
