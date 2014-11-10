@@ -1,0 +1,16 @@
+name = Search Content
+description = Global search within the Content nodes.
+core = 7.x
+package = capacity4more - Search
+version = 7.x-1.0-beta1
+project = c4m_search_content
+dependencies[] = context
+dependencies[] = entity
+dependencies[] = facetapi
+dependencies[] = views
+features[context][] = c4m_search_nodes
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_search_content
+features_exclude[dependencies][ctools] = ctools
