@@ -26,7 +26,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     foreach ($value as $value_item) {
       // Add group ID to the field "og_vocabulary" (tags).
       if ($field_info['field_name'] == 'og_vocabulary' && is_array($value_item)) {
-        $value_item['group'] = $request['group'][0];
+        $value_item['group'] = $request['group'];
       }
       $return[] = $this->createOrUpdateSubResourceItem($value_item, $handler);
     }

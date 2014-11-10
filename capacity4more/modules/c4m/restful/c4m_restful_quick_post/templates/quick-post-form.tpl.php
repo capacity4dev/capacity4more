@@ -3,11 +3,11 @@
     <em><?php print t('Quick Post') ?></em>
   </div>
 
-  <form name="entityForm" ng-submit="submitForm(entityForm, data, current_resource, 'submit')">
+  <form name="entityForm" ng-submit="submitForm(entityForm, data, current_resource, 'quick_post')">
 
     <bundle-select items="resources" on-change="updateResource" current-resource="current_resource"></bundle-select>
 
-    <div class="form-group input-wrapper file-wrapper" ng-show="current_resource == 'documents'">
+    <div class="form-group input-wrapper file-wrapper" ng-show="current_resource == 'documents'" ng-class="{ 'has-error' : errors.document }">
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
         <div ng-hide="server_side.file">
@@ -28,11 +28,11 @@
           <li ng-repeat="error in server_side.data.errors.image">{{error}}</li>
         </ul>
       </div>
-
+      <p ng-show="errors.document" class="help-block"><?php print t('Document file is required.'); ?></p>
     </div>
 
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
-      <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
+      <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
       <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
       <div class="errors">
         <ul ng-show="server_side.data.errors.label">
@@ -43,19 +43,21 @@
 
     <div ng-show="resources[current_resource]">
 
-      <div ng-show="current_resource == 'discussions'">
+      <div ng-show="current_resource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
         <label>{{field_schema.discussion_type.info.label}}</label>
         <types field="'discussion_type'" field-schema="field_schema" type="data.discussion_type" on-change="updateType"></types>
+        <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
       </div>
 
-      <div ng-show="current_resource == 'events'">
+      <div ng-show="current_resource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
         <label>{{field_schema.event_type.info.label}}</label>
         <types field="'event_type'" field-schema="field_schema" type="data.event_type" on-change="updateType"></types>
+        <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
       </div>
 
-      <!-- @TODO: Need to add required to this field, AngularJs validations, Behat test. -->
-      <div class="form-group" ng-class="{ 'has-error' : entityForm.body.$invalid && !entityForm.body.$pristine }">
+      <div class="form-group" ng-class="{ 'has-error' : errors.body }">
         <div id="body" name="data-body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
+        <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
         <div class="errors">
           <ul ng-show="server_side.data.errors.body">
             <li ng-repeat="error in server_side.data.errors.body">{{error}}</li>
@@ -63,7 +65,7 @@
         </div>
       </div>
 
-      <div class="form-group text" ng-class="{ 'has-error' : entityForm.organiser.$invalid && !entityForm.organiser.$pristine }" ng-show="current_resource == 'events'">
+      <div class="form-group text" ng-show="current_resource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
         <label>{{field_schema.organiser.info.label}}</label>
         <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
         <div class="errors">
@@ -73,14 +75,15 @@
         </div>
       </div>
 
-      <div class="form-group date" ng-show="current_resource == 'events'">
+      <div class="form-group date" ng-show="current_resource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
         <label><?php print t('When') ?></label>
         <div class="row">
           <calendar></calendar>
         </div>
+        <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
       </div>
 
-      <div class="form-group btn-group" ng-show="current_resource == 'documents'">
+      <div class="form-group btn-group" ng-show="current_resource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
         <div class="label-wrapper">
           <label>{{field_schema.document_type.info.label}}</label>
           <span id="document_type_description" class="description">{{field_schema.document_type.info.description}}</span>
@@ -88,6 +91,7 @@
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
+            <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
           </div>
           <!-- Hidden document_type checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
@@ -99,7 +103,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group">
+      <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
         <div class="label-wrapper">
           <label>{{field_schema.topic.info.label}}</label>
           <span id="topic_description" class="description">{{field_schema.topic.info.description}}</span>
@@ -107,6 +111,7 @@
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
+            <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
           </div>
           <!-- Hidden topic checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.topic">
@@ -118,7 +123,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group" ng-show="current_resource != 'events'">
+      <div class="form-group btn-group" ng-show="current_resource != 'events'" ng-class="{ 'has-error' : errors.date }">
         <div class="label-wrapper">
           <label>{{field_schema.date.info.label}}</label>
           <span id="date_description" class="description">{{field_schema.date.info.description}}</span>
@@ -126,6 +131,7 @@
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
+            <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
           </div>
           <!-- Hidden date checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.date">
@@ -137,7 +143,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group">
+      <div class="form-group btn-group" ng-class="{ 'has-error' : errors.language }">
         <div class="label-wrapper">
           <label>{{field_schema.language.info.label}}</label>
           <span id="language_description" class="description">{{field_schema.language.info.description}}</span>
@@ -145,6 +151,7 @@
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
+            <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
           </div>
           <!-- Hidden language checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.language">
@@ -156,7 +163,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group">
+      <div class="form-group btn-group" ng-class="{ 'has-error' : errors.geo }">
         <div class="label-wrapper">
           <label>{{field_schema.geo.info.label}}</label>
           <span id="geo_description" class="description">{{field_schema.geo.info.description}}</span>
@@ -164,6 +171,7 @@
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
+            <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
           </div>
           <!-- Hidden geo checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
@@ -175,9 +183,10 @@
         </div>
       </div>
 
-      <div class="input-wrapper tags">
+      <div class="input-wrapper tags" ng-class="{ 'has-error' : errors.tags }">
         <label><?php print t('Tags') ?></label>
         <input multiple type="hidden" ui-select2="{query: tagsQuery, minimumInputLength: 2}" ng-model="data.tags" class="form-control"/>
+        <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
       </div>
 
       <div class="actions">

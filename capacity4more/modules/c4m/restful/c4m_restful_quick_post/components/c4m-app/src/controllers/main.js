@@ -74,8 +74,7 @@ angular.module('c4mApp')
           // Save the "group" ID.
           if (field == 'group') {
             var id = $scope.data[field];
-            $scope.data[field] = {};
-            $scope.data[field][id] = true;
+            $scope.data[field] = id;
           }
           else {
             $scope.popups[field] = 0;
@@ -131,7 +130,7 @@ angular.module('c4mApp')
      *   The query string.
      */
     $scope.tagsQuery = function (query) {
-      var group = {id: Object.keys($scope.data.group)};
+      var group = {id: $scope.data.group};
       var url = DrupalSettings.getBasePath() + 'api/tags';
       var terms = {results: []};
 
@@ -263,6 +262,9 @@ angular.module('c4mApp')
      */
     $scope.submitForm = function(entityForm, data, resource, type) {
 
+      // Reset all errors.
+      $scope.errors = {};
+
       // Copy data.
       var submitData = angular.copy(data);
 
@@ -270,16 +272,11 @@ angular.module('c4mApp')
       // Make node unpublished if requested to create in full form.
       submitData.status = type == 'full_form' ? 0 : 1;
 
-      // Get the fields of this resource.
-      var resource_fields = $scope.field_schema.resources[resource];
-
       // Setup Date and time for events.
       if (resource == 'events') {
         // If the user didn't choose the date, Display an error.
         if (!$scope.data.start_date || !$scope.data.end_date) {
-          $scope.errors.start_date = 'This field is required';
-          $scope.errors.end_date = 'This field is required';
-          return false;
+          $scope.errors.datetime = 1;
         }
         // If the user didn't choose the time, Fill the current time.
         if (!$scope.data.start_time || !$scope.data.end_time) {
@@ -293,23 +290,41 @@ angular.module('c4mApp')
         };
       }
 
-      // Get rid of the fields of the other resources.
-      // Get the IDs of the selected references.
+      // Get the fields of this resource.
+      var resource_fields = $scope.field_schema.resources[resource];
+
       angular.forEach(submitData, function (values, field) {
+        // Get rid of the fields of the other resources.
         if (!resource_fields[field]) {
           delete submitData[field];
           return;
         }
+        // Check required fields for validations
+        var field_required = resource_fields[field].data.required;
+        if (field_required && (!values || !values.length )) {
+          $scope.errors[field] = 1;
+        }
+        // Get the IDs of the selected references.
+        // Prepare data to send to RESTful.
         var field_type = resource_fields[field].data.type;
         if(values && (field_type == "entityreference" || field_type == "taxonomy_term_reference") && field != 'tags') {
           submitData[field] = [];
           angular.forEach(values, function (value, index) {
-            if(value === true) {
+            if (value === true) {
               submitData[field].push(index);
             }
           });
+          // The group field should have one value.
+          if (field == 'group') {
+            submitData[field] = values;
+          }
         }
       });
+
+      // Cancel submit if we have errors.
+      if ($scope.errors && type == 'quick_post') {
+        return false;
+      }
 
       // Assign tags.
       var tags = [];
