@@ -212,10 +212,6 @@ libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/414891
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
 
-libraries[bootstrap_sass][download][type] = "file"
-libraries[bootstrap_sass][type] = "libraries"
-libraries[bootstrap_sass][download][url] = "https://github.com/twbs/bootstrap-sass/archive/v3.1.1.zip"
-
 ; Themes
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.0"
