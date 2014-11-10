@@ -205,9 +205,3 @@ libraries[getlocations_markers][destination] = "libraries"
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.0"
 projects[bootstrap][type] = "theme"
-
-libraries[bootstrap][download][type] = "get"
-libraries[bootstrap][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.0.zip"
-libraries[bootstrap][directory_name] = "bootstrap"
-libraries[bootstrap][destination] = "themes/c4m/kapablo"
-libraries[bootstrap][overwrite] = TRUE
