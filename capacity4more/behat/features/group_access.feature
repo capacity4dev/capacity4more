@@ -1,11 +1,11 @@
 Feature: Group access
   Test group access
 
-  @api
+  @api @momo
   Scenario: Check public group
     Given a group "My bad hair day new group 1" with "Public" access and "badhairgroup1" url is created with group manager "turing"
      When I am logged in as user "isaacnewton"
-      And I go to "badhairgroup1/group/my-bad-hair-day-new-group-1"
+      And I go to "My bad hair day new group 1" of type "group"
      Then I should get a "200" HTTP response
       And I should see "Subscribe to group"
 
@@ -16,7 +16,7 @@ Feature: Group access
       And I go to "badhairgroup2/group/my-bad-hair-day-new-group-2"
      Then I should get a "403" HTTP response
 
-  @api
+  @api @momo
   Scenario: Check restricted group
     Given a moderated group "My bad hair day new group 3" with "gravity.com" restriction and "badhairgroup3" url is created with group manager "turing"
      When I am logged in as user "isaacnewton"

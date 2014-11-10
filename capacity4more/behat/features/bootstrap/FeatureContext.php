@@ -797,4 +797,12 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
+  /**
+   * @Given /^I go to "([^"]*)" of type "([^"]*)"$/
+   */
+  public function iGoToOfType($title, $node_type) {
+    
+    throw new PendingException();
+  }
+
 }
