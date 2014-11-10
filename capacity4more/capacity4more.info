@@ -121,5 +121,5 @@ dependencies[] = c4m_features_og_overview_tasks
 
 ; Search
 dependencies[] = c4m_search
-;dependencies[] = c4m_search_nodes
-;dependencies[] = c4m_search_users
+dependencies[] = c4m_search_nodes
+dependencies[] = c4m_search_users
