@@ -82,6 +82,37 @@ function c4m_content_group_default_page_manager_handlers() {
     $pane->uuid = '77fa710c-3cb0-468f-bab6-17badd6c5ed2';
     $display->content['new-77fa710c-3cb0-468f-bab6-17badd6c5ed2'] = $pane;
     $display->panels['left'][0] = 'new-77fa710c-3cb0-468f-bab6-17badd6c5ed2';
+    $pane = new stdClass();
+    $pane->pid = 'new-1f6cb587-7377-4146-921f-b51fee0b6e8b';
+    $pane->panel = 'left';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:group_group';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'hidden',
+      'formatter' => 'og_group_subscribe',
+      'delta_limit' => 0,
+      'delta_offset' => '0',
+      'delta_reversed' => FALSE,
+      'formatter_settings' => array(
+        'field_name' => '0',
+      ),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '1f6cb587-7377-4146-921f-b51fee0b6e8b';
+    $display->content['new-1f6cb587-7377-4146-921f-b51fee0b6e8b'] = $pane;
+    $display->panels['left'][1] = 'new-1f6cb587-7377-4146-921f-b51fee0b6e8b';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

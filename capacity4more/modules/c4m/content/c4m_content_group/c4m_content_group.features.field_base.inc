@@ -17,7 +17,14 @@ function c4m_content_group_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_related_group',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -108,7 +115,14 @@ function c4m_content_group_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'pluggable_node_access',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'pluggable_node_access' => array(
+        'columns' => array(
+          'target_id' => 'id',
+        ),
+        'table' => 'pluggable_node_access',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
