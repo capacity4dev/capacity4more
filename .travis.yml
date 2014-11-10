@@ -41,7 +41,7 @@ install:
 
 before_script:
   # Install Solr
-  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE:-capacity4more bash
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE:capacity4more bash
 
   - cp capacity4more/behat/travis-ci.config.sh config.sh
   - ./install -d -y
