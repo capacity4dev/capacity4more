@@ -17,10 +17,5 @@
       print render($content);
     ?>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <?php print $event_info; ?>
-    </div>
-  </div>
 
 </div>

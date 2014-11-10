@@ -18,9 +18,8 @@
     ?>
   </div>
   <div class="row">
-    <div class="col-sm-12">
-      <?php print $event_info; ?>
-    </div>
+    <?php print $download_link; ?>
+    <?php print $file_info; ?>
   </div>
 
 </div>
