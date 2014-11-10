@@ -896,9 +896,9 @@ function c4m_message__update__node__event($node) {
  * @param Message $message
  *    The message entity.
  * @param $entity_type
- *    Get type of the entity.
+ *    The entity type.
  * @param $entity
- *    Get node or term and so on for which we create/update message.
+ *    Node or term or other object for which we create/update message.
  */
 function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
@@ -965,6 +965,7 @@ function c4m_message_preprocess_message(&$variables) {
 
   $variables['content'] = $message->getText();
 
+  // Getting the name of the icon image file from the message type.
   $icon_type = explode('__', $message->type);
 
   $icon_entity_type = $icon_type[1];
@@ -972,10 +973,12 @@ function c4m_message_preprocess_message(&$variables) {
   $icon_name = 'missing';
 
   if ($icon_entity_type == 'node') {
+    // Icon image file name is content type of the node.
     $icon_name = $icon_type[2];
 
     if ($icon_name == 'discussion') {
       $message_wrapper = entity_metadata_wrapper('message', $message);
+      // Icon image file name is the discussion type of the discussion node.
       $icon_name = $message_wrapper->field_node->c4m_discussion_type->value();
     }
   }
@@ -1028,44 +1031,18 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
     case 'summary_with_image':
       foreach ($items as $delta => $item) {
 
-        // Getting the field value.
-        $body = $item['value'];
-
-        $image = '';
-
         // Getting summary from the field.
-        // Will use it if we don't have an image in the beginning.
         // Copied from text.module.
         if (!empty($item['summary'])) {
+          // Get image from the summary if it is there.
+          $image = _extract_image_from_text_field($item['summary']);
           $body_summary = _text_sanitize($instance, $langcode, $item, 'summary');
         }
         else {
+          // Get image from the value if it is there in the beginning.
+          $image = _extract_image_from_text_field($item['value']);
           $body_summary = _text_sanitize($instance, $langcode, $item, 'value');
           $body_summary = text_summary($body_summary, $instance['settings']['text_processing'] ? $item['format'] : NULL);
-        }
-
-        // Checking if there is an image in the beginning.
-        if (strpos($body, '<img') && strpos($body, '<img') < 600) {
-          $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
-          preg_match($pattern, $body, $images_uri);
-          // Getting the image url.
-          $image_uri = $images_uri[1];
-          // Removing the mage from the field value.
-          $body = preg_replace('/<img[^>]+\>/i', '', $body);
-
-          // Using theme_html_tag instead of theme_image to create an image
-          // because image url could be too long.
-          $image = theme('html_tag', array(
-            'element' => array(
-              '#tag' => 'img',
-              '#attributes' => array(
-                'class' => 'img-responsive',
-                'typeof' => 'foaf:Image',
-                'src' => $image_uri,
-              ),
-            )
-          ));
-          $body_summary = text_summary($body, $instance['settings']['text_processing'] ? $item['format'] : NULL);
         }
 
         $element[$delta] = array(
@@ -1077,6 +1054,38 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
       break;
   }
   return $element;
+}
+
+/**
+ * Return formatted html for an image
+ * if it is in the beginning of the text value.
+ *
+ * @param $value
+ *  Text field value or summary.
+ *
+ * @return string
+ *  Formatted html.
+ */
+function _extract_image_from_text_field($value) {
+  if (strpos($value, '<img') && strpos($value, '<img') < 600) {
+    $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
+    preg_match($pattern, $value, $images_uri);
+    // Getting the image url.
+    $image = theme('html_tag', array(
+            'element' => array(
+              '#tag' => 'img',
+              '#attributes' => array(
+                'class' => 'img-responsive',
+                'typeof' => 'foaf:Image',
+                'src' => $images_uri[1],
+              ),
+            )
+          ));
+    return $image;
+  }
+  else {
+    return '';
+  }
 }
 
 /**
