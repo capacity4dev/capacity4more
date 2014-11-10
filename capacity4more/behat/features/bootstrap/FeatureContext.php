@@ -792,9 +792,16 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^a moderated group "([^"]*)" with "([^"]*)" access and "([^"]*)" url is created with group manager "([^"]*)"$/
+   */
+  public function aModeratedGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username) {
+    return $this->aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, 'Restricted', $url, $username, NULL, TRUE);
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access and "([^"]*)" url is created with group manager "([^"]*)"$/
    */
-  public function aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username, $domains = NULL) {
+  public function aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username, $domains = NULL, $moderated = FALSE) {
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
@@ -805,6 +812,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
       $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
+    }
+    if ($moderated) {
+      $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     }
 
     $steps[] = new Step\When('I check the box "Fire"');
