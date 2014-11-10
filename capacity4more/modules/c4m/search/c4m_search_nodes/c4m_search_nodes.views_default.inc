@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * c4m_search_content.views_default.inc
+ * c4m_search_nodes.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_search_content_views_default_views() {
+function c4m_search_nodes_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_search_content';
+  $view->name = 'c4m_search_nodes';
   $view->description = 'Global search page to search trough all content (nodes).';
   $view->tag = 'Search';
   $view->base_table = 'search_api_index_c4m_search_nodes';
@@ -95,7 +95,7 @@ function c4m_search_content_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'search';
-  $export['c4m_search_content'] = $view;
+  $export['c4m_search_nodes'] = $view;
 
   return $export;
 }

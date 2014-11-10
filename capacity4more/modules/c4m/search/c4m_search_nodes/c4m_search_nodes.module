@@ -4,4 +4,4 @@
  * Code for the Search Content feature.
  */
 
-include_once 'c4m_search_content.features.inc';
+include_once 'c4m_search_nodes.features.inc';

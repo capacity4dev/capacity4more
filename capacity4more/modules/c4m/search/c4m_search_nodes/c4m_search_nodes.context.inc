@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_search_content.context.inc
+ * c4m_search_nodes.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function c4m_search_content_context_default_contexts() {
+function c4m_search_nodes_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
@@ -19,16 +19,16 @@ function c4m_search_content_context_default_contexts() {
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'c4m_search_content' => 'c4m_search_content',
+        'c4m_search_nodes' => 'c4m_search_nodes',
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views--exp-c4m_search_content-page' => array(
+        'views--exp-c4m_search_nodes-page' => array(
           'module' => 'views',
-          'delta' => '-exp-c4m_search_content-page',
+          'delta' => '-exp-c4m_search_nodes-page',
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
