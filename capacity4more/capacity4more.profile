@@ -130,10 +130,11 @@ function capacity4more_setup_rebuild_permissions() {
 function capacity4more_setup_set_variables() {
   $variables = array(
     // Homepage
-    'site_frontpage' => 'homepage',
+    'weight_frontpage' => '0',
+    'site_frontpage' => 'node',
 
     // Theme
-    'theme_default' => 'bootstrap',
+    'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 1,
     'jquery_update_jquery_version' => 1.8,

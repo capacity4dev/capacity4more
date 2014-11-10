@@ -32,7 +32,7 @@ function c4m_og_menu_context_default_contexts() {
         'menu-menu-group-menu' => array(
           'module' => 'menu',
           'delta' => 'menu-group-menu',
-          'region' => 'featured',
+          'region' => 'highlighted',
           'weight' => '-10',
         ),
       ),
