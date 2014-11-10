@@ -25,7 +25,7 @@ function c4m_search_default_search_api_server() {
       "site_hash" : true,
       "scheme" : "http",
       "host" : "127.0.0.1",
-      "port" : "8099",
+      "port" : "8983",
       "path" : "\\/solr\\/capacity4more",
       "http_user" : "admin",
       "http_pass" : "drupal",
