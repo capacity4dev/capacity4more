@@ -65,8 +65,8 @@ function c4m_content_group_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        0 => '<strong>Moderated</strong> - <span>Any member of capacity4dev who has access to this Group can request membership. The Gr',
-        1 => '<strong>Open</strong> - <span>Any member of capacity4dev who has access to this Group can become a member without approval by ',
+        0 => '<strong>Moderated</strong> - <span>Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request.</span>',
+        1 => '<strong>Open</strong> - <span>Any member of capacity4dev who has access to this Group can become a member without approval by the Group owner or one of the Group administrators.</span>',
       ),
       'allowed_values_function' => '',
     ),
