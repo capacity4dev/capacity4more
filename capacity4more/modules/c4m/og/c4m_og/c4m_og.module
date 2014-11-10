@@ -85,7 +85,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   foreach ($organisations_info as $name => $organisation) {
     // Set arrays for later use.
     $domains_to_js['domains'][$name] = $organisation['domains'];
-    $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $organisation['domains']))) . '</div>';
+    $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(' ', $organisation['domains']))) . '</div>';
 
     if (count($domains) >= count($organisation['domains'])) {
       $checked = TRUE;
@@ -158,7 +158,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
         ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
     ),
-    '#default_value' => implode(', ', $domains),
+    '#default_value' => implode(' ', $domains),
   );
 
   $form['pluggable_group_access']['private'] = array(
@@ -199,7 +199,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
       // Edit/create pluggable_node_access.
-      foreach (explode(',', $form_state['values']['restricted_by_domain']) as $domain) {
+      foreach (explode(' ', $form_state['values']['restricted_by_domain']) as $domain) {
         $domains[] = trim($domain);
       }
 

@@ -55,7 +55,7 @@
         var checkbox = $(event.currentTarget);
         var isChecked = checkbox.attr('checked');
         var domains = Drupal.settings.c4m_og.domains[checkbox.val()];
-        var existingDomains = $('#edit-restricted-by-domain').val().split(',');
+        var existingDomains = $('#edit-restricted-by-domain').val().split(' ');
         var newValue;
         if (isChecked) {
           // Add all needed domains.
@@ -65,7 +65,7 @@
           // Remove all needed domains.
           newValue = tool.cleanArray(existingDomains, domains);
         }
-        $('#edit-restricted-by-domain').val(newValue);
+        $('#edit-restricted-by-domain').val(newValue.toString().replace(/\,/g, ' '));
       });
     }
   }
