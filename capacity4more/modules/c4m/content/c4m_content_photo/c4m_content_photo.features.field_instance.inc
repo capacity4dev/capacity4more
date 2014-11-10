@@ -67,11 +67,12 @@ function c4m_content_photo_field_default_field_instances() {
     'display' => array(
       'activity_stream' => array(
         'label' => 'hidden',
-        'module' => 'file_entity',
+        'module' => 'image',
         'settings' => array(
-          'file_view_mode' => 'default',
+          'image_link' => '',
+          'image_style' => 'medium',
         ),
-        'type' => 'file_rendered',
+        'type' => 'image',
         'weight' => 0,
       ),
       'default' => array(
