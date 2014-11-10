@@ -100,6 +100,44 @@ function delete_profile_contrib {
   fi
 }
 
+##
+# Cleanup the profile/themes/c4m directory:
+# - Remove bootstrap library
+# - Remove sass cache
+# - Remove node_modules (npm install)
+# - Remove css folder
+##
+function delete_profile_dist {
+  # Cleanup the bootstrap library
+  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/bootstrap ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/bootstrap directory${RESTORE}"
+    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/bootstrap
+    echo
+  fi
+
+  # Cleanup the npm modules
+  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/node_modules ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/node_modules directory${RESTORE}"
+    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/node_modules
+    echo
+  fi
+
+  # Cleanup the sass cache
+  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/.sass-cache ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/.sass-cache directory${RESTORE}"
+    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/.sass-cache
+    echo
+  fi
+
+  # Cleanup the css folder
+  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/css ]; then
+    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/css directory${RESTORE}"
+    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/css
+    echo
+  fi
+}
+
+
 
 ##
 # Delete all the content within the /www folder.
@@ -326,3 +364,19 @@ function build_angular_app {
 
   echo
 }
+
+##
+# Build the Kapablo theme dependencies
+##
+function build_kapablo_theme {
+  echo -e "${LBLUE}> Build dependencies for Kapablo theme.${RESTORE}"
+
+  # Build the dependencies.
+  cd $ROOT/capacity4more/themes/c4m/kapablo
+  npm install
+  grunt build
+  cd $ROOT
+
+  echo
+}
+

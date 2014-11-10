@@ -134,6 +134,9 @@ fi
 # Cleanup contrib modules, themes & libraries from the profile directory.
 delete_profile_contrib
 
+# Cleanup npm and grunt builds.
+delete_profile_dist
+
 # Run the build script (drush make + extra's).
 drupal_make
 
@@ -153,6 +156,9 @@ fi
 
 # Build the AngularJs application.
 build_angular_app
+
+# Build Kapablo theme.
+build_kapablo_theme
 
 # Run post script (if any).
 run_post_script "upgrade"

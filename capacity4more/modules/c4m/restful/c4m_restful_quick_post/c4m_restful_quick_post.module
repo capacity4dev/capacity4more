@@ -38,19 +38,30 @@ function c4m_restful_quick_post_theme() {
 function c4m_restful_quick_post_form($node) {
   $bower_path = libraries_get_path('bower_components');
 
-  // Get "discussion" fields.
-  // @TODO: Add "events" resources to this list.
   $resources = array(
-    'discussions',
-    'documents',
+    'discussions' => array(
+      'bundle' => 'Discussion',
+      'description' => 'Add a Discussion',
+    ),
+    'documents' => array(
+      'bundle' => 'Document',
+      'description' => 'Upload a Document',
+    ),
+    'events' => array(
+      'bundle' => 'Event',
+      'description' => 'Add an Event',
+    ),
   );
 
+  // Get fields.
   $field_schema = array();
   $public_fields = array();
-  foreach ($resources as $resource) {
+  foreach ($resources as $resource => $value) {
     $handler = restful_get_restful_handler($resource);
     $field_schema += $handler->options();
     $public_fields += $handler->getPublicFields();
+    // Send the fields as separate objects as well (for validation on submit.)
+    $field_schema['resources'][$resource] = $handler->options();
   }
 
   // Load the libraries.
@@ -73,6 +84,10 @@ function c4m_restful_quick_post_form($node) {
   drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
   drupal_add_js($bower_path . '/select2/select2.js');
   drupal_add_js($bower_path . '/angular-ui-select2/src/select2.js');
+
+  // Bootstrap DatePicker.
+  drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap.min.js');
+  drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap-tpls.min.js');
 
   // Font-awesome library.
   drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
@@ -119,6 +134,7 @@ function c4m_restful_quick_post_form($node) {
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'resources' => $resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
     'data' => array(

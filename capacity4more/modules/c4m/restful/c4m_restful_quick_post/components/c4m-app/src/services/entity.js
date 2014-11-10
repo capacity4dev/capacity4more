@@ -9,16 +9,16 @@ angular.module('c4mApp')
      * @param data
      *   The data object to POST.
 
-     * @param bundle
+     * @param resource
      *   The bundle of the entity.
      *
      * @returns {*}
      *   JSON of the newly created entity.
      */
-    this.createEntity = function(data, bundle) {
+    this.createEntity = function(data, resource) {
       return $http({
         method: 'POST',
-        url: DrupalSettings.getBasePath() + 'api/' + bundle,
+        url: DrupalSettings.getBasePath() + 'api/' + resource,
         data: jQuery.param(data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

@@ -38,11 +38,11 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_body', 'body');
 
-    $this->addFieldMapping('c4m_media', 'file')
+    $this->addFieldMapping('c4m_document', 'file')
       ->separator(';');
-    $this->addFieldMapping('c4m_media:file_replace')
+    $this->addFieldMapping('c4m_document:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);
-    $this->addFieldMapping('c4m_media:source_dir')
+    $this->addFieldMapping('c4m_document:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/files');
 
     // Can't abstract categories and tags since not all content types have them.

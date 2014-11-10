@@ -78,7 +78,7 @@ projects[link][subdir] = "contrib"
 projects[link][version] = "1.3"
 
 projects[location][subdir] = "contrib"
-projects[location][version] = "3.3"
+projects[location][version] = "3.4"
 
 projects[mailsystem][version] = "2.34"
 projects[mailsystem][subdir] = "contrib"
@@ -200,10 +200,6 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
-
-libraries[bootstrap_sass][download][type] = "file"
-libraries[bootstrap_sass][type] = "libraries"
-libraries[bootstrap_sass][download][url] = "https://github.com/twbs/bootstrap-sass/archive/v3.1.1.zip"
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"

@@ -6,16 +6,17 @@ Feature: Test quick post
     Given I am logged in as the "admin"
     When  I visit "Tennis Group" node of type "group"
     And   I fill in "label" with "fo"
-    Then  I should see "Label is too short."
+    Then  I should see "Title is too short."
 
   @javascript
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as the "admin"
     When  I visit "Tennis Group" node of type "group"
-    And   I fill in "label" with "foobar"
+    And   I press the "Add a Discussion" button
+    And   I fill in "label" with "New discussion"
     And   I press the "quick-submit" button
     And   I wait
-    Then  I should see "The discussions was saved successfully."
+    Then  I should see "The Discussion was saved successfully."
 
   @javascript
   Scenario: Check Quick post "document" submit.
@@ -23,7 +24,20 @@ Feature: Test quick post
     When  I visit "Movie Popcorn Corner" node of type "group"
     And   I press the "Upload a Document" button
     And   I check the box "Research Paper"
-    And   I fill in "label" with "foobar"
+    And   I fill in "label" with "New document"
     And   I press the "quick-submit" button
     And   I wait
-    Then  I should see "The documents was saved successfully."
+    Then  I should see "The Document was saved successfully."
+
+  @javascript
+  Scenario: Check Quick post "event" submit.
+    Given I am logged in as the "admin"
+    When  I visit "Movie Popcorn Corner" node of type "group"
+    And   I press the "Add an Event" button
+    And   I press the "Meeting" button
+    And   I fill in "label" with "New event"
+    And   I fill in "start_date" with "2015-12-25"
+    And   I fill in "end_date" with "2015-12-26"
+    And   I press the "quick-submit" button
+    And   I wait
+    Then  I should see "The Event was saved successfully."

@@ -13,13 +13,13 @@ angular.module('c4mApp')
       restrict: 'E',
       scope: {
         items: '=',
-        bundleName: '=',
+        currentResource: '=',
         onChange: '=onChange'
       },
       link: function postLink(scope) {
         // On changing type => update the bundleName.
-        scope.updateBundle = function(bundle, e) {
-          return scope.onChange(bundle, e);
+        scope.updateResource = function(resource, e) {
+          return scope.onChange(resource, e);
         }
       }
     };
