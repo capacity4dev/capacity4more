@@ -994,8 +994,6 @@ function c4m_message_preprocess_message(&$variables) {
  * Node preprocess.
  *
  * Add the the "Activity stream" tpl.
- *
- * @todo: Copy the provided tpl to the theme.
  */
 function c4m_message_preprocess_node(&$variables) {
   if ($variables['view_mode'] == 'activity_stream') {
@@ -1025,20 +1023,38 @@ function c4m_message_field_formatter_info() {
  */
 function c4m_message_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+
   switch ($display['type']) {
     case 'summary_with_image':
       foreach ($items as $delta => $item) {
 
-        $wrapper = entity_metadata_wrapper($entity_type, $entity);
-        $body = $wrapper->c4m_body->value->value();
+        // Getting the field value.
+        $body = $item['value'];
+
         $image = '';
 
+        // Getting summary from the field.
+        // Will use it if we don't have an image in the beginning.
+        // Copied from text.module.
+        if (!empty($item['summary'])) {
+          $body_summary = _text_sanitize($instance, $langcode, $item, 'summary');
+        }
+        else {
+          $body_summary = _text_sanitize($instance, $langcode, $item, 'value');
+          $body_summary = text_summary($body_summary, $instance['settings']['text_processing'] ? $item['format'] : NULL);
+        }
+
+        // Checking if there is an image in the beginning.
         if (strpos($body, '<img') && strpos($body, '<img') < 600) {
           $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
           preg_match($pattern, $body, $images_uri);
+          // Getting the image url.
           $image_uri = $images_uri[1];
+          // Removing the mage from the field value.
           $body = preg_replace('/<img[^>]+\>/i', '', $body);
 
+          // Using theme_html_tag instead of theme_image to create an image
+          // because image url could be too long.
           $image = theme('html_tag', array(
             'element' => array(
               '#tag' => 'img',
@@ -1049,12 +1065,13 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
               ),
             )
           ));
+          $body_summary = text_summary($body, $instance['settings']['text_processing'] ? $item['format'] : NULL);
         }
 
         $element[$delta] = array(
           '#theme' => 'c4m_message_summary_with_image',
           '#image' => $image,
-          '#description' => substr($body, 0, 600),
+          '#description' => $body_summary,
         );
       }
       break;
@@ -1066,8 +1083,6 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
  * Node__document preprocess.
  *
  * Add the the "Document Activity stream" tpl.
- *
- * @todo: Copy the provided tpl to the theme.
  */
 function c4m_message_preprocess_node__document(&$variables) {
   if ($variables['view_mode'] != 'activity_stream') {
@@ -1098,8 +1113,6 @@ function c4m_message_preprocess_node__document(&$variables) {
  * Node__event preprocess.
  *
  * Add the the "Event Activity stream" tpl.
- *
- * @todo: Copy the provided tpl to the theme.
  */
 function c4m_message_preprocess_node__event(&$variables) {
   if ($variables['view_mode'] != 'activity_stream') {
