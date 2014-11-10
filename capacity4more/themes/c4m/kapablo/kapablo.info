@@ -1,0 +1,33 @@
+name = Kapablo Theme
+description = Capacity4more Kapablo theme, based on bootstrap
+core = 7.x
+base theme = bootstrap
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Regions
+;;;;;;;;;;;;;;;;;;;;;
+
+regions[navigation]     = 'Navigation'
+regions[user]           = 'User'
+regions[header]         = 'Top Bar'
+regions[content_top]    = 'Page top'
+regions[highlighted]    = 'Highlighted'
+regions[help]           = 'Help'
+regions[content]        = 'Content'
+regions[sidebar_first]  = 'Primary'
+regions[sidebar_second] = 'Secondary'
+regions[content_bottom] = 'Page bottom'
+regions[footer]         = 'Footer'
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = 'css/bootstrap.css'
+stylesheets[all][] = 'css/style.css'
+
+;;;;;;;;;;;;;;;;;;;;;
+;; CDN
+;;;;;;;;;;;;;;;;;;;;;
+settings[bootstrap_cdn] = 3.3.0
