@@ -102,6 +102,15 @@ class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
     return $public_fields;
   }
 
+  /**
+   * Process a property value.
+   *
+   * @param $value
+   *  The property value.
+   *
+   * @return array
+   *  The new value.
+   */
   protected function processDocument($value) {
     return array(
       'id' => $value['fid'],

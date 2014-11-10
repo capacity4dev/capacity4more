@@ -31,6 +31,7 @@ class RestfulEntityTaxonomyTermTags extends \C4mRestfulEntityBaseTaxonomyTerm {
 
     $this->bundle = $og_vocab[0]->machine_name;
 
+    // Group id removed from the request because it's not a field in the taxonomy.
     unset($request['group']);
 
     return parent::process($path, $request, $method, $check_rate_limit);

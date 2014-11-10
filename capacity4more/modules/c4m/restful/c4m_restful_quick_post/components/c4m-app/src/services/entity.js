@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .service('EntityResource', function(DrupalSettings, $http) {
+  .service('EntityResource', function(DrupalSettings, Request, $http) {
 
     /**
      * Create a new entity.
@@ -12,14 +12,17 @@ angular.module('c4mApp')
      * @param resource
      *   The bundle of the entity.
      *
+     * @param resource_fields
+     *   The fields information.
+     *
      * @returns {*}
      *   JSON of the newly created entity.
      */
-    this.createEntity = function(data, resource) {
+    this.createEntity = function(data, resource, resource_fields) {
       return $http({
         method: 'POST',
         url: DrupalSettings.getBasePath() + 'api/' + resource,
-        data: jQuery.param(data),
+        data: Request.prepare(data, resource, resource_fields),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           "X-CSRF-Token": DrupalSettings.getCsrfToken()

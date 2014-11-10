@@ -1,29 +1,29 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, $window, $document, $http, FileUpload, $filter) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload, $filter) {
     $scope.data = DrupalSettings.getData('entity');
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
     // Setting empty default resource.
-    $scope.current_resource = '';
+    $scope.selectedResource = '';
 
     // Getting the fields information.
-    $scope.field_schema = DrupalSettings.getFieldSchema();
+    $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
-    $scope.reference_values = {};
+    $scope.referenceValues = {};
 
     $scope.errors = {};
 
-    $scope.server_side = {
+    $scope.serverSide = {
       status: 0,
       data: {}
     };
 
-    $scope.tags_query_cache = [];
+    $scope.tagsQueryCache = [];
 
     // Date Calendar options.
     $scope.minDate = new Date();
@@ -63,13 +63,13 @@ angular.module('c4mApp')
      */
     function prepareData() {
       $scope.popups = {};
-      angular.forEach($scope.field_schema, function (data, field) {
+      angular.forEach($scope.fieldSchema, function (data, field) {
         if (field == 'resources') {
           return;
         }
-        var allowed_values = data.form_element.allowed_values;
-        if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
-          $scope.reference_values[field] = data.form_element.allowed_values;
+        var allowedValues = data.form_element.allowed_values;
+        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
+          $scope.referenceValues[field] = allowedValues;
 
           // Save the "group" ID.
           if (field == 'group') {
@@ -89,12 +89,14 @@ angular.module('c4mApp')
 
     // Set "Start a Debate" as default discussion type.
     $scope.data.discussion_type = 'debate';
+    // Set "Event" as default event type.
+    $scope.data.event_type = 'event';
 
     // Prepare the "Regions & Countries" to be a tree object.
-    angular.forEach($scope.reference_values, function (data, field) {
+    angular.forEach($scope.referenceValues, function (data, field) {
       var parent = 0;
       $scope[field] = {};
-      angular.forEach($scope.reference_values[field], function (label, id) {
+      angular.forEach($scope.referenceValues[field], function (label, id) {
         if(label.indexOf('-')) {
           parent = id;
           $scope[field][id] = {
@@ -107,7 +109,7 @@ angular.module('c4mApp')
           if (parent > 0) {
             $scope[field][parent]['children'].push({
               id: id,
-              label: label.replace("-","")
+              label: label.replace('-','')
             });
           }
         }
@@ -118,8 +120,8 @@ angular.module('c4mApp')
      * Display the fields upon clicking on the label field.
      */
     $scope.showFields = function () {
-      if (!$scope.current_resource) {
-        $scope.current_resource = 'discussions';
+      if (!$scope.selectedResource) {
+        $scope.selectedResource = 'discussions';
       }
     };
 
@@ -135,9 +137,9 @@ angular.module('c4mApp')
       var terms = {results: []};
 
       var lowerCaseTerm = query.term.toLowerCase();
-      if (angular.isDefined($scope.tags_query_cache[lowerCaseTerm])) {
+      if (angular.isDefined($scope.tagsQueryCache[lowerCaseTerm])) {
         // Add caching.
-        terms.results = $scope.tags_query_cache[lowerCaseTerm];
+        terms.results = $scope.tagsQueryCache[lowerCaseTerm];
         query.callback(terms);
         return;
       }
@@ -159,7 +161,7 @@ angular.module('c4mApp')
               isNew: false
             });
           });
-          $scope.tags_query_cache[lowerCaseTerm] = terms;
+          $scope.tagsQueryCache[lowerCaseTerm] = terms;
         }
 
         query.callback(terms);
@@ -183,14 +185,17 @@ angular.module('c4mApp')
       // Add class "active" to clicked element.
       element.addClass( "active" );
       // Update Bundle.
-      $scope.current_resource = resource;
+      $scope.selectedResource = resource;
     };
 
     /**
      * Update the type of the discussion.
      *
      * @param type
-     *  The type of the discussion.
+     *  The type.
+
+     * @param field
+     *  The name of the field.
      *
      *  @param event
      *    The click event.
@@ -265,105 +270,44 @@ angular.module('c4mApp')
       // Reset all errors.
       $scope.errors = {};
 
-      // Copy data.
-      var submitData = angular.copy(data);
-
       // Check the type of the submit.
       // Make node unpublished if requested to create in full form.
-      submitData.status = type == 'full_form' ? 0 : 1;
-
-      // Setup Date and time for events.
-      if (resource == 'events') {
-        // If the user didn't choose the date, Display an error.
-        if (!$scope.data.start_date || !$scope.data.end_date) {
-          $scope.errors.datetime = 1;
-        }
-        // If the user didn't choose the time, Fill the current time.
-        if (!$scope.data.start_time || !$scope.data.end_time) {
-          $scope.data.start_time = new Date();
-          $scope.data.end_time = new Date();
-        }
-        // Convert  to a timestamp for restful.
-        submitData.datetime =  {
-          value: $filter('date')($scope.data.start_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.start_time, 'HH:mm:ss'),
-          value2: $filter('date')($scope.data.end_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.end_time, 'HH:mm:ss')
-        };
-      }
+      data.status = type == 'full_form' ? 0 : 1;
 
       // Get the fields of this resource.
-      var resource_fields = $scope.field_schema.resources[resource];
+      var resource_fields = $scope.fieldSchema.resources[resource];
 
-      angular.forEach(submitData, function (values, field) {
-        // Get rid of the fields of the other resources.
-        if (!resource_fields[field]) {
-          delete submitData[field];
-          return;
-        }
-        // Check required fields for validations
-        var field_required = resource_fields[field].data.required;
-        if (field_required && (!values || !values.length )) {
-          $scope.errors[field] = 1;
-        }
-        // Get the IDs of the selected references.
-        // Prepare data to send to RESTful.
-        var field_type = resource_fields[field].data.type;
-        if(values && (field_type == "entityreference" || field_type == "taxonomy_term_reference") && field != 'tags') {
-          submitData[field] = [];
-          angular.forEach(values, function (value, index) {
-            if (value === true) {
-              submitData[field].push(index);
-            }
-          });
-          // The group field should have one value.
-          if (field == 'group') {
-            submitData[field] = values;
-          }
-        }
-      });
+      // Clean the submitted data, Drupal will return an error on undefined fields.
+      var submitData = Request.cleanFields(data, resource_fields);
+
+      // Check for required fields.
+      var errors = Request.checkRequired(submitData, resource, resource_fields);
 
       // Cancel submit if we have errors.
-      if ($scope.errors && type == 'quick_post') {
+      if (Object.keys(errors).length && type == 'quick_post') {
+        angular.forEach( errors, function(value, field) {
+          this[field] = value;
+        }, $scope.errors);
         return false;
       }
 
-      // Assign tags.
-      var tags = [];
-      angular.forEach(submitData.tags, function (term, index) {
-        if (term.isNew) {
-          // New term.
-          tags[index] = {};
-          tags[index].label = term.id;
-        }
-        else {
-          // Existing term.
-          tags[index] = term.id;
-        }
-      });
-
-      submitData.tags = tags;
-
-      // Deleting the "document" field when it's empty.
-      if (submitData.document == null) {
-        delete submitData['document'];
-      }
-
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource)
-      .success(function(data, status) {
+      EntityResource.createEntity(submitData, resource, resource_fields)
+      .success( function (data, status) {
         // If requested to create in full form, Redirect user to the edit page.
         if(type == 'full_form') {
-          var node_id = data.data[0].id;
-          $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
+          var entityID = data.data[0].id;
+          $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
         }
         else {
-          $scope.server_side.data = data;
-          $scope.server_side.status = status;
+          $scope.serverSide.data = data;
+          $scope.serverSide.status = status;
           prepareData();
         }
       })
-      .error(function(data, status) {
-        $scope.server_side.data = data;
-        $scope.server_side.status = status;
+      .error( function (data, status) {
+        $scope.serverSide.data = data;
+        $scope.serverSide.status = status;
         prepareData();
       });
     };
@@ -380,7 +324,7 @@ angular.module('c4mApp')
         var file = $files[i];
         FileUpload.upload(file).then(function(data) {
           $scope.data.document = data.data.data[0].id;
-          $scope.server_side.file = data;
+          $scope.serverSide.file = data;
         });
       }
     };
