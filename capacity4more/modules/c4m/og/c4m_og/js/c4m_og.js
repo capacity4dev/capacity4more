@@ -53,7 +53,7 @@
         // On check - add all given domains to the text field.
         // On uncheck - remove the given domains from the text field.
         var checkbox = $(event.currentTarget);
-        var isChecked = checkbox.attr('checked');
+        var isChecked = checkbox.prop('checked');
         var domains = Drupal.settings.c4m_og.domains[checkbox.val()];
         var existingDomains = $('#edit-restricted-by-domain').val().split(' ');
         var newValue;
