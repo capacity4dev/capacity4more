@@ -168,6 +168,14 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#description' => t('Only Group members will be able to access this Group.'),
   );
 
+  // Show field_membership_open_request only when pluggable_group_access is not private
+  $form['field_membership_open_request']['#states'] = array (
+    // Show the checkboxes only when "restricted" is selected
+    'invisible' => array(
+      ':input[name="pluggable_group_access"]' => array('value' => 'private'),
+    ),
+  );
+
   // Adds submit handler.
   $form['#submit'][] = 'c4m_og_group_form_submit';
 
@@ -258,7 +266,7 @@ function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
 
 /**
  * Implements hook_og_user_access_alter().
- * Allow subscribing based on field_membership_requests value.
+ * Allow subscribing based on field_membership_open_request value.
  */
 function c4m_og_og_user_access_alter(&$perm, $context) {
   if ($context['string'] != 'subscribe without approval') {
