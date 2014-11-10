@@ -60,6 +60,8 @@ function c4m_restful_quick_post_form($node) {
     $handler = restful_get_restful_handler($resource);
     $field_schema += $handler->options();
     $public_fields += $handler->getPublicFields();
+    // Send the fields as separate objects as well (for validation on submit.)
+    $field_schema['resources'][$resource] = $handler->options();
   }
 
   // Load the libraries.

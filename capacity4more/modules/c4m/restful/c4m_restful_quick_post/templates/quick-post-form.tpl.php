@@ -33,7 +33,7 @@
 
     <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
       <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" required ng-minlength=3>
-      <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Label is too short.'); ?></p>
+      <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
       <div class="errors">
         <ul ng-show="server_side.data.errors.label">
           <li ng-repeat="error in server_side.data.errors.label">{{error}}</li>
@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+      <div class="form-group text" ng-class="{ 'has-error' : entityForm.organiser.$invalid && !entityForm.organiser.$pristine }" ng-show="current_resource == 'events'">
         <label>{{field_schema.organiser.info.label}}</label>
         <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
         <div class="errors">

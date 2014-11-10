@@ -64,6 +64,9 @@ angular.module('c4mApp')
     function prepareData() {
       $scope.popups = {};
       angular.forEach($scope.field_schema, function (data, field) {
+        if (field == 'resources') {
+          return;
+        }
         var allowed_values = data.form_element.allowed_values;
         if(angular.isObject(allowed_values) && Object.keys(allowed_values).length && field != "tags") {
           $scope.reference_values[field] = data.form_element.allowed_values;
@@ -259,119 +262,95 @@ angular.module('c4mApp')
      *    The type of the submission.
      */
     $scope.submitForm = function(entityForm, data, resource, type) {
-      // @TODO: Clean the form in a more generic way.
-      // Clean request from un-needed fields.
-      switch (resource) {
-        case 'discussions':
-          delete data['document'];
-          delete data['document_type'];
-          delete data['organiser'];
-          delete data['datetime'];
-          delete data['location'];
-          break;
-        case 'documents':
-          delete data['discussion_type'];
-          delete data['organiser'];
-          delete data['datetime'];
-          delete data['location'];
-          break;
-        case 'events':
-          delete data['discussion_type'];
-          delete data['document'];
-          delete data['document_type'];
-          delete data['date'];
-          break;
-        default:
-          break;
-      }
+
+      // Copy data.
+      var submitData = angular.copy(data);
 
       // Check the type of the submit.
       // Make node unpublished if requested to create in full form.
-      data.status = type == 'full_form' ? 0 : 1;
+      submitData.status = type == 'full_form' ? 0 : 1;
 
-      // Check if angular thinks that the form is valid.
-      if(entityForm.$valid) {
+      // Get the fields of this resource.
+      var resource_fields = $scope.field_schema.resources[resource];
 
-        // Get the IDs of the selected references.
-        angular.forEach(data, function (values, field) {
-          if(values && angular.isObject(values)  && Object.keys(values).length && field != 'tags') {
-            data[field] = [];
-            angular.forEach(values, function (value, index) {
-              if(value === true) {
-                data[field].push(index);
-              }
-            });
-          }
-        });
-
-        // Copy data.
-        var submitData = angular.copy(data);
-
-        // Setup Date and time for events.
-        if (resource == 'events') {
-          // If the user didn't choose the date, Display an error.
-          if (!$scope.data.start_time || !$scope.data.end_time) {
-            $scope.errors.start_date = 'This field is required';
-            $scope.errors.end_date = 'This field is required';
-          }
-          // If the user didn't choose the time, Fill the current time.
-          if (!$scope.data.start_time || !$scope.data.end_time) {
-            $scope.data.start_time = new Date();
-            $scope.data.end_time = new Date();
-          }
-          // Convert  to a timestamp for restful.
-          submitData.datetime =  {
-            value: $filter('date')($scope.data.start_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.start_time, 'HH:mm:ss'),
-            value2: $filter('date')($scope.data.end_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.end_time, 'HH:mm:ss')
-          };
-          // Delete time because RESTful will try to check their values.
-          delete submitData['start_date'];
-          delete submitData['end_date'];
-          delete submitData['start_time'];
-          delete submitData['end_time'];
+      // Setup Date and time for events.
+      if (resource == 'events') {
+        // If the user didn't choose the date, Display an error.
+        if (!$scope.data.start_date || !$scope.data.end_date) {
+          $scope.errors.start_date = 'This field is required';
+          $scope.errors.end_date = 'This field is required';
+          return false;
         }
-
-        // Assign tags.
-        var tags = [];
-        angular.forEach(submitData.tags, function (term, index) {
-          if (term.isNew) {
-            // New term.
-            tags[index] = {};
-            tags[index].label = term.id;
-          }
-          else {
-            // Existing term.
-            tags[index] = term.id;
-          }
-        });
-
-        submitData.tags = tags;
-
-        // Deleting the "document" field when it's empty.
-        if (submitData.document == null) {
-          delete submitData['document'];
+        // If the user didn't choose the time, Fill the current time.
+        if (!$scope.data.start_time || !$scope.data.end_time) {
+          $scope.data.start_time = new Date();
+          $scope.data.end_time = new Date();
         }
+        // Convert  to a timestamp for restful.
+        submitData.datetime =  {
+          value: $filter('date')($scope.data.start_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.start_time, 'HH:mm:ss'),
+          value2: $filter('date')($scope.data.end_date, 'yyyy-MM-dd') + ' ' + $filter('date')($scope.data.end_time, 'HH:mm:ss')
+        };
+      }
 
-        // Call the create entity function service.
-        EntityResource.createEntity(submitData, resource)
-        .success(function(data, status) {
-          // If requested to create in full form, Redirect user to the edit page.
-          if(type == 'full_form') {
-            var node_id = data.data[0].id;
-            $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
-          }
-          else {
-            $scope.server_side.data = data;
-            $scope.server_side.status = status;
-            prepareData();
-          }
-        })
-        .error(function(data, status) {
+      // Get rid of the fields of the other resources.
+      // Get the IDs of the selected references.
+      angular.forEach(submitData, function (values, field) {
+        if (!resource_fields[field]) {
+          delete submitData[field];
+          return;
+        }
+        var field_type = resource_fields[field].data.type;
+        if(values && (field_type == "entityreference" || field_type == "taxonomy_term_reference") && field != 'tags') {
+          submitData[field] = [];
+          angular.forEach(values, function (value, index) {
+            if(value === true) {
+              submitData[field].push(index);
+            }
+          });
+        }
+      });
+
+      // Assign tags.
+      var tags = [];
+      angular.forEach(submitData.tags, function (term, index) {
+        if (term.isNew) {
+          // New term.
+          tags[index] = {};
+          tags[index].label = term.id;
+        }
+        else {
+          // Existing term.
+          tags[index] = term.id;
+        }
+      });
+
+      submitData.tags = tags;
+
+      // Deleting the "document" field when it's empty.
+      if (submitData.document == null) {
+        delete submitData['document'];
+      }
+
+      // Call the create entity function service.
+      EntityResource.createEntity(submitData, resource)
+      .success(function(data, status) {
+        // If requested to create in full form, Redirect user to the edit page.
+        if(type == 'full_form') {
+          var node_id = data.data[0].id;
+          $window.location = DrupalSettings.getBasePath() + "node/" + node_id + "/edit";
+        }
+        else {
           $scope.server_side.data = data;
           $scope.server_side.status = status;
           prepareData();
-        });
-      }
+        }
+      })
+      .error(function(data, status) {
+        $scope.server_side.data = data;
+        $scope.server_side.status = status;
+        prepareData();
+      });
     };
 
     /**

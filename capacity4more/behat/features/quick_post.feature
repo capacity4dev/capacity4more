@@ -6,7 +6,7 @@ Feature: Test quick post
     Given I am logged in as the "admin"
     When  I visit "Tennis Group" node of type "group"
     And   I fill in "label" with "fo"
-    Then  I should see "Label is too short."
+    Then  I should see "Title is too short."
 
   @javascript
   Scenario: Check Quick post "discussion" submit.
