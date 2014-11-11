@@ -9,14 +9,14 @@ Feature: Test tasks
 
   @javascript
   Scenario: Check Quick post error validation.
-    Given I am logged in as the "admin"
+    Given I am logged in as user "admin"
     When  I visit "Tennis Group" node of type "group"
     And   I fill in "label" with "fo"
     Then  I should see "Label is too short."
 
   @javascript
   Scenario: Check Quick post submit.
-    Given I am logged in as the "admin"
+    Given I am logged in as user "admin"
     When  I visit "Tennis Group" node of type "group"
     And   I fill in "label" with "foobar"
     And   I press the "quick-submit" button
