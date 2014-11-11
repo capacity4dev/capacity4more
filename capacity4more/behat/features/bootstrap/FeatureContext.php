@@ -797,7 +797,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps = array();
     $steps[] = new Step\When('I visit "group/' . $url . '"');
 
-    $steps[] = new Step\When('I should see "' . $text . '"');
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
 
     return $steps;
   }
