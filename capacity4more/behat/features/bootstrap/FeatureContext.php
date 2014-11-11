@@ -800,4 +800,27 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $steps;
   }
+
+  /**
+   * @Then /^I should not be allowed to go to "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToGoTo($page) {
+
+    return array(
+      new Step\When('I go to "'.$page.'"'),
+      new Step\Then('the response status code should be 403'),
+    );
+  }
+
+  /**
+   * @Then /^I should  be allowed to go to "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToGoTo($page) {
+
+    return array(
+      new Step\When('I go to "'.$page.'"'),
+      new Step\Then('the response status code should be 200'),
+    );
+  }
+
 }
