@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @ngdoc service
+ * @name c4mApp.service:EntityResource
+ * @description
+ * # Sends the request to RESTful.
+ */
 angular.module('c4mApp')
   .service('EntityResource', function(DrupalSettings, Request, $http) {
 

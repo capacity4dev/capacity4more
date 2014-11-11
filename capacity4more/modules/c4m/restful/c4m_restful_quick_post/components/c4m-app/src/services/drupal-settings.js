@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @ngdoc service
+ * @name c4mApp.service:DrupalSettings
+ * @description
+ * # Imports the settings sent from drupal.
+ */
 angular.module('c4mApp')
   .service('DrupalSettings', function($window) {
     var self = this;

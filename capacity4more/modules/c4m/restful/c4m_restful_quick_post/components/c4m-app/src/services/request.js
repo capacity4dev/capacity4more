@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @ngdoc service
+ * @name c4mApp.service:Request
+ * @description
+ * # Cleans and prepares the RESTful request object.
+ */
 angular.module('c4mApp')
   .service('Request', function($filter) {
     var Request = this;

@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @ngdoc service
+ * @name c4mApp.service:FileUpload
+ * @description
+ * # Uploads file to drupal.
+ */
 angular.module('c4mApp')
   .service('FileUpload', function(DrupalSettings, $upload) {
 

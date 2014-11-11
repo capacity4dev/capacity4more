@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload, $filter) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload) {
+
     $scope.data = DrupalSettings.getData('entity');
+
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
@@ -48,11 +50,10 @@ angular.module('c4mApp')
     };
 
     $scope.format = 'dd/MM/yyyy';
-    // /Date Calendar options.
 
+    // Time picker options.
     $scope.hstep = 1;
     $scope.mstep = 1;
-    // /Time picker options.
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -62,22 +63,15 @@ angular.module('c4mApp')
     function prepareData() {
       $scope.popups = {};
       angular.forEach($scope.fieldSchema, function (data, field) {
-        if (field == 'resources') {
+        // Don't change the group field Or resource object.
+        if (field == 'resources' || field == 'group') {
           return;
         }
         var allowedValues = data.form_element.allowed_values;
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
-
-          // Save the "group" ID.
-          if (field == 'group') {
-            var id = $scope.data[field];
-            $scope.data[field] = id;
-          }
-          else {
-            $scope.popups[field] = 0;
-            $scope.data[field] = {};
-          }
+          $scope.popups[field] = 0;
+          $scope.data[field] = {};
         }
       });
     }
@@ -90,7 +84,7 @@ angular.module('c4mApp')
     // Set "Event" as default event type.
     $scope.data.event_type = 'event';
 
-    // Prepare the "Regions & Countries" to be a tree object.
+    // Prepare all the taxonomy-terms to be a tree object.
     angular.forEach($scope.referenceValues, function (data, field) {
       var parent = 0;
       $scope[field] = {};
@@ -167,7 +161,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * Update the bundle of the entity to send to the right API.
+     * Called by the directive "bundle-select",
+     * Updates the bundle of the entity to send to the correct API url.
      *
      * @param resource
      *  The resource name.
@@ -187,7 +182,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * Update the type of the discussion.
+     * Called by the directive "types",
+     * Updates the type of the selected resource.
      *
      * @param type
      *  The type.
