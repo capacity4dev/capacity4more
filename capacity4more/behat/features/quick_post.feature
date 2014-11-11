@@ -8,17 +8,18 @@ Feature: Test quick post
     And   I fill in "label" with "fo"
     Then  I should see "Title is too short."
 
-  @javascript
+  @wip @javascript
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as the "admin"
     When  I visit "Tennis Group" node of type "group"
     And   I press the "Add a Discussion" button
     And   I fill in "label" with "New discussion"
+    And   I fill the "body" editor with "New discussion description"
     And   I press the "quick-submit" button
     And   I wait
     Then  I should see "The Discussion was saved successfully."
 
-  @javascript
+  @wip @javascript
   Scenario: Check Quick post "document" submit.
     Given I am logged in as the "admin"
     When  I visit "Movie Popcorn Corner" node of type "group"
@@ -29,7 +30,7 @@ Feature: Test quick post
     And   I wait
     Then  I should see "The Document was saved successfully."
 
-  @javascript
+  @wip @javascript
   Scenario: Check Quick post "event" submit.
     Given I am logged in as the "admin"
     When  I visit "Movie Popcorn Corner" node of type "group"
