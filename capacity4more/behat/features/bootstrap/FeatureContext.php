@@ -750,16 +750,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a moderated group "([^"]*)" with "([^"]*)" restriction and "([^"]*)" url is created with group manager "([^"]*)"$/
+   * @Given /^a moderated group "([^"]*)" with "([^"]*)" restriction is created with group manager "([^"]*)"$/
    */
-  public function aGroupWithRestrictionAndUrlIsCreatedWithGroupManager($title, $domains, $url, $username) {
-    return $this->aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, 'Restricted', $url, $username, $domains, TRUE);
+  public function aModeratedGroupWithRestrictionIsCreatedWithGroupManager($title, $domains, $username) {
+    return $this->aGroupWithAccessIsCreatedWithGroupManager($title, 'Restricted', $username, $domains, TRUE);
   }
 
   /**
-   * @Given /^a group "([^"]*)" with "([^"]*)" access and "([^"]*)" url is created with group manager "([^"]*)"$/
+   * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
-  public function aGroupWithAccessAndUrlIsCreatedWithGroupManager($title, $access, $url, $username, $domains = NULL, $moderated = FALSE) {
+  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE) {
+    // Generate URL from title.
+    $url = str_replace("-", " ", trim($title));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
@@ -775,6 +777,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     }
 
+    // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Save"');
 
