@@ -761,7 +761,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE) {
     // Generate URL from title.
-    $url = str_replace(" ", "-", trim($title));
+    $url = strtolower(str_replace(" ", "-", trim($title)));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
