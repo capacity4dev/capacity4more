@@ -28,7 +28,7 @@ angular.module('c4mApp')
           submitData.datetime.startTime = new Date();
           submitData.datetime.endTime = new Date();
         }
-        // Convert to a timestamp for restful.
+        // Convert to drupal date-field format.
         submitData.datetime = {
           value: $filter('date')(submitData.datetime.startDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.startTime, 'HH:mm:ss'),
           value2: $filter('date')(submitData.datetime.endDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.endTime, 'HH:mm:ss')
@@ -38,17 +38,19 @@ angular.module('c4mApp')
       angular.forEach(submitData, function (values, field) {
         // Get the IDs of the selected references.
         // Prepare data to send to RESTful.
-        var fieldType = Request.resourceFields[field].data.type;
-        if (values && (fieldType == "entityreference" || fieldType == "taxonomy_term_reference") && field != 'tags') {
-          submitData[field] = [];
-          angular.forEach(values, function (value, index) {
-            if (value === true) {
-              this[field].push(index);
+        if (Request.resourceFields[field] && field != 'tags') {
+          var fieldType = Request.resourceFields[field].data.type;
+          if (values && (fieldType == "entityreference" || fieldType == "taxonomy_term_reference")) {
+            submitData[field] = [];
+            angular.forEach(values, function (value, index) {
+              if (value === true) {
+                this[field].push(index);
+              }
+            }, submitData);
+            // The group field should have one value.
+            if (field == 'group') {
+              submitData[field] = values;
             }
-          }, submitData);
-          // The group field should have one value.
-          if (field == 'group') {
-            submitData[field] = values;
           }
         }
       });
@@ -68,6 +70,8 @@ angular.module('c4mApp')
       });
 
       submitData.tags = tags;
+
+      console.log(submitData);
 
       return jQuery.param(submitData);
     };
@@ -100,8 +104,8 @@ angular.module('c4mApp')
         }
 
         // Check required fields for validations, except for datetime field because we checked it earlier.
-        var field_required = resourceFields[field].data.required;
-        if (field_required && (!values || !values.length ) && field != 'datetime') {
+        var fieldRequired = resourceFields[field].data.required;
+        if (fieldRequired && (!values || !values.length ) && field != 'datetime') {
           errors[field] = 1;
         }
       });
@@ -125,6 +129,7 @@ angular.module('c4mApp')
      */
     this.cleanFields = function (data, resourceFields) {
       angular.forEach(data, function (values, field) {
+        // Keep only the status field.
         if (!resourceFields[field]) {
           delete data[field];
         }
