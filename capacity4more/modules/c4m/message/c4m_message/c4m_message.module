@@ -1065,20 +1065,26 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
  */
 function c4m_message_image_from_text_field($value) {
   $image = '';
-  if (strpos($value, '<img') && strpos($value, '<img') < 600) {
-    $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
+  $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
+
+  if (preg_match($pattern, $value) && strpos($value, '<img') < 600) {
+    // We might have multiple images, but we will select only the first one.
+    $images_uri = array();
     preg_match($pattern, $value, $images_uri);
-    // Getting the image url.
+
+    // We use $images_uri[1] to get the image url, because $images_uri[0]
+    // contains the whole image tag.
     $variables = array(
       'element' => array(
         '#tag' => 'img',
         '#attributes' => array(
           'class' => 'img-responsive',
-          'typeof' => 'foaf:Image',
           'src' => $images_uri[1],
         ),
       )
     );
+
+    // Using theme_html_tag instead of theme_image because image url might be too long.
     $image = theme('html_tag', $variables);
   }
   return $image;
