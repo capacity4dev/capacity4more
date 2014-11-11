@@ -3,9 +3,9 @@
     <em><?php print t('Quick Post') ?></em>
   </div>
 
-  <form name="entityForm" ng-submit="submitForm(entityForm, data, selectedResource, 'quick_post')">
+  <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
-    <bundle-select items="resources" on-change="updateResource" current-resource="selectedResource"></bundle-select>
+    <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
 
     <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
@@ -191,7 +191,7 @@
 
       <div class="actions">
         <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
-        <a href="javascript://" id="full-from-button" ng-click="submitForm(entityForm, data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
+        <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
         <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
       </div>
     </div>

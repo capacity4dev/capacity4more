@@ -66,14 +66,14 @@ angular.module('c4mApp')
       angular.forEach(submitData.tags, function (term, index) {
         if (term.isNew) {
           // New term.
-          tags[index] = {};
-          tags[index].label = term.id;
+          this[index] = {};
+          this[index].label = term.id;
         }
         else {
           // Existing term.
-          tags[index] = term.id;
+          this[index] = term.id;
         }
-      });
+      }, tags);
 
       submitData.tags = tags;
 
@@ -105,16 +105,16 @@ angular.module('c4mApp')
         if (resource == 'events') {
           // If the user didn't choose the date, Display an error.
           if (!data.datetime.startDate || !data.datetime.endDate) {
-            errors.datetime = 1;
+            this.datetime = 1;
           }
         }
 
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
         if (fieldRequired && (!values || !values.length ) && field != 'datetime') {
-          errors[field] = 1;
+          this[field] = 1;
         }
-      });
+      }, errors);
 
       return errors;
     };
@@ -137,9 +137,9 @@ angular.module('c4mApp')
       angular.forEach(data, function (values, field) {
         // Keep only the status field.
         if (!resourceFields[field]) {
-          delete data[field];
+          delete this[field];
         }
-      });
+      }, data);
 
       return data;
     };

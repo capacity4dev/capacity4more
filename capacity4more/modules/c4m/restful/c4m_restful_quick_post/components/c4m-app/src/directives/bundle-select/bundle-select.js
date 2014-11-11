@@ -13,7 +13,7 @@ angular.module('c4mApp')
       restrict: 'E',
       scope: {
         items: '=',
-        currentResource: '=',
+        selectedResource: '=',
         onChange: '=onChange'
       },
       link: function postLink(scope) {

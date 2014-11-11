@@ -218,9 +218,9 @@ angular.module('c4mApp')
       // Hide all the other pop-overs, Except the one the user clicked on.
       angular.forEach($scope.popups, function (value, key) {
         if (name != key) {
-          $scope.popups[key] = 0;
+          this[key] = 0;
         }
-      });
+      }, $scope.popups);
       // Get the width of the element clicked in the event.
       var elem_width = angular.element(event.srcElement).outerWidth();
       // Toggle the visibility variable.
@@ -235,10 +235,10 @@ angular.module('c4mApp')
     $scope.keyUpHandler = function(keyEvent) {
       if(keyEvent.which == 27) {
         angular.forEach($scope.popups, function (value, key) {
-          $scope.popups[key] = 0;
+          this[key] = 0;
           // Re-Bind the JS with the HTML with "digest".
           $scope.$digest();
-        });
+        }, $scope.popups);
       }
     };
     // Call the keyUpHandler function on key-up.
@@ -246,9 +246,6 @@ angular.module('c4mApp')
 
     /**
      * Submit form.
-     *
-     * @param entityForm
-     *  The form.
      *
      *  @param data
      *    The submitted data.
@@ -259,7 +256,7 @@ angular.module('c4mApp')
      *  @param type
      *    The type of the submission.
      */
-    $scope.submitForm = function(entityForm, data, resource, type) {
+    $scope.submitForm = function(data, resource, type) {
 
       // Reset all errors.
       $scope.errors = {};
