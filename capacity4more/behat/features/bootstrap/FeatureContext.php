@@ -746,7 +746,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $nid = key($result['node']);
     // Use Drupal Context 'I am at'.
-    return new Given("I am at \"node/$nid\"");
+    return new Given("I go to \"node/$nid\"");
   }
 
   /**
@@ -779,30 +779,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I press "Save"');
 
     return $steps;
-  }
-
-  /**
-   * @Then /^I change group "([^"]*)" permission to restricted with domains "([^"]*)"$/
-   */
-  public function iChangeGroupPermissionToWithDomains($group, $domains) {
-    $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '"');
-    $steps[] = new Step\When('I ');
-    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
-    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $link .'"');
-    $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I press "Save"');
-
-    return $steps;
-  }
-
-  /**
-   * @Given /^I go to "([^"]*)" of type "([^"]*)"$/
-   */
-  public function iGoToOfType($title, $node_type) {
-    
-    throw new PendingException();
   }
 
 }
