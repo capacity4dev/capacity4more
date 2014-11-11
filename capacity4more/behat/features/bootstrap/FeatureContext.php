@@ -781,6 +781,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Save"');
 
+    // Check there was no error.
+    $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
 
