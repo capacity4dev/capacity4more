@@ -30,7 +30,7 @@ angular.module('c4mApp')
       // Setup Date and time for events.
       if (Request.resource == 'events') {
         // If the user didn't choose the time, Fill the current time.
-        if (!submitData.startTime || !submitData.endTime) {
+        if (!submitData.datetime.startTime || !submitData.datetime.endTime) {
           submitData.datetime.startTime = new Date();
           submitData.datetime.endTime = new Date();
         }
@@ -76,8 +76,6 @@ angular.module('c4mApp')
       }, tags);
 
       submitData.tags = tags;
-
-      console.log(submitData);
 
       return jQuery.param(submitData);
     };
