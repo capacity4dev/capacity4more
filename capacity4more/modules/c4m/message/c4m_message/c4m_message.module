@@ -1068,7 +1068,6 @@ function c4m_message_image_from_text_field($value) {
   $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
 
   if (preg_match($pattern, $value) && strpos($value, '<img') < 600) {
-    // We might have multiple images, but we will select only the first one.
     $images_uri = array();
     preg_match($pattern, $value, $images_uri);
 
