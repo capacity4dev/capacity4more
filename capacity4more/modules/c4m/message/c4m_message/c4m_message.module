@@ -1064,6 +1064,7 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
  *  Formatted html.
  */
 function c4m_message_image_from_text_field($value) {
+  $image = '';
   if (strpos($value, '<img') && strpos($value, '<img') < 600) {
     $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
     preg_match($pattern, $value, $images_uri);
@@ -1079,11 +1080,8 @@ function c4m_message_image_from_text_field($value) {
       )
     );
     $image = theme('html_tag', $variables);
-    return $image;
   }
-  else {
-    return '';
-  }
+  return $image;
 }
 
 /**
