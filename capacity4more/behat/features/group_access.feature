@@ -1,7 +1,7 @@
 Feature: Group access
   Test group access
 
-  @api @momo
+  @api
   Scenario: Check public group
     Given a group "My bad hair day new group 1" with "Public" access and "badhairgroup1" url is created with group manager "turing"
      When I am logged in as user "isaacnewton"
