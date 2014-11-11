@@ -898,7 +898,7 @@ function c4m_message__update__node__event($node) {
  * @param $entity_type
  *    The entity type.
  * @param $entity
- *    Node or term or other object for which we create/update message.
+ *    The Entity for we create/update message.
  */
 function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
@@ -995,8 +995,6 @@ function c4m_message_preprocess_message(&$variables) {
 
 /**
  * Node preprocess.
- *
- * Add the the "Activity stream" tpl.
  */
 function c4m_message_preprocess_node(&$variables) {
   if ($variables['view_mode'] == 'activity_stream') {
@@ -1035,12 +1033,12 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
         // Copied from text.module.
         if (!empty($item['summary'])) {
           // Get image from the summary if it is there.
-          $image = _extract_image_from_text_field($item['summary']);
+          $image = c4m_message_image_from_text_field($item['summary']);
           $body_summary = _text_sanitize($instance, $langcode, $item, 'summary');
         }
         else {
           // Get image from the value if it is there in the beginning.
-          $image = _extract_image_from_text_field($item['value']);
+          $image = c4m_message_image_from_text_field($item['value']);
           $body_summary = _text_sanitize($instance, $langcode, $item, 'value');
           $body_summary = text_summary($body_summary, $instance['settings']['text_processing'] ? $item['format'] : NULL);
         }
@@ -1057,8 +1055,7 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
 }
 
 /**
- * Return formatted html for an image
- * if it is in the beginning of the text value.
+ * Return formatted html for an image if it is in the beginning of the text value.
  *
  * @param $value
  *  Text field value or summary.
@@ -1066,21 +1063,22 @@ function c4m_message_field_formatter_view($entity_type, $entity, $field, $instan
  * @return string
  *  Formatted html.
  */
-function _extract_image_from_text_field($value) {
+function c4m_message_image_from_text_field($value) {
   if (strpos($value, '<img') && strpos($value, '<img') < 600) {
     $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
     preg_match($pattern, $value, $images_uri);
     // Getting the image url.
-    $image = theme('html_tag', array(
-            'element' => array(
-              '#tag' => 'img',
-              '#attributes' => array(
-                'class' => 'img-responsive',
-                'typeof' => 'foaf:Image',
-                'src' => $images_uri[1],
-              ),
-            )
-          ));
+    $variables = array(
+      'element' => array(
+        '#tag' => 'img',
+        '#attributes' => array(
+          'class' => 'img-responsive',
+          'typeof' => 'foaf:Image',
+          'src' => $images_uri[1],
+        ),
+      )
+    );
+    $image = theme('html_tag', $variables);
     return $image;
   }
   else {
@@ -1089,9 +1087,7 @@ function _extract_image_from_text_field($value) {
 }
 
 /**
- * Node__document preprocess.
- *
- * Add the the "Document Activity stream" tpl.
+ * Node document preprocess.
  */
 function c4m_message_preprocess_node__document(&$variables) {
   if ($variables['view_mode'] != 'activity_stream') {
@@ -1119,9 +1115,7 @@ function c4m_message_preprocess_node__document(&$variables) {
 }
 
 /**
- * Node__event preprocess.
- *
- * Add the the "Event Activity stream" tpl.
+ * Node event preprocess.
  */
 function c4m_message_preprocess_node__event(&$variables) {
   if ($variables['view_mode'] != 'activity_stream') {
