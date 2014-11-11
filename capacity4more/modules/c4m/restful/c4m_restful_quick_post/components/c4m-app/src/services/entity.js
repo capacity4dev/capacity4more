@@ -12,17 +12,20 @@ angular.module('c4mApp')
      * @param resource
      *   The bundle of the entity.
      *
-     * @param resource_fields
+     * @param resourceFields
      *   The fields information.
      *
      * @returns {*}
      *   JSON of the newly created entity.
      */
-    this.createEntity = function(data, resource, resource_fields) {
+    this.createEntity = function(data, resource, resourceFields) {
+      Request.resourceFields = resourceFields;
+      Request.resource = resource;
       return $http({
         method: 'POST',
         url: DrupalSettings.getBasePath() + 'api/' + resource,
-        data: Request.prepare(data, resource, resource_fields),
+        data: data,
+        transformRequest: Request.prepare,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           "X-CSRF-Token": DrupalSettings.getCsrfToken()

@@ -28,29 +28,27 @@ angular.module('c4mApp')
     // Date Calendar options.
     $scope.minDate = new Date();
 
-    $scope.openStart = function($event) {
+    $scope.toggleStart = function($event) {
       $event.preventDefault();
       $event.stopPropagation();
 
-      $scope.startOpened = true;
+      $scope.startOpened = !$scope.startOpened;
     };
 
-    $scope.openEnd = function($event) {
+    $scope.toggleEnd = function($event) {
       $event.preventDefault();
       $event.stopPropagation();
 
-      $scope.endOpened = true;
+      $scope.endOpened = !$scope.endOpened;
     };
 
     $scope.dateOptions = {
       formatYear: 'yyyy',
       startingDay: 1
     };
-    // /Date Calendar options.
 
-    // Time picker options
-    $scope.startTime = new Date();
-    $scope.endTime = new Date();
+    $scope.format = 'dd/MM/yyyy';
+    // /Date Calendar options.
 
     $scope.hstep = 1;
     $scope.mstep = 1;
@@ -275,15 +273,15 @@ angular.module('c4mApp')
       data.status = type == 'full_form' ? 0 : 1;
 
       // Get the fields of this resource.
-      var resource_fields = $scope.fieldSchema.resources[resource];
+      var resourceFields = $scope.fieldSchema.resources[resource];
 
       // Clean the submitted data, Drupal will return an error on undefined fields.
-      var submitData = Request.cleanFields(data, resource_fields);
+      var submitData = Request.cleanFields(data, resourceFields);
 
       // Check for required fields.
-      var errors = Request.checkRequired(submitData, resource, resource_fields);
+      var errors = Request.checkRequired(submitData, resource, resourceFields);
 
-      // Cancel submit if we have errors.
+      // Cancel submit and display errors if we have errors.
       if (Object.keys(errors).length && type == 'quick_post') {
         angular.forEach( errors, function(value, field) {
           this[field] = value;
@@ -292,7 +290,7 @@ angular.module('c4mApp')
       }
 
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource, resource_fields)
+      EntityResource.createEntity(submitData, resource, resourceFields)
       .success( function (data, status) {
         // If requested to create in full form, Redirect user to the edit page.
         if(type == 'full_form') {
