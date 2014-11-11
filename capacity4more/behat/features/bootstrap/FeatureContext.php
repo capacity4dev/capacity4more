@@ -755,33 +755,38 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
+   * @Given /^a discussion is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
    */
-  public function aIsCreatedWithTitleAndBodyInTheGroup($type, $title, $body, $group) {
+  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup( $title, $body, $group) {
 
     $steps = array();
-    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
+    $steps[] = new Step\When('I visit "node/add/discussion"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
+    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
+    $steps[] = new Step\When('I press "Save"');
+    return $steps;
+  }
+
+  /**
+   * @Given /^an event is created with title "([^"]*)" and body "([^"]*)" starts on "([^"]*)" at "([^"]*)" and ends on "([^"]*)" at "([^"]*)" in the group "([^"]*)"$/
+   */
+  public function anEventIsCreatedWithTitleAndBodyStartsOnAtAndEndsOnAtInTheGroup($title, $body, $start_date, $start_time, $end_date, $end_time, $group) {
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/discussion"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
 
-    $query = new entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->propertyCondition('title', $group)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
 
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $group,
-        '@type' => 'Group',
-      );
-      throw new Exception(format_string("Node @title of @type not found.", $params));
-    }
-    $nid = key($result['node']);
+    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $start_date .'"');
+    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $start_time .'"');
+    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $end_date .'"');
+    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $end_time .'"');
 
-    $steps[] = new Step\When('I fill in "edit-og-group-ref-und-0-default" with "' . $nid . '"');
+
+    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
+
     $steps[] = new Step\When('I press "Save"');
     return $steps;
   }
@@ -822,5 +827,4 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       new Step\Then('the response status code should be 200'),
     );
   }
-
 }
