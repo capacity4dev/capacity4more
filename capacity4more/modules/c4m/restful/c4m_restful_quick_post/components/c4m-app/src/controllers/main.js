@@ -30,19 +30,10 @@ angular.module('c4mApp')
     // Date Calendar options.
     $scope.minDate = new Date();
 
-    $scope.toggleStart = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
+    $scope.startOpened = false;
 
-      $scope.startOpened = !$scope.startOpened;
-    };
+    $scope.endOpened = false;
 
-    $scope.toggleEnd = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      $scope.endOpened = !$scope.endOpened;
-    };
 
     $scope.dateOptions = {
       formatYear: 'yyyy',
