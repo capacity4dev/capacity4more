@@ -73,8 +73,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     // Check if pluggable_group_access exists.
     if (isset($form_state['node']->pluggable_node_access) && isset($form_state['node']->pluggable_node_access[LANGUAGE_NONE]) && $entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
       $access_type = 'restricted';
-      $entities = entity_load('pluggable_node_access', array($entity_id));
-      $pluggable_node_access = reset($entities);
+      $pluggable_node_access = entity_load_single('pluggable_node_access', $entity_id);
       $domains = $pluggable_node_access->data;
     }
   }
