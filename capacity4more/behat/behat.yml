@@ -4,6 +4,8 @@ default:
       drupal_users:
         admin:
           'admin'
+        isaacnewton:
+          'drupal'
   paths:
     features: 'features'
   extensions:

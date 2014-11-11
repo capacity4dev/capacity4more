@@ -732,4 +732,75 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     // Use Drupal Context 'I am at'.
     return new Given("I am at \"node/$nid\"");
   }
+
+
+  /**
+   * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
+   */
+  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username,$domains = NULL, $moderated = FALSE) {
+
+    // Generate URL from title.
+    $url = str_replace(" ", "-", strtolower(trim($title)));
+
+    $steps = array();
+    $steps[] = new Step\When('I am logged in as the "'. $username .'"');
+    $steps[] = new Step\When('I visit "node/add/group"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
+    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I press "Save"');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
+   */
+  public function aIsCreatedWithTitleAndBodyInTheGroup($type, $title, $body, $group) {
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
+
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->propertyCondition('title', $group)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $group,
+        '@type' => 'Group',
+      );
+      throw new Exception(format_string("Node @title of @type not found.", $params));
+    }
+    $nid = key($result['node']);
+
+    $steps[] = new Step\When('I fill in "edit-og-group-ref-und-0-default" with "' . $nid . '"');
+    $steps[] = new Step\When('I press "Save"');
+    return $steps;
+  }
+
+
+  /**
+   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
+    // Generate URL from title.
+    $url = str_replace(" ", "-", strtolower(trim($group)));
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "group/' . $url . '"');
+
+    $steps[] = new Step\When('I should see "' . $text . '"');
+
+    return $steps;
+  }
+
+
 }
