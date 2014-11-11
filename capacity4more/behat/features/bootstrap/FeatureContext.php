@@ -786,7 +786,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
-
   /**
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
@@ -801,6 +800,4 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $steps;
   }
-
-
 }

@@ -6,6 +6,8 @@ default:
           'admin'
         isaacnewton:
           'drupal'
+        turing:
+          'drupal'
   paths:
     features: 'features'
   extensions:
