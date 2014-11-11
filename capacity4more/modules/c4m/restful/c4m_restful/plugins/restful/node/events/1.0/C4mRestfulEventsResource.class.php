@@ -30,12 +30,12 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       'property' => 'c4m_datetime_end',
     );
 
-//    $public_fields['location'] = array(
-//      'property' => 'c4m_location',
-//      'process_callbacks' => array(
-//        array($this, 'processLocation'),
-//      ),
-//    );
+    $public_fields['location'] = array(
+      'property' => 'c4m_location',
+      'process_callbacks' => array(
+        array($this, 'processLocation'),
+      ),
+    );
 
     $public_fields['group'] = array(
       'property' => OG_AUDIENCE_FIELD,
@@ -102,10 +102,9 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
    * @return array
    */
   protected function processLocation($value) {
-    dpm($value);
     return array(
-      'lat' => $value['lat'],
-      'lng' => $value['lng'],
+      'lat' => $value['latitude'],
+      'lng' => $value['longitude'],
     );
   }
 }

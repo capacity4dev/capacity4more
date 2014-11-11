@@ -43,7 +43,9 @@ angular.module('c4mApp')
     $scope.format = 'dd/MM/yyyy';
 
     // Time picker options.
+    // Hour step.
     $scope.hstep = 1;
+    // Minute step.
     $scope.mstep = 1;
 
     /**

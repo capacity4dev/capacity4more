@@ -36,8 +36,8 @@ angular.module('c4mApp')
         }
         // Convert to drupal date-field format.
         submitData.datetime = {
-          value: $filter('date')(submitData.datetime.startDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.startTime, 'HH:mm:ss'),
-          value2: $filter('date')(submitData.datetime.endDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.endTime, 'HH:mm:ss')
+          value: $filter('date')(submitData.datetime.startDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.startTime, 'HH:mm'),
+          value2: $filter('date')(submitData.datetime.endDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.endTime, 'HH:mm')
         };
       }
 

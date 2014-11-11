@@ -83,6 +83,14 @@
         <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
       </div>
 
+      <div class="form-group place" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+        <label><?php print t('Where') ?></label>
+        <div class="row">
+          <location></location>
+        </div>
+        <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
+      </div>
+
       <div class="form-group btn-group" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
         <div class="label-wrapper">
           <label>{{fieldSchema.document_type.info.label}}</label>
