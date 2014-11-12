@@ -122,4 +122,21 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
+  /**
+   * @Given /^a discussion "([^"]*)" in group "([^"]*)" is created$/
+   */
+  public function aDiscussionInGroupIsCreated($title, $group_title) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/discussion"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
+    $steps[] = new Step\When('I press "Save"');
+
+    // Check there was no error.
+    $steps[] = new Step\When('I should not see "There was an error"');
+
+    return $steps;
+  }
+
 }
