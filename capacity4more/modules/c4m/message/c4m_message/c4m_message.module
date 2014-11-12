@@ -947,41 +947,6 @@ function c4m_message_preprocess_node(&$variables) {
 }
 
 /**
- * Return formatted html for an image if it is in the beginning of the text value.
- *
- * @param $value
- *  Text field value or summary.
- *
- * @return string
- *  Formatted html.
- */
-function c4m_message_image_from_text_field($value) {
-  $image = '';
-  $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
-
-  if (preg_match($pattern, $value) && strpos($value, '<img') < 600) {
-    $images_uri = array();
-    preg_match($pattern, $value, $images_uri);
-
-    // We use $images_uri[1] to get the image url, because $images_uri[0]
-    // contains the whole image tag.
-    $variables = array(
-      'element' => array(
-        '#tag' => 'img',
-        '#attributes' => array(
-          'class' => 'img-responsive',
-          'src' => $images_uri[1],
-        ),
-      )
-    );
-
-    // Using theme_html_tag instead of theme_image because image url might be too long.
-    $image = theme('html_tag', $variables);
-  }
-  return $image;
-}
-
-/**
  * Node document preprocess.
  */
 function c4m_message_preprocess_node__document(&$variables) {
