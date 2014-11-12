@@ -7,7 +7,6 @@ Feature: Group access
      When I am logged in as user "isaacnewton"
       And I visit "My bad hair day new group 1" node of type "group"
      Then I should get a "200" HTTP response
-      And I should see "Subscribe to group"
 
   @api
   Scenario: Check private group
@@ -22,7 +21,6 @@ Feature: Group access
       And I am logged in as user "isaacnewton"
      When I visit "My bad hair day new group 3" node of type "group"
      Then I should get a "200" HTTP response
-      And I should see "Request group membership"
 
   @api
   Scenario: Check restricted group accessed by denied used
