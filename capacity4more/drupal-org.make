@@ -134,8 +134,8 @@ projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
 projects[pluggable_node_access][download][type] = "git"
-projects[pluggable_node_access][download][url] = "https://github.com/Gizra/pluggable_node_access.git"
-projects[pluggable_node_access][download][branch] = 7.x-1.x
+projects[pluggable_node_access][download][url] = "https://github.com/shushu/pluggable_node_access.git"
+projects[pluggable_node_access][download][branch] = 9
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
