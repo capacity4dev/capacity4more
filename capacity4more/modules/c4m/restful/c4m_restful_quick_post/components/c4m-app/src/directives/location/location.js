@@ -11,6 +11,8 @@ angular.module('c4mApp')
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/location/location.html',
       restrict: 'E',
-      scope: true
+      scope: {
+        data: '='
+      }
     };
   });

@@ -97,15 +97,26 @@ angular.module('c4mApp')
      */
     this.checkRequired = function (data, resource, resourceFields) {
       var errors = {};
+      var errorData = angular.copy(data);
 
-      angular.forEach(data, function (values, field) {
-
-        if (resource == 'events') {
-          // If the user didn't choose the date, Display an error.
-          if (!data.datetime.startDate || !data.datetime.endDate) {
-            this.datetime = 1;
+      if (resource == 'events') {
+        // If the user didn't choose the date, Display an error.
+        if (!errorData.datetime) {
+          errors.datetime = 1
+        }
+        else {
+          if (!errorData.datetime.startDate || !errorData.datetime.endDate) {
+            errors.datetime = 1;
           }
         }
+
+        // If one field is missing from the location, return error.
+        if (!errorData.location.lat || !errorData.location.lng) {
+          errors.location = 1;
+        }
+      }
+
+      angular.forEach(errorData, function (values, field) {
 
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
@@ -132,13 +143,14 @@ angular.module('c4mApp')
      *  Object of the cleaned data.
      */
     this.cleanFields = function (data, resourceFields) {
-      angular.forEach(data, function (values, field) {
+      var checkData = angular.copy(data);
+      angular.forEach(checkData, function (values, field) {
         // Keep only the status field.
         if (!resourceFields[field]) {
           delete this[field];
         }
-      }, data);
+      }, checkData);
 
-      return data;
+      return checkData;
     };
   });

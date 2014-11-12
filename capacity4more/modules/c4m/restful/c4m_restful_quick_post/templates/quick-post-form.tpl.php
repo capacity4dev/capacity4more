@@ -86,7 +86,7 @@
       <div class="form-group place" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
         <label><?php print t('Where') ?></label>
         <div class="row">
-          <location></location>
+          <location data="data"></location>
         </div>
         <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
       </div>

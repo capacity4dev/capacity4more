@@ -103,8 +103,43 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
    */
   protected function processLocation($value) {
     return array(
+      'street' => $value['street'],
+      'city' => $value['city'],
+      'postal_code' => $value['postal_code'],
+      'country_name' => $value['country_name'],
       'lat' => $value['latitude'],
       'lng' => $value['longitude'],
     );
+  }
+
+  /**
+   * Overrides /ResfulEntityBase::createEntity().
+   *
+   * Add a new location when saving an event entity.
+   */
+  public function createEntity() {
+    $entity = parent::createEntity();
+    $request = $this->getRequest();
+
+    $entity = node_load($entity[0]);
+
+    $locations = array(
+      0 => array(
+        'street' => $request['location']['street'],
+        'postal_code' => $request['location']['postal_code'],
+        'city' => $request['location']['city'],
+        'country_name' => $request['location']['country_name'],
+        'latitude' => $request['location']['lat'],
+        'longitude' => $request['location']['lng'],
+      ),
+    );
+
+    $criteria = array(
+      'field_name' => 'c4m_location',
+      'nid' => $entity->nid,
+      'vid' => $entity->vid,
+    );
+
+    getlocations_fields_save_locations($locations, $criteria, array(), 'insert');
   }
 }
