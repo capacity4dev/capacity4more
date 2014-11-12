@@ -21,11 +21,11 @@ dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = search
 dependencies[] = shortcut
-dependencies[] = toolbar
 dependencies[] = file
 dependencies[] = rdf
 
 ; Contrib modules -------------------------------------------------------------
+dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
