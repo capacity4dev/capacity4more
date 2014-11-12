@@ -1,0 +1,999 @@
+<?php
+/**
+ * @file
+ * Code for the Message feature.
+ */
+
+include_once 'c4m_message.features.inc';
+
+/**
+ * Implements hook_entity_insert().
+ *
+ * Delegate message creation for inserted entities.
+ */
+function c4m_message_entity_insert($entity, $entity_type) {
+  c4m_message_crud_message($entity_type, $entity, 'insert');
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * Delegate message creation for inserted entities.
+ */
+function c4m_message_entity_update($entity, $entity_type) {
+  c4m_message_crud_message($entity_type, $entity, 'update');
+}
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * @todo: Push item to queue.
+ */
+function c4m_message_entity_delete($entity, $entity_type) {
+  $valid_entity_types = array(
+    'comment',
+    'node',
+    'taxonomy_term',
+    'og_membership',
+  );
+
+  if (!in_array($entity_type, $valid_entity_types)) {
+    // Not an entity related to message.
+    return;
+  }
+
+}
+
+/**
+ * Implements hook_entity_load().
+ *
+ * Add callbacks to the arguments. Instead of hardcoding them, we add those
+ * arguments on the fly.
+ */
+function c4m_message_entity_load($entities, $entity_type) {
+  if ($entity_type != 'message') {
+    return;
+  }
+
+  foreach ($entities as $entity) {
+
+    list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+    $func = 'c4m_message_load__' . $bundle;
+
+    if (function_exists($func)) {
+      // Call the delegated load function.
+      $func($entity);
+    }
+  }
+}
+
+/**
+ * Delegate message CRUD to message type specific functions.
+ *
+ * @param $entity_type
+ *   The entity type.
+ * @param $entity
+ *   The entity object.
+ * @param $op
+ *   The operation to perform. Possible values are "insert" or "update"
+ *
+ * @return Message
+ *   The saved message object, or NULL if not created or updated.
+ */
+function c4m_message_crud_message($entity_type, $entity, $op) {
+  if (!empty($entity->_skip_message)) {
+    // Entity should not create a message.
+    return;
+  }
+
+  $valid_entity_types = array(
+    'comment',
+    'node',
+    'taxonomy_term',
+    'og_membership',
+  );
+
+  if (!in_array($entity_type, $valid_entity_types)) {
+    // Not an entity related to message.
+    return;
+  }
+
+  $message = NULL;
+
+  $func = 'c4m_message__' . $op . '__' . $entity_type;
+  list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+  $bundle_func = $func . '__' . $bundle;
+
+  if (function_exists($bundle_func)) {
+    // Call the bundle specific function.
+    $message = $bundle_func($entity);
+  }
+  elseif (function_exists($func)) {
+    // Call the entity specific function.
+    $message = $func($entity);
+  }
+
+  if ($message) {
+    $message_wrapper = entity_metadata_wrapper('message', $message);
+    $message_wrapper->field_entity_published->set($entity->status);
+    if (isset($message_wrapper->field_operation)) {
+      $message_wrapper->field_operation->set($op);
+    }
+    $message->save();
+  }
+
+  return $message;
+}
+
+/**
+ * A general function to add arguments for node related messages.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load_general_arguments(Message $message) {
+  $message->arguments['@date'] = array(
+    'callback' => 'c4m_message_format_date_for_message',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Replace the date value of a message with a formatted value.
+ *
+ * @param Message $message
+ *   The Message entity.
+ * @return string
+ *   The formatted date.
+ */
+function c4m_message_format_date_for_message(Message $message) {
+  if (strtotime('now - 1 day') > $message->timestamp) {
+    return reldate_format_date($message->timestamp);
+  }
+
+  $interval = format_interval(time() - $message->timestamp, 1);
+  return t('@interval ago', array('@interval' => $interval));
+}
+
+/**
+ * Delegated hook_entity_load() for node of "discussion" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__discussion(Message $message) {
+  c4m_message_load_general_arguments($message);
+  $message->arguments['@type'] = array(
+    'callback' => 'c4m_message_format_node_discussion_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "page" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__page(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "document" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__document(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "photo" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__photo(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "photoalbum" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "event" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__event(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for comment.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__comment(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['@node_type'] = array(
+    'callback' => 'c4m_message_format_comment',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_comment',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Return the formatted discussion type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_format_node_discussion_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
+  $operation = $wrapper->field_operation->value();
+
+  switch ($discussion_type) {
+    case 'info':
+      return $operation == 'insert' ? t('posted Information') : t('updated the Information');
+
+    case 'idea':
+      return $operation == 'insert' ? t('posted an Idea') : t('updated the Idea');
+
+    case 'question':
+      return $operation == 'insert' ? t('asked a Question') : t('updated the Question');
+
+    case 'debate':
+      return $operation == 'insert' ? t('started a Debate') : t('updated the Debate');
+  }
+}
+
+/**
+ * Return the formatted operation name (added or updated).
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_format_operation(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $operation = $wrapper->field_operation->value();
+  switch ($message->type) {
+    case 'c4m_insert__node__event':
+      return $operation == 'insert' ? t('added a new') : t('updated the');
+    case 'c4m_insert__node__document':
+      return $operation == 'insert' ? t('uploaded a new') : t('updated the');
+    case 'c4m_insert__node__photo':
+      return $operation == 'insert' ? t('added a new') : t('updated the');
+    case 'c4m_insert__node__photoalbum':
+      return $operation == 'insert' ? t('created a new') : t('updated the');
+    case 'c4m_insert__node__page':
+      return $operation == 'insert' ? t('created a new') : t('updated the');
+  }
+}
+
+/**
+ * Return the formatted node type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_format_comment(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $node_type = $wrapper->field_node->type->value();
+
+  if ($node_type == 'discussion') {
+    $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
+    switch ($discussion_type) {
+      case 'info':
+        return t('Information');
+
+      case 'idea':
+        return t('Idea');
+
+      case 'question':
+        return t('Question');
+
+      case 'debate':
+        return t('Debate');
+    }
+  }
+  else {
+    switch ($node_type) {
+      case 'document':
+        return t('Document');
+      case 'event':
+        return t('Event');
+      case 'page':
+        return t('Group page');
+      case 'photoalbum':
+        return t('Photo album');
+      case 'photo':
+        return t('Photo');
+      case 'task':
+        return t('Task');
+    }
+  }
+}
+
+/**
+ * Return the formatted body and image.
+ *
+ * We get the body and image on te fly, in case a user edited the content - not
+ * to show an outdated teaser.
+ * We use a view mode to control the rendered node.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The formated string.
+ */
+function c4m_message_format_rendered_node(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $view = node_view($wrapper->field_node->value(), 'activity_stream');
+
+  return drupal_render($view);
+}
+
+/**
+ * Return the body of the comment.
+ *
+ * @param Message $message
+ * @return string
+ */
+function c4m_message_format_rendered_comment(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_comment->comment_body->value->value();
+}
+
+/**
+ * Return the formatted footer.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The formated string.
+ */
+function c4m_message_format_footer(Message $message) {
+  if ($message->type == 'c4m_insert__comment') {
+    return '';
+  }
+  $items = array();
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $node = $message_wrapper->field_node->value();
+  $statistic = statistics_get($node->nid);
+
+  $items['comments'] = format_plural($node->comment_count, '@count comment', '@count comments');
+  $items['views'] = format_plural($statistic['totalcount'], '@count view', '@count views');
+
+  return implode(' | ', $items);
+}
+
+/**
+ * Create a comment message.
+ *
+ * @param $comment
+ *   The comment object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__comment($comment) {
+  $values = array('uid' => $comment->uid);
+  $message = message_create('c4m_insert__comment', $values);
+
+  $node = node_load($comment->nid);
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $message_wrapper->field_comment->set($comment);
+  return $message;
+}
+
+/**
+ * Updating a comment message.
+ *
+ * @param $node
+ *   The commented node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__comment($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__comment')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__comment', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Create a discussion message.
+ *
+ * @param $node
+ *   The discussion node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__discussion($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__discussion', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a discussion message.
+ *
+ * @param $node
+ *   The discussion node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__discussion($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__discussion')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__discussion', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Create a document message.
+ *
+ * @param $node
+ *   The document node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__document($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__document', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a document message.
+ *
+ * @param $node
+ *   The document node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__document($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__document')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__document', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+
+/**
+ * Create a group page message.
+ *
+ * @param $node
+ *   The page node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__page($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__page', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a group page message.
+ *
+ * @param $node
+ *   The page node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__page($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__page')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__page', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Create a photo message.
+ *
+ * @param $node
+ *   The photo node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__photo($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__photo', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a photo message.
+ *
+ * @param $node
+ *   The photo node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__photo($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__photo')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__photo', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Create a photoalbum message.
+ *
+ * @param $node
+ *   The photoalbum node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__photoalbum($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__photoalbum', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating a photoalbum message.
+ *
+ * @param $node
+ *   The photoalbum node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__photoalbum($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__photoalbum')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__photoalbum', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Create an event message.
+ *
+ * @param $node
+ *   The event node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__insert__node__event($node) {
+  $values = array('uid' => $node->uid);
+  $message = message_create('c4m_insert__node__event', $values);
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Updating an event message.
+ *
+ * @param $node
+ *   The event node object.
+ *
+ * @return Message
+ *   The non-saved message entity.
+ */
+function c4m_message__update__node__event($node) {
+  $time_since = time() - variable_get('c4m_message_join_messages', '3600');
+  // Load existing message that is not older then 6 hours for the current node.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->propertyCondition('type', 'c4m_insert__node__event')
+    ->propertyCondition('timestamp', $time_since, '>')
+    ->fieldCondition('field_node', 'target_id', $node->nid)
+    ->propertyOrderBy('timestamp', 'desc')
+    ->range(0, 1)
+    ->execute();
+
+
+  $message = NULL;
+  if (!empty($result['message'])) {
+    $id = key($result['message']);
+    $message = message_load($id);
+  }
+
+  if (!$message) {
+    // Message doesn't exist - create a new message.
+    $values = array('uid' => $node->uid);
+    $message = message_create('c4m_insert__node__event', $values);
+  }
+
+  c4m_message_prepare_insert_entity($message, 'node', $node);
+  return $message;
+}
+
+/**
+ * Set the message fields values.
+ *
+ * @param Message $message
+ *    The message entity.
+ * @param $entity_type
+ *    The entity type.
+ * @param $entity
+ *    The Entity for we create/update message.
+ */
+function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  if ($entity_type != 'node') {
+    return;
+  }
+
+  $node_wrapper = entity_metadata_wrapper($entity_type, $entity);
+  $node = $entity;
+  if (isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
+    $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+    $message_wrapper->field_group_node->set($group_id);
+  }
+  $message_wrapper->field_node->set($node);
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add "Activity stream" view mode.
+ */
+function c4m_message_entity_info_alter(&$entity_info) {
+  $entity_info['message']['view modes']['activity_stream'] = array(
+    'label' => t('Activity stream'),
+    'custom settings' => TRUE,
+  );
+
+  $entity_info['node']['view modes']['activity_stream'] = array(
+    'label' => t('Activity stream'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Node preprocess.
+ */
+function c4m_message_preprocess_node(&$variables) {
+  if ($variables['view_mode'] == 'activity_stream') {
+    $variables['theme_hook_suggestions'][] = 'node__activity_stream';
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__activity_stream';
+  }
+  $preprocess_function = "c4m_message_preprocess_node__{$variables['node']->type}";
+  if (function_exists($preprocess_function)) {
+    $preprocess_function($variables);
+  }
+}
+
+/**
+ * Node document preprocess.
+ */
+function c4m_message_preprocess_node__document(&$variables) {
+  if ($variables['view_mode'] != 'activity_stream') {
+    // Current view mode is not an 'activity stream'.
+    return;
+  }
+
+  $node = $variables['node'];
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  $document = $node_wrapper->c4m_document->value();
+  if (empty($document)) {
+    // There is no file.
+    $variables['download_link'] = '';
+    $variables['file_info'] = '';
+    return;
+  }
+
+  $file_uri = file_load($document['fid']);
+  $download = file_entity_download_uri($file_uri);
+  $variables['download_link'] = l(t('Download this Document'), $download['path'], $download['options']);
+  $file_size = format_size($document['filesize']);
+  $file_type = $document['type'];
+  $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
+}
+
+/**
+ * Node event preprocess.
+ */
+function c4m_message_preprocess_node__event(&$variables) {
+  if ($variables['view_mode'] != 'activity_stream') {
+    // Current view mode is not an 'activity stream'.
+    return;
+  }
+
+  $node = $variables['node'];
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  $start = $node_wrapper->c4m_datetime_end->value->value();
+  $end = $node_wrapper->c4m_datetime_end->value2->value();
+
+  $start_date = format_date($start ,'custom', 'd/m/Y');
+  $end_date = format_date($end ,'custom', 'd/m/Y');
+
+  $start_date_time = format_date($start ,'custom', 'd/m/Y H:i');
+  $end_date_time = $start_date == $end_date ? format_date($end ,'custom', 'H:i') : format_date($end ,'custom', 'd/m/Y H:i');
+
+  $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
+}

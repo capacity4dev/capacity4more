@@ -37,6 +37,11 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
+  $tasks['capacity4more_setup_set_permissions'] = array(
+    'display_name' => st('Set permissions'),
+    'display' => FALSE,
+  );
+
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
     'display_name' => st('Rebuild permissions'),
@@ -82,7 +87,7 @@ function capacity4more_setup_rebuild_permissions() {
 /**
  * Task callback; Set variables.
  */
-function capacity4more_setup_set_variables() {
+function capacity4more_setup_set_variables(&$install_state) {
   $variables = array(
     // Homepage
     'weight_frontpage' => '0',
@@ -92,13 +97,33 @@ function capacity4more_setup_set_variables() {
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 1,
-    'jquery_update_jquery_version' => 1.8,
-    'jquery_update_jquery_admin_version' => 1.5,
+    'jquery_update_jquery_version' => '1.10',
+    'jquery_update_jquery_admin_version' => '1.5',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
+
+    // RESTful
+    'restful_file_upload' => TRUE,
+
+    // Enable counting views of the entity.
+    'statistics_count_content_views' => TRUE,
   );
 
   foreach ($variables as $key => $value) {
     variable_set($key, $value);
   }
+}
+
+/**
+ * Task callback; Create permissions.
+ */
+function capacity4more_setup_set_permissions(&$install_state) {
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access content',
+    'create group content',
+    'edit own group content',
+    'delete own group content',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }

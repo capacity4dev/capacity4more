@@ -17,14 +17,15 @@ dependencies[] = number
 dependencies[] = options
 ;dependencies[] = overlay
 dependencies[] = path
+dependencies[] = statistics
 dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = shortcut
-dependencies[] = toolbar
 dependencies[] = file
 dependencies[] = rdf
 
 ; Contrib modules -------------------------------------------------------------
+dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
@@ -42,9 +43,10 @@ dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
 dependencies[] = libraries
+dependencies[] = message
 dependencies[] = link
-dependencies[] = mefibs
 ;dependencies[] = message
+
 dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
@@ -55,6 +57,7 @@ dependencies[] = og_vocab
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = pathauto
+dependencies[] = pluggable_node_access
 dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
@@ -66,6 +69,7 @@ dependencies[] = strongarm
 dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
+dependencies[] = views_content
 dependencies[] = views_bulk_operations
 
 
@@ -123,3 +127,6 @@ dependencies[] = c4m_features_og_overview_tasks
 dependencies[] = c4m_search
 dependencies[] = c4m_search_nodes
 dependencies[] = c4m_search_users
+
+; Message
+dependencies[] = c4m_message
