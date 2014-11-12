@@ -254,10 +254,6 @@ angular.module('c4mApp')
       // Reset all errors.
       $scope.errors = {};
 
-      jQuery('[contenteditable=true]').focus();
-      jQuery('[contenteditable=true]').html('test');
-      jQuery('[name=body]').val('test');
-
       // Get the fields of this resource.
       var resourceFields = $scope.fieldSchema.resources[resource];
 

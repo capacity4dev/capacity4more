@@ -74,10 +74,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iFillEditorWith($editor, $value)
   {
-    $javascript = "
-    jQuery('[contenteditable=true]').text('" . $value . "');
-    jQuery('[name=" . $editor . "]').val('" . $value . "');
-    ";
+    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
     $this->getSession()->executeScript($javascript);
   }
 }
