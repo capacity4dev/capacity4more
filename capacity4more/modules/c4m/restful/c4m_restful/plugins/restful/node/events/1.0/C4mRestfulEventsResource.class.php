@@ -86,18 +86,4 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
 
     return $public_fields;
   }
-
-  /**
-   * Location process callback.
-   *
-   * @param $value
-   *
-   * @return array
-   */
-  protected function processLocation($value) {
-    return array(
-      'lat' => $value['latitude'],
-      'lng' => $value['longitude'],
-    );
-  }
 }
