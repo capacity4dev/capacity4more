@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains C4mRestfulDiscussionsResource.
+ * Contains C4mRestfulEventsResource.
  */
 
-class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
+class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
 
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
@@ -13,9 +13,21 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
+    $public_fields['event_type'] = array(
+      'property' => 'c4m_event_type',
+    );
+
     $public_fields['body'] = array(
       'property' => 'c4m_body',
       'sub_property' => 'value',
+    );
+
+    $public_fields['organiser'] = array(
+      'property' => 'c4m_organised_by',
+    );
+
+    $public_fields['datetime'] = array(
+      'property' => 'c4m_datetime_end',
     );
 
     $public_fields['group'] = array(
@@ -23,20 +35,6 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
       'resource' => array(
         'group' => array(
           'name' => 'groups',
-          'full_view' => FALSE,
-        ),
-      ),
-    );
-
-    $public_fields['discussion_type'] = array(
-      'property' => 'c4m_discussion_type',
-    );
-
-    $public_fields['topic'] = array(
-      'property' => 'c4m_related_topic',
-      'resource' => array(
-        'topic' => array(
-          'name' => 'topics',
           'full_view' => FALSE,
         ),
       ),
@@ -52,11 +50,11 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['date'] = array(
-      'property' => 'c4m_vocab_date',
+    $public_fields['topic'] = array(
+      'property' => 'c4m_related_topic',
       'resource' => array(
-        'c4m_vocab_date' => array(
-          'name' => 'dates',
+        'topic' => array(
+          'name' => 'topics',
           'full_view' => FALSE,
         ),
       ),

@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * @ngdoc service
+ * @name c4mApp.service:DrupalSettings
+ * @description
+ * # Imports the settings sent from drupal.
+ */
 angular.module('c4mApp')
   .service('DrupalSettings', function($window) {
     var self = this;
@@ -17,6 +23,13 @@ angular.module('c4mApp')
      */
     this.getBasePath = function() {
       return (angular.isDefined(self.settings.c4m.basePath)) ? self.settings.c4m.basePath : undefined;
+    };
+
+    /**
+     * Get the resources of the quick post.
+     */
+    this.getResources = function() {
+      return (angular.isDefined(self.settings.c4m.resources)) ? self.settings.c4m.resources : undefined;
     };
 
     /**
