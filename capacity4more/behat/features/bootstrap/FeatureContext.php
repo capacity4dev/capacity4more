@@ -740,7 +740,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username,$domains = NULL, $moderated = FALSE) {
 
     // Generate URL from title.
-    $url = str_replace(" ", "-", strtolower(trim($title)));
+    $url = str_replace(' ', '-', strtolower(trim($title)));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as the "'. $username .'"');
@@ -855,7 +855,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
     // Generate URL from title.
-    $url = str_replace(" ", "-", strtolower(trim($group)));
+    $url = str_replace(' ', '-', strtolower(trim($group)));
 
     $steps = array();
     $steps[] = new Step\When('I visit "group/' . $url . '"');
@@ -892,15 +892,14 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
     // Generate URL from title.
-    $url = str_replace(" ", "-", strtolower(trim($group)));
+    $url = str_replace(' ', '-', strtolower(trim($group)));
 
     $steps = array();
-    $this->iShouldSeeInTheActivityStreamOfTheGroup($title, $group);
 
     $steps[] = new Step\When('I visit "group/' . $url . '"');
-
-    $steps[] = new Step\When('I should not see "posted Information"');
-    $steps[] = new Step\When('I should see "updated the Information"');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
 
     return $steps;
   }
@@ -910,15 +909,14 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
     // Generate URL from title.
-    $url = str_replace(" ", "-", strtolower(trim($group)));
+    $url = str_replace(' ', '-', strtolower(trim($group)));
 
     $steps = array();
-    $this->iShouldSeeInTheActivityStreamOfTheGroup($title, $group);
 
     $steps[] = new Step\When('I visit "group/' . $url . '"');
-
-    $steps[] = new Step\When('I should see "posted Information"');
-    $steps[] = new Step\When('I should see "updated the Information"');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
 
     return $steps;
   }
