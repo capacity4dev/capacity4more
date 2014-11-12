@@ -20,8 +20,7 @@ phantomjs:
   extensions:
     Behat\MinkExtension\Extension:
       goutte: ~
-      selenium2:
-        wd_host: "http://localhost:8643/wd/hub"
+      selenium2: ~
 
 imports:
   - behat.local.yml
