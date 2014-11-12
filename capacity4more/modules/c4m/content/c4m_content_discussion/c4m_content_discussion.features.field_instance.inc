@@ -19,9 +19,11 @@ function c4m_content_discussion_field_default_field_instances() {
     'display' => array(
       'activity_stream' => array(
         'label' => 'hidden',
-        'module' => 'c4m_message',
-        'settings' => array(),
-        'type' => 'summary_with_image',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 600,
+        ),
+        'type' => 'text_summary_or_trimmed',
         'weight' => 0,
       ),
       'default' => array(

@@ -941,13 +941,6 @@ function c4m_message_theme(){
       'template' => 'templates/message--activity_stream',
       'render element' => 'entity'
     ),
-    'c4m_message_summary_with_image' => array(
-      'template' => 'templates/field_summary_with_image',
-      'variables' => array(
-        'image' => NULL,
-        'description' => NULL,
-      ),
-    ),
   );
 }
 
@@ -1005,53 +998,6 @@ function c4m_message_preprocess_node(&$variables) {
   if (function_exists($preprocess_function)) {
     $preprocess_function($variables);
   }
-}
-
-/**
- * Implements hook_field_formatter_info().
- */
-function c4m_message_field_formatter_info() {
-  return array(
-    'summary_with_image' => array(
-      'label' => t('Summary or trimmed with image'),
-      'field types' => array('text_with_summary'),
-    )
-  );
-}
-
-/**
- * Implements hook_field_formatter_view().
- */
-function c4m_message_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = array();
-
-  switch ($display['type']) {
-    case 'summary_with_image':
-      foreach ($items as $delta => $item) {
-
-        // Getting summary from the field.
-        // Copied from text.module.
-        if (!empty($item['summary'])) {
-          // Get image from the summary if it is there.
-          $image = c4m_message_image_from_text_field($item['summary']);
-          $body_summary = _text_sanitize($instance, $langcode, $item, 'summary');
-        }
-        else {
-          // Get image from the value if it is there in the beginning.
-          $image = c4m_message_image_from_text_field($item['value']);
-          $body_summary = _text_sanitize($instance, $langcode, $item, 'value');
-          $body_summary = text_summary($body_summary, $instance['settings']['text_processing'] ? $item['format'] : NULL);
-        }
-
-        $element[$delta] = array(
-          '#theme' => 'c4m_message_summary_with_image',
-          '#image' => $image,
-          '#description' => $body_summary,
-        );
-      }
-      break;
-  }
-  return $element;
 }
 
 /**
