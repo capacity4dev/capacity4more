@@ -769,6 +769,39 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)"$/
+   */
+  public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title) {
+//    throw new PendingException();
+    $steps = array();
+
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($type))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $nid = key($result['node']);
+
+    $steps[] = new Step\When('I visit "node/' .  $nid . '/edit"');
+    $steps[] = new Step\When('I fill in "title" with "' . $new_title . '"');
+    $steps[] = new Step\When('I press "Save"');
+    return $steps;
+  }
+
+
+  /**
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
@@ -804,4 +837,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       new Step\Then('the response status code should be 200'),
     );
   }
+
+  /**
+   * Put us after count of hours.
+   *
+   * @Given /^After (\d+) hours$/
+   */
+  public function afterHours($time) {
+    variable_set('c4m_message_join_messages', '5');
+    return array(
+      new Step\When('I wait')
+    );
+
+  }
+
 }
