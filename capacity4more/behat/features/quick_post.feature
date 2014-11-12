@@ -14,7 +14,6 @@ Feature: Test quick post
     When  I visit "Tennis Group" node of type "group"
     And   I press the "Add a Discussion" button
     And   I fill in "label" with "New discussion"
-    And   I fill the "body" editor with "New discussion description"
     And   I press the "quick-submit" button
     And   I wait
     Then  I should see "The Discussion was saved successfully."
