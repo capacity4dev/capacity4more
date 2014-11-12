@@ -126,7 +126,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
 }
 
 /**
- * A gerenal function to add arguments for node related messges.
+ * A general function to add arguments for node related messages.
  *
  * Add Message arguments callbacks.
  *
