@@ -17,6 +17,15 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 600,
+        ),
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -59,6 +68,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'file',
@@ -110,6 +125,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -154,6 +175,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -191,6 +218,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -228,6 +261,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'You can select up to 3 Regions and unlimited Countries within these Regions.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -265,6 +304,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -303,6 +348,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'og_ui',
@@ -366,6 +417,12 @@ function c4m_content_document_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'og_vocab',
