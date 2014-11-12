@@ -135,7 +135,7 @@ projects[pathauto][version] = "1.2"
 
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][version] = "1.x-dev"
-projects[pluggable_node_access][patch][] = https://github.com/Gizra/pluggable_node_access/pull/10.patch
+projects[pluggable_node_access][patch][] = https://github.com/Gizra/pluggable_node_access/pull/10.diff
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
