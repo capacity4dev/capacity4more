@@ -2,16 +2,23 @@
 
 /**
  * @file
- * Contains C4mRestfulDiscussionsResource.
+ * Contains C4mRestfulDocumentsResource.
  */
 
-class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
+class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
 
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
+
+    $public_fields['document'] = array(
+      'property' => 'c4m_document',
+      'process_callbacks' => array(
+        array($this, 'processDocument'),
+      ),
+    );
 
     $public_fields['body'] = array(
       'property' => 'c4m_body',
@@ -28,15 +35,11 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['discussion_type'] = array(
-      'property' => 'c4m_discussion_type',
-    );
-
-    $public_fields['topic'] = array(
-      'property' => 'c4m_related_topic',
+    $public_fields['document_type'] = array(
+      'property' => 'c4m_vocab_document_type',
       'resource' => array(
-        'topic' => array(
-          'name' => 'topics',
+        'c4m_vocab_document_type' => array(
+          'name' => 'document_types',
           'full_view' => FALSE,
         ),
       ),
@@ -47,6 +50,16 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
       'resource' => array(
         'tags' => array(
           'name' => 'tags',
+          'full_view' => FALSE,
+        ),
+      ),
+    );
+
+    $public_fields['topic'] = array(
+      'property' => 'c4m_related_topic',
+      'resource' => array(
+        'topic' => array(
+          'name' => 'topics',
           'full_view' => FALSE,
         ),
       ),
@@ -87,5 +100,24 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
     );
 
     return $public_fields;
+  }
+
+  /**
+   * Process a property value.
+   *
+   * @param $value
+   *  The property value.
+   *
+   * @return array
+   *  The new value.
+   */
+  protected function processDocument($value) {
+    return array(
+      'id' => $value['fid'],
+      'filename' => $value['filename'],
+      'filesize' => $value['filesize'],
+      'filemime' => $value['filemime'],
+      'url' => file_create_url($value['uri']),
+    );
   }
 }

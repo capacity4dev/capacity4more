@@ -102,6 +102,9 @@ function capacity4more_setup_set_variables(&$install_state) {
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
 
+    // RESTful
+    'restful_file_upload' => TRUE,
+
     // Enable counting views of the entity.
     'statistics_count_content_views' => TRUE,
   );
