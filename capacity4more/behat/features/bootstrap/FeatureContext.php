@@ -755,38 +755,15 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a discussion is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
    */
-  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup( $title, $body, $group) {
+  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type,  $title, $body, $group) {
 
     $steps = array();
-    $steps[] = new Step\When('I visit "node/add/discussion"');
+    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
     $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
-    $steps[] = new Step\When('I press "Save"');
-    return $steps;
-  }
-
-  /**
-   * @Given /^an event is created with title "([^"]*)" and body "([^"]*)" starts on "([^"]*)" at "([^"]*)" and ends on "([^"]*)" at "([^"]*)" in the group "([^"]*)"$/
-   */
-  public function anEventIsCreatedWithTitleAndBodyStartsOnAtAndEndsOnAtInTheGroup($title, $body, $start_date, $start_time, $end_date, $end_time, $group) {
-
-    $steps = array();
-    $steps[] = new Step\When('I visit "node/add/discussion"');
-    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
-
-
-    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $start_date .'"');
-    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $start_time .'"');
-    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $end_date .'"');
-    $steps[] = new Step\When('I fill in "c4m_datetime_end[und][0][value][date]" with "'. $end_time .'"');
-
-
-    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
-
     $steps[] = new Step\When('I press "Save"');
     return $steps;
   }
