@@ -133,6 +133,12 @@ projects[panels][version] = "3.4"
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
+projects[pluggable_node_access][download][type] = "git"
+projects[pluggable_node_access][download][url] = "https://github.com/shushu/pluggable_node_access.git"
+projects[pluggable_node_access][download][branch] = 9
+projects[pluggable_node_access][subdir] = "contrib"
+projects[pluggable_node_access][type] = "module"
+
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
 

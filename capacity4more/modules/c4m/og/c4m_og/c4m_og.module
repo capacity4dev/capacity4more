@@ -24,3 +24,266 @@ function c4m_og_get_group_type_name($node = NULL) {
   }
   return strtolower(node_type_get_name($node));
 }
+
+/**
+ * Utility function; Return the organizations info from code or from variable.
+ */
+function c4m_og_organisations_info() {
+  $default_info = array(
+    'ec' => array(
+      'title' => t('EC/EEAS'),
+      'domains' => array(
+        'ec.europa.eu',
+        'echofield.eu',
+        'eeas.europa.eu',
+        'ext.eeas.europa.eu',
+        'ext.jrc.ec.europa.eu',
+        'jrc.ec.europa.eu',
+      ),
+    ),
+    'eu' => array(
+      'title' => t('EU'),
+      'domains' => array(
+        'ada.gv.at',
+        'adetef.finances.gouv.fr',
+        'aecid.es',
+        'afd.fr',
+      ),
+    ),
+  );
+  return variable_get('c4m_og_organisations', $default_info);
+}
+
+/**
+ * Implements hook_FORM_ID_form_alter().
+ */
+function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
+  $domains = array();
+  $restricted_organisations = array();
+
+  // Get default domain lists.
+  $organisations_info = c4m_og_organisations_info();
+
+  // Retrieve value from og_access and set pluggable_group_access accordingly.
+  if ($form['group_access'][LANGUAGE_NONE]['#default_value']) {
+    $access_type = 'private';
+  }
+  else {
+    $access_type = 'public';
+    // Check if pluggable_group_access exists.
+    if (isset($form_state['node']->pluggable_node_access) && isset($form_state['node']->pluggable_node_access[LANGUAGE_NONE]) && $entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
+      $access_type = 'restricted';
+      $pluggable_node_access = entity_load_single('pluggable_node_access', $entity_id);
+      $domains = $pluggable_node_access->data;
+    }
+  }
+
+  // Go over all organizations, gather info and verify which to check.
+  $domains_to_js = array();
+  $organisation_field_options = array();
+  foreach ($organisations_info as $name => $organisation) {
+    // Set arrays for later use.
+    $domains_to_js['domains'][$name] = $organisation['domains'];
+    $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(' ', $organisation['domains']))) . '</div>';
+
+    // If number of domains is at least the same as the domains in the organization
+    // we should verify whether the organization checkbox needs to be checked or not.
+    if (count($domains) >= count($organisation['domains'])) {
+      $check_organization_checkbox = TRUE;
+      foreach ($organisation['domains'] as $domain) {
+        if (!in_array($domain, $domains)) {
+          // At least one domain from the organization is not set - no need to mark
+          // the checkbox.
+          $check_organization_checkbox = FALSE;
+          break;
+        }
+      }
+      if ($check_organization_checkbox) {
+        $restricted_organisations[] = $name;
+      }
+    }
+  }
+
+  // Add javascript behaviors.
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js',
+  );
+
+  drupal_add_js(array('c4m_og' => $domains_to_js), 'setting');
+
+  $options = array(
+    'public' => t('Public'),
+    'restricted' => t('Restricted'),
+    'private' => t('Private'),
+  );
+
+  $form['pluggable_group_access'] = array(
+    '#type' => 'radios',
+    '#title' => t('Group access'),
+    '#required' => TRUE,
+    '#options' => $options,
+    '#default_value' => $access_type,
+  );
+  $form['pluggable_group_access']['public'] = array(
+    '#type' => 'radio',
+    '#title' => t('Public'),
+    '#weight' => 10,
+    '#description' => t('All users may view public content from this Group. Users must request to join this Group.'),
+  );
+  $form['pluggable_group_access']['restricted'] = array(
+    '#type' => 'radio',
+    '#title' => t('Restricted'),
+    '#weight' => 20,
+    '#description' => t('Define by organisation and/or email domain what users can view this Group. Only members can post content to the Group.'),
+  );
+  $form['pluggable_group_access']['restricted_organisations'] = array(
+    '#weight' => 25,
+    '#title' => t('Allow users to access this Group by their organisation'),
+    '#description' => t('Users belonging to these organisations will have access to this Group. Users must request to join this Group.'),
+    '#type' => 'checkboxes',
+    '#options' => $organisation_field_options,
+    '#states' => array(
+      // Show the checkboxes only when "restricted" is selected
+      'visible' => array(
+        ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
+      ),
+    ),
+    '#default_value' => $restricted_organisations,
+  );
+  $form['pluggable_group_access']['restricted_by_domain'] = array(
+    '#weight' => 26,
+    '#title' => t('Allow users to access this Group by their email domain'),
+    '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group. Add one or more email domains. The email domain is the part of the email address after the @. Example: add gmail.com to allow users with an email address like jane.doo@gmail.com.'),
+    '#type' => 'textfield',
+    '#states' => array(
+      // Show the checkboxes only when "restricted" is selected
+      'visible' => array(
+        ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
+      ),
+    ),
+    '#default_value' => implode(' ', $domains),
+  );
+
+  $form['pluggable_group_access']['private'] = array(
+    '#type' => 'radio',
+    '#title' => t('Private'),
+    '#weight' => 30,
+    '#description' => t('Only Group members will be able to access this Group.'),
+  );
+
+  // Show field_membership_open_request only when pluggable_group_access is not private
+  $form['field_membership_open_request']['#states'] = array (
+    // Show the checkboxes only when "restricted" is selected
+    'invisible' => array(
+      ':input[name="pluggable_group_access"]' => array('value' => 'private'),
+    ),
+  );
+
+  // Adds submit handler.
+  $form['#submit'][] = 'c4m_og_group_form_submit';
+
+  // Hide original pluggable_node_access field.
+  $form['pluggable_node_access']['#access'] = FALSE;
+
+  // Hide group visibility field.
+  $form['group_access']['#access'] = FALSE;
+
+  // Group visibility field is required even when hidden, so we change it in
+  // order to avoid validation errors.
+  $form['group_access']['und']['#required'] = FALSE;
+}
+
+/**
+ * Submit handler; Handle group access type.
+ */
+function c4m_og_group_form_submit($form, &$form_state) {
+  // Check whether we already have referenced entity in pluggable_node_access.
+  $node = $form_state['node'];
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  // Get the new domain values.
+  $domains = array();
+  $group_access = $form_state['values']['pluggable_group_access'];
+  switch ($group_access) {
+    case 'restricted':
+      // Set group_access value to 0.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
+
+      // Edit/create pluggable_node_access.
+      foreach (explode(' ', $form_state['values']['restricted_by_domain']) as $domain) {
+        $domains[] = trim($domain);
+      }
+
+      if (!$pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+        // Create new pluggable_node_access entity.
+        $values = array(
+          'type' => 'email_domain',
+          'data' => $domains,
+        );
+        $entity = entity_create('pluggable_node_access', $values);
+        $entity->save();
+
+        // Save reference to the new entity.
+        $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $entity->id;
+      }
+      else {
+        $pluggable_node_access->data = $domains;
+        $pluggable_node_access->save();
+      }
+
+      break;
+    case 'public':
+      // Set group_access value to 0.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
+
+      // Delete pluggable_node_access entity if exist.
+      c4m_og_remove_pluggable_node_access($wrapper, $form_state);
+      break;
+
+    case 'private':
+      // Set group_access value to 1.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
+
+      // Delete pluggable_node_access entity if exist.
+      c4m_og_remove_pluggable_node_access($wrapper, $form_state);
+  }
+}
+
+/**
+ * Utility function; Removes referenced entity and form value.
+ *
+ * @param $wrapper
+ *   Node wrapper object.
+ * @param $form_state
+ *   Form state array.
+ */
+function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
+  // Delete referenced entity.
+  if ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+    $pluggable_node_access->delete();
+  }
+
+  // Clean form value.
+  $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
+}
+
+/**
+ * Implements hook_og_user_access_alter().
+ * Allow subscribing based on field_membership_open_request value.
+ */
+function c4m_og_og_user_access_alter(&$perm, $context) {
+  if ($context['string'] != 'subscribe without approval') {
+    return;
+  }
+
+  if ($context['group_type'] != 'node') {
+    return;
+  }
+  $group = $context['group'];
+  if ($group->type != 'group') {
+    return;
+  }
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
+}
