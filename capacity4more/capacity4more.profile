@@ -27,11 +27,6 @@ function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
 function capacity4more_install_tasks() {
   $tasks = array();
 
-  $tasks['capacity4more_setup_blocks'] = array(
-    'display_name' => st('Setup Blocks'),
-    'display' => FALSE,
-  );
-
 //  $tasks['capacity4more_setup_og_permissions'] = array(
 //    'display_name' => st('Setup Blocks'),
 //    'display' => FALSE,
@@ -54,41 +49,6 @@ function capacity4more_install_tasks() {
   );
 
   return $tasks;
-}
-
-/**
- * Task callback; Setup blocks.
- */
-function capacity4more_setup_blocks() {
-  $default_theme = variable_get('theme_default', 'bartik');
-
-  $blocks = array(
-    array(
-      'module' => 'system',
-      'delta' => 'user-menu',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'header',
-      'pages' => '',
-      'title' => '<none>',
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-  );
-
-  drupal_static_reset();
-  _block_rehash($default_theme);
-  foreach ($blocks as $record) {
-    $module = array_shift($record);
-    $delta = array_shift($record);
-    $theme = array_shift($record);
-    db_update('block')
-      ->fields($record)
-      ->condition('module', $module)
-      ->condition('delta', $delta)
-      ->condition('theme', $theme)
-      ->execute();
-  }
 }
 
 /**
@@ -141,6 +101,9 @@ function capacity4more_setup_set_variables(&$install_state) {
     'jquery_update_jquery_admin_version' => '1.5',
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
+
+    // Enable counting views of the entity.
+    'statistics_count_content_views' => TRUE,
   );
 
   foreach ($variables as $key => $value) {
