@@ -70,15 +70,14 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^I fill the "([^"]*)" editor with "([^"]*)"$/
+   * @Given /^I fill editor "([^"]*)" with "([^"]*)"$/
    */
-  public function iFillTheContentEditable($name, $value) {
-    $page = $this->getSession()->getPage();
-    $element = $page->find('css', 'input[name="'.$name.'"]');
-    if (!$element) {
-      throw new \Exception("No editor was found.");
-    }
-
-    $element->setValue($value);
+  public function iFillEditorWith($editor, $value)
+  {
+    $javascript = "
+    jQuery('[contenteditable=true]').text('" . $value . "');
+    jQuery('[name=" . $editor . "]').val('" . $value . "');
+    ";
+    $this->getSession()->executeScript($javascript);
   }
 }
