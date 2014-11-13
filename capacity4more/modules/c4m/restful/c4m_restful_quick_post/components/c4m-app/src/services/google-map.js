@@ -15,9 +15,6 @@ angular.module('c4mApp')
       + data.location.city + ' ' +
       + data.location.postal_code + ','
       + data.location.country_name
-      + '&sensor=false')
-      .success(function (result) {
-         return result;
-       })
+      + '&sensor=false');
     };
   });
