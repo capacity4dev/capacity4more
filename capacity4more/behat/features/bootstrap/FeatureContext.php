@@ -198,7 +198,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
-=======
+  /**
    * @When /^I create an event quick post with title "([^"]*)" and body "([^"]*)" that starts at "([^"]*)" and ends at "([^"]*)" in "([^"]*)"$/
    */
   public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $group) {
@@ -215,5 +215,4 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $steps;
   }
->>>>>>> develop
 }
