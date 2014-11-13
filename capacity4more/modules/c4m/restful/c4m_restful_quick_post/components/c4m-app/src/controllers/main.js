@@ -260,12 +260,15 @@ angular.module('c4mApp')
       // Clean the submitted data, Drupal will return an error on undefined fields.
       var submitData = Request.cleanFields(data, resourceFields);
 
+//      console.log(submitData);
+
       // Get the lan/lng of the address from google map.
       GoogleMap.getAddress(submitData, resource).then(function (result) {
-        //console.log(result);
         var location = result.data.results[0].geometry.location;
         submitData.location.lat = location.lat;
         submitData.location.lng = location.lng;
+
+        console.log(location);
 
         // Check for required fields.
         var errors = Request.checkRequired(submitData, resource, resourceFields);

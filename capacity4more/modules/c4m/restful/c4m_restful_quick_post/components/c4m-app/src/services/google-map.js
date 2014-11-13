@@ -12,7 +12,8 @@ angular.module('c4mApp')
     this.getAddress = function (data, resource) {
      return $http.get('http://maps.google.com/maps/api/geocode/json?address='
       + data.location.street + ','
-      + data.location.city + ','
+      + data.location.city + ' ' +
+      + data.location.postal_code + ','
       + data.location.country_name
       + '&sensor=false')
       .success(function (result) {
