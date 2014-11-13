@@ -33,10 +33,10 @@ Feature: Group access
 
   @api
   Scenario: Check restricted group accessed by denied used
-    Given a moderated group "My bad hair day new group 42" with "gravity.com" restriction is created with group manager "turing"
-      And a discussion "My content 42" in group "My bad hair day new group 4" is created
+    Given a moderated group "My bad hair day new group 4" with "gravity.com" restriction is created with group manager "turing"
+      And a discussion "My content 4" in group "My bad hair day new group 4" is created
      When I am logged in as user "badhairday"
-     Then I visit "My bad hair day new group 42" node of type "group"
+     Then I visit "My bad hair day new group 4" node of type "group"
       And I should not have access to the page
       And I visit "My content 4" node of type "discussion"
       And I should not have access to the page
