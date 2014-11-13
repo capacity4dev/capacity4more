@@ -262,6 +262,7 @@ angular.module('c4mApp')
 
       // Get the lan/lng of the address from google map.
       GoogleMap.getAddress(submitData, resource).then(function (result) {
+        //console.log(result);
         var location = result.data.results[0].geometry.location;
         submitData.location.lat = location.lat;
         submitData.location.lng = location.lng;
