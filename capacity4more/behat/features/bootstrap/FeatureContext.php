@@ -161,7 +161,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I submit and wait and should see "([^"]*)"$/
+   * @When /^I submit, wait and should see "([^"]*)"$/
    */
   public function iSubmitQuickPost($message) {
     $steps = array();
