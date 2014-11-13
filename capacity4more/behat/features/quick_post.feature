@@ -13,24 +13,11 @@ Feature: Test quick post
   @javascript
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as user "mariecurie"
-    When  I visit "Tennis Group" node of type "group"
-    And   I press the "Add a Discussion" button
-    And   I fill in "label" with "New discussion"
-    And   I fill editor "body" with "New discussion description."
-    And   I press the "quick-submit" button
-    And   I wait
-    Then  I should see "The Discussion was saved successfully."
+    When  I fill a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis Group"
+    Then  I submit and wait and should see "The Discussion was saved successfully."
 
   @javascript
   Scenario: Check Quick post "event" submit.
     Given I am logged in as user "mariecurie"
-    When  I visit "Tennis Group" node of type "group"
-    And   I press the "Add an Event" button
-    And   I press the "Meeting" button
-    And   I fill in "label" with "New event"
-    And   I fill editor "body" with "New event description."
-    And   I fill in "startDate" with "2015-12-25"
-    And   I fill in "endDate" with "2015-12-26"
-    And   I press the "quick-submit" button
-    And   I wait
-    Then  I should see "The Event was saved successfully."
+    When  I fill an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" in "Tennis Group"
+    Then  I submit and wait and should see "The Event was saved successfully."
