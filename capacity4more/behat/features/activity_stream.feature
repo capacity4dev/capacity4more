@@ -1,5 +1,7 @@
-Feature: Test Activity Stream
-  Test that creates and updates content and comments that are reflected in the group dashbaord's activity stream.
+Feature: Test activity stream
+  In order to see recent content in the group
+  As a group member and non-member
+  I need to be able to see an activity stream of recent operations
 
   @api
   Scenario: Check Discussion creating in my public group
