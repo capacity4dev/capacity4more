@@ -67,6 +67,12 @@ angular.module('c4mApp')
           $scope.data[field] = {};
         }
       });
+
+      $scope.data.location = {};
+      $scope.data.location.street = 'Brener 5';
+      $scope.data.location.postal_code = '6382624';
+      $scope.data.location.city = 'Tel-Aviv';
+      $scope.data.location.country_name = 'Israel';
     }
 
     // Preparing the data for the form.
@@ -269,6 +275,7 @@ angular.module('c4mApp')
             var location = result.data.results[0].geometry.location;
             submitData.location.lat = location.lat;
             submitData.location.lng = location.lng;
+            submitData.location.country = result.data.results[0].address_components[4].short_name;
           }
           // Continue submitting form.
           checkForm (submitData, resource, resourceFields, type);

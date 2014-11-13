@@ -121,14 +121,16 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
     $entity = parent::createEntity();
     $request = $this->getRequest();
 
-    $entity = node_load($entity[0]);
+    $entity = node_load($entity[0]['id']);
 
     $locations = array(
       0 => array(
+        'address' => $request['location']['street'] . ' ' . $request['location']['postal_code'] . ', ' . $request['location']['city'] . ', ' . $request['location']['country_name'],
         'street' => $request['location']['street'],
         'postal_code' => $request['location']['postal_code'],
         'city' => $request['location']['city'],
         'country_name' => $request['location']['country_name'],
+        'country' => $request['location']['country'],
         'latitude' => $request['location']['lat'],
         'longitude' => $request['location']['lng'],
       ),
