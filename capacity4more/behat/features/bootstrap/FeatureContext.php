@@ -95,8 +95,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   /**
    * @Given /^I fill editor "([^"]*)" with "([^"]*)"$/
    */
-  public function iFillEditorWith($editor, $value)
-  {
+  public function iFillEditorWith($editor, $value) {
     $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
     $this->getSession()->executeScript($javascript);
   }
