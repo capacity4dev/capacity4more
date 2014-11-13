@@ -32,7 +32,7 @@ Feature: Group access
       And I should have access to the page
 
   @api
-  Scenario: Check restricted group accessed by denied used
+  Scenario: Check restricted group accessed by denied user
     Given a moderated group "My bad hair day new group 4" with "gravity.com" restriction is created with group manager "turing"
       And a discussion "My content 4" in group "My bad hair day new group 4" is created
      When I am logged in as user "badhairday"
@@ -42,11 +42,21 @@ Feature: Group access
       And I should not have access to the page
 
   @api
-  Scenario: Check restricted group accessed by accepted user
-    Given a moderated group "My bad hair day new group 55" with "ec" organization restriction is created with group manager "turing"
-      And a discussion "My content 5" in group "My bad hair day new group 55" is created
+  Scenario: Check restricted group accessed by accepted organization user
+    Given a moderated group "My bad hair day new group 5" with "ec" organization restriction is created with group manager "turing"
+      And a discussion "My content 5" in group "My bad hair day new group 5" is created
      When I am logged in as user "president"
-     Then I visit "My bad hair day new group 55" node of type "group"
+     Then I visit "My bad hair day new group 5" node of type "group"
       And I should have access to the page
       And I visit "My content 5" node of type "discussion"
       And I should have access to the page
+
+  @api
+  Scenario: Check restricted group accessed by restricted user
+    Given a moderated group "My bad hair day new group 6" with "ec" organization restriction is created with group manager "turing"
+      And a discussion "My content 6" in group "My bad hair day new group 6" is created
+     When I am logged in as user "isaacnewton"
+     Then I visit "My bad hair day new group 6" node of type "group"
+      And I should not have access to the page
+      And I visit "My content 6" node of type "discussion"
+      And I should not have access to the page
