@@ -16,6 +16,8 @@ default:
           'drupal'
         turing:
           'drupal'
+        president:
+          'drupal'
   paths:
     features: 'features'
   extensions:
