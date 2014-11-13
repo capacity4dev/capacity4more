@@ -100,6 +100,16 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I fill editor "([^"]*)" with "([^"]*)"$/
+   */
+  public function iFillEditorWith($editor, $value) {
+    // Using javascript script to fill the textAngular editor,
+    // We have to enter the value directly to the scope.
+    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
@@ -154,6 +164,21 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   */
+  public function iCreateDiscussionQuickPost($title, $body, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I press the "discussions" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
+    $steps[] = new Step\When('I press the "quick-submit" button');
+    $steps[] = new Step\When('I wait');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I should not have access to the page$/
    */
   public function iShouldNotHaveAccessToThePage() {
@@ -173,4 +198,22 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
+=======
+   * @When /^I create an event quick post with title "([^"]*)" and body "([^"]*)" that starts at "([^"]*)" and ends at "([^"]*)" in "([^"]*)"$/
+   */
+  public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I press the "events" button');
+    $steps[] = new Step\When('I press the "Meeting" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
+    $steps[] = new Step\When('I fill in "startDate" with "' . $start_date . '"');
+    $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
+    $steps[] = new Step\When('I press the "quick-submit" button');
+    $steps[] = new Step\When('I wait');
+
+    return $steps;
+  }
+>>>>>>> develop
 }
