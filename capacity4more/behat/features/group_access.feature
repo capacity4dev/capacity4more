@@ -40,3 +40,13 @@ Feature: Group access
       And I should not have access to the page
       And I visit "My content 4" node of type "discussion"
       And I should not have access to the page
+
+  @api
+  Scenario: Check restricted group accessed by accepted user
+    Given a moderated group "My bad hair day new group 55" with "ec" organization restriction is created with group manager "turing"
+      And a discussion "My content 5" in group "My bad hair day new group 55" is created
+     When I am logged in as user "president"
+     Then I visit "My bad hair day new group 55" node of type "group"
+      And I should have access to the page
+      And I visit "My content 5" node of type "discussion"
+      And I should have access to the page
