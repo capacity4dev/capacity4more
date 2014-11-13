@@ -44,6 +44,22 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Then /^I should print page$/
+   */
+  public function iShouldPrintPage() {
+    $element = $this->getSession()->getPage();
+    print_r($element->getContent());
+  }
+
+  /**
+   * @Then /^I should print page to "([^"]*)"$/
+   */
+  public function iShouldPrintPageTo($file) {
+    $element = $this->getSession()->getPage();
+    file_put_contents($file, $element->getContent());
+  }
+
+  /**
    * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
    */
   public function iVisitNodePageOfType($title, $type) {
@@ -66,6 +82,44 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $nid = key($result['node']);
     // Use Drupal Context 'I am at'.
-    return new Given("I am at \"node/$nid\"");
+    return new Given("I go to \"node/$nid\"");
   }
+
+  /**
+   * @Given /^a moderated group "([^"]*)" with "([^"]*)" restriction is created with group manager "([^"]*)"$/
+   */
+  public function aModeratedGroupWithRestrictionIsCreatedWithGroupManager($title, $domains, $username) {
+    return $this->aGroupWithAccessIsCreatedWithGroupManager($title, 'Restricted', $username, $domains, TRUE);
+  }
+
+  /**
+   * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
+   */
+  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE) {
+    // Generate URL from title.
+    $url = strtolower(str_replace(" ", "-", trim($title)));
+
+    $steps = array();
+    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
+    $steps[] = new Step\When('I visit "node/add/group"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
+    $steps[] = new Step\When('I select the radio button "' . $access . '"');
+    if ($access == 'Restricted') {
+      $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
+    }
+    if ($moderated) {
+      $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
+    }
+
+    // This is a required tag.
+    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I press "Save"');
+
+    // Check there was no error.
+    $steps[] = new Step\When('I should not see "There was an error"');
+    return $steps;
+  }
+
 }
