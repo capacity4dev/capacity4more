@@ -30,13 +30,6 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       'property' => 'c4m_datetime_end',
     );
 
-    $public_fields['location'] = array(
-      'property' => 'c4m_location',
-      'process_callbacks' => array(
-        array($this, 'processLocation'),
-      ),
-    );
-
     $public_fields['group'] = array(
       'property' => OG_AUDIENCE_FIELD,
       'resource' => array(

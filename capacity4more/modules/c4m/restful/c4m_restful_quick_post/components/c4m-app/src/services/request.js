@@ -24,7 +24,7 @@ angular.module('c4mApp')
      */
     this.prepare = function(data) {
 
-      // Copy data, because we shouldn't change the variables in the scope.
+      // Copy data, We shouldn't change the variables in the scope.
       var submitData = angular.copy(data);
 
       // Setup Date and time for events.
@@ -34,7 +34,7 @@ angular.module('c4mApp')
           submitData.datetime.startTime = new Date();
           submitData.datetime.endTime = new Date();
         }
-        // Convert to drupal date-field format.
+        // Convert to the "date" field format in the installation.
         submitData.datetime = {
           value: $filter('date')(submitData.datetime.startDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.startTime, 'HH:mm'),
           value2: $filter('date')(submitData.datetime.endDate, 'yyyy-MM-dd') + ' ' + $filter('date')(submitData.datetime.endTime, 'HH:mm')
@@ -117,7 +117,6 @@ angular.module('c4mApp')
       }
 
       angular.forEach(errorData, function (values, field) {
-
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
         if (fieldRequired && (!values || !values.length ) && field != 'datetime') {
@@ -143,14 +142,15 @@ angular.module('c4mApp')
      *  Object of the cleaned data.
      */
     this.cleanFields = function (data, resourceFields) {
-      var checkData = angular.copy(data);
-      angular.forEach(checkData, function (values, field) {
+      // Copy data, We shouldn't change the variables in the scope.
+      var cleanData = angular.copy(data);
+      angular.forEach(cleanData, function (values, field) {
         // Keep only the status field.
         if (!resourceFields[field]) {
           delete this[field];
         }
-      }, checkData);
+      }, cleanData);
 
-      return checkData;
+      return cleanData;
     };
   });

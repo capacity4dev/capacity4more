@@ -77,7 +77,14 @@ function c4m_content_photo_strongarm() {
           'weight' => '8',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'node_gallery_navigation' => array(
+          'activity_stream' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__photo'] = $strongarm;

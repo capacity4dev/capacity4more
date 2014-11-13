@@ -68,17 +68,4 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     // Use Drupal Context 'I am at'.
     return new Given("I am at \"node/$nid\"");
   }
-
-  /**
-   * @Given /^I fill the "([^"]*)" editor with "([^"]*)"$/
-   */
-  public function iFillTheContentEditable($name, $value) {
-    $page = $this->getSession()->getPage();
-    $element = $page->find('css', 'input[name="'.$name.'"]');
-    if (!$element) {
-      throw new \Exception("No editor was found.");
-    }
-
-    $element->setValue($value);
-  }
 }
