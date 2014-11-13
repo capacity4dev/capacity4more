@@ -21,22 +21,10 @@ Feature: Test quick post
     And   I wait
     Then  I should see "The Discussion was saved successfully."
 
-  @wip @javascript
-  Scenario: Check Quick post "document" submit.
-    Given I am logged in as user "mariecurie"
-    When  I visit "Movie Popcorn Corner" node of type "group"
-    And   I press the "Upload a Document" button
-    And   I check the box "Research Paper"
-    And   I fill in "label" with "New document"
-    And   I fill editor "body" with "New document description."
-    And   I press the "quick-submit" button
-    And   I wait
-    Then  I should see "The Document was saved successfully."
-
   @javascript
   Scenario: Check Quick post "event" submit.
     Given I am logged in as user "mariecurie"
-    When  I visit "Movie Popcorn Corner" node of type "group"
+    When  I visit "Tennis Group" node of type "group"
     And   I press the "Add an Event" button
     And   I press the "Meeting" button
     And   I fill in "label" with "New event"
