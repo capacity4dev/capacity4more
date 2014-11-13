@@ -206,7 +206,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
   $group_access = $form_state['values']['pluggable_group_access'];
   switch ($group_access) {
     case 'restricted':
-      // Set group_access value to 1.
+      // Set group_access to "private".
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
 
       // Edit/create pluggable_node_access.
@@ -233,7 +233,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
 
       break;
     case 'public':
-      // Set group_access value to 0.
+      // Set group_access to "public".
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
 
       // Delete pluggable_node_access entity if exist.
@@ -241,7 +241,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
       break;
 
     case 'private':
-      // Set group_access value to 1.
+      // Set group_access to "private".
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
 
       // Delete pluggable_node_access entity if exist.
