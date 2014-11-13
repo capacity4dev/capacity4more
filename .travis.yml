@@ -47,47 +47,49 @@ before_script:
 
   # Install Solr
   - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more | bash
+  - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
   # Install capacity4more profile.
-  - cp capacity4more/behat/travis-ci.config.sh config.sh
-  - ./install -dy
-  - cd www
-  - drush cc all --yes
-  - cd ..
+
+  #- cp capacity4more/behat/travis-ci.config.sh config.sh
+  #- ./install -dy
+  #- cd www
+  #- drush cc all --yes
+  #- cd ..
 
   # Create a behat configuration file.
-  - cd capacity4more/behat
-  - cp behat.local.yml.travis behat.local.yml
+  #- cd capacity4more/behat
+  #- cp behat.local.yml.travis behat.local.yml
 
   # Create Drush alias.
-  - cp aliases.drushrc.php ~/.drush/
-  - composer install --prefer-source
+  #- cp aliases.drushrc.php ~/.drush/
+  #- composer install --prefer-source
 
 script:
   # Create display.
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3 # give xvfb some time to start
+  #- export DISPLAY=:99.0
+  #- sh -e /etc/init.d/xvfb start
+  #- sleep 3 # give xvfb some time to start
 
   # start a web server on port 8080, run in the background; wait for initialization
-  - drush @capacity4more runserver 127.0.0.1:8080 &
-  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+  #- drush @capacity4more runserver 127.0.0.1:8080 &
+  #- until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
 
   # Run selenium.
-  - wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
-  - java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
-  - sleep 5
+  #- wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
+  #- java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
+  #- sleep 5
 
   # Run phantomJs.
-  - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
+  #- phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
-  - ./bin/behat -p phantomjs --tags=~@wip
+  #- ./bin/behat -p phantomjs --tags=~@wip
 
   # Run WebTests ---------------------------------------------------------------
-  - drush @capacity4more -y en simpletest
+  #- drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
-  - drush @capacity4more test-run "capacity4more:og:vocab"
+  #- drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------
