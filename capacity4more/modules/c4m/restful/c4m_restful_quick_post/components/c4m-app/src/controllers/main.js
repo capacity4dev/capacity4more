@@ -260,33 +260,40 @@ angular.module('c4mApp')
       // Clean the submitted data, Drupal will return an error on undefined fields.
       var submitData = Request.cleanFields(data, resourceFields);
 
-//      console.log(submitData);
+      if(resource == 'events') {
+        // Get the lan/lng of the address from google map.
+        GoogleMap.getAddress(submitData, resource).then(function (result) {
+          var location = result.data.results[0].geometry.location;
+          submitData.location.lat = location.lat;
+          submitData.location.lng = location.lng;
+          // Continue submitting form.
+          checkForm (submitData, resource, resourceFields, type);
+        });
+      }
+      else {
+        // This is not an Event - just contionue submitting.
+        checkForm (submitData, resource, resourceFields, type);
+      }
+    };
 
-      // Get the lan/lng of the address from google map.
-      GoogleMap.getAddress(submitData, resource).then(function (result) {
-        var location = result.data.results[0].geometry.location;
-        submitData.location.lat = location.lat;
-        submitData.location.lng = location.lng;
+    function checkForm (submitData, resource, resourceFields, type) {
+      // Check for required fields.
+      var errors = Request.checkRequired(submitData, resource, resourceFields);
 
-        console.log(location);
+      // Check the type of the submit.
+      // Make node unpublished if requested to create in full form.
+      submitData.status = type == 'full_form' ? 0 : 1;
 
-        // Check for required fields.
-        var errors = Request.checkRequired(submitData, resource, resourceFields);
+      // Cancel submit and display errors if we have errors.
+      if (Object.keys(errors).length && type == 'quick_post') {
+        angular.forEach( errors, function(value, field) {
+          this[field] = value;
+        }, $scope.errors);
+        return false;
+      }
 
-        // Check the type of the submit.
-        // Make node unpublished if requested to create in full form.
-        submitData.status = type == 'full_form' ? 0 : 1;
-
-        // Cancel submit and display errors if we have errors.
-        if (Object.keys(errors).length && type == 'quick_post') {
-          angular.forEach( errors, function(value, field) {
-            this[field] = value;
-          }, $scope.errors);
-          return false;
-        }
-
-        // Call the create entity function service.
-        EntityResource.createEntity(submitData, resource, resourceFields)
+      // Call the create entity function service.
+      EntityResource.createEntity(submitData, resource, resourceFields)
         .success( function (data, status) {
           // If requested to create in full form, Redirect user to the edit page.
           if(type == 'full_form') {
@@ -304,8 +311,7 @@ angular.module('c4mApp')
           $scope.serverSide.status = status;
           prepareData();
         });
-      });
-    };
+    }
 
     /**
      * Uploading document file.
