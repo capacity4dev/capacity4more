@@ -825,8 +825,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $nid = key($result['node']);
 
     // Loading the previous message for the current node.
-    $query1 = new EntityFieldQuery();
-    $result1 = $query1
+    $query = new EntityFieldQuery();
+    $result = $query
       ->entityCondition('entity_type', 'message')
       ->propertyCondition('type', 'c4m_insert__node__' . $type)
       ->fieldCondition('field_node', 'target_id', $nid)
@@ -834,15 +834,15 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       ->range(0, 1)
       ->execute();
 
-    if (empty($result1['message'])) {
+    if (empty($result['message'])) {
       throw new Exception(format_string("Previous message not found."));
     }
 
-    $id = key($result1['message']);
+    $id = key($result['message']);
     $message = message_load($id);
-    // Changing timestamp of the previous message to earlier(minus current time).
+    // Changing timestamp of the previous message to earlier (minus current time).
     $message->timestamp = strtotime('now - ' . $time);
-    message_save($message);
+    $message->save();
 
     $node = node_load($nid);
     // Changing the current node title.
