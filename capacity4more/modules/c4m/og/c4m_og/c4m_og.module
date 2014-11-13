@@ -67,15 +67,15 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   // Retrieve value from og_access and set pluggable_group_access accordingly.
   if ($form['group_access'][LANGUAGE_NONE]['#default_value']) {
     $access_type = 'private';
-  }
-  else {
-    $access_type = 'public';
     // Check if pluggable_group_access exists.
     if (isset($form_state['node']->pluggable_node_access) && isset($form_state['node']->pluggable_node_access[LANGUAGE_NONE]) && $entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
       $access_type = 'restricted';
       $pluggable_node_access = entity_load_single('pluggable_node_access', $entity_id);
       $domains = $pluggable_node_access->data;
     }
+  }
+  else {
+    $access_type = 'public';
   }
 
   // Go over all organizations, gather info and verify which to check.
@@ -206,8 +206,8 @@ function c4m_og_group_form_submit($form, &$form_state) {
   $group_access = $form_state['values']['pluggable_group_access'];
   switch ($group_access) {
     case 'restricted':
-      // Set group_access value to 0.
-      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
+      // Set group_access value to 1.
+      $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
 
       // Edit/create pluggable_node_access.
       foreach (explode(' ', $form_state['values']['restricted_by_domain']) as $domain) {
