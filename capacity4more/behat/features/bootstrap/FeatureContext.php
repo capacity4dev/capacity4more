@@ -133,22 +133,24 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I fill a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
    */
-  public function iFillDiscussionQuickPost($title, $body, $group) {
+  public function iCreateDiscussionQuickPost($title, $body, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
     $steps[] = new Step\When('I press the "discussions" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
+    $steps[] = new Step\When('I press the "quick-submit" button');
+    $steps[] = new Step\When('I wait');
 
     return $steps;
   }
 
   /**
-   * @When /^I fill an event quick post with title "([^"]*)" and body "([^"]*)" that starts at "([^"]*)" and ends at "([^"]*)" in "([^"]*)"$/
+   * @When /^I create an event quick post with title "([^"]*)" and body "([^"]*)" that starts at "([^"]*)" and ends at "([^"]*)" in "([^"]*)"$/
    */
-  public function iFillEventQuickPost($title, $body, $start_date, $end_date, $group) {
+  public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
     $steps[] = new Step\When('I press the "events" button');
@@ -157,18 +159,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I fill in "startDate" with "' . $start_date . '"');
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
-
-    return $steps;
-  }
-
-  /**
-   * @When /^I submit and should see "([^"]*)"$/
-   */
-  public function iSubmitQuickPost($message) {
-    $steps = array();
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
-    $steps[] = new Step\When('I should see "' . $message . '"');
 
     return $steps;
   }
