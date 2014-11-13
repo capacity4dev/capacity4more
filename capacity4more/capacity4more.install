@@ -30,7 +30,7 @@ function capacity4more_install() {
   // THEMES
   $theme_default = variable_get('theme_default', 'bootstrap');
 
-  $theme_admin = 'seven';
+  $theme_admin = 'bootstrap';
   _capacity4more_install_save_theme($theme_admin, 1);
   variable_set('admin_theme', $theme_admin);
   variable_set('node_admin_theme', TRUE);

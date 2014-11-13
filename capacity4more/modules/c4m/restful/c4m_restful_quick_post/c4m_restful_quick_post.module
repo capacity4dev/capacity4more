@@ -27,6 +27,14 @@ function c4m_restful_quick_post_theme() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_restful_form_discussion_node_form_alter(&$form, &$form_state, $form_id) {
+  $path = drupal_get_path('module', 'c4m_restful_quick_post');
+  drupal_add_js($path . '/js/full-forms.js');
+}
+
+/**
  * Page callback; Load the AngularJs form.
  *
  * @param int $node
