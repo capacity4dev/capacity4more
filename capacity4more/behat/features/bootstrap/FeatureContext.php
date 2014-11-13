@@ -139,4 +139,24 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
+  /**
+   * @Given /^I should not have access to the page$/
+   */
+  public function iShouldNotHaveAccessToThePage() {
+    $steps = array();
+    $steps[] = new Step\When('I should get a "403" HTTP response');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should have access to the page$/
+   */
+  public function iShouldHaveAccessToThePage() {
+    $steps = array();
+    $steps[] = new Step\When('I should get a "200" HTTP response');
+
+    return $steps;
+  }
+
 }
