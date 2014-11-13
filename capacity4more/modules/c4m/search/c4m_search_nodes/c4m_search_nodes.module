@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Search Content feature.
+ */
+
+include_once 'c4m_search_nodes.features.inc';

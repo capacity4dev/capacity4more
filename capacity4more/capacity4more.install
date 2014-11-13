@@ -297,6 +297,8 @@ function _capacity4more_install_save_theme_blocks($blocks) {
  * @return array
  */
 function _capacity4more_install_get_default_theme_blocks($theme) {
+  // Only content & help blocks.
+  // All other blocks are set trough features & context.
   $blocks = array(
     array(
       'module' => 'system',

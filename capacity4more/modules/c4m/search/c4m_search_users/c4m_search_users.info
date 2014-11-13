@@ -1,0 +1,15 @@
+name = Search Users
+description = Global search users
+core = 7.x
+package = capacity4more - Search
+version = 7.x-1.x-dev
+dependencies[] = context
+dependencies[] = entity
+dependencies[] = facetapi
+dependencies[] = views
+features[context][] = c4m_search_users
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_search_users
+features_exclude[dependencies][ctools] = ctools
