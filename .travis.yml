@@ -64,8 +64,8 @@ before_script:
   - composer install --prefer-source
 
   # Index all content in the Solr Server
-  - drush @capacity4more search-reindex
-  - drush @capacity4more search-index
+  - drush @capacity4more search-api-reindex
+  - drush @capacity4more search-api-index
 
 script:
   # Create display.
