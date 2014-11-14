@@ -63,6 +63,11 @@ before_script:
   - cp aliases.drushrc.php ~/.drush/
   - composer install --prefer-source
 
+  # Index content in Solr
+  - cd www
+  - drush search-api-index
+  - cd ..
+
 script:
   # Create display.
   - export DISPLAY=:99.0
@@ -78,20 +83,20 @@ script:
   - wget -q -O - "$@" http://127.0.0.1:8080/search/users
 
   # Run selenium.
-  - wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
-  - java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
-  - sleep 5
+  #- wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
+  #- java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
+  #- sleep 5
 
   # Run phantomJs.
-  - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
+  #- phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
-  - ./bin/behat -p phantomjs --tags=~@wip
+  #- ./bin/behat -p phantomjs --tags=~@wip
 
   # Run WebTests ---------------------------------------------------------------
-  - drush @capacity4more -y en simpletest
+  #- drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
-  - drush @capacity4more test-run "capacity4more:og:vocab"
+  #- drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------
