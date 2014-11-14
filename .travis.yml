@@ -43,33 +43,28 @@ install:
   - phpenv rehash
 
 before_script:
-  # Get the proper search_api solr schema.
-  - drush dl search_api_solr
-  - mv search_api_solr/solr-conf ./
-  - rm -R ./search_api_solr
-
   # Install Solr
-  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/solr-conf/4.x" bash
+  - drush dl search_api_solr
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/search_api_solr/solr-conf/4.x" bash
+  - rm -R $TRAVIS_BUILD_DIR/search_api_solr
 
   # Install capacity4more profile.
-  - cp capacity4more/behat/travis-ci.config.sh config.sh
+  - cp $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.config.sh config.sh
   - ./install -dy
   - cd $TRAVIS_BUILD_DIR/www
   - drush cc all --yes
   - cd $TRAVIS_BUILD_DIR
 
   # Create a behat configuration file.
-  - cd capacity4more/behat
+  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
   - cp behat.local.yml.travis behat.local.yml
 
   # Create Drush alias.
-  - cp aliases.drushrc.php ~/.drush/
+  - cp $TRAVIS_BUILD_DIR/capacity4more/behat/aliases.drushrc.php ~/.drush/
   - composer install --prefer-source
 
   # Index content in Solr
-  - cd $TRAVIS_BUILD_DIR/www
-  - drush search-api-index
-  - cd $TRAVIS_BUILD_DIR
+  - drush @capacity4more search-api-index
 
 script:
   # Create display.
@@ -86,20 +81,22 @@ script:
   - wget -q -O - "$@" http://127.0.0.1:8080/search/users
 
   # Run selenium.
-  #- wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
-  #- java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
-  #- sleep 5
+  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
+  - wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
+  - java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
+  - sleep 5
 
   # Run phantomJs.
-  #- phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
+  - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
-  #- ./bin/behat -p phantomjs --tags=~@wip
+  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
+  - ./bin/behat -p phantomjs --tags=~@wip
 
   # Run WebTests ---------------------------------------------------------------
-  #- drush @capacity4more -y en simpletest
+  - drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
-  #- drush @capacity4more test-run "capacity4more:og:vocab"
+  - drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------
