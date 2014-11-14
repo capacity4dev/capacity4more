@@ -34,6 +34,9 @@ install:
   # install php packages required for running a web server from drush on php 5.3
   - sudo apt-get install -y --force-yes php5-cgi php5-mysql
 
+  # Set sendmail so drush doesn't throw an error during site install.
+  - echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
+
   # install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require drush/drush:6.*@dev
@@ -51,9 +54,9 @@ before_script:
   # Install capacity4more profile.
   - cp capacity4more/behat/travis-ci.config.sh config.sh
   - ./install -dy
-  - cd www
+  - cd $TRAVIS_BUILD_DIR/www
   - drush cc all --yes
-  - cd ..
+  - cd $TRAVIS_BUILD_DIR
 
   # Create a behat configuration file.
   - cd capacity4more/behat
@@ -64,9 +67,9 @@ before_script:
   - composer install --prefer-source
 
   # Index content in Solr
-  - cd www
+  - cd $TRAVIS_BUILD_DIR/www
   - drush search-api-index
-  - cd ..
+  - cd $TRAVIS_BUILD_DIR
 
 script:
   # Create display.
