@@ -34,6 +34,9 @@ install:
   # install php packages required for running a web server from drush on php 5.3
   - sudo apt-get install -y --force-yes php5-cgi php5-mysql
 
+  # Set sendmail so drush doesn't throw an error during site install.
+  - echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
+
   # install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require drush/drush:6.*@dev
@@ -46,7 +49,7 @@ before_script:
   - rm -R ./search_api_solr
 
   # Install Solr
-  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more | bash
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/solr-conf/4.x" bash
 
   # Install capacity4more profile.
   - cp capacity4more/behat/travis-ci.config.sh config.sh
@@ -62,6 +65,11 @@ before_script:
   # Create Drush alias.
   - cp aliases.drushrc.php ~/.drush/
   - composer install --prefer-source
+
+  # Index content in Solr
+  - cd $TRAVIS_BUILD_DIR/www
+  - drush search-api-index
+  - cd $TRAVIS_BUILD_DIR
 
 script:
   # Create display.
