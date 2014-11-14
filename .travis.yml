@@ -46,12 +46,9 @@ before_script:
   - rm -R ./search_api_solr
 
   # Install Solr
-  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/develop/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/solr-conf/4.x" DEBUG=1 bash
-  - wget -q -O - "$@" http://localhost:8983/solr/admin/cores
-  - wget http://localhost:8983/solr/capacity4more/update?commit=true
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/develop/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/solr-conf/4.x" bash
 
   # Install capacity4more profile.
-
   - cp capacity4more/behat/travis-ci.config.sh config.sh
   - ./install -dy
   - cd www
@@ -66,6 +63,10 @@ before_script:
   - cp aliases.drushrc.php ~/.drush/
   - composer install --prefer-source
 
+  # Index all content in the Solr Server
+  - drush @capacity4more search-reindex
+  - drush @capacity4more search-index
+
 script:
   # Create display.
   - export DISPLAY=:99.0
@@ -75,6 +76,10 @@ script:
   # start a web server on port 8080, run in the background; wait for initialization
   - drush @capacity4more runserver 127.0.0.1:8080 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+
+  # TEST search result page
+  - wget -q -O - "$@" http://127.0.0.1:8080/search
+  - wget -q -O - "$@" http://127.0.0.1:8080/search/users
 
   # Run selenium.
   - wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
