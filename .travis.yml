@@ -67,7 +67,7 @@ before_script:
   # Index content in Solr
   - drush @capacity4more search-api-index
   - sleep 10
-  - wget http://localhost:8983/solr/update?commit=true
+  - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
 script:
   # Create display.
