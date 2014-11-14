@@ -46,7 +46,7 @@ before_script:
   - rm -R ./search_api_solr
 
   # Install Solr
-  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/develop/travis-solr.sh | SOLR_CORE=capacity4more DEBUG=1 bash
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/develop/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="solr-conf/4.x" DEBUG=1 bash
   - wget -q -O - "$@" http://localhost:8983/solr/admin/cores
   - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
