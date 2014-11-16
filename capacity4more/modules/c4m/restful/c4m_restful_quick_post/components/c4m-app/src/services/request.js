@@ -109,11 +109,6 @@ angular.module('c4mApp')
             errors.datetime = 1;
           }
         }
-
-        // If one field is missing from the location, return error.
-        if (!errorData.location.lat || !errorData.location.lng) {
-          errors.location = 1;
-        }
       }
 
       angular.forEach(errorData, function (values, field) {

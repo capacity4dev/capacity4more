@@ -262,7 +262,6 @@ angular.module('c4mApp')
 
       if (resource == 'events') {
 
-
         // Get the lan/lng of the address from google map.
         GoogleMap.getAddress(submitData, resource).then(function (result) {
           if (result.data.results.length > 0) {
@@ -270,6 +269,11 @@ angular.module('c4mApp')
             submitData.location.lat = location.lat;
             submitData.location.lng = location.lng;
             submitData.location.country = result.data.results[0].address_components[4].short_name;
+          }
+          else {
+            submitData.location.lat = 0;
+            submitData.location.lng = 0;
+            submitData.location.country = '';
           }
           // Continue submitting form.
           checkForm (submitData, resource, resourceFields, type);

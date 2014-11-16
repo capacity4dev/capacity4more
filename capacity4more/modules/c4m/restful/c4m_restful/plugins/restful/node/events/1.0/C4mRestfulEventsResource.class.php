@@ -143,7 +143,9 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
     );
 
     $locations = getlocations_fields_save_locations($locations, $criteria, array(), 'insert');
-    entity_metadata_wrapper('node', $entity)->c4m_location->set($locations[0]);
-    node_save($entity);
+    if (count($locations) > 0) {
+      entity_metadata_wrapper('node', $entity)->c4m_location->set($locations[0]);
+      node_save($entity);
+    }
   }
 }
