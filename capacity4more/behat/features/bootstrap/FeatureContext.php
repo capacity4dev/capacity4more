@@ -114,7 +114,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
     // Generate URL from title.
-    $url = strtolower(str_replace(" ", "-", trim($title)));
+    $url = strtolower(str_replace(' ', '-', trim($title)));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
@@ -212,27 +212,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
-
-    return $steps;
-  }
-
-
-  /**
-   * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
-   */
-  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username,$domains = NULL, $moderated = FALSE) {
-
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($title)));
-
-    $steps = array();
-    $steps[] = new Step\When('I am logged in as the "'. $username .'"');
-    $steps[] = new Step\When('I visit "node/add/group"');
-    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
-    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
-    $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I press "Save"');
 
     return $steps;
   }
