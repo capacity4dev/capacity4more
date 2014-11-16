@@ -86,6 +86,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^a moderated group "([^"]*)" with "([^"]*)" organization restriction is created with group manager "([^"]*)"$/
+   */
+  public function aModeratedGroupWithOrganizationRestrictionIsCreatedWithGroupManager($title, $organization, $username) {
+    return $this->aGroupWithAccessIsCreatedWithGroupManager($title, 'Restricted', $username, NULL, TRUE, array($organization));
+  }
+
+  /**
    * @Given /^a moderated group "([^"]*)" with "([^"]*)" restriction is created with group manager "([^"]*)"$/
    */
   public function aModeratedGroupWithRestrictionIsCreatedWithGroupManager($title, $domains, $username) {
@@ -93,9 +100,19 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I fill editor "([^"]*)" with "([^"]*)"$/
+   */
+  public function iFillEditorWith($editor, $value) {
+    // Using javascript script to fill the textAngular editor,
+    // We have to enter the value directly to the scope.
+    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
-  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE) {
+  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
     // Generate URL from title.
     $url = strtolower(str_replace(" ", "-", trim($title)));
 
@@ -107,7 +124,14 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
-      $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
+      if ($domains) {
+        $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
+      }
+      if ($organizations) {
+        foreach ($organizations as $organization) {
+          $steps[] = new Step\When('I check the box "' . $organization . '"');
+        }
+      }
     }
     if ($moderated) {
       $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
@@ -122,4 +146,73 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
+  /**
+   * @Given /^a discussion "([^"]*)" in group "([^"]*)" is created$/
+   */
+  public function aDiscussionInGroupIsCreated($title, $group_title) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/discussion"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
+    $steps[] = new Step\When('I press "Save"');
+
+    // Check there was no error.
+    $steps[] = new Step\When('I should not see "There was an error"');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
+   */
+  public function iCreateDiscussionQuickPost($title, $body, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I press the "discussions" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
+    $steps[] = new Step\When('I press the "quick-submit" button');
+    $steps[] = new Step\When('I wait');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should not have access to the page$/
+   */
+  public function iShouldNotHaveAccessToThePage() {
+    $steps = array();
+    $steps[] = new Step\When('I should get a "403" HTTP response');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should have access to the page$/
+   */
+  public function iShouldHaveAccessToThePage() {
+    $steps = array();
+    $steps[] = new Step\When('I should get a "200" HTTP response');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I create an event quick post with title "([^"]*)" and body "([^"]*)" that starts at "([^"]*)" and ends at "([^"]*)" in "([^"]*)"$/
+   */
+  public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I press the "events" button');
+    $steps[] = new Step\When('I press the "Meeting" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
+    $steps[] = new Step\When('I fill in "startDate" with "' . $start_date . '"');
+    $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
+    $steps[] = new Step\When('I press the "quick-submit" button');
+    $steps[] = new Step\When('I wait');
+
+    return $steps;
+  }
 }

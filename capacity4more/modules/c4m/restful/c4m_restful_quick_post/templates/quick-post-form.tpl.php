@@ -56,7 +56,7 @@
       </div>
 
       <div class="form-group" ng-class="{ 'has-error' : errors.body }">
-        <div id="body" name="body" text-angular ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" text-angular-name="body" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></div>
+        <text-angular id="body" name="body" ta-toolbar="[['h1','h2'],['bold','italics', 'underline','ul','ol'],['justifyLeft', 'justifyCenter', 'justifyRight'],['insertImage', 'insertLink', 'insertVideo']]" ng-model="data.body" data-placeholder="<?php print t('Add a description'); ?>"></text-angular>
         <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
         <div class="errors">
           <ul ng-show="serverSide.data.errors.body">
