@@ -277,12 +277,12 @@ angular.module('c4mApp')
             submitData.location.country = 'BE';
           }
           // Continue submitting form.
-          checkForm (submitData, resource, resourceFields, type);
+          checkForm(submitData, resource, resourceFields, type);
         });
       }
       else {
         // This is not an Event - just continue submitting.
-        checkForm (submitData, resource, resourceFields, type);
+        checkForm(submitData, resource, resourceFields, type);
       }
     };
 

@@ -98,8 +98,10 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
    * Location process callback.
    *
    * @param $value
+   *  The array with the field value.
    *
    * @return array
+   *  Array with the necessary location values.
    */
   protected function processLocation($value) {
     return array(
@@ -107,6 +109,7 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       'city' => $value['city'],
       'postal_code' => $value['postal_code'],
       'country_name' => $value['country_name'],
+      'country' => $value['country'],
       'lat' => $value['latitude'],
       'lng' => $value['longitude'],
     );
@@ -120,7 +123,6 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
   public function createEntity() {
     $entity = parent::createEntity();
     $request = $this->getRequest();
-
     $entity = node_load($entity[0]['id']);
 
     $locations = array(
