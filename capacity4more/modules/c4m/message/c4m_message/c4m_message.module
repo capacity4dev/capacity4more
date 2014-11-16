@@ -584,6 +584,9 @@ function c4m_message__insert__node__discussion($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__discussion($node) {
+  global $user;
+  $uid = $user->uid;
+
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -596,20 +599,34 @@ function c4m_message__update__node__discussion($node) {
     ->range(0, 1)
     ->execute();
 
-
   $message = NULL;
   if (!empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
-  }
+    $wrapper = entity_metadata_wrapper('message', $message);
 
-  if (!$message) {
-    // Message doesn't exist - create a new message.
-    $values = array('uid' => $node->uid);
-    $message = message_create('c4m_insert__node__discussion', $values);
+    if ($message->uid == $uid) {
+      if ($wrapper->field_operation->value() == 'update') {
+        // When an existing item is updated within 6 hours after the PREVIOUS UPDATE by the SAME user who did the last update.
+        $message->timestamp = $node->timestamp;
+      }
+      else {
+        // When an existing item is updated within 6 hours after the initial insert by the SAME user.
+        return NULL;
+      }
+    }
+    else {
+      $values = array(
+        'uid' => $uid,
+        'timestamp' => $node->timestamp,
+      );
+      $message = message_create('c4m_insert__node__discussion', $values);
+    }
   }
-
-  c4m_message_prepare_insert_entity($message, 'node', $node);
+  if ($message) {
+    c4m_message_prepare_insert_entity($message, 'node', $node);
+    dpm($message->timestamp);
+  }
   return $message;
 }
 
@@ -640,6 +657,9 @@ function c4m_message__insert__node__document($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__document($node) {
+  global $user;
+  $uid = $user->uid;
+
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -652,20 +672,34 @@ function c4m_message__update__node__document($node) {
     ->range(0, 1)
     ->execute();
 
-
   $message = NULL;
   if (!empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
-  }
+    $wrapper = entity_metadata_wrapper('message', $message);
 
-  if (!$message) {
-    // Message doesn't exist - create a new message.
-    $values = array('uid' => $node->uid);
-    $message = message_create('c4m_insert__node__document', $values);
+    if ($message->uid == $uid) {
+      if ($wrapper->field_operation->value() == 'update') {
+        // When an existing item is updated within 6 hours after the PREVIOUS UPDATE by the SAME user who did the last update.
+        $message->timestamp = $node->timestamp;
+      }
+      else {
+        // When an existing item is updated within 6 hours after the initial insert by the SAME user.
+        return NULL;
+      }
+    }
+    else {
+      $values = array(
+        'uid' => $uid,
+        'timestamp' => $node->timestamp,
+      );
+      $message = message_create('c4m_insert__node__document', $values);
+    }
   }
-
-  c4m_message_prepare_insert_entity($message, 'node', $node);
+  if ($message) {
+    c4m_message_prepare_insert_entity($message, 'node', $node);
+    dpm($message->timestamp);
+  }
   return $message;
 }
 
@@ -697,6 +731,9 @@ function c4m_message__insert__node__page($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__page($node) {
+  global $user;
+  $uid = $user->uid;
+
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -709,20 +746,34 @@ function c4m_message__update__node__page($node) {
     ->range(0, 1)
     ->execute();
 
-
   $message = NULL;
   if (!empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
-  }
+    $wrapper = entity_metadata_wrapper('message', $message);
 
-  if (!$message) {
-    // Message doesn't exist - create a new message.
-    $values = array('uid' => $node->uid);
-    $message = message_create('c4m_insert__node__page', $values);
+    if ($message->uid == $uid) {
+      if ($wrapper->field_operation->value() == 'update') {
+        // When an existing item is updated within 6 hours after the PREVIOUS UPDATE by the SAME user who did the last update.
+        $message->timestamp = $node->timestamp;
+      }
+      else {
+        // When an existing item is updated within 6 hours after the initial insert by the SAME user.
+        return NULL;
+      }
+    }
+    else {
+      $values = array(
+        'uid' => $uid,
+        'timestamp' => $node->timestamp,
+      );
+      $message = message_create('c4m_insert__node__page', $values);
+    }
   }
-
-  c4m_message_prepare_insert_entity($message, 'node', $node);
+  if ($message) {
+    c4m_message_prepare_insert_entity($message, 'node', $node);
+    dpm($message->timestamp);
+  }
   return $message;
 }
 
@@ -753,6 +804,9 @@ function c4m_message__insert__node__photo($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__photo($node) {
+  global $user;
+  $uid = $user->uid;
+
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -765,20 +819,34 @@ function c4m_message__update__node__photo($node) {
     ->range(0, 1)
     ->execute();
 
-
   $message = NULL;
   if (!empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
-  }
+    $wrapper = entity_metadata_wrapper('message', $message);
 
-  if (!$message) {
-    // Message doesn't exist - create a new message.
-    $values = array('uid' => $node->uid);
-    $message = message_create('c4m_insert__node__photo', $values);
+    if ($message->uid == $uid) {
+      if ($wrapper->field_operation->value() == 'update') {
+        // When an existing item is updated within 6 hours after the PREVIOUS UPDATE by the SAME user who did the last update.
+        $message->timestamp = $node->timestamp;
+      }
+      else {
+        // When an existing item is updated within 6 hours after the initial insert by the SAME user.
+        return NULL;
+      }
+    }
+    else {
+      $values = array(
+        'uid' => $uid,
+        'timestamp' => $node->timestamp,
+      );
+      $message = message_create('c4m_insert__node__photo', $values);
+    }
   }
-
-  c4m_message_prepare_insert_entity($message, 'node', $node);
+  if ($message) {
+    c4m_message_prepare_insert_entity($message, 'node', $node);
+    dpm($message->timestamp);
+  }
   return $message;
 }
 
@@ -809,6 +877,9 @@ function c4m_message__insert__node__photoalbum($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__photoalbum($node) {
+  global $user;
+  $uid = $user->uid;
+
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -821,20 +892,34 @@ function c4m_message__update__node__photoalbum($node) {
     ->range(0, 1)
     ->execute();
 
-
   $message = NULL;
   if (!empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
-  }
+    $wrapper = entity_metadata_wrapper('message', $message);
 
-  if (!$message) {
-    // Message doesn't exist - create a new message.
-    $values = array('uid' => $node->uid);
-    $message = message_create('c4m_insert__node__photoalbum', $values);
+    if ($message->uid == $uid) {
+      if ($wrapper->field_operation->value() == 'update') {
+        // When an existing item is updated within 6 hours after the PREVIOUS UPDATE by the SAME user who did the last update.
+        $message->timestamp = $node->timestamp;
+      }
+      else {
+        // When an existing item is updated within 6 hours after the initial insert by the SAME user.
+        return NULL;
+      }
+    }
+    else {
+      $values = array(
+        'uid' => $uid,
+        'timestamp' => $node->timestamp,
+      );
+      $message = message_create('c4m_insert__node__photoalbum', $values);
+    }
   }
-
-  c4m_message_prepare_insert_entity($message, 'node', $node);
+  if ($message) {
+    c4m_message_prepare_insert_entity($message, 'node', $node);
+    dpm($message->timestamp);
+  }
   return $message;
 }
 
@@ -865,6 +950,9 @@ function c4m_message__insert__node__event($node) {
  *   The non-saved message entity.
  */
 function c4m_message__update__node__event($node) {
+  global $user;
+  $uid = $user->uid;
+
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
   $query = new EntityFieldQuery();
@@ -882,15 +970,30 @@ function c4m_message__update__node__event($node) {
   if (!empty($result['message'])) {
     $id = key($result['message']);
     $message = message_load($id);
-  }
+    $wrapper = entity_metadata_wrapper('message', $message);
 
-  if (!$message) {
-    // Message doesn't exist - create a new message.
-    $values = array('uid' => $node->uid);
-    $message = message_create('c4m_insert__node__event', $values);
+    if ($message->uid == $uid) {
+      if ($wrapper->field_operation->value() == 'update') {
+        // When an existing item is updated within 6 hours after the PREVIOUS UPDATE by the SAME user who did the last update.
+        $message->timestamp = $node->timestamp;
+      }
+      else {
+        // When an existing item is updated within 6 hours after the initial insert by the SAME user.
+        return NULL;
+      }
+    }
+    else {
+      $values = array(
+        'uid' => $uid,
+        'timestamp' => $node->timestamp,
+      );
+      $message = message_create('c4m_insert__node__event', $values);
+    }
   }
-
-  c4m_message_prepare_insert_entity($message, 'node', $node);
+  if ($message) {
+    c4m_message_prepare_insert_entity($message, 'node', $node);
+    dpm($message->timestamp);
+  }
   return $message;
 }
 
