@@ -196,7 +196,6 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     'access content',
     'create group content',
     'edit own group content',
-    'delete own group content',
   );
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
