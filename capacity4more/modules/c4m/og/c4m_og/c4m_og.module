@@ -291,3 +291,45 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }
+
+/**
+ * Implements hook_entity_update().
+ */
+function c4m_og_entity_update($entity, $type) {
+  // Check the entity is a group.
+  if (!og_is_group($type, $entity)) {
+    return;
+  }
+
+  // Add the group to the 'c4m_og_group_permissions_change' queue.
+  $queue = DrupalQueue::get('c4m_og_group_permissions_change');
+  list($id, , ) = entity_extract_ids($type, $entity);
+
+  $item = array(
+    'type' => $type,
+    'entity_id'=> $id,
+  );
+  $queue->createItem($item);
+}
+
+function c4m_og_group_permission_handling() {
+  $queue = DrupalQueue::get('c4m_og_group_permissions_change');
+
+  // Claim item from the queue for handling.
+  if (!$item = $queue->claimItem()) {
+    return;
+  }
+
+  // Load the group entity.
+  if (!$entity = entity_load_single($item['type'], $item['entity_id'])) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper($item['type'], $entity);
+
+
+
+
+  // Finish hanlding the group - delete it from queue.
+  $item->deleteItem();
+}

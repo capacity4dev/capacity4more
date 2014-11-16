@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function c4m_og_install() {
+  // Create Queue for handling permissions change on group content.
+  $queue = DrupalQueue::get('c4m_og_group_permissions_change');
+  $queue->createQueue();
+}
