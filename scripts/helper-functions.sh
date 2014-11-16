@@ -233,7 +233,7 @@ function migrate_dummy_content {
   echo -e "${LBLUE}> Importing dummy data${RESTORE}"
   cd $ROOT/www
   drush en -y migrate migrate_ui c4m_demo_content
-  drush mi --update --group=c4m_demo_content
+  drush --uri="http://$BASE_DOMAIN_URL" mi --update --group=c4m_demo_content
   cd $ROOT
   echo
 }

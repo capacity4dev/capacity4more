@@ -4,9 +4,19 @@ default:
       drupal_users:
         admin:
           'admin'
+        mariecurie:
+          'drupal'
         isaacnewton:
           'drupal'
+        badhairday:
+          'drupal'
+        galileo:
+          'drupal'
+        survivalofthefittest:
+          'drupal'
         turing:
+          'drupal'
+        president:
           'drupal'
   paths:
     features: 'features'

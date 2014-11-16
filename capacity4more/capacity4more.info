@@ -20,13 +20,12 @@ dependencies[] = path
 dependencies[] = statistics
 dependencies[] = taxonomy
 dependencies[] = dblog
-dependencies[] = search
 dependencies[] = shortcut
-dependencies[] = toolbar
 dependencies[] = file
 dependencies[] = rdf
 
 ; Contrib modules -------------------------------------------------------------
+dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
@@ -37,6 +36,7 @@ dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
+dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = flag
@@ -45,6 +45,8 @@ dependencies[] = jquery_update
 dependencies[] = libraries
 dependencies[] = message
 dependencies[] = link
+;dependencies[] = message
+
 dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
@@ -55,9 +57,14 @@ dependencies[] = og_vocab
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = pathauto
+dependencies[] = pluggable_node_access
 dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
+dependencies[] = search_api
+dependencies[] = search_api_facetapi
+dependencies[] = search_api_solr
+dependencies[] = search_api_views
 dependencies[] = strongarm
 dependencies[] = transliteration
 dependencies[] = token
@@ -115,6 +122,11 @@ dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+
+; Search
+dependencies[] = c4m_search
+dependencies[] = c4m_search_nodes
+dependencies[] = c4m_search_users
 
 ; Message
 dependencies[] = c4m_message

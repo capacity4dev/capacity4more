@@ -8,21 +8,6 @@
 class RestfulEntityTaxonomyTermTags extends \C4mRestfulEntityBaseTaxonomyTerm {
 
   /**
-   * Constructs a RestfulDataProviderEFQ object.
-   *
-   * @param array $plugin
-   *   Plugin definition.
-   * @param RestfulAuthenticationManager $auth_manager
-   *   (optional) Injected authentication manager.
-   * @param DrupalCacheInterface $cache_controller
-   *   (optional) Injected cache backend.
-   */
-  public function __construct(array $plugin, \RestfulAuthenticationManager $auth_manager = NULL, \DrupalCacheInterface $cache_controller = NULL) {
-    parent::__construct($plugin, $auth_manager, $cache_controller);
-  }
-
-
-  /**
    * {@inheritdoc}
    *
    * Change the bundle on the fly, based on a parameter send in the request.
@@ -45,6 +30,9 @@ class RestfulEntityTaxonomyTermTags extends \C4mRestfulEntityBaseTaxonomyTerm {
     }
 
     $this->bundle = $og_vocab[0]->machine_name;
+
+    // Group id removed from the request because it's not a field in the taxonomy.
+    unset($request['group']);
 
     return parent::process($path, $request, $method, $check_rate_limit);
   }

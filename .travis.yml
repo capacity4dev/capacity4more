@@ -40,13 +40,19 @@ install:
   - phpenv rehash
 
 before_script:
+  # Get the proper search_api solr schema.
+  - drush dl search_api_solr
+  - mv search_api_solr/solr-conf ./
+  - rm -R ./search_api_solr
+
+  # Install Solr
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more | bash
+
+  # Install capacity4more profile.
   - cp capacity4more/behat/travis-ci.config.sh config.sh
-  - ./install -d -y
+  - ./install -dy
   - cd www
   - drush cc all --yes
-  # Use drush migrate command to import dummy content, as user 1, so we don't have node access issues.
-  # - drush mi --all --user=1
-
   - cd ..
 
   # Create a behat configuration file.

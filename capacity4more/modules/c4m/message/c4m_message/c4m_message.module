@@ -126,7 +126,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
 }
 
 /**
- * A gerenal function to add arguments for node related messges.
+ * A general function to add arguments for node related messages.
  *
  * Add Message arguments callbacks.
  *
@@ -150,7 +150,7 @@ function c4m_message_load_general_arguments(Message $message) {
  */
 function c4m_message_format_date_for_message(Message $message) {
   if (strtotime('now - 1 day') > $message->timestamp) {
-    return format_date($message->timestamp);
+    return reldate_format_date($message->timestamp);
   }
 
   $interval = format_interval(time() - $message->timestamp, 1);
@@ -933,67 +933,6 @@ function c4m_message_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Implements hook_theme().
- */
-function c4m_message_theme(){
-  return array(
-    'message__activity_stream' =>  array(
-      'template' => 'templates/message--activity_stream',
-      'render element' => 'entity'
-    ),
-    'c4m_message_summary_with_image' => array(
-      'template' => 'templates/field_summary_with_image',
-      'variables' => array(
-        'image' => NULL,
-        'description' => NULL,
-      ),
-    ),
-  );
-}
-
-/**
- * Activity stream messages preprocess.
- */
-function c4m_message_preprocess_message(&$variables) {
-  if ($variables['view_mode'] != 'activity_stream') {
-    return;
-  }
-
-  $message = $variables['message'];
-  $variables['theme_hook_suggestions'][] = 'message__activity_stream';
-  $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
-
-  $variables['content'] = $message->getText();
-
-  // Getting the name of the icon image file from the message type.
-  $icon_type = explode('__', $message->type);
-
-  $icon_entity_type = $icon_type[1];
-
-  $icon_name = 'missing';
-
-  if ($icon_entity_type == 'node') {
-    // Icon image file name is content type of the node.
-    $icon_name = $icon_type[2];
-
-    if ($icon_name == 'discussion') {
-      $message_wrapper = entity_metadata_wrapper('message', $message);
-      // Icon image file name is the discussion type of the discussion node.
-      $icon_name = $message_wrapper->field_node->c4m_discussion_type->value();
-    }
-  }
-
-  $image_path = drupal_get_path('module', 'c4m_message') . '/images/activity_stream_icons';
-  $icon_variables = array(
-    'path' => $image_path . '/' . $icon_name . '.png',
-    'attributes' => array(
-      'class' => 'img-responsive',
-    )
-  );
-  $variables['icon'] = theme('image', $icon_variables);
-}
-
-/**
  * Node preprocess.
  */
 function c4m_message_preprocess_node(&$variables) {
@@ -1005,88 +944,6 @@ function c4m_message_preprocess_node(&$variables) {
   if (function_exists($preprocess_function)) {
     $preprocess_function($variables);
   }
-}
-
-/**
- * Implements hook_field_formatter_info().
- */
-function c4m_message_field_formatter_info() {
-  return array(
-    'summary_with_image' => array(
-      'label' => t('Summary or trimmed with image'),
-      'field types' => array('text_with_summary'),
-    )
-  );
-}
-
-/**
- * Implements hook_field_formatter_view().
- */
-function c4m_message_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = array();
-
-  switch ($display['type']) {
-    case 'summary_with_image':
-      foreach ($items as $delta => $item) {
-
-        // Getting summary from the field.
-        // Copied from text.module.
-        if (!empty($item['summary'])) {
-          // Get image from the summary if it is there.
-          $image = c4m_message_image_from_text_field($item['summary']);
-          $body_summary = _text_sanitize($instance, $langcode, $item, 'summary');
-        }
-        else {
-          // Get image from the value if it is there in the beginning.
-          $image = c4m_message_image_from_text_field($item['value']);
-          $body_summary = _text_sanitize($instance, $langcode, $item, 'value');
-          $body_summary = text_summary($body_summary, $instance['settings']['text_processing'] ? $item['format'] : NULL);
-        }
-
-        $element[$delta] = array(
-          '#theme' => 'c4m_message_summary_with_image',
-          '#image' => $image,
-          '#description' => $body_summary,
-        );
-      }
-      break;
-  }
-  return $element;
-}
-
-/**
- * Return formatted html for an image if it is in the beginning of the text value.
- *
- * @param $value
- *  Text field value or summary.
- *
- * @return string
- *  Formatted html.
- */
-function c4m_message_image_from_text_field($value) {
-  $image = '';
-  $pattern = '/<img\s+[^>]*?src="([^"]+)"[^>]+>/i';
-
-  if (preg_match($pattern, $value) && strpos($value, '<img') < 600) {
-    $images_uri = array();
-    preg_match($pattern, $value, $images_uri);
-
-    // We use $images_uri[1] to get the image url, because $images_uri[0]
-    // contains the whole image tag.
-    $variables = array(
-      'element' => array(
-        '#tag' => 'img',
-        '#attributes' => array(
-          'class' => 'img-responsive',
-          'src' => $images_uri[1],
-        ),
-      )
-    );
-
-    // Using theme_html_tag instead of theme_image because image url might be too long.
-    $image = theme('html_tag', $variables);
-  }
-  return $image;
 }
 
 /**

@@ -1,0 +1,102 @@
+<?php
+/**
+ * @file
+ * Code for the Search feature.
+ */
+
+include_once 'c4m_search.features.inc';
+
+
+/**
+ * Implements hook_default_search_api_server().
+ *
+ * Don't feature this as this will be probably overwritten depending on the
+ * environment.
+ */
+function c4m_search_default_search_api_server() {
+  $items = array();
+  $items['c4m_solr'] = entity_import('search_api_server', '{
+    "name" : "Solr",
+    "machine_name" : "c4m_solr",
+    "description" : "",
+    "class" : "search_api_solr_service",
+    "options" : {
+      "clean_ids" : true,
+      "site_hash" : true,
+      "scheme" : "http",
+      "host" : "127.0.0.1",
+      "port" : "8983",
+      "path" : "\\/solr\\/capacity4more",
+      "http_user" : "admin",
+      "http_pass" : "drupal",
+      "excerpt" : 0,
+      "retrieve_data" : 0,
+      "highlight_data" : 0,
+      "skip_schema_check" : 0,
+      "solr_version" : "",
+      "http_method" : "AUTO"
+    },
+    "enabled" : "1",
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_search_api_server_load().
+ *
+ * Provide a configuration as the same structure as the
+ * search api server entity in array form (keyed by the
+ * machine name of the solr service).
+ *
+ * Based on the search_api_solr_overrides module.
+ * @see https://www.drupal.org/project/search_api_solr_overrides
+ *
+ * @see c4m_search_default_search_api_server() for an example of the paremeters
+ * that can be overridden.
+ *
+ * Example:
+ * $conf['c4m_search_server_overrides'] = array(
+ *   'c4m_solr' => array(
+ *     'name' => t('Solr Server (Overridden)'),
+ *     'options' => array(
+ *       'host' => '127.0.0.1',
+ *       'port' => 8983,
+ *       'path' => '/solr/core1',
+ *     ),
+ *   ),
+ * );
+ */
+function c4m_search_search_api_server_load($servers) {
+  // Get the solr host overrides.
+  $overrides = variable_get('c4m_search_server_overrides', FALSE);
+
+  // Ensure the is information provided.
+  if (empty($overrides)) {
+    return;
+  }
+
+  // Loop over an make the required updates.
+  foreach ($overrides as $id => $override) {
+    // Check to see if the server config exists.
+    if (empty($servers[$id])) {
+      continue;
+    }
+
+    foreach ($servers[$id] as $key => $field) {
+      // Ensure we need to override the key.
+      if (empty($override[$key])) {
+        continue;
+      }
+
+      // Check for if the field is an array.
+      if (is_array($field)) {
+        $servers[$id]->$key = array_merge($servers[$id]->$key, $override[$key]);
+      }
+      // Else its a value.
+      else {
+        $servers[$id]->$key = $override[$key];
+      }
+    }
+  }
+}
