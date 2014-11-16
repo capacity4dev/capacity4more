@@ -338,7 +338,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Then /^I should  be allowed to create a "([^"]*)"$/
+   * @Then /^I should be allowed to create a "([^"]*)"$/
    */
   public function iShouldBeAllowedToCreateA($type) {
 
