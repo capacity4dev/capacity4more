@@ -191,6 +191,15 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     )
   );
 
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access content',
+    'create group content',
+    'edit own group content',
+    'delete own group content',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+
   // Create a default role for site administrators, with all available permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';
@@ -297,6 +306,8 @@ function _capacity4more_install_save_theme_blocks($blocks) {
  * @return array
  */
 function _capacity4more_install_get_default_theme_blocks($theme) {
+  // Only content & help blocks.
+  // All other blocks are set trough features & context.
   $blocks = array(
     array(
       'module' => 'system',
@@ -305,46 +316,6 @@ function _capacity4more_install_get_default_theme_blocks($theme) {
       'status' => 1,
       'weight' => 0,
       'region' => 'content',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'search',
-      'delta' => 'form',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => -1,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'user',
-      'delta' => 'login',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'navigation',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'powered-by',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 10,
-      'region' => 'footer',
       'pages' => '',
       'cache' => -1,
     ),
