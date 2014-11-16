@@ -255,7 +255,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)"$/
    */
   public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title) {
-//    throw new PendingException();
     $steps = array();
 
     $query = new entityFieldQuery();
