@@ -16,10 +16,6 @@ angular.module('c4mApp')
       $scope.selectedResource = Object.keys($scope.resources)[0];
     }
 
-    // Getting node object that we are editing.
-    var node = DrupalSettings.getData('node');
-    console.log(node);
-
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 

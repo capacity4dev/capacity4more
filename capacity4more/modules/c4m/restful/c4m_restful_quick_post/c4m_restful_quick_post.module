@@ -74,6 +74,10 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     $public_fields += $handler->getPublicFields();
     // Send the fields as separate objects as well (for validation on submit.)
     $field_schema['resources'][$resource_name] = $handler->options();
+
+    if ($node) {
+      $node_values = $handler->get($node->nid);
+    }
   }
 
   // Load the libraries.
@@ -115,14 +119,20 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'id',
     'self',
   );
+
   foreach($public_fields as $public_field_name => $value) {
     // Skipped fields.
     if (in_array($public_field_name, $skipped_fields)) {
       continue;
     }
-
-    // Set all fields values to NULL.
-    $entity_fields[$public_field_name] = NULL;
+    if ($node) {
+      // Set default values of the fields that are already exist.
+      $entity_fields[$public_field_name] = $node_values[0][$public_field_name];
+    }
+    else {
+      // Set all fields values to NULL.
+      $entity_fields[$public_field_name] = NULL;
+    }
 
     // Set the current Group.
     if ($public_field_name == 'group') {
@@ -151,7 +161,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => $entity_fields,
-      'node' => $node,
     ),
   );
   drupal_add_js($settings, 'setting');
