@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Install & update hooks for c4m_search module.
+ */
+
+/**
+ * Implements hook_install()
+ */
+function c4m_search_install() {
+  variable_set('search_api_attachments_extract_using', 'tika');
+  variable_set('search_api_attachments_tika_jar', 'tika-app-1.6.jar');
+  variable_set('search_api_attachments_tika_path', '/opt/tika');
+}
+
+/**
+ * Implements hook_uninstall()
+ */
+function c4m_search_uninstall() {
+  variable_del('search_api_attachments_extract_using');
+  variable_del('search_api_attachments_tika_jar');
+  variable_del('search_api_attachments_tika_path');
+}
