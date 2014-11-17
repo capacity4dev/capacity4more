@@ -366,6 +366,23 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I should see a creation message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeACreationMessageForInTheActivityStreamOfTheGroup($title, $group) {
+    // Generate URL from title.
+    $url = str_replace(' ', '-', strtolower(trim($group)));
+
+    $steps = array();
+
+    $steps[] = new Step\When('I visit "group/' . $url . '"');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should not see "updated the Information" in the "div.view-group-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {

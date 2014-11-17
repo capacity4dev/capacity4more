@@ -629,12 +629,21 @@ function c4m_message__update__node($node) {
       }
     }
     else {
+      // Need to create new massage, not to update existing one.
       $values = array(
         'uid' => $uid,
         'timestamp' => $node->timestamp,
       );
       $message = message_create('c4m_insert__node__' . $node->type, $values);
     }
+  }
+  else {
+    // More than 6 hours last - need to create a new message.
+    $values = array(
+      'uid' => $uid,
+      'timestamp' => $node->timestamp,
+    );
+    $message = message_create('c4m_insert__node__' . $node->type, $values);
   }
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
