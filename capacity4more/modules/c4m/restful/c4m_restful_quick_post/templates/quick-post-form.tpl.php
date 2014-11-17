@@ -117,7 +117,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.topic">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="topic" model="data.topic" items="topic"></list-terms>
+              <list-terms type="topic" popup="popups.topic" model="data.topic" items="topic"></list-terms>
             </div>
           </div>
         </div>
@@ -182,7 +182,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="geo" model="data.geo" items="geo"></list-terms>
+              <list-terms type="geo" popup="popups.geo" model="data.geo" items="geo"></list-terms>
             </div>
           </div>
         </div>

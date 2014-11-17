@@ -15,6 +15,7 @@ angular.module('c4mApp')
         items: '=items',
         model: '=model',
         type: '@type',
+        popup: '=',
         updatePopoverPosition: '='
       },
       link: function postLink(scope) {
@@ -28,7 +29,9 @@ angular.module('c4mApp')
         // TODO: Stop user from selecting more values.
         scope.updateSelectedTerms = function() {
           // Update the position of the popover.
-          scope.updatePopoverPosition(scope.type);
+          if (scope.updatePopoverPosition) {
+            scope.updatePopoverPosition(scope.type);
+          }
 
           var selectedCount = 0;
           angular.forEach(scope.items, function(item, id) {
@@ -40,6 +43,9 @@ angular.module('c4mApp')
             angular.element("#" + scope.type + "_description").css(
               'color', 'red'
             );
+            if (scope.popup) {
+              scope.popup = 0;
+            }
           }
           else {
             angular.element("#" + scope.type + "_description").css(
