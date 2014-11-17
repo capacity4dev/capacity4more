@@ -105,7 +105,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iFillEditorWith($editor, $value) {
     // Using javascript script to fill the textAngular editor,
     // We have to enter the value directly to the scope.
-    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
+    $javascript = "angular.element('textarea#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
     $this->getSession()->executeScript($javascript);
   }
 
