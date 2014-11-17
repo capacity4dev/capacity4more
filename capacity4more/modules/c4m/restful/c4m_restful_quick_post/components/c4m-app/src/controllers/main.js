@@ -227,7 +227,9 @@ angular.module('c4mApp')
 
     /**
      * Update the position of the pop-over.
+     *
      * @param type
+     *  The type of the taxonomy-term.
      */
     $scope.updatePopoverPosition = function(type) {
       // Wait for the scope to be updated.
