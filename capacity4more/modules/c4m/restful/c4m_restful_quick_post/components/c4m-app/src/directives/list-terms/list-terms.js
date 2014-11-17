@@ -33,7 +33,7 @@ angular.module('c4mApp')
             var elemPosition = angular.element("#" + scope.type).offset();
             var elemParentPosition = angular.element("#" + scope.type).parent().offset();
             angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
-          }, 20);
+          }, 10);
           angular.forEach(scope.items, function(item, id) {
             if (id in scope.model && scope.model[id] === true) {
               selectedCount++;
