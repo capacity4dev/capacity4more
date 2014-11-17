@@ -281,7 +281,12 @@ angular.module('c4mApp')
         // If requested to create in full form, Redirect user to the edit page.
         if(type == 'full_form') {
           var entityID = data.data[0].id;
-          $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
+          if (resource == 'discussions') {
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
+          }
+          else {
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
+          }
         }
         else {
           $scope.serverSide.data = data;

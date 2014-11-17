@@ -16,10 +16,25 @@ $plugin = array(
 function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, $args, $context) {
   $nid = $context->data->nid;
 
+  $node_viewed = node_load($nid);
+  if ($node_viewed->type == 'discussion') {
+    $show_resources = array('discussions' => array(
+      'bundle' => 'Discussion',
+      'description' => 'Add a Discussion',
+    ));
+    $full_form = TRUE;
+    $node = $node_viewed;
+  }
+  else {
+    $show_resources = array();
+    $full_form = FALSE;
+    $node = NULL;
+  }
+
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = c4m_restful_quick_post_form($nid);
+  $block->content = c4m_restful_quick_post_form($nid, $show_resources, $full_form, $node);
   return $block;
 }
 

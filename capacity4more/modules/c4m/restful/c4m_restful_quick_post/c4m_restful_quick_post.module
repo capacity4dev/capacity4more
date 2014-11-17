@@ -61,13 +61,14 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     ),
   );
 
-  $show_resources = !empty($show_resources) ? $show_resources : array_keys($resources);
+  $resources_names = !empty($show_resources) ? array_keys($show_resources) : array_keys($resources);
+  $show_resources = !empty($show_resources)? $show_resources : $resources;
   $bower_path = libraries_get_path('bower_components');
 
   // Get fields.
   $field_schema = array();
   $public_fields = array();
-  foreach ($show_resources as $resource_name) {
+  foreach ($resources_names as $resource_name) {
     $handler = restful_get_restful_handler($resource_name);
     $field_schema += $handler->options();
     $public_fields += $handler->getPublicFields();
@@ -145,7 +146,7 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
-    'resources' => $resources,
+    'resources' => $show_resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
     'data' => array(
@@ -155,5 +156,5 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
-  return theme('c4m_restful_quick_post_angular_form', array('resources' => $show_resources));
+  return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
 }
