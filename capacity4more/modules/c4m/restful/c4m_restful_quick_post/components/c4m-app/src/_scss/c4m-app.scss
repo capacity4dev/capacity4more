@@ -1,3 +1,5 @@
+@import "mixins";
+
 .pane-quick-form {
 
   .explanation {
@@ -7,13 +9,7 @@
   }
 
   .errors {
-    color: #b94a48;
-  }
-
-  .create-success {
-    padding: 20px;
-    background: yellow;
-    text-align: center;
+    color: $error-color;
   }
 
   .input-wrapper {
@@ -69,7 +65,7 @@
       display: inline-block;
 
       .fa-times {
-        color: #136FBC;
+        color: $buttons-blue;
         cursor: pointer;
       }
     }
@@ -78,7 +74,7 @@
   .checkboxes-wrapper {
     position: relative;
 
-    button.btn.btn-primary.fa.fa-plus {
+    button.btn-primary {
       padding: 2px 4px;
       left: 0;
     }
@@ -97,8 +93,14 @@
 
   .date {
 
-    .input-group table tr.text-center {
-      display: none;
+    .input-group {
+
+      table {
+
+        tr.text-center {
+          display: none;
+        }
+      }
     }
 
     .date-chevron {
@@ -131,5 +133,11 @@
     float: left;
     width: 100%;
     margin-top: 20px;
+  }
+
+  .create-success {
+    padding: 20px;
+    background: yellow;
+    text-align: center;
   }
 }
