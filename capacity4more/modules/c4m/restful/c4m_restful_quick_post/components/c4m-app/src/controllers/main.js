@@ -215,11 +215,24 @@ angular.module('c4mApp')
         }
       }, $scope.popups);
       // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.srcElement).outerWidth();
+      var elemWidth = angular.element(event.target).outerWidth();
+      var elemLeftPosition = angular.element(event.target).css('left');
       // Toggle the visibility variable.
       $scope.popups[name] = $scope.popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', elem_width);
+      angular.element(".hidden-checkboxes").css('left', elemWidth + parseInt(elemLeftPosition));
+    };
+
+    /**
+     * Remove a taxonomy-term value when clicking on the "X".
+     *
+     * @param key
+     *  The id of the taxonomy-term.
+     * @param type
+     *  The type of the taxonomy-term.
+     */
+    $scope.removeTaxonomyValue = function(key, type) {
+      delete ($scope.data[type][key]);
     };
 
     /**

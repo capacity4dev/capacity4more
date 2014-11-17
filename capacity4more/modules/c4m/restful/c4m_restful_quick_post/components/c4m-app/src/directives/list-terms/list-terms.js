@@ -26,13 +26,13 @@ angular.module('c4mApp')
         // No more than 3 regions can be selected.
         // TODO: Stop user from selecting more values.
         scope.updateSelectedTerms = function() {
-          var selected = 0;
+          var selectedCount = 0;
           angular.forEach(scope.items, function(item, id) {
             if (id in scope.model && scope.model[id] === true) {
-              selected++;
+              selectedCount++;
             }
           });
-          if (selected > 3) {
+          if (selectedCount > 3) {
             angular.element("#" + scope.type + "_description").css(
               'color', 'red'
             );

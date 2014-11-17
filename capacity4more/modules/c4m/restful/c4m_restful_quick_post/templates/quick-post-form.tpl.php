@@ -129,6 +129,11 @@
           <span id="date_description" class="description">{{fieldSchema.date.info.description}}</span>
         </div>
         <div class="checkboxes-wrapper">
+          <div class="selected-values" ng-show="data.date">
+            <span ng-show="value === true" ng-repeat="(key, value) in data.date">
+              {{ date[key].label }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+            </span>
+          </div>
           <div>
             <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
             <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>

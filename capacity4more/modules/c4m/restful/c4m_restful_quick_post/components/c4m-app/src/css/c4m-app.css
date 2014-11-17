@@ -55,6 +55,28 @@ ul, ol {
   width: 50px;
 }
 
+.selected-values {
+  display: block;
+  float: left;
+  width: 100%;
+}
+
+.selected-values span {
+  margin-right: 4px;
+  float: left;
+  display: inline-block;
+}
+
+.selected-values span .fa-times {
+  color: #136FBC;
+  cursor: pointer;
+}
+
+.checkboxes-wrapper button.btn.btn-primary.fa.fa-plus {
+  padding: 2px 4px;
+  left: 0;
+}
+
 .checkboxes-wrapper {
   position: relative;
 }
