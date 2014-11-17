@@ -5,7 +5,7 @@
 
   <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
-    <?php if (count($show_resources)): ?>
+    <?php if (count($show_resources) > 1): ?>
       <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
     <?php endif;?>
 

@@ -151,6 +151,7 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'debug' => $c4m_quick_post_debug,
     'data' => array(
       'entity' => $entity_fields,
+      'node' => $node,
     ),
   );
   drupal_add_js($settings, 'setting');

@@ -8,8 +8,17 @@ angular.module('c4mApp')
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
-    // Setting empty default resource.
-    $scope.selectedResource = '';
+    if ($scope.resources.length > 1) {
+      // Setting empty default resource.
+      $scope.selectedResource = '';
+    }
+    else {
+      $scope.selectedResource = Object.keys($scope.resources)[0];
+    }
+
+    // Getting node object that we are editing.
+    var node = DrupalSettings.getData('node');
+    console.log(node);
 
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
