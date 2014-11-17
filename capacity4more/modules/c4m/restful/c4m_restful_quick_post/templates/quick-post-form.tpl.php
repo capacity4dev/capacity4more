@@ -135,7 +135,7 @@
             </span>
           </div>
           <div>
-            <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
+            <button type="button" id="date" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
             <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
           </div>
           <!-- Hidden date checkboxes.-->

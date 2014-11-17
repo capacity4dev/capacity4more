@@ -7,7 +7,7 @@
  * # A list of filterable taxonomy terms.
  */
 angular.module('c4mApp')
-  .directive('listTerms', function ($window, DrupalSettings, $filter) {
+  .directive('listTerms', function ($window, DrupalSettings, $timeout) {
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/list-terms/list-terms.html',
       restrict: 'E',
@@ -23,10 +23,17 @@ angular.module('c4mApp')
         scope.updateSearch = function() {
           scope.filteredTerms = $filter('termsFilter')(scope.items, scope.searchTerm);
         };
-        // No more than 3 regions can be selected.
+        // updating the popover position && No more than 3 regions can be selected.
         // TODO: Stop user from selecting more values.
         scope.updateSelectedTerms = function() {
           var selectedCount = 0;
+          // Wait for the scope to be updated.
+          $timeout(function() {
+            var elemWidth = angular.element("#" + scope.type).outerWidth();
+            var elemPosition = angular.element("#" + scope.type).offset();
+            var elemParentPosition = angular.element("#" + scope.type).parent().offset();
+            angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
+          }, 20);
           angular.forEach(scope.items, function(item, id) {
             if (id in scope.model && scope.model[id] === true) {
               selectedCount++;
