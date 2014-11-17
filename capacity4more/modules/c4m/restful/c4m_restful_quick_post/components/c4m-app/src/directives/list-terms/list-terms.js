@@ -14,7 +14,8 @@ angular.module('c4mApp')
       scope: {
         items: '=items',
         model: '=model',
-        type: '@type'
+        type: '@type',
+        updatePopoverPosition: '='
       },
       link: function postLink(scope) {
         // Set the filtered items to include all items at load.
@@ -26,14 +27,10 @@ angular.module('c4mApp')
         // updating the popover position && No more than 3 regions can be selected.
         // TODO: Stop user from selecting more values.
         scope.updateSelectedTerms = function() {
+          // Update the position of the popover.
+          scope.updatePopoverPosition(scope.type);
+
           var selectedCount = 0;
-          // Wait for the scope to be updated.
-          $timeout(function() {
-            var elemWidth = angular.element("#" + scope.type).outerWidth();
-            var elemPosition = angular.element("#" + scope.type).offset();
-            var elemParentPosition = angular.element("#" + scope.type).parent().offset();
-            angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
-          }, 10);
           angular.forEach(scope.items, function(item, id) {
             if (id in scope.model && scope.model[id] === true) {
               selectedCount++;

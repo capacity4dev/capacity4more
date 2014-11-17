@@ -142,7 +142,7 @@
           <div class="popover right hidden-checkboxes" ng-show="popups.date">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="date" model="data.date" items="date"></list-terms>
+              <list-terms update-popover-position="updatePopoverPosition" type="date" model="data.date" items="date"></list-terms>
             </div>
           </div>
         </div>

@@ -226,8 +226,21 @@ angular.module('c4mApp')
     };
 
     /**
-     * Remove a taxonomy-term value when clicking on the "X",
      * Update the position of the pop-over.
+     * @param type
+     */
+    $scope.updatePopoverPosition = function(type) {
+      // Wait for the scope to be updated.
+      $timeout(function() {
+        var elemWidth = angular.element("#" + type).outerWidth();
+        var elemPosition = angular.element("#" + type).offset();
+        var elemParentPosition = angular.element("#" + type).parent().offset();
+        angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
+      }, 10);
+    };
+
+    /**
+     * Remove a taxonomy-term value when clicking on the "X",
      *
      * @param key
      *  The id of the taxonomy-term.
@@ -237,12 +250,8 @@ angular.module('c4mApp')
     $scope.removeTaxonomyValue = function(key, type) {
       delete ($scope.data[type][key]);
 
-      $timeout(function() {
-        var elemWidth = angular.element("#" + type).outerWidth();
-        var elemPosition = angular.element("#" + type).offset();
-        var elemParentPosition = angular.element("#" + type).parent().offset();
-        angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
-      }, 10);
+      //Update the position of the pop-over.
+      $scope.updatePopoverPosition(type);
     };
 
     /**
