@@ -5,7 +5,9 @@
 
   <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
-    <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+    <?php if (count($show_resources)): ?>
+      <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+    <?php endif;?>
 
     <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">

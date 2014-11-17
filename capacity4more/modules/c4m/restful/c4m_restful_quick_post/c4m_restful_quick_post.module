@@ -20,7 +20,9 @@ function c4m_restful_quick_post_theme() {
   $theme['c4m_restful_quick_post_angular_form'] = array(
     'template' => 'quick-post-form',
     'path' => drupal_get_path('module', 'c4m_restful_quick_post') . '/templates',
-    'variables' => NULL,
+    'variables' => array(
+      'show_resources' => NULL,
+    ),
   );
 
   return $theme;
@@ -29,15 +31,21 @@ function c4m_restful_quick_post_theme() {
 /**
  * Page callback; Load the AngularJs form.
  *
- * @param int $node
- *  The ID of the current group.
+ * @param int $group_id
+ *   The node ID of the current group.
+ * @param array $show_resources
+ *   Array with the resources name that should appear. Defaults to all
+ *   resources.
+ * @param bool $full_form
+ *   Determine if full form should be used. This is checked only when a single
+ *   $show_resources is passed.
+ * @param stdClass $node
+ *   (optional) The node object to edit using the form.
  *
  * @return string
- *  A rendered form of the Quick Post.
+ *   A rendered form of the Quick Post.
  */
-function c4m_restful_quick_post_form($node) {
-  $bower_path = libraries_get_path('bower_components');
-
+function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full_form = FALSE, $node = NULL) {
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
@@ -53,15 +61,18 @@ function c4m_restful_quick_post_form($node) {
     ),
   );
 
+  $show_resources = !empty($show_resources) ? $show_resources : array_keys($resources);
+  $bower_path = libraries_get_path('bower_components');
+
   // Get fields.
   $field_schema = array();
   $public_fields = array();
-  foreach ($resources as $resource => $value) {
-    $handler = restful_get_restful_handler($resource);
+  foreach ($show_resources as $resource_name) {
+    $handler = restful_get_restful_handler($resource_name);
     $field_schema += $handler->options();
     $public_fields += $handler->getPublicFields();
     // Send the fields as separate objects as well (for validation on submit.)
-    $field_schema['resources'][$resource] = $handler->options();
+    $field_schema['resources'][$resource_name] = $handler->options();
   }
 
   // Load the libraries.
@@ -114,7 +125,7 @@ function c4m_restful_quick_post_form($node) {
 
     // Set the current Group.
     if ($public_field_name == 'group') {
-      $entity_fields[$public_field_name] = $node;
+      $entity_fields[$public_field_name] = $group_id;
     }
   }
 
@@ -144,5 +155,5 @@ function c4m_restful_quick_post_form($node) {
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
-  return theme('c4m_restful_quick_post_angular_form');
+  return theme('c4m_restful_quick_post_angular_form', array('resources' => $show_resources));
 }
