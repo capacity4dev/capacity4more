@@ -99,7 +99,7 @@ function c4m_content_discussion_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Discussion Add';
   $page->admin_description = '';
-  $page->path = 'node/js-add/%group/!resource';
+  $page->path = 'node/js-add/%group/%resource/!file';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array(
@@ -116,6 +116,12 @@ function c4m_content_discussion_default_page_manager_pages() {
       'settings' => array(
         'use_tail' => 0,
       ),
+    ),
+    'file' => array(
+      'id' => 1,
+      'identifier' => 'File: ID',
+      'name' => 'entity_id:file',
+      'settings' => array(),
     ),
   );
   $page->conf = array(
@@ -166,6 +172,7 @@ function c4m_content_discussion_default_page_manager_pages() {
       'context' => array(
         0 => 'argument_entity_id:node_1',
         1 => 'argument_string_1',
+        2 => 'argument_entity_id:file_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
