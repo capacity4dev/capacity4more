@@ -61,8 +61,6 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $domains = array();
   $restricted_organisations = array();
 
-  $form['#attached']['js'][] = drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js';
-
   // Get default domain lists.
   $organisations_info = c4m_og_organisations_info();
 
@@ -302,6 +300,11 @@ function c4m_og_form_alter(&$form, $form_state) {
     return;
   }
   $form['og_purl']['purl']['value']['#title'] = t('Group path');
+  $form['og_purl']['purl']['value']['#type'] = 'machine_name';
+  $form['og_purl']['purl']['value']['#machine_name'] = array(
+    'source' => array('title'),
+    'label' => t('Group path:'),
+  );
 }
 
 /**
