@@ -61,6 +61,8 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $domains = array();
   $restricted_organisations = array();
 
+  $form['#attached']['js'][] = drupal_get_path('module', 'c4m_og') . '/js/c4m_og.js';
+
   // Get default domain lists.
   $organisations_info = c4m_og_organisations_info();
 
@@ -290,4 +292,22 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
+}
+
+function c4m_og_form_alter(&$form, $form_state) {
+  if (empty($form['#node_edit_form']) || !og_is_group_type('node', $form['#node']->type)) {
+    return;
+  }
+  $form['og_purl']['purl']['value']['#title'] = t('Group path');
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function c4m_og_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter') {
+    $c4m_og = $implementations['c4m_og'];
+    unset($implementations['c4m_og']);
+    $implementations['c4m_og'] = $c4m_og;
+  }
 }
