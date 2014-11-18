@@ -21,6 +21,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $page->arguments = array();
   $page->conf = array(
     'admin_paths' => FALSE,
+    'frontpage' => TRUE,
   );
   $page->default_handlers = array();
   $handler = new stdClass();
