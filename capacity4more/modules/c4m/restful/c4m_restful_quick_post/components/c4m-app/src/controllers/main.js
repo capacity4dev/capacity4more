@@ -60,16 +60,29 @@ angular.module('c4mApp')
      */
     function prepareData() {
       $scope.popups = {};
+
       angular.forEach($scope.fieldSchema, function (data, field) {
         // Don't change the group field Or resource object.
         if (field == 'resources' || field == 'group') {
           return;
         }
         var allowedValues = data.form_element.allowed_values;
+
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
-          $scope.data[field] = {};
+          if (!$scope.data[field]) {
+            $scope.data[field] = {};
+          }
+          else {
+            if (field != 'discussion_type' && field != 'event_type') {
+              var obj = {};
+              angular.forEach($scope.data[field], function (value, key) {
+                obj[value] = true;
+              });
+              $scope.data[field] = obj;
+            }
+          }
         }
       });
     }
@@ -78,7 +91,8 @@ angular.module('c4mApp')
     prepareData();
 
     // Set "Start a Debate" as default discussion type.
-    $scope.data.discussion_type = 'debate';
+    $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) ? 'debate' : $scope.data.discussion_type;
+
     // Set "Event" as default event type.
     $scope.data.event_type = 'event';
 

@@ -24,8 +24,10 @@ function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, 
     ));
     $full_form = TRUE;
     $node = $node_viewed;
+    $group_id = entity_metadata_wrapper('node', $nid)->{OG_AUDIENCE_FIELD}->nid->value();
   }
   else {
+    $group_id = $nid;
     $show_resources = array();
     $full_form = FALSE;
     $node = NULL;
@@ -34,7 +36,7 @@ function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, 
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = c4m_restful_quick_post_form($nid, $show_resources, $full_form, $node);
+  $block->content = c4m_restful_quick_post_form($group_id, $show_resources, $full_form, $node);
   return $block;
 }
 
