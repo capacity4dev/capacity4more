@@ -7,6 +7,15 @@
  */
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_og_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Helper function to get the human readable name of a group type
  *
  * @param null $node
