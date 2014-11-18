@@ -189,7 +189,7 @@ function c4m_content_group_field_default_field_instances() {
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
-    'description' => 'Choose at least one topic that fits with your group.',
+    'description' => 'Select one or more categories that apply',
     'display' => array(
       'activity_stream' => array(
         'label' => 'above',
@@ -215,7 +215,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'c4m_related_topic',
-    'label' => 'Topics',
+    'label' => 'Group topics',
     'required' => 1,
     'settings' => array(
       'behaviors' => array(
@@ -503,10 +503,10 @@ function c4m_content_group_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
-  t('Choose at least one topic that fits with your group.');
   t('Determine if this is an OG group.');
   t('Group');
   t('Group description');
+  t('Group topics');
   t('Group visibility');
   t('How should membership requests be handled in this Group ?');
   t('Image');
@@ -515,8 +515,8 @@ function c4m_content_group_field_default_field_instances() {
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');
   t('Related Groups');
+  t('Select one or more categories that apply');
   t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
-  t('Topics');
 
   return $field_instances;
 }

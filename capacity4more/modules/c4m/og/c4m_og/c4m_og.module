@@ -311,7 +311,7 @@ function c4m_og_form_alter(&$form, $form_state) {
  * Implements hook_module_implements_alter().
  */
 function c4m_og_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter') {
+  if ($hook == 'form_alter' && isset($implementations['c4m_og'])) {
     $c4m_og = $implementations['c4m_og'];
     unset($implementations['c4m_og']);
     $implementations['c4m_og'] = $c4m_og;
