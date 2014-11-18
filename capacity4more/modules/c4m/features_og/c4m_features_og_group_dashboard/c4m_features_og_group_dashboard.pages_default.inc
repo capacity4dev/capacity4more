@@ -15,14 +15,14 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Group Dashboard';
   $page->admin_description = 'Front page for "Group" group types.';
-  $page->path = 'front';
+  $page->path = 'node';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
     'admin_paths' => FALSE,
-    'frontpage' => TRUE,
   );
+  $page->make_frontpage = TRUE;
   $page->default_handlers = array();
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
