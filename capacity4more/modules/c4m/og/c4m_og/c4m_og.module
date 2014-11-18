@@ -303,7 +303,7 @@ function c4m_og_form_alter(&$form, $form_state) {
   $form['og_purl']['purl']['value']['#type'] = 'machine_name';
   $form['og_purl']['purl']['value']['#machine_name'] = array(
     'source' => array('title'),
-    'label' => t('Group path:'),
+    'label' => t('Group path'),
   );
 }
 
