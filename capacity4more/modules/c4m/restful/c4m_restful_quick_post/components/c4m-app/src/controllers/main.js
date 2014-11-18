@@ -5,6 +5,12 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('entity');
 
+    //Checking if this is full form or not.
+    $scope.fullForm = DrupalSettings.getData('full_form');
+
+    //Getting node id if we are editing node.
+    $scope.nid = $scope.data.nid;
+
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
@@ -29,8 +35,6 @@ angular.module('c4mApp')
       status: 0,
       data: {}
     };
-
-    $scope.fullForm = DrupalSettings.getData('full_form');
 
     $scope.tagsQueryCache = [];
 
@@ -69,8 +73,6 @@ angular.module('c4mApp')
           return;
         }
         var allowedValues = data.form_element.allowed_values;
-        console.log(field);
-        console.log(allowedValues);
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
@@ -297,7 +299,7 @@ angular.module('c4mApp')
       }
 
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource, resourceFields)
+      EntityResource.createEntity(submitData, resource, resourceFields, $scope.nid)
       .success( function (data, status) {
         // If requested to create in full form, Redirect user to the edit page.
         if(type == 'full_form') {

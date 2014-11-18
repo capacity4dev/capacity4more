@@ -21,15 +21,26 @@ angular.module('c4mApp')
      * @param resourceFields
      *   The fields information.
      *
+     * @param entityId
+     *   The editing node id or NULL.
+     *
      * @returns {*}
      *   JSON of the newly created entity.
      */
-    this.createEntity = function(data, resource, resourceFields) {
+    this.createEntity = function(data, resource, resourceFields, entityId) {
+
       Request.resourceFields = resourceFields;
       Request.resource = resource;
+
+      var url = DrupalSettings.getBasePath() + 'api/' + resource;
+
+      if (entityId) {
+        url += '/' + entityId;
+      }
+
       return $http({
-        method: 'POST',
-        url: DrupalSettings.getBasePath() + 'api/' + resource,
+        method: entityId ? 'PATCH' : 'POST',
+        url: url,
         data: data,
         transformRequest: Request.prepare,
         headers: {

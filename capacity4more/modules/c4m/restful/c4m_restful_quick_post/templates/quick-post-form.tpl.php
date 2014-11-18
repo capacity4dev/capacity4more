@@ -241,12 +241,12 @@
   </div>
   <br/>
   <div class="messages" ng-show="debug == 0">
-    <div ng-show="serverSide.status == 200">
+    <div ng-show="serverSide.status == 200 || serverSide.status == 201">
       <div class="alert alert-success">
         <?php print t('The {{ resources[selectedResource].bundle }} was saved successfully.') ?>
       </div>
     </div>
-    <div ng-show="serverSide.status > 0 && serverSide.status != 200">
+    <div ng-show="serverSide.status > 0 && serverSide.status != 200 && serverSide.status != 201">
       <div class="alert alert-danger">
         <?php print t('Error saving {{ resources[selectedResource].bundle }}.') ?>
       </div>
