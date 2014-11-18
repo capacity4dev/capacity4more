@@ -30,6 +30,8 @@ angular.module('c4mApp')
       data: {}
     };
 
+    $scope.fullForm = DrupalSettings.getData('full_form');
+
     $scope.tagsQueryCache = [];
 
     // Date Calendar options.

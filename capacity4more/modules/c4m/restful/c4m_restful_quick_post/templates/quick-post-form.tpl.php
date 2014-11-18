@@ -105,6 +105,30 @@
         </div>
       </div>
 
+      <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'discussions' && fullForm" ng-class="{ 'has-error' : errors.discussion }">
+        <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+
+          <div ng-hide="serverSide.file">
+            <?php print t('Drop file here to upload or'); ?>
+            <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+            <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+          </div>
+
+          <div ng-show="serverSide.file.status == 200">
+            <div class="alert alert-success">
+              <?php print t('The document "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
+            </div>
+          </div>
+        </div>
+
+        <div class="errors">
+          <ul ng-show="serverSide.data.errors.image">
+            <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
+          </ul>
+        </div>
+        <p ng-show="errors.discussion" class="help-block"><?php print t('Document file is required.'); ?></p>
+      </div>
+
       <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
         <div class="label-wrapper">
           <label>{{fieldSchema.topic.info.label}}</label>
