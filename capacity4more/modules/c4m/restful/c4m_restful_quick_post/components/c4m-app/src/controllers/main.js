@@ -8,7 +8,7 @@ angular.module('c4mApp')
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
-    if ($scope.resources.length > 1) {
+    if (Object.keys($scope.resources).length > 1) {
       // Setting empty default resource.
       $scope.selectedResource = '';
     }
@@ -65,11 +65,12 @@ angular.module('c4mApp')
 
       angular.forEach($scope.fieldSchema, function (data, field) {
         // Don't change the group field Or resource object.
-        if (field == 'resources' || field == 'group') {
+        if (field == 'resources' || field == 'group' ) {
           return;
         }
         var allowedValues = data.form_element.allowed_values;
-
+        console.log(field);
+        console.log(allowedValues);
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
@@ -271,7 +272,6 @@ angular.module('c4mApp')
      *    The type of the submission.
      */
     $scope.submitForm = function(data, resource, type) {
-
       // Reset all errors.
       $scope.errors = {};
 
