@@ -6,7 +6,10 @@
 $plugin = array(
   'title' => t('Quick post form'),
   'description' => t('Renders Quick Post form.'),
-  'required context' => new ctools_context_required(t('Node'), 'node'),
+  'required context' => array(
+    new ctools_context_required(t('Node'), 'node'),
+    new ctools_context_optional(t('String'), 'string'),
+  ),
   'category' => t('C4M'),
 );
 
@@ -14,22 +17,39 @@ $plugin = array(
  * Render callback.
  */
 function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, $args, $context) {
-  $nid = $context->data->nid;
-
+  $nid = $context[0]->data->nid;
+  $content_type = $context[1]->data;
+  $resources = array(
+    'discussion' => array(
+      'discussions' => array(
+        'bundle' => 'Discussion',
+        'description' => 'Add a Discussion',
+      )
+    ),
+    'event' => array(
+      'events' => array(
+        'bundle' => 'Event',
+        'description' => 'Add an Event',
+      )
+    ),
+    'document' => array(
+      'documents' => array(
+        'bundle' => 'Document',
+        'description' => 'Upload a Document',
+      ),
+    ),
+  );
   $node_viewed = node_load($nid);
-  if ($node_viewed->type == 'discussion') {
-    $show_resources = array('discussions' => array(
-      'bundle' => 'Discussion',
-      'description' => 'Add a Discussion',
-    ));
+  if (in_array($node_viewed->type, array_keys($resources))) {
+    $show_resources = $resources[$node_viewed->type];
     $full_form = TRUE;
     $node = $node_viewed;
     $group_id = entity_metadata_wrapper('node', $nid)->{OG_AUDIENCE_FIELD}->nid->value();
   }
   else {
     $group_id = $nid;
-    $show_resources = array();
-    $full_form = FALSE;
+    $show_resources = $content_type && isset($resources[$content_type]) ? $resources[$content_type] : array();
+    $full_form = $content_type && isset($resources[$content_type]) ? TRUE : FALSE;
     $node = NULL;
   }
 

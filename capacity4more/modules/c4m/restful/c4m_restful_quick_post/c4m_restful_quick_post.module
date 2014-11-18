@@ -62,7 +62,8 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   );
 
   $resources_names = !empty($show_resources) ? array_keys($show_resources) : array_keys($resources);
-  $show_resources = !empty($show_resources)? $show_resources : $resources;
+  $show_resources = !empty($show_resources) ? $show_resources : $resources;
+
   $bower_path = libraries_get_path('bower_components');
 
   // Get fields.
