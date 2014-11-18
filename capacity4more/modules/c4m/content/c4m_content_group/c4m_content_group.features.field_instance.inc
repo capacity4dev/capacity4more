@@ -39,12 +39,12 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
-    'label' => 'Description',
+    'label' => 'Group description',
     'required' => 0,
     'settings' => array(
-      'display_summary' => 1,
+      'display_summary' => 0,
       'summary_display' => 'required',
-      'text_processing' => 1,
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -56,7 +56,7 @@ function c4m_content_group_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -124,7 +124,7 @@ function c4m_content_group_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -230,7 +230,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 8,
+      'weight' => 7,
     ),
   );
 
@@ -288,6 +288,12 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'How should membership requests be handled in this Group ?',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -314,7 +320,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -329,6 +335,12 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -364,7 +376,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 14,
+      'weight' => 13,
     ),
     'widget_type' => 'options_select',
   );
@@ -429,7 +441,7 @@ function c4m_content_group_field_default_field_instances() {
         'og_hide' => TRUE,
       ),
       'type' => 'options_onoff',
-      'weight' => 6,
+      'weight' => 5,
     ),
   );
 
@@ -441,6 +453,12 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Reference to Pluggable node access entities.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -478,7 +496,7 @@ function c4m_content_group_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 13,
+      'weight' => 12,
     ),
   );
 
@@ -486,9 +504,9 @@ function c4m_content_group_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
   t('Choose at least one topic that fits with your group.');
-  t('Description');
   t('Determine if this is an OG group.');
   t('Group');
+  t('Group description');
   t('Group visibility');
   t('How should membership requests be handled in this Group ?');
   t('Image');

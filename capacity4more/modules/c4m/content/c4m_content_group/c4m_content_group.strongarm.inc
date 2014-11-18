@@ -96,13 +96,13 @@ function c4m_content_group_strongarm() {
           'weight' => '0',
         ),
         'og_purl' => array(
-          'weight' => '3',
+          'weight' => '1',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '6',
         ),
         'locations' => array(
-          'weight' => '12',
+          'weight' => '11',
         ),
       ),
       'display' => array(),
