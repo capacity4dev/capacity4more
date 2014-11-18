@@ -304,12 +304,7 @@ angular.module('c4mApp')
         // If requested to create in full form, Redirect user to the edit page.
         if(type == 'full_form') {
           var entityID = data.data[0].id;
-//          if (resource == 'discussions') {
-            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
-//          }
-//          else {
-//            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
-//          }
+          $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
         }
         else {
           $scope.serverSide.data = data;
@@ -337,6 +332,15 @@ angular.module('c4mApp')
         FileUpload.upload(file).then(function(data) {
           $scope.data.document = data.data.data[0].id;
           $scope.serverSide.file = data;
+
+          if ($scope.fullForm && $scope.selectedResource == 'discussions') {
+            // If we are creating or editing discussion in the full form -
+            // after loading file send file id to the create document page and get
+            // back the document id.
+            var group_id = $scope.data.group;
+            $window.location = DrupalSettings.getBasePath() + "node/js-add/" + group_id + "/document/" + $scope.data.document;
+            // How to send there the file id. How to go back to discussion with the document id after saving document.
+          }
         });
       }
     };

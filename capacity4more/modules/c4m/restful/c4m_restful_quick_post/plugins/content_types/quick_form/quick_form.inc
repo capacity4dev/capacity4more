@@ -9,6 +9,7 @@ $plugin = array(
   'required context' => array(
     new ctools_context_required(t('Node'), 'node'),
     new ctools_context_optional(t('String'), 'string'),
+    new ctools_context_optional(t('File'), 'file'),
   ),
   'category' => t('C4M'),
 );
@@ -19,6 +20,8 @@ $plugin = array(
 function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, $args, $context) {
   $nid = $context[0]->data->nid;
   $content_type = $context[1]->data;
+  $file_id = $context[2]->data ? $context[2]->data->fid : NULL;
+
   $resources = array(
     'discussion' => array(
       'discussions' => array(
@@ -56,7 +59,7 @@ function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, 
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = c4m_restful_quick_post_form($group_id, $show_resources, $full_form, $node);
+  $block->content = c4m_restful_quick_post_form($group_id, $show_resources, $full_form, $node, $file_id);
   return $block;
 }
 

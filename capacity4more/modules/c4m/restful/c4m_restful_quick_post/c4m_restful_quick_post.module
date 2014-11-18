@@ -41,11 +41,13 @@ function c4m_restful_quick_post_theme() {
  *   $show_resources is passed.
  * @param stdClass $node
  *   (optional) The node object to edit using the form.
+ * @param int $file_id
+ *   (optional) The file id to put into document filed if recourse is document.
  *
  * @return string
  *   A rendered form of the Quick Post.
  */
-function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full_form = FALSE, $node = NULL) {
+function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full_form = FALSE, $node = NULL, $file_id = NULL) {
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
@@ -139,6 +141,11 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     if ($public_field_name == 'group') {
       $entity_fields[$public_field_name] = $group_id;
     }
+
+    // Set file id if this is document and we have the file id
+    if (count($show_resources) == 1 && key($show_resources) == 'documents' && $public_field_name == 'document' && $file_id) {
+      $entity_fields[$public_field_name] = $file_id;
+    }
   }
 
   $entity_fields['nid'] = $node ? $node->nid : NULL;
@@ -174,3 +181,16 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   // Theme function adds the Quick post form.
   return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
 }
+
+/**
+ * Implements hook_admin_paths().
+ *
+ * Commented because module doesn't enabled.
+ * When it was - didn't work like popup.
+ */
+//function c4m_restful_quick_post_admin_paths() {
+//  $paths = array(
+//    'node/js-add/*/document/*' => TRUE,
+//  );
+//  return $paths;
+//}
