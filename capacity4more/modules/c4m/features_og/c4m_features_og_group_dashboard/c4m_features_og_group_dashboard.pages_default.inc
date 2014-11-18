@@ -15,7 +15,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Group Dashboard';
   $page->admin_description = 'Front page for "Group" group types.';
-  $page->path = 'dashboard';
+  $page->path = 'front';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array();
