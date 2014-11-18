@@ -294,6 +294,9 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }
 
+/**
+ * Implements hook_form_alter().
+ */
 function c4m_og_form_alter(&$form, $form_state) {
   if (empty($form['#node_edit_form']) || !og_is_group_type('node', $form['#node']->type)) {
     return;
