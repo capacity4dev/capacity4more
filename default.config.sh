@@ -33,6 +33,10 @@ MYSQL_HOSTNAME=""
 MYSQL_DB_NAME=""
 
 
+# Modify the ApacheSolr settings below so they will match your own.
+TIKA_PATH=""
+TIKA_FILE=""
+
 
 ##
 # External folders or files that need to be symlinked into the www folder

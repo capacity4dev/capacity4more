@@ -31,3 +31,7 @@ MYSQL_USERNAME="root"
 MYSQL_PASSWORD=""
 MYSQL_HOSTNAME="127.0.0.1"
 MYSQL_DB_NAME="drupal"
+
+# Modify the ApacheSolr settings below so they will match your own.
+TIKA_PATH="/home/travis/build/capacity4dev/capacity4more/tika/"
+TIKA_FILE="tika-app-1.6.jar"
