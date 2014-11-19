@@ -170,6 +170,7 @@ function c4m_search_default_search_api_index() {
         "group_group" : { "type" : "boolean" },
         "is_new" : { "type" : "boolean" },
         "nid" : { "type" : "integer" },
+        "og_group_ref" : { "type" : "integer", "entity_type" : "node" },
         "promote" : { "type" : "boolean" },
         "search_api_language" : { "type" : "string" },
         "status" : { "type" : "integer" },
