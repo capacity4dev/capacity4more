@@ -381,4 +381,72 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $steps;
   }
+
+  /**
+   * @When /^I visit the group dashboard of group "([^"]*)"$/
+   */
+  public function iVisitTheGroupDashboardOfGroup($title) {
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'group')
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+      );
+      throw new Exception(format_string("Group @title not found.", $params));
+    }
+
+    $gid = (int) key($result['node']);
+    $purl = array(
+      'provider' => "og_purl|node",
+      'id' => $gid,
+    );
+    $url = ltrim(url('<front>', array('purl' => $purl)), '/');
+
+    return new Given("I go to \"$url\"");
+  }
+
+  /**
+   * @Given /^Group menu item "([^"]*)" should be active$/
+   */
+  public function groupMenuItemShouldBeActive($label) {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '#block-menu-menu-group-menu a.active');
+    if ($el === null) {
+      throw new Exception('The group menu has no active items.');
+    }
+
+    if ($el->getText() !== $label) {
+      $params = array('@label' => $label);
+      throw new Exception(format_string('Active menu item is not "@label".', $params));
+    }
+  }
+
+  /**
+   * @Given /^I should see the Quick Post form$/
+   */
+  public function iShouldSeeTheQuickPostForm() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.pane-quick-form');
+    if ($el === null) {
+      throw new Exception('The Quick Post pane is not visible.');
+    }
+  }
+
+  /**
+   * @Given /^I should see the Activity stream$/
+   */
+  public function iShouldSeeTheActivityStream() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.view-group-activity-stream');
+    if ($el === null) {
+      throw new Exception('The Quick Post pane is not visible.');
+    }
+  }
 }
