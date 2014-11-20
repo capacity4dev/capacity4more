@@ -3,12 +3,12 @@ Feature: Test activity stream
   As a group member and non-member
   I need to be able to see an activity stream of recent operations
 
-  @api
+  @api @foo
   Scenario: Check Discussion creating in my public group
-    Given a group "Discussion Insert 1" with "Public" access is created with group manager "isaacnewton"
+    Given a group "Discussion Insert group 1" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
-    And   a "discussion" is created with title "Discussion added 1" and body "Some text in the body" in the group "Discussion Insert 1"
-    Then  I should see "Discussion added 1" in the activity stream of the group "Discussion Insert 1"
+    And   a "discussion" is created with title "First discussion added" and body "Some text in the body" in the group "Discussion Insert group 1"
+    Then  I should see "First discussion added" in the activity stream of the group "Discussion Insert group 1"
 
   @api
   Scenario: Check Event creating in my public group

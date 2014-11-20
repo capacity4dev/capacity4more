@@ -220,7 +220,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
    */
   public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type,  $title, $body, $group) {
-
     $steps = array();
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
@@ -315,12 +314,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
-
     $steps = array();
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-
+    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
 
     return $steps;
@@ -352,12 +347,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
-
     $steps = array();
-
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
+    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
@@ -369,12 +360,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
-
     $steps = array();
-
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
+    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
