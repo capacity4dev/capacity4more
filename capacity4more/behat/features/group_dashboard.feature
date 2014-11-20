@@ -1,11 +1,10 @@
 Feature: Group dashboard
-  Test the group dashboard functionality.
+  As a group member and non-member
+  In order to see the group latest activity and information
+  I need to be able to see a dashboard with different widgets
 
-  @api @group @dashboard
+  @api
   Scenario: Check dashboard content as group owner
     Given I am logged in as user "mariecurie"
-     When I visit the group dashboard of group "Movie Popcorn Corner"
-     Then I should have access to the page
-      And Group menu item "Home" should be active
-      And I should see the Quick Post form
-      And I should see the Activity stream
+    When I visit the dashboard of group "Movie Popcorn Corner"
+    Then I should see the group dashboard
