@@ -168,7 +168,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iCreateDiscussionQuickPost($title, $body, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I press the "discussions" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
@@ -203,7 +203,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I press the "events" button');
     $steps[] = new Step\When('I press the "Meeting" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
@@ -407,7 +407,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       'provider' => "og_purl|node",
       'id' => $gid,
     );
-    $url = ltrim(url('<front>', array('purl' => $purl)), '/');
+    $url = ltrim(url('<front>', array('purl' => $purl, 'absolute' => TRUE)));
 
     return new Given("I go to \"$url\"");
   }
