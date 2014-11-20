@@ -46,7 +46,17 @@ function c4m_content_discussion_default_page_manager_pages() {
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Current OG Group from context',
+        'keyword' => 'og_context',
+        'name' => 'og_context',
+        'og_context_group_types' => array(
+          'group' => 'group',
+        ),
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
   );
   $display = new panels_display();
@@ -71,7 +81,11 @@ function c4m_content_discussion_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:node_1',
+      'context' => array(
+        1 => 'argument_entity_id:node_1',
+        2 => 'empty',
+        3 => 'empty',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -99,16 +113,10 @@ function c4m_content_discussion_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Discussion Add';
   $page->admin_description = '';
-  $page->path = 'node/js-add/%group/%resource/!file';
+  $page->path = 'node/js-add/%resource/!file';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array(
-    'group' => array(
-      'id' => 1,
-      'identifier' => 'Node: ID',
-      'name' => 'entity_id:node',
-      'settings' => array(),
-    ),
     'resource' => array(
       'id' => 1,
       'identifier' => 'String',
@@ -144,7 +152,17 @@ function c4m_content_discussion_default_page_manager_pages() {
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Current OG Group from context',
+        'keyword' => 'og_context',
+        'name' => 'og_context',
+        'og_context_group_types' => array(
+          'group' => 'group',
+        ),
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
   );
   $display = new panels_display();
@@ -170,9 +188,9 @@ function c4m_content_discussion_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'argument_string_1',
-        2 => 'argument_entity_id:file_1',
+        1 => 'empty',
+        2 => 'argument_string_1',
+        3 => 'argument_entity_id:file_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
