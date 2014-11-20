@@ -105,7 +105,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iFillEditorWith($editor, $value) {
     // Using javascript script to fill the textAngular editor,
     // We have to enter the value directly to the scope.
-    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
+    $javascript = "angular.element('textarea#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
     $this->getSession()->executeScript($javascript);
   }
 
@@ -383,9 +383,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I visit the group dashboard of group "([^"]*)"$/
+   * @When /^I visit the dashboard of group "([^"]*)"$/
    */
-  public function iVisitTheGroupDashboardOfGroup($title) {
+  public function iVisitTheDashboardOfGroup($title) {
     $query = new entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
@@ -410,6 +410,20 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $url = ltrim(url('<front>', array('purl' => $purl)), '/');
 
     return new Given("I go to \"$url\"");
+  }
+
+  /**
+   * @Then /^I should see the group dashboard$/
+   */
+  public function iShouldSeeTheGroupDashboard() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('Group menu item "Home" should be active');
+    $steps[] = new Step\When('I should see the Quick Post form');
+    $steps[] = new Step\When('I should see the Activity stream');
+
+    return $steps;
   }
 
   /**

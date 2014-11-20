@@ -11,8 +11,8 @@
  * by the system that includes this file.
  */
 $plugin = array(
-  'title' => t("OG current group"),
-  'description' => t('Group from current Group context.'),
+  'title' => t("Current OG Group from context"),
+  'description' => t('Get the current Group from the Organic Groups context.'),
   'context' => 'c4m_og_context_create_og_context',
   'edit form' => 'c4m_og_context_settings_form',
   'keyword' => 'og_context',
@@ -32,11 +32,13 @@ function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $
     return $context;
   }
 
+  // Check if there is an active context.
   $og_context = og_context();
   if (!$og_context) {
     return;
   }
 
+  // Check if the group of the active context exists.
   $group = node_load($og_context['gid']);
   if (!$group) {
     return;
@@ -71,15 +73,22 @@ function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $
  */
 function c4m_og_context_settings_form($form, &$form_state) {
   $conf = $form_state['conf'];
+  $default = empty($conf['og_context_group_types'])
+    ? array()
+    : $conf['og_context_group_types'];
 
-  // Filter by node type.
-  $options = og_get_all_group_bundle();
+  $group_bundles = og_get_all_group_bundle();
+  $options = empty($group_bundles['node'])
+    ? array()
+    : $group_bundles['node'];
+
+  // Filter by group node type.
   $form['og_context_setting'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Limit by group type'),
     '#description' => t('Limit the context to only this group types. Select none to allow all.'),
-    '#default_value' => $conf['og_context_group_types'],
-    '#options' => $options['node'],
+    '#default_value' => $default,
+    '#options' => $options,
     '#prefix' => '<div class="clear-block no-float">',
     '#suffix' => '</div>',
   );
@@ -123,10 +132,14 @@ function c4m_og_context_node_convert_list() {
  */
 function c4m_og_context_node_convert($context, $type) {
   $tokens = token_info();
-  if (isset($tokens['tokens']['node'][$type])) {
-    $values = token_generate('node', array($type => $type), array('node' => $context->data));
-    if (isset($values[$type])) {
-      return $values[$type];
-    }
+  if (!isset($tokens['tokens']['node'][$type])) {
+    return;
   }
+
+  $values = token_generate('node', array($type => $type), array('node' => $context->data));
+  if (!isset($values[$type])) {
+    return;
+  }
+
+  return $values[$type];
 }
