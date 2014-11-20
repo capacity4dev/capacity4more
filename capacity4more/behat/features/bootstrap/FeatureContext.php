@@ -105,7 +105,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iFillEditorWith($editor, $value) {
     // Using javascript script to fill the textAngular editor,
     // We have to enter the value directly to the scope.
-    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
+    $javascript = "angular.element('textarea#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
     $this->getSession()->executeScript($javascript);
   }
 
@@ -380,5 +380,87 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
 
     return $steps;
+  }
+
+  /**
+   * @When /^I visit the dashboard of group "([^"]*)"$/
+   */
+  public function iVisitTheDashboardOfGroup($title) {
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'group')
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+      );
+      throw new Exception(format_string("Group @title not found.", $params));
+    }
+
+    $gid = (int) key($result['node']);
+    $purl = array(
+      'provider' => "og_purl|node",
+      'id' => $gid,
+    );
+    $url = ltrim(url('<front>', array('purl' => $purl)), '/');
+
+    return new Given("I go to \"$url\"");
+  }
+
+  /**
+   * @Then /^I should see the group dashboard$/
+   */
+  public function iShouldSeeTheGroupDashboard() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('Group menu item "Home" should be active');
+    $steps[] = new Step\When('I should see the Quick Post form');
+    $steps[] = new Step\When('I should see the Activity stream');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^Group menu item "([^"]*)" should be active$/
+   */
+  public function groupMenuItemShouldBeActive($label) {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '#block-menu-menu-group-menu a.active');
+    if ($el === null) {
+      throw new Exception('The group menu has no active items.');
+    }
+
+    if ($el->getText() !== $label) {
+      $params = array('@label' => $label);
+      throw new Exception(format_string('Active menu item is not "@label".', $params));
+    }
+  }
+
+  /**
+   * @Given /^I should see the Quick Post form$/
+   */
+  public function iShouldSeeTheQuickPostForm() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.pane-quick-form');
+    if ($el === null) {
+      throw new Exception('The Quick Post pane is not visible.');
+    }
+  }
+
+  /**
+   * @Given /^I should see the Activity stream$/
+   */
+  public function iShouldSeeTheActivityStream() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.view-group-activity-stream');
+    if ($el === null) {
+      throw new Exception('The Quick Post pane is not visible.');
+    }
   }
 }
