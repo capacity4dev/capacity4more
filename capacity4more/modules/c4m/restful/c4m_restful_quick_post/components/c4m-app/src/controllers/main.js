@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload, $modal) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -338,11 +338,28 @@ angular.module('c4mApp')
 
           if ($scope.fullForm && $scope.selectedResource == 'discussions') {
             // If we are creating or editing discussion in the full form -
-            // after loading file send file id to the create document page and get
-            // back the document id.
-            document.cookie = "file_id=" + $scope.data.document + "; expires=whenever;";
-            $window.location = DrupalSettings.getBasePath() + $scope.groupPurl + "/node/js-add/document/" + $scope.data.document;
-            // How to send there the file id. How to go back to discussion with the document id after saving document.
+            // after loading file send file id to the modal, where we'll create
+            // a document with this file.
+
+            $scope.open = function (size) {
+
+              var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                size: size,
+                resolve: {
+                  getFile: function () {
+                    return $scope.data.document;
+                  }
+                }
+              });
+
+              modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+              });
+            };
+
+            $scope.open();
           }
         });
       }
