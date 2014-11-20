@@ -7,7 +7,7 @@ $plugin = array(
   'title' => t('Quick post form'),
   'description' => t('Renders Quick Post form.'),
   'required context' => array(
-    new ctools_context_required(t('Node'), 'node'),
+    new ctools_context_required(t('Group'), 'og_context'),
     new ctools_context_optional(t('String'), 'string'),
     new ctools_context_optional(t('File'), 'file'),
   ),
