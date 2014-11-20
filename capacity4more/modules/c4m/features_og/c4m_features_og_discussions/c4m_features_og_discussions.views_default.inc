@@ -40,7 +40,7 @@ function c4m_features_og_discussions_views_default_views() {
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '@total in total';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
@@ -115,7 +115,7 @@ function c4m_features_og_discussions_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('@total items'),
+    t('@total in total'),
     t('Node ID'),
     t('.'),
     t(','),

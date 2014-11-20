@@ -157,3 +157,83 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   return $element;
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ * @param $info
+ *  Array with the info about entities.
+ */
+function c4m_og_vocab_entity_property_info_alter(&$info) {
+  // Add a property for each C4M OG vocabulary to every node which is
+  // part of a group and
+  // which is tagged by a term of one of these vocabularies.
+
+  $c4m_og_vocab_info_content = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_CONTENT);
+  $c4m_og_vocab_info_vocabularies =
+    c4m_og_vocab_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
+
+  foreach ($info['node']['bundles'] as $bundle_name => $bundle) {
+    if (og_is_group_content_type('node', $bundle_name) &&
+        !empty($bundle['properties']['og_vocabulary'])) {
+      foreach($c4m_og_vocab_info_content[$bundle_name]['vocabularies'] as
+              $vocabulary_machine_name) {
+        $info['node']['properties'][$vocabulary_machine_name] = array(
+          'type' => 'list<integer>',
+          'label' => t('C4M OG vocabulary !vocabulary',
+            array('!vocabulary' =>
+              $c4m_og_vocab_info_vocabularies[$vocabulary_machine_name]['name'])),
+          'sanitized' => TRUE,
+          'getter callback' => 'c4m_og_vocab_getter_' .
+            $vocabulary_machine_name,
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Custom entity properties getter callback function for the Tags vocabulary.
+ *
+ * @param $entity
+ *  Entity object
+ * @return array
+ *  The values for the property.
+ */
+function c4m_og_vocab_getter_c4m_vocab_tag($entity) {
+  return c4m_og_vocab_getter_callback($entity, 'c4m_vocab_tag');
+}
+/**
+ * Custom entity properties getter callback function for the Categories vocabulary.
+ *
+ * @param $entity
+ *  Entity object
+ * @return array
+ *  The values for the property.
+ */
+function c4m_og_vocab_getter_c4m_vocab_category($entity) {
+  return c4m_og_vocab_getter_callback($entity, 'c4m_vocab_category');
+}
+
+/**
+ * Helper function to get term ids of C4M OG vocabularies for an entity.
+ *
+ * @param $entity
+ *  Entity object.
+ * @param $vocabulary_machine_name
+ *  String with the C4M OG vocabulary name.
+ * @return array
+ *  The term ids for that category on current entity.
+ */
+function c4m_og_vocab_getter_callback($entity, $vocabulary_machine_name) {
+  if (empty($entity->og_vocabulary)) {
+    return;
+  }
+  $tids = array();
+  $wrapper = entity_metadata_wrapper('node', $entity);
+  foreach($wrapper->og_vocabulary->value() as $key => $term) {
+    if (strpos($term->vocabulary_machine_name, $vocabulary_machine_name, 0) === 0) {
+      $tids[] = $term->tid;
+    }
+  }
+  return $tids;
+}

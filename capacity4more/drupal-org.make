@@ -41,6 +41,9 @@ projects[diff][version] = "3.2"
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
+projects[ds][subdir] = "contrib"
+projects[ds][version] = "2.7"
+
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.5"
 ; Patches for RESTful
