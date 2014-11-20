@@ -11,6 +11,9 @@ angular.module('c4mApp')
     //Getting node id if we are editing node.
     $scope.nid = $scope.data.nid;
 
+    //Getting group purl
+    $scope.groupPurl = DrupalSettings.getData('group_purl');
+
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
@@ -337,8 +340,8 @@ angular.module('c4mApp')
             // If we are creating or editing discussion in the full form -
             // after loading file send file id to the create document page and get
             // back the document id.
-            var group_id = $scope.data.group;
-            $window.location = DrupalSettings.getBasePath() + "node/js-add/" + group_id + "/document/" + $scope.data.document;
+            document.cookie = "file_id=" + $scope.data.document + "; expires=whenever;";
+            $window.location = DrupalSettings.getBasePath() + $scope.groupPurl + "/node/js-add/document/" + $scope.data.document;
             // How to send there the file id. How to go back to discussion with the document id after saving document.
           }
         });

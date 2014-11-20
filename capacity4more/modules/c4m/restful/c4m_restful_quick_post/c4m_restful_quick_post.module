@@ -63,6 +63,8 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     ),
   );
 
+  $group_purl = node_load($group_id)->purl;
+
   $resources_names = !empty($show_resources) ? array_keys($show_resources) : array_keys($resources);
   $show_resources = !empty($show_resources) ? $show_resources : $resources;
 
@@ -174,6 +176,7 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'data' => array(
       'entity' => $entity_fields,
       'full_form' => $full_form,
+      'group_purl' => $group_purl,
     ),
   );
   drupal_add_js($settings, 'setting');

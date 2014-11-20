@@ -8,6 +8,7 @@ $plugin = array(
   'description' => t('Renders Quick Post form.'),
   'required context' => array(
     new ctools_context_required(t('Group'), 'og_context'),
+    new ctools_context_optional(t('Node'), 'node'),
     new ctools_context_optional(t('String'), 'string'),
     new ctools_context_optional(t('File'), 'file'),
   ),
@@ -18,9 +19,10 @@ $plugin = array(
  * Render callback.
  */
 function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, $args, $context) {
-  $nid = $context[0]->data->nid;
-  $content_type = $context[1]->data;
-  $file_id = $context[2]->data ? $context[2]->data->fid : NULL;
+  $gid = $context[0]->data->nid;
+  $nid = $context[1]->data ? $context[1]->data->nid : NULL;
+  $content_type = $context[2]->data;
+  $file_id = $context[3]->data ? $context[3]->data->fid : NULL;
 
   $resources = array(
     'discussion' => array(
@@ -42,24 +44,20 @@ function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, 
       ),
     ),
   );
-  $node_viewed = node_load($nid);
-  if (in_array($node_viewed->type, array_keys($resources))) {
-    $show_resources = $resources[$node_viewed->type];
+  $node = $nid ? node_load($nid) : NULL;
+  if ($node && in_array($node->type, array_keys($resources))) {
+    $show_resources = $resources[$node->type];
     $full_form = TRUE;
-    $node = $node_viewed;
-    $group_id = entity_metadata_wrapper('node', $nid)->{OG_AUDIENCE_FIELD}->nid->value();
   }
   else {
-    $group_id = $nid;
     $show_resources = $content_type && isset($resources[$content_type]) ? $resources[$content_type] : array();
     $full_form = $content_type && isset($resources[$content_type]) ? TRUE : FALSE;
-    $node = NULL;
   }
 
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = c4m_restful_quick_post_form($group_id, $show_resources, $full_form, $node, $file_id);
+  $block->content = c4m_restful_quick_post_form($gid, $show_resources, $full_form, $node, $file_id);
   return $block;
 }
 
