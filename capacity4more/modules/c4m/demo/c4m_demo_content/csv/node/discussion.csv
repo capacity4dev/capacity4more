@@ -1,3 +1,15 @@
 ID,Title,Body,Documents,Categories,Tags,Group,Group Type,Date,Language,UID
 discussion_1,Blog about Lusail City,,doc_1|doc_2,cat_p_art|cat_p_city,tag_doha|tag_lusail,project_1,project,2006|2007|2008,en,user_2
-discussion_2,Weekly review of JPL,,,cat_jpl,tag_rsca|tag_seizoen,group_1,group,After 2020,fr,user_6
+discussion_2,Weekly review of JPL,,,cat_jpl,tag_rsca|tag_seizoen,group_1,group,After 2020,en,user_6
+discussion_3,Weekly meeting (week 1),"<h2>Week 1</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_4,Weekly meeting (week 2),"<h2>Week 2</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_5,Weekly meeting (week 3),"<h2>Week 3</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_6,Weekly meeting (week 4),"<h2>Week 4</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_7,Weekly meeting (week 5),"<h2>Week 5</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_8,Weekly meeting (week 6),"<h2>Week 6</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_9,Weekly meeting (week 7),"<h2>Week 7</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_10,Weekly meeting (week 8),"<h2>Week 8</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_11,Weekly meeting (week 9),"<h2>Week 9</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_12,Weekly meeting (week 10),"<h2>Week 10</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_13,Weekly meeting (week 11),"<h2>Week 11</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6
+discussion_14,Weekly meeting (week 12),"<h2>Week 12</h2><p>Test body content:</p><p>123</p>",,cat_jpl,tag_rsca|tag_seizoen,group_1,group,2014,French,user_6

@@ -386,30 +386,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
   public function iVisitTheDashboardOfGroup($title) {
-    $query = new entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'group')
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
-
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-      );
-      throw new Exception(format_string("Group @title not found.", $params));
-    }
-
-    $gid = (int) key($result['node']);
-    $purl = array(
-      'provider' => "og_purl|node",
-      'id' => $gid,
-    );
-    $url = ltrim(url('<front>', array('purl' => $purl)), '/');
-
-    return new Given("I go to \"$url\"");
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+    return new Given("I go to \"$uri\"");
   }
 
   /**
@@ -462,5 +441,90 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     if ($el === null) {
       throw new Exception('The Quick Post pane is not visible.');
     }
+  }
+
+  /**
+   * @When /^I visit the discussions overview of group "([^"]*)"$/
+   */
+  public function iVisitTheDiscussionsOverviewOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'discussions');
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Then /^I should see the discussions overview$/
+   */
+  public function iShouldSeeTheDiscussionsOverview() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+
+    return $steps;
+  }
+
+
+  /**
+   * Helper to get the group based on the title & type.
+   *
+   * @param string $title
+   *   The group title.
+   * @param string $type
+   *   The group node type.
+   *
+   * @return stdClass
+   *   The group (if any) or NULL.
+   *
+   * @throws Exception
+   */
+  private function loadGroupByTitleAndType($title, $type) {
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $type)
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Group @title not found (type @type).", $params));
+    }
+
+    $gid = (int) key($result['node']);
+    $group = node_load($gid);
+    if (!$group) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Group @title not found (type @type).", $params));
+    }
+
+    return $group;
+  }
+
+  /**
+   * Helper to create a uri within a group context.
+   *
+   * @param stdClass $group
+   *   The group context.
+   * @param string $path
+   *   The path part.
+   *
+   * @return string
+   */
+  protected function createUriWithGroupContext($group, $path = '<front>') {
+    $purl = array(
+      'provider' => "og_purl|node",
+      'id' => $group->nid,
+    );
+    $uri = ltrim(url($path, array('purl' => $purl)), '/');
+
+    return $uri;
   }
 }
