@@ -18,5 +18,13 @@ function c4m_views_views_data() {
     ),
   );
 
+  $data['views']['c4m_views_search_api_sorts'] = array(
+    'title' => t('Add Search API Sorts'),
+    'help' => t('Add the sorts for the view using the block provided by the Search API Sort module.'),
+    'area' => array(
+      'handler' => 'c4m_views_handler_area_search_api_sorts',
+    ),
+  );
+
   return $data;
 }

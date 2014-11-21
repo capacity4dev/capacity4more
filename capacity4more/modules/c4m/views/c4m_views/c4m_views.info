@@ -6,3 +6,4 @@ version = 7.x-1.x-dev
 
 ; Views Handlers
 files[] = handlers/c4m_views_handler_area_node_add.inc
+files[] = handlers/c4m_views_handler_area_search_api_sorts.inc
