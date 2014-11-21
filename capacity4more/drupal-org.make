@@ -170,6 +170,8 @@ projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.4"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
+projects[search_api_sorts][subdir] = "contrib"
+projects[search_api_sorts][version] = "1.x-dev"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
