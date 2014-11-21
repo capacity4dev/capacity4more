@@ -53,13 +53,11 @@ class c4m_views_handler_area_node_add extends views_handler_area {
    * Find out the information to render.
    */
   function render($empty = FALSE) {
-    // Must have options and does not work on summaries.
-    if (!isset($this->options['content']) || $this->view->plugin_name == 'default_summary') {
-      return;
-    }
-
     $node_type = filter_xss_admin($this->options['node_type']);
     $link_text = filter_xss_admin($this->options['link_text']);
+    if (!$node_type || !$link_text) {
+      return;
+    }
 
     // Check if user has access to the node creation form.
     if (!node_access('create', $node_type)) {
