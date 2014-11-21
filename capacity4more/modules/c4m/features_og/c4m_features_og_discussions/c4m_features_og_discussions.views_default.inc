@@ -28,11 +28,33 @@ function c4m_features_og_discussions_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  /* Header: Add Discussion link */
+  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add Discussion link';
+  $handler->display->display_options['header']['c4m_views_node_add']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'discussion';
+  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a Discussion';
+  /* Header: Number of items */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['result']['empty'] = TRUE;
+  $handler->display->display_options['header']['result']['content'] = '@total items';
+  /* Header: Sort results */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
