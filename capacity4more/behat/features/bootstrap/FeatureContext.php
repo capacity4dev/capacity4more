@@ -459,10 +459,106 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps = array();
 
     $steps[] = new Step\When('I should have access to the page');
-
-    // TODO : Add more steps to check the sort, add button, search form & facets.
+    $steps[] = new Step\When('I should be able to sort the overview');
+    $steps[] = new Step\When('I should see the sidebar search');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "OG Vocab"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
 
     return $steps;
+  }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" link above the overview$/
+   */
+  public function iShouldNotSeeTheLinkAboveTheOverview($label) {
+    $page = $this->getSession()->getPage();
+    $links = $page->findAll('css', '.region-content .view-header .node-create');
+    foreach ($links as $link) {
+      if ($link->getText() !== $label) {
+        continue;
+      }
+
+      $params = array(
+        '@label' => $label,
+      );
+      throw new Exception(format_string("Link @label should NOT be above the overview.", $params));
+    }
+  }
+
+  /**
+   * @Then /^I should see the "([^"]*)" link above the overview$/
+   */
+  public function iShouldSeeTheLinkAboveTheOverview($label) {
+    $page = $this->getSession()->getPage();
+    $links = $page->findAll('css', '.region-content .view-header .node-create');
+
+    $found = false;
+    foreach ($links as $link) {
+      if ($link->getText() !== $label) {
+        continue;
+      }
+
+      $found = TRUE;
+      break;
+    }
+
+    if (!$found) {
+      $params = array(
+        '@label' => $label,
+      );
+      throw new Exception(format_string("Link @label is not found above the overview.", $params));
+    }
+  }
+
+  /**
+   * @Then /^I should be able to sort the overview$/
+   */
+  public function iShouldBeAbleToSortTheOverview() {
+    $page = $this->getSession()->getPage();
+    $sorts = $page->findAll('css', '.region-content .view-header .search-api-sorts li');
+
+    if (!count($sorts)) {
+      throw new Exception("No sort options found.");
+    }
+  }
+
+  /**
+   * @Then /^I should see the sidebar search$/
+   */
+  public function iShouldSeeTheSidebarSearch() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '.region-sidebar-first #edit-search-api-views-fulltext');
+    if ($el === null) {
+      throw new Exception('The Sidebar Search block is not visible.');
+    }
+  }
+
+  /**
+   * @Then /^I should see the sidebar facet with title "([^"]*)"$/
+   */
+  public function iShouldSeeTheSidebarFacet($title) {
+    $page = $this->getSession()->getPage();
+    $facets = $page->findAll('css', '.region-sidebar-first .block-facetapi');
+
+    $found = FALSE;
+    foreach ($facets as $facet) {
+      $block_title = $facet->find('css', '.block-title');
+      if (!$block_title || $block_title->getText() !== $title) {
+        continue;
+      }
+
+      $found = TRUE;
+      break;
+    }
+
+    if (!$found) {
+      $params = array(
+        '@title' => $title,
+      );
+      throw new Exception(format_string("Facet with @title not found.", $params));
+    }
   }
 
 

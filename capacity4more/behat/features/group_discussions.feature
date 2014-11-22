@@ -4,7 +4,15 @@ Feature: Group Discussions
   I need to be able to see a discussions overview page
 
   @api @wip
-  Scenario: Check discussions overview as group owner
-    Given I am logged in as user "badhairday"
-    When I visit the discussions overview of group "Football Talk"
+  Scenario: Check discussions overview as an anonymous user
+    Given I am an anonymous user
+    When I visit the discussions overview of group "Nobel Prize"
     Then I should see the discussions overview
+    Then I should not see the "Add a Discussion" link above the overview
+
+  @api @wip
+  Scenario: Check discussions overview as group owner
+    Given I am logged in as user "alfrednobel"
+    When I visit the discussions overview of group "Nobel Prize"
+    Then I should see the discussions overview
+    Then I should see the "Add a Discussion" link above the overview
