@@ -460,6 +460,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $steps[] = new Step\When('I should have access to the page');
 
+    // TODO : Add more steps to check the sort, add button, search form & facets.
+
     return $steps;
   }
 
