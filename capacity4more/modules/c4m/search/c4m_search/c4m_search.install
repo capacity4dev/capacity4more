@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file
+ * Install & update for the c4m_seach module.
+ */
+
+/**
+ * Implements hook_install()
+ */
+function c4m_search_install() {
+  _c4m_search_install_permissions();
+}
+
+
+/**
+ * Helper to set the permissions needed for the c4m_search module.
+ */
+function _c4m_search_install_permissions() {
+  $roles  = array(
+    user_role_load_by_name('anonymous user'),
+    user_role_load_by_name('authenticated user'),
+  );
+
+  foreach ($roles as $role) {
+    user_role_grant_permissions(
+      $role->rid,
+      'use search_api_sorts'
+    );
+  }
+}
