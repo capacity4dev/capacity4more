@@ -183,16 +183,3 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   // Theme function adds the Quick post form.
   return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
 }
-
-/**
- * Implements hook_admin_paths().
- *
- * Commented because module doesn't enabled.
- * When it was - didn't work like popup.
- */
-//function c4m_restful_quick_post_admin_paths() {
-//  $paths = array(
-//    'node/js-add/*/document/*' => TRUE,
-//  );
-//  return $paths;
-//}

@@ -348,8 +348,8 @@ angular.module('c4mApp')
                 controller: 'ModalInstanceCtrl',
                 size: size,
                 resolve: {
-                  getFile: function () {
-                    return $scope.data.document;
+                  getScope: function () {
+                    return $scope;
                   }
                 }
               });

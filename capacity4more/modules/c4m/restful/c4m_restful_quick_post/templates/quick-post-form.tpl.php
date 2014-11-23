@@ -256,20 +256,183 @@
 
   <div ng-show="selectedResource == 'discussions' && fullForm">
     <script type="text/ng-template" id="myModalContent.html">
-      <div class="modal-header">
-        <h3 class="modal-title">I'm a modal!</h3>
+
+      <div class="explanation">
+        <em><?php print t('Quick Post') ?></em>
       </div>
-      <div class="modal-body">
-        <ul>
-          <li ng-repeat="item in items">
-            <a ng-click="selected.item = item">{{ item }}</a>
-          </li>
-        </ul>
-        Selected: <b>{{ selected.item }}</b>
+
+      <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
+
+        <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
+          <div>
+            File has been loaded!
+          </div>
+        </div>
+
+        <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+          <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
+          <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
+          <div class="errors">
+            <ul ng-show="serverSide.data.errors.label">
+              <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div ng-show="resources[selectedResource]">
+
+          <!-- Body editor-->
+          <div class="form-group" ng-class="{ 'has-error' : errors.body }">
+            <textarea ckeditor="editorOptions" name="body" id="body" ng-model="data.body"></textarea>
+            <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
+            <div class="errors">
+              <ul ng-show="serverSide.data.errors.body">
+                <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group btn-group" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
+            <div class="label-wrapper">
+              <label>{{fieldSchema.document_type.info.label}}</label>
+              <span id="document_type_description" class="description">{{fieldSchema.document_type.info.description}}</span>
+            </div>
+            <div class="checkboxes-wrapper">
+              <div>
+                <button type="button" ng-click="togglePopover('document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
+                <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
+              </div>
+              <!-- Hidden document_type checkboxes.-->
+              <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                  <list-terms type="document_type" model="data.document_type" items="document_type"></list-terms>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
+            <div class="label-wrapper">
+              <label>{{fieldSchema.topic.info.label}}</label>
+              <span id="topic_description" class="description">{{fieldSchema.topic.info.description}}</span>
+            </div>
+            <div class="checkboxes-wrapper">
+              <div>
+                <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
+                <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
+              </div>
+              <!-- Hidden topic checkboxes.-->
+              <div class="popover right hidden-checkboxes" ng-show="popups.topic">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                  <list-terms type="topic" model="data.topic" items="topic"></list-terms>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group btn-group" ng-show="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
+            <div class="label-wrapper">
+              <label>{{fieldSchema.date.info.label}}</label>
+              <span id="date_description" class="description">{{fieldSchema.date.info.description}}</span>
+            </div>
+            <div class="checkboxes-wrapper">
+              <div>
+                <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
+                <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
+              </div>
+              <!-- Hidden date checkboxes.-->
+              <div class="popover right hidden-checkboxes" ng-show="popups.date">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                  <list-terms type="date" model="data.date" items="date"></list-terms>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group btn-group" ng-class="{ 'has-error' : errors.language }">
+            <div class="label-wrapper">
+              <label>{{fieldSchema.language.info.label}}</label>
+              <span id="language_description" class="description">{{fieldSchema.language.info.description}}</span>
+            </div>
+            <div class="checkboxes-wrapper">
+              <div>
+                <button type="button" ng-click="togglePopover('language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
+                <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
+              </div>
+              <!-- Hidden language checkboxes.-->
+              <div class="popover right hidden-checkboxes" ng-show="popups.language">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                  <list-terms type="language" model="data.language" items="language"></list-terms>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group btn-group" ng-class="{ 'has-error' : errors.geo }">
+            <div class="label-wrapper">
+              <label>{{fieldSchema.geo.info.label}}</label>
+              <span id="geo_description" class="description">{{fieldSchema.geo.info.description}}</span>
+            </div>
+            <div class="checkboxes-wrapper">
+              <div>
+                <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
+                <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
+              </div>
+              <!-- Hidden geo checkboxes.-->
+              <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
+                <div class="arrow"></div>
+                <div class="popover-content">
+                  <list-terms type="geo" model="data.geo" items="geo"></list-terms>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-wrapper tags" ng-class="{ 'has-error' : errors.tags }">
+            <label><?php print t('Tags') ?></label>
+            <input multiple type="hidden" ui-select2="{query: tagsQuery, minimumInputLength: 2}" ng-model="data.tags" class="form-control"/>
+            <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
+          </div>
+
+          <div class="actions">
+            <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('SAVE'); ?></button>
+            <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+          </div>
+        </div>
+      </form>
+
+      <div ng-show="debug">
+        <h2>Console (Server side)</h2>
+        <div ng-show="serverSide.status == 200" class="create-success">
+          <strong>
+            New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
+          </strong>
+        </div>
+        <div ng-show="serverSide.status">
+          <div>
+            Status: {{ serverSide.status }}
+          </div>
+          <div>
+            Data: <pre pretty-json="serverSide.data" />
+          </div>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+      <br/>
+      <div class="messages" ng-show="debug == 0">
+        <div ng-show="serverSide.status == 200 || serverSide.status == 201">
+          <div class="alert alert-success">
+        <?php print t('The {{ resources[selectedResource].bundle }} was saved successfully.') ?>
+      </div>
+        </div>
+        <div ng-show="serverSide.status > 0 && serverSide.status != 200 && serverSide.status != 201">
+          <div class="alert alert-danger">
+        <?php print t('Error saving {{ resources[selectedResource].bundle }}.') ?>
+      </div>
+        </div>
       </div>
     </script>
 
