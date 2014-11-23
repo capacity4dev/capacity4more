@@ -1,12 +1,12 @@
 angular.module('c4mApp')
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, Request, getScope, ModalService) {
+  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, Request, EntityResource, getScope, ModalService) {
 
     $scope = ModalService.getModalObject($scope, getScope);
-
 
     //Checking if this is full form or not.
     $scope.fullForm = true;
 
+    $scope.fileName = $scope.data.document;
 
     // Getting the resources information.
     $scope.resources = {'documents' : {bundle: "Document", description: "Add a Document"}};
@@ -263,8 +263,6 @@ angular.module('c4mApp')
       // Reset all errors.
       $scope.errors = {};
 
-      console.log(resource);
-
       // Get the fields of this resource.
       var resourceFields = $scope.fieldSchema.resources[resource];
 
@@ -290,7 +288,7 @@ angular.module('c4mApp')
       EntityResource.createEntity(submitData, resource, resourceFields)
         .success( function (data, status) {
           var id = data.data[0].id
-          ok(id);
+          $modalInstance.close(id);
         })
         .error( function (data, status) {
           $scope.serverSide.data = data;
@@ -299,50 +297,6 @@ angular.module('c4mApp')
         });
     };
 
-//    /**
-//     * Uploading document file.
-//     *
-//     * @param $files
-//     *  The file.
-//     */
-//    $scope.onFileSelect = function($files) {
-//      //$files: an array of files selected, each file has name, size, and type.
-//      for (var i = 0; i < $files.length; i++) {
-//        var file = $files[i];
-//        FileUpload.upload(file).then(function(data) {
-//          $scope.data.document = data.data.data[0].id;
-//          $scope.serverSide.file = data;
-//
-//          if ($scope.fullForm && $scope.selectedResource == 'discussions') {
-//            // If we are creating or editing discussion in the full form -
-//            // after loading file send file id to the modal, where we'll create
-//            // a document with this file.
-//
-//            $scope.open = function (size) {
-//
-//              var modalInstance = $modal.open({
-//                templateUrl: 'myModalContent.html',
-//                controller: 'ModalInstanceCtrl',
-////                controller: 'MainCtrl',
-//                size: size,
-//                resolve: {
-//                  getFile: function () {
-//                    return $scope.data.document;
-//                  }
-//                }
-//              });
-//
-//              modalInstance.result.then(function (selectedItem) {
-//                $scope.selected = selectedItem;
-//              });
-//            };
-//
-//            $scope.open();
-//          }
-//        });
-//      }
-//    };
-
     /**
      * Opens the system's file browser.
      */
@@ -350,9 +304,6 @@ angular.module('c4mApp')
       angular.element('#document_file').click();
     };
 
-    $scope.ok = function (id) {
-      $modalInstance.close(id);
-    };
 
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');

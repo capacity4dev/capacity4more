@@ -73,14 +73,14 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   // Get fields.
   $field_schema = array();
   $public_fields = array();
-  foreach ($resources_names as $resource_name) {
+  foreach (array_keys($resources) as $resource_name) {
     $handler = restful_get_restful_handler($resource_name);
     $field_schema += $handler->options();
     $public_fields += $handler->getPublicFields();
     // Send the fields as separate objects as well (for validation on submit.)
     $field_schema['resources'][$resource_name] = $handler->options();
 
-    if ($node) {
+    if ($node && in_array($resource_name, array_keys($show_resources))) {
       $node_values = $handler->get($node->nid);
     }
   }
@@ -131,7 +131,7 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     }
     if ($node) {
       // Set default values of the fields that are already exist.
-      $entity_fields[$public_field_name] = $node_values[0][$public_field_name];
+      $entity_fields[$public_field_name] = isset($node_values[0][$public_field_name]) ? $node_values[0][$public_field_name] : NULL;
     }
     else {
       // Set all fields values to NULL.

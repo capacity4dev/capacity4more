@@ -265,7 +265,7 @@
 
         <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
           <div>
-            File has been loaded!
+            File {{fileName}} has been loaded!
           </div>
         </div>
 
@@ -400,7 +400,7 @@
 
           <div class="actions">
             <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('SAVE'); ?></button>
-            <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+            <a href="javascript://" id="clear-button" ng-click="cancel()"><?php print t('Cancel'); ?></a>
           </div>
         </div>
       </form>
@@ -436,7 +436,6 @@
       </div>
     </script>
 
-    <button class="btn btn-default" ng-click="open()">Open me!</button>
     <div ng-show="selected">Selection from a modal: {{ selected }}</div>
   </div>
 
