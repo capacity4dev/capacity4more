@@ -61,10 +61,6 @@ dependencies[] = pluggable_node_access
 dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
-dependencies[] = search_api
-dependencies[] = search_api_facetapi
-dependencies[] = search_api_solr
-dependencies[] = search_api_views
 dependencies[] = strongarm
 dependencies[] = transliteration
 dependencies[] = token
@@ -115,6 +111,7 @@ dependencies[] = c4m_restful
 
 ; Overview content within groups
 dependencies[] = c4m_og_menu
+dependencies[] = c4m_features_og_group_dashboard
 dependencies[] = c4m_features_og_overview_discussions
 dependencies[] = c4m_features_og_overview_documents
 dependencies[] = c4m_features_og_overview_events

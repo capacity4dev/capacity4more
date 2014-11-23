@@ -13,14 +13,13 @@ function c4m_og_menu_menu_default_menu_custom() {
   // Exported menu: menu-group-menu.
   $menus['menu-group-menu'] = array(
     'menu_name' => 'menu-group-menu',
-    'title' => '',
+    'title' => 'Group Menu',
     'description' => '(Sub-)navigation inside OG context (group or project). Includes the different features per group.',
   );
   // Translatables
   // Included for use with string extractors like potx.
   t('(Sub-)navigation inside OG context (group or project). Includes the different features per group.');
   t('Group Menu');
-
 
   return $menus;
 }

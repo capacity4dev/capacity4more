@@ -70,14 +70,13 @@ function c4m_restful_quick_post_form($node) {
   drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
 
   // JSON pretty print library.
-  drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
   drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
+  drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
 
-  // TextAngular library.
-  drupal_add_css($bower_path . '/textAngular/src/textAngular.css');
-  drupal_add_js($bower_path . '/textAngular/dist/textAngular-rangy.min.js');
-  drupal_add_js($bower_path . '/textAngular/dist/textAngular-sanitize.min.js');
-  drupal_add_js($bower_path . '/textAngular/dist/textAngular.min.js');
+  // CKEditor library.
+  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
+  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
+  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
 
   // Select UI
   drupal_add_css($bower_path . '/select2/select2.css');

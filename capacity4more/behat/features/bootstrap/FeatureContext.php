@@ -105,7 +105,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iFillEditorWith($editor, $value) {
     // Using javascript script to fill the textAngular editor,
     // We have to enter the value directly to the scope.
-    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
+    $javascript = "angular.element('textarea#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
     $this->getSession()->executeScript($javascript);
   }
 
@@ -114,7 +114,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
     // Generate URL from title.
-    $url = strtolower(str_replace(" ", "-", trim($title)));
+    $url = strtolower(str_replace(' ', '-', trim($title)));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
@@ -214,5 +214,253 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I wait');
 
     return $steps;
+  }
+
+  /**
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
+   */
+  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type,  $title, $body, $group) {
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
+    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
+    $steps[] = new Step\When('I press "Save"');
+    return $steps;
+  }
+
+  /**
+   * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)"$/
+   */
+  public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title) {
+    $steps = array();
+
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($type))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $nid = key($result['node']);
+
+    $steps[] = new Step\When('I visit "node/' .  $nid . '/edit"');
+    $steps[] = new Step\When('I fill in "title" with "' . $new_title . '"');
+    $steps[] = new Step\When('I press "Save"');
+    return $steps;
+  }
+
+  /**
+   * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)" after "([^"]*)"$/
+   */
+  public function iUpdateAWithTitleInTheGroupWithNewTitleAfter($type, $title, $new_title, $time) {
+    // Loading node of current content type and with current title.
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($type))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $nid = key($result['node']);
+
+    // Loading the previous message for the current node.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->propertyCondition('type', 'c4m_insert__node__' . $type)
+      ->fieldCondition('field_node', 'target_id', $nid)
+      ->propertyOrderBy('timestamp', 'desc')
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['message'])) {
+      throw new Exception(format_string("Previous message not found."));
+    }
+
+    $id = key($result['message']);
+    $message = message_load($id);
+    // Changing timestamp of the previous message to earlier (minus current time).
+    $message->timestamp = strtotime('now - ' . $time);
+    $message->save();
+
+    $node = node_load($nid);
+    // Changing the current node title.
+    $node->title = $new_title;
+    node_save($node);
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
+    // Generate URL from title.
+    $url = str_replace(' ', '-', strtolower(trim($group)));
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "group/' . $url . '"');
+
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should not be allowed to create a "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToCreateA($type) {
+
+    return array(
+      new Step\When('I go to "node/add/'.$type.'"'),
+      new Step\Then('the response status code should be 403'),
+    );
+  }
+
+  /**
+   * @Then /^I should be allowed to create a "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToCreateA($type) {
+
+    return array(
+      new Step\When('I go to "node/add/'.$type.'"'),
+      new Step\Then('the response status code should be 200'),
+    );
+  }
+
+  /**
+   * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
+    // Generate URL from title.
+    $url = str_replace(' ', '-', strtolower(trim($group)));
+
+    $steps = array();
+
+    $steps[] = new Step\When('I visit "group/' . $url . '"');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
+    // Generate URL from title.
+    $url = str_replace(' ', '-', strtolower(trim($group)));
+
+    $steps = array();
+
+    $steps[] = new Step\When('I visit "group/' . $url . '"');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I visit the dashboard of group "([^"]*)"$/
+   */
+  public function iVisitTheDashboardOfGroup($title) {
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'group')
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+      );
+      throw new Exception(format_string("Group @title not found.", $params));
+    }
+
+    $gid = (int) key($result['node']);
+    $purl = array(
+      'provider' => "og_purl|node",
+      'id' => $gid,
+    );
+    $url = ltrim(url('<front>', array('purl' => $purl)), '/');
+
+    return new Given("I go to \"$url\"");
+  }
+
+  /**
+   * @Then /^I should see the group dashboard$/
+   */
+  public function iShouldSeeTheGroupDashboard() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('Group menu item "Home" should be active');
+    $steps[] = new Step\When('I should see the Quick Post form');
+    $steps[] = new Step\When('I should see the Activity stream');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^Group menu item "([^"]*)" should be active$/
+   */
+  public function groupMenuItemShouldBeActive($label) {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '#block-menu-menu-group-menu a.active');
+    if ($el === null) {
+      throw new Exception('The group menu has no active items.');
+    }
+
+    if ($el->getText() !== $label) {
+      $params = array('@label' => $label);
+      throw new Exception(format_string('Active menu item is not "@label".', $params));
+    }
+  }
+
+  /**
+   * @Given /^I should see the Quick Post form$/
+   */
+  public function iShouldSeeTheQuickPostForm() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.pane-quick-form');
+    if ($el === null) {
+      throw new Exception('The Quick Post pane is not visible.');
+    }
+  }
+
+  /**
+   * @Given /^I should see the Activity stream$/
+   */
+  public function iShouldSeeTheActivityStream() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.view-group-activity-stream');
+    if ($el === null) {
+      throw new Exception('The Quick Post pane is not visible.');
+    }
   }
 }
