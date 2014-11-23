@@ -6,8 +6,7 @@ Feature: Test quick post
   @javascript
   Scenario: Check Quick post error validation.
     Given I am logged in as user "mariecurie"
-    When  I visit "Tennis Group" node of type "group"
-    And   I fill in "label" with "fo"
+    When  I fill label with "fo" in "Tennis Group"
     Then  I should see "Title is too short."
 
   @javascript

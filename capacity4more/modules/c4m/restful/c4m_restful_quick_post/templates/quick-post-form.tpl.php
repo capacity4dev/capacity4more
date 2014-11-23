@@ -215,12 +215,12 @@
   <div class="messages" ng-show="debug == 0">
     <div ng-show="serverSide.status == 200">
       <div class="alert alert-success">
-        <?php print t('The {{ resources[selectedResource].bundle }} was saved successfully.') ?>
+        <?php print t('The {{ resources[createdResource].bundle }} was saved successfully.') ?>
       </div>
     </div>
     <div ng-show="serverSide.status > 0 && serverSide.status != 200">
       <div class="alert alert-danger">
-        <?php print t('Error saving {{ resources[selectedResource].bundle }}.') ?>
+        <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
       </div>
     </div>
   </div>
