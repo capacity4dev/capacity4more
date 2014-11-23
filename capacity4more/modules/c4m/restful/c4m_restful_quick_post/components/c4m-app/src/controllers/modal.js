@@ -13,37 +13,7 @@ angular.module('c4mApp')
 
     $scope.selectedResource = Object.keys($scope.resources)[0];
 
-    $scope.referenceValues = {};
-
-    $scope.errors = {};
-
-    $scope.serverSide = {
-      status: 0,
-      data: {}
-    };
-
-    $scope.tagsQueryCache = [];
-
-    // Date Calendar options.
-    $scope.minDate = new Date();
-
-    $scope.startOpened = false;
-
-    $scope.endOpened = false;
-
-
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1
-    };
-
-    $scope.format = 'dd/MM/yyyy';
-
-    // Time picker options.
-    // Hour step.
-    $scope.hstep = 1;
-    // Minute step.
-    $scope.mstep = 1;
+    $scope = ModalService.setDefaults($scope);
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -69,44 +39,11 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     prepareData();
 
-    // Set "Start a Debate" as default discussion type.
-    $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) ? 'debate' : $scope.data.discussion_type;
+    $scope = ModalService.formatData($scope);
 
-    // Set "Event" as default event type.
-    $scope.data.event_type = 'event';
-
-    // Prepare all the taxonomy-terms to be a tree object.
-    angular.forEach($scope.referenceValues, function (data, field) {
-      var parent = 0;
-      $scope[field] = {};
-      angular.forEach($scope.referenceValues[field], function (label, id) {
-        if(label.indexOf('-')) {
-          parent = id;
-          $scope[field][id] = {
-            id: id,
-            label: label,
-            children: []
-          };
-        }
-        else {
-          if (parent > 0) {
-            $scope[field][parent]['children'].push({
-              id: id,
-              label: label.replace('-','')
-            });
-          }
-        }
-      });
-    });
-
-    /**
-     * Display the fields upon clicking on the label field.
-     */
-    $scope.showFields = function () {
-      if (!$scope.selectedResource) {
-        $scope.selectedResource = 'discussions';
-      }
-    };
+    $scope.showFields = function() {
+      ModalService.showFields($scope);
+    }
 
     /**
      * Get matching tags.
@@ -114,42 +51,10 @@ angular.module('c4mApp')
      * @param query
      *   The query string.
      */
-    $scope.tagsQuery = function (query) {
-      var group = {id: $scope.data.group};
-      var url = $scope.basePath + 'api/tags';
-      var terms = {results: []};
-
-      var lowerCaseTerm = query.term.toLowerCase();
-      if (angular.isDefined($scope.tagsQueryCache[lowerCaseTerm])) {
-        // Add caching.
-        terms.results = $scope.tagsQueryCache[lowerCaseTerm];
-        query.callback(terms);
-        return;
-      }
-
-      $http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
-        .success(function(data) {
-          if (data.data.length == 0) {
-            terms.results.push({
-              text: query.term,
-              id: query.term,
-              isNew: true
-            });
-          }
-          else {
-            angular.forEach(data.data, function (label, id) {
-              terms.results.push({
-                text: label,
-                id: id,
-                isNew: false
-              });
-            });
-            $scope.tagsQueryCache[lowerCaseTerm] = terms;
-          }
-
-          query.callback(terms);
-        });
+    $scope.tagsQuery = function () {
+      ModalService.tagsQuery(query, scope);
     };
+
 
     /**
      * Called by the directive "bundle-select",
@@ -162,14 +67,7 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.updateResource = function(resource, event) {
-      // Get element clicked in the event.
-      var element = angular.element(event.srcElement);
-      // Remove class "active" from all elements.
-      angular.element( ".bundle-select" ).removeClass( "active" );
-      // Add class "active" to clicked element.
-      element.addClass( "active" );
-      // Update Bundle.
-      $scope.selectedResource = resource;
+      $scope.selectedResource = ModalService.updateResource(resource, event);
     };
 
     /**
@@ -186,14 +84,7 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.updateType = function(type, field, event) {
-      // Get element clicked in the event.
-      var element = angular.element(event.srcElement);
-      // Remove class "active" from all elements.
-      angular.element( "." + field ).removeClass( "active" );
-      // Add class "active" to clicked element.
-      element.addClass( "active" );
-      // Update Bundle.
-      $scope.data[field] = type;
+      ModalService.updateType(type, field, event, $scope);
     };
 
     /**
@@ -206,34 +97,15 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.togglePopover = function(name, event) {
-      // Hide all the other pop-overs, Except the one the user clicked on.
-      angular.forEach($scope.popups, function (value, key) {
-        if (name != key) {
-          this[key] = 0;
-        }
-      }, $scope.popups);
-      // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.srcElement).outerWidth();
-      // Toggle the visibility variable.
-      $scope.popups[name] = $scope.popups[name] == 0 ? 1 : 0;
-      // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', elem_width);
+      ModalService.togglePopover(name, event, $scope);
     };
 
     /**
      * Close all popovers on "ESC" key press.
      */
     $scope.keyUpHandler = function(keyEvent) {
-      if(keyEvent.which == 27) {
-        angular.forEach($scope.popups, function (value, key) {
-          this[key] = 0;
-          // Re-Bind the JS with the HTML with "digest".
-          $scope.$digest();
-        }, $scope.popups);
-      }
+      ModalService.keyUpHandler(keyEvent, $scope);
     };
-    // Call the keyUpHandler function on key-up.
-//    $document.on('keyup', $scope.keyUpHandler);
 
     /**
      * Submit form.
@@ -284,14 +156,6 @@ angular.module('c4mApp')
           prepareData();
         });
     };
-
-    /**
-     * Opens the system's file browser.
-     */
-    $scope.browseFiles = function() {
-      angular.element('#document_file').click();
-    };
-
 
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');

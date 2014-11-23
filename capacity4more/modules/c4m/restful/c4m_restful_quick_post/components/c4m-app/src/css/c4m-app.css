@@ -104,3 +104,11 @@ ul, ol {
   width: 100%;
   margin-top: 20px;
 }
+
+.modal-content {
+  padding: 10px;
+}
+
+.modal-content .actions {
+  padding-bottom: 30px;
+}
