@@ -163,7 +163,9 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'absolute' => TRUE,
   );
 
-  unset($entity_fields['related_document']);
+  if (!$entity_fields['related_document']) {
+    unset($entity_fields['related_document']);
+  }
 
   // Pass info via Drupal.settings.
   $settings['c4m'] = array(

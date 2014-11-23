@@ -54,7 +54,7 @@ angular.module('c4mApp')
               }
             }, submitData);
             // The group field should have one value.
-            if (field == 'group') {
+            if (field == 'group' || field == 'related_document') {
               submitData[field] = values;
             }
           }

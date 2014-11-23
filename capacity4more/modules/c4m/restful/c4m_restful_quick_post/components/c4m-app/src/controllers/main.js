@@ -354,8 +354,8 @@ angular.module('c4mApp')
                 }
               });
 
-              modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
+              modalInstance.result.then(function (documentId) {
+                $scope.data.related_document.push(documentId);
               });
             };
 

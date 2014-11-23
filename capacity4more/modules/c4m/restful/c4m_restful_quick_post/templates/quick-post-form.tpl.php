@@ -435,8 +435,6 @@
         </div>
       </div>
     </script>
-
-    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
   </div>
 
 </div>
