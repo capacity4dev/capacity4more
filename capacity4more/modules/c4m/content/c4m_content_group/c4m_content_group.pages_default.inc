@@ -82,29 +82,6 @@ function c4m_content_group_default_page_manager_handlers() {
     $pane->uuid = '77fa710c-3cb0-468f-bab6-17badd6c5ed2';
     $display->content['new-77fa710c-3cb0-468f-bab6-17badd6c5ed2'] = $pane;
     $display->panels['left'][0] = 'new-77fa710c-3cb0-468f-bab6-17badd6c5ed2';
-    $pane = new stdClass();
-    $pane->pid = 'new-b20c6ad2-71fc-4e27-b691-0b48096b5dc3';
-    $pane->panel = 'left';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'group_activity_stream-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'b20c6ad2-71fc-4e27-b691-0b48096b5dc3';
-    $display->content['new-b20c6ad2-71fc-4e27-b691-0b48096b5dc3'] = $pane;
-    $display->panels['left'][1] = 'new-b20c6ad2-71fc-4e27-b691-0b48096b5dc3';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
