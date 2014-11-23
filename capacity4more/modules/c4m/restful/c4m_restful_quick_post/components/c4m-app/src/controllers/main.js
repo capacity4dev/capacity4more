@@ -51,6 +51,14 @@ angular.module('c4mApp')
     // Minute step.
     $scope.mstep = 1;
 
+
+    $scope.stream = {
+      loadTimestamp: new Date().getTime() / 1000,
+      newActivity: '',
+      data: {},
+      status: 0
+    };
+
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
      * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
@@ -123,7 +131,7 @@ angular.module('c4mApp')
         return;
       }
 
-      $http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
+      $http.get(url + '?autocomplete[string]=' + query.term + '&group=' + group.id)
       .success(function(data) {
         if (data.data.length == 0) {
           terms.results.push({
@@ -282,13 +290,28 @@ angular.module('c4mApp')
           $scope.serverSide.status = status;
           $scope.createdResource = $scope.selectedResource;
           $scope.selectedResource = '';
-          prepareData();
+
+          var streamData = {};
+          streamData.group = submitData.group;
+          streamData.created = $scope.stream.loadTimestamp;
+          EntityResource.updateStream(streamData)
+            .success( function (data, status) {
+              $scope.stream = {
+                data: data,
+                newActivity: data.data[0].html,
+                status: status,
+                loadTimestamp: new Date().getTime() / 1000
+              };
+
+              jQuery('body').scrollTop(100);
+              angular.element('#new-activity').html($scope.stream.newActivity);
+              jQuery('#new-activity').toggle("highlight");
+            })
         }
       })
       .error( function (data, status) {
         $scope.serverSide.data = data;
         $scope.serverSide.status = status;
-        prepareData();
       });
     };
 

@@ -156,8 +156,8 @@ projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
 projects[restful][download][type] = "git"
-projects[restful][download][url] = "https://github.com/Gizra/restful.git"
-projects[restful][download][branch] = 7.x-1.x
+projects[restful][download][url] = "https://github.com/nader77/restful.git"
+projects[restful][download][branch] = multiple_entity_view
 projects[restful][subdir] = "contrib"
 projects[restful][type] = "module"
 

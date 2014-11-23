@@ -33,10 +33,21 @@ angular.module('c4mApp')
         data: data,
         transformRequest: Request.prepare,
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": 'application/x-www-form-urlencoded',
           "X-CSRF-Token": DrupalSettings.getCsrfToken()
         },
         withCredentials: true
       });
-    }
+    };
+
+    this.updateStream = function(data) {
+      var config = {
+        withCredentials: true,
+        headers: {
+          "X-CSRF-Token": DrupalSettings.getCsrfToken()
+        }
+      };
+
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-id&filter[created][value]=' + data.created + '&filter[created][operator]=">"&html=1', config);
+    };
   });

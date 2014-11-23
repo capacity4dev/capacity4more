@@ -187,10 +187,16 @@
         <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
       </div>
 
-      <div class="actions">
-        <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
-        <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
-        <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+      <div class="actions row">
+        <div class="col-md-2">
+          <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
+        </div>
+        <div class="col-md-3">
+          <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
+        </div>
+        <div class="col-md-2 col-md-offset-5">
+          <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+        </div>
       </div>
     </div>
   </form>
@@ -212,13 +218,16 @@
     </div>
   </div>
   <br/>
-  <div class="messages" ng-show="debug == 0">
+  <div>
     <div ng-show="serverSide.status == 200">
-      <div class="alert alert-success">
-        <?php print t('The {{ resources[createdResource].bundle }} was saved successfully.') ?>
+      <div ng-show="stream.status == 200" id="new-activity"></div>
+      <div ng-show="stream.status > 0 && stream.status != 200" class="messages">
+        <div class="alert alert-danger">
+          <?php print t('Error loading activity stream.') ?>
+        </div>
       </div>
     </div>
-    <div ng-show="serverSide.status > 0 && serverSide.status != 200">
+    <div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
       <div class="alert alert-danger">
         <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
       </div>

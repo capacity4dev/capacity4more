@@ -91,6 +91,11 @@ function c4m_restful_quick_post_form($node) {
   // Font-awesome library.
   drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
 
+  // jQuery UI effects.
+  drupal_add_js($bower_path . '/jquery.ui/ui/effect.js');
+  drupal_add_js($bower_path . '/jquery.ui/ui/effect-highlight.js');
+
+
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');

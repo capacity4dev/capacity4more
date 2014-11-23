@@ -5,7 +5,53 @@
  * Contains C4mRestfulActivityStreamResource.
  */
 
-class C4mRestfulActivityStreamResource extends RestfulEntityBaseMultipleBundles {
+class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles {
 
-  
+  /**
+   * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
+   */
+  public function publicFieldsInfo() {
+    $public_fields = parent::publicFieldsInfo();
+
+    $public_fields['created'] = array(
+      'property' => 'timestamp',
+    );
+
+    return $public_fields;
+  }
+
+  /**
+   * Overrides \RestfulEntityBaseNode::viewEntity().
+   *
+   * Adds the message HTML to the resource.
+   */
+  public function viewEntity($entity_id) {
+    $request = $this->getRequest();
+
+    $return = parent::viewEntity($entity_id);
+    if (!empty($request['html'])) {
+      $message = message_load($entity_id);
+      $output = $message->buildContent('activity_stream');
+      $return['html'] = drupal_render($output);
+    }
+
+    return $return;
+  }
+
+  /**
+   * Overrides \RestfulEntityBaseMultipleBundles::getQueryForList().
+   *
+   * Adds group filter to the list.
+   */
+  public function getQueryForList() {
+    $request = $this->getRequest();
+
+    $query = parent::getQueryForList();
+
+    if (!empty($request['group']) && intval($request['group'])) {
+      $query->fieldCondition('field_group_node', 'target_id', $request['group']);
+    }
+
+    return $query;
+  }
 }
