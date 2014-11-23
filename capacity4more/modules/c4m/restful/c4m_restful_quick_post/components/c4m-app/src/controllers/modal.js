@@ -1,5 +1,5 @@
 angular.module('c4mApp')
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, Request, EntityResource, getScope, ModalService) {
+  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, Request, EntityResource, getScope, ModalService, QuickPostService) {
 
     $scope = ModalService.getModalObject($scope, getScope);
 
@@ -13,7 +13,7 @@ angular.module('c4mApp')
 
     $scope.selectedResource = Object.keys($scope.resources)[0];
 
-    $scope = ModalService.setDefaults($scope);
+    $scope = QuickPostService.setDefaults($scope);
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -39,10 +39,10 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     prepareData();
 
-    $scope = ModalService.formatData($scope);
+    $scope = QuickPostService.formatData($scope);
 
     $scope.showFields = function() {
-      ModalService.showFields($scope);
+      QuickPostService.showFields($scope);
     }
 
     /**
@@ -52,7 +52,7 @@ angular.module('c4mApp')
      *   The query string.
      */
     $scope.tagsQuery = function () {
-      ModalService.tagsQuery(query, scope);
+      QuickPostService.tagsQuery(query, scope);
     };
 
 
@@ -67,7 +67,7 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.updateResource = function(resource, event) {
-      $scope.selectedResource = ModalService.updateResource(resource, event);
+      $scope.selectedResource = QuickPostService.updateResource(resource, event);
     };
 
     /**
@@ -75,6 +75,7 @@ angular.module('c4mApp')
      * Updates the type of the selected resource.
      *
      * @param type
+     *
      *  The type.
 
      * @param field
@@ -84,7 +85,7 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.updateType = function(type, field, event) {
-      ModalService.updateType(type, field, event, $scope);
+      QuickPostService.updateType(type, field, event, $scope);
     };
 
     /**
@@ -97,14 +98,14 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.togglePopover = function(name, event) {
-      ModalService.togglePopover(name, event, $scope);
+      QuickPostService.togglePopover(name, event, $scope);
     };
 
     /**
      * Close all popovers on "ESC" key press.
      */
     $scope.keyUpHandler = function(keyEvent) {
-      ModalService.keyUpHandler(keyEvent, $scope);
+      QuickPostService.keyUpHandler(keyEvent, $scope);
     };
 
     /**

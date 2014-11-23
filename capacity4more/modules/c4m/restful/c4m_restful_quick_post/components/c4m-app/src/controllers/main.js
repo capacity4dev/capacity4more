@@ -1,18 +1,15 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload, $modal, ModalService) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload, $modal, QuickPostService) {
 
     $scope.data = DrupalSettings.getData('entity');
 
-    //Checking if this is full form or not.
+    // Checking if this is full form or not.
     $scope.fullForm = DrupalSettings.getData('full_form');
 
     //Getting node id if we are editing node.
-    $scope.nid = $scope.data.nid;
-
-    //Getting group purl
-    $scope.groupPurl = DrupalSettings.getData('group_purl');
+    $scope.id = $scope.data.entityId;
 
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
@@ -30,7 +27,7 @@ angular.module('c4mApp')
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
-    $scope = ModalService.setDefaults($scope);
+    $scope = QuickPostService.setDefaults($scope);
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -50,9 +47,12 @@ angular.module('c4mApp')
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
           if (!$scope.data[field]) {
+            // Field is empty.
             $scope.data[field] = {};
           }
           else {
+            // Field has value and this is not a discussion or event type field,
+            // which is actually not an object.
             if (field != 'discussion_type' && field != 'event_type') {
               var obj = {};
               angular.forEach($scope.data[field], function (value, key) {
@@ -68,10 +68,11 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     prepareData();
 
-    $scope = ModalService.formatData($scope);
+
+    $scope = QuickPostService.formatData($scope);
 
     $scope.showFields = function() {
-      ModalService.showFields($scope);
+      QuickPostService.showFields($scope);
     }
 
     /**
@@ -81,7 +82,7 @@ angular.module('c4mApp')
      *   The query string.
      */
     $scope.tagsQuery = function () {
-      ModalService.tagsQuery(query, scope);
+      QuickPostService.tagsQuery(query, scope);
     };
 
 
@@ -96,7 +97,7 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.updateResource = function(resource, event) {
-      $scope.selectedResource = ModalService.updateResource(resource, event);
+      $scope.selectedResource = QuickPostService.updateResource(resource, event);
     };
 
     /**
@@ -113,7 +114,7 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.updateType = function(type, field, event) {
-      ModalService.updateType(type, field, event, $scope);
+      QuickPostService.updateType(type, field, event, $scope);
     };
 
     /**
@@ -126,14 +127,14 @@ angular.module('c4mApp')
      *    The click event.
      */
     $scope.togglePopover = function(name, event) {
-      ModalService.togglePopover(name, event, $scope);
+      QuickPostService.togglePopover(name, event, $scope);
     };
 
     /**
      * Close all popovers on "ESC" key press.
      */
     $scope.keyUpHandler = function(keyEvent) {
-      ModalService.keyUpHandler(keyEvent, $scope);
+      QuickPostService.keyUpHandler(keyEvent, $scope);
     };
 
     // Call the keyUpHandler function on key-up.
@@ -177,7 +178,7 @@ angular.module('c4mApp')
       }
 
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource, resourceFields, $scope.nid)
+      EntityResource.createEntity(submitData, resource, resourceFields, $scope.id)
       .success( function (data, status) {
         // If requested to create in full form, Redirect user to the edit page.
         if(type == 'full_form') {
