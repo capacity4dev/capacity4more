@@ -6,7 +6,7 @@
 $plugin = array(
   'title' => t('Quick post form'),
   'description' => t('Renders Quick Post form.'),
-  'required context' => new ctools_context_required(t('Node'), 'node'),
+  'required context' => new ctools_context_required(t('Group'), 'og_context'),
   'category' => t('C4M'),
 );
 

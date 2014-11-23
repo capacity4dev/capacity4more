@@ -33,12 +33,17 @@ function c4m_search_default_search_api_index() {
           "weight" : "-10",
           "settings" : { "default" : "1", "bundles" : { "minisite" : "minisite" } }
         },
-        "search_api_alter_node_access" : { "status" : 1, "weight" : "0", "settings" : [] },
         "search_api_alter_node_status" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_attachments_alter_settings" : {
+          "status" : 1,
+          "weight" : "0",
+          "settings" : { "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv" }
+        },
+        "search_api_alter_node_access" : { "status" : 1, "weight" : "0", "settings" : [] },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
         "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] }
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } }
       },
       "processors" : {
         "search_api_case_ignore" : {
@@ -140,6 +145,7 @@ function c4m_search_default_search_api_index() {
         }
       },
       "fields" : {
+        "attachments_c4m_document" : { "type" : "text" },
         "author" : { "type" : "integer", "entity_type" : "user" },
         "body:value" : { "type" : "text" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
