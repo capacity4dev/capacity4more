@@ -20,6 +20,8 @@ angular.module('c4mApp')
     };
     
     this.setDefaults = function(scope) {
+      scope.documentName = '';
+
       scope.referenceValues = {};
 
       scope.errors = {};

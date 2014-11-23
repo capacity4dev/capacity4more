@@ -230,8 +230,9 @@ angular.module('c4mApp')
                 }
               });
 
-              modalInstance.result.then(function (documentId) {
-                $scope.data.related_document.push(documentId);
+              modalInstance.result.then(function (document) {
+                $scope.data.related_document.push(document.id);
+                $scope.documentName = document.name;
               });
             };
 

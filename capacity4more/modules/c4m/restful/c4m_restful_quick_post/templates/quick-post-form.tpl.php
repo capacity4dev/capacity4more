@@ -117,7 +117,12 @@
 
           <div ng-show="serverSide.file.status == 200">
             <div class="alert alert-success">
-              <?php print t('The document "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
+              <?php print t('The file "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
+            </div>
+          </div>
+          <div ng-show="documentName!=''">
+            <div class="alert alert-success">
+              <?php print t('The document "{{ documentName }}" was saved successfully.') ?>
             </div>
           </div>
         </div>
