@@ -62,18 +62,6 @@ angular.module('c4mApp')
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
-          if (!$scope.data[field]) {
-            $scope.data[field] = {};
-          }
-          else {
-            if (field != 'discussion_type' && field != 'event_type') {
-              var obj = {};
-              angular.forEach($scope.data[field], function (value, key) {
-                obj[value] = true;
-              });
-              $scope.data[field] = obj;
-            }
-          }
         }
       });
     }
