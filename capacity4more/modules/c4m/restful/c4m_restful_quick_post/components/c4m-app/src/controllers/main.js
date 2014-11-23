@@ -68,7 +68,6 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     prepareData();
 
-
     $scope = QuickPostService.formatData($scope);
 
     $scope.showFields = function() {
@@ -92,7 +91,6 @@ angular.module('c4mApp')
      *
      * @param resource
      *  The resource name.
-     *
      *  @param event
      *    The click event.
      */
@@ -101,15 +99,14 @@ angular.module('c4mApp')
     };
 
     /**
-     * Called by the directive "types",
+     * Called by the directive "types".
+     *
      * Updates the type of the selected resource.
      *
      * @param type
      *  The type.
-
      * @param field
      *  The name of the field.
-     *
      *  @param event
      *    The click event.
      */
@@ -122,7 +119,6 @@ angular.module('c4mApp')
      *
      * @param name
      *  The name of the pop-over.
-     *
      *  @param event
      *    The click event.
      */
@@ -145,10 +141,8 @@ angular.module('c4mApp')
      *
      *  @param data
      *    The submitted data.
-     *
      *  @param resource
      *    The bundle of the node submitted.
-     *
      *  @param type
      *    The type of the submission.
      */
