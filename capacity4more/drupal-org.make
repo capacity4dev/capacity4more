@@ -155,6 +155,7 @@ projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
+# @TODO: Change the branch when this change is merged.
 projects[restful][download][type] = "git"
 projects[restful][download][url] = "https://github.com/nader77/restful.git"
 projects[restful][download][branch] = multiple_entity_view

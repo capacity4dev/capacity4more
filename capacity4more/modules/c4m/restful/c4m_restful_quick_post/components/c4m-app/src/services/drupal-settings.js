@@ -33,6 +33,13 @@ angular.module('c4mApp')
     };
 
     /**
+     * Get the resources of the quick post.
+     */
+    this.getActivities = function() {
+      return (angular.isDefined(self.settings.c4m.activities)) ? self.settings.c4m.activities : undefined;
+    };
+
+    /**
      * Get the base path of the Drupal installation.
      */
     this.getCsrfToken = function() {

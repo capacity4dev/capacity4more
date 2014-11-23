@@ -201,6 +201,7 @@
     </div>
   </form>
 
+  <!-- Debug -->
   <div ng-show="debug">
     <h2>Console (Server side)</h2>
     <div ng-show="serverSide.status == 200" class="create-success">
@@ -217,20 +218,24 @@
       </div>
     </div>
   </div>
-  <br/>
-  <div>
-    <div ng-show="serverSide.status == 200">
-      <div ng-show="stream.status == 200" id="new-activity"></div>
-      <div ng-show="stream.status > 0 && stream.status != 200" class="messages">
-        <div class="alert alert-danger">
-          <?php print t('Error loading activity stream.') ?>
-        </div>
+  <!-- End debug -->
+
+  <div class="activity-stream">
+    <!-- Display an error if we can't update the activity stream-->
+    <div ng-show="stream.status > 0 && stream.status != 200" class="messages">
+      <div class="alert alert-danger">
+        <?php print t('Error loading activity stream.') ?>
       </div>
     </div>
+    <!-- Display an error if we can't save an entity-->
     <div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
       <div class="alert alert-danger">
         <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
       </div>
+    </div>
+    <!-- The activity stream-->
+    <div ng-repeat="activity in activities">
+      <div ng-bind-html="activity.html" id="activity-{{activity.id}}"></div>
     </div>
   </div>
 </div>

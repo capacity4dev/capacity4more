@@ -16,4 +16,6 @@ $plugin = array(
   ),
   'description' => t('Expose the "Activity stream" resource.'),
   'class' => 'C4mRestfulActivityStreamResource',
+  'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

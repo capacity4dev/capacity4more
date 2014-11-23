@@ -31,7 +31,7 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
     $return = parent::viewEntity($entity_id);
     if (!empty($request['html'])) {
       $message = message_load($entity_id);
-      $output = $message->buildContent('activity_stream');
+      $output = $message->view('activity_stream');
       $return['html'] = drupal_render($output);
     }
 
@@ -50,6 +50,10 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
 
     if (!empty($request['group']) && intval($request['group'])) {
       $query->fieldCondition('field_group_node', 'target_id', $request['group']);
+    }
+
+    if (!empty($request['range']) && intval($request['range'])) {
+      $query->range(0, $request['range']);
     }
 
     return $query;

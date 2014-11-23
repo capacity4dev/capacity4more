@@ -40,6 +40,15 @@ angular.module('c4mApp')
       });
     };
 
+    /**
+     * Update the activity stream.
+     *
+     * @param data
+     *  The stream data.
+     *
+     * @returns {*}
+     *  JSON of the updated activity stream.
+     */
     this.updateStream = function(data) {
       var config = {
         withCredentials: true,

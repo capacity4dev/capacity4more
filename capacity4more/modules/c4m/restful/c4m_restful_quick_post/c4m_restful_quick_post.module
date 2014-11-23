@@ -122,6 +122,17 @@ function c4m_restful_quick_post_form($node) {
     }
   }
 
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'group' => $node,
+    'html' => true,
+    'range' => 20,
+    'sort' => '-id',
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
+
   // The quick post debugger.
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
   $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
@@ -141,6 +152,7 @@ function c4m_restful_quick_post_form($node) {
     'resources' => $resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
+    'activities' => $activities,
     'data' => array(
       'entity' => $entity_fields,
     ),
