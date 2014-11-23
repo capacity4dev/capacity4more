@@ -209,6 +209,7 @@ angular.module('c4mApp')
         var file = $files[i];
         FileUpload.upload(file).then(function(data) {
           $scope.data.document = data.data.data[0].id;
+          $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
 
           if ($scope.fullForm && $scope.selectedResource == 'discussions') {

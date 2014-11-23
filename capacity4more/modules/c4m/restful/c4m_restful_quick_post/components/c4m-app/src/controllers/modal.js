@@ -6,7 +6,7 @@ angular.module('c4mApp')
     //Checking if this is full form or not.
     $scope.fullForm = true;
 
-    $scope.fileName = $scope.data.document;
+    $scope.fileName = $scope.data.fileName;
 
     // Getting the resources information.
     $scope.resources = {'documents' : {bundle: "Document", description: "Add a Document"}};
