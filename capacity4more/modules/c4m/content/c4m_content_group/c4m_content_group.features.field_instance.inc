@@ -160,7 +160,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'c4m_related_group',
-    'label' => 'Related Groups',
+    'label' => 'Subgroup of',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -178,7 +178,7 @@ function c4m_content_group_field_default_field_instances() {
         'path' => '',
         'size' => 60,
       ),
-      'type' => 'entityreference_autocomplete',
+      'type' => 'entityreference_autocomplete_tags',
       'weight' => 10,
     ),
   );
@@ -321,6 +321,52 @@ function c4m_content_group_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_buttons',
       'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'node-group-field_message_to_site_admin'
+  $field_instances['node-group-field_message_to_site_admin'] = array(
+    'bundle' => 'group',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Please provide a rief description of the objectives and the scope of the group.',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 12,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_message_to_site_admin',
+    'label' => 'Message to the site administrator',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 14,
     ),
   );
 
@@ -511,12 +557,14 @@ function c4m_content_group_field_default_field_instances() {
   t('How should membership requests be handled in this Group ?');
   t('Image');
   t('Membership requests');
+  t('Message to the site administrator');
+  t('Please provide a rief description of the objectives and the scope of the group.');
   t('Pluggable node access');
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');
-  t('Related Groups');
   t('Select one or more categories that apply');
   t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
+  t('Subgroup of');
 
   return $field_instances;
 }
