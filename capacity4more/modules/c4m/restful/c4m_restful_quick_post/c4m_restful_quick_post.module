@@ -91,6 +91,11 @@ function c4m_restful_quick_post_form($node) {
   // Font-awesome library.
   drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
 
+  // jQuery UI effects.
+  drupal_add_js($bower_path . '/jquery.ui/ui/effect.js');
+  drupal_add_js($bower_path . '/jquery.ui/ui/effect-highlight.js');
+
+
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
@@ -117,6 +122,17 @@ function c4m_restful_quick_post_form($node) {
     }
   }
 
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'group' => $node,
+    'html' => true,
+    'range' => 20,
+    'sort' => '-id',
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
+
   // The quick post debugger.
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
   $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
@@ -136,6 +152,7 @@ function c4m_restful_quick_post_form($node) {
     'resources' => $resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
+    'activities' => $activities,
     'data' => array(
       'entity' => $entity_fields,
     ),

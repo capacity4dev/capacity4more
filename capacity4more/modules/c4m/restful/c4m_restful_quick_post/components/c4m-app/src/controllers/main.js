@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $interval, $timeout, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -18,6 +18,10 @@ angular.module('c4mApp')
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
     $scope.debug = DrupalSettings.getDebugStatus();
+
+    $scope.rawActivities = DrupalSettings.getActivities();
+
+    $scope.activities = [];
 
     $scope.referenceValues = {};
 
@@ -51,10 +55,54 @@ angular.module('c4mApp')
     // Minute step.
     $scope.mstep = 1;
 
+
+    // Activity stream status, refresh time.
+    $scope.stream = {
+      refreshTimestamp: new Date().getTime() / 1000,
+      data: {},
+      status: 0
+    };
+
+    // refresh rate of the activity stream (60000 is one minute).
+    $scope.refreshRate = 60000;
+
+    /**
+     * Refreshes the activity stream.
+     * The refresh rate is scope.refreshRate.
+     */
+    $interval(function() {
+      var streamData = {};
+      streamData.group = $scope.data.group;
+      streamData.created = $scope.stream.refreshTimestamp;
+      EntityResource.updateStream(streamData)
+      .success( function (data, status) {
+        $scope.stream.refreshTimestamp = new Date().getTime() / 1000;
+
+        if (data) {
+          angular.forEach(data.data, function (activity) {
+            this.splice(0, 0, {
+              id: activity.id,
+              created: activity.created,
+              html: $sce.trustAsHtml(activity.html)
+            });
+          }, $scope.activities);
+        }
+      })
+      .error( function (data, status) {
+        $scope.stream = {
+          data: data,
+          status: status,
+          refreshTimestamp: new Date().getTime() / 1000
+        };
+
+      });
+    }, $scope.refreshRate);
+
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
      * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
      * Set "popups" to 0, as to hide all of the pop-overs on load.
+     * Prepares the activity stream array (We need the html to be trusted).
      */
     function prepareData() {
       $scope.popups = {};
@@ -70,6 +118,14 @@ angular.module('c4mApp')
           $scope.data[field] = {};
         }
       });
+
+      angular.forEach($scope.rawActivities, function (activity) {
+        this.push({
+          id: activity.id,
+          created: activity.created,
+          html: $sce.trustAsHtml(activity.html)
+        });
+      }, $scope.activities);
     }
 
     // Preparing the data for the form.
@@ -123,7 +179,7 @@ angular.module('c4mApp')
         return;
       }
 
-      $http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
+      $http.get(url + '?autocomplete[string]=' + query.term + '&group=' + group.id)
       .success(function(data) {
         if (data.data.length == 0) {
           terms.results.push({
@@ -280,15 +336,51 @@ angular.module('c4mApp')
         else {
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
-          $scope.createdResource = $scope.selectedResource;
-          $scope.selectedResource = '';
-          prepareData();
+
+          // Request the new activity.
+          var streamData = {};
+          streamData.group = submitData.group;
+          streamData.created = $scope.stream.refreshTimestamp;
+          EntityResource.updateStream(streamData)
+          .success( function (data, status) {
+            $scope.stream = {
+              data: data,
+              status: status,
+              refreshTimestamp: new Date().getTime() / 1000
+            };
+
+            // Scroll to the top of the page.
+            jQuery('body').scrollTop(300);
+
+            // Push the new activity to the activities array.
+            angular.forEach(data.data, function (activity) {
+              this.splice(0, 0, {
+                id: activity.id,
+                created: activity.created,
+                html: $sce.trustAsHtml(activity.html)
+              });
+
+              // Highlight the newly added activity.
+              $timeout(function() {
+                jQuery('#activity-' + activity.id).effect( "highlight", {}, 10000 );
+              }, 10);
+            }, $scope.activities);
+
+            // Hide the quick-post form.
+            $scope.selectedResource = '';
+          })
+          .error( function (data, status) {
+            $scope.stream = {
+              data: data,
+              status: status,
+              refreshTimestamp: new Date().getTime() / 1000
+            };
+          });
         }
       })
       .error( function (data, status) {
         $scope.serverSide.data = data;
         $scope.serverSide.status = status;
-        prepareData();
       });
     };
 

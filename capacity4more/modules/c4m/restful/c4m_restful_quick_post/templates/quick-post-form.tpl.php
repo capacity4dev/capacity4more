@@ -187,14 +187,21 @@
         <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
       </div>
 
-      <div class="actions">
-        <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
-        <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
-        <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+      <div class="actions row">
+        <div class="col-md-2">
+          <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
+        </div>
+        <div class="col-md-3">
+          <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
+        </div>
+        <div class="col-md-2 col-md-offset-5">
+          <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+        </div>
       </div>
     </div>
   </form>
 
+  <!-- Debug -->
   <div ng-show="debug">
     <h2>Console (Server side)</h2>
     <div ng-show="serverSide.status == 200" class="create-success">
@@ -211,17 +218,24 @@
       </div>
     </div>
   </div>
-  <br/>
-  <div class="messages" ng-show="debug == 0">
-    <div ng-show="serverSide.status == 200">
-      <div class="alert alert-success">
-        <?php print t('The {{ resources[createdResource].bundle }} was saved successfully.') ?>
+  <!-- End debug -->
+
+  <div class="activity-stream">
+    <!-- Display an error if we can't update the activity stream-->
+    <div ng-show="stream.status > 0 && stream.status != 200" class="messages">
+      <div class="alert alert-danger">
+        <?php print t('Error loading activity stream.') ?>
       </div>
     </div>
-    <div ng-show="serverSide.status > 0 && serverSide.status != 200">
+    <!-- Display an error if we can't save an entity-->
+    <div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
       <div class="alert alert-danger">
         <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
       </div>
+    </div>
+    <!-- The activity stream-->
+    <div ng-repeat="activity in activities">
+      <div ng-bind-html="activity.html" id="activity-{{activity.id}}"></div>
     </div>
   </div>
 </div>
