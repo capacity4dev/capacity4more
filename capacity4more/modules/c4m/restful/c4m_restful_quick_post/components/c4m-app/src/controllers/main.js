@@ -11,6 +11,9 @@ angular.module('c4mApp')
     // Setting empty default resource.
     $scope.selectedResource = '';
 
+    // Temporary for the success message.
+    $scope.createdResource = '';
+
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
@@ -277,6 +280,7 @@ angular.module('c4mApp')
         else {
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
+          $scope.createdResource = $scope.selectedResource;
           $scope.selectedResource = '';
           prepareData();
         }
