@@ -110,6 +110,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I fill label with "([^"]*)" in "([^"]*)"$/
+   */
+  public function iFillLabelWith($value, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I press the "discussions" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $value . '"');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
@@ -174,6 +186,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Discussion" in the "div#quick-post-fields" element');
 
     return $steps;
   }
@@ -212,6 +226,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Event" in the "div#quick-post-fields" element');
 
     return $steps;
   }

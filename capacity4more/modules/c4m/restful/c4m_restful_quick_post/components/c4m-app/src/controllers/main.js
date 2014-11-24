@@ -11,6 +11,9 @@ angular.module('c4mApp')
     // Setting empty default resource.
     $scope.selectedResource = '';
 
+    // Temporary for the success message.
+    $scope.createdResource = '';
+
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
@@ -100,15 +103,6 @@ angular.module('c4mApp')
         }
       });
     });
-
-    /**
-     * Display the fields upon clicking on the label field.
-     */
-    $scope.showFields = function () {
-      if (!$scope.selectedResource) {
-        $scope.selectedResource = 'discussions';
-      }
-    };
 
     /**
      * Get matching tags.
@@ -286,6 +280,9 @@ angular.module('c4mApp')
         else {
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
+          $scope.createdResource = $scope.selectedResource;
+          // Collapse the form.
+          $scope.selectedResource = '';
           prepareData();
         }
       })

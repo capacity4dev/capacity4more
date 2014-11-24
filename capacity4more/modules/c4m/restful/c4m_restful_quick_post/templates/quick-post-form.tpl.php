@@ -1,47 +1,44 @@
 <div ng-app="c4mApp" ng-controller="MainCtrl">
-  <div class="explanation">
-    <em><?php print t('Quick Post') ?></em>
-  </div>
 
   <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
     <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
 
-    <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
-      <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+    <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
-        <div ng-hide="serverSide.file">
-          <?php print t('Drop file here to upload or'); ?>
-          <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-          <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
-        </div>
+      <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
+        <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
-        <div ng-show="serverSide.file.status == 200">
-          <div class="alert alert-success">
-            <?php print t('The document "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
+          <div ng-hide="serverSide.file">
+            <?php print t('Drop file here to upload or'); ?>
+            <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+            <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+          </div>
+
+          <div ng-show="serverSide.file.status == 200">
+            <div class="alert alert-success">
+              <?php print t('The document "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
+            </div>
           </div>
         </div>
+
+        <div class="errors">
+          <ul ng-show="serverSide.data.errors.image">
+            <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
+          </ul>
+        </div>
+        <p ng-show="errors.document" class="help-block"><?php print t('Document file is required.'); ?></p>
       </div>
 
-      <div class="errors">
-        <ul ng-show="serverSide.data.errors.image">
-          <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
-        </ul>
+      <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+        <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
+        <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
+        <div class="errors">
+          <ul ng-show="serverSide.data.errors.label">
+            <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
+          </ul>
+        </div>
       </div>
-      <p ng-show="errors.document" class="help-block"><?php print t('Document file is required.'); ?></p>
-    </div>
-
-    <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
-      <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
-      <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
-      <div class="errors">
-        <ul ng-show="serverSide.data.errors.label">
-          <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
-        </ul>
-      </div>
-    </div>
-
-    <div ng-show="resources[selectedResource]">
 
       <div ng-show="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
         <label>{{fieldSchema.discussion_type.info.label}}</label>
@@ -218,12 +215,12 @@
   <div class="messages" ng-show="debug == 0">
     <div ng-show="serverSide.status == 200">
       <div class="alert alert-success">
-        <?php print t('The {{ resources[selectedResource].bundle }} was saved successfully.') ?>
+        <?php print t('The {{ resources[createdResource].bundle }} was saved successfully.') ?>
       </div>
     </div>
     <div ng-show="serverSide.status > 0 && serverSide.status != 200">
       <div class="alert alert-danger">
-        <?php print t('Error saving {{ resources[selectedResource].bundle }}.') ?>
+        <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
       </div>
     </div>
   </div>
