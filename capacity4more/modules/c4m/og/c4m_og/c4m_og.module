@@ -209,11 +209,22 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
       libraries_get_path('select2') . '/select2.css',
     ),
     'js' => array(
-      libraries_get_path('select2') . '/select2.min.js',
+      libraries_get_path('select2') . '/select2.js',
       drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
     ),
   );
   $form['c4m_related_projects'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
+  $form['c4m_related_group'][LANGUAGE_NONE]['#attached'] = array(
+    'css' => array(
+      libraries_get_path('select2') . '/select2.css',
+    ),
+    'js' => array(
+      libraries_get_path('select2') . '/select2.js',
+      drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
+    ),
+  );
+  $form['c4m_related_group'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
+
 }
 
 /**
@@ -230,7 +241,7 @@ function c4m_og_select2_widget_after_build($element, &$form_state) {
 
   $setting[] = array(
     'selector' => '#' . $element['#id'],
-    'cardinality' => $element['#cardinality'],
+    'cardinality' => 3,//$element['#cardinality'],
   );
 
   drupal_add_js(array('select2_widget' => $setting), 'setting');
