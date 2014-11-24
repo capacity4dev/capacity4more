@@ -2,6 +2,16 @@
 
   <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
 
+  <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+    <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
+    <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
+    <div class="errors">
+      <ul ng-show="serverSide.data.errors.label">
+        <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
+      </ul>
+    </div>
+  </div>
+
   <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
     <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
@@ -26,16 +36,6 @@
         </ul>
       </div>
       <p ng-show="errors.document" class="help-block"><?php print t('Document file is required.'); ?></p>
-    </div>
-
-    <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
-      <input id="label" class="form-control" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
-      <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
-      <div class="errors">
-        <ul ng-show="serverSide.data.errors.label">
-          <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
-        </ul>
-      </div>
     </div>
 
     <div ng-show="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">

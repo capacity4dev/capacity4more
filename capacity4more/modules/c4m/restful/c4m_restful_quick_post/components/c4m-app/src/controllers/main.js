@@ -173,6 +173,15 @@ angular.module('c4mApp')
     });
 
     /**
+     * Display the fields upon clicking on the label field.
+     */
+    $scope.showFields = function () {
+      if (!$scope.selectedResource) {
+        $scope.selectedResource = 'discussions';
+      }
+    };
+
+    /**
      * Get matching tags.
      *
      * @param query
