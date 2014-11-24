@@ -10,6 +10,76 @@
 function c4m_content_group_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-group-c4m_banner'
+  $field_instances['node-group-c4m_banner'] = array(
+    'bundle' => 'group',
+    'deleted' => 0,
+    'description' => 'Select an image, photo that will be displayed in the header of the group page',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_banner',
+    'label' => 'Banner image',
+    'required' => 1,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allow_replace' => 1,
+        'allowed_schemes' => array(
+          'public' => 'public',
+        ),
+        'allowed_types' => array(
+          'image' => 'image',
+        ),
+        'browser_plugins' => array(),
+        'droppable_area_text' => 'DRAG & DROP',
+        'media_browser' => 0,
+        'multiupload' => 0,
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+        'standard_upload' => 1,
+        'upload_button_text' => 'Upload',
+        'upload_event' => 'auto',
+      ),
+      'type' => 'media_generic',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-group-c4m_body'
   $field_instances['node-group-c4m_body'] = array(
     'bundle' => 'group',
@@ -56,7 +126,7 @@ function c4m_content_group_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -64,7 +134,7 @@ function c4m_content_group_field_default_field_instances() {
   $field_instances['node-group-c4m_media'] = array(
     'bundle' => 'group',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'The image, photo or logo, is used in the group overview page.',
     'display' => array(
       'activity_stream' => array(
         'label' => 'above',
@@ -91,7 +161,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'c4m_media',
-    'label' => 'Image',
+    'label' => 'Thumbnail Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
@@ -179,7 +249,7 @@ function c4m_content_group_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete_tags',
-      'weight' => 10,
+      'weight' => 11,
     ),
   );
 
@@ -230,7 +300,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -273,7 +343,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -366,7 +436,7 @@ function c4m_content_group_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 14,
+      'weight' => 15,
     ),
   );
 
@@ -422,7 +492,7 @@ function c4m_content_group_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 13,
+      'weight' => 14,
     ),
     'widget_type' => 'options_select',
   );
@@ -487,7 +557,7 @@ function c4m_content_group_field_default_field_instances() {
         'og_hide' => TRUE,
       ),
       'type' => 'options_onoff',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -542,12 +612,13 @@ function c4m_content_group_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Banner image');
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
   t('Determine if this is an OG group.');
   t('Group');
@@ -555,16 +626,18 @@ function c4m_content_group_field_default_field_instances() {
   t('Group topics');
   t('Group visibility');
   t('How should membership requests be handled in this Group ?');
-  t('Image');
   t('Membership requests');
   t('Message to the site administrator');
   t('Please provide a rief description of the objectives and the scope of the group.');
   t('Pluggable node access');
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');
+  t('Select an image, photo that will be displayed in the header of the group page');
   t('Select one or more categories that apply');
   t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
   t('Subgroup of');
+  t('The image, photo or logo, is used in the group overview page.');
+  t('Thumbnail Image');
 
   return $field_instances;
 }

@@ -63,13 +63,6 @@ function c4m_og_organisations_info() {
 }
 
 /**
- * Form submittion handler for drafts.
- */
-function c4m_og_same_draft_sumbit_handler($form, &$form_state) {
-  dpm($form_state);
-}
-
-/**
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
@@ -83,17 +76,6 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
 
     // Change submit button on creation.
     $form['actions']['submit']['#value'] = t('Request');
-
-    // Add "Save for later" link.
-    $form['actions']['save_draft'] = array(
-      '#type' => 'submit',
-      '#value' => t('Save for later'),
-      '#weight' => 10,
-      '#submit' => array(
-        'c4m_og_same_draft_sumbit_handler',
-        'node_form_submit',
-      ),
-    );
   }
 
   // Get default domain lists.
@@ -220,9 +202,6 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   // Group visibility field is required even when hidden, so we change it in
   // order to avoid validation errors.
   $form['group_access']['und']['#required'] = FALSE;
-
-  // Hide the draft field.
-  //$form['field_draft']['#access'] = FALSE;
 }
 
 /**
