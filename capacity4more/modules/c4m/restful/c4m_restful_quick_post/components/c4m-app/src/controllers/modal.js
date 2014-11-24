@@ -41,65 +41,36 @@ angular.module('c4mApp')
 
     $scope = QuickPostService.formatData($scope);
 
+    $scope = QuickPostService.formatData($scope);
+
+    // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
       QuickPostService.showFields($scope);
     }
 
-    /**
-     * Get matching tags.
-     *
-     * @param query
-     *   The query string.
-     */
+    // Getting matching tags.
     $scope.tagsQuery = function () {
       QuickPostService.tagsQuery(query, scope);
     };
 
 
-    /**
-     * Called by the directive "bundle-select",
-     * Updates the bundle of the entity to send to the correct API url.
-     *
-     * @param resource
-     *  The resource name.
-     *  @param event
-     *    The click event.
-     */
+
+    // Updates the bundle of the entity to send to the correct API url.
     $scope.updateResource = function(resource, event) {
       $scope.selectedResource = QuickPostService.updateResource(resource, event);
     };
 
-    /**
-     * Called by the directive "types".
-     *
-     * Updates the type of the selected resource.
-     *
-     * @param type
-     *  The type.
-     * @param field
-     *  The name of the field.
-     *  @param event
-     *    The click event.
-     */
+    // Updates the type of the selected resource.
     $scope.updateType = function(type, field, event) {
       QuickPostService.updateType(type, field, event, $scope);
     };
 
-    /**
-     * Toggle the visibility of the popovers.
-     *
-     * @param name
-     *  The name of the pop-over.
-     *  @param event
-     *    The click event.
-     */
+    // Toggle the visibility of the popovers.
     $scope.togglePopover = function(name, event) {
       QuickPostService.togglePopover(name, event, $scope);
     };
 
-    /**
-     * Close all popovers on "ESC" key press.
-     */
+    // Close all popovers on "ESC" key press.
     $scope.keyUpHandler = function(keyEvent) {
       QuickPostService.keyUpHandler(keyEvent, $scope);
     };
@@ -142,9 +113,7 @@ angular.module('c4mApp')
       // Call the create entity function service.
       EntityResource.createEntity(submitData, resource, resourceFields)
         .success( function (data, status) {
-          console.log(data);
-          var document = data.data[0];
-          $modalInstance.close(document);
+          $modalInstance.close(data.data[0]);
         })
         .error( function (data, status) {
           $scope.serverSide.data = data;

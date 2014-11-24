@@ -63,6 +63,7 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
 
   $resource_names = !empty($show_resources) ? array_keys($show_resources) : array_keys($resources);
   if (!empty($show_resources) && array_keys($show_resources)[0] == 'discussions') {
+    // Also need document fields for the discussion.
     $resource_names[] = 'documents';
   }
   $show_resources = !empty($show_resources) ? $show_resources : $resources;
