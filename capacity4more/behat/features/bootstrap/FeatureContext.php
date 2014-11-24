@@ -474,9 +474,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeTheActivityStream() {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', 'div.view-group-activity-stream');
+    $el = $page->find('css', 'div.pane-activity-stream');
     if ($el === null) {
-      throw new Exception('The Quick Post pane is not visible.');
+      throw new Exception('The Activity Stream pane is not visible.');
     }
   }
 }
