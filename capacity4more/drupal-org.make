@@ -226,6 +226,10 @@ libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/414891
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
 
+libraries[select2][type] = "libraries"
+libraries[select2][download][type] = "file"
+libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
+
 ; Themes
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.0"
