@@ -30,6 +30,10 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => t('Type'), // Content type.
     '1nI1X13vjFOCoDtPbNHnLS8h5giilscl' => t('Type of Organisation'),
 
+    // Group vocabularies.
+    'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => t('Categories'),
+    'w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx' => t('Tags'),
+
     // Content type specific.
     'RA7qZWw02okb78IuBysWTadEIVCrCL1b' => t('Type'), // Discussion type.
     '2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH' => t('Type'), // Document type.
