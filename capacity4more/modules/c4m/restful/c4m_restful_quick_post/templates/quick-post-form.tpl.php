@@ -4,7 +4,7 @@
 
     <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
 
-    <div ng-show="resources[selectedResource]">
+    <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
       <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
         <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
