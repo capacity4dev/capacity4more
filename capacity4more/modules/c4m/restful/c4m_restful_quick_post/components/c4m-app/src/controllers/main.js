@@ -63,7 +63,7 @@ angular.module('c4mApp')
     };
 
     // refresh rate of the activity stream (60000 is one minute).
-    $scope.refreshRate = 5000;
+    $scope.refreshRate = 60000;
 
     /**
      * Refreshes the activity stream.

@@ -13,7 +13,7 @@ Feature: Test quick post
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as user "mariecurie"
     When  I create a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis Group"
-    Then  I should see "The Discussion was saved successfully."
+    Then  I should see "New discussion"
 
   @javascript
   Scenario: Check Quick post "event" submit.
