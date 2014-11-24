@@ -91,13 +91,13 @@ function c4m_content_group_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-          0 => 'argument_entity_id:node_1',
-        ),
-      );
+        0 => 'argument_entity_id:node_1',
+      ),
+    );
     $pane->cache = array();
     $pane->style = array(
-        'settings' => NULL,
-      );
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
