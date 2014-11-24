@@ -241,6 +241,25 @@ angular.module('c4mApp')
       }
     };
 
+    $scope.selectDocument = function() {
+
+
+      var modalInstance = $modal.open({
+        templateUrl: 'myModalDocuments.html',
+        controller: 'ModalDocumentsCtrl',
+        resolve: {
+          getScope: function () {
+            return $scope;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (id) {
+        $scope.data.related_document.push(id);
+        document.id = parseInt(id);
+      });
+    };
+
     /**
      * Opens the system's file browser.
      */

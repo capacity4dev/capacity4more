@@ -26,6 +26,7 @@ angular.module('c4mApp')
       scope.fieldSchema = angular.copy(oldScope.fieldSchema, scope.fieldSchema);
       scope.debug = angular.copy(oldScope.debug, scope.debug);
       scope.basePath = angular.copy(oldScope.basePath, scope.basePath);
+      scope.documents = angular.copy(oldScope.documents, scope.documents);
       return scope;
     };
   });

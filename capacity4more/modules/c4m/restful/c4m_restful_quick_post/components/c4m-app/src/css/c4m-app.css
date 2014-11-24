@@ -112,3 +112,7 @@ ul, ol {
 .modal-content .actions {
   padding-bottom: 30px;
 }
+
+.document {
+  border-top: 1px solid #000;
+}
