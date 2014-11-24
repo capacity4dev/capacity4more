@@ -12,7 +12,7 @@
       for (var key in elements) {
         element = elements[key];
 
-        var selector = 'select.' + element.selector;
+        var selector = element.selector;
         var cardinality = element.cardinality;
 
         $(selector).select2({
