@@ -57,8 +57,7 @@ angular.module('c4mApp')
 
     // Activity stream status, refresh time.
     $scope.stream = {
-      refreshTimestamp: new Date().getTime() / 1000,
-      data: {},
+      lastLoadedId: $scope.activities[0].id,
       status: 0
     };
 
@@ -73,29 +72,30 @@ angular.module('c4mApp')
     $scope.refresh = function() {
       var streamData = {};
       streamData.group = $scope.data.group;
-      streamData.created = $scope.stream.refreshTimestamp;
+      streamData.lastId = $scope.stream.lastLoadedId;
       EntityResource.updateStream(streamData)
       .success( function (data, status) {
-        $scope.stream.refreshTimestamp = new Date().getTime() / 1000;
-
         if (data) {
+          // Update the stream status.
+          $scope.stream = {
+            status: status
+          };
           // Count the activities that were fetched.
           var position = 0;
           angular.forEach(data.data, function (activity) {
             this.splice(position, 0, {
               id: activity.id,
-              created: activity.created,
               html: $sce.trustAsHtml(activity.html)
             });
+            // Update the last loaded ID.
+            $scope.stream.lastLoadedId = activity.id;
             position++;
           }, $scope.newActivities);
         }
       })
       .error( function (data, status) {
         $scope.stream = {
-          data: data,
-          status: status,
-          refreshTimestamp: new Date().getTime() / 1000
+          status: status
         };
 
       });
@@ -347,13 +347,11 @@ angular.module('c4mApp')
           // Request the new activity.
           var streamData = {};
           streamData.group = submitData.group;
-          streamData.created = $scope.stream.refreshTimestamp;
+          streamData.lastId = $scope.stream.lastLoadedId;
           EntityResource.updateStream(streamData)
           .success( function (data, status) {
             $scope.stream = {
-              data: data,
-              status: status,
-              refreshTimestamp: new Date().getTime() / 1000
+              status: status
             };
 
             // Scroll to the top of the page 50px down.
@@ -367,6 +365,9 @@ angular.module('c4mApp')
                 html: $sce.trustAsHtml(activity.html)
               });
 
+              // Update the last loaded ID.
+              $scope.stream.lastLoadedId = activity.id;
+
               // Highlight the newly added activity.
               $timeout(function() {
                 jQuery('#activity-' + activity.id).effect( "highlight", {}, 10000 );
@@ -378,9 +379,7 @@ angular.module('c4mApp')
           })
           .error( function (data, status) {
             $scope.stream = {
-              data: data,
-              status: status,
-              refreshTimestamp: new Date().getTime() / 1000
+              status: status
             };
           });
         }

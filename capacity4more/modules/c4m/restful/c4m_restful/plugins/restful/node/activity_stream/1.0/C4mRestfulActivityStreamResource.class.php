@@ -8,19 +8,6 @@
 class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles {
 
   /**
-   * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
-   */
-  public function publicFieldsInfo() {
-    $public_fields = parent::publicFieldsInfo();
-
-    $public_fields['created'] = array(
-      'property' => 'timestamp',
-    );
-
-    return $public_fields;
-  }
-
-  /**
    * Overrides \RestfulEntityBaseNode::viewEntity().
    *
    * Adds the message HTML to the resource.
@@ -32,6 +19,7 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
     if (!empty($request['html'])) {
       $message = message_load($entity_id);
       $output = $message->view('activity_stream');
+      $return['id'] = $entity_id;
       $return['html'] = drupal_render($output);
     }
 
