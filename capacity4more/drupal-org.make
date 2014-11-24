@@ -174,6 +174,9 @@ projects[search_api_solr][version] = "1.6"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
+projects[term_reference_tree][subdir] = "contrib"
+projects[term_reference_tree][version] = "1.10"
+
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
 
