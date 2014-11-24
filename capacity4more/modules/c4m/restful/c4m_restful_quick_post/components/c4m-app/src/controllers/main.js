@@ -206,19 +206,10 @@ angular.module('c4mApp')
      *
      * @param resource
      *  The resource name.
-     *
-     *  @param event
-     *    The click event.
      */
-    $scope.updateResource = function(resource, event) {
-      // Get element clicked in the event.
-      var element = angular.element(event.srcElement);
-      // Remove class "active" from all elements.
-      angular.element( ".bundle-select" ).removeClass( "active" );
-      // Add class "active" to clicked element.
-      element.addClass( "active" );
+    $scope.updateResource = function(resource) {
       // Update Bundle.
-      $scope.selectedResource = resource;
+      $scope.selectedResource = $scope.selectedResource == resource ? '' : resource;
     };
 
     /**
@@ -230,19 +221,10 @@ angular.module('c4mApp')
 
      * @param field
      *  The name of the field.
-     *
-     *  @param event
-     *    The click event.
      */
-    $scope.updateType = function(type, field, event) {
-      // Get element clicked in the event.
-      var element = angular.element(event.srcElement);
-      // Remove class "active" from all elements.
-      angular.element( "." + field ).removeClass( "active" );
-      // Add class "active" to clicked element.
-      element.addClass( "active" );
-      // Update Bundle.
-      $scope.data[field] = type;
+    $scope.updateType = function(type, field) {
+      // Update type field.
+      $scope.data[field] = $scope.data[field] == type ? '' : type;
     };
 
     /**
