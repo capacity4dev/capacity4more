@@ -186,6 +186,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Discussion" in the "div#quick-post-fields" element');
 
     return $steps;
   }
@@ -224,6 +226,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Event" in the "div#quick-post-fields" element');
 
     return $steps;
   }
