@@ -142,6 +142,7 @@ angular.module('c4mApp')
       // Call the create entity function service.
       EntityResource.createEntity(submitData, resource, resourceFields)
         .success( function (data, status) {
+          console.log(data);
           var document = data.data[0];
           $modalInstance.close(document);
         })

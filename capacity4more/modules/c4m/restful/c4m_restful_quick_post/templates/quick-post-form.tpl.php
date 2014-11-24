@@ -118,28 +118,7 @@
             <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
             <br/>
             <?php print t('or'); ?>
-            <a href="javascript://" ng-click="selectDocument()"><?php print t('Select a Document from the library') ?></a>
-
-            <!-- Modal for choosing existing documents. -->
-            <script type="text/ng-template" id="myModalDocuments.html">
-              <p>Some text in the modal</p>
-              <ul>
-                <li ng-repeat="document in documents" class="document">
-                  <div ng-click="ok(document.id)" class="row">
-                    <div class="col-sm-1">
-                      <img src="missing_icon.png"/>
-                    </div>
-                    <div class="col-sm-11">
-                      <p> {{document.label}} </p>
-                      <p> Fileype: {{document.document.filemime}} | Filesize: {{document.document.filesize}} </p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-
-              <button class="btn btn-primary" ng-click="ok()">OK</button>
-            </script>
-
+            <a href="javascript://"><?php print t('Select a Document from the library') ?></a>
           </div>
 
           <div ng-show="serverSide.file.status == 200">
