@@ -107,7 +107,7 @@
       </div>
 
       <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'discussions' && fullForm" ng-class="{ 'has-error' : errors.discussion }">
-        <related-documents documents="data.related_document"></related-documents>
+        <related-documents related-documents="data.related_document" documents="documents"></related-documents>
         <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
           <div>

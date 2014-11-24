@@ -8,6 +8,8 @@ angular.module('c4mApp')
     // Checking if this is full form or not.
     $scope.fullForm = DrupalSettings.getData('full_form');
 
+    $scope.documents = DrupalSettings.getDocuments();
+
     //Getting node id if we are editing node.
     $scope.id = $scope.data.entityId;
 
@@ -227,6 +229,9 @@ angular.module('c4mApp')
 
               modalInstance.result.then(function (document) {
                 $scope.data.related_document.push(document.id);
+
+                // Add new document to list of all documents.
+                $scope.documents.push(document);
               });
             };
 

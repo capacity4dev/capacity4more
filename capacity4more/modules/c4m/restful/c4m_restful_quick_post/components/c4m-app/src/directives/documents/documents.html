@@ -1,8 +1,14 @@
-<div ng-show="documents">
+<div ng-show="relatedDocuments" class="row">
   <ul>
-    <li ng-repeat="document in documents">
-      {{document}}
-      <a href="javascript://" ng-click="removeDoc(document)">Remove this document</a>
+    <li ng-repeat="document in data">
+      <div class="col-sm-1">
+        <img src="missing_icon.png"/>
+      </div>
+      <div class="col-sm-11">
+        <p> {{document.label}} </p>
+        <p> Fileype: {{document.document.filemime}} | Filesize: {{document.document.filesize}} </p>
+        <a href="javascript://" ng-click="removeDoc(document.id)">Remove this document</a>
+      </div>
     </li>
   </ul>
 </div>
