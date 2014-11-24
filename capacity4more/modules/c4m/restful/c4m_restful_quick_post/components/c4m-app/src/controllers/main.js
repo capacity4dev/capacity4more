@@ -281,6 +281,7 @@ angular.module('c4mApp')
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
           $scope.createdResource = $scope.selectedResource;
+          // Collapse the form.
           $scope.selectedResource = '';
           prepareData();
         }
