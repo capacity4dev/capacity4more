@@ -204,15 +204,16 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $form['group_access']['und']['#required'] = FALSE;
 
   // Add select2 widget for related groups.
-  $form['something']['#attached'] = array(
+  $form['c4m_related_projects'][LANGUAGE_NONE]['#attached'] = array(
     'css' => array(
       libraries_get_path('select2') . '/select2.css',
     ),
     'js' => array(
       libraries_get_path('select2') . '/select2.min.js',
+      drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
     ),
   );
-  $form['something']['#after_build'] = array('c4m_og_select2_widget_after_build');
+  $form['c4m_related_projects'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
 }
 
 /**
