@@ -193,11 +193,18 @@
         <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
       </div>
       <div class="col-md-2 col-md-offset-5">
-        <a href="javascript://" id="clear-button" ng-click="this.form.reset()"><?php print t('Cancel'); ?></a>
+        <a href="javascript://" id="clear-button" ng-click="resetEntityForm()"><?php print t('Cancel'); ?></a>
       </div>
     </div>
   </div>
 </form>
+
+<!-- Display an error if we can't save an entity-->
+<div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
+  <div class="alert alert-danger">
+    <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
+  </div>
+</div>
 
 <!-- Debug -->
 <div ng-show="debug">
@@ -217,10 +224,3 @@
   </div>
 </div>
 <!-- End debug -->
-
-<!-- Display an error if we can't save an entity-->
-<div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
-  <div class="alert alert-danger">
-    <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
-  </div>
-</div>

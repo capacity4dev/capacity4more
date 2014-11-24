@@ -5,6 +5,11 @@
       <?php print t('Error loading activity stream.') ?>
     </div>
   </div>
+  <div ng-show="newActivities.length > 0" class="messages" role="alert">
+    <div class="alert alert-info" id="new-activities-button" ng-click="showNewActivities()">
+      <?php print t('{{newActivities.length}} new post(s)') ?>
+    </div>
+  </div>
   <!-- The activity stream-->
   <div ng-repeat="activity in activities">
     <div ng-bind-html="activity.html" id="activity-{{activity.id}}"></div>

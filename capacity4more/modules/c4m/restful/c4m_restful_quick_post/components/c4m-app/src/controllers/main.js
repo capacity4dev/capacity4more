@@ -16,9 +16,11 @@ angular.module('c4mApp')
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
-    $scope.rawActivities = DrupalSettings.getActivities();
+    // Getting the activity stream.
+    $scope.activities = DrupalSettings.getActivities();
 
-    $scope.activities = [];
+    // Empty new activities.
+    $scope.newActivities = [];
 
     $scope.referenceValues = {};
 
@@ -61,13 +63,13 @@ angular.module('c4mApp')
     };
 
     // refresh rate of the activity stream (60000 is one minute).
-    $scope.refreshRate = 60000;
+    $scope.refreshRate = 5000;
 
     /**
      * Refreshes the activity stream.
      * The refresh rate is scope.refreshRate.
      */
-    $interval(function() {
+    $scope.refresh = function() {
       var streamData = {};
       streamData.group = $scope.data.group;
       streamData.created = $scope.stream.refreshTimestamp;
@@ -76,13 +78,16 @@ angular.module('c4mApp')
         $scope.stream.refreshTimestamp = new Date().getTime() / 1000;
 
         if (data) {
+          // Count the activities that were fetched.
+          var position = 0;
           angular.forEach(data.data, function (activity) {
-            this.splice(0, 0, {
+            this.splice(position, 0, {
               id: activity.id,
               created: activity.created,
               html: $sce.trustAsHtml(activity.html)
             });
-          }, $scope.activities);
+            position++;
+          }, $scope.newActivities);
         }
       })
       .error( function (data, status) {
@@ -93,13 +98,31 @@ angular.module('c4mApp')
         };
 
       });
-    }, $scope.refreshRate);
+    };
+    //Start the activity stream refresh.
+    $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
+
+    /**
+     * Merge the new activity with the activity stream,
+     * Reset the new activities.
+     */
+    $scope.showNewActivities = function() {
+      var position = 0;
+      angular.forEach ($scope.newActivities, function (activity) {
+        this.splice(position, 0, {
+          id: activity.id,
+          created: activity.created,
+          html: activity.html
+        });
+        position++;
+      }, $scope.activities);
+      $scope.newActivities = [];
+    };
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
      * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
      * Set "popups" to 0, as to hide all of the pop-overs on load.
-     * Prepares the activity stream array (We need the html to be trusted).
      */
     function prepareData() {
       $scope.popups = {};
@@ -115,14 +138,6 @@ angular.module('c4mApp')
           $scope.data[field] = {};
         }
       });
-
-      angular.forEach($scope.rawActivities, function (activity) {
-        this.push({
-          id: activity.id,
-          created: activity.created,
-          html: $sce.trustAsHtml(activity.html)
-        });
-      }, $scope.activities);
     }
 
     // Preparing the data for the form.
@@ -280,6 +295,9 @@ angular.module('c4mApp')
      */
     $scope.submitForm = function(data, resource, type) {
 
+      // Stop the "Activity-stream" auto refresh.
+      $interval.cancel($scope.refreshing);
+
       // Reset all errors.
       $scope.errors = {};
 
@@ -361,6 +379,11 @@ angular.module('c4mApp')
         $scope.serverSide.data = data;
         $scope.serverSide.status = status;
       });
+
+      // Reset the form.
+      $scope.resetEntityForm();
+      // Resume the "Activity-stream" auto refresh.
+      $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
     };
 
     /**
@@ -386,4 +409,20 @@ angular.module('c4mApp')
     $scope.browseFiles = function() {
       angular.element('#document_file').click();
     };
+
+    /**
+     * Resets the quick-post form.
+     */
+    $scope.resetEntityForm = function() {
+      // Form is valid.
+      $scope.entityForm.$setPristine();
+      // Reset all the reference fields.
+      prepareData();
+
+      //Reset the text fields.
+      var textFields = ['label', 'body', 'tags'];
+      angular.forEach(textFields, function(field) {
+        $scope.data[field] = field == 'tags' ? [] : '';
+      });
+    }
   });

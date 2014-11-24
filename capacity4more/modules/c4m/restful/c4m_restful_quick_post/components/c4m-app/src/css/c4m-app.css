@@ -13,6 +13,12 @@ This a temporary file.
   color: #b94a48;
 }
 
+#new-activities-button {
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+}
+
 .create-success {
   padding: 20px;
   background: yellow;

@@ -7,7 +7,7 @@
  * # Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('DrupalSettings', function($window) {
+  .service('DrupalSettings', function($window, $sce) {
     var self = this;
 
     /**
@@ -33,10 +33,22 @@ angular.module('c4mApp')
     };
 
     /**
-     * Get the resources of the quick post.
+     * Get the activity stream of the current group.
      */
     this.getActivities = function() {
-      return (angular.isDefined(self.settings.c4m.activities)) ? self.settings.c4m.activities : undefined;
+      var activities = [];
+      var rawActivities = (angular.isDefined(self.settings.c4m.activities)) ? self.settings.c4m.activities : undefined;
+
+      // Activities HTML should be marked as trusted.
+      angular.forEach(rawActivities, function (activity) {
+        this.push({
+          id: activity.id,
+          created: activity.created,
+          html: $sce.trustAsHtml(activity.html)
+        });
+      }, activities);
+
+      return activities;
     };
 
     /**
