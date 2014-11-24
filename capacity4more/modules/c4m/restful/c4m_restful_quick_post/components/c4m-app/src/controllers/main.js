@@ -63,6 +63,7 @@ angular.module('c4mApp')
     };
 
     // refresh rate of the activity stream (60000 is one minute).
+    // @TODO: Import the refresh rate from the drupal settings.
     $scope.refreshRate = 60000;
 
     /**
@@ -355,8 +356,8 @@ angular.module('c4mApp')
               refreshTimestamp: new Date().getTime() / 1000
             };
 
-            // Scroll to the top of the page.
-            jQuery('body').scrollTop(300);
+            // Scroll to the top of the page 50px down.
+            angular.element('body').animate({scrollTop:50}, '500', 'swing');
 
             // Push the new activity to the activities array.
             angular.forEach(data.data, function (activity) {
