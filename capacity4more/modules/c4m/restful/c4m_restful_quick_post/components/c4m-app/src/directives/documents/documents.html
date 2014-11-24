@@ -1,0 +1,8 @@
+<div ng-show="documents">
+  <ul>
+    <li ng-repeat="document in documents">
+      {{document}}
+      <a href="javascript://" ng-click="removeDoc(document)">Remove this document</a>
+    </li>
+  </ul>
+</div>
