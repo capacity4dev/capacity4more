@@ -18,10 +18,10 @@ angular.module('c4mApp')
       link: function postLink(scope) {
 
         // Create array of related document objects.
-        scope.updateData = function(relatedDocuments, allDocuments) {
+        scope.updateData = function(relatedDocuments) {
           var data = {};
           angular.forEach(relatedDocuments, function(value, key) {
-            var result =  allDocuments.filter(function( obj ) {
+            var result =  scope.documents.filter(function( obj ) {
               return obj.id == value;
             });
             data[key] = angular.copy(result[0], data[key]);
@@ -30,17 +30,17 @@ angular.module('c4mApp')
           return data;
         };
 
-        scope.data = scope.updateData(scope.relatedDocuments, scope.documents);
+        scope.data = scope.updateData(scope.relatedDocuments);
 
         scope.$watch('relatedDocuments', function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            scope.data = scope.updateData(newValue, scope.documents);
+            scope.data = scope.updateData(newValue);
           }
         }, true);
 
         // Remove document from related documents.
         scope.removeDoc = function(id) {
-          var index = scope.relatedDocuments.indexOf(id);
+          var index = scope.relatedDocuments.indexOf(id.toString());
           if (index != -1) {
             scope.relatedDocuments.splice(index, 1);
           }
