@@ -11,9 +11,6 @@ angular.module('c4mApp')
     // Setting empty default resource.
     $scope.selectedResource = '';
 
-    // Temporary for the success message.
-    $scope.createdResource = '';
-
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
@@ -366,7 +363,7 @@ angular.module('c4mApp')
               }, 10);
             }, $scope.activities);
 
-            // Hide the quick-post form.
+            // Collapse the quick-post form.
             $scope.selectedResource = '';
           })
           .error( function (data, status) {
