@@ -21,3 +21,12 @@ Feature: Test quick post
     Given I am logged in as user "mariecurie"
     When  I create an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" in "Tennis Group"
     Then  I should see "The Event was saved successfully."
+
+  @javascript @foo
+  Scenario: Test uploading files.
+    Given I am logged in as user "mariecurie"
+    When I visit "/stub-for-group-6/node/js-add/discussion"
+    And I fill in "label" with "some title"
+    And I attach the file "/var/www/html/capacity4more/www/dan.jpg" to "document-file"
+    And I wait
+    Then I should see "dan.jpg"
