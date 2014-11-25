@@ -234,11 +234,10 @@ function c4m_og_vocab_alter_callback(array &$data, FacetapiAdapter $adapter, arr
   }
 
   // Filter out terms that are not related to the vocabulary.
-  $term_ids = array_keys($data);
-  foreach ($term_ids as $tid) {
-    $term = taxonomy_term_load($tid);
+  $terms = taxonomy_term_load_multiple(array_keys($data));
+  foreach ($terms as $term) {
     if ((int) $term->vid !== (int) $vocabulary->vid) {
-      unset($data[$tid]);
+      unset($data[$term->tid]);
     }
   }
 }
