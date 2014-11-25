@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $interval, $timeout, $sce, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -17,7 +17,7 @@ angular.module('c4mApp')
     $scope.debug = DrupalSettings.getDebugStatus();
 
     // Getting the activity stream.
-    $scope.activities = DrupalSettings.getActivities();
+    $scope.existingActivities = DrupalSettings.getActivities();
 
     // Empty new activities.
     $scope.newActivities = [];
@@ -58,7 +58,7 @@ angular.module('c4mApp')
     // Activity stream status, refresh time.
     $scope.stream = {
       // The first one is the last loaded activity, (Because of the order).
-      lastLoadedID: $scope.activities[0].id,
+      lastLoadedID: $scope.existingActivities[0].id,
       status: 0
     };
 
@@ -71,69 +71,67 @@ angular.module('c4mApp')
      * The refresh rate is scope.refreshRate.
      */
     $scope.refresh = function() {
-      var streamData = {};
-      streamData.group = $scope.data.group;
-      streamData.lastId = $scope.stream.lastLoadedID;
-
-      // Don't send a request when data is missing.
-      if(!streamData.lastId || !streamData.group) {
-        $scope.stream.status = 500;
-        return false;
-      }
-      EntityResource.updateStream(streamData)
-      .success( function (data, status) {
-        $scope.addNewActivities(data, status, 'newActivities');
-      })
-      .error( function (data, status) {
-        $scope.stream = {
-          status: status
-        };
-
-      });
+      $scope.addNewActivities('newActivities');
     };
-    //Start the activity stream refresh.
+    // Start the activity stream refresh.
     $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
 
     /**
      * Adds newly fetched activities to either to the activity-stream or the load button,
      * Depending on if the current user added an activity or it's just fetched from the server.
      *
-     * @param data
-     *  The response of the activity stream resource.
-     * @param status
-     *  The status of the server of the activity stream resource.
-     * @param variable
+     * @param type
      *  Determines to which variable the data should be added.
      */
-    $scope.addNewActivities = function(data, status, variable) {
-      if (variable == 'activities') {
+    $scope.addNewActivities = function(type) {
+      if (type == 'existingActivities') {
         // Merge all the loaded activities before adding the created one.
         $scope.showNewActivities();
       }
 
-      if (data.data) {
-        // Update the stream status.
+      var activityStreamInfo = {
+        group: $scope.data.group,
+        lastId: $scope.stream.lastLoadedID
+      };
+
+      // Don't send a request when data is missing.
+      if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
+        $scope.stream.status = 500;
+        return false;
+      }
+
+      // Call the update stream method.
+      EntityResource.updateStream(activityStreamInfo)
+      .success( function (data, status) {
+        if (data.data) {
+          // Update the stream status.
+          $scope.stream = {
+            status: status
+          };
+          // Count the activities that were fetched.
+          var position = 0;
+          angular.forEach(data.data, function (activity) {
+            this.splice(position, 0, {
+              id: activity.id,
+              html: $sce.trustAsHtml(activity.html)
+            });
+            position++;
+          }, $scope[type]);
+
+          // Update the last loaded ID.
+          $scope.stream.lastLoadedID = $scope[type][0].id;
+        }
+      })
+      .error( function (data, status) {
         $scope.stream = {
           status: status
         };
-        // Count the activities that were fetched.
-        var position = 0;
-        angular.forEach(data.data, function (activity) {
-          this.splice(position, 0, {
-            id: activity.id,
-            html: $sce.trustAsHtml(activity.html)
-          });
-          position++;
-        }, $scope[variable]);
-
-        // Update the last loaded ID.
-        $scope.stream.lastLoadedID = $scope[variable][0].id;
-      }
+      });
     };
 
     /**
-     * Merge the new activity with the activity stream,
-     * Reset the new activities.
+     * Merge the "new activity" with the existing activity stream.
+     * When a user has clicked on the "Show new activity", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
      */
     $scope.showNewActivities = function() {
       var position = 0;
@@ -144,7 +142,7 @@ angular.module('c4mApp')
           html: activity.html
         });
         position++;
-      }, $scope.activities);
+      }, $scope.existingActivities);
       $scope.newActivities = [];
     };
 
@@ -153,13 +151,15 @@ angular.module('c4mApp')
      * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
      * Set "popups" to 0, as to hide all of the pop-overs on load.
      */
-    function prepareData() {
+    function initFormValues() {
       $scope.popups = {};
+
       angular.forEach($scope.fieldSchema, function (data, field) {
         // Don't change the group field Or resource object.
         if (field == 'resources' || field == 'group') {
           return;
         }
+        // Reset all the reference fields.
         var allowedValues = data.form_element.allowed_values;
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
@@ -167,10 +167,16 @@ angular.module('c4mApp')
           $scope.data[field] = {};
         }
       });
+
+      // Reset all the text fields.
+      var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
+      angular.forEach(textFields, function (field) {
+        $scope.data[field] = field == 'tags' ? [] : '';
+      });
     }
 
     // Preparing the data for the form.
-    prepareData();
+    initFormValues();
 
     // Set "Start a Debate" as default discussion type.
     $scope.data.discussion_type = 'debate';
@@ -333,7 +339,8 @@ angular.module('c4mApp')
      */
     $scope.submitForm = function(data, resource, type) {
 
-      // Stop the "Activity-stream" auto refresh.
+      // Stop the "Activity-stream" auto refresh,
+      // When submitting a new activity because we don't want the auto refresh to display the activity as an old one.
       $interval.cancel($scope.refreshing);
 
       // Reset all errors.
@@ -372,38 +379,14 @@ angular.module('c4mApp')
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
 
-          // Request the new activity.
-          var streamData = {};
-          streamData.group = submitData.group;
-          streamData.lastId = $scope.stream.lastLoadedID;
+          // Scroll to the top of the page 50px down.
+          angular.element('body').animate({scrollTop:50}, '500', 'swing');
 
-          // Don't send a request when data is missing.
-          if(!streamData.lastId || !streamData.group) {
-            $scope.stream.status = 500;
-            return false;
-          }
-          EntityResource.updateStream(streamData)
-          .success( function (data, status) {
-            // Scroll to the top of the page 50px down.
-            angular.element('body').animate({scrollTop:50}, '500', 'swing');
+          // Add the newly created activity to the stream.
+          $scope.addNewActivities('existingActivities');
 
-            // Add the newly created activity to the stream.
-            $scope.addNewActivities(data, status, 'activities');
-
-            // Highlight only the newly added activity.
-            $timeout(function() {
-              jQuery('#activity-' + data.data[0].id).effect( "highlight", {}, 10000 );
-            }, 10);
-
-
-            // Collapse the quick-post form.
-            $scope.selectedResource = '';
-          })
-          .error( function (data, status) {
-            $scope.stream = {
-              status: status
-            };
-          });
+          // Collapse the quick-post form.
+          $scope.selectedResource = '';
         }
       })
       .error( function (data, status) {
@@ -411,7 +394,7 @@ angular.module('c4mApp')
         $scope.serverSide.status = status;
       });
 
-      // Reset the form.
+      // Reset the form, by removing existing values and allowing the user to write a new content.
       $scope.resetEntityForm();
       // Resume the "Activity-stream" auto refresh.
       $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
@@ -445,15 +428,9 @@ angular.module('c4mApp')
      * Resets the quick-post form.
      */
     $scope.resetEntityForm = function() {
-      // Form is valid.
+      // Clear any form validation errors.
       $scope.entityForm.$setPristine();
-      // Reset all the reference fields.
-      prepareData();
-
-      //Reset the text fields.
-      var textFields = ['label', 'body', 'tags'];
-      angular.forEach(textFields, function(field) {
-        $scope.data[field] = field == 'tags' ? [] : '';
-      });
+      // Reset all the fields.
+      initFormValues();
     }
   });

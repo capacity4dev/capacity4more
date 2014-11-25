@@ -19,6 +19,26 @@ This a temporary file.
   font-size: 16px;
 }
 
+.activities {
+  -webkit-transition: 1.5s;
+}
+.activities.ng-enter {
+  opacity: 0;
+  background: yellow;
+}
+.activities.ng-leave {
+  opacity: 1;
+  background: transparent;
+}
+.activities.ng-enter.ng-enter-active {
+  opacity: 1;
+  background: yellow;
+}
+.activities.ng-leave.ng-leave-active {
+  opacity: 0;
+  background: transparent;
+}
+
 .create-success {
   padding: 20px;
   background: yellow;

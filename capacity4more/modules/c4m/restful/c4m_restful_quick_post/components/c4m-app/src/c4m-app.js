@@ -5,7 +5,8 @@ angular.module('c4mApp', [
     'ngCkeditor',
     'ui.select2',
     'ui.bootstrap',
-    'angularFileUpload'
+    'angularFileUpload',
+    'ngAnimate'
   ], function($httpProvider) {
 
     // Use x-www-form-urlencoded Content-Type

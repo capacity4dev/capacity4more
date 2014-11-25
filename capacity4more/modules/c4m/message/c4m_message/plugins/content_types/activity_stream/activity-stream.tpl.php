@@ -11,7 +11,5 @@
     </div>
   </div>
   <!-- The activity stream-->
-  <div ng-repeat="activity in activities">
-    <div ng-bind-html="activity.html" id="activity-{{activity.id}}"></div>
-  </div>
+  <div ng-repeat="activity in existingActivities" ng-bind-html="activity.html" class="activities" id="activity-{{activity.id}}"></div>
 </div>

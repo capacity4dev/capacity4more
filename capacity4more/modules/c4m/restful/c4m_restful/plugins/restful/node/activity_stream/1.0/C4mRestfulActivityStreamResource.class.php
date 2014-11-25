@@ -7,6 +7,8 @@
 
 class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles {
 
+  protected $range = 20;
+
   /**
    * Overrides \RestfulEntityBaseNode::viewEntity().
    *
@@ -38,10 +40,6 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
 
     if (!empty($request['group']) && intval($request['group'])) {
       $query->fieldCondition('field_group_node', 'target_id', $request['group']);
-    }
-
-    if (!empty($request['range']) && intval($request['range'])) {
-      $query->range(0, $request['range']);
     }
 
     return $query;
