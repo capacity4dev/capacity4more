@@ -465,12 +465,15 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I start creating "([^"]*)" in full form with title "([^"]*)"$/
+   * @When /^I start creating "([^"]*)" in full form with title "([^"]*)" in group "([^"]*)"$/
    */
-  public function iStartCreatingInFullFormWithTitle($bundle, $title) {
+  public function iStartCreatingInFullFormWithTitle($bundle, $title, $group) {
     $steps = array();
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
 
-    $steps[] = new Step\When('I visit "stub-for-group-6/node/js-add/' . $bundle . '"');
+    $uri = strtolower(str_replace(' ', '-', trim($group)));
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/js-add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
 
     return $steps;
