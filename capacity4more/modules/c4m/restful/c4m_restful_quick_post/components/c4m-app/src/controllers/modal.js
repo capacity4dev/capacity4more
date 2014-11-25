@@ -1,9 +1,9 @@
 angular.module('c4mApp')
-  .controller('ModalInstanceCtrl', function ($scope, $modalInstance, Request, EntityResource, getScope, ModalService, QuickPostService) {
+  .controller('ModalInstanceCtrl', function ($scope, EntityResource, Request, $document, $modalInstance, getScope, ModalService, QuickPostService) {
 
     $scope = ModalService.getModalObject($scope, getScope);
 
-    //Checking if this is full form or not.
+    // Checking if this is full form or not.
     $scope.fullForm = true;
 
     $scope.fileName = $scope.data.fileName;
@@ -39,9 +39,7 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     prepareData();
 
-    $scope = QuickPostService.formatData($scope);
-
-    $scope = QuickPostService.formatData($scope);
+    $scope = QuickPostService.formatTermFieldsAsTree($scope);
 
     // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
@@ -49,8 +47,8 @@ angular.module('c4mApp')
     }
 
     // Getting matching tags.
-    $scope.tagsQuery = function () {
-      QuickPostService.tagsQuery(query, scope);
+    $scope.tagsQuery = function (query) {
+      QuickPostService.tagsQuery(query, $scope);
     };
 
 
@@ -62,18 +60,21 @@ angular.module('c4mApp')
 
     // Updates the type of the selected resource.
     $scope.updateType = function(type, field, event) {
-      QuickPostService.updateType(type, field, event, $scope);
+      $scope.data[field] = QuickPostService.updateType(type, field, event);
     };
 
     // Toggle the visibility of the popovers.
     $scope.togglePopover = function(name, event) {
-      QuickPostService.togglePopover(name, event, $scope);
+      QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
     // Close all popovers on "ESC" key press.
     $scope.keyUpHandler = function(keyEvent) {
       QuickPostService.keyUpHandler(keyEvent, $scope);
     };
+
+    // Call the keyUpHandler function on key-up.
+    $document.on('keyup', $scope.keyUpHandler);
 
     /**
      * Submit form.

@@ -3,3 +3,16 @@
 
 // Layout
 @import "layout/header";
+
+.modal-content {
+  padding: 10px;
+
+  .actions {
+    padding-bottom: 30px;
+  }
+}
+
+.document {
+  padding-top: 5px;
+  border-top: 1px solid #000;
+}

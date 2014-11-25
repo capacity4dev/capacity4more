@@ -66,12 +66,22 @@ angular.module('c4mApp')
           }
         }
       });
+
+      if (angular.isDefined($scope.data.discussion_type)) {
+        // Set "Start a Debate" as default discussion type.
+        $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) ? 'debate' : $scope.data.discussion_type;
+      }
+
+      if (angular.isDefined($scope.data.event_type)) {
+        // Set "Event" as default event type.
+        $scope.data.event_type = angular.isObject($scope.data.event_type) ? 'event' : $scope.data.event_type;
+      }
     }
 
     // Preparing the data for the form.
     prepareData();
 
-    $scope = QuickPostService.formatData($scope);
+    $scope = QuickPostService.formatTermFieldsAsTree($scope);
 
     // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
@@ -79,8 +89,8 @@ angular.module('c4mApp')
     }
 
     // Getting matching tags.
-    $scope.tagsQuery = function () {
-      QuickPostService.tagsQuery(query, scope);
+    $scope.tagsQuery = function (query) {
+      QuickPostService.tagsQuery(query, $scope);
     };
 
 
@@ -92,12 +102,12 @@ angular.module('c4mApp')
 
     // Updates the type of the selected resource.
     $scope.updateType = function(type, field, event) {
-      QuickPostService.updateType(type, field, event, $scope);
+      $scope.data[field] = QuickPostService.updateType(type, field, event);
     };
 
     // Toggle the visibility of the popovers.
     $scope.togglePopover = function(name, event) {
-      QuickPostService.togglePopover(name, event, $scope);
+      QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
     // Close all popovers on "ESC" key press.

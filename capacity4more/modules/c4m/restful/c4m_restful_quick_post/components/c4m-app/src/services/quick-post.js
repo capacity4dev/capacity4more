@@ -15,6 +15,7 @@ angular.module('c4mApp')
      *
      * @param scope
      *  the scope object.
+     *
      * @returns {*}
      *  Returns the scope object with the default values.
      */
@@ -52,16 +53,6 @@ angular.module('c4mApp')
       // Minute step.
       scope.mstep = 1;
 
-      if (angular.isDefined(scope.data.discussion_type)) {
-        // Set "Start a Debate" as default discussion type.
-        scope.data.discussion_type = angular.isObject(scope.data.discussion_type) ? 'debate' : scope.data.discussion_type;
-      }
-
-      if (angular.isDefined(scope.data.event_type)) {
-        // Set "Event" as default event type.
-        scope.data.event_type = angular.isObject(scope.data.event_type) ? 'event' : scope.data.event_type;
-      }
-
       return scope;
     };
 
@@ -70,11 +61,13 @@ angular.module('c4mApp')
      *
      * @param scope
      *  The scope object.
+     *
      * @returns {*}
      *  Returns the scope object with the prepared taxonomy-terms fields.
      */
-    this.formatData = function(scope) {
+    this.formatTermFieldsAsTree = function(scope) {
       angular.forEach(scope.referenceValues, function (data, field) {
+        // Parent id.
         var parent = 0;
         scope[field] = {};
         angular.forEach(scope.referenceValues[field], function (label, id) {
@@ -103,10 +96,11 @@ angular.module('c4mApp')
     /**
      * Display the fields upon clicking on the label field.
      */
-    this.showFields = function (scope) {
-      if (!scope.selectedResource) {
-        scope.selectedResource = 'discussions';
+    this.showFields = function (selectedResource) {
+      if (!selectedResource) {
+        selectedResource = 'discussions';
       }
+      return selectedResource;
     };
 
     /**
@@ -189,11 +183,9 @@ angular.module('c4mApp')
      * @param field
      *  The name of the field.
      *  @param event
-     *    The click event.
-     *  @param scope
-     *    The scope object
+     *  The click event.
      */
-    this.updateType = function(type, field, event, scope) {
+    this.updateType = function(type, field, event) {
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
@@ -201,7 +193,7 @@ angular.module('c4mApp')
       // Add class "active" to clicked element.
       element.addClass( "active" );
       // Update Bundle.
-      scope.data[field] = type;
+      return type;
     };
 
     /**
@@ -211,20 +203,20 @@ angular.module('c4mApp')
      *  The name of the pop-over.
      *  @param event
      *    The click event.
-     *  @param scope
+     *  @param popups
      *    The scope object.
      */
-    this.togglePopover = function(name, event, scope) {
+    this.togglePopover = function(name, event, popups) {
       // Hide all the other pop-overs, Except the one the user clicked on.
-      angular.forEach(scope.popups, function (value, key) {
+      angular.forEach(popups, function (value, key) {
         if (name != key) {
           this[key] = 0;
         }
-      }, scope.popups);
+      }, popups);
       // Get the width of the element clicked in the event.
       var elem_width = angular.element(event.srcElement).outerWidth();
       // Toggle the visibility variable.
-      scope.popups[name] = scope.popups[name] == 0 ? 1 : 0;
+      popups[name] = popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
       angular.element(".hidden-checkboxes").css('left', elem_width);
     };

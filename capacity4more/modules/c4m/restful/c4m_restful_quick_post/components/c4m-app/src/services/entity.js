@@ -14,13 +14,10 @@ angular.module('c4mApp')
      *
      * @param data
      *   The data object to POST.
-
      * @param resource
      *   The bundle of the entity.
-     *
      * @param resourceFields
      *   The fields information.
-     *
      * @param entityId
      *   The editing node id or NULL.
      *
