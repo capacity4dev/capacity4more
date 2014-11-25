@@ -100,3 +100,19 @@ function c4m_search_search_api_server_load($servers) {
     }
   }
 }
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * Override the default Search Api Facet block titles.
+ *
+ * @param $data
+ * @param $block
+ */
+function c4m_search_block_view_alter(&$data, $block) {
+  // Only for blocks provided by the facetapi module.
+  if ($block->module === 'facetapi') {
+    module_load_include('inc', 'c4m_search', 'c4m_search.block');
+    return _c4m_search_block_facetapi_view_alter($data, $block);
+  }
+}

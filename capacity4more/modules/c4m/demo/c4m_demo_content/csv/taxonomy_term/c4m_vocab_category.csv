@@ -32,3 +32,18 @@ cat_p_arch,,Architecture,"",project_1,project
 cat_p_city,Architecture,City,"",project_1,project
 cat_p_art,Architecture,Artificial,"",project_1,project
 cat_p_stadium,Architecture,Stadium,"",project_1,project
+cat_g7_prizes,,Prizes,"",group_7,group
+cat_g7_prizes_physics,Prizes,Physics,"",group_7,group
+cat_g7_prizes_chemistry,Prizes,Chemistry,"",group_7,group
+cat_g7_prizes_medicine,Prizes,Physiology or Medicine,"",group_7,group
+cat_g7_prizes_literature,Prizes,Literature,"",group_7,group
+cat_g7_prizes_peace,Prizes,Peace,"",group_7,group
+cat_g7_prizes_economic,Prizes,Economic Sciences,"",group_7,group
+cat_g7_location,,Locations,"",group_7,group
+cat_g7_location_oslo,Locations,"Oslo, Norway","",group_7,group
+cat_g7_location_stockholm,Locations,"Stockholm, Sweden","",group_7,group
+cat_g7_org,,Organization,"",group_7,group
+cat_g7_org_rsaos,Organization,"Royal Swedish Academy of Sciences","",group_7,group
+cat_g7_org_naki,Organization,"Nobel Assembly at Karolinska Institutet","",group_7,group
+cat_g7_org_sa,Organization,"Swedish Academy","",group_7,group
+cat_g7_org_nnc,Organization,"Norwegian Nobel Committee","",group_7,group
