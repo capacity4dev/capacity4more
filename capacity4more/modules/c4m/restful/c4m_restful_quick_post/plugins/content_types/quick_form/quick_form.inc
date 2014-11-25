@@ -18,8 +18,8 @@ $plugin = array(
  * Render callback.
  */
 function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, $args, $context) {
-  $gid = $context[0]->data->nid;
-  $nid = $context[1]->data ? $context[1]->data->nid : NULL;
+  $group_id = $context[0]->data->nid;
+  $node = $context[1]->data ? $context[1]->data : NULL;
   $content_type = $context[2]->data;
 
   $resources = array(
@@ -42,7 +42,6 @@ function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, 
       ),
     ),
   );
-  $node = $nid ? node_load($nid) : NULL;
   if ($node && in_array($node->type, array_keys($resources))) {
     $show_resources = $resources[$node->type];
     $full_form = TRUE;
@@ -55,7 +54,7 @@ function c4m_restful_quick_post_quick_form_content_type_render($subtype, $conf, 
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = c4m_restful_quick_post_form($gid, $show_resources, $full_form, $node);
+  $block->content = c4m_restful_quick_post_form($group_id, $show_resources, $full_form, $node);
   return $block;
 }
 

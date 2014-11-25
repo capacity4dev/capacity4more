@@ -26,7 +26,7 @@ angular.module('c4mApp')
          * @returns {{}}
          *  Returns array of related document information objects
          */
-        scope.updateData = function(relatedDocuments) {
+        scope.updateDocumentsData = function(relatedDocuments) {
           var data = {};
           angular.forEach(relatedDocuments, function(value, key) {
             // Find document object by document id in all objects.
@@ -45,7 +45,7 @@ angular.module('c4mApp')
         // Updating data when added or removed item from the related documents.
         scope.$watch('relatedDocuments', function(newValue, oldValue) {
           if (newValue !== oldValue) {
-            scope.data = scope.updateData(newValue);
+            scope.data = scope.updateDocumentsData(newValue);
           }
         }, true);
 
