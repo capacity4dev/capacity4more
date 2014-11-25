@@ -410,7 +410,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function groupMenuItemShouldBeActive($label) {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '#block-menu-menu-group-menu a.active');
+    $el = $page->find('css', '#block-menu-c4m-og-menu a.active');
     if ($el === null) {
       throw new Exception('The group menu has no active items.');
     }
