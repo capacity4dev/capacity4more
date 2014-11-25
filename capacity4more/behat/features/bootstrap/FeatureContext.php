@@ -470,7 +470,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iStartCreatingInFullFormWithTitle($bundle, $title) {
     $steps = array();
 
-    $steps[] = new Step\When('I visit "/stub-for-group-6/node/js-add/' . $bundle . '"');
+    $steps[] = new Step\When('I visit "stub-for-group-6/node/js-add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
 
     return $steps;
