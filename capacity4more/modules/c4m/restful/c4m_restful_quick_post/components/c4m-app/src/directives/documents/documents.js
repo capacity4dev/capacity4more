@@ -40,7 +40,7 @@ angular.module('c4mApp')
           return data;
         };
 
-        scope.data = scope.updateData(scope.relatedDocuments);
+        scope.data = scope.updateDocumentsData(scope.relatedDocuments);
 
         // Updating data when added or removed item from the related documents.
         scope.$watch('relatedDocuments', function(newValue, oldValue) {
