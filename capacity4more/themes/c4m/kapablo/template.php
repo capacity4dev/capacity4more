@@ -14,8 +14,8 @@
  *
  * @return string
  */
-function kapablo_menu_tree__menu_group_menu($variables) {
-  return '<ul class="menu nav nav-pills nav-justified" role="tablist">' . $variables['tree'] . '</ul>';
+function kapablo_menu_tree__c4m_og_menu($variables) {
+  return '<ul class="nav nav-pills nav-justified" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
 /**
