@@ -303,11 +303,13 @@ angular.module('c4mApp')
         }
       }, $scope.popups);
       // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.srcElement).outerWidth();
+      var elemWidth = angular.element(event.target).outerWidth();
+      var elemPosition = angular.element(event.target).offset();
+      var elemParentPosition = angular.element(event.target).parent().offset();
       // Toggle the visibility variable.
       $scope.popups[name] = $scope.popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', elem_width);
+      angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
     };
 
     /**
@@ -380,7 +382,7 @@ angular.module('c4mApp')
           $scope.serverSide.status = status;
 
           // Scroll to the top of the page 50px down.
-          angular.element('body').animate({scrollTop:50}, '500', 'swing');
+          angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
 
           // Add the newly created activity to the stream.
           $scope.addNewActivities('existingActivities');
