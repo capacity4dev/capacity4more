@@ -6,6 +6,27 @@
  */
 
 /**
+ * Helper to get the current active group (based on og_context()).
+ *
+ * @return stdClass|FALSE
+ *   The group entity, or FALSE if no context was found.
+ */
+function c4m_og_current_group() {
+  $context = og_context();
+  if (!$context) {
+    return FALSE;
+  }
+
+  $group = node_load($context['gid']);
+  if (!$group) {
+    return FALSE;
+  }
+
+  return $group;
+}
+
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_og_ctools_plugin_directory($module, $plugin) {
