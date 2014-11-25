@@ -1,4 +1,4 @@
-ID,Title,Body,Documents,Categories,Tags,Group,Group Type,Date,Language,UID
+ID,Title,Body,Documents,Categories,Tags,Group,Group Type,Topic,Date,Language,UID
 discussion_1,Blog about Lusail City,info,,doc_1|doc_2,cat_p_art|cat_p_city,tag_doha|tag_lusail,project_1,project,topic_earth,2006|2007|2008,en,user_2
 discussion_2,Weekly review of JPL,info,,,cat_jpl,tag_rsca|tag_seizoen,group_1,group,topic_earth,After 2020,en,user_6
 discussion_g7_1,"History",info,"<p>Nobel's instructions named a Norwegian Nobel Committee to award the Peace Prize, the members of whom were appointed shortly after the will was approved in April 1897.</p><p>Soon thereafter, the other prize-awarding organisations were designated or established.</p>",,cat_g7_location_oslo|cat_g7_location_stockholm,tag_g7_foundation,group_7,group,topic_earth|topic_water,Before 1990,English,user_8
