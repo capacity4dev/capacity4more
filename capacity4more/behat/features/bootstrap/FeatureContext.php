@@ -463,4 +463,53 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       throw new Exception('The Quick Post pane is not visible.');
     }
   }
+
+  /**
+   * @When /^I start creating "([^"]*)" in full form with title "([^"]*)"$/
+   */
+  public function iStartCreatingInFullFormWithTitle($bundle, $title) {
+    $steps = array();
+
+    $steps[] = new Step\When('I visit "/stub-for-group-6/node/js-add/' . $bundle . '"');
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+
+    return $steps;
+  }
+
+  private function waitForXpathNode($xpath, $appear) {
+    $this->waitFor(function($context) use ($xpath, $appear) {
+      try {
+        $nodes = $context->getSession()->getDriver()->find($xpath);
+        if (count($nodes) > 0) {
+          $visible = $nodes[0]->isVisible();
+          return $appear ? $visible : !$visible;
+        } else {
+          return !$appear;
+        }
+      } catch (WebDriver\Exception $e) {
+        if ($e->getCode() == WebDriver\Exception::NO_SUCH_ELEMENT) {
+          return !$appear;
+        }
+        throw $e;
+      }
+    });
+  }
+
+  /**
+   * @Given /^I wait for text "([^"]+)" to (appear|disappear)$/
+   */
+  public function iWaitForText($text, $appear) {
+    $this->waitForXpathNode(".//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
+  }
+
+  private function waitFor($fn, $timeout = 10000) {
+    $start = microtime(true);
+    $end = $start + $timeout / 1000.0;
+    while (microtime(true) < $end) {
+      if ($fn($this)) {
+        return;
+      }
+    }
+    throw new \Exception("waitFor timed out");
+  }
 }
