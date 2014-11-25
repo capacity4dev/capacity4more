@@ -26,6 +26,7 @@ class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
     array('topics', 'Topics'),
+    array('geo', 'Geo'),
     array('date', 'Date'),
     array('lang', 'Language'),
     array('uid', 'UID'),
@@ -57,6 +58,11 @@ class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
          ->separator('|');
 
     $this->addFieldMapping('c4m_related_topic', 'topics_list');
+
+    $this->addFieldMapping('c4m_vocab_geo', 'geo')
+         ->sourceMigration('C4mDemoContentCreateRegionTerms')
+         ->arguments(array('source_type' => 'tid'))
+         ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_date', 'date_entries')
          ->arguments(array('source_type' => 'tid'));

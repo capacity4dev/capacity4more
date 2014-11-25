@@ -480,8 +480,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar search');
     $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "OG Vocab"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Categories"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
 
     return $steps;
   }
