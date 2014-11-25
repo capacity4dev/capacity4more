@@ -638,7 +638,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $uri = ltrim(url($path, array('purl' => $purl)), '/');
+    $uri = ltrim(url($path, array('purl' => $purl, 'absolute' => TRUE)));
 
     return $uri;
   }
