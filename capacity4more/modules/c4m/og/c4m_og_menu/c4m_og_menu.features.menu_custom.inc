@@ -10,9 +10,9 @@
 function c4m_og_menu_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-group-menu.
-  $menus['menu-group-menu'] = array(
-    'menu_name' => 'menu-group-menu',
+  // Exported menu: c4m-og-menu
+  $menus['c4m-og-menu'] = array(
+    'menu_name' => 'c4m-og-menu',
     'title' => 'Group Menu',
     'description' => '(Sub-)navigation inside OG context (group or project). Includes the different features per group.',
   );

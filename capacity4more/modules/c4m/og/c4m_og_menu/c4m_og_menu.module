@@ -11,7 +11,7 @@ include_once 'c4m_og_menu.features.inc';
  *
  * No title for the group menu.
  */
-function c4m_og_menu_block_view_menu_menu_group_menu_alter(&$data, $block) {
+function c4m_og_menu_block_view_menu_c4m_og_menu_alter(&$data, $block) {
   $data['subject'] = NULL;
   $block->info = NULL;
 }
