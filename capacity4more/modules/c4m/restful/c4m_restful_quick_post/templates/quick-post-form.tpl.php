@@ -9,7 +9,7 @@
       <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
     <?php endif;?>
 
-    <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
+    <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
         <div ng-hide="serverSide.file">
@@ -45,13 +45,13 @@
 
     <div ng-show="resources[selectedResource]">
 
-      <div ng-show="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
+      <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
         <label>{{fieldSchema.discussion_type.info.label}}</label>
         <types field="'discussion_type'" field-schema="fieldSchema" type="data.discussion_type" on-change="updateType"></types>
         <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
       </div>
 
-      <div ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
+      <div ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
         <label>{{fieldSchema.event_type.info.label}}</label>
         <types field="'event_type'" field-schema="fieldSchema" type="data.event_type" on-change="updateType"></types>
         <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="form-group text" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
+      <div class="form-group text" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
         <label>{{fieldSchema.organiser.info.label}}</label>
         <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
         <div class="errors">
@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <div class="form-group date" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
+      <div class="form-group date" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
         <label><?php print t('When') ?></label>
         <div class="row">
           <calendar></calendar>
@@ -86,7 +86,7 @@
         <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
       </div>
 
-      <div class="form-group btn-group" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
+      <div class="form-group btn-group" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
         <div class="label-wrapper">
           <label>{{fieldSchema.document_type.info.label}}</label>
           <span id="document_type_description" class="description">{{fieldSchema.document_type.info.description}}</span>
@@ -106,7 +106,7 @@
         </div>
       </div>
 
-      <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'discussions' && fullForm" ng-class="{ 'has-error' : errors.discussion }">
+      <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'discussions' && fullForm" ng-class="{ 'has-error' : errors.discussion }">
 
         <related-documents related-documents="data.related_document" documents="documents"></related-documents>
 
@@ -161,7 +161,7 @@
         </div>
       </div>
 
-      <div class="form-group btn-group" ng-show="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
+      <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
         <div class="label-wrapper">
           <label>{{fieldSchema.date.info.label}}</label>
           <span id="date_description" class="description">{{fieldSchema.date.info.description}}</span>
@@ -266,7 +266,7 @@
   </div>
 
   <!-- Modal with creation of the new document. -->
-  <div ng-show="selectedResource == 'discussions' && fullForm">
+  <div ng-if="selectedResource == 'discussions' && fullForm">
     <script type="text/ng-template" id="myModalContent.html">
 
       <div class="explanation">
@@ -275,7 +275,7 @@
 
       <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
-        <div class="form-group input-wrapper file-wrapper" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
+        <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
           <div>
             File {{fileName}} has been loaded!
           </div>
@@ -304,7 +304,7 @@
             </div>
           </div>
 
-          <div class="form-group btn-group" ng-show="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
+          <div class="form-group btn-group" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
             <div class="label-wrapper">
               <label>{{fieldSchema.document_type.info.label}}</label>
               <span id="document_type_description" class="description">{{fieldSchema.document_type.info.description}}</span>
@@ -344,7 +344,7 @@
             </div>
           </div>
 
-          <div class="form-group btn-group" ng-show="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
+          <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
             <div class="label-wrapper">
               <label>{{fieldSchema.date.info.label}}</label>
               <span id="date_description" class="description">{{fieldSchema.date.info.description}}</span>

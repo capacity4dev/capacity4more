@@ -98,7 +98,7 @@ angular.module('c4mApp')
      */
     this.showFields = function (selectedResource) {
       if (!selectedResource) {
-        selectedResource = 'discussions';
+        return 'discussions';
       }
       return selectedResource;
     };
