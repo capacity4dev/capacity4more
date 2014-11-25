@@ -373,30 +373,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
   public function iVisitTheDashboardOfGroup($title) {
-    $query = new entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'group')
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
 
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-      );
-      throw new Exception(format_string("Group @title not found.", $params));
-    }
-
-    $gid = (int) key($result['node']);
-    $purl = array(
-      'provider' => "og_purl|node",
-      'id' => $gid,
-    );
-    $url = ltrim(url('<front>', array('purl' => $purl, 'absolute' => TRUE)));
-
-    return new Given("I go to \"$url\"");
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+    return new Given("I go to \"$uri\"");
   }
 
   /**
@@ -449,5 +429,188 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     if ($el === null) {
       throw new Exception('The Quick Post pane is not visible.');
     }
+  }
+
+  /**
+   * @When /^I visit the discussions overview of group "([^"]*)"$/
+   */
+  public function iVisitTheDiscussionsOverviewOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'discussions');
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Then /^I should see the discussions overview$/
+   */
+  public function iShouldSeeTheDiscussionsOverview() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('I should be able to sort the overview');
+    $steps[] = new Step\When('I should see the sidebar search');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "OG Vocab"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should not see the "([^"]*)" link above the overview$/
+   */
+  public function iShouldNotSeeTheLinkAboveTheOverview($label) {
+    $page = $this->getSession()->getPage();
+    $links = $page->findAll('css', '.region-content .view-header .node-create');
+    foreach ($links as $link) {
+      if ($link->getText() !== $label) {
+        continue;
+      }
+
+      $params = array(
+        '@label' => $label,
+      );
+      throw new Exception(format_string("Link @label should NOT be above the overview.", $params));
+    }
+  }
+
+  /**
+   * @Then /^I should see the "([^"]*)" link above the overview$/
+   */
+  public function iShouldSeeTheLinkAboveTheOverview($label) {
+    $page = $this->getSession()->getPage();
+    $links = $page->findAll('css', '.region-content .view-header .node-create');
+
+    $found = false;
+    foreach ($links as $link) {
+      if ($link->getText() !== $label) {
+        continue;
+      }
+
+      $found = TRUE;
+      break;
+    }
+
+    if (!$found) {
+      $params = array(
+        '@label' => $label,
+      );
+      throw new Exception(format_string("Link @label is not found above the overview.", $params));
+    }
+  }
+
+  /**
+   * @Then /^I should be able to sort the overview$/
+   */
+  public function iShouldBeAbleToSortTheOverview() {
+    $page = $this->getSession()->getPage();
+    $sorts = $page->findAll('css', '.region-content .view-header .search-api-sorts li');
+
+    if (!count($sorts)) {
+      throw new Exception("No sort options found.");
+    }
+  }
+
+  /**
+   * @Then /^I should see the sidebar search$/
+   */
+  public function iShouldSeeTheSidebarSearch() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '.region-sidebar-first #edit-search-api-views-fulltext');
+    if ($el === null) {
+      throw new Exception('The Sidebar Search block is not visible.');
+    }
+  }
+
+  /**
+   * @Then /^I should see the sidebar facet with title "([^"]*)"$/
+   */
+  public function iShouldSeeTheSidebarFacet($title) {
+    $page = $this->getSession()->getPage();
+    $facets = $page->findAll('css', '.region-sidebar-first .block-facetapi');
+
+    $found = FALSE;
+    foreach ($facets as $facet) {
+      $block_title = $facet->find('css', '.block-title');
+      if (!$block_title || $block_title->getText() !== $title) {
+        continue;
+      }
+
+      $found = TRUE;
+      break;
+    }
+
+    if (!$found) {
+      $params = array(
+        '@title' => $title,
+      );
+      throw new Exception(format_string("Facet with @title not found.", $params));
+    }
+  }
+
+
+  /**
+   * Helper to get the group based on the title & type.
+   *
+   * @param string $title
+   *   The group title.
+   * @param string $type
+   *   The group node type.
+   *
+   * @return stdClass
+   *   The group (if any) or NULL.
+   *
+   * @throws Exception
+   */
+  private function loadGroupByTitleAndType($title, $type) {
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $type)
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Group @title not found (type @type).", $params));
+    }
+
+    $gid = (int) key($result['node']);
+    $group = node_load($gid);
+    if (!$group) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Group @title not found (type @type).", $params));
+    }
+
+    return $group;
+  }
+
+  /**
+   * Helper to create a uri within a group context.
+   *
+   * @param stdClass $group
+   *   The group context.
+   * @param string $path
+   *   The path part.
+   *
+   * @return string
+   */
+  protected function createUriWithGroupContext($group, $path = '<front>') {
+    $purl = array(
+      'provider' => "og_purl|node",
+      'id' => $group->nid,
+    );
+    $uri = ltrim(url($path, array('purl' => $purl, 'absolute' => TRUE)));
+
+    return $uri;
   }
 }

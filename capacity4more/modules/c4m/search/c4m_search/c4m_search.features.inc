@@ -170,7 +170,10 @@ function c4m_search_default_search_api_index() {
         "group_group" : { "type" : "boolean" },
         "is_new" : { "type" : "boolean" },
         "nid" : { "type" : "integer" },
+        "og_group_ref" : { "type" : "integer", "entity_type" : "node" },
+        "og_vocabulary" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "promote" : { "type" : "boolean" },
+        "search_api_access_node" : { "type" : "list\\u003Cstring\\u003E" },
         "search_api_language" : { "type" : "string" },
         "status" : { "type" : "integer" },
         "sticky" : { "type" : "boolean" },
@@ -316,6 +319,53 @@ function c4m_search_default_search_api_index() {
     },
     "enabled" : "1",
     "read_only" : "0",
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_default_search_api_sort().
+ */
+function c4m_search_default_search_api_sort() {
+  $items = array();
+  $items['c4m_search_nodes__comment_count'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_nodes",
+    "field" : "comment_count",
+    "name" : "Comment count",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_nodes__comment_count",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Comment count" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_nodes__created'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_nodes",
+    "field" : "created",
+    "name" : "Date created",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_nodes__created",
+    "default_sort" : "1",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Date created" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_nodes__search_api_relevance'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_nodes",
+    "field" : "search_api_relevance",
+    "name" : "Relevance",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_nodes__search_api_relevance",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "search_api_relevance" },
     "rdf_mapping" : []
   }');
   return $items;
