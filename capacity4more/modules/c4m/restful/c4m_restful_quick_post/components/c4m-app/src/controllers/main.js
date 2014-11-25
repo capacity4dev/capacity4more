@@ -57,7 +57,8 @@ angular.module('c4mApp')
 
     // Activity stream status, refresh time.
     $scope.stream = {
-      lastLoadedId: $scope.activities[0].id,
+      // The first one is the last loaded activity, (Because of the order).
+      lastLoadedID: $scope.activities[0].id,
       status: 0
     };
 
@@ -72,26 +73,16 @@ angular.module('c4mApp')
     $scope.refresh = function() {
       var streamData = {};
       streamData.group = $scope.data.group;
-      streamData.lastId = $scope.stream.lastLoadedId;
+      streamData.lastId = $scope.stream.lastLoadedID;
+
+      // Don't send a request when data is missing.
+      if(!streamData.lastId || !streamData.group) {
+        $scope.stream.status = 500;
+        return false;
+      }
       EntityResource.updateStream(streamData)
       .success( function (data, status) {
-        if (data) {
-          // Update the stream status.
-          $scope.stream = {
-            status: status
-          };
-          // Count the activities that were fetched.
-          var position = 0;
-          angular.forEach(data.data, function (activity) {
-            this.splice(position, 0, {
-              id: activity.id,
-              html: $sce.trustAsHtml(activity.html)
-            });
-            // Update the last loaded ID.
-            $scope.stream.lastLoadedId = activity.id;
-            position++;
-          }, $scope.newActivities);
-        }
+        $scope.addNewActivities(data, status, 'newActivities');
       })
       .error( function (data, status) {
         $scope.stream = {
@@ -102,6 +93,43 @@ angular.module('c4mApp')
     };
     //Start the activity stream refresh.
     $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
+
+    /**
+     * Adds newly fetched activities to either to the activity-stream or the load button,
+     * Depending on if the current user added an activity or it's just fetched from the server.
+     *
+     * @param data
+     *  The response of the activity stream resource.
+     * @param status
+     *  The status of the server of the activity stream resource.
+     * @param variable
+     *  Determines to which variable the data should be added.
+     */
+    $scope.addNewActivities = function(data, status, variable) {
+      if (variable == 'activities') {
+        // Merge all the loaded activities before adding the created one.
+        $scope.showNewActivities();
+      }
+
+      if (data.data) {
+        // Update the stream status.
+        $scope.stream = {
+          status: status
+        };
+        // Count the activities that were fetched.
+        var position = 0;
+        angular.forEach(data.data, function (activity) {
+          this.splice(position, 0, {
+            id: activity.id,
+            html: $sce.trustAsHtml(activity.html)
+          });
+          position++;
+        }, $scope[variable]);
+
+        // Update the last loaded ID.
+        $scope.stream.lastLoadedID = $scope[variable][0].id;
+      }
+    };
 
     /**
      * Merge the new activity with the activity stream,
@@ -347,32 +375,26 @@ angular.module('c4mApp')
           // Request the new activity.
           var streamData = {};
           streamData.group = submitData.group;
-          streamData.lastId = $scope.stream.lastLoadedId;
+          streamData.lastId = $scope.stream.lastLoadedID;
+
+          // Don't send a request when data is missing.
+          if(!streamData.lastId || !streamData.group) {
+            $scope.stream.status = 500;
+            return false;
+          }
           EntityResource.updateStream(streamData)
           .success( function (data, status) {
-            $scope.stream = {
-              status: status
-            };
-
             // Scroll to the top of the page 50px down.
             angular.element('body').animate({scrollTop:50}, '500', 'swing');
 
-            // Push the new activity to the activities array.
-            angular.forEach(data.data, function (activity) {
-              this.splice(0, 0, {
-                id: activity.id,
-                created: activity.created,
-                html: $sce.trustAsHtml(activity.html)
-              });
+            // Add the newly created activity to the stream.
+            $scope.addNewActivities(data, status, 'activities');
 
-              // Update the last loaded ID.
-              $scope.stream.lastLoadedId = activity.id;
+            // Highlight only the newly added activity.
+            $timeout(function() {
+              jQuery('#activity-' + data.data[0].id).effect( "highlight", {}, 10000 );
+            }, 10);
 
-              // Highlight the newly added activity.
-              $timeout(function() {
-                jQuery('#activity-' + activity.id).effect( "highlight", {}, 10000 );
-              }, 10);
-            }, $scope.activities);
 
             // Collapse the quick-post form.
             $scope.selectedResource = '';
