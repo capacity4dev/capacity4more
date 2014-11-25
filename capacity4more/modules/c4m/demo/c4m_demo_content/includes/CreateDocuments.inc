@@ -98,7 +98,7 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
-    
+
     // TOPIC references.
     $unfiltered_ids = $this->handleSourceMigration(
       'C4mDemoContentCreateTopics',
