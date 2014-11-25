@@ -273,7 +273,7 @@
         <em><?php print t('Quick Post') ?></em>
       </div>
 
-      <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
+      <form name="documentForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
         <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
           <div>
@@ -281,9 +281,9 @@
           </div>
         </div>
 
-        <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+        <div class="form-group text" ng-class="{ 'has-error' : documentForm.label.$invalid && !documentForm.label.$pristine }">
           <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
-          <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
+          <p ng-show="documentForm.label.$invalid && !documentForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
           <div class="errors">
             <ul ng-show="serverSide.data.errors.label">
               <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>

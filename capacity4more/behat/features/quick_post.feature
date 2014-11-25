@@ -27,4 +27,5 @@ Feature: Test quick post
     Given I am logged in as user "mariecurie"
     When I start creating "discussion" in full form with title "some title"
     And I attach the file "/var/www/html/capacity4more/www/dan.jpg" to "document-file"
-    Then I wait for text "dan.jpg" to appear
+    Then I wait for text "was saved successfully." to appear in "entityForm"
+    And I wait for text "File dan.jpg has been loaded!" to appear in "documentForm"

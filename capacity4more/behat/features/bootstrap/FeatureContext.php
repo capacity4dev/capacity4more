@@ -496,10 +496,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^I wait for text "([^"]+)" to (appear|disappear)$/
+   * @Given /^I wait for text "([^"]+)" to (appear|disappear) in "([^"]+)"$/
    */
-  public function iWaitForText($text, $appear) {
-    $this->waitForXpathNode(".//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
+  public function iWaitForText($text, $appear, $element_name) {
+    $this->waitForXpathNode(".//*[contains(@name, \"$element_name\")]//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
   }
 
   private function waitFor($fn, $timeout = 10000) {
