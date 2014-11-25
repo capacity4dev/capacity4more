@@ -12,6 +12,9 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return 'plugins/' . $plugin;
   }
+  elseif ($module == 'entityreference') {
+      return "plugins/entityreference/$plugin";
+    }
 }
 
 /**
