@@ -38,6 +38,9 @@ projects[date][version] = "2.8"
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
+projects[ds][subdir] = "contrib"
+projects[ds][version] = "2.7"
+
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
@@ -166,8 +169,12 @@ projects[rules][version] = "2.6"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.13"
+projects[search_api_attachments][subdir] = "contrib"
+projects[search_api_attachments][version] = "1.4"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
+projects[search_api_sorts][subdir] = "contrib"
+projects[search_api_sorts][version] = "1.x-dev"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
