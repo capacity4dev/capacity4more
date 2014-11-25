@@ -157,3 +157,88 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   return $element;
 }
+
+/**
+ * Implements hook_facetapi_facet_info().
+ *
+ * @param array $searcher_info
+ *   The definition of the searcher that facets are being collected for.
+ *
+ * @return array
+ */
+function c4m_og_vocab_facetapi_facet_info(array $searcher_info) {
+  $facets = array();
+
+  // Facets are usually associated with the type of content stored in the index.
+  if (isset($searcher_info['types']['node'])) {
+    $vocabulary_types = c4m_og_vocab_info('vocabularies');
+    foreach ($vocabulary_types as $type => $info) {
+      $params = array('@type' => $info['name']);
+
+      $facets[$type] = array(
+        'name' => $type,
+        'label' => t('Group : @type', $params),
+        'description' => t('Filter by Group metadata of type @type.', $params),
+        'field' => 'og_vocabulary',
+        'field alias' => 'og_vocabulary',
+        'field type' => 'taxonomy_term',
+        'field api name' => 'og_vocabulary',
+        'hierarchy callback' => 'search_api_facetapi_get_taxonomy_hierarchy',
+        'allowed operators' => array(FACETAPI_OPERATOR_AND => TRUE, FACETAPI_OPERATOR_OR => TRUE),
+        'dependency plugins' => array('role', 'bundle'),
+        'facet missing allowed' => TRUE,
+        'facet mincount allowed' => TRUE,
+        'map callback' => 'search_api_facetapi_facet_map_callback',
+        'map options' => array(
+          'field' => array(
+            'type' => 'list<integer>',
+            'entity_type' => 'taxonomy_term',
+            'name' => 'Metadata',
+            'description' => 'Field "og_vocabulary".',
+            'boost' => '1.0',
+            'indexed' => TRUE,
+            'key' => 'og_vocabulary',
+          ),
+          'index id' => $searcher_info['instance'],
+          'value callback' => '_search_api_facetapi_facet_create_label'
+        ),
+        'alter callbacks' => array('c4m_og_vocab_alter_callback'),
+      );
+    }
+  }
+
+  return $facets;
+}
+
+/**
+ * Alter the facet before it is build.
+ *
+ * @param array $data
+ *   The data that will be displayed in the facet.
+ * @param FacetapiAdapter $adapter
+ *   The Facet Api adapter in use.
+ * @param array $settings
+ *   Teh facet settings.
+ */
+function c4m_og_vocab_alter_callback(array &$data, FacetapiAdapter $adapter, array $settings) {
+  // Group vocabulary is only possible within a group.
+  $group = c4m_og_current_group();
+  if (!$group) {
+    return;
+  }
+
+  // Get the vocabulary.
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, $settings['name']);
+  if (!$vocabulary) {
+    return;
+  }
+
+  // Filter out terms that are not related to the vocabulary.
+  $term_ids = array_keys($data);
+  foreach ($term_ids as $tid) {
+    $term = taxonomy_term_load($tid);
+    if ((int) $term->vid !== (int) $vocabulary->vid) {
+      unset($data[$tid]);
+    }
+  }
+}

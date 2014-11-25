@@ -178,6 +178,55 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_nodes:block:c4m_vocab_category';
+  $facet->searcher = 'search_api@c4m_search_nodes';
+  $facet->realm = 'block';
+  $facet->facet = 'c4m_vocab_category';
+  $facet->enabled = TRUE;
+  $facet->settings = array(
+    'weight' => 0,
+    'widget' => 'c4m_search_links_grouped',
+    'filters' => array(),
+    'active_sorts' => array(
+      'taxonomy_weight' => 'taxonomy_weight',
+      'active' => 'active',
+      'display' => 'display',
+      'count' => 'count',
+      'indexed' => 0,
+    ),
+    'sort_weight' => array(
+      'taxonomy_weight' => '-50',
+      'active' => '-49',
+      'display' => '-48',
+      'count' => '-47',
+      'indexed' => '-46',
+    ),
+    'sort_order' => array(
+      'taxonomy_weight' => '4',
+      'active' => '3',
+      'display' => '4',
+      'count' => '3',
+      'indexed' => '4',
+    ),
+    'empty_behavior' => 'none',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
+    'soft_limit' => '20',
+    'nofollow' => 1,
+    'show_expanded' => 1,
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'filtered_html',
+    ),
+    'keep_open' => 0,
+    'expand' => 1,
+    'collapsible_children' => 0,
+  );
+  $export['search_api@c4m_search_nodes:block:c4m_vocab_category'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_nodes:block:c4m_vocab_date';
   $facet->searcher = 'search_api@c4m_search_nodes';
   $facet->realm = 'block';
@@ -274,22 +323,25 @@ function c4m_search_facetapi_default_facet_settings() {
     'widget' => 'facetapi_links',
     'filters' => array(),
     'active_sorts' => array(
+      'taxonomy_weight' => 'taxonomy_weight',
       'display' => 'display',
       'active' => 'active',
       'count' => 'count',
       'indexed' => 0,
     ),
     'sort_weight' => array(
-      'active' => '-49',
-      'count' => '-48',
-      'display' => '-50',
-      'indexed' => '-47',
+      'display' => '-49',
+      'active' => '-48',
+      'count' => '-47',
+      'indexed' => '-46',
+      'taxonomy_weight' => '-50',
     ),
     'sort_order' => array(
+      'display' => '4',
       'active' => '3',
       'count' => '3',
-      'display' => '4',
       'indexed' => '4',
+      'taxonomy_weight' => '4',
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
@@ -350,45 +402,38 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_nodes:block:og_vocabulary';
+  $facet->name = 'search_api@c4m_search_nodes:block:c4m_vocab_tag';
   $facet->searcher = 'search_api@c4m_search_nodes';
   $facet->realm = 'block';
-  $facet->facet = 'og_vocabulary';
+  $facet->facet = 'c4m_vocab_tag';
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
     'filters' => array(),
     'active_sorts' => array(
-      'display' => 'display',
       'active' => 'active',
       'count' => 'count',
-      'indexed' => 0,
+      'display' => 'display',
     ),
     'sort_weight' => array(
-      'active' => '-49',
-      'count' => '-48',
-      'display' => '-50',
-      'indexed' => '-47',
+      'active' => -50,
+      'count' => -49,
+      'display' => -48,
     ),
     'sort_order' => array(
-      'active' => '3',
-      'count' => '3',
-      'display' => '4',
-      'indexed' => '4',
+      'active' => 3,
+      'count' => 3,
+      'display' => 4,
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
     'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '20',
+    'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
-    'empty_text' => array(
-      'value' => '',
-      'format' => 'filtered_html',
-    ),
   );
-  $export['search_api@c4m_search_nodes:block:og_vocabulary'] = $facet;
+  $export['search_api@c4m_search_nodes:block:c4m_vocab_tag'] = $facet;
 
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
