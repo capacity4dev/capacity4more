@@ -315,7 +315,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
 
     return $steps;
@@ -348,7 +348,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
@@ -361,7 +361,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit the group dashboard of group "' . $group . '"');
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
