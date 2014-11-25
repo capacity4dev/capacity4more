@@ -354,7 +354,6 @@ function build_angular_app {
 
   # Build the dependencies.
   cd $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
-  bundle install
   npm install
   grunt build
   cd $ROOT

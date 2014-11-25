@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload, $timeout) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -215,45 +215,11 @@ angular.module('c4mApp')
         }
       }, $scope.popups);
       // Get the width of the element clicked in the event.
-      var elemWidth = angular.element(event.target).outerWidth();
-      var elemPosition = angular.element(event.target).offset();
-      var elemParentPosition = angular.element(event.target).parent().offset();
+      var elem_width = angular.element(event.srcElement).outerWidth();
       // Toggle the visibility variable.
       $scope.popups[name] = $scope.popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
-
-    };
-
-    /**
-     * Update the position of the pop-over.
-     *
-     * @param type
-     *  The type of the taxonomy-term.
-     */
-    $scope.updatePopoverPosition = function(type) {
-      // Wait for the scope to be updated.
-      $timeout(function() {
-        var elemWidth = angular.element("#" + type).outerWidth();
-        var elemPosition = angular.element("#" + type).offset();
-        var elemParentPosition = angular.element("#" + type).parent().offset();
-        angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
-      }, 10);
-    };
-
-    /**
-     * Remove a taxonomy-term value when clicking on the "X",
-     *
-     * @param key
-     *  The id of the taxonomy-term.
-     * @param type
-     *  The type of the taxonomy-term.
-     */
-    $scope.removeTaxonomyValue = function(key, type) {
-      delete ($scope.data[type][key]);
-
-      //Update the position of the pop-over.
-      $scope.updatePopoverPosition(type);
+      angular.element(".hidden-checkboxes").css('left', elem_width);
     };
 
     /**

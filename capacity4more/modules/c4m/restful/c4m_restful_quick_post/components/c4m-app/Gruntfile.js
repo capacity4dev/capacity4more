@@ -55,9 +55,9 @@ module.exports = function(grunt) {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
-      compass: {
-        files: ['<%= yeoman.src %>/_scss/**/*.{scss,sass}'],
-        tasks: ['compass:server']
+      less: {
+        files: ['<%= yeoman.src %>/{,*/}*.less'],
+        tasks: ['less:dist']
       },
       app: {
         files: [
@@ -98,25 +98,14 @@ module.exports = function(grunt) {
         }
       }
     },
-    compass: {
+    less: {
       options: {
-        // If you're using global Sass gems, require them here.
-        // require: ['singularity', 'jacket'],
-        bundleExec: true,
-        sassDir: '<%= yeoman.src %>/_scss',
-        cssDir: '<%= yeoman.dist %>/css',
-        relativeAssets: false,
-        outputStyle: 'compressed',
-        raw: 'extensions_dir = "<%= yeoman.app %>/_bower_components"\n'
+        // dumpLineNumbers: 'all',
+        paths: ['<%= yeoman.src %>']
       },
       dist: {
         files: {
-          '<%= yeoman.src %>/<%= yeoman.name %>.css': '<%= yeoman.src %>/<%= yeoman.name %>.scss'
-        }
-      },
-      server: {
-        options: {
-          debugInfo: true
+          '<%= yeoman.src %>/<%= yeoman.name %>.css': '<%= yeoman.src %>/<%= yeoman.name %>.less'
         }
       }
     },
@@ -194,7 +183,7 @@ module.exports = function(grunt) {
             src: [
               'directives/**/*.html',
               'views/**/*.html',
-              'css/**/*.css'
+              'css/**/*.css',
             ],
             dest: '<%= yeoman.dist %>'
           }
@@ -210,7 +199,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'compass:dist',
     'copy:dist',
     'concat:dist'
   ]);
