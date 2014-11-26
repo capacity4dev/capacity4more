@@ -523,6 +523,24 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I upload the file "([^"]*)"$/
+   */
+  public function iUploadTheFile($file) {
+    // Attaching file is working only if input is visible.
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInputXpath = './/div[contains(@name, "discussion_document_upload")]/input[contains(@type, "file")]';
+
+    $fields = $this->getSession()->getDriver()->find($fileInputXpath);
+    $field = count($fields) > 0 ? $fields[0] : NULL;
+    if (null === $field) {
+      throw new Exception("File input is not found");
+    }
+    $field->attachFile($file_path);
+  }
+
+
+  /**
    * @Then /^I should not see the "([^"]*)" link above the overview$/
    */
   public function iShouldNotSeeTheLinkAboveTheOverview($label) {

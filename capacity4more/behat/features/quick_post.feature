@@ -26,6 +26,6 @@ Feature: Test quick post
   Scenario: Test uploading files.
     Given I am logged in as user "mariecurie"
     When I start creating "discussion" in full form with title "some title" in group "Tennis Group"
-    And I attach the file "cat1.jpg" to "document-file"
+    And I upload the file "cat1.jpg"
     Then I wait for text "was saved successfully." to appear in "entityForm"
     And I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
