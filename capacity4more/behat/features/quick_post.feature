@@ -23,19 +23,21 @@ Feature: Test quick post
     Then  I should see "The Event was saved successfully."
 
   @javascript
-  Scenario: Test uploading files.
+  Scenario: Adding document with image file to discussion.
     Given I am logged in as user "mariecurie"
-    When I start creating "discussion" in full form with title "some title" in group "Tennis Group"
-    And I upload the file "cat1.jpg"
-    Then I wait for text "was saved successfully." to appear in "entityForm"
-    And I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
+    When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
+    And   I upload the file "cat1.jpg"
+    And   I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
+    And   I save document with title "New document" for a discussion
+    And   I wait
+    Then  I should see "New document"
 
   @javascript
-  Scenario: Adding document to discussion.
+  Scenario: Adding document with doc file to discussion.
     Given I am logged in as user "mariecurie"
-    When I start creating "discussion" in full form with title "some title" in group "Tennis Group"
-    And I upload the file "cat1.jpg"
-    And I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
-    And I save document with title "New document" for a discussion
-    And I wait
-    Then I should see "New document"
+    When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
+    And   I upload the file "doc1.doc"
+    And   I wait for text "File doc1.doc has been loaded!" to appear in "documentForm"
+    And   I save document with title "New document" for a discussion
+    And   I wait
+    Then  I should see "New document"
