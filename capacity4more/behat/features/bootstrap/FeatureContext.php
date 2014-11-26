@@ -398,7 +398,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function groupMenuItemShouldBeActive($label) {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '#block-menu-menu-group-menu a.active');
+    $el = $page->find('css', '#block-menu-c4m-og-menu a.active');
     if ($el === null) {
       throw new Exception('The group menu has no active items.');
     }
@@ -451,8 +451,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar search');
     $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "OG Vocab"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Categories"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
 
     return $steps;
   }
