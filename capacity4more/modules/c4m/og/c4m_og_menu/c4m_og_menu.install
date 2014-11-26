@@ -14,7 +14,7 @@ function c4m_og_menu_install() {
   $item = array(
     'link_title' => st('Home'),
     'link_path' => '<front>',
-    'menu_name' => 'menu-group-menu',
+    'menu_name' => 'c4m-og-menu',
     'weight'    => -50,
   );
   menu_link_save($item);

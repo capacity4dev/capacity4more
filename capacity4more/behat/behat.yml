@@ -18,6 +18,8 @@ default:
           'drupal'
         president:
           'drupal'
+        alfrednobel:
+          'drupal'
   paths:
     features: 'features'
   extensions:
