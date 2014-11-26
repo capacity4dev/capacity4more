@@ -454,6 +454,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $steps[] = new Step\When('I visit "' . $uri . '/node/js-add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I fill editor "body" with "Some text in the body"');
     return $steps;
   }
 
@@ -526,7 +527,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I upload the file "([^"]*)"$/
    */
   public function iUploadTheFile($file) {
-    // Attaching file is working only if input is visible.
     $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
 
     $fileInputXpath = './/div[contains(@name, "discussion_document_upload")]/input[contains(@type, "file")]';
@@ -536,7 +536,31 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     if (null === $field) {
       throw new Exception("File input is not found");
     }
+    $this->getSession()->resizeWindow(1440, 900, 'current');
+
+    // Attaching file is working only if input is visible.
+    $this->getSession()->getDriver()->evaluateScript(
+      "jQuery('#document_file').css('display', 'block');"
+    );
     $field->attachFile($file_path);
+    // Make input hidden after attaching the file.
+    $this->getSession()->getDriver()->evaluateScript(
+      "jQuery('#document_file').css('display', 'none');"
+    );
+  }
+
+  /**
+   * @Given /^I save document with title "([^"]*)" for a discussion$/
+   */
+  public function iSaveDocumentWithTitleForADiscussion($title) {
+    $label_xpath = ".//*[contains(@name, \"documentForm\")]//input[contains(@name, \"label\")]";
+    $save_xpath = ".//*[contains(@name, \"documentForm\")]//button[contains(@id, \"quick-submit\")]";
+
+    $fields = $this->getSession()->getDriver()->find($label_xpath);
+    $fields[0]->setValue($title);
+
+    $fields = $this->getSession()->getDriver()->find($save_xpath);
+    $fields[0]->press();
   }
 
 
@@ -695,5 +719,26 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $uri = ltrim(url($path, array('purl' => $purl)), '/');
 
     return $uri;
+  }
+
+  /**
+   * @AfterStep
+   *
+   * Take a screenshot after failed steps.
+   */
+  public function takeScreenshotAfterFailedStep($event) {
+    if ($event->getResult() != 4) {
+      // Step didn't fail.
+      return;
+    }
+    if (!($this->getSession()->getDriver() instanceof \Behat\Mink\Driver\Selenium2Driver)) {
+      // Not a Selenium driver (e.g. PhantomJs).
+      return;
+    }
+
+    $file_name = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR . 'behat-failed-step.png';
+    $screenshot = $this->getSession()->getDriver()->getScreenshot();
+    file_put_contents($file_name, $screenshot);
+    print "Screenshot for failed step created in $file_name";
   }
 }

@@ -15,7 +15,7 @@
         <div ng-hide="serverSide.file">
           <?php print t('Drop file here to upload or'); ?>
           <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-          <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+          <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
         </div>
 
         <div ng-show="serverSide.file.status == 200">
@@ -115,7 +115,7 @@
           <div name="discussion_document_upload">
             <?php print t('Drop file here to upload or'); ?>
             <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-            <input type="file" ng-hide="false" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+            <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
             <br/>
             <?php print t('or'); ?>
             <a href="javascript://"><?php print t('Select a Document from the library') ?></a>

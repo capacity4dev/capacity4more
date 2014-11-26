@@ -22,10 +22,20 @@ Feature: Test quick post
     When  I create an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" in "Tennis Group"
     Then  I should see "The Event was saved successfully."
 
-  @javascript @foo
+  @javascript
   Scenario: Test uploading files.
     Given I am logged in as user "mariecurie"
     When I start creating "discussion" in full form with title "some title" in group "Tennis Group"
     And I upload the file "cat1.jpg"
     Then I wait for text "was saved successfully." to appear in "entityForm"
     And I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
+
+  @javascript
+  Scenario: Adding document to discussion.
+    Given I am logged in as user "mariecurie"
+    When I start creating "discussion" in full form with title "some title" in group "Tennis Group"
+    And I upload the file "cat1.jpg"
+    And I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
+    And I save document with title "New document" for a discussion
+    And I wait
+    Then I should see "New document"
