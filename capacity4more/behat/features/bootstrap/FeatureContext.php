@@ -559,7 +559,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     }
   }
 
-
   /**
    * Helper to get the group based on the title & type.
    *
