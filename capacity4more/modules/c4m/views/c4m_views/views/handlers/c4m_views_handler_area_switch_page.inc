@@ -49,7 +49,7 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     }
     return $options;
   }
-  
+
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 

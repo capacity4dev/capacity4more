@@ -68,7 +68,7 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page']['ui_name'] = 'Add list view';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'documents';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'List';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'teaser-view';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'list-teaser-view';
   /* Header: Add table view */
   $handler->display->display_options['header']['c4m_views_switch_page_1']['id'] = 'c4m_views_switch_page_1';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['table'] = 'views';

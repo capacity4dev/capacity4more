@@ -627,4 +627,44 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $uri;
   }
+  /**
+   * @When /^I visit the documents overview of group "([^"]*)"$/
+   */
+  public function iVisitTheDocumentsOverviewOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'documents');
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Then /^I should see the documents overview$/
+   */
+  public function iShouldSeeTheDocumentsOverview() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('I should be able to sort the overview');
+    $steps[] = new Step\When('I should see the sidebar search');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Categories"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+
+    return $steps;
+  }
+  /**
+   * @Given /^I should be able to see the "([^"]*)" icon$/
+   */
+  public function iShouldBeAbleToSeeTheIcon($icon_type) {
+    $page = $this->getSession()->getPage();
+    $icon = $page->findAll('css', '.region-content .view-header .' .
+      $icon_type . '-teaser-view');
+
+    if (!count($icon)) {
+      throw new Exception("No $icon_type overview icon found.");
+    }
+  }
 }
+
