@@ -336,8 +336,8 @@ angular.module('c4mApp')
      */
     $scope.submitForm = function(data, resource, type) {
 
-      // Stop the "Activity-stream" auto refresh,
-      // When submitting a new activity because we don't want the auto refresh to display the activity as an old one.
+      // Stop the "Activity-stream" auto refresh When submitting a new activity,
+      // because we don't want the auto refresh to display the activity as an old one.
       $interval.cancel($scope.refreshing);
 
       // Reset all errors.
@@ -393,6 +393,7 @@ angular.module('c4mApp')
 
       // Reset the form, by removing existing values and allowing the user to write a new content.
       $scope.resetEntityForm();
+
       // Resume the "Activity-stream" auto refresh.
       $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
     };
@@ -422,7 +423,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * Resets the quick-post form.
+     * Resets the quick-post form validations.
+     * Clears all the fields for a new entry.
      */
     $scope.resetEntityForm = function() {
       // Clear any form validation errors.
