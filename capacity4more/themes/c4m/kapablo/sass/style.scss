@@ -4,12 +4,15 @@
 // Layout
 @import "layout/header";
 
-.modal-content {
-  padding: 10px;
+@import "layout/header_group";
 
-  .actions {
-    padding-bottom: 30px;
-  }
+// Styles for quick form.
+.modal-content {
+ padding: 10px;
+
+ .actions {
+   padding-bottom: 30px;
+ }
 }
 
 .document {
