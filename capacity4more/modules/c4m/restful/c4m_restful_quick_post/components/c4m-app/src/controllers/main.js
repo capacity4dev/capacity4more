@@ -57,8 +57,8 @@ angular.module('c4mApp')
 
     // Activity stream status, refresh time.
     $scope.stream = {
-      // The first one is the last loaded activity, (Because of the order).
-      lastLoadedID: $scope.existingActivities[0].id,
+      // The first one is the last loaded activity, (if no activities, insert 0).
+      lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
       status: 0
     };
 
@@ -78,7 +78,7 @@ angular.module('c4mApp')
 
     /**
      * Adds newly fetched activities to either to the activity-stream or the load button,
-     * Depending on if the current user added an activity or it's just fetched from the server.
+     * Depending on if the current user added an activity or it's fetched from the server.
      *
      * @param type
      *  Determines to which variable the data should be added.
@@ -103,11 +103,11 @@ angular.module('c4mApp')
       // Call the update stream method.
       EntityResource.updateStream(activityStreamInfo)
       .success( function (data, status) {
+        // Update the stream status.
+        $scope.stream.status = status;
+
+        // Update if there's new activities.
         if (data.data) {
-          // Update the stream status.
-          $scope.stream = {
-            status: status
-          };
           // Count the activities that were fetched.
           var position = 0;
           angular.forEach(data.data, function (activity) {
@@ -119,13 +119,13 @@ angular.module('c4mApp')
           }, $scope[type]);
 
           // Update the last loaded ID.
-          $scope.stream.lastLoadedID = $scope[type][0].id;
+          // Only if there's new activities from the server.
+          $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
         }
       })
       .error( function (data, status) {
-        $scope.stream = {
-          status: status
-        };
+        // Update the stream status if we get an error, This will display the error message.
+        $scope.stream.status = status;
       });
     };
 
@@ -177,11 +177,6 @@ angular.module('c4mApp')
 
     // Preparing the data for the form.
     initFormValues();
-
-    // Set "Start a Debate" as default discussion type.
-    $scope.data.discussion_type = 'debate';
-    // Set "Event" as default event type.
-    $scope.data.event_type = 'event';
 
     // Prepare all the taxonomy-terms to be a tree object.
     angular.forEach($scope.referenceValues, function (data, field) {
