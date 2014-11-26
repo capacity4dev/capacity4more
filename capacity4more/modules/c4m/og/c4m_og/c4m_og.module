@@ -391,6 +391,7 @@ function c4m_og_form_alter(&$form, $form_state) {
   $form['og_purl']['purl']['value']['#machine_name'] = array(
     'source' => array('title'),
     'label' => t('Group path'),
+    'exists' => 'c4m_og_purl_exists',
   );
 }
 
@@ -403,4 +404,8 @@ function c4m_og_module_implements_alter(&$implementations, $hook) {
     unset($implementations['c4m_og']);
     $implementations['c4m_og'] = $c4m_og;
   }
+}
+
+function c4m_og_purl_exists($value) {
+  return FALSE;
 }

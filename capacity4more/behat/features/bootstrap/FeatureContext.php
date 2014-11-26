@@ -120,7 +120,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -139,7 +139,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Request"');
 
     // Check there was no error.
     $steps[] = new Step\When('I should not see "There was an error"');

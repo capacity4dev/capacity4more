@@ -112,8 +112,8 @@ function c4m_content_group_field_default_field_instances() {
     'label' => 'Group description',
     'required' => 0,
     'settings' => array(
-      'display_summary' => 0,
-      'summary_display' => 'required',
+      'display_summary' => 1,
+      'summary_display' => 'hidden',
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
