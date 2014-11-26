@@ -113,7 +113,7 @@ dependencies[] = c4m_restful
 ; Overview content within groups
 dependencies[] = c4m_og_menu
 dependencies[] = c4m_features_og_group_dashboard
-dependencies[] = c4m_features_og_overview_discussions
+dependencies[] = c4m_features_og_discussions
 dependencies[] = c4m_features_og_overview_documents
 dependencies[] = c4m_features_og_overview_events
 dependencies[] = c4m_features_og_overview_members
