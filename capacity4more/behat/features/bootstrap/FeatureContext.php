@@ -139,11 +139,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I upload the file "cat1.jpg" in the field "edit-c4m-banner-und-0"');
     $steps[] = new Step\When('I press "Request"');
 
     // Check there was no error.
-    $steps[] = new Step\When('I should print page to "momo.html"');
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
