@@ -672,7 +672,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   /**
    * @Given /^I see a "([^"]*)" on an item in the overview$/
    */
-  public function iSeeAFieldOnAnItemInTheOverview($field) {
+  public function iShouldSeeAFieldOnAnItemInTheOverview($field) {
     $page = $this->getSession()->getPage();
     switch($field) {
       case 'Author':
