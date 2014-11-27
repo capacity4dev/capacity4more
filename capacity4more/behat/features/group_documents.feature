@@ -22,4 +22,3 @@ Feature: Group Documents
     And I should see the "Add Photo album" link above the overview
     And I should be able to see the "list" icon
     And I should be able to see the "table" icon
-
