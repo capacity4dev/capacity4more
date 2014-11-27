@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Expose the "Discussion" resource.'),
   'class' => 'C4mRestfulDiscussionsResource',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

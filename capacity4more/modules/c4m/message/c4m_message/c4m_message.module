@@ -7,6 +7,15 @@
 include_once 'c4m_message.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_message_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Implements hook_entity_insert().
  *
  * Delegate message creation for inserted entities.

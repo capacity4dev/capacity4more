@@ -1,5 +1,5 @@
 <div class="form-group btn-group">
-    <button type="button" ng-value="key" ng-class="{active: key==selectedResource}" ng-model="selectedResource" ng-required="!selectedResource" ng-click="updateResource(key, $event)" class="btn btn-default bundle-select" ng-repeat="(key, value) in items">
+    <button type="button" ng-value="key" ng-class="{active: key==selectedResource}" ng-model="selectedResource" ng-required="!selectedResource" ng-click="updateResource(key)" class="btn btn-default bundle-select" ng-repeat="(key, value) in items">
       {{ value.description }}
     </button>
 </div>
