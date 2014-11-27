@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Handler to add a node add button to a view area.
+ * Handler to optionally add links to page displays of a view.
  */
 
 /**

@@ -35,7 +35,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $this->user->pass = $this->drupal_users[$username];
     $this->login();
   }
-  
+
   /**
    * @Given /^I wait$/
    */
@@ -627,6 +627,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $uri;
   }
+
   /**
    * @When /^I visit the documents overview of group "([^"]*)"$/
    */
@@ -654,6 +655,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     return $steps;
   }
+
   /**
    * @Given /^I should be able to see the "([^"]*)" icon$/
    */
