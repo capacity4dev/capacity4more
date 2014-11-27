@@ -9,7 +9,7 @@ Feature: Group Discussions
     When I visit the discussions overview of group "Nobel Prize"
     Then I should see the discussions overview
     And I should not see the "Add a Discussion" link above the overview
-    And I see a "Author" on an item in the overview
+    And I see a "Author" field on an item in the overview
 
   @api @wip
   Scenario: Check discussions overview as group owner
@@ -17,5 +17,5 @@ Feature: Group Discussions
     When I visit the discussions overview of group "Nobel Prize"
     Then I should see the discussions overview
     And I should see the "Add a Discussion" link above the overview
-    And I see a "Author" on an item in the overview
+    And I see a "Author" field on an item in the overview
 
