@@ -42,7 +42,12 @@ function theme_c4m_ds_node_meta($field) {
       $wrapper->c4m_last_name->value();
 
     if (!empty($name)) {
-      $name_link = l($name, 'user/' . $entity->uid);
+      $options = array(
+        'attributes' => array(
+          'class' => array('username'),
+        )
+      );
+      $name_link = l($name, 'user/' . $entity->uid, $options);
       if ('default' == $field['formatter']) {
         $name_and_date .= t('information posted by');
       }

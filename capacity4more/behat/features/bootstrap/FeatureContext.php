@@ -467,6 +467,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+    $steps[] = new Step\When('I should see a "Author" field on an item in the overview');
 
     return $steps;
   }
@@ -670,7 +671,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^I see a "([^"]*)" on an item in the overview$/
+   * @Given /^I should see a "([^"]*)" field on an item in the overview$/
    */
   public function iShouldSeeAFieldOnAnItemInTheOverview($field) {
     $page = $this->getSession()->getPage();
@@ -683,6 +684,76 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     if (!count($element)) {
       throw new Exception("No $field found in the overview.");
+    }
+  }
+
+  /**
+   * @When /^I visit the group "([^"]*)" detail page "([^"]*)"$/
+   */
+  public function iVisitTheGroupDetailPage($type, $title) {
+    return $this->iVisitNodePageOfType($title, $type);
+  }
+
+  /**
+   * @Then /^I should see the discussion detail page$/
+   */
+  public function iShouldSeeTheDiscussionDetailPage() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Comment" field');
+    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Details" field group');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field$/
+   */
+  public function iShouldSeeAField($field) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+      case 'Comment':
+        $class = 'comment-wrapper';
+        break;
+      case 'Title':
+        $class = 'field-name-title';
+        break;
+    }
+
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $field field found.");
+    }
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field group$/
+   */
+  public function iShouldSeeAFieldGroup($fieldgroup) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($fieldgroup) {
+      case 'Details':
+        $class = 'group-node-details';
+        break;
+    }
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $fieldgroup field group found.");
     }
   }
 }
