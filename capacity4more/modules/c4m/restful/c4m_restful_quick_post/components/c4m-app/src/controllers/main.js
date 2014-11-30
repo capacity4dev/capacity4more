@@ -98,8 +98,11 @@ angular.module('c4mApp')
 
       // Don't send a request when data is missing.
       if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
-        $scope.stream.status = 500;
-        return false;
+        // If last ID is 0, this is a new group and there's no activities.
+        if(activityStreamInfo.lastId != 0) {
+          $scope.stream.status = 500;
+          return false;
+        }
       }
 
       // Call the update stream method.
