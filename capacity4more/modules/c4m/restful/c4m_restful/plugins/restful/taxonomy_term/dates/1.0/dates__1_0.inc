@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Export the "Date vocabulary" taxonomy term.'),
   'class' => 'RestfulEntityTaxonomyTermDates',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

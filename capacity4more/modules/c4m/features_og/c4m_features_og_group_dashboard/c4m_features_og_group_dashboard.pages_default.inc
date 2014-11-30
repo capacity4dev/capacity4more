@@ -22,7 +22,6 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $page->conf = array(
     'admin_paths' => FALSE,
   );
-  $page->make_frontpage = TRUE;
   $page->default_handlers = array();
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -112,28 +111,13 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $display->content['new-21c7eb12-4e76-40b8-9db8-0d52ad35523a'] = $pane;
     $display->panels['left'][0] = 'new-21c7eb12-4e76-40b8-9db8-0d52ad35523a';
     $pane = new stdClass();
-    $pane->pid = 'new-e98fa97b-402c-4b87-b31f-b20ba158f96a';
+    $pane->pid = 'new-aa710d01-6670-426e-a3fb-dbaa5cc81d65';
     $pane->panel = 'left';
-    $pane->type = 'views';
-    $pane->subtype = 'group_activity_stream';
+    $pane->type = 'activity_stream';
+    $pane->subtype = 'activity_stream';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 1,
-      'nodes_per_page' => '10',
-      'pager_id' => '0',
-      'offset' => '0',
-      'more_link' => 0,
-      'feed_icons' => 0,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => '',
-      'display' => 'default',
-      'context' => array(
-        0 => '',
-      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -145,9 +129,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = 'e98fa97b-402c-4b87-b31f-b20ba158f96a';
-    $display->content['new-e98fa97b-402c-4b87-b31f-b20ba158f96a'] = $pane;
-    $display->panels['left'][1] = 'new-e98fa97b-402c-4b87-b31f-b20ba158f96a';
+    $pane->uuid = 'aa710d01-6670-426e-a3fb-dbaa5cc81d65';
+    $display->content['new-aa710d01-6670-426e-a3fb-dbaa5cc81d65'] = $pane;
+    $display->panels['left'][1] = 'new-aa710d01-6670-426e-a3fb-dbaa5cc81d65';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

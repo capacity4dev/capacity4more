@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Expose the "Document" resource.'),
   'class' => 'C4mRestfulDocumentsResource',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );
