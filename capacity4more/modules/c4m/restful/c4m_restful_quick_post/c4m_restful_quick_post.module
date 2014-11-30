@@ -63,10 +63,17 @@ function c4m_restful_quick_post_form($node) {
     $public_fields += $handler->getPublicFields();
   }
 
-  // Load the libraries.
-  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
+  dpm($field_schema);
+
+  // AngularJs.
   drupal_add_js($bower_path . '/angular/angular.js');
+
+  // Upload file library.
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
   drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
+
+  // Angular-animate.
+  drupal_add_js($bower_path . '/angular-animate/angular-animate.min.js');
 
   // JSON pretty print library.
   drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
@@ -116,6 +123,17 @@ function c4m_restful_quick_post_form($node) {
     }
   }
 
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'group' => $node,
+    'html' => true,
+    // Sort the activity stream by ID descending.
+    'sort' => '-id',
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
+
   // The quick post debugger.
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
   $c4m_quick_post_debug = variable_get('c4m_quick_post_debug');
@@ -135,6 +153,7 @@ function c4m_restful_quick_post_form($node) {
     'resources' => $resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
+    'activities' => $activities,
     'data' => array(
       'entity' => $entity_fields,
     ),
