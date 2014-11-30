@@ -58,10 +58,9 @@ function c4m_restful_quick_post_form($node) {
   $public_fields = array();
   foreach ($resources as $resource => $value) {
     $handler = restful_get_restful_handler($resource);
-    $field_schema += $handler->options();
+    // Send the fields to the app as separate objects by resource (for validation on submit.)
+    $field_schema['resources'][$resource] = $handler->options('', array('group' => $node));
     $public_fields += $handler->getPublicFields();
-    // Send the fields as separate objects as well (for validation on submit.)
-    $field_schema['resources'][$resource] = $handler->options();
   }
 
   // AngularJs.
