@@ -62,9 +62,7 @@ function c4m_restful_quick_post_form($node) {
     $field_schema['resources'][$resource] = $handler->options();
     $public_fields += $handler->getPublicFields();
   }
-
-  dpm($field_schema);
-
+  
   // AngularJs.
   drupal_add_js($bower_path . '/angular/angular.js');
 
