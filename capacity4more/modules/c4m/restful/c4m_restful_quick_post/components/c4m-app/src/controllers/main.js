@@ -81,7 +81,9 @@ angular.module('c4mApp')
      * Depending on if the current user added an activity or it's fetched from the server.
      *
      * @param type
-     *  Determines to which variable the data should be added.
+     *  Determines to which variable the new activity should be added,
+     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
+     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
      */
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
@@ -131,7 +133,7 @@ angular.module('c4mApp')
 
     /**
      * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "Show new activity", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
      */
     $scope.showNewActivities = function() {
       var position = 0;
@@ -153,19 +155,19 @@ angular.module('c4mApp')
      */
     function initFormValues() {
       $scope.popups = {};
-
-      angular.forEach($scope.fieldSchema, function (data, field) {
-        // Don't change the group field Or resource object.
-        if (field == 'resources' || field == 'group') {
-          return;
-        }
-        // Reset all the reference fields.
-        var allowedValues = data.form_element.allowed_values;
-        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
-          $scope.referenceValues[field] = allowedValues;
-          $scope.popups[field] = 0;
-          $scope.data[field] = {};
-        }
+      angular.forEach($scope.resources, function (info, resource_name) {
+        angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
+          // Don't change the group field Or resource object.
+          if (field == 'resources' || field == 'group') {
+            return;
+          }
+          var allowedValues = data.form_element.allowed_values;
+          if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
+            $scope.referenceValues[field] = allowedValues;
+            $scope.popups[field] = 0;
+            $scope.data[field] = {};
+          }
+        });
       });
 
       // Reset all the text fields.

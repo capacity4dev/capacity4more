@@ -173,7 +173,7 @@
       <?php if (!empty($action_links)): ?>
         <ul class="action-links"><?php print render($action_links); ?></ul>
       <?php endif; ?>
-      <div ng-app="c4mApp" ng-controller="MainCtrl">
+      <div ng-app="c4mApp" ng-controller="MainCtrl" ng-cloak>
         <?php print render($page['content']); ?>
       </div>
     </section>
