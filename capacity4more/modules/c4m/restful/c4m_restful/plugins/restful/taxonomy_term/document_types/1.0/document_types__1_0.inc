@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Export the "Type of Document" taxonomy term.'),
   'class' => 'RestfulEntityTaxonomyTermDocumentTypes',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

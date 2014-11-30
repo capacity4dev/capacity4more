@@ -110,6 +110,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I fill label with "([^"]*)" in "([^"]*)"$/
+   */
+  public function iFillLabelWith($value, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
+    $steps[] = new Step\When('I press the "discussions" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $value . '"');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
@@ -171,9 +183,12 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I press the "discussions" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I press the "debate" button');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Discussion" in the "div#quick-post-fields" element');
 
     return $steps;
   }
@@ -212,6 +227,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Event" in the "div#quick-post-fields" element');
 
     return $steps;
   }
@@ -386,6 +403,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
   public function iVisitTheDashboardOfGroup($title) {
+
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
     return new Given("I go to \"$uri\"");
@@ -437,9 +455,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeTheActivityStream() {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', 'div.view-group-activity-stream');
+    $el = $page->find('css', 'div.pane-activity-stream');
     if ($el === null) {
-      throw new Exception('The Quick Post pane is not visible.');
+      throw new Exception('The Activity Stream pane is not visible.');
     }
   }
 
@@ -716,7 +734,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $uri = ltrim(url($path, array('purl' => $purl)), '/');
+    $uri = ltrim(url($path, array('purl' => $purl, 'absolute' => TRUE)));
 
     return $uri;
   }

@@ -10,4 +10,5 @@ $plugin = array(
   'description' => t('Export the "Tags" taxonomy term. The "group" parameter must be in the request, with the group ID as value.'),
   'class' => 'RestfulEntityTaxonomyTermTags',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );
