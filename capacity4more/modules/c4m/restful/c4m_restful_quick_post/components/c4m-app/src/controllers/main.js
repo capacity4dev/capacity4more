@@ -55,17 +55,19 @@ angular.module('c4mApp')
      */
     function prepareData() {
       $scope.popups = {};
-      angular.forEach($scope.fieldSchema, function (data, field) {
-        // Don't change the group field Or resource object.
-        if (field == 'resources' || field == 'group') {
-          return;
-        }
-        var allowedValues = data.form_element.allowed_values;
-        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
-          $scope.referenceValues[field] = allowedValues;
-          $scope.popups[field] = 0;
-          $scope.data[field] = {};
-        }
+      angular.forEach($scope.resources, function (info, resource_name) {
+        angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
+          // Don't change the group field Or resource object.
+          if (field == 'resources' || field == 'group') {
+            return;
+          }
+          var allowedValues = data.form_element.allowed_values;
+          if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
+            $scope.referenceValues[field] = allowedValues;
+            $scope.popups[field] = 0;
+            $scope.data[field] = {};
+          }
+        });
       });
     }
 
