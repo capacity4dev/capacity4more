@@ -226,7 +226,7 @@
       <div class="col-md-2">
         <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" ng-hide="fullForm">
         <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
       </div>
       <div class="col-md-2 col-md-offset-5">
@@ -265,7 +265,7 @@
     <script type="text/ng-template" id="myModalContent.html">
 
       <div class="explanation">
-        <em><?php print t('Quick Post') ?></em>
+        <em><?php print t('Upload Document') ?></em>
       </div>
 
       <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">

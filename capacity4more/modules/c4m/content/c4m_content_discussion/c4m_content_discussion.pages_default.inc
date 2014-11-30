@@ -69,7 +69,7 @@ function c4m_content_discussion_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Angular full form to add a discussion';
+  $display->title = 'Edit %node:content-type %node:title';
   $display->uuid = '96dfdad3-0441-4a83-989a-9b01acfca8a9';
   $display->content = array();
   $display->panels = array();
@@ -168,7 +168,7 @@ function c4m_content_discussion_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Create %resource:raw';
   $display->uuid = 'fce3467a-c051-4c3c-81c0-36e1a09402a6';
   $display->content = array();
   $display->panels = array();
@@ -184,7 +184,7 @@ function c4m_content_discussion_default_page_manager_pages() {
         1 => 'empty',
         2 => 'argument_string_1',
       ),
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();

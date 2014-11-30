@@ -32,7 +32,14 @@ angular.module('c4mApp')
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
+          $scope.data[field] = {};
         }
+      });
+
+      // Reset all the text fields.
+      var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
+      angular.forEach(textFields, function (field) {
+        $scope.data[field] = field == 'tags' ? [] : '';
       });
     }
 
