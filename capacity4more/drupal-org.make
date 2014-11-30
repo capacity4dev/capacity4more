@@ -126,9 +126,8 @@ projects[node_gallery][version] = "1.0"
 
 projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/shushu/og.git"
-projects[og][download][branch] = "group_privacy_change"
 projects[og][subdir] = "contrib"
-projects[og][type] = "module"
+projects[og][version] = "2.x-dev"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.2"
@@ -142,11 +141,8 @@ projects[panels][version] = "3.4"
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
-projects[pluggable_node_access][download][type] = "git"
-projects[pluggable_node_access][download][url] = "https://github.com/shushu/pluggable_node_access.git"
-projects[pluggable_node_access][download][branch] = 13
 projects[pluggable_node_access][subdir] = "contrib"
-projects[pluggable_node_access][type] = "module"
+projects[pluggable_node_access][version] = "1.x-dev"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
