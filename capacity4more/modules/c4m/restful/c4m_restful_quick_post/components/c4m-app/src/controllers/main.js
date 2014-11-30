@@ -179,7 +179,9 @@ angular.module('c4mApp')
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
       angular.forEach(textFields, function (field) {
-        $scope.data[field] = field == 'tags' ? [] : '';
+        if (!$scope.data[field]) {
+          $scope.data[field] = field == 'tags' ? [] : '';
+        }
       });
     }
 
@@ -297,7 +299,9 @@ angular.module('c4mApp')
           $scope.addNewActivities('existingActivities');
 
           // Collapse the quick-post form.
-          $scope.selectedResource = '';
+          if(!$scope.fullForm) {
+            $scope.selectedResource = '';
+          }
         }
       })
       .error( function (data, status) {

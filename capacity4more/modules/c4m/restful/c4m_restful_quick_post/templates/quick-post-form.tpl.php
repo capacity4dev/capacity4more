@@ -237,7 +237,7 @@
 </form>
 
 <!-- Display an error if we can't save an entity-->
-<div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
+<div ng-show="serverSide.status > 0 && serverSide.status != 200 && serverSide.status != 201" class="messages">
   <div class="alert alert-danger">
     <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
   </div>
@@ -246,7 +246,7 @@
 <!-- Debug -->
 <div ng-show="debug">
   <h2>Console (Server side)</h2>
-  <div ng-show="serverSide.status == 200" class="create-success">
+  <div ng-show="serverSide.status == 200 || serverSide.status == 201" class="create-success">
     <strong>
       New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
     </strong>
@@ -414,7 +414,7 @@
 
       <div ng-show="debug">
         <h2>Console (Server side)</h2>
-        <div ng-show="serverSide.status == 200" class="create-success">
+        <div ng-show="serverSide.status == 200 || serverSide.status == 201" class="create-success">
           <strong>
             New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
           </strong>
