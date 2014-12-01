@@ -29,13 +29,13 @@ function c4m_restful_quick_post_theme() {
 /**
  * Page callback; Load the AngularJs form.
  *
- * @param int $node
+ * @param int $nid
  *  The ID of the current group.
  *
  * @return string
  *  A rendered form of the Quick Post.
  */
-function c4m_restful_quick_post_form($node) {
+function c4m_restful_quick_post_form($nid) {
   $bower_path = libraries_get_path('bower_components');
 
   $resources = array(
@@ -58,10 +58,9 @@ function c4m_restful_quick_post_form($node) {
   $public_fields = array();
   foreach ($resources as $resource => $value) {
     $handler = restful_get_restful_handler($resource);
-    $field_schema += $handler->options();
+    // Send the fields to the app as separate objects by resource (for validation on submit.)
+    $field_schema['resources'][$resource] = $handler->options('', array('group' => $nid));
     $public_fields += $handler->getPublicFields();
-    // Send the fields as separate objects as well (for validation on submit.)
-    $field_schema['resources'][$resource] = $handler->options();
   }
 
   // AngularJs.
@@ -118,14 +117,14 @@ function c4m_restful_quick_post_form($node) {
 
     // Set the current Group.
     if ($public_field_name == 'group') {
-      $entity_fields[$public_field_name] = $node;
+      $entity_fields[$public_field_name] = $nid;
     }
   }
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
-    'group' => $node,
+    'group' => $nid,
     'html' => true,
     // Sort the activity stream by ID descending.
     'sort' => '-id',
