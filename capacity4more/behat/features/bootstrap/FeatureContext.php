@@ -234,11 +234,11 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)" with group manager "([^"]*)"$/
    */
-  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type,  $title, $body, $group) {
-
+  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type, $title, $body, $group, $user) {
     $steps = array();
+    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
@@ -329,16 +329,15 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)" when i am logged in as "([^"]*)"$/
    */
-  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group, $user) {
+    $uri = strtolower(str_replace(' ', '-', $group));
 
     $steps = array();
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
+    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
 
     return $steps;
   }
@@ -369,15 +368,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+    $uri = strtolower(str_replace(' ', '-', $group));
 
     $steps = array();
-
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
@@ -386,15 +383,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+    $uri = strtolower(str_replace(' ', '-', $group));
 
     $steps = array();
-
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
@@ -580,7 +575,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       throw new Exception(format_string("Facet with @title not found.", $params));
     }
   }
-
 
   /**
    * Helper to get the group based on the title & type.
