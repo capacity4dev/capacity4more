@@ -652,6 +652,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+    $steps[] = new Step\When('I should be able to see the "list" icon');
+    $steps[] = new Step\When('I should be able to see the "table" icon');
 
     return $steps;
   }

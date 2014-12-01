@@ -10,8 +10,8 @@ Feature: Group Documents
     Then I should see the documents overview
     And I should not see the "Upload a document" link above the overview
     And I should not see the "Add Photo album" link above the overview
-    And I should be able to see the "list" icon
-    And I should be able to see the "table" icon
+    When I select value "Earth" of "Topics" filter
+    And I switch to "table" view
 
   @api
   Scenario: Check documents overview as group owner
@@ -20,6 +20,5 @@ Feature: Group Documents
     Then I should see the documents overview
     And I should see the "Upload a document" link above the overview
     And I should see the "Add Photo album" link above the overview
-    And I should be able to see the "list" icon
-    And I should be able to see the "table" icon
+
 
