@@ -121,7 +121,7 @@
 
     <div class="form-group btn-group" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
-        <label>{{fieldSchema.categories.info.label}}</label>
+        <label><?php print t('Group categories') ?></label>
         <span id="date_description" class="description">{{fieldSchema.categories.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
