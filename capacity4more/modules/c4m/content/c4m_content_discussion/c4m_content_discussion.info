@@ -5,6 +5,7 @@ package = capacity4more - Content
 version = 7.x-1.x-dev
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_topic
+dependencies[] = c4m_ds
 dependencies[] = c4m_field_body
 dependencies[] = c4m_field_og
 dependencies[] = c4m_message
