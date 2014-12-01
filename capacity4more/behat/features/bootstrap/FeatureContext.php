@@ -35,7 +35,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $this->user->pass = $this->drupal_users[$username];
     $this->login();
   }
-  
+
   /**
    * @Given /^I wait$/
    */
@@ -403,7 +403,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
   public function iVisitTheDashboardOfGroup($title) {
-
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
     return new Given("I go to \"$uri\"");
@@ -485,6 +484,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+    $steps[] = new Step\When('I should see a "Author" field on an item in the overview');
 
     return $steps;
   }
@@ -633,16 +633,148 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    *   The group context.
    * @param string $path
    *   The path part.
+   * @param array $options
+   *   Options to pass to url.
    *
    * @return string
    */
-  protected function createUriWithGroupContext($group, $path = '<front>') {
+  protected function createUriWithGroupContext($group, $path = '<front>', $options = array()) {
     $purl = array(
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $uri = ltrim(url($path, array('purl' => $purl, 'absolute' => TRUE)));
+    $options = array_merge($options, array('purl' => $purl));
+    $uri = ltrim(url($path, $options), '/');
 
     return $uri;
   }
+
+  /**
+   * @When /^I visit the documents overview of group "([^"]*)"$/
+   */
+  public function iVisitTheDocumentsOverviewOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'documents');
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Then /^I should see the documents overview$/
+   */
+  public function iShouldSeeTheDocumentsOverview() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('I should be able to sort the overview');
+    $steps[] = new Step\When('I should see the sidebar search');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Categories"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should be able to see the "([^"]*)" icon$/
+   */
+  public function iShouldBeAbleToSeeTheIcon($icon_type) {
+    $page = $this->getSession()->getPage();
+    $icon = $page->findAll('css', '.region-content .view-header .' .
+      $icon_type . '-teaser-view');
+
+    if (!count($icon)) {
+      throw new Exception("No $icon_type overview icon found.");
+    }
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field on an item in the overview$/
+   */
+  public function iShouldSeeAFieldOnAnItemInTheOverview($field) {
+    $page = $this->getSession()->getPage();
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+    }
+    $element = $page->findAll('css', '.region-content .view-content .' . $class);
+
+    if (!count($element)) {
+      throw new Exception("No $field found in the overview.");
+    }
+  }
+
+  /**
+   * @When /^I visit the group "([^"]*)" detail page "([^"]*)"$/
+   */
+  public function iVisitTheGroupDetailPage($type, $title) {
+    return $this->iVisitNodePageOfType($title, $type);
+  }
+
+  /**
+   * @Then /^I should see the discussion detail page$/
+   */
+  public function iShouldSeeTheDiscussionDetailPage() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Comment" field');
+    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Details" field group');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field$/
+   */
+  public function iShouldSeeAField($field) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+      case 'Comment':
+        $class = 'comment-wrapper';
+        break;
+      case 'Title':
+        $class = 'field-name-title';
+        break;
+    }
+
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $field field found.");
+    }
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field group$/
+   */
+  public function iShouldSeeAFieldGroup($fieldgroup) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($fieldgroup) {
+      case 'Details':
+        $class = 'group-node-details';
+        break;
+    }
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $fieldgroup field group found.");
+    }
+  }
 }
+

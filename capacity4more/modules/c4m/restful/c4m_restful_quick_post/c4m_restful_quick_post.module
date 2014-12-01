@@ -76,10 +76,9 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   $public_fields = array();
   foreach ($resource_names as $resource_name) {
     $handler = restful_get_restful_handler($resource_name);
-    $field_schema += $handler->options();
+    // Send the fields to the app as separate objects by resource (for validation on submit.)
+    $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
     $public_fields += $handler->getPublicFields();
-    // Send the fields as separate objects as well (for validation on submit.)
-    $field_schema['resources'][$resource_name] = $handler->options();
 
     if ($node && in_array($resource_name, array_keys($show_resources))) {
       // Get the nodes' ids if they exist.

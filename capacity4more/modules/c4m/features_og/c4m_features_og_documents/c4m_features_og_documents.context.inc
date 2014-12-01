@@ -1,81 +1,54 @@
 <?php
 /**
  * @file
- * c4m_features_og_discussions.context.inc
+ * c4m_features_og_documents.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function c4m_features_og_discussions_context_default_contexts() {
+function c4m_features_og_documents_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'c4m_detail_og_discussions';
-  $context->description = 'The discussion detail page';
-  $context->tag = 'cap4more - Discussions';
-  $context->conditions = array(
-    'node' => array(
-      'values' => array(
-        'discussion' => 'discussion',
-      ),
-      'options' => array(
-        'node_form' => '0',
-      ),
-    ),
-  );
-  $context->reactions = array(
-    'menu' => 'discussions',
-  );
-  $context->condition_mode = 1;
-
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('The discussion detail page');
-  t('cap4more - Discussions');
-  $export['c4m_detail_og_discussions'] = $context;
-
-  $context = new stdClass();
-  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
-  $context->api_version = 3;
-  $context->name = 'c4m_overview_og_discussions';
-  $context->description = 'Overview page of all Group discussions.';
-  $context->tag = 'cap4more - Discussions';
+  $context->name = 'c4m_overview_og_documents';
+  $context->description = 'Overview page of all Group Documents and Photo albums.';
+  $context->tag = 'cap4more - Documents';
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'c4m_overview_og_discussions' => 'c4m_overview_og_discussions',
+        'c4m_overview_og_documents' => 'c4m_overview_og_documents',
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-335198393aafdd0f0f94e4359fccdd84' => array(
+        'views-7372782a23f49e1db577016cb840d3bb' => array(
           'module' => 'views',
-          'delta' => '335198393aafdd0f0f94e4359fccdd84',
-          'region' => 'sidebar_first',
-          'weight' => '-10',
-        ),
-        'facetapi-RA7qZWw02okb78IuBysWTadEIVCrCL1b' => array(
-          'module' => 'facetapi',
-          'delta' => 'RA7qZWw02okb78IuBysWTadEIVCrCL1b',
+          'delta' => '7372782a23f49e1db577016cb840d3bb',
           'region' => 'sidebar_first',
           'weight' => '-9',
+        ),
+        'facetapi-2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH' => array(
+          'module' => 'facetapi',
+          'delta' => '2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH',
+          'region' => 'sidebar_first',
+          'weight' => '-8',
         ),
         'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
           'module' => 'facetapi',
           'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '-7',
         ),
         'facetapi-ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => array(
           'module' => 'facetapi',
           'delta' => 'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '-6',
         ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
@@ -108,9 +81,9 @@ function c4m_features_og_discussions_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Overview page of all Group discussions.');
-  t('cap4more - Discussions');
-  $export['c4m_overview_og_discussions'] = $context;
+  t('Overview page of all Group Documents and Photo albums.');
+  t('cap4more - Documents');
+  $export['c4m_overview_og_documents'] = $context;
 
   return $export;
 }

@@ -6,13 +6,13 @@ projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.3"
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
+projects[admin_menu][version] = "3.x-dev"
 
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.2"
+projects[context][version] = "3.3"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "1.x-dev"

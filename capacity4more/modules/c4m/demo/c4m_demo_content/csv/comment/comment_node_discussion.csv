@@ -2,3 +2,4 @@ ID,Parent,Status,NID,Name,Email,UID,Subject,Body
 cb_1,,1,discussion_2,John Doe,john@doe.com,,"First Comment","This is the first comment on your discussionpost"
 cb_1_1,cb_1,1,discussion_2,,,user_6,,"Welcome to this discussion! I hope it won't be your last one"
 cb_2,,1,discussion_2,Jane Doe,jane™doe.com,,"Nice discussion","Congratulations with your nice discussion!"
+cb_3,,1,discussion_g7_2,Immanuel Kant,I@kant.de,,"Categorical imperative","Act only according to that maxim whereby you can at the same time will that it should become a universal law without contradiction."

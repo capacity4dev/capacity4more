@@ -26,5 +26,13 @@ function c4m_views_views_data() {
     ),
   );
 
+  $data['views']['c4m_views_switch_page'] = array(
+    'title' => t('Add view pages links'),
+    'help' => t('Add a link to switch between view pages (showing content in a different layout).'),
+    'area' => array(
+      'handler' => 'c4m_views_handler_area_switch_page',
+    ),
+  );
+
   return $data;
 }
