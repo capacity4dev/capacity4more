@@ -1,0 +1,11 @@
+$error-color: #b94a48;
+$buttons-blue: #136FBC;
+$info-yellow: #F0FED0;
+
+// Transition for all browsers.
+@mixin transition($duration) {
+  -webkit-transition: $duration;
+  -o-transition: $duration;
+  -moz-transition: $duration;
+  transition: $duration;
+}

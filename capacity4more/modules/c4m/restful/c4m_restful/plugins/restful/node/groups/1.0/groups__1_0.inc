@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Expose the "Group" resource.'),
   'class' => 'C4mRestfulGroupsResource',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

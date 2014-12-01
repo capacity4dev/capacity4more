@@ -110,6 +110,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I fill label with "([^"]*)" in "([^"]*)"$/
+   */
+  public function iFillLabelWith($value, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
+    $steps[] = new Step\When('I press the "discussions" button');
+    $steps[] = new Step\When('I fill in "label" with "' . $value . '"');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
@@ -168,12 +180,15 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iCreateDiscussionQuickPost($title, $body, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I press the "discussions" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I press the "debate" button');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Discussion" in the "div#quick-post-fields" element');
 
     return $steps;
   }
@@ -203,7 +218,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I press the "events" button');
     $steps[] = new Step\When('I press the "Meeting" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
@@ -212,6 +227,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
+    // Check that the form has collapsed.
+    $steps[] = new Step\When('I should not see "Type of Event" in the "div#quick-post-fields" element');
 
     return $steps;
   }
@@ -437,9 +454,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeTheActivityStream() {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', 'div.view-group-activity-stream');
+    $el = $page->find('css', 'div.pane-activity-stream');
     if ($el === null) {
-      throw new Exception('The Quick Post pane is not visible.');
+      throw new Exception('The Activity Stream pane is not visible.');
     }
   }
 
@@ -467,6 +484,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+    $steps[] = new Step\When('I should see a "Author" field on an item in the overview');
 
     return $steps;
   }
@@ -632,19 +650,11 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I visit the documents overview of group "([^"]*)" in "([^"]*)" view$/
+   * @When /^I visit the documents overview of group "([^"]*)"$/
    */
-  public function iVisitTheDocumentsOverviewOfGroupInView($title, $page) {
+  public function iVisitTheDocumentsOverviewOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-    $path = '';
-    switch ($page) {
-      case 'list':
-        $path = 'documents';
-        break;
-      case 'table':
-        $path = 'documents/table';
-    }
-    $uri = $this->createUriWithGroupContext($group, $path);
+    $uri = $this->createUriWithGroupContext($group, 'documents');
     return new Given('I go to "' . $uri . '"');
   }
 
@@ -663,8 +673,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
-    $steps[] = new Step\When('I should be able to see the "list" icon');
-    $steps[] = new Step\When('I should be able to see the "table" icon');
 
     return $steps;
   }
@@ -683,52 +691,89 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @When /^I visit the filtered list view of the documents of group "([^"]*)"$/
+   * @Given /^I should see a "([^"]*)" field on an item in the overview$/
    */
-  public function iVisitTheFilteredListViewOfTheDocumentsOfGroup($title) {
-    $group = $this->loadGroupByTitleAndType($title, 'group');
-    // Filter by
-    // Topic: 'Earth'
-    // Search term: 'Nobel'
-    $options = array(
-      'query' => array(
-        'search_api_views_fulltext' => 'Nobel',
-        'f[0]' => 'c4m_related_topic:1',
-      )
-    );
-    $uri = $this->createUriWithGroupContext($group, 'documents', $options);
-    return new Given('I go to "' . $uri . '"');
+  public function iShouldSeeAFieldOnAnItemInTheOverview($field) {
+    $page = $this->getSession()->getPage();
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+    }
+    $element = $page->findAll('css', '.region-content .view-content .' . $class);
+
+    if (!count($element)) {
+      throw new Exception("No $field found in the overview.");
+    }
   }
 
   /**
-   * @Given /^I switch to "([^"]*)" view$/
+   * @When /^I visit the group "([^"]*)" detail page "([^"]*)"$/
    */
-  public function iSwitchToView($icon_type) {
+  public function iVisitTheGroupDetailPage($type, $title) {
+    return $this->iVisitNodePageOfType($title, $type);
+  }
+
+  /**
+   * @Then /^I should see the discussion detail page$/
+   */
+  public function iShouldSeeTheDiscussionDetailPage() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Comment" field');
+    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Details" field group');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field$/
+   */
+  public function iShouldSeeAField($field) {
+    $element = NULL;
     $page = $this->getSession()->getPage();
-    $link = $page->find('css', '.region-content .view-header .' .
-      $icon_type . '-teaser-view');
-    $link->click();
-    if (!count($link)) {
-      throw new Exception("No $icon_type overview icon found.");
+
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+      case 'Comment':
+        $class = 'comment-wrapper';
+        break;
+      case 'Title':
+        $class = 'field-name-title';
+        break;
     }
 
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $field field found.");
+    }
   }
 
   /**
-   * @Then /^I should still have retained search filters$/
+   * @Given /^I should see a "([^"]*)" field group$/
    */
-  public function iShouldStillHaveRetainedSearchFilters() {
-    $url = $this->getSession()->getCurrentUrl();
-    $parsed_url = drupal_parse_url($url);
-    // Check if we still have ...
-    // Topic: 'Earth'
-    // Search term: 'Nobel'
-    if (empty($parsed_url['query']['search_api_views_fulltext']) ||
-        'Nobel' != $parsed_url['query']['search_api_views_fulltext'] ||
-        empty($parsed_url['query']['f']['0']) ||
-        'c4m_related_topic:1' != $parsed_url['query']['f']['0']) {
-      throw new Exception("I am not on table view retaining filters and search
-        term.");
+  public function iShouldSeeAFieldGroup($fieldgroup) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($fieldgroup) {
+      case 'Details':
+        $class = 'group-node-details';
+        break;
+    }
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $fieldgroup field group found.");
     }
   }
 }

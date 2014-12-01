@@ -1,0 +1,159 @@
+@import "mixins";
+
+.pane-quick-form {
+
+  .explanation {
+    margin: 20px 0;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .errors {
+    color: $error-color;
+  }
+
+  .input-wrapper {
+    margin-bottom: 20px;
+  }
+
+  ul, ol {
+    list-style: none;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .form-group {
+
+    .label-wrapper {
+      border-bottom: 1px solid black;
+      margin-bottom: 10px;
+      width: 100%;
+      display: block;
+    }
+  }
+
+  .form-group {
+
+    .drop-box {
+      height: 80px;
+      text-align: center;
+      display: table-cell;
+      width: 565px;
+    }
+  }
+
+  .file-upload-drag {
+    background: grey;
+    border-color: lightBlue;
+  }
+
+  .file-wrapper {
+
+    img {
+      height: 50px;
+      width: 50px;
+    }
+  }
+
+  .selected-values {
+
+    span {
+      margin-right: 4px;
+      float: left;
+      display: inline-block;
+
+      .fa-times {
+        color: $buttons-blue;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .checkboxes-wrapper {
+    position: relative;
+
+    button.btn-primary {
+      padding: 2px 4px;
+      left: 0;
+    }
+
+    .hidden-checkboxes {
+      display: block;
+      left: 120px;
+      top: -80px;
+    }
+  }
+
+  .popover-content {
+    height: 190px;
+    overflow-y: scroll;
+  }
+
+  .date {
+
+    .input-group {
+
+      table {
+
+        tr.text-center {
+          display: none;
+        }
+      }
+    }
+
+    .date-chevron {
+      margin-top: 30px;
+      text-align: center;
+    }
+  }
+
+  .actions {
+    margin-top: 20px;
+  }
+
+  .messages {
+    margin-top: 20px;
+  }
+
+  .create-success {
+    padding: 20px;
+    background: $info-yellow;
+    text-align: center;
+  }
+}
+
+.pane-activity-stream {
+
+  #new-activities-button {
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .activities {
+    @include transition(1.5s);
+    margin-top: 20px;
+  }
+
+  .activities.ng-enter {
+    opacity: 0;
+    background: $info-yellow;
+  }
+
+  .activities.ng-leave {
+    opacity: 1;
+    background: transparent;
+  }
+
+  .activities.ng-enter.ng-enter-active {
+    opacity: 1;
+    background: $info-yellow;
+  }
+
+  .activities.ng-leave.ng-leave-active {
+    opacity: 0;
+    background: transparent;
+  }
+}
