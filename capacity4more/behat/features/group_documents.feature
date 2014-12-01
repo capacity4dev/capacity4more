@@ -30,4 +30,3 @@ Feature: Group Documents
       And I switch to "table" view
     Then I should still have retained search filters
 
-
