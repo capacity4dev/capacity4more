@@ -226,7 +226,7 @@
       <div class="col-md-2">
         <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" ng-hide="fullForm">
         <a href="javascript://" id="full-from-button" ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
       </div>
       <div class="col-md-2 col-md-offset-5">
@@ -237,7 +237,7 @@
 </form>
 
 <!-- Display an error if we can't save an entity-->
-<div ng-show="serverSide.status > 0 && serverSide.status != 200" class="messages">
+<div ng-show="serverSide.status > 0 && serverSide.status != 200 && serverSide.status != 201" class="messages">
   <div class="alert alert-danger">
     <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
   </div>
@@ -246,7 +246,7 @@
 <!-- Debug -->
 <div ng-show="debug">
   <h2>Console (Server side)</h2>
-  <div ng-show="serverSide.status == 200" class="create-success">
+  <div ng-show="serverSide.status == 200 || serverSide.status == 201" class="create-success">
     <strong>
       New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
     </strong>
@@ -265,7 +265,7 @@
     <script type="text/ng-template" id="myModalContent.html">
 
       <div class="explanation">
-        <em><?php print t('Quick Post') ?></em>
+        <em><?php print t('Upload Document') ?></em>
       </div>
 
       <form name="documentForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
@@ -414,7 +414,7 @@
 
       <div ng-show="debug">
         <h2>Console (Server side)</h2>
-        <div ng-show="serverSide.status == 200" class="create-success">
+        <div ng-show="serverSide.status == 200 || serverSide.status == 201" class="create-success">
           <strong>
             New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{ serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
           </strong>
