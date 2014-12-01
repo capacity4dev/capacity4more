@@ -58,7 +58,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'links' => array(
-      'weight' => '5',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),

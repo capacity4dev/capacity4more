@@ -33,6 +33,13 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -79,7 +86,16 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_default',
-        'weight' => 6,
+        'weight' => 1,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'file_entity',
+        'settings' => array(
+          'file_view_mode' => 'c4m_preview',
+        ),
+        'type' => 'file_rendered',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -138,7 +154,16 @@ function c4m_content_document_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 7,
+        'weight' => 5,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -186,7 +211,14 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 7,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -225,6 +257,13 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 5,
       ),
       'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 4,
+      ),
+      'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
         'settings' => array(),
@@ -272,7 +311,14 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 8,
+        'weight' => 9,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -315,7 +361,14 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'weight' => 8,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -356,10 +409,15 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'og_ui',
         'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 2,
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -430,7 +488,16 @@ function c4m_content_document_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 3,
+        'weight' => 6,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'og_vocab',
+        'settings' => array(
+          'concatenate' => FALSE,
+        ),
+        'type' => 'og_vocab',
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
