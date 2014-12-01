@@ -1,59 +1,42 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $modal, QuickPostService, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
+
+    // Checking if this is full form or not.
+    $scope.fullForm = DrupalSettings.getData('full_form');
+
+    // Getting all existing documents.
+    $scope.documents = DrupalSettings.getDocuments();
+
+    //Getting node id if we are editing node.
+    $scope.id = $scope.data.entityId;
 
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
-    // Setting empty default resource.
-    $scope.selectedResource = '';
+    if (Object.keys($scope.resources).length > 1) {
+      // Setting empty default resource.
+      $scope.selectedResource = '';
+    }
+    else {
+      $scope.selectedResource = Object.keys($scope.resources)[0];
+    }
 
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
     $scope.debug = DrupalSettings.getDebugStatus();
 
+    $scope = QuickPostService.setDefaults($scope);
+
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
 
     // Empty new activities.
     $scope.newActivities = [];
-
-    $scope.referenceValues = {};
-
-    $scope.errors = {};
-
-    $scope.serverSide = {
-      status: 0,
-      data: {}
-    };
-
-    $scope.tagsQueryCache = [];
-
-    // Date Calendar options.
-    $scope.minDate = new Date();
-
-    $scope.startOpened = false;
-
-    $scope.endOpened = false;
-
-
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1
-    };
-
-    $scope.format = 'dd/MM/yyyy';
-
-    // Time picker options.
-    // Hour step.
-    $scope.hstep = 1;
-    // Minute step.
-    $scope.mstep = 1;
-
 
     // Activity stream status, refresh time.
     $scope.stream = {
@@ -81,7 +64,9 @@ angular.module('c4mApp')
      * Depending on if the current user added an activity or it's fetched from the server.
      *
      * @param type
-     *  Determines to which variable the data should be added.
+     *  Determines to which variable the new activity should be added,
+     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
+     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
      */
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
@@ -96,42 +81,45 @@ angular.module('c4mApp')
 
       // Don't send a request when data is missing.
       if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
-        $scope.stream.status = 500;
-        return false;
+        // If last ID is 0, this is a new group and there's no activities.
+        if(activityStreamInfo.lastId != 0) {
+          $scope.stream.status = 500;
+          return false;
+        }
       }
 
       // Call the update stream method.
       EntityResource.updateStream(activityStreamInfo)
-      .success( function (data, status) {
-        // Update the stream status.
-        $scope.stream.status = status;
+        .success( function (data, status) {
+          // Update the stream status.
+          $scope.stream.status = status;
 
-        // Update if there's new activities.
-        if (data.data) {
-          // Count the activities that were fetched.
-          var position = 0;
-          angular.forEach(data.data, function (activity) {
-            this.splice(position, 0, {
-              id: activity.id,
-              html: $sce.trustAsHtml(activity.html)
-            });
-            position++;
-          }, $scope[type]);
+          // Update if there's new activities.
+          if (data.data) {
+            // Count the activities that were fetched.
+            var position = 0;
+            angular.forEach(data.data, function (activity) {
+              this.splice(position, 0, {
+                id: activity.id,
+                html: $sce.trustAsHtml(activity.html)
+              });
+              position++;
+            }, $scope[type]);
 
-          // Update the last loaded ID.
-          // Only if there's new activities from the server.
-          $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
-        }
-      })
-      .error( function (data, status) {
-        // Update the stream status if we get an error, This will display the error message.
-        $scope.stream.status = status;
-      });
+            // Update the last loaded ID.
+            // Only if there's new activities from the server.
+            $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
+          }
+        })
+        .error( function (data, status) {
+          // Update the stream status if we get an error, This will display the error message.
+          $scope.stream.status = status;
+        });
     };
 
     /**
      * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "Show new activity", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
      */
     $scope.showNewActivities = function() {
       var position = 0;
@@ -154,19 +142,42 @@ angular.module('c4mApp')
     function initFormValues() {
       $scope.popups = {};
 
-      angular.forEach($scope.fieldSchema, function (data, field) {
-        // Don't change the group field Or resource object.
-        if (field == 'resources' || field == 'group') {
-          return;
-        }
-        // Reset all the reference fields.
-        var allowedValues = data.form_element.allowed_values;
-        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
-          $scope.referenceValues[field] = allowedValues;
-          $scope.popups[field] = 0;
-          $scope.data[field] = {};
-        }
+      angular.forEach($scope.resources, function (info, resource_name) {
+        angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
+          // Don't change the group field Or resource object.
+          if (field == 'resources' || field == 'group') {
+            return;
+          }
+          var allowedValues = data.form_element.allowed_values;
+          if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
+            $scope.referenceValues[field] = allowedValues;
+            $scope.popups[field] = 0;
+            $scope.data[field] = {};
+          }
+          else {
+            // Field has value and this is not a discussion or event type field,
+            // which is actually not an object.
+            if (field != 'discussion_type' && field != 'event_type') {
+              var obj = {};
+              angular.forEach($scope.data[field], function (value, key) {
+                obj[value] = true;
+              });
+              $scope.data[field] = obj;
+            }
+          }
+        });
       });
+
+
+      if (angular.isDefined($scope.data.discussion_type)) {
+        // Set "Start a Debate" as default discussion type.
+        $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) ? 'debate' : $scope.data.discussion_type;
+      }
+
+      if (angular.isDefined($scope.data.event_type)) {
+        // Set "Event" as default event type.
+        $scope.data.event_type = angular.isObject($scope.data.event_type) ? 'event' : $scope.data.event_type;
+      }
 
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
@@ -178,80 +189,16 @@ angular.module('c4mApp')
     // Preparing the data for the form.
     initFormValues();
 
-    // Prepare all the taxonomy-terms to be a tree object.
-    angular.forEach($scope.referenceValues, function (data, field) {
-      var parent = 0;
-      $scope[field] = {};
-      angular.forEach($scope.referenceValues[field], function (label, id) {
-        if(label.indexOf('-')) {
-          parent = id;
-          $scope[field][id] = {
-            id: id,
-            label: label,
-            children: []
-          };
-        }
-        else {
-          if (parent > 0) {
-            $scope[field][parent]['children'].push({
-              id: id,
-              label: label.replace('-','')
-            });
-          }
-        }
-      });
-    });
+    $scope = QuickPostService.formatTermFieldsAsTree($scope);
 
-    /**
-     * Display the fields upon clicking on the label field.
-     */
-    $scope.showFields = function () {
-      if (!$scope.selectedResource) {
-        $scope.selectedResource = 'discussions';
-      }
+    // Displaying the fields upon clicking on the label field.
+    $scope.showFields = function() {
+      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource);
     };
 
-    /**
-     * Get matching tags.
-     *
-     * @param query
-     *   The query string.
-     */
+    // Getting matching tags.
     $scope.tagsQuery = function (query) {
-      var group = {id: $scope.data.group};
-      var url = DrupalSettings.getBasePath() + 'api/tags';
-      var terms = {results: []};
-
-      var lowerCaseTerm = query.term.toLowerCase();
-      if (angular.isDefined($scope.tagsQueryCache[lowerCaseTerm])) {
-        // Add caching.
-        terms.results = $scope.tagsQueryCache[lowerCaseTerm];
-        query.callback(terms);
-        return;
-      }
-
-      $http.get(url + '?autocomplete[string]=' + query.term + '&group=' + group.id)
-      .success(function(data) {
-        if (data.data.length == 0) {
-          terms.results.push({
-            text: query.term,
-            id: query.term,
-            isNew: true
-          });
-        }
-        else {
-          angular.forEach(data.data, function (label, id) {
-            terms.results.push({
-              text: label,
-              id: id,
-              isNew: false
-            });
-          });
-          $scope.tagsQueryCache[lowerCaseTerm] = terms;
-        }
-
-        query.callback(terms);
-      });
+      QuickPostService.tagsQuery(query, $scope);
     };
 
     /**
@@ -272,7 +219,6 @@ angular.module('c4mApp')
      *
      * @param type
      *  The type.
-
      * @param field
      *  The name of the field.
      */
@@ -281,44 +227,16 @@ angular.module('c4mApp')
       $scope.data[field] = $scope.data[field] == type ? '' : type;
     };
 
-    /**
-     * Toggle the visibility of the popovers.
-     *
-     * @param name
-     *  The name of the pop-over.
-     *
-     *  @param event
-     *    The click event.
-     */
+    // Toggle the visibility of the popovers.
     $scope.togglePopover = function(name, event) {
-      // Hide all the other pop-overs, Except the one the user clicked on.
-      angular.forEach($scope.popups, function (value, key) {
-        if (name != key) {
-          this[key] = 0;
-        }
-      }, $scope.popups);
-      // Get the width of the element clicked in the event.
-      var elemWidth = angular.element(event.target).outerWidth();
-      var elemPosition = angular.element(event.target).offset();
-      var elemParentPosition = angular.element(event.target).parent().offset();
-      // Toggle the visibility variable.
-      $scope.popups[name] = $scope.popups[name] == 0 ? 1 : 0;
-      // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', (elemPosition.left - elemParentPosition.left) + elemWidth);
+      QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
-    /**
-     * Close all popovers on "ESC" key press.
-     */
+    // Close all popovers on "ESC" key press.
     $scope.keyUpHandler = function(keyEvent) {
-      if(keyEvent.which == 27) {
-        angular.forEach($scope.popups, function (value, key) {
-          this[key] = 0;
-          // Re-Bind the JS with the HTML with "digest".
-          $scope.$digest();
-        }, $scope.popups);
-      }
+      QuickPostService.keyUpHandler(keyEvent, $scope);
     };
+
     // Call the keyUpHandler function on key-up.
     $document.on('keyup', $scope.keyUpHandler);
 
@@ -327,10 +245,8 @@ angular.module('c4mApp')
      *
      *  @param data
      *    The submitted data.
-     *
      *  @param resource
      *    The bundle of the node submitted.
-     *
      *  @param type
      *    The type of the submission.
      */
@@ -365,31 +281,33 @@ angular.module('c4mApp')
       }
 
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource, resourceFields)
-      .success( function (data, status) {
-        // If requested to create in full form, Redirect user to the edit page.
-        if(type == 'full_form') {
-          var entityID = data.data[0].id;
-          $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
-        }
-        else {
+      EntityResource.createEntity(submitData, resource, resourceFields, $scope.id)
+        .success( function (data, status) {
+          // If requested to create in full form, Redirect user to the edit page.
+          if(type == 'full_form') {
+            var entityID = data.data[0].id;
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
+          }
+          else {
+            $scope.serverSide.data = data;
+            $scope.serverSide.status = status;
+
+            // Scroll to the top of the page 50px down.
+            angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
+
+            // Add the newly created activity to the stream.
+            $scope.addNewActivities('existingActivities');
+
+            // Collapse the quick-post form.
+            if(!$scope.fullForm) {
+              $scope.selectedResource = '';
+            }
+          }
+        })
+        .error( function (data, status) {
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
-
-          // Scroll to the top of the page 50px down.
-          angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
-
-          // Add the newly created activity to the stream.
-          $scope.addNewActivities('existingActivities');
-
-          // Collapse the quick-post form.
-          $scope.selectedResource = '';
-        }
-      })
-      .error( function (data, status) {
-        $scope.serverSide.data = data;
-        $scope.serverSide.status = status;
-      });
+        });
 
       // Reset the form, by removing existing values and allowing the user to write a new content.
       $scope.resetEntityForm();
@@ -410,7 +328,37 @@ angular.module('c4mApp')
         var file = $files[i];
         FileUpload.upload(file).then(function(data) {
           $scope.data.document = data.data.data[0].id;
+          $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
+
+          if ($scope.fullForm && $scope.selectedResource == 'discussions') {
+            // If we are creating or editing discussion in the full form -
+            // after loading file send file id to the modal, where we'll create
+            // a document with this file.
+
+            $scope.open = function (size) {
+
+              var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                size: size,
+                resolve: {
+                  getScope: function () {
+                    return $scope;
+                  }
+                }
+              });
+
+              modalInstance.result.then(function (document) {
+                $scope.data.related_document.push(document.id);
+                document.id = parseInt(document.id);
+                // Add new document to list of all documents.
+                $scope.documents.push(document);
+              });
+            };
+
+            $scope.open();
+          }
         });
       }
     };

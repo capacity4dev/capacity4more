@@ -44,7 +44,6 @@ features[field_instance][] = node-group-group_access
 features[field_instance][] = node-group-group_group
 features[field_instance][] = node-group-pluggable_node_access
 features[node][] = group
-features[page_manager_handlers][] = node_view_panel_context
 features[variable][] = comment_anonymous_group
 features[variable][] = comment_default_mode_group
 features[variable][] = comment_default_per_page_group

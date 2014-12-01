@@ -33,9 +33,9 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return 'plugins/' . $plugin;
   }
-  elseif ($module == 'entityreference') {
+  if ($module == 'entityreference' && !empty($plugin)) {
       return "plugins/entityreference/$plugin";
-    }
+  }
 }
 
 /**
