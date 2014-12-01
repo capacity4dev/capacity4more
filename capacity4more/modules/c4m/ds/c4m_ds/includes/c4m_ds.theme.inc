@@ -4,6 +4,7 @@
  *
  * Custom Display Suite function fields.
  */
+
 /**
  * DS function field.
  *
