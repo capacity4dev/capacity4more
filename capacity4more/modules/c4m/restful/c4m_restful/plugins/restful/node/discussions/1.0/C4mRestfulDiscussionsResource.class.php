@@ -42,16 +42,6 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['tags'] = array(
-      'property' => 'og_vocabulary',
-      'resource' => array(
-        'tags' => array(
-          'name' => 'tags',
-          'full_view' => FALSE,
-        ),
-      ),
-    );
-
     $public_fields['categories'] = array(
       'property' => 'og_vocabulary',
       'resource' => array(
