@@ -87,7 +87,7 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   }
 
   // AngularJs.
-  drupal_add_js($bower_path . '/angular/angular.js');
+  drupal_add_js($bower_path . '/angular/angular.min.js');
 
   // Upload file library.
   drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');

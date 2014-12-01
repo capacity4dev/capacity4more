@@ -179,6 +179,9 @@ projects[search_api_sorts][version] = "1.x-dev"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
+projects[term_reference_tree][subdir] = "contrib"
+projects[term_reference_tree][version] = "1.10"
+
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
 
@@ -227,6 +230,10 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
+
+libraries[select2][type] = "libraries"
+libraries[select2][download][type] = "file"
+libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"

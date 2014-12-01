@@ -126,13 +126,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
     // Generate URL from title.
-    $url = strtolower(str_replace(' ', '-', trim($title)));
+    $url = strtolower(str_replace(' ', '_', trim($title)));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -151,9 +151,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Request"');
 
     // Check there was no error.
+    $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
@@ -482,6 +483,23 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see a "Author" field on an item in the overview');
 
     return $steps;
+  }
+
+  /**
+   * @Given /^I upload the file "([^"]*)" in the field "([^"]*)"$/
+   */
+  public function iUploadTheFile($file, $fieldname) {
+    // Attaching file is working only if input is visible.
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInputXpath = './/div[contains(@name, "' . $fieldname . '")]/input[contains(@type, "file")]';
+
+    $fields = $this->getSession()->getDriver()->find($fileInputXpath);
+    $field = count($fields) > 0 ? $fields[0] : NULL;
+    if (null === $field) {
+        throw new Exception("File input is not found");
+    }
+    $field->attachFile($file_path);
   }
 
   /**
