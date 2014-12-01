@@ -25,6 +25,8 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
     array('doc_type', 'Document Type'),
+    array('topics', 'Topics'),
+    array('geo', 'Geo'),
     array('date', 'Date'),
     array('lang', 'Language'),
     array('uid', 'UID'),
@@ -53,6 +55,13 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_vocab_tag', 'tags')
       ->sourceMigration('C4mDemoContentCreateTags')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
+
+    $this->addFieldMapping('c4m_related_topic', 'topics_list');
+
+    $this->addFieldMapping('c4m_vocab_geo', 'geo')
+      ->sourceMigration('C4mDemoContentCreateRegionTerms')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
 
@@ -89,6 +98,22 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
+
+    // TOPIC references.
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateTopics',
+      explode('|', $row->topics),
+      NULL,
+      $this
+    );
+
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->topics_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
 
     $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
 

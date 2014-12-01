@@ -403,7 +403,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
   public function iVisitTheDashboardOfGroup($title) {
-
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
     return new Given("I go to \"$uri\"");
@@ -634,15 +633,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    *   The group context.
    * @param string $path
    *   The path part.
+   * @param array $options
+   *   Options to pass to url.
    *
    * @return string
    */
-  protected function createUriWithGroupContext($group, $path = '<front>') {
+  protected function createUriWithGroupContext($group, $path = '<front>', $options = array()) {
     $purl = array(
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $uri = ltrim(url($path, array('purl' => $purl, 'absolute' => TRUE)));
+    $options = array_merge($options, array('purl' => $purl));
+    $uri = ltrim(url($path, $options), '/');
 
     return $uri;
   }
