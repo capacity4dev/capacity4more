@@ -119,6 +119,26 @@
       </div>
     </div>
 
+    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.date }">
+      <div class="label-wrapper">
+        <label>{{fieldSchema.categories.info.label}}</label>
+        <span id="date_description" class="description">{{fieldSchema.categories.info.description}}</span>
+      </div>
+      <div class="checkboxes-wrapper">
+        <div>
+          <button type="button" ng-click="togglePopover('categories', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Category'); ?></button>
+          <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
+        </div>
+        <!-- Hidden date checkboxes.-->
+        <div class="popover right hidden-checkboxes" ng-show="popups.categories">
+          <div class="arrow"></div>
+          <div class="popover-content">
+            <list-terms type="categories" model="data.categories" items="categories"></list-terms>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-group btn-group" ng-show="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label>{{fieldSchema.date.info.label}}</label>
