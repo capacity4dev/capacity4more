@@ -28,8 +28,7 @@ Feature: Test quick post
     And   I upload the file "cat1.jpg"
     And   I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
     And   I save document with title "New image document" for a discussion
-    And   I wait
-    Then  I should see "New image document"
+    Then  I wait for text "New image document" to appear in "entityForm"
 
   @javascript
   Scenario: Adding document with doc file to discussion.
@@ -38,5 +37,4 @@ Feature: Test quick post
     And   I upload the file "doc1.doc"
     And   I wait for text "File doc1.doc has been loaded!" to appear in "documentForm"
     And   I save document with title "New document" for a discussion
-    And   I wait
-    Then  I should see "New document"
+    Then  I wait for text "New document" to appear in "entityForm"

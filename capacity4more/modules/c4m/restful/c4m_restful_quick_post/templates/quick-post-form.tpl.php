@@ -107,7 +107,7 @@
 
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
-        <div name="discussion_document_upload">
+        <div name="discussion-document-upload">
           <?php print t('Drop file here to upload or'); ?>
           <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
           <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">

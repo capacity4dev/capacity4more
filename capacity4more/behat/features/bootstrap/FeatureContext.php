@@ -547,7 +547,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iUploadTheFile($file) {
     $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
 
-    $fileInputXpath = './/div[contains(@name, "discussion_document_upload")]/input[contains(@type, "file")]';
+    $fileInputXpath = './/div[contains(@name, "discussion-document-upload")]/input[contains(@type, "file")]';
 
     $fields = $this->getSession()->getDriver()->find($fileInputXpath);
     $field = count($fields) > 0 ? $fields[0] : NULL;
