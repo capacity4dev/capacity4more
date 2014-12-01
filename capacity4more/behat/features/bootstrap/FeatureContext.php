@@ -577,6 +577,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $fields = $this->getSession()->getDriver()->find($label_xpath);
     $fields[0]->setValue($title);
 
+    $javascript = "angular.element('form[name=\"documentForm\"]').find('textarea#body').scope().data.body = 'Some document text';";
+    $this->getSession()->executeScript($javascript);
+
     $fields = $this->getSession()->getDriver()->find($save_xpath);
     $fields[0]->press();
   }

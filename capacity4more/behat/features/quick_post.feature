@@ -27,9 +27,9 @@ Feature: Test quick post
     When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
     And   I upload the file "cat1.jpg"
     And   I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
-    And   I save document with title "New document" for a discussion
+    And   I save document with title "New image document" for a discussion
     And   I wait
-    Then  I should see "New document"
+    Then  I should see "New image document"
 
   @javascript
   Scenario: Adding document with doc file to discussion.
