@@ -337,7 +337,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "' . $user . '"');
     $steps[] = new Step\When("I go to \"$uri\"");
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When("I wait");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
 
     return $steps;
   }
@@ -372,9 +373,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $steps = array();
     $steps[] = new Step\When("I go to \"$uri\"");
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
@@ -387,9 +388,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $steps = array();
     $steps[] = new Step\When("I go to \"$uri\"");
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
