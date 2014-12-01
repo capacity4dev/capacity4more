@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_content_groupbanner.strongarm.inc
+ * c4m_content_group_banner.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function c4m_content_groupbanner_strongarm() {
+function c4m_content_group_banner_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();

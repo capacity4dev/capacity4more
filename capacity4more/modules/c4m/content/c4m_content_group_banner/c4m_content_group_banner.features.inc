@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_content_groupbanner.features.inc
+ * c4m_content_group_banner.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function c4m_content_groupbanner_ctools_plugin_api($module = NULL, $api = NULL) {
+function c4m_content_group_banner_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -16,7 +16,7 @@ function c4m_content_groupbanner_ctools_plugin_api($module = NULL, $api = NULL) 
 /**
  * Implements hook_node_info().
  */
-function c4m_content_groupbanner_node_info() {
+function c4m_content_group_banner_node_info() {
   $items = array(
     'group_banner' => array(
       'name' => t('Group banner'),

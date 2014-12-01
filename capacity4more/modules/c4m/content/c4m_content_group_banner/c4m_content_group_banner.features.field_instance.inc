@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_content_groupbanner.features.field_instance.inc
+ * c4m_content_group_banner.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function c4m_content_groupbanner_field_default_field_instances() {
+function c4m_content_group_banner_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-group_banner-c4m_banner'
