@@ -337,7 +337,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "' . $user . '"');
     $steps[] = new Step\When("I go to \"$uri\"");
-    $steps[] = new Step\When("I wait");
     $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
 
     return $steps;
