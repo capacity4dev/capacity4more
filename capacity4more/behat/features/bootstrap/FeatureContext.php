@@ -615,25 +615,36 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    *   The group context.
    * @param string $path
    *   The path part.
+   * @param array $options
+   *   Options to pass to url.
    *
    * @return string
    */
-  protected function createUriWithGroupContext($group, $path = '<front>') {
+  protected function createUriWithGroupContext($group, $path = '<front>', $options = array()) {
     $purl = array(
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $uri = ltrim(url($path, array('purl' => $purl)), '/');
+    $options = array_merge($options, array('purl' => $purl));
+    $uri = ltrim(url($path, $options), '/');
 
     return $uri;
   }
 
   /**
-   * @When /^I visit the documents overview of group "([^"]*)"$/
+   * @When /^I visit the documents overview of group "([^"]*)" in "([^"]*)" view$/
    */
-  public function iVisitTheDocumentsOverviewOfGroup($title) {
+  public function iVisitTheDocumentsOverviewOfGroupInView($title, $page) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-    $uri = $this->createUriWithGroupContext($group, 'documents');
+    $path = '';
+    switch ($page) {
+      case 'list':
+        $path = 'documents';
+        break;
+      case 'table':
+        $path = 'documents/table';
+    }
+    $uri = $this->createUriWithGroupContext($group, $path);
     return new Given('I go to "' . $uri . '"');
   }
 
@@ -668,6 +679,56 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     if (!count($icon)) {
       throw new Exception("No $icon_type overview icon found.");
+    }
+  }
+
+  /**
+   * @When /^I visit the filtered list view of the documents of group "([^"]*)"$/
+   */
+  public function iVisitTheFilteredListViewOfTheDocumentsOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    // Filter by
+    // Topic: 'Earth'
+    // Search term: 'Nobel'
+    $options = array(
+      'query' => array(
+        'search_api_views_fulltext' => 'Nobel',
+        'f[0]' => 'c4m_related_topic:1',
+      )
+    );
+    $uri = $this->createUriWithGroupContext($group, 'documents', $options);
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Given /^I switch to "([^"]*)" view$/
+   */
+  public function iSwitchToView($icon_type) {
+    $page = $this->getSession()->getPage();
+    $link = $page->find('css', '.region-content .view-header .' .
+      $icon_type . '-teaser-view');
+    $link->click();
+    if (!count($link)) {
+      throw new Exception("No $icon_type overview icon found.");
+    }
+
+  }
+
+  /**
+   * @Then /^I should still have retained search filters$/
+   */
+  public function iShouldStillHaveRetainedSearchFilters() {
+    $url = $this->getSession()->getCurrentUrl();
+    $parsed_url = drupal_parse_url($url);
+    // Check if we still have ...
+    // Topic: 'Earth'
+    // Search term: 'Nobel'
+    if (empty($parsed_url['query']['search_api_views_fulltext']) ||
+        'Nobel' != $parsed_url['query']['search_api_views_fulltext'] ||
+        empty($parsed_url['query']['f']['0']) ||
+        'c4m_related_topic:1' != $parsed_url['query']['f']['0']) {
+      throw new Exception("I am not on table view retaining filters and search
+        term.");
     }
   }
 }
