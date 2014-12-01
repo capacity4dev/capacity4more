@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Code for the Group banner content type feature.
+ */
+
+include_once 'c4m_content_group_banner.features.inc';
+
+/**
+ *  Implements hook_views_default_views_alter().
+ *
+ * Adds a custom display to the contrib view "Media browser (File)",
+ * The display is responsible for displaying the Group's banner image browser,
+ * The Group's banner images library is a content type "group_banner".
+ */
+function c4m_content_group_banner_views_default_views_alter(&$views)
+{
+  $view = &$views['media_default'];
+
+  /* Display: Banner browser */
+  $handler = $view->new_display('media_browser', 'Banner browser', 'media_browser_2');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: File: Content using Banner image */
+  $handler->display->display_options['relationships']['reverse_c4m_banner_node']['id'] = 'reverse_c4m_banner_node';
+  $handler->display->display_options['relationships']['reverse_c4m_banner_node']['table'] = 'file_managed';
+  $handler->display->display_options['relationships']['reverse_c4m_banner_node']['field'] = 'reverse_c4m_banner_node';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: File: Name */
+  $handler->display->display_options['filters']['filename']['id'] = 'filename';
+  $handler->display->display_options['filters']['filename']['table'] = 'file_managed';
+  $handler->display->display_options['filters']['filename']['field'] = 'filename';
+  $handler->display->display_options['filters']['filename']['operator'] = 'contains';
+  $handler->display->display_options['filters']['filename']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['filename']['expose']['operator_id'] = 'filename_op';
+  $handler->display->display_options['filters']['filename']['expose']['label'] = 'File name';
+  $handler->display->display_options['filters']['filename']['expose']['operator'] = 'filename_op';
+  $handler->display->display_options['filters']['filename']['expose']['identifier'] = 'filename';
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_2']['id'] = 'type_2';
+  $handler->display->display_options['filters']['type_2']['table'] = 'node';
+  $handler->display->display_options['filters']['type_2']['field'] = 'type';
+  $handler->display->display_options['filters']['type_2']['relationship'] = 'reverse_c4m_banner_node';
+  $handler->display->display_options['filters']['type_2']['value'] = array(
+    'group_banner' => 'group_banner',
+  );
+}
