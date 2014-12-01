@@ -8,6 +8,10 @@ include_once 'c4m_content_groupbanner.features.inc';
 
 /**
  *  Implements hook_views_default_views_alter().
+ *
+ * Adds a custom display to the contrib view "Media browser (File)",
+ * The display is responsible for displaying the Group's banner image browser,
+ * The Group's banner images library is a content type "group_banner".
  */
 function c4m_content_groupbanner_views_default_views_alter(&$views)
 {
