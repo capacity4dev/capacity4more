@@ -13,6 +13,33 @@ function c4m_features_og_discussions_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
+  $context->name = 'c4m_detail_og_discussions';
+  $context->description = 'The discussion detail page';
+  $context->tag = 'cap4more - Discussions';
+  $context->conditions = array(
+    'node' => array(
+      'values' => array(
+        'discussion' => 'discussion',
+      ),
+      'options' => array(
+        'node_form' => '0',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'menu' => 'discussions',
+  );
+  $context->condition_mode = 1;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('The discussion detail page');
+  t('cap4more - Discussions');
+  $export['c4m_detail_og_discussions'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
   $context->name = 'c4m_overview_og_discussions';
   $context->description = 'Overview page of all Group discussions.';
   $context->tag = 'cap4more - Discussions';

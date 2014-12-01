@@ -12,7 +12,7 @@ projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.2"
+projects[context][version] = "3.3"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "1.x-dev"
