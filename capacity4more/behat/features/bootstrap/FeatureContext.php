@@ -530,7 +530,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $this->waitForXpathNode(".//*[contains(@name, \"$element_name\")]//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
   }
 
-  private function waitFor($fn, $timeout = 10000) {
+  private function waitFor($fn, $timeout = 30000) {
     $start = microtime(true);
     $end = $start + $timeout / 1000.0;
     while (microtime(true) < $end) {
