@@ -124,8 +124,10 @@ projects[module_filter][version] = "2.0-alpha2"
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.0"
 
+projects[pluggable_node_access][download][type] = "git"
+projects[pluggable_node_access][download][url] = "https://github.com/HelenaEksler/og.git"
+projects[pluggable_node_access][download][branch] = 12
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.x-dev"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.2"
