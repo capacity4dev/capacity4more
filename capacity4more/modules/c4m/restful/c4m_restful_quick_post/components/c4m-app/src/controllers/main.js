@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -200,7 +200,7 @@ angular.module('c4mApp')
 
     // Getting matching tags.
     $scope.tagsQuery = function (query) {
-      QuickPostService.tagsQuery(query, $http, $scope);
+      QuickPostService.tagsQuery(query, $scope);
     };
 
     /**
