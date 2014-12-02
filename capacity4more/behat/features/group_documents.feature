@@ -41,3 +41,9 @@ Feature: Group Documents
      When I visit the filtered list view of the documents of group "Nobel Prize"
       And I switch to "table" view
      Then I should still have retained search filters
+
+  @api @wip
+  Scenario: Check document detail as an anonymous user
+    Given I am an anonymous user
+    When I visit the group "document" detail page "Nobel Prize in Physics 2014"
+    Then I should see the document detail page

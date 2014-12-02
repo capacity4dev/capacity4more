@@ -116,7 +116,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
   $tag['element'] = array(
     '#tag' => 'p',
     '#attributes' => array(
-      'class' => "file",
+      'class' => "download-link",
     ),
     '#value' => l($variables['text'], $uri['path'], $uri['options']),
   );
