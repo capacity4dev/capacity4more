@@ -333,12 +333,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)" when i am logged in as "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group, $user) {
-    $uri = strtolower(str_replace(' ', '-', $group));
-
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "' . $user . '"');
-    $steps[] = new Step\When("I go to \"$uri\"");
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
+    $steps[] = new Step\When("I visit the dashboard of group \"$group\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
@@ -369,10 +367,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    $uri = strtolower(str_replace(' ', '-', $group));
-
     $steps = array();
-    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When("I visit the dashboard of group \"$group\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
@@ -384,10 +380,8 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    $uri = strtolower(str_replace(' ', '-', $group));
-
     $steps = array();
-    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When("I visit the dashboard of group \"$group\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
@@ -401,6 +395,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iVisitTheDashboardOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
+
     return new Given("I go to \"$uri\"");
   }
 
@@ -578,6 +573,24 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     $fields = $this->getSession()->getDriver()->find($save_xpath);
     $fields[0]->press();
+  }
+
+
+  /**
+   * @Given /^I upload the file "([^"]*)" in the field "([^"]*)"$/
+   */
+  public function iUploadTheFileInTheField($file, $fieldname) {
+    // Attaching file is working only if input is visible.
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInputXpath = './/div[contains(@name, "' . $fieldname . '")]/input[contains(@type, "file")]';
+
+    $fields = $this->getSession()->getDriver()->find($fileInputXpath);
+    $field = count($fields) > 0 ? $fields[0] : NULL;
+    if (null === $field) {
+        throw new Exception("File input is not found");
+    }
+    $field->attachFile($file_path);
   }
 
   /**
