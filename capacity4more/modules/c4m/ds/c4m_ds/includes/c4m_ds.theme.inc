@@ -24,7 +24,7 @@ function theme_c4m_ds_node_meta($field) {
     $user = user_load($entity->uid);
     $wrapper = entity_metadata_wrapper('user', $user);
 
-    if ('default' == $field['formatter']) {
+    if ('minimal' != $field['formatter']) {
       // Retrieve the user profile image.
       $file = $wrapper->c4m_media->value();
       if (!empty($file)) {
@@ -49,8 +49,17 @@ function theme_c4m_ds_node_meta($field) {
         )
       );
       $name_link = l($name, 'user/' . $entity->uid, $options);
+      switch($field['formatter']) {
+        case 'document_upload':
+          $name_and_date .= t('Document uploaded by');
+          break;
+        case 'default':
+        case 'information_post':
+          $name_and_date .= t('information posted by');
+          break;
+      }
       if ('default' == $field['formatter']) {
-        $name_and_date .= t('information posted by');
+
       }
       $name_and_date .= $name_link;
     }

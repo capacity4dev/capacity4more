@@ -59,6 +59,8 @@ function c4m_ds_ds_fields_info($entity_type) {
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
+        'document_upload' => t('Document upload'),
+        'information_post' => t('Information post'),
         'minimal' => t('Minimal (no image, no prefix'),
       ),
     ),

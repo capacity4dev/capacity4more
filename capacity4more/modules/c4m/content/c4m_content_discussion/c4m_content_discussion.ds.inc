@@ -35,7 +35,7 @@ function c4m_content_discussion_ds_field_settings_info() {
     'c4m_ds_node_meta' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'information_post',
     ),
   );
   $export['node|discussion|full'] = $ds_fieldsetting;

@@ -17,15 +17,20 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'document';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'comments' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_node_meta' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'document_upload',
     ),
   );
   $export['node|document|full'] = $ds_fieldsetting;
@@ -49,22 +54,24 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_body',
-        1 => 'c4m_document',
-        2 => 'comments',
+        0 => 'links',
+        1 => 'c4m_body',
+        2 => 'c4m_document',
+        3 => 'comments',
       ),
       'right' => array(
-        3 => 'c4m_ds_node_meta',
-        4 => 'group_node_details',
-        5 => 'c4m_vocab_document_type',
-        6 => 'c4m_related_topic',
-        7 => 'og_vocabulary',
-        8 => 'c4m_vocab_date',
-        9 => 'c4m_vocab_language',
-        10 => 'c4m_vocab_geo',
+        4 => 'c4m_ds_node_meta',
+        5 => 'group_node_details',
+        6 => 'c4m_vocab_document_type',
+        7 => 'c4m_related_topic',
+        8 => 'og_vocabulary',
+        9 => 'c4m_vocab_date',
+        10 => 'c4m_vocab_language',
+        11 => 'c4m_vocab_geo',
       ),
     ),
     'fields' => array(
+      'links' => 'left',
       'c4m_body' => 'left',
       'c4m_document' => 'left',
       'comments' => 'left',

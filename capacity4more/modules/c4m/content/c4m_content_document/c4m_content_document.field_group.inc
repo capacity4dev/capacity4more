@@ -77,7 +77,7 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_date',
