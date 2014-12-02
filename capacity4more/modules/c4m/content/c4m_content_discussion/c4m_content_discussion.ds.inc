@@ -17,11 +17,6 @@ function c4m_content_discussion_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'discussion';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'title' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'links' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -97,16 +92,14 @@ function c4m_content_discussion_ds_layout_settings_info() {
         10 => 'group_node_details',
       ),
       'left' => array(
-        1 => 'title',
-        2 => 'links',
-        3 => 'c4m_body',
-        4 => 'c4m_related_document',
-        5 => 'comments',
+        1 => 'links',
+        2 => 'c4m_body',
+        3 => 'c4m_related_document',
+        4 => 'comments',
       ),
     ),
     'fields' => array(
       'c4m_ds_node_meta' => 'right',
-      'title' => 'left',
       'links' => 'left',
       'c4m_body' => 'left',
       'c4m_related_document' => 'left',
