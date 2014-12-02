@@ -19,7 +19,7 @@ angular.module('c4mApp')
       },
       link: function postLink(scope) {
         // Get allowed values.
-        scope.allowedValues = scope.fieldSchema[scope.field].form_element.allowed_values;
+        scope.allowedValues = scope.fieldSchema[scope.field];
         // On changing type => update the discussion type.
         scope.updateType = function(type, field, e) {
           return scope.onChange(type, field, e);

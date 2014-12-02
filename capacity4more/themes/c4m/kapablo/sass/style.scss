@@ -1,7 +1,8 @@
 // Common utility classes to extend or settings.
 @import "base/settings";
 
-// Layout
+// Layout : Layout rules divide the page into sections.
+// Layouts hold one or more modules together.
 @import "layout/header";
 
 @import "layout/header_group";
@@ -20,6 +21,9 @@
   border-top: 1px solid #000;
 }
 
-#document_file {
-  display: none;
-}
+// Modules: Modules are the reusable, modular parts of our design.
+// They are the callouts, the sidebar sections, the product lists and so on.
+
+// State: State rules are ways to describe how our modules or layouts will
+//look when in a particular state.
+@import "state/menu";

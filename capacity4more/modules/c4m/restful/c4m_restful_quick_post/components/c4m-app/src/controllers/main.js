@@ -64,7 +64,9 @@ angular.module('c4mApp')
      * Depending on if the current user added an activity or it's fetched from the server.
      *
      * @param type
-     *  Determines to which variable the data should be added.
+     *  Determines to which variable the new activity should be added,
+     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
+     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
      */
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
@@ -79,42 +81,45 @@ angular.module('c4mApp')
 
       // Don't send a request when data is missing.
       if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
-        $scope.stream.status = 500;
-        return false;
+        // If last ID is 0, this is a new group and there's no activities.
+        if(activityStreamInfo.lastId != 0) {
+          $scope.stream.status = 500;
+          return false;
+        }
       }
 
       // Call the update stream method.
       EntityResource.updateStream(activityStreamInfo)
-      .success( function (data, status) {
-        // Update the stream status.
-        $scope.stream.status = status;
+        .success( function (data, status) {
+          // Update the stream status.
+          $scope.stream.status = status;
 
-        // Update if there's new activities.
-        if (data.data) {
-          // Count the activities that were fetched.
-          var position = 0;
-          angular.forEach(data.data, function (activity) {
-            this.splice(position, 0, {
-              id: activity.id,
-              html: $sce.trustAsHtml(activity.html)
-            });
-            position++;
-          }, $scope[type]);
+          // Update if there's new activities.
+          if (data.data) {
+            // Count the activities that were fetched.
+            var position = 0;
+            angular.forEach(data.data, function (activity) {
+              this.splice(position, 0, {
+                id: activity.id,
+                html: $sce.trustAsHtml(activity.html)
+              });
+              position++;
+            }, $scope[type]);
 
-          // Update the last loaded ID.
-          // Only if there's new activities from the server.
-          $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
-        }
-      })
-      .error( function (data, status) {
-        // Update the stream status if we get an error, This will display the error message.
-        $scope.stream.status = status;
-      });
+            // Update the last loaded ID.
+            // Only if there's new activities from the server.
+            $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
+          }
+        })
+        .error( function (data, status) {
+          // Update the stream status if we get an error, This will display the error message.
+          $scope.stream.status = status;
+        });
     };
 
     /**
      * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "Show new activity", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
      */
     $scope.showNewActivities = function() {
       var position = 0;
@@ -137,18 +142,16 @@ angular.module('c4mApp')
     function initFormValues() {
       $scope.popups = {};
 
-      angular.forEach($scope.fieldSchema, function (data, field) {
-        // Don't change the group field or the resource object.
-        if (field == 'resources' || field == 'group') {
-          return;
-        }
-        // Reset all the reference fields.
-        var allowedValues = data.form_element.allowed_values;
-        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
-          $scope.referenceValues[field] = allowedValues;
-          $scope.popups[field] = 0;
-          if (!$scope.data[field]) {
-            // Field is empty.
+      angular.forEach($scope.resources, function (info, resource_name) {
+        angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
+          // Don't change the group field Or resource object.
+          if (field == 'resources' || field == 'group') {
+            return;
+          }
+          var allowedValues = data.form_element.allowed_values;
+          if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
+            $scope.referenceValues[field] = allowedValues;
+            $scope.popups[field] = 0;
             $scope.data[field] = {};
           }
           else {
@@ -162,7 +165,7 @@ angular.module('c4mApp')
               $scope.data[field] = obj;
             }
           }
-        }
+        });
       });
 
 
@@ -179,9 +182,7 @@ angular.module('c4mApp')
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
       angular.forEach(textFields, function (field) {
-        if (!$scope.data[field]) {
-          $scope.data[field] = field == 'tags' ? [] : '';
-        }
+        $scope.data[field] = field == 'tags' ? [] : '';
       });
     }
 
@@ -193,7 +194,7 @@ angular.module('c4mApp')
     // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
       $scope.selectedResource = QuickPostService.showFields($scope.selectedResource);
-    }
+    };
 
     // Getting matching tags.
     $scope.tagsQuery = function (query) {
@@ -218,7 +219,6 @@ angular.module('c4mApp')
      *
      * @param type
      *  The type.
-
      * @param field
      *  The name of the field.
      */
@@ -282,32 +282,32 @@ angular.module('c4mApp')
 
       // Call the create entity function service.
       EntityResource.createEntity(submitData, resource, resourceFields, $scope.id)
-      .success( function (data, status) {
-        // If requested to create in full form, Redirect user to the edit page.
-        if(type == 'full_form') {
-          var entityID = data.data[0].id;
-          $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
-        }
-        else {
+        .success( function (data, status) {
+          // If requested to create in full form, Redirect user to the edit page.
+          if(type == 'full_form') {
+            var entityID = data.data[0].id;
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
+          }
+          else {
+            $scope.serverSide.data = data;
+            $scope.serverSide.status = status;
+
+            // Scroll to the top of the page 50px down.
+            angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
+
+            // Add the newly created activity to the stream.
+            $scope.addNewActivities('existingActivities');
+
+            // Collapse the quick-post form.
+            if(!$scope.fullForm) {
+              $scope.selectedResource = '';
+            }
+          }
+        })
+        .error( function (data, status) {
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
-
-          // Scroll to the top of the page 50px down.
-          angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
-
-          // Add the newly created activity to the stream.
-          $scope.addNewActivities('existingActivities');
-
-          // Collapse the quick-post form.
-          if(!$scope.fullForm) {
-            $scope.selectedResource = '';
-          }
-        }
-      })
-      .error( function (data, status) {
-        $scope.serverSide.data = data;
-        $scope.serverSide.status = status;
-      });
+        });
 
       // Reset the form, by removing existing values and allowing the user to write a new content.
       $scope.resetEntityForm();
