@@ -35,7 +35,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $this->user->pass = $this->drupal_users[$username];
     $this->login();
   }
-  
+
   /**
    * @Given /^I wait$/
    */
@@ -126,13 +126,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
     // Generate URL from title.
-    $url = strtolower(str_replace(' ', '-', trim($title)));
+    $url = strtolower(str_replace(' ', '_', trim($title)));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -151,9 +151,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Request"');
 
     // Check there was no error.
+    $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
@@ -183,7 +184,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
     $steps[] = new Step\When('I press the "discussions" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
-    $steps[] = new Step\When('I press the "debate" button');
+    $steps[] = new Step\When('I press the "idea" button');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
@@ -234,11 +235,11 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)"$/
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)" with group manager "([^"]*)"$/
    */
-  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type,  $title, $body, $group) {
-
+  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type, $title, $body, $group, $user) {
     $steps = array();
+    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
@@ -329,16 +330,15 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)" when i am logged in as "([^"]*)"$/
    */
-  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group, $user) {
+    $uri = strtolower(str_replace(' ', '-', $group));
 
     $steps = array();
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
+    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
 
     return $steps;
   }
@@ -369,15 +369,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+    $uri = strtolower(str_replace(' ', '-', $group));
 
     $steps = array();
-
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should not see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
@@ -386,15 +384,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+    $uri = strtolower(str_replace(' ', '-', $group));
 
     $steps = array();
-
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
@@ -403,7 +399,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
   public function iVisitTheDashboardOfGroup($title) {
-
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
     return new Given("I go to \"$uri\"");
@@ -485,8 +480,26 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+    $steps[] = new Step\When('I should see a "Author" field on an item in the overview');
 
     return $steps;
+  }
+
+  /**
+   * @Given /^I upload the file "([^"]*)" in the field "([^"]*)"$/
+   */
+  public function iUploadTheFile($file, $fieldname) {
+    // Attaching file is working only if input is visible.
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInputXpath = './/div[contains(@name, "' . $fieldname . '")]/input[contains(@type, "file")]';
+
+    $fields = $this->getSession()->getDriver()->find($fileInputXpath);
+    $field = count($fields) > 0 ? $fields[0] : NULL;
+    if (null === $field) {
+        throw new Exception("File input is not found");
+    }
+    $field->attachFile($file_path);
   }
 
   /**
@@ -581,7 +594,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     }
   }
 
-
   /**
    * Helper to get the group based on the title & type.
    *
@@ -633,16 +645,148 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    *   The group context.
    * @param string $path
    *   The path part.
+   * @param array $options
+   *   Options to pass to url.
    *
    * @return string
    */
-  protected function createUriWithGroupContext($group, $path = '<front>') {
+  protected function createUriWithGroupContext($group, $path = '<front>', $options = array()) {
     $purl = array(
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $uri = ltrim(url($path, array('purl' => $purl, 'absolute' => TRUE)));
+    $options = array_merge($options, array('purl' => $purl));
+    $uri = ltrim(url($path, $options), '/');
 
     return $uri;
   }
+
+  /**
+   * @When /^I visit the documents overview of group "([^"]*)"$/
+   */
+  public function iVisitTheDocumentsOverviewOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'documents');
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Then /^I should see the documents overview$/
+   */
+  public function iShouldSeeTheDocumentsOverview() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('I should be able to sort the overview');
+    $steps[] = new Step\When('I should see the sidebar search');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Type"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Topics"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Categories"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Language"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Regions & Countries"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Tags"');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should be able to see the "([^"]*)" icon$/
+   */
+  public function iShouldBeAbleToSeeTheIcon($icon_type) {
+    $page = $this->getSession()->getPage();
+    $icon = $page->findAll('css', '.region-content .view-header .' .
+      $icon_type . '-teaser-view');
+
+    if (!count($icon)) {
+      throw new Exception("No $icon_type overview icon found.");
+    }
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field on an item in the overview$/
+   */
+  public function iShouldSeeAFieldOnAnItemInTheOverview($field) {
+    $page = $this->getSession()->getPage();
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+    }
+    $element = $page->findAll('css', '.region-content .view-content .' . $class);
+
+    if (!count($element)) {
+      throw new Exception("No $field found in the overview.");
+    }
+  }
+
+  /**
+   * @When /^I visit the group "([^"]*)" detail page "([^"]*)"$/
+   */
+  public function iVisitTheGroupDetailPage($type, $title) {
+    return $this->iVisitNodePageOfType($title, $type);
+  }
+
+  /**
+   * @Then /^I should see the discussion detail page$/
+   */
+  public function iShouldSeeTheDiscussionDetailPage() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Comment" field');
+    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Details" field group');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field$/
+   */
+  public function iShouldSeeAField($field) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($field) {
+      case 'Author':
+        $class = 'username';
+        break;
+      case 'Comment':
+        $class = 'comment-wrapper';
+        break;
+      case 'Title':
+        $class = 'field-name-title';
+        break;
+    }
+
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $field field found.");
+    }
+  }
+
+  /**
+   * @Given /^I should see a "([^"]*)" field group$/
+   */
+  public function iShouldSeeAFieldGroup($fieldgroup) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    switch($fieldgroup) {
+      case 'Details':
+        $class = 'group-node-details';
+        break;
+    }
+    if (!empty($class)) {
+      $element = $page->findAll('css', '.region-content .' . $class);
+    }
+
+    if (!count($element)) {
+      throw new Exception("No $fieldgroup field group found.");
+    }
+  }
 }
+

@@ -4,4 +4,4 @@
  * Code for the Document overview feature.
  */
 
-include_once 'c4m_features_og_overview_documents.features.inc';
+include_once 'c4m_features_og_documents.features.inc';
