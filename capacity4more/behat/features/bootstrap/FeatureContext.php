@@ -149,10 +149,12 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     }
 
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
+
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Request"');
 
+    // Giving time for saving.
     $steps[] = new Step\When('I wait');
 
     // Check there was no error.
