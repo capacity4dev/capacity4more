@@ -13,6 +13,33 @@ function c4m_features_og_documents_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
+  $context->name = 'c4m_detail_og_documents';
+  $context->description = 'The document detail page';
+  $context->tag = 'cap4more - Documents';
+  $context->conditions = array(
+    'node' => array(
+      'values' => array(
+        'document' => 'document',
+      ),
+      'options' => array(
+        'node_form' => '0',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'menu' => 'documents',
+  );
+  $context->condition_mode = 1;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('The document detail page');
+
+  $export['c4m_detail_og_documents'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
   $context->name = 'c4m_overview_og_documents';
   $context->description = 'Overview page of all Group Documents and Photo albums.';
   $context->tag = 'cap4more - Documents';
