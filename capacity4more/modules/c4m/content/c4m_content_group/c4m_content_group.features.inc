@@ -26,7 +26,7 @@ function c4m_content_group_node_info() {
       'base' => 'node_content',
       'description' => t('A Group space for members to coordinate, collaborate and share ideas.'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Group Name'),
       'help' => '',
     ),
   );

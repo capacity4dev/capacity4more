@@ -54,7 +54,7 @@ angular.module('c4mApp')
               }
             }, submitData);
             // The group field should have one value.
-            if (field == 'group') {
+            if (field == 'group' || field == 'related_document') {
               submitData[field] = values;
             }
           }
@@ -134,6 +134,7 @@ angular.module('c4mApp')
       // Copy data, We shouldn't change the variables in the scope.
       var cleanData = angular.copy(data);
       angular.forEach(cleanData, function (values, field) {
+
         // Keep only the status field.
         if (!resourceFields[field]) {
           delete this[field];
