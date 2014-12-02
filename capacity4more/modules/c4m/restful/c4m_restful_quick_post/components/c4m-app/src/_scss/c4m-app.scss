@@ -122,6 +122,10 @@
     background: $info-yellow;
     text-align: center;
   }
+
+  #document_file {
+    display: none;
+  }
 }
 
 .pane-activity-stream {
@@ -155,9 +159,5 @@
   .activities.ng-leave.ng-leave-active {
     opacity: 0;
     background: transparent;
-  }
-
-  #document_file {
-    display: none;
   }
 }
