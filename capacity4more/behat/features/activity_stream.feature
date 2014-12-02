@@ -15,7 +15,7 @@ Feature: Test activity stream
     Given a group "Discussion Insert 3" with "Public" access is created with group manager "isaacnewton"
     When  a "event" is created with title "Event added" and body "Some text in the body" in the group "Discussion Insert 3" with group manager "isaacnewton"
     And   I am logged in as user "isaacnewton"
-    Then  I should "Event added" in the activity stream of the group "Discussion Insert 3"
+    Then  I should see "Event added" in the activity stream of the group "Discussion Insert 3"
 
   @javascript
   Scenario: Check creating new message when updating before 6 hours.
