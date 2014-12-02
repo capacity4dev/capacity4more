@@ -307,6 +307,10 @@ angular.module('c4mApp')
             if(!$scope.fullForm) {
               $scope.selectedResource = '';
             }
+            else {
+              var entityID = data.data[0].id;
+              $window.location = DrupalSettings.getBasePath() + "node/" + entityID;
+            }
           }
         })
         .error( function (data, status) {

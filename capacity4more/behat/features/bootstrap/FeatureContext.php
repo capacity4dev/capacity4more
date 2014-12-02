@@ -132,7 +132,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -149,9 +148,12 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     }
 
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Request"');
+
+    $steps[] = new Step\When('I wait');
 
     // Check there was no error.
     $steps[] = new Step\When('I should not see "Group access"');
@@ -280,6 +282,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
+    $url = strtolower(str_replace(' ', '_', trim($group)));
+    $steps = array();
+    $steps[] = new Step\When("I go to \"$url\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.pane-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)" after "([^"]*)"$/
    */
   public function iUpdateAWithTitleInTheGroupWithNewTitleAfter($type, $title, $new_title, $time) {
@@ -330,18 +344,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)" when i am logged in as "([^"]*)"$/
-   */
-  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group, $user) {
-    $steps = array();
-    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
-    $steps[] = new Step\When("I visit the dashboard of group \"$group\"");
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.pane-activity-stream" element');
-
-    return $steps;
-  }
-
-  /**
    * @Then /^I should not be allowed to create a "([^"]*)"$/
    */
   public function iShouldNotBeAllowedToCreateA($type) {
@@ -367,8 +369,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
+    $url = strtolower(str_replace(' ', '_', trim($group)));
     $steps = array();
-    $steps[] = new Step\When("I visit the dashboard of group \"$group\"");
+    $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
@@ -380,8 +383,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
+    $url = strtolower(str_replace(' ', '_', trim($group)));
     $steps = array();
-    $steps[] = new Step\When("I visit the dashboard of group \"$group\"");
+    $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
