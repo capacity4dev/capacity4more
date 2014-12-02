@@ -111,7 +111,7 @@ angular.module('c4mApp')
      * @param scope
      *   The scope object.
      */
-    this.tagsQuery = function (query, scope) {
+    this.tagsQuery = function (query, http, scope) {
       var group = {id: scope.data.group};
       var url = scope.basePath + 'api/tags';
       var terms = {results: []};
@@ -125,7 +125,7 @@ angular.module('c4mApp')
         return;
       }
 
-      $http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
+      http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
         .success(function(data) {
           if (data.data.length == 0) {
             terms.results.push({

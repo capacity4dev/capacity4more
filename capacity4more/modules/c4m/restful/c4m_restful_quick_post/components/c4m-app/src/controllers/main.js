@@ -35,6 +35,8 @@ angular.module('c4mApp')
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
 
+    $scope.basePath = DrupalSettings.getBasePath();
+
     // Empty new activities.
     $scope.newActivities = [];
 
@@ -198,7 +200,7 @@ angular.module('c4mApp')
 
     // Getting matching tags.
     $scope.tagsQuery = function (query) {
-      QuickPostService.tagsQuery(query, $scope);
+      QuickPostService.tagsQuery(query, $http, $scope);
     };
 
     /**

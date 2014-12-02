@@ -1,5 +1,5 @@
 angular.module('c4mApp')
-  .controller('ModalInstanceCtrl', function ($scope, EntityResource, Request, $document, $modalInstance, getScope, ModalService, QuickPostService) {
+  .controller('ModalInstanceCtrl', function ($scope, EntityResource, Request, $document, $modalInstance, getScope, ModalService, QuickPostService, $http) {
 
     $scope = ModalService.getModalObject($scope, getScope);
 
@@ -55,7 +55,7 @@ angular.module('c4mApp')
 
     // Getting matching tags.
     $scope.tagsQuery = function (query) {
-      QuickPostService.tagsQuery(query, $scope);
+      QuickPostService.tagsQuery(query, $http, $scope);
     };
 
 
