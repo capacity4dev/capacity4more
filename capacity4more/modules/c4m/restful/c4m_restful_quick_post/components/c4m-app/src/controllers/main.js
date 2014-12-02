@@ -308,6 +308,7 @@ angular.module('c4mApp')
               $scope.selectedResource = '';
             }
             else {
+              // Go to the entity page after saving in the full form.
               var entityID = data.data[0].id;
               $window.location = DrupalSettings.getBasePath() + "node/" + entityID;
             }
