@@ -18,14 +18,9 @@ function c4m_field_media_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_preview';
   $ds_fieldsetting->settings = array(
     'c4m_ds_download_link' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'c4m_ds_formatter_link_and_size',
-    ),
-    'c4m_ds_document_preview' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
     ),
   );
   $export['file|document|c4m_preview'] = $ds_fieldsetting;
@@ -64,14 +59,14 @@ function c4m_field_media_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_document_preview',
+        0 => 'file',
       ),
       'right' => array(
         1 => 'c4m_ds_download_link',
       ),
     ),
     'fields' => array(
-      'c4m_ds_document_preview' => 'left',
+      'file' => 'left',
       'c4m_ds_download_link' => 'right',
     ),
     'classes' => array(),
