@@ -106,3 +106,6 @@ script:
   - drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------
+
+after_script:
+  - sudo cat /var/log/apache2/error.log
