@@ -33,6 +33,9 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return 'plugins/' . $plugin;
   }
+  if ($module == 'entityreference' && !empty($plugin)) {
+      return "plugins/entityreference/$plugin";
+  }
 }
 
 /**
@@ -89,6 +92,15 @@ function c4m_og_organisations_info() {
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $domains = array();
   $restricted_organisations = array();
+
+  // Form changes on creation.
+  if (!$form['nid']['#value']) {
+    // Change title.
+    drupal_set_title('Request group');
+
+    // Change submit button on creation.
+    $form['actions']['submit']['#value'] = t('Request');
+  }
 
   // Get default domain lists.
   $organisations_info = c4m_og_organisations_info();
@@ -214,6 +226,52 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   // Group visibility field is required even when hidden, so we change it in
   // order to avoid validation errors.
   $form['group_access']['und']['#required'] = FALSE;
+
+  // Add select2 widget for related groups.
+  $form['c4m_related_projects'][LANGUAGE_NONE]['#attached'] = array(
+    'css' => array(
+      libraries_get_path('select2') . '/select2.css',
+      drupal_get_path('module', 'c4m_og') . '/css/select2-widget.css',
+    ),
+    'js' => array(
+      libraries_get_path('select2') . '/select2.js',
+      drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
+    ),
+  );
+  $form['c4m_related_projects'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
+  $form['c4m_related_group'][LANGUAGE_NONE]['#attached'] = array(
+    'css' => array(
+      libraries_get_path('select2') . '/select2.css',
+      drupal_get_path('module', 'c4m_og') . '/css/select2-widget.css',
+    ),
+    'js' => array(
+      libraries_get_path('select2') . '/select2.js',
+      drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
+    ),
+  );
+  $form['c4m_related_group'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
+
+}
+
+/**
+ * After build callback; Add required JS settings to Select2 fields.
+ */
+function c4m_og_select2_widget_after_build($element, &$form_state) {
+  // There may be more than one Select2 field and each of them gets to this
+  // function separately and should be added to the existing array of elements
+  // saved in a drupal JS setting.
+  // The problem is we cannot modify an existing drupal JS setting, we can only
+  // override it. The solution is saving the array of elements as static, and
+  // then overriding the JS setting according to it.
+  $setting = drupal_static(__FUNCTION__, array());
+
+  $setting[] = array(
+    'selector' => '#' . $element['#id'],
+    'cardinality' => 3,//$element['#cardinality'],
+  );
+
+  drupal_add_js(array('select2_widget' => $setting), 'setting');
+  return $element;
 }
 
 /**
@@ -319,4 +377,35 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_og_form_alter(&$form, $form_state) {
+  if (empty($form['#node_edit_form']) || !og_is_group_type('node', $form['#node']->type)) {
+    return;
+  }
+  $form['og_purl']['purl']['value']['#title'] = t('Group path');
+  $form['og_purl']['purl']['value']['#type'] = 'machine_name';
+  $form['og_purl']['purl']['value']['#machine_name'] = array(
+    'source' => array('title'),
+    'label' => t('Group path'),
+    'exists' => 'c4m_og_purl_exists',
+  );
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function c4m_og_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_og'])) {
+    $c4m_og = $implementations['c4m_og'];
+    unset($implementations['c4m_og']);
+    $implementations['c4m_og'] = $c4m_og;
+  }
+}
+
+function c4m_og_purl_exists($value) {
+  return FALSE;
 }
