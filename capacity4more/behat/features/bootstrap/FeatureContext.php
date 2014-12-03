@@ -326,6 +326,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
+    // Using underscore temporary.
     $url = strtolower(str_replace(' ', '_', trim($group)));
     $steps = array();
     $steps[] = new Step\When("I go to \"$url\"");
