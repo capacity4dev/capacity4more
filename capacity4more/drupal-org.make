@@ -147,7 +147,7 @@ projects[pathauto][version] = "1.2"
 
 projects[pluggable_node_access][download][type] = "git"
 projects[pluggable_node_access][download][url] = "https://github.com/HelenaEksler/og.git"
-projects[pluggable_node_access][download][branch] = 12
+projects[pluggable_node_access][download][branch] = 15
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
