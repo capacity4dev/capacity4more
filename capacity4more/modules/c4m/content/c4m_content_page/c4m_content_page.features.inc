@@ -19,9 +19,9 @@ function c4m_content_page_ctools_plugin_api($module = NULL, $api = NULL) {
 function c4m_content_page_node_info() {
   $items = array(
     'page' => array(
-      'name' => t('Minisite Page'),
+      'name' => t('Wiki page'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Hierarchical group content page.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
