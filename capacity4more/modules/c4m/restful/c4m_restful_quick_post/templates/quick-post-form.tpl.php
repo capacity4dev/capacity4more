@@ -22,7 +22,7 @@
         <div ng-hide="serverSide.file">
           <?php print t('Drop file here to upload or'); ?>
           <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-          <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+          <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
         </div>
 
         <div ng-show="serverSide.file.status == 200">
@@ -107,10 +107,10 @@
 
       <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);" ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
-        <div>
+        <div name="discussion-document-upload">
           <?php print t('Drop file here to upload or'); ?>
           <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-          <input type="file" ng-hide="true" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+          <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
           <br/>
           <?php print t('or'); ?>
           <a href="javascript://"><?php print t('Select a Document from the library') ?></a>
@@ -268,7 +268,7 @@
         <em><?php print t('Upload Document') ?></em>
       </div>
 
-      <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
+      <form name="documentForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
         <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document }">
           <div>
@@ -276,9 +276,9 @@
           </div>
         </div>
 
-        <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+        <div class="form-group text" ng-class="{ 'has-error' : documentForm.label.$invalid && !documentForm.label.$pristine }">
           <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
-          <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
+          <p ng-show="documentForm.label.$invalid && !documentForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
           <div class="errors">
             <ul ng-show="serverSide.data.errors.label">
               <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
