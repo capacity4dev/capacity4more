@@ -431,9 +431,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps = array();
 
     $steps[] = new Step\When('I visit "group/' . $url . '"');
-    $steps[] = new Step\When('I should see "' . $title . '" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should see "posted Information" in the "div.view-group-activity-stream" element');
-    $steps[] = new Step\When('I should not see "updated the Information" in the "div.view-group-activity-stream" element');
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should not see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }
