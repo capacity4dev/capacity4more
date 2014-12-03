@@ -164,3 +164,31 @@ function theme_c4m_ds_document_preview($field) {
   return $output;
 }
 
+/**
+ * DS function field.
+ *
+ * Render node meta data
+ * - Author profile image
+ * - Author name
+ * - Post date
+ *
+ * @param $field
+ * @return string
+ */
+function theme_c4m_ds_group_access_info($field) {
+  $output = '';
+
+  if (isset($field['entity'])) {
+    $entity = $field['entity'];
+    $wrapper = entity_metadata_wrapper('node', $entity);
+  }
+  else {
+    return $output;
+  }
+
+
+
+  $group_access = $wrapper->group_access->value();
+
+  return $output;
+}
