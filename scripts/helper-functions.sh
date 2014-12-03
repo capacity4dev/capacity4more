@@ -354,6 +354,7 @@ function build_angular_app {
 
   # Build the dependencies.
   cd $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
+  bundle install
   npm install
   grunt build
   cd $ROOT
@@ -380,3 +381,18 @@ function build_kapablo_theme {
   echo
 }
 
+##
+# Overwrite the TIKA config (if needed).
+##
+function install_tika_config {
+  cd "$ROOT/www"
+
+  if [ -n "$TIKA_PATH" ]; then
+    drush vset search_api_attachments_tika_path "$TIKA_PATH"
+  fi
+  if [ -n "$TIKA_FILE" ]; then
+    drush vset search_api_attachments_tika_jar "$TIKA_FILE"
+  fi
+
+  cd "$ROOT"
+}

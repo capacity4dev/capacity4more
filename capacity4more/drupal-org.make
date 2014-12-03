@@ -6,13 +6,13 @@ projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.3"
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
+projects[admin_menu][version] = "3.x-dev"
 
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.2"
+projects[context][version] = "3.3"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "1.x-dev"
@@ -37,6 +37,9 @@ projects[date][version] = "2.8"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
+
+projects[ds][subdir] = "contrib"
+projects[ds][version] = "2.7"
 
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
@@ -124,8 +127,11 @@ projects[module_filter][version] = "2.0-alpha2"
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.0"
 
+projects[og][download][type] = "git"
+projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
+projects[og][download][branch] = 12
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.7"
+projects[og][type] = "module"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.2"
@@ -139,11 +145,8 @@ projects[panels][version] = "3.4"
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
-projects[pluggable_node_access][download][type] = "git"
-projects[pluggable_node_access][download][url] = "https://github.com/shushu/pluggable_node_access.git"
-projects[pluggable_node_access][download][branch] = 9
 projects[pluggable_node_access][subdir] = "contrib"
-projects[pluggable_node_access][type] = "module"
+projects[pluggable_node_access][version] = "1.x-dev"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.6"
@@ -166,11 +169,18 @@ projects[rules][version] = "2.6"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.13"
+projects[search_api_attachments][subdir] = "contrib"
+projects[search_api_attachments][version] = "1.4"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
+projects[search_api_sorts][subdir] = "contrib"
+projects[search_api_sorts][version] = "1.x-dev"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
+
+projects[term_reference_tree][subdir] = "contrib"
+projects[term_reference_tree][version] = "1.10"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
@@ -220,6 +230,10 @@ libraries[getlocations_markers][download][type]= "get"
 libraries[getlocations_markers][download][url] = "http://dl.dropbox.com/u/41489105/Drupal/getlocations/getlocations-markers.zip"
 libraries[getlocations_markers][directory_name] = "getlocations"
 libraries[getlocations_markers][destination] = "libraries"
+
+libraries[select2][type] = "libraries"
+libraries[select2][download][type] = "file"
+libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"

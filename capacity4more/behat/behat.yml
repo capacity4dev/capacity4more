@@ -18,6 +18,8 @@ default:
           'drupal'
         president:
           'drupal'
+        alfrednobel:
+          'drupal'
   paths:
     features: 'features'
   extensions:
@@ -25,6 +27,7 @@ default:
       goutte: ~
       selenium2: ~
       javascript_session: 'selenium2'
+      files_path: "features/images"
     Drupal\DrupalExtension\Extension:
       blackbox: ~
 

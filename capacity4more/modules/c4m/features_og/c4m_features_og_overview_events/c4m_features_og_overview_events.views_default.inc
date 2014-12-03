@@ -174,7 +174,7 @@ function c4m_features_og_overview_events_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['weight'] = '3';
-  $handler->display->display_options['menu']['name'] = 'menu-group-menu';
+  $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $export['c4m_overview_og_events'] = $view;

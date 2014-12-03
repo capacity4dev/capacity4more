@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Expose the "Topics" resource.'),
   'class' => 'C4mRestfulTopicsResource',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

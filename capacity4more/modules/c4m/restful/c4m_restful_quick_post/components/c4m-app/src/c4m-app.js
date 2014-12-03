@@ -2,10 +2,11 @@
 
 angular.module('c4mApp', [
     'ngPrettyJson',
-    'textAngular',
+    'ngCkeditor',
     'ui.select2',
     'ui.bootstrap',
-    'angularFileUpload'
+    'angularFileUpload',
+    'ngAnimate'
   ], function($httpProvider) {
 
     // Use x-www-form-urlencoded Content-Type
