@@ -867,18 +867,24 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     switch($field) {
       case 'Author':
-        $class = 'username';
+        $locator = '.region-content .username';
         break;
       case 'Comment':
-        $class = 'comment-wrapper';
+        $locator = '.region-content .comment-wrapper';
+        break;
+      case 'Download':
+        $locator = '.region-content .download-link';
+        break;
+      case 'Preview':
+        $locator = '.region-content .view-mode-c4m_preview';
         break;
       case 'Title':
-        $class = 'field-name-title';
+        $locator = '.main-container .page-header';
         break;
     }
 
-    if (!empty($class)) {
-      $element = $page->findAll('css', '.region-content .' . $class);
+    if (!empty($locator)) {
+      $element = $page->findAll('css', $locator);
     }
 
     if (!count($element)) {
@@ -905,6 +911,89 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     if (!count($element)) {
       throw new Exception("No $fieldgroup field group found.");
     }
+  }
+
+  /**
+   * @When /^I visit the documents overview of group "([^"]*)" in "([^"]*)" view$/
+   */
+  public function iVisitTheDocumentsOverviewOfGroupInView($title, $page) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $path = '';
+    switch ($page) {
+      case 'list':
+        $path = 'documents';
+        break;
+      case 'table':
+        $path = 'documents/table';
+    }
+    $uri = $this->createUriWithGroupContext($group, $path);
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @When /^I visit the filtered list view of the documents of group "([^"]*)"$/
+   */
+  public function iVisitTheFilteredListViewOfTheDocumentsOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    // Filter by
+    // Topic: 'Earth'
+    // Search term: 'Nobel'
+    $options = array(
+      'query' => array(
+        'search_api_views_fulltext' => 'Nobel',
+        'f[0]' => 'c4m_related_topic:1',
+      )
+    );
+    $uri = $this->createUriWithGroupContext($group, 'documents', $options);
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Given /^I switch to "([^"]*)" view$/
+   */
+  public function iSwitchToView($icon_type) {
+    $page = $this->getSession()->getPage();
+    $link = $page->find('css', '.region-content .view-header .' .
+      $icon_type . '-teaser-view');
+    $link->click();
+    if (!count($link)) {
+      throw new Exception("No $icon_type overview icon found.");
+    }
+
+  }
+
+  /**
+   * @Then /^I should still have retained search filters$/
+   */
+  public function iShouldStillHaveRetainedSearchFilters() {
+    $url = $this->getSession()->getCurrentUrl();
+    $parsed_url = drupal_parse_url($url);
+    // Check if we still have ...
+    // Topic: 'Earth'
+    // Search term: 'Nobel'
+    if (empty($parsed_url['query']['search_api_views_fulltext']) ||
+      'Nobel' != $parsed_url['query']['search_api_views_fulltext'] ||
+      empty($parsed_url['query']['f']['0']) ||
+      'c4m_related_topic:1' != $parsed_url['query']['f']['0']) {
+      throw new Exception("I am not on table view retaining filters and search
+        term.");
+    }
+  }
+
+  /**
+   * @Then /^I should see the document detail page$/
+   */
+  public function iShouldSeeTheDocumentDetailPage() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Comment" field');
+    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Preview" field');
+    $steps[] = new Step\When('I should see a "Download" field');
+    $steps[] = new Step\When('I should see a "Details" field group');
+
+    return $steps;
   }
 }
 
