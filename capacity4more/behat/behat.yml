@@ -27,7 +27,7 @@ default:
       goutte: ~
       selenium2: ~
       javascript_session: 'selenium2'
-      files_path: "features/images"
+      files_path: "features/files"
     Drupal\DrupalExtension\Extension:
       blackbox: ~
 
