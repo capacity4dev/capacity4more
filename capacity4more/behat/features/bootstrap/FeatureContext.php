@@ -235,11 +235,10 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a "([^"]*)" is created with title "([^"]*)" in the group "([^"]*)" with group manager "([^"]*)"$/
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" in the group "([^"]*)"$/
    */
-  public function aDiscussionIsCreatedWithTitleInTheGroup($type, $title, $group, $user) {
+  public function aDiscussionIsCreatedWithTitleInTheGroup($type, $title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
@@ -374,7 +373,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)" when i am logged in as "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group, $user) {
-    $uri = strtolower(str_replace(' ', '-', $group));
+    $uri = strtolower(str_replace(' ', '_', $group));
 
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "' . $user . '"');
