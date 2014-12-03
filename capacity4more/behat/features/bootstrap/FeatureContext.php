@@ -132,7 +132,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
     $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -149,9 +148,14 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
       $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     }
 
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
+
     // This is a required tag.
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Request"');
+
+    // Giving time for saving.
+    $steps[] = new Step\When('I wait');
 
     // Check there was no error.
     $steps[] = new Step\When('I should not see "Group access"');
@@ -280,6 +284,18 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
+    $url = strtolower(str_replace(' ', '_', trim($group)));
+    $steps = array();
+    $steps[] = new Step\When("I go to \"$url\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.pane-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)" after "([^"]*)"$/
    */
   public function iUpdateAWithTitleInTheGroupWithNewTitleAfter($type, $title, $new_title, $time) {
@@ -330,20 +346,6 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)" when i am logged in as "([^"]*)"$/
-   */
-  public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group, $user) {
-    $uri = strtolower(str_replace(' ', '-', $group));
-
-    $steps = array();
-    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
-    $steps[] = new Step\When("I go to \"$uri\"");
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
-
-    return $steps;
-  }
-
-  /**
    * @Then /^I should not be allowed to create a "([^"]*)"$/
    */
   public function iShouldNotBeAllowedToCreateA($type) {
@@ -369,10 +371,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    $uri = strtolower(str_replace(' ', '-', $group));
-
+    $url = strtolower(str_replace(' ', '_', trim($group)));
     $steps = array();
-    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
@@ -384,10 +385,9 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    $uri = strtolower(str_replace(' ', '-', $group));
-
+    $url = strtolower(str_replace(' ', '_', trim($group)));
     $steps = array();
-    $steps[] = new Step\When("I go to \"$uri\"");
+    $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
@@ -401,6 +401,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   public function iVisitTheDashboardOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
+
     return new Given("I go to \"$uri\"");
   }
 
@@ -457,6 +458,21 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @When /^I start creating "([^"]*)" in full form with title "([^"]*)" in group "([^"]*)"$/
+   */
+  public function iStartCreatingInFullFormWithTitle($bundle, $title, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
+
+    $uri = strtolower(str_replace(' ', '-', trim($group)));
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/js-add/' . $bundle . '"');
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
+    $steps[] = new Step\When('I fill editor "body" with "Some text in the body"');
+    return $steps;
+  }
+
+  /**
    * @When /^I visit the discussions overview of group "([^"]*)"$/
    */
   public function iVisitTheDiscussionsOverviewOfGroup($title) {
@@ -485,10 +501,91 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     return $steps;
   }
 
+  private function waitForXpathNode($xpath, $appear) {
+    $this->waitFor(function($context) use ($xpath, $appear) {
+      try {
+        $nodes = $context->getSession()->getDriver()->find($xpath);
+        if (count($nodes) > 0) {
+          $visible = $nodes[0]->isVisible();
+          return $appear ? $visible : !$visible;
+        } else {
+          return !$appear;
+        }
+      } catch (WebDriver\Exception $e) {
+        if ($e->getCode() == WebDriver\Exception::NO_SUCH_ELEMENT) {
+          return !$appear;
+        }
+        throw $e;
+      }
+    });
+  }
+
+  /**
+   * @Given /^I wait for text "([^"]+)" to (appear|disappear) in "([^"]+)"$/
+   */
+  public function iWaitForText($text, $appear, $element_name) {
+    $this->waitForXpathNode(".//*[contains(@name, \"$element_name\")]//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
+  }
+
+  private function waitFor($fn, $timeout = 30000) {
+    $start = microtime(true);
+    $end = $start + $timeout / 1000.0;
+    while (microtime(true) < $end) {
+      if ($fn($this)) {
+        return;
+      }
+    }
+    throw new \Exception("waitFor timed out");
+  }
+
+  /**
+   * @Given /^I upload the file "([^"]*)"$/
+   */
+  public function iUploadTheFile($file) {
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInputXpath = './/div[contains(@name, "discussion-document-upload")]/input[contains(@type, "file")]';
+
+    $fields = $this->getSession()->getDriver()->find($fileInputXpath);
+    $field = count($fields) > 0 ? $fields[0] : NULL;
+    if (null === $field) {
+      throw new Exception("File input is not found");
+    }
+    $this->getSession()->resizeWindow(1440, 900, 'current');
+
+    // Attaching file is working only if input is visible.
+    $this->getSession()->getDriver()->evaluateScript(
+      "jQuery('#document_file').css('display', 'block');"
+    );
+    $field->attachFile($file_path);
+    // Make input hidden after attaching the file.
+    $this->getSession()->getDriver()->evaluateScript(
+      "jQuery('#document_file').css('display', 'none');"
+    );
+  }
+
+  /**
+   * @Given /^I save document with title "([^"]*)" for a discussion$/
+   */
+  public function iSaveDocumentWithTitleForADiscussion($title) {
+    $label_xpath = ".//*[contains(@name, \"documentForm\")]//input[contains(@name, \"label\")]";
+    $save_xpath = ".//*[contains(@name, \"documentForm\")]//button[contains(@id, \"quick-submit\")]";
+
+    $fields = $this->getSession()->getDriver()->find($label_xpath);
+    $fields[0]->setValue($title);
+
+    $javascript = "angular.element('form[name=\"documentForm\"]').find('textarea#body').scope().data.body = 'Some document text';";
+    $this->getSession()->executeScript($javascript);
+
+    $fields = $this->getSession()->getDriver()->find($save_xpath);
+    $fields[0]->press();
+  }
+
+
   /**
    * @Given /^I upload the file "([^"]*)" in the field "([^"]*)"$/
    */
-  public function iUploadTheFile($file, $fieldname) {
+  public function iUploadTheFileInTheField($file, $fieldname) {
     // Attaching file is working only if input is visible.
     $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
 
@@ -662,6 +759,27 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @AfterStep
+   *
+   * Take a screenshot after failed steps.
+   */
+  public function takeScreenshotAfterFailedStep($event) {
+    if ($event->getResult() != 4) {
+      // Step didn't fail.
+      return;
+    }
+    if (!($this->getSession()->getDriver() instanceof \Behat\Mink\Driver\Selenium2Driver)) {
+      // Not a Selenium driver (e.g. PhantomJs).
+      return;
+    }
+
+    $file_name = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR . 'behat-failed-step.png';
+    $screenshot = $this->getSession()->getDriver()->getScreenshot();
+    file_put_contents($file_name, $screenshot);
+    print "Screenshot for failed step created in $file_name";
+  }
+
+  /**
    * @When /^I visit the documents overview of group "([^"]*)"$/
    */
   public function iVisitTheDocumentsOverviewOfGroup($title) {
@@ -749,18 +867,24 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
 
     switch($field) {
       case 'Author':
-        $class = 'username';
+        $locator = '.region-content .username';
         break;
       case 'Comment':
-        $class = 'comment-wrapper';
+        $locator = '.region-content .comment-wrapper';
+        break;
+      case 'Download':
+        $locator = '.region-content .download-link';
+        break;
+      case 'Preview':
+        $locator = '.region-content .view-mode-c4m_preview';
         break;
       case 'Title':
-        $class = 'field-name-title';
+        $locator = '.main-container .page-header';
         break;
     }
 
-    if (!empty($class)) {
-      $element = $page->findAll('css', '.region-content .' . $class);
+    if (!empty($locator)) {
+      $element = $page->findAll('css', $locator);
     }
 
     if (!count($element)) {
@@ -787,6 +911,89 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     if (!count($element)) {
       throw new Exception("No $fieldgroup field group found.");
     }
+  }
+
+  /**
+   * @When /^I visit the documents overview of group "([^"]*)" in "([^"]*)" view$/
+   */
+  public function iVisitTheDocumentsOverviewOfGroupInView($title, $page) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $path = '';
+    switch ($page) {
+      case 'list':
+        $path = 'documents';
+        break;
+      case 'table':
+        $path = 'documents/table';
+    }
+    $uri = $this->createUriWithGroupContext($group, $path);
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @When /^I visit the filtered list view of the documents of group "([^"]*)"$/
+   */
+  public function iVisitTheFilteredListViewOfTheDocumentsOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    // Filter by
+    // Topic: 'Earth'
+    // Search term: 'Nobel'
+    $options = array(
+      'query' => array(
+        'search_api_views_fulltext' => 'Nobel',
+        'f[0]' => 'c4m_related_topic:1',
+      )
+    );
+    $uri = $this->createUriWithGroupContext($group, 'documents', $options);
+    return new Given('I go to "' . $uri . '"');
+  }
+
+  /**
+   * @Given /^I switch to "([^"]*)" view$/
+   */
+  public function iSwitchToView($icon_type) {
+    $page = $this->getSession()->getPage();
+    $link = $page->find('css', '.region-content .view-header .' .
+      $icon_type . '-teaser-view');
+    $link->click();
+    if (!count($link)) {
+      throw new Exception("No $icon_type overview icon found.");
+    }
+
+  }
+
+  /**
+   * @Then /^I should still have retained search filters$/
+   */
+  public function iShouldStillHaveRetainedSearchFilters() {
+    $url = $this->getSession()->getCurrentUrl();
+    $parsed_url = drupal_parse_url($url);
+    // Check if we still have ...
+    // Topic: 'Earth'
+    // Search term: 'Nobel'
+    if (empty($parsed_url['query']['search_api_views_fulltext']) ||
+      'Nobel' != $parsed_url['query']['search_api_views_fulltext'] ||
+      empty($parsed_url['query']['f']['0']) ||
+      'c4m_related_topic:1' != $parsed_url['query']['f']['0']) {
+      throw new Exception("I am not on table view retaining filters and search
+        term.");
+    }
+  }
+
+  /**
+   * @Then /^I should see the document detail page$/
+   */
+  public function iShouldSeeTheDocumentDetailPage() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Comment" field');
+    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Preview" field');
+    $steps[] = new Step\When('I should see a "Download" field');
+    $steps[] = new Step\When('I should see a "Details" field group');
+
+    return $steps;
   }
 }
 

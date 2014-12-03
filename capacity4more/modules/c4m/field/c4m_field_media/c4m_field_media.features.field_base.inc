@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * c4m_field_demo.features.field_base.inc
+ * c4m_field_media.features.field_base.inc
  */
 
 /**
@@ -9,7 +9,6 @@
  */
 function c4m_field_media_field_default_field_bases() {
   $field_bases = array();
-
 
   // Exported field_base: 'c4m_media'
   $field_bases['c4m_media'] = array(
