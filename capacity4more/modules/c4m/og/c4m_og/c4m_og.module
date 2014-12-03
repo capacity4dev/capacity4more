@@ -49,7 +49,7 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_og_get_group_type_name($node = NULL) {
   if (!$node) {
-    $node = og_get_group_context();
+    $node = c4m_og_current_group();
   }
   if (!$node || !og_is_group_type('node', $node->type)) {
     return NULL;

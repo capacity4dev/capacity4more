@@ -19,3 +19,12 @@ function c4m_content_group_c4m_og_vocab_info_groups() {
     ),
   );
 }
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_content_group_ctools_plugin_directory($module, $plugin_type) {
+  if ($module == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
