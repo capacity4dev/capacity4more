@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -34,6 +34,8 @@ angular.module('c4mApp')
 
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
+
+    $scope.basePath = DrupalSettings.getBasePath();
 
     // Empty new activities.
     $scope.newActivities = [];
@@ -152,17 +154,20 @@ angular.module('c4mApp')
           if(angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
             $scope.referenceValues[field] = allowedValues;
             $scope.popups[field] = 0;
-            $scope.data[field] = {};
-          }
-          else {
-            // Field has value and this is not a discussion or event type field,
-            // which is actually not an object.
-            if (field != 'discussion_type' && field != 'event_type') {
-              var obj = {};
-              angular.forEach($scope.data[field], function (value, key) {
-                obj[value] = true;
-              });
-              $scope.data[field] = obj;
+            if (!$scope.data[field]) {
+              // Field is empty.
+              $scope.data[field] = {};
+            }
+            else {
+              // Field has value and this is not a discussion or event type field,
+              // which is actually not an object.
+              if (field != 'discussion_type' && field != 'event_type') {
+                var obj = {};
+                angular.forEach($scope.data[field], function (value, key) {
+                  obj[value] = true;
+                });
+                $scope.data[field] = obj;
+              }
             }
           }
         });
@@ -182,7 +187,9 @@ angular.module('c4mApp')
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
       angular.forEach(textFields, function (field) {
-        $scope.data[field] = field == 'tags' ? [] : '';
+        if (!field){
+          $scope.data[field] = field == 'tags' ? [] : '';
+        }
       });
     }
 
@@ -302,6 +309,11 @@ angular.module('c4mApp')
             if(!$scope.fullForm) {
               $scope.selectedResource = '';
             }
+            else {
+              // Go to the entity page after saving in the full form.
+              var entityID = data.data[0].id;
+              $window.location = DrupalSettings.getBasePath() + "node/" + entityID;
+            }
           }
         })
         .error( function (data, status) {
@@ -351,6 +363,7 @@ angular.module('c4mApp')
 
               modalInstance.result.then(function (document) {
                 $scope.data.related_document.push(document.id);
+                $scope.documentName = document.label;
                 document.id = parseInt(document.id);
                 // Add new document to list of all documents.
                 $scope.documents.push(document);
