@@ -221,6 +221,19 @@ angular.module('c4mApp')
     };
 
     /**
+     * Remove taxonomy term from the data.
+     * Called by click on added term.
+     *
+     * @param key
+     *  taxonomy term id
+     * @param field
+     *  name of the taxonomy terms field.
+     */
+    $scope.removeTaxonomyValue = function(key, field) {
+      $scope.data[field][key] = false;
+    }
+
+    /**
      * Called by the directive "types",
      * Updates the type of the selected resource.
      *
