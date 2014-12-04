@@ -87,7 +87,7 @@ dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_group_banner
-dependencies[] = c4m_content_page
+dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_content_photo
 dependencies[] = c4m_content_photoalbum
 dependencies[] = c4m_content_project
@@ -119,7 +119,7 @@ dependencies[] = c4m_features_og_discussions
 dependencies[] = c4m_features_og_documents
 dependencies[] = c4m_features_og_overview_events
 dependencies[] = c4m_features_og_overview_members
-dependencies[] = c4m_features_og_overview_pages
+dependencies[] = c4m_features_og_overview_wiki_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
 

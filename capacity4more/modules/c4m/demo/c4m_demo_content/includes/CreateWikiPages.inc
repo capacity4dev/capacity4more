@@ -5,10 +5,10 @@
  */
 
 /**
- * Class C4mDemoContentCreatePages
+ * Class C4mDemoContentCreateWikiPages
  */
-class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
-  public $bundle = 'page';
+class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
+  public $bundle = 'wiki_page';
 
   /**
    * CSV column mapping.
@@ -91,7 +91,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
 
     if (!empty($row->parent)) {
       $unfiltered_ids = $this->handleSourceMigration(
-                             'C4mDemoContentCreatePages',
+                             'C4mDemoContentCreateWikiPages',
                                $row->parent,
                                NULL,
                                $this
