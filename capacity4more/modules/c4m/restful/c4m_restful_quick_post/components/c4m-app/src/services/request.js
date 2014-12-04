@@ -78,9 +78,7 @@ angular.module('c4mApp')
       var categories = submitData.categories;
       delete(submitData.categories);
       delete(submitData.tags);
-      submitData.categories = {};
-      submitData.categories.categories = categories;
-      submitData.categories.tags = tags;
+      submitData.categories = categories.concat(tags);
 
       return jQuery.param(submitData);
     };
