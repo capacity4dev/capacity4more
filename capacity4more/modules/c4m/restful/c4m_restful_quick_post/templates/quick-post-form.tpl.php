@@ -41,13 +41,13 @@
     </div>
 
     <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
-      <label>{{fieldSchema.discussion_type.info.label}}</label>
+      <label>{{fieldSchema.resources[selectedResource].discussion_type.info.label}}</label>
       <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"></types>
       <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
     </div>
 
     <div ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
-      <label>{{fieldSchema.event_type.info.label}}</label>
+      <label>{{fieldSchema.resources[selectedResource].event_type.info.label}}</label>
       <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType"></types>
       <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
     </div>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="form-group text" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
-      <label>{{fieldSchema.organiser.info.label}}</label>
+      <label>{{fieldSchema.resources[selectedResource].organiser.info.label}}</label>
       <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
       <div class="errors">
         <ul ng-show="serverSide.data.errors.organiser">
@@ -83,8 +83,8 @@
 
     <div class="form-group btn-group" ng-if="selectedResource == 'documents'" ng-class="{ 'has-error' : errors.document_type }">
       <div class="label-wrapper">
-        <label>{{fieldSchema.document_type.info.label}}</label>
-        <span id="document_type_description" class="description">{{fieldSchema.document_type.info.description}}</span>
+        <label>{{fieldSchema.resources[selectedResource].document_type.info.label}}</label>
+        <span id="document_type_description" class="description">{{fieldSchema.resources[selectedResource].document_type.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
         <div>
@@ -138,8 +138,8 @@
 
     <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
       <div class="label-wrapper">
-        <label>{{fieldSchema.topic.info.label}}</label>
-        <span id="topic_description" class="description">{{fieldSchema.topic.info.description}}</span>
+        <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
+        <span id="topic_description" class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
         <div>
@@ -158,8 +158,8 @@
 
     <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
-        <label>{{fieldSchema.date.info.label}}</label>
-        <span id="date_description" class="description">{{fieldSchema.date.info.description}}</span>
+        <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
+        <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
         <div>
@@ -178,8 +178,8 @@
 
     <div class="form-group btn-group" ng-class="{ 'has-error' : errors.language }">
       <div class="label-wrapper">
-        <label>{{fieldSchema.language.info.label}}</label>
-        <span id="language_description" class="description">{{fieldSchema.language.info.description}}</span>
+        <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
+        <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
         <div>
@@ -198,8 +198,8 @@
 
     <div class="form-group btn-group" ng-class="{ 'has-error' : errors.geo }">
       <div class="label-wrapper">
-        <label>{{fieldSchema.geo.info.label}}</label>
-        <span id="geo_description" class="description">{{fieldSchema.geo.info.description}}</span>
+        <label>{{fieldSchema.resources[selectedResource].geo.info.label}}</label>
+        <span id="geo_description" class="description">{{fieldSchema.resources[selectedResource].geo.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
         <div>

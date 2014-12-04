@@ -15,6 +15,10 @@ include_once 'c4m_content_group_banner.features.inc';
  */
 function c4m_content_group_banner_views_default_views_alter(&$views)
 {
+  if (!isset($views['media_default'])) {
+    return;
+  }
+  
   $view = &$views['media_default'];
 
   /* Display: Banner browser */

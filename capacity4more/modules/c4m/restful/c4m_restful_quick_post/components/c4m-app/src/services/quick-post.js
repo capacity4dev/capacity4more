@@ -7,7 +7,7 @@
  * # Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('QuickPostService', function() {
+  .service('QuickPostService', function($http) {
     var self = this;
 
     /**
