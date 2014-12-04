@@ -1,14 +1,14 @@
 Feature: Group access
   Test group access
 
-  @api
+  @api @momo
   Scenario: Check public group
-    Given a group "My bad hair day new group 1" with "Public" access is created with group manager "turing"
-      And a discussion "My content 1" in group "My bad hair day new group 1" is created
+    Given a group "My bad hair day new group 111" with "Public" access is created with group manager "turing"
+      And a discussion "My content 111" in group "My bad hair day new group 111" is created
      When I am logged in as user "isaacnewton"
-     Then I visit "My bad hair day new group 1" node of type "group"
+     Then I visit "My bad hair day new group 111" node of type "group"
       And I should have access to the page
-      And I visit "My content 1" node of type "discussion"
+      And I visit "My content 111" node of type "discussion"
       And I should have access to the page
 
   @api

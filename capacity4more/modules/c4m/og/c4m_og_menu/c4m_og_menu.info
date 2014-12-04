@@ -11,4 +11,5 @@ dependencies[] = menu
 features[context][] = c4m_context_og_menu
 features[ctools][] = context:context:3
 features[features_api][] = api:2
-features[menu_custom][] = menu-group-menu
+features[menu_custom][] = c4m-og-menu
+mtime = 1415794046

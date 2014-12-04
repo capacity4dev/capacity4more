@@ -20,7 +20,9 @@ function c4m_restful_quick_post_theme() {
   $theme['c4m_restful_quick_post_angular_form'] = array(
     'template' => 'quick-post-form',
     'path' => drupal_get_path('module', 'c4m_restful_quick_post') . '/templates',
-    'variables' => NULL,
+    'variables' => array(
+      'show_resources' => NULL,
+    ),
   );
 
   return $theme;
@@ -29,45 +31,70 @@ function c4m_restful_quick_post_theme() {
 /**
  * Page callback; Load the AngularJs form.
  *
- * @param int $node
- *  The ID of the current group.
+ * @param int $group_id
+ *   The node ID of the current group.
+ * @param array $show_resources
+ *   Array with the resources name that should appear. Defaults to all
+ *   resources.
+ * @param bool $full_form
+ *   Determine if full form should be used. This is checked only when a single
+ *   $show_resources is passed.
+ * @param stdClass $node
+ *   (optional) The node object to edit using the form.
  *
  * @return string
- *  A rendered form of the Quick Post.
+ *   A rendered form of the Quick Post.
  */
-function c4m_restful_quick_post_form($node) {
-  $bower_path = libraries_get_path('bower_components');
-
+function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full_form = FALSE, $node = NULL) {
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
-      'description' => 'Add a Discussion',
+      'description' => t('Add a Discussion'),
     ),
     'documents' => array(
       'bundle' => 'Document',
-      'description' => 'Upload a Document',
+      'description' => t('Upload a Document'),
     ),
     'events' => array(
       'bundle' => 'Event',
-      'description' => 'Add an Event',
+      'description' => t('Add an Event'),
     ),
   );
+
+  $resource_names = !empty($show_resources) ? array_keys($show_resources) : array_keys($resources);
+
+  if (!empty($show_resources) && in_array('discussions', array_keys($show_resources))) {
+    // Also need document fields for the discussion.
+    $resource_names[] = 'documents';
+  }
+  $show_resources = !empty($show_resources) ? $show_resources : $resources;
+
+  $bower_path = libraries_get_path('bower_components');
 
   // Get fields.
   $field_schema = array();
   $public_fields = array();
-  foreach ($resources as $resource => $value) {
-    $handler = restful_get_restful_handler($resource);
-    $field_schema += $handler->options();
+  foreach ($resource_names as $resource_name) {
+    $handler = restful_get_restful_handler($resource_name);
+    // Send the fields to the app as separate objects by resource (for validation on submit.)
+    $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
     $public_fields += $handler->getPublicFields();
-    // Send the fields as separate objects as well (for validation on submit.)
-    $field_schema['resources'][$resource] = $handler->options();
+
+    if ($node && in_array($resource_name, array_keys($show_resources))) {
+      // Get the nodes' ids if they exist.
+      $node_values = $handler->get($node->nid);
+    }
   }
 
-  // Load the libraries.
+  // AngularJs.
+  drupal_add_js($bower_path . '/angular/angular.min.js');
+
+  // Upload file library.
   drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
-  drupal_add_js($bower_path . '/angular/angular.js');
   drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
+
+  // Angular-animate.
+  drupal_add_js($bower_path . '/angular-animate/angular-animate.min.js');
 
   // JSON pretty print library.
   drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
@@ -91,6 +118,9 @@ function c4m_restful_quick_post_form($node) {
   // Font-awesome library.
   drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
 
+  // Filesize library.
+  drupal_add_js($bower_path . '/filesize/lib/filesize.min.js');
+
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
@@ -102,20 +132,40 @@ function c4m_restful_quick_post_form($node) {
     'id',
     'self',
   );
+
   foreach($public_fields as $public_field_name => $value) {
     // Skipped fields.
     if (in_array($public_field_name, $skipped_fields)) {
       continue;
     }
-
-    // Set all fields values to NULL.
-    $entity_fields[$public_field_name] = NULL;
+    if ($node) {
+      // Set default values of the fields that already exist.
+      $entity_fields[$public_field_name] = isset($node_values[0][$public_field_name]) ? $node_values[0][$public_field_name] : NULL;
+    }
+    else {
+      // Set all fields values to NULL.
+      $entity_fields[$public_field_name] = NULL;
+    }
 
     // Set the current Group.
     if ($public_field_name == 'group') {
-      $entity_fields[$public_field_name] = $node;
+      $entity_fields[$public_field_name] = $group_id;
     }
   }
+
+  // Set the current node id.
+  $entity_fields['entityId'] = $node ? $node->nid : NULL;
+
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'group' => $group_id,
+    'html' => true,
+    // Sort the activity stream by ID descending.
+    'sort' => '-id',
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
 
   // The quick post debugger.
   // In order to activate the debug: "drush vset c4m_quick_post_debug 1".
@@ -129,19 +179,30 @@ function c4m_restful_quick_post_form($node) {
     'absolute' => TRUE,
   );
 
+  if (array_key_exists('related_document', $entity_fields)) {
+    // Set the related_document field value if field exists.
+    $entity_fields['related_document'] = $entity_fields['related_document'] ? $entity_fields['related_document'] : array();
+  }
+
+  $handler = restful_get_restful_handler('documents');
+  $documents = $handler->get();
+
   // Pass info via Drupal.settings.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
-    'resources' => $resources,
+    'resources' => $show_resources,
     'field_schema' => $field_schema,
     'debug' => $c4m_quick_post_debug,
+    'activities' => $activities,
     'data' => array(
       'entity' => $entity_fields,
+      'full_form' => $full_form,
     ),
+    'documents' => $documents,
   );
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
-  return theme('c4m_restful_quick_post_angular_form');
+  return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
 }

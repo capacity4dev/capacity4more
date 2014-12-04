@@ -26,6 +26,7 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
     array('date', 'Date'),
     array('lang', 'Language'),
     array('uid', 'UID'),
+    array('promote', 'promote'),
   );
 
   /**

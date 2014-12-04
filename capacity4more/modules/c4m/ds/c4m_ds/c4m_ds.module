@@ -1,0 +1,149 @@
+<?php
+/**
+ * @file
+ * Code for the C4M Display Suite feature.
+ */
+
+include_once 'c4m_ds.features.inc';
+
+/**
+ * Expose default view modes.
+ *
+ * This hook is called by CTools. For this hook to work, you need
+ * hook_ctools_plugin_api(). The values of this hook can be overridden
+ * and reverted through the UI.
+ */
+function c4m_ds_ds_view_modes_info() {
+  $ds_view_modes = array();
+
+  $ds_view_mode = new stdClass;
+  $ds_view_mode->disabled = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'c4m_preview';
+  $ds_view_mode->label = 'C4M preview';
+  $ds_view_mode->entities = array(
+    'file' => 'file',
+  );
+  $ds_view_modes['c4m_preview'] = $ds_view_mode;
+
+  return $ds_view_modes;
+}
+
+/**
+ * Define fields.
+ *
+ * These fields are not overridden through the interface.
+ * If you want those, look at hook_ds_custom_fields_info().
+ *
+ * @param string $entity_type
+ *   The name of the entity which we are requesting fields for, e.g. 'node'.
+ *
+ * @return array
+ *   A collection of fields which keys are the entity type name and values
+ *   a collection fields.
+ *
+ * @see ds_get_fields()
+ */
+function c4m_ds_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_ds');
+
+  // Fields for entity type node.
+  $fields['node']['c4m_ds_node_meta'] = array(
+    'title' => t('Node meta data'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.inc',
+    'function' => 'theme_c4m_ds_node_meta',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+        'document_upload' => t('Document upload'),
+        'information_post' => t('Information post'),
+        'minimal' => t('Minimal (no image, no prefix'),
+      ),
+    ),
+  );
+
+  // Fields for entity type file.
+  $fields['file']['c4m_ds_download_link'] = array(
+    'title' => t('C4M file download link'),
+    'field_type' => DS_FIELD_TYPE_THEME,
+    // Currently for all file bundles.
+    'ui_limit' => array('*|*'),
+    'properties' => array(
+      'formatters' => array(
+        'c4m_ds_formatter_link_and_size' => t('C4M download link with filesize'),
+      ),
+    ),
+  );
+
+  $fields['file']['c4m_ds_document_preview'] = array(
+    'title' => t('C4M document preview'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    // Currently for document only.
+    'ui_limit' => array('document|*'),
+    'file' => $path . '/includes/c4m_ds.theme.inc',
+    'function' => 'theme_c4m_ds_document_preview',
+  );
+
+  return $fields;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_ds_field_formatter_info() {
+  $formatters = array(
+    // Formatter to present download link of a file in particular format.
+    'c4m_ds_formatter_link_and_size' => array(
+      'label' => t('C4M Download link with filesize'),
+      'description' => t('Displays a link that will force the browser to
+        download the file.'),
+      'field types' => array('file', 'image'),
+      'settings' => array(
+        'text' => t('Download [file:name]'),
+      ),
+    ),
+  );
+  return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * @see media_field_formatter_info()
+ */
+function c4m_ds_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  if ($display['type'] == 'c4m_ds_formatter_link_and_size') {
+    $settings = $display['settings'];
+    $element = array();
+    foreach ($items as $delta => $item) {
+      $file = (object) $item;
+      if (file_entity_access('download', $file)) {
+        $element[$delta] = array(
+          '#theme' => 'c4m_ds_formatter_link_and_size',
+          '#file' => $file,
+          '#text' => $settings['text'],
+        );
+      }
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_ds_theme() {
+  return array(
+    'c4m_ds_formatter_link_and_size' => array(
+      'variables' => array('file' => NULL, 'icon_directory' => NULL, 'text' => NULL),
+      'file' => 'includes/c4m_ds.theme.inc',
+    ),
+  );
+}

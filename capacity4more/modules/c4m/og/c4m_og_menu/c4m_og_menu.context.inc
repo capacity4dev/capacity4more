@@ -29,10 +29,10 @@ function c4m_og_menu_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'menu-menu-group-menu' => array(
+        'menu-c4m-og-menu' => array(
           'module' => 'menu',
-          'delta' => 'menu-group-menu',
-          'region' => 'highlighted',
+          'delta' => 'c4m-og-menu',
+          'region' => 'content_top',
           'weight' => '-10',
         ),
       ),
