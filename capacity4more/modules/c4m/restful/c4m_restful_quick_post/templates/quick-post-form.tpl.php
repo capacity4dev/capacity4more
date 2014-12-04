@@ -142,10 +142,6 @@
         <span id="topic_description" class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
-          <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
-        </div>
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
@@ -168,10 +164,6 @@
         <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
-          <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
-        </div>
         <div class="checkboxes-wrapper">
           <div class="selected-values" ng-show="data.date">
             <span ng-show="value === true" ng-repeat="(key, value) in data.date">
@@ -219,10 +211,6 @@
         <span id="geo_description" class="description">{{fieldSchema.resources[selectedResource].geo.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
-          <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
-        </div>
         <div class="checkboxes-wrapper">
           <div>
             <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
