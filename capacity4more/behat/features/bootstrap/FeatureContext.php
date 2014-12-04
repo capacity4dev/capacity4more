@@ -472,6 +472,7 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('Group menu item "Home" should be active');
     $steps[] = new Step\When('I should see the Quick Post form');
     $steps[] = new Step\When('I should see the Activity stream');
+    $steps[] = new Step\When('I should see the Highlights');
 
     return $steps;
   }
@@ -511,6 +512,25 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $el = $page->find('css', 'div.pane-activity-stream');
     if ($el === null) {
       throw new Exception('The Activity Stream pane is not visible.');
+    }
+  }
+  /**
+   * @Given /^I should see the Highlights$/
+   */
+  public function iShouldSeeTheHighlights() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.pane-c4m-overview-og-highlights');
+    if ($el === null) {
+      throw new Exception('The Highlights pane is not visible.');
+    }
+
+    // Check if promoted node 'Photoalbum 3' is there.
+    $node_title = 'Photoalbum 3';
+    if (strpos($el->getText(), $node_title) === FALSE) {
+      $params = array('@node_title' => $node_title);
+      throw new Exception(format_string('Node "@node_title" should be on the' .
+        ' Highlights but is missing.',
+        $params));
     }
   }
 
