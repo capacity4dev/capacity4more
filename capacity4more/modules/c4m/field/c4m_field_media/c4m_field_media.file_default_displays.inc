@@ -12,6 +12,14 @@ function c4m_field_media_file_default_displays() {
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
+  $file_display->name = 'document__c4m_preview__file_field_media_large_icon';
+  $file_display->weight = 0;
+  $file_display->status = TRUE;
+  $file_display->settings = '';
+  $export['document__c4m_preview__file_field_media_large_icon'] = $file_display;
+
+  $file_display = new stdClass();
+  $file_display->api_version = 1;
   $file_display->name = 'image__c4m_preview__file_field_image';
   $file_display->weight = 0;
   $file_display->status = TRUE;
