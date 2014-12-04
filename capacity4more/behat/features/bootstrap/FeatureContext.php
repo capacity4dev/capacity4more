@@ -426,11 +426,11 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
    */
   public function iShouldSeeACreationMessageForInTheActivityStreamOfTheGroup($title, $group) {
     // Generate URL from title.
-    $url = str_replace(' ', '-', strtolower(trim($group)));
+    $url = strtolower(str_replace(' ', '_', trim($group)));
 
     $steps = array();
 
-    $steps[] = new Step\When('I visit "group/' . $url . '"');
+    $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should not see "updated the Information" in the "div.pane-activity-stream" element');
