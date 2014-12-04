@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Migrate class to create group minisite pages.
+ * Migrate class to create group wiki pages.
  */
 
 /**
@@ -148,7 +148,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     }
     else {
       // Retrieve root book node (master page) if no parent was given.
-      $parent_node = c4m_content_minisite_get_book_by_gid($og_id);
+      $parent_node = c4m_content_wiki_get_book_by_gid($og_id);
     }
 
     if (!$parent_node) {
@@ -161,7 +161,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     $book['nid']  = $entity->nid;
 
     if ($update) {
-      $book['mlid'] = c4m_content_minisite_get_mlid_by_nid($entity->nid);
+      $book['mlid'] = c4m_content_wiki_get_mlid_by_nid($entity->nid);
     }
     else {
       unset($book['mlid']);

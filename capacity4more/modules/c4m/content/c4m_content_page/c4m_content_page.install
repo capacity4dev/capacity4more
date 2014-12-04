@@ -9,7 +9,7 @@
 function c4m_content_page_install() {
   // Set the pathauto for the content type trough the install hook.
   // It can then be overridden without interfere the feature settings.
-  variable_set('pathauto_node_page_pattern', 'minisite/[node:book:parents:minisite-join-path]/[node:title]');
+  variable_set('pathauto_node_page_pattern', 'wiki/[node:book:parents:wiki-join-path]/[node:title]');
 
   $book_types = variable_get('book_allowed_types', array());
   $key = array_search('page', $book_types);

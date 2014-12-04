@@ -1,5 +1,5 @@
-name = Minisite Pages overview
-description = Basic table overview of minisite pages
+name = Wiki overview
+description = Basic table overview of wiki pages
 core = 7.x
 package = capacity4more - Features Group
 version = 7.x-1.x-dev
