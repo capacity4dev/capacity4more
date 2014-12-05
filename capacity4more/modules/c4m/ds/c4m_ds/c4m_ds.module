@@ -77,15 +77,20 @@ function c4m_ds_ds_fields_info($entity_type) {
     'properties' => array('formatters' => $image_styles),
   );
 
-  // Fields for Group nodes
-  $fields['node']['c4m_ds_group_manager'] = array(
-    'title' => t('Group manager'),
+  $fields['node']['c4m_ds_author_first_and_last_name'] = array(
+    'title' => t('Author first and last name'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('group|*'),
+    'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
-    'function' => 'theme_c4m_ds_group_manager',
-    'properties' => array('formatters' => $image_styles),
+    'function' => 'theme_c4m_ds_author_first_and_last_name',
+    'properties' => array(
+      'formatters' => array(
+        'author' => 'Author first and last name',
+        'author_link' => 'Author first and last name linked to profile',
+      )),
   );
+
+  // Fields for Group nodes
 
   // A field to give list of all members of a group node with a particular role.
   foreach(c4m_og_get_group_bundles() as $group_bundle => $og_roles) {

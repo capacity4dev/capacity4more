@@ -40,14 +40,24 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_manager' => array(
+    'c4m_ds_node_author_image' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'thumbnail',
     ),
-    'c4m_ds_group_role_members' => array(
+    'c4m_ds_author_first_and_last_name' => array(
       'weight' => '1',
-      'label' => 'hidden',
+      'label' => 'above',
+      'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Group owner',
+        ),
+      ),
+    ),
+    'c4m_ds_group_role_members' => array(
+      'weight' => '2',
+      'label' => 'above',
       'format' => '6',
       'formatter_settings' => array(
         'ft' => array(
@@ -83,24 +93,26 @@ function c4m_content_group_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'post_date',
-        1 => 'c4m_ds_group_manager',
+        1 => 'c4m_ds_node_author_image',
         2 => 'c4m_body',
-        3 => 'c4m_ds_group_role_members',
-        4 => 'node_link',
-        5 => 'c4m_related_topic',
+        3 => 'c4m_ds_author_first_and_last_name',
+        4 => 'c4m_ds_group_role_members',
+        5 => 'node_link',
         6 => 'c4m_ds_group_access_info',
-        7 => 'c4m_vocab_geo',
-        8 => 'group_details',
+        7 => 'c4m_related_topic',
+        8 => 'c4m_vocab_geo',
+        9 => 'group_details',
       ),
     ),
     'fields' => array(
       'post_date' => 'ds_content',
-      'c4m_ds_group_manager' => 'ds_content',
+      'c4m_ds_node_author_image' => 'ds_content',
       'c4m_body' => 'ds_content',
+      'c4m_ds_author_first_and_last_name' => 'ds_content',
       'c4m_ds_group_role_members' => 'ds_content',
       'node_link' => 'ds_content',
-      'c4m_related_topic' => 'ds_content',
       'c4m_ds_group_access_info' => 'ds_content',
+      'c4m_related_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
       'group_details' => 'ds_content',
     ),

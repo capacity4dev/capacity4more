@@ -27,21 +27,8 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'above',
       'format' => 'default',
     ),
-    'author' => array(
-      'weight' => '5',
-      'label' => 'inline',
-      'format' => 'author_linked',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'information posted by',
-          'lb-el' => 'span',
-          'lb-col' => TRUE,
-        ),
-      ),
-    ),
     'post_date' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'ds_post_date_day',
       'formatter_settings' => array(
@@ -60,6 +47,18 @@ function c4m_content_discussion_ds_field_settings_info() {
       'weight' => '4',
       'label' => 'hidden',
       'format' => 'thumbnail',
+    ),
+    'c4m_ds_author_first_and_last_name' => array(
+      'weight' => '5',
+      'label' => 'inline',
+      'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'information posted by',
+          'lb-el' => 'span',
+        ),
+      ),
     ),
   );
   $export['node|discussion|full'] = $ds_fieldsetting;
@@ -120,7 +119,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       ),
       'right' => array(
         4 => 'c4m_ds_node_author_image',
-        5 => 'author',
+        5 => 'c4m_ds_author_first_and_last_name',
         6 => 'post_date',
         7 => 'group_node_details',
         8 => 'c4m_related_topic',
@@ -135,7 +134,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_related_document' => 'left',
       'comments' => 'left',
       'c4m_ds_node_author_image' => 'right',
-      'author' => 'right',
+      'c4m_ds_author_first_and_last_name' => 'right',
       'post_date' => 'right',
       'group_node_details' => 'right',
       'c4m_related_topic' => 'right',
