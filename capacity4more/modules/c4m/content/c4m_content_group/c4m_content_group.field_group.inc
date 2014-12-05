@@ -25,6 +25,8 @@ function c4m_content_group_field_group_info() {
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_geo',
+      2 => 'c4m_ds_group_manager',
+      3 => 'c4m_ds_group_role_members',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
