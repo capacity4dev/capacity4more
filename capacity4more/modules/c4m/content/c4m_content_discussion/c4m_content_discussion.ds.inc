@@ -32,6 +32,11 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'information_post',
     ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|discussion|full'] = $ds_fieldsetting;
 
@@ -85,11 +90,11 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'regions' => array(
       'right' => array(
         0 => 'c4m_ds_node_meta',
-        6 => 'c4m_related_topic',
-        7 => 'c4m_vocab_date',
-        8 => 'c4m_vocab_language',
-        9 => 'c4m_vocab_geo',
-        10 => 'group_node_details',
+        5 => 'c4m_related_topic',
+        6 => 'c4m_vocab_date',
+        7 => 'c4m_vocab_language',
+        8 => 'c4m_vocab_geo',
+        9 => 'group_node_details',
       ),
       'left' => array(
         1 => 'links',
