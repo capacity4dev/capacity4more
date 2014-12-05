@@ -4,13 +4,14 @@
  * Context methods about Activity messages and Activity streams.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_Activity {
+trait Activity {
   /**
    * @Given /^I should see the Activity stream$/
    */
@@ -18,7 +19,7 @@ trait FeatureContext_Activity {
     $page = $this->getSession()->getPage();
     $el = $page->find('css', 'div.pane-activity-stream');
     if ($el === null) {
-      throw new Exception('The Activity Stream pane is not visible.');
+      throw new \Exception('The Activity Stream pane is not visible.');
     }
   }
 

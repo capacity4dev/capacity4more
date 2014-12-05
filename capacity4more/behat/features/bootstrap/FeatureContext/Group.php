@@ -4,13 +4,14 @@
  * Context methods about Groups (view, create, update, delete).
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_Group {
+trait Group {
   /**
    * Helper to get the group based on the title & type.
    *
@@ -39,7 +40,7 @@ trait FeatureContext_Group {
         '@title' => $title,
         '@type' => $type,
       );
-      throw new Exception(format_string("Group @title not found (type @type).", $params));
+      throw new \Exception(format_string("Group @title not found (type @type).", $params));
     }
 
     $gid = (int) key($result['node']);
@@ -49,7 +50,7 @@ trait FeatureContext_Group {
         '@title' => $title,
         '@type' => $type,
       );
-      throw new Exception(format_string("Group @title not found (type @type).", $params));
+      throw new \Exception(format_string("Group @title not found (type @type).", $params));
     }
 
     return $group;

@@ -4,13 +4,14 @@
  * Context methods about Search functionality.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_Search {
+trait Search {
   /**
    * @Then /^I should be able to sort the overview$/
    */
@@ -19,7 +20,7 @@ trait FeatureContext_Search {
     $sorts = $page->findAll('css', '.region-content .view-header .search-api-sorts li');
 
     if (!count($sorts)) {
-      throw new Exception("No sort options found.");
+      throw new \Exception("No sort options found.");
     }
   }
 
@@ -30,7 +31,7 @@ trait FeatureContext_Search {
     $page = $this->getSession()->getPage();
     $el = $page->find('css', '.region-sidebar-first #edit-search-api-views-fulltext');
     if ($el === null) {
-      throw new Exception('The Sidebar Search block is not visible.');
+      throw new \Exception('The Sidebar Search block is not visible.');
     }
   }
 
@@ -56,7 +57,7 @@ trait FeatureContext_Search {
       $params = array(
         '@title' => $title,
       );
-      throw new Exception(format_string("Facet with @title not found.", $params));
+      throw new \Exception(format_string("Facet with @title not found.", $params));
     }
   }
 }

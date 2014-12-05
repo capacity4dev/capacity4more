@@ -4,16 +4,17 @@
  * Context methods about Documents (view, create, update, delete).
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
 /**
  * DO NOT USE THIS TRAIT FOR FUNCTIONALITY ABOUT QUICK POST.
  */
-trait FeatureContext_Document {
+trait Document {
   /**
    * @When /^I visit the documents overview of group "([^"]*)"$/
    */
@@ -86,7 +87,7 @@ trait FeatureContext_Document {
       $icon_type . '-teaser-view');
     $link->click();
     if (!count($link)) {
-      throw new Exception("No $icon_type overview icon found.");
+      throw new \Exception("No $icon_type overview icon found.");
     }
 
   }
@@ -104,7 +105,7 @@ trait FeatureContext_Document {
       'Nobel' != $parsed_url['query']['search_api_views_fulltext'] ||
       empty($parsed_url['query']['f']['0']) ||
       'c4m_related_topic:1' != $parsed_url['query']['f']['0']) {
-      throw new Exception("I am not on table view retaining filters and search
+      throw new \Exception("I am not on table view retaining filters and search
         term.");
     }
   }
@@ -134,7 +135,7 @@ trait FeatureContext_Document {
       $icon_type . '-teaser-view');
 
     if (!count($icon)) {
-      throw new Exception("No $icon_type overview icon found.");
+      throw new \Exception("No $icon_type overview icon found.");
     }
   }
 }

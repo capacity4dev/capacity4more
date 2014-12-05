@@ -4,13 +4,14 @@
  * Context methods to just wait or to wait until something is available.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_Wait {
+trait Wait {
   /**
    * @Given /^I wait$/
    */

@@ -4,16 +4,17 @@
  * Context methods about Discussions (view, create, update, delete).
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
 /**
  * DO NOT USE THIS TRAIT FOR FUNCTIONALITY ABOUT QUICK POST.
  */
-trait FeatureContext_Discussion {
+trait Discussion {
   /**
    * @When /^I visit the discussions overview of group "([^"]*)"$/
    */

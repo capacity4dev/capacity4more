@@ -4,13 +4,14 @@
  * Context methods about Group dashboard.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_GroupDashboard {
+trait GroupDashboard {
   /**
    * @When /^I visit the dashboard of group "([^"]*)"$/
    */
@@ -43,12 +44,12 @@ trait FeatureContext_GroupDashboard {
     $page = $this->getSession()->getPage();
     $el = $page->find('css', '#block-menu-c4m-og-menu a.active');
     if ($el === null) {
-      throw new Exception('The group menu has no active items.');
+      throw new \Exception('The group menu has no active items.');
     }
 
     if ($el->getText() !== $label) {
       $params = array('@label' => $label);
-      throw new Exception(format_string('Active menu item is not "@label".', $params));
+      throw new \Exception(format_string('Active menu item is not "@label".', $params));
     }
   }
 }

@@ -4,9 +4,10 @@
  * Context methods about Nodes accessed trough JS (js-add, js-edit).
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
@@ -15,7 +16,7 @@ use Behat\Behat\Context\Step;
  *
  * @TODO : This functionality should be removed in favor of native Drupal forms.
  */
-trait FeatureContext_NodeJs {
+trait NodeJs {
   /**
    * @When /^I start creating "([^"]*)" in full form with title "([^"]*)" in group "([^"]*)"$/
    */

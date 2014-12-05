@@ -4,21 +4,22 @@
  * Context methods about Nodes (view, create, update, delete).
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
 /**
  * DO NOT USE THIS TRAIT FOR FUNCTIONALITY ABOUT QUICK POST.
  */
-trait FeatureContext_Node {
+trait Node {
   /**
    * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
    */
   public function iVisitNodePageOfType($title, $type) {
-    $query = new entityFieldQuery();
+    $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', strtolower($type))
@@ -32,7 +33,7 @@ trait FeatureContext_Node {
         '@title' => $title,
         '@type' => $type,
       );
-      throw new Exception(format_string("Node @title of @type not found.", $params));
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
 
     $nid = key($result['node']);
@@ -83,7 +84,7 @@ trait FeatureContext_Node {
   public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title) {
     $steps = array();
 
-    $query = new entityFieldQuery();
+    $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', strtolower($type))
@@ -97,7 +98,7 @@ trait FeatureContext_Node {
         '@title' => $title,
         '@type' => $type,
       );
-      throw new Exception(format_string("Node @title of @type not found.", $params));
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
 
     $nid = key($result['node']);
@@ -114,7 +115,7 @@ trait FeatureContext_Node {
   public function iUpdateAWithTitleInTheGroupWithNewTitleTimes($type, $title, $new_title, $times) {
     $steps = array();
 
-    $query = new entityFieldQuery();
+    $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', strtolower($type))
@@ -128,7 +129,7 @@ trait FeatureContext_Node {
         '@title' => $title,
         '@type' => $type,
       );
-      throw new Exception(format_string("Node @title of @type not found.", $params));
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
 
     $nid = key($result['node']);
@@ -153,7 +154,7 @@ trait FeatureContext_Node {
    */
   public function iUpdateAWithTitleInTheGroupWithNewTitleAfter($type, $title, $new_title, $time) {
     // Loading node of current content type and with current title.
-    $query = new entityFieldQuery();
+    $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', strtolower($type))
@@ -167,13 +168,13 @@ trait FeatureContext_Node {
         '@title' => $title,
         '@type' => $type,
       );
-      throw new Exception(format_string("Node @title of @type not found.", $params));
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
 
     $nid = key($result['node']);
 
     // Loading the previous message for the current node.
-    $query = new EntityFieldQuery();
+    $query = new \EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'message')
       ->propertyCondition('type', 'c4m_insert__node__' . $type)
@@ -183,7 +184,7 @@ trait FeatureContext_Node {
       ->execute();
 
     if (empty($result['message'])) {
-      throw new Exception(format_string("Previous message not found."));
+      throw new \Exception(format_string("Previous message not found."));
     }
 
     $id = key($result['message']);

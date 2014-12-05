@@ -4,13 +4,14 @@
  * Context methods about Files, file field & their widgets.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_File {
+trait File {
   /**
    * @Given /^I upload the file "([^"]*)"$/
    */
@@ -22,7 +23,7 @@ trait FeatureContext_File {
     $fields = $this->getSession()->getDriver()->find($fileInputXpath);
     $field = count($fields) > 0 ? $fields[0] : NULL;
     if (null === $field) {
-      throw new Exception("File input is not found");
+      throw new \Exception("File input is not found");
     }
     $this->getSession()->resizeWindow(1440, 900, 'current');
 
@@ -66,7 +67,7 @@ trait FeatureContext_File {
     $fields = $this->getSession()->getDriver()->find($fileInputXpath);
     $field = count($fields) > 0 ? $fields[0] : NULL;
     if (null === $field) {
-      throw new Exception("File input is not found");
+      throw new \Exception("File input is not found");
     }
     $field->attachFile($file_path);
   }

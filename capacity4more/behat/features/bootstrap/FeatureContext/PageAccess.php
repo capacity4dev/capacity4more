@@ -4,13 +4,14 @@
  * Context methods about Page Access.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_PageAccess {
+trait PageAccess {
   /**
    * @Given /^I should not have access to the page$/
    */

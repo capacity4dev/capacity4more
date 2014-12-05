@@ -4,13 +4,14 @@
  * Context methods about Quick Post form.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_QuickPost {
+trait QuickPost {
   /**
    * @Given /^I should see the Quick Post form$/
    */
@@ -18,7 +19,7 @@ trait FeatureContext_QuickPost {
     $page = $this->getSession()->getPage();
     $el = $page->find('css', 'div.pane-quick-form');
     if ($el === null) {
-      throw new Exception('The Quick Post pane is not visible.');
+      throw new \Exception('The Quick Post pane is not visible.');
     }
   }
 

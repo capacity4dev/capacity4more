@@ -4,13 +4,14 @@
  * Context methods about (shared) Overview functionality.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_Overview {
+trait Overview {
   /**
    * @Then /^I should not see the "([^"]*)" link above the overview$/
    */
@@ -25,7 +26,7 @@ trait FeatureContext_Overview {
       $params = array(
         '@label' => $label,
       );
-      throw new Exception(format_string("Link @label should NOT be above the overview.", $params));
+      throw new \Exception(format_string("Link @label should NOT be above the overview.", $params));
     }
   }
 
@@ -50,7 +51,7 @@ trait FeatureContext_Overview {
       $params = array(
         '@label' => $label,
       );
-      throw new Exception(format_string("Link @label is not found above the overview.", $params));
+      throw new \Exception(format_string("Link @label is not found above the overview.", $params));
     }
   }
 
@@ -67,7 +68,7 @@ trait FeatureContext_Overview {
     $element = $page->findAll('css', '.region-content .view-content .' . $class);
 
     if (!count($element)) {
-      throw new Exception("No $field found in the overview.");
+      throw new \Exception("No $field found in the overview.");
     }
   }
 }

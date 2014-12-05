@@ -4,16 +4,17 @@
  * Context methods to debug tests.
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
 /**
  * Methods to help debug problems.
  */
-trait FeatureContext_Debug {
+trait Debug {
   /**
    * @Then /^I should print page$/
    */

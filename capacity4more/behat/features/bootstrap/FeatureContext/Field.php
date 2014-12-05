@@ -4,13 +4,14 @@
  * Context methods about Fields (global functionality).
  */
 
+namespace FeatureContext;
+
 use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 
-trait FeatureContext_Field {
+trait Field {
   /**
    * @Given /^I should see a "([^"]*)" field$/
    */
@@ -41,7 +42,7 @@ trait FeatureContext_Field {
     }
 
     if (!count($element)) {
-      throw new Exception("No $field field found.");
+      throw new \Exception("No $field field found.");
     }
   }
 
@@ -62,7 +63,7 @@ trait FeatureContext_Field {
     }
 
     if (!count($element)) {
-      throw new Exception("No $fieldgroup field group found.");
+      throw new \Exception("No $fieldgroup field group found.");
     }
   }
 }
