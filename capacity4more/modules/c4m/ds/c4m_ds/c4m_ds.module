@@ -62,6 +62,20 @@ function c4m_ds_ds_fields_info($entity_type) {
   $path = drupal_get_path('module', 'c4m_ds');
 
   // Fields for entity type node.
+  $image_styles = array();
+  foreach(image_styles() as $image_style_id => $image_style) {
+    $image_styles[$image_style_id] = $image_style['label'];
+  }
+  $fields['node']['c4m_ds_node_author_image'] = array(
+    'title' => t('Author image'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.inc',
+    'function' => 'theme_c4m_ds_node_author_image',
+    'properties' => array('formatters' => $image_styles),
+  );
+
+  // Fields for entity type node.
   $fields['node']['c4m_ds_node_meta'] = array(
     'title' => t('Node meta data'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -80,7 +94,7 @@ function c4m_ds_ds_fields_info($entity_type) {
 
   // Fields for Group nodes
   $fields['node']['c4m_ds_group_manager'] = array(
-    'title' => t('Group owner'),
+    'title' => t('Group manager'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('group|*'),
     'file' => $path . '/includes/c4m_ds.theme.inc',

@@ -44,13 +44,13 @@ Feature: Group Documents
       And I switch to "table" view
      Then I should still have retained search filters
 
-  @api
+  @api @wip
   Scenario: Check document detail as an anonymous user
     Given I am an anonymous user
     When I visit the group "document" detail page "Nobel Prize ceremony"
     Then I should see the document detail page
 
-  @api
+  @api  @wip
   Scenario: Check document detail as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the group "document" detail page "Nobel Prize ceremony"

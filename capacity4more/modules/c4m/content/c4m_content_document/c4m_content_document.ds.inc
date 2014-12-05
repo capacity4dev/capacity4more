@@ -27,15 +27,34 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_ds_node_meta' => array(
-      'weight' => '4',
-      'label' => 'hidden',
-      'format' => 'document_upload',
-    ),
-    'c4m_related_topic' => array(
+    'author' => array(
+      'weight' => '6',
+      'label' => 'inline',
+      'format' => 'author_linked',
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Document uploaded by',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+        ),
       ),
+    ),
+    'post_date' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_day',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'span',
+        ),
+      ),
+    ),
+    'c4m_ds_node_author_image' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'thumbnail',
     ),
   );
   $export['node|document|full'] = $ds_fieldsetting;
@@ -95,14 +114,16 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'comments',
       ),
       'right' => array(
-        4 => 'c4m_ds_node_meta',
-        5 => 'group_node_details',
-        6 => 'c4m_vocab_document_type',
-        7 => 'c4m_related_topic',
-        8 => 'og_vocabulary',
-        9 => 'c4m_vocab_date',
-        10 => 'c4m_vocab_language',
-        11 => 'c4m_vocab_geo',
+        4 => 'c4m_ds_node_author_image',
+        5 => 'c4m_vocab_document_type',
+        6 => 'c4m_related_topic',
+        7 => 'author',
+        8 => 'post_date',
+        9 => 'og_vocabulary',
+        10 => 'c4m_vocab_date',
+        11 => 'group_node_details',
+        12 => 'c4m_vocab_language',
+        13 => 'c4m_vocab_geo',
       ),
     ),
     'fields' => array(
@@ -110,12 +131,14 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_body' => 'left',
       'c4m_document' => 'left',
       'comments' => 'left',
-      'c4m_ds_node_meta' => 'right',
-      'group_node_details' => 'right',
+      'c4m_ds_node_author_image' => 'right',
       'c4m_vocab_document_type' => 'right',
       'c4m_related_topic' => 'right',
+      'author' => 'right',
+      'post_date' => 'right',
       'og_vocabulary' => 'right',
       'c4m_vocab_date' => 'right',
+      'group_node_details' => 'right',
       'c4m_vocab_language' => 'right',
       'c4m_vocab_geo' => 'right',
     ),
