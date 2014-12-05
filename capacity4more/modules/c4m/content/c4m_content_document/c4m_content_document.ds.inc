@@ -32,6 +32,11 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'document_upload',
     ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|document|full'] = $ds_fieldsetting;
 
