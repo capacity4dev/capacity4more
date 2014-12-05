@@ -20,7 +20,7 @@ function c4m_content_group_field_group_info() {
   $field_group->mode = 'c4m_dashboard';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Group details',
+    'label' => 'More details',
     'weight' => '4',
     'children' => array(
       0 => 'c4m_related_topic',
@@ -28,7 +28,7 @@ function c4m_content_group_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Group details',
+      'label' => 'More details',
       'instance_settings' => array(
         'classes' => 'group-details field-group-fieldset',
         'description' => '',

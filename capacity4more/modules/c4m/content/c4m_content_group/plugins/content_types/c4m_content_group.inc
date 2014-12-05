@@ -17,6 +17,8 @@ $plugin = array(
  * @return stdClass
  */
 function c4m_content_group_details_render() {
+  // Add custom JavaScript for some behaviour on the group details pane.
+  drupal_add_js(drupal_get_path('module', 'c4m_content_group') . '/js/group-details.js');
   $block = new stdClass();
   $block->content = c4m_content_group_details();
   $block->title = t('About the group');
