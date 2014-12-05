@@ -239,14 +239,13 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
-   * @Given /^a "([^"]*)" is created with title "([^"]*)" and body "([^"]*)" in the group "([^"]*)" with group manager "([^"]*)"$/
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" in the group "([^"]*)"$/
    */
-  public function aDiscussionIsCreatedWithTitleAndBodyInTheGroup($type, $title, $body, $group, $user) {
+  public function aDiscussionIsCreatedWithTitleInTheGroup($type, $title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I am logged in as user "' . $user . '"');
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "' . $body . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
     $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I press "Save"');
     return $steps;
@@ -284,9 +283,50 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
   }
 
   /**
+   * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)" "([^"]*)" times$/
+   */
+  public function iUpdateAWithTitleInTheGroupWithNewTitleTimes($type, $title, $new_title, $times) {
+    $steps = array();
+
+    $query = new entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($type))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $nid = key($result['node']);
+
+    for ($i = 1; $i <= $times; $i++) {
+      $steps[] = new Step\When('I visit "node/' .  $nid . '/edit"');
+
+      if ($i == $times) {
+        $steps[] = new Step\When('I fill in "title" with "' . $new_title . '"');
+      }
+      else {
+        $steps[] = new Step\When('I fill in "title" with "Some new title' . $i . '"');
+      }
+
+      $steps[] = new Step\When('I press "Save"');
+    }
+    return $steps;
+  }
+
+  /**
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
+    // Using underscore temporary.
     $url = strtolower(str_replace(' ', '_', trim($group)));
     $steps = array();
     $steps[] = new Step\When("I go to \"$url\"");
@@ -377,6 +417,23 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should not see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see a creation message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeACreationMessageForInTheActivityStreamOfTheGroup($title, $group) {
+    // Generate URL from title.
+    $url = strtolower(str_replace(' ', '_', trim($group)));
+
+    $steps = array();
+
+    $steps[] = new Step\When("I go to \"$url\"");
+    $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should not see "updated the Information" in the "div.pane-activity-stream" element');
 
     return $steps;
   }

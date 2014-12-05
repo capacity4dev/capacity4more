@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $http, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -34,6 +34,8 @@ angular.module('c4mApp')
 
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
+
+    $scope.basePath = DrupalSettings.getBasePath();
 
     // Empty new activities.
     $scope.newActivities = [];
