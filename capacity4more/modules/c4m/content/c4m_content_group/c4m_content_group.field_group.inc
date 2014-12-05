@@ -33,7 +33,7 @@ function c4m_content_group_field_group_info() {
         'classes' => 'group-details field-group-fieldset',
         'description' => '',
       ),
-      'formatter' => 'collapsible',
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_details|node|group|c4m_dashboard'] = $field_group;

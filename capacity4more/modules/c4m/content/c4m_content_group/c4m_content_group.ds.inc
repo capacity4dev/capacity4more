@@ -45,6 +45,11 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
   );
   $export['node|group|c4m_dashboard'] = $ds_fieldsetting;
 

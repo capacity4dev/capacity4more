@@ -199,7 +199,7 @@ function theme_c4m_ds_group_access_info($field) {
     $group_type = t('Public group');
   }
   $tag['element'] = array(
-    '#tag' => 'h3',
+    '#tag' => 'h4',
     '#value' => $group_type,
   );
   $output .= theme_html_tag($tag);

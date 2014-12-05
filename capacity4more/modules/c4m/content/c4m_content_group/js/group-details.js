@@ -1,27 +1,24 @@
 (function ($) {
     Drupal.behaviors.groupDetails = {
         attach: function (context, settings) {
-
             $('fieldset.collapsible', context).once('collapse', function () {
                 var $fieldset = $(this);
 
-                // Bind Bootstrap events with Drupal core events.
-                $fieldset
-                    .on('show.bs.collapse', function () {
-                        console.log('show.bs.collapse');
-                    })
-                    .on('shown.bs.collapse', function () {
-                        console.log('shown.bs.collapse')
+                // Prevent default behaviour of collapsible field kicking in.
+                // If not, we go to top of page on click.
+                $fieldset.find('[data-toggle=collapse]').on('click', function (e) {
+                    e.preventDefault();
+                });
 
+                // Bind some behaviour on bootstrap events.
+                $fieldset
+                     .on('show.bs.collapse', function () {
+                        $fieldset.find('> legend a.fieldset-legend').html(Drupal.t('Less Details'));
                     })
                     .on('hide.bs.collapse', function () {
-                        console.log('hide.bs.collapse');
-                    })
-                    .on('hidden.bs.collapse', function () {
-                        console.log('hidden.bs.collapse');
+                        $fieldset.find('> legend a.fieldset-legend').html(Drupal.t('More Details'));
                     });
             });
-
         }
     }
 })(jQuery);
