@@ -78,6 +78,20 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  // Fields for Group nodes
+  $fields['node']['c4m_ds_group_manager'] = array(
+    'title' => t('Group owner'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('group|*'),
+    'file' => $path . '/includes/c4m_ds.theme.inc',
+    'function' => 'theme_c4m_ds_group_manager',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   $fields['node']['c4m_ds_group_access_info'] = array(
     'title' => t('Group access info'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
