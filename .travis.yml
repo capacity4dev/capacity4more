@@ -39,7 +39,9 @@ install:
 
   # install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require drush/drush:6.*
+  - composer global require drush/drush 6.*
+    # Bug in composer, needs to run twice?!?
+  - composer global require drush/drush 6.*
   - phpenv rehash
 
 before_script:
