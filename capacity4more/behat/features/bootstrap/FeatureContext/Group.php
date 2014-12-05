@@ -26,7 +26,7 @@ trait Group {
    * @throws Exception
    */
   private function loadGroupByTitleAndType($title, $type) {
-    $query = new entityFieldQuery();
+    $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', $type)
