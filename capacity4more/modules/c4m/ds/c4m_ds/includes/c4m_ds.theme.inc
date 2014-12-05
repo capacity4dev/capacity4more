@@ -186,9 +186,23 @@ function theme_c4m_ds_group_access_info($field) {
     return $output;
   }
 
-
-
   $group_access = $wrapper->group_access->value();
+
+  if ($group_access) {
+    $group_type = t('Private group');
+  }
+  elseif ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+    $group_type = t('Restricted group');
+    //$allowed = c4m_og_get_group_allowed_organisations_domains($entity);
+  }
+  else {
+    $group_type = t('Public group');
+  }
+  $tag['element'] = array(
+    '#tag' => 'h3',
+    '#value' => $group_type,
+  );
+  $output .= theme_html_tag($tag);
 
   return $output;
 }
