@@ -58,7 +58,18 @@ angular.module('c4mApp')
       QuickPostService.tagsQuery(query, $scope);
     };
 
-
+    /**
+     * Remove taxonomy term from the data.
+     * Called by click on added term.
+     *
+     * @param key
+     *  taxonomy term id
+     * @param field
+     *  name of the taxonomy terms field.
+     */
+    $scope.removeTaxonomyValue = function(key, field) {
+      $scope.data[field][key] = false;
+    }
 
     // Updates the bundle of the entity to send to the correct API url.
     $scope.updateResource = function(resource, event) {

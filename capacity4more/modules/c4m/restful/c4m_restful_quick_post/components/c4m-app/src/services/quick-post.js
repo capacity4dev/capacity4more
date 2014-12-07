@@ -81,10 +81,10 @@ angular.module('c4mApp')
           }
           else {
             if (parent > 0) {
-              scope[field][parent]['children'].push({
+              scope[field][parent]['children'][id] = {
                 id: id,
                 label: label.replace('-','')
-              });
+              };
             }
           }
         });
