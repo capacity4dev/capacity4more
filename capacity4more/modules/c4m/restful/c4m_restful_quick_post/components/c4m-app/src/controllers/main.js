@@ -231,7 +231,12 @@ angular.module('c4mApp')
      */
     $scope.removeTaxonomyValue = function(key, field) {
       $scope.data[field][key] = false;
-    }
+    };
+
+    // Find taxonomy term name.
+    $scope.findLabel = function(vocab, termID) {
+      return QuickPostService.findLabel(vocab, termID);
+    };
 
     /**
      * Called by the directive "types",

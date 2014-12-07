@@ -69,7 +69,12 @@ angular.module('c4mApp')
      */
     $scope.removeTaxonomyValue = function(key, field) {
       $scope.data[field][key] = false;
-    }
+    };
+
+    // Find taxonomy term name.
+    $scope.findLabel = function(vocab, termID) {
+      return QuickPostService.findLabel(vocab, termID);
+    };
 
     // Updates the bundle of the entity to send to the correct API url.
     $scope.updateResource = function(resource, event) {

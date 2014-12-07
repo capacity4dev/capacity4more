@@ -93,7 +93,7 @@
         </div>
         <div class="selected-values" ng-show="data.document_type">
           <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
-            {{ document_type[key].label }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
+            {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
           </span>
         </div>
         <!-- Hidden document_type checkboxes.-->
@@ -154,7 +154,7 @@
           </div>
           <div class="selected-values" ng-show="data.topic">
             <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
-              {{ topic[key].label }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+              {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
             </span>
           </div>
           <!-- Hidden topic checkboxes.-->
@@ -181,7 +181,7 @@
           </div>
           <div class="selected-values" ng-show="data.date">
             <span ng-show="value === true" ng-repeat="(key, value) in data.date">
-              {{ date[key].label }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+              {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
             </span>
           </div>
           <!-- Hidden date checkboxes.-->
@@ -207,7 +207,7 @@
         </div>
         <div class="selected-values" ng-show="data.language">
             <span ng-show="value === true" ng-repeat="(key, value) in data.language">
-              {{ language[key].label }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
+              {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
             </span>
         </div>
         <!-- Hidden language checkboxes.-->
@@ -233,7 +233,7 @@
           </div>
           <div class="selected-values" ng-show="data.geo">
             <span ng-show="value === true" ng-repeat="(key, value) in data.geo">
-              {{ geo[key].label }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
+              {{ findLabel(geo, key) }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
             </span>
           </div>
           <!-- Hidden geo checkboxes.-->
@@ -342,7 +342,7 @@
               </div>
               <div class="selected-values" ng-show="data.document_type">
                 <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
-                  {{ document_type[key].label }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
+                  {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
                 </span>
               </div>
               <!-- Hidden document_type checkboxes.-->
@@ -367,7 +367,7 @@
               </div>
               <div class="selected-values" ng-show="data.topic">
                 <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
-                  {{ topic[key].label }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+                  {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
                 </span>
               </div>
               <!-- Hidden topic checkboxes.-->
@@ -392,7 +392,7 @@
               </div>
               <div class="selected-values" ng-show="data.date">
                 <span ng-show="value === true" ng-repeat="(key, value) in data.date">
-                  {{ date[key].label }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+                  {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
                 </span>
               </div>
               <!-- Hidden date checkboxes.-->
@@ -417,7 +417,7 @@
               </div>
               <div class="selected-values" ng-show="data.language">
                 <span ng-show="value === true" ng-repeat="(key, value) in data.language">
-                  {{ language[key].label }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
+                  {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
                 </span>
               </div>
               <!-- Hidden language checkboxes.-->
@@ -442,7 +442,7 @@
               </div>
               <div class="selected-values" ng-show="data.geo">
                 <span ng-show="value === true" ng-repeat="(key, value) in data.geo">
-                  {{ geo[key].label }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
+                  {{ findLabel(geo, key) }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
                 </span>
               </div>
               <!-- Hidden geo checkboxes.-->
