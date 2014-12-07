@@ -3,3 +3,97 @@
  * @file
  * Drupal needs this blank file.
  */
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function c4m_vocab_language_field_widget_info() {
+  $widgets['c4m_taxonomy_reference'] = array(
+    'label' => t('C4M Taxonomy'),
+    'description' => t('Taxonomy widget using Angular.'),
+    'field types' => array('entityreference', 'taxonomy_term_reference'),
+  );
+
+  return $widgets;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+
+  if (!$entity) {
+    return;
+  }
+
+  // Load Angular.
+  $bower_path = libraries_get_path('bower_components');
+
+  // AngularJs.
+  drupal_add_js($bower_path . '/angular/angular.min.js');
+
+  // Angular-animate.
+  drupal_add_js($bower_path . '/angular-animate/angular-animate.min.js');
+
+  // JSON pretty print library.
+  drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
+  drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
+
+  // CKEditor library.
+  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
+  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
+  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
+
+  // Select UI
+  drupal_add_css($bower_path . '/select2/select2.css');
+  drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
+  drupal_add_js($bower_path . '/select2/select2.js');
+  drupal_add_js($bower_path . '/angular-ui-select2/src/select2.js');
+
+  // Font-awesome library.
+  drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
+
+  // Load our custom app.
+  $app_path = $bower_path . '/c4m-app/dist';
+  drupal_add_js($app_path . '/c4m-app.js');
+  drupal_add_css($app_path . '/css/c4m-app.css');
+
+  $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  $options = array();
+  foreach($terms as $term) {
+    $options[$term->tid] =$term->name;
+  }
+
+  // Add the directive.
+  $directive =
+      '<div class="form-group btn-group" ng-class="{ \'has-error\' : errors.language }">
+        <div class="label-wrapper">
+          <label>{{fieldSchema.language.info.label}}</label>
+          <span id="language_description" class="description">{{fieldSchema.language.info.description}}</span>
+        </div>
+        <div class="checkboxes-wrapper">
+          <div>
+            <button type="button" ng-click="togglePopover(\'language\', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t(\'Select Language\'); ?></button>
+            <p ng-show="errors.language" class="help-block"><?php print t(\'Language is required.\'); ?></p>
+          </div>
+          <!-- Hidden language checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.language">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <list-terms type="language" model="data.language" items="language"></list-terms>
+            </div>
+          </div>
+        </div>
+      </div>';
+
+  // Add the checkboxes hidden.
+  $instance['widget']['type'] = 'options_buttons';
+  $element['#prefix'] = $directive . '<div class="test-widget hidden-checkboxes">';
+  $element['#suffix'] = '</div>';
+  $element += options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
+  return $element;
+}
