@@ -75,14 +75,15 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   $terms = taxonomy_get_tree($vocabulary->vid);
   $options = array();
   foreach($terms as $term) {
-    $options[$term->tid] =$term->name;
+    $options[$term->tid]['label'] = $term->name;
+    $options[$term->tid]['id'] = $term->tid;
   }
 
 
   $settings['c4m'] = array(
     'data' => array(
       'vocabularies' => array(
-        $field['settings']['allowed_values'][0]['vocabulary'] => $options,
+        'language' => $options,
       )
     )
   );
@@ -93,13 +94,23 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
       '<div ng-app="c4mApp" ng-controller="DrupalFromCtrl" class="ng-scope">
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover(\'language\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
+            <button type="button" ng-click="togglePopover()" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
           </div>
           <!-- Hidden language checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.language">
+          <div class="popover right hidden-checkboxes" ng-show="popups.language == 1">
             <div class="arrow"></div>
             <div class="popover-content">
-              <list-terms type="language" model="data.language" items="language"></list-terms>
+              <!--<list-terms type="language" model="data.language" items="language"></list-terms>-->
+
+              <form action="#" class="search">
+                <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
+              </form>
+              <div class="checkbox" ng-repeat="item in data.language">
+                <label>
+                  <input type="checkbox" ng-name="type" title="{{item.label}}" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
+                </label>
+              </div>
+
             </div>
           </div>
         </div>
