@@ -40,7 +40,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateTaskComments',
     'C4mDemoContentCreateDiscussions',
     'C4mDemoContentCreateDiscussionComments',
-    'C4mDemoContentCreatePages',
+    'C4mDemoContentCreateWikiPages',
   );
 
   $group_name = 'c4m_demo_content';

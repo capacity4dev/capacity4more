@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * c4m_content_minisite.features.field_instance.inc
+ * c4m_content_wiki.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function c4m_content_minisite_field_default_field_instances() {
+function c4m_content_wiki_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-minisite-og_group_ref'
-  $field_instances['node-minisite-og_group_ref'] = array(
-    'bundle' => 'minisite',
+  // Exported field_instance: 'node-wiki-og_group_ref'
+  $field_instances['node-wiki-og_group_ref'] = array(
+    'bundle' => 'wiki',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
