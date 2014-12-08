@@ -38,6 +38,9 @@ trait Field {
       case 'Preview':
         $locator = '.region-content .view-mode-c4m_preview';
         break;
+      case 'Regions & Countries':
+        $locator = '.region-content .field-name-c4m-vocab-geo';
+        break;
       case 'Title':
         $locator = '.main-container .page-header';
         break;

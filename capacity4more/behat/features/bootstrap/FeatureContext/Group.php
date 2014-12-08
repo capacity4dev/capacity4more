@@ -159,6 +159,7 @@ trait Group {
     $steps[] = new Step\When('I should see a "Group dashboard details" field group');
     $steps[] = new Step\When('I should see a "Author" field');
     $steps[] = new Step\When('I should see a "Topics" field');
+    $steps[] = new Step\When('I should see a "Regions & Countries" field');
 
     return $steps;
   }
