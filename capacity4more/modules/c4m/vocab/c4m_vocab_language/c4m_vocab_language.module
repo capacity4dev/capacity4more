@@ -71,6 +71,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
+  $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
   $terms = taxonomy_get_tree($vocabulary->vid);
   $options = array();
@@ -82,11 +83,11 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
 
   $settings['c4m'] = array(
     'data' => array(
-      'vocabularies' => array(
-        'language' => $options,
-      )
+      'vocabularies' => array()
     )
   );
+  $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
+
   drupal_add_js($settings, 'setting');
 
   // Add the directive.
@@ -94,18 +95,18 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
       '<div ng-app="c4mApp" ng-controller="DrupalFromCtrl" class="ng-scope">
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover(\'language\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
+            <button type="button" ng-click="togglePopover(\'' . $vocabulary_name . '\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
           </div>
           <!-- Hidden language checkboxes.-->
-          <div class="popover right hidden-checkboxes" ng-show="popups.language == 1">
+          <div class="popover right hidden-checkboxes" ng-show="popups.' . $vocabulary_name . ' == 1">
             <div class="arrow"></div>
             <div class="popover-content">
-              <!--<list-terms type="language" model="data.language" items="data.language"></list-terms>-->
+              <!--<list-terms type="' . $vocabulary_name . '" model="data.' . $vocabulary_name . '" items="data.' . $vocabulary_name . '"></list-terms>-->
 
               <form action="#" class="search">
                 <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
               </form>
-              <div class="checkbox" ng-repeat="item in data.language">
+              <div class="checkbox" ng-repeat="item in data.' . $vocabulary_name . '">
                 <label>
                   <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
                 </label>
@@ -119,6 +120,8 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
 
   // Add the checkboxes hidden.
   $instance['widget']['type'] = 'options_buttons';
+  $instance['widget']['active'] = 1;
+  
   $element['#columns'] = array();
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#prefix'] = $directive . '<div class="default-widget hidden-checkboxes">';

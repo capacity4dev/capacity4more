@@ -7,7 +7,7 @@ angular.module('c4mApp')
 
     $scope.popups = [];
     angular.forEach($scope.data, function(value, key) {
-      $scope.popups.language = 0;
+      $scope.popups[key] = 0;
     });
 
     // Toggle the visibility of the popovers.
