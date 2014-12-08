@@ -6,18 +6,35 @@ Feature: Test quick post
   @javascript
   Scenario: Check Quick post error validation.
     Given I am logged in as user "mariecurie"
-    When  I visit "Tennis Group" node of type "group"
-    And   I fill in "label" with "fo"
+    When  I fill label with "fo" in "Tennis Group"
     Then  I should see "Title is too short."
 
   @javascript
   Scenario: Check Quick post "discussion" submit.
     Given I am logged in as user "mariecurie"
     When  I create a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis Group"
-    Then  I should see "The Discussion was saved successfully."
+    Then  I should see "New discussion"
 
   @javascript
   Scenario: Check Quick post "event" submit.
     Given I am logged in as user "mariecurie"
-    When  I create an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" located at "Brener 5,6382624,Tel-Aviv,Israel" in "Tennis Group"
-    Then  I should see "The Event was saved successfully."
+    When  I create an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" in "Tennis Group"
+    Then  I should see "New event"
+
+  @javascript
+  Scenario: Adding document with image file to discussion.
+    Given I am logged in as user "mariecurie"
+    When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
+    And   I upload the file "cat1.jpg"
+    And   I wait for text "File cat1.jpg has been loaded!" to appear in "documentForm"
+    And   I save document with title "New image document" for a discussion
+    Then  I wait for text "New image document" to appear in "entityForm"
+
+  @javascript
+  Scenario: Adding document with doc file to discussion.
+    Given I am logged in as user "mariecurie"
+    When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
+    And   I upload the file "doc1.doc"
+    And   I wait for text "File doc1.doc has been loaded!" to appear in "documentForm"
+    And   I save document with title "New document" for a discussion
+    Then  I wait for text "New document" to appear in "entityForm"

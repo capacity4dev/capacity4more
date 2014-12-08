@@ -1,14 +1,66 @@
 <?php
+/**
+ * Behat context file to support the test scenario's.
+ */
 
 use Drupal\DrupalExtension\Context\DrupalContext;
-use Behat\Behat\Context\Step\Given;
-use Behat\Gherkin\Node\TableNode;
-use Guzzle\Service\Client;
 use Behat\Behat\Context\Step;
 
 require 'vendor/autoload.php';
 
-class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
+
+// Split FeatureContext in smaller chunks.
+require __DIR__ . '/FeatureContext/Activity.php';
+require __DIR__ . '/FeatureContext/Debug.php';
+require __DIR__ . '/FeatureContext/Discussion.php';
+require __DIR__ . '/FeatureContext/Document.php';
+require __DIR__ . '/FeatureContext/Field.php';
+require __DIR__ . '/FeatureContext/File.php';
+require __DIR__ . '/FeatureContext/Group.php';
+require __DIR__ . '/FeatureContext/GroupDashboard.php';
+require __DIR__ . '/FeatureContext/Highlights.php';
+require __DIR__ . '/FeatureContext/Node.php';
+require __DIR__ . '/FeatureContext/NodeJs.php';
+require __DIR__ . '/FeatureContext/Overview.php';
+require __DIR__ . '/FeatureContext/PageAccess.php';
+require __DIR__ . '/FeatureContext/QuickPost.php';
+require __DIR__ . '/FeatureContext/Search.php';
+require __DIR__ . '/FeatureContext/User.php';
+require __DIR__ . '/FeatureContext/Wait.php';
+
+
+/**
+ * DO NOT ADD ANY CODE TO THIS CONTEXT FILE!
+ *
+ * All code should go into one of the existing traits or by adding an extra
+ * trait.
+ *
+ * Add a new Trait:
+ * - Create a file in the /FeatureContext subfolder.
+ * - Add the file to the list of requires (just above this class).
+ * - Add the trait to the context class by adding it to the "use" list.
+ */
+class FeatureContext extends DrupalContext {
+  /**
+   * Split context file in smaller parts to make merging easier.
+   */
+  use FeatureContext\Activity;
+  use FeatureContext\Debug;
+  use FeatureContext\Discussion;
+  use FeatureContext\Document;
+  use FeatureContext\Field;
+  use FeatureContext\File;
+  use FeatureContext\Group;
+  use FeatureContext\GroupDashboard;
+  use FeatureContext\Highlights;
+  use FeatureContext\Node;
+  use FeatureContext\NodeJs;
+  use FeatureContext\Overview;
+  use FeatureContext\PageAccess;
+  use FeatureContext\QuickPost;
+  use FeatureContext\Search;
+  use FeatureContext\User;
+  use FeatureContext\Wait;
 
   /**
    * Initializes context.
@@ -22,206 +74,5 @@ class FeatureContext extends Drupal\DrupalExtension\Context\DrupalContext {
     if (!empty($parameters['drupal_users'])) {
       $this->drupal_users = $parameters['drupal_users'];
     }
-  }
-
-  /**
-   * Authenticates a user with password from configuration.
-   *
-   * @Given /^I am logged in as user "([^"]*)"$/
-   */
-  public function iAmLoggedInAsUser($username) {
-    $this->user = new stdClass();
-    $this->user->name = $username;
-    $this->user->pass = $this->drupal_users[$username];
-    $this->login();
-  }
-  
-  /**
-   * @Given /^I wait$/
-   */
-  public function iWait() {
-    sleep(10);
-  }
-
-  /**
-   * @Then /^I should print page$/
-   */
-  public function iShouldPrintPage() {
-    $element = $this->getSession()->getPage();
-    print_r($element->getContent());
-  }
-
-  /**
-   * @Then /^I should print page to "([^"]*)"$/
-   */
-  public function iShouldPrintPageTo($file) {
-    $element = $this->getSession()->getPage();
-    file_put_contents($file, $element->getContent());
-  }
-
-  /**
-   * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
-   */
-  public function iVisitNodePageOfType($title, $type) {
-    $query = new entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', strtolower($type))
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
-
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-        '@type' => $type,
-      );
-      throw new Exception(format_string("Node @title of @type not found.", $params));
-    }
-
-    $nid = key($result['node']);
-    // Use Drupal Context 'I am at'.
-    return new Given("I go to \"node/$nid\"");
-  }
-
-  /**
-   * @Given /^a moderated group "([^"]*)" with "([^"]*)" organization restriction is created with group manager "([^"]*)"$/
-   */
-  public function aModeratedGroupWithOrganizationRestrictionIsCreatedWithGroupManager($title, $organization, $username) {
-    return $this->aGroupWithAccessIsCreatedWithGroupManager($title, 'Restricted', $username, NULL, TRUE, array($organization));
-  }
-
-  /**
-   * @Given /^a moderated group "([^"]*)" with "([^"]*)" restriction is created with group manager "([^"]*)"$/
-   */
-  public function aModeratedGroupWithRestrictionIsCreatedWithGroupManager($title, $domains, $username) {
-    return $this->aGroupWithAccessIsCreatedWithGroupManager($title, 'Restricted', $username, $domains, TRUE);
-  }
-
-  /**
-   * @Given /^I fill editor "([^"]*)" with "([^"]*)"$/
-   */
-  public function iFillEditorWith($editor, $value) {
-    // Using javascript script to fill the textAngular editor,
-    // We have to enter the value directly to the scope.
-    $javascript = "angular.element('text-angular#" . $editor . "').scope().data." . $editor . " = '" . $value . "';";
-    $this->getSession()->executeScript($javascript);
-  }
-
-  /**
-   * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
-   */
-  public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
-    // Generate URL from title.
-    $url = strtolower(str_replace(" ", "-", trim($title)));
-
-    $steps = array();
-    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
-    $steps[] = new Step\When('I visit "node/add/group"');
-    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-summary" with "This is default summary."');
-    $steps[] = new Step\When('I fill in "edit-purl-value" with "' . $url .'"');
-    $steps[] = new Step\When('I select the radio button "' . $access . '"');
-    if ($access == 'Restricted') {
-      if ($domains) {
-        $steps[] = new Step\When('I fill in "edit-restricted-by-domain" with "' . $domains .'"');
-      }
-      if ($organizations) {
-        foreach ($organizations as $organization) {
-          $steps[] = new Step\When('I check the box "' . $organization . '"');
-        }
-      }
-    }
-    if ($moderated) {
-      $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
-    }
-
-    // This is a required tag.
-    $steps[] = new Step\When('I check the box "Fire"');
-    $steps[] = new Step\When('I press "Save"');
-
-    // Check there was no error.
-    $steps[] = new Step\When('I should not see "There was an error"');
-    return $steps;
-  }
-
-  /**
-   * @Given /^a discussion "([^"]*)" in group "([^"]*)" is created$/
-   */
-  public function aDiscussionInGroupIsCreated($title, $group_title) {
-    $steps = array();
-    $steps[] = new Step\When('I visit "node/add/discussion"');
-    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
-    $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
-    $steps[] = new Step\When('I press "Save"');
-
-    // Check there was no error.
-    $steps[] = new Step\When('I should not see "There was an error"');
-
-    return $steps;
-  }
-
-  /**
-   * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
-   */
-  public function iCreateDiscussionQuickPost($title, $body, $group) {
-    $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
-    $steps[] = new Step\When('I press the "discussions" button');
-    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
-    $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
-    $steps[] = new Step\When('I press the "quick-submit" button');
-    $steps[] = new Step\When('I wait');
-
-    return $steps;
-  }
-
-  /**
-   * @Given /^I should not have access to the page$/
-   */
-  public function iShouldNotHaveAccessToThePage() {
-    $steps = array();
-    $steps[] = new Step\When('I should get a "403" HTTP response');
-
-    return $steps;
-  }
-
-  /**
-   * @Given /^I should have access to the page$/
-   */
-  public function iShouldHaveAccessToThePage() {
-    $steps = array();
-    $steps[] = new Step\When('I should get a "200" HTTP response');
-
-    return $steps;
-  }
-
-  /**
-   * @When /^I create an event quick post with title "([^"]*)" and body "([^"]*)" that starts at "([^"]*)" and ends at "([^"]*)" located at "([^"]*)" in "([^"]*)"$/
-   */
-  public function iCreateEventQuickPost($title, $body, $start_date, $end_date, $address, $group) {
-    $location = explode(',', $address);
-    $street = $location[0];
-    $postal_code = $location[1];
-    $city = $location[2];
-    $country = $location[3];
-    $steps = array();
-    $steps[] = new Step\When('I visit "' . $group . '" node of type "group"');
-    $steps[] = new Step\When('I press the "events" button');
-    $steps[] = new Step\When('I press the "Meeting" button');
-    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
-    $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
-    $steps[] = new Step\When('I fill in "startDate" with "' . $start_date . '"');
-    $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
-    $steps[] = new Step\When('I fill in "street" with "' . $street . '"');
-    $steps[] = new Step\When('I fill in "postal_code" with "' . $postal_code . '"');
-    $steps[] = new Step\When('I fill in "city" with "' . $city . '"');
-    $steps[] = new Step\When('I fill in "country_name" with "' . $country . '"');
-    $steps[] = new Step\When('I press the "quick-submit" button');
-    $steps[] = new Step\When('I wait');
-
-    return $steps;
   }
 }

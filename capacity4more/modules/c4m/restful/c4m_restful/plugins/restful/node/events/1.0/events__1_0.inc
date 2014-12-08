@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Expose the "Event" resource.'),
   'class' => 'C4mRestfulEventsResource',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

@@ -22,6 +22,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateRegionTerms',
     'C4mDemoContentCreateRegionNodes',
     'C4mDemoContentCreateGroups',
+    'C4mDemoContentCreateGroupBanners',
     'C4mDemoContentCreateProjects',
     'C4mDemoContentCreateArticles',
     'C4mDemoContentCreateArticleComments',
@@ -39,7 +40,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateTaskComments',
     'C4mDemoContentCreateDiscussions',
     'C4mDemoContentCreateDiscussionComments',
-    'C4mDemoContentCreatePages',
+    'C4mDemoContentCreateWikiPages',
   );
 
   $group_name = 'c4m_demo_content';

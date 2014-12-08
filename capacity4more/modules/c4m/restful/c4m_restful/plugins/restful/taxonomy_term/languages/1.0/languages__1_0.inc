@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Export the "Language Vocabulary" taxonomy term.'),
   'class' => 'RestfulEntityTaxonomyTermLanguages',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

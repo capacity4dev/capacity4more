@@ -67,6 +67,7 @@ symlinks.sh
 
 # Ignore for Yeoman-Jekyll projects #
 jekyll/app/_bower_components
+jekyll/app/bower_components
 jekyll/dist
 jekyll/node_modules
 jekyll/.tmp
@@ -77,3 +78,4 @@ node_modules
 .sass-cache
 capacity4more/themes/c4m/kapablo/css
 capacity4more/themes/c4m/kapablo/bootstrap
+behat-failed-step*.png

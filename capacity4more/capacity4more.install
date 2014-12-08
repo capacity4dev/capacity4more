@@ -191,6 +191,19 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     )
   );
 
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access content',
+    'create group content',
+    'edit own group content',
+    'create discussion content',
+    'edit own discussion content',
+    'create files',
+    'view own files',
+    'access media browser',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+
   // Create a default role for site administrators, with all available permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';

@@ -9,4 +9,5 @@ $plugin = array(
   'description' => t('Export the "Regions & Countries" taxonomy term.'),
   'class' => 'RestfulEntityTaxonomyTermGeo',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

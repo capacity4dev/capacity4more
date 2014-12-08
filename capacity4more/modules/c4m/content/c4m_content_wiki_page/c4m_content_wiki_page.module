@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Code for the Wiki page content type feature.
+ */
+
+include_once 'c4m_content_wiki_page.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ *
+ * @return array
+ */
+function c4m_content_wiki_page_c4m_og_vocab_info_content() {
+  return array(
+    'wiki_page' => array(
+      'entity_type' => 'node',
+      'bundle' => 'wiki_page',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+  );
+}

@@ -138,6 +138,9 @@ symlink_externals
 # Install the Drupal profile as defined in the config.sh file.
 install_drupal_profile
 
+# Overwrite the TIKA config
+install_tika_config
+
 # Setup the files directory.
 create_sites_default_files_directory
 

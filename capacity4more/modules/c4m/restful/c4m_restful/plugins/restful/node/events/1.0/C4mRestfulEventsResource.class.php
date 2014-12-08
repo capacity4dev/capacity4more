@@ -47,11 +47,11 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       ),
     );
 
-    $public_fields['tags'] = array(
+    $public_fields['categories'] = array(
       'property' => 'og_vocabulary',
       'resource' => array(
-        'tags' => array(
-          'name' => 'tags',
+        'categories' => array(
+          'name' => 'categories',
           'full_view' => FALSE,
         ),
       ),

@@ -58,11 +58,12 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['arguments']['field_group_node_target_id']['id'] = 'field_group_node_target_id';
   $handler->display->display_options['arguments']['field_group_node_target_id']['table'] = 'field_data_field_group_node';
   $handler->display->display_options['arguments']['field_group_node_target_id']['field'] = 'field_group_node_target_id';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_group_node_target_id']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['default_argument_type'] = 'og_context';
   $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['field_group_node_target_id']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['field_group_node_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_group_node_target_id']['validate']['type'] = 'node';
   /* Filter criterion: Message: Entity Published (field_entity_published) */
   $handler->display->display_options['filters']['field_entity_published_value']['id'] = 'field_entity_published_value';
   $handler->display->display_options['filters']['field_entity_published_value']['table'] = 'field_data_field_entity_published';
