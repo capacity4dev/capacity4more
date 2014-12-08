@@ -75,6 +75,13 @@ trait QuickPost {
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I fill in "startDate" with "' . $start_date . '"');
     $steps[] = new Step\When('I fill in "endDate" with "' . $end_date . '"');
+
+    // Fill location
+    $steps[] = new Step\When('I fill in "street" with "Brener 5"');
+    $steps[] = new Step\When('I fill in "postal_code" with "6382624"');
+    $steps[] = new Step\When('I fill in "city" with "Tel-Aviv"');
+    $steps[] = new Step\When('I fill in "country_name" with "Israel"');
+
     $steps[] = new Step\When('I press the "quick-submit" button');
     $steps[] = new Step\When('I wait');
     // Check that the form has collapsed.
