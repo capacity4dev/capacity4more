@@ -714,9 +714,9 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_insert__node__page-field_entity_published'
-  $field_instances['message-c4m_insert__node__page-field_entity_published'] = array(
-    'bundle' => 'c4m_insert__node__page',
+  // Exported field_instance: 'message-c4m_insert__node__wiki_page-field_entity_published'
+  $field_instances['message-c4m_insert__node__wiki_page-field_entity_published'] = array(
+    'bundle' => 'c4m_insert__node__wiki_page',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -751,9 +751,9 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_insert__node__page-field_group_node'
-  $field_instances['message-c4m_insert__node__page-field_group_node'] = array(
-    'bundle' => 'c4m_insert__node__page',
+  // Exported field_instance: 'message-c4m_insert__node__wiki_page-field_group_node'
+  $field_instances['message-c4m_insert__node__wiki_page-field_group_node'] = array(
+    'bundle' => 'c4m_insert__node__wiki_page',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -800,9 +800,9 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_insert__node__page-field_node'
-  $field_instances['message-c4m_insert__node__page-field_node'] = array(
-    'bundle' => 'c4m_insert__node__page',
+  // Exported field_instance: 'message-c4m_insert__node__wiki_page-field_node'
+  $field_instances['message-c4m_insert__node__wiki_page-field_node'] = array(
+    'bundle' => 'c4m_insert__node__wiki_page',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -849,9 +849,9 @@ function c4m_message_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-c4m_insert__node__page-field_operation'
-  $field_instances['message-c4m_insert__node__page-field_operation'] = array(
-    'bundle' => 'c4m_insert__node__page',
+  // Exported field_instance: 'message-c4m_insert__node__wiki_page-field_operation'
+  $field_instances['message-c4m_insert__node__wiki_page-field_operation'] = array(
+    'bundle' => 'c4m_insert__node__wiki_page',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',

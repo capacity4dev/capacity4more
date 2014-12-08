@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Migrate class to create group minisite pages.
+ * Migrate class to create group wiki pages.
  */
 
 /**
- * Class C4mDemoContentCreatePages
+ * Class C4mDemoContentCreateWikiPages
  */
-class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
-  public $bundle = 'page';
+class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
+  public $bundle = 'wiki_page';
 
   /**
    * CSV column mapping.
@@ -91,7 +91,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
 
     if (!empty($row->parent)) {
       $unfiltered_ids = $this->handleSourceMigration(
-                             'C4mDemoContentCreatePages',
+                             'C4mDemoContentCreateWikiPages',
                                $row->parent,
                                NULL,
                                $this
@@ -148,7 +148,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     }
     else {
       // Retrieve root book node (master page) if no parent was given.
-      $parent_node = c4m_content_minisite_get_book_by_gid($og_id);
+      $parent_node = c4m_content_wiki_get_book_by_gid($og_id);
     }
 
     if (!$parent_node) {
@@ -161,7 +161,7 @@ class C4mDemoContentCreatePages extends C4mDemoContentCreateOgContent {
     $book['nid']  = $entity->nid;
 
     if ($update) {
-      $book['mlid'] = c4m_content_minisite_get_mlid_by_nid($entity->nid);
+      $book['mlid'] = c4m_content_wiki_get_mlid_by_nid($entity->nid);
     }
     else {
       unset($book['mlid']);

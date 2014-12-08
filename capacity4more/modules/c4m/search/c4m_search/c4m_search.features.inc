@@ -31,7 +31,7 @@ function c4m_search_default_search_api_index() {
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
-          "settings" : { "default" : "1", "bundles" : { "minisite" : "minisite" } }
+          "settings" : { "default" : "1", "bundles" : { "wiki" : "wiki" } }
         },
         "search_api_alter_node_status" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_attachments_alter_settings" : {

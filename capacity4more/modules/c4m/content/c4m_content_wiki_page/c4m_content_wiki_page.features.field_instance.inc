@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * c4m_content_page.features.field_instance.inc
+ * c4m_content_wiki_page.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function c4m_content_page_field_default_field_instances() {
+function c4m_content_wiki_page_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-page-c4m_body'
-  $field_instances['node-page-c4m_body'] = array(
-    'bundle' => 'page',
+  // Exported field_instance: 'node-wiki_page-c4m_body'
+  $field_instances['node-wiki_page-c4m_body'] = array(
+    'bundle' => 'wiki_page',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -62,9 +62,9 @@ function c4m_content_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-c4m_related_document'
-  $field_instances['node-page-c4m_related_document'] = array(
-    'bundle' => 'page',
+  // Exported field_instance: 'node-wiki_page-c4m_related_document'
+  $field_instances['node-wiki_page-c4m_related_document'] = array(
+    'bundle' => 'wiki_page',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -117,9 +117,9 @@ function c4m_content_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-c4m_vocab_date'
-  $field_instances['node-page-c4m_vocab_date'] = array(
-    'bundle' => 'page',
+  // Exported field_instance: 'node-wiki_page-c4m_vocab_date'
+  $field_instances['node-wiki_page-c4m_vocab_date'] = array(
+    'bundle' => 'wiki_page',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -160,9 +160,9 @@ function c4m_content_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-c4m_vocab_language'
-  $field_instances['node-page-c4m_vocab_language'] = array(
-    'bundle' => 'page',
+  // Exported field_instance: 'node-wiki_page-c4m_vocab_language'
+  $field_instances['node-wiki_page-c4m_vocab_language'] = array(
+    'bundle' => 'wiki_page',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -203,9 +203,9 @@ function c4m_content_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-og_group_ref'
-  $field_instances['node-page-og_group_ref'] = array(
-    'bundle' => 'page',
+  // Exported field_instance: 'node-wiki_page-og_group_ref'
+  $field_instances['node-wiki_page-og_group_ref'] = array(
+    'bundle' => 'wiki_page',
     'default_value' => NULL,
     'default_value_function' => '',
     'deleted' => 0,
@@ -273,9 +273,9 @@ function c4m_content_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-og_vocabulary'
-  $field_instances['node-page-og_vocabulary'] = array(
-    'bundle' => 'page',
+  // Exported field_instance: 'node-wiki_page-og_vocabulary'
+  $field_instances['node-wiki_page-og_vocabulary'] = array(
+    'bundle' => 'wiki_page',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
