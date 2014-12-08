@@ -10,7 +10,7 @@ $plugin = array(
     'c4m_insert__node__discussion' => 'activity_stream',
     'c4m_insert__node__document' => 'activity_stream',
     'c4m_insert__node__event' => 'activity_stream',
-    'c4m_insert__node__page' => 'activity_stream',
+    'c4m_insert__node__wiki_page' => 'activity_stream',
     'c4m_insert__node__photo' => 'activity_stream',
     'c4m_insert__node__photoalbum' => 'activity_stream',
   ),

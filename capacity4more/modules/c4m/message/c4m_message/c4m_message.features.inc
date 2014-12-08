@@ -113,9 +113,9 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
-  $items['c4m_insert__node__page'] = entity_import('message_type', '{
-    "name" : "c4m_insert__node__page",
-    "description" : "c4m Insert Node Page",
+  $items['c4m_insert__node__wiki_page'] = entity_import('message_type', '{
+    "name" : "c4m_insert__node__wiki_page",
+    "description" : "c4m Insert Node Wiki Page",
     "argument_keys" : [],
     "argument" : [],
     "category" : "message_type",
@@ -127,9 +127,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Group page | @date\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\r\\n  !footer\\r\\n\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Group wiki page | @date\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\r\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\r\\n  !content\\r\\n\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\r\\n  !footer\\r\\n\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Group page | @date\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\n  !content\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\n  !footer\\n\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row message-header\\u0022\\u003E\\n  \\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Group wiki page | @date\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\n  \\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E\\n  !content\\n\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-footer\\u0022\\u003E\\n  !footer\\n\\u003C\\/div\\u003E\\n"
         }
       ]
     },
