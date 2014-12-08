@@ -51,7 +51,14 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Group owner',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'user-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),

@@ -27,19 +27,6 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'author' => array(
-      'weight' => '6',
-      'label' => 'inline',
-      'format' => 'author_linked',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Document uploaded by',
-          'lb-el' => 'span',
-          'lb-col' => TRUE,
-        ),
-      ),
-    ),
     'post_date' => array(
       'weight' => '7',
       'label' => 'hidden',
@@ -58,9 +45,28 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_node_author_image' => array(
-      'weight' => '5',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'thumbnail',
+    ),
+    'c4m_ds_author_first_and_last_name' => array(
+      'weight' => '6',
+      'label' => 'inline',
+      'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Document uploaded by',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'user-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
   );
   $export['node|document|full'] = $ds_fieldsetting;
@@ -83,14 +89,41 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'links' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_ds_node_meta' => array(
+    'post_date' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_day',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'post-date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_ds_author_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'minimal',
+      'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'user-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
   );
   $export['node|document|teaser'] = $ds_fieldsetting;
@@ -123,11 +156,11 @@ function c4m_content_document_ds_layout_settings_info() {
         4 => 'c4m_ds_node_author_image',
         5 => 'c4m_vocab_document_type',
         6 => 'c4m_related_topic',
-        7 => 'author',
+        7 => 'c4m_ds_author_first_and_last_name',
         8 => 'post_date',
         9 => 'og_vocabulary',
-        10 => 'c4m_vocab_date',
-        11 => 'group_node_details',
+        10 => 'group_node_details',
+        11 => 'c4m_vocab_date',
         12 => 'c4m_vocab_language',
         13 => 'c4m_vocab_geo',
       ),
@@ -140,11 +173,11 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_ds_node_author_image' => 'right',
       'c4m_vocab_document_type' => 'right',
       'c4m_related_topic' => 'right',
-      'author' => 'right',
+      'c4m_ds_author_first_and_last_name' => 'right',
       'post_date' => 'right',
       'og_vocabulary' => 'right',
-      'c4m_vocab_date' => 'right',
       'group_node_details' => 'right',
+      'c4m_vocab_date' => 'right',
       'c4m_vocab_language' => 'right',
       'c4m_vocab_geo' => 'right',
     ),
@@ -172,14 +205,16 @@ function c4m_content_document_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
-        1 => 'c4m_ds_node_meta',
-        2 => 'c4m_body',
-        3 => 'links',
+        1 => 'c4m_ds_author_first_and_last_name',
+        2 => 'post_date',
+        3 => 'c4m_body',
+        4 => 'links',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
-      'c4m_ds_node_meta' => 'ds_content',
+      'c4m_ds_author_first_and_last_name' => 'ds_content',
+      'post_date' => 'ds_content',
       'c4m_body' => 'ds_content',
       'links' => 'ds_content',
     ),
