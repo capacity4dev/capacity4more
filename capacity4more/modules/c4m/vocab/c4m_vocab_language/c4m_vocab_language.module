@@ -94,20 +94,20 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
       '<div ng-app="c4mApp" ng-controller="DrupalFromCtrl" class="ng-scope">
         <div class="checkboxes-wrapper">
           <div>
-            <button type="button" ng-click="togglePopover()" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
+            <button type="button" ng-click="togglePopover(\'language\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
           </div>
           <!-- Hidden language checkboxes.-->
           <div class="popover right hidden-checkboxes" ng-show="popups.language == 1">
             <div class="arrow"></div>
             <div class="popover-content">
-              <!--<list-terms type="language" model="data.language" items="language"></list-terms>-->
+              <!--<list-terms type="language" model="data.language" items="data.language"></list-terms>-->
 
               <form action="#" class="search">
                 <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
               </form>
               <div class="checkbox" ng-repeat="item in data.language">
                 <label>
-                  <input type="checkbox" ng-name="type" title="{{item.label}}" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
+                  <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
                 </label>
               </div>
 
@@ -116,11 +116,13 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
         </div>
       </div>';
 
+
   // Add the checkboxes hidden.
   $instance['widget']['type'] = 'options_buttons';
+  $element['#columns'] = array();
+  $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#prefix'] = $directive . '<div class="default-widget hidden-checkboxes">';
   $element['#suffix'] = '</div>';
-  $element += options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
 
   return $element;
 }
