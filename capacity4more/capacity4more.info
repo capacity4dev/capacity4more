@@ -80,22 +80,23 @@ dependencies[] = c4m_vocab_tag
 dependencies[] = c4m_user_profile
 
 ; Content Types
+dependencies[] = c4m_content_article
 dependencies[] = c4m_content_book
+dependencies[] = c4m_content_discussion
 dependencies[] = c4m_content_document
+dependencies[] = c4m_content_event
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_group_banner
-dependencies[] = c4m_content_project
-dependencies[] = c4m_content_tasklist
-dependencies[] = c4m_content_task
-dependencies[] = c4m_content_discussion
-dependencies[] = c4m_content_region
-dependencies[] = c4m_content_minisite
-dependencies[] = c4m_content_page
-dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_content_photo
 dependencies[] = c4m_content_photoalbum
-dependencies[] = c4m_content_article
-dependencies[] = c4m_content_event
+dependencies[] = c4m_content_project
+dependencies[] = c4m_content_region
+dependencies[] = c4m_content_task
+dependencies[] = c4m_content_tasklist
+dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_wiki
+
 dependencies[] = c4m_field_related_og
 
 ; Overview content
@@ -119,7 +120,7 @@ dependencies[] = c4m_features_og_documents
 dependencies[] = c4m_features_og_highlights
 dependencies[] = c4m_features_og_overview_events
 dependencies[] = c4m_features_og_overview_members
-dependencies[] = c4m_features_og_overview_pages
+dependencies[] = c4m_features_og_overview_wiki_pages
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
 

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * All code to generate minisite (master) pages for all new group types.
+ * All code to generate wiki (master) pages for all new group types.
  */
 
 /**
- * Create top-level book for minisites.
+ * Create top-level book for wikis.
  */
-function c4m_content_minisite_create_root_minisite($node) {
+function c4m_content_wiki_create_root_wiki($node) {
   if (!og_is_group_type('node', $node->type)) {
     return FALSE;
   }
@@ -16,19 +16,19 @@ function c4m_content_minisite_create_root_minisite($node) {
   $user = user_load($node->uid);
 
   // Node data.
-  $minisite         = new stdClass();
-  $minisite->type   = "minisite";
-  $minisite->status = 1;
-  $minisite->uid    = $user->uid;
-  $minisite->name   = $user->name;
+  $wiki         = new stdClass();
+  $wiki->type   = "wiki";
+  $wiki->status = 1;
+  $wiki->uid    = $user->uid;
+  $wiki->name   = $user->name;
 
-  $minisite->language = LANGUAGE_NONE;
+  $wiki->language = LANGUAGE_NONE;
 
-  $minisite_type = c4m_og_get_group_type_name($node);
+  $wiki_type = c4m_og_get_group_type_name($node);
 
-  $minisite->title = $node->title . ' ' . $minisite_type . " page";
+  $wiki->title = $node->title . ' ' . $wiki_type . " page";
 
-  $minisite->book = array(
+  $wiki->book = array(
     'pick-book'          => 'Change book (update list of parents)',
     'bid'                => 'new',
     'has_children'       => 0,
@@ -39,33 +39,33 @@ function c4m_content_minisite_create_root_minisite($node) {
     'weight'             => '0',
   );
 
-  $minisite->created = $node->created;
-  $minisite->changed = $node->changed;
-  $minisite->revision = FALSE;
+  $wiki->created = $node->created;
+  $wiki->changed = $node->changed;
+  $wiki->revision = FALSE;
 
-  if ($minisite = node_submit($minisite)) {
-    node_save($minisite);
+  if ($wiki = node_submit($wiki)) {
+    node_save($wiki);
   }
 
   // Attach the new node to the group.
   $values = array(
     'entity_type' => 'node',
-    'entity'      => $minisite,
+    'entity'      => $wiki,
     'state'       => OG_STATE_ACTIVE,
   );
 
   og_group('node', $node->nid, $values);
 
   db_update('node')->fields(array('created' => $node->changed))
-    ->condition('nid', $minisite->nid, '=')
+    ->condition('nid', $wiki->nid, '=')
     ->execute();
   db_update('node')->fields(array('changed' => $node->changed))
-    ->condition('nid', $minisite->nid, '=')
+    ->condition('nid', $wiki->nid, '=')
     ->execute();
   db_update('node_revision')->fields(array('timestamp' => $node->changed))
-    ->condition('nid', $minisite->nid, '=')
-    ->condition('vid', $minisite->vid, '=')
+    ->condition('nid', $wiki->nid, '=')
+    ->condition('vid', $wiki->vid, '=')
     ->execute();
 
-  return $minisite;
+  return $wiki;
 }

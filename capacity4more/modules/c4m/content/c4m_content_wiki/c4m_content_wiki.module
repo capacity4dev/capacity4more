@@ -1,22 +1,22 @@
 <?php
 /**
  * @file
- * Code for the Minisite content type feature.
+ * Code for the Wiki content type feature.
  */
 
-include_once 'c4m_content_minisite.features.inc';
+include_once 'c4m_content_wiki.features.inc';
 
 /**
  * Implements hook_token_info().
  */
-function c4m_content_minisite_token_info() {
+function c4m_content_wiki_token_info() {
   $info = array();
 
   if (!module_exists('pathauto')) {
     return;
   }
 
-  $info['tokens']['array']['minisite-join-path'] = array(
+  $info['tokens']['array']['wiki-join-path'] = array(
     'name'        => t('Joined path without Master Page'),
     'description' => t('The array values with the (empty) master (= root) page removed from the tree.'),
   );
@@ -28,11 +28,11 @@ function c4m_content_minisite_token_info() {
  * Implements hook_tokens().
  *
  * Extends the pathauto_tokens() functionality.
- * Shifts the first array key, which is the minisite master page
- * in case of a minisite tree,
+ * Shifts the first array key, which is the wiki master page
+ * in case of a wiki tree,
  * and creates a joined path from the array like pathauto module does.
  */
-function c4m_content_minisite_tokens($type, $tokens, array $data = array(), array $options = array()) {
+function c4m_content_wiki_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
 
   if (!module_exists('pathauto')) {
@@ -44,7 +44,7 @@ function c4m_content_minisite_tokens($type, $tokens, array $data = array(), arra
 
     foreach ($tokens as $name => $original) {
       switch ($name) {
-        case 'minisite-join-path':
+        case 'wiki-join-path':
           if (is_array($array)) {
             // Remove the first (root) element of the tree.
             array_shift($array);
@@ -69,10 +69,10 @@ function c4m_content_minisite_tokens($type, $tokens, array $data = array(), arra
 /**
  * Implements hook_node_insert().
  *
- * Automatically create a master minisite page
+ * Automatically create a master wiki page
  * if a group content type is created.
  */
-function c4m_content_minisite_node_insert($node) {
+function c4m_content_wiki_node_insert($node) {
   // Only for OG enabled content type.
   if (!og_is_group_type('node', $node->type)) {
     return;
@@ -80,8 +80,8 @@ function c4m_content_minisite_node_insert($node) {
 
   // Run the code to create all the vocabularies
   // and link it with the content types.
-  module_load_include('inc', 'c4m_content_minisite');
-  c4m_content_minisite_create_root_minisite($node);
+  module_load_include('inc', 'c4m_content_wiki');
+  c4m_content_wiki_create_root_wiki($node);
 }
 
 /**
@@ -93,13 +93,13 @@ function c4m_content_minisite_node_insert($node) {
  * @return bool|mixed|null
  *   Book node if found, else NULL.
  */
-function c4m_content_minisite_get_book_by_gid($gid) {
+function c4m_content_wiki_get_book_by_gid($gid) {
   $q = db_select('node', 'node');
   $q->join('og_membership', 'group_rel', 'node.nid = group_rel.etid');
   $q->fields('node', array('nid'))
     ->condition('group_rel.gid', $gid, '=')
     ->condition('group_rel.entity_type', 'node', '=')
-    ->condition('node.type', 'minisite', '=')
+    ->condition('node.type', 'wiki', '=')
     ->range(0, 1);
   $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
 
@@ -121,7 +121,7 @@ function c4m_content_minisite_get_book_by_gid($gid) {
  * @return bool|mixed|null
  *   Book node if found, else NULL.
  */
-function c4m_content_minisite_get_book_by_nid($nid) {
+function c4m_content_wiki_get_book_by_nid($nid) {
   $q = db_select('book', 'book')
        ->fields('book', array('bid'))
        ->condition('book.nid', $nid, '=')
@@ -145,7 +145,7 @@ function c4m_content_minisite_get_book_by_nid($nid) {
  * @return int|null
  *   Menu link ID if found, else NULL.
  */
-function c4m_content_minisite_get_mlid_by_nid($nid) {
+function c4m_content_wiki_get_mlid_by_nid($nid) {
   $q   = db_select('book', 'book')
          ->fields('book', array('mlid'))
          ->condition('book.nid', $nid, '=')
