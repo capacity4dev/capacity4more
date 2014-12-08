@@ -96,7 +96,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
 
   // Add the directive.
   $directive =
-      '<div ng-app="c4mApp" ng-controller="DrupalFromCtrl" class="ng-scope">
+      '<div ng-app="c4mApp" ng-controller="DrupalFormCtrl" class="ng-scope">
         <div class="form-group btn-group">
           <div class="checkboxes-wrapper">
             <div>

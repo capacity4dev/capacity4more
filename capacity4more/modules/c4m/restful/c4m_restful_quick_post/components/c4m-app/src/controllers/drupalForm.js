@@ -1,5 +1,5 @@
 angular.module('c4mApp')
-  .controller('DrupalFromCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService) {
+  .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService) {
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
