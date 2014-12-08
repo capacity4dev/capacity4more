@@ -12,6 +12,10 @@ function c4m_vocab_language_field_widget_info() {
     'label' => t('C4M Taxonomy'),
     'description' => t('Taxonomy widget using Angular.'),
     'field types' => array('entityreference', 'taxonomy_term_reference'),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      'default value' => FIELD_BEHAVIOR_NONE,
+    ),
   );
 
   return $widgets;
@@ -121,8 +125,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   // Add the checkboxes hidden.
   $instance['widget']['type'] = 'options_buttons';
   $instance['widget']['active'] = 1;
-  
-  $element['#columns'] = array();
+  unset($element['#weight']);
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#prefix'] = $directive . '<div class="default-widget hidden-checkboxes">';
   $element['#suffix'] = '</div>';
