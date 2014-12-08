@@ -28,6 +28,8 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_media', 'image')
       ->separator(';');
+    $this->addFieldMapping('c4m_banner', 'banner')
+      ->separator(';');
     $this->addFieldMapping('c4m_media:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_media:source_dir')

@@ -28,3 +28,27 @@ function c4m_content_group_ctools_plugin_directory($module, $plugin_type) {
     return 'plugins/' . $plugin_type;
   }
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_content_group_block_info() {
+  $blocks['header_name_banner'] = array(
+    'info' => t('Group header'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_group_block_view($delta = '') {
+  module_load_include('inc', 'c4m_content_group', 'includes/c4m_content_group.block');
+  $callback = '_c4m_content_group_block_' . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+
+  return $callback();
+}
