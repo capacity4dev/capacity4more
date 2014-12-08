@@ -75,7 +75,10 @@ angular.module('c4mApp')
         }
       }, tags);
 
-      submitData.tags = tags;
+      var categories = submitData.categories;
+      delete(submitData.categories);
+      delete(submitData.tags);
+      submitData.categories = categories.concat(tags);
 
       return jQuery.param(submitData);
     };
@@ -106,9 +109,12 @@ angular.module('c4mApp')
       }
 
       angular.forEach(data, function (values, field) {
+        if (field == "tags") {
+          return;
+        }
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
-        if (fieldRequired && (!values || !values.length ) && field != 'datetime') {
+        if (fieldRequired && (!values || !values.length ) && field != "datetime") {
           this[field] = 1;
         }
       }, errors);
@@ -136,7 +142,7 @@ angular.module('c4mApp')
       angular.forEach(cleanData, function (values, field) {
 
         // Keep only the status field.
-        if (!resourceFields[field]) {
+        if (!resourceFields[field] && field != "tags") {
           delete this[field];
         }
       }, cleanData);
