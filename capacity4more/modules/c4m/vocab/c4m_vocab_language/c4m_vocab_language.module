@@ -96,37 +96,41 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
 
   // Add the directive.
   $directive =
-      '<div ng-app="c4mApp" ng-controller="DrupalFormCtrl" class="ng-scope">
-        <div class="form-group btn-group">
-          <div class="checkboxes-wrapper">
-            <div>
-              <button type="button" ng-click="togglePopover(\'' . $vocabulary_name . '\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select Language') . '</button>
-            </div>
-            <!-- Hidden language checkboxes.-->
-            <div class="popover right hidden-checkboxes" ng-show="popups.' . $vocabulary_name . ' == 1">
-              <div class="arrow"></div>
-              <div class="popover-content">
-                <form action="#" class="search">
-                  <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
-                </form>
-                <div class="checkbox" ng-repeat="item in data.' . $vocabulary_name . '">
-                  <label>
-                    <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
-                  </label>
-                </div>
-              </div>
+    '<div class="form-group btn-group ' . $vocabulary_name . '">
+      <div class="checkboxes-wrapper">
+        <div>
+          <button type="button" ng-click="togglePopover(\'' . $vocabulary_name . '\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select @name', array('@name' => $vocabulary->name)) . '</button>
+        </div>
+        <!-- Hidden language checkboxes.-->
+        <div class="popover right hidden-checkboxes" ng-show="popups.' . $vocabulary_name . ' == 1">
+          <div class="arrow"></div>
+          <div class="popover-content">
+            <form action="#" class="search">
+              <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
+            </form>
+            <div class="checkbox" ng-repeat="item in data.' . $vocabulary_name . '">
+              <label>
+                <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
+              </label>
             </div>
           </div>
         </div>
-      </div>';
+      </div>
+    </div>';
 
+  $form[$vocabulary_name] = array(
+    '#markup' => $directive,
+  );
+  $form['#attributes']['ng-app'] = 'c4mApp';
+  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
 
   // Add the checkboxes hidden.
   $instance['widget']['type'] = 'options_buttons';
   $instance['widget']['active'] = 1;
   unset($element['#weight']);
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-  $element['#prefix'] = $directive . '<div class="default-widget hidden-checkboxes">';
+  $element['#prefix'] = '<div class="default-widget hidden-checkboxes">';
+//  $element['#prefix'] = $directive . '<div class="default-widget hidden-checkboxes">';
   $element['#suffix'] = '</div>';
 
   return $element;
