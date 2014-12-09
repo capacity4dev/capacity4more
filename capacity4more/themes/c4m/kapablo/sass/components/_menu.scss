@@ -1,0 +1,114 @@
+#block-menu-c4m-og-menu {
+  .nav {
+    border-bottom: 2px dashed $gray-dark;
+    margin: 0 0 15px 0;
+    padding: 0 0 3px 0;
+
+    li {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}
+
+#block-menu-c4m-og-menu {
+  .og-menu-link {
+    a {
+      @extend %svg-icon;
+      @include border-radius(0, 0);
+      color: $black;
+      text-align: left;
+      text-transform: uppercase;
+
+      border-right: 1px solid $gray-dark;
+      margin: 15px 15px 15px 0;
+      padding-bottom: 0;
+      padding-top: 0;
+
+      &:hover {
+        background-color: inherit;
+        color: $gray-dark;
+      }
+    }
+
+    &.calendar {
+      width: auto;
+      a {
+        background-image: image-url('icons/png/event-icon.png');
+
+        &:hover {
+          background-image: image-url('icons/png/event-icon-hover.png');
+        }
+      }
+    }
+    &.discussions {
+      a {
+        background-image: image-url('icons/png/discussion-icon.png');
+
+        &:hover {
+          background-image: image-url('icons/png/discussion-icon-hover.png');
+        }
+      }
+    }
+
+    &.members {
+      float: right;
+      
+      a {
+        border-right: 0;
+        margin-right: 0;
+        padding-right: 0;
+      }
+    }
+
+    &.active-trail {
+      a {
+        color: $gray-light;
+      }
+      &.calendar {
+        a {
+          background-image: image-url('icons/png/event-icon-hover.png');
+        }
+      }
+      &.discussions {
+        a {
+          background-image: image-url('icons/png/discussion-icon-hover.png');
+        }
+      }
+    }
+  }
+}
+
+html.inlinesvg {
+  #block-menu-c4m-og-menu {
+    .og-menu-link {
+      &.calendar {
+        a {
+          background-image: inline-image('svgmin/icons/event-icon.svg');
+          &:hover {
+            background-image: inline-image('svgmin/icons/event-icon-hover.svg');
+          }
+        }
+      }
+
+      &.active-trail {
+        a {
+          .calendar {
+            background-image: inline-image('svgmin/icons/event-icon-hover.svg');
+          }
+        }
+      }
+    }
+  }
+}
+
+// Make sure menu links set active (active-trail) by context react as menu
+// links set active (active) by menu API.
+.nav-pills {
+  li.active-trail {
+    a, a:hover, a:focus {
+      color: #fff;
+      background-color: #428bca;
+    }
+  }
+}
