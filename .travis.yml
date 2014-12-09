@@ -45,6 +45,10 @@ install:
   - phpenv rehash
 
 before_script:
+  # Additional PHP config
+  - cd $TRAVIS_BUILD_DIR
+  - phpenv config-add travis.php.ini
+
   # Install Solr
   - cd $TRAVIS_BUILD_DIR
   - drush dl search_api_solr
@@ -78,10 +82,6 @@ before_script:
   - sleep 10
   - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
-  # Additional PHP config
-  - cd $TRAVIS_BUILD_DIR
-  - phpenv config-add travis.php.ini
-
 script:
   # Create display.
   - export DISPLAY=:99.0
@@ -100,6 +100,9 @@ script:
 
   # Run phantomJs.
   - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
+
+  # Temporarily check PHP memory limit
+  - php -i | grep memory_limit
 
   # Run behat tests.
   - cd $TRAVIS_BUILD_DIR/capacity4more/behat
