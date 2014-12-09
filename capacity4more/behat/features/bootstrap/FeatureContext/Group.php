@@ -148,12 +148,15 @@ trait Group {
   public function iChangeAccessOfGroupTo($title, $access) {
 //    throw new PendingException();
     $group = $this->loadGroupByTitleAndType($title, 'group');
-
+    $url = strtolower(str_replace(' ', '_', trim($title)));
+    drupal_static_reset();
     $steps = array();
-    $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
-    $steps[] = new Step\When('I select the radio button "' . $access . '" with the id "edit-pluggable-group-access-' . strtolower($access) . '"');
+    $steps[] = new Step\When('I visit "' . $url . '/node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select the radio button "' . $access . '"');
     $steps[] = new Step\When('I press "Save"');
-    $steps[] = new Step\When('I should see "Group ' . $title . ' has been updated."');
+    $steps[] = new Step\When('I wait');
+//    $steps[] = new Step\When('I should see "has been updated."');
+    return $steps;
   }
 
 }
