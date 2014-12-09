@@ -79,6 +79,7 @@ before_script:
   - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
   # Additional PHP config
+  - cd $TRAVIS_BUILD_DIR
   - phpenv config-add travis.php.ini
 
 script:
