@@ -147,12 +147,10 @@ trait Group {
    */
   public function iChangeAccessOfGroupTo($title, $access) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-//    drupal_static_reset();
     $steps = array();
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     $steps[] = new Step\When('I press "Save"');
-    $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
