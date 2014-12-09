@@ -52,3 +52,19 @@ function c4m_content_group_block_view($delta = '') {
 
   return $callback();
 }
+
+/**
+ * Preprocess for blocks of this module.
+ *
+ * @param $variables
+ */
+function c4m_content_group_preprocess_block(&$variables) {
+  module_load_include('inc', 'c4m_content_group', 'includes/c4m_content_group.block');
+  if ($variables['block']->module == 'c4m_content_group' &&
+      !empty($variables['block']->delta)) {
+    $callback = '_c4m_content_group_preprocess_' . $variables['block']->delta;
+    if (function_exists($callback)) {
+      $callback($variables);
+    }
+  }
+}
