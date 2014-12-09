@@ -141,4 +141,19 @@ trait Group {
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
+
+  /**
+   * @When /^I change access of group "([^"]*)" to "([^"]*)"$/
+   */
+  public function iChangeAccessOfGroupTo($title, $access) {
+//    throw new PendingException();
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select the radio button "' . $access . '" with the id "edit-pluggable-group-access-' . strtolower($access) . '"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I should see "Group ' . $title . ' has been updated."');
+  }
+
 }
