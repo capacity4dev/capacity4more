@@ -151,7 +151,7 @@ trait Group {
     $url = strtolower(str_replace(' ', '_', trim($title)));
     drupal_static_reset();
     $steps = array();
-    $steps[] = new Step\When('I visit "' . $url . '/node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
