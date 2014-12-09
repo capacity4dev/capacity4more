@@ -78,6 +78,9 @@ before_script:
   - sleep 10
   - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
+  # Additional PHP config
+  - phpenv config-add travis.php.ini
+
 script:
   # Create display.
   - export DISPLAY=:99.0
