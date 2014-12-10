@@ -1,15 +1,19 @@
 .panel-col-last {
   .panel-pane {
-    border-left: 2px solid $gray-dark;
+    border-left: 1px solid $gray-dark;
     margin-left: 15px;
     padding: 0 15px 5px 15px;
 
     h2 {
-      border-bottom: 2px dashed $gray-dark;
+      border-bottom: 1px dashed $gray-dark;
       font-weight: lighter;
       margin: 0 0 5px 0;
-      padding-bottom: 5px;
+      padding: 0 5px 5px 5px;
       text-transform: uppercase;
+    }
+
+    .pane-content {
+      padding: 5px;
     }
   }
 }
