@@ -7,6 +7,41 @@
 include_once 'c4m_ds.features.inc';
 
 /**
+ * Implements hook_ds_layout_info().
+ */
+function c4m_ds_ds_layout_info() {
+  $path = drupal_get_path('module', 'c4m_ds');
+  $path .= '/layouts';
+
+  $layouts = [];
+
+  // Details of the layouts.
+  $layouts['c4m_ds_4_8_fluid'] = array(
+    'label' => t('Fluid 4-8 unstacked.'),
+    'path' => $path . '/c4m_ds_4_8_fluid',
+    'regions' => array(
+      'left' => t('Left'),
+      'right' => t('Right'),
+    ),
+    'form' => TRUE,
+    'image' => FALSE,
+  );
+
+  $layouts['c4m_ds_8_4_fluid'] = array(
+    'label' => t('Fluid 8-4 unstacked.'),
+    'path' => $path . '/c4m_ds_8_4_fluid',
+    'regions' => array(
+      'left' => t('Left'),
+      'right' => t('Right'),
+    ),
+    'form' => TRUE,
+    'image' => FALSE,
+  );
+
+  return $layouts;
+}
+
+/**
  * Expose default view modes.
  *
  * This hook is called by CTools. For this hook to work, you need
