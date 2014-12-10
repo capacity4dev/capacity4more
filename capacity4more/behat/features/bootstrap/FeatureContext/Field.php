@@ -32,6 +32,12 @@ trait Field {
       case 'Download':
         $locator = '.region-content .download-link';
         break;
+      case 'Group banner':
+        $locator = '.region-content-top .group-banner';
+        break;
+      case 'Group title':
+        $locator = '.region-content-top .group-title';
+        break;
       case 'Group type':
         $locator = '.region-content .field-name-c4m-ds-group-access-info';
         break;

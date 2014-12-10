@@ -163,4 +163,22 @@ trait Group {
 
     return $steps;
   }
+
+  /**
+   * @Given /^I should see the Group Header with banner$/
+   */
+  public function iShouldSeeTheGroupHeaderWithBanner() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '#block-c4m-content-group-header-name-banner');
+    if ($el === null) {
+      throw new \Exception('The Group Header block is not visible.');
+    }
+
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Group title" field');
+    $steps[] = new Step\When('I should see a "Group banner" field');
+
+    return $steps;
+  }
 }
