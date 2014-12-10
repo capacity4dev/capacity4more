@@ -5,6 +5,8 @@
  */
 
 /**
+ * Implements theme_preprocess_message().
+ *
  * Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
@@ -12,7 +14,7 @@ function kapablo_preprocess_message(&$variables) {
     return;
   }
 
-  $message = $variables['message'];
+  $message                               = $variables['message'];
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
@@ -36,9 +38,9 @@ function kapablo_preprocess_message(&$variables) {
     }
   }
 
-  $image_path = drupal_get_path('theme', 'kapablo') . '/images/activity_stream_icons';
-  $icon_variables = array(
-    'path' => $image_path . '/' . $icon_name . '.png',
+  $image_path        = drupal_get_path('theme', 'kapablo') . '/images/activity_stream_icons';
+  $icon_variables    = array(
+    'path'       => $image_path . '/' . $icon_name . '.png',
     'attributes' => array(
       'class' => 'img-responsive',
     )
@@ -49,11 +51,11 @@ function kapablo_preprocess_message(&$variables) {
 /**
  * Implements theme_preprocess_block().
  */
-function kapablo_preprocess_block(&$vars) {
-  $block_id = $vars['block']->module . '-' . $vars['block']->delta;
-  $classes = &$vars['classes_array'];
-  $title_classes = &$vars['title_attributes_array']['class'];
-  $content_classes = &$vars['content_attributes_array']['class'];
+function kapablo_preprocess_block(&$variables) {
+  $block_id        = $variables['block']->module . '-' . $variables['block']->delta;
+  $classes         = & $variables['classes_array'];
+  $title_classes   = & $variables['title_attributes_array']['class'];
+  $content_classes = & $variables['content_attributes_array']['class'];
 
   // Add classes based on the block delta.
   switch ($block_id) {
