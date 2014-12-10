@@ -32,6 +32,12 @@ function c4m_features_general_context_default_contexts() {
           'region' => 'user',
           'weight' => '-9',
         ),
+        'c4m_user_profile-user_notifications' => array(
+          'module' => 'c4m_user_profile',
+          'delta' => 'user_notifications',
+          'region' => 'user',
+          'weight' => '-8',
+        ),
       ),
     ),
   );

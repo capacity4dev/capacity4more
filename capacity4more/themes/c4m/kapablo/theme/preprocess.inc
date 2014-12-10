@@ -62,5 +62,8 @@ function kapablo_preprocess_block(&$variables) {
     case 'c4m_user_profile-user_welcome':
       $classes[] = 'col-sm-12 col-md-6';
       break;
+    case 'c4m_user_profile-user_notifications':
+      $classes[] = 'col-sm-12 col-md-6';
+      break;
   }
 }

@@ -27,6 +27,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
+  $blocks['user_notifications'] = array(
+    'info' => t('Display the user notifications etc...'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
