@@ -3,76 +3,87 @@
     border-bottom: 2px dashed $gray-dark;
     margin: 0 0 15px 0;
     padding: 0 0 3px 0;
+    width: 100%;
 
-    li {
-      display: inline-block;
-      width: auto;
-    }
   }
 }
 
+.nav li a {
+  border: 0;
+}
+
 #block-menu-c4m-og-menu {
-  .og-menu-link {
-    a {
-      @extend %svg-icon;
-      @include border-radius(0, 0);
-      color: $black;
-      text-align: left;
-      text-transform: uppercase;
+  .navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
 
-      border-right: 1px solid $gray-dark;
-      margin: 15px 15px 15px 0;
-      padding-bottom: 0;
-      padding-top: 0;
-
-      &:hover {
-        background-color: inherit;
-        color: $gray-dark;
-      }
-    }
-
-    &.calendar {
-      width: auto;
-      a {
-        background-image: image-url('icons/png/event-icon.png');
-
-        &:hover {
-          background-image: image-url('icons/png/event-icon-hover.png');
-        }
-      }
-    }
-    &.discussions {
-      a {
-        background-image: image-url('icons/png/discussion-icon.png');
-
-        &:hover {
-          background-image: image-url('icons/png/discussion-icon-hover.png');
-        }
-      }
-    }
-
-    &.members {
-      float: right;
-      
-      a {
-        border-right: 0;
-        margin-right: 0;
-        padding-right: 0;
-      }
-    }
-
-    &.active-trail {
-      a {
-        color: $gray-light;
-      }
-      &.calendar {
+    &:not(.collapsed):not(.collapsing):not(.in) {
+      .og-menu-link {
         a {
-          background-image: image-url('icons/png/event-icon-hover.png');
+          border-right: 1px solid $gray-dark;
+        }
+      }
+      .members {
+        float: right !important;
+        a {
+          border-right: 0;
+          margin-right: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .og-menu-link {
+      a {
+        @extend %svg-icon;
+        @include border-radius(0, 0);
+        color: $black;
+        text-align: left;
+        text-transform: uppercase;
+
+        margin: 15px 15px 15px 0;
+        padding-bottom: 0;
+        padding-top: 0;
+
+        &:hover {
+          background-color: inherit;
+          color: $gray-dark;
+        }
+      }
+
+      &.calendar {
+        width: auto;
+        a {
+          background-image: image-url('icons/png/event-icon.png');
+
+          &:hover {
+            background-image: image-url('icons/png/event-icon-hover.png');
+          }
         }
       }
       &.discussions {
         a {
-          background-image: image-url('icons/png/discussion-icon-hover.png');
+          background-image: image-url('icons/png/discussion-icon.png');
+
+          &:hover {
+            background-image: image-url('icons/png/discussion-icon-hover.png');
+          }
+        }
+      }
+
+      &.active-trail {
+        a {
+          color: $gray-light;
+        }
+        &.calendar {
+          a {
+            background-image: image-url('icons/png/event-icon-hover.png');
+          }
+        }
+        &.discussions {
+          a {
+            background-image: image-url('icons/png/discussion-icon-hover.png');
+          }
         }
       }
     }
@@ -110,5 +121,11 @@ html.inlinesvg {
       color: #fff;
       background-color: #428bca;
     }
+  }
+}
+
+.navbar-toggle {
+  .icon-bar {
+    background-color: $highlight-blue;
   }
 }
