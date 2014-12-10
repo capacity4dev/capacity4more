@@ -45,3 +45,20 @@ function kapablo_preprocess_message(&$variables) {
   );
   $variables['icon'] = theme('image', $icon_variables);
 }
+
+/**
+ * Implements theme_preprocess_block().
+ */
+function kapablo_preprocess_block(&$vars) {
+  $block_id = $vars['block']->module . '-' . $vars['block']->delta;
+  $classes = &$vars['classes_array'];
+  $title_classes = &$vars['title_attributes_array']['class'];
+  $content_classes = &$vars['content_attributes_array']['class'];
+
+  // Add classes based on the block delta.
+  switch ($block_id) {
+    case 'c4m_user_profile-user_welcome':
+      $classes[] = 'col-sm-12 col-md-6';
+      break;
+  }
+}

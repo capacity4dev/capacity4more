@@ -83,9 +83,7 @@
     <section class="content-user">
       <div class="container">
         <div class="row">
-          <div class="col-sm-12">
-            <?php print render($page['user']); ?>
-          </div>
+          <?php print render($page['user']); ?>
         </div>
       </div>
     </section>
