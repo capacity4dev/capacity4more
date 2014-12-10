@@ -231,6 +231,15 @@ angular.module('c4mApp')
      */
     $scope.removeTaxonomyValue = function(key, field) {
       $scope.data[field][key] = false;
+      // If this is parent term - find all children and turn them to false
+      if (key in $scope[field]) {
+        angular.forEach($scope[field][key].children, function(child, key) {
+          var childID = child.id;
+          if (childID in $scope.data[field] && $scope.data[field][childID] === true) {
+            $scope.data[field][childID] = false;
+          }
+        });
+      }
     };
 
     // Find taxonomy term name.

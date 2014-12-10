@@ -258,7 +258,7 @@
           </div>
           <div class="selected-values" ng-show="data.geo">
             <span ng-show="value === true" ng-repeat="(key, value) in data.geo">
-              {{ findLabel(geo, key) }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
+              <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }} <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
             </span>
           </div>
           <!-- Hidden geo checkboxes.-->
