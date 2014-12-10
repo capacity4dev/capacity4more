@@ -1,0 +1,10 @@
+name = General
+description = General stuff
+core = 7.x
+package = capacity4more - Features
+dependencies[] = c4m_user_profile
+dependencies[] = context
+dependencies[] = ctools
+features[context][] = c4m_context_sitewide
+features[ctools][] = context:context:3
+features[features_api][] = api:2

@@ -76,16 +76,19 @@
  */
 ?>
 
-<?php if (!empty($page['user'])): ?>
-  <div class="row content-user">
-    <div class="col-sm-12">
-      <?php print render($page['user']); ?>
-    </div>
-  </div>
-<?php endif; ?>
+<header role="banner" class="<?php print $navbar_classes; ?>">
 
-<header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
-  <div class="container">
+  <!--  USER BAR -->
+  <?php if (!empty($page['user'])): ?>
+    <section class="row content-user">
+      <div class="col-sm-12">
+        <?php print render($page['user']); ?>
+      </div>
+    </section>
+  <?php endif; ?>
+
+
+  <div id="navbar" class="col-sm-12">
     <div class="navbar-header">
       <?php if ($logo): ?>
         <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">

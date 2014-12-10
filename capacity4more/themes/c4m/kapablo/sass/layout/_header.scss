@@ -1,3 +1,23 @@
 .content-user {
-  background: $black;
+  background: $highlight-blue;
+  color: $white;
+  line-height: 28px;
+
+  a {
+    border-bottom: 1px dashed $white;
+    color: $white;
+    text-decoration: none;
+
+    &:hover {
+      border-bottom-style: solid;
+      text-decoration: none;
+    }
+  }
+}
+
+.navbar.container {
+  background: $white;
+  border: 0;
+  @include border-radius(0);
+  margin-top: 0;
 }

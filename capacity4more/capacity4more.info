@@ -99,6 +99,10 @@ dependencies[] = c4m_content_wiki
 
 dependencies[] = c4m_field_related_og
 
+; General
+dependencies[] = c4m_features_general
+
+
 ; Overview content
 dependencies[] = c4m_features_overview_articles
 dependencies[] = c4m_features_overview_events
