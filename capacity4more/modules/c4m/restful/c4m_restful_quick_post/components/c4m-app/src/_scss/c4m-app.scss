@@ -58,6 +58,14 @@
   }
 
   .selected-values {
+    .value {
+      width: 100%;
+    }
+
+    div {
+      display: inline-block;
+      text-align: left;
+    }
 
     span {
       margin-right: 4px;
