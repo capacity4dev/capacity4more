@@ -75,6 +75,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
+  dpm($field);
   $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
   $terms = taxonomy_get_tree($vocabulary->vid);
@@ -118,7 +119,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
       </div>
     </div>';
 
-  $form[$vocabulary_name] = array(
+  $form['directive-' . $vocabulary_name] = array(
     '#markup' => $directive,
   );
   $form['#attributes']['ng-app'] = 'c4mApp';
@@ -129,13 +130,12 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   $instance['widget']['active'] = 1;
   unset($element['#weight']);
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-  $element['#prefix'] = '<div class="default-widget hidden-checkboxes">';
-//  $element['#prefix'] = $directive . '<div class="default-widget hidden-checkboxes">';
-  $element['#suffix'] = '</div>';
+//  $element['#prefix'] = '<div class="default-widget hidden-checkboxes">';
+//  $element['#suffix'] = '</div>';
 
   return $element;
 }
 
 function c4m_vocab_language_node_presave($node) {
-  dpm($node);
+//  dpm($node);
 }
