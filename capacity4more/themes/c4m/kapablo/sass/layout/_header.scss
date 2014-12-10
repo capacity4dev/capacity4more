@@ -1,7 +1,12 @@
+#page-header {
+  width: 100%;
+}
+
 .content-user {
   background: $highlight-blue;
   color: $white;
   line-height: 28px;
+  width: 100%;
 
   a {
     border-bottom: 1px dashed $white;

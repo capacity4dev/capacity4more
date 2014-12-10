@@ -15,7 +15,7 @@
  */
 function kapablo_menu_tree__c4m_og_menu($variables) {
 //  dsm($variables);
-  return '<ul class="nav" role="tablist">' . $variables['tree'] . '</ul>';
+  return '<ul class="nav navbar-nav" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
 function kapablo_menu_link__c4m_og_menu($variables) {
