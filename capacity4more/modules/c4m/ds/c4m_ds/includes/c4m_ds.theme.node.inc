@@ -85,7 +85,8 @@ function theme_c4m_ds_author_first_and_last_name($field) {
 function theme_c4m_ds_group_access_info($field) {
   $output = '';
 
-  if (isset($field['entity'])) {
+  if (isset($field['entity']) &&
+      isset($field['entity']->group_access)) {
     $entity = $field['entity'];
     $wrapper = entity_metadata_wrapper('node', $entity);
   }
