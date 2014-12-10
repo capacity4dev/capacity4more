@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row activity-row">
   <div class="col-sm-4 col-md-2">
     <?php print $icon; ?>
   </div>

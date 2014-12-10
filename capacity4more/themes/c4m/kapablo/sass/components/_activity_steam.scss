@@ -1,0 +1,15 @@
+.activity-stream {
+  .row {
+    border-top: 1px solid $gray-dark;
+    margin: 15px 0 0 0;
+    padding: 15px 0 0 0;
+  }
+
+  .activity-row {
+    .row {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
