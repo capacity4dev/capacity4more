@@ -1,0 +1,33 @@
+/**
+ * Create background images with hover state and png fallback for browsers without SVG support.
+ */
+@mixin image-icon-png-fallback($subfolder, $filename) {
+  $full-png: image-url($subfolder + '/png/' + $filename + '.png');
+  $full-png-hover: image-url($subfolder + '/png/' + $filename + '-hover.png');
+  $full-svg: inline-image('svgmin/' + $subfolder + '/' + $filename + '.svg');
+  $full-svg-hover: inline-image('svgmin/' + $subfolder + '/' + $filename + '-hover.svg');
+
+  background-image: $full-png;
+
+  &:hover {
+    background-color: inherit;
+    background-image: $full-png-hover;
+    color: $gray-dark;
+  }
+
+  html.inlinesvg & {
+    background-image: $full-svg;
+    &:hover {
+      background-image: $full-svg-hover;
+    }
+  }
+
+  &.active-trail {
+    background-image: $full-png-hover;
+    color: $gray-light;
+
+    html.inlinesvg & {
+      background-image: $full-svg-hover;
+    }
+  }
+}

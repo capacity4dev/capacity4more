@@ -7,7 +7,7 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     outputStyle: 'expanded',
-                    debugInfo: true,
+                    debugInfo: false,
                     environment: 'development'
                 }
             }

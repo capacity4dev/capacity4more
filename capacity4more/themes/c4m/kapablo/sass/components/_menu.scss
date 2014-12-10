@@ -44,69 +44,17 @@
         margin: 15px 15px 15px 0;
         padding-bottom: 0;
         padding-top: 0;
-
-        &:hover {
-          background-color: inherit;
-          color: $gray-dark;
-        }
       }
 
       &.calendar {
-        width: auto;
         a {
-          background-image: image-url('icons/png/event-icon.png');
-
-          &:hover {
-            background-image: image-url('icons/png/event-icon-hover.png');
-          }
+          @include image-icon-png-fallback('icons', 'event-icon');
         }
+        width: auto;
       }
       &.discussions {
         a {
-          background-image: image-url('icons/png/discussion-icon.png');
-
-          &:hover {
-            background-image: image-url('icons/png/discussion-icon-hover.png');
-          }
-        }
-      }
-
-      &.active-trail {
-        a {
-          color: $gray-light;
-        }
-        &.calendar {
-          a {
-            background-image: image-url('icons/png/event-icon-hover.png');
-          }
-        }
-        &.discussions {
-          a {
-            background-image: image-url('icons/png/discussion-icon-hover.png');
-          }
-        }
-      }
-    }
-  }
-}
-
-html.inlinesvg {
-  #block-menu-c4m-og-menu {
-    .og-menu-link {
-      &.calendar {
-        a {
-          background-image: inline-image('svgmin/icons/event-icon.svg');
-          &:hover {
-            background-image: inline-image('svgmin/icons/event-icon-hover.svg');
-          }
-        }
-      }
-
-      &.active-trail {
-        a {
-          .calendar {
-            background-image: inline-image('svgmin/icons/event-icon-hover.svg');
-          }
+          @include image-icon-png-fallback('icons', 'discussion-icon');
         }
       }
     }
