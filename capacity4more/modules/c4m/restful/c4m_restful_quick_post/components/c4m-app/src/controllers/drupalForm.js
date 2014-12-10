@@ -24,14 +24,12 @@ angular.module('c4mApp')
       // Check/uncheck the checkbox in the drupal form.
       if($scope.model[key]) {
         jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", true);
-//        jQuery('input[type=radio][value="' + key + '"]').attr("checked", true);
       }
       else {
         jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", false);
-//        jQuery('input[type=radio][value="' + key + '"]').attr("checked", false);
       }
     };
 
     // Call the keyUpHandler function on key-up.
-    $document.on('keyup', $scope.keyUpHandler);
+//    $document.on('keyup', $scope.keyUpHandler);
   });

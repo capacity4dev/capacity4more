@@ -75,7 +75,6 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   drupal_add_js($app_path . '/c4m-app.js');
   drupal_add_css($app_path . '/css/c4m-app.css');
 
-  dpm($field);
   $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
   $terms = taxonomy_get_tree($vocabulary->vid);
@@ -103,7 +102,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
           <button type="button" ng-click="togglePopover(\'' . $vocabulary_name . '\', $event)" class="btn btn-primary fa fa-plus">&nbsp;' . t('Select @name', array('@name' => $vocabulary->name)) . '</button>
         </div>
         <!-- Hidden language checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.' . $vocabulary_name . ' == 1">
+        <div class="popover right hidden-checkboxes" ng-hide="popups.' . $vocabulary_name . ' != 1">
           <div class="arrow"></div>
           <div class="popover-content">
             <form action="#" class="search">
@@ -124,14 +123,15 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   );
   $form['#attributes']['ng-app'] = 'c4mApp';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
+  $form['#attributes']['class'][] = 'drupal-form';
 
   // Add the checkboxes hidden.
   $instance['widget']['type'] = 'options_buttons';
   $instance['widget']['active'] = 1;
   unset($element['#weight']);
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-//  $element['#prefix'] = '<div class="default-widget hidden-checkboxes">';
-//  $element['#suffix'] = '</div>';
+  $element['#prefix'] = '<div class="default-widget ng-hide">';
+  $element['#suffix'] = '</div>';
 
   return $element;
 }
