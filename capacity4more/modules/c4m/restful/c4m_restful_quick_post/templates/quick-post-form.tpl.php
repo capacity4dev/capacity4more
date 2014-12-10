@@ -178,6 +178,11 @@
           <button type="button" ng-click="togglePopover('categories', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Category'); ?></button>
           <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
         </div>
+        <div class="selected-values" ng-show="data.categories">
+            <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
+              {{ findLabel(categories, key) }} <i ng-click="removeTaxonomyValue(key, 'categories')" class="fa fa-times"></i>
+            </span>
+        </div>
         <!-- Hidden date checkboxes.-->
         <div class="popover right hidden-checkboxes" ng-show="popups.categories">
           <div class="arrow"></div>
