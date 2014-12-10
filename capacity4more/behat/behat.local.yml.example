@@ -4,6 +4,7 @@ default:
       debug:
         dump_html: true
         dump_screenshot: true
+
   extensions:
     Behat\MinkExtension\Extension:
       base_url: http://localhost/capacity4more/www
