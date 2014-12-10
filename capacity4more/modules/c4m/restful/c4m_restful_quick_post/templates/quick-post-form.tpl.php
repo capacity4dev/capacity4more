@@ -1,9 +1,5 @@
 <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
-  <?php if (count($show_resources) > 1): ?>
-    <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
-  <?php endif;?>
-
   <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
     <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
     <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
@@ -13,6 +9,10 @@
       </ul>
     </div>
   </div>
+
+  <?php if (count($show_resources) > 1): ?>
+    <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+  <?php endif;?>
 
   <div ng-show="resources[selectedResource]" id="quick-post-fields">
 

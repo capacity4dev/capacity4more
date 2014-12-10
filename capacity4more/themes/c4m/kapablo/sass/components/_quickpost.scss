@@ -1,0 +1,14 @@
+.pane-quick-form {
+  .form-control {
+    @include border-radius(15px);
+
+    background: $beige;
+    border: none;
+  }
+
+  button {
+    &.bundle-select {
+      border: none;
+    }
+  }
+}
