@@ -23,6 +23,17 @@ Feature: Group content access
     And   I should see "Content in private to public group"
 
   @javascript
+  Scenario: Check group privacy from restricted to public
+    Given a group "My restricted to public group" with "Restricted" access is created with group manager "turing"
+    And   I am logged in as user "turing"
+    And   a discussion "Content in restricted to public group" in group "My restricted to public group" is created
+    And   I change access of group "My restricted to public group" to "Public"
+    When  I am logged in as user "isaacnewton"
+    Then  I visit "Content in restricted to public group" node of type "discussion"
+    And   I should not see "Access denied"
+    And   I should see "Content in restricted to public group"
+
+  @javascript
   Scenario: Check group privacy from public to restricted
     Given a group "My public to restricted group" with "Public" access is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -42,7 +53,7 @@ Feature: Group content access
     Then  I visit "Content in restricted to private group" node of type "discussion"
     And   I should see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check group privacy from restricted to restricted
     Given a moderated group "My restricted to restricted group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -52,7 +63,7 @@ Feature: Group content access
     Then  I visit "Content in restricted to restricted group" node of type "discussion"
     And   I should see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check group privacy from private to restricted with some email domain
     Given a group "My private to restricted group1" with "Private" access is created with group manager "turing"
     And   I am logged in as user "turing"
