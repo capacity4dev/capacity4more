@@ -10,6 +10,8 @@
     &.bundle-select {
       @extend .reset-button;
 
+      margin-right: 15px;
+
       &[value=discussions] {
         @extend %svg-icon;
 
@@ -26,6 +28,11 @@
         @extend %svg-icon;
 
         @include image-icon-png-fallback('icons', 'event-icon');
+      }
+
+      &.active {
+        @include border-radius(0);
+        @include box-shadow(none);
       }
     }
   }

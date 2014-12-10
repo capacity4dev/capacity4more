@@ -22,7 +22,7 @@
     }
   }
 
-  &.active-trail {
+  &.active-trail, &.active {
     background-image: $full-png-hover;
     color: $gray-light;
 
