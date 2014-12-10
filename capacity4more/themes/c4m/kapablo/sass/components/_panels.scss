@@ -1,0 +1,21 @@
+.panel-col-last {
+  .panel-pane {
+    border-left: 2px solid $gray-dark;
+    margin-left: 15px;
+    padding: 0 15px 5px 15px;
+
+    h2 {
+      border-bottom: 2px dashed $gray-dark;
+      font-weight: lighter;
+      margin: 0 0 5px 0;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.pane-c4m-overview-og-highlights {
+  h2 {
+    color: $green;
+  }
+}
