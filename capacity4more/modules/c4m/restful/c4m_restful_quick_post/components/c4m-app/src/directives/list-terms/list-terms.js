@@ -38,7 +38,23 @@ angular.module('c4mApp')
             if (id in scope.model && scope.model[id] === true) {
               selectedCount++;
             }
+            else if (id in scope.model && scope.model[id] === false) {
+              // Find all children and turn them to false
+              angular.forEach(scope.items[id].children, function(child, key) {
+                var childID = child.id;
+                if (childID in scope.model && scope.model[childID] === true) {
+                  scope.model[childID] = false;
+                }
+              });
+            }
           });
+          angular.forEach(scope.model, function(item, id) {
+            if (scope.model[id] === true && !(id in scope.items)) {
+              // This is child term
+              // Find parent term id: if parentId in model and true - skip, if not in model or false - turn to true and selected+1
+            }
+          });
+
           if (selectedCount > 3) {
             angular.element("#" + scope.type + "_description").css(
               'color', 'red'
