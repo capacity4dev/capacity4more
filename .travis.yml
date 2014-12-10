@@ -45,6 +45,17 @@ install:
   - phpenv rehash
 
 before_script:
+  # Install Apache
+  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - sudo a2enmod rewrite
+  - sudo service apache2 restart
+
+  # enable php-fpm
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+
   # Install Solr
   - cd $TRAVIS_BUILD_DIR
   - drush dl search_api_solr
@@ -65,6 +76,11 @@ before_script:
   - cd $TRAVIS_BUILD_DIR/www
   - drush cc all --yes
 
+  # configure apache virtual hosts
+  - sudo cp -f $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.apache.conf /etc/apache2/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/apache2/sites-available/default
+  - sudo service apache2 restart
+
   # Create a behat configuration file.
   - cd $TRAVIS_BUILD_DIR/capacity4more/behat
   - cp behat.local.yml.travis behat.local.yml
@@ -83,10 +99,6 @@ script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - sleep 3 # give xvfb some time to start
-
-  # start a web server on port 8080, run in the background; wait for initialization
-  - drush @capacity4more runserver 127.0.0.1:8080 &
-  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
 
   # Run selenium.
   - cd $TRAVIS_BUILD_DIR/capacity4more/behat
