@@ -43,6 +43,16 @@ Feature: Group content access
     And   I should see "Access denied"
 
   @javascript 
+  Scenario: Check group privacy from restricted to restricted
+    Given a moderated group "My restricted to restricted group" with "gravity.com" restriction is created with group manager "turing"
+    And   I am logged in as user "turing"
+    And   a discussion "Content in restricted to restricted group" in group "My restricted to restricted group" is created
+    And   I change access of group "My restricted to restricted group" to Restricted without restriction
+    When  I am logged in as user "isaacnewton"
+    Then  I visit "Content in restricted to restricted group" node of type "discussion"
+    And   I should see "Access denied"
+
+  @javascript 
   Scenario: Check group privacy from private to restricted with some email domain
     Given a group "My private to restricted group1" with "Private" access is created with group manager "turing"
     And   I am logged in as user "turing"
