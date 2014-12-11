@@ -1,4 +1,10 @@
 default:
+  context:
+    parameters:
+      debug:
+        dump_html: false
+        dump_screenshot: false
+
   extensions:
     Behat\MinkExtension\Extension:
       base_url:  http://127.0.0.1

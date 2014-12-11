@@ -57,6 +57,7 @@ capacity4more/behat/vendor/
 behat.local.yml
 capacity4more/behat/bin
 capacity4more/behat/composer.phar
+capacity4more/behat/features/dump
 
 # Temporay "build" files
 www

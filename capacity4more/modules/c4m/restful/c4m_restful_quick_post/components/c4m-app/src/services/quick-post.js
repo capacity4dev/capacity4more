@@ -197,6 +197,37 @@ angular.module('c4mApp')
     };
 
     /**
+     * Find the taxonomy term name by its id.
+     *
+     * @param vocab
+     *  Taxonomy vocabulary object.
+     * @param termID
+     *  Taxonomy term id.
+     * @returns string
+     *  Returns the name of the taxonomy term.
+     */
+    this.findLabel = function(vocab, termID) {
+      if (vocab[termID]) {
+        return vocab[termID].label;
+      }
+      else {
+        var termName = '';
+        angular.forEach(vocab, function(value, key) {
+          if (value.hasOwnProperty('children')) {
+            angular.forEach(value.children, function(child, key) {
+              var id = termID.toString();
+              if (child.id == id) {
+                termName = child.label;
+              }
+            });
+          }
+        });
+        return termName;
+      }
+    };
+
+
+    /**
      * Toggle the visibility of the popovers.
      *
      * @param name
