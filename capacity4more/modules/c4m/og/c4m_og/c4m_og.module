@@ -34,7 +34,7 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
     return 'plugins/' . $plugin;
   }
   if ($module == 'entityreference' && !empty($plugin)) {
-      return "plugins/entityreference/$plugin";
+    return "plugins/entityreference/$plugin";
   }
 }
 
@@ -49,7 +49,7 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_og_get_group_type_name($node = NULL) {
   if (!$node) {
-    $node = og_get_group_context();
+    $node = c4m_og_current_group();
   }
   if (!$node || !og_is_group_type('node', $node->type)) {
     return NULL;
@@ -87,6 +87,80 @@ function c4m_og_organisations_info() {
 }
 
 /**
+ * @todo: Convert this into a hook.
+ *
+ * @return array
+ *  Group access info for all group access types.
+ */
+function c4m_og_access_info() {
+  $group_types = &drupal_static(__FUNCTION__);
+  if (!isset($group_types)) {
+    $group_types =  array (
+      'public' => array(
+        'type' => 'public',
+        'title' => t('Public group'),
+        'helptext' => t('All capacity4dev users can access this group, only group members can post content.'),
+        'description' => t('All users may view public content from this Group. Users must request to join this Group.'),
+      ),
+      'restricted' => array(
+        'type' => 'restricted',
+        'title' => t('Restricted group'),
+        'helptext' => t('Access restricted to <em>Group_members</em>'),
+        'description' => t('Define by organisation and/or email domain what users can view this Group. Only members can post content to the Group.'),
+      ),
+      'private' => array(
+        'type' => 'private',
+        'title' => t('Private group'),
+        'helptext' => t('Only group members can access this group and post content.'),
+        'description' => t('Only Group members will be able to access this Group.'),
+      ),
+    );
+  }
+  return $group_types;
+}
+
+/**
+ * @param object $group
+ *  The group entity.
+ *
+ * @return array
+ *   Group access info.
+ */
+function c4m_og_access_info_by_group($group) {
+  if (!isset($group->group_access)) {
+    return;
+  }
+  $group_types = c4m_og_access_info();
+
+  if (empty($group)) {
+    $group = c4m_og_current_group();
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $group_access = $wrapper->group_access->value();
+
+  if ($group_access) {
+    $group_type = 'private';
+  }
+  elseif ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
+    $group_type = 'restricted';
+    // @todo: Change helptext according to correct logic to find out which
+    // users have access to the group. (Belonging to which organisations and/or
+    // having which domain in mail address.
+
+    // $group_types[$group_type]['helptext'] = '';
+  }
+  else {
+    $group_type = 'public';
+  }
+
+  return $group_types[$group_type];
+}
+
+/**
+ * @todo: Refactor the logic to relate domains to organisations using
+ * function c4m_og_access_info()
+ *
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
@@ -408,4 +482,38 @@ function c4m_og_module_implements_alter(&$implementations, $hook) {
 
 function c4m_og_purl_exists($value) {
   return FALSE;
+}
+
+/**
+ * Function to get roles per group bundle.
+ *
+ * @return array
+ *    Array of roles per group bundle
+ */
+function c4m_og_get_group_bundles() {
+  $result = db_select('og_role', 'ogr')
+              ->fields('ogr', array('group_bundle', 'rid', 'name'))
+              ->execute()
+              ->fetchAll();
+  foreach($result as $row) {
+    $roles[$row->group_bundle][$row->rid] = $row->name;
+  }
+  return $roles;
+}
+
+/**
+ * Get all the users with certain roles in a group.
+ *
+ * @param $gid
+ *   The group unique ID.
+ * @param $roles
+ *   Array with the role IDs to query.
+ */
+function c4m_og_get_users_by_roles($gid, $rids = array()) {
+  $query = db_select('og_users_roles', 'og_users_roles');
+  return  $query->fields('og_users_roles', array('uid'))
+                ->condition('gid', $gid)
+                ->condition('rid', $rids, 'IN')
+                ->execute()
+                ->fetchAll();
 }
