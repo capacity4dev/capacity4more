@@ -74,5 +74,18 @@ class FeatureContext extends DrupalContext {
     if (!empty($parameters['drupal_users'])) {
       $this->drupal_users = $parameters['drupal_users'];
     }
+
+    // Debug config.
+    $this->debug = array(
+      'dump_html' => empty($parameters['debug']['dump_html'])
+        ? false
+        : (bool) $parameters['debug']['dump_html'],
+      'dump_screenshot' => empty($parameters['debug']['dump_screenshot'])
+        ? false
+        : (bool) $parameters['debug']['dump_screenshot'],
+      'dump_path' => empty($parameters['debug']['dump_path'])
+        ? false
+        : $parameters['debug']['dump_path'],
+    );
   }
 }
