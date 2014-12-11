@@ -136,7 +136,7 @@
       <p ng-show="errors.discussion" class="help-block"><?php print t('Document file is required.'); ?></p>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
         <span id="topic_description" class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
@@ -156,7 +156,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.date }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label><?php print t('Group categories') ?></label>
         <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
@@ -176,7 +176,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
+    <div class="form-group btn-group btn-group-selectors" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
         <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
@@ -196,7 +196,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.language }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
         <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
@@ -216,7 +216,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.geo }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.geo }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].geo.info.label}}</label>
         <span id="geo_description" class="description">{{fieldSchema.resources[selectedResource].geo.info.description}}</span>

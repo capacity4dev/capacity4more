@@ -38,16 +38,34 @@
       }
     }
   }
+
+  .btn-group-selectors, .tags {
+    border-bottom: 1px solid $gray-light;
+    margin: 15px 0;
+    padding: 0 15px 15px 15px;
+
+    .label-wrapper {
+      border: 0;
+      color: $gray-dark;
+
+      label {
+        display: block;
+        font-size: 115%;
+        font-weight: normal;
+        text-transform: uppercase;
+      }
+    }
+  }
 }
 
 #quick-post-fields {
-  border: 1px solid $gray-light;
+  border: 1px solid $gray-lighter;
 
   #cke_body {
     @include box-shadow(none);
 
     border: 0;
-    border-top: 1px solid $gray-light;
+    border-top: 1px solid $gray-lighter;
 
     .cke_inner .cke_wysiwyg_div {
       background: $beige;
@@ -62,11 +80,14 @@
     margin-bottom: 0;
   }
 
-  .btn-group-discussion_type {
+  .btn-group-discussion_type, .btn-group-event_type {
     .btn-default {
-      @extend .reset-button;
-
+      border-right: 1px solid $gray-lighter;
       margin: 0;
+
+      &:last-child {
+        border-right: 0;
+      }
 
       &[value=debate] {
         @extend %svg-icon;
@@ -87,6 +108,24 @@
       }
 
       &[value=question] {
+        @extend %svg-icon;
+        //
+        //        @include image-icon-png-fallback('icons', 'question-qp-icon');
+      }
+
+      &[value=event] {
+        @extend %svg-icon;
+        //
+        //        @include image-icon-png-fallback('icons', 'question-qp-icon');
+      }
+
+      &[value=learning] {
+        @extend %svg-icon;
+        //
+        //        @include image-icon-png-fallback('icons', 'question-qp-icon');
+      }
+
+      &[value=meeting] {
         @extend %svg-icon;
         //
         //        @include image-icon-png-fallback('icons', 'question-qp-icon');
