@@ -74,6 +74,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   $form['#attached']['js'][] = $app_path . '/c4m-app.js';
   $form['#attached']['css'][] = $app_path . '/css/c4m-app.css';
 
+  // Get taxonomy vocabulary and sent it to the app.
   $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
   $terms = taxonomy_get_tree($vocabulary->vid);
@@ -82,14 +83,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
     $options[$term->tid]['label'] = check_plain($term->name);
     $options[$term->tid]['id'] = $term->tid;
   }
-
-  $settings['c4m'] = array(
-    'data' => array(
-      'vocabularies' => array()
-    )
-  );
   $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
-
   drupal_add_js($settings, 'setting');
 
   // Add the directive.
@@ -104,7 +98,9 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   $instance['widget']['type'] = 'options_buttons';
   $instance['widget']['active'] = 1;
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-  $element['#attributes']['class'][] = 'ng-hide';
+  $element['#title'] = '';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
 
   return $element;
 }

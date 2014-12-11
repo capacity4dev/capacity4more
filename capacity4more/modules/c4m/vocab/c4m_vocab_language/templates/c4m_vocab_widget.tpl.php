@@ -1,7 +1,7 @@
 <div class="form-group btn-group <?php print($vocabulary_name); ?>">
   <div class="checkboxes-wrapper">
     <div>
-      <button type="button" ng-click="togglePopover('<?php print($vocabulary_name); ?>', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print(t('Select @name', array('@name' => $vocabulary_name))); ?></button>
+      <button type="button" ng-click="togglePopover('<?php print($vocabulary_name); ?>', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print(t('Select @name', array('@name' => str_replace("c4m_vocab_", "", $vocabulary_name)))); ?></button>
     </div>
     <!-- Hidden language checkboxes.-->
     <div class="popover right hidden-checkboxes" ng-hide="popups.<?php print($vocabulary_name); ?> != 1">
