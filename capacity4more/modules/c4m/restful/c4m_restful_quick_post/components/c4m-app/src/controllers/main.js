@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -299,6 +299,33 @@ angular.module('c4mApp')
       // Clean the submitted data, Drupal will return an error on undefined fields.
       var submitData = Request.cleanFields(data, resourceFields);
 
+      if (resource == 'events') {
+
+        // Get the lan/lng of the address from google map.
+        GoogleMap.getAddress(submitData, resource).then(function (result) {
+          if (result.data.results.length > 0) {
+            var location = result.data.results[0].geometry.location;
+            submitData.location.lat = location.lat;
+            submitData.location.lng = location.lng;
+            submitData.location.country = result.data.results[0].address_components[4].short_name;
+          }
+          else {
+            // Use default latitude and longitude of Brussels, Belgium.
+            submitData.location.lat = 50.850339600000000000;
+            submitData.location.lng = 4.351710300000036000;
+            submitData.location.country = 'BE';
+          }
+          // Continue submitting form.
+          checkForm(submitData, resource, resourceFields, type);
+        });
+      }
+      else {
+        // This is not an Event - just continue submitting.
+        checkForm(submitData, resource, resourceFields, type);
+      }
+    };
+
+    var checkForm  = function(submitData, resource, resourceFields, type) {
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
 
