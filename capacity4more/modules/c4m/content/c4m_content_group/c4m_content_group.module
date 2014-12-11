@@ -19,3 +19,52 @@ function c4m_content_group_c4m_og_vocab_info_groups() {
     ),
   );
 }
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_content_group_ctools_plugin_directory($module, $plugin_type) {
+  if ($module == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_content_group_block_info() {
+  $blocks['header_name_banner'] = array(
+    'info' => t('Group header'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_group_block_view($delta = '') {
+  module_load_include('inc', 'c4m_content_group', 'includes/c4m_content_group.block');
+  $callback = '_c4m_content_group_block_' . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+
+  return $callback();
+}
+
+/**
+ * Preprocess for blocks of this module.
+ *
+ * @param $variables
+ */
+function c4m_content_group_preprocess_block(&$variables) {
+  module_load_include('inc', 'c4m_content_group', 'includes/c4m_content_group.block');
+  if ($variables['block']->module == 'c4m_content_group' &&
+      !empty($variables['block']->delta)) {
+    $callback = '_c4m_content_group_preprocess_' . $variables['block']->delta;
+    if (function_exists($callback)) {
+      $callback($variables);
+    }
+  }
+}

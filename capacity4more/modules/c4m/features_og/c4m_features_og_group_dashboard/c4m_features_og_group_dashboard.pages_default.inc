@@ -73,13 +73,31 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     ),
   );
   $display = new panels_display();
-  $display->layout = 'twocol';
+  $display->layout = 'bootstrap_twocol_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
-      'left' => NULL,
-      'right' => NULL,
+      'left' => array(
+        'column_type' => 'col-lg',
+        'column_size' => '6',
+        'offset_type' => 'col-lg-offset',
+        'offset_size' => '0',
+      ),
+      'right' => array(
+        'column_type' => 'col-lg',
+        'column_size' => '6',
+        'offset_type' => 'col-lg-offset',
+        'offset_size' => '0',
+      ),
+      'top' => NULL,
+      'bottom' => NULL,
+    ),
+    'left' => array(
+      'style' => 'bootstrap_region',
+    ),
+    'right' => array(
+      'style' => 'bootstrap_region',
     ),
   );
   $display->cache = array();
@@ -133,6 +151,25 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $display->content['new-aa710d01-6670-426e-a3fb-dbaa5cc81d65'] = $pane;
     $display->panels['left'][1] = 'new-aa710d01-6670-426e-a3fb-dbaa5cc81d65';
     $pane = new stdClass();
+    $pane->pid = 'new-1e41655c-1367-4fe9-ba4f-be3c36b3fc25';
+    $pane->panel = 'right';
+    $pane->type = 'c4m_content_group';
+    $pane->subtype = 'c4m_content_group';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '1e41655c-1367-4fe9-ba4f-be3c36b3fc25';
+    $display->content['new-1e41655c-1367-4fe9-ba4f-be3c36b3fc25'] = $pane;
+    $display->panels['right'][0] = 'new-1e41655c-1367-4fe9-ba4f-be3c36b3fc25';
+    $pane = new stdClass();
     $pane->pid = 'new-61364c4a-b99a-48c5-a681-818853195c85';
     $pane->panel = 'right';
     $pane->type = 'views';
@@ -161,11 +198,11 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '61364c4a-b99a-48c5-a681-818853195c85';
     $display->content['new-61364c4a-b99a-48c5-a681-818853195c85'] = $pane;
-    $display->panels['right'][0] = 'new-61364c4a-b99a-48c5-a681-818853195c85';
+    $display->panels['right'][1] = 'new-61364c4a-b99a-48c5-a681-818853195c85';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

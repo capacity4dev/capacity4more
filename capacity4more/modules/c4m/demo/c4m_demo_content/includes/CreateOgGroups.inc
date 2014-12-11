@@ -32,6 +32,12 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+    $this->addFieldMapping('c4m_banner', 'banner')
+      ->separator(';');
+    $this->addFieldMapping('c4m_banner:file_replace')
+      ->defaultValue(FILE_EXISTS_REPLACE);
+    $this->addFieldMapping('c4m_banner:source_dir')
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
     $this->addFieldMapping('c4m_body', 'body');
 
