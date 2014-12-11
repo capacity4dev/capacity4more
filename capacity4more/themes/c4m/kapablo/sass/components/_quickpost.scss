@@ -40,22 +40,32 @@
   }
 
   .btn-group-selectors, .tags {
-    border-bottom: 1px solid $gray-light;
-    margin: 15px 0;
-    padding: 0 15px 15px 15px;
+    @extend .quickpost-btn-group-selectors;
 
     .label-wrapper {
       border: 0;
       color: $gray-dark;
+    }
 
-      label {
-        display: block;
-        font-size: 115%;
-        font-weight: normal;
-        text-transform: uppercase;
-      }
+    label {
+      color: $gray-dark;
+      display: block;
+      font-size: 115%;
+      font-weight: normal;
+      text-transform: uppercase;
     }
   }
+  .input-wrapper.tags {
+    border-bottom: none;
+  }
+    }
+  }
+}
+
+.quickpost-btn-group-selectors {
+  border-bottom: 1px solid $gray-lighter;
+  margin: 15px 0;
+  padding: 0 15px 15px 15px;
 }
 
 #quick-post-fields {

@@ -41,12 +41,12 @@
     </div>
 
     <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
-      <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType" col="3"></types>
+      <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType" cols="3"></types>
       <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
     </div>
 
     <div ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
-      <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType" col="4"></types>
+      <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType" cols="4"></types>
       <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
     </div>
 
@@ -174,7 +174,7 @@
       <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.date }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label><?php print t('Group categories') ?></label>
         <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
