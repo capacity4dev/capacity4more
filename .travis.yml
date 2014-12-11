@@ -74,6 +74,7 @@ before_script:
   - cp $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.config.sh config.sh
   - ./install -dy
   - cd $TRAVIS_BUILD_DIR/www
+  - drush -y dis dblog
   - drush cc all --yes
 
   # configure apache virtual hosts
