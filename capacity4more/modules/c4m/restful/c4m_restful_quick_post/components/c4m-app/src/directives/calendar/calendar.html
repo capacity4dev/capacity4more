@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6">
         <label>Start Date</label>
-        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="startOpened = true" ng-model="data.datetime.startDate" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" name="startDate" close-text="Close" />
+        <input type="text" autocomplete="off" class="form-control" datepicker-popup="{{format}}" ng-click="startOpened = true" ng-model="data.datetime.startDate" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" name="startDate" close-text="Close" />
       </div>
       <div class="col-md-6">
         <label>Start Time</label>
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-md-6">
         <label>End Date</label>
-        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-click="endOpened = true" ng-model="data.datetime.endDate" is-open="endOpened" init-date="data.datetime.startDate" min-date="data.datetime.startDate" datepicker-options="dateOptions" close-text="Close"  name="endDate"/>
+        <input type="text" autocomplete="off" class="form-control" datepicker-popup="{{format}}" ng-click="endOpened = true" ng-model="data.datetime.endDate" is-open="endOpened" init-date="data.datetime.startDate" min-date="data.datetime.startDate" datepicker-options="dateOptions" close-text="Close"  name="endDate"/>
       </div>
       <div class="col-md-6">
         <label>End Time</label>
