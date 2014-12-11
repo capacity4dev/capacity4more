@@ -13,7 +13,7 @@ function c4m_ds_ds_layout_info() {
   $path = drupal_get_path('module', 'c4m_ds');
   $path .= '/layouts';
 
-  $layouts = [];
+  $layouts = array();
 
   // Details of the layouts.
   $layouts['c4m_ds_4_8_fluid'] = array(

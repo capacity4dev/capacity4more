@@ -19,8 +19,8 @@ function _c4m_content_group_preprocess_header_name_banner(&$variables) {
   $group_access = c4m_og_access_info_by_group($group);
 
   if (!empty($group_access['type'])) {
-    $variables['classes_array'][] = drupal_html_class($group_access['type'] .
-      '-group');
+    $variables['classes_array'][] = 'group-' .
+      drupal_html_class($group_access['type']);
   }
 }
 /**
