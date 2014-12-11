@@ -7,7 +7,7 @@
   }
 
   button {
-    &.bundle-select {
+    &.bundle-select, &.btn-default {
       @extend .reset-button;
 
       margin-right: 15px;
@@ -15,27 +15,85 @@
       &[value=discussions] {
         @extend %svg-icon;
 
-        @include image-icon-png-fallback('icons', 'discussion-icon');
+        @include image-icon-png-fallback('icons', 'discussion-qp-icon');
       }
 
       &[value=documents] {
         @extend %svg-icon;
 
-        @include image-icon-png-fallback('icons', 'document-icon');
+        @include image-icon-png-fallback('icons', 'document-qp-icon');
       }
 
       &[value=events] {
         @extend %svg-icon;
 
-        @include image-icon-png-fallback('icons', 'event-icon');
+        @include image-icon-png-fallback('icons', 'event-qp-icon');
       }
 
-      &.active {
+      &.active, &:hover {
         @include border-radius(0);
         @include box-shadow(none);
+
+        color: $highlight-blue !important;
       }
     }
   }
+}
+
+#quick-post-fields {
+  border: 1px solid $gray-light;
+
+  #cke_body {
+    @include box-shadow(none);
+
+    border: 0;
+    border-top: 1px solid $gray-light;
+
+    .cke_inner .cke_wysiwyg_div {
+      background: $beige;
+    }
+  }
+
+  #cke_1_contents {
+    height: 200px !important;
+  }
+
+  .btn-group {
+    margin-bottom: 0;
+  }
+
+  .btn-group-discussion_type {
+    .btn-default {
+      @extend .reset-button;
+
+      margin: 0;
+
+      &[value=debate] {
+        @extend %svg-icon;
+
+        //        @include image-icon-png-fallback('icons', 'debate-qp-icon');
+      }
+
+      &[value=idea] {
+        @extend %svg-icon;
+        //
+        //        @include image-icon-png-fallback('icons', 'idea-qp-icon');
+      }
+
+      &[value=info] {
+        @extend %svg-icon;
+        //
+        //        @include image-icon-png-fallback('icons', 'info-qp-icon');
+      }
+
+      &[value=question] {
+        @extend %svg-icon;
+        //
+        //        @include image-icon-png-fallback('icons', 'question-qp-icon');
+      }
+    }
+  }
+
 }
 
 .reset-button {

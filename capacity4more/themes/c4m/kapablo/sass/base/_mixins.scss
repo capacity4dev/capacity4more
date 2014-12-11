@@ -24,7 +24,7 @@
 
   &.active-trail, &.active {
     background-image: $full-png-hover;
-    color: $gray-light;
+    color: $gray-dark;
 
     html.inlinesvg & {
       background-image: $full-svg-hover;

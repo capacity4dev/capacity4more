@@ -41,14 +41,14 @@
     </div>
 
     <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
-      <label>{{fieldSchema.resources[selectedResource].discussion_type.info.label}}</label>
-      <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"></types>
+<!--      <label>{{fieldSchema.resources[selectedResource].discussion_type.info.label}}</label>-->
+      <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType" cols="3"></types>
       <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
     </div>
 
     <div ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
-      <label>{{fieldSchema.resources[selectedResource].event_type.info.label}}</label>
-      <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType"></types>
+<!--      <label>{{fieldSchema.resources[selectedResource].event_type.info.label}}</label>-->
+      <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType" cols="4"></types>
       <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
     </div>
 
