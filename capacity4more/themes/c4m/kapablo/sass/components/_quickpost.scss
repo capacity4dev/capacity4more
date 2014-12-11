@@ -57,6 +57,19 @@
   }
   .input-wrapper.tags {
     border-bottom: none;
+
+    .select2-container {
+      .select2-search-choice {
+        @include box-shadow(none);
+        @include border-radius(15px);
+        border: 0;
+        padding: 3px 18px 3px 5px;
+      }
+      .select2-search-choice-close {
+        left: auto;
+        right: 3px;
+      }
+    }
   }
   .popup-button {
     button {
@@ -157,6 +170,13 @@
     }
   }
 
+}
+
+.selected-values {
+  span {
+    color: $gray-dark;
+    margin: 10px 10px 0 0 1 !important;
+  }
 }
 
 .reset-button {
