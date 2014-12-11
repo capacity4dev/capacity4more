@@ -1,5 +1,5 @@
 angular.module('c4mApp')
-  .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService) {
+  .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $filter) {
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
@@ -9,6 +9,13 @@ angular.module('c4mApp')
     angular.forEach($scope.data, function(value, key) {
       $scope.popups[key] = 0;
     });
+
+    $scope.filteredTerms = $scope.data;
+
+    $scope.updateSearch = function(vocab) {
+
+      $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerm);
+    };
 
     // Toggle the visibility of the popovers.
     $scope.togglePopover = function(name, event) {

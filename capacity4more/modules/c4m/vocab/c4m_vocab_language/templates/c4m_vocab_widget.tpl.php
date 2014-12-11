@@ -8,9 +8,9 @@
       <div class="arrow"></div>
       <div class="popover-content">
         <form action="#" class="search">
-          <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
+          <input ng-model="searchTerm" ng-change="updateSearch('<?php print($vocabulary_name); ?>')" class="form-control" type="text" placeholder="Search"/>
         </form>
-        <div class="checkbox" ng-repeat="item in data.<?php print($vocabulary_name); ?>">
+        <div class="checkbox" ng-repeat="item in filteredTerms.<?php print($vocabulary_name); ?>">
           <label>
             <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms(item.id)"> {{item.label}}
           </label>
