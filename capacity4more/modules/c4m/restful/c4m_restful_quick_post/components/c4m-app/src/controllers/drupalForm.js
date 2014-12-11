@@ -10,10 +10,9 @@ angular.module('c4mApp')
       $scope.popups[key] = 0;
     });
 
-    $scope.filteredTerms = $scope.data;
+    $scope.filteredTerms = angular.copy($scope.data);
 
     $scope.updateSearch = function(vocab) {
-
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerm);
     };
 
