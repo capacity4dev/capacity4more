@@ -100,15 +100,21 @@ angular.module('c4mApp')
      */
     this.checkRequired = function (data, resource, resourceFields) {
       var errors = {};
+      var errorData = angular.copy(data);
 
       if (resource == 'events') {
         // If the user didn't choose the date, Display an error.
-        if (!data.datetime.startDate || !data.datetime.endDate) {
-          this.datetime = 1;
+        if (!errorData.datetime) {
+          errors.datetime = 1
+        }
+        else {
+          if (!errorData.datetime.startDate || !errorData.datetime.endDate) {
+            errors.datetime = 1;
+          }
         }
       }
 
-      angular.forEach(data, function (values, field) {
+      angular.forEach(errorData, function (values, field) {
         if (field == "tags") {
           return;
         }
