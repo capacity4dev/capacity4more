@@ -91,6 +91,11 @@
           <button type="button" ng-click="togglePopover('document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
           <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
         </div>
+        <div class="selected-values" ng-show="data.document_type">
+          <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
+            {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
+          </span>
+        </div>
         <!-- Hidden document_type checkboxes.-->
         <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
           <div class="arrow"></div>
@@ -142,18 +147,33 @@
         <span id="topic_description" class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
-          <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
-        </div>
-        <!-- Hidden topic checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.topic">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="topic" model="data.topic" items="topic"></list-terms>
+        <div class="checkboxes-wrapper">
+          <div class="popup-button">
+            <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
+            <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
+          </div>
+          <div class="selected-values" ng-show="data.topic">
+            <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
+              {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+            </span>
+          </div>
+          <!-- Hidden topic checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.topic">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <list-terms type="topic" popup="popups.topic" model="data.topic" items="topic"></list-terms>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="form-group place" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+      <label><?php print t('Where') ?></label>
+      <div class="row">
+        <location data="data"></location>
+      </div>
+      <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
     </div>
 
     <div class="form-group btn-group" ng-class="{ 'has-error' : errors.date }">
@@ -165,6 +185,11 @@
         <div>
           <button type="button" ng-click="togglePopover('categories', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Category'); ?></button>
           <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
+        </div>
+        <div class="selected-values" ng-show="data.categories">
+            <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
+              {{ findLabel(categories, key) }} <i ng-click="removeTaxonomyValue(key, 'categories')" class="fa fa-times"></i>
+            </span>
         </div>
         <!-- Hidden date checkboxes.-->
         <div class="popover right hidden-checkboxes" ng-show="popups.categories">
@@ -182,15 +207,22 @@
         <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
-          <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
-        </div>
-        <!-- Hidden date checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.date">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="date" model="data.date" items="date"></list-terms>
+        <div class="checkboxes-wrapper">
+          <div class="popup-button">
+            <button type="button" id="date" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
+            <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
+          </div>
+          <div class="selected-values" ng-show="data.date">
+            <span ng-show="value === true" ng-repeat="(key, value) in data.date">
+              {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+            </span>
+          </div>
+          <!-- Hidden date checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.date">
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <list-terms update-popover-position="updatePopoverPosition" type="date" model="data.date" items="date"></list-terms>
+            </div>
           </div>
         </div>
       </div>
@@ -202,9 +234,14 @@
         <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
+        <div class="popup-button">
           <button type="button" ng-click="togglePopover('language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
           <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
+        </div>
+        <div class="selected-values" ng-show="data.language">
+            <span ng-show="value === true" ng-repeat="(key, value) in data.language">
+              {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
+            </span>
         </div>
         <!-- Hidden language checkboxes.-->
         <div class="popover right hidden-checkboxes" ng-show="popups.language">
@@ -222,15 +259,32 @@
         <span id="geo_description" class="description">{{fieldSchema.resources[selectedResource].geo.info.description}}</span>
       </div>
       <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
-          <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
-        </div>
-        <!-- Hidden geo checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="geo" model="data.geo" items="geo"></list-terms>
+        <div class="checkboxes-wrapper">
+          <div class="popup-button">
+            <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
+            <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
+          </div>
+          <div class="selected-values" ng-show="data.geo">
+            <div class="value" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
+              <div class="parent col-sm-6">
+                <span>
+                  <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
+                  <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
+                </span>
+              </div>
+              <div class="child col-sm-6">
+                <span ng-show="data.geo[child.id] === true" ng-repeat="(childkey, child) in geo[key].children">
+                  <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- Hidden geo checkboxes.-->
+          <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
+            <div class="arrow"></div>
+            <div class="popover-content">
+              <list-terms type="geo" popup="popups.geo" model="data.geo" items="geo"></list-terms>
+            </div>
           </div>
         </div>
       </div>
@@ -331,6 +385,11 @@
               <button type="button" ng-click="togglePopover('document_type', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Type'); ?></button>
               <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
             </div>
+            <div class="selected-values" ng-show="data.document_type">
+              <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
+                {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
+              </span>
+            </div>
             <!-- Hidden document_type checkboxes.-->
             <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
               <div class="arrow"></div>
@@ -350,6 +409,11 @@
             <div>
               <button type="button" ng-click="togglePopover('topic', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Topic'); ?></button>
               <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
+            </div>
+            <div class="selected-values" ng-show="data.topic">
+              <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
+                {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+              </span>
             </div>
             <!-- Hidden topic checkboxes.-->
             <div class="popover right hidden-checkboxes" ng-show="popups.topic">
@@ -371,6 +435,11 @@
               <button type="button" ng-click="togglePopover('date', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Date'); ?></button>
               <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
             </div>
+            <div class="selected-values" ng-show="data.date">
+              <span ng-show="value === true" ng-repeat="(key, value) in data.date">
+                {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
+              </span>
+            </div>
             <!-- Hidden date checkboxes.-->
             <div class="popover right hidden-checkboxes" ng-show="popups.date">
               <div class="arrow"></div>
@@ -391,6 +460,11 @@
               <button type="button" ng-click="togglePopover('language', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Language'); ?></button>
               <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
             </div>
+            <div class="selected-values" ng-show="data.language">
+              <span ng-show="value === true" ng-repeat="(key, value) in data.language">
+                {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
+              </span>
+            </div>
             <!-- Hidden language checkboxes.-->
             <div class="popover right hidden-checkboxes" ng-show="popups.language">
               <div class="arrow"></div>
@@ -410,6 +484,11 @@
             <div>
               <button type="button" ng-click="togglePopover('geo', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select Region'); ?></button>
               <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
+            </div>
+            <div class="selected-values" ng-show="data.geo">
+              <span ng-show="value === true" ng-repeat="(key, value) in data.geo">
+                {{ findLabel(geo, key) }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
+              </span>
             </div>
             <!-- Hidden geo checkboxes.-->
             <div class="popover right hidden-checkboxes" ng-show="popups.geo" >
