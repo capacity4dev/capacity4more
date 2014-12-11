@@ -3,7 +3,7 @@ Feature: Group content access
 
   @javascript
   Scenario: Check group privacy from public to private
-    Given a group "My public to private group" with "Public" access is created with group manager "turing"
+    Given a moderated group "My public to private group" with "Public" access is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in public to private group" in group "My public to private group" is created
     And   I change access of group "My public to private group" to "Private"
@@ -13,7 +13,7 @@ Feature: Group content access
 
   @javascript
   Scenario: Check group privacy from private to public
-    Given a group "My private to public group" with "Private" access is created with group manager "turing"
+    Given a moderated group "My private to public group" with "Private" access is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in private to public group" in group "My private to public group" is created
     And   I change access of group "My private to public group" to "Public"
@@ -24,7 +24,7 @@ Feature: Group content access
 
   @javascript
   Scenario: Check group privacy from restricted to public
-    Given a group "My restricted to public group" with "Restricted" access is created with group manager "turing"
+    Given a moderated group "My restricted to public group" with "Restricted" access is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in restricted to public group" in group "My restricted to public group" is created
     And   I change access of group "My restricted to public group" to "Public"
@@ -35,7 +35,7 @@ Feature: Group content access
 
   @javascript
   Scenario: Check group privacy from public to restricted
-    Given a group "My public to restricted group" with "Public" access is created with group manager "turing"
+    Given a moderated group "My public to restricted group" with "Public" access is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in public to restricted group" in group "My public to restricted group" is created
     And   I change access of group "My public to restricted group" to "Restricted"
@@ -65,7 +65,7 @@ Feature: Group content access
 
   @javascript
   Scenario: Check group privacy from private to restricted with some email domain
-    Given a group "My private to restricted group1" with "Private" access is created with group manager "turing"
+    Given a moderated group "My private to restricted group1" with "Private" access is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in private to restricted group1" in group "My private to restricted group1" is created
     And   I change access of group "My private to restricted group1" to Restricted with "gravity.com" restriction
