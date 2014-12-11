@@ -5,7 +5,11 @@ $black: #000;
 $highlight-blue: rgb(135, 188, 200);
 $blue: #2081c5;
 $beige: rgb(237, 236, 231);
-$green: rgb(158, 186, 122);
+$green: #acbd3f;
+
+$public: $green;
+$restricted: #f4c950;
+$private: #c65a56;
 
 //
 // BOOTSTRAP SETTINGS
