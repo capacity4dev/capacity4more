@@ -59,3 +59,22 @@ function c4m_content_wiki_page_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
+/**
+ *  Implements hook_theme_registry_alter().
+ */
+function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
+  // We change the default preprocessing book module executes on the
+  // book navigation.
+
+  if (empty($theme_registry['book_navigation'])) {
+    return;
+  }
+  $key = array_search('template_preprocess_book_navigation',
+    $theme_registry['book_navigation']['preprocess functions']);
+
+  // Replace the preprocess function.
+  /*$theme_registry['book_navigation']['preprocess functions'] =array_replace(
+    $theme_registry['book_navigation']['preprocess functions'],
+    array($key => 'c4m_wiki_page_preprocess_book_navigation'));*/
+}
