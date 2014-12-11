@@ -168,6 +168,14 @@
       </div>
     </div>
 
+    <div class="form-group place" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+      <label><?php print t('Where') ?></label>
+      <div class="row">
+        <location data="data"></location>
+      </div>
+      <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
+    </div>
+
     <div class="form-group btn-group" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label><?php print t('Group categories') ?></label>
