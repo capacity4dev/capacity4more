@@ -21,6 +21,10 @@ function theme_c4m_content_wiki_page_navigation($field) {
   $entity = $field['entity'];
 
   if (isset($entity->book['menu_name'])) {
+    // We have to replicate some code because we cannot just
+    // call theme('book_navigation', array('book_link' => ...)) because
+    // we want to remove level 0 from the tree.
+
     $tree = menu_build_tree($entity->book['menu_name']);
 
     // Remove level 0 first.
