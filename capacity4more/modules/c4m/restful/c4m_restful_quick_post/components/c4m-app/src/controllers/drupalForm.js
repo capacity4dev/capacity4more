@@ -31,5 +31,5 @@ angular.module('c4mApp')
     };
 
     // Call the keyUpHandler function on key-up.
-//    $document.on('keyup', $scope.keyUpHandler);
+    $document.on('keyup', $scope.keyUpHandler);
   });

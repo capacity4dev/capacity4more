@@ -207,8 +207,12 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
 }
 
+/**
+ * Implements hook_preprocess_html().
+ *
+ * Attach Angular application to the page.
+ */
 function c4m_restful_quick_post_preprocess_html(&$vars) {
-  // Attach angular application to the page.
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
   $vars['classes_array'][] = 'ng-cloak';
