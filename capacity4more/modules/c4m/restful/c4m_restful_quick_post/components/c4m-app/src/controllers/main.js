@@ -223,6 +223,33 @@ angular.module('c4mApp')
     };
 
     /**
+     * Remove taxonomy term from the data.
+     * Called by click on added term.
+     *
+     * @param key
+     *  taxonomy term id
+     * @param field
+     *  name of the taxonomy terms field.
+     */
+    $scope.removeTaxonomyValue = function(key, field) {
+      $scope.data[field][key] = false;
+      // If this is parent term - find all children and turn them to false
+      if (key in $scope[field]) {
+        angular.forEach($scope[field][key].children, function(child, key) {
+          var childID = child.id;
+          if (childID in $scope.data[field] && $scope.data[field][childID] === true) {
+            $scope.data[field][childID] = false;
+          }
+        });
+      }
+    };
+
+    // Find taxonomy term name.
+    $scope.findLabel = function(vocab, termID) {
+      return QuickPostService.findLabel(vocab, termID);
+    };
+
+    /**
      * Called by the directive "types",
      * Updates the type of the selected resource.
      *
