@@ -23,3 +23,39 @@ function c4m_content_wiki_page_c4m_og_vocab_info_content() {
     ),
   );
 }
+
+/**
+ * Define fields.
+ *
+ * These fields are not overridden through the interface.
+ * If you want those, look at hook_ds_custom_fields_info().
+ *
+ * @param string $entity_type
+ *   The name of the entity which we are requesting fields for, e.g. 'node'.
+ *
+ * @return array
+ *   A collection of fields which keys are the entity type name and values
+ *   a collection fields.
+ *
+ * @see ds_get_fields()
+ */
+function c4m_content_wiki_page_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_wiki_page');
+
+  $fields['node']['c4m_content_wiki_page_navigation'] = array(
+    'title' => t('Wiki page navigation'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('wiki_page|*'),
+    'file' => $path . '/includes/c4m_content_wiki_page.theme.inc',
+    'function' => 'theme_c4m_content_wiki_page_navigation',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  return $fields;
+}

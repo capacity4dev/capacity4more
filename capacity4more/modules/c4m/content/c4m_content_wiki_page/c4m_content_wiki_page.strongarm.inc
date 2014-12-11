@@ -41,13 +41,6 @@ function c4m_content_wiki_page_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_wiki_page';
-  $strongarm->value = '0';
-  $export['comment_wiki_page'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_wiki_page';
   $strongarm->value = '1';
   $export['comment_preview_wiki_page'] = $strongarm;
@@ -62,22 +55,26 @@ function c4m_content_wiki_page_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_node__page';
+  $strongarm->name = 'comment_wiki_page';
+  $strongarm->value = '0';
+  $export['comment_wiki_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_node__wiki_page';
   $strongarm->value = array(
     'view_modes' => array(
+      'full' => array(
+        'custom_settings' => TRUE,
+      ),
       'teaser' => array(
         'custom_settings' => TRUE,
       ),
-      'full' => array(
-        'custom_settings' => FALSE,
+      'activity_stream' => array(
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
-        'custom_settings' => FALSE,
-      ),
-      'search_index' => array(
-        'custom_settings' => FALSE,
-      ),
-      'search_result' => array(
         'custom_settings' => FALSE,
       ),
       'print' => array(
@@ -89,17 +86,23 @@ function c4m_content_wiki_page_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'c4m_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
+        'locations' => array(
+          'weight' => '11',
+        ),
         'title' => array(
-          'weight' => '0',
+          'weight' => '-5',
         ),
         'path' => array(
-          'weight' => '7',
-        ),
-        'locations' => array(
-          'weight' => '8',
+          'weight' => '10',
         ),
       ),
       'display' => array(),

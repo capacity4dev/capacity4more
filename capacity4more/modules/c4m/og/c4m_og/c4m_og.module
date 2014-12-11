@@ -127,11 +127,15 @@ function c4m_og_access_info() {
  *   Group access info.
  */
 function c4m_og_access_info_by_group($group) {
+  if (!isset($group->group_access)) {
+    return;
+  }
   $group_types = c4m_og_access_info();
 
   if (empty($group)) {
     $group = c4m_og_current_group();
   }
+
   $wrapper = entity_metadata_wrapper('node', $group);
   $group_access = $wrapper->group_access->value();
 
