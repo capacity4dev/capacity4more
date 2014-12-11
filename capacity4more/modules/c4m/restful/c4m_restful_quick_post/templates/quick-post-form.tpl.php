@@ -1,9 +1,5 @@
 <form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
 
-  <?php if (count($show_resources) > 1): ?>
-    <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
-  <?php endif;?>
-
   <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
     <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label" placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
     <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine" class="help-block"><?php print t('Title is too short.'); ?></p>
@@ -13,6 +9,10 @@
       </ul>
     </div>
   </div>
+
+  <?php if (count($show_resources) > 1): ?>
+    <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+  <?php endif;?>
 
   <div ng-show="resources[selectedResource]" id="quick-post-fields">
 
@@ -41,14 +41,12 @@
     </div>
 
     <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
-      <label>{{fieldSchema.resources[selectedResource].discussion_type.info.label}}</label>
-      <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"></types>
+      <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType" col="3"></types>
       <p ng-show="errors.discussion_type" class="help-block"><?php print t('Discussion type is required.'); ?></p>
     </div>
 
     <div ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.event_type }">
-      <label>{{fieldSchema.resources[selectedResource].event_type.info.label}}</label>
-      <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType"></types>
+      <types field="'event_type'" field-schema="referenceValues" type="data.event_type" on-change="updateType" col="4"></types>
       <p ng-show="errors.event_type" class="help-block"><?php print t('Event type is required.'); ?></p>
     </div>
 
@@ -141,7 +139,7 @@
       <p ng-show="errors.discussion" class="help-block"><?php print t('Document file is required.'); ?></p>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
         <span id="topic_description" class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
@@ -201,7 +199,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
+    <div class="form-group btn-group btn-group-selectors" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
         <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].date.info.description}}</span>
@@ -228,7 +226,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.language }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
         <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
@@ -253,7 +251,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.geo }">
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.geo }">
       <div class="label-wrapper">
         <label>{{fieldSchema.resources[selectedResource].geo.info.label}}</label>
         <span id="geo_description" class="description">{{fieldSchema.resources[selectedResource].geo.info.description}}</span>
