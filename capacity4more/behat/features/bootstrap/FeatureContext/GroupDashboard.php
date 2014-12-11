@@ -33,6 +33,7 @@ trait GroupDashboard {
     $steps[] = new Step\When('I should see the Quick Post form');
     $steps[] = new Step\When('I should see the Activity stream');
     $steps[] = new Step\When('I should see the Highlights');
+    $steps[] = new Step\When('I should see the Group Details');
 
     return $steps;
   }

@@ -62,7 +62,7 @@ trait Overview {
     $page = $this->getSession()->getPage();
     switch($field) {
       case 'Author':
-        $class = 'username';
+        $class = 'user-name';
         break;
     }
     $element = $page->findAll('css', '.region-content .view-content .' . $class);

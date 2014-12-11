@@ -49,7 +49,7 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_og_get_group_type_name($node = NULL) {
   if (!$node) {
-    $node = og_get_group_context();
+    $node = c4m_og_current_group();
   }
   if (!$node || !og_is_group_type('node', $node->type)) {
     return NULL;
@@ -409,3 +409,38 @@ function c4m_og_module_implements_alter(&$implementations, $hook) {
 function c4m_og_purl_exists($value) {
   return FALSE;
 }
+
+/**
+ * Function to get roles per group bundle.
+ *
+ * @return array
+ *    Array of roles per group bundle
+ */
+function c4m_og_get_group_bundles() {
+  $result = db_select('og_role', 'ogr')
+              ->fields('ogr', array('group_bundle', 'rid', 'name'))
+              ->execute()
+              ->fetchAll();
+  foreach($result as $row) {
+    $roles[$row->group_bundle][$row->rid] = $row->name;
+  }
+  return $roles;
+}
+
+/**
+ * Get all the users with certain roles in a group.
+ *
+ * @param $gid
+ *   The group unique ID.
+ * @param $roles
+ *   Array with the role IDs to query.
+ */
+function c4m_og_get_users_by_roles($gid, $rids = array()) {
+  $query = db_select('og_users_roles', 'og_users_roles');
+  return $query->fields('og_users_roles', array('uid'))
+    ->condition('gid', $gid)
+    ->condition('rid', $rids, 'IN')
+    ->execute()
+    ->fetchAll();
+}
+

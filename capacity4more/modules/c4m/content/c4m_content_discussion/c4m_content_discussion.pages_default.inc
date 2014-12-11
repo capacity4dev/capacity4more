@@ -16,7 +16,10 @@ function c4m_content_discussion_default_page_manager_pages() {
   $page->admin_title = 'Discussion Edit';
   $page->admin_description = '';
   $page->path = 'node/%node/js-edit';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'node' => array(
@@ -113,7 +116,10 @@ function c4m_content_discussion_default_page_manager_pages() {
   $page->admin_title = 'Discussion Add';
   $page->admin_description = '';
   $page->path = 'node/js-add/%resource';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'resource' => array(
