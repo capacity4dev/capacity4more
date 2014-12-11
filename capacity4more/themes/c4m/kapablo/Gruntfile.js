@@ -13,18 +13,6 @@ module.exports = function (grunt) {
             }
         },
 
-//        sass: {
-//            dist: {
-//                files: {
-//                    'css/style.css': 'sass/style.scss'
-//                },
-//                options: {
-//                    style: 'compressed', // Can be nested, compact, compressed, expanded.
-//                    sourcemap: 'none'
-//                }
-//            }
-//        },
-
         // SVG Minification
         svgmin: {
             multiple: {
@@ -80,11 +68,25 @@ module.exports = function (grunt) {
 //            }
         },
 
+        csscss: {
+            options: {
+                colorize: true,
+                verbose: true,
+                outputJson: false,
+                minMatch: 5,
+                compass: true,
+                require: 'config.rb'
+            },
+            dist: {
+                src: ['sass/style.scss']
+            }
+        },
+
         watch: {
-//            css: {
-//                files: '**/*.scss',
-//                tasks: ['sass']
-//            },
+            csscss: {
+                files: '**/*.scss',
+                tasks: ['csscss']
+            },
             compass: {
                 files: ['sass/*.scss', 'sass/**/*.scss'],
                 tasks: ['compass'],
@@ -111,22 +113,22 @@ module.exports = function (grunt) {
         }
     });
 
-//    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-svgmin');
     grunt.loadNpmTasks('grunt-grunticon');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-csscss');
 
 
     grunt.registerTask('build', [
+        'csscss',
         'concat',
         'uglify',
         'svgmin',
         'grunticon',
         'compass'
-//        'sass'
     ]);
 
     grunt.registerTask('default', [
