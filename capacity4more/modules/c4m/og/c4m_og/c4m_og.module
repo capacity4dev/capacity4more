@@ -25,7 +25,6 @@ function c4m_og_current_group() {
   return $group;
 }
 
-
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -83,6 +82,7 @@ function c4m_og_organisations_info() {
       ),
     ),
   );
+
   return variable_get('c4m_og_organisations', $default_info);
 }
 
@@ -94,6 +94,7 @@ function c4m_og_organisations_info() {
  */
 function c4m_og_access_info() {
   $group_types = &drupal_static(__FUNCTION__);
+
   if (!isset($group_types)) {
     $group_types =  array (
       'public' => array(
@@ -116,10 +117,13 @@ function c4m_og_access_info() {
       ),
     );
   }
+
   return $group_types;
 }
 
 /**
+ * Get the group info (public/restricted/private) by the group.
+ *
  * @param object $group
  *  The group entity.
  *
@@ -158,6 +162,102 @@ function c4m_og_access_info_by_group($group) {
 }
 
 /**
+ * Get the restricted information (organisations & domains).
+ *
+ * @param stdClass $group
+ *   The group we want to get the info from.
+ *
+ * @return array
+ *   Array with arrays:
+ *   organisations : an array of the organisations linked to the restricted
+ *                   group.
+ *   domains       : individual email domains linked to the restricted group.
+ */
+function c4m_og_get_restricted_info($group) {
+  $infos = &drupal_static(__FUNCTION__, array());
+
+  if (!array_key_exists($group->nid, $infos)) {
+    $info = array(
+      'organisations' => array(),
+      'domains' => array(),
+    );
+
+    $wrapper = entity_metadata_wrapper('node', $group);
+    $pluggable_node_access = $wrapper->pluggable_node_access->value();
+    if (!$pluggable_node_access) {
+      return $info;
+    }
+
+    // Get all the domains.
+    $domains = $pluggable_node_access->data;
+    if (!is_array($domains) || empty($domains)) {
+      return $info;
+    }
+
+    // Get all organisations info.
+    $organisations_info = c4m_og_organisations_info();
+
+    // Loop trough the possible organisations and detect the once used here.
+    foreach ($organisations_info as $name => $organisation) {
+      // If organisation is active, all of its domains should be in the list.
+      $diff  = array_diff($organisation['domains'], $domains);
+      if (count($diff)) {
+        continue;
+      }
+
+      $info['organisations'][$name] = $organisation;
+    }
+
+    // Filter out all domains that belong to one of the organisations.
+    foreach ($info['organisations'] as $organisation) {
+      $domains = array_diff($domains, $organisation['domains']);
+    }
+
+    $info['domains'] = $domains;
+
+    $infos[$group->nid] = $info;
+  }
+
+  return $infos[$group->nid];
+}
+
+/**
+ * Reset the static restricted info cache.
+ */
+function c4m_og_reset_restricted_info() {
+  drupal_static_reset('c4m_og_get_restricted_info');
+}
+
+/**
+ * Get the organisations for the given group.
+ *
+ * @param stdClass $group
+ *   The group we want to get the organisations.
+ *
+ * @return array
+ *   All the organisations (and their info) for the given group.
+ */
+function c4m_og_get_organisations($group) {
+  $info = c4m_og_get_restricted_info($group);
+  return $info['organisations'];
+}
+
+/**
+ * Get the email domains that have access to the given group.
+ *
+ * @param stdClass $group
+ *   The group we want to get the email domains.
+ *
+ * @return array
+ *   The email domains that are not linked to organisations also linked to the
+ *   group.
+ */
+function c4m_og_get_email_domains($group) {
+  $info = c4m_og_get_restricted_info($group);
+  return $info['domains'];
+}
+
+/**
  * @todo: Refactor the logic to relate domains to organisations using
  * function c4m_og_access_info()
  *
@@ -185,41 +285,38 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     // Check if pluggable_group_access exists.
     if (isset($form_state['node']->pluggable_node_access) && isset($form_state['node']->pluggable_node_access[LANGUAGE_NONE]) && $entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
       $access_type = 'restricted';
-      $pluggable_node_access = entity_load_single('pluggable_node_access', $entity_id);
-      $domains = array_combine($pluggable_node_access->data, $pluggable_node_access->data);
     }
   }
   else {
     $access_type = 'public';
   }
 
-  // Go over all organizations, gather info and verify which to check.
+  // Organisation options.
   $organisation_field_options = array();
   foreach ($organisations_info as $name => $organisation) {
     // Set arrays for later use.
-    $organisation_field_options[$name] = $organisation['title']  . '<div>' . t('Accessible to users with email domains: @domains', array('@domains' => implode(' ', $organisation['domains']))) . '</div>';
-
-    // If number of domains is at least the same as the domains in the organization
-    // we should verify whether the organization checkbox needs to be checked or not.
-    if (count($domains) >= count($organisation['domains'])) {
-      $check_organization_checkbox = TRUE;
-      foreach ($organisation['domains'] as $domain) {
-        if (array_key_exists($domain, $domains)) {
-          // Remove this from the domains field.
-          unset($domains[$domain]);
-        }
-        else {
-          // At least one domain from the organization is not set - no need to mark
-          // the checkbox.
-          $check_organization_checkbox = FALSE;
-        }
-      }
-      if ($check_organization_checkbox) {
-        $restricted_organisations[] = $name;
-      }
-    }
+    $organisation_field_options[$name] = $organisation['title']
+      . '<div>'
+      . t(
+        'Accessible to users with email domains: @domains',
+        array('@domains' => implode(', ', $organisation['domains']))
+      )
+      . '</div>';
   }
 
+  if (!empty($form_state['node'])) {
+    // Group organisations.
+    $restricted_organisations = c4m_og_get_organisations($form_state['node']);
+    if ($restricted_organisations) {
+      $organisations = array_keys($restricted_organisations);
+      $restricted_organisations = array_combine($organisations, $organisations);
+    }
+
+    // Group domains.
+    $domains = c4m_og_get_email_domains($form_state['node']);
+  }
+
+  // Access options.
   $options = array(
     'public' => t('Public'),
     'restricted' => t('Restricted'),
@@ -324,7 +421,6 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     ),
   );
   $form['c4m_related_group'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
-
 }
 
 /**
@@ -399,6 +495,9 @@ function c4m_og_group_form_submit($form, &$form_state) {
       c4m_og_remove_pluggable_node_access($wrapper, $form_state);
       break;
   }
+
+  // Clear the info cache!
+  c4m_og_reset_restricted_info();
 }
 
 /**
