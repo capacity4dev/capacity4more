@@ -1,0 +1,3 @@
+ID,Parent,Status,NID,Name,Email,UID,Subject,Body
+cw_1,,1,wiki_page_9,Georg Wilhelm Friedrich Hegel,GeorgWilhelmFriedrich@Hegel.org,,"Learning","The learner always begins by finding fault, but the scholar sees the positive merit in everything."
+cw_1_1,cw_1,1,wiki_page_9,,,user_6,,"An idea is always a generalization, and generalization is a property of thinking. To generalize means to think."

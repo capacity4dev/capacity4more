@@ -8,7 +8,7 @@ Feature: Group Wiki pages
     When I visit the group "wiki_page" detail page "Lusail Soccer Stadium"
     Then I should see the Wiki detail page
 
-  @api @wip
+  @api
   Scenario: Check Wiki detail as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the group "wiki_page" detail page "Lusail Soccer Stadium"
