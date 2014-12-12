@@ -45,3 +45,10 @@
     background-image: $full-svg;
   }
 }
+
+@mixin input-rounded($color) {
+  @include border-radius(15px);
+
+  background: $color;
+  border: none;
+}

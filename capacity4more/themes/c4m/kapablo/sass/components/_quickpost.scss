@@ -1,6 +1,6 @@
 .pane-quick-form {
   .form-control {
-    @extend .input-rounded-beige;
+    @include input-rounded($beige);
   }
 
   button {
@@ -59,7 +59,7 @@
         @include border-radius(15px, 0);
       }
       .select2-choices {
-        @extend .input-rounded-beige;
+        @include input-rounded($beige);
       }
       .select2-search-choice {
         @include box-shadow(none);
@@ -169,7 +169,6 @@
       }
     }
   }
-
 }
 
 .selected-values {
@@ -196,9 +195,27 @@
   }
 }
 
-.input-rounded-beige {
-  @include border-radius(15px);
 
-  background: $beige;
-  border: none;
+.qp-post-button {
+  display: inline-block;
+  margin: 15px 8px 15px 15px;
+
+  button {
+    @include input-rounded($gray-dark);
+  }
+}
+
+.qp-post-fullform {
+  display: inline-block;
+  margin: 15px 8px 15px 7px;
+
+  a {
+    color: $gray-dark;
+  }
+}
+
+.qp-post-cancel {
+  display: inline-block;
+  float: right;
+  margin: 15px;
 }
