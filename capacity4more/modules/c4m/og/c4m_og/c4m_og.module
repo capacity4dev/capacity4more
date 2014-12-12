@@ -87,12 +87,14 @@ function c4m_og_organisations_info() {
 }
 
 /**
+ * Get a list of all possible access types and their information.
+ *
  * @todo: Convert this into a hook.
  *
  * @return array
- *  Group access info for all group access types.
+ *   Group access info for all group access types.
  */
-function c4m_og_access_info() {
+function c4m_og_access_types() {
   $group_types = &drupal_static(__FUNCTION__);
 
   if (!isset($group_types)) {
@@ -130,39 +132,37 @@ function c4m_og_access_info() {
  * @return array
  *   Group access info.
  */
-function c4m_og_access_info_by_group($group) {
-  if (!isset($group->group_access)) {
-    return;
-  }
-  $group_types = c4m_og_access_info();
-
-  if (empty($group)) {
-    $group = c4m_og_current_group();
-  }
+function c4m_og_get_access_type($group) {
+  $group_types = c4m_og_access_types();
 
   $wrapper = entity_metadata_wrapper('node', $group);
   $group_access = $wrapper->group_access->value();
 
-  if ($group_access) {
-    $group_type = 'private';
-  }
-  elseif ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
-    $group_type = 'restricted';
-    // @todo: Change helptext according to correct logic to find out which
-    // users have access to the group. (Belonging to which organisations and/or
-    // having which domain in mail address.
+  $group_type = 'public';
 
-    // $group_types[$group_type]['helptext'] = '';
+  if ($group_access && $wrapper->pluggable_node_access->value()) {
+    $group_type = 'restricted';
   }
-  else {
-    $group_type = 'public';
+  elseif ($group_access) {
+    $group_type = 'private';
   }
 
   return $group_types[$group_type];
 }
 
 /**
+ * @deprecated replaced by c4m_og_get_access_type()
+ */
+function c4m_og_access_info_by_group($group) {
+  return c4m_og_get_access_type($group);
+}
+
+/**
  * Get the restricted information (organisations & domains).
+ *
+ * Do not use this function directly, use wrapper functions:
+ * - c4m_og_get_organisations($group)
+ * - c4m_og_get_email_domains($group)
  *
  * @param stdClass $group
  *   The group we want to get the info from.
@@ -259,13 +259,15 @@ function c4m_og_get_email_domains($group) {
 
 /**
  * @todo: Refactor the logic to relate domains to organisations using
- * function c4m_og_access_info()
+ * function c4m_og_access_types()
  *
  * Implements hook_FORM_ID_form_alter().
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
-  $domains = array();
-  $restricted_organisations = array();
+  // Default values;
+  $default_domains = array();
+  $default_organisations = array();
+  $default_access_type = 'public';
 
   // Form changes on creation.
   if (!$form['nid']['#value']) {
@@ -276,23 +278,9 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     $form['actions']['submit']['#value'] = t('Request');
   }
 
-  // Get default domain lists.
-  $organisations_info = c4m_og_organisations_info();
-
-  // Retrieve value from og_access and set pluggable_group_access accordingly.
-  if ($form['group_access'][LANGUAGE_NONE]['#default_value']) {
-    $access_type = 'private';
-    // Check if pluggable_group_access exists.
-    if (isset($form_state['node']->pluggable_node_access) && isset($form_state['node']->pluggable_node_access[LANGUAGE_NONE]) && $entity_id = $form_state['node']->pluggable_node_access[LANGUAGE_NONE][0]['target_id']) {
-      $access_type = 'restricted';
-    }
-  }
-  else {
-    $access_type = 'public';
-  }
-
   // Organisation options.
   $organisation_field_options = array();
+  $organisations_info = c4m_og_organisations_info();
   foreach ($organisations_info as $name => $organisation) {
     // Set arrays for later use.
     $organisation_field_options[$name] = $organisation['title']
@@ -306,14 +294,18 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
 
   if (!empty($form_state['node'])) {
     // Group organisations.
-    $restricted_organisations = c4m_og_get_organisations($form_state['node']);
-    if ($restricted_organisations) {
-      $organisations = array_keys($restricted_organisations);
-      $restricted_organisations = array_combine($organisations, $organisations);
+    $default_organisations = c4m_og_get_organisations($form_state['node']);
+    if ($default_organisations) {
+      $organisations = array_keys($default_organisations);
+      $default_organisations = array_combine($organisations, $organisations);
     }
 
     // Group domains.
-    $domains = c4m_og_get_email_domains($form_state['node']);
+    $default_domains = c4m_og_get_email_domains($form_state['node']);
+
+    // Default access type.
+    $group_type = c4m_og_get_access_type($form_state['node']);
+    $default_access_type = $group_type['type'];
   }
 
   // Access options.
@@ -328,7 +320,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#title' => t('Group access'),
     '#required' => TRUE,
     '#options' => $options,
-    '#default_value' => $access_type,
+    '#default_value' => $default_access_type,
   );
   $form['pluggable_group_access']['public'] = array(
     '#type' => 'radio',
@@ -354,7 +346,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
         ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
     ),
-    '#default_value' => $restricted_organisations,
+    '#default_value' => $default_organisations,
   );
   $form['pluggable_group_access']['restricted_by_domain'] = array(
     '#weight' => 26,
@@ -367,7 +359,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
         ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
     ),
-    '#default_value' => implode(' ', $domains),
+    '#default_value' => implode(' ', $default_domains),
   );
 
   $form['pluggable_group_access']['private'] = array(
