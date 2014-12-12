@@ -151,13 +151,6 @@ function c4m_og_get_access_type($group) {
 }
 
 /**
- * @deprecated replaced by c4m_og_get_access_type()
- */
-function c4m_og_access_info_by_group($group) {
-  return c4m_og_get_access_type($group);
-}
-
-/**
  * Get the restricted information (organisations & domains).
  *
  * Do not use this function directly, use wrapper functions:
@@ -258,10 +251,9 @@ function c4m_og_get_email_domains($group) {
 }
 
 /**
- * @todo: Refactor the logic to relate domains to organisations using
- * function c4m_og_access_types()
- *
  * Implements hook_FORM_ID_form_alter().
+ *
+ * Adds the fields about the Group Access types & Pluggable Access.
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   // Default values;

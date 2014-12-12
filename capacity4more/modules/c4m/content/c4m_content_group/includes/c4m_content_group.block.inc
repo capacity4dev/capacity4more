@@ -13,10 +13,9 @@
 function _c4m_content_group_preprocess_header_name_banner(&$variables) {
   // First establish the current group.
   $group = c4m_og_current_group();
-  $wrapper = entity_metadata_wrapper('node', $group);
 
   // Retrieve group access info.
-  $group_access = c4m_og_access_info_by_group($group);
+  $group_access = c4m_og_get_access_type($group);
 
   if (!empty($group_access['type'])) {
     $variables['classes_array'][] = 'group-' .
@@ -27,8 +26,6 @@ function _c4m_content_group_preprocess_header_name_banner(&$variables) {
  * The group name.
  */
 function _c4m_content_group_block_header_name_banner() {
-  $markup = '';
-
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
