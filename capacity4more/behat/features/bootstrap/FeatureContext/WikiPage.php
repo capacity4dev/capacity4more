@@ -22,7 +22,7 @@ trait WikiPage {
   public function iShouldSeeTheWikiDetailPage() {
     $steps = array();
 
-    $steps[] = new Step\When('I should see a "Title" field');
+    $steps[] = new Step\When('I should see a "Title in right region" field');
     $steps[] = new Step\When('I should see a "Author" field');
     $steps[] = new Step\When('I should see a "Comment" field');
 
