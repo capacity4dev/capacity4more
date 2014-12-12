@@ -8,6 +8,7 @@
   $full-svg-hover: inline-image('svgmin/' + $subfolder + '/' + $filename + '-hover.svg');
 
   background-image: $full-png;
+  background-size: 1.3em;
 
   &:hover {
     background-color: inherit;
@@ -29,5 +30,18 @@
     html.inlinesvg & {
       background-image: $full-svg-hover;
     }
+  }
+}
+
+@mixin read-more-icon($direction: 'left', $color: 'blue') {
+  $full-png: image-url('icons/png/arrow-' + $color + '-' + $direction + '.png');
+  $full-svg: inline-image('svgmin/icons/arrow-' + $color + '-' + $direction + '.svg');
+
+  background: $full-png no-repeat right 50%;
+  background-size: 1em;
+  padding-right: 15px;
+
+  html.inlinesvg & {
+    background-image: $full-svg;
   }
 }

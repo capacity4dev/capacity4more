@@ -76,17 +76,12 @@
   .popup-button {
     button {
       @include border-radius(0);
-      background: none;
+      @include read-more-icon('right');
+
       border: none;
       color: $blue;
       font-size: 90%;
-      padding: 0;
       text-transform: uppercase;
-
-      &:after {
-        content: '\25B8';
-        margin-left: 5px;
-      }
     }
   }
 }

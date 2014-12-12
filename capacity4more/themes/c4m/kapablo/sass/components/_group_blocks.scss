@@ -1,0 +1,13 @@
+.post-date {
+  color: $gray-dark;
+  margin-bottom: 10px;
+}
+
+.view-mode-c4m_dashboard {
+  .field-name-node-link {
+    a {
+      // icon
+      @include read-more-icon('down');
+    }
+  }
+}
