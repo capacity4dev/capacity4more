@@ -26,4 +26,5 @@
 
 // State: State rules are ways to describe how our modules or layouts will
 //look when in a particular state.
+@import "state/book_navigation";
 @import "state/menu";

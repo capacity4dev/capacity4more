@@ -76,7 +76,7 @@ function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
   // Replace the preprocess function.
   $theme_registry['book_navigation']['preprocess functions'] =array_replace(
     $theme_registry['book_navigation']['preprocess functions'],
-    array($key => 'c4m_wiki_page_preprocess_book_navigation'));
+    array($key => 'c4m_content_wiki_page_preprocess_book_navigation'));
 }
 
 /**
@@ -91,7 +91,7 @@ function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
  *
  * @see book-navigation.tpl.php
  */
-function c4m_wiki_page_preprocess_book_navigation(&$variables) {
+function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
   $book_link = $variables['book_link'];
 
   // Provide extra variables for themers. Not needed by default.
@@ -145,4 +145,3 @@ function c4m_wiki_page_preprocess_book_navigation(&$variables) {
     }
   }
 }
-

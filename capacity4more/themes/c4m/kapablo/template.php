@@ -74,30 +74,72 @@ function kapablo_menu_tree__book_toc(&$variables) {
  * Overrides theme_menu_tree() for book module.
  */
 function kapablo_menu_tree__book_toc__sub_menu(&$variables) {
-  return '<ul class="menu" role="menu">' . $variables['tree'] . '</ul>';
+
+  $tag['element'] = array(
+    '#tag' => 'ul',
+    '#attributes' => array(
+      'id' => '',
+      // Make it collapsible and expanded by default.
+      'class' => array('collapse', 'in'),
+      'role' => array('menu'),
+    ),
+    '#value' => $variables['tree'],
+  );
+
+  return theme_html_tag($tag);
 }
 
 /**
  * Overrides theme_menu_link() for book module.
+ * Add bootstrap collapsible behaviour to all expandable links.
+ *
+ * @param array $variables
+ * @return string
  */
 function kapablo_menu_link__book_toc(array $variables) {
   $element = $variables['element'];
   $sub_menu = drupal_render($element['#below']);
+
+  $link_options = $element['#localized_options'];
   $element['#attributes']['role'] = 'presentation';
-  $link = TRUE;
-  if ($element['#title'] && $element['#href'] === FALSE) {
-    $element['#attributes']['class'][] = 'dropdown-header';
-    $link = FALSE;
-  }
-  elseif ($element['#title'] === FALSE && $element['#href'] === FALSE) {
-    $element['#attributes']['class'][] = 'divider';
-    $link = FALSE;
-  }
-  elseif (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
-  if ($link) {
-    $element['#title'] = l($element['#title'], $element['#href'], $element['#localized_options']);
+
+  $replacement = $icon = '';
+  if (!empty($sub_menu) &&
+      $mlid = $element['#original_link']['mlid']) {
+    // The list item should contain an icon which should act as a bootstrap
+    // collapse toggle control to hide/show the submenu (= child pages).
+
+    $id_submenu = 'children-of-' . $mlid;
+
+    // See kapablo_menu_tree__book_toc__sub_menu().
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        // Tell the span element it is a collapse toggle control.
+        'data-toggle' => 'collapse',
+        // Tell the control which is the target to be controlled.
+        'data-target' => '#' . $id_submenu,
+        // Give it class as well for easy theming.
+        // !Expand all sub menus.
+        'class' => array('toggle', 'expanded'),
+      ),
+      '#value' => '',
+    );
+
+    $icon = theme_html_tag($tag);
+
+    $replacement = 'id="' . $id_submenu . '"';
   }
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $element['#title'] . $sub_menu . "</li>\n";
+  // We replace previously placed empty id.
+  // So we remove the id if unnecessary or set the id on the target to be
+  // controlled by the data toggle controller.
+  $sub_menu = preg_replace('/id=\"\"/', $replacement, $sub_menu);
+
+  $link = l($element['#title'], $element['#href'], $link_options);
+
+  return '<li' . drupal_attributes($element['#attributes']) . '>' .
+    $icon . $link . $sub_menu . "</li>\n";
 }

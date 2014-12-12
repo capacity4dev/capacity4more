@@ -1,0 +1,18 @@
+.book-toc {
+  .toggle:before {
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    float: left;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+    margin-left: -20px;
+  }
+  .toggle.expanded:before {
+    /* symbol for "open" submenu */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+  }
+  /* It is pretty crucial for this css to be after the style for
+  .toggle.expanded. Thus we don't need JS to remove the 'expanded' class. */
+  .toggle.collapsed:before {
+    /* symbol for "collapsed" submenu */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+  }
+}
