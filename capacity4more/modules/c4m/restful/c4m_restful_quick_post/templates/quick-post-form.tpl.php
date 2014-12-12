@@ -18,16 +18,14 @@
   <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
 <?php endif; ?>
 
-<div ng-show="resources[selectedResource]" id="quick-post-fields">
-
 <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
      ng-class="{ 'has-error' : errors.document }">
   <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);"
        ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
 
-    <div ng-hide="serverSide.file">
-      <?php print t('Drop file here to upload or'); ?>
-      <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+    <div ng-hide="serverSide.file" class="drop-text">
+      <span class="uppercase"><?php print t('Drop file here to upload'); ?></span><br/>
+      <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
       <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
     </div>
 
@@ -45,6 +43,8 @@
   </div>
   <p ng-show="errors.document" class="help-block"><?php print t('Document file is required.'); ?></p>
 </div>
+
+<div ng-show="resources[selectedResource]" id="quick-post-fields">
 
 <div ng-if="selectedResource == 'discussions'" ng-class="{ 'has-error' : errors.discussion_type }">
   <types field="'discussion_type'" field-schema="referenceValues" type="data.discussion_type" on-change="updateType"
@@ -91,14 +91,14 @@
   <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
 </div>
 
-<div class="form-group btn-group" ng-if="selectedResource == 'documents'"
+<div class="form-group btn-group btn-group-selectors" ng-if="selectedResource == 'documents'"
      ng-class="{ 'has-error' : errors.document_type }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].document_type.info.label}}</label>
     <span id="document_type_description" class="description">{{fieldSchema.resources[selectedResource].document_type.info.description}}</span>
   </div>
   <div class="checkboxes-wrapper">
-    <div>
+    <div class="popup-button">
       <button type="button" ng-click="togglePopover('document_type', $event)" class="btn">
         &nbsp;<?php print t('Select Type'); ?></button>
       <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
@@ -418,7 +418,7 @@
       </div>
     </div>
 
-    <div class="form-group btn-group" ng-if="selectedResource == 'documents'"
+    <div class="form-group btn-group btn-group-selectors" ng-if="selectedResource == 'documents'"
          ng-class="{ 'has-error' : errors.document_type }">
       <div class="label-wrapper">
         <label>{{fieldSchema.document_type.info.label}}</label>

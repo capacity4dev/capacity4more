@@ -1,6 +1,15 @@
 .pane-quick-form {
   .form-control {
     @include input-rounded($beige);
+
+    &.drop-box {
+      @include input-rounded($highlight-blue);
+      @include border-radius(80px);
+    }
+  }
+
+  .group-resources {
+    margin-bottom: 20px;
   }
 
   button {
@@ -102,7 +111,6 @@
     @include box-shadow(none);
 
     border: 0;
-    border-top: 1px solid $gray-lighter;
 
     .cke_inner .cke_wysiwyg_div {
       background: $beige;
@@ -118,6 +126,8 @@
   }
 
   .btn-group-discussion_type, .btn-group-event_type {
+    border-bottom: 1px solid $gray-lighter;
+
     .btn-default {
       border-right: 1px solid $gray-lighter;
       margin: 0;
@@ -218,4 +228,38 @@
   display: inline-block;
   float: right;
   margin: 15px;
+}
+
+.drop-box {
+  border: 0;
+  color: $white;
+  padding: 0;
+  margin: 10px 0 0 0;
+
+  .drop-text {
+    padding: 20px 30px;
+
+    a {
+      color: $white;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &:before {
+      background: image-url('misc/hand.png') no-repeat 50% 50%;
+      content: '';
+      display: block;
+      height: 33px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .alert {
+    @include border-radius(80px);
+
+    padding: 30px;
+  }
 }
