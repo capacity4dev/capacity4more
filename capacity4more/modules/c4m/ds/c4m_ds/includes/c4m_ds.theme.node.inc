@@ -83,36 +83,16 @@ function theme_c4m_ds_author_first_and_last_name($field) {
  * @return string
  */
 function theme_c4m_ds_group_access_info($field) {
-  $output = '';
-
-  if (isset($field['entity']) &&
-      isset($field['entity']->group_access)) {
-    $entity = $field['entity'];
-    $wrapper = entity_metadata_wrapper('node', $entity);
-  }
-  else {
-    return $output;
+  if (!isset($field['entity'])) {
+    return null;
   }
 
-  $group_access = $wrapper->group_access->value();
-
-  if ($group_access) {
-    $group_type = t('Private group');
-  }
-  elseif ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
-    $group_type = t('Restricted group');
-    //$allowed = c4m_og_get_group_allowed_organisations_domains($entity);
-  }
-  else {
-    $group_type = t('Public group');
-  }
+  $group_access = c4m_og_get_access_type($field['entity']);
   $tag['element'] = array(
     '#tag' => 'h4',
-    '#value' => $group_type,
+    '#value' => $group_access['title'],
   );
-  $output .= theme_html_tag($tag);
-
-  return $output;
+  return theme_html_tag($tag);
 }
 
 /**
