@@ -352,51 +352,37 @@ function c4m_og_select2_widget_after_build($element, &$form_state) {
  * Submit handler; Handle group access type.
  */
 function c4m_og_group_form_submit($form, &$form_state) {
-  // Get default domain lists.
-  $organisations_info = c4m_og_organisations_info();
-
   // Check whether we already have referenced entity in pluggable_node_access.
   $node = $form_state['node'];
   $wrapper = entity_metadata_wrapper('node', $node);
 
   // Get the new domain values.
-  $domains = array();
   $group_access = $form_state['values']['pluggable_group_access'];
   switch ($group_access) {
     case 'restricted':
       // Set group_access to "private".
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 1;
 
-      // Edit/create pluggable_node_access.
-      foreach (explode(' ', $form_state['values']['restricted_by_domain']) as $domain) {
-        $domains[trim($domain)] = trim($domain);
-      }
+      // Extract the organisations from the form.
+      $organisations = array_keys(
+        array_filter($form_state['values']['restricted_organisations'])
+      );
 
-      foreach ($form_state['values']['restricted_organisations'] as $organisation => $enabled) {
-        if ($enabled) {
-          $organisation_domains = $organisations_info[$organisation]['domains'];
-          $domains = array_merge($domains, array_combine($organisation_domains, $organisation_domains));
-        }
-      }
+      // Extract the domains from the form.
+      $domains = array_map(
+        'trim',
+        explode(' ', $form_state['values']['restricted_by_domain'])
+      );
 
-      if (!$pluggable_node_access = $wrapper->pluggable_node_access->value()) {
-        // Create new pluggable_node_access entity.
-        $values = array(
-          'type' => 'email_domain',
-          'data' => $domains,
-        );
-        $entity = entity_create('pluggable_node_access', $values);
-        $entity->save();
-
-        // Save reference to the new entity.
-        $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $entity->id;
-      }
-      else {
-        $pluggable_node_access->data = $domains;
-        $pluggable_node_access->save();
-      }
-
+      // Save the pluggable_node_access.
+      $pluggable_node_access = c4m_og_save_pluggable_node_access_restricted(
+        $node,
+        $organisations,
+        $domains
+      );
+      $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $pluggable_node_access->id;
       break;
+
     case 'public':
       // Set group_access to "public".
       $form_state['values']['group_access'][LANGUAGE_NONE][0]['value'] = 0;
@@ -411,7 +397,59 @@ function c4m_og_group_form_submit($form, &$form_state) {
 
       // Delete pluggable_node_access entity if exist.
       c4m_og_remove_pluggable_node_access($wrapper, $form_state);
+      break;
   }
+}
+
+/**
+ * API to save the pluggable_node_access record for a restricted group.
+ *
+ * @param stdClass $group
+ *   The group the pluggable access needs to be saved for.
+ * @param array $organisations
+ *   The organisations that needs to be linked to the node_access.
+ * @param array $domains
+ *   Optional domains to link to the group node_access.
+ *
+ * @return stdClass
+ *   The pluggable_node_access entity.
+ */
+function c4m_og_save_pluggable_node_access_restricted(
+  $group, $organisations = array(), $domains = array()
+) {
+  $domains = array_combine($domains, $domains);
+
+  $organisations_info = c4m_og_organisations_info();
+  foreach ($organisations as $organisation) {
+    if (empty($organisations_info[$organisation]['domains'])) {
+      continue;
+    }
+
+    $organisation_domains = $organisations_info[$organisation]['domains'];
+
+    $domains = array_merge(
+      $domains,
+      array_combine($organisation_domains, $organisation_domains)
+    );
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $pluggable_node_access = $wrapper->pluggable_node_access->value();
+  if (!$pluggable_node_access) {
+    // Create new pluggable_node_access entity.
+    $values = array(
+      'type' => 'email_domain',
+      'data' => $domains,
+    );
+    $pluggable_node_access = entity_create('pluggable_node_access', $values);
+    $pluggable_node_access->save();
+  }
+  else {
+    $pluggable_node_access->data = $domains;
+    $pluggable_node_access->save();
+  }
+
+  return $pluggable_node_access;
 }
 
 /**
