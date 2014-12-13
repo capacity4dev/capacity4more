@@ -59,6 +59,7 @@ before_script:
   # Configure MySQL
   - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
   - sudo service mysql restart
+  - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
 
   # Install Solr
   - cd $TRAVIS_BUILD_DIR
