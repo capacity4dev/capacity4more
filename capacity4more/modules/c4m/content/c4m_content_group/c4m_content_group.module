@@ -68,3 +68,16 @@ function c4m_content_group_preprocess_block(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_node_delete().
+ */
+function c4m_content_group_node_delete($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if (!isset($wrapper->pluggable_node_access)) {
+    return;
+  }
+  $pna = $wrapper->pluggable_node_access->value();
+  $id = $pna->id;
+  entity_delete('pluggable_node_access', $id);
+}
