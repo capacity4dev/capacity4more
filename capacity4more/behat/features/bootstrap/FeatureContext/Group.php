@@ -140,4 +140,44 @@ trait Group {
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
+
+  /**
+   * @Given /^I should see the Group Details$/
+   */
+  public function iShouldSeeTheGroupDetails() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', 'div.pane-c4m-content-group');
+    if ($el === null) {
+      throw new \Exception('The Group Details pane is not visible.');
+    }
+
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Description" field');
+    $steps[] = new Step\When('I should see a "Group type" field');
+    $steps[] = new Step\When('I should see a "Group dashboard details" field group');
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a "Topics" field');
+    $steps[] = new Step\When('I should see a "Regions & Countries" field');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see the Group Header with banner$/
+   */
+  public function iShouldSeeTheGroupHeaderWithBanner() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('css', '#block-c4m-content-group-header-name-banner');
+    if ($el === null) {
+      throw new \Exception('The Group Header block is not visible.');
+    }
+
+    $steps = array();
+
+    $steps[] = new Step\When('I should see a "Group title" field');
+    $steps[] = new Step\When('I should see a "Group banner" field');
+
+    return $steps;
+  }
 }
