@@ -32,48 +32,6 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
     return;
   }
 
-  // Load Angular.
-  $bower_path = libraries_get_path('bower_components');
-
-  // AngularJs.
-  $form['#attached']['js'][] = $bower_path . '/angular/angular.min.js';
-
-  // Upload file library.
-  $form['#attached']['js'][] = $bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js';
-  $form['#attached']['js'][] = $bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js';
-  // Angular-animate.
-  $form['#attached']['js'][] = $bower_path . '/angular-animate/angular-animate.min.js';
-
-  // JSON pretty print library.
-  $form['#attached']['css'][] = $bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css';
-  $form['#attached']['js'][] = $bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js';
-
-  // CKEditor library.
-  $form['#attached']['css'][] = $bower_path . '/ng-ckeditor/ng-ckeditor.css';
-  $form['#attached']['js'][] = $bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js';
-  $form['#attached']['js'][] = $bower_path . '/ng-ckeditor/ng-ckeditor.js';
-
-  // Select UI
-  $form['#attached']['css'][] = $bower_path . '/select2/select2.css';
-  $form['#attached']['css'][] = $bower_path . '/select2/select2-bootstrap.css';
-  $form['#attached']['js'][] = $bower_path . '/select2/select2.js';
-  $form['#attached']['js'][] = $bower_path . '/angular-ui-select2/src/select2.js';
-
-  // Bootstrap DatePicker.
-  $form['#attached']['js'][] = $bower_path . '/angular-bootstrap/ui-bootstrap.min.js';
-  $form['#attached']['js'][] = $bower_path . '/angular-bootstrap/ui-bootstrap-tpls.min.js';
-
-  // Font-awesome library.
-  $form['#attached']['css'][] = $bower_path . '/components-font-awesome/css/font-awesome.min.css';
-
-  // Filesize library.
-  $form['#attached']['js'][] = $bower_path . '/filesize/lib/filesize.min.js';
-
-  // Load our custom app.
-  $app_path = $bower_path . '/c4m-app/dist';
-  $form['#attached']['js'][] = $app_path . '/c4m-app.js';
-  $form['#attached']['css'][] = $app_path . '/css/c4m-app.css';
-
   // Get taxonomy vocabulary and sent it to the app.
   $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);

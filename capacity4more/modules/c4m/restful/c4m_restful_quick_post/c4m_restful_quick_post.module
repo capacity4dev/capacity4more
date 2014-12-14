@@ -69,7 +69,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   }
   $show_resources = !empty($show_resources) ? $show_resources : $resources;
 
-  $bower_path = libraries_get_path('bower_components');
 
   // Get fields.
   $field_schema = array();
@@ -85,46 +84,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
       $node_values = $handler->get($node->nid);
     }
   }
-
-  // AngularJs.
-  drupal_add_js($bower_path . '/angular/angular.min.js');
-
-  // Upload file library.
-  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
-  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
-
-  // Angular-animate.
-  drupal_add_js($bower_path . '/angular-animate/angular-animate.min.js');
-
-  // JSON pretty print library.
-  drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
-  drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
-
-  // CKEditor library.
-  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
-  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
-  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
-
-  // Select UI
-  drupal_add_css($bower_path . '/select2/select2.css');
-  drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
-  drupal_add_js($bower_path . '/select2/select2.js');
-  drupal_add_js($bower_path . '/angular-ui-select2/src/select2.js');
-
-  // Bootstrap DatePicker.
-  drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap.min.js');
-  drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap-tpls.min.js');
-
-  // Font-awesome library.
-  drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
-
-  // Filesize library.
-  drupal_add_js($bower_path . '/filesize/lib/filesize.min.js');
-
-  // Load our custom app.
-  $app_path = $bower_path . '/c4m-app/dist';
-  drupal_add_js($app_path . '/c4m-app.js');
-  drupal_add_css($app_path . '/css/c4m-app.css');
 
   // Gathering all the fields to pass to the angular-app.
   $entity_fields = array();
@@ -245,4 +204,47 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
   $vars['classes_array'][] = 'ng-cloak';
+
+  // Load Angular.
+  $bower_path = libraries_get_path('bower_components');
+
+  // AngularJs.
+  drupal_add_js($bower_path . '/angular/angular.min.js');
+
+  // Upload file library.
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload-shim.min.js');
+  drupal_add_js($bower_path . '/danialfarid-angular-file-upload/dist/angular-file-upload.min.js');
+
+  // Angular-animate.
+  drupal_add_js($bower_path . '/angular-animate/angular-animate.min.js');
+
+  // JSON pretty print library.
+  drupal_add_css($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.css');
+  drupal_add_js($bower_path . '/ng-prettyjson/dist/ng-prettyjson.min.js');
+
+  // CKEditor library.
+  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
+  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
+  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
+
+  // Select UI
+  drupal_add_css($bower_path . '/select2/select2.css');
+  drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
+  drupal_add_js($bower_path . '/select2/select2.js');
+  drupal_add_js($bower_path . '/angular-ui-select2/src/select2.js');
+
+  // Bootstrap DatePicker.
+  drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap.min.js');
+  drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap-tpls.min.js');
+
+  // Font-awesome library.
+  drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
+
+  // Filesize library.
+  drupal_add_js($bower_path . '/filesize/lib/filesize.min.js');
+
+  // Load our custom app.
+  $app_path = $bower_path . '/c4m-app/dist';
+  drupal_add_js($app_path . '/c4m-app.js');
+  drupal_add_css($app_path . '/css/c4m-app.css');
 }
