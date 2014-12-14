@@ -65,10 +65,8 @@ trait Node {
 
   /**
    * @Given /^a "([^"]*)" is created with title "([^"]*)" in the group "([^"]*)"$/
-   *
-   * @TODO : rename to aNodeIsCreatedWithTitleInTheGroup
    */
-  public function aDiscussionIsCreatedWithTitleInTheGroup($type, $title, $group) {
+  public function aNodeIsCreatedWithTitleInTheGroup($type, $title, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
