@@ -26,13 +26,24 @@ angular.module('c4mApp')
       QuickPostService.keyUpHandler(keyEvent, $scope);
     };
 
-    $scope.updateSelectedTerms = function(key) {
+    $scope.updateSelectedTerms = function(key, vocab) {
       // Check/uncheck the checkbox in the drupal form.
       if($scope.model[key]) {
         jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", true);
       }
       else {
         jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", false);
+        if (key in $scope.data[vocab]) {
+          angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
+            var childID = child.id;
+
+            if (childID in $scope.model && $scope.model[childID] === true) {
+              $scope.model[childID] = false;
+              jQuery('input[type=checkbox][value="' + childID + '"]').attr("checked", false);
+            }
+          });
+        }
+
       }
     };
 
