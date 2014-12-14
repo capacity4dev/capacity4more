@@ -21,6 +21,7 @@ function c4m_vocab_language_field_widget_info() {
   return $widgets;
 }
 
+
 /**
  * Implements hook_field_widget_form().
  */
@@ -31,6 +32,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   if (!$entity) {
     return;
   }
+
 
   // Get taxonomy vocabulary and sent it to the app.
   $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
@@ -52,6 +54,22 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
     }
   }
   $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
+
+  $model = array();
+  if (isset($entity->$vocabulary_name) && !empty($entity->$vocabulary_name)) {
+    $values = $entity->$vocabulary_name;
+    foreach ($values[LANGUAGE_NONE] as $value) {
+      // This is node/edit page. Need to send field values to the app.
+      $tid = $value['tid'];
+      $model[$tid] = true;
+    }
+
+    $settings['c4m']['data']['model'] = $model;
+
+    dpm($settings['c4m']['data']['model']);
+    dpm($settings['c4m']['data']['vocabularies']);
+  }
+
   drupal_add_js($settings, 'setting');
 
   // Add the directive.
@@ -72,7 +90,6 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
 
   return $element;
 }
-
 /**
  * Implements hook_theme().
  */
