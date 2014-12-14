@@ -89,6 +89,15 @@ function c4m_content_group_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'activity_stream' => array(
+        'custom_settings' => TRUE,
+      ),
+      'c4m_dashboard' => array(
+        'custom_settings' => TRUE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

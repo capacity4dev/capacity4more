@@ -142,6 +142,9 @@ projects[og_vocab][version] = "1.2"
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
 
+projects[panels_bootstrap_layouts][subdir] = "contrib"
+projects[panels_bootstrap_layouts][version] = "3.0"
+
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
@@ -240,5 +243,5 @@ libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archiv
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"
-projects[bootstrap][version] = "3.0"
+projects[bootstrap][version] = "3.x-dev"
 projects[bootstrap][type] = "theme"
