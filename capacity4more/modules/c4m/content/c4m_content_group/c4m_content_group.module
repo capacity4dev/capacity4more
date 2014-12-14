@@ -75,9 +75,11 @@ function c4m_content_group_preprocess_block(&$variables) {
 function c4m_content_group_node_delete($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   if (!isset($wrapper->pluggable_node_access)) {
+    // Node doesn't have restricted access.
     return;
   }
-  $pna = $wrapper->pluggable_node_access->value();
-  $id = $pna->id;
-  entity_delete('pluggable_node_access', $id);
+  // Remove pluggable_node_access record when node is deleted.
+  $pluggable_node_access_entity = $wrapper->pluggable_node_access->value();
+  $pluggable_node_access_entity_id = $pluggable_node_access_entity->id;
+  entity_delete('pluggable_node_access', $pluggable_node_access_entity_id);
 }
