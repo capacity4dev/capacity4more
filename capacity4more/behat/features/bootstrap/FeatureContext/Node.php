@@ -48,7 +48,7 @@ trait Node {
 
     return array(
       new Step\When('I go to "node/add/'.$type.'"'),
-      new Step\Then('the response status code should be 403'),
+      new Step\Then('I should see "Access denied"'),
     );
   }
 
@@ -59,7 +59,7 @@ trait Node {
 
     return array(
       new Step\When('I go to "node/add/'.$type.'"'),
-      new Step\Then('the response status code should be 200'),
+      new Step\Then('I should not see "Access denied"'),
     );
   }
 
