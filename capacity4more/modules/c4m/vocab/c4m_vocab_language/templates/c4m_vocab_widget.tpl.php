@@ -17,7 +17,7 @@
           <ul ng-show="item.children && model[item.id] == true" class="indent">
             <li ng-repeat="child in item.children">
               <label>
-                <input type="checkbox" ng-name="type" ng-model="model[child.id]"> {{child.label}}
+                <input type="checkbox" ng-name="type" ng-model="model[child.id]" ng-change="updateSelectedTerms(child.id, '<?php print($vocabulary_name); ?>')"> {{child.label}}
               </label>
             </li>
           </ul>
