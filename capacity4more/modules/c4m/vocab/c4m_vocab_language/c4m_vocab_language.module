@@ -55,19 +55,15 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   }
   $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
 
-  $model = array();
+  $taxonomy_values = array();
   if (isset($entity->$vocabulary_name) && !empty($entity->$vocabulary_name)) {
     $values = $entity->$vocabulary_name;
     foreach ($values[LANGUAGE_NONE] as $value) {
       // This is node/edit page. Need to send field values to the app.
-      $tid = $value['tid'];
-      $model[$tid] = true;
+      $taxonomy_values[$value['tid']] = true;
     }
 
-    $settings['c4m']['data']['model'] = $model;
-
-    dpm($settings['c4m']['data']['model']);
-    dpm($settings['c4m']['data']['vocabularies']);
+    $settings['c4m']['data']['values'][$vocabulary_name] = $taxonomy_values;
   }
 
   drupal_add_js($settings, 'setting');

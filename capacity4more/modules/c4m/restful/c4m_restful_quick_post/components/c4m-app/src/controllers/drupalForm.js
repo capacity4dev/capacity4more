@@ -3,8 +3,15 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
-    $scope.model = DrupalSettings.getData('model');
-    console.log($scope.model);
+    $scope.model = {};
+
+    $scope.values = DrupalSettings.getData('values');
+
+    angular.forEach($scope.values, function(values, vocab) {
+      angular.forEach(values, function(value, id) {
+        $scope.model[id] = value;
+      });
+    });
 
     $scope.popups = [];
     angular.forEach($scope.data, function(value, key) {

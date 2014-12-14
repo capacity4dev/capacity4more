@@ -91,7 +91,6 @@ angular.module('c4mApp')
       if (!angular.isDefined(self.settings.c4m.data)) {
         return {};
       }
-console.log(self.settings.c4m.data);
       return (angular.isDefined(self.settings.c4m.data[id])) ? self.settings.c4m.data[id] : {};
     }
   });
