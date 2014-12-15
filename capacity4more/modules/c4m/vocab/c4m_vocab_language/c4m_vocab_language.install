@@ -61,7 +61,7 @@ function c4m_vocab_language_install_terms() {
 
   $weight = -20;
   foreach ($terms as $term) {
-    $to              = new StdClass();
+    $to              = new stdClass();
     $to->name        = $term;
     $to->description = 'Content in ' . $term;
     $to->vid         = $vocab->vid;
