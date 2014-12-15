@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<div class="form-group text" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
+<div class="form-group text btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
   <label>{{fieldSchema.resources[selectedResource].organiser.info.label}}</label>
   <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
 
@@ -82,7 +82,7 @@
   </div>
 </div>
 
-<div class="form-group date" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
+<div class="form-group date btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
   <label><?php print t('When') ?></label>
 
   <div class="row">
@@ -185,7 +185,7 @@
   </div>
 </div>
 
-<div class="form-group place" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+<div class="form-group place btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
   <label><?php print t('Where') ?></label>
 
   <div class="row">
