@@ -11,13 +11,14 @@ Feature: Test activity stream
     And   I am logged in as user "isaacnewton"
     Then  I should see "Discussion added 1" in the activity stream of the group "Discussion Insert 1"
 
-  @javascript
-  Scenario: Check message is created after Event is created in my public group
-    Given a group "Discussion Insert 3" with "Public" access is created with group manager "isaacnewton"
-    When  I am logged in as user "isaacnewton"
-    And   a "event" is created with title "Event added" in the group "Discussion Insert 3"
-    And   I am logged in as user "isaacnewton"
-    Then  I should see "Event added" in the activity stream of the group "Discussion Insert 3"
+#  WIP - need fixes.
+#  @javascript
+#  Scenario: Check message is created after Event is created in my public group
+#    Given a group "Discussion Insert 3" with "Public" access is created with group manager "isaacnewton"
+#    When  I am logged in as user "isaacnewton"
+#    And   a "event" is created with title "Event added" in the group "Discussion Insert 3"
+#    And   I am logged in as user "isaacnewton"
+#    Then  I should see "Event added" in the activity stream of the group "Discussion Insert 3"
 
   @javascript 
   Scenario: Message is not changing when the same user updates right after creation earlier than 6 hours ago.
