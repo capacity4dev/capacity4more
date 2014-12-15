@@ -8,7 +8,7 @@
   $full-svg-hover: inline-image('svgmin/' + $subfolder + '/' + $filename + '-hover.svg');
 
   background-image: $full-png;
-  background-size: 1.3em;
+//  background-size: 1.3em;
 
   &:hover {
     background-color: inherit;

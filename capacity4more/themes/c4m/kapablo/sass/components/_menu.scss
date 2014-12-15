@@ -37,7 +37,8 @@
       a {
         @extend %svg-icon;
         @include border-radius(0, 0);
-        color: $black;
+        
+        color: #71716e;
         text-align: left;
         text-transform: uppercase;
 
@@ -46,6 +47,12 @@
         padding-top: 0;
       }
 
+      &.front {
+        a {
+          @include link-icon-png-fallback('icons', 'group-home-icon');
+        }
+        width: auto;
+      }
       &.calendar {
         a {
           @include link-icon-png-fallback('icons', 'event-icon');
@@ -55,6 +62,16 @@
       &.discussions {
         a {
           @include link-icon-png-fallback('icons', 'discussion-icon');
+        }
+      }
+      &.documents {
+        a {
+          @include link-icon-png-fallback('icons', 'library-icon');
+        }
+      }
+      &.tasklists {
+        a {
+          @include link-icon-png-fallback('icons', 'tasks-icon');
         }
       }
     }
