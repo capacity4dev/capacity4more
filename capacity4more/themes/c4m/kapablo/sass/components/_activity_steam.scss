@@ -79,3 +79,23 @@
     text-transform: uppercase;
   }
 }
+
+.row-footer {
+  margin-top: 25px;
+}
+
+.row-entity-count {
+  @extend %svg-icon;
+
+  &.count-views {
+    @include image-icon-png-fallback('icons', 'count-views');
+  }
+
+  &.count-comments {
+    @include image-icon-png-fallback('icons', 'count-comments');
+
+    &+ .count-views {
+      margin-left: 50px;
+    }
+  }
+}

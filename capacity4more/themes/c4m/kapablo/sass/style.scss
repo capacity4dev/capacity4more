@@ -24,19 +24,3 @@
 
 // State: State rules are ways to describe how our modules or layouts will look when in a particular state.
 @import "states/states";
-
-
-// @TODO: MOVE TO RIGHT SUBFILE
-// Styles for quick form.
-.modal-content {
- padding: 10px;
-
- .actions {
-   padding-bottom: 30px;
- }
-}
-
-.document {
-  padding-top: 5px;
-  border-top: 1px solid #000;
-}
