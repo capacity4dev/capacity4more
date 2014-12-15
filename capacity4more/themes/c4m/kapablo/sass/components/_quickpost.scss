@@ -129,6 +129,11 @@
     border-bottom: 1px solid $gray-lighter;
 
     .btn-default {
+      @extend %svg-icon;
+
+      background-position: 5px 50%;
+      background-repeat: no-repeat;
+      background-size: 20px;
       border-right: 1px solid $gray-lighter;
       margin: 0;
 
@@ -137,44 +142,30 @@
       }
 
       &[value=debate] {
-        @extend %svg-icon;
-
-        //        @include link-icon-png-fallback('icons', 'debate-qp-icon');
+        @include link-icon-png-fallback('icons', 'discussion-qp-debate');
       }
 
       &[value=idea] {
-        @extend %svg-icon;
-        //
-        //        @include link-icon-png-fallback('icons', 'idea-qp-icon');
+        @include link-icon-png-fallback('icons', 'discussion-qp-idea');
       }
 
       &[value=info] {
-        @extend %svg-icon;
-        //
-        //        @include link-icon-png-fallback('icons', 'info-qp-icon');
+        @include link-icon-png-fallback('icons', 'discussion-qp-info');
       }
 
       &[value=question] {
-        @extend %svg-icon;
-        //
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'discussion-qp-question');
       }
 
       &[value=event] {
-        @extend %svg-icon;
-        //
         //        @include link-icon-png-fallback('icons', 'question-qp-icon');
       }
 
       &[value=learning] {
-        @extend %svg-icon;
-        //
         //        @include link-icon-png-fallback('icons', 'question-qp-icon');
       }
 
       &[value=meeting] {
-        @extend %svg-icon;
-        //
         //        @include link-icon-png-fallback('icons', 'question-qp-icon');
       }
     }
@@ -184,7 +175,7 @@
 .selected-values {
   span {
     color: $gray-dark;
-    margin: 10px 10px 0 0 1 !important;
+    margin: 10px 10px 0 0 !important;
   }
 }
 
@@ -204,7 +195,6 @@
     outline-offset: -2px;
   }
 }
-
 
 .qp-post-button {
   display: inline-block;
