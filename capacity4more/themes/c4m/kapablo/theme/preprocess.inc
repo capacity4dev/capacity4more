@@ -68,7 +68,7 @@ function kapablo_preprocess_field(&$variables, $hook) {
     case 'c4m_ds_group_access_info':
       $group = $element['#object'];
       // Retrieve group access info.
-      $group_access = c4m_og_access_info_by_group($group);
+      $group_access = c4m_og_get_access_type($group);
 
       if (!empty($group_access['type'])) {
         $variables['classes_array'][] = 'group-' .
