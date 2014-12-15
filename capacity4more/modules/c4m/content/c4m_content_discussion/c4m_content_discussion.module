@@ -89,12 +89,11 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
   $document->title = t('Document for the @discussion', array('@discussion' => $entity->title));
   $document->type = 'document';
   $document->language = $entity->language;
-//  dpm($element);
   $document->uid = $entity->uid;
 
   $element['#entity'] = $document;
-dpm($field);
-  $element1 = dragndrop_upload_file_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
+  $element1 = media_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
 
   return $element1;
 }
