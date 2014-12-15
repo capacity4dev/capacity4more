@@ -101,7 +101,7 @@ function c4m_og_get_group_bundles() {
               ->fields('ogr', array('group_bundle', 'rid', 'name'))
               ->execute()
               ->fetchAll();
-  foreach($result as $row) {
+  foreach ($result as $row) {
     $roles[$row->group_bundle][$row->rid] = $row->name;
   }
   return $roles;

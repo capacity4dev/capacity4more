@@ -84,7 +84,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
  */
 function theme_c4m_ds_group_access_info($field) {
   if (!isset($field['entity'])) {
-    return null;
+    return NULL;
   }
 
   $group_access = c4m_og_get_access_type($field['entity']);
@@ -113,7 +113,7 @@ function theme_c4m_ds_group_role_members($field) {
 
   $members = c4m_og_get_users_by_roles($entity->nid, array($field['formatter']));
 
-  foreach($members as $member) {
+  foreach ($members as $member) {
     $user = user_load($member->uid);
     $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
   }

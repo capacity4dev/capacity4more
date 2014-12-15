@@ -47,7 +47,7 @@ function c4m_og_access_types() {
   $group_types = &drupal_static(__FUNCTION__);
 
   if (!isset($group_types)) {
-    $group_types =  array (
+    $group_types =  array(
       'public' => array(
         'type' => 'public',
         'title' => t('Public group'),
@@ -311,7 +311,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   );
 
   // Show field_membership_open_request only when pluggable_group_access is not private
-  $form['field_membership_open_request']['#states'] = array (
+  $form['field_membership_open_request']['#states'] = array(
     // Show the checkboxes only when "restricted" is selected
     'invisible' => array(
       ':input[name="pluggable_group_access"]' => array('value' => 'private'),
