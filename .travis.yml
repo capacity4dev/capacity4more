@@ -58,6 +58,8 @@ before_script:
 
   # Configure MySQL
   - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+  - echo -e "\njoin_buffer_size=256K" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+  - echo -e "\ntable_open_cache=256" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
   - sudo service mysql restart
 
   # Install Solr
