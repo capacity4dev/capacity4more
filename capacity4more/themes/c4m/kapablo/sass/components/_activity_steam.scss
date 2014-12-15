@@ -59,8 +59,23 @@
     }
 
     .as-item {
-      margin: -10px 0 0 35px;
+      margin: 0 0 0 35px;
       padding-left: 15px;
     }
+  }
+}
+
+.row-header {
+  color: $blue;
+  a {
+    color: $blue;
+  }
+}
+
+.message-title {
+  a {
+    color: $gray-dark;
+    font-size: 1.2em;
+    text-transform: uppercase;
   }
 }
