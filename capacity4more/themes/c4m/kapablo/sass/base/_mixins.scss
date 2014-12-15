@@ -1,7 +1,7 @@
 /**
  * Create background images with hover state and png fallback for browsers without SVG support.
  */
-@mixin image-icon-png-fallback($subfolder, $filename) {
+@mixin link-icon-png-fallback($subfolder, $filename) {
   $full-png: image-url($subfolder + '/png/' + $filename + '.png');
   $full-png-hover: image-url($subfolder + '/png/' + $filename + '-hover.png');
   $full-svg: inline-image('svgmin/' + $subfolder + '/' + $filename + '.svg');
@@ -30,6 +30,16 @@
     html.inlinesvg & {
       background-image: $full-svg-hover;
     }
+  }
+}
+
+@mixin image-icon-png-fallback($subfolder, $filename) {
+  $full-png: image-url($subfolder + '/png/' + $filename + '.png');
+  $full-svg: inline-image('svgmin/' + $subfolder + '/' + $filename + '.svg');
+
+  background-image: $full-png;
+  html.inlinesvg & {
+    background-image: $full-svg;
   }
 }
 

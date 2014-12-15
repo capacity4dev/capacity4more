@@ -48,13 +48,13 @@
 
       &.calendar {
         a {
-          @include image-icon-png-fallback('icons', 'event-icon');
+          @include link-icon-png-fallback('icons', 'event-icon');
         }
         width: auto;
       }
       &.discussions {
         a {
-          @include image-icon-png-fallback('icons', 'discussion-icon');
+          @include link-icon-png-fallback('icons', 'discussion-icon');
         }
       }
     }

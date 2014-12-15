@@ -6,8 +6,9 @@ module.exports = function (grunt) {
         compass: {
             build: {
                 options: {
+                    config: 'config.rb',
                     outputStyle: 'expanded',
-                    debugInfo: false,
+                    debugInfo: true,
                     environment: 'development'
                 }
             }
@@ -88,17 +89,17 @@ module.exports = function (grunt) {
 //                tasks: ['csscss']
 //            },
 
-            compass: {
-                files: ['sass/*.scss', 'sass/**/*.scss'],
-                tasks: ['compass'],
+            svgmin: {
+                files: ['images/svg/**/*.svg'],
+                tasks: ['svgmin', 'grunticon'],
                 options: {
                     livereload: true
                 }
             },
 
-            svgmin: {
-                files: ['images/svg/**/*.svg'],
-                tasks: ['svgmin', 'grunticon'],
+            compass: {
+                files: ['sass/*.scss', 'sass/**/*.scss'],
+                tasks: ['compass'],
                 options: {
                     livereload: true
                 }
@@ -124,11 +125,11 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('build', [
+        'svgmin',
+        'grunticon',
         'csscss',
         'concat',
         'uglify',
-        'svgmin',
-        'grunticon',
         'compass'
     ]);
 

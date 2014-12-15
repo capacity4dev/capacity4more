@@ -1,9 +1,7 @@
-<div class="row activity-row">
-  <div class="col-sm-4 col-md-2">
-    <?php print $icon; ?>
-  </div>
+<div class="row activity-row clearfix">
+  <div class="as-icon as-<?php print $icon; ?>"></div>
 
-  <div class="col-sm-8 col-md-10">
+  <div class="as-item">
     <?php print $content; ?>
   </div>
 </div>

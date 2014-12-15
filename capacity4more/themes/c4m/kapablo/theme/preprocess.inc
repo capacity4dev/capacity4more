@@ -38,14 +38,7 @@ function kapablo_preprocess_message(&$variables) {
     }
   }
 
-  $image_path        = drupal_get_path('theme', 'kapablo') . '/images/activity_stream_icons';
-  $icon_variables    = array(
-    'path'       => $image_path . '/' . $icon_name . '.png',
-    'attributes' => array(
-      'class' => 'img-responsive',
-    )
-  );
-  $variables['icon'] = theme('image', $icon_variables);
+  $variables['icon'] = $icon_name;
 }
 
 /**
