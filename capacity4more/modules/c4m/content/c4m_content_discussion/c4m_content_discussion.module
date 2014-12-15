@@ -51,50 +51,16 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     return;
   }
 
-  // Create widget.
-  // Using default widget, that will be hidden.
-  $instance['widget']['type'] = 'options_buttons';
-  $instance['widget']['active'] = 1;
-  $element1 = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-
-  $instance['settings'] = array(
-    'description_field' => 0,
-    'file_directory' => 'documents',
-    'file_extensions' => 'txt pdf doc docx xls xlsx png bmp jpg jpeg',
-    'max_filesize' => '',
-    'user_register_form' => FALSE,
+  $instance['widget']['type'] = 'inline_entity_form';
+  $instance['widget']['settings']['type_settings'] = array(
+    'allow_existing' => 1,
+    'match_operator' => 'CONTAINS',
+    'delete_references' => 0,
+    'override_labels'=> 0,
+    'label_singular' => 'node',
+    'label_plural' => 'nodes'
   );
-  $instance['widget']['module'] = ' dragndrop_upload_file';
-  $instance['widget']['settings'] = array(
-    'allow_replace' => 1,
-    'droppable_area_text' => 'Drop a file here to upload',
-    'media_browser' => 0,
-    'multiupload' => 0,
-    'progress_indicator' => 'bar',
-    'standard_upload' => 1,
-    'upload_button_text' => 'Upload',
-    'upload_event' => 'auto',
-  );
-  $field['settings'] = array(
-    'display_default' => 0,
-    'display_field' => 0,
-    'uri_scheme' => 'public',
-  );
-  $field['indexes'] = array(
-    'fid' => array('fid'),
-  );
-  $field['field_name'] = 'c4m_document';
-
-  $document = new stdClass();
-  $document->title = t('Document for the @discussion', array('@discussion' => $entity->title));
-  $document->type = 'document';
-  $document->language = $entity->language;
-  $document->uid = $entity->uid;
-
-  $element['#entity'] = $document;
-
-  $element1 = media_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-
-  return $element1;
+  $element = inline_entity_form_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  return $element;
 }
 
