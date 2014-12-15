@@ -34,7 +34,7 @@ function kapablo_preprocess_message(&$variables) {
     if ($icon_name == 'discussion') {
       $message_wrapper = entity_metadata_wrapper('message', $message);
       // Icon image file name is the discussion type of the discussion node.
-      $icon_name = $message_wrapper->field_node->c4m_discussion_type->value();
+      $icon_name = 'discussion-' . $message_wrapper->field_node->c4m_discussion_type->value();
     }
   }
 

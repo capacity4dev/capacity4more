@@ -41,17 +41,17 @@
       &.as-document-pdf {
         @include image-icon-png-fallback('icons', 'document-pdf');
       }
-      &.as-info {
-        @include image-icon-png-fallback('icons', 'info');
+      &.as-discussion-info {
+        @include image-icon-png-fallback('icons', 'discussion-info');
       }
-      &.as-idea {
-        @include image-icon-png-fallback('icons', 'idea');
+      &.as-discussion-idea {
+        @include image-icon-png-fallback('icons', 'discussion-idea');
       }
-      &.as-question {
-        @include image-icon-png-fallback('icons', 'question');
+      &.as-discussion-question {
+        @include image-icon-png-fallback('icons', 'discussion-question');
       }
-      &.as-debate {
-        @include image-icon-png-fallback('icons', 'debate');
+      &.as-discussion-debate {
+        @include image-icon-png-fallback('icons', 'discussion-debate');
       }
       &.as-comment {
         @include image-icon-png-fallback('icons', 'comment');
