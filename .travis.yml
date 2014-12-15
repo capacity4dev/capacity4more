@@ -56,6 +56,10 @@ before_script:
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 
+  # Configure MySQL
+  - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+  - sudo service mysql restart
+
   # Install Solr
   - cd $TRAVIS_BUILD_DIR
   - drush dl search_api_solr
@@ -124,3 +128,7 @@ script:
 
 after_script:
   - sudo cat /var/log/apache2/error.log
+  - cd $TRAVIS_BUILD_DIR
+  - wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
+  - chmod +x ./mysqltuner.pl
+  - ./mysqltuner.pl --username=root --host=127.0.0.1
