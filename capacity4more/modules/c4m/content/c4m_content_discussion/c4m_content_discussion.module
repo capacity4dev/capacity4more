@@ -24,3 +24,78 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
   );
 }
 
+/**
+ * Implements hook_field_widget_info().
+ */
+function c4m_content_discussion_field_widget_info() {
+  $widgets['c4m_add_document'] = array(
+    'label' => t('C4M Document'),
+    'description' => t('Load new document or select existing.'),
+    'field types' => array('entityreference'),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      'default value' => FIELD_BEHAVIOR_NONE,
+    ),
+  );
+
+  return $widgets;
+}
+/**
+ * Implements hook_field_widget_form().
+ */
+function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+
+  if (!$entity) {
+    return;
+  }
+
+  // Create widget.
+  // Using default widget, that will be hidden.
+  $instance['widget']['type'] = 'options_buttons';
+  $instance['widget']['active'] = 1;
+  $element1 = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
+  $instance['settings'] = array(
+    'description_field' => 0,
+    'file_directory' => 'documents',
+    'file_extensions' => 'txt pdf doc docx xls xlsx png bmp jpg jpeg',
+    'max_filesize' => '',
+    'user_register_form' => FALSE,
+  );
+  $instance['widget']['module'] = ' dragndrop_upload_file';
+  $instance['widget']['settings'] = array(
+    'allow_replace' => 1,
+    'droppable_area_text' => 'Drop a file here to upload',
+    'media_browser' => 0,
+    'multiupload' => 0,
+    'progress_indicator' => 'bar',
+    'standard_upload' => 1,
+    'upload_button_text' => 'Upload',
+    'upload_event' => 'auto',
+  );
+  $field['settings'] = array(
+    'display_default' => 0,
+    'display_field' => 0,
+    'uri_scheme' => 'public',
+  );
+  $field['indexes'] = array(
+    'fid' => array('fid'),
+  );
+  $field['field_name'] = 'c4m_document';
+
+  $document = new stdClass();
+  $document->title = t('Document for the @discussion', array('@discussion' => $entity->title));
+  $document->type = 'document';
+  $document->language = $entity->language;
+//  dpm($element);
+  $document->uid = $entity->uid;
+
+  $element['#entity'] = $document;
+dpm($field);
+  $element1 = dragndrop_upload_file_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
+  return $element1;
+}
+
