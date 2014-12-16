@@ -58,14 +58,6 @@
   }
 
   .selected-values {
-    .value {
-      width: 100%;
-    }
-
-    div {
-      display: inline-block;
-      text-align: left;
-    }
 
     span {
       margin-right: 4px;
@@ -89,8 +81,8 @@
 
     .hidden-checkboxes {
       display: block;
-      left: 120px;
-      top: -80px;
+      left: 150px;
+      top: -85px;
     }
   }
 
@@ -133,10 +125,6 @@
 
   #document_file {
     display: none;
-  }
-
-  .popup-button {
-    clear: both;
   }
 }
 

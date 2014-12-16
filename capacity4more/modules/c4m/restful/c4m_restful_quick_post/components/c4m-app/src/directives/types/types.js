@@ -15,7 +15,8 @@ angular.module('c4mApp')
         fieldSchema: '=',
         type: '=',
         field: '=',
-        onChange: '=onChange'
+        onChange: '=onChange',
+        cols: '='
       },
       link: function postLink(scope) {
         // Get allowed values.
