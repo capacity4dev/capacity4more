@@ -38,6 +38,17 @@ function c4m_ds_ds_layout_info() {
     'image' => FALSE,
   );
 
+  $layouts['c4m_ds_2col_icon_left'] = array(
+    'label' => t('Two columns with the content icon left.'),
+    'path' => $path . '/c4m_ds_2col_icon_left',
+    'regions' => array(
+      'left' => t('Icon'),
+      'right' => t('Content'),
+    ),
+    'form' => TRUE,
+    'image' => FALSE,
+  );
+
   return $layouts;
 }
 
@@ -121,6 +132,19 @@ function c4m_ds_ds_fields_info($entity_type) {
         'author' => 'Author first and last name',
         'author_link' => 'Author first and last name linked to profile',
       )),
+  );
+
+  $fields['node']['c4m_ds_content_type_icon'] = array(
+    'title' => t('Content type icon'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_content_type_icon',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
   );
 
   // Fields for Group nodes

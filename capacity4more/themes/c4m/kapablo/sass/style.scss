@@ -8,12 +8,14 @@
 @import "base/settings";
 @import "base/mixins";
 @import "base/common";
+@import "base/node";
+@import "base/fields";
 
 // Layout : Layout rules divide the page into sections.
 // Layouts hold one or more components together.
 @import "layout/header";
-
 @import "layout/header_group";
+@import "layout/display_suite";
 
 // Components - general
 @import "components/menu";
@@ -21,6 +23,9 @@
 @import "components/activity_steam";
 @import "components/panels";
 @import "components/group_blocks";
+
+// Components - Content types
+@import "components/discussion";
 
 // State: State rules are ways to describe how our modules or layouts will look when in a particular state.
 @import "states/states";

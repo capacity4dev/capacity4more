@@ -77,6 +77,42 @@ function theme_c4m_ds_author_first_and_last_name($field) {
 /**
  * DS function field.
  *
+ * Render Author first and last name.
+ *
+ * @param $field
+ * @return string
+ */
+function theme_c4m_ds_content_type_icon($field) {
+  dsm($field);
+  if (empty($field['entity'])) {
+    return;
+  }
+  $object = $field['entity'];
+
+  $icon_name = $object->type;
+
+  if ($icon_name == 'discussion') {
+    $object_wrapper = entity_metadata_wrapper('node', $object);
+    // Icon image file name is the discussion type of the discussion node.
+    $icon_name = 'discussion-' . $object_wrapper->c4m_discussion_type->value();
+  }
+
+  $variables['icon'] = $icon_name;
+
+//  $tag['element'] = array(
+//    '#tag' => 'span',
+//    'attributes' => array(
+//      'class' => array($icon_name),
+//    ),
+//    '#value' => $icon_name,
+//  );
+
+  return '<span class="node-icon as-' . $icon_name . '"> </span>';
+}
+
+/**
+ * DS function field.
+ *
  * Render group type info
  *
  * @param $field
