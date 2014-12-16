@@ -19,8 +19,7 @@ Feature: Test activity stream
     And   I am logged in as user "isaacnewton"
     Then  I should see "Event added" in the activity stream of the group "Discussion Insert 3"
 
-  # @TODO : Disabled test as it breaks the build (MySQL has gone away).
-  @javascript @wip
+  @javascript
   Scenario: Message is not changing when the same user updates right after creation earlier than 6 hours ago.
     Given a group "Discussion Insert 5" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
