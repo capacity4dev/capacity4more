@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_features_general.context.inc
+ * c4m_user_bar.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function c4m_features_general_context_default_contexts() {
+function c4m_user_bar_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();

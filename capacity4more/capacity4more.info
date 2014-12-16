@@ -78,6 +78,7 @@ dependencies[] = c4m_vocab_tag
 
 ; Users
 dependencies[] = c4m_user_profile
+dependencies[] = c4m_user_bar
 
 ; Content Types
 dependencies[] = c4m_content_article
@@ -98,10 +99,6 @@ dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_wiki
 
 dependencies[] = c4m_field_related_og
-
-; General
-dependencies[] = c4m_features_general
-
 
 ; Overview content
 dependencies[] = c4m_features_overview_articles

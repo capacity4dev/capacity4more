@@ -1,5 +1,5 @@
-name = General
-description = General stuff
+name = c4m User Bar
+description = Provides the User navigation bar.
 core = 7.x
 package = capacity4more - Features
 dependencies[] = c4m_user_profile
