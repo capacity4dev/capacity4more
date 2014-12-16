@@ -4,4 +4,4 @@
  * Code for the General feature.
  */
 
-include_once 'c4m_features_general.features.inc';
+include_once 'c4m_user_bar.features.inc';
