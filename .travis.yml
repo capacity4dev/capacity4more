@@ -59,7 +59,6 @@ before_script:
   # Configure MySQL
   - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
   - sudo service mysql restart
-  - mysql -e "SHOW VARIABLES LIKE 'max_allowed_packet';"
 
   # Install Solr
   - cd $TRAVIS_BUILD_DIR
@@ -129,3 +128,10 @@ script:
 
 after_script:
   - sudo cat /var/log/apache2/error.log
+
+  # Debug MySQL config.
+  - cat /etc/mysql/conf.d/drupal.cnf
+  - cd $TRAVIS_BUILD_DIR
+  - wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
+  - chmod +x ./mysqltuner.pl
+  - ./mysqltuner.pl --user=root
