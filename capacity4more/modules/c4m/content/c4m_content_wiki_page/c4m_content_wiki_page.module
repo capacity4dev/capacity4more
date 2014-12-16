@@ -4,6 +4,8 @@
  * Code for the Wiki page content type feature.
  */
 
+define('WIKI_MAX_DEPTH', 6);
+
 include_once 'c4m_content_wiki_page.features.inc';
 
 /**
@@ -58,6 +60,112 @@ function c4m_content_wiki_page_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically create a master wiki page
+ * if a group content type is created.
+ */
+function c4m_content_wiki_page_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Make the group the top level of a new book.
+  $node->book = array(
+    'pick-book'          => 'Change book (update list of parents)',
+    'bid'                => 'new',
+    'has_children'       => 0,
+    'options'            => array(),
+    'module'             => 'book',
+    'original_bid'       => 0,
+    'parent_depth_limit' => WIKI_MAX_DEPTH,
+    'weight'             => '0',
+  );
+
+  // We want module book to run after c4m_content_wiki_page because we need
+  // all the form altering, so we do not change the weight of
+  // c4m_content_wiki_page to run before book module but this means we have to
+  // reexecute the behaviour of book_node_insert now that we made the node a
+  // book, because otherwise book will not do anything for us at node insert of
+  // an OG  group node.
+  book_node_insert($node);
+}
+
+/**
+ * Implements hook_node_prepare().
+ *
+ * Prevent the creation of more than 6 levels in a book, including level 0.
+ *
+ */
+function c4m_content_wiki_page_node_prepare($node) {
+  // Find the depth limit for the parent select.
+  if (isset($node->book['bid']) && !isset($node->book['parent_depth_limit'])) {
+    $node->book['parent_depth_limit'] = _c4m_content_wiki_page_parent_depth_limit($node->book);
+  }
+}
+
+/**
+ * Finds the depth limit for items in the parent select.
+ *
+ * @param $book_link
+ *   A fully loaded menu link that is part of the book hierarchy.
+ *
+ * @return
+ *   The depth limit for items in the parent select.
+ */
+function _c4m_content_wiki_page_parent_depth_limit($book_link) {
+  return WIKI_MAX_DEPTH - 1 - (($book_link['mlid'] && $book_link['has_children']) ? menu_link_children_relative_depth($book_link) : 0);
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Prevent the creation of more than 6 levels in a book, including level 0.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  // If the form is being processed during the Ajax callback of our book bid
+  // dropdown, then $form_state will hold the value that was selected.
+  if (isset($form_state['values']['book'])) {
+    $node->book = $form_state['values']['book'];
+  }
+  if ($node->book['nid'] !== $node->book['bid']) {
+    $form['book']['plid']['#description'] = t('The parent page in the book. The
+      maximum depth for a book and all child pages is !maxdepth. Some pages in
+      the selected book may not be available as parents if selecting them would
+      exceed this limit.', array('!maxdepth' => WIKI_MAX_DEPTH));
+  }
+}
+
+/**
+ * Helper function to retrieve the menu mlid from a node id.
+ *
+ * @param int $nid
+ *   Entity node id.
+ *
+ * @return int|null
+ *   Menu link ID if found, else NULL.
+ */
+function c4m_content_wiki_page_get_mlid_by_nid($nid) {
+  $q   = db_select('book', 'book')
+    ->fields('book', array('mlid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['mlid'];
+  }
+
+  return NULL;
 }
 
 /**
@@ -145,3 +253,31 @@ function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
     }
   }
 }
+
+
+/**
+ * Implements hook_query_TAG_alter().
+ *
+ * @see menu_tree_check_access()
+ *   Contains the query being altered here. This is most likely the only query
+ *   with tag node_access where the first condition is for the node.status column.
+ */
+function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $query) {
+  // Only alter query on og group type or wiki page.
+  $object = menu_get_object();
+  if (!isset($object->type) ||
+     (!og_is_group_type('node', $object->type) &&
+      'wiki_page' != $object->type)) {
+    return;
+  }
+
+  $c = &$query->conditions();
+  // Remove the status condition if we suspect this query originates from
+  // menu_tree_check_access().
+  if (count($c) == 3 &&
+    is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
+    is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN') {
+    unset($c[0]);
+  }
+}
+

@@ -231,3 +231,16 @@ function c4m_ds_theme() {
     ),
   );
 }
+
+/**
+ *  Implements hook_ds_pre_render_alter().
+ */
+function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
+  // DS and field_group together sometimes break weight.
+  // We can use field key in region as weight as fields are ordered now.
+  foreach ($layout_render_array as $region_name => $content) {
+    foreach($content as $key => $field) {
+      $layout_render_array[$region_name][$key]['#weight'] = $key;
+    }
+  }
+}
