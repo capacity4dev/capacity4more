@@ -83,7 +83,6 @@ function theme_c4m_ds_author_first_and_last_name($field) {
  * @return string
  */
 function theme_c4m_ds_content_type_icon($field) {
-  dsm($field);
   if (empty($field['entity'])) {
     return;
   }
@@ -98,14 +97,6 @@ function theme_c4m_ds_content_type_icon($field) {
   }
 
   $variables['icon'] = $icon_name;
-
-//  $tag['element'] = array(
-//    '#tag' => 'span',
-//    'attributes' => array(
-//      'class' => array($icon_name),
-//    ),
-//    '#value' => $icon_name,
-//  );
 
   return '<span class="node-icon as-' . $icon_name . '"> </span>';
 }
