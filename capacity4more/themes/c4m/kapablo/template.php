@@ -74,13 +74,14 @@ function kapablo_menu_tree__book_toc(&$variables) {
  * Overrides theme_menu_tree() for book module.
  */
 function kapablo_menu_tree__book_toc__sub_menu(&$variables) {
-
   $tag['element'] = array(
     '#tag' => 'ul',
     '#attributes' => array(
       'id' => '',
-      // Make it collapsible and expanded by default.
-      'class' => array('collapse', 'in'),
+      // It will be made collapsible and it will be expanded only for the sub
+      // menu of an active menu item.
+      // (So we expand current page + first generation children.
+      // See kapablo_menu_link__book_toc() for that.
       'role' => array('menu'),
     ),
     '#value' => $variables['tree'],
@@ -102,8 +103,15 @@ function kapablo_menu_link__book_toc(array $variables) {
 
   $link_options = $element['#localized_options'];
   $element['#attributes']['role'] = 'presentation';
-  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+  $active = FALSE;
+  if (($element['#href'] == $_GET['q'] ||
+      ($element['#href'] == '<front>' && drupal_is_front_page())) &&
+      (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
+    // We expand current page + first generation children
+    // We will replace class 'collapse' set in
+    // kapablo_menu_tree__book_toc__sub_menu() by 'collapse in'.
+    $active = TRUE;
   }
 
   $replacement = $icon = '';
@@ -112,7 +120,7 @@ function kapablo_menu_link__book_toc(array $variables) {
     // The list item should contain an icon which should act as a bootstrap
     // collapse toggle control to hide/show the submenu (= child pages).
 
-    $id_submenu = 'children-of-' . $mlid;
+    $submenu_id = 'children-of-' . $mlid;
 
     // See kapablo_menu_tree__book_toc__sub_menu().
     $tag['element'] = array(
@@ -121,21 +129,38 @@ function kapablo_menu_link__book_toc(array $variables) {
         // Tell the span element it is a collapse toggle control.
         'data-toggle' => 'collapse',
         // Tell the control which is the target to be controlled.
-        'data-target' => '#' . $id_submenu,
+        'data-target' => '#' . $submenu_id,
         // Give it class as well for easy theming.
-        // !Expand all sub menus.
-        'class' => array('toggle', 'expanded'),
+        'class' => array('toggle'),
       ),
       '#value' => '',
     );
+    if (!$active) {
+      $tag['element']['#attributes']['class'][] = 'collapsed';
+    }
+    else {
+      $tag['element']['#attributes']['class'][] = 'expanded';
+    }
 
     $icon = theme_html_tag($tag);
 
-    $replacement = 'id="' . $id_submenu . '"';
+    // Prepare to replace id of submenu.
+    // Make all subclasses collapsible.
+    $submenu_classes = 'collapse';
+    // And expand only if current menu item is active or a child menu item is
+    // active. We know the latter by the class 'in' being already present.
+    if ($active ||
+        strpos($sub_menu, 'collapse in') !== FALSE) {
+      $submenu_classes .= ' in';
+    }
+
+    $replacement = 'id="' . $submenu_id . '" class="' . $submenu_classes . '"';
   }
-  // We replace previously placed empty id.
+  // We replace previously placed empty id by id + classes.
   // So we remove the id if unnecessary or set the id on the target to be
   // controlled by the data toggle controller.
+  // We replace classes also like this to prevent that we replace classes
+  // of submenus in submenus.
   $sub_menu = preg_replace('/id=\"\"/', $replacement, $sub_menu);
 
   $link = l($element['#title'], $element['#href'], $link_options);

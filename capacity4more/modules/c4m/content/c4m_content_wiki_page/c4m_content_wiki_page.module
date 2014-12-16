@@ -103,7 +103,7 @@ function c4m_content_wiki_page_node_insert($node) {
  */
 function c4m_content_wiki_page_node_prepare($node) {
   // Find the depth limit for the parent select.
-  if (isset($node->book['bid']) && !isset($node->book['parent_depth_limit'])) {
+  if (isset($node->book)) {
     $node->book['parent_depth_limit'] = _c4m_content_wiki_page_parent_depth_limit($node->book);
   }
 }
@@ -137,6 +137,7 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
   if (isset($form_state['values']['book'])) {
     $node->book = $form_state['values']['book'];
   }
+
   if ($node->book['nid'] !== $node->book['bid']) {
     $form['book']['plid']['#description'] = t('The parent page in the book. The
       maximum depth for a book and all child pages is !maxdepth. Some pages in
@@ -254,7 +255,6 @@ function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
   }
 }
 
-
 /**
  * Implements hook_query_TAG_alter().
  *
@@ -263,21 +263,29 @@ function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
  *   with tag node_access where the first condition is for the node.status column.
  */
 function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $query) {
-  // Only alter query on og group type or wiki page.
+  // Only alter query ...
+  // - on og group type or
+  // - on wiki page
+  // - or on node form for wiki page
+  // - or during ajax call to retrieve the parent list on wiki page node form
   $object = menu_get_object();
-  if (!isset($object->type) ||
-     (!og_is_group_type('node', $object->type) &&
-      'wiki_page' != $object->type)) {
-    return;
-  }
+  if ((isset($object->type) &&
+      (og_is_group_type('node', $object->type) ||
+      'wiki_page' == $object->type)) ||
+      ('node/add/wiki-page' == current_path() ||
+      ('system/ajax' == current_path() &&
+       isset($_POST['form_id']) &&
+       'wiki_page_node_form' == $_POST['form_id']))) {
 
-  $c = &$query->conditions();
-  // Remove the status condition if we suspect this query originates from
-  // menu_tree_check_access().
-  if (count($c) == 3 &&
-    is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
-    is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN') {
-    unset($c[0]);
+    $c = &$query->conditions();
+    // Remove the status condition if we suspect this query originates from
+    // menu_tree_check_access().
+    if (count($c) == 3 &&
+      is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
+      is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN'
+    ) {
+      unset($c[0]);
+    }
   }
 }
 

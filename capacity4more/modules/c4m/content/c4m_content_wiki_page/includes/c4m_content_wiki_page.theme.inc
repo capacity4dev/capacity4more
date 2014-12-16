@@ -18,7 +18,6 @@ function theme_c4m_content_wiki_page_navigation($field) {
     return;
   }
   $book = $field['entity']->book;
-  dsm($book);
   $markup = '';
 
   // We have to replicate some code because we cannot just
