@@ -16,7 +16,7 @@
 .user-name {
   color: $blue;
 
-  &+ .post-date {
+  & + .post-date {
     &:before {
       color: $blue;
       content: '|';
@@ -38,4 +38,9 @@
   height: 50px;
   margin: 0;
   padding: 0;
+}
+
+.field-name-c4m-ds-content-footer-stats {
+  color: $gray-dark;
+  margin-top: 5px;
 }

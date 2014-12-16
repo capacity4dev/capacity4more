@@ -126,6 +126,11 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|discussion|teaser'] = $ds_fieldsetting;
 
@@ -210,6 +215,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
         2 => 'c4m_ds_author_first_and_last_name',
         3 => 'post_date',
         4 => 'c4m_body',
+        5 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
@@ -218,6 +224,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_ds_author_first_and_last_name' => 'right',
       'post_date' => 'right',
       'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
