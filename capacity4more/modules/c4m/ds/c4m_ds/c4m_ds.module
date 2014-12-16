@@ -13,7 +13,7 @@ function c4m_ds_ds_layout_info() {
   $path = drupal_get_path('module', 'c4m_ds');
   $path .= '/layouts';
 
-  $layouts = [];
+  $layouts = array();
 
   // Details of the layouts.
   $layouts['c4m_ds_4_8_fluid'] = array(
@@ -98,7 +98,7 @@ function c4m_ds_ds_fields_info($entity_type) {
 
   // Fields for entity type node.
   $image_styles = array();
-  foreach(image_styles() as $image_style_id => $image_style) {
+  foreach (image_styles() as $image_style_id => $image_style) {
     $image_styles[$image_style_id] = $image_style['label'];
   }
   $fields['node']['c4m_ds_node_author_image'] = array(
@@ -126,7 +126,7 @@ function c4m_ds_ds_fields_info($entity_type) {
   // Fields for Group nodes
 
   // A field to give list of all members of a group node with a particular role.
-  foreach(c4m_og_get_group_bundles() as $group_bundle => $og_roles) {
+  foreach (c4m_og_get_group_bundles() as $group_bundle => $og_roles) {
     $fields['node']['c4m_ds_group_role_members'] = array(
       'title' => t('Group role members'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
