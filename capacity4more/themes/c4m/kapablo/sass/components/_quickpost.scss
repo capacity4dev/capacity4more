@@ -1,0 +1,303 @@
+.pane-quick-form {
+  .form-control {
+    @include input-rounded($beige);
+
+    &.drop-box {
+      @include input-rounded($highlight-blue);
+      @include border-radius(80px);
+    }
+  }
+
+  .group-resources {
+    margin-bottom: 20px;
+  }
+
+  button {
+    &.bundle-select, &.btn-default {
+      @extend .reset-button;
+
+      margin-right: 15px;
+
+      &[value=discussions] {
+        @extend %svg-icon;
+
+        @include link-icon-png-fallback('icons', 'discussion-qp-icon');
+      }
+
+      &[value=documents] {
+        @extend %svg-icon;
+
+        @include link-icon-png-fallback('icons', 'document-qp-icon');
+      }
+
+      &[value=events] {
+        @extend %svg-icon;
+
+        @include link-icon-png-fallback('icons', 'event-qp-icon');
+      }
+
+      &.active, &:hover {
+        @include border-radius(0);
+        @include box-shadow(none);
+
+        color: $highlight-blue !important;
+      }
+    }
+  }
+
+  .btn-group-selectors, .tags {
+    @extend .quickpost-btn-group-selectors;
+
+    .label-wrapper {
+      border: 0;
+      color: $gray-dark;
+    }
+
+    label {
+      color: $gray-dark;
+      display: block;
+      font-size: 115%;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+    .row label {
+      font-size: 90%;
+      text-transform: none;
+    }
+  }
+  .input-wrapper.tags {
+    border-bottom: none;
+    .select2-container {
+      &.select2-dropdown-open {
+        @include box-shadow(none);
+        @include border-radius(15px 15px 0 0);
+      }
+      .select2-choices {
+        @include box-shadow(none);
+        @include input-rounded($beige);
+      }
+      .select2-search-choice {
+        @include box-shadow(none);
+        @include border-radius(15px);
+
+        background-image: none;
+        background: $white;
+        border: 0;
+        margin: 7px 0 7px 7px;
+        padding: 3px 18px 3px 5px;
+      }
+      .select2-search-choice-close {
+        left: auto;
+        right: 3px;
+      }
+    }
+  }
+  .popup-button {
+    button {
+      @include border-radius(0);
+      @include read-more-icon('right');
+
+      border: none;
+      color: $blue;
+      font-size: 90%;
+      padding-bottom: 0;
+      padding-left: 0;
+      padding-top: 0;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.select2-drop-active, .select2-drop {
+  @include border-radius(0 0 15px 15px);
+  @include box-shadow(none);
+  border: 1px solid $beige;
+
+  .select2-results {
+    li {
+      background: none;
+      color: $gray-dark;
+    }
+  }
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+  background: none !important;
+}
+
+.quickpost-btn-group-selectors {
+  border-bottom: 1px solid $gray-lighter;
+  margin: 15px 0;
+  padding: 0 15px 15px 15px;
+}
+
+#quick-post-fields {
+  border: 1px solid $gray-lighter;
+
+  #cke_body {
+    @include box-shadow(none);
+
+    border: 0;
+
+    .cke_inner .cke_wysiwyg_div {
+      background: $beige;
+    }
+  }
+
+  #cke_1_contents {
+    height: 200px !important;
+  }
+
+  .btn-group {
+    margin-bottom: 0;
+  }
+
+  .btn-group-discussion_type, .btn-group-event_type {
+    border-bottom: 1px solid $gray-lighter;
+
+    .btn-default {
+      @extend %svg-icon;
+
+      background-position: 5px 50%;
+      background-repeat: no-repeat;
+      background-size: 20px;
+      border-right: 1px solid $gray-lighter;
+      margin: 0;
+
+      &:last-child {
+        border-right: 0;
+      }
+
+      &[value=debate] {
+        @include link-icon-png-fallback('icons', 'discussion-qp-debate');
+      }
+
+      &[value=idea] {
+        @include link-icon-png-fallback('icons', 'discussion-qp-idea');
+      }
+
+      &[value=info] {
+        @include link-icon-png-fallback('icons', 'discussion-qp-info');
+      }
+
+      &[value=question] {
+        @include link-icon-png-fallback('icons', 'discussion-qp-question');
+      }
+
+      &[value=event] {
+        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+      }
+
+      &[value=learning] {
+        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+      }
+
+      &[value=meeting] {
+        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+      }
+    }
+  }
+}
+
+.selected-values {
+  span {
+    color: $gray-dark;
+    margin: 10px 10px 0 0 !important;
+  }
+}
+
+.reset-button {
+  @include border-radius(0);
+
+  background: none;
+  border: none;
+
+  &:active {
+    @include border-radius(0);
+    @include box-shadow(none);
+  }
+}
+
+.qp-post-button {
+  display: inline-block;
+  margin: 15px 8px 15px 15px;
+
+  button {
+    @include input-rounded($gray-dark);
+  }
+}
+
+.qp-post-fullform {
+  display: inline-block;
+  margin: 15px 8px 15px 7px;
+
+  a {
+    color: $gray-dark;
+  }
+}
+
+.qp-post-cancel {
+  display: inline-block;
+  float: right;
+  margin: 15px;
+}
+
+.drop-box {
+  border: 0;
+  color: $white;
+  display: block;
+  padding: 0;
+  height: auto;
+  margin: 10px 0 0 0;
+  text-align: center;
+  width: 100%;
+
+  .drop-text {
+    padding: 20px 30px;
+
+    a {
+      color: $white;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &:before {
+      background: image-url('misc/hand.png') no-repeat 50% 50%;
+      content: '';
+      display: block;
+      height: 33px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .alert {
+    @include border-radius(80px);
+
+    padding: 30px;
+  }
+}
+
+.qp-timeselector {
+  color: $gray-dark;
+
+  table tr td, input {
+    color: $gray-dark;
+  }
+}
+
+// Styles for quick form.
+.modal-content {
+  padding: 10px;
+
+  .actions {
+    padding-bottom: 30px;
+  }
+}
+
+.document {
+  padding-top: 5px;
+  border-top: 1px solid #000;
+}

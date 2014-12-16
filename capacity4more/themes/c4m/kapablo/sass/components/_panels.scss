@@ -1,0 +1,29 @@
+.right {
+  .panel-pane {
+    border-left: 1px solid $gray-dark;
+    margin-bottom: 50px;
+    margin-left: 15px;
+    padding: 0 0 5px 15px;
+
+    h2 {
+      border-bottom: 2px dashed $gray-dark;
+      font-weight: lighter;
+      margin: 0 0 10px 0;
+      padding: 0 5px 10px 5px;
+      text-transform: uppercase;
+    }
+
+    .pane-content {
+      padding: 5px;
+    }
+  }
+}
+
+h2 {
+  .pane-c4m-overview-og-highlights & {
+    color: $green;
+  }
+  .pane-c4m-content-group & {
+    color: $blue;
+  }
+}

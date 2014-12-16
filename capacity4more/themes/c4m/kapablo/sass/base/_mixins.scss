@@ -1,0 +1,64 @@
+/**
+ * Create background images with hover state and png fallback for browsers without SVG support.
+ */
+@mixin link-icon-png-fallback($subfolder, $filename) {
+  $full-png: image-url($subfolder + '/png/' + $filename + '.png');
+  $full-png-hover: image-url($subfolder + '/png/' + $filename + '-hover.png');
+  $full-svg: inline-image('svgmin/' + $subfolder + '/' + $filename + '.svg');
+  $full-svg-hover: inline-image('svgmin/' + $subfolder + '/' + $filename + '-hover.svg');
+
+  background-image: $full-png;
+//  background-size: 1.3em;
+
+  &:hover {
+    background-color: inherit;
+    background-image: $full-png-hover;
+    color: $gray-dark;
+  }
+
+  html.inlinesvg & {
+    background-image: $full-svg;
+    &:hover {
+      background-image: $full-svg-hover;
+    }
+  }
+
+  &.active-trail, &.active {
+    background-image: $full-png-hover;
+    color: $gray-dark;
+
+    html.inlinesvg & {
+      background-image: $full-svg-hover;
+    }
+  }
+}
+
+@mixin image-icon-png-fallback($subfolder, $filename) {
+  $full-png: image-url($subfolder + '/png/' + $filename + '.png');
+  $full-svg: inline-image('svgmin/' + $subfolder + '/' + $filename + '.svg');
+
+  background-image: $full-png;
+  html.inlinesvg & {
+    background-image: $full-svg;
+  }
+}
+
+@mixin read-more-icon($direction: 'left', $color: 'blue') {
+  $full-png: image-url('icons/png/arrow-' + $color + '-' + $direction + '.png');
+  $full-svg: inline-image('svgmin/icons/arrow-' + $color + '-' + $direction + '.svg');
+
+  background: $full-png no-repeat right 50%;
+  background-size: 1em;
+  padding-right: 15px;
+
+  html.inlinesvg & {
+    background-image: $full-svg;
+  }
+}
+
+@mixin input-rounded($color) {
+  @include border-radius(15px);
+
+  background: $color;
+  border: none;
+}
