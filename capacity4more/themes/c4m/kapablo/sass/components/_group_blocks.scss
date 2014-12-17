@@ -1,9 +1,9 @@
-.post-date {
-  color: $gray-dark;
-  margin-bottom: 10px;
-}
-
 .view-mode-c4m_dashboard {
+  .post-date {
+    color: $gray-dark;
+    margin-bottom: 10px;
+  }
+
   .field-name-node-link {
     a {
       // icon
@@ -14,7 +14,7 @@
   .field-name-c4m-ds-group-access-info {
     h4 {
       background-repeat: no-repeat;
-      background-position: 0 50%;
+      background-position: 0 0;
       background-size: 1em;
       font-weight: lighter;
       padding-left: 1.2em;
@@ -66,6 +66,34 @@
 
         &[aria-expanded=true] {
           @include read-more-icon('up', 'gray-dark');
+        }
+      }
+    }
+
+    .panel-body {
+      padding: 0;
+    }
+    .field-name-c4m-ds-node-author-image {
+      float: left;
+      margin: 0 15px 15px 0;
+    }
+
+    .field-name-c4m-related-topic, .field-type-taxonomy-term-reference {
+      .field-item {
+        display: inline;
+        & + .field-item {
+          &:not(:last-child) {
+            &:before {
+              content: ', ';
+
+            }
+          }
+          &:last-child {
+            &:before {
+              content: ' & ';
+
+            }
+          }
         }
       }
     }
