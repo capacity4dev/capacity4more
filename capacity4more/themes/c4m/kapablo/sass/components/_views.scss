@@ -23,5 +23,14 @@
     right: 0;
     top: 0;
     text-transform: uppercase;
+
+    &.node-create-discussion {
+      @extend %svg-icon;
+      @include image-icon-png-fallback('icons', 'create-discussion');
+
+//      background-size: $font-size-h1 / 2;
+      background-position-x: 20px;
+      padding-left: 55px;
+    }
   }
 }
