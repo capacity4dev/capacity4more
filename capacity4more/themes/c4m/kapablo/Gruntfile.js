@@ -84,11 +84,6 @@ module.exports = function (grunt) {
         },
 
         watch: {
-//            csscss: {
-//                files: '**/*.scss',
-//                tasks: ['csscss']
-//            },
-
             svgmin: {
                 files: ['images/svg/**/*.svg'],
                 tasks: ['svgmin', 'grunticon'],

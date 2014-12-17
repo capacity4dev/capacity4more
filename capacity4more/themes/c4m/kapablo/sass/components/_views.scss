@@ -42,3 +42,18 @@
 .view-content {
   clear: both;
 }
+
+#edit-search-api-views-fulltext-wrapper {
+  label {
+    color: $gray-dark;
+    font-size: 30px;
+    font-weight: lighter;
+    text-transform: uppercase;
+  }
+}
+
+.views-widget {
+  input {
+    @include input-rounded($beige);
+  }
+}

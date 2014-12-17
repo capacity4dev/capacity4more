@@ -13,12 +13,14 @@
 
 // Layout : Layout rules divide the page into sections.
 // Layouts hold one or more components together.
+@import "layout/main";
 @import "layout/header";
 @import "layout/header_group";
 @import "layout/display_suite";
 
 // Components - general
 @import "components/menu";
+@import "components/blocks";
 @import "components/quickpost";
 @import "components/activity_steam";
 @import "components/panels";
