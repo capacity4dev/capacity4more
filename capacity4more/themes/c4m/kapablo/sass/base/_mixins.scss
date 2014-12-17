@@ -43,7 +43,7 @@
   }
 }
 
-@mixin read-more-icon($direction: 'left', $color: 'blue') {
+@mixin arrow-image($direction: 'left', $color: 'blue') {
   $full-png: image-url('icons/png/arrow-' + $color + '-' + $direction + '.png');
   $full-svg: inline-image('svgmin/icons/arrow-' + $color + '-' + $direction + '.svg');
 
@@ -54,6 +54,10 @@
   html.inlinesvg & {
     background-image: $full-svg;
   }
+}
+
+@mixin read-more-icon($direction: 'left', $color: 'blue') {
+  @include arrow-image($direction, $color);
 }
 
 @mixin input-rounded($color) {

@@ -69,7 +69,7 @@ function kapablo_pager($variables) {
     'parameters' => $parameters
   ));
   $li_next     = theme('pager_next', array(
-    'text'       => (isset($tags[3]) ? $tags[3] : t('next')),
+    'text'       => (isset($tags[2]) ? $tags[2] : t('next')),
     'element'    => $element,
     'interval'   => 1,
     'parameters' => $parameters
@@ -155,12 +155,12 @@ function kapablo_pager($variables) {
 
     return '<div class="row">
     <h2 class="element-invisible">' . t('Pages') . '</h2>' .
-    '<div class="col-md-4">' . $li_previous . '</div>' .
-    '<div class="col-md-4">' . theme('item_list', array(
+    '<div class="col-md-4 pager-previous">' . $li_previous . '</div>' .
+    '<div class="col-md-4 pager-content">' . theme('item_list', array(
       'items'      => $items,
-      'attributes' => array('class' => array('pager', 'col-md-4')),
+      'attributes' => array('class' => array('pager')),
     )) . '</div>' .
-    '<div class="col-md-4">' . $li_next . '</div>' .
+    '<div class="col-md-4 pager-next">' . $li_next . '</div>' .
     '</div>';
   }
 }
