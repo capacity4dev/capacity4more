@@ -5,11 +5,13 @@ Feature: Group Wiki pages
   @api
   Scenario: Check Wiki detail as an anonymous user
     Given I am an anonymous user
-    When I visit the group "wiki_page" detail page "Lusail Soccer Stadium"
+    When I visit the group "wiki_page" detail page "Prizes"
     Then I should see the Wiki detail page
+
+
 
   @api
   Scenario: Check Wiki detail as group owner
     Given I am logged in as user "alfrednobel"
-    When I visit the group "wiki_page" detail page "Lusail Soccer Stadium"
+    When I visit the group "wiki_page" detail page "Prizes"
     Then I should see the Wiki detail page

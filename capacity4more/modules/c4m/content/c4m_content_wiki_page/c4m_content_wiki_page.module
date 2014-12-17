@@ -122,6 +122,22 @@ function _c4m_content_wiki_page_parent_depth_limit($book_link) {
 }
 
 /**
+ * Implementation of hook_form_BASE_ID_alter().
+ *
+ * Group is book.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  if (og_is_group('node', $node)) {
+    $form['book']['bid']['#disabled'] = TRUE;
+  }
+}
+
+/**
  * Implementation of hook_form_FORM_ID_alter().
  *
  * Prevent the creation of more than 6 levels in a book, including level 0.
@@ -136,6 +152,13 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
   // dropdown, then $form_state will hold the value that was selected.
   if (isset($form_state['values']['book'])) {
     $node->book = $form_state['values']['book'];
+  }
+
+  // The book MUST be the group if we are in group context.
+  $group = c4m_og_current_group();
+  if (isset($group->gid)) {
+    $form['book']['bid']['#default_value'] = $group->gid;
+    $form['book']['bid']['#disabled'] = TRUE;
   }
 
   if ($node->book['nid'] !== $node->book['bid']) {
@@ -269,23 +292,36 @@ function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $
   // - or on node form for wiki page
   // - or during ajax call to retrieve the parent list on wiki page node form
   $object = menu_get_object();
-  if ((isset($object->type) &&
-      (og_is_group_type('node', $object->type) ||
-      'wiki_page' == $object->type)) ||
-      ('node/add/wiki-page' == current_path() ||
-      ('system/ajax' == current_path() &&
-       isset($_POST['form_id']) &&
-       'wiki_page_node_form' == $_POST['form_id']))) {
 
-    $c = &$query->conditions();
-    // Remove the status condition if we suspect this query originates from
-    // menu_tree_check_access().
-    if (count($c) == 3 &&
-      is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
-      is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN'
-    ) {
-      unset($c[0]);
+  if (isset($object->type)) {
+    if (!og_is_group_type('node', $object->type) &&
+        'wiki_page' != $object->type) {
+      // Don't alter query if this is not a group node or a WIKI page.
+      return;
     }
   }
+  elseif ('system/ajax' == current_path()) {
+    if (!isset($_POST['form_id'])) {
+      // Don't alter query if there is no form information in post.
+      return;
+    }
+    elseif ('wiki_page_node_form' != $_POST['form_id']) {
+      // Don't alter query if this is an ajax call but not for WIKI page node
+      //form.
+      return;
+    }
+  }
+  elseif ('node/add/wiki-page' != current_path()) {
+    // Do not alter the query if this is not the WIKI page node form.
+    return;
+  }
+  $c = &$query->conditions();
+  // Remove the status condition if we suspect this query originates from
+  // menu_tree_check_access().
+  if (count($c) == 3 &&
+    is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
+    is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN'
+  ) {
+    unset($c[0]);
+  }
 }
-

@@ -134,24 +134,23 @@ function kapablo_menu_link__book_toc(array $variables) {
       ),
       '#value' => '',
     );
-    if (!$active) {
-      $tag['element']['#attributes']['class'][] = 'collapsed';
-    }
-    else {
-      $tag['element']['#attributes']['class'][] = 'expanded';
-    }
-
-    $icon = theme_html_tag($tag);
 
     // Prepare to replace id of submenu.
     // Make all subclasses collapsible.
     $submenu_classes = 'collapse';
     // And expand only if current menu item is active or a child menu item is
-    // active. We know the latter by the class 'in' being already present.
+    // active. We know the latter by the class 'active' being already present.
     if ($active ||
-      strpos($sub_menu, 'collapse in') !== FALSE) {
+      strpos($sub_menu, 'active') !== FALSE) {
+      $tag['element']['#attributes']['class'][] = 'expanded';
       $submenu_classes .= ' in';
     }
+    else {
+      $tag['element']['#attributes']['class'][] = 'collapsed';
+    }
+
+    $icon = theme_html_tag($tag);
+
 
     $replacement = 'id="' . $submenu_id . '" class="' . $submenu_classes . '"';
   }

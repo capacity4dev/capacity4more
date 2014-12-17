@@ -19,13 +19,16 @@ function theme_c4m_content_wiki_page_navigation($field) {
   }
   $book = $field['entity']->book;
   $markup = '';
-  
+
   // We have to replicate some code because we cannot just
   // call theme('book_navigation', array('book_link' => ...)) because
   // we want to remove level 0 from the tree.
 
   $tree = menu_build_tree($book['menu_name']);
 
+  if (empty($tree)) {
+    return;
+  }
   // Remove level 0 first.
   $tree = $tree[key($tree)]['below'];
   $tree = menu_tree_output($tree);
