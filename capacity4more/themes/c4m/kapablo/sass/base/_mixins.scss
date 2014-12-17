@@ -60,8 +60,8 @@
   @include arrow-image($direction, $color);
 }
 
-@mixin input-rounded($color) {
-  @include border-radius(15px);
+@mixin input-rounded($color, $border-radius: 15px) {
+  @include border-radius($border-radius);
 
   background: $color;
   border: none;

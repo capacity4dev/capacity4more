@@ -9,3 +9,19 @@
     }
   }
 }
+
+.view-header {
+  color: $gray-dark;
+
+  .node-create {
+    @include input-rounded($highlight-blue, 25px);
+
+    color: $white;
+    font-size: $font-size-h1 / 2;
+    padding: $font-size-h1 / 4 35px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-transform: uppercase;
+  }
+}
