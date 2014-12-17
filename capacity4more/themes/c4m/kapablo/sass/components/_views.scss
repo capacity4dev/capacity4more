@@ -12,7 +12,7 @@
 
 .view-header {
   color: $gray-dark;
-  margin-top: 10px;
+  margin: 10px 0 25px 0;
 
   .node-create {
     @include input-rounded($highlight-blue, 25px);
@@ -33,9 +33,12 @@
       padding-left: 55px;
     }
   }
-
   .search-api-sorts {
     clear: right;
     float: right;
   }
+}
+
+.view-content {
+  clear: both;
 }
