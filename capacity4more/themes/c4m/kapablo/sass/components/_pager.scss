@@ -27,6 +27,18 @@
   .pager {
     margin: 0 auto;
     width: 100%;
+
+    .pager-item {
+      a {
+        @extend %circle-button-30;
+        background: $gray-dark;
+        color: $white;
+      }
+    }
+    .pager-current {
+      @extend %circle-button-30;
+      background: $gray-light;
+    }
   }
 }
 
@@ -39,5 +51,23 @@
     // override default padding
     background-position-x: left;
     padding: 0 0 0 30px;
+  }
+}
+
+%circle-button-30 {
+  @include border-radius(15px);
+  
+  border: 0;
+  color: $white;
+  display: inline-block;
+  font-size: 12px;
+  height: 30px;
+  line-height: 1.428571429;
+  padding: 6px 0;
+  text-align: center;
+  width: 30px;
+
+  &:hover {
+    background: $gray-light;
   }
 }
