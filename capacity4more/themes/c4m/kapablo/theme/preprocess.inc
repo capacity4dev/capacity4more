@@ -64,6 +64,24 @@ function kapablo_preprocess_block(&$variables) {
 }
 
 /**
+ * Implements theme_preprocess_page().
+ *
+ * @see page.tpl.php
+ */
+function kapablo_preprocess_page(&$variables) {
+  // Add information about the number of sidebars.
+  if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
+    $variables['content_column_class_kapablo'] = ' class="col-md-6"';
+  }
+  elseif (!empty($variables['page']['sidebar_first']) || !empty($variables['page']['sidebar_second'])) {
+    $variables['content_column_class_kapablo'] = ' class="col-md-9"';
+  }
+  else {
+    $variables['content_column_class_kapablo'] = ' class="col-md-12"';
+  }
+}
+
+/**
  * Implements template_preprocess_field().
  */
 function kapablo_preprocess_field(&$variables, $hook) {

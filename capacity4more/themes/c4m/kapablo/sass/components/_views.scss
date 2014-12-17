@@ -18,11 +18,14 @@
     @include input-rounded($highlight-blue, 25px);
 
     color: $white;
-    float: right;
     font-size: 18px;
-    margin-top: -51px;
     padding: 9px 35px;
     text-transform: uppercase;
+
+    @media screen and (min-width: $screen-md-min) {
+      float: right;
+      margin-top: -51px;
+    }
 
     &.node-create-discussion {
       @extend %svg-icon;
@@ -55,5 +58,13 @@
 .views-widget {
   input {
     @include input-rounded($beige);
+  }
+}
+
+li {
+  h3 {
+    color: gray-dark;
+    font-size: 1em;
+    text-transform: uppercase;
   }
 }
