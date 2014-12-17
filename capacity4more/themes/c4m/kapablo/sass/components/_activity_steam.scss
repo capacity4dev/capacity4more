@@ -1,6 +1,6 @@
 .activity-stream {
   .row {
-    border-top: 1px solid $gray-dark;
+    border-top: 1px solid $gray-light;
     margin: 15px 0 0 0;
     padding: 15px 0 0 0;
   }
@@ -13,8 +13,6 @@
     }
 
     .as-icon {
-//      @include image-icon-png-fallback('icons', 'icon-missing');
-
       background-position: 50% 50%;
       background-repeat: no-repeat;
       background-size: 35px;
@@ -22,40 +20,6 @@
       float: left;
       height: 35px;
       width: 35px;
-
-      &.as-document {
-        @include image-icon-png-fallback('icons', 'document-unknown');
-      }
-      &.as-document-zip {
-        @include image-icon-png-fallback('icons', 'document-zip');
-      }
-      &.as-document-powerpoint {
-        @include image-icon-png-fallback('icons', 'document-powerpoint');
-      }
-      &.as-document-word {
-        @include image-icon-png-fallback('icons', 'document-word');
-      }
-      &.as-document-excel {
-        @include image-icon-png-fallback('icons', 'document-excel');
-      }
-      &.as-document-pdf {
-        @include image-icon-png-fallback('icons', 'document-pdf');
-      }
-      &.as-discussion-info {
-        @include image-icon-png-fallback('icons', 'discussion-info');
-      }
-      &.as-discussion-idea {
-        @include image-icon-png-fallback('icons', 'discussion-idea');
-      }
-      &.as-discussion-question {
-        @include image-icon-png-fallback('icons', 'discussion-question');
-      }
-      &.as-discussion-debate {
-        @include image-icon-png-fallback('icons', 'discussion-debate');
-      }
-      &.as-comment {
-        @include image-icon-png-fallback('icons', 'comment');
-      }
     }
 
     .as-item {
@@ -98,4 +62,38 @@
       margin-left: 50px;
     }
   }
+}
+
+.as-document {
+  @include image-icon-png-fallback('icons', 'document-unknown');
+}
+.as-document-zip {
+  @include image-icon-png-fallback('icons', 'document-zip');
+}
+.as-document-powerpoint {
+  @include image-icon-png-fallback('icons', 'document-powerpoint');
+}
+.as-document-word {
+  @include image-icon-png-fallback('icons', 'document-word');
+}
+.as-document-excel {
+  @include image-icon-png-fallback('icons', 'document-excel');
+}
+.as-document-pdf {
+  @include image-icon-png-fallback('icons', 'document-pdf');
+}
+.as-discussion-info {
+  @include image-icon-png-fallback('icons', 'discussion-info');
+}
+.as-discussion-idea {
+  @include image-icon-png-fallback('icons', 'discussion-idea');
+}
+.as-discussion-question {
+  @include image-icon-png-fallback('icons', 'discussion-question');
+}
+.as-discussion-debate {
+  @include image-icon-png-fallback('icons', 'discussion-debate');
+}
+.as-comment {
+  @include image-icon-png-fallback('icons', 'comment');
 }

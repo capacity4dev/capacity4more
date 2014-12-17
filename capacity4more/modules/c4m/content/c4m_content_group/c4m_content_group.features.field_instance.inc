@@ -294,7 +294,7 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
       'c4m_dashboard' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'entityreference',
         'settings' => array(
           'link' => 1,
@@ -353,7 +353,7 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
       'c4m_dashboard' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
