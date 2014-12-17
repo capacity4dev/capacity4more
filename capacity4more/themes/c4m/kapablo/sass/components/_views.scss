@@ -17,11 +17,10 @@
     @include input-rounded($highlight-blue, 25px);
 
     color: $white;
-    font-size: $font-size-h1 / 2;
-    padding: $font-size-h1 / 4 35px;
-    position: absolute;
-    right: 0;
-    top: 0;
+    float: right;
+    font-size: 18px;
+    margin-top: -(36px * 1.1);
+    padding: 9px 35px;
     text-transform: uppercase;
 
     &.node-create-discussion {
