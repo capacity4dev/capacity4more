@@ -12,6 +12,7 @@
 
 .view-header {
   color: $gray-dark;
+  margin-top: 10px;
 
   .node-create {
     @include input-rounded($highlight-blue, 25px);
@@ -19,7 +20,7 @@
     color: $white;
     float: right;
     font-size: 18px;
-    margin-top: -(36px * 1.1);
+    margin-top: -51px;
     padding: 9px 35px;
     text-transform: uppercase;
 
@@ -31,5 +32,10 @@
       background-position-x: 20px;
       padding-left: 55px;
     }
+  }
+
+  .search-api-sorts {
+    clear: right;
+    float: right;
   }
 }
