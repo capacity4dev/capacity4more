@@ -27,6 +27,10 @@ function kapablo_preprocess_message(&$variables) {
 
   $icon_name = 'missing';
 
+  if ($icon_entity_type == 'comment') {
+    $icon_name = 'comment';
+  }
+
   if ($icon_entity_type == 'node') {
     // Icon image file name is content type of the node.
     $icon_name = $icon_type[2];
