@@ -1,0 +1,19 @@
+.fl-icon {
+  @extend %svg-icon;
+
+  display: inline-block;
+  margin-bottom: 10px;
+
+  &.fl-debate {
+    @include image-icon-png-fallback('icons', 'discussion-qp-debate-hover');
+  }
+  &.fl-info {
+    @include image-icon-png-fallback('icons', 'discussion-qp-info-hover');
+  }
+  &.fl-question {
+    @include image-icon-png-fallback('icons', 'discussion-qp-question-hover');
+  }
+  &.fl-idea {
+    @include image-icon-png-fallback('icons', 'discussion-qp-idea-hover');
+  }
+}

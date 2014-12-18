@@ -101,3 +101,74 @@ function kapablo_preprocess_field(&$variables, $hook) {
 
   $variables['classes_array'][] = 'test';
 }
+
+/**
+ * Implements hook_preprocess_facetapi_link_inactive().
+ */
+function kapablo_preprocess_facetapi_link_inactive(&$variables) {
+  $replace = _kapablo_help_facetapi_link_replace($variables['text']);
+
+  // Needs to be done in another way. No longer alphabetical if we change text hardcoded.
+//  if (!empty($replace['text'])) {
+//    $variables['text'] = $replace['text'];
+//  }
+
+  if (!empty($replace['class'])) {
+    foreach($replace['class'] as $class) {
+      $variables['options']['attributes']['class'][] = $class;
+    }
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_facetapi_link_active().
+ */
+function kapablo_preprocess_facetapi_link_active(&$variables) {
+  $replace = _kapablo_help_facetapi_link_replace($variables['text']);
+
+  // Needs to be done in another way. No longer alphabetical if we change text hardcoded.
+//  if (!empty($replace['text'])) {
+//    $variables['text'] = $replace['text'];
+//  }
+
+  if (!empty($replace['class'])) {
+    foreach($replace['class'] as $class) {
+      $variables['options']['attributes']['class'][] = $class;
+    }
+  }
+}
+
+function _kapablo_help_facetapi_link_replace($text_orig) {
+  $replace = array();
+  $text    = $text_orig;
+  $class   = '';
+
+  switch ($text_orig) {
+    case t('Ask a Question'):
+      $text  = t('Question');
+      $class = 'fl-question';
+      break;
+    case t('Share an Idea'):
+      $text  = t('Idea');
+      $class = 'fl-idea';
+      break;
+    case t('Share Information'):
+      $text  = t('Information');
+      $class = 'fl-info';
+      break;
+    case t('Start a Debate'):
+      $text  = t('Debate');
+      $class = 'fl-debate';
+      break;
+  }
+
+  if ($text_orig !== $text) {
+    $replace['text'] = $text;
+  }
+  if (!empty($class)) {
+    $replace['class'] = array($class, 'fl-icon');
+  }
+
+  return $replace;
+}
