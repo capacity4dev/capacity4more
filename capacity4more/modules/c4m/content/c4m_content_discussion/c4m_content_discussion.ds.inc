@@ -177,7 +177,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'discussion';
   $ds_layout->view_mode = 'full';
-  $ds_layout->layout = 'ds_2col_fluid';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
