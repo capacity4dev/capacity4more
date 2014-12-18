@@ -13,6 +13,12 @@
       text-transform: uppercase;
     }
 
+    h4 {
+      border-bottom: 1px dashed $gray-dark;
+      margin-bottom: 0.8em;
+      padding-bottom: 0.8em;
+    }
+
     .pane-content {
       padding: 5px;
     }
