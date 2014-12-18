@@ -35,3 +35,11 @@ div.label-inline {
   padding: 0;
   text-transform: uppercase;
 }
+
+.sort-asc {
+  @include arrow-image('down', 'highlight-blue');
+}
+
+.sort-desc {
+  @include arrow-image('up', 'highlight-blue');
+}
