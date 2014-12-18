@@ -77,6 +77,24 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_related_document' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Documents',
+          'lb-col' => TRUE,
+          'lbw' => 1,
+          'lbw-el' => 'div',
+          'lbw-cl' => 'field-label',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'field-name-c4m-related-document',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
   );
   $export['node|discussion|full'] = $ds_fieldsetting;
 

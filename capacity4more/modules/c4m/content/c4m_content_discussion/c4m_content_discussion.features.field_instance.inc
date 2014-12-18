@@ -152,7 +152,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'links' => 1,
+          'links' => 0,
           'view_mode' => 'teaser',
         ),
         'type' => 'entityreference_entity_view',
