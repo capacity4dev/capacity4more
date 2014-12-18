@@ -64,6 +64,11 @@ function theme_c4m_ds_author_first_and_last_name($field) {
   $entity = $field['entity'];
   $user   = user_load($entity->uid);
   $name   = c4m_user_name($user);
+
+  if (!trim($name)) {
+    $name = $user->name;
+  }
+
   if ('author_link' == $field['formatter']) {
     $name = l($name, 'user/' . $user->uid);
   }
@@ -77,6 +82,45 @@ function theme_c4m_ds_author_first_and_last_name($field) {
   );
 
   return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render "Submitted by" Author first and last name on timestamp. (extends default ds field with first + last name).
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_submitted_by_and_on($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $entity = $field['entity'];
+  $user   = user_load($entity->uid);
+  $name   = c4m_user_name($user);
+
+  if (!trim($name)) {
+    $name = $user->name;
+  }
+
+  $name = l($name, 'user/' . $user->uid);
+
+  switch ($field['formatter']) {
+    case 'ds_time_ago':
+      $interval = REQUEST_TIME - $field['entity']->created;
+
+      return t('Submitted !interval ago by !user.', array('!interval' => format_interval($interval), '!user' => $name));
+    default:
+      $date_format = str_replace('ds_post_date_', '', $field['formatter']);
+
+      return t('Submitted by !user on !date.', array(
+        '!user' => $name,
+        '!date' => format_date($field['entity']->created, $date_format)
+      ));
+  }
 }
 
 /**
