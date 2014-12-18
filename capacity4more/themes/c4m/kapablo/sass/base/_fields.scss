@@ -44,3 +44,13 @@
   color: $gray-dark;
   margin-top: 5px;
 }
+
+.field-name-c4m-ds-content-type-icon {
+  float: left;
+  width: 35px;
+
+  & ~ .field-name-title, & ~ .field-name-c4m-ds-content-footer-stats {
+    margin-left: 35px;
+    padding-left: 15px;
+  }
+}
