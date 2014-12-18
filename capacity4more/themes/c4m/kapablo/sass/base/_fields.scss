@@ -1,4 +1,6 @@
 .field-name-title {
+  color: $gray-darker;
+
   h2 {
     margin: 0;
   }
@@ -41,7 +43,7 @@
 }
 
 .field-name-c4m-ds-content-footer-stats {
-  color: $gray-dark;
+  color: $gray-darker;
   margin-top: 5px;
 }
 
@@ -52,5 +54,23 @@
   & ~ .field-name-title, & ~ .field-name-c4m-ds-content-footer-stats {
     margin-left: 35px;
     padding-left: 15px;
+
+    margin-top: 0;
+
+    h2 {
+      margin-top: 5px;
+    }
+  }
+}
+
+.field-name-c4m-related-document {
+  margin-top: 50px;
+
+  .field-label {
+    color: $highlight-blue;
+    font-size: $font-size-h2;
+//    font-weight: lighter;
+    margin-bottom: 25px;
+    text-transform: uppercase;
   }
 }
