@@ -69,6 +69,7 @@ module.exports = function (grunt) {
 //            }
         },
 
+        // Detect duplicate CSS rules.
         csscss: {
             options: {
                 colorize: true,
@@ -83,10 +84,11 @@ module.exports = function (grunt) {
             }
         },
 
+        // Automate some tasks during development (if files change).
         watch: {
             svgmin: {
                 files: ['images/svg/**/*.svg'],
-                tasks: ['svgmin', 'grunticon'],
+                tasks: ['svgmin', 'grunticon', 'compass'],
                 options: {
                     livereload: true
                 }
