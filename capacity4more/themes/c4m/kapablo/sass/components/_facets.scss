@@ -17,3 +17,11 @@
     @include image-icon-png-fallback('icons', 'discussion-qp-idea-hover');
   }
 }
+
+.block-facetapi {
+  li {
+    a {
+      color: $gray-dark;
+    }
+  }
+}
