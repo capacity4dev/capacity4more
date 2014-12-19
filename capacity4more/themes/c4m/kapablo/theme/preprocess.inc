@@ -4,13 +4,6 @@
  * All preprocess functionality.
  */
 
-function kapablo_preprocess_comment(&$variables) {
-  $object = $variables['comment'];
-  dpm($object);
-
-
-}
-
 /**
  * Implements theme_preprocess_message().
  *
