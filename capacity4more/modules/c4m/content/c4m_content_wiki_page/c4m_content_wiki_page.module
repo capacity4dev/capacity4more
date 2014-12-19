@@ -194,7 +194,7 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
  *   Menu link ID if found, else NULL.
  */
 function c4m_content_wiki_page_get_mlid_by_nid($nid) {
-  $q   = db_select('book', 'book')
+  $q = db_select('book', 'book')
     ->fields('book', array('mlid'))
     ->condition('book.nid', $nid, '=')
     ->range(0, 1);
