@@ -356,7 +356,7 @@ function build_angular_app {
   cd $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
   bundle install
   npm install
-  grunt build
+  grunt build --show-parser-errors
   cd $ROOT
 
   # Install angular components via bower.

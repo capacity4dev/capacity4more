@@ -9,14 +9,14 @@ Feature: Group Discussions
     Given I am an anonymous user
     When I visit the discussions overview of group "Nobel Prize"
     Then I should see the discussions overview
-    And I should not see the "Add a Discussion" link above the overview
+    And I should not see the "Add a new Discussion" link above the overview
 
   @api
   Scenario: Check discussions overview as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the discussions overview of group "Nobel Prize"
     Then I should see the discussions overview
-    And I should see the "Add a Discussion" link above the overview
+    And I should see the "Add a new Discussion" link above the overview
 
   @api
   Scenario: Check discussions detail as an anonymous user
