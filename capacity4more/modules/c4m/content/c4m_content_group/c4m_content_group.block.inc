@@ -13,12 +13,8 @@
 function _c4m_content_group_preprocess_header_name_banner(&$variables) {
   // First establish the current group.
   $group = c4m_og_current_group();
-  if (!isset($group->group_access)) {
-    return;
-  }
-  // Retrieve group access info.
-  $group_access = c4m_og_get_access_type($group);
 
+  $group_access = c4m_og_get_access_type($group);
   if (!empty($group_access['type'])) {
     $variables['classes_array'][] = 'group-' .
       drupal_html_class($group_access['type']);
