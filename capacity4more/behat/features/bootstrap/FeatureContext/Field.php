@@ -50,6 +50,9 @@ trait Field {
       case 'Title':
         $locator = '.main-container .page-header, .node .field-name-title';
         break;
+      case 'Title in right region':
+        $locator = '.main-container .field-name-title';
+        break;
       case 'Topics':
         $locator = '.region-content .field-name-c4m-related-topic';
         break;
