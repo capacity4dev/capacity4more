@@ -131,7 +131,6 @@ trait WikiPage {
     $links = $page->findAll('css', $locator);
     $found = FALSE;
     foreach ($links as $link) {
-      echo $link->getText() . "\n";
       if (strpos($link->getText(), $text) !== FALSE) {
         $found = TRUE;
         break;
@@ -153,7 +152,6 @@ trait WikiPage {
     $links = $page->findAll('css', $locator);
     $found = FALSE;
     foreach ($links as $link) {
-      echo $link->getText() . "\n";
       if (strpos($link->getText(), $text) !== FALSE) {
         $found = TRUE;
         break;
