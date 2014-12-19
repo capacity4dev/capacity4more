@@ -20,6 +20,7 @@
 @import "layout/display_suite";
 
 // Components - general
+@import "components/book_navigation";
 @import "components/menu";
 @import "components/blocks";
 @import "components/quickpost";
@@ -35,3 +36,4 @@
 
 // State: State rules are ways to describe how our modules or layouts will look when in a particular state.
 @import "states/states";
+

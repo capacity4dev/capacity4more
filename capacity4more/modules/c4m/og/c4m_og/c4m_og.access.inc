@@ -84,6 +84,11 @@ function c4m_og_access_types() {
 function c4m_og_get_access_type($group) {
   $group_types = c4m_og_access_types();
 
+  // Check if the group_access field exists.
+  if (!isset($group->group_access)) {
+    return $group_types['public'];
+  }
+
   $wrapper = entity_metadata_wrapper('node', $group);
   $group_access = $wrapper->group_access->value();
 
