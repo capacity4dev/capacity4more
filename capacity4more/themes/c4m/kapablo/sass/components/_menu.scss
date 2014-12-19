@@ -18,9 +18,10 @@
     padding-right: 0;
 
     &:not(.collapsed):not(.collapsing):not(.in) {
-      .og-menu-link {
-        a {
-          border-right: 1px solid $gray-dark;
+      .og-menu-link > a {
+        border-right: 1px solid $gray-dark;
+        &:focus, &:hover {
+          background-color: white;
         }
       }
       .members {
@@ -38,7 +39,7 @@
         @extend %svg-icon;
         @include border-radius(0, 0);
 
-        color: #71716e;
+        color: $grey-almost-dark;
         text-align: left;
         text-transform: uppercase;
 
@@ -72,6 +73,98 @@
       &.tasklists {
         a {
           @include link-icon-png-fallback('icons', 'tasks-icon');
+        }
+      }
+      &.open > a {
+        background-color: white;
+      }
+      &.dropdown {
+        a:hover {
+          color: $gray-dark;
+        }
+        i.c4m-chevron-down {
+          display: inline-block;
+          font-style: normal;
+          margin-left: 10px;
+          width: 14px;
+          height: 14px;
+          position: relative;
+          top: -3px;
+          &:after {
+            font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
+            float: right;
+            color: $grey-almost-dark;
+            /* symbol for "open" submenu */
+            content: "\e114";
+          }
+        }
+        a.dropdown-toggle:hover {
+          i.c4m-chevron-down:after {
+            color: inherit;
+          }
+        }
+        div.dropdown-menu {
+          padding-left: 15px;
+          padding-right: 15px;
+          background-color: $gray-lighter;
+          border-radius: 5px;
+          max-width: 370px;
+          margin: -2px 0 0 50px;
+          span.arrow {
+            width: 0;
+            height: 0;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid $gray-lighter;
+            border-left: 10px solid transparent;
+            position: absolute;
+            top: -10px;
+          }
+          ul {
+            padding-left: 0;
+            li {
+              border-bottom: 1px solid $gray-light;
+              width: 305px;
+              margin-top: 15px;
+              padding: 20px 0;
+              display: inline-block;
+
+              a.c4m-book-og-menu-link {
+                text-transform:none;
+                white-space: initial;
+                display: block;
+                margin: -22px 0 0 10px;
+                text-decoration: none;
+                i.c4m-chevron-right {
+                  display: block;
+                  float: left;
+                  margin-left: -32px;
+                  font-style: normal;
+                  width: 14px;
+                  height: 14px;
+                  &:before {
+                    font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
+                    font-size: 0.7em;
+                    float: left;
+                    color: $grey-almost-dark;
+                    content: "\e080";
+                  }
+                }
+                &.active {
+                  background-color: $gray-lighter;
+                  color: $highlight-blue;
+                }
+                &:hover {
+                  background-color: $gray-lighter;
+                  i.c4m-chevron-right:before {
+                    color: inherit;
+                  }
+                }
+              }
+              &.last {
+                border-bottom: none;
+              }
+            }
+          }
         }
       }
     }

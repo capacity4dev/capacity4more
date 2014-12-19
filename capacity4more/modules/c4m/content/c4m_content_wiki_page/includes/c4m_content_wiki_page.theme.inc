@@ -34,6 +34,7 @@ function theme_c4m_content_wiki_page_navigation($field) {
   $tree = menu_tree_output($tree);
 
   // Fix the theme hook suggestions.
+  // Do this so we end up in OUR theme overrides.
   $file = DRUPAL_ROOT . '/' . drupal_get_path('theme', 'bootstrap') .
     '/templates/book/book-navigation.vars.php';
   if (file_exists($file)) {
