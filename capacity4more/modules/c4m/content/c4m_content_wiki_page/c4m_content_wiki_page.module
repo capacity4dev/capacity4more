@@ -32,7 +32,7 @@ function c4m_content_wiki_page_c4m_og_vocab_info_content() {
  * @param $entity_type
  * @return array
  */
-function c4m_content_wiki_page_menu($entity_type) {
+function c4m_content_wiki_page_menu() {
   $items = array();
 
   $items['wiki'] = array(
