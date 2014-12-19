@@ -29,12 +29,13 @@ function c4m_content_discussion_field_group_info() {
       3 => 'c4m_vocab_language',
       4 => 'og_vocabulary',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'html5',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Details',
       'instance_settings' => array(
-        'description' => '',
+        'id' => '',
         'classes' => 'group-node-details field-group-fieldset',
+        'wrapper' => 'section',
       ),
     ),
   );
