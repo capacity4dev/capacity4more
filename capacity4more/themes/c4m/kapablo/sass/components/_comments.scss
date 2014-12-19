@@ -30,4 +30,28 @@
       }
     }
   }
+
+  .links {
+    float: right;
+
+    .comment-delete {
+      display: none; // Wanted?
+    }
+
+    .comment-edit {
+      display: none; // Wanted?
+    }
+
+    .comment-reply {
+      a {
+        @include image-icon-png-fallback('icons', 'comment'); // @TODO REAL ICON
+
+        background-repeat: no-repeat;
+        background-position: 0 50%;
+        color: $highlight-blue;
+        padding-left: 20px;
+        text-transform: uppercase;
+      }
+    }
+  }
 }
