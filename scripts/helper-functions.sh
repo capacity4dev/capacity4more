@@ -233,7 +233,7 @@ function migrate_dummy_content {
   echo -e "${LBLUE}> Importing dummy data${RESTORE}"
   cd $ROOT/www
   drush en -y migrate migrate_ui c4m_demo_content
-  drush --uri="http://$BASE_DOMAIN_URL" mi --update --group=c4m_demo_content
+  drush --uri="http://$BASE_DOMAIN_URL" mi --force --update --group=c4m_demo_content
   cd $ROOT
   echo
 }
@@ -356,7 +356,7 @@ function build_angular_app {
   cd $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
   bundle install
   npm install
-  grunt build
+  grunt build --show-parser-errors
   cd $ROOT
 
   # Install angular components via bower.

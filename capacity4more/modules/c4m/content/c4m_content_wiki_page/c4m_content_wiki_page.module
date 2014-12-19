@@ -118,7 +118,10 @@ function c4m_content_wiki_page_node_prepare($node) {
  *   The depth limit for items in the parent select.
  */
 function _c4m_content_wiki_page_parent_depth_limit($book_link) {
-  return WIKI_MAX_DEPTH - 1 - (($book_link['mlid'] && $book_link['has_children']) ? menu_link_children_relative_depth($book_link) : 0);
+  $current_depth = ($book_link['mlid'] && $book_link['has_children'])
+    ? menu_link_children_relative_depth($book_link)
+    : 0;
+  return WIKI_MAX_DEPTH - ($current_depth + 1);
 }
 
 /**
@@ -154,11 +157,23 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
     $node->book = $form_state['values']['book'];
   }
 
-  // The book MUST be the group if we are in group context.
+  // The book MUST be the group if we are in a group context.
   $group = c4m_og_current_group();
-  if (isset($group->gid)) {
-    $form['book']['bid']['#default_value'] = $group->gid;
-    $form['book']['bid']['#disabled'] = TRUE;
+  if ($group) {
+    // Make the group automatically the selected book.
+    $form['book']['bid']['#default_value'] = $group->book['bid'];
+    $form['book']['bid']['#access'] = FALSE;
+
+    // Make sure that the parent selector is available when inserting a wiki
+    // page without reference to the parent.
+    if (empty($form['book']['plid']['#type'])
+      || $form['book']['plid']['#type'] !== 'select'
+    ) {
+      $book = $node->book;
+      $book['bid'] = $group->book['bid'];
+      $book['plid'] = $group->book['mlid'];
+      $form['book']['plid'] = _book_parent_select($book);
+    }
   }
 
   if ($node->book['nid'] !== $node->book['bid']) {
@@ -179,7 +194,7 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
  *   Menu link ID if found, else NULL.
  */
 function c4m_content_wiki_page_get_mlid_by_nid($nid) {
-  $q   = db_select('book', 'book')
+  $q = db_select('book', 'book')
     ->fields('book', array('mlid'))
     ->condition('book.nid', $nid, '=')
     ->range(0, 1);

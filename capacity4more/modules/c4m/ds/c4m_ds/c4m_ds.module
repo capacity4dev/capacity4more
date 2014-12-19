@@ -17,25 +17,36 @@ function c4m_ds_ds_layout_info() {
 
   // Details of the layouts.
   $layouts['c4m_ds_4_8_fluid'] = array(
-    'label' => t('Fluid 4-8 unstacked.'),
-    'path' => $path . '/c4m_ds_4_8_fluid',
+    'label'   => t('Fluid 4-8 unstacked.'),
+    'path'    => $path . '/c4m_ds_4_8_fluid',
     'regions' => array(
-      'left' => t('Left'),
+      'left'  => t('Left'),
       'right' => t('Right'),
     ),
-    'form' => TRUE,
-    'image' => FALSE,
+    'form'    => TRUE,
+    'image'   => FALSE,
   );
 
   $layouts['c4m_ds_8_4_fluid'] = array(
-    'label' => t('Fluid 8-4 unstacked.'),
-    'path' => $path . '/c4m_ds_8_4_fluid',
+    'label'   => t('Fluid 8-4 unstacked.'),
+    'path'    => $path . '/c4m_ds_8_4_fluid',
     'regions' => array(
-      'left' => t('Left'),
+      'left'  => t('Left'),
       'right' => t('Right'),
     ),
-    'form' => TRUE,
-    'image' => FALSE,
+    'form'    => TRUE,
+    'image'   => FALSE,
+  );
+
+  $layouts['c4m_ds_2col_icon_left'] = array(
+    'label'   => t('Two columns with the content icon left.'),
+    'path'    => $path . '/c4m_ds_2col_icon_left',
+    'regions' => array(
+      'left'  => t('Icon'),
+      'right' => t('Content'),
+    ),
+    'form'    => TRUE,
+    'image'   => FALSE,
   );
 
   return $layouts;
@@ -53,22 +64,22 @@ function c4m_ds_ds_view_modes_info() {
 
   // Prevent using default preview view mode because certain modules
   // depend on it. We introduce a custom preview view mode.
-  $ds_view_mode = new stdClass;
-  $ds_view_mode->disabled = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
-  $ds_view_mode->api_version = 1;
-  $ds_view_mode->view_mode = 'c4m_preview';
-  $ds_view_mode->label = 'C4M preview';
-  $ds_view_mode->entities = array(
+  $ds_view_mode                 = new stdClass;
+  $ds_view_mode->disabled       = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version    = 1;
+  $ds_view_mode->view_mode      = 'c4m_preview';
+  $ds_view_mode->label          = 'C4M preview';
+  $ds_view_mode->entities       = array(
     'file' => 'file',
   );
   $ds_view_modes['c4m_preview'] = $ds_view_mode;
 
-  $ds_view_mode = new stdClass;
-  $ds_view_mode->disabled = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
-  $ds_view_mode->api_version = 1;
-  $ds_view_mode->view_mode = 'c4m_dashboard';
-  $ds_view_mode->label = 'Dashboard';
-  $ds_view_mode->entities = array(
+  $ds_view_mode                   = new stdClass;
+  $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version      = 1;
+  $ds_view_mode->view_mode        = 'c4m_dashboard';
+  $ds_view_mode->label            = 'Dashboard';
+  $ds_view_mode->entities         = array(
     'node' => 'node',
   );
   $ds_view_modes['c4m_dashboard'] = $ds_view_mode;
@@ -102,25 +113,52 @@ function c4m_ds_ds_fields_info($entity_type) {
     $image_styles[$image_style_id] = $image_style['label'];
   }
   $fields['node']['c4m_ds_node_author_image'] = array(
-    'title' => t('Author image'),
+    'title'      => t('Author image'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('*|*'),
-    'file' => $path . '/includes/c4m_ds.theme.node.inc',
-    'function' => 'theme_c4m_ds_node_author_image',
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_node_author_image',
     'properties' => array('formatters' => $image_styles),
   );
 
   $fields['node']['c4m_ds_author_first_and_last_name'] = array(
-    'title' => t('Author first and last name'),
+    'title'      => t('Author first and last name'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('*|*'),
-    'file' => $path . '/includes/c4m_ds.theme.node.inc',
-    'function' => 'theme_c4m_ds_author_first_and_last_name',
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_author_first_and_last_name',
     'properties' => array(
       'formatters' => array(
-        'author' => 'Author first and last name',
+        'author'      => 'Author first and last name',
         'author_link' => 'Author first and last name linked to profile',
-      )),
+      )
+    ),
+  );
+
+  $fields['node']['c4m_ds_content_type_icon'] = array(
+    'title'      => t('Content type icon'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_content_type_icon',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_content_footer_stats'] = array(
+    'title'      => t('Footer stats'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_content_footer_stats',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
   );
 
   // Fields for Group nodes
@@ -128,21 +166,21 @@ function c4m_ds_ds_fields_info($entity_type) {
   // A field to give list of all members of a group node with a particular role.
   foreach (c4m_og_get_group_bundles() as $group_bundle => $og_roles) {
     $fields['node']['c4m_ds_group_role_members'] = array(
-      'title' => t('Group role members'),
+      'title'      => t('Group role members'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
-      'ui_limit' => array($group_bundle . '|*'),
-      'file' => $path . '/includes/c4m_ds.theme.node.inc',
-      'function' => 'theme_c4m_ds_group_role_members',
+      'ui_limit'   => array($group_bundle . '|*'),
+      'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+      'function'   => 'theme_c4m_ds_group_role_members',
       'properties' => array('formatters' => $og_roles),
     );
   }
 
   $fields['node']['c4m_ds_group_access_info'] = array(
-    'title' => t('Group access info'),
+    'title'      => t('Group access info'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit' => array('group|*'),
-    'file' => $path . '/includes/c4m_ds.theme.node.inc',
-    'function' => 'theme_c4m_ds_group_access_info',
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_group_access_info',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
@@ -152,10 +190,10 @@ function c4m_ds_ds_fields_info($entity_type) {
 
   // Fields for entity type file.
   $fields['file']['c4m_ds_download_link'] = array(
-    'title' => t('C4M file download link'),
+    'title'      => t('C4M file download link'),
     'field_type' => DS_FIELD_TYPE_THEME,
     // Currently for all file bundles.
-    'ui_limit' => array('*|*'),
+    'ui_limit'   => array('*|*'),
     'properties' => array(
       'formatters' => array(
         'c4m_ds_formatter_link_and_size' => t('C4M download link with filesize'),
@@ -164,12 +202,12 @@ function c4m_ds_ds_fields_info($entity_type) {
   );
 
   $fields['file']['c4m_ds_document_preview'] = array(
-    'title' => t('C4M document preview'),
+    'title'      => t('C4M document preview'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     // Currently for document only.
-    'ui_limit' => array('document|*'),
-    'file' => $path . '/includes/c4m_ds.theme.file.inc',
-    'function' => 'theme_c4m_ds_document_preview',
+    'ui_limit'   => array('document|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.file.inc',
+    'function'   => 'theme_c4m_ds_document_preview',
   );
 
   return $fields;
@@ -182,15 +220,16 @@ function c4m_ds_field_formatter_info() {
   $formatters = array(
     // Formatter to present download link of a file in particular format.
     'c4m_ds_formatter_link_and_size' => array(
-      'label' => t('C4M Download link with filesize'),
+      'label'       => t('C4M Download link with filesize'),
       'description' => t('Displays a link that will force the browser to
         download the file.'),
       'field types' => array('file', 'image'),
-      'settings' => array(
+      'settings'    => array(
         'text' => t('Download [file:name]'),
       ),
     ),
   );
+
   return $formatters;
 }
 
@@ -204,14 +243,14 @@ function c4m_ds_field_formatter_view($entity_type, $entity, $field, $instance, $
 
   if ($display['type'] == 'c4m_ds_formatter_link_and_size') {
     $settings = $display['settings'];
-    $element = array();
+    $element  = array();
     foreach ($items as $delta => $item) {
       $file = (object) $item;
       if (file_entity_access('download', $file)) {
         $element[$delta] = array(
           '#theme' => 'c4m_ds_formatter_link_and_size',
-          '#file' => $file,
-          '#text' => $settings['text'],
+          '#file'  => $file,
+          '#text'  => $settings['text'],
         );
       }
     }
@@ -227,7 +266,7 @@ function c4m_ds_theme() {
   return array(
     'c4m_ds_formatter_link_and_size' => array(
       'variables' => array('file' => NULL, 'icon_directory' => NULL, 'text' => NULL),
-      'file' => 'includes/c4m_ds.theme.file.inc',
+      'file'      => 'includes/c4m_ds.theme.file.inc',
     ),
   );
 }

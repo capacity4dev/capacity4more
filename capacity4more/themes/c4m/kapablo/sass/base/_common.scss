@@ -26,3 +26,20 @@ div.label-inline {
 .uppercase {
   text-transform: uppercase;
 }
+
+.page-header {
+  border: 0;
+  color: $highlight-blue;
+  font-weight: lighter;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+}
+
+.sort-asc {
+  @include arrow-image('down', 'highlight-blue');
+}
+
+.sort-desc {
+  @include arrow-image('up', 'highlight-blue');
+}

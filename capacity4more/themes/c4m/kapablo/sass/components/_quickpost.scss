@@ -276,6 +276,7 @@
   .alert {
     @include border-radius(80px);
 
+    margin: 0;
     padding: 30px;
   }
 }

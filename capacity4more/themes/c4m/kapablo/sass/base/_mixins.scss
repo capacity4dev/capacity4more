@@ -43,7 +43,7 @@
   }
 }
 
-@mixin read-more-icon($direction: 'left', $color: 'blue') {
+@mixin arrow-image($direction: 'left', $color: 'blue') {
   $full-png: image-url('icons/png/arrow-' + $color + '-' + $direction + '.png');
   $full-svg: inline-image('svgmin/icons/arrow-' + $color + '-' + $direction + '.svg');
 
@@ -56,8 +56,12 @@
   }
 }
 
-@mixin input-rounded($color) {
-  @include border-radius(15px);
+@mixin read-more-icon($direction: 'left', $color: 'blue') {
+  @include arrow-image($direction, $color);
+}
+
+@mixin input-rounded($color, $border-radius: 15px) {
+  @include border-radius($border-radius);
 
   background: $color;
   border: none;
