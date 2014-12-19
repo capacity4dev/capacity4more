@@ -110,7 +110,6 @@
           }
         }
         a.dropdown-toggle {
-          padding-left: 0px;
           &:hover {
             color: $gray-dark;
             background-color: transparent;
@@ -193,6 +192,9 @@
   #block-menu-c4m-og-menu {
     .navbar-collapse {
       .og-menu-link {
+        &.no-children > a {
+          padding-left: 0;
+        }
         &.dropdown {
           a.dropdown-toggle {
             padding-left: 15px;
@@ -208,3 +210,4 @@
     }
   }
 }
+
