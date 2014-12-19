@@ -21,7 +21,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '10',
+    'weight' => '11',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_date',
@@ -34,7 +34,7 @@ function c4m_content_discussion_field_group_info() {
       'label' => 'Details',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-node-details field-group-fieldset',
+        'classes' => 'group-node-details field-group-fieldset clearfix',
         'wrapper' => 'section',
       ),
     ),

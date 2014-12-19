@@ -1,11 +1,22 @@
 .node {
   .group-right {
-    .field-name-c4m-ds-node-author-image {
-      float: left;
-      margin-right: 15px;
+    section {
+      border-left: 1px solid $gray-dark;
+      color: $gray-dark;
+      padding: 5px 25px;
+      margin-bottom: 35px;
     }
-    .group-node-details {
-      clear: both;
+    h1, h2, h3, h4 {
+      text-transform: uppercase;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+
+    .group-detail-element {
+      margin-bottom: 25px;
     }
   }
 }

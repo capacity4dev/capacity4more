@@ -91,3 +91,12 @@
     @include border-radius(50%);
   }
 }
+
+.node {
+  .group-right {
+    .field-name-c4m-ds-node-author-image {
+      float: left;
+      margin-right: 15px;
+    }
+  }
+}
