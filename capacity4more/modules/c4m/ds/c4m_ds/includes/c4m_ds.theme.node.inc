@@ -154,6 +154,31 @@ function theme_c4m_ds_content_type_icon($field) {
 /**
  * DS function field.
  *
+ * Render <content type> posted by
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_type_posted_by($field) {
+  $output = '';
+
+  if (empty($field['entity'])) {
+    return $output;
+  }
+  $entity = $field['entity'];
+
+  $tag['element'] = array(
+    '#tag'   => 'div',
+    '#value' => t('@entity_label posted by', array('@entity_label' => ucwords(c4m_helper_entity_get_entity_type_label($entity)))),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
  * Render a span with the relevant content type icon.
  *
  * @param $field

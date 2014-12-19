@@ -85,3 +85,9 @@
     text-transform: uppercase;
   }
 }
+
+.field-name-c4m-ds-node-author-image {
+  img {
+    @include border-radius(50%);
+  }
+}
