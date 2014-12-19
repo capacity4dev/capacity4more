@@ -27,6 +27,39 @@ function c4m_content_wiki_page_c4m_og_vocab_info_content() {
 }
 
 /**
+ * Implementation of hook_menu().
+ *
+ * @param $entity_type
+ * @return array
+ */
+function c4m_content_wiki_page_menu($entity_type) {
+  $items = array();
+
+  $items['wiki'] = array(
+    'title' => 'Wiki pages',
+    'page callback' => 'c4m_content_wiki_page_wiki',
+    'file' => 'includes/c4m_content_wiki_page_wiki.inc',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_wiki_page_theme() {
+  return array(
+    'c4m_content_wiki_page_wiki' => array(
+      'variables' => array('content' => NULL),
+      'file'      => 'includes/c4m_content_wiki_page.theme.inc',
+    ),
+  );
+}
+
+/**
  * Define fields.
  *
  * These fields are not overridden through the interface.

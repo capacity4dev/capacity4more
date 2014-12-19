@@ -23,12 +23,7 @@ function kapablo_menu_link__c4m_og_menu($variables) {
   $sub_menu = $sub_menu_wrapper = '';
 
   if ($element['#below']) {
-    // Prevent dropdown functions from being added to management menu so it
-    // does not affect the navbar module.
-    if (($element['#original_link']['menu_name'] == 'management') && (module_exists('navbar'))) {
-      $sub_menu = drupal_render($element['#below']);
-    }
-    elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
+    if ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
       // Add our own wrapper.
       unset($element['#below']['#theme_wrappers']);
 

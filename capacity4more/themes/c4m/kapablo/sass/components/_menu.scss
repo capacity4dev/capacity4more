@@ -1,3 +1,24 @@
+.nav li a {
+  border: 0;
+}
+
+// Make sure menu links set active (active-trail) by context react as menu
+// links set active (active) by menu API.
+.nav-pills {
+  li.active-trail {
+    a, a:hover, a:focus {
+      color: #fff;
+      background-color: #428bca;
+    }
+  }
+}
+
+.navbar-toggle {
+  .icon-bar {
+    background-color: $highlight-blue;
+  }
+}
+
 #block-menu-c4m-og-menu {
   .nav {
     border-bottom: 2px dashed $gray-light;
@@ -6,13 +27,6 @@
     width: 100%;
 
   }
-}
-
-.nav li a {
-  border: 0;
-}
-
-#block-menu-c4m-og-menu {
   .navbar-collapse {
     padding-left: 0;
     padding-right: 0;
@@ -79,9 +93,6 @@
         background-color: white;
       }
       &.dropdown {
-        a:hover {
-          color: $gray-dark;
-        }
         i.c4m-chevron-down {
           display: inline-block;
           font-style: normal;
@@ -98,9 +109,14 @@
             content: "\e114";
           }
         }
-        a.dropdown-toggle:hover {
-          i.c4m-chevron-down:after {
-            color: inherit;
+        a.dropdown-toggle {
+          padding-left: 0px;
+          &:hover {
+            color: $gray-dark;
+            background-color: transparent;
+            i.c4m-chevron-down:after {
+              color: inherit;
+            }
           }
         }
         div.dropdown-menu {
@@ -109,7 +125,7 @@
           background-color: $gray-lighter;
           border-radius: 5px;
           max-width: 370px;
-          margin: -2px 0 0 50px;
+          margin: -2px 0 0 22px;
           span.arrow {
             width: 0;
             height: 0;
@@ -117,7 +133,7 @@
             border-bottom: 10px solid $gray-lighter;
             border-left: 10px solid transparent;
             position: absolute;
-            top: -10px;
+            top: 30px;
           }
           ul {
             padding-left: 0;
@@ -155,6 +171,7 @@
                 }
                 &:hover {
                   background-color: $gray-lighter;
+                  color: $gray-dark;
                   i.c4m-chevron-right:before {
                     color: inherit;
                   }
@@ -171,19 +188,23 @@
   }
 }
 
-// Make sure menu links set active (active-trail) by context react as menu
-// links set active (active) by menu API.
-.nav-pills {
-  li.active-trail {
-    a, a:hover, a:focus {
-      color: #fff;
-      background-color: #428bca;
+// Everything > 480px
+@media screen and (min-width: $screen-sm-max) {
+  #block-menu-c4m-og-menu {
+    .navbar-collapse {
+      .og-menu-link {
+        &.dropdown {
+          a.dropdown-toggle {
+            padding-left: 15px;
+          }
+          div.dropdown-menu {
+            margin: -2px 0 0 36px;
+            span.arrow {
+              top: -10px;
+            }
+          }
+        }
+      }
     }
-  }
-}
-
-.navbar-toggle {
-  .icon-bar {
-    background-color: $highlight-blue;
   }
 }
