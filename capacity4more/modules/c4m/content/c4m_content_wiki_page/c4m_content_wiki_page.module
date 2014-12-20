@@ -406,7 +406,7 @@ function c4m_content_wiki_page_block_view_menu_c4m_og_menu_alter(&$data, $block)
   // purposes. (Currently in that case bootstrap_menu_link() would be called in
   // that case.)
 
-  if (isset($wiki['#below']) &&
+  if (!empty($wiki['#below']) &&
       is_array($wiki['#below'])) {
     foreach($wiki['#below'] as $key => $element) {
       if (isset($element['#theme'])) {
@@ -414,6 +414,12 @@ function c4m_content_wiki_page_block_view_menu_c4m_og_menu_alter(&$data, $block)
       }
     }
   }
+  else {
+    // If there are no children, change the link in link to wiki callback
+    $wiki['#href'] = 'wiki';
+    $wiki['#attributes']['class'][] = 'no-children';
+  }
+
   // Set our custom title for the WIKI link.
   $wiki['#title'] = t('Wiki');
 

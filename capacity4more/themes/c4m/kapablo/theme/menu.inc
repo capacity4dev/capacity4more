@@ -76,12 +76,6 @@ function kapablo_menu_link__c4m_og_menu($variables) {
       $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
     }
   }
-  elseif ('Wiki' === $element['#title']) {
-    // If this is the Wiki link but there are no children, change the link in
-    // link to wiki callback
-    $element['#href'] = 'wiki';
-    $element['#attributes']['class'][] = 'no-children';
-  }
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
   if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
