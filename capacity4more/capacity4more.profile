@@ -96,7 +96,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     // Theme
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
-    'node_admin_theme' => 1,
+    'node_admin_theme' => 0,
     'jquery_update_jquery_version' => '1.10',
     'jquery_update_jquery_admin_version' => '1.10',
     'page_manager_node_view_disabled' => FALSE,
