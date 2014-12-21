@@ -4,7 +4,7 @@
       <button type="button" ng-click="togglePopover('<?php print($vocabulary_name); ?>', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print(t('Select @name', array('@name' => str_replace("c4m_vocab_", "", $vocabulary_name)))); ?></button>
     </div>
     <div class="selected-values" ng-show="data.<?php print($vocabulary_name); ?>">
-      <div class="value" ng-show="value === true && data.<?php print($vocabulary_name); ?>[key]" ng-repeat="(key, value) in model">
+      <div class="value row" ng-show="value === true && data.<?php print($vocabulary_name); ?>[key]" ng-repeat="(key, value) in model">
         <div class="parent col-sm-6">
           <span>
             <i ng-click="removeTaxonomyValue(key, '<?php print($vocabulary_name); ?>')" class="fa fa-times"></i> {{ findLabel(data.<?php print($vocabulary_name); ?>, key) }}
