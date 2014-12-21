@@ -40,7 +40,7 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
    */
   function allowed_pages() {
     $options = array();
-    foreach($this->view->display as $display) {
+    foreach ($this->view->display as $display) {
       if ('page' == $display->display_plugin &&
           !empty($display->display_options['path'])) {
         $options[$display->display_options['path']]['path'] = 
@@ -58,7 +58,7 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     parent::options_form($form, $form_state);
 
     // Retrieve the paths to page displays of current View.
-    foreach($this->allowed_pages() as $path => $page) {
+    foreach ($this->allowed_pages() as $path => $page) {
       $options[$path] = $path;
     }
 
@@ -126,7 +126,7 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     $number_of_items_per_page_on_current_page =
     $number_of_items_per_page_on_linked_page = NULL;
 
-    foreach($this->allowed_pages() as $path => $page) {
+    foreach ($this->allowed_pages() as $path => $page) {
       if (empty($page['items_per_page'])) {
         continue;
       }

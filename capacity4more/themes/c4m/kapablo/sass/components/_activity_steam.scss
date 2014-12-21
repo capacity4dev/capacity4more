@@ -1,0 +1,102 @@
+.activity-stream {
+  .row {
+    border-top: 1px solid $gray-light;
+    margin: 15px 0 0 0;
+    padding: 15px 0 0 0;
+  }
+
+  .activity-row {
+    .row {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .as-icon {
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 35px;
+
+      float: left;
+      height: 35px;
+      width: 35px;
+    }
+
+    .as-item {
+      margin: 0 0 0 35px;
+      padding-left: 15px;
+    }
+  }
+}
+
+.row-header {
+  color: $blue;
+  a {
+    color: $blue;
+  }
+}
+
+.message-title {
+  a {
+    color: $gray-dark;
+    font-size: 1.2em;
+    text-transform: uppercase;
+  }
+}
+
+.row-footer {
+  margin-top: 25px;
+}
+
+.row-entity-count {
+  @extend %svg-icon;
+
+  &.count-views {
+    @include image-icon-png-fallback('icons', 'count-views');
+  }
+
+  &.count-comments {
+    @include image-icon-png-fallback('icons', 'count-comments');
+
+    &+ .count-views {
+      margin-left: 50px;
+    }
+  }
+}
+
+.as-document {
+  @include image-icon-png-fallback('icons', 'document-unknown');
+}
+.as-document-zip {
+  @include image-icon-png-fallback('icons', 'document-zip');
+}
+.as-document-powerpoint {
+  @include image-icon-png-fallback('icons', 'document-powerpoint');
+}
+.as-document-word {
+  @include image-icon-png-fallback('icons', 'document-word');
+}
+.as-document-excel {
+  @include image-icon-png-fallback('icons', 'document-excel');
+}
+.as-document-pdf {
+  @include image-icon-png-fallback('icons', 'document-pdf');
+}
+.as-discussion-info {
+  @include image-icon-png-fallback('icons', 'discussion-info');
+}
+.as-discussion-idea {
+  @include image-icon-png-fallback('icons', 'discussion-idea');
+}
+.as-discussion-question {
+  @include image-icon-png-fallback('icons', 'discussion-question');
+}
+.as-discussion-debate {
+  @include image-icon-png-fallback('icons', 'discussion-debate');
+}
+.as-comment {
+  @include image-icon-png-fallback('icons', 'comment');
+}
+.as-event {
+  @include image-icon-png-fallback('icons', 'event');
+}

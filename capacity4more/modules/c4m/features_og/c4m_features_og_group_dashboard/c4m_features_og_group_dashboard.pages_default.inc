@@ -79,14 +79,14 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     'style_settings' => array(
       'default' => NULL,
       'left' => array(
-        'column_type' => 'col-lg',
-        'column_size' => '6',
+        'column_type' => 'col-sm',
+        'column_size' => '7',
         'offset_type' => 'col-lg-offset',
         'offset_size' => '0',
       ),
       'right' => array(
-        'column_type' => 'col-lg',
-        'column_size' => '6',
+        'column_type' => 'col-sm',
+        'column_size' => '5',
         'offset_type' => 'col-lg-offset',
         'offset_size' => '0',
       ),
