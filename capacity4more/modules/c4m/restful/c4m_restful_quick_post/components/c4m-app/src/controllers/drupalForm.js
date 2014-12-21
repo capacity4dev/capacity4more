@@ -34,7 +34,7 @@ angular.module('c4mApp')
       QuickPostService.keyUpHandler(keyEvent, $scope);
     };
 
-    $scope.updateSelectedTerms = function(key, vocab) {
+    function updateTerms(key, vocab) {
       // Check/uncheck the checkbox in the drupal form.
       if($scope.model[key]) {
         jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", true);
@@ -51,10 +51,17 @@ angular.module('c4mApp')
             }
           });
         }
-
       }
+    }
+
+    $scope.updateSelectedTerms = function(key, vocab) {
+      updateTerms(key, vocab);
     };
 
-    // Call the keyUpHandler function on key-up.
+    $scope.removeTaxonomyValue = function(key, vocab) {
+      $scope.model[key] = false;
+      updateTerms(key, vocab);
+    };
+      // Call the keyUpHandler function on key-up.
     $document.on('keyup', $scope.keyUpHandler);
   });
