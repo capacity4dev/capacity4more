@@ -41,14 +41,14 @@ function c4m_features_og_discussions_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add Discussion link';
   $handler->display->display_options['header']['c4m_views_node_add']['empty'] = TRUE;
   $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'discussion';
-  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a Discussion';
+  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add a new Discussion';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
   $handler->display->display_options['header']['result']['field'] = 'result';
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
-  $handler->display->display_options['header']['result']['content'] = '@total items';
+  $handler->display->display_options['header']['result']['content'] = '@total in total';
   /* Header: Sort results */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';

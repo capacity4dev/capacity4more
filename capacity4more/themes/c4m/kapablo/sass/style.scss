@@ -1,29 +1,39 @@
+// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+@import "compass/css3";
+@import "compass/utilities";
+
 // Common utility classes to extend or settings.
 @import "base/settings";
+@import "base/mixins";
+@import "base/common";
+@import "base/node";
+@import "base/fields";
+@import "base/media_queries";
 
 // Layout : Layout rules divide the page into sections.
-// Layouts hold one or more modules together.
+// Layouts hold one or more components together.
+@import "layout/main";
 @import "layout/header";
-
 @import "layout/header_group";
+@import "layout/display_suite";
 
-// Styles for quick form.
-.modal-content {
- padding: 10px;
+// Components - general
+@import "components/book_navigation";
+@import "components/menu";
+@import "components/blocks";
+@import "components/quickpost";
+@import "components/activity_steam";
+@import "components/panels";
+@import "components/pager";
+@import "components/group_blocks";
+@import "components/views";
+@import "components/facets";
 
- .actions {
-   padding-bottom: 30px;
- }
-}
+// Components - Content types
+@import "components/discussion";
 
-.document {
-  padding-top: 5px;
-  border-top: 1px solid #000;
-}
+// State: State rules are ways to describe how our modules or layouts will look when in a particular state.
+@import "states/states";
 
-// Modules: Modules are the reusable, modular parts of our design.
-// They are the callouts, the sidebar sections, the product lists and so on.
-
-// State: State rules are ways to describe how our modules or layouts will
-//look when in a particular state.
-@import "state/menu";
