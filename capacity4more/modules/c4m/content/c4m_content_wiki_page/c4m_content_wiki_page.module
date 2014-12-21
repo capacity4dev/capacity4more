@@ -4,6 +4,8 @@
  * Code for the Wiki page content type feature.
  */
 
+define('WIKI_MAX_DEPTH', 6);
+
 include_once 'c4m_content_wiki_page.features.inc';
 
 /**
@@ -58,4 +60,283 @@ function c4m_content_wiki_page_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Automatically create a master wiki page
+ * if a group content type is created.
+ */
+function c4m_content_wiki_page_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  // Make the group the top level of a new book.
+  $node->book = array(
+    'pick-book'          => 'Change book (update list of parents)',
+    'bid'                => 'new',
+    'has_children'       => 0,
+    'options'            => array(),
+    'module'             => 'book',
+    'original_bid'       => 0,
+    'parent_depth_limit' => WIKI_MAX_DEPTH,
+    'weight'             => '0',
+  );
+
+  // We want module book to run after c4m_content_wiki_page because we need
+  // all the form altering, so we do not change the weight of
+  // c4m_content_wiki_page to run before book module but this means we have to
+  // reexecute the behaviour of book_node_insert now that we made the node a
+  // book, because otherwise book will not do anything for us at node insert of
+  // an OG  group node.
+  book_node_insert($node);
+}
+
+/**
+ * Implements hook_node_prepare().
+ *
+ * Prevent the creation of more than 6 levels in a book, including level 0.
+ *
+ */
+function c4m_content_wiki_page_node_prepare($node) {
+  // Find the depth limit for the parent select.
+  if (isset($node->book)) {
+    $node->book['parent_depth_limit'] = _c4m_content_wiki_page_parent_depth_limit($node->book);
+  }
+}
+
+/**
+ * Finds the depth limit for items in the parent select.
+ *
+ * @param $book_link
+ *   A fully loaded menu link that is part of the book hierarchy.
+ *
+ * @return
+ *   The depth limit for items in the parent select.
+ */
+function _c4m_content_wiki_page_parent_depth_limit($book_link) {
+  $current_depth = ($book_link['mlid'] && $book_link['has_children'])
+    ? menu_link_children_relative_depth($book_link)
+    : 0;
+  return WIKI_MAX_DEPTH - ($current_depth + 1);
+}
+
+/**
+ * Implementation of hook_form_BASE_ID_alter().
+ *
+ * Group is book.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  if (og_is_group('node', $node)) {
+    $form['book']['bid']['#disabled'] = TRUE;
+  }
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Prevent the creation of more than 6 levels in a book, including level 0.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  // If the form is being processed during the Ajax callback of our book bid
+  // dropdown, then $form_state will hold the value that was selected.
+  if (isset($form_state['values']['book'])) {
+    $node->book = $form_state['values']['book'];
+  }
+
+  // The book MUST be the group if we are in a group context.
+  $group = c4m_og_current_group();
+  if ($group) {
+    // Make the group automatically the selected book.
+    $form['book']['bid']['#default_value'] = $group->book['bid'];
+    $form['book']['bid']['#access'] = FALSE;
+
+    // Make sure that the parent selector is available when inserting a wiki
+    // page without reference to the parent.
+    if (empty($form['book']['plid']['#type'])
+      || $form['book']['plid']['#type'] !== 'select'
+    ) {
+      $book = $node->book;
+      $book['bid'] = $group->book['bid'];
+      $book['plid'] = $group->book['mlid'];
+      $form['book']['plid'] = _book_parent_select($book);
+    }
+  }
+
+  if ($node->book['nid'] !== $node->book['bid']) {
+    $form['book']['plid']['#description'] = t('The parent page in the book. The
+      maximum depth for a book and all child pages is !maxdepth. Some pages in
+      the selected book may not be available as parents if selecting them would
+      exceed this limit.', array('!maxdepth' => WIKI_MAX_DEPTH));
+  }
+}
+
+/**
+ * Helper function to retrieve the menu mlid from a node id.
+ *
+ * @param int $nid
+ *   Entity node id.
+ *
+ * @return int|null
+ *   Menu link ID if found, else NULL.
+ */
+function c4m_content_wiki_page_get_mlid_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->fields('book', array('mlid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['mlid'];
+  }
+
+  return NULL;
+}
+
+/**
+ *  Implements hook_theme_registry_alter().
+ */
+function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
+  // We change the default preprocessing book module executes on the
+  // book navigation.
+
+  if (empty($theme_registry['book_navigation'])) {
+    return;
+  }
+  $key = array_search('template_preprocess_book_navigation',
+    $theme_registry['book_navigation']['preprocess functions']);
+
+  // Replace the preprocess function.
+  $theme_registry['book_navigation']['preprocess functions'] =array_replace(
+    $theme_registry['book_navigation']['preprocess functions'],
+    array($key => 'c4m_content_wiki_page_preprocess_book_navigation'));
+}
+
+/**
+ * Processes variables for book-navigation.tpl.php.
+ *
+ * Override of template_preprocess_book_navigation()
+ * Only difference is that we do not show links to level 0 of book.
+ *
+ * @param $variables
+ *   An associative array containing the following key:
+ *   - book_link
+ *
+ * @see book-navigation.tpl.php
+ */
+function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
+  $book_link = $variables['book_link'];
+
+  // Provide extra variables for themers. Not needed by default.
+  $variables['book_id'] = $book_link['bid'];
+  $variables['book_title'] = check_plain($book_link['link_title']);
+  $variables['book_url'] = 'node/' . $book_link['bid'];
+  $variables['current_depth'] = $book_link['depth'];
+  $variables['tree'] = '';
+
+  if ($book_link['mlid']) {
+    $variables['tree'] = book_children($book_link);
+    $prev = book_prev($book_link);
+    if ($prev &&
+        // Don't show link to level 0.
+        $prev['mlid'] != $book_link['p1']) {
+      $prev_href = url($prev['href']);
+      drupal_add_html_head_link(array('rel' => 'prev', 'href' => $prev_href));
+      $variables['prev_url'] = $prev_href;
+      $variables['prev_title'] = check_plain($prev['title']);
+    }
+
+    if ($book_link['plid'] &&
+        // Don't show link to level 0.
+        $book_link['plid'] != $book_link['p1'] &&
+        $parent = book_link_load($book_link['plid'])) {
+      $parent_href = url($parent['href']);
+      drupal_add_html_head_link(array('rel' => 'up', 'href' => $parent_href));
+      $variables['parent_url'] = $parent_href;
+      $variables['parent_title'] = check_plain($parent['title']);
+    }
+
+    if ($next = book_next($book_link)) {
+      $next_href = url($next['href']);
+      drupal_add_html_head_link(array('rel' => 'next', 'href' => $next_href));
+      $variables['next_url'] = $next_href;
+      $variables['next_title'] = check_plain($next['title']);
+    }
+  }
+
+  $variables['has_links'] = FALSE;
+  // Link variables to filter for values and set state of the flag variable.
+  $links = array('prev_url', 'prev_title', 'parent_url', 'parent_title', 'next_url', 'next_title');
+  foreach ($links as $link) {
+    if (isset($variables[$link])) {
+      // Flag when there is a value.
+      $variables['has_links'] = TRUE;
+    }
+    else {
+      // Set empty to prevent notices.
+      $variables[$link] = '';
+    }
+  }
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ *
+ * @see menu_tree_check_access()
+ *   Contains the query being altered here. This is most likely the only query
+ *   with tag node_access where the first condition is for the node.status column.
+ */
+function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $query) {
+  // Only alter query ...
+  // - on og group type or
+  // - on wiki page
+  // - or on node form for wiki page
+  // - or during ajax call to retrieve the parent list on wiki page node form
+  $object = menu_get_object();
+
+  if (isset($object->type)) {
+    if (!og_is_group_type('node', $object->type) &&
+        'wiki_page' != $object->type) {
+      // Don't alter query if this is not a group node or a WIKI page.
+      return;
+    }
+  }
+  elseif ('system/ajax' == current_path()) {
+    if (!isset($_POST['form_id'])) {
+      // Don't alter query if there is no form information in post.
+      return;
+    }
+    elseif ('wiki_page_node_form' != $_POST['form_id']) {
+      // Don't alter query if this is an ajax call but not for WIKI page node
+      //form.
+      return;
+    }
+  }
+  elseif ('node/add/wiki-page' != current_path()) {
+    // Do not alter the query if this is not the WIKI page node form.
+    return;
+  }
+  $c = &$query->conditions();
+  // Remove the status condition if we suspect this query originates from
+  // menu_tree_check_access().
+  if (count($c) == 3 &&
+    is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
+    is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN'
+  ) {
+    unset($c[0]);
+  }
 }

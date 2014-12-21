@@ -59,7 +59,7 @@ angular.module('c4mApp')
           }
           else {
             angular.element("#" + scope.type + "_description").css(
-              'color', 'black'
+              'color', '#999999'
             );
           }
         };

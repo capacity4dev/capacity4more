@@ -72,6 +72,7 @@ function c4m_vocab_language_field_widget_form(&$form, &$form_state, $field, $ins
   $directive = theme('c4m_vocab_language_taxonomy_widget', array('vocabulary_name' => $vocabulary_name));
   $form['directive-' . $vocabulary_name] = array(
     '#markup' => $directive,
+    '#weight' => $instance['widget']['weight'],
   );
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';

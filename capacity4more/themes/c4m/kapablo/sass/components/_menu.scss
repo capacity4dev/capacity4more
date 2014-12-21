@@ -1,0 +1,96 @@
+#block-menu-c4m-og-menu {
+  .nav {
+    border-bottom: 2px dashed $gray-light;
+    margin: 0 0 15px 0;
+    padding: 0 0 3px 0;
+    width: 100%;
+
+  }
+}
+
+.nav li a {
+  border: 0;
+}
+
+#block-menu-c4m-og-menu {
+  .navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+
+    &:not(.collapsed):not(.collapsing):not(.in) {
+      .og-menu-link {
+        a {
+          border-right: 1px solid $gray-dark;
+        }
+      }
+      .members {
+        float: right !important;
+        a {
+          border-right: 0;
+          margin-right: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .og-menu-link {
+      a {
+        @extend %svg-icon;
+        @include border-radius(0, 0);
+
+        color: #71716e;
+        text-align: left;
+        text-transform: uppercase;
+
+        margin: 15px 15px 15px 0;
+        padding-bottom: 0;
+        padding-top: 0;
+      }
+
+      &.front {
+        a {
+          @include link-icon-png-fallback('icons', 'group-home-icon');
+        }
+        width: auto;
+      }
+      &.calendar {
+        a {
+          @include link-icon-png-fallback('icons', 'event-icon');
+        }
+        width: auto;
+      }
+      &.discussions {
+        a {
+          @include link-icon-png-fallback('icons', 'discussion-icon');
+        }
+      }
+      &.documents {
+        a {
+          @include link-icon-png-fallback('icons', 'library-icon');
+        }
+      }
+      &.tasklists {
+        a {
+          @include link-icon-png-fallback('icons', 'tasks-icon');
+        }
+      }
+    }
+  }
+}
+
+// Make sure menu links set active (active-trail) by context react as menu
+// links set active (active) by menu API.
+.nav-pills {
+  li.active-trail {
+    a, a:hover, a:focus {
+      color: #fff;
+      background-color: #428bca;
+    }
+  }
+}
+
+.navbar-toggle {
+  .icon-bar {
+    background-color: $highlight-blue;
+  }
+}

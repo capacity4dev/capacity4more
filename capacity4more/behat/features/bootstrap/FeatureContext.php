@@ -26,6 +26,7 @@ require __DIR__ . '/FeatureContext/PageAccess.php';
 require __DIR__ . '/FeatureContext/QuickPost.php';
 require __DIR__ . '/FeatureContext/Search.php';
 require __DIR__ . '/FeatureContext/User.php';
+require __DIR__ . '/FeatureContext/WikiPage.php';
 require __DIR__ . '/FeatureContext/Wait.php';
 
 
@@ -60,6 +61,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\QuickPost;
   use FeatureContext\Search;
   use FeatureContext\User;
+  use FeatureContext\WikiPage;
   use FeatureContext\Wait;
 
   /**
