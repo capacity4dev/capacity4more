@@ -308,7 +308,8 @@ angular.module('c4mApp')
             submitData.location.lat = location.lat;
             submitData.location.lng = location.lng;
             angular.forEach(result.data.results[0].address_components, function(value, key) {
-              if (value.long_name == submitData.location.country_name) {
+              // Find country short name.
+              if (value.types[0] == 'country') {
                 submitData.location.country = value.short_name;
               }
             });
