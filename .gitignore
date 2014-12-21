@@ -80,3 +80,7 @@ node_modules
 capacity4more/themes/c4m/kapablo/css
 capacity4more/themes/c4m/kapablo/bootstrap
 behat-failed-step*.png
+capacity4more/themes/c4m/kapablo/images/svgmin
+capacity4more/themes/c4m/kapablo/images/icons
+*.concat.js
+*.min.js

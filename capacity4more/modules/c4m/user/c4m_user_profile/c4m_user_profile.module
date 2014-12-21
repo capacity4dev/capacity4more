@@ -14,3 +14,36 @@ function c4m_user_profile_field_extra_fields_alter(&$info) {
     $info['user']['user']['form']['account']['weight'] = -100;
   }
 }
+
+/******************************************************************************
+ * BLOCK
+ ******************************************************************************/
+/**
+ * Implements hook_block_info().
+ */
+function c4m_user_profile_block_info() {
+  $blocks['user_welcome'] = array(
+    'info' => t('Welcome the user in the top bar'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
+  $blocks['user_notifications'] = array(
+    'info' => t('Display the user notifications etc...'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_user_profile_block_view($delta = '') {
+  $module_name = 'c4m_user_profile';
+  module_load_include('inc', $module_name, "{$module_name}.block");
+  $callback = "_{$module_name}_block_" . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+  return $callback();
+}
