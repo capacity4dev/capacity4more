@@ -181,7 +181,7 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "Restricted"');
-    $steps[] = new Step\When('I fill in "restricted_by_domain" with " "');
+    $steps[] = new Step\When('I fill in "restricted_by_domain" with ""');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
