@@ -14,20 +14,20 @@ before_install:
 
   # Install phantomJs.
   - sudo apt-get update
-  #- sudo apt-get install build-essential chrpath libssl-dev libxft-dev
-  #- sudo apt-get install libfreetype6 libfreetype6-dev
-  #- sudo apt-get install libfontconfig1 libfontconfig1-dev
-  #- export PHANTOM_JS="phantomjs-1.9.7-linux-x86_64"
-  #- wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
-  #- sudo mv $PHANTOM_JS.tar.bz2 /usr/local/share/
-  #- sudo tar xvjf /usr/local/share/$PHANTOM_JS.tar.bz2
-  #- sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/share/phantomjs
-  #- sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin/phantomjs
-  #- sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/bin/phantomjs
+  - sudo apt-get install build-essential chrpath libssl-dev libxft-dev
+  - sudo apt-get install libfreetype6 libfreetype6-dev
+  - sudo apt-get install libfontconfig1 libfontconfig1-dev
+  - export PHANTOM_JS="phantomjs-1.9.7-linux-x86_64"
+  - wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
+  - sudo mv $PHANTOM_JS.tar.bz2 /usr/local/share/
+  - sudo tar xvjf /usr/local/share/$PHANTOM_JS.tar.bz2
+  - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/share/phantomjs
+  - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin/phantomjs
+  - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/bin/phantomjs
 
   # Install grunt.
-  #- npm install -g grunt-cli
-  #- npm install -g bower
+  - npm install -g grunt-cli
+  - npm install -g bower
 
 
 install:
@@ -41,8 +41,6 @@ install:
   - cd $TRAVIS_BUILD_DIR
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require drush/drush 6.*
-    # Bug in composer, needs to run twice?!?
-  - composer global require drush/drush 6.*
   - phpenv rehash
 
   # Install Coder for code standard reviews.
@@ -53,101 +51,99 @@ install:
   - drush cache-clear drush
 
 before_script:
-  # Install Apache
-  #- sudo apt-get install apache2 libapache2-mod-fastcgi
-  #- sudo a2enmod rewrite
-  #- sudo service apache2 restart
+  # Install Apache.
+  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - sudo a2enmod rewrite
+  - sudo service apache2 restart
 
-  # enable php-fpm
-  #- sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  #- sudo a2enmod rewrite actions fastcgi alias
-  #- echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  #- ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  # Enable php-fpm.
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - sudo a2enmod rewrite actions fastcgi alias
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 
-  # Configure MySQL
-  #- echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-  #- echo -e "\nwait_timeout=300" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-  #- echo -e "\nmax_connections=250" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-  #- sudo service mysql restart
+  # Configure MySQL.
+  - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+  - echo -e "\nwait_timeout=300" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+  - echo -e "\nmax_connections=250" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+  - sudo service mysql restart
 
-  # Install Solr
-  # cd $TRAVIS_BUILD_DIR
-  #- drush dl search_api_solr
-  #- curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/search_api_solr/solr-conf/4.x" bash
-  #- rm -R $TRAVIS_BUILD_DIR/search_api_solr
+  # Install Solr.
+  - cd $TRAVIS_BUILD_DIR
+  - drush dl search_api_solr
+  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/search_api_solr/solr-conf/4.x" bash
+  - rm -R $TRAVIS_BUILD_DIR/search_api_solr
 
-  # Install Tika
-  #- mkdir -p $TRAVIS_BUILD_DIR/tika
-  #- cd $TRAVIS_BUILD_DIR/tika
-  #- wget http://www.eu.apache.org/dist/tika/tika-app-1.6.jar
-  #- chmod +x ./tika-app-1.6.jar
-  #- cd $TRAVIS_BUILD_DIR
+  # Install Tika.
+  - mkdir -p $TRAVIS_BUILD_DIR/tika
+  - cd $TRAVIS_BUILD_DIR/tika
+  - wget http://www.eu.apache.org/dist/tika/tika-app-1.6.jar
+  - chmod +x ./tika-app-1.6.jar
+  - cd $TRAVIS_BUILD_DIR
 
   # Install capacity4more profile.
-  #- cd $TRAVIS_BUILD_DIR
-  #- cp $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.config.sh config.sh
-  #- ./install -dy
-  #- cd $TRAVIS_BUILD_DIR/www
-  #- drush -y dis dblog
-  #- drush cc all --yes
+  - cd $TRAVIS_BUILD_DIR
+  - cp $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.config.sh config.sh
+  - ./install -dy
+  - cd $TRAVIS_BUILD_DIR/www
+  - drush -y dis dblog
+  - drush cc all --yes
 
-  # configure apache virtual hosts
-  #- sudo cp -f $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.apache.conf /etc/apache2/sites-available/default
-  #- sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/apache2/sites-available/default
-  #- sudo service apache2 restart
+  # Configure apache virtual hosts.
+  - sudo cp -f $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.apache.conf /etc/apache2/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/apache2/sites-available/default
+  - sudo service apache2 restart
 
   # Create a behat configuration file.
-  #- cd $TRAVIS_BUILD_DIR/capacity4more/behat
-  #- cp behat.local.yml.travis behat.local.yml
+  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
+  - cp behat.local.yml.travis behat.local.yml
 
   # Create Drush alias.
   - cp $TRAVIS_BUILD_DIR/capacity4more/behat/aliases.drushrc.php ~/.drush/
-  #- composer install --prefer-source
+  - composer install --prefer-source
 
-  # Index content in Solr
-  #- drush @capacity4more search-api-index
-  #- sleep 10
-  #- wget http://localhost:8983/solr/capacity4more/update?commit=true
+  # Index content in Solr.
+  - drush @capacity4more search-api-index
+  - sleep 10
+  - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
 script:
   # Create display.
-  #- export DISPLAY=:99.0
-  #- sh -e /etc/init.d/xvfb start
-  #- sleep 3 # give xvfb some time to start
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3 # give xvfb some time to start
 
   # Run selenium.
-  #- cd $TRAVIS_BUILD_DIR/capacity4more/behat
-  #- wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
-  #- java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
-  #- sleep 5
+  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
+  - wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar
+  - java -jar selenium-server-standalone-2.40.0.jar -p 4444 &
+  - sleep 5
 
   # Run phantomJs.
-  #- phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
+  - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
-  #- cd $TRAVIS_BUILD_DIR/capacity4more/behat
-  #- ./bin/behat -p phantomjs --tags=~@wip
+  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
+  - ./bin/behat -p phantomjs --tags=~@wip
 
   # Run WebTests ---------------------------------------------------------------
-  #- drush @capacity4more -y en simpletest
+  - drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
-  #- drush @capacity4more test-run "capacity4more:og:vocab"
+  - drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------
 
   # Run Code Style validation.
-  - drush status
-  - drush help coder
   - drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
   - drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
 
 after_script:
-  #- sudo cat /var/log/apache2/error.log
+  - sudo cat /var/log/apache2/error.log
 
   # Debug MySQL config.
-  #- cat /etc/mysql/conf.d/drupal.cnf
-  #- cd $TRAVIS_BUILD_DIR
-  #- wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
-  #- chmod +x ./mysqltuner.pl
-  #- ./mysqltuner.pl --user=root
+  - cat /etc/mysql/conf.d/drupal.cnf
+  - cd $TRAVIS_BUILD_DIR
+  - wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
+  - chmod +x ./mysqltuner.pl
+  - ./mysqltuner.pl --user=root
