@@ -150,7 +150,6 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
-    $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
