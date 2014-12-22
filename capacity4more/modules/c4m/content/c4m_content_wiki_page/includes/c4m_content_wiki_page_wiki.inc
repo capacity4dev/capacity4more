@@ -2,7 +2,7 @@
 /**
  * Menu callback for path wiki.
  */
-function c4m_content_wiki_page_wiki () {
+function c4m_content_wiki_page_wiki() {
   // If we are not in group context, deny access.
   if (!$group = c4m_og_current_group()) {
     drupal_access_denied();
