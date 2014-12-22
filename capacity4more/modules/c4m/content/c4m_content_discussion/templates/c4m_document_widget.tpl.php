@@ -1,11 +1,9 @@
-<?php print t('This is widget'); ?>
-
 <div class="form-group input-wrapper file-wrapper">
 
-  <related-documents related-documents="data.related_document" documents="documents"></related-documents>
+<!--  <related-documents related-documents="data.related_document" documents="documents"></related-documents>-->
 
-  <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);"
-       ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+  <div class="form-control drop-box" ng-file-drop="onFileSelect($files);"
+       ng-file-drag-over-class="file-upload-drag">
 
     <div name="discussion-document-upload">
       <?php print t('Drop file here to upload or'); ?>
