@@ -102,12 +102,12 @@ before_script:
 
   # Create Drush alias.
   - cp $TRAVIS_BUILD_DIR/capacity4more/behat/aliases.drushrc.php ~/.drush/
-  - composer install --prefer-source
+  #- composer install --prefer-source
 
   # Index content in Solr
-  - drush @capacity4more search-api-index
-  - sleep 10
-  - wget http://localhost:8983/solr/capacity4more/update?commit=true
+  #- drush @capacity4more search-api-index
+  #- sleep 10
+  #- wget http://localhost:8983/solr/capacity4more/update?commit=true
 
 script:
   # Create display.
