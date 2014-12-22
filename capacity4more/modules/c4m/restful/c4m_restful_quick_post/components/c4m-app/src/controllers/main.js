@@ -147,7 +147,7 @@ angular.module('c4mApp')
       angular.forEach($scope.resources, function (info, resource_name) {
         angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
           // Don't change the group field Or resource object.
-          if (field == 'resources' || field == 'group' || field == "tags") {
+          if (field == 'resources' || field == 'group' || field == "tags" || field == "related_document") {
             return;
           }
           var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;

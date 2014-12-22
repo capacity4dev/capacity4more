@@ -185,7 +185,7 @@
   </div>
 </div>
 
-<div class="form-group place btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+<div class="form-group place btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
   <label><?php print t('Where') ?></label>
 
   <div class="row">
