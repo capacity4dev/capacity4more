@@ -19,8 +19,6 @@ class C4mDemoContentCreateBanners extends C4mDemoContentCreateOgContent {
     array('id', 'ID'),
     array('title', 'Title'),
     array('image', 'Image'),
-    array('group_map', 'Group'),
-    array('group_type', 'Group Type'),
     array('uid', 'UID'),
   );
 
