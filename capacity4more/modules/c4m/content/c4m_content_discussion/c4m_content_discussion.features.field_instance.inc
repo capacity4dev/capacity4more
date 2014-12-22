@@ -180,19 +180,13 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'inline_entity_form',
+      'module' => 'c4m_content_discussion',
       'settings' => array(
-        'fields' => array(),
-        'type_settings' => array(
-          'allow_existing' => 1,
-          'delete_references' => 0,
-          'label_plural' => 'nodes',
-          'label_singular' => 'node',
-          'match_operator' => 'CONTAINS',
-          'override_labels' => 0,
-        ),
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
       ),
-      'type' => 'inline_entity_form',
+      'type' => 'c4m_add_document',
       'weight' => 3,
     ),
   );
@@ -253,7 +247,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -303,7 +297,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -353,7 +347,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -403,7 +397,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'c4m_vocab_language',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -474,7 +468,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -527,7 +521,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
