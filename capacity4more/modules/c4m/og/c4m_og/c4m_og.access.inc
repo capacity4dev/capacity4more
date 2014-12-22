@@ -122,13 +122,17 @@ function c4m_og_get_access_type($group) {
  */
 function c4m_og_get_restricted_info($group) {
   $infos = &drupal_static(__FUNCTION__, array());
+  $info = array(
+    'organisations' => array(),
+    'domains' => array(),
+  );
+
+  // Prevent notices when called from node/add form.
+  if (empty($group->nid)) {
+    return $info;
+  }
 
   if (!array_key_exists($group->nid, $infos)) {
-    $info = array(
-      'organisations' => array(),
-      'domains' => array(),
-    );
-
     $wrapper = entity_metadata_wrapper('node', $group);
     $pluggable_node_access = $wrapper->pluggable_node_access->value();
     if (!$pluggable_node_access) {
