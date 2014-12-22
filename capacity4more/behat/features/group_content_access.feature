@@ -58,7 +58,7 @@ Feature: Group content access
     Given a moderated group "My restricted to restricted group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in restricted to restricted group" in group "My restricted to restricted group" is created
-    And   I change access of group "My restricted to restricted group" to Restricted without restriction
+    And   I change access of group "My restricted to restricted group" to Restricted with restriction "example.com"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in restricted to restricted group" node of type "discussion"
     And   I should see "Access denied"
