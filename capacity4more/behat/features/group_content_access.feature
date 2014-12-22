@@ -1,7 +1,7 @@
 Feature: Group content access
   Test group content privacy is changing due to the group privacy.
 
-  @api
+  @javascript
   Scenario: Check group privacy from public to private
     Given a group "My public to private group" with "Public" access is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -9,9 +9,9 @@ Feature: Group content access
     And   I change access of group "My public to private group" to "Private"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in public to private group" node of type "discussion"
-    And   I should not have access to the page
+    And   I should see "Access denied"
 
-  @api
+  @javascript
   Scenario: Check group privacy from private to public
     Given a group "My private to public group" with "Private" access is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -19,9 +19,10 @@ Feature: Group content access
     And   I change access of group "My private to public group" to "Public"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in private to public group" node of type "discussion"
-    And   I should have access to the page
+    And   I should not see "Access denied"
+    And   I should see "Content in private to public group"
 
-  @api
+  @javascript
   Scenario: Check group privacy from restricted to public
     Given a group "My restricted to public group" with "Restricted" access is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -29,9 +30,10 @@ Feature: Group content access
     And   I change access of group "My restricted to public group" to "Public"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in restricted to public group" node of type "discussion"
-    And   I should have access to the page
+    And   I should not see "Access denied"
+    And   I should see "Content in restricted to public group"
 
-  @api
+  @javascript
   Scenario: Check group privacy from public to restricted
     Given a group "My public to restricted group" with "Public" access is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -39,9 +41,9 @@ Feature: Group content access
     And   I change access of group "My public to restricted group" to "Restricted"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in public to restricted group" node of type "discussion"
-    And   I should not have access to the page
+    And   I should see "Access denied"
 
-  @api
+  @javascript
   Scenario: Check group privacy from restricted to private
     Given a moderated group "My restricted to private group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -49,9 +51,9 @@ Feature: Group content access
     And   I change access of group "My restricted to private group" to "Private"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in restricted to private group" node of type "discussion"
-    And   I should not have access to the page
+    And   I should see "Access denied"
 
-  @api
+  @javascript
   Scenario: Check group privacy from restricted to restricted
     Given a moderated group "My restricted to restricted group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -59,9 +61,9 @@ Feature: Group content access
     And   I change access of group "My restricted to restricted group" to Restricted with "example.com" restriction
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in restricted to restricted group" node of type "discussion"
-    And   I should not have access to the page
+    And   I should see "Access denied"
 
-  @api
+  @javascript
   Scenario: Check group privacy from private to restricted with some email domain
     Given a group "My private to restricted group1" with "Private" access is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -69,4 +71,5 @@ Feature: Group content access
     And   I change access of group "My private to restricted group1" to Restricted with "gravity.com" restriction
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in private to restricted group1" node of type "discussion"
-    And   I should have access to the page
+    And   I should not see "Access denied"
+    And   I should see "Content in private to restricted group1"
