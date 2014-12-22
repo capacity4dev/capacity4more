@@ -99,3 +99,23 @@
     }
   }
 }
+
+.node {
+  .group-right {
+    .group-detail-element {
+      margin-bottom: 25px;
+
+      ul {
+        list-style-type: none;
+      }
+    }
+    .field-name-og-vocabulary ul {
+      list-style-type: none;
+      margin-bottom: 25px;
+    }
+
+    .group-node-details {
+      clear: both;
+    }
+  }
+}

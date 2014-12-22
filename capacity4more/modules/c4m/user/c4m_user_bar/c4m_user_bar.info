@@ -1,7 +1,8 @@
-name = c4m User Bar
+name = User Profile Bar
 description = Provides the User navigation bar.
 core = 7.x
-package = capacity4more - Features
+package = capacity4more - User
+version = 7.x-1.x-dev
 dependencies[] = c4m_user_profile
 dependencies[] = context
 dependencies[] = ctools
