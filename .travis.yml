@@ -46,6 +46,8 @@ install:
 
   # Install Coder for code standard reviews.
   - composer global require drupal/coder:\>7
+  - phpenv rehash
+  - drush cache-clear drush
 
 before_script:
   # Install Apache
