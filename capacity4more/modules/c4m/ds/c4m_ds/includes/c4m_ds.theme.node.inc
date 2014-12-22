@@ -96,15 +96,30 @@ function theme_c4m_ds_content_type_icon($field) {
 
   $icon_name = $object->type;
 
-  if ($icon_name == 'discussion') {
-    $object_wrapper = entity_metadata_wrapper('node', $object);
-    // Icon image file name is the discussion type of the discussion node.
-    $icon_name = 'discussion-' . $object_wrapper->c4m_discussion_type->value();
+  $field_name = 'c4m_' . $icon_name . '_type';
+
+  $object_wrapper = entity_metadata_wrapper('node', $object);
+  if (!isset($object_wrapper->$field_name)) {
+    return;
   }
+  // Icon image file name is the type of the node.
+  $icon_name = $object->type . '-' . $object_wrapper->$field_name->value();
+
 
   $variables['icon'] = $icon_name;
+  //drupal_set_title(, PASS_THROUGH);
 
-  return '<span class="node-icon as-' . $icon_name . '"> </span>';
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    'attributes' => array(
+      'class' => array('node-icon', 'as-' . $icon_name),
+    ),
+    '#value'     => '',
+  );
+
+  $icon = theme_html_tag($tag);
+
+  return $icon;
 }
 
 /**
