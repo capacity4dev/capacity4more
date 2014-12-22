@@ -35,11 +35,17 @@
     float: right;
 
     .comment-delete {
-      display: none; // Wanted?
+      a {
+        color: $highlight-blue;
+        text-transform: uppercase;
+      }
     }
 
     .comment-edit {
-      display: none; // Wanted?
+      a {
+        color: $highlight-blue;
+        text-transform: uppercase;
+      }
     }
 
     .comment-reply {
