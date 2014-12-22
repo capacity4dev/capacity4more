@@ -114,7 +114,7 @@ function kapablo_preprocess_facetapi_link_inactive(&$variables) {
 //  }
 
   if (!empty($replace['class'])) {
-    foreach($replace['class'] as $class) {
+    foreach ($replace['class'] as $class) {
       $variables['options']['attributes']['class'][] = $class;
     }
   }
@@ -133,7 +133,7 @@ function kapablo_preprocess_facetapi_link_active(&$variables) {
 //  }
 
   if (!empty($replace['class'])) {
-    foreach($replace['class'] as $class) {
+    foreach ($replace['class'] as $class) {
       $variables['options']['attributes']['class'][] = $class;
     }
   }
