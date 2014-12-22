@@ -55,6 +55,17 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     return;
   }
 
+  // Add the directive.
+  $directive = theme('c4m_content_discussion_document_widget', array());
+  $form['add_document'] = array(
+    '#markup' => $directive,
+    '#weight' => $instance['widget']['weight'],
+    '#attributes' => array(
+      'ng-controller' => 'DrupalDocumentCtrl',
+    ),
+  );
+
+  // Add autoco,plete widget, that will be hidden.
   $instance['widget']['type'] = 'entityreference_autocomplete';
   $instance['widget']['active'] = 1;
 
@@ -63,3 +74,17 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
   return $element;
 }
 
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_discussion_theme() {
+  $theme['c4m_content_discussion_document_widget'] = array(
+    'template' => 'c4m_document_widget',
+    'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
+    'variables' => array(
+      'vocabulary_name' => NULL,
+    ),
+  );
+
+  return $theme;
+}
