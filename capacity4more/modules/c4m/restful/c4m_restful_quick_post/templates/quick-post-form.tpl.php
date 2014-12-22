@@ -104,10 +104,9 @@
       <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
     </div>
     <div class="selected-values" ng-show="data.document_type">
-          <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
-            {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')"
-                                                   class="fa fa-times"></i>
-          </span>
+      <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
+        {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')" class="fa fa-times"></i>
+      </span>
     </div>
     <!-- Hidden document_type checkboxes.-->
     <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
@@ -170,9 +169,9 @@
         <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.topic">
-            <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
-              {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
-            </span>
+        <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
+          {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+        </span>
       </div>
       <!-- Hidden topic checkboxes.-->
       <div class="popover right hidden-checkboxes" ng-show="popups.topic">
@@ -206,10 +205,10 @@
       <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
     </div>
     <div class="selected-values" ng-show="data.categories">
-            <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
-              {{ findLabel(categories, key) }} <i ng-click="removeTaxonomyValue(key, 'categories')"
-                                                  class="fa fa-times"></i>
-            </span>
+      <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
+        {{ findLabel(categories, key) }} <i ng-click="removeTaxonomyValue(key, 'categories')"
+                                            class="fa fa-times"></i>
+      </span>
     </div>
     <!-- Hidden date checkboxes.-->
     <div class="popover right hidden-checkboxes" ng-show="popups.categories">
