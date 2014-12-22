@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Helper functionality for comments.
+ */
+
+/**
+ * Implements hook_FORM_ID_form_alter().
+ */
+function c4m_helper_comment_form_comment_form_alter(&$form, &$form_state) {
+  $form['actions']['submit']['#value'] = t('Comment');
+}
