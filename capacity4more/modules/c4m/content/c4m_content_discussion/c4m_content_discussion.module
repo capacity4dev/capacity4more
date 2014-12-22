@@ -24,3 +24,78 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
   );
 }
 
+/**
+ * Implements hook_field_widget_info().
+ */
+function c4m_content_discussion_field_widget_info() {
+  $widgets['c4m_add_document'] = array(
+    'label' => t('C4M Document'),
+    'description' => t('Load new document or select existing.'),
+    'field types' => array('entityreference'),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      'default value' => FIELD_BEHAVIOR_NONE,
+    ),
+  );
+
+  return $widgets;
+}
+/**
+ * Implements hook_field_widget_form().
+ */
+function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+
+  if (!$entity) {
+    return;
+  }
+
+  $instance['widget']['type'] = 'inline_entity_form';
+  $instance['widget']['settings']['type_settings'] = array(
+    'allow_existing' => 1,
+    'match_operator' => 'CONTAINS',
+    'delete_references' => 0,
+    'override_labels'=> 0,
+    'label_singular' => 'node',
+    'label_plural' => 'nodes'
+  );
+  $parents = array_merge($element['#field_parents'], array($element['#field_name'], $element['#language']));
+  $ief_id = sha1(implode('-', $parents));
+
+
+  $settings = inline_entity_form_settings($field, $instance);
+  $form_state['inline_entity_form'][$ief_id] = array(
+    'form' => 'add',
+    'settings' => $settings,
+    'instance' => $instance,
+  );
+
+  // Load the entities from the $items array and store them in the form
+  // state for further manipulation.
+  $form_state['inline_entity_form'][$ief_id]['entities'] = array();
+  $entity_ids = array();
+  foreach ($items as $item) {
+    $entity_ids[] = $item[$settings['column']];
+  }
+
+  $delta = 0;
+  foreach (entity_load($settings['entity_type'], $entity_ids) as $entity) {
+    $form_state['inline_entity_form'][$ief_id]['entities'][$delta] = array(
+      'entity' => $entity,
+      'weight' => $delta,
+      'form' => NULL,
+      'needs_save' => FALSE,
+    );
+
+    $delta++;
+  }
+  $bundle = reset($settings['create_bundles']);
+  $form_state['inline_entity_form'][$ief_id]['form settings'] = array(
+    'bundle' => $bundle,
+  );
+dpm($form_state);
+  $element = inline_entity_form_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  return $element;
+}
+

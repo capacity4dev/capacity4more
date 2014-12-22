@@ -48,6 +48,7 @@ dependencies[] = link
 ;dependencies[] = message
 
 dependencies[] = module_filter
+dependencies[] = inline_entity_form
 dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_context
