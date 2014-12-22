@@ -14,20 +14,20 @@ before_install:
 
   # Install phantomJs.
   - sudo apt-get update
-  - sudo apt-get install build-essential chrpath libssl-dev libxft-dev
-  - sudo apt-get install libfreetype6 libfreetype6-dev
-  - sudo apt-get install libfontconfig1 libfontconfig1-dev
-  - export PHANTOM_JS="phantomjs-1.9.7-linux-x86_64"
-  - wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
-  - sudo mv $PHANTOM_JS.tar.bz2 /usr/local/share/
-  - sudo tar xvjf /usr/local/share/$PHANTOM_JS.tar.bz2
-  - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/share/phantomjs
-  - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin/phantomjs
-  - sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/bin/phantomjs
+  #- sudo apt-get install build-essential chrpath libssl-dev libxft-dev
+  #- sudo apt-get install libfreetype6 libfreetype6-dev
+  #- sudo apt-get install libfontconfig1 libfontconfig1-dev
+  #- export PHANTOM_JS="phantomjs-1.9.7-linux-x86_64"
+  #- wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
+  #- sudo mv $PHANTOM_JS.tar.bz2 /usr/local/share/
+  #- sudo tar xvjf /usr/local/share/$PHANTOM_JS.tar.bz2
+  #- sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/share/phantomjs
+  #- sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin/phantomjs
+  #- sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/bin/phantomjs
 
   # Install grunt.
-  - npm install -g grunt-cli
-  - npm install -g bower
+  #- npm install -g grunt-cli
+  #- npm install -g bower
 
 
 install:
@@ -38,6 +38,7 @@ install:
   - echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
 
   # Install drush.
+  - cd $TRAVIS_BUILD_DIR
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require drush/drush 6.*
     # Bug in composer, needs to run twice?!?
@@ -45,6 +46,7 @@ install:
   - phpenv rehash
 
   # Install Coder for code standard reviews.
+  - cd $TRAVIS_BUILD_DIR
   - composer global require drupal/coder:\>7
   - drush pm-download coder --destination=$HOME/.drush
   - phpenv rehash
