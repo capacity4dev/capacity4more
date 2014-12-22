@@ -169,6 +169,7 @@ trait Group {
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
+    $steps[] = new Step\When('I wait');
 
     return $steps;
   }
