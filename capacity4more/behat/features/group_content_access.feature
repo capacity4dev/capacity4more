@@ -61,7 +61,6 @@ Feature: Group content access
     And   I change access of group "My restricted to restricted group" to Restricted with "example.com" restriction
     When  I am logged in as user "isaacnewton"
     Then  I visit "Content in restricted to restricted group" node of type "discussion"
-    And   I wait
     And   I should see "Access denied"
 
   @javascript
