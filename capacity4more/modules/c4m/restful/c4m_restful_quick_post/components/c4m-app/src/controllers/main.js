@@ -35,6 +35,8 @@ angular.module('c4mApp')
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
 
+    $scope.activityPage = 1;
+
     $scope.basePath = DrupalSettings.getBasePath();
 
     // Empty new activities.
@@ -73,7 +75,7 @@ angular.module('c4mApp')
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
         // Merge all the loaded activities before adding the created one.
-        $scope.showNewActivities();
+        $scope.showNewActivities(0);
       }
 
       var activityStreamInfo = {
@@ -122,9 +124,11 @@ angular.module('c4mApp')
     /**
      * Merge the "new activity" with the existing activity stream.
      * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     *
+     * @param position.
+     *  The position in which to add the new activities.
      */
-    $scope.showNewActivities = function() {
-      var position = 0;
+    $scope.showNewActivities = function(position) {
       angular.forEach ($scope.newActivities, function (activity) {
         this.splice(position, 0, {
           id: activity.id,
@@ -134,6 +138,31 @@ angular.module('c4mApp')
         position++;
       }, $scope.existingActivities);
       $scope.newActivities = [];
+    };
+
+    /**
+     * When clicking on the "show more" button,
+     * Request the next set of activities from RESTful.
+     */
+    $scope.showMore = function() {
+      // Determine the position of the loaded activities depending on the number of the loaded page.
+      var position = 20 * $scope.activityPage;
+      // For loading the next page, Every time the "show more" button is clicked, We add 1 to the "activityPage" variable.
+      $scope.activityPage++;
+
+      EntityResource.loadMoreStream($scope.data.group, $scope.activityPage)
+        .success( function (data, status) {
+          if (data.data) {
+            angular.forEach(data.data, function (activity) {
+              this.splice(position, 0, {
+                id: activity.id,
+                html: $sce.trustAsHtml(activity.html)
+              });
+              position++;
+            }, $scope.newActivities);
+            $scope.showNewActivities(position);
+          }
+        });
     };
 
     /**

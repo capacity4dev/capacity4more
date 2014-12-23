@@ -67,4 +67,26 @@ angular.module('c4mApp')
 
       return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
     };
+
+    /**
+     * Load more activities from RESTful.
+     *
+     * @param groupID
+     *  The Id of the current group.
+     * @param pageNo
+     *  The number of the requested page.
+     *
+     * @returns {*}
+     *  JSON of the loaded activity stream.
+     */
+    this.loadMoreStream = function(groupID, pageNo) {
+      var config = {
+        withCredentials: true,
+        headers: {
+          "X-CSRF-Token": DrupalSettings.getCsrfToken()
+        }
+      };
+
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + groupID + '&page=' + pageNo + '&sort=-id&html=1', config);
+    }
   });

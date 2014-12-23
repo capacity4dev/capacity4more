@@ -27,6 +27,32 @@
       padding-left: 15px;
     }
   }
+
+  .show-more-wrapper {
+    width: 100%;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 49px;
+    float: left;
+
+    .show-more {
+      padding: 0 5px;
+      position: relative;
+      background-color: white;
+      display: inline-block;
+      top: 0;
+      left: 5px;
+
+      a {
+        background-color: $highlight-blue;
+        display: inline-block;
+        padding: 12px 43px 9px;
+        color: white;
+        font-weight: bold;
+        @include border-radius(20px);
+      }
+    }
+  }
 }
 
 .row-header {
