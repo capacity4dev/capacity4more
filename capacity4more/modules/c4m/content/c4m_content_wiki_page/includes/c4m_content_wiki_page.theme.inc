@@ -4,17 +4,6 @@
  *
  * Custom Display Suite function fields.
  */
-/**
- * Theme function for wiki page.
- *
- * @param $variables
- * @return null|string
- */
-function theme_c4m_content_wiki_page_wiki($variables) {
-  if (empty($variables['content'])) {
-    return t('No wiki pages (yet).');
-  }
-}
 
 /**
  * DS function field.

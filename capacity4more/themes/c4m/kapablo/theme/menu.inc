@@ -55,17 +55,6 @@ function kapablo_menu_link__c4m_og_menu($variables) {
       );
       $sub_menu_wrapper = theme_html_tag($tag);
 
-      // Chevron icon to indicate the dropdown.
-      $tag['element'] = array(
-        '#tag' => 'i',
-        '#attributes' => array(
-          'class' => array('c4m-chevron-down'),
-        ),
-        '#value' => '',
-      );
-      $c4m_chevron_down = theme_html_tag($tag);
-
-      $element['#title'] .= $c4m_chevron_down;
       $element['#attributes']['class'][] = 'dropdown';
       $element['#localized_options']['html'] = TRUE;
 
@@ -80,6 +69,11 @@ function kapablo_menu_link__c4m_og_menu($variables) {
   // @see https://drupal.org/node/1896674
   if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
+  }
+
+  // Set active-trail on the link itself if there.
+  if (in_array('active-trail', $element['#attributes']['class'])) {
+    $element['#localized_options']['attributes']['class'][] = 'active-trail';
   }
 
   $element['#attributes']['class'][] = 'og-menu-link ' . preg_replace("/[^A-Za-z0-9 ]/", '', $element['#original_link']['link_path']);

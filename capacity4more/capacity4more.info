@@ -122,6 +122,7 @@ dependencies[] = c4m_features_og_overview_events
 dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+dependencies[] = c4m_features_og_wiki
 
 ; Search
 dependencies[] = c4m_search
