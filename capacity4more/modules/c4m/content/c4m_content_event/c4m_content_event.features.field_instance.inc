@@ -297,7 +297,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 22,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -889,7 +889,7 @@ function c4m_content_event_field_default_field_instances() {
           'display_geo_microformat' => 0,
           'display_latlong' => 0,
           'display_mapheight' => '200px',
-          'display_maplink' => 1,
+          'display_maplink' => 0,
           'display_mapwidth' => '300px',
           'display_mobile' => 0,
           'display_name' => 1,
@@ -1463,7 +1463,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 21,
       ),
       'teaser' => array(
         'label' => 'above',

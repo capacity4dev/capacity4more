@@ -24,6 +24,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     array('location', 'Location'),
     array('categories', 'Categories'),
     array('topics', 'Topics'),
+    array('geo', 'Geo'),
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
@@ -84,6 +85,11 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     $row->topics_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
+
+    $this->addFieldMapping('c4m_vocab_geo', 'geo')
+      ->sourceMigration('C4mDemoContentCreateRegionTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
   }
 
   /**
