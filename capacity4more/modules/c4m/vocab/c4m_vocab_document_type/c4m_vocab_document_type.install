@@ -108,8 +108,8 @@ function _c4m_vocab_document_type_install_get_terms() {
     st('Toolkits & manuals') => array(),
     st('Case study & Lessons learned') => array(),
     st('Communication material') => array(
-	    st('Newsletter') => array(),
-	    st('Leaflets') => array(),
+      st('Newsletter') => array(),
+      st('Leaflets') => array(),
       st('Press release') => array(),
       st('Articles & Interviews') => array(),
       st('Publications & Factsheets') => array(),
