@@ -37,8 +37,11 @@ angular.module('c4mApp')
 
     $scope.activityPage = 1;
 
-    // Display the "show more" button only if the activity stream has 20 posts.
-    $scope.showMoreButton = $scope.existingActivities.length >= 20;
+    // Range of the initial loaded activity stream.
+    $scope.range = 20;
+
+    // Display the "show more" button only if the activity stream is equal to the the range.
+    $scope.showMoreButton = $scope.existingActivities.length >= $scope.range;
 
     $scope.basePath = DrupalSettings.getBasePath();
 
@@ -164,8 +167,8 @@ angular.module('c4mApp')
               position++;
             }, $scope.existingActivities);
 
-            // Keep the "show more" button only if the loaded activities is 20 or more.
-            $scope.showMoreButton = data.data.length >= 20;
+            // Keep the "show more" button only if the loaded activities is equal to range or more.
+            $scope.showMoreButton = data.data.length >= $scope.range;
           }
         });
     };
