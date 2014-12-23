@@ -43,13 +43,18 @@
   }
 }
 
-@mixin arrow-image($direction: 'left', $color: 'blue') {
+@mixin arrow-image($direction: 'left', $color: 'blue', $position: 'after') {
   $full-png: image-url('icons/png/arrow-' + $color + '-' + $direction + '.png');
   $full-svg: inline-image('svgmin/icons/arrow-' + $color + '-' + $direction + '.svg');
 
-  background: $full-png no-repeat right 50%;
+  @if $position == after {
+    background: $full-png no-repeat right 50%;
+    padding-right: 15px;
+  } @else if $position == before {
+    background: $full-png no-repeat left 50%;
+    padding-left: 15px;
+  }
   background-size: 1em;
-  padding-right: 15px;
 
   html.inlinesvg & {
     background-image: $full-svg;
