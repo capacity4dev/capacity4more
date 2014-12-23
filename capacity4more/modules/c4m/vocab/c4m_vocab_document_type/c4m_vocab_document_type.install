@@ -100,8 +100,8 @@ function _c4m_vocab_document_type_install_get_terms() {
       st('Logical framework') => array(),
     ),
     st('Learning material') => array(
-	    st('E-learning & MOOC') => array(),
-	    st('Training agenda & outlines') => array(),
+      st('E-learning & MOOC') => array(),
+      st('Training agenda & outlines') => array(),
       st('Training presentations') => array(),
     ),
     st('Guidelines') => array(),
