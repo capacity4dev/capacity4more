@@ -4,12 +4,20 @@ module.exports = function (grunt) {
 
         // SCSS
         compass: {
-            build: {
+            dev: {
                 options: {
                     config: 'config.rb',
                     outputStyle: 'expanded',
                     debugInfo: true,
                     environment: 'development'
+                }
+            },
+            prod: {
+                options: {
+                    config: 'config.rb',
+                    outputStyle: 'compressed',
+                    debugInfo: false,
+                    environment: 'production'
                 }
             }
         },
@@ -121,13 +129,22 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-csscss');
 
 
-    grunt.registerTask('build', [
+    grunt.registerTask('dev', [
         'svgmin',
         'grunticon',
         'csscss',
         'concat',
         'uglify',
-        'compass'
+        'compass:dev',
+        'watch'
+    ]);
+
+    grunt.registerTask('build', [
+        'svgmin',
+        'grunticon',
+        'concat',
+        'uglify',
+        'compass:prod'
     ]);
 
     grunt.registerTask('default', [

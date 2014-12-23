@@ -1,0 +1,9 @@
+.form-actions {
+  .form-submit {
+    @include input-rounded($gray-darker, 20px);
+
+    color: $white;
+    padding:10px 50px;
+    text-transform: uppercase;
+  }
+}

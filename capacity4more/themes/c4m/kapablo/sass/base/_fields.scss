@@ -1,4 +1,6 @@
 .field-name-title {
+  color: $gray-darker;
+
   h2 {
     margin: 0;
   }
@@ -41,6 +43,76 @@
 }
 
 .field-name-c4m-ds-content-footer-stats {
-  color: $gray-dark;
+  color: $gray-darker;
   margin-top: 5px;
+}
+
+.field-name-c4m-ds-content-type-icon {
+  float: left;
+  width: 35px;
+
+  & ~ .field-name-title, & ~ .field-name-c4m-ds-content-footer-stats {
+    margin-left: 35px;
+    padding-left: 15px;
+
+    margin-top: 0;
+
+    h2 {
+      margin-top: 5px;
+    }
+  }
+}
+
+.field-name-c4m-related-document {
+  margin-top: 50px;
+
+  .field-label {
+    color: $highlight-blue;
+    font-size: $font-size-h2;
+    //    font-weight: lighter;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+  }
+}
+
+.comment-wrapper {
+  .title {
+    color: $highlight-blue;
+    font-size: $font-size-h2;
+    //    font-weight: lighter;
+    font-weight: normal;
+    margin: 50px 0 15px;
+    text-transform: uppercase;
+  }
+}
+
+.field-name-c4m-ds-node-author-image, .field-name-c4m-ds-comment-author-image {
+  img {
+    @include border-radius(50%);
+  }
+}
+
+.node {
+  .group-right {
+    .field-name-c4m-ds-node-author-image {
+      float: left;
+      margin-right: 15px;
+    }
+  }
+}
+
+.field-name-c4m-ds-author-first-and-last-name {
+  color: $blue;
+  display: inline-block;
+
+  & + .field-name-post-date {
+    color: $blue;
+    display: inline-block;
+
+    &:before {
+      color: $blue;
+      content: '|';
+      margin: 0 10px;
+    }
+  }
 }
