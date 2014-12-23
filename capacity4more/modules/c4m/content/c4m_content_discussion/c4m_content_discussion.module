@@ -57,6 +57,7 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
 
   // Add the directive.
   $directive = theme('c4m_content_discussion_document_widget', array());
+  drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
   $form['add_document'] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
@@ -111,7 +112,8 @@ function c4m_content_discussion_entity_type_label($variables) {
 
 function c4m_content_discussion_admin_paths() {
   $paths = array(
-    'documents' => TRUE,
+    'overlay/documents' => TRUE,
+    'overlay/documents/table' => TRUE,
   );
   return $paths;
 }
