@@ -37,6 +37,9 @@ angular.module('c4mApp')
 
     $scope.activityPage = 1;
 
+    // Display the "show more" button only if the activity stream has 20 posts.
+    $scope.showMoreButton = $scope.existingActivities.length >= 20;
+
     $scope.basePath = DrupalSettings.getBasePath();
 
     // Empty new activities.
@@ -144,7 +147,7 @@ angular.module('c4mApp')
      * Request the next set of activities from RESTful,
      * Adds the newly loaded activity stream to the bottom of the "existingActivities" array.
      */
-    $scope.showMore = function() {
+    $scope.showMoreActivities = function() {
       // Determine the position of the loaded activities depending on the number of the loaded page.
       var position = $scope.existingActivities.length;
       // For loading the next page, Every time the "show more" button is clicked, We add 1 to the "activityPage" variable.
@@ -160,6 +163,9 @@ angular.module('c4mApp')
               });
               position++;
             }, $scope.existingActivities);
+
+            // Keep the "show more" button only if the loaded activities is 20 or more.
+            $scope.showMoreButton = data.data.length >= 20;
           }
         });
     };
