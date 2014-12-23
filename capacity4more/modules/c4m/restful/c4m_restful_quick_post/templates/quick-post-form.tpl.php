@@ -470,7 +470,32 @@
         </div>
       </div>
     </div>
-
+    <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
+      <div class="label-wrapper">
+        <label><?php print t('Group categories') ?></label>
+        <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
+      </div>
+      <div class="checkboxes-wrapper">
+        <div class="popup-button">
+          <button type="button" ng-click="togglePopover('categories', $event)"
+                  class="btn"><?php print t('Select Category'); ?></button>
+          <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
+        </div>
+        <div class="selected-values" ng-show="data.categories">
+      <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
+        {{ findLabel(categories, key) }} <i ng-click="removeTaxonomyValue(key, 'categories')"
+                                            class="fa fa-times"></i>
+      </span>
+        </div>
+        <!-- Hidden date checkboxes.-->
+        <div class="popover right hidden-checkboxes" ng-show="popups.categories">
+          <div class="arrow"></div>
+          <div class="popover-content">
+            <list-terms type="categories" model="data.categories" items="categories"></list-terms>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
       <div class="label-wrapper">
         <label>{{fieldSchema.date.info.label}}</label>
