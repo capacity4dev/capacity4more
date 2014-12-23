@@ -35,6 +35,7 @@ angular.module('c4mApp')
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
 
+    // The page number of the initial loaded activity stream.
     $scope.activityPage = 1;
 
     // Range of the initial loaded activity stream.
