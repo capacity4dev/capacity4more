@@ -34,13 +34,21 @@ angular.module('c4mApp')
       QuickPostService.keyUpHandler(keyEvent, $scope);
     };
 
+    /**
+     * Updates the selected taxonomy terms on the entity edit page.
+     *
+     * @param key
+     *  The vocabulary ID.
+     * @param vocab
+     *  The name of the vocabulary.
+     */
     function updateTerms(key, vocab) {
       // Check/uncheck the checkbox in the drupal form.
       if($scope.model[key]) {
-        jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", true);
+        jQuery('input[type=checkbox][value="' + key + '"]').prop("checked", true);
       }
       else {
-        jQuery('input[type=checkbox][value="' + key + '"]').attr("checked", false);
+        jQuery('input[type=checkbox][value="' + key + '"]').prop("checked", false);
         if (key in $scope.data[vocab]) {
           angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
             var childID = child.id;
