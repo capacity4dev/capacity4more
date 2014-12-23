@@ -132,7 +132,6 @@ angular.module('c4mApp')
       angular.forEach ($scope.newActivities, function (activity) {
         this.splice(position, 0, {
           id: activity.id,
-          created: activity.created,
           html: activity.html
         });
         position++;
@@ -142,11 +141,12 @@ angular.module('c4mApp')
 
     /**
      * When clicking on the "show more" button,
-     * Request the next set of activities from RESTful.
+     * Request the next set of activities from RESTful,
+     * Adds the newly loaded activity stream to the bottom of the "existingActivities" array.
      */
     $scope.showMore = function() {
       // Determine the position of the loaded activities depending on the number of the loaded page.
-      var position = 20 * $scope.activityPage;
+      var position = $scope.existingActivities.length;
       // For loading the next page, Every time the "show more" button is clicked, We add 1 to the "activityPage" variable.
       $scope.activityPage++;
 
@@ -159,8 +159,7 @@ angular.module('c4mApp')
                 html: $sce.trustAsHtml(activity.html)
               });
               position++;
-            }, $scope.newActivities);
-            $scope.showNewActivities(position);
+            }, $scope.existingActivities);
           }
         });
     };
