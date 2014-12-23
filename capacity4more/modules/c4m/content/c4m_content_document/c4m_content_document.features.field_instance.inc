@@ -386,9 +386,9 @@ function c4m_content_document_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'c4m_vocab_language',
       'settings' => array(),
-      'type' => 'options_select',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 7,
     ),
   );
