@@ -2,14 +2,14 @@
 /**
  * Menu callback for path wiki.
  */
-function c4m_content_wiki_page_wiki () {
+function c4m_features_og_wiki_wiki() {
   // If we are not in group context, deny access.
   if (!$group = c4m_og_current_group()) {
     drupal_access_denied();
   }
   elseif (!$group->book['has_children']) {
     // If the group has no first wiki page (meaning a level 1 page
-    return theme('c4m_content_wiki_page_wiki', array('content' => NULL));
+    return theme('c4m_features_og_wiki_wiki', array('content' => NULL));
   }
   else {
     $book  = book_get_flat_menu($group->book);

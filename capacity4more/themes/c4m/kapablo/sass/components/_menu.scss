@@ -53,7 +53,7 @@
         @extend %svg-icon;
         @include border-radius(0, 0);
 
-        color: $grey-almost-dark;
+        color: $gray-darker;
         text-align: left;
         text-transform: uppercase;
 
@@ -89,33 +89,24 @@
           @include link-icon-png-fallback('icons', 'tasks-icon');
         }
       }
-      &.dropdown > a, &.no-children > a {
+      &.wiki > a {
         background-color: white;
-        &:hover {
+        &:hover, &.active, &.active-trail {
           color: $gray-dark;
           background-color: transparent;
         }
       }
-      &.dropdown {
-        i.c4m-chevron-down {
-          display: inline-block;
-          font-style: normal;
-          margin-left: 10px;
-          width: 14px;
-          height: 14px;
-          position: relative;
-          top: -3px;
-          &:after {
-            font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
-            float: right;
-            color: $grey-almost-dark;
-            /* symbol for "open" submenu */
-            content: "\e114";
-          }
-        }
+      &.wiki.dropdown {
         a.dropdown-toggle {
-          i.c4m-chevron-down:after {
-            color: inherit;
+          @include arrow-image('down', 'gray-darker', 'after');
+          padding-right: 35px;
+          background-position: 75px 50%;
+          background-size: 1.2em;
+          &:hover, &.active-trail {
+            @include arrow-image('down', 'gray-dark', 'after');
+            padding-right: 35px;
+            background-position: 75px 50%;
+            background-size: 1.2em;
           }
         }
         div.dropdown-menu {
@@ -124,7 +115,7 @@
           background-color: $gray-lighter;
           border-radius: 5px;
           max-width: 370px;
-          margin: -2px 0 0 22px;
+          margin: -2px 0 0 59px;
           span.arrow {
             width: 0;
             height: 0;
@@ -152,27 +143,24 @@
                 i.c4m-chevron-right {
                   display: block;
                   float: left;
-                  margin-left: -32px;
-                  font-style: normal;
-                  width: 14px;
+                  margin: 6px 0 0 -38px;
                   height: 14px;
-                  &:before {
-                    font-family: 'Glyphicons Halflings'; /* essential for enabling glyphicon */
-                    font-size: 0.7em;
-                    float: left;
-                    color: $grey-almost-dark;
-                    content: "\e080";
-                  }
+                  width: 14px;
+                  @include arrow-image('right', 'gray-darker', 'after');
                 }
                 &.active {
                   background-color: $gray-lighter;
                   color: $highlight-blue;
+                  i.c4m-chevron-right {
+                    @include arrow-image('right', 'highlight-blue', 'after');
+                  }
                 }
                 &:hover {
                   background-color: $gray-lighter;
                   color: $gray-dark;
-                  i.c4m-chevron-right:before {
+                  i.c4m-chevron-right {
                     color: inherit;
+                    @include arrow-image('right', 'gray-dark', 'after');
                   }
                 }
               }
@@ -195,12 +183,16 @@
         &.no-children > a {
           padding-left: 0;
         }
-        &.dropdown {
+        &.wiki.dropdown {
           a.dropdown-toggle {
+            background-position: 80% 50%;
             padding-left: 15px;
+            &:hover, &.active-trail {
+              background-position: 80% 50%;
+            }
           }
           div.dropdown-menu {
-            margin: -2px 0 0 36px;
+            margin: -2px 0 0 34px;
             span.arrow {
               top: -10px;
             }
@@ -210,4 +202,3 @@
     }
   }
 }
-

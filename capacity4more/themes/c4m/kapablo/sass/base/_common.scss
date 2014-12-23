@@ -37,9 +37,9 @@ div.label-inline {
 }
 
 .sort-asc {
-  @include arrow-image('down', 'highlight-blue');
+  @include arrow-image('down', 'highlight-blue', 'after');
 }
 
 .sort-desc {
-  @include arrow-image('up', 'highlight-blue');
+  @include arrow-image('up', 'highlight-blue', 'after');
 }

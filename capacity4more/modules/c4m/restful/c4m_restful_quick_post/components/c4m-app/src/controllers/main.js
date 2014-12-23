@@ -17,12 +17,14 @@ angular.module('c4mApp')
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
-    if (Object.keys($scope.resources).length > 1) {
-      // Setting empty default resource.
-      $scope.selectedResource = '';
-    }
-    else {
-      $scope.selectedResource = Object.keys($scope.resources)[0];
+    if ($scope.resources) {
+      if (Object.keys($scope.resources).length > 1) {
+        // Setting empty default resource.
+        $scope.selectedResource = '';
+      }
+      else {
+        $scope.selectedResource = Object.keys($scope.resources)[0];
+      }
     }
 
     // Getting the fields information.
@@ -307,7 +309,12 @@ angular.module('c4mApp')
             var location = result.data.results[0].geometry.location;
             submitData.location.lat = location.lat;
             submitData.location.lng = location.lng;
-            submitData.location.country = result.data.results[0].address_components[4].short_name;
+            angular.forEach(result.data.results[0].address_components, function(value, key) {
+              // Find country short name.
+              if (value.types[0] == 'country') {
+                submitData.location.country = value.short_name;
+              }
+            });
           }
           else {
             // Use default latitude and longitude of Brussels, Belgium.
@@ -347,7 +354,7 @@ angular.module('c4mApp')
           // If requested to create in full form, Redirect user to the edit page.
           if(type == 'full_form') {
             var entityID = data.data[0].id;
-            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
           }
           else {
             $scope.serverSide.data = data;

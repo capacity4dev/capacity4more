@@ -72,6 +72,10 @@ dependencies[] = views_bulk_operations
 
 ; capacity4more ---------------------------------------------------------------
 
+; Helpers
+dependencies[] = c4m_helper_comment
+dependencies[] = c4m_helper_entity
+
 ; Vocabularies
 dependencies[] = c4m_vocab_category
 dependencies[] = c4m_vocab_tag
@@ -122,6 +126,7 @@ dependencies[] = c4m_features_og_overview_events
 dependencies[] = c4m_features_og_overview_members
 dependencies[] = c4m_features_og_overview_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+dependencies[] = c4m_features_og_wiki
 
 ; Search
 dependencies[] = c4m_search
