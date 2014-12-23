@@ -40,6 +40,7 @@ angular.module('c4mApp')
 
     // Display the "show more" button only if the activity stream is equal to the the range.
     $scope.showMoreButton = $scope.existingActivities.length >= $scope.range;
+    $scope.showEndActivity = 0;
 
     $scope.basePath = DrupalSettings.getBasePath();
 
@@ -171,7 +172,9 @@ angular.module('c4mApp')
           }
           else {
             // Hide the "show more" button.
+            // Show end of activity button.
             $scope.showMoreButton = 0;
+            $scope.showEndActivity = 1;
           }
         });
     };
