@@ -2,14 +2,17 @@
 
   $(document).bind('drupalOverlayLoad', function() {
     // Populate the entity reference field with the selected node ID.
-    $('.page-title', parent.window.document).hide();
+//    $('.page-title', parent.window.document).hide();
+
+    console.log(Drupal.overlay);
+
   });
 
-  Drupal.overlay.eventhandlerDocumentChosen = function (event) {
-    if (event.type == 'click') {
-      $('#edit-c4m-related-document-und-0-target-id').val('we are here');
-      $.bbq.removeState('overlay');
-      return;
-    }
-  }
+  $(document).bind('click', function(event) {
+    console.log(parent.Drupal.overlay);
+    console.log(event.target);
+    $('#edit-field-test-field-und-0-target-id',parent.window.document).val('we are here');
+    parent.Drupal.overlay.close();
+  });
+
 })(jQuery);

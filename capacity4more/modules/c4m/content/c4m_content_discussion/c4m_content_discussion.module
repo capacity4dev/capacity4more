@@ -55,9 +55,10 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     return;
   }
 
+//  drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
+
   // Add the directive.
   $directive = theme('c4m_content_discussion_document_widget', array());
-  drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
   $form['add_document'] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
@@ -116,4 +117,10 @@ function c4m_content_discussion_admin_paths() {
     'overlay/documents/table' => TRUE,
   );
   return $paths;
+}
+
+function c4m_content_discussion_preprocess_page($vars) {
+  if (strpos(current_path(), 'overlay')!== false) {
+    drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
+  }
 }
