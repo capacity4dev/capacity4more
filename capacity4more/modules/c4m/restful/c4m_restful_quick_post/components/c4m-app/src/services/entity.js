@@ -73,13 +73,13 @@ angular.module('c4mApp')
      *
      * @param groupID
      *  The Id of the current group.
-     * @param pageNo
-     *  The number of the requested page.
+     * @param lowestActivityId
+     *  The Id of the lowest activity that was loaded.
      *
      * @returns {*}
      *  JSON of the loaded activity stream.
      */
-    this.loadMoreStream = function(groupID, pageNo) {
+    this.loadMoreStream = function(groupID, lowestActivityId) {
       var config = {
         withCredentials: true,
         headers: {
@@ -87,6 +87,6 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + groupID + '&page=' + pageNo + '&sort=-id&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + groupID + '&sort=-id&filter[id][value]=' + lowestActivityId + '&filter[id][operator]="<"&html=1', config);
     }
   });

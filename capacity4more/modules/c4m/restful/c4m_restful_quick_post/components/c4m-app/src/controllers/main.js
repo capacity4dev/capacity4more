@@ -35,9 +35,6 @@ angular.module('c4mApp')
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
 
-    // The page number of the initial loaded activity stream.
-    $scope.activityPage = 1;
-
     // Range of the initial loaded activity stream.
     $scope.range = 20;
 
@@ -53,6 +50,7 @@ angular.module('c4mApp')
     $scope.stream = {
       // The first one is the last loaded activity, (if no activities, insert 0).
       lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
+      firstLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[$scope.existingActivities.length - 1].id : 0,
       status: 0
     };
 
@@ -157,7 +155,7 @@ angular.module('c4mApp')
       // For loading the next page, Every time the "show more" button is clicked, We add 1 to the "activityPage" variable.
       $scope.activityPage++;
 
-      EntityResource.loadMoreStream($scope.data.group, $scope.activityPage)
+      EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedID)
         .success( function (data, status) {
           if (data.data) {
             angular.forEach(data.data, function (activity) {
@@ -168,8 +166,10 @@ angular.module('c4mApp')
               position++;
             }, $scope.existingActivities);
 
+            // Update the ID of the last activity in the activity stream.
+            $scope.stream.firstLoadedID = data.data[data.data.length - 1].id;
             // Keep the "show more" button only if the loaded activities is equal to range or more.
-            $scope.showMoreButton = data.data.length >= $scope.range;
+            $scope.showMoreButton = $scope.existingActivities < data.count;
           }
         });
     };
