@@ -17,12 +17,14 @@ angular.module('c4mApp')
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
-    if (Object.keys($scope.resources).length > 1) {
-      // Setting empty default resource.
-      $scope.selectedResource = '';
-    }
-    else {
-      $scope.selectedResource = Object.keys($scope.resources)[0];
+    if ($scope.resources) {
+      if (Object.keys($scope.resources).length > 1) {
+        // Setting empty default resource.
+        $scope.selectedResource = '';
+      }
+      else {
+        $scope.selectedResource = Object.keys($scope.resources)[0];
+      }
     }
 
     // Getting the fields information.
@@ -352,7 +354,7 @@ angular.module('c4mApp')
           // If requested to create in full form, Redirect user to the edit page.
           if(type == 'full_form') {
             var entityID = data.data[0].id;
-            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/js-edit";
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
           }
           else {
             $scope.serverSide.data = data;

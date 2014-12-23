@@ -251,7 +251,7 @@ angular.module('c4mApp')
         }
       }, popups);
       // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.srcElement).outerWidth();
+      var elem_width = angular.element(event.currentTarget).outerWidth();
       var elemPosition = angular.element(event.target).offset();
       var elemParentPosition = angular.element(event.target).parent().offset();
       // Toggle the visibility variable.
