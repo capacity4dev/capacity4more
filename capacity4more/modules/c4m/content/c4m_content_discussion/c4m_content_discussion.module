@@ -108,3 +108,10 @@ function c4m_content_discussion_entity_type_label($variables) {
 
   return $variables;
 }
+
+function c4m_content_discussion_admin_paths() {
+  $paths = array(
+    'documents' => TRUE,
+  );
+  return $paths;
+}
