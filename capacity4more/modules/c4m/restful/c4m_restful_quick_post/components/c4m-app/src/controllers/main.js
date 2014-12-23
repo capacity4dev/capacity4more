@@ -309,7 +309,12 @@ angular.module('c4mApp')
             var location = result.data.results[0].geometry.location;
             submitData.location.lat = location.lat;
             submitData.location.lng = location.lng;
-            submitData.location.country = result.data.results[0].address_components[4].short_name;
+            angular.forEach(result.data.results[0].address_components, function(value, key) {
+              // Find country short name.
+              if (value.types[0] == 'country') {
+                submitData.location.country = value.short_name;
+              }
+            });
           }
           else {
             // Use default latitude and longitude of Brussels, Belgium.

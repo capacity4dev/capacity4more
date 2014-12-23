@@ -135,6 +135,37 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+
+  // Created time.
+  $format_types    = system_get_date_types();
+  $date_formatters = array();
+  foreach ($format_types as $formatter) {
+    $date_formatters['ds_post_date_' . $formatter['type']] = t($formatter['title']);
+  }
+  $date_formatters = array('ds_time_ago' => t('Time ago')) + $date_formatters;
+
+  $fields['node']['c4m_ds_submitted_by_and_on'] = array(
+    'title'      => t('Submitted by %name on %date'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_submitted_by_and_on',
+    'properties' => array(
+      'formatters' => $date_formatters,
+    ),
+  );
+
+  $fields['node']['c4m_ds_type_posted_by'] = array(
+    'title'      => t('Node type posted by - on (meta)'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_type_posted_by',
+    'properties' => array(
+      'default' => 'Default',
+    ),
+  );
+
   $fields['node']['c4m_ds_content_type_icon'] = array(
     'title'      => t('Content type icon'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -210,6 +241,30 @@ function c4m_ds_ds_fields_info($entity_type) {
     'function'   => 'theme_c4m_ds_document_preview',
   );
 
+  // Fields for entity type comments.
+  $fields['comment']['c4m_ds_comment_author_image'] = array(
+    'title'      => t('Author image'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_node_author_image',
+    'properties' => array('formatters' => $image_styles),
+  );
+
+  $fields['comment']['c4m_ds_author_first_and_last_name'] = array(
+    'title'      => t('Author first and last name'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_author_first_and_last_name',
+    'properties' => array(
+      'formatters' => array(
+        'author'      => 'Author first and last name',
+        'author_link' => 'Author first and last name linked to profile',
+      )
+    ),
+  );
+
   return $fields;
 }
 
@@ -278,7 +333,7 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
   // DS and field_group together sometimes break weight.
   // We can use field key in region as weight as fields are ordered now.
   foreach ($layout_render_array as $region_name => $content) {
-    foreach($content as $key => $field) {
+    foreach ($content as $key => $field) {
       $layout_render_array[$region_name][$key]['#weight'] = $key;
     }
   }

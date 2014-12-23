@@ -1,21 +1,22 @@
 .book-toc {
-  .toggle:before {
-    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
-    float: left;        /* adjust as needed */
-    color: grey;         /* adjust as needed */
-    margin-left: -20px;
-  }
-
   li.expanded {
-    .toggle:before {
+    .toggle {
       /* symbol for "open" submenu */
-      content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+      @include arrow-image('down', 'gray-dark', 'before');
+      // Increase padding because the icon and the link have separate
+      // functionality and this is less user-friendly if they are too close to
+      // each other.
+      padding-left: 20px;
     }
     /* It is pretty crucial for this css to be after the style for
     .toggle.expanded. Thus we don't need JS to remove the 'expanded' class. */
-    .toggle.collapsed:before {
+    .toggle.collapsed {
       /* symbol for "collapsed" or "expandable" submenu */
-      content: "\e080"; /* adjust as needed, taken from bootstrap.css */
+      @include arrow-image('right', 'gray-dark', 'before');
+      padding-left: 20px;
+    }
+    ul {
+      padding-left: 35px;
     }
   }
 }

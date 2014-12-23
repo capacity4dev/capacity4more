@@ -1,3 +1,24 @@
+.nav li a {
+  border: 0;
+}
+
+// Make sure menu links set active (active-trail) by context react as menu
+// links set active (active) by menu API.
+.nav-pills {
+  li.active-trail {
+    a, a:hover, a:focus {
+      color: #fff;
+      background-color: #428bca;
+    }
+  }
+}
+
+.navbar-toggle {
+  .icon-bar {
+    background-color: $highlight-blue;
+  }
+}
+
 #block-menu-c4m-og-menu {
   .nav {
     border-bottom: 2px dashed $gray-light;
@@ -6,21 +27,15 @@
     width: 100%;
 
   }
-}
-
-.nav li a {
-  border: 0;
-}
-
-#block-menu-c4m-og-menu {
   .navbar-collapse {
     padding-left: 0;
     padding-right: 0;
 
     &:not(.collapsed):not(.collapsing):not(.in) {
-      .og-menu-link {
-        a {
-          border-right: 1px solid $gray-dark;
+      .og-menu-link > a {
+        border-right: 1px solid $gray-dark;
+        &:focus, &:hover {
+          background-color: white;
         }
       }
       .members {
@@ -38,7 +53,7 @@
         @extend %svg-icon;
         @include border-radius(0, 0);
 
-        color: #71716e;
+        color: $gray-darker;
         text-align: left;
         text-transform: uppercase;
 
@@ -74,23 +89,116 @@
           @include link-icon-png-fallback('icons', 'tasks-icon');
         }
       }
+      &.wiki > a {
+        background-color: white;
+        &:hover, &.active, &.active-trail {
+          color: $gray-dark;
+          background-color: transparent;
+        }
+      }
+      &.wiki.dropdown {
+        a.dropdown-toggle {
+          @include arrow-image('down', 'gray-darker', 'after');
+          padding-right: 35px;
+          background-position: 75px 50%;
+          background-size: 1.2em;
+          &:hover, &.active-trail {
+            @include arrow-image('down', 'gray-dark', 'after');
+            padding-right: 35px;
+            background-position: 75px 50%;
+            background-size: 1.2em;
+          }
+        }
+        div.dropdown-menu {
+          padding-left: 15px;
+          padding-right: 15px;
+          background-color: $gray-lighter;
+          border-radius: 5px;
+          max-width: 370px;
+          margin: -2px 0 0 59px;
+          span.arrow {
+            width: 0;
+            height: 0;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid $gray-lighter;
+            border-left: 10px solid transparent;
+            position: absolute;
+            top: 30px;
+          }
+          ul {
+            padding-left: 0;
+            li {
+              border-bottom: 1px solid $gray-light;
+              width: 305px;
+              margin-top: 15px;
+              padding: 20px 0;
+              display: inline-block;
+
+              a.c4m-book-og-menu-link {
+                text-transform:none;
+                white-space: initial;
+                display: block;
+                margin: -22px 0 0 10px;
+                text-decoration: none;
+                i.c4m-chevron-right {
+                  display: block;
+                  float: left;
+                  margin: 6px 0 0 -38px;
+                  height: 14px;
+                  width: 14px;
+                  @include arrow-image('right', 'gray-darker', 'after');
+                }
+                &.active {
+                  background-color: $gray-lighter;
+                  color: $highlight-blue;
+                  i.c4m-chevron-right {
+                    @include arrow-image('right', 'highlight-blue', 'after');
+                  }
+                }
+                &:hover {
+                  background-color: $gray-lighter;
+                  color: $gray-dark;
+                  i.c4m-chevron-right {
+                    color: inherit;
+                    @include arrow-image('right', 'gray-dark', 'after');
+                  }
+                }
+              }
+              &.last {
+                border-bottom: none;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
 
-// Make sure menu links set active (active-trail) by context react as menu
-// links set active (active) by menu API.
-.nav-pills {
-  li.active-trail {
-    a, a:hover, a:focus {
-      color: #fff;
-      background-color: #428bca;
+// Everything > 480px
+@media screen and (min-width: $screen-sm-max) {
+  #block-menu-c4m-og-menu {
+    .navbar-collapse {
+      .og-menu-link {
+        &.no-children > a {
+          padding-left: 0;
+        }
+        &.wiki.dropdown {
+          a.dropdown-toggle {
+            background-position: 80% 50%;
+            padding-left: 15px;
+            &:hover, &.active-trail {
+              background-position: 80% 50%;
+            }
+          }
+          div.dropdown-menu {
+            margin: -2px 0 0 34px;
+            span.arrow {
+              top: -10px;
+            }
+          }
+        }
+      }
     }
-  }
-}
-
-.navbar-toggle {
-  .icon-bar {
-    background-color: $highlight-blue;
   }
 }

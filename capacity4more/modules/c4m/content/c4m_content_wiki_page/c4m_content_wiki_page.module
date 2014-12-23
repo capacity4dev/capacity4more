@@ -221,7 +221,7 @@ function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
     $theme_registry['book_navigation']['preprocess functions']);
 
   // Replace the preprocess function.
-  $theme_registry['book_navigation']['preprocess functions'] =array_replace(
+  $theme_registry['book_navigation']['preprocess functions'] = array_replace(
     $theme_registry['book_navigation']['preprocess functions'],
     array($key => 'c4m_content_wiki_page_preprocess_book_navigation'));
 }
@@ -340,3 +340,4 @@ function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $
     unset($c[0]);
   }
 }
+

@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Helper functionality around $entity objects.
+ */
+
+function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node') {
+  $variables = array(
+    'entity' => $entity,
+    'entity_type' => $entity_type,
+    'return' => $entity_type,
+  );
+
+  if ($entity_type == 'node') {
+    $variables['return'] = $entity->type;
+  }
+
+  $variables = module_invoke_all('entity_type_label', $variables);
+
+  return $variables['return'];
+}

@@ -109,12 +109,12 @@ function kapablo_preprocess_facetapi_link_inactive(&$variables) {
   $replace = _kapablo_help_facetapi_link_replace($variables['text']);
 
   // Needs to be done in another way. No longer alphabetical if we change text hardcoded.
-//  if (!empty($replace['text'])) {
-//    $variables['text'] = $replace['text'];
-//  }
+  //  if (!empty($replace['text'])) {
+  //    $variables['text'] = $replace['text'];
+  //  }
 
   if (!empty($replace['class'])) {
-    foreach($replace['class'] as $class) {
+    foreach ($replace['class'] as $class) {
       $variables['options']['attributes']['class'][] = $class;
     }
   }
@@ -128,12 +128,12 @@ function kapablo_preprocess_facetapi_link_active(&$variables) {
   $replace = _kapablo_help_facetapi_link_replace($variables['text']);
 
   // Needs to be done in another way. No longer alphabetical if we change text hardcoded.
-//  if (!empty($replace['text'])) {
-//    $variables['text'] = $replace['text'];
-//  }
+  //  if (!empty($replace['text'])) {
+  //    $variables['text'] = $replace['text'];
+  //  }
 
   if (!empty($replace['class'])) {
-    foreach($replace['class'] as $class) {
+    foreach ($replace['class'] as $class) {
       $variables['options']['attributes']['class'][] = $class;
     }
   }

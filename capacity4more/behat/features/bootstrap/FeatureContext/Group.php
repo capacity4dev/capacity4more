@@ -180,4 +180,39 @@ trait Group {
 
     return $steps;
   }
+
+  /**
+   * @Then /^I should see the group menu$/
+   */
+  public function iShouldSeeTheGroupMenu() {
+    $steps = array();
+
+    $steps[] = new Step\When('I should have access to the page');
+    $steps[] = new Step\When('Group menu item "Home" should be active');
+    $steps[] = new Step\When('I should see the "Wiki" link on the group menu');
+    $steps[] = new Step\When('I should see the "Award Process" link on the group menu wiki navigation');
+    $steps[] = new Step\When('I should not see the "Nominations" link on the group menu wiki navigation');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I should see the "([^"]*)" link on the group menu$/
+   */
+  public function iShouldSeeTheLinkOnTheGroupMenu($text) {
+    $page = $this->getSession()->getPage();
+    $locator = '#c4m-og-menu > ul > li > a';
+    $links = $page->findAll('css', $locator);
+    $found = FALSE;
+    foreach ($links as $link) {
+      if ($link->getText() === $text) {
+        $found = TRUE;
+        break;
+      }
+    }
+
+    if (!$found) {
+      throw new \Exception("No $text link found on group menu.");
+    }
+  }
 }

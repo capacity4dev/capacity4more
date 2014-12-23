@@ -14,8 +14,8 @@ include_once 'c4m_content_discussion.features.inc';
 function c4m_content_discussion_c4m_og_vocab_info_content() {
   return array(
     'discussion' => array(
-      'entity_type' => 'node',
-      'bundle' => 'discussion',
+      'entity_type'  => 'node',
+      'bundle'       => 'discussion',
       'vocabularies' => array(
         'c4m_vocab_category',
         'c4m_vocab_tag'
@@ -87,4 +87,24 @@ function c4m_content_discussion_theme() {
   );
 
   return $theme;
+}
+
+/**
+ * Implements hook_entity_type_label().
+ */
+function c4m_content_discussion_entity_type_label($variables) {
+  if ($variables['entity_type'] !== 'node') {
+    return;
+  }
+
+  $node = $variables['entity'];
+
+  if ($node->type !== 'discussion') {
+    return;
+  }
+
+  $object_wrapper = entity_metadata_wrapper('node', $node);
+  $variables['return'] = $object_wrapper->c4m_discussion_type->value();
+
+  return $variables;
 }
