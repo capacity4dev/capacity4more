@@ -34,7 +34,7 @@ function c4m_features_og_documents_context_default_contexts() {
   // Translatables
   // Included for use with string extractors like potx.
   t('The document detail page');
-
+  t('cap4more - Documents');
   $export['c4m_detail_og_documents'] = $context;
 
   $context = new stdClass();

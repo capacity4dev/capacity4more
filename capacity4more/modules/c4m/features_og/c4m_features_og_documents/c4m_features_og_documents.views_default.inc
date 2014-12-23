@@ -145,6 +145,20 @@ function c4m_features_og_documents_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'documents/table';
+
+  /* Display: Page 2 */
+  $handler = $view->new_display('page', 'Page 2', 'page_2');
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Only nodes in current OG Context */
+  $handler->display->display_options['arguments']['og_group_ref']['id'] = 'og_group_ref';
+  $handler->display->display_options['arguments']['og_group_ref']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['arguments']['og_group_ref']['field'] = 'og_group_ref';
+  $handler->display->display_options['arguments']['og_group_ref']['ui_name'] = 'Only nodes in current OG Context';
+  $handler->display->display_options['arguments']['og_group_ref']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['og_group_ref']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_group_ref']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['og_group_ref']['not'] = 0;
+  $handler->display->display_options['path'] = 'overlay/documents';
   $export['c4m_overview_og_documents'] = $view;
 
   return $export;
