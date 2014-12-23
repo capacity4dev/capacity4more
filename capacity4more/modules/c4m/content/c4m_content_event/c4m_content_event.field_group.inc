@@ -110,10 +110,12 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '28',
+    'weight' => '7',
     'children' => array(
       0 => 'c4m_related_topic',
-      1 => 'og_vocabulary',
+      1 => 'c4m_vocab_geo',
+      2 => 'c4m_vocab_language',
+      3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -137,7 +139,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Documents',
-    'weight' => '13',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_document_agenda',
       1 => 'c4m_document_presentation',
@@ -165,7 +167,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Organiser',
-    'weight' => '14',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_facebook',
       1 => 'c4m_link',
