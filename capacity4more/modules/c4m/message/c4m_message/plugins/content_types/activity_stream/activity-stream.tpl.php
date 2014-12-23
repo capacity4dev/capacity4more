@@ -13,9 +13,10 @@
   <!-- The activity stream-->
   <div ng-repeat="activity in existingActivities" ng-bind-html="activity.html" class="activities" id="activity-{{activity.id}}"></div>
 
-  <div class="show-more-wrapper" ng-if="showMoreButton">
+  <div class="show-more-wrapper">
     <p class="show-more">
-      <a href="javascript://" ng-click="showMoreActivities()"><?php print t('show more') ?></a>
+      <a href="javascript://" ng-if="showMoreButton" ng-click="showMoreActivities()"><?php print t('show more') ?></a>
+      <span ng-if="!showMoreButton"><?php print t('End of activities') ?></span>
     </p>
   </div>
 </div>
