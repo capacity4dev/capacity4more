@@ -151,6 +151,9 @@
                 &.active {
                   background-color: $gray-lighter;
                   color: $highlight-blue;
+                  i.c4m-chevron-right {
+                    @include arrow-image('right', 'highlight-blue', 'after');
+                  }
                 }
                 &:hover {
                   background-color: $gray-lighter;
