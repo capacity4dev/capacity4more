@@ -18,10 +18,4 @@
       <a href="javascript://" ng-click="showMoreActivities()"><?php print t('show more') ?></a>
     </p>
   </div>
-
-  <div class="show-more-wrapper" ng-if="showEndActivity">
-    <p class="show-more">
-      <span><?php print t('End of activities') ?></span>
-    </p>
-  </div>
 </div>
