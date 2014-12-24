@@ -122,4 +122,44 @@ trait WikiPage {
     }
   }
 
+  /**
+   * @Given /^I should see the "([^"]*)" link on the group menu wiki navigation$/
+   */
+  public function iShouldSeeTheLinkOnTheGroupMenuWikiNavigation($text) {
+    $page = $this->getSession()->getPage();
+    $locator = '#c4m-og-menu > ul > li.dropdown > div.dropdown-menu > ul > li > a';
+    $links = $page->findAll('css', $locator);
+    $found = FALSE;
+    foreach ($links as $link) {
+      if (strpos($link->getText(), $text) !== FALSE) {
+        $found = TRUE;
+        break;
+      }
+    }
+
+    if (!$found) {
+      throw new \Exception("No $text link found on group menu.");
+    }
+
+  }
+
+  /**
+   * @Given /^I should not see the "([^"]*)" link on the group menu wiki navigation$/
+   */
+  public function iShouldNotSeeTheLinkOnTheGroupMenuWikiNavigation($text) {
+    $page = $this->getSession()->getPage();
+    $locator = '#c4m-og-menu > ul > li.dropdown > div.dropdown-menu > ul > li > a';
+    $links = $page->findAll('css', $locator);
+    $found = FALSE;
+    foreach ($links as $link) {
+      if (strpos($link->getText(), $text) !== FALSE) {
+        $found = TRUE;
+        break;
+      }
+    }
+
+    if ($found) {
+      throw new \Exception("$text link found on group menu but should not be found in there.");
+    }
+  }
 }

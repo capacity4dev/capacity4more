@@ -20,20 +20,41 @@ function kapablo_menu_tree__c4m_og_menu($variables) {
 
 function kapablo_menu_link__c4m_og_menu($variables) {
   $element = $variables['element'];
-  $sub_menu = '';
+  $sub_menu = $sub_menu_wrapper = '';
 
   if ($element['#below']) {
-    // Prevent dropdown functions from being added to management menu so it
-    // does not affect the navbar module.
-    if (($element['#original_link']['menu_name'] == 'management') && (module_exists('navbar'))) {
-      $sub_menu = drupal_render($element['#below']);
-    }
-    elseif ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
+    if ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
       // Add our own wrapper.
       unset($element['#below']['#theme_wrappers']);
-      $sub_menu = '<ul class="dropdown-menu">' . drupal_render($element['#below']) . '</ul>';
-      // Generate as standard dropdown.
-      $element['#title'] .= ' <span class="caret"></span>';
+
+      // Arrow for the dropdown.
+      $tag['element'] = array(
+        '#tag' => 'span',
+        '#attributes' => array(
+          'class' => array('arrow'),
+        ),
+        '#value' => '',
+      );
+      $arrow = theme_html_tag($tag);
+
+      // The list to put in the dropdown.
+      $tag['element'] = array(
+        '#tag' => 'ul',
+        // Book links will be rendered by kapablo_menu_link__book_c4m_og_menu().
+        '#value' => drupal_render($element['#below']),
+      );
+      $sub_menu = theme_html_tag($tag);
+
+      // We need a wrapper around submenu to add the arrow.
+      $tag['element'] = array(
+        '#tag' => 'div',
+        '#attributes' => array(
+          'class' => array('dropdown-menu', 'bottom'),
+        ),
+        '#value' => $arrow . $sub_menu,
+      );
+      $sub_menu_wrapper = theme_html_tag($tag);
+
       $element['#attributes']['class'][] = 'dropdown';
       $element['#localized_options']['html'] = TRUE;
 
@@ -50,13 +71,18 @@ function kapablo_menu_link__c4m_og_menu($variables) {
     $element['#attributes']['class'][] = 'active';
   }
 
+  // Set active-trail on the link itself if there.
+  if (in_array('active-trail', $element['#attributes']['class'])) {
+    $element['#localized_options']['attributes']['class'][] = 'active-trail';
+  }
+
   $element['#attributes']['class'][] = 'og-menu-link ' . preg_replace("/[^A-Za-z0-9 ]/", '', $element['#original_link']['link_path']);
 
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
 
   // @TODO: SET ACTIVE TRAIL/CLASS FOR OG!!!
 
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu_wrapper . "</li>\n";
 }
 
 /**
@@ -165,4 +191,33 @@ function kapablo_menu_link__book_toc(array $variables) {
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' .
   $icon . $link . $sub_menu . "</li>\n";
+}
+
+/**
+ * Overrides theme_menu_link().
+ * Specifically to override book first level child links in c4m_og_menu.
+ *
+ */
+function kapablo_menu_link__book_c4m_og_menu(array $variables) {
+  $element = $variables['element'];
+  // We don't render a submenu of book links in c4m_og_menu
+  //$element['#below']);
+
+  // On primary navigation menu, class 'active' is not set on active menu item.
+  // @see https://drupal.org/node/1896674
+  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+    $element['#attributes']['class'][] = 'active';
+  }
+  $tag['element'] = array(
+    '#tag' => 'i',
+    '#attributes' => array(
+      'class' => array('c4m-chevron-right'),
+    ),
+    '#value' => '',
+  );
+  $c4m_chevron_right = theme_html_tag($tag);
+  $element['#localized_options']['attributes']['class'][] = 'c4m-book-og-menu-link';
+  $element['#localized_options']['html'] = TRUE;
+  $link =  l($c4m_chevron_right . $element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . "</li>\n";
 }

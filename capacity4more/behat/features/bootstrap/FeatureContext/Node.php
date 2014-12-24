@@ -48,7 +48,7 @@ trait Node {
 
     return array(
       new Step\When('I go to "node/add/'.$type.'"'),
-      new Step\Then('the response status code should be 403'),
+      new Step\Then('I should see "Access denied"'),
     );
   }
 
@@ -59,22 +59,21 @@ trait Node {
 
     return array(
       new Step\When('I go to "node/add/'.$type.'"'),
-      new Step\Then('the response status code should be 200'),
+      new Step\Then('I should not see "Access denied"'),
     );
   }
 
   /**
    * @Given /^a "([^"]*)" is created with title "([^"]*)" in the group "([^"]*)"$/
-   *
-   * @TODO : rename to aNodeIsCreatedWithTitleInTheGroup
    */
-  public function aDiscussionIsCreatedWithTitleInTheGroup($type, $title, $group) {
+  public function aNodeIsCreatedWithTitleInTheGroup($type, $title, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
     $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I should see "has been created."');
     return $steps;
   }
 
