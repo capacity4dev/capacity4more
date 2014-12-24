@@ -22,53 +22,80 @@ function c4m_vocab_widget_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $entity_type = $instance['entity_type'];
   $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
 
   if (!$entity) {
     return;
   }
 
+  // Get taxonomy vocabulary and send it to the app.
+  $vocabulary = taxonomy_vocabulary_machine_name_load($field['field_name']);
+  // If $vocabulary is empty, it mean this field is not taxonomy term, It's a node.
+  if ($vocabulary) {
+    $vocabulary_label = $vocabulary->name;
+    $vocabulary_machine_name = $vocabulary->machine_name;
+    $terms = taxonomy_get_tree($vocabulary->vid);
+  }
+  else {
+    $vocabulary = entityreference_get_selection_handler($field);
+    $vocabulary_label = $instance['label'];
+    $vocabulary_machine_name = $vocabulary->field['field_name'];
+    $terms = $vocabulary->getReferencableEntities();
+  }
 
-  // Get taxonomy vocabulary and sent it to the app.
-  $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
-  $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
-  $terms = taxonomy_get_tree($vocabulary->vid);
-
-  dpm($vocabulary);
 
   $options = array();
   foreach($terms as $term) {
-    $parents = $term->parents;
-    if ($parents[0] == '0') {
-      $options[$term->tid]['label'] = check_plain($term->name);
-      $options[$term->tid]['id'] = $term->tid;
+    // If the term is array, This vocab is of type "node".
+    if(is_array($term)) {
+      foreach($term as $id => $label) {
+        $options[$id]['label'] = check_plain($label);
+        $options[$id]['id'] = $id;
+      }
     }
     else {
-      $options[$parents[0]]['children'][] = array(
-        'label' => check_plain($term->name),
-        'id' => $term->tid,
-      );
+      $parents = $term->parents;
+      if ($parents[0] == '0') {
+        $options[$term->tid]['label'] = check_plain($term->name);
+        $options[$term->tid]['id'] = $term->tid;
+      }
+      else {
+        $options[$parents[0]]['children'][] = array(
+          'label' => check_plain($term->name),
+          'id' => $term->tid,
+        );
+      }
     }
   }
-  $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
+  $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = $options;
 
   $taxonomy_values = array();
-  if (isset($entity->$vocabulary_name) && !empty($entity->$vocabulary_name)) {
-    $values = $entity->$vocabulary_name;
+  if (isset($entity->$vocabulary_machine_name) && !empty($entity->$vocabulary_machine_name)) {
+    $values = $entity->$vocabulary_machine_name;
     foreach ($values[LANGUAGE_NONE] as $value) {
       // This is node/edit page. Need to send field values to the app.
-      $taxonomy_values[$value['tid']] = true;
+      // Check if the vocabulary is "Taxonomy term" or "node".
+      if (isset($value['tid'])) {
+        $taxonomy_values[$value['tid']] = true;
+      }
+      else {
+        $taxonomy_values[$value['target_id']] = true;
+      }
     }
 
-    $settings['c4m']['data']['values'][$vocabulary_name] = $taxonomy_values;
+    $settings['c4m']['data']['values'][$vocabulary_machine_name] = $taxonomy_values;
   }
 
   drupal_add_js($settings, 'setting');
 
   // Add the directive.
-  $directive = theme('c4m_vocab_widget_taxonomy_widget', array('vocabulary_name' => $vocabulary_name));
-  $form['directive-' . $vocabulary_name] = array(
+  $variables = array(
+    'vocabulary_label' => $vocabulary_label,
+    'vocabulary_machine_name' => $vocabulary_machine_name,
+
+  );
+  $directive = theme('c4m_vocab_widget_taxonomy_widget', $variables);
+  $form['directive-' . $vocabulary_machine_name] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
   );
@@ -93,7 +120,8 @@ function c4m_vocab_widget_theme() {
     'template' => 'c4m_vocab_widget',
     'path' => drupal_get_path('module', 'c4m_vocab_widget') . '/templates',
     'variables' => array(
-      'vocabulary_name' => NULL,
+      'vocabulary_label' => NULL,
+      'vocabulary_machine_name' => NULL,
     ),
   );
 
