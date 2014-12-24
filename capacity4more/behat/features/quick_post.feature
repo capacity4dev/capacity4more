@@ -21,7 +21,7 @@ Feature: Test quick post
     When  I create an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" in "Tennis Group"
     Then  I should see "New event"
 
-  @javascript
+  @javascript @wip
   Scenario: Adding document with image file to discussion.
     Given I am logged in as user "mariecurie"
     When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
@@ -30,7 +30,7 @@ Feature: Test quick post
     And   I save document with title "New image document" for a discussion
     Then  I wait for text "New image document" to appear in "entityForm"
 
-  @javascript
+  @javascript @wip
   Scenario: Adding document with doc file to discussion.
     Given I am logged in as user "mariecurie"
     When  I start creating "discussion" in full form with title "some title" in group "Tennis Group"
