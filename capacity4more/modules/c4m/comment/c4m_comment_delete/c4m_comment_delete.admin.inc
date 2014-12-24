@@ -18,7 +18,7 @@ function c4m_comment_delete_settings_form() {
       2 => t('Delete only the comment, or it\'s text and the subject if it has replies'),
     ),
     '#required' => TRUE,
-    '#default_value' => variable_get('c4m_comment_delete_replies', 0),
+    '#default_value' => variable_get('c4m_comment_delete_replies', 2),
   );
   $form['c4m_comment_delete_clock'] = array(
     '#type' => 'textfield',

@@ -32,9 +32,10 @@
   }
 
   .links {
+    clear: both;
     float: right;
 
-    .comment-delete {
+    .comment-delete, .comment_delete {
       a {
         color: $highlight-blue;
         text-transform: uppercase;
@@ -60,4 +61,9 @@
       }
     }
   }
+}
+
+.last-edited {
+  color: $gray-light;
+  float: right;
 }
