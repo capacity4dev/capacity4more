@@ -103,7 +103,7 @@ function c4m_comment_edited_get_message($cid) {
 /**
  * Theme the last edited block.
  *
- * @param $messages
+ * @param array $variables
  *   A keyed array of messages that needs to be themed.
  *
  * @return string
@@ -111,6 +111,7 @@ function c4m_comment_edited_get_message($cid) {
  */
 function theme_c4m_comment_edited_messages($variables) {
   $message = $variables['message'];
+  $output  = '';
 
   if (!empty($message)) {
     $output = '<span class="last-edited">' . $message . '</span>';

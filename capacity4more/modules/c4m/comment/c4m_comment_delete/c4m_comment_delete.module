@@ -167,7 +167,7 @@ function c4m_comment_delete_form($form, &$form_state, $cid) {
     drupal_goto('');
   }
 
-  return;
+  return FALSE;
 }
 
 /**
