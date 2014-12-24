@@ -129,7 +129,7 @@ trait Group {
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
 
     // This is a required tag.
-    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I check the related topic checkbox');
     $steps[] = new Step\When('I press "Request"');
 
     // Giving time for saving.
@@ -138,6 +138,23 @@ trait Group {
     // Check there was no error.
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
+    return $steps;
+  }
+
+  /**
+   * @Given /^I check the related topic checkbox$/
+   */
+  public function iCheckRelatedTopic() {
+    $steps = array();
+    $steps[] = new Step\When('I press "c4m_related_topic"');
+    $steps[] = new Step\When('I check the box "Fire"');
+
+    $javascript = "
+      var target = jQuery('input[type=checkbox][title=\"Fire\"]').data('target');
+      jQuery('input[type=checkbox][value=' + target + ']').prop(\"checked\", true);
+    ";
+    $this->getSession()->executeScript($javascript);
+
     return $steps;
   }
 
