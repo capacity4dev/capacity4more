@@ -5,7 +5,7 @@
 
   $(document).on('click', function(event) {
     var $target = $(event.target);
-    if ($target.is('a') && $target.parent().is('h2')) {
+    if ($target.is('a')) {
       var target = $target[0];
       var parents = $target.parents();
       var elements = [];
@@ -24,9 +24,11 @@
       console.log($('#' + elements[0].id, window.document).find('[property="dc:title"]'));
 
       var title = $('#' + elements[0].id, window.document).find('[property="dc:title"]')[0];
-      title = title.co
-      console.log(title);
-      $('#edit-c4m-related-document-und-0-target-id', parent.window.document).val('(' + nid + ')');
+
+      var $title = $(title);
+      var label = $title.attr('content') ? $title.attr('content') : 'Property title is not found';
+
+      $('#edit-c4m-related-document-und-0-target-id', parent.window.document).val(label + ' (' + nid + ')');
       parent.Drupal.overlay.close();
     }
 
