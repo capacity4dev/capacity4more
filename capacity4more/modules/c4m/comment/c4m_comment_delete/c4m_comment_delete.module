@@ -1,6 +1,33 @@
 <?php
 
 /**
+ * Implementation of hook_menu().
+ */
+function c4m_comment_delete_menu() {
+  $items['admin/config/content/c4m_comment_delete'] = array(
+    'title'            => 'Comment Deletion settings',
+    'description'      => 'Default settings for comment deletion',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('c4m_comment_delete_settings_form'),
+    'access arguments' => array('administer comments'),
+    'file'             => 'c4m_comment_delete.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function c4m_comment_delete_menu_alter(&$items) {
+  $items['comment/%/delete']['page callback']    = 'drupal_get_form';
+  $items['comment/%/delete']['page arguments']   = array('c4m_comment_delete_form', 1);
+  $items['comment/%/delete']['access callback']  = 'c4m_comment_delete_access_check';
+  $items['comment/%/delete']['access arguments'] = array(1);
+  unset($items['comment/delete']['file']);
+}
+
+/**
  * Implementation of hook_permission().
  */
 function c4m_comment_delete_permission() {
@@ -28,30 +55,20 @@ function c4m_comment_delete_permission() {
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_comment_view().
+ *
+ * Add "Delete comment" link.
  */
-function c4m_comment_delete_menu() {
-  $items['admin/config/content/c4m_comment_delete'] = array(
-    'title'            => 'Comment Deletion settings',
-    'description'      => 'Default settings for comment deletion',
-    'page callback'    => 'drupal_get_form',
-    'page arguments'   => array('c4m_comment_delete_settings_form'),
-    'access arguments' => array('administer comments'),
-    'file'             => 'c4m_comment_delete.admin.inc',
-  );
-
-  return $items;
-}
-
-/**
- * Implementation of hook_menu_alter().
- */
-function c4m_comment_delete_menu_alter(&$items) {
-  $items['comment/%/delete']['page callback']    = 'drupal_get_form';
-  $items['comment/%/delete']['page arguments']   = array('c4m_comment_delete_form', 1);
-  $items['comment/%/delete']['access callback']  = 'c4m_comment_delete_access_check';
-  $items['comment/%/delete']['access arguments'] = array(1);
-  unset($items['comment/delete']['file']);
+function c4m_comment_delete_comment_view($comment) {
+  if (!user_access('administer comments')) {
+    if (c4m_comment_delete_access_check($comment->cid)) {
+      $comment->content['links']['comment']['#links'] = array_reverse($comment->content['links']['comment']['#links'], TRUE);
+      $comment->content['links']['comment']['#links']['comment-delete'] = array(
+        'title' => t('delete'),
+        'href'  => "comment/" . $comment->cid . '/delete',
+      );
+    }
+  }
 }
 
 /**
@@ -144,6 +161,8 @@ function c4m_comment_delete_form($form, &$form_state, $cid) {
     drupal_set_message(t('This comment no longer exists.'));
     drupal_goto('');
   }
+
+  return;
 }
 
 /**
@@ -203,14 +222,11 @@ function c4m_comment_delete_form_submit($form, &$form_state) {
  * Returns number of replies.
  */
 function c4m_comment_delete_num_replies($cid) {
-  $count   = 0;
   $results = db_select('comment', 'c')
              ->fields('c')
              ->condition('pid', $cid, '=')
              ->execute();
-  foreach ($results as $edit) {
-    $count++;
-  }
+  $count   = $results->rowCount();
 
   return $count;
 }
@@ -218,32 +234,14 @@ function c4m_comment_delete_num_replies($cid) {
 /**
  * Moves replies of a comment up one level.
  */
-function c4m_comment_delete_move_replies($comment, $old_cid = 0) {
+function c4m_comment_delete_move_replies($comment) {
   $parent_id = $comment->pid;
   $results   = db_select('comment', 'c')
                ->fields('c')
                ->condition('pid', $comment->cid, '=')
                ->execute();
   foreach ($results as $edit) {
-    $old_cid   = $edit->cid;
     $edit->pid = $parent_id;
     comment_save($edit);
-    $new_comment = comment_load($edit->cid);
-  }
-}
-
-/**
- * Implements hook_comment_view().
- *
- * Add "Delete comment" link.
- */
-function c4m_comment_delete_comment_view($comment, $view_mode, $langcode) {
-  if (!user_access('administer comments')) {
-    if (c4m_comment_delete_access_check($comment->cid)) {
-      $comment->content['links']['comment']['#links']['comment_delete'] = array(
-        'title' => t('delete'),
-        'href'  => "comment/" . $comment->cid . '/delete',
-      );
-    }
   }
 }
