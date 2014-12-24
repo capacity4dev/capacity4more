@@ -55,8 +55,6 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     return;
   }
 
-//  drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
-
   // Add the directive.
   $directive = theme('c4m_content_discussion_document_widget', array());
   $form['add_document'] = array(
@@ -67,7 +65,7 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     ),
   );
 
-  // Add autoco,plete widget, that will be hidden.
+  // Add autocomplete widget, that will be hidden.
   $instance['widget']['type'] = 'entityreference_autocomplete';
   $instance['widget']['active'] = 1;
 

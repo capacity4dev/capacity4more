@@ -26,7 +26,13 @@
       var $title = $(title);
       var label = $title.attr('content') ? $title.attr('content') : 'Property title is not found';
 
-      $('#edit-c4m-related-document-und-0-target-id', parent.window.document).val(label + ' (' + nid + ')');
+      var item = label + ' (' + nid + ')';
+
+//      for multiple values.
+//      var value = $('#edit-c4m-related-document-und-0', parent.window.document).val();//
+//      value += value.indexOf(item) == -1 || !value ? ', ' + item : '';
+
+      $('#edit-c4m-related-document-und-0-target-id', parent.window.document).val(item);
       parent.Drupal.overlay.close();
     }
 
