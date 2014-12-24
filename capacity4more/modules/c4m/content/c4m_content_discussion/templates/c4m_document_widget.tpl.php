@@ -26,5 +26,4 @@
       <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
     </ul>
   </div>
-  <p ng-show="errors.discussion" class="help-block"><?php print t('Document file is required.'); ?></p>
 </div>

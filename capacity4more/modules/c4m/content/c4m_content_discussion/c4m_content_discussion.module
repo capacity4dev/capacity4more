@@ -60,10 +60,19 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
   $form['add_document'] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
-    '#attributes' => array(
-      'ng-controller' => 'DrupalDocumentCtrl',
-    ),
   );
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+  );
+  drupal_add_js($settings, 'setting');
 
   // Add autocomplete widget, that will be hidden.
   $instance['widget']['type'] = 'entityreference_autocomplete';
@@ -83,6 +92,14 @@ function c4m_content_discussion_theme() {
     'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
     'variables' => array(
       'vocabulary_name' => NULL,
+    ),
+  );
+
+  $theme['c4m_content_discussion_add_document'] = array(
+    'template' => 'c4m_content_discussion_add_document',
+    'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
+    'variables' => array(
+      'file_id' => NULL,
     ),
   );
 
@@ -113,6 +130,7 @@ function c4m_content_discussion_admin_paths() {
   $paths = array(
     'overlay/documents' => TRUE,
     'overlay/documents/table' => TRUE,
+    'add_file/*' => TRUE,
   );
   return $paths;
 }
@@ -131,4 +149,32 @@ function c4m_content_discussion_custom_theme() {
   if (strpos($item['path'], 'overlay') !== FALSE) {
     return 'kapablo';
   }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_discussion_menu() {
+  $items['add_file/%'] = array(
+    'page callback' => 'c4m_content_discussion_add_document_file',
+    'access callback' => TRUE,
+    'page arguments' => array(1),
+  );
+  return $items;
+}
+
+/**
+ * Renders pre-create document form.
+ *
+ * @param $file_id
+ *
+ * @return string
+ *  Return formatted html.
+ */
+function c4m_content_discussion_add_document_file($file_id) {
+  $variables = array(
+    'fileId' => $file_id,
+  );
+
+  return theme('c4m_content_discussion_add_document', $variables);
 }

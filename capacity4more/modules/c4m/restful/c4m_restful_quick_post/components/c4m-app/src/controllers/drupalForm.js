@@ -1,5 +1,5 @@
 angular.module('c4mApp')
-  .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $filter) {
+  .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $filter, FileUpload) {
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
@@ -64,4 +64,25 @@ angular.module('c4mApp')
     };
       // Call the keyUpHandler function on key-up.
     $document.on('keyup', $scope.keyUpHandler);
+
+    /**
+     * Uploading document file.
+     *
+     * @param $files
+     *  The file.
+     */
+    $scope.onFileSelect = function($files) {
+      //$files: an array of files selected, each file has name, size, and type.
+      for (var i = 0; i < $files.length; i++) {
+        var file = $files[i];
+        FileUpload.upload(file).then(function(data) {
+          var fileId = data.data.data[0].id;
+          $scope.data.fileName = data.data.data[0].label;
+          $scope.serverSide.file = data;
+          console.log(fileId);
+          console.log(DrupalSettings.getBasePath() + "add_doc/fileId");
+          location.href = DrupalSettings.getBasePath() + "add_file/" + fileId;
+        });
+      }
+    };
   });
