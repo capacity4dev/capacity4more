@@ -9,6 +9,8 @@
  * Implements hook_comment_update().
  *
  * @param $comment
+ *
+ * @return void
  */
 function c4m_comment_edited_comment_update($comment) {
   global $user;
@@ -51,22 +53,6 @@ function c4m_comment_edited_comment_delete($comment) {
 }
 
 /**
- * Return the display message for the last edited by... text
- */
-function c4m_comment_edited_get_message($cid) {
-  $data = db_query('SELECT uid, timestamp FROM {c4m_comment_edited_data} WHERE cid = :cid', array(':cid' => $cid))->fetchAssoc();
-
-  if ($data['uid'] && $data['timestamp']) {
-    $account = user_load($data['uid']);
-    $date    = format_date($data['timestamp'], 'medium');
-
-    return t('Last edited by !username on !date', array('!username' => $account->name, '!date' => $date));
-  }
-
-  return NULL;
-}
-
-/**
  * Implements hook_preprocess_comment().
  *
  * If template display is used then just create a new variable for that.
@@ -91,6 +77,27 @@ function c4m_comment_edited_theme() {
       'variables' => array('message' => NULL),
     ),
   );
+}
+
+/**
+ * Return the display message for the last edited by... text
+ *
+ * @param int $cid
+ *   Comment id.
+ *
+ * @return string
+ */
+function c4m_comment_edited_get_message($cid) {
+  $data = db_query('SELECT uid, timestamp FROM {c4m_comment_edited_data} WHERE cid = :cid', array(':cid' => $cid))->fetchAssoc();
+
+  if ($data['uid'] && $data['timestamp']) {
+    $account = user_load($data['uid']);
+    $date    = format_date($data['timestamp'], 'medium');
+
+    return t('Last edited by !username on !date', array('!username' => $account->name, '!date' => $date));
+  }
+
+  return '';
 }
 
 /**

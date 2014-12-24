@@ -86,6 +86,7 @@ dependencies[] = c4m_user_bar
 
 dependencies[] = c4m_comment
 dependencies[] = c4m_comment_delete
+dependencies[] = c4m_comment_edited
 
 ; Content Types
 dependencies[] = c4m_content_article

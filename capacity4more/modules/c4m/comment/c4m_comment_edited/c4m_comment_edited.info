@@ -1,4 +1,4 @@
 name = Comment Edited
-description = Allows role specific permission settings for messages displayed after editing comments.
+description = Displays message after editing comments.
 core = 7.x
 dependencies[] = comment
