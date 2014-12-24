@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('c4mApp')
   .controller('DrupalFormCtrl', function($scope, DrupalSettings, EntityResource, Request, $window, $document, $modal, QuickPostService, $filter) {
 

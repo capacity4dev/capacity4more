@@ -1,0 +1,101 @@
+<?php
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function c4m_vocab_widget_field_widget_info() {
+  $widgets['c4m_taxonomy_reference'] = array(
+    'label' => t('C4M Taxonomy'),
+    'description' => t('Taxonomy widget using Angular.'),
+    'field types' => array('entityreference', 'taxonomy_term_reference'),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      'default value' => FIELD_BEHAVIOR_NONE,
+    ),
+  );
+
+  return $widgets;
+}
+
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity_type = $instance['entity_type'];
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+
+  if (!$entity) {
+    return;
+  }
+
+
+  // Get taxonomy vocabulary and sent it to the app.
+  $vocabulary_name = $field['settings']['allowed_values'][0]['vocabulary'];
+  $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+
+  dpm($vocabulary);
+
+  $options = array();
+  foreach($terms as $term) {
+    $parents = $term->parents;
+    if ($parents[0] == '0') {
+      $options[$term->tid]['label'] = check_plain($term->name);
+      $options[$term->tid]['id'] = $term->tid;
+    }
+    else {
+      $options[$parents[0]]['children'][] = array(
+        'label' => check_plain($term->name),
+        'id' => $term->tid,
+      );
+    }
+  }
+  $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
+
+  $taxonomy_values = array();
+  if (isset($entity->$vocabulary_name) && !empty($entity->$vocabulary_name)) {
+    $values = $entity->$vocabulary_name;
+    foreach ($values[LANGUAGE_NONE] as $value) {
+      // This is node/edit page. Need to send field values to the app.
+      $taxonomy_values[$value['tid']] = true;
+    }
+
+    $settings['c4m']['data']['values'][$vocabulary_name] = $taxonomy_values;
+  }
+
+  drupal_add_js($settings, 'setting');
+
+  // Add the directive.
+  $directive = theme('c4m_vocab_widget_taxonomy_widget', array('vocabulary_name' => $vocabulary_name));
+  $form['directive-' . $vocabulary_name] = array(
+    '#markup' => $directive,
+    '#weight' => $instance['widget']['weight'],
+  );
+  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
+  $form['#attributes']['class'][] = 'drupal-form';
+
+  // Using default widget, that will be hidden.
+  $instance['widget']['type'] = 'options_buttons';
+  $instance['widget']['active'] = 1;
+  $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  $element['#title'] = '';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
+
+  return $element;
+}
+/**
+ * Implements hook_theme().
+ */
+function c4m_vocab_widget_theme() {
+  $theme['c4m_vocab_widget_taxonomy_widget'] = array(
+    'template' => 'c4m_vocab_widget',
+    'path' => drupal_get_path('module', 'c4m_vocab_widget') . '/templates',
+    'variables' => array(
+      'vocabulary_name' => NULL,
+    ),
+  );
+
+  return $theme;
+}
