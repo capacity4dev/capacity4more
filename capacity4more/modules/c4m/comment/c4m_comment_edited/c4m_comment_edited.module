@@ -2,7 +2,7 @@
 /**
  * @file
  * Append a note on who edited given comment the last time, in order to show to other users when the author changed
- * his or her comment. Also allow moderators to see when other moderators have changed it (permission controlled).
+ * his or her comment.
  */
 
 /**

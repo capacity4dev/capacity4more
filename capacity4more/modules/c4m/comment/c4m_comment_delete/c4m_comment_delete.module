@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * Module that gives control over comment deletions. Delete all children, move them up one level or just replace the
+ * comment body text to indicate a comment was removed.
+ */
 
 /**
  * Implementation of hook_menu().
