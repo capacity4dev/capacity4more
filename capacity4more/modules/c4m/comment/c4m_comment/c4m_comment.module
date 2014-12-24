@@ -3,3 +3,18 @@
  * @file
  * Drupal needs this blank file.
  */
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function c4m_comment_form_node_form_alter(&$form, $form_state) {
+  $node = $form['#node'];
+
+  // We only allow general access to the comment settings for OG content.
+  if (!og_is_group_content_type('node', $node->type)) {
+    return;
+  }
+
+  // If the user has access to the node form, he can also change the comment settings for this content entry.
+  $form['comment_settings']['#access'] = TRUE;
+}
