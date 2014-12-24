@@ -17,6 +17,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Content of the Article (HTML).',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -64,6 +70,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -102,6 +114,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'A picture to use on the Article listings.',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -166,6 +184,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -196,9 +220,9 @@ function c4m_content_article_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 7,
     ),
   );
@@ -210,6 +234,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
