@@ -172,8 +172,10 @@ function c4m_content_discussion_menu() {
  *  Return formatted html.
  */
 function c4m_content_discussion_add_document_file($file_id) {
+  $file = file_load($file_id);
+  $file_view = file_view($file);
   $variables = array(
-    'fileId' => $file_id,
+    'file' => drupal_render($file_view, 'teaser'),
   );
 
   return theme('c4m_content_discussion_add_document', $variables);
