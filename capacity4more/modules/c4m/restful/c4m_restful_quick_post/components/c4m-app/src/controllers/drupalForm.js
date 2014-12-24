@@ -85,4 +85,17 @@ angular.module('c4mApp')
         });
       }
     };
+    /**
+     * Create document node.
+     *
+     * @param fileId
+     *  Id of the attached file.
+     * @param data
+     *  The submitted data.
+     */
+    $scope.createDocument = function(fileId, data) {
+      alert('blabla');
+console.log(fileId);
+console.log(data);
+    };
   });
