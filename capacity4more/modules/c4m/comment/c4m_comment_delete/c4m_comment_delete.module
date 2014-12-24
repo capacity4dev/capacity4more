@@ -1,0 +1,249 @@
+<?php
+
+/**
+ * Implementation of hook_permission().
+ */
+function c4m_comment_delete_permission() {
+  return array(
+    'delete own comments'            => array(
+      'title'       => t('Delete Own Comments'),
+      'description' => t('Controls who can delete comments'),
+    ),
+    'delete own comments at anytime' => array(
+      'title' => t('Delete Own Comments at Anytime'),
+    ),
+    'delete any comment'             => array(
+      'title' => t('Delete Any Comments')
+    ),
+    'delete any comments at anytime' => array(
+      'title' => t('Delete Any Comment anytime'),
+    ),
+    'delete all comment replies'     => array(
+      'title' => t('Delete All Comment Replies'),
+    ),
+    'move all replies up'            => array(
+      'title' => t('Move all replies up'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function c4m_comment_delete_menu() {
+  $items['admin/config/content/c4m_comment_delete'] = array(
+    'title'            => 'Comment Deletion settings',
+    'description'      => 'Default settings for comment deletion',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('c4m_comment_delete_settings_form'),
+    'access arguments' => array('administer comments'),
+    'file'             => 'c4m_comment_delete.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function c4m_comment_delete_menu_alter(&$items) {
+  $items['comment/%/delete']['page callback']    = 'drupal_get_form';
+  $items['comment/%/delete']['page arguments']   = array('c4m_comment_delete_form', 1);
+  $items['comment/%/delete']['access callback']  = 'c4m_comment_delete_access_check';
+  $items['comment/%/delete']['access arguments'] = array(1);
+  unset($items['comment/delete']['file']);
+}
+
+/**
+ * Checks if a user has access to delete a specific comment.
+ */
+function c4m_comment_delete_access_check($cid) {
+  if (empty($cid)) {
+    return FALSE;
+  }
+
+  global $user;
+  $comment = comment_load($cid);
+
+  // Determine if the deletion clock should be used.
+  $clock_expired = FALSE;
+  if ($clock = variable_get('c4m_comment_delete_clock', 0)) {
+    $clock_expired = (REQUEST_TIME - $comment->changed) > $clock;
+  }
+
+  // Check if user has permission to delete any comment.
+  if ((user_access('delete any comment') && !$clock_expired) || user_access('delete any comments at anytime')) {
+    return TRUE;
+  }
+
+  // User must have delete own comments permission.
+  if ((user_access('delete own comments', $user) && !$clock_expired) || user_access('delete own comments at anytime')) {
+    if ($user->uid == $comment->uid) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Determine what reply actions the current user can take.
+ */
+function c4m_comment_delete_reply_actions() {
+  if (user_access('delete all comment replies')) {
+    $actions[0] = t('Delete all replies of the comment');
+  }
+  if (user_access('move all replies up')) {
+    $actions[1] = t('Move all replies up one level');
+  }
+  $actions[2] = t('Delete only the comment, or it\'s text and the subject if it has replies');
+
+  return $actions;
+}
+
+/**
+ * Confirmation form for deleting a comment.
+ */
+function c4m_comment_delete_form($form, &$form_state, $cid) {
+  $comment = comment_load($cid);
+
+  if ($cid) {
+    // Store the comment ID for the submit processor.
+    $form['cid'] = array(
+      '#type'  => 'hidden',
+      '#value' => $cid,
+    );
+
+    // Allow permissible users to determine how replies of this comment should be handled when
+    // it is deleted. Users without permissions to change this will use the default setting.
+    if ($actions = c4m_comment_delete_reply_actions()) {
+      $form['replies'] = array(
+        '#type'          => 'select',
+        '#title'         => t('Action for replies'),
+        '#description'   => t('Specify how replies should be handled when deleting a comment.'),
+        '#options'       => $actions,
+        '#required'      => TRUE,
+        '#default_value' => variable_get('c4m_comment_delete_replies', 0),
+      );
+    }
+    else {
+      $form['replies'] = array(
+        '#type'  => 'hidden',
+        '#value' => variable_get('c4m_comment_delete_replies', 0),
+      );
+    }
+
+    // Return the form as a confirmation.
+    $msg = t("Are you sure you want to delete the comment %title?", array('%title' => $comment->subject));
+
+    return confirm_form($form, $msg, "node/{$comment->nid}", NULL, t('Delete'));
+  }
+
+  // Comment doesn't exist (anymore).
+  else {
+    drupal_set_message(t('This comment no longer exists.'));
+    drupal_goto('');
+  }
+}
+
+/**
+ * Delete the comment and manage the replies using the appropriate action.
+ */
+function c4m_comment_delete_form_submit($form, &$form_state) {
+  include_once(drupal_get_path('module', 'comment') . '/comment.admin.inc');
+  $cid     = $form_state['values']['cid'];
+  $comment = comment_load($cid);
+
+  // Delete the comment and all of it's replies.
+  if (!$form_state['values']['replies']) {
+    comment_delete($cid);
+    _comment_update_node_statistics($comment->nid);
+    drupal_set_message(t('The comment and all its replies have been deleted.'));
+  }
+
+  // Delete the comment and move the replies up one level.
+  elseif ($form_state['values']['replies'] == 1) {
+    c4m_comment_delete_move_replies($comment);
+    comment_delete($cid);
+    _comment_update_node_statistics($comment->nid);
+    drupal_set_message(t("The comment has been deleted and it's replies have been moved up one level."));
+  }
+
+  // Delete only this comment, or replace the subject/body of replies with a notice.
+  elseif ($form_state['values']['replies'] == 2) {
+    if (c4m_comment_delete_num_replies($cid)) {
+      db_update('comment')
+      ->fields(array(
+        'subject' => '',
+      ))
+      ->condition('cid', $cid)
+      ->execute();
+
+      db_update('field_data_comment_body')
+      ->fields(array(
+        'comment_body_value' => t('This comment has been deleted by the author or an administrator.'),
+      ))
+      ->condition('entity_id', $cid)
+      ->execute();
+
+      drupal_set_message(t('The comment subject/body has been deleted, all replies will remain.'));
+    }
+    else {
+      comment_delete($cid);
+      _comment_update_node_statistics($comment->nid);
+      drupal_set_message(t('The comment has been deleted.'));
+    }
+  }
+
+  cache_clear_all('field:comment:' . $cid, 'cache_field');
+  $form_state['redirect'] = "node/{$comment->nid}";
+}
+
+/**
+ * Returns number of replies.
+ */
+function c4m_comment_delete_num_replies($cid) {
+  $count   = 0;
+  $results = db_select('comment', 'c')
+             ->fields('c')
+             ->condition('pid', $cid, '=')
+             ->execute();
+  foreach ($results as $edit) {
+    $count++;
+  }
+
+  return $count;
+}
+
+/**
+ * Moves replies of a comment up one level.
+ */
+function c4m_comment_delete_move_replies($comment, $old_cid = 0) {
+  $parent_id = $comment->pid;
+  $results   = db_select('comment', 'c')
+               ->fields('c')
+               ->condition('pid', $comment->cid, '=')
+               ->execute();
+  foreach ($results as $edit) {
+    $old_cid   = $edit->cid;
+    $edit->pid = $parent_id;
+    comment_save($edit);
+    $new_comment = comment_load($edit->cid);
+  }
+}
+
+/**
+ * Implements hook_comment_view().
+ *
+ * Add "Delete comment" link.
+ */
+function c4m_comment_delete_comment_view($comment, $view_mode, $langcode) {
+  if (!user_access('administer comments')) {
+    if (c4m_comment_delete_access_check($comment->cid)) {
+      $comment->content['links']['comment']['#links']['comment_delete'] = array(
+        'title' => t('delete'),
+        'href'  => "comment/" . $comment->cid . '/delete',
+      );
+    }
+  }
+}

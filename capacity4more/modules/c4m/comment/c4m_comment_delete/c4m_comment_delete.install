@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * This file specifies the command to be executed on install and uninstall
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function c4m_comment_delete_install() {
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'c4m_comment_delete'");
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function c4m_comment_delete_uninstall() {
+
+}

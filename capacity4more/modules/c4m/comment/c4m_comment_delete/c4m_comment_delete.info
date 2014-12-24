@@ -1,0 +1,5 @@
+;$Id$
+name = Comment Delete
+description = Allows role specific permission settings for deleting comments.
+core = 7.x
+dependencies[] = comment
