@@ -5,7 +5,7 @@
 
   $(document).on('click', function(event) {
     var $target = $(event.target);
-    if ($target.is('a')) {
+    if ($target.is('a') && $target.parent().is('h2')) {
       var target = $target[0];
       var parents = $target.parents();
       var elements = [];
@@ -19,9 +19,7 @@
 
       elements.reverse();
 
-      var nid = elements[0].id.replace(/\D/g, '');
-      console.log(elements[0]);
-      console.log($('#' + elements[0].id, window.document).find('[property="dc:title"]'));
+      var nid = elements[0] ? elements[0].id.replace(/\D/g, '') : 0;
 
       var title = $('#' + elements[0].id, window.document).find('[property="dc:title"]')[0];
 

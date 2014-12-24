@@ -120,7 +120,17 @@ function c4m_content_discussion_admin_paths() {
 }
 
 function c4m_content_discussion_preprocess_page($vars) {
-  if (strpos(current_path(), 'overlay')!== false) {
+  if (strpos(current_path(), 'overlay') !== FALSE) {
     drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
+  }
+}
+
+/**
+ * Implements hook_custom_theme().
+ */
+function c4m_content_discussion_custom_theme() {
+  $item = menu_get_item();
+  if (strpos($item['path'], 'overlay') !== FALSE) {
+    return 'kapablo';
   }
 }
