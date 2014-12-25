@@ -8,27 +8,22 @@
     if ($target.is('a') && $target.parent().is('h2')) {
       var target = $target[0];
       var parents = $target.parents();
-      var elements = [];
+      var nids = [];
       $.each(parents, function(index, value) {
         var id = value.id;
 
         if (id.indexOf('node-') != -1 && id.match(/[0-9]/g)) {
-          elements.push(value);
+          nids.push(value.id.replace(/\D/g, ''));
         }
       });
 
-      elements.reverse();
+      nids.reverse();
 
-      var nid = elements[0] ? elements[0].id.replace(/\D/g, '') : 0;
+      var nid = nids[0] || 0;
 
-      var title = $('#' + elements[0].id, window.document).find('[property="dc:title"]')[0];
+      var item = '(' + nid + ')';
 
-      var $title = $(title);
-      var label = $title.attr('content') ? $title.attr('content') : 'Property title is not found';
-
-      var item = label + ' (' + nid + ')';
-
-//      for multiple values.
+      // Multiple values.
       var value = $('#edit-c4m-related-document-und', parent.window.document).val();
       if (value.indexOf(item) == -1) {
         value = value ? value + ', ' + item : item;
