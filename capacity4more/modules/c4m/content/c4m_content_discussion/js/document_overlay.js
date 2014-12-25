@@ -29,10 +29,12 @@
       var item = label + ' (' + nid + ')';
 
 //      for multiple values.
-//      var value = $('#edit-c4m-related-document-und-0', parent.window.document).val();//
-//      value += value.indexOf(item) == -1 || !value ? ', ' + item : '';
+      var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+      if (value.indexOf(item) == -1) {
+        value = value ? value + ', ' + item : item;
+      }
 
-      $('#edit-c4m-related-document-und-0-target-id', parent.window.document).val(item);
+      $('#edit-c4m-related-document-und', parent.window.document).val(value);
       parent.Drupal.overlay.close();
     }
 
