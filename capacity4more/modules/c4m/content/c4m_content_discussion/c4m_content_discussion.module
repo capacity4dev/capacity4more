@@ -146,9 +146,12 @@ function c4m_content_discussion_entity_type_label($variables) {
 
 function c4m_content_discussion_admin_paths() {
   $paths = array(
-    'overlay/documents' => TRUE,
+    'football-talk/overlay/*' => TRUE,
+    'overlay/*' => TRUE,
     'overlay/documents/table' => TRUE,
-    '*/add_file/*' => TRUE,
+    'football-talk/add_file/*' => TRUE,
+    'add_file/*' => TRUE,
+    'football-talk/node/add/document' => TRUE,
   );
   return $paths;
 }
@@ -197,7 +200,9 @@ function c4m_content_discussion_add_document_file($file_id) {
     'file' => drupal_render($file_view, 'teaser'),
   );
 
-  $group_id = og_context()['gid'];
+  $context = og_context();
+
+  $group_id = $context ? $context['gid'] : 7;
 
   $handler = restful_get_restful_handler('documents');
   // Send the fields to the app as separate objects by resource (for validation on submit.)

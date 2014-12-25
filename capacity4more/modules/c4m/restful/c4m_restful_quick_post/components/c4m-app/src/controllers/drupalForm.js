@@ -79,7 +79,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          location.href = DrupalSettings.getData('purlPath') + "/add_file/" + fileId;
+          location.href += '#overlay='+ "football-talk/add_file/" + fileId;
         });
       }
     };

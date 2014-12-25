@@ -11,7 +11,7 @@
       <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
       <br/>
       <?php print t('or'); ?>
-      <a href="<?php print url('overlay/documents', array('absolute' => TRUE)); ?>"><?php print t('Select a Document from the library') ?></a>
+      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>"><?php print t('Select a Document from the library') ?></a>
     </div>
 
     <div ng-show="serverSide.file.status == 200">
