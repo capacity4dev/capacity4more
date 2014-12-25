@@ -71,12 +71,29 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
   );
   $settings['c4m'] = array(
     'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
   );
+
+  // URL options.
+  $options_purl = array(
+    'purl' => array(
+      'disabled' => FALSE,
+    ),
+    'absolute' => TRUE,
+  );
+  $settings['c4m']['data'] = array(
+    'purlPath' => url('', $options_purl),
+
+  );
+
   drupal_add_js($settings, 'setting');
 
   // Add autocomplete widget, that will be hidden.
   $instance['widget']['type'] = 'entityreference_autocomplete';
   $instance['widget']['active'] = 1;
+
+  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
+  $form['#attributes']['class'][] = 'drupal-form';
 
   $element['#weight'] = 0;
   $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
@@ -100,6 +117,7 @@ function c4m_content_discussion_theme() {
     'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
     'variables' => array(
       'file_id' => NULL,
+      'file' => NULL,
     ),
   );
 
@@ -130,7 +148,7 @@ function c4m_content_discussion_admin_paths() {
   $paths = array(
     'overlay/documents' => TRUE,
     'overlay/documents/table' => TRUE,
-    'add_file/*' => TRUE,
+    '*/add_file/*' => TRUE,
   );
   return $paths;
 }
@@ -175,8 +193,29 @@ function c4m_content_discussion_add_document_file($file_id) {
   $file = file_load($file_id);
   $file_view = file_view($file);
   $variables = array(
+    'file_id' => $file_id,
     'file' => drupal_render($file_view, 'teaser'),
   );
+
+  $group_id = og_context()['gid'];
+
+  $handler = restful_get_restful_handler('documents');
+  // Send the fields to the app as separate objects by resource (for validation on submit.)
+  $field_schema['resources']['documents'] = $handler->options('', array('group' => $group_id));
+
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+  $settings['c4m'] = array(
+    'field_schema' => $field_schema,
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+  );
+
+  drupal_add_js($settings, 'setting');
 
   return theme('c4m_content_discussion_add_document', $variables);
 }

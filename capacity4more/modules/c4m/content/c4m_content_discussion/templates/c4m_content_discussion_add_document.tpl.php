@@ -1,15 +1,18 @@
-<form name="documentForm" ng-submit="createDocument('<?php print($file_id); ?>', label)">
+<div ng-controller="DrupalFormCtrl">
 
-  <?php
-    print('Upload new document: <br/>');
-    print($file);
-  ?>
+  <form name="documentForm" ng-submit="createDocument('<?php print $file_id; ?>', data)">
 
-  <br/>
-  <input id="label" class="form-control" name="label" type="text" placeholder="<?php print t('Add document title'); ?>" ng-minlength=3 ng-model="label">
+    <?php
+      print('Upload new document: <br/>');
+      print($file);
+    ?>
 
-  <p>Add this document also to the group Library?</p>
-  <button type="submit" id="save-edit" class="btn btn-primary" tabindex="100"><?php print t('YES'); ?></button>
-<!--  <button type="submit" id="save" class="btn btn-primary" tabindex="100">--><?php //print t('NO'); ?><!--</button>-->
-  <a href="javascript://" id="clear-button" ng-click="cancel()"><?php print t('Cancel'); ?></a>
-</form>
+    <br/>
+    <input id="label" class="form-control" name="label" type="text" placeholder="<?php print t('Add document title'); ?>" ng-minlength=3 ng-model="data.label" required>
+    <br/>
+    <p>Add this document also to the group Library?</p>
+    <input type="button" id="save-edit" class="btn btn-primary" ng-click="openFullForm('<?php print $file_id; ?>', data)" tabindex="100" value="<?php print t('YES'); ?>">
+    <button type="submit" id="save" class="btn btn-primary" tabindex="100"><?php print t('NO'); ?></button>
+    <a href="javascript://" id="clear-button" ng-click="closeOverlay()"><?php print t('Cancel'); ?></a>
+  </form>
+</div>

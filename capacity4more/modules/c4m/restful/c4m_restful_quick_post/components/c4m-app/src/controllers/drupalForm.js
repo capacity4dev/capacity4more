@@ -79,9 +79,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          console.log(fileId);
-          console.log(DrupalSettings.getBasePath() + "add_doc/fileId");
-          location.href = DrupalSettings.getBasePath() + "add_file/" + fileId;
+          location.href = DrupalSettings.getData('purlPath') + "/add_file/" + fileId;
         });
       }
     };
@@ -94,8 +92,33 @@ angular.module('c4mApp')
      *  The submitted data.
      */
     $scope.createDocument = function(fileId, data) {
-      alert('blabla');
-console.log(fileId);
-console.log(data);
+
+      $scope.fieldSchema = DrupalSettings.getFieldSchema();
+      var resourceFields = $scope.fieldSchema.resources['documents'];
+      var submitData = Request.cleanFields(data, resourceFields);
+
+      angular.forEach(resourceFields, function (data, field) {
+        // Don't change the group field Or resource object.
+        if (field == 'resources' || field == 'group' || field == "tags") {
+          return;
+        }
+        var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
+        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
+          submitData[field] = {};
+        }
+
+        var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
+        angular.forEach(textFields, function (field) {
+          if (!field){
+            submitData[field] = field == 'tags' ? [] : '';
+          }
+        });
+      });
+      submitData.document = fileId;
+
+      EntityResource.createEntity(submitData, 'documents', resourceFields)
+        .success( function (data, status) {
+//          parent.Drupal.overlay.close();
+        });
     };
   });
