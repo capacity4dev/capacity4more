@@ -58,7 +58,9 @@ angular.module('c4mApp')
      * The refresh rate is scope.refreshRate.
      */
     $scope.refresh = function() {
-      $scope.addNewActivities('newActivities');
+      if (typeof($scope.resources) != "undefined") {
+        $scope.addNewActivities('newActivities');
+      }
     };
     // Start the activity stream refresh.
     $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
