@@ -65,7 +65,7 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
     };
 
     /**
@@ -87,6 +87,6 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + groupID + '&sort=-id&filter[id][value]=' + lowestActivityId + '&filter[id][operator]="<"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-id&filter[id][value]=' + lowestActivityId + '&filter[id][operator]="<"&html=1', config);
     }
   });

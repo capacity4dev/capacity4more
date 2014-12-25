@@ -171,8 +171,9 @@ angular.module('c4mApp')
             // Update the ID of the last activity in the activity stream.
             $scope.stream.firstLoadedID = data.data[data.data.length - 1].id;
 
-            // Hide the "show more" button, If the loaded data is less than the expected range.
-            $scope.showMoreButton = data.data.length == $scope.range;
+            // Keep the "show more" button, only if the remaining activities to load is more than the range.
+            // The "Count" variable will go down as we are filtering with the lowest activity ID.
+            $scope.showMoreButton = data.count >= $scope.range;
           }
         });
     };

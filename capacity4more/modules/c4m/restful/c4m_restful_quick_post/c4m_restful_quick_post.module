@@ -119,7 +119,9 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
-    'group' => $group_id,
+    'filter' => array(
+      'group' => $group_id,
+    ),
     'html' => true,
     // Sort the activity stream by ID descending.
     'sort' => '-id',
