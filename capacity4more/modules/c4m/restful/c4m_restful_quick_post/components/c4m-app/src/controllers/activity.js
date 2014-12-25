@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('ActivityCtrl', function($scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('ActivityCtrl', function($scope, DrupalSettings, EntityResource, $interval, $sce) {
 
     // Get the current group ID.
     $scope.group = DrupalSettings.getData('entity').group;
@@ -113,5 +113,11 @@ angular.module('c4mApp')
     $scope.$on('c4m.activity.update', function() {
       // Load new activity.
       $scope.addNewActivities('existingActivities');
+    });
+
+    // Listening to broadcast for changes in the refresh.
+    $scope.$on('c4m.activity.refresh', function(action) {
+      console.log(action);
+      $interval.cancel($scope.refreshing);
     });
   });

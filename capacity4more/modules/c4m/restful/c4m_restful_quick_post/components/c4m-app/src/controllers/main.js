@@ -188,7 +188,7 @@ angular.module('c4mApp')
 
       // Stop the "Activity-stream" auto refresh When submitting a new activity,
       // because we don't want the auto refresh to display the activity as an old one.
-      $interval.cancel($scope.refreshing);
+      $rootScope.$broadcast('c4m.activity.refresh', 'stop');
 
       // Reset all errors.
       $scope.errors = {};
