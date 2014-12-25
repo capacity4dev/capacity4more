@@ -69,11 +69,11 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   }
   $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = $options;
 
+  // This is node/edit page. Need to send field values to the app.
   $taxonomy_values = array();
   if (isset($entity->$vocabulary_machine_name) && !empty($entity->$vocabulary_machine_name)) {
     $values = $entity->$vocabulary_machine_name;
     foreach ($values[LANGUAGE_NONE] as $value) {
-      // This is node/edit page. Need to send field values to the app.
       // Check if the vocabulary is "Taxonomy term" or "node".
       if (isset($value['tid'])) {
         $taxonomy_values[$value['tid']] = true;

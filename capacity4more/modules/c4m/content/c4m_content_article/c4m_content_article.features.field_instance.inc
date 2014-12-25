@@ -263,9 +263,9 @@ function c4m_content_article_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 8,
     ),
   );
