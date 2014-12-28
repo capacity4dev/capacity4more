@@ -3,6 +3,8 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
+    $scope.data.relatedDocuments = {};
+
     $scope.baseUrl = DrupalSettings.getBasePath();
 
     $scope.model = {};
@@ -84,7 +86,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open($scope.baseUrl + 'add-file/' + fileId + '?render=overlay');
+          Drupal.overlay.open(DrupalSettings.getData('purl') + '/add-file/' + fileId + '?render=overlay');
         });
       }
     };
@@ -97,9 +99,10 @@ angular.module('c4mApp')
      *  Id of the attached file.
      * @param data
      *  The submitted data.
+     * @param addToLibrary
+     *  Open or not full form of adding document.
      */
-    $scope.createDocument = function(event, fileId, data) {
-
+    $scope.createDocument = function(event, fileId, data, addToLibrary) {
       // Preventing the form from redirecting to the "action" url.
       // We nee the url in the action because of the "overlay" module.
       event.preventDefault();
@@ -125,26 +128,39 @@ angular.module('c4mApp')
         });
       });
       submitData.document = fileId;
+      submitData.group = DrupalSettings.getData('groupID');
 
       EntityResource.createEntity(submitData, 'documents', resourceFields)
         .success( function (data, status) {
-//          var nid = data.data[0].id;
-//          var item = '(' + nid + ')';
-//
-//          // Multiple values.
-//          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
-//          if (value.indexOf(item) == -1) {
-//            value = value ? value + ', ' + item : item;
-//          }
-//
-//          $('#edit-c4m-related-document-und', parent.window.document).val(value);
-//          parent.Drupal.overlay.close();
+          var nid = data.data[0].id;
+
+          if (!addToLibrary) {
+            var item = '(' + nid + ')';
+
+            // Multiple values.
+            var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
+            var nids = jQuery('#related-documents', parent.window.document).val();
+            if (value.indexOf(item) == -1) {
+              value = value ? value + ', ' + item : item;
+              nids = nids ? nids + ',' + nid : nid;
+            }
+
+            jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
+            jQuery('#related-documents', parent.window.document).val(nids);
+
+//            console.log(angular.element('#related-documents').scope());
+//            jQuery('#related-documents', parent.window.document).scope.data.relatedDocuments[nid] = true;
+            parent.Drupal.overlay.close();
+          }
+          else {
+            parent.Drupal.overlay.redirect(DrupalSettings.getData('purl') + '/node/' + nid + '/edit' + '?render=overlay');
+          }
+
         });
     };
 
-    var input = angular.element('#edit-c4m-related-document-und');
-    input.bind("change", function() {
-      
-
-    });
+    $scope.documentAdded = function() {
+      console.log(jQuery("#related-documents").val());
+      // Refresh data.relatedDocuments...
+    }
   });

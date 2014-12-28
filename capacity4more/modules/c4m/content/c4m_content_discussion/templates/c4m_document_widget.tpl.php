@@ -13,12 +13,6 @@
       <?php print t('or'); ?>
       <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>"><?php print t('Select a Document from the library') ?></a>
     </div>
-
-    <div ng-show="serverSide.file.status == 200">
-      <div class="alert alert-success">
-        <?php print t('The file "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
-      </div>
-    </div>
   </div>
 
   <div class="errors">
@@ -29,4 +23,5 @@
 
   <related-documents related-documents="data.related_document" documents="documents"></related-documents>
 
+  <input type="text" id="related-documents" ng-hide="false" ng-model="relatedIds" on-change="documentAdded">
 </div>
