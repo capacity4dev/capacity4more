@@ -1,8 +1,5 @@
 (function ($) {
 
-  $(document).bind('drupalOverlayLoad', function() {
-  });
-
   $(document).on('click', function(event) {
     var $target = $(event.target);
     if ($target.is('a') && $target.parent().is('h2')) {
@@ -33,6 +30,10 @@
 
       $('#edit-c4m-related-document-und', parent.window.document).val(value);
       $('#related-documents', parent.window.document).val(ids);
+
+//      console.log($('#related-documents', parent.window.document).scope().data);
+
+//      $('#related-documents', parent.window.document).scope().data.relatedDocuments[nid] = true;
       parent.Drupal.overlay.close();
     }
   });

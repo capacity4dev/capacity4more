@@ -3,6 +3,8 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
+    $scope.data.relatedDocuments = {};
+
     $scope.baseUrl = DrupalSettings.getBasePath();
 
     $scope.model = {};
@@ -101,9 +103,6 @@ angular.module('c4mApp')
      *  Open or not full form of adding document.
      */
     $scope.createDocument = function(event, fileId, data, addToLibrary) {
-      console.log(event);
-      console.log(addToLibrary);
-
       // Preventing the form from redirecting to the "action" url.
       // We nee the url in the action because of the "overlay" module.
       event.preventDefault();
@@ -148,6 +147,9 @@ angular.module('c4mApp')
 
             jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
             jQuery('#related-documents', parent.window.document).val(nids);
+
+//            console.log(angular.element('#related-documents').scope());
+//            jQuery('#related-documents', parent.window.document).scope.data.relatedDocuments[nid] = true;
             parent.Drupal.overlay.close();
           }
           else {
@@ -159,5 +161,6 @@ angular.module('c4mApp')
 
     $scope.documentAdded = function() {
       console.log(jQuery("#related-documents").val());
+      // Refresh data.relatedDocuments...
     }
   });
