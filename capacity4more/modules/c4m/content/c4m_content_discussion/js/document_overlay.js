@@ -30,6 +30,7 @@
       }
 
       $('#edit-c4m-related-document-und', parent.window.document).val(value);
+      $('#related-documents', parent.window.document).val(value);
       parent.Drupal.overlay.close();
     }
 

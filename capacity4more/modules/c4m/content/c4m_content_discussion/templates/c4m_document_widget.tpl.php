@@ -29,4 +29,5 @@
 
   <related-documents related-documents="data.related_document" documents="documents"></related-documents>
 
+  <input type="text" id="related-documents" ng-hide="false" ng-model="relatedIds" ng-change="documentAdded()">
 </div>

@@ -142,9 +142,7 @@ angular.module('c4mApp')
         });
     };
 
-    var input = angular.element('#edit-c4m-related-document-und');
-    input.bind("change", function() {
-      
-
-    });
+$scope.documentAdded = function() {
+  console.log(angular.element("#related-documents").val());
+}
   });
