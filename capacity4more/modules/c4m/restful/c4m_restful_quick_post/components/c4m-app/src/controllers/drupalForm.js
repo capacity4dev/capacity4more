@@ -97,8 +97,12 @@ angular.module('c4mApp')
      *  Id of the attached file.
      * @param data
      *  The submitted data.
+     * @param addToLibrary
+     *  Open or not full form of adding document.
      */
-    $scope.createDocument = function(event, fileId, data) {
+    $scope.createDocument = function(event, fileId, data, addToLibrary) {
+      console.log(event);
+      console.log(addToLibrary);
 
       // Preventing the form from redirecting to the "action" url.
       // We nee the url in the action because of the "overlay" module.
@@ -130,21 +134,30 @@ angular.module('c4mApp')
       EntityResource.createEntity(submitData, 'documents', resourceFields)
         .success( function (data, status) {
           var nid = data.data[0].id;
-          var item = '(' + nid + ')';
 
-          // Multiple values.
-          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
-          if (value.indexOf(item) == -1) {
-            value = value ? value + ', ' + item : item;
+          if (!addToLibrary) {
+            var item = '(' + nid + ')';
+
+            // Multiple values.
+            var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
+            var nids = jQuery('#related-documents', parent.window.document).val();
+            if (value.indexOf(item) == -1) {
+              value = value ? value + ', ' + item : item;
+              nids = nids ? nids + ',' + nid : nid;
+            }
+
+            jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
+            jQuery('#related-documents', parent.window.document).val(nids);
+            parent.Drupal.overlay.close();
           }
-       console.log(parent.Drupal.overlay);
+          else {
+            parent.Drupal.overlay.redirect(DrupalSettings.getData('purl') + '/node/' + nid + '/edit' + '?render=overlay');
+          }
 
-          jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
-          parent.Drupal.overlay.close();
         });
     };
 
-$scope.documentAdded = function() {
-  console.log(angular.element("#related-documents").val());
-}
+    $scope.documentAdded = function() {
+      console.log(jQuery("#related-documents").val());
+    }
   });

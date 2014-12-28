@@ -193,7 +193,8 @@ function c4m_content_discussion_admin_paths() {
     'overlay/*' => TRUE,
     '*/add-file/*' => TRUE,
     'add-file/*' => TRUE,
-    'football-talk/node/add/document' => TRUE,
+    '*/node/*/edit' => TRUE,
+    '/node/*/edit' => TRUE,
   );
   return $paths;
 }
@@ -256,12 +257,20 @@ function c4m_content_discussion_add_document_file($file_id) {
     ),
     'absolute' => TRUE,
   );
+  // URL options.
+  $options_context = array(
+    'purl' => array(
+      'disabled' => FALSE,
+    ),
+    'absolute' => TRUE,
+  );
   $settings['c4m'] = array(
     'field_schema' => $field_schema,
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'data' => array(
       'groupID' => $group_id,
+      'purl' => url('', $options_context),
     )
   );
 

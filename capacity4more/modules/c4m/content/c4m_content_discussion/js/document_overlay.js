@@ -25,16 +25,16 @@
 
       // Multiple values.
       var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+      var ids = $('#related-documents', parent.window.document).val();
       if (value.indexOf(item) == -1) {
         value = value ? value + ', ' + item : item;
+        ids = ids ? ids + ',' + nid : nid;
       }
 
       $('#edit-c4m-related-document-und', parent.window.document).val(value);
-      $('#related-documents', parent.window.document).val(value);
+      $('#related-documents', parent.window.document).val(ids);
       parent.Drupal.overlay.close();
     }
-
-
   });
 
 })(jQuery);
