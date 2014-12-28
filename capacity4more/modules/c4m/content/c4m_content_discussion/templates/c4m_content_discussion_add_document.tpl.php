@@ -1,6 +1,6 @@
 <div ng-controller="DrupalFormCtrl">
 
-  <form name="documentForm" action="add-file/<?php print $file_id; ?>?render=overlay" ng-submit="createDocument('<?php print $file_id; ?>', data)">
+  <form name="documentForm" action="add-file/<?php print $file_id; ?>?render=overlay" ng-submit="createDocument($event, '<?php print $file_id; ?>', data)">
 
     <?php
       print('Upload new document: <br/>');

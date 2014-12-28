@@ -88,13 +88,18 @@ angular.module('c4mApp')
     /**
      * Create document node.
      *
+     * @param event
+     *  The submit event.
      * @param fileId
      *  Id of the attached file.
      * @param data
      *  The submitted data.
      */
-    $scope.createDocument = function(fileId, data) {
+    $scope.createDocument = function(event, fileId, data) {
 
+      // Preventing the form from redirecting to the "action" url.
+      // We nee the url in the action because of the "overlay" module.
+      event.preventDefault();
       $scope.fieldSchema = DrupalSettings.getFieldSchema();
       var resourceFields = $scope.fieldSchema.resources['documents'];
       var submitData = Request.cleanFields(data, resourceFields);
