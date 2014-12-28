@@ -29,6 +29,7 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
  */
 function c4m_content_discussion_admin_paths_alter(&$paths) {
   $paths['add-file/*'] = TRUE;
+  $paths['node/*/edit'] = TRUE;
 }
 
 /**
