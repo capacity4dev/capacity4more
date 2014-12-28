@@ -25,6 +25,13 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
 }
 
 /**
+ * Implements hook_admin_paths_alter().
+ */
+function c4m_content_discussion_admin_paths_alter(&$paths) {
+  $paths['add-file/*'] = TRUE;
+}
+
+/**
  * Implements hook_field_widget_info().
  */
 function c4m_content_discussion_field_widget_info() {
