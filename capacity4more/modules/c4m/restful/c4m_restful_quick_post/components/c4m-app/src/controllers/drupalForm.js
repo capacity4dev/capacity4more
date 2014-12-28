@@ -81,7 +81,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open($scope.baseUrl + 'add_file/' + fileId + '?render=overlay');
+          Drupal.overlay.open($scope.baseUrl + 'add-file/' + fileId + '?render=overlay');
         });
       }
     };
@@ -120,6 +120,16 @@ angular.module('c4mApp')
 
       EntityResource.createEntity(submitData, 'documents', resourceFields)
         .success( function (data, status) {
+//          var nid = data.data[0].id;
+//          var item = '(' + nid + ')';
+//
+//          // Multiple values.
+//          var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+//          if (value.indexOf(item) == -1) {
+//            value = value ? value + ', ' + item : item;
+//          }
+//
+//          $('#edit-c4m-related-document-und', parent.window.document).val(value);
 //          parent.Drupal.overlay.close();
         });
     };
