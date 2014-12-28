@@ -5,6 +5,8 @@ angular.module('c4mApp')
 
     $scope.data.relatedDocuments = {};
 
+    $scope.relatedIds = '';
+
     $scope.baseUrl = DrupalSettings.getBasePath();
 
     $scope.model = {};
@@ -146,10 +148,9 @@ angular.module('c4mApp')
             }
 
             jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
-            jQuery('#related-documents', parent.window.document).val(nids);
+            jQuery('#related-documents', parent.window.document).val(nids).trigger('click');
 
-//            console.log(angular.element('#related-documents').scope());
-//            jQuery('#related-documents', parent.window.document).scope.data.relatedDocuments[nid] = true;
+
             parent.Drupal.overlay.close();
           }
           else {
@@ -158,9 +159,4 @@ angular.module('c4mApp')
 
         });
     };
-
-    $scope.documentAdded = function() {
-      console.log(jQuery("#related-documents").val());
-      // Refresh data.relatedDocuments...
-    }
   });

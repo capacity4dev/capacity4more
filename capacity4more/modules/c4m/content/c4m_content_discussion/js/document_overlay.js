@@ -29,11 +29,8 @@
       }
 
       $('#edit-c4m-related-document-und', parent.window.document).val(value);
-      $('#related-documents', parent.window.document).val(ids);
+      $('#related-documents', parent.window.document).val(ids).trigger('click');
 
-//      console.log($('#related-documents', parent.window.document).scope().data);
-
-//      $('#related-documents', parent.window.document).scope().data.relatedDocuments[nid] = true;
       parent.Drupal.overlay.close();
     }
   });
