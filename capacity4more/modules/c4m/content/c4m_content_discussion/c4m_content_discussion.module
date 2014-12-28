@@ -169,7 +169,7 @@ function c4m_content_discussion_admin_paths() {
   $paths = array(
     '*/overlay/*' => TRUE,
     'overlay/*' => TRUE,
-    '*/add_file/*' => TRUE,
+    '*/add-file/*' => TRUE,
     'add_file/*' => TRUE,
     'football-talk/node/add/document' => TRUE,
   );
@@ -196,7 +196,7 @@ function c4m_content_discussion_custom_theme() {
  * Implements hook_menu().
  */
 function c4m_content_discussion_menu() {
-  $items['add_file/%'] = array(
+  $items['add-file/%'] = array(
     'page callback' => 'c4m_content_discussion_add_document_file',
     'access callback' => TRUE,
     'page arguments' => array(1),
