@@ -3,6 +3,8 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
+    $scope.baseUrl = DrupalSettings.getBasePath();
+
     $scope.model = {};
 
     $scope.values = DrupalSettings.getData('values');
@@ -79,7 +81,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open('add_file/' + fileId);
+          Drupal.overlay.open($scope.baseUrl + 'add_file/' + fileId + '?render=overlay');
         });
       }
     };
