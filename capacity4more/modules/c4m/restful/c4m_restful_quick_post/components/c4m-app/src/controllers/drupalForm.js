@@ -3,6 +3,8 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
+    $scope.baseUrl = DrupalSettings.getBasePath();
+
     $scope.model = {};
 
     // Getting all existing documents.
@@ -82,20 +84,25 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open('add-file/' + fileId);
+          Drupal.overlay.open($scope.baseUrl + 'add-file/' + fileId + '?render=overlay');
         });
       }
     };
     /**
      * Create document node.
      *
+     * @param event
+     *  The submit event.
      * @param fileId
      *  Id of the attached file.
      * @param data
      *  The submitted data.
      */
-    $scope.createDocument = function(fileId, data) {
+    $scope.createDocument = function(event, fileId, data) {
 
+      // Preventing the form from redirecting to the "action" url.
+      // We nee the url in the action because of the "overlay" module.
+      event.preventDefault();
       $scope.fieldSchema = DrupalSettings.getFieldSchema();
       var resourceFields = $scope.fieldSchema.resources['documents'];
       var submitData = Request.cleanFields(data, resourceFields);
