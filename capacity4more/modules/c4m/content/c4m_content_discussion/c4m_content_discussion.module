@@ -167,10 +167,9 @@ function c4m_content_discussion_entity_type_label($variables) {
 
 function c4m_content_discussion_admin_paths() {
   $paths = array(
-    'football-talk/overlay/*' => TRUE,
+    '*/overlay/*' => TRUE,
     'overlay/*' => TRUE,
-    'overlay/documents/table' => TRUE,
-    'football-talk/add_file/*' => TRUE,
+    '*/add_file/*' => TRUE,
     'add_file/*' => TRUE,
     'football-talk/node/add/document' => TRUE,
   );

@@ -20,6 +20,15 @@ regions[content_bottom] = 'Page bottom'
 regions[footer]         = 'Footer'
 
 ;;;;;;;;;;;;;;;;;;;;;
+;; Overlay regions
+;;;;;;;;;;;;;;;;;;;;;
+
+overlay_regions[] = sidebar_first
+overlay_regions[] = sidebar_second
+overlay_regions[] = content
+overlay_regions[] = content_bottom
+
+;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts
 ;;;;;;;;;;;;;;;;;;;;;
 
