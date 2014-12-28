@@ -118,6 +118,16 @@ angular.module('c4mApp')
 
       EntityResource.createEntity(submitData, 'documents', resourceFields)
         .success( function (data, status) {
+//          var nid = data.data[0].id;
+//          var item = '(' + nid + ')';
+//
+//          // Multiple values.
+//          var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+//          if (value.indexOf(item) == -1) {
+//            value = value ? value + ', ' + item : item;
+//          }
+//
+//          $('#edit-c4m-related-document-und', parent.window.document).val(value);
 //          parent.Drupal.overlay.close();
         });
     };
