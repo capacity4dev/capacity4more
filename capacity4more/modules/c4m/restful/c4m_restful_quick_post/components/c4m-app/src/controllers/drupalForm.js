@@ -84,7 +84,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open($scope.baseUrl + 'add-file/' + fileId + '?render=overlay');
+          Drupal.overlay.open(DrupalSettings.getData('purl') + '/add-file/' + fileId + '?render=overlay');
         });
       }
     };
@@ -125,20 +125,22 @@ angular.module('c4mApp')
         });
       });
       submitData.document = fileId;
+      submitData.group = DrupalSettings.getData('groupID');
 
       EntityResource.createEntity(submitData, 'documents', resourceFields)
         .success( function (data, status) {
-//          var nid = data.data[0].id;
-//          var item = '(' + nid + ')';
-//
-//          // Multiple values.
-//          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
-//          if (value.indexOf(item) == -1) {
-//            value = value ? value + ', ' + item : item;
-//          }
-//
-//          $('#edit-c4m-related-document-und', parent.window.document).val(value);
-//          parent.Drupal.overlay.close();
+          var nid = data.data[0].id;
+          var item = '(' + nid + ')';
+
+          // Multiple values.
+          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
+          if (value.indexOf(item) == -1) {
+            value = value ? value + ', ' + item : item;
+          }
+       console.log(parent.Drupal.overlay);
+
+          jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
+          parent.Drupal.overlay.close();
         });
     };
 

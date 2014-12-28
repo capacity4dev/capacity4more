@@ -83,10 +83,20 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     ),
     'absolute' => TRUE,
   );
+  // URL options.
+  $options_context = array(
+    'purl' => array(
+      'disabled' => FALSE,
+    ),
+    'absolute' => TRUE,
+  );
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'documents' => $documents,
+    'data' => array(
+      'purl' => url('', $options_context),
+    )
   );
 
   drupal_add_js($settings, 'setting');
@@ -182,7 +192,7 @@ function c4m_content_discussion_admin_paths() {
     '*/overlay/*' => TRUE,
     'overlay/*' => TRUE,
     '*/add-file/*' => TRUE,
-    'add_file/*' => TRUE,
+    'add-file/*' => TRUE,
     'football-talk/node/add/document' => TRUE,
   );
   return $paths;
@@ -250,6 +260,9 @@ function c4m_content_discussion_add_document_file($file_id) {
     'field_schema' => $field_schema,
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'data' => array(
+      'groupID' => $group_id,
+    )
   );
 
   drupal_add_js($settings, 'setting');
