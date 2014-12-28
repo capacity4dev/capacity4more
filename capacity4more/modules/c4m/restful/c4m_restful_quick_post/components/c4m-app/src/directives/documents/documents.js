@@ -49,6 +49,7 @@ angular.module('c4mApp')
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
             var ids = val.split(",");
+            $log.log(scope);
             scope.relatedDocuments = ids;
             scope.data = scope.updateDocumentsData(scope.relatedDocuments);
           });
