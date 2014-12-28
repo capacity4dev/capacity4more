@@ -26,4 +26,7 @@
       <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
     </ul>
   </div>
+
+  <related-documents related-documents="data.related_document" documents="documents"></related-documents>
+
 </div>

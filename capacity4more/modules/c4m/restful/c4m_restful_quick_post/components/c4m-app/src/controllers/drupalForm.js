@@ -5,6 +5,9 @@ angular.module('c4mApp')
 
     $scope.model = {};
 
+    // Getting all existing documents.
+    $scope.documents = DrupalSettings.getDocuments();
+
     $scope.values = DrupalSettings.getData('values');
 
     angular.forEach($scope.values, function(values, vocab) {
@@ -122,7 +125,7 @@ angular.module('c4mApp')
 //          var item = '(' + nid + ')';
 //
 //          // Multiple values.
-//          var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+//          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
 //          if (value.indexOf(item) == -1) {
 //            value = value ? value + ', ' + item : item;
 //          }
@@ -131,4 +134,10 @@ angular.module('c4mApp')
 //          parent.Drupal.overlay.close();
         });
     };
+
+    var input = angular.element('#edit-c4m-related-document-und');
+    input.bind("change", function() {
+      
+
+    });
   });
