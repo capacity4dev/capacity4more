@@ -92,7 +92,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/add-file/' + fileId + '?render=overlay');
+          Drupal.overlay.open(DrupalSettings.getData('purl') + '/add-file/' + fileId + '?render=overlay');
         });
       }
     };

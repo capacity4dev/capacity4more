@@ -9,7 +9,7 @@ angular.module('c4mApp')
     $scope.fullForm = DrupalSettings.getData('full_form');
 
     // Getting all existing documents.
-    $scope.documents = DrupalSettings.getDocuments() || [];
+    $scope.documents = DrupalSettings.getDocuments();
 
     //Getting node id if we are editing node.
     $scope.id = $scope.data.entityId;
@@ -356,7 +356,7 @@ angular.module('c4mApp')
           // If requested to create in full form, Redirect user to the edit page.
           if(type == 'full_form') {
             var entityID = data.data[0].id;
-            Drupal.overlay.open(DrupalSettings.getBasePath() + "node/" + entityID + "/edit"  + "?render=overlay");
+            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
           }
           else {
             $scope.serverSide.data = data;

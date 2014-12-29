@@ -82,7 +82,7 @@ angular.module('c4mApp')
             parent.Drupal.overlay.close();
           }
           else {
-            parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/node/' + nid + '/edit' + '?render=overlay');
+            Drupal.overlay.open(DrupalSettings.getData('purl') + '/node/' + nid + '/edit' + '?render=overlay');
           }
 
         });
