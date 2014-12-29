@@ -3,9 +3,14 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
-    $scope.data.relatedDocuments = {};
-
-    $scope.relatedIds = '';
+    // Get related to the discussion documents.
+    var val = jQuery('#edit-c4m-related-document-und').val();
+    var ids = [];
+    if (val.length > 0) {
+      ids = val.match(/\d+(?=\))/g);
+      jQuery('#related-documents').val(ids.join());
+    }
+    $scope.data.relatedDocuments = ids;
 
     $scope.baseUrl = DrupalSettings.getBasePath();
 

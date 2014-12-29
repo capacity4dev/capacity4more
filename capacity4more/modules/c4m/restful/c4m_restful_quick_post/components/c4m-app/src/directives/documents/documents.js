@@ -15,7 +15,6 @@ angular.module('c4mApp')
         relatedDocuments: '='
       },
       link: function postLink(scope, element) {
-        scope.title = 'foo';
 
         /**
          * Create array of related document objects.
