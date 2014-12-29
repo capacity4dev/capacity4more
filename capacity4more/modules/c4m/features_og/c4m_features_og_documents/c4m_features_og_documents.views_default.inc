@@ -183,6 +183,7 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['arguments']['og_group_ref']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['arguments']['og_group_ref']['field'] = 'og_group_ref';
   $handler->display->display_options['arguments']['og_group_ref']['ui_name'] = 'Only nodes in current OG Context';
+  $handler->display->display_options['arguments']['og_group_ref']['default_action'] = 'default';
   $handler->display->display_options['arguments']['og_group_ref']['default_argument_type'] = 'og_context';
   $handler->display->display_options['arguments']['og_group_ref']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['og_group_ref']['break_phrase'] = 0;
