@@ -26,9 +26,9 @@ trait NodeJs {
 
     $uri = strtolower(str_replace(' ', '-', trim($group)));
 
-    $steps[] = new Step\When('I visit "' . $uri . '/node/js-add/' . $bundle . '"');
-    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
-    $steps[] = new Step\When('I fill editor "body" with "Some text in the body"');
+    $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "c4m_body[und][0][value]" with "Some text in the body"');
     return $steps;
   }
 }

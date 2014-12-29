@@ -1,4 +1,4 @@
-<div class="form-group input-wrapper file-wrapper">
+<div class="form-group input-wrapper file-wrapper" id="add-document-form">
 
 <!--  <related-documents related-documents="data.related_document" documents="documents"></related-documents>-->
 

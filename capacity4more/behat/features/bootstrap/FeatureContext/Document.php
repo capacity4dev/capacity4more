@@ -138,4 +138,18 @@ trait Document {
       throw new \Exception("No $icon_type overview icon found.");
     }
   }
+
+  /**
+   * @Given /^I save the document with title "([^"]*)"$/
+   */
+  public function iSaveTheDocumentWithTitle($title) {
+//    throw new PendingException();
+    $steps = array();
+
+    $steps[] = new Step\When('I fill in "label" with "' . $title . '" in the "documentForm"');
+    $steps[] = new Step\When('I press "save" in "documentForm"');
+
+    return $steps;
+  }
+
 }
