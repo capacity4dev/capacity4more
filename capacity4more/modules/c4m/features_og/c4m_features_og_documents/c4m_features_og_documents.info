@@ -11,6 +11,7 @@ dependencies[] = facetapi
 dependencies[] = views
 features[context][] = c4m_detail_og_documents
 features[context][] = c4m_overview_og_documents
+features[context][] = c4m_overview_og_documents_overlay
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
