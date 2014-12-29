@@ -12,8 +12,7 @@ angular.module('c4mApp')
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/documents/documents.html',
       restrict: 'E',
       scope: {
-        relatedDocuments: '=',
-//        documents: '='
+        relatedDocuments: '='
       },
       link: function postLink(scope, element) {
         scope.title = 'foo';
