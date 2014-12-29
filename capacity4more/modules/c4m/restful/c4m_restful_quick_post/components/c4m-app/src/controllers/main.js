@@ -8,9 +8,6 @@ angular.module('c4mApp')
     // Checking if this is full form or not.
     $scope.fullForm = DrupalSettings.getData('full_form');
 
-    // Getting all existing documents.
-    $scope.documents = DrupalSettings.getDocuments() || [];
-
     //Getting node id if we are editing node.
     $scope.id = $scope.data.entityId;
 
