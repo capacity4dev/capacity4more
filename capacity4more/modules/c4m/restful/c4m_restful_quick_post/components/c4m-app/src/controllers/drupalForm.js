@@ -5,9 +5,11 @@ angular.module('c4mApp')
 
     // Get related to the discussion documents.
     var val = jQuery('#edit-c4m-related-document-und').val();
-    val = val.replace(/[()a-z\s]/g, '');
-    jQuery('#related-documents').val(val);
-    var ids = val ? val.split(",") : null;
+
+    var ids = [];
+    val.match(/\([\d]+\)/g).forEach(function(el) { ids.push(el.replace(/[()]/g, '')) });
+    console.log(ids);
+    jQuery('#related-documents').val(ids.join());
     $scope.data.relatedDocuments = ids;
 
     $scope.baseUrl = DrupalSettings.getBasePath();
