@@ -86,7 +86,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open(DrupalSettings.getData('purl') + '/add-file/' + fileId + '?render=overlay');
+          parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/add-file/' + fileId + '?render=overlay');
         });
       }
     };
@@ -148,12 +148,10 @@ angular.module('c4mApp')
             jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
             jQuery('#related-documents', parent.window.document).val(nids);
 
-//            console.log(angular.element('#related-documents').scope());
-//            jQuery('#related-documents', parent.window.document).scope.data.relatedDocuments[nid] = true;
             parent.Drupal.overlay.close();
           }
           else {
-            parent.Drupal.overlay.redirect(DrupalSettings.getData('purl') + '/node/' + nid + '/edit' + '?render=overlay');
+            parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/node/' + nid + '/edit' + '?render=overlay');
           }
 
         });
