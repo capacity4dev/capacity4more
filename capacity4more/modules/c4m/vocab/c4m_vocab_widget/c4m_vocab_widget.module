@@ -47,7 +47,7 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $options = array();
   foreach($terms as $term) {
     // If the term is array, This vocab is of type "node".
-    if(is_array($term)) {
+    if (is_array($term)) {
       foreach($term as $id => $label) {
         $options[$id]['label'] = check_plain($label);
         $options[$id]['id'] = $id;
