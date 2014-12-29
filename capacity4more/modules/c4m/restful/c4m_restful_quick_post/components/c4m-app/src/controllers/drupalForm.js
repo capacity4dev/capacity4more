@@ -7,8 +7,7 @@ angular.module('c4mApp')
     var val = jQuery('#edit-c4m-related-document-und').val();
 
     var ids = [];
-    val.match(/\([\d]+\)/g).forEach(function(el) { ids.push(el.replace(/[()]/g, '')) });
-    console.log(ids);
+    val.match(/\(\d+\)/g).forEach(function(el) { ids.push(el.replace(/[()]/g, '')) });
     jQuery('#related-documents').val(ids.join());
     $scope.data.relatedDocuments = ids;
 
