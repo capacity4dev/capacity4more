@@ -25,10 +25,24 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ *
+ * Add a custom menu alter for editing nodes which simply can be opened via
+ * overlay.
+ *
+ * @see c4m_content_discussion_admin_paths_alter()
+ */
+function c4m_content_discussion_menu_alter(&$items) {
+  $items['overlay-node/%node/edit'] = $items['node/%node/edit'];
+}
+
+
+/**
  * Implements hook_admin_paths_alter().
  */
 function c4m_content_discussion_admin_paths_alter(&$paths) {
   $paths['add-file/*'] = TRUE;
+  $paths['overlay-node/*'] = TRUE;
 }
 
 /**
