@@ -9,6 +9,20 @@
 angular.module('c4mApp')
   .service('EntityResource', function(DrupalSettings, Request, $http) {
 
+    this.getEntityData = function(resource, entityId) {
+      var url = DrupalSettings.getBasePath() + 'api/' + resource;
+
+      if (entityId) {
+        url += '/' + entityId;
+      }
+
+      return $http({
+        method: 'GET',
+        url: url,
+        withCredentials: true
+      });
+    };
+
     /**
      * Create a new entity.
      *

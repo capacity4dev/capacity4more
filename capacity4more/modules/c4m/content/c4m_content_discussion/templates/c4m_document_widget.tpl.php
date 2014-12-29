@@ -21,7 +21,7 @@
     </ul>
   </div>
 
-  <related-documents related-documents="data.related_document" documents="documents"></related-documents>
+  <related-documents related-documents="data.relatedDocuments" documents="documents"></related-documents>
 
   <input type="text" id="related-documents" ng-hide="true">
 </div>

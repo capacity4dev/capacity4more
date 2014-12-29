@@ -3,7 +3,7 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
-    $scope.data.relatedDocuments = {};
+    $scope.data.relatedDocuments = [];
 
     $scope.relatedIds = '';
 
@@ -59,7 +59,8 @@ angular.module('c4mApp')
           var nid = data.data[0].id;
 
 
-          $scope.$emit('adddocument', data.data[0]);
+
+          $scope.$emit('addDocument', data.data[0]);
 
 
 
@@ -85,5 +86,9 @@ angular.module('c4mApp')
           }
 
         });
+    };
+
+    $scope.closeOverlay = function() {
+      parent.Drupal.overlay.close();
     };
   });

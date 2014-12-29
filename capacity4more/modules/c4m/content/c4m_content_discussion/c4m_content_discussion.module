@@ -72,10 +72,6 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     '#weight' => $instance['widget']['weight'],
   );
 
-
-  $handler = restful_get_restful_handler('documents');
-  $documents = $handler->get();
-
   // URL options.
   $options = array(
     'purl' => array(
@@ -93,7 +89,6 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
-    'documents' => $documents,
     'data' => array(
       'purl' => url('', $options_context),
     )
