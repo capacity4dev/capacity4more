@@ -134,28 +134,7 @@ function c4m_features_og_documents_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Node is published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['ui_name'] = 'Node is published';
-  $handler->display->display_options['filters']['status']['value'] = array(
-    1 => '1',
-  );
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Only Document and Photo album nodes */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Document and Photo album nodes';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'document' => 'document',
-    'photoalbum' => 'photoalbum',
-  );
-  $handler->display->display_options['filters']['type']['group'] = 1;
-  $handler->display->display_options['path'] = 'documents';
+  $handler->display->display_options['path'] = 'overlay/documents';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Library';
   $handler->display->display_options['menu']['weight'] = '2';
@@ -183,7 +162,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['arguments']['og_group_ref']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['arguments']['og_group_ref']['field'] = 'og_group_ref';
   $handler->display->display_options['arguments']['og_group_ref']['ui_name'] = 'Only nodes in current OG Context';
-  $handler->display->display_options['arguments']['og_group_ref']['default_action'] = 'default';
   $handler->display->display_options['arguments']['og_group_ref']['default_argument_type'] = 'og_context';
   $handler->display->display_options['arguments']['og_group_ref']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['og_group_ref']['break_phrase'] = 0;
