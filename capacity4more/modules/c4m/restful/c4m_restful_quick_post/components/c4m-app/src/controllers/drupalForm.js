@@ -45,11 +45,11 @@ angular.module('c4mApp')
       QuickPostService.tagsQuery(query, $scope);
     };
 
-    //$scope.$watch('data.tags', function() {
-    //  var formElement = angular.element('.node-form');
-    //  var input = angular.element('<input type="hidden" name="og_vocabulary[und][0][' + $scope.tagIds + ']" value="' + $scope.data.tags[0].text + ' (' + $scope.data.tags[0].id + ')"/>');
-    //  formElement.append(input);
-    //});
+    $scope.$watch('data.tags', function() {
+      //var formElement = angular.element('.node-form');
+      //var input = angular.element('<input type="hidden" name="og_vocabulary[und][0][' + $scope.tagIds + ']" value="' + $scope.data.tags[0].text + ' (' + $scope.data.tags[0].id + ')"/>');
+      //formElement.append(input);
+    });
 
     function updateTerms(key, vocab) {
       // Check/uncheck the checkbox in the drupal form.
