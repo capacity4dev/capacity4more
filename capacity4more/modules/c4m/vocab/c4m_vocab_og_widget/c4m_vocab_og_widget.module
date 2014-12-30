@@ -52,18 +52,17 @@ function c4m_vocab_og_widget_field_widget_form(&$form, &$form_state, $field, $in
 
   $group_id = key($gids[$group_type]);
 
-  // URL options.
-  $options = array(
-    'purl' => array(
-      'disabled' => TRUE,
-    ),
-    'absolute' => TRUE,
-  );
-
   $accessible_vocabs = og_vocab_get_accessible_vocabs($entity_type, $bundle, $field['field_name']);
 
-  //dpm($accessible_vocabs);
-  $terms = taxonomy_get_tree(array_shift($accessible_vocabs));
+  // Getting the categories vocab.
+  $terms = array();
+  foreach(taxonomy_vocabulary_get_names() as $vocab) {
+    if (in_array($vocab->vid, $accessible_vocabs)) {
+      if ($vocab->name == 'Categories') {
+        $terms = taxonomy_get_tree($vocab->vid);
+      }
+    }
+  }
 
   $options = array();
   foreach($terms as $term) {
@@ -80,6 +79,14 @@ function c4m_vocab_og_widget_field_widget_form(&$form, &$form_state, $field, $in
     }
   }
   $settings['c4m']['data']['vocabularies']['categories'] = $options;
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
 
   $settings['c4m']['basePath'] = url('', $options);
 
