@@ -37,14 +37,6 @@ function c4m_content_discussion_menu_alter(&$items) {
 }
 
 /**
- * Implements hook_admin_paths_alter().
- */
-function c4m_content_discussion_admin_paths_alter(&$paths) {
-  $paths['add-file/*'] = TRUE;
-  $paths['overlay-node/*'] = TRUE;
-}
-
-/**
  * Implements hook_field_widget_info().
  */
 function c4m_content_discussion_field_widget_info() {
@@ -72,7 +64,29 @@ function c4m_content_discussion_field_widget_info() {
  * Implements hook_form_FORM_ID_form_alter().
  */
 function c4m_content_discussion_form_document_node_form_alter(&$form, $form_state, $form_id) {
-  dpm($form);
+  dpm($form_state);
+
+}
+
+/**
+ * Implements hook_overlay_child_initialize().
+ */
+function c4m_content_discussion_overlay_child_initialize() {
+  $item = menu_get_item();
+  if (strpos($item['path'], 'overlay') !== FALSE) {
+    $_SESSION['overlay_refresh_parent'] = FALSE;
+  }
+}
+
+/**
+ * hook_module_implements_alter(&$implementations, $hook)
+ */
+function c4m_content_discussion_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'overlay_child_initialize') {
+    $c4m_content_discussion = $implementations['c4m_content_discussion'];
+    unset($implementations['c4m_content_discussion']);
+    $implementations['c4m_content_discussion'] = $c4m_content_discussion;
+  }
 }
 
 
@@ -208,10 +222,10 @@ function c4m_content_discussion_admin_paths() {
   $paths = array(
     '*/overlay/*' => TRUE,
     'overlay/*' => TRUE,
-    '*/add-file/*' => TRUE,
-    'add-file/*' => TRUE,
+    '*/overlay-file/*' => TRUE,
+    'overlay-file/*' => TRUE,
     '*/node/*/edit' => TRUE,
-    '/node/*/edit' => TRUE,
+    'overlay-node/*' =>TRUE,
   );
   return $paths;
 }
@@ -236,7 +250,7 @@ function c4m_content_discussion_custom_theme() {
  * Implements hook_menu().
  */
 function c4m_content_discussion_menu() {
-  $items['add-file/%'] = array(
+  $items['overlay-file/%'] = array(
     'page callback' => 'c4m_content_discussion_add_document_file',
     'access callback' => TRUE,
     'page arguments' => array(1),

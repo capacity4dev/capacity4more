@@ -33,24 +33,35 @@
 
       parent.Drupal.overlay.close();
     }
-    else if ($target.is('button') && $target.val() == 'Save') {
-
-    }
     else if ($target.is('button') && $target.val() == 'Delete') {
 
-//      var value = $('#edit-c4m-related-document-und', parent.window.document).val();
-//      var ids = $('#related-documents', parent.window.document).val();
-//
-//        value = value;
-//        ids = ids ? ids + ',' + nid : nid;
-//
-//      $('#edit-c4m-related-document-und', parent.window.document).val(value);
-//      $('#related-documents', parent.window.document).val(ids).trigger('click');
-//
-//      parent.Drupal.overlay.close();
+      var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+      var ids = $('#related-documents', parent.window.document).val();
+
+      console.log(value);
+
+      value = value.split(',').slice(0, -1).join();
+
+      console.log(value);
+
+      ids = ids.split(',').slice(0, -1).join();
+
+      $('#edit-c4m-related-document-und', parent.window.document).val(value);
+      $('#related-documents', parent.window.document).val(ids).trigger('click');
+
+      parent.Drupal.overlay.close();
 
     }
 
+  });
+
+
+  $(parent.window).bind('hashchange', function() {
+    if (parent) {
+      if (parent.window.location.hash.indexOf('close_overlay') != -1) {
+        parent.Drupal.overlay.close();
+      };
+    }
   });
 
 })(jQuery);
