@@ -61,11 +61,17 @@ function c4m_content_discussion_field_widget_info() {
 }
 
 /**
- * Implements hook_form_FORM_ID_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function c4m_content_discussion_form_document_node_form_alter(&$form, $form_state, $form_id) {
-  dpm($form_state);
+  $form['actions']['submit']['#submit'][] = 'c4m_content_discussion_form_document_node_form_submit';
+}
 
+/**
+* Form Submit; Add our own submit handler as the last one.
+ */
+function c4m_content_discussion_form_document_node_form_submit($form, &$form_state) {
+  $form_state['redirect'] = current_path() . '/close_overlay';
 }
 
 /**
