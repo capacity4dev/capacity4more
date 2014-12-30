@@ -3,7 +3,13 @@ angular.module('c4mApp')
 
     $scope.data = DrupalSettings.getData('vocabularies');
 
+    $scope.data.group = DrupalSettings.getData('group');
+
     $scope.model = {};
+
+    $scope.basePath = DrupalSettings.getBasePath();
+
+    $scope.tagIds = 14;
 
     $scope.values = DrupalSettings.getData('values');
 
@@ -33,6 +39,17 @@ angular.module('c4mApp')
     $scope.keyUpHandler = function(keyEvent) {
       QuickPostService.keyUpHandler(keyEvent, $scope);
     };
+
+    // Getting matching tags.
+    $scope.tagsQuery = function (query) {
+      QuickPostService.tagsQuery(query, $scope);
+    };
+
+    //$scope.$watch('data.tags', function() {
+    //  var formElement = angular.element('.node-form');
+    //  var input = angular.element('<input type="hidden" name="og_vocabulary[und][0][' + $scope.tagIds + ']" value="' + $scope.data.tags[0].text + ' (' + $scope.data.tags[0].id + ')"/>');
+    //  formElement.append(input);
+    //});
 
     function updateTerms(key, vocab) {
       // Check/uncheck the checkbox in the drupal form.
