@@ -148,6 +148,9 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
   unset($element['#weight']);
   $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'] = array('c4m_content_discussion_entityreference_autocomplete_tags_validate');
+  $element['#title'] = '';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
   return $element;
 }
 
