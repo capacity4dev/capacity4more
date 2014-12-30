@@ -1,6 +1,5 @@
 (function ($) {
 
-  console.log('here');
   $(document).on('click', function(event) {
     var $target = $(event.target);
     if ($target.is('a') && $target.parent().is('h2')) {
@@ -55,3 +54,5 @@
   });
 
 })(jQuery);
+
+
