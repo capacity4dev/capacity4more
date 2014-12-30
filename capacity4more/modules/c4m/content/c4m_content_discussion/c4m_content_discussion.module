@@ -67,6 +67,15 @@ function c4m_content_discussion_field_widget_info() {
 
   return $widgets;
 }
+
+/**
+ * Implements hook_form_FORM_ID_form_alter().
+ */
+function c4m_content_discussion_form_document_node_form_alter(&$form, $form_state, $form_id) {
+  dpm($form);
+}
+
+
 /**
  * Implements hook_field_widget_form().
  */

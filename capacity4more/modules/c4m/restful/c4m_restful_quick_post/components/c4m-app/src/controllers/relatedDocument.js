@@ -58,27 +58,20 @@ angular.module('c4mApp')
         .success( function (data, status) {
           var nid = data.data[0].id;
 
+          var item = '(' + nid + ')';
 
+          // Multiple values.
+          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
+          var nids = jQuery('#related-documents', parent.window.document).val();
+          if (value.indexOf(item) == -1) {
+            value = value ? value + ', ' + item : item;
+            nids = nids ? nids + ',' + nid : nid;
+          }
 
-          $scope.$emit('addDocument', data.data[0]);
-
-
+          jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
+          jQuery('#related-documents', parent.window.document).val(nids).trigger('click');
 
           if (!addToLibrary) {
-            var item = '(' + nid + ')';
-
-            // Multiple values.
-            var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
-            var nids = jQuery('#related-documents', parent.window.document).val();
-            if (value.indexOf(item) == -1) {
-              value = value ? value + ', ' + item : item;
-              nids = nids ? nids + ',' + nid : nid;
-            }
-
-            jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
-            jQuery('#related-documents', parent.window.document).val(nids).trigger('click');
-
-
             parent.Drupal.overlay.close();
           }
           else {

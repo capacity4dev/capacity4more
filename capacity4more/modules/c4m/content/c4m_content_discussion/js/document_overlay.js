@@ -1,5 +1,6 @@
 (function ($) {
 
+  console.log('here');
   $(document).on('click', function(event) {
     var $target = $(event.target);
     if ($target.is('a') && $target.parent().is('h2')) {
@@ -33,6 +34,24 @@
 
       parent.Drupal.overlay.close();
     }
+    else if ($target.is('button') && $target.val() == 'Save') {
+
+    }
+    else if ($target.is('button') && $target.val() == 'Delete') {
+
+//      var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+//      var ids = $('#related-documents', parent.window.document).val();
+//
+//        value = value;
+//        ids = ids ? ids + ',' + nid : nid;
+//
+//      $('#edit-c4m-related-document-und', parent.window.document).val(value);
+//      $('#related-documents', parent.window.document).val(ids).trigger('click');
+//
+//      parent.Drupal.overlay.close();
+
+    }
+
   });
 
 })(jQuery);
