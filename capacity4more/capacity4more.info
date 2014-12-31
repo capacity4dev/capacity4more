@@ -15,7 +15,7 @@ dependencies[] = list
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
-;dependencies[] = overlay
+dependencies[] = overlay
 dependencies[] = path
 dependencies[] = statistics
 dependencies[] = taxonomy
@@ -48,6 +48,7 @@ dependencies[] = link
 ;dependencies[] = message
 
 dependencies[] = module_filter
+dependencies[] = inline_entity_form
 dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_context

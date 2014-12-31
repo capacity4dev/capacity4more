@@ -8,8 +8,6 @@ include_once 'c4m_content_discussion.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_content().
- *
- * @return array
  */
 function c4m_content_discussion_c4m_og_vocab_info_content() {
   return array(
@@ -22,6 +20,186 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function c4m_content_discussion_field_widget_info() {
+  $widgets['c4m_add_document'] = array(
+    'label' => t('C4M Document'),
+    'description' => t('Load new document or select existing.'),
+    'field types' => array('entityreference'),
+    'settings' => array(
+      'match_operator' => 'CONTAINS',
+      'size' => 60,
+      'path' => '',
+    ),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+    ),
+  );
+
+  return $widgets;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add our own submit handler as the last one.
+ */
+function c4m_content_discussion_form_document_node_form_alter(&$form, $form_state) {
+  if (strpos(url(current_path()), 'overlay')) {
+    // If this is overlay page - add our own submit handler.
+    $form['actions']['submit']['#submit'][] = 'c4m_content_discussion_form_document_node_form_submit';
+  }
+}
+
+/**
+ * Form Submit; Do not redirect the overlay to the node page after submit.
+ */
+function c4m_content_discussion_form_document_node_form_submit($form, &$form_state) {
+  $form_state['redirect'] = current_path() . '/close_overlay';
+}
+
+/**
+ * Implements hook_overlay_child_initialize().
+ */
+function c4m_content_discussion_overlay_child_initialize() {
+  $item = menu_get_item();
+  // If this is overlay page - do not refresh the parent page in order not to
+  // loose previous changes.
+  if (strpos($item['path'], 'overlay') !== FALSE) {
+    $_SESSION['overlay_refresh_parent'] = FALSE;
+  }
+}
+
+/**
+ * hook_module_implements_alter(&$implementations, $hook)
+ *
+ * Change the execution order of the hook_overlay_child_initialize().
+ */
+function c4m_content_discussion_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'overlay_child_initialize') {
+    $c4m_content_discussion = $implementations['c4m_content_discussion'];
+    unset($implementations['c4m_content_discussion']);
+    $implementations['c4m_content_discussion'] = $c4m_content_discussion;
+  }
+}
+
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
+
+  if (!$entity) {
+    return;
+  }
+
+  // Add the angular directive.
+  $directive = theme('c4m_content_discussion_document_widget', array());
+  $form['add_document'] = array(
+    '#markup' => $directive,
+    '#weight' => $instance['widget']['weight'],
+  );
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+  // PURL options.
+  $options_context = array(
+    'purl' => array(
+      'disabled' => FALSE,
+    ),
+    'absolute' => TRUE,
+  );
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'data' => array(
+      'purl' => url('', $options_context),
+    )
+  );
+
+  drupal_add_js($settings, 'setting');
+
+  // Add autocomplete widget, that will be hidden.
+  $instance['widget']['type'] = 'entityreference_autocomplete_tags';
+  $instance['widget']['active'] = 1;
+
+  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
+  $form['#attributes']['class'][] = 'drupal-form';
+
+  unset($element['#weight']);
+  $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  $element['#element_validate'] = array('c4m_content_discussion_entityreference_autocomplete_tags_validate');
+  $element['#title'] = '';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
+  return $element;
+}
+
+/**
+ * Redefines the _entityreference_autocomplete_tags_validate(). *
+ * Makes possible to write in the inout only ids without labels.
+ */
+function c4m_content_discussion_entityreference_autocomplete_tags_validate($element, &$form_state, $form) {
+  $value = array();
+  // If a value was entered into the autocomplete...
+  if (!empty($element['#value'])) {
+    $entities = drupal_explode_tags($element['#value']);
+    $value = array();
+    foreach ($entities as $entity) {
+      // Take "label (entity id)', match the id from parenthesis.
+      if (preg_match("/.*\((\d+)\)/", $entity, $matches)) {
+        $value[] = array(
+          'target_id' => $matches[1],
+        );
+      }
+      else {
+        // Try to get a match from the input string when the user didn't use the
+        // autocomplete but filled in a value manually.
+        $field = field_info_field($element['#field_name']);
+        $handler = entityreference_get_selection_handler($field);
+        $value[] = array(
+          'target_id' => $handler->validateAutocompleteInput($entity, $element, $form_state, $form),
+        );
+      }
+    }
+
+  }
+  // Update the value of this element so the field can validate the product IDs.
+  form_set_value($element, $value, $form_state);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_discussion_theme() {
+  $theme['c4m_content_discussion_document_widget'] = array(
+    'template' => 'c4m_document_widget',
+    'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
+    'variables' => array(
+      'vocabulary_name' => NULL,
+    ),
+  );
+
+  $theme['c4m_content_discussion_add_document'] = array(
+    'template' => 'c4m_content_discussion_add_document',
+    'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
+    'variables' => array(
+      'file_id' => NULL,
+      'file' => NULL,
+    ),
+  );
+
+  return $theme;
 }
 
 /**
@@ -42,4 +220,108 @@ function c4m_content_discussion_entity_type_label($variables) {
   $variables['return'] = $object_wrapper->c4m_discussion_type->value();
 
   return $variables;
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Add a custom menu alter for editing nodes which simply can be opened via
+ * overlay.
+ *
+ * @see c4m_content_discussion_admin_paths_alter().
+ */
+function c4m_content_discussion_menu_alter(&$items) {
+  $items['overlay-node/%node/edit'] = $items['node/%node/edit'];
+}
+
+function c4m_content_discussion_admin_paths() {
+  $paths = array(
+    '*/overlay/*' => TRUE,
+    'overlay/*' => TRUE,
+    '*/overlay-file/*' => TRUE,
+    'overlay-file/*' => TRUE,
+    '*/node/*/edit' => TRUE,
+    'overlay-node/*' =>TRUE,
+  );
+  return $paths;
+}
+
+/**
+ * Implements hook_preprocess_page().
+ *
+ * Attach the Javascript to the overlay pages.
+ */
+function c4m_content_discussion_preprocess_page($vars) {
+  if (strpos(current_path(), 'overlay') !== FALSE) {
+    drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_discussion_menu() {
+  $items['overlay-file/%'] = array(
+    'page callback' => 'c4m_content_discussion_add_document_file',
+    'access callback' => TRUE,
+    'page arguments' => array(1),
+  );
+  return $items;
+}
+
+/**
+ * Renders pre-create document form.
+ *
+ * @param $file_id
+ *  Document's file id.
+ *
+ * @return string
+ *  Return formatted html of the overlay-file page.
+ */
+function c4m_content_discussion_add_document_file($file_id) {
+  $file = file_load($file_id);
+  // Get file view.
+  $file_view = file_view($file);
+  $variables = array(
+    'file_id' => $file_id,
+    'file' => drupal_render($file_view, 'teaser'),
+  );
+
+  // Get group context or use the default one.
+  // @todo: Which group is the default one?
+  $context = og_context();
+  $group_id = $context ? $context['gid'] : 7;
+
+  // Get fields for the documents.
+  $handler = restful_get_restful_handler('documents');
+  // Send the fields to the app as separate objects by resource (for validation on submit.)
+  $field_schema['resources']['documents'] = $handler->options('', array('group' => $group_id));
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+  // PURL options.
+  $options_context = array(
+    'purl' => array(
+      'disabled' => FALSE,
+    ),
+    'absolute' => TRUE,
+  );
+  $settings['c4m'] = array(
+    'field_schema' => $field_schema,
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'data' => array(
+      'groupID' => $group_id,
+      'purl' => url('', $options_context),
+    )
+  );
+
+  drupal_add_js($settings, 'setting');
+
+  return theme('c4m_content_discussion_add_document', $variables);
 }

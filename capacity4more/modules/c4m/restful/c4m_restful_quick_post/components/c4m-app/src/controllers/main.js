@@ -8,9 +8,6 @@ angular.module('c4mApp')
     // Checking if this is full form or not.
     $scope.fullForm = DrupalSettings.getData('full_form');
 
-    // Getting all existing documents.
-    $scope.documents = DrupalSettings.getDocuments();
-
     //Getting node id if we are editing node.
     $scope.id = $scope.data.entityId;
 
@@ -58,7 +55,10 @@ angular.module('c4mApp')
      * The refresh rate is scope.refreshRate.
      */
     $scope.refresh = function() {
-      $scope.addNewActivities('newActivities');
+      // Refresh only if there is activity stream in the page.
+      if (typeof($scope.resources) != "undefined") {
+        $scope.addNewActivities('newActivities');
+      }
     };
     // Start the activity stream refresh.
     $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
