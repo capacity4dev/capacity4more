@@ -7,7 +7,7 @@
  * # A list of related to the discussion documents.
  */
 angular.module('c4mApp')
-  .directive('relatedDocuments', function (DrupalSettings, $window, $log, EntityResource) {
+  .directive('relatedDocuments', function (DrupalSettings, $window, EntityResource) {
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/documents/documents.html',
       restrict: 'E',
@@ -30,6 +30,7 @@ angular.module('c4mApp')
           var documents = {};
           angular.forEach(relatedDocuments, function(value, key) {
 
+            // Get all field values of the document.
             EntityResource.getEntityData('documents', value).success( function (data, status) {
               documents[key] = data.data[0];
               // Format file size.
@@ -39,6 +40,7 @@ angular.module('c4mApp')
           return documents;
         };
 
+        // Get the click event form the overlay and update related documents.
         element.parents('#discussion-node-form').find('#related-documents').on('click', function (event) {
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
@@ -63,16 +65,18 @@ angular.module('c4mApp')
           if (index != -1) {
             scope.relatedDocuments.splice(index, 1);
           }
-          var value = jQuery('#edit-c4m-related-document-und').val();
+
+          // Remove value from the widget's inputs.
+          var value = angular.element('#edit-c4m-related-document-und').val();
           value = value.replace('(' + id + '), ', '');
           value = value.replace('(' + id + ')', '');
 
-          var ids =jQuery('#related-documents').val();
+          var ids = angular.element('#related-documents').val();
           ids = ids.replace(id + ', ', '');
           ids = ids.replace(id, '');
 
-          jQuery('#edit-c4m-related-document-und').val(value);
-          jQuery('#related-documents').val(ids);
+          angular.element('#edit-c4m-related-document-und').val(value);
+          angular.element('#related-documents').val(ids);
         };
       }
     };

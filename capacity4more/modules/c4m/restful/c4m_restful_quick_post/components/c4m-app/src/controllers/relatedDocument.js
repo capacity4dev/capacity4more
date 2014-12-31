@@ -5,14 +5,9 @@ angular.module('c4mApp')
 
     $scope.data.relatedDocuments = [];
 
-    $scope.relatedIds = '';
-
     $scope.baseUrl = DrupalSettings.getBasePath();
 
     $scope.model = {};
-
-    // Getting all existing documents.
-    $scope.documents = DrupalSettings.getDocuments();
 
     /**
      * Create document node.
@@ -60,7 +55,7 @@ angular.module('c4mApp')
 
           var item = '(' + nid + ')';
 
-          // Multiple values.
+          // Add the value we get in the hidden inputs in the parent page.
           var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
           var nids = jQuery('#related-documents', parent.window.document).val();
           if (value.indexOf(item) == -1) {
@@ -72,15 +67,19 @@ angular.module('c4mApp')
           jQuery('#related-documents', parent.window.document).val(nids).trigger('click');
 
           if (!addToLibrary) {
+            // Save document and go to the parent page.
             parent.Drupal.overlay.close();
           }
           else {
+            // Save document and go to its edit page to add more data.
             parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-node/' + nid + '/edit' + '?render=overlay');
           }
-
         });
     };
 
+    /**
+     * Close the overlay.
+     */
     $scope.closeOverlay = function() {
       parent.Drupal.overlay.close();
     };

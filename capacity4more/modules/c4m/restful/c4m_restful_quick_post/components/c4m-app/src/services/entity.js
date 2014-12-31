@@ -9,6 +9,17 @@
 angular.module('c4mApp')
   .service('EntityResource', function(DrupalSettings, Request, $http) {
 
+    /**
+     * Get the entity by id.
+     *
+     * @param resource
+     *  The bundle of the entity
+     * @param entityId
+     *  The node id.
+     *
+     * @returns {*}
+     *  JSON of the entity.
+     */
     this.getEntityData = function(resource, entityId) {
       var url = DrupalSettings.getBasePath() + 'api/' + resource;
 

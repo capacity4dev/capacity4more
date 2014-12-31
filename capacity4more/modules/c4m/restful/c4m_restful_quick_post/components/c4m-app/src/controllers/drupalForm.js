@@ -10,18 +10,12 @@ angular.module('c4mApp')
       ids = val.match(/\d+(?=\))/g);
       jQuery('#related-documents').val(ids.join());
     }
+
     $scope.data.relatedDocuments = ids;
 
     $scope.baseUrl = DrupalSettings.getBasePath();
 
     $scope.model = {};
-
-    // Getting all existing documents.
-    $scope.documents = DrupalSettings.getDocuments() || [];
-
-    $scope.$on('addDocument', function(event, obj) {
-      $scope.documents.push(obj);
-    });
 
     $scope.values = DrupalSettings.getData('values');
 
@@ -101,4 +95,13 @@ angular.module('c4mApp')
         });
       }
     };
+
+
+    /**
+     * Opens the system's file browser.
+     */
+    $scope.browseFiles = function() {
+      angular.element('#document_file').click();
+    };
+
   });
