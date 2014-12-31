@@ -54,7 +54,7 @@ Feature: Group content access
     And   I should see "Access denied"
 
   @javascript
-  Scenario: Check group privacy from restricted to restricted
+  Scenario: Check group privacy restriction
     Given a moderated group "My restricted to restricted group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
     And   a discussion "Content in restricted to restricted group" in group "My restricted to restricted group" is created
