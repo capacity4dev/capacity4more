@@ -81,8 +81,30 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     return;
   }
 
+  // Add autocomplete widget, that will be hidden.
+  $instance['widget']['type'] = 'entityreference_autocomplete_tags';
+  $instance['widget']['active'] = 1;
+
+  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
+  $form['#attributes']['class'][] = 'drupal-form';
+
+  unset($element['#weight']);
+  $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  $element['#element_validate'] = array('c4m_content_discussion_entityreference_autocomplete_tags_validate');
+  $element['#title'] = '';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
+
+
   // Add the angular directive.
-  $directive = theme('c4m_content_discussion_document_widget', array());
+  $default_value = $element['#default_value'];
+
+  $default_values = array();
+  preg_match_all("/\((\d+)\)/", $default_value, $default_values);
+
+  $default_value = implode(',', $default_values[1]);
+
+  $directive = theme('c4m_content_discussion_document_widget', array('default_value' => $default_value));
   $form['add_document'] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
@@ -107,24 +129,12 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'data' => array(
       'purl' => url('', $options_context),
+      'relatedDocuments' => $default_values[1],
     )
   );
 
   drupal_add_js($settings, 'setting');
 
-  // Add autocomplete widget, that will be hidden.
-  $instance['widget']['type'] = 'entityreference_autocomplete_tags';
-  $instance['widget']['active'] = 1;
-
-  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
-  $form['#attributes']['class'][] = 'drupal-form';
-
-  unset($element['#weight']);
-  $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
-  $element['#element_validate'] = array('c4m_content_discussion_entityreference_autocomplete_tags_validate');
-  $element['#title'] = '';
-  $element['#prefix'] = '<div class="ng-hide">';
-  $element['#suffix'] = '</div>';
   return $element;
 }
 
@@ -170,7 +180,7 @@ function c4m_content_discussion_theme() {
     'template' => 'c4m_document_widget',
     'path' => drupal_get_path('module', 'c4m_content_discussion') . '/templates',
     'variables' => array(
-      'vocabulary_name' => NULL,
+      'default_value' => NULL,
     ),
   );
 

@@ -17,5 +17,5 @@
 
   <related-documents related-documents="data.relatedDocuments"></related-documents>
 
-  <input type="text" id="related-documents" ng-hide="true">
+  <input type="text" id="related-documents" ng-hide="true" value="<?php print $default_value; ?>">
 </div>

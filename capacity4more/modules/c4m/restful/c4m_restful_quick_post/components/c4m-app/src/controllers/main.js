@@ -56,7 +56,7 @@ angular.module('c4mApp')
      */
     $scope.refresh = function() {
       // Refresh only if there is activity stream in the page.
-      if (typeof($scope.resources) != "undefined") {
+      if (typeof($scope.resources) != 'undefined') {
         $scope.addNewActivities('newActivities');
       }
     };
