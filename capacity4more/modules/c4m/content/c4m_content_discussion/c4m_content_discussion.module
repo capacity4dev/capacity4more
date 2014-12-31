@@ -263,8 +263,8 @@ function c4m_content_discussion_menu() {
  *  Document's file id
  *
  * @return boolean
- * Return true if user has access at list to one node with the current file.
- * Otherwise return false.
+ *  Return true if user has access at list to one node with the current file.
+ *  Otherwise return false.
  */
 function c4m_content_discussion_check_file_access($file_id) {
 
@@ -314,7 +314,6 @@ function c4m_content_discussion_add_document_file($file_id) {
   );
 
   // Get group context or use the default one.
-  // @todo: Which group is the default one?
   $context = og_context();
   if (!$context) {
     // There is no og context.
