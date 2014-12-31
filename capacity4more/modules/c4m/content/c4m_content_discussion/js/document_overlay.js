@@ -1,11 +1,14 @@
 (function ($) {
 
   $(document).on('click', function(event) {
+    // Get the element that was clicked.
     var $target = $(event.target);
-    // Click on the title of the node in the overlay page.
+
     if ($target.is('a') && $target.parent().is('h2')) {
+      // Click on the title of the node in the library overlay page.
       var parents = $target.parents();
       var nids = [];
+      // Find the parent element with node id in the element's id.
       $.each(parents, function(index, value) {
         var id = value.id;
 
@@ -14,11 +17,15 @@
         }
       });
 
+      // Node id was not found.
+      if (!nids[0]) {
+        return;
+      }
+      // More then one were found. Take the main one.
       nids.reverse();
+      var nid = nids[0];
 
-      // Get the node id.
-      var nid = nids[0] || 0;
-
+      // Prepare the values for the widget input.
       var item = '(' + nid + ')';
 
       // Put values in the hidden inputs in the parent page.
@@ -49,12 +56,11 @@
       $('#related-documents', parent.window.document).val(ids).trigger('click');
 
       parent.Drupal.overlay.close();
-
     }
 
   });
 
-  // Catch url changing. If needed - close the overlay.
+  // Catch url changing. If close_overlay appeared - close the overlay.
   $(parent.window).bind('hashchange', function() {
     if (parent) {
       if (parent.window.location.hash.indexOf('close_overlay') != -1) {
