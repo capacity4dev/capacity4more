@@ -62,25 +62,57 @@ angular.module('c4mApp')
     };
 
     $scope.$watch('data.tags', function() {
-      //var formElement = angular.element('.node-form');
-      //var input = angular.element('<input type="hidden" name="og_vocabulary[und][0][' + $scope.tagIds + ']" value="' + $scope.data.tags[0].text + ' (' + $scope.data.tags[0].id + ')"/>');
-      //formElement.append(input);
+
+      var tags = [];
+      angular.forEach ($scope.data.tags, function(tag) {
+        if (!tag.isNew) {
+          tags.push(tag.text + ' (' + tag.id + ')');
+        }
+      });
+      angular.element('#edit-og-vocabulary-und-0-22').val(tags.join(', '));
     });
 
+    /**
+     * Update the checkboxes in the Drupal form,
+     * We have to fill the fields according to the name of the field because
+     * It's more accurate and we have conflicting values,
+     * But in the case of "og_vocab", The structure of the field name is different
+     * and we update it according to the value instead.
+     *
+     * @param key
+     *  The ID of the term that was changed.
+     *
+     * @param vocab
+     *  The name of the vocab.
+     */
     function updateTerms(key, vocab) {
-      // Check/uncheck the checkbox in the drupal form.
       if($scope.model[vocab][key]) {
-        angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", true);
+        if (vocab == 'categories') {
+          angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
+        }
+        else {
+          angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", true);
+        }
       }
       else {
-        angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+        if (vocab == 'categories') {
+          angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
+        }
+        else {
+          angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+        }
         if (key in $scope.data[vocab]) {
           angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
             var childID = child.id;
 
             if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
               $scope.model[vocab][childID] = false;
-              angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+              if (vocab == 'categories') {
+                angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
+              }
+              else {
+                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+              }
             }
           });
         }
