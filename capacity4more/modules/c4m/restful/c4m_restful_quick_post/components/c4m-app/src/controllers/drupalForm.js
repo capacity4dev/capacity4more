@@ -21,7 +21,9 @@ angular.module('c4mApp')
 
     $scope.basePath = DrupalSettings.getBasePath();
 
-    $scope.tagIds = 14;
+    $scope.tagsId = DrupalSettings.getData('tags_id');
+
+    $scope.data.tags = DrupalSettings.getData('tags');
 
     $scope.values = DrupalSettings.getData('values');
 
@@ -62,14 +64,17 @@ angular.module('c4mApp')
     };
 
     $scope.$watch('data.tags', function() {
-
       var tags = [];
+      var inital_tags = $scope.selectedTags ? $scope.selectedTags + ', ' : '';
       angular.forEach ($scope.data.tags, function(tag) {
         if (!tag.isNew) {
           tags.push(tag.text + ' (' + tag.id + ')');
         }
+        else {
+          tags.push(tag.text);
+        }
       });
-      angular.element('#edit-og-vocabulary-und-0-22').val(tags.join(', '));
+      angular.element('#edit-og-vocabulary-und-0-' + $scope.tagsId).val(inital_tags + tags.join(', '));
     });
 
     /**

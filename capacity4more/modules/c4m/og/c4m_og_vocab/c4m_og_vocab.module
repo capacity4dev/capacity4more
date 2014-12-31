@@ -148,13 +148,18 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $all_group_vocabularies = c4m_og_vocab_info('groups');
 
   $terms = array();
+  $tags_id = 0;
   // Iterate over all possible (enabled) vocabularies for our group type.
   foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
     // Load vocabulary.
     $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
     $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
     if ($vocabulary == 'c4m_vocab_category') {
-      $terms = taxonomy_get_tree($og_vocab->vid);
+      $terms['categories'] = taxonomy_get_tree($og_vocab->vid);
+    }
+    else {
+      $terms['tags'] = taxonomy_get_tree($og_vocab->vid);
+      $tags_id = $group_vocab->vid;
     }
     $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
   }
@@ -178,11 +183,11 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $settings['c4m']['data']['group'] = $group->nid;
 
-  // For the "taxonomy" widget.
-  $vocabulary_name = 'categories';
+  $settings['c4m']['data']['tags_id'] = $tags_id;
 
+  // For the "taxonomy" widget.
   $options = array();
-  foreach($terms as $term) {
+  foreach($terms['categories'] as $term) {
     $parents = $term->parents;
     if ($parents[0] == '0') {
       $options[$term->tid]['label'] = check_plain($term->name);
@@ -194,9 +199,8 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
         'id' => $term->tid,
       );
     }
+    $settings['c4m']['data']['vocabularies']['categories'] = $options;
   }
-
-  $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
 
   $taxonomy_values = array();
   if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
@@ -206,8 +210,27 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
       $taxonomy_values[$value['target_id']] = true;
     }
 
-    $settings['c4m']['data']['values'][$vocabulary_name] = $taxonomy_values;
+    $settings['c4m']['data']['values']['categories'] = $taxonomy_values;
   }
+
+  // Send the tags to the AngularJs if we have values (On edit page).
+  $tags = array();
+  foreach($terms['tags'] as $term) {
+    if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
+      $values = $entity->og_vocabulary;
+      foreach ($values[LANGUAGE_NONE] as $value) {
+        // This is node/edit page. Need to send field values to the app.
+        if ($term->tid == $value['target_id']) {
+          $tags[] = array(
+            'isNew' => false,
+            'text' => $term->name,
+            'id' => $term->tid,
+          );
+        }
+      }
+    }
+  }
+  $settings['c4m']['data']['tags'] = $tags;
 
   // Send all the settings to the app.
   drupal_add_js($settings, 'setting');
@@ -229,8 +252,8 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
-  $element['#prefix'] = '<div class="ng-hide">';
-  $element['#suffix'] = '</div>';
+  //$element['#prefix'] = '<div class="ng-hide">';
+  //$element['#suffix'] = '</div>';
 
   return $element;
 }
