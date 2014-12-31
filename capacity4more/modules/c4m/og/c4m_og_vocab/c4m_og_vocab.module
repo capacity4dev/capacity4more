@@ -159,9 +159,12 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
   }
 
-  // Add the settings for the AngularJs app.
+  // AngularJs widgets:
   // Needs the base url, current group ID, The "categories" taxonomy tree,
   // The values chosen for the "categories" in case of editing an entity.
+  // We call the global taxonomy widget for the categories,
+  // Building the necessary tree for this widget,
+  // Then we call the "tags" directive.
 
   // URL options.
   $options = array(
@@ -175,6 +178,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $settings['c4m']['data']['group'] = $group->nid;
 
+  // For the "taxonomy" widget.
   $vocabulary_name = 'categories';
 
   $options = array();
@@ -208,7 +212,8 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   // Send all the settings to the app.
   drupal_add_js($settings, 'setting');
 
-   //Add the directive.
+  // Add the directive.
+  // Add the "taxonomy" widget for the "categories" directive, Add the "ig_vocab" widget for "tags" directive.
   $directives = theme('c4m_vocab_language_taxonomy_widget', array('vocabulary_name' => 'categories')).theme('c4m_og_vocab_widget', array());
 
   $form['directive-tags'] = array(
