@@ -44,34 +44,17 @@ function c4m_content_discussion_field_widget_info() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Add our own submit handler as the last one.
- */
-function c4m_content_discussion_form_document_node_form_alter(&$form, $form_state) {
-  if (strpos(url(current_path()), 'overlay')) {
-    // If this is overlay page - add our own submit handler.
-    $form['actions']['submit']['#submit'][] = 'c4m_content_discussion_form_document_node_form_submit';
-  }
-}
-
-/**
- * Form Submit; Do not redirect the overlay to the node page after submit.
- */
-function c4m_content_discussion_form_document_node_form_submit($form, &$form_state) {
-  $form_state['redirect'] = current_path() . '/close_overlay';
-}
-
-/**
  * Implements hook_overlay_child_initialize().
  */
 function c4m_content_discussion_overlay_child_initialize() {
   $item = menu_get_item();
   // If this is overlay page - do not refresh the parent page in order not to
   // loose previous changes.
-  if (strpos($item['path'], 'overlay') !== FALSE) {
+  if ($item['path'] == 'overlay-node/%/edit') {
     $_SESSION['overlay_refresh_parent'] = FALSE;
   }
+  // Add specific for overlay pages javascript.
+  drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
 }
 
 /**
@@ -146,8 +129,9 @@ function c4m_content_discussion_field_widget_form(&$form, &$form_state, $field, 
 }
 
 /**
- * Redefines the _entityreference_autocomplete_tags_validate(). *
- * Makes possible to write in the inout only ids without labels.
+ * Redefines the _entityreference_autocomplete_tags_validate().
+ *
+ * Only nids in the input are now required.
  */
 function c4m_content_discussion_entityreference_autocomplete_tags_validate($element, &$form_state, $form) {
   $value = array();
@@ -234,6 +218,9 @@ function c4m_content_discussion_menu_alter(&$items) {
   $items['overlay-node/%node/edit'] = $items['node/%node/edit'];
 }
 
+/**
+ * Implements hook_admin_paths().
+ */
 function c4m_content_discussion_admin_paths() {
   $paths = array(
     '*/overlay/*' => TRUE,
@@ -244,17 +231,6 @@ function c4m_content_discussion_admin_paths() {
     'overlay-node/*' =>TRUE,
   );
   return $paths;
-}
-
-/**
- * Implements hook_preprocess_page().
- *
- * Attach the Javascript to the overlay pages.
- */
-function c4m_content_discussion_preprocess_page($vars) {
-  if (strpos(current_path(), 'overlay') !== FALSE) {
-    drupal_add_js(drupal_get_path('module', 'c4m_content_discussion') . '/js/document_overlay.js');
-  }
 }
 
 /**
@@ -290,7 +266,11 @@ function c4m_content_discussion_add_document_file($file_id) {
   // Get group context or use the default one.
   // @todo: Which group is the default one?
   $context = og_context();
-  $group_id = $context ? $context['gid'] : 7;
+  if (!$context) {
+    // There is no og context.
+    return;
+  }
+  $group_id = $context['gid'];
 
   // Get fields for the documents.
   $handler = restful_get_restful_handler('documents');
