@@ -159,6 +159,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
   }
 
+  // Add the settings for the AngularJs app.
+  // Needs the base url, current group ID, The "categories" taxonomy tree,
+  // The values chosen for the "categories" in case of editing an entity.
+
   // URL options.
   $options = array(
     'purl' => array(
@@ -170,6 +174,8 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['basePath'] = url('', $options);
 
   $settings['c4m']['data']['group'] = $group->nid;
+
+  $vocabulary_name = 'categories';
 
   $options = array();
   foreach($terms as $term) {
@@ -185,12 +191,25 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
       );
     }
   }
-  $settings['c4m']['data']['vocabularies']['categories'] = $options;
 
+  $settings['c4m']['data']['vocabularies'][$vocabulary_name] = $options;
+
+  $taxonomy_values = array();
+  if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
+    $values = $entity->og_vocabulary;
+    foreach ($values[LANGUAGE_NONE] as $value) {
+      // This is node/edit page. Need to send field values to the app.
+      $taxonomy_values[$value['target_id']] = true;
+    }
+
+    $settings['c4m']['data']['values'][$vocabulary_name] = $taxonomy_values;
+  }
+
+  // Send all the settings to the app.
   drupal_add_js($settings, 'setting');
 
    //Add the directive.
-  $directives = theme('c4m_vocab_language_taxonomy_widget', array('vocabulary_name' => 'categories')).theme('c4m_vocab_og_widget', array());
+  $directives = theme('c4m_vocab_language_taxonomy_widget', array('vocabulary_name' => 'categories')).theme('c4m_og_vocab_widget', array());
 
   $form['directive-tags'] = array(
     '#markup' => $directives,
@@ -203,6 +222,19 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $element['#suffix'] = '</div>';
 
   return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_og_vocab_theme() {
+  $theme['c4m_og_vocab_widget'] = array(
+    'template' => 'c4m_og_vocab_widget',
+    'path' => drupal_get_path('module', 'c4m_og_vocab') . '/templates',
+    'variables' => array(),
+  );
+
+  return $theme;
 }
 
 /**
