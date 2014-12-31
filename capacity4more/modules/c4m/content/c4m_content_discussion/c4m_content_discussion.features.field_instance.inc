@@ -246,7 +246,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'active' => 1,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 5,
     ),
   );
@@ -296,7 +296,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'active' => 1,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_select',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 7,
     ),
   );
@@ -346,7 +346,7 @@ function c4m_content_discussion_field_default_field_instances() {
       'active' => 1,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 9,
     ),
   );

@@ -10,7 +10,7 @@ angular.module('c4mApp')
     // Get related to the discussion documents.
     var val = jQuery('#edit-c4m-related-document-und').val();
     var ids = [];
-    if (val.length > 0) {
+    if (val && val.length > 0) {
       ids = val.match(/\d+(?=\))/g);
       jQuery('#related-documents').val(ids.join());
     }
