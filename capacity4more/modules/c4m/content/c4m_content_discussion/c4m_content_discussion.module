@@ -249,10 +249,47 @@ function c4m_content_discussion_admin_paths() {
 function c4m_content_discussion_menu() {
   $items['overlay-file/%'] = array(
     'page callback' => 'c4m_content_discussion_add_document_file',
-    'access callback' => TRUE,
+    'access callback' => 'c4m_content_discussion_check_file_access',
     'page arguments' => array(1),
+    'access arguments' => array(1),
   );
   return $items;
+}
+
+/**
+ * Check if user has access to the current file.
+ *
+ * @param $file_id
+ *  Document's file id
+ *
+ * @return boolean
+ * Return true if user has access at list to one node with the current file.
+ * Otherwise return false.
+ */
+function c4m_content_discussion_check_file_access($file_id) {
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('type', 'document')
+    ->fieldCondition('c4m_document', 'fid', $file_id);
+  $result = $query->execute();
+
+  if (!$result) {
+    // This is new file, that user has just added.
+    return TRUE;
+  }
+  $documents = array_keys($result['node']);
+  foreach ($documents as $document) {
+    if (node_access('view', $document)) {
+      // User has access to at list one node with the current file so he has
+      // access to the file.
+      return TRUE;
+    }
+  }
+  // User doesn't have access to the file.
+  return FALSE;
 }
 
 /**

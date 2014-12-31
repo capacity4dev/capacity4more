@@ -44,7 +44,7 @@ angular.module('c4mApp')
         element.parents('#discussion-node-form').find('#related-documents').on('click', function (event) {
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
-            var ids = val.split(",");
+            var ids = val.split(',');
             scope.relatedDocuments = ids;
             scope.data = scope.updateDocumentsData(scope.relatedDocuments);
           });
