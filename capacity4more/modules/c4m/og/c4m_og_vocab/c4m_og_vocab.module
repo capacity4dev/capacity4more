@@ -252,8 +252,8 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
-  //$element['#prefix'] = '<div class="ng-hide">';
-  //$element['#suffix'] = '</div>';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
 
   return $element;
 }
