@@ -88,6 +88,9 @@ angular.module('c4mApp')
      *   The form schema if exists, or an empty object.
      */
     this.getData = function(id) {
+      if (!angular.isDefined(self.settings.c4m.data)) {
+        return {};
+      }
       return (angular.isDefined(self.settings.c4m.data[id])) ? self.settings.c4m.data[id] : {};
     }
   });

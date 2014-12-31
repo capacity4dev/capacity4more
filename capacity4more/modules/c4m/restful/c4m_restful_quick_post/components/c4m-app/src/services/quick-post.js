@@ -53,6 +53,12 @@ angular.module('c4mApp')
       // Minute step.
       scope.mstep = 1;
 
+      scope.data.location = {};
+      scope.data.location.street = '';
+      scope.data.location.city = '';
+      scope.data.location.postal_code = '';
+      scope.data.location.country_name = '';
+
       return scope;
     };
 
@@ -245,7 +251,7 @@ angular.module('c4mApp')
         }
       }, popups);
       // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.srcElement).outerWidth();
+      var elem_width = angular.element(event.currentTarget).outerWidth();
       var elemPosition = angular.element(event.target).offset();
       var elemParentPosition = angular.element(event.target).parent().offset();
       // Toggle the visibility variable.

@@ -4,16 +4,16 @@
  * Code for the Group banner content type feature.
  */
 
-include_once 'c4m_content_group_banner.features.inc';
+include_once 'c4m_content_banner.features.inc';
 
 /**
  *  Implements hook_views_default_views_alter().
  *
  * Adds a custom display to the contrib view "Media browser (File)",
  * The display is responsible for displaying the Group's banner image browser,
- * The Group's banner images library is a content type "group_banner".
+ * The Group's banner images library is a content type "banner".
  */
-function c4m_content_group_banner_views_default_views_alter(&$views)
+function c4m_content_banner_views_default_views_alter(&$views)
 {
   if (!isset($views['media_default'])) {
     return;
@@ -46,6 +46,6 @@ function c4m_content_group_banner_views_default_views_alter(&$views)
   $handler->display->display_options['filters']['type_2']['field'] = 'type';
   $handler->display->display_options['filters']['type_2']['relationship'] = 'reverse_c4m_banner_node';
   $handler->display->display_options['filters']['type_2']['value'] = array(
-    'group_banner' => 'group_banner',
+    'banner' => 'banner',
   );
 }

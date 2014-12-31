@@ -27,11 +27,10 @@ trait Activity {
    * @Then /^I should see "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeInTheActivityStreamOfTheGroup($text, $group) {
-    // Using underscore temporary.
-    $url = strtolower(str_replace(' ', '_', trim($group)));
+    $url = strtolower(str_replace(' ', '-', trim($group)));
     $steps = array();
     $steps[] = new Step\When("I go to \"$url\"");
-    $steps[] = new Step\When('I should see "' . $text . '" in the "div.pane-activity-stream" element');
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
 
     return $steps;
   }
@@ -40,7 +39,7 @@ trait Activity {
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    $url = strtolower(str_replace(' ', '_', trim($group)));
+    $url = strtolower(str_replace(' ', '-', trim($group)));
     $steps = array();
     $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
@@ -55,10 +54,9 @@ trait Activity {
    */
   public function iShouldSeeACreationMessageForInTheActivityStreamOfTheGroup($title, $group) {
     // Generate URL from title.
-    $url = strtolower(str_replace(' ', '_', trim($group)));
+    $url = strtolower(str_replace(' ', '-', trim($group)));
 
     $steps = array();
-
     $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
@@ -71,7 +69,7 @@ trait Activity {
    * @Given /^I should see a new message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeANewMessageForInTheActivityStreamOfTheGroup($title, $group) {
-    $url = strtolower(str_replace(' ', '_', trim($group)));
+    $url = strtolower(str_replace(' ', '-', trim($group)));
     $steps = array();
     $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');

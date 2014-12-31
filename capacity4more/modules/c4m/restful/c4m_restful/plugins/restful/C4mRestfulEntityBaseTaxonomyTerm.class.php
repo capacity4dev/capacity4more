@@ -37,12 +37,12 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
       if (!$node) {
         throw new \RestfulBadRequestException('The "group" parameter is not a node.');
       }
-      elseif($node->type != 'group') {
+      elseif ($node->type != 'group') {
         throw new \RestfulBadRequestException('The "group" parameter is not a of type "group".');
       }
 
       $vocab_name = $resource_name == 'tags' ? 'Tags' : 'Categories';
-      if(!$og_vocab = c4m_restful_get_og_vocab_by_name('node', $node->nid, $vocab_name)) {
+      if (!$og_vocab = c4m_restful_get_og_vocab_by_name('node', $node->nid, $vocab_name)) {
         throw new \RestfulBadRequestException('The "group" does not have a "' . $vocab_name . '" vocabulary.');
       }
 

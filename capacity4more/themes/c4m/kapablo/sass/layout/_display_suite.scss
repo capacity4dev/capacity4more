@@ -1,11 +1,17 @@
 .icon-wrapper {
   .icon-col {
     float: left;
-    width: 35px;
-  }
 
+    .comment & {
+      width: 75px;
+    }
+  }
   .content-col {
     margin: 0 0 0 35px;
     padding-left: 15px;
+
+    .comment & {
+      margin-left: 75px;
+    }
   }
 }
