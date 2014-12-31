@@ -268,6 +268,7 @@ function c4m_content_discussion_menu() {
  */
 function c4m_content_discussion_check_file_access($file_id) {
 
+  // Get all references to the current file.
   $file_references = file_get_file_references(file_load($file_id));
   $image_references = file_get_file_references(file_load($file_id), NULL, FIELD_LOAD_REVISION, 'image');
 
@@ -276,12 +277,18 @@ function c4m_content_discussion_check_file_access($file_id) {
     // This is new file, that user has just added.
     return TRUE;
   }
-  foreach ($references as $field_name => $element) {
-    $entity = reset($element);
-    if (entity_access('view',$entity->type, $entity)) {
-      // User has access to at list one node with the current file so he has
-      // access to the file.
-      return TRUE;
+  foreach ($references as $element) {
+    foreach ($element as $type => $entity){
+      $entity = reset($entity);
+      if ($type != 'node') {
+        // Entity is not a node.
+        continue;
+      }
+      if (node_access('view', node_load($entity->nid))) {
+        // User has access to at list one node with the current file so he has
+        // access to the file.
+        return TRUE;
+      }
     }
   }
   // User doesn't have access to the file.
