@@ -14,29 +14,39 @@ angular.module('c4mApp')
 
     $scope.basePath = DrupalSettings.getBasePath();
 
+    // Get the Vocabulary ID of the curent group.
     $scope.tagsId = DrupalSettings.getData('tags_id');
 
+    // Get the selected tags (Only on edit page).
     $scope.data.tags = DrupalSettings.getData('tags');
 
+    // Get the selected values of the taxonomy-terms (Only on edit page).
     $scope.values = DrupalSettings.getData('values');
 
+    // Assign all the vocabularies to $scope.model.
     angular.forEach($scope.data, function(values, vocab) {
       $scope.model[vocab] = {};
     });
 
+    // When on an edit page, Add the values of the taxonomies to the $scope.model,
+    // This will unable us to show the selected values when opening an edit page.
     angular.forEach($scope.values, function(values, vocab) {
       angular.forEach(values, function(value, id) {
         $scope.model[vocab][id] = value;
       });
     });
 
+    // Creating the pop-ups according to the vocabulary that was sent to the controller.
     $scope.popups = [];
     angular.forEach($scope.data, function(value, key) {
       $scope.popups[key] = 0;
     });
 
+    // Copy the vocabularies to another variable,
+    // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
 
+    // Update the shown texonomies upon searching.
     $scope.updateSearch = function(vocab) {
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerm);
     };
@@ -46,19 +56,16 @@ angular.module('c4mApp')
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
-    // Close all popovers on "ESC" key press.
-    $scope.keyUpHandler = function(keyEvent) {
-      QuickPostService.keyUpHandler(keyEvent, $scope);
-    };
-
     // Getting matching tags.
     $scope.tagsQuery = function (query) {
       QuickPostService.tagsQuery(query, $scope);
     };
 
+    // Watch the "Tags" variable for changes,
+    // Add the selected tags to the hidden tags input,
+    // This way it can be saved in the Drupal Form.
     $scope.$watch('data.tags', function() {
       var tags = [];
-      var inital_tags = $scope.selectedTags ? $scope.selectedTags + ', ' : '';
       angular.forEach ($scope.data.tags, function(tag) {
         if (!tag.isNew) {
           tags.push(tag.text + ' (' + tag.id + ')');
@@ -67,7 +74,7 @@ angular.module('c4mApp')
           tags.push(tag.text);
         }
       });
-      angular.element('#edit-og-vocabulary-und-0-' + $scope.tagsId).val(inital_tags + tags.join(', '));
+      angular.element('#edit-og-vocabulary-und-0-' + $scope.tagsId).val(tags.join(', '));
     });
 
     /**
@@ -83,7 +90,7 @@ angular.module('c4mApp')
      * @param vocab
      *  The name of the vocab.
      */
-    function updateTerms(key, vocab) {
+    $scope.updateSelectedTerms = function(key, vocab) {
       if($scope.model[vocab][key]) {
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
@@ -115,18 +122,23 @@ angular.module('c4mApp')
           });
         }
       }
-    }
-
-    $scope.updateSelectedTerms = function(key, vocab) {
-      updateTerms(key, vocab);
     };
 
+    /**
+     *
+     * @param key
+     * @param vocab
+     */
     $scope.removeTaxonomyValue = function(key, vocab) {
       $scope.model[vocab][key] = false;
-      updateTerms(key, vocab);
+      $scope.updateSelectedTerms(key, vocab);
     };
-      // Call the keyUpHandler function on key-up.
-    $document.on('keyup', $scope.keyUpHandler);
+
+    // Call the keyUpHandler function on key-up.
+    // @TODO: Fix the close popups key event.
+    $document.on('keyup', function(event) {
+      QuickPostService.keyUpHandler(event, $scope);
+    });
 
     /**
      * Uploading document file.

@@ -269,12 +269,9 @@ angular.module('c4mApp')
     };
 
     // Close all popovers on "ESC" key press.
-    $scope.keyUpHandler = function(keyEvent) {
-      QuickPostService.keyUpHandler(keyEvent, $scope);
-    };
-
-    // Call the keyUpHandler function on key-up.
-    $document.on('keyup', $scope.keyUpHandler);
+    //$document.on('keyup', function(event) {
+    //  QuickPostService.keyUpHandler(event, $scope);
+    //});
 
     /**
      * Submit form.
