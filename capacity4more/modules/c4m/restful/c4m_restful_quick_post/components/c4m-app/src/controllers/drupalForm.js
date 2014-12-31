@@ -8,14 +8,7 @@ angular.module('c4mApp')
     $scope.data.group = DrupalSettings.getData('group');
 
     // Get related to the discussion documents.
-    var val = jQuery('#edit-c4m-related-document-und').val();
-    var ids = [];
-    if (val && val.length > 0) {
-      ids = val.match(/\d+(?=\))/g);
-      jQuery('#related-documents').val(ids.join());
-    }
-
-    $scope.data.relatedDocuments = ids;
+    $scope.data.relatedDocuments = DrupalSettings.getData('relatedDocuments');
 
     $scope.model = {};
 
