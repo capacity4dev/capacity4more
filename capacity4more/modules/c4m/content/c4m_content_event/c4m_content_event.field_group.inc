@@ -23,9 +23,9 @@ function c4m_content_event_field_group_info() {
     'label' => 'Documents',
     'weight' => '9',
     'children' => array(
-      0 => 'c4m_related_document',
-      1 => 'c4m_document_agenda',
-      2 => 'c4m_document_presentation',
+      0 => 'c4m_document_agenda',
+      1 => 'c4m_document_presentation',
+      2 => 'c4m_related_document',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -52,11 +52,10 @@ function c4m_content_event_field_group_info() {
     'label' => 'Metadata',
     'weight' => '12',
     'children' => array(
-      0 => 'c4m_vocab_date',
-      1 => 'c4m_vocab_language',
-      2 => 'og_vocabulary',
-      3 => 'c4m_related_topic',
-      4 => 'c4m_vocab_geo',
+      0 => 'c4m_related_topic',
+      1 => 'c4m_vocab_geo',
+      2 => 'c4m_vocab_language',
+      3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
