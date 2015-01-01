@@ -639,11 +639,11 @@ function c4m_message__update__node($node) {
       else {
         // When an existing item is updated within 6 hours after the initial
         // insert by the SAME user.
-        return;
+        return $message;
       }
     }
     else {
-      // Need to create new massage, not to update existing one.
+      // Need to create new message, not to update existing one.
       $values = array(
         'uid' => $user->uid,
         'timestamp' => $node->timestamp,
