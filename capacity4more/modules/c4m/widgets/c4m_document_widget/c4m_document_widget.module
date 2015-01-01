@@ -378,18 +378,19 @@ function c4m_document_widget_preprocess_node__document(&$variables) {
 
   $variables['document_data'] = t('Submitted by @user on @date', array('@user' => $user_name, '@date' => $date));
 
+  $image_params = array(
+    'attributes' => array('class' => array('img-responsive')),
+    'path' => 'missing_icon.png',
+  );
+
+  $variables['preview'] = theme('image', $image_params);
 
   $document = $node_wrapper->c4m_document->value();
   if (empty($document)) {
     // There is no file.
     $variables['file_info'] = '';
 
-    $image_params = array(
-      'attributes' => array('class' => array('img-responsive')),
-      'path' => 'missing_icon.png',
-    );
 
-    $variables['preview'] = theme('image', $image_params);
     return;
   }
 
@@ -404,15 +405,6 @@ function c4m_document_widget_preprocess_node__document(&$variables) {
       'attributes' => array('class' => array('img-responsive')),
       'path' => $file->uri,
     );
-    $variables['preview'] = theme('image', $image_params);
-  }
-  else {
-    // Put icon for the current file type.
-    $image_params = array(
-      'attributes' => array('class' => array('img-responsive')),
-      'path' => 'missing_icon.png',
-    );
-
     $variables['preview'] = theme('image', $image_params);
   }
 }
