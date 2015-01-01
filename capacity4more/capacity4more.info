@@ -135,3 +135,6 @@ dependencies[] = c4m_search_users
 
 ; Message
 dependencies[] = c4m_message
+
+; Widgets
+dependencies[] = c4m_document_widget
