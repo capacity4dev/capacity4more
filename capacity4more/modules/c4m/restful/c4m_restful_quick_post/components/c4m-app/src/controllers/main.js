@@ -1,27 +1,16 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, FileUpload) {
+  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, QuickPostService, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
-
-    // Checking if this is full form or not.
-    $scope.fullForm = DrupalSettings.getData('full_form');
-
-    //Getting node id if we are editing node.
-    $scope.id = $scope.data.entityId;
 
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
     if ($scope.resources) {
-      if (Object.keys($scope.resources).length > 1) {
         // Setting empty default resource.
         $scope.selectedResource = '';
-      }
-      else {
-        $scope.selectedResource = Object.keys($scope.resources)[0];
-      }
     }
 
     // Getting the fields information.
@@ -84,7 +73,7 @@ angular.module('c4mApp')
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
       angular.forEach(textFields, function (field) {
-        if (!field || !$scope.fullForm){
+        if (!field){
           $scope.data[field] = field == 'tags' ? [] : '';
         }
       });
@@ -255,10 +244,10 @@ angular.module('c4mApp')
       }
 
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource, resourceFields, $scope.id)
+      EntityResource.createEntity(submitData, resource, resourceFields)
         .success( function (data, status) {
           // If requested to create in full form, Redirect user to the edit page.
-          if(type == 'full_form') {
+          if (type == 'full_form') {
             var entityID = data.data[0].id;
             $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
           }
@@ -275,14 +264,7 @@ angular.module('c4mApp')
             $rootScope.$broadcast('c4m.activity.update');
 
             // Collapse the quick-post form.
-            if(!$scope.fullForm) {
-              $scope.selectedResource = '';
-            }
-            else {
-              // Go to the entity page after saving in the full form.
-              var entityID = data.data[0].id;
-              $window.location = DrupalSettings.getBasePath() + "node/" + entityID;
-            }
+            $scope.selectedResource = '';
           }
         })
         .error( function (data, status) {
@@ -311,36 +293,6 @@ angular.module('c4mApp')
           $scope.data.document = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-
-          if ($scope.fullForm && $scope.selectedResource == 'discussions') {
-            // If we are creating or editing discussion in the full form -
-            // after loading file send file id to the modal, where we'll create
-            // a document with this file.
-
-            $scope.open = function (size) {
-
-              var modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
-                size: size,
-                resolve: {
-                  getScope: function () {
-                    return $scope;
-                  }
-                }
-              });
-
-              modalInstance.result.then(function (document) {
-                $scope.data.related_document.push(document.id);
-                $scope.documentName = document.label;
-                document.id = parseInt(document.id);
-                // Add new document to list of all documents.
-                $scope.documents.push(document);
-              });
-            };
-
-            $scope.open();
-          }
         });
       }
     };

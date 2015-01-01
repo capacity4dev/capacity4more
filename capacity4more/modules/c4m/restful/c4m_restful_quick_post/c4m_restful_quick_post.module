@@ -33,19 +33,11 @@ function c4m_restful_quick_post_theme() {
  *
  * @param int $group_id
  *   The node ID of the current group.
- * @param array $show_resources
- *   Array with the resources name that should appear. Defaults to all
- *   resources.
- * @param bool $full_form
- *   Determine if full form should be used. This is checked only when a single
- *   $show_resources is passed.
- * @param stdClass $node
- *   (optional) The node object to edit using the form.
  *
  * @return string
  *   A rendered form of the Quick Post.
  */
-function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full_form = FALSE, $node = NULL) {
+function c4m_restful_quick_post_form($group_id) {
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
@@ -62,13 +54,9 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     // MORE
   );
 
-  $resource_names = !empty($show_resources) ? array_keys($show_resources) : array_keys($resources);
+  $resource_names = array_keys($resources);
 
-  if (!empty($show_resources) && in_array('discussions', array_keys($show_resources))) {
-    // Also need document fields for the discussion.
-    $resource_names[] = 'documents';
-  }
-  $show_resources = !empty($show_resources) ? $show_resources : $resources;
+  $show_resources = $resources;
 
 
   // Get fields.
@@ -79,11 +67,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     // Send the fields to the app as separate objects by resource (for validation on submit.)
     $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
     $public_fields += $handler->getPublicFields();
-
-    if ($node && in_array($resource_name, array_keys($show_resources))) {
-      // Get the nodes' ids if they exist.
-      $node_values = $handler->get($node->nid);
-    }
   }
 
   // Gathering all the fields to pass to the angular-app.
@@ -98,23 +81,14 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     if (in_array($public_field_name, $skipped_fields)) {
       continue;
     }
-    if ($node) {
-      // Set default values of the fields that already exist.
-      $entity_fields[$public_field_name] = isset($node_values[0][$public_field_name]) ? $node_values[0][$public_field_name] : NULL;
-    }
-    else {
-      // Set all fields values to NULL.
-      $entity_fields[$public_field_name] = NULL;
-    }
+    // Set all fields values to NULL.
+    $entity_fields[$public_field_name] = NULL;
 
     // Set the current Group.
     if ($public_field_name == 'group') {
       $entity_fields[$public_field_name] = $group_id;
     }
   }
-
-  // Set the current node id.
-  $entity_fields['entityId'] = $node ? $node->nid : NULL;
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
@@ -139,11 +113,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'absolute' => TRUE,
   );
 
-  if (array_key_exists('related_document', $entity_fields)) {
-    // Set the related_document field value if field exists.
-    $entity_fields['related_document'] = $entity_fields['related_document'] ? $entity_fields['related_document'] : array();
-  }
-
   // Pass info via Drupal.settings.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
@@ -154,7 +123,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     'activities' => $activities,
     'data' => array(
       'entity' => $entity_fields,
-      'full_form' => $full_form,
     ),
   );
   drupal_add_js($settings, 'setting');
