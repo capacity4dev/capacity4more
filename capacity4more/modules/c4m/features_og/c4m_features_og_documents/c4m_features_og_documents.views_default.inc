@@ -149,14 +149,29 @@ function c4m_features_og_documents_views_default_views() {
 
   /* Display: Page 2 */
   $handler = $view->new_display('page', 'Page 2', 'page_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_dashboard';
+  $handler->display->display_options['row_options']['view_mode'] = 'library';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Number of items */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['result']['empty'] = TRUE;
+  $handler->display->display_options['header']['result']['content'] = '@total items';
+  /* Header: Sort results */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
