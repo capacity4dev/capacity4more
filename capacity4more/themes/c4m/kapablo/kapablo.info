@@ -25,10 +25,8 @@ regions[footer]         = 'Footer'
 
 overlay_regions[] = sidebar_first
 overlay_regions[] = sidebar_second
-overlay_regions[] = header
 overlay_regions[] = footer
 overlay_regions[] = content
-overlay_regions[] = content_top
 overlay_regions[] = content_bottom
 
 ;;;;;;;;;;;;;;;;;;;;;
