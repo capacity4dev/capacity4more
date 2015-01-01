@@ -16,6 +16,8 @@ angular.module('c4mApp')
     $scope.stream = {
       // The first one is the last loaded activity, (if no activities, insert 0).
       lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
+      // The ID of the last activity in the activity stream (bottom) which has the lowest ID (if no activities, insert 0).
+      firstLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[$scope.existingActivities.length - 1].id : 0,
       status: 0
     };
 
@@ -123,8 +125,6 @@ angular.module('c4mApp')
     $scope.showMoreActivities = function() {
       // Determine the position of the loaded activities depending on the number of the loaded page.
       var position = $scope.existingActivities.length;
-      // For loading the next page, Every time the "show more" button is clicked, We add 1 to the "activityPage" variable.
-      $scope.activityPage++;
 
       EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedID)
         .success( function (data, status) {
