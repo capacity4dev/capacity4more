@@ -363,6 +363,8 @@ function c4m_document_widget_preprocess_node(&$variables) {
 
 /**
  * Node document preprocess.
+ *
+ * Prepare node for 'library' node view.
  */
 function c4m_document_widget_preprocess_node__document(&$variables) {
   if ($variables['view_mode'] != 'library') {
@@ -373,36 +375,37 @@ function c4m_document_widget_preprocess_node__document(&$variables) {
   $node = $variables['node'];
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
+  // Get the node author's name.
   $user = user_load($node->uid);
   $user_name = $user->name;
 
+  // Format the creation date.
   $timestamp = $node->created;
   $date = format_date($timestamp ,'custom', 'l, d/m/Y');
 
   $variables['document_data'] = t('Submitted by @user on @date', array('@user' => $user_name, '@date' => $date));
 
+  // Set default preview if we don't have file or it's not an image.
   $image_params = array(
     'attributes' => array('class' => array('img-responsive')),
     'path' => 'missing_icon.png',
   );
-
   $variables['preview'] = theme('image', $image_params);
 
   $document = $node_wrapper->c4m_document->value();
   if (empty($document)) {
     // There is no file.
     $variables['file_info'] = '';
-
-
     return;
   }
 
+  // Prepare file data.
   $file_size = format_size($document['filesize']);
   $file_type = $document['type'];
   $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
 
   if ($file_type == 'image') {
-    // Use the file itself as a preview.
+    // Use the image file itself as a preview.
     $file = file_load($document['fid']);
     $image_params = array(
       'attributes' => array('class' => array('img-responsive')),
