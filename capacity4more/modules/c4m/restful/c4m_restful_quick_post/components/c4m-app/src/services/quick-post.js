@@ -251,13 +251,11 @@ angular.module('c4mApp')
         }
       }, popups);
       // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.currentTarget).outerWidth();
-      var elemPosition = angular.element(event.target).offset();
-      var elemParentPosition = angular.element(event.target).parent().offset();
+      var elemWidth = angular.element(event.currentTarget).outerWidth();
       // Toggle the visibility variable.
       popups[name] = popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', elem_width);
+      angular.element(".hidden-checkboxes").css('left', elemWidth);
     };
 
     /**

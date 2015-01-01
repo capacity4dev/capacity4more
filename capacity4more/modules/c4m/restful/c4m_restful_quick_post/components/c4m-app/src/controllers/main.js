@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
@@ -31,112 +31,7 @@ angular.module('c4mApp')
 
     $scope = QuickPostService.setDefaults($scope);
 
-    // Getting the activity stream.
-    $scope.existingActivities = DrupalSettings.getActivities();
-
     $scope.basePath = DrupalSettings.getBasePath();
-
-    // Empty new activities.
-    $scope.newActivities = [];
-
-    // Activity stream status, refresh time.
-    $scope.stream = {
-      // The first one is the last loaded activity, (if no activities, insert 0).
-      lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
-      status: 0
-    };
-
-    // refresh rate of the activity stream (60000 is one minute).
-    // @TODO: Import the refresh rate from the drupal settings.
-    $scope.refreshRate = 60000;
-
-    /**
-     * Refreshes the activity stream.
-     * The refresh rate is scope.refreshRate.
-     */
-    $scope.refresh = function() {
-      // Refresh only if there is activity stream in the page.
-      if (typeof($scope.resources) != 'undefined') {
-        $scope.addNewActivities('newActivities');
-      }
-    };
-    // Start the activity stream refresh.
-    $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
-
-    /**
-     * Adds newly fetched activities to either to the activity-stream or the load button,
-     * Depending on if the current user added an activity or it's fetched from the server.
-     *
-     * @param type
-     *  Determines to which variable the new activity should be added,
-     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
-     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
-     */
-    $scope.addNewActivities = function(type) {
-      if (type == 'existingActivities') {
-        // Merge all the loaded activities before adding the created one.
-        $scope.showNewActivities();
-      }
-
-      var activityStreamInfo = {
-        group: $scope.data.group,
-        lastId: $scope.stream.lastLoadedID
-      };
-
-      // Don't send a request when data is missing.
-      if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
-        // If last ID is 0, this is a new group and there's no activities.
-        if(activityStreamInfo.lastId != 0) {
-          $scope.stream.status = 500;
-          return false;
-        }
-      }
-
-      // Call the update stream method.
-      EntityResource.updateStream(activityStreamInfo)
-        .success( function (data, status) {
-          // Update the stream status.
-          $scope.stream.status = status;
-
-          // Update if there's new activities.
-          if (data.data) {
-            // Count the activities that were fetched.
-            var position = 0;
-            angular.forEach(data.data, function (activity) {
-              this.splice(position, 0, {
-                id: activity.id,
-                html: $sce.trustAsHtml(activity.html)
-              });
-              position++;
-            }, $scope[type]);
-
-            // Update the last loaded ID.
-            // Only if there's new activities from the server.
-            $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
-          }
-        })
-        .error( function (data, status) {
-          // Update the stream status if we get an error, This will display the error message.
-          $scope.stream.status = status;
-        });
-    };
-
-    /**
-     * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
-     */
-    $scope.showNewActivities = function() {
-      var position = 0;
-      angular.forEach ($scope.newActivities, function (activity) {
-        this.splice(position, 0, {
-          id: activity.id,
-          created: activity.created,
-          html: activity.html
-        });
-        position++;
-      }, $scope.existingActivities);
-      $scope.newActivities = [];
-    };
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -287,7 +182,7 @@ angular.module('c4mApp')
 
       // Stop the "Activity-stream" auto refresh When submitting a new activity,
       // because we don't want the auto refresh to display the activity as an old one.
-      $interval.cancel($scope.refreshing);
+      $rootScope.$broadcast('c4m.activity.refresh', 'stop');
 
       // Reset all errors.
       $scope.errors = {};
@@ -357,11 +252,13 @@ angular.module('c4mApp')
             $scope.serverSide.data = data;
             $scope.serverSide.status = status;
 
-            // Scroll to the top of the page 50px down.
-            angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
+            // Scroll to the top of the activity stream (Reference is the label input).
+            var labelInput = angular.element('#label').offset();
+            angular.element('html, body').animate({scrollTop:labelInput.top}, '500', 'swing');
 
             // Add the newly created activity to the stream.
-            $scope.addNewActivities('existingActivities');
+            // By broadcasting the update to the "activity" controller.
+            $rootScope.$broadcast('c4m.activity.update');
 
             // Collapse the quick-post form.
             if(!$scope.fullForm) {
@@ -383,7 +280,7 @@ angular.module('c4mApp')
       $scope.resetEntityForm();
 
       // Resume the "Activity-stream" auto refresh.
-      $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
+      $rootScope.$broadcast('c4m.activity.refresh', 'continue');
     };
 
     /**
