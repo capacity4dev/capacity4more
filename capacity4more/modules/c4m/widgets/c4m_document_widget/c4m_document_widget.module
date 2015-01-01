@@ -363,7 +363,7 @@ function c4m_document_widget_preprocess_node(&$variables) {
  */
 function c4m_document_widget_preprocess_node__document(&$variables) {
   if ($variables['view_mode'] != 'library') {
-    // Current view mode is not an 'activity stream'.
+    // Current view mode is not a 'library'.
     return;
   }
 
@@ -374,8 +374,8 @@ function c4m_document_widget_preprocess_node__document(&$variables) {
   $user_name = $user->name;
 
   $timestamp = $node->created;
-
   $date = format_date($timestamp ,'custom', 'l, d/m/Y');
+
   $variables['document_data'] = t('Submitted by @user on @date', array('@user' => $user_name, '@date' => $date));
 
 
@@ -383,10 +383,36 @@ function c4m_document_widget_preprocess_node__document(&$variables) {
   if (empty($document)) {
     // There is no file.
     $variables['file_info'] = '';
+
+    $image_params = array(
+      'attributes' => array('class' => array('img-responsive')),
+      'path' => 'missing_icon.png',
+    );
+
+    $variables['preview'] = theme('image', $image_params);
     return;
   }
 
   $file_size = format_size($document['filesize']);
   $file_type = $document['type'];
   $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
+
+  if ($file_type == 'image') {
+    // Use the file itself as a preview.
+    $file = file_load($document['fid']);
+    $image_params = array(
+      'attributes' => array('class' => array('img-responsive')),
+      'path' => $file->uri,
+    );
+    $variables['preview'] = theme('image', $image_params);
+  }
+  else {
+    // Put icon for the current file type.
+    $image_params = array(
+      'attributes' => array('class' => array('img-responsive')),
+      'path' => 'missing_icon.png',
+    );
+
+    $variables['preview'] = theme('image', $image_params);
+  }
 }
