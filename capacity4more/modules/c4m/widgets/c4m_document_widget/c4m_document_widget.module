@@ -334,3 +334,59 @@ function c4m_document_widget_add_document_file($file_id) {
 
   return theme('c4m_document_widget_add_document', $variables);
 }
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function c4m_document_widget_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['library'] = array(
+    'label' => t('Library'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Node preprocess.
+ */
+function c4m_document_widget_preprocess_node(&$variables) {
+  if ($variables['view_mode'] == 'library') {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__library';
+  }
+  $preprocess_function = "c4m_document_widget_preprocess_node__{$variables['node']->type}";
+  if (function_exists($preprocess_function)) {
+    $preprocess_function($variables);
+  }
+}
+
+/**
+ * Node document preprocess.
+ */
+function c4m_document_widget_preprocess_node__document(&$variables) {
+  if ($variables['view_mode'] != 'library') {
+    // Current view mode is not an 'activity stream'.
+    return;
+  }
+
+  $node = $variables['node'];
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  $user = user_load($node->uid);
+  $user_name = $user->name;
+
+  $timestamp = $node->created;
+
+  $date = format_date($timestamp ,'custom', 'l, d/m/Y');
+  $variables['document_data'] = t('Submitted by @user on @date', array('@user' => $user_name, '@date' => $date));
+
+
+  $document = $node_wrapper->c4m_document->value();
+  if (empty($document)) {
+    // There is no file.
+    $variables['file_info'] = '';
+    return;
+  }
+
+  $file_size = format_size($document['filesize']);
+  $file_type = $document['type'];
+  $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
+}
