@@ -244,7 +244,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
-  drupal_add_css($app_path . '/css/c4m-app.css');
 
   $settings['c4m'] = array();
   drupal_add_js($settings, 'setting');

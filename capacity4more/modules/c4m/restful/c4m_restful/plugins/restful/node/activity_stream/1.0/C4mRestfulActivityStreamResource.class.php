@@ -17,7 +17,12 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
 
     $public_fields['group'] = array(
       'property' => 'field_group_node',
-      'sub_property' => 'title',
+      'resource' => array(
+        'group' => array(
+          'name' => 'groups',
+          'full_view' => FALSE,
+        ),
+      ),
     );
 
     return $public_fields;

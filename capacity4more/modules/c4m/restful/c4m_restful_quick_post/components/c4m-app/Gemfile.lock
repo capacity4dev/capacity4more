@@ -13,4 +13,3 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  compass (>= 0.12)
