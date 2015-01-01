@@ -186,31 +186,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['data']['tags_id'] = $tags_id;
 
   // For the "taxonomy" widget.
-  $options = array();
-  foreach($terms['categories'] as $term) {
-    $parents = $term->parents;
-    if ($parents[0] == '0') {
-      $options[$term->tid]['label'] = check_plain($term->name);
-      $options[$term->tid]['id'] = $term->tid;
-    }
-    else {
-      $options[$parents[0]]['children'][] = array(
-        'label' => check_plain($term->name),
-        'id' => $term->tid,
-      );
-    }
-    $settings['c4m']['data']['vocabularies']['categories'] = $options;
-  }
+  $settings['c4m']['data']['vocabularies']['categories'] = c4m_vocab_widget_prepare_taxonomy_tree($terms['categories']);
 
-  $taxonomy_values = array();
   if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
-    $values = $entity->og_vocabulary;
-    foreach ($values[LANGUAGE_NONE] as $value) {
-      // This is node/edit page. Need to send field values to the app.
-      $taxonomy_values[$value['target_id']] = true;
-    }
-
-    $settings['c4m']['data']['values']['categories'] = $taxonomy_values;
+    $settings['c4m']['data']['values']['categories'] = c4m_vocab_widget_get_selected_values($entity, 'og_vocabulary');
   }
 
   // Send the tags to the AngularJs if we have values (On edit page).
@@ -250,12 +229,36 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     '#weight' => $instance['widget']['weight'],
   );
 
+  $element['target_id']['#element_validate'][] = 'c4m_og_vocab_validate';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 
   return $element;
+}
+
+function c4m_og_vocab_validate($element, &$form_state, $form) {
+  // URL options.
+//  $options = array(
+//    'purl' => array(
+//      'disabled' => TRUE,
+//    ),
+//    'absolute' => TRUE,
+//  );
+//
+//  $settings['c4m']['basePath'] = url('', $options);
+//
+//  //$settings['c4m']['data']['group'] = $group->nid;
+//
+//  //$settings['c4m']['data']['tags_id'] = $tags_id;
+//
+//  $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
+//  foreach($values as $value) {
+//    if (is_array($value)) {
+//      dpm($value);
+//    }
+//  }
 }
 
 /**
