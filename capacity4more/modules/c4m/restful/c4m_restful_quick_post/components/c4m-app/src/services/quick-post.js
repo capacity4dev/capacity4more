@@ -7,7 +7,7 @@
  * # Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('QuickPostService', function($http) {
+  .service('QuickPostService', function($rootScope, $http) {
     var self = this;
 
     /**
@@ -257,19 +257,4 @@ angular.module('c4mApp')
       // Move the popover to be at the end of the button.
       angular.element(".hidden-checkboxes").css('left', elemWidth);
     };
-
-    /**
-     * Close all popovers on "ESC" key press.
-     */
-    this.keyUpHandler = function(keyEvent, scope) {
-      if(keyEvent.which == 27) {
-        angular.forEach(scope.popups, function (value, key) {
-          this[key] = 0;
-          // Re-Bind the JS with the HTML with "digest".
-          scope.$digest();
-        }, scope.popups);
-      }
-    };
-
-
   });

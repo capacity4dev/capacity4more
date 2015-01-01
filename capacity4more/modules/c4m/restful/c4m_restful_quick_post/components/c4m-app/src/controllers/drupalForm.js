@@ -14,7 +14,7 @@ angular.module('c4mApp')
 
     $scope.basePath = DrupalSettings.getBasePath();
 
-    // Get the Vocabulary ID of the curent group.
+    // Get the Vocabulary ID of the current group.
     $scope.tagsId = DrupalSettings.getData('tags_id');
 
     // Get the selected tags (Only on edit page).
@@ -37,7 +37,7 @@ angular.module('c4mApp')
     });
 
     // Creating the pop-ups according to the vocabulary that was sent to the controller.
-    $scope.popups = [];
+    $scope.popups = {};
     angular.forEach($scope.data, function(value, key) {
       $scope.popups[key] = 0;
     });
@@ -138,10 +138,22 @@ angular.module('c4mApp')
       $scope.updateSelectedTerms(key, vocab);
     };
 
-    // Call the keyUpHandler function on key-up.
-    // @TODO: Fix the close popups key event.
+    /**
+     * Close all popovers on "ESC" key press.
+     *
+     * @param event.
+     *  The press button event.
+     */
     $document.on('keyup', function(event) {
-      QuickPostService.keyUpHandler(event, $scope);
+      // 27 is the "ESC" button.
+      if(event.which == 27) {
+        angular.forEach($scope.popups, function (value, key) {
+          if (name != key) {
+            this[key] = 0;
+          }
+        }, $scope.popups);
+       $scope.$digest();
+      }
     });
 
     /**

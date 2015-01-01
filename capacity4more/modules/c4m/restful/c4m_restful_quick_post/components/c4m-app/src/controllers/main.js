@@ -163,10 +163,24 @@ angular.module('c4mApp')
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
-    // Close all popovers on "ESC" key press.
-    //$document.on('keyup', function(event) {
-    //  QuickPostService.keyUpHandler(event, $scope);
-    //});
+
+    /**
+     * Close all popovers on "ESC" key press.
+     *
+     * @param event.
+     *  The press button event.
+     */
+    $document.on('keyup', function(event) {
+      // 27 is the "ESC" button.
+      if(event.which == 27) {
+        angular.forEach($scope.popups, function (value, key) {
+          if (name != key) {
+            this[key] = 0;
+          }
+        }, $scope.popups);
+        $scope.$digest();
+      }
+    });
 
     /**
      * Submit form.
