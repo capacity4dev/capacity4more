@@ -212,7 +212,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['data']['tags'] = $tags;
 
   // Send all the settings to the app.
-  drupal_add_js($settings, 'setting');
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 
   // Add the directive.
   // Add the "taxonomy" widget for the "categories" directive, Add the "ig_vocab" widget for "tags" directive.
@@ -239,26 +242,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 }
 
 function c4m_og_vocab_validate($element, &$form_state, $form) {
-  // URL options.
-//  $options = array(
-//    'purl' => array(
-//      'disabled' => TRUE,
-//    ),
-//    'absolute' => TRUE,
-//  );
-//
-//  $settings['c4m']['basePath'] = url('', $options);
-//
-//  //$settings['c4m']['data']['group'] = $group->nid;
-//
-//  //$settings['c4m']['data']['tags_id'] = $tags_id;
-//
-//  $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
-//  foreach($values as $value) {
-//    if (is_array($value)) {
-//      dpm($value);
-//    }
-//  }
+
 }
 
 /**

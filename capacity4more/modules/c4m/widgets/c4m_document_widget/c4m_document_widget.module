@@ -116,7 +116,11 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     )
   );
 
-  drupal_add_js($settings, 'setting');
+  // Send all the settings to the app.
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 
   return $element;
 }

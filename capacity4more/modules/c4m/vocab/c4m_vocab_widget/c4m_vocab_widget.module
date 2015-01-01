@@ -50,7 +50,11 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
     $settings['c4m']['data']['values'][$vocabulary_machine_name] = c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name);
   }
 
-  drupal_add_js($settings, 'setting');
+  // Send all the settings to the app.
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 
   // Add the directive.
   $variables = array(
@@ -77,6 +81,17 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   return $element;
 }
 
+/**
+ * Builds an array of selected values to be displayed on the taxonomy widgets.
+ *
+ * @param $entity
+ *  The entity being edited.
+ * @param $vocabulary_machine_name
+ *  The name of the Vocab.
+ *
+ * @return array
+ *  An array of the selected values.
+ */
 function c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name) {
   $taxonomy_values = array();
   $values = $entity->$vocabulary_machine_name;
