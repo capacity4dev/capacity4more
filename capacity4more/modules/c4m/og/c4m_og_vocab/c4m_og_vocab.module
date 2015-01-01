@@ -219,7 +219,6 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   // Add the directive.
   // Add the "taxonomy" widget for the "categories" directive, Add the "ig_vocab" widget for "tags" directive.
-  // Add the directive.
   $variables = array(
     'vocabulary_label' => 'Categories',
     'vocabulary_machine_name' => 'categories',
@@ -232,17 +231,12 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     '#weight' => $instance['widget']['weight'],
   );
 
-  $element['target_id']['#element_validate'][] = 'c4m_og_vocab_validate';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 
   return $element;
-}
-
-function c4m_og_vocab_validate($element, &$form_state, $form) {
-
 }
 
 /**
