@@ -147,15 +147,128 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $group = node_load($context['gid']);
   $all_group_vocabularies = c4m_og_vocab_info('groups');
 
+  $terms = array();
+  $tags_id = 0;
   // Iterate over all possible (enabled) vocabularies for our group type.
   foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
     // Load vocabulary.
     $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
     $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
+    if ($vocabulary == 'c4m_vocab_category') {
+      $terms['categories'] = taxonomy_get_tree($og_vocab->vid);
+    }
+    else {
+      $terms['tags'] = taxonomy_get_tree($og_vocab->vid);
+      $tags_id = $group_vocab->vid;
+    }
     $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
   }
 
+  // AngularJs widgets:
+  // Needs the base url, current group ID, The "categories" taxonomy tree,
+  // The values chosen for the "categories" in case of editing an entity.
+  // We call the global taxonomy widget for the categories,
+  // Building the necessary tree for this widget,
+  // Then we call the "tags" directive.
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  $settings['c4m']['basePath'] = url('', $options);
+
+  $settings['c4m']['data']['group'] = $group->nid;
+
+  $settings['c4m']['data']['tags_id'] = $tags_id;
+
+  // For the "taxonomy" widget.
+  $options = array();
+  foreach($terms['categories'] as $term) {
+    $parents = $term->parents;
+    if ($parents[0] == '0') {
+      $options[$term->tid]['label'] = check_plain($term->name);
+      $options[$term->tid]['id'] = $term->tid;
+    }
+    else {
+      $options[$parents[0]]['children'][] = array(
+        'label' => check_plain($term->name),
+        'id' => $term->tid,
+      );
+    }
+    $settings['c4m']['data']['vocabularies']['categories'] = $options;
+  }
+
+  $taxonomy_values = array();
+  if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
+    $values = $entity->og_vocabulary;
+    foreach ($values[LANGUAGE_NONE] as $value) {
+      // This is node/edit page. Need to send field values to the app.
+      $taxonomy_values[$value['target_id']] = true;
+    }
+
+    $settings['c4m']['data']['values']['categories'] = $taxonomy_values;
+  }
+
+  // Send the tags to the AngularJs if we have values (On edit page).
+  $tags = array();
+  foreach($terms['tags'] as $term) {
+    if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
+      $values = $entity->og_vocabulary;
+      foreach ($values[LANGUAGE_NONE] as $value) {
+        // This is node/edit page. Need to send field values to the app.
+        if ($term->tid == $value['target_id']) {
+          $tags[] = array(
+            'isNew' => false,
+            'text' => $term->name,
+            'id' => $term->tid,
+          );
+        }
+      }
+    }
+  }
+  $settings['c4m']['data']['tags'] = $tags;
+
+  // Send all the settings to the app.
+  drupal_add_js($settings, 'setting');
+
+  // Add the directive.
+  // Add the "taxonomy" widget for the "categories" directive, Add the "ig_vocab" widget for "tags" directive.
+  // Add the directive.
+  $variables = array(
+    'vocabulary_label' => 'Categories',
+    'vocabulary_machine_name' => 'categories',
+
+  );
+  $directives = theme('c4m_vocab_widget_taxonomy_widget', $variables).theme('c4m_og_vocab_widget', array());
+
+  $form['directive-tags'] = array(
+    '#markup' => $directives,
+    '#weight' => $instance['widget']['weight'],
+  );
+
+  $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
+  $form['#attributes']['class'][] = 'drupal-form';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
+
   return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_og_vocab_theme() {
+  $theme['c4m_og_vocab_widget'] = array(
+    'template' => 'c4m_og_vocab_widget',
+    'path' => drupal_get_path('module', 'c4m_og_vocab') . '/templates',
+    'variables' => array(),
+  );
+
+  return $theme;
 }
 
 /**
