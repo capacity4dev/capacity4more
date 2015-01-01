@@ -10,6 +10,25 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
   protected $range = 20;
 
   /**
+   * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
+   */
+  public function publicFieldsInfo() {
+    $public_fields = parent::publicFieldsInfo();
+
+    $public_fields['group'] = array(
+      'property' => 'field_group_node',
+      'resource' => array(
+        'group' => array(
+          'name' => 'groups',
+          'full_view' => FALSE,
+        ),
+      ),
+    );
+
+    return $public_fields;
+  }
+
+  /**
    * Overrides \RestfulEntityBaseNode::viewEntity().
    *
    * Adds the message HTML to the resource.
@@ -26,22 +45,5 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
     }
 
     return $return;
-  }
-
-  /**
-   * Overrides \RestfulEntityBaseMultipleBundles::getQueryForList().
-   *
-   * Adds group filter to the list.
-   */
-  public function getQueryForList() {
-    $request = $this->getRequest();
-
-    $query = parent::getQueryForList();
-
-    if (!empty($request['group']) && intval($request['group'])) {
-      $query->fieldCondition('field_group_node', 'target_id', $request['group']);
-    }
-
-    return $query;
   }
 }

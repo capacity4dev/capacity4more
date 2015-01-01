@@ -72,7 +72,7 @@ projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.5"
 
 projects[getlocations][subdir] = "contrib"
-projects[getlocations][version] = "1.13"
+projects[getlocations][version] = "1.15"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
