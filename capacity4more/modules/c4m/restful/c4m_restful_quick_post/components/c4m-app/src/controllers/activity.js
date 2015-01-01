@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('ActivityCtrl', function($scope, DrupalSettings, EntityResource, $interval, $sce) {
+  .controller('ActivityCtrl', function($scope, DrupalSettings, EntityResource, $timeout, $interval, $sce) {
 
     // Get the current group ID.
     $scope.group = DrupalSettings.getData('entity').group;
@@ -116,8 +116,17 @@ angular.module('c4mApp')
     });
 
     // Listening to broadcast for changes in the refresh.
-    $scope.$on('c4m.activity.refresh', function(action) {
-      console.log(action);
-      $interval.cancel($scope.refreshing);
+    // This will stop or resume the refresh of the activity stream.
+    // In case of resuming the activity stream,
+    // Wait for 10 seconds to avoid any conflicts between the normal refresh and the "create new activity" pull.
+    $scope.$on('c4m.activity.refresh', function(broadcast, action) {
+      if(action == 'stop') {
+        $interval.cancel($scope.refreshing);
+      }
+      else {
+        $timeout(function() {
+          $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
+        }, 10000);
+      }
     });
   });

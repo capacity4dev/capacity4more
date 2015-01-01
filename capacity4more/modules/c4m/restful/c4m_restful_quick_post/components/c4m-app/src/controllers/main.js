@@ -286,7 +286,7 @@ angular.module('c4mApp')
       $scope.resetEntityForm();
 
       // Resume the "Activity-stream" auto refresh.
-      $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
+      $rootScope.$broadcast('c4m.activity.refresh', 'continue');
     };
 
     /**
