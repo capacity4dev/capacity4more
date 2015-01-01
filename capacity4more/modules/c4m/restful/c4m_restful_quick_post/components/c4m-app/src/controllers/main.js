@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
 
