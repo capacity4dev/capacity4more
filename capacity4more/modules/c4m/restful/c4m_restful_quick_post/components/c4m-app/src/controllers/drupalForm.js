@@ -125,9 +125,13 @@ angular.module('c4mApp')
     };
 
     /**
+     * When clicking on the "X" next to the taxonomy-term name
+     * On the full form page.
      *
      * @param key
+     *  The ID of the taxonomy.
      * @param vocab
+     *  The name of the vocabulary.
      */
     $scope.removeTaxonomyValue = function(key, vocab) {
       $scope.model[vocab][key] = false;
