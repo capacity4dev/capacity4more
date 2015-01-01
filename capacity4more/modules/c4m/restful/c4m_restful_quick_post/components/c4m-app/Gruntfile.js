@@ -56,6 +56,10 @@ module.exports = function(grunt) {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
+      compass: {
+        files: ['<%= yeoman.src %>/_scss/**/*.{scss,sass}'],
+        tasks: ['compass:server']
+      },
       app: {
         files: [
           '<%= yeoman.src %>/{,*/}*.html',
@@ -92,6 +96,28 @@ module.exports = function(grunt) {
               mountFolder(connect, yeomanConfig.src)
             ];
           }
+        }
+      }
+    },
+    compass: {
+      options: {
+        // If you're using global Sass gems, require them here.
+        // require: ['singularity', 'jacket'],
+        bundleExec: true,
+        sassDir: '<%= yeoman.src %>/_scss',
+        cssDir: '<%= yeoman.dist %>/css',
+        relativeAssets: false,
+        outputStyle: 'compressed',
+        raw: 'extensions_dir = "<%= yeoman.app %>/_bower_components"\n'
+      },
+      dist: {
+        files: {
+          '<%= yeoman.src %>/<%= yeoman.name %>.css': '<%= yeoman.src %>/<%= yeoman.name %>.scss'
+        }
+      },
+      server: {
+        options: {
+          debugInfo: false
         }
       }
     },
@@ -185,6 +211,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'compass:dist',
     'copy:dist',
     'concat:dist'
   ]);

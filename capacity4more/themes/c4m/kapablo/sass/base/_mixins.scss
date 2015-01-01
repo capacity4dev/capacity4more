@@ -71,11 +71,3 @@
   background: $color;
   border: none;
 }
-
-// Transition for all browsers.
-@mixin transition($duration) {
-  -webkit-transition: $duration;
-  -o-transition: $duration;
-  -moz-transition: $duration;
-  transition: $duration;
-}
