@@ -146,9 +146,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
     $entity_fields['related_document'] = $entity_fields['related_document'] ? $entity_fields['related_document'] : array();
   }
 
-  $handler = restful_get_restful_handler('documents');
-  $documents = $handler->get();
-
   // Pass info via Drupal.settings.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
@@ -161,7 +158,6 @@ function c4m_restful_quick_post_form($group_id, $show_resources = array(), $full
       'entity' => $entity_fields,
       'full_form' => $full_form,
     ),
-    'documents' => $documents,
   );
   drupal_add_js($settings, 'setting');
 
@@ -206,7 +202,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   }
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
-  $vars['classes_array'][] = 'ng-cloak';
 
   // Load Angular.
   $bower_path = libraries_get_path('bower_components');
