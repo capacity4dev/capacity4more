@@ -31,8 +31,11 @@ function c4m_document_widget_overlay_child_initialize() {
   if ($item['path'] == 'overlay-node/%/edit') {
     $_SESSION['overlay_refresh_parent'] = FALSE;
   }
-  // Add specific for overlay pages javascript.
-  drupal_add_js(drupal_get_path('module', 'c4m_document_widget') . '/js/document_overlay.js');
+
+  if ($item['path'] == 'overlay/documents' || $item['path'] == 'overlay-node/%/edit') {
+    // Add specific for overlay pages javascript.
+    drupal_add_js(drupal_get_path('module', 'c4m_document_widget') . '/js/document_overlay.js');
+  }
 }
 
 /**

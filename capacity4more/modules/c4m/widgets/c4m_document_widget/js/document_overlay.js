@@ -4,44 +4,7 @@
     // Get the element that was clicked.
     var $target = $(event.target);
 
-    if ($target.is('a') && $target.parent().is('h2')) {
-      // Click on the title of the node in the library overlay page.
-      var parents = $target.parents();
-      var nids = [];
-      // Find the parent element with node id in the element's id.
-      $.each(parents, function(index, value) {
-        var id = value.id;
-
-        if (id.indexOf('node-') != -1 && id.match(/[0-9]/g)) {
-          nids.push(value.id.replace(/\D/g, ''));
-        }
-      });
-
-      // Node id was not found.
-      if (!nids[0]) {
-        return;
-      }
-      // More then one were found. Take the main one.
-      nids.reverse();
-      var nid = nids[0];
-
-      // Prepare the values for the widget input.
-      var item = '(' + nid + ')';
-
-      // Put values in the hidden inputs in the parent page.
-      var value = $('#edit-c4m-related-document-und', parent.window.document).val();
-      var ids = $('#related-documents', parent.window.document).val();
-      if (value.indexOf(item) == -1) {
-        value = value ? value + ', ' + item : item;
-        ids = ids ? ids + ',' + nid : nid;
-      }
-      $('#edit-c4m-related-document-und', parent.window.document).val(value);
-      $('#related-documents', parent.window.document).val(ids).trigger('click');
-
-      // Close verlay.
-      parent.Drupal.overlay.close();
-    }
-    else if ($target.is('button') && $target.val() == 'Delete') {
+    if ($target.is('button') && $target.val() == 'Delete') {
       // We are on the node/edit page in the overlay. On click on the "Delete"
       // button should remove the node id from inputs on the parent page.
 
@@ -58,6 +21,41 @@
       parent.Drupal.overlay.close();
     }
 
+    // Click on the node in the library overlay page.
+    var parents = $target.parents();
+    var nids = [];
+    // Find the parent element with node id in the element's id.
+    $.each(parents, function(index, value) {
+      var id = value.id;
+
+      if (id.indexOf('node-') != -1 && id.match(/[0-9]/g)) {
+        nids.push(value.id.replace(/\D/g, ''));
+      }
+    });
+
+    // Node id was not found.
+    if (!nids[0]) {
+      return;
+    }
+    // More then one were found. Take the main one.
+    nids.reverse();
+    var nid = nids[0];
+
+    // Prepare the values for the widget input.
+    var item = '(' + nid + ')';
+
+    // Put values in the hidden inputs in the parent page.
+    var value = $('#edit-c4m-related-document-und', parent.window.document).val();
+    var ids = $('#related-documents', parent.window.document).val();
+    if (value.indexOf(item) == -1) {
+      value = value ? value + ', ' + item : item;
+      ids = ids ? ids + ',' + nid : nid;
+    }
+    $('#edit-c4m-related-document-und', parent.window.document).val(value);
+    $('#related-documents', parent.window.document).val(ids).trigger('click');
+
+    // Close verlay.
+    parent.Drupal.overlay.close();
   });
 
   // Catch url changing. If close_overlay appeared - close the overlay.
