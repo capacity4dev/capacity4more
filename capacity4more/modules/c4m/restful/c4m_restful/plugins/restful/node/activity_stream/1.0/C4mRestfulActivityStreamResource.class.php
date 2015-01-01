@@ -42,6 +42,7 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
       $query->fieldCondition('field_group_node', 'target_id', $request['group']);
     }
 
+    $query->fieldCondition('field_entity_published', 'value', 1);
     return $query;
   }
 }
