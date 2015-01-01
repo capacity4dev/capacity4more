@@ -46,7 +46,7 @@ angular.module('c4mApp')
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
 
-    // Update the shown texonomies upon searching.
+    // Update the shown taxonomies upon searching.
     $scope.updateSearch = function(vocab) {
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerm);
     };
