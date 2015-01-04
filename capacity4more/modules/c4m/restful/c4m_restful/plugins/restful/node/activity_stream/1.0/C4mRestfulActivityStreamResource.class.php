@@ -43,4 +43,16 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
 
     return $return;
   }
+
+  /**
+   * Overrides \RestfulEntityBaseMultipleBundles::getQueryForList().
+   *
+   * Display only published entities in the activity stream.
+   */
+  public function getQueryForList() {
+    $query = parent::getQueryForList();
+
+    $query->fieldCondition('field_entity_published', 'value', 1);
+    return $query;
+  }
 }
