@@ -1,3 +1,71 @@
+.pane-quick-form,
+.drupal-form {
+
+  ul, ol {
+    list-style: none;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .selected-values {
+
+    span {
+      margin-right: 4px;
+      float: left;
+      display: inline-block;
+
+      .fa-times {
+        color: $brand-primary;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .checkboxes-wrapper {
+    position: relative;
+
+    button.btn-primary {
+      padding: 2px 4px;
+      left: 0;
+    }
+
+    .hidden-checkboxes {
+      display: block;
+      left: 150px;
+      top: -85px;
+    }
+  }
+
+  .popover-content {
+    height: 190px;
+    overflow-y: scroll;
+  }
+
+  .date {
+
+    .input-group {
+
+      table {
+
+        tr.text-center {
+          display: none;
+        }
+      }
+    }
+
+    .date-chevron {
+      margin-top: 30px;
+      text-align: center;
+    }
+  }
+
+  #document_file {
+    display: none;
+  }
+}
+
 .pane-quick-form {
   .form-control {
     @include input-rounded($beige);
