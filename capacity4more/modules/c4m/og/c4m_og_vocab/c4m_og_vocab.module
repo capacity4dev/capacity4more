@@ -251,11 +251,12 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
  * @param $form
  *  The from that is validating.
  */
-function c4m_og_vocab_validate($element, &$form_state, $form) {
+function c4m_og_vocab_validate($element, &$form_state, &$form) {
   // Submitted values for the og vocab field.
   $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
 
   $tags = array();
+  $categories = array();
   foreach ($values as $value) {
     if (is_array($value)) {
       // This is a value.
@@ -280,14 +281,36 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
                 'id' => $term->tid,
               );
             }
+            else if (is_object($term)) {
+              // This is an existing category.
+              $categories[$term->tid] = TRUE;
+            }
           }
         }
       }
     }
   }
   $settings['c4m']['data']['tags'] = $tags;
+  $settings['c4m']['data']['values']['categories'] = $categories;
 
-  drupal_add_js($settings, 'setting');
+  // Unset previous values.
+  foreach ($form['#attached']['js'] as $id => $data) {
+    if (isset($data['data']['c4m'])) {
+      if (isset($data['data']['c4m']['data'])) {
+        if (isset($data['data']['c4m']['data']['values'])) {
+          if (array_key_exists('categories', $data['data']['c4m']['data']['values'])) {
+            unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
+          }
+        }
+      }
+    }
+  }
+
+  // Send all the settings to the app.
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 }
 /**
  * Implements hook_theme().
