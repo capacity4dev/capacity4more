@@ -287,6 +287,12 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
   }
   $settings['c4m']['data']['tags'] = $tags;
 
+  dpm($form_state);
+//  $settings['c4m']['data']['values'][$element['#field_name']] = array();
+//  foreach ($element['#value'] as $value) {
+//    $settings['c4m']['data']['values'][$element['#field_name']][$value] = TRUE;
+//  }
+
   drupal_add_js($settings, 'setting');
 }
 /**

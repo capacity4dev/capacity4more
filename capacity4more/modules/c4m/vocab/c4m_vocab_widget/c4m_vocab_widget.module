@@ -74,11 +74,31 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $instance['widget']['type'] = 'options_buttons';
   $instance['widget']['active'] = 1;
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  $element['#element_validate'][] = 'c4m_vocab_widget_validate';
   $element['#title'] = '';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 
   return $element;
+}
+
+/**
+ * Keep selected terms in the AngularJS when form is validating.
+ *
+ * @param $element
+ *  Form element.
+ * @param $form_state
+ *  The current state of the validating form.
+ * @param $form
+ *  The from that is validating.
+ */
+function c4m_vocab_widget_validate($element, &$form_state, $form) {
+  $settings['c4m']['data']['values'][$element['#field_name']] = array();
+  foreach ($element['#value'] as $value) {
+    $settings['c4m']['data']['values'][$element['#field_name']][$value] = TRUE;
+  }
+
+  drupal_add_js($settings, 'setting');
 }
 
 /**
