@@ -639,7 +639,7 @@ function c4m_message__update__node($node) {
       else {
         // When an existing item is updated within 6 hours after the initial
         // insert by the SAME user.
-        return $message;
+        return;
       }
     }
     else {
