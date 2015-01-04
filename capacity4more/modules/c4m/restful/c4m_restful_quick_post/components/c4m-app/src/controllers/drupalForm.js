@@ -19,7 +19,6 @@ angular.module('c4mApp')
 
     // Get the selected tags (Only on edit page).
     $scope.data.tags = DrupalSettings.getData('tags');
-    console.log($scope.data.tags);
 
     // Get the selected values of the taxonomy-terms (Only on edit page).
     $scope.values = DrupalSettings.getData('values');

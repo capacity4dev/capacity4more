@@ -256,6 +256,7 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
   $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
 
   $tags = array();
+  $categories = array();
   foreach ($values as $value) {
     if (is_array($value)) {
       // This is a value.
@@ -280,18 +281,17 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
                 'id' => $term->tid,
               );
             }
+            else if (is_object($term)) {
+              // This is an existing category.
+              $categories[$term->tid] = TRUE;
+            }
           }
         }
       }
     }
   }
   $settings['c4m']['data']['tags'] = $tags;
-
-  dpm($form_state);
-//  $settings['c4m']['data']['values'][$element['#field_name']] = array();
-//  foreach ($element['#value'] as $value) {
-//    $settings['c4m']['data']['values'][$element['#field_name']][$value] = TRUE;
-//  }
+  $settings['c4m']['data']['values']['categories'] = $categories;
 
   drupal_add_js($settings, 'setting');
 }
