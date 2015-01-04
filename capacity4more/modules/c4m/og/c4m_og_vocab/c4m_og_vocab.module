@@ -251,7 +251,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
  * @param $form
  *  The from that is validating.
  */
-function c4m_og_vocab_validate($element, &$form_state, $form) {
+function c4m_og_vocab_validate($element, &$form_state, &$form) {
   // Submitted values for the og vocab field.
   $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
 
@@ -293,7 +293,11 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
   $settings['c4m']['data']['tags'] = $tags;
   $settings['c4m']['data']['values']['categories'] = $categories;
 
-  drupal_add_js($settings, 'setting');
+  // Send all the settings to the app.
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 }
 /**
  * Implements hook_theme().
