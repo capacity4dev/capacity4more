@@ -93,11 +93,14 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
  *  The from that is validating.
  */
 function c4m_vocab_widget_validate($element, &$form_state, $form) {
+  $model = array();
   $settings['c4m']['data']['values'][$element['#field_name']] = array();
   foreach ($element['#value'] as $value) {
-    $settings['c4m']['data']['values'][$element['#field_name']][$value] = TRUE;
+    $model[$value] = TRUE;
   }
 
+  $settings['c4m']['data']['values'][$element['#field_name']] = $model;
+//  dpm($settings['c4m']['data']['values']);
   drupal_add_js($settings, 'setting');
 }
 
