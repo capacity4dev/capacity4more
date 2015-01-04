@@ -3,7 +3,6 @@
 ## Getting Started
 
 ```bash
-bundle install
 npm install
 bower install
 grunt build

@@ -93,7 +93,9 @@ function c4m_restful_quick_post_form($group_id) {
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
-    'group' => $group_id,
+    'filter' => array(
+      'group' => $group_id,
+    ),
     'html' => true,
     // Sort the activity stream by ID descending.
     'sort' => '-id',
@@ -168,6 +170,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   }
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
+  $vars['attributes_array']['ng-cloak'][] = 'true';
 
   // Load Angular.
   $bower_path = libraries_get_path('bower_components');
@@ -210,7 +213,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // Load our custom app.
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
-  drupal_add_css($app_path . '/css/c4m-app.css');
 
   $settings['c4m'] = array();
   drupal_add_js($settings, 'setting');

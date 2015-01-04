@@ -16,8 +16,16 @@ angular.module('c4mApp')
     $scope.stream = {
       // The first one is the last loaded activity, (if no activities, insert 0).
       lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
+      // The ID of the last activity in the activity stream (bottom) which has the lowest ID (if no activities, insert 0).
+      firstLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[$scope.existingActivities.length - 1].id : 0,
       status: 0
     };
+
+    // Range of the initial loaded activity stream.
+    $scope.range = 20;
+
+    // Display the "show more" button only if the activity stream is equal to the the range.
+    $scope.showMoreButton = $scope.existingActivities.length >= $scope.range;
 
     // refresh rate of the activity stream (60000 is one minute).
     // @TODO: Import the refresh rate from the drupal settings.
@@ -45,7 +53,7 @@ angular.module('c4mApp')
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
         // Merge all the loaded activities before adding the created one.
-        $scope.showNewActivities();
+        $scope.showNewActivities(0);
       }
 
       var activityStreamInfo = {
@@ -94,18 +102,49 @@ angular.module('c4mApp')
     /**
      * Merge the "new activity" with the existing activity stream.
      * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     *
+     * @param position.
+     *  The position in which to add the new activities.
      */
-    $scope.showNewActivities = function() {
-      var position = 0;
+    $scope.showNewActivities = function(position) {
       angular.forEach ($scope.newActivities, function (activity) {
         this.splice(position, 0, {
           id: activity.id,
-          created: activity.created,
           html: activity.html
         });
         position++;
       }, $scope.existingActivities);
       $scope.newActivities = [];
+    };
+
+    /**
+     * When clicking on the "show more" button,
+     * Request the next set of activities from RESTful,
+     * Adds the newly loaded activity stream to the bottom of the "existingActivities" array.
+     */
+    $scope.showMoreActivities = function() {
+      // Determine the position of the loaded activities depending on the number of the loaded page.
+      var position = $scope.existingActivities.length;
+
+      EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedID)
+        .success( function (data, status) {
+          if (data.data) {
+            angular.forEach(data.data, function (activity) {
+              this.splice(position, 0, {
+                id: activity.id,
+                html: $sce.trustAsHtml(activity.html)
+              });
+              position++;
+            }, $scope.existingActivities);
+
+            // Update the ID of the last activity in the activity stream.
+            $scope.stream.firstLoadedID = data.data[data.data.length - 1].id;
+
+            // Keep the "show more" button, only if the remaining activities to load is more than the range.
+            // The "Count" variable will go down as we are filtering with the lowest activity ID.
+            $scope.showMoreButton = data.count >= $scope.range;
+          }
+        });
     };
 
     // Listening to broadcast for changes in the activity.

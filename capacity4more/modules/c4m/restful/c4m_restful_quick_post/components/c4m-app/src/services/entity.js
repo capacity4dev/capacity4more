@@ -90,6 +90,28 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
     };
+
+    /**
+     * Load more activities from RESTful.
+     *
+     * @param groupID
+     *  The Id of the current group.
+     * @param lowestActivityId
+     *  The Id of the lowest activity that was loaded.
+     *
+     * @returns {*}
+     *  JSON of the loaded activity stream.
+     */
+    this.loadMoreStream = function(groupID, lowestActivityId) {
+      var config = {
+        withCredentials: true,
+        headers: {
+          "X-CSRF-Token": DrupalSettings.getCsrfToken()
+        }
+      };
+
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-id&filter[id][value]=' + lowestActivityId + '&filter[id][operator]="<"&html=1', config);
+    }
   });

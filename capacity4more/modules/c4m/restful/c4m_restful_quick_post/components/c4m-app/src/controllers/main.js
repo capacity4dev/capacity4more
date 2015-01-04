@@ -227,6 +227,21 @@ angular.module('c4mApp')
       }
     };
 
+    /**
+     * Continue submitting form.
+     *
+     * @param submitData
+     *  The submitting data.
+     * @param resource
+     *  The bundle of the node submitted.
+     * @param resourceFields
+     *  The fields of the current resource.
+     * @param type
+     *  The type of the submission.
+     *
+     *  Creates a node of the resource type. If Type of submission is
+     *  a full form - redirects to the created node's editing page.
+     */
     var checkForm  = function(submitData, resource, resourceFields, type) {
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
@@ -240,6 +255,12 @@ angular.module('c4mApp')
         angular.forEach( errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);
+        // Scroll up upon discovering an error.
+        // The last error is the point of reference to scroll.
+        var errorName = Object.keys(errors)[Object.keys(errors).length - 1];
+        // In the body input we point to the parent div because of textAngular.
+        var errorInput = errorName == 'body' ? angular.element('#' + errorName + '-wrapper').offset() : angular.element('#' + errorName).offset();
+        angular.element('html, body').animate({scrollTop:errorInput.top}, '500', 'swing');
         return false;
       }
 
@@ -255,7 +276,8 @@ angular.module('c4mApp')
             $scope.serverSide.data = data;
             $scope.serverSide.status = status;
 
-            // Scroll to the top of the activity stream (Reference is the label input).
+            // Scroll up upon creating a new activity.
+            // Reference the point to scroll to the top of the form (Title input is at the top of the form).
             var labelInput = angular.element('#label').offset();
             angular.element('html, body').animate({scrollTop:labelInput.top}, '500', 'swing');
 
