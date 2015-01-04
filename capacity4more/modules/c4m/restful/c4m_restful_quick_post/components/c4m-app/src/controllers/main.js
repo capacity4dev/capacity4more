@@ -73,9 +73,7 @@ angular.module('c4mApp')
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
       angular.forEach(textFields, function (field) {
-        if (!field){
-          $scope.data[field] = field == 'tags' ? [] : '';
-        }
+        $scope.data[field] = field == 'tags' ? [] : '';
       });
     }
 
