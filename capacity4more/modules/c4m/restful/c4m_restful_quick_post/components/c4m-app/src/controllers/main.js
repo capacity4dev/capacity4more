@@ -292,6 +292,7 @@ angular.module('c4mApp')
 
       // Reset the form, by removing existing values and allowing the user to write a new content.
       $scope.resetEntityForm();
+      delete $scope.serverSide.file;
 
       // Resume the "Activity-stream" auto refresh.
       $rootScope.$broadcast('c4m.activity.refresh', 'continue');
