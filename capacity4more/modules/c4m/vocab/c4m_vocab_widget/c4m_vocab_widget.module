@@ -130,10 +130,12 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
     else {
       $parents = $term->parents;
       if ($parents[0] == '0') {
+        // This is the parent term.
         $options[$term->tid]['label'] = check_plain($term->name);
         $options[$term->tid]['id'] = $term->tid;
       }
       else {
+        // This is the child term - add it to the children of the parent term.
         $options[$parents[0]]['children'][] = array(
           'label' => check_plain($term->name),
           'id' => $term->tid,
