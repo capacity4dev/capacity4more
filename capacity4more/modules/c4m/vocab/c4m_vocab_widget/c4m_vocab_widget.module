@@ -43,50 +43,18 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
     $terms = $vocabulary->getReferencableEntities();
   }
 
-
-  $options = array();
-  foreach($terms as $term) {
-    // If the term is array, This vocab is of type "node".
-    if(is_array($term)) {
-      foreach($term as $id => $label) {
-        $options[$id]['label'] = check_plain($label);
-        $options[$id]['id'] = $id;
-      }
-    }
-    else {
-      $parents = $term->parents;
-      if ($parents[0] == '0') {
-        $options[$term->tid]['label'] = check_plain($term->name);
-        $options[$term->tid]['id'] = $term->tid;
-      }
-      else {
-        $options[$parents[0]]['children'][] = array(
-          'label' => check_plain($term->name),
-          'id' => $term->tid,
-        );
-      }
-    }
-  }
-  $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = $options;
+  $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = c4m_vocab_widget_prepare_taxonomy_tree($terms);
 
   // This is node/edit page. Need to send field values to the app.
-  $taxonomy_values = array();
   if (isset($entity->$vocabulary_machine_name) && !empty($entity->$vocabulary_machine_name)) {
-    $values = $entity->$vocabulary_machine_name;
-    foreach ($values[LANGUAGE_NONE] as $value) {
-      // Check if the vocabulary is "Taxonomy term" or "node".
-      if (isset($value['tid'])) {
-        $taxonomy_values[$value['tid']] = true;
-      }
-      else {
-        $taxonomy_values[$value['target_id']] = true;
-      }
-    }
-
-    $settings['c4m']['data']['values'][$vocabulary_machine_name] = $taxonomy_values;
+    $settings['c4m']['data']['values'][$vocabulary_machine_name] = c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name);
   }
 
-  drupal_add_js($settings, 'setting');
+  // Send all the settings to the app.
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 
   // Add the directive.
   $variables = array(
@@ -112,6 +80,73 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
 
   return $element;
 }
+
+/**
+ * Builds an array of selected values to be displayed on the taxonomy widgets.
+ *
+ * @param $entity
+ *  The entity being edited.
+ * @param $vocabulary_machine_name
+ *  The name of the Vocab.
+ *
+ * @return array
+ *  An array of the selected values.
+ */
+function c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name) {
+  $taxonomy_values = array();
+  $values = $entity->$vocabulary_machine_name;
+  foreach ($values[LANGUAGE_NONE] as $value) {
+    // Check if the vocabulary is "Taxonomy term" or "node".
+    if (isset($value['tid'])) {
+      $taxonomy_values[$value['tid']] = TRUE;
+    }
+    else {
+      $taxonomy_values[$value['target_id']] = TRUE;
+    }
+  }
+
+  return $taxonomy_values;
+}
+
+/**
+ * Build the taxonomy-tree for the AngularJs vocab widget.
+ *
+ * @param $terms
+ *  The taxonomy-terms.
+ *
+ * @return array
+ *  The praised tree, ready to send to the angularJs app.
+ */
+function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
+  $options = array();
+  foreach($terms as $term) {
+    // If the term is array, this vocab is of type "node".
+    if(is_array($term)) {
+      foreach($term as $id => $label) {
+        $options[$id]['label'] = check_plain($label);
+        $options[$id]['id'] = $id;
+      }
+    }
+    else {
+      $parents = $term->parents;
+      if ($parents[0] == '0') {
+        // This is the parent term.
+        $options[$term->tid]['label'] = check_plain($term->name);
+        $options[$term->tid]['id'] = $term->tid;
+      }
+      else {
+        // This is the child term - add it to the children of the parent term.
+        $options[$parents[0]]['children'][] = array(
+          'label' => check_plain($term->name),
+          'id' => $term->tid,
+        );
+      }
+    }
+  }
+
+  return $options;
+}
+
 /**
  * Implements hook_theme().
  */

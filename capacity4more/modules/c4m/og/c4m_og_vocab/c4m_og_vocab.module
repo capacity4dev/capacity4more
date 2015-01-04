@@ -186,31 +186,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['data']['tags_id'] = $tags_id;
 
   // For the "taxonomy" widget.
-  $options = array();
-  foreach($terms['categories'] as $term) {
-    $parents = $term->parents;
-    if ($parents[0] == '0') {
-      $options[$term->tid]['label'] = check_plain($term->name);
-      $options[$term->tid]['id'] = $term->tid;
-    }
-    else {
-      $options[$parents[0]]['children'][] = array(
-        'label' => check_plain($term->name),
-        'id' => $term->tid,
-      );
-    }
-    $settings['c4m']['data']['vocabularies']['categories'] = $options;
-  }
+  $settings['c4m']['data']['vocabularies']['categories'] = c4m_vocab_widget_prepare_taxonomy_tree($terms['categories']);
 
-  $taxonomy_values = array();
   if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
-    $values = $entity->og_vocabulary;
-    foreach ($values[LANGUAGE_NONE] as $value) {
-      // This is node/edit page. Need to send field values to the app.
-      $taxonomy_values[$value['target_id']] = true;
-    }
-
-    $settings['c4m']['data']['values']['categories'] = $taxonomy_values;
+    $settings['c4m']['data']['values']['categories'] = c4m_vocab_widget_get_selected_values($entity, 'og_vocabulary');
   }
 
   // Send the tags to the AngularJs if we have values (On edit page).
@@ -222,7 +201,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
         // This is node/edit page. Need to send field values to the app.
         if ($term->tid == $value['target_id']) {
           $tags[] = array(
-            'isNew' => false,
+            'isNew' => FALSE,
             'text' => $term->name,
             'id' => $term->tid,
           );
@@ -233,11 +212,13 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['data']['tags'] = $tags;
 
   // Send all the settings to the app.
-  drupal_add_js($settings, 'setting');
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 
   // Add the directive.
   // Add the "taxonomy" widget for the "categories" directive, Add the "ig_vocab" widget for "tags" directive.
-  // Add the directive.
   $variables = array(
     'vocabulary_label' => 'Categories',
     'vocabulary_machine_name' => 'categories',
@@ -250,6 +231,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     '#weight' => $instance['widget']['weight'],
   );
 
+  $element['target_id']['#element_validate'][] = 'c4m_og_vocab_validate';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
   $element['#prefix'] = '<div class="ng-hide">';
@@ -258,6 +240,55 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   return $element;
 }
 
+
+/**
+ * Keep selected and created tags in the AngularJS when form is validating.
+ *
+ * @param $element
+ *  Form element.
+ * @param $form_state
+ *  The current state of the validating form.
+ * @param $form
+ *  The from that is validating.
+ */
+function c4m_og_vocab_validate($element, &$form_state, $form) {
+  // Submitted values for the og vocab field.
+  $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
+
+  $tags = array();
+  foreach ($values as $value) {
+    if (is_array($value)) {
+      // This is a value.
+      foreach ($value as $term_array) {
+        if ($term_array['target_id']) {
+          // The value is not empty.
+          if ($term_array['target_id'] == 'autocreate') {
+            // This is a new tag.
+            $tags[] = array(
+              'isNew' => TRUE,
+              'text' => $term_array['name'],
+              'id' => $term_array['name'],
+            );
+          }
+          else {
+            // This is the existing tag.
+            $term = taxonomy_term_load($term_array['target_id']);
+            if (is_object($term) && preg_match('/tag/i', $term->vocabulary_machine_name)) {
+              $tags[] = array(
+                'isNew' => FALSE,
+                'text' => $term->name,
+                'id' => $term->tid,
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+  $settings['c4m']['data']['tags'] = $tags;
+
+  drupal_add_js($settings, 'setting');
+}
 /**
  * Implements hook_theme().
  */
