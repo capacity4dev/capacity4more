@@ -201,7 +201,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
         // This is node/edit page. Need to send field values to the app.
         if ($term->tid == $value['target_id']) {
           $tags[] = array(
-            'isNew' => false,
+            'isNew' => FALSE,
             'text' => $term->name,
             'id' => $term->tid,
           );
@@ -240,6 +240,17 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   return $element;
 }
 
+
+/**
+ * Keep selected and created tags in the AngularJS when form is validating.
+ *
+ * @param $element
+ *  Form element.
+ * @param $form_state
+ *  The current state of the validating form.
+ * @param $form
+ *  The from that is validating.
+ */
 function c4m_og_vocab_validate($element, &$form_state, $form) {
   // Submitted values for the og vocab field.
   $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
@@ -247,20 +258,24 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
   $tags = array();
   foreach ($values as $value) {
     if (is_array($value)) {
+      // This is a value.
       foreach ($value as $term_array) {
         if ($term_array['target_id']) {
-          if($term_array['target_id'] == 'autocreate') {
+          // The value is not empty.
+          if ($term_array['target_id'] == 'autocreate') {
+            // This is a new tag.
             $tags[] = array(
-              'isNew' => true,
+              'isNew' => TRUE,
               'text' => $term_array['name'],
               'id' => $term_array['name'],
             );
           }
           else {
+            // This is the existing tag.
             $term = taxonomy_term_load($term_array['target_id']);
             if (is_object($term) && preg_match('/tag/i', $term->vocabulary_machine_name)) {
               $tags[] = array(
-                'isNew' => false,
+                'isNew' => FALSE,
                 'text' => $term->name,
                 'id' => $term->tid,
               );
@@ -274,7 +289,6 @@ function c4m_og_vocab_validate($element, &$form_state, $form) {
 
   drupal_add_js($settings, 'setting');
 }
-
 /**
  * Implements hook_theme().
  */
