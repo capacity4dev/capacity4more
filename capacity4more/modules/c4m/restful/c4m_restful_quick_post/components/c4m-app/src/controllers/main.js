@@ -267,8 +267,8 @@ angular.module('c4mApp')
           this[field] = value;
         }, $scope.errors);
         // Scroll up upon discovering an error.
-        // The first error is the point of reference to scroll.
-        var errorName = Object.keys($scope.errors)[0];
+        // The last error is the point of reference to scroll.
+        var errorName = Object.keys(errors)[Object.keys(errors).length - 1];
         var errorInput = angular.element('#' + errorName).offset();
         angular.element('html, body').animate({scrollTop:errorInput.top}, '500', 'swing');
         return false;

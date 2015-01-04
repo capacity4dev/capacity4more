@@ -28,7 +28,16 @@ angular.module('c4mApp')
       var submitData = angular.copy(data);
 
       // Setup Date and time for events.
-      if (Request.resource == 'events' && submitData.datetime) {
+      if (Request.resource == 'events') {
+        // Submitting full form without the datetime field.
+        // Assign the current date to the form.
+        // this will avoid displaying errors and will redirect the user the full form edit page
+        // which has the current date filled by default anyway.
+        if (submitData.status == 0 && !submitData.datetime) {
+          submitData.datetime = {};
+          submitData.datetime.startDate = new Date();
+          submitData.datetime.endDate = new Date();
+        }
         // If the user didn't choose the time, Fill the current time.
         if (!submitData.datetime.startTime || !submitData.datetime.endTime) {
           submitData.datetime.startTime = new Date();

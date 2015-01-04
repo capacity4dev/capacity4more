@@ -200,6 +200,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   }
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
+  $vars['attributes_array']['ng-cloak'][] = 'true';
 
   // Load Angular.
   $bower_path = libraries_get_path('bower_components');
