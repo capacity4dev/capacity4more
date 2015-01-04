@@ -239,13 +239,19 @@ angular.module('c4mApp')
     };
 
     /**
-     * @TODO: Please document this.
+     * Continue submitting form.
      *
      * @param submitData
+     *  The submitting data.
      * @param resource
+     *  The bundle of the node submitted.
      * @param resourceFields
+     *  The fields of the current resource.
      * @param type
-     * @returns {boolean}
+     *  The type of the submission.
+     *
+     *  Creates a node of the resource type. If Type of submission is
+     *  a full form - redirects to the created node's editing page.
      */
     var checkForm  = function(submitData, resource, resourceFields, type) {
       // Check for required fields.
