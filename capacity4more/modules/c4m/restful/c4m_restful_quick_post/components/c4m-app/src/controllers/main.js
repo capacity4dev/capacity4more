@@ -269,7 +269,8 @@ angular.module('c4mApp')
         // Scroll up upon discovering an error.
         // The last error is the point of reference to scroll.
         var errorName = Object.keys(errors)[Object.keys(errors).length - 1];
-        var errorInput = angular.element('#' + errorName).offset();
+        // In the body input we point to the parent div because of textAngular.
+        var errorInput = errorName == 'body' ? angular.element('#' + errorName + '-wrapper').offset() : angular.element('#' + errorName).offset();
         angular.element('html, body').animate({scrollTop:errorInput.top}, '500', 'swing');
         return false;
       }
