@@ -28,7 +28,7 @@ angular.module('c4mApp')
       var submitData = angular.copy(data);
 
       // Setup Date and time for events.
-      if (Request.resource == 'events') {
+      if (Request.resource == 'events' && submitData.datetime) {
         // If the user didn't choose the time, Fill the current time.
         if (!submitData.datetime.startTime || !submitData.datetime.endTime) {
           submitData.datetime.startTime = new Date();

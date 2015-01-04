@@ -238,6 +238,15 @@ angular.module('c4mApp')
       }
     };
 
+    /**
+     * @TODO: Please document this.
+     *
+     * @param submitData
+     * @param resource
+     * @param resourceFields
+     * @param type
+     * @returns {boolean}
+     */
     var checkForm  = function(submitData, resource, resourceFields, type) {
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
@@ -251,6 +260,11 @@ angular.module('c4mApp')
         angular.forEach( errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);
+        // Scroll up upon discovering an error.
+        // The first error is the point of reference to scroll.
+        var errorName = Object.keys($scope.errors)[0];
+        var errorInput = angular.element('#' + errorName).offset();
+        angular.element('html, body').animate({scrollTop:errorInput.top}, '500', 'swing');
         return false;
       }
 
@@ -266,7 +280,8 @@ angular.module('c4mApp')
             $scope.serverSide.data = data;
             $scope.serverSide.status = status;
 
-            // Scroll to the top of the activity stream (Reference is the label input).
+            // Scroll up upon creating a new activity.
+            // Reference the point to scroll to the top of the form (Title input is at the top of the form).
             var labelInput = angular.element('#label').offset();
             angular.element('html, body').animate({scrollTop:labelInput.top}, '500', 'swing');
 

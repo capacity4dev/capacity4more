@@ -149,5 +149,7 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
       entity_metadata_wrapper('node', $entity)->c4m_location->set($locations[0]);
       node_save($entity);
     }
+    $wrapper = entity_metadata_wrapper($this->entityType, $entity);
+    return array($this->viewEntity($wrapper->getIdentifier()));
   }
 }
