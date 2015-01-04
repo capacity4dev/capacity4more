@@ -76,8 +76,8 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'][] = 'c4m_vocab_widget_validate';
   $element['#title'] = '';
-//  $element['#prefix'] = '<div class="ng-hide">';
-//  $element['#suffix'] = '</div>';
+  $element['#prefix'] = '<div class="ng-hide">';
+  $element['#suffix'] = '</div>';
 
   return $element;
 }
@@ -109,7 +109,7 @@ function c4m_vocab_widget_validate($element, $form_state, &$form) {
       if (isset($data['data']['c4m']['data'])) {
         if (isset($data['data']['c4m']['data']['values'])) {
           if (array_key_exists($element['#field_name'], $data['data']['c4m']['data']['values'])) {
-            unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']);
+            unset($form['#attached']['js'][$id]['data']['c4m']['data']['values'][$element['#field_name']]);
           }
         }
       }
