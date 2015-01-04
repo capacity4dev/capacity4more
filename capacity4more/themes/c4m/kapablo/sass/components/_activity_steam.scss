@@ -1,30 +1,91 @@
 .activity-stream {
-  .row {
-    border-top: 1px solid $gray-light;
-    margin: 15px 0 0 0;
-    padding: 15px 0 0 0;
+
+  #new-activities-button {
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
   }
 
-  .activity-row {
+  .activities {
+    @include transition(1.5s);
+    margin-top: 20px;
+
+    &.ng-enter {
+      opacity: 0;
+      background: $activity-load;
+    }
+
+    &.ng-leave {
+      opacity: 1;
+      background: transparent;
+    }
+
+    &.ng-enter,
+    &.ng-enter-active {
+      opacity: 1;
+      background: $activity-load;
+    }
+
+    &.ng-leave,
+    &.ng-leave-active {
+      opacity: 0;
+      background: transparent;
+    }
+
     .row {
-      border: 0;
-      margin: 0;
-      padding: 0;
+      border-top: 1px solid $gray-light;
+      margin: 15px 0 0 0;
+      padding: 15px 0 0 0;
     }
 
-    .as-icon {
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-      background-size: 35px;
+    .activity-row {
+      .row {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
 
-      float: left;
-      height: 35px;
-      width: 35px;
+      .as-icon {
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: 35px;
+
+        float: left;
+        height: 35px;
+        width: 35px;
+      }
+
+      .as-item {
+        margin: 0 0 0 35px;
+        padding-left: 15px;
+      }
     }
+  }
 
-    .as-item {
-      margin: 0 0 0 35px;
-      padding-left: 15px;
+  .show-more-wrapper {
+    width: 100%;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 49px;
+    float: left;
+
+    .show-more {
+      padding: 0 5px;
+      position: relative;
+      background-color: white;
+      display: inline-block;
+      top: 0;
+      left: 5px;
+
+      a,
+      span {
+        background-color: $highlight-blue;
+        display: inline-block;
+        padding: 12px 43px 9px;
+        color: white;
+        font-weight: bold;
+        @include border-radius(20px);
+      }
     }
   }
 }
