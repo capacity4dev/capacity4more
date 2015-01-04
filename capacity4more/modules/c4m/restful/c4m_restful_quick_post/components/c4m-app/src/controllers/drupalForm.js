@@ -74,7 +74,9 @@ angular.module('c4mApp')
           tags.push(tag.text);
         }
       });
-      angular.element('#edit-og-vocabulary-und-0-' + $scope.tagsId).val(tags.join(', '));
+      if (!angular.isObject($scope.tagsId)) {
+        angular.element('#edit-og-vocabulary-und-0-' + $scope.tagsId).val(tags.join(', '));
+      }
     });
 
     /**

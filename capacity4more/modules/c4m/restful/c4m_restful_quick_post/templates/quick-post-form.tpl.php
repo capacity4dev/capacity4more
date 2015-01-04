@@ -59,10 +59,10 @@
 </div>
 
 <!-- Body editor-->
-<div class="form-group" ng-class="{ 'has-error' : errors.body }">
+<div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
   <textarea ckeditor="editorOptions" name="body" id="body" ng-model="data.body"></textarea>
 
-  <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
+  <p ng-show="errors.body" class="errors"><?php print t('Body is required.'); ?></p>
 
   <div class="errors">
     <ul ng-show="serverSide.data.errors.body">
