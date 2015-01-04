@@ -40,6 +40,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -102,6 +108,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 19,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -158,6 +170,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 4,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -180,7 +198,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'c4m_content_discussion',
+      'module' => 'c4m_document_widget',
       'settings' => array(
         'match_operator' => 'CONTAINS',
         'path' => '',
@@ -222,6 +240,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 9,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -278,6 +302,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 11,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -327,6 +357,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 13,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -378,6 +414,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 12,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -426,6 +468,12 @@ function c4m_content_discussion_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 18,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -502,6 +550,12 @@ function c4m_content_discussion_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 10,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
