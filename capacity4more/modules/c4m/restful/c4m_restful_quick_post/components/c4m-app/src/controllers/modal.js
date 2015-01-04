@@ -25,10 +25,10 @@ angular.module('c4mApp')
 
       angular.forEach($scope.fieldSchema, function (data, field) {
         // Don't change the group field Or resource object.
-        if (field == 'resources' || field == 'group' ) {
+        if (field == 'resources' || field == 'group' || field == "tags" || field == "related_document") {
           return;
         }
-        var allowedValues = data.form_element.allowed_values;
+        var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
         if(angular.isObject(allowedValues) && Object.keys(allowedValues).length && field != "tags") {
           $scope.referenceValues[field] = allowedValues;
           $scope.popups[field] = 0;
