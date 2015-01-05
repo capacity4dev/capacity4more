@@ -10,6 +10,9 @@ angular.module('c4mApp')
     // Get related to the discussion documents.
     $scope.data.relatedDocuments = DrupalSettings.getData('relatedDocuments');
 
+    // Get the form Identifier, for the related documents widget.
+    $scope.formId = DrupalSettings.getData('formId');
+
     $scope.model = {};
 
     $scope.basePath = DrupalSettings.getBasePath();
