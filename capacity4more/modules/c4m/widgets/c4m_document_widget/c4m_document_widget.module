@@ -130,7 +130,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
  *
  * Only nids in the input are now required.
  */
-function c4m_document_widget_entityreference_autocomplete_tags_validate($element, &$form_state, $form) {
+function c4m_document_widget_entityreference_autocomplete_tags_validate($element, &$form_state, &$form) {
   $value = array();
   // If a value was entered into the autocomplete...
   if (!empty($element['#value'])) {
@@ -157,6 +157,24 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
   }
   // Update the value of this element so the field can validate the product IDs.
   form_set_value($element, $value, $form_state);
+
+  // Getting array of related document ids from the existing field value.
+  $field_values = array();
+  preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
+  $settings['c4m']['data']['relatedDocuments'] = $field_values[1];
+
+  // Unset previous related documents values.
+  foreach ($form['#attached']['js'] as $id => $data) {
+    if (!empty($data['data']['c4m']['data']['relatedDocuments'])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments']);
+    }
+  }
+
+  // Send all the settings to the app.
+  $form['#attached']['js'][] = array(
+    'data' => $settings,
+    'type' => 'setting'
+  );
 }
 
 /**
