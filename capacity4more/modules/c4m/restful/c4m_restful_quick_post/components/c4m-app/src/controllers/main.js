@@ -59,7 +59,6 @@ angular.module('c4mApp')
         });
       });
 
-
       if (angular.isDefined($scope.data.discussion_type)) {
         // Set "Start a Debate" as default discussion type.
         $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) || !$scope.fullForm ? 'debate' : $scope.data.discussion_type;
@@ -171,6 +170,9 @@ angular.module('c4mApp')
 
     /**
      * Submit form.
+     *  Stops auto-refresh, Cleans fields (delete fields that doesn't belong to the entity being created),
+     *  Adds location details (lat, lng) to the "event" entity,
+     *  Sends the cleaned-up data to the checkForm function for entity creation.
      *
      *  @param data
      *    The submitted data.
@@ -227,6 +229,8 @@ angular.module('c4mApp')
 
     /**
      * Continue submitting form.
+     *  Creates a node of the resource type. If Type of submission is
+     *  a full form - redirects to the created node's editing page.
      *
      * @param submitData
      *  The submitting data.
@@ -236,9 +240,6 @@ angular.module('c4mApp')
      *  The fields of the current resource.
      * @param type
      *  The type of the submission.
-     *
-     *  Creates a node of the resource type. If Type of submission is
-     *  a full form - redirects to the created node's editing page.
      */
     var checkForm  = function(submitData, resource, resourceFields, type) {
       // Check for required fields.
