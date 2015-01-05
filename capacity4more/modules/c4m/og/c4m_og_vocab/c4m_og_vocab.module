@@ -295,14 +295,8 @@ function c4m_og_vocab_validate($element, &$form_state, &$form) {
 
   // Unset previous values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (isset($data['data']['c4m'])) {
-      if (isset($data['data']['c4m']['data'])) {
-        if (isset($data['data']['c4m']['data']['values'])) {
-          if (array_key_exists('categories', $data['data']['c4m']['data']['values'])) {
-            unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
-          }
-        }
-      }
+    if (!empty($data['data']['c4m']['data']['values']['categories'])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
     }
   }
 

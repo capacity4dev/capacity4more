@@ -48,7 +48,7 @@ angular.module('c4mApp')
 
     // Update the shown texonomies upon searching.
     $scope.updateSearch = function(vocab) {
-      $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerm);
+      $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerms[vocab]);
     };
 
     // Toggle the visibility of the popovers.
