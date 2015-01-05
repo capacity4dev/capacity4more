@@ -158,7 +158,7 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
   // Update the value of this element so the field can validate the product IDs.
   form_set_value($element, $value, $form_state);
 
-  // Getting array of related document ids from the existing value.
+  // Getting array of related document ids from the existing field value.
   $field_values = array();
   preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
   $settings['c4m']['data']['relatedDocuments'] = $field_values[1];
