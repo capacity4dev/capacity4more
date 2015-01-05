@@ -27,7 +27,6 @@ dependencies[] = rdf
 ; Contrib modules -------------------------------------------------------------
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
-dependencies[] = ckeditor
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
@@ -138,4 +137,5 @@ dependencies[] = c4m_search_users
 dependencies[] = c4m_message
 
 ; Widgets
+dependencies[] = c4m_body_widget
 dependencies[] = c4m_document_widget
