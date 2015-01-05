@@ -124,6 +124,7 @@
     &.drop-box {
       @include input-rounded($highlight-blue);
       @include border-radius(80px);
+      color: $white;
     }
   }
 
@@ -363,7 +364,6 @@
 
 .drop-box {
   border: 0;
-  color: $white;
   display: block;
   padding: 0;
   height: auto;
