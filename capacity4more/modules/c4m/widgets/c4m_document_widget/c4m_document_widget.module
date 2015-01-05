@@ -158,22 +158,15 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
   // Update the value of this element so the field can validate the product IDs.
   form_set_value($element, $value, $form_state);
 
-
+  // Getting array of related document ids from the existing value.
   $field_values = array();
   preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
-
   $settings['c4m']['data']['relatedDocuments'] = $field_values[1];
 
-  // Unset previous values.
+  // Unset previous related documents values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (isset($data['data']['c4m'])) {
-      if (isset($data['data']['c4m']['data'])) {
-        if (isset($data['data']['c4m']['data']['relatedDocuments'])) {
-          if (array_key_exists('relatedDocuments', $data['data']['c4m']['data']['relatedDocuments'])) {
-            unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['relatedDocuments']);
-          }
-        }
-      }
+    if (!empty($data['data']['c4m']['data']['relatedDocuments'])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments']);
     }
   }
 
