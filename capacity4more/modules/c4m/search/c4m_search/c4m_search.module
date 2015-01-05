@@ -142,5 +142,10 @@ function c4m_search_theme() {
       'variables' => array('text' => NULL, 'path' => NULL, 'options' => array(), 'count' => 0),
       'file' => 'c4m_search.theme.inc',
     ),
+    'c4m_search_dropdown_sort_filters' => array(
+      'variables' => array('list' => NULL, 'active' => NULL),
+      'template' => 'search-api-sorts-list',
+      'path' => drupal_get_path('module', 'c4m_search') . '/templates',
+    ),
   );
 }
