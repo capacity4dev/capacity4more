@@ -7,7 +7,7 @@
  * # A list of filterable taxonomy terms.
  */
 angular.module('c4mApp')
-  .directive('listTerms', function ($window, DrupalSettings, $timeout) {
+  .directive('listTerms', function ($window, DrupalSettings, $timeout, $filter) {
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/list-terms/list-terms.html',
       restrict: 'E',
