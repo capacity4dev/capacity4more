@@ -191,7 +191,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
 
   // CKEditor library.
   drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
-  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
   drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
 
   // Select UI

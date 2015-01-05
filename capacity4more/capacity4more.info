@@ -27,6 +27,7 @@ dependencies[] = rdf
 ; Contrib modules -------------------------------------------------------------
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
+dependencies[] = ckeditor
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date

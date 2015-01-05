@@ -9,7 +9,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.x-dev"
 
 projects[ckeditor][subdir] = "contrib"
-projects[ckeditor][version] = "1.x-dev"
+projects[ckeditor][version] = "1.16"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.3"
