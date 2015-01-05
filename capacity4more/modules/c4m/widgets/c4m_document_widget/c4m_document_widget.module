@@ -76,7 +76,6 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 
-
   // Add the angular directive.
 
   // Get the existing field value.
@@ -90,8 +89,18 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value));
   $form['add_document-' . $instance['widget']['weight']] = array(
     '#markup' => $directive,
-    '#weight' => $instance['widget']['weight']-1,
+    '#weight' => $instance['widget']['weight'],
   );
+
+//  $field_groups = field_group_info_groups('node', 'event');
+//
+//  foreach ($field_groups['form'] as $group) {
+//
+//    if (array_key_exists($field['name'], $group)) {
+//
+//    }
+//  }
+
 
   // URL options.
   $options = array(
