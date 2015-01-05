@@ -20,7 +20,7 @@ function c4m_body_widget_field_widget_form(&$form, &$form_state, $field, $instan
   }
 
   // Send the field value to the app if the current page is the edit page.
-  if (isset($entity->c4m_body)) {
+  if (isset($entity->c4m_body) && $entity->c4m_body) {
     $value = $entity->c4m_body[$langcode][0]['value'];
     $settings['c4m']['data']['body'] = $value;
 
@@ -36,6 +36,7 @@ function c4m_body_widget_field_widget_form(&$form, &$form_state, $field, $instan
   $form['#attributes']['class'][] = 'drupal-form';
 
   $element = text_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
   // Add attributes to the existing element, This will load the ngCkeditor.
   $element['#attributes']['ckeditor'] = 'editorOptions';
   $element['#attributes']['ng-model'] = 'data.body';
