@@ -17,7 +17,14 @@ function c4m_content_event_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_document_agenda',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -53,7 +60,14 @@ function c4m_content_event_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_document_presentation',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

@@ -32,6 +32,16 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_document_agenda' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
+    'c4m_document_presentation' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
     'c4m_facebook' => array(
       'formatter_settings' => array(
         'ft' => array(
