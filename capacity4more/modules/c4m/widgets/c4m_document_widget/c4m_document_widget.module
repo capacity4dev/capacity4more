@@ -73,8 +73,8 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'] = array('c4m_document_widget_entityreference_autocomplete_tags_validate');
   $element['#title'] = '';
-  $element['#prefix'] = '<div class="ng-hide">';
-  $element['#suffix'] = '</div>';
+//  $element['#prefix'] = '<div class="ng-hide">';
+//  $element['#suffix'] = '</div>';
 
   // Add the angular directive.
 
@@ -83,11 +83,11 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
 
   $default_values = array();
   preg_match_all("/\((\d+)\)/", $default_value, $default_values);
-
   $default_value = implode(',', $default_values[1]);
 
-  $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value));
-  $form['add_document-' . $instance['widget']['weight']] = array(
+  dpm($field['field_name']);
+  $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value, 'field_name' => $field['field_name']));
+  $form['add_document-' . $field['field_name']] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
   );
@@ -116,12 +116,15 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     ),
     'absolute' => TRUE,
   );
+
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'data' => array(
       'purl' => url('', $options_context),
-      'relatedDocuments' => $default_values[1],
+      'relatedDocuments' => array(
+        $field['field_name'] => $default_values[1],
+      ),
       // The form id in HTML is with dashes, not underscores.
       'formId' => str_replace('_', '-', $form_state['build_info']['form_id']),
     )
@@ -169,15 +172,17 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
   // Update the value of this element so the field can validate the product IDs.
   form_set_value($element, $value, $form_state);
 
+  dpm($element);
   // Getting array of related document ids from the existing field value.
   $field_values = array();
   preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
-  $settings['c4m']['data']['relatedDocuments'] = $field_values[1];
+
+  $settings['c4m']['data']['relatedDocuments'][str_replace('_', '-', $element['#field_name'])] = $field_values[1];
 
   // Unset previous related documents values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['relatedDocuments'])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments']);
+    if (!empty($data['data']['c4m']['data']['relatedDocuments'][str_replace('_', '-', $element['#field_name'])])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][str_replace('_', '-', $element['#field_name'])]);
     }
   }
 

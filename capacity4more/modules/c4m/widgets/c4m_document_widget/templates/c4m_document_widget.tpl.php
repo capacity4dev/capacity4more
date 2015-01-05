@@ -14,7 +14,7 @@
       </a>
     </div>
   </div>
-  <related-documents related-documents="data.relatedDocuments" form-id="formId"></related-documents>
+  <related-documents related-documents="data.relatedDocuments.<?php print $field_name; ?>" form-id="formId" field-name="'<?php print $field_name; ?>'"></related-documents>
 
-  <input type="text" id="related-documents" ng-hide="true" value="<?php print $default_value; ?>">
+  <input type="text" id="<?php print $field_name; ?>" ng-hide="true" value="<?php print $default_value; ?>">
 </div>
