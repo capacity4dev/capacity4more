@@ -55,17 +55,17 @@
 }
 
 %circle-button-30 {
-  @include border-radius(15px);
+  @include border-radius(12px);
 
   border: 0;
   color: $white;
   display: inline-block;
   font-size: 12px;
-  height: 30px;
+  height: 24px;
   line-height: 1.428571429;
-  padding: 6px 0;
+  padding: 4px 0;
   text-align: center;
-  width: 30px;
+  width: 24px;
 
   &:hover {
     background: $gray-light;
