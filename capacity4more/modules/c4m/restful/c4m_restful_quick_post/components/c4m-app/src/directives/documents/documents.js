@@ -20,9 +20,6 @@ angular.module('c4mApp')
 
         var fieldName = scope.fieldName.replace(/_/g, '-');
 
-        console.log(fieldName);
-
-
         /**
          * Create array of related document objects.
          *
@@ -48,7 +45,8 @@ angular.module('c4mApp')
         };
 
         // Get the click event form the overlay and update related documents.
-        element.parents('#' + scope.formId).find('#'+ fieldName).on('click', function (event) {
+        element.parents('#' + scope.formId).find('#'+ scope.fieldName).on('click', function (event) {
+          console.log('here');
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
             var ids = val.split(',');

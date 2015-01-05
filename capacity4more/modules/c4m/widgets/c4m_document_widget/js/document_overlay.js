@@ -1,4 +1,6 @@
 (function ($) {
+  // Need to get current field name.
+  console.log(parent.Drupal.settings);
 
   $(document).on('click', function(event) {
     // Get the element that was clicked.

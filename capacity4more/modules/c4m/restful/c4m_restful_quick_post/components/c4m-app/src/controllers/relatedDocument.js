@@ -1,6 +1,8 @@
 angular.module('c4mApp')
   .controller('DocumentCtrl', function($scope, DrupalSettings, EntityResource, Request) {
 
+    $scope.fileName = '';
+
     $scope.data = DrupalSettings.getData('vocabularies');
 
     $scope.data.relatedDocuments = [];
@@ -8,6 +10,11 @@ angular.module('c4mApp')
     $scope.basePath = DrupalSettings.getBasePath();
 
     $scope.model = {};
+
+    $scope.fieldName = DrupalSettings.getData('fieldName');
+
+    var fieldName = $scope.fieldName.replace(/_/g, '-');
+    console.log($scope.fieldName);
 
     /**
      * Create document node.
@@ -56,15 +63,15 @@ angular.module('c4mApp')
           var item = '(' + nid + ')';
 
           // Add the value we get in the hidden inputs in the parent page.
-          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
-          var nids = jQuery('#related-documents', parent.window.document).val();
+          var value = jQuery('#edit-' + fieldName + '-und', parent.window.document).val();
+          var nids = jQuery('#' + $scope.fieldName, parent.window.document).val();
           if (value.indexOf(item) == -1) {
             value = value ? value + ', ' + item : item;
             nids = nids ? nids + ',' + nid : nid;
           }
 
-          jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
-          jQuery('#related-documents', parent.window.document).val(nids).trigger('click');
+          jQuery('#edit-' + fieldName + '-und', parent.window.document).val(value);
+          jQuery('#' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
 
           if (!addToLibrary) {
             // Save document and go to the parent page.

@@ -85,7 +85,6 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   preg_match_all("/\((\d+)\)/", $default_value, $default_values);
   $default_value = implode(',', $default_values[1]);
 
-  dpm($field['field_name']);
   $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value, 'field_name' => $field['field_name']));
   $form['add_document-' . $field['field_name']] = array(
     '#markup' => $directive,
@@ -172,17 +171,16 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
   // Update the value of this element so the field can validate the product IDs.
   form_set_value($element, $value, $form_state);
 
-  dpm($element);
   // Getting array of related document ids from the existing field value.
   $field_values = array();
   preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
 
-  $settings['c4m']['data']['relatedDocuments'][str_replace('_', '-', $element['#field_name'])] = $field_values[1];
+  $settings['c4m']['data']['relatedDocuments'][$element['#field_name']] = $field_values[1];
 
   // Unset previous related documents values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['relatedDocuments'][str_replace('_', '-', $element['#field_name'])])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][str_replace('_', '-', $element['#field_name'])]);
+    if (!empty($data['data']['c4m']['data']['relatedDocuments'][$element['#field_name']])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][$element['#field_name']]);
     }
   }
 
@@ -268,10 +266,10 @@ function c4m_document_widget_admin_paths() {
  * Implements hook_menu().
  */
 function c4m_document_widget_menu() {
-  $items['overlay-file/%'] = array(
+  $items['overlay-file/%/%'] = array(
     'page callback' => 'c4m_document_widget_add_document_file',
     'access callback' => 'c4m_document_widget_check_file_access',
-    'page arguments' => array(1),
+    'page arguments' => array(1,2),
     'access arguments' => array(1),
   );
   return $items;
@@ -321,11 +319,13 @@ function c4m_document_widget_check_file_access($file_id) {
  *
  * @param $file_id
  *  Document's file id.
+ * @param $field_name
+ *  Docuemnt field name.
  *
  * @return string
  *  Return formatted html of the overlay-file page.
  */
-function c4m_document_widget_add_document_file($file_id) {
+function c4m_document_widget_add_document_file($file_id, $field_name) {
   $file = file_load($file_id);
   // Get file view.
   $file_view = file_view($file);
@@ -367,6 +367,7 @@ function c4m_document_widget_add_document_file($file_id) {
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'data' => array(
       'groupID' => $group_id,
+      'fieldName' => $field_name,
       'purl' => url('', $options_context),
     )
   );
