@@ -304,7 +304,7 @@ function c4m_document_widget_add_document_file($file_id) {
   $context = og_context();
   if (!$context) {
     // There is no og context.
-    return;
+    return t('File @file was saved. Unable to create document outside the group', array('@file' => $file->filename));
   }
   $group_id = $context['gid'];
 
