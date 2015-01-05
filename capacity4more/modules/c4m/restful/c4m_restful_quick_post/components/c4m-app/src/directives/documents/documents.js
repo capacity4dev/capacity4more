@@ -12,7 +12,8 @@ angular.module('c4mApp')
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/documents/documents.html',
       restrict: 'E',
       scope: {
-        relatedDocuments: '='
+        relatedDocuments: '=',
+        formId: '='
       },
       link: function postLink(scope, element) {
 
@@ -41,7 +42,7 @@ angular.module('c4mApp')
         };
 
         // Get the click event form the overlay and update related documents.
-        element.parents('#discussion-node-form').find('#related-documents').on('click', function (event) {
+        element.parents('#' + scope.formId).find('#related-documents').on('click', function (event) {
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
             var ids = val.split(',');
