@@ -88,9 +88,9 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   $default_value = implode(',', $default_values[1]);
 
   $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value));
-  $form['add_document'] = array(
+  $form['add_document-' . $instance['widget']['weight']] = array(
     '#markup' => $directive,
-    '#weight' => $instance['widget']['weight'],
+    '#weight' => $instance['widget']['weight']-1,
   );
 
   // URL options.
