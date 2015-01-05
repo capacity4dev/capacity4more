@@ -45,8 +45,7 @@ angular.module('c4mApp')
         };
 
         // Get the click event form the overlay and update related documents.
-        element.parents('#' + scope.formId).find('#'+ scope.fieldName).on('click', function (event) {
-          console.log('here');
+        element.parents('#' + scope.formId).find('#input-'+ scope.fieldName).on('click', function (event) {
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
             var ids = val.split(',');
@@ -77,12 +76,12 @@ angular.module('c4mApp')
           value = value.replace('(' + id + '), ', '');
           value = value.replace('(' + id + ')', '');
 
-          var ids = angular.element('#' + scope.fieldName).val();
+          var ids = angular.element('#input-' + scope.fieldName).val();
           ids = ids.replace(id + ', ', '');
           ids = ids.replace(id, '');
 
           angular.element('#edit-' + fieldName + '-und').val(value);
-          angular.element('#' + fieldName).val(ids);
+          angular.element('#input-' + fieldName).val(ids);
         };
       }
     };

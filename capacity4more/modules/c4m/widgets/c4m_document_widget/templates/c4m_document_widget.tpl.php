@@ -9,12 +9,12 @@
       <input type="file" name="document-file" id="<?php print $field_name; ?>" class="document_file" ng-file-select="onFileSelect($files, '<?php print $field_name; ?>')">
       <br/>
       <?php print t('or'); ?>
-      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>">
+      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>" ng-click="">
         <?php print t('Select a Document from the library') ?>
       </a>
     </div>
   </div>
   <related-documents related-documents="data.relatedDocuments.<?php print $field_name; ?>" form-id="formId" field-name="'<?php print $field_name; ?>'"></related-documents>
 
-  <input type="text" id="<?php print $field_name; ?>" ng-hide="false" value="<?php print $default_value; ?>">
+  <input type="text" id="input-<?php print $field_name; ?>" ng-hide="false" value="<?php print $default_value; ?>">
 </div>

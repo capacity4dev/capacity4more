@@ -64,14 +64,14 @@ angular.module('c4mApp')
 
           // Add the value we get in the hidden inputs in the parent page.
           var value = jQuery('#edit-' + fieldName + '-und', parent.window.document).val();
-          var nids = jQuery('#' + $scope.fieldName, parent.window.document).val();
+          var nids = jQuery('#input-' + $scope.fieldName, parent.window.document).val();
           if (value.indexOf(item) == -1) {
             value = value ? value + ', ' + item : item;
             nids = nids ? nids + ',' + nid : nid;
           }
 
           jQuery('#edit-' + fieldName + '-und', parent.window.document).val(value);
-          jQuery('#' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
+          jQuery('#input-' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
 
           if (!addToLibrary) {
             // Save document and go to the parent page.
