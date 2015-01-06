@@ -129,7 +129,7 @@ trait Group {
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
 
     // This is a required tag.
-    $steps[] = new Step\When('I check the related topic checkbox');
+    $steps[] = new Step\When('I check the "c4m_related_topic" checkbox with value "Fire"');
     $steps[] = new Step\When('I press "Request"');
 
     // Giving time for saving.
@@ -142,15 +142,15 @@ trait Group {
   }
 
   /**
-   * @Given /^I check the related topic checkbox$/
+   * @Given /^I check the "([^"]*)" checkbox with value "([^"]*)"$/
    */
-  public function iCheckRelatedTopic() {
+  public function iCheckWidgetCheckbox($checkbox, $value) {
     $steps = array();
-    $steps[] = new Step\When('I press "c4m_related_topic"');
-    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I press "' . $checkbox . '"');
+    $steps[] = new Step\When('I check the box "' . $value . '"');
 
     $javascript = "
-      var target = jQuery('input[type=checkbox][title=\"Fire\"]').data('target');
+      var target = jQuery('input[type=checkbox][title=\"$value\"]').data('target');
       jQuery('input[type=checkbox][value=' + target + ']').prop(\"checked\", true);
     ";
     $this->getSession()->executeScript($javascript);

@@ -71,9 +71,17 @@ trait Node {
     $steps[] = new Step\When('I visit "node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
+    $steps[] = new Step\When('I check the "c4m_related_topic" checkbox with value "Water"');
+    $steps[] = new Step\When('I check the "c4m_vocab_date" checkbox with value "1999"');
+    $steps[] = new Step\When('I check the "c4m_vocab_language" checkbox with value "English"');
+    $steps[] = new Step\When('I check the "c4m_vocab_geo" checkbox with value "1.Sub-Saharan Africa"');
     $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should see "has been created."');
+    $steps[] = new Step\When('I should see "Water"');
+    $steps[] = new Step\When('I should see "1999"');
+    $steps[] = new Step\When('I should see "English"');
+    $steps[] = new Step\When('I should see "1.Sub-Saharan Africa"');
     return $steps;
   }
 
