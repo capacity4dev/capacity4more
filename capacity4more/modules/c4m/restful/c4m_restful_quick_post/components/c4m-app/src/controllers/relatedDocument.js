@@ -14,7 +14,6 @@ angular.module('c4mApp')
     $scope.fieldName = DrupalSettings.getData('fieldName');
 
     var fieldName = $scope.fieldName.replace(/_/g, '-');
-    console.log($scope.fieldName);
 
     /**
      * Create document node.

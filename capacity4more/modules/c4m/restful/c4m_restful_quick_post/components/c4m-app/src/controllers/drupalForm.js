@@ -13,6 +13,8 @@ angular.module('c4mApp')
     // Get the form Identifier, for the related documents widget.
     $scope.formId = DrupalSettings.getData('formId');
 
+    $scope.fieldName = '';
+
     $scope.model = {};
 
     $scope.basePath = DrupalSettings.getBasePath();
@@ -188,5 +190,4 @@ angular.module('c4mApp')
     $scope.browseFiles = function(fieldName) {
       angular.element('#' + fieldName).click();
     };
-
   });

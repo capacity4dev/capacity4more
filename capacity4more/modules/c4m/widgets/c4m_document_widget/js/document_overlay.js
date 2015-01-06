@@ -1,7 +1,12 @@
 (function ($) {
-  // Need to get current field name.
 
   $(document).on('click', function(event) {
+
+    // Need to get current field name.
+    var element = $('.active-library-link', parent.window.document);
+
+    var fieldName = element.attr('id');
+    fieldName = fieldName.replace('link-', '');
 
     // Get the element that was clicked.
     var $target = $(event.target);
@@ -10,19 +15,18 @@
       // We are on the node/edit page in the overlay. On click on the "Delete"
       // button should remove the node id from inputs on the parent page.
 
-      var value = $('#edit-c4m-related-document-und', parent.window.document).val();
-      var ids = $('#input-c4m_related_document', parent.window.document).val();
+      var value = $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val();
+      var ids = $('#input-' + fieldName, parent.window.document).val();
 
       value = value.split(',').slice(0, -1).join();
 
       ids = ids.split(',').slice(0, -1).join();
 
-      $('#edit-c4m-related-document-und', parent.window.document).val(value);
-      $('#input-c4m_related_document', parent.window.document).val(ids).trigger('click');
+      $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val(value);
+      $('#input-' + fieldName, parent.window.document).val(ids).trigger('click');
 
       parent.Drupal.overlay.close();
     }
-
 
     // Click on the node in the library overlay page.
     var parents = $target.parents();
@@ -48,15 +52,14 @@
     var item = '(' + nid + ')';
 
     // Put values in the hidden inputs in the parent page.
-    var value = $('#edit-c4m-related-document-und', parent.window.document).val();
-    var ids = $('#input-c4m_related_document', parent.window.document).val();
+    var value = $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val();
+    var ids = $('#input-' + fieldName, parent.window.document).val();
     if (value.indexOf(item) == -1) {
       value = value ? value + ', ' + item : item;
       ids = ids ? ids + ',' + nid : nid;
     }
-    $('#edit-c4m-related-document-und', parent.window.document).val(value);
-    console.log('here')
-    $('#input-c4m_related_document', parent.window.document).val(ids).trigger('click');
+    $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val(value);
+    $('#input-' + fieldName, parent.window.document).val(ids).trigger('click');
     // Close verlay.
     parent.Drupal.overlay.close();
   });
