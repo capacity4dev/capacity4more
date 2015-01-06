@@ -91,16 +91,6 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     '#weight' => $instance['widget']['weight'],
   );
 
-//  $field_groups = field_group_info_groups('node', 'event');
-//
-//  foreach ($field_groups['form'] as $group) {
-//
-//    if (array_key_exists($field['name'], $group)) {
-//
-//    }
-//  }
-
-
   // URL options.
   $options = array(
     'purl' => array(
