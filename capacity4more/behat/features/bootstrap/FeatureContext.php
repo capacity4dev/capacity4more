@@ -16,6 +16,7 @@ require __DIR__ . '/FeatureContext/Discussion.php';
 require __DIR__ . '/FeatureContext/Document.php';
 require __DIR__ . '/FeatureContext/Field.php';
 require __DIR__ . '/FeatureContext/File.php';
+require __DIR__ . '/FeatureContext/FullForm.php';
 require __DIR__ . '/FeatureContext/Group.php';
 require __DIR__ . '/FeatureContext/GroupDashboard.php';
 require __DIR__ . '/FeatureContext/Highlights.php';
@@ -51,6 +52,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\Document;
   use FeatureContext\Field;
   use FeatureContext\File;
+  use FeatureContext\FullForm;
   use FeatureContext\Group;
   use FeatureContext\GroupDashboard;
   use FeatureContext\Highlights;

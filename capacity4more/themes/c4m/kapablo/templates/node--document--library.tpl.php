@@ -9,7 +9,7 @@
 ?>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <a href="javascript//:">
+  <a href="javascript//:" title="<?php print $node->title; ?>">
     <div class="row">
       <div class="col-sm-3">
         <!--Document preview-->
