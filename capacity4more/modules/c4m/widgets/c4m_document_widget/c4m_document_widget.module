@@ -85,8 +85,9 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   preg_match_all("/\((\d+)\)/", $default_value, $default_values);
   $default_value = implode(',', $default_values[1]);
 
-  $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value, 'field_name' => $field['field_name']));
-  $form['add_document-' . $field['field_name']] = array(
+  $field_name = drupal_clean_css_identifier($field['field_name']);
+  $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value, 'field_name' => $field_name));
+  $form['add_document-' . $field_name] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
   );
@@ -112,7 +113,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     'data' => array(
       'purl' => url('', $options_context),
       'relatedDocuments' => array(
-        $field['field_name'] => $default_values[1],
+        $field_name => $default_values[1],
       ),
       // The form id in HTML is with dashes, not underscores.
       'formId' => str_replace('_', '-', $form_state['build_info']['form_id']),
@@ -135,6 +136,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
  */
 function c4m_document_widget_entityreference_autocomplete_tags_validate($element, &$form_state, &$form) {
   $value = array();
+  $field_name = drupal_clean_css_identifier($element['#field_name']);
   // If a value was entered into the autocomplete...
   if (!empty($element['#value'])) {
     $entities = drupal_explode_tags($element['#value']);
@@ -149,7 +151,7 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
       else {
         // Try to get a match from the input string when the user didn't use the
         // autocomplete but filled in a value manually.
-        $field = field_info_field($element['#field_name']);
+        $field = field_info_field($field_name);
         $handler = entityreference_get_selection_handler($field);
         $value[] = array(
           'target_id' => $handler->validateAutocompleteInput($entity, $element, $form_state, $form),
@@ -163,14 +165,15 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
 
   // Getting array of related document ids from the existing field value.
   $field_values = array();
+
   preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
 
-  $settings['c4m']['data']['relatedDocuments'][$element['#field_name']] = $field_values[1];
+  $settings['c4m']['data']['relatedDocuments'][$field_name] = $field_values[1];
 
   // Unset previous related documents values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['relatedDocuments'][$element['#field_name']])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][$element['#field_name']]);
+    if (!empty($data['data']['c4m']['data']['relatedDocuments'][$field_name])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][$field_name]);
     }
   }
 

@@ -18,8 +18,6 @@ angular.module('c4mApp')
       },
       link: function postLink(scope, element) {
 
-        var fieldName = scope.fieldName.replace(/_/g, '-');
-
         /**
          * Create array of related document objects.
          *
@@ -30,7 +28,6 @@ angular.module('c4mApp')
          *  Returns array of related document information objects
          */
         scope.updateDocumentsData = function(relatedDocuments) {
-
           var documents = {};
           angular.forEach(relatedDocuments, function(value, key) {
 
@@ -70,9 +67,8 @@ angular.module('c4mApp')
             scope.relatedDocuments.splice(index, 1);
           }
 
-          console.log('#edit-' + fieldName + '-und');
           // Remove value from the widget's inputs.
-          var value = angular.element('#edit-' + fieldName + '-und').val();
+          var value = angular.element('#edit-' + scope.fieldName + '-und').val();
           value = value.replace('(' + id + '), ', '');
           value = value.replace('(' + id + ')', '');
 
@@ -80,7 +76,7 @@ angular.module('c4mApp')
           ids = ids.replace(id + ',', '');
           ids = ids.replace(id, '');
 
-          angular.element('#edit-' + fieldName + '-und').val(value);
+          angular.element('#edit-' + scope.fieldName + '-und').val(value);
           angular.element('#input-' + scope.fieldName).val(ids);
         };
       }

@@ -15,14 +15,14 @@
       // We are on the node/edit page in the overlay. On click on the "Delete"
       // button should remove the node id from inputs on the parent page.
 
-      var value = $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val();
+      var value = $('#edit-' + fieldName + '-und', parent.window.document).val();
       var ids = $('#input-' + fieldName, parent.window.document).val();
 
       value = value.split(',').slice(0, -1).join();
 
       ids = ids.split(',').slice(0, -1).join();
 
-      $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val(value);
+      $('#edit-' + fieldName + '-und', parent.window.document).val(value);
       $('#input-' + fieldName, parent.window.document).val(ids).trigger('click');
 
       parent.Drupal.overlay.close();
@@ -52,13 +52,13 @@
     var item = '(' + nid + ')';
 
     // Put values in the hidden inputs in the parent page.
-    var value = $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val();
+    var value = $('#edit-' + fieldName + '-und', parent.window.document).val();
     var ids = $('#input-' + fieldName, parent.window.document).val();
     if (value.indexOf(item) == -1) {
       value = value ? value + ', ' + item : item;
       ids = ids ? ids + ',' + nid : nid;
     }
-    $('#edit-' + fieldName.replace(/_/g, '-') + '-und', parent.window.document).val(value);
+    $('#edit-' + fieldName + '-und', parent.window.document).val(value);
     $('#input-' + fieldName, parent.window.document).val(ids).trigger('click');
     // Close verlay.
     parent.Drupal.overlay.close();

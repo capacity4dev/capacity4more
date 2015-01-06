@@ -172,7 +172,6 @@ angular.module('c4mApp')
      *  Name of the current field.
      */
     $scope.onFileSelect = function($files, fieldName) {
-      console.log(fieldName);
       $scope.setFieldName(fieldName);
       //$files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
