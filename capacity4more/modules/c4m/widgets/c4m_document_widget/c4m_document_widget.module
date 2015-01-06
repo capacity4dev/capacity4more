@@ -266,10 +266,10 @@ function c4m_document_widget_admin_paths() {
  * Implements hook_menu().
  */
 function c4m_document_widget_menu() {
-  $items['overlay-file/%/%'] = array(
+  $items['overlay-file/%'] = array(
     'page callback' => 'c4m_document_widget_add_document_file',
     'access callback' => 'c4m_document_widget_check_file_access',
-    'page arguments' => array(1,2),
+    'page arguments' => array(1),
     'access arguments' => array(1),
   );
   return $items;
@@ -319,13 +319,11 @@ function c4m_document_widget_check_file_access($file_id) {
  *
  * @param $file_id
  *  Document's file id.
- * @param $field_name
- *  Docuemnt field name.
  *
  * @return string
  *  Return formatted html of the overlay-file page.
  */
-function c4m_document_widget_add_document_file($file_id, $field_name) {
+function c4m_document_widget_add_document_file($file_id) {
   $file = file_load($file_id);
   // Get file view.
   $file_view = file_view($file);
@@ -367,7 +365,6 @@ function c4m_document_widget_add_document_file($file_id, $field_name) {
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'data' => array(
       'groupID' => $group_id,
-      'fieldName' => $field_name,
       'purl' => url('', $options_context),
     )
   );

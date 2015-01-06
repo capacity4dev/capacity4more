@@ -1,8 +1,6 @@
 angular.module('c4mApp')
   .controller('DocumentCtrl', function($scope, DrupalSettings, EntityResource, Request) {
 
-    $scope.fileName = '';
-
     $scope.data = DrupalSettings.getData('vocabularies');
 
     $scope.data.relatedDocuments = [];
@@ -11,7 +9,9 @@ angular.module('c4mApp')
 
     $scope.model = {};
 
-    $scope.fieldName = DrupalSettings.getData('fieldName');
+    // Need to get current field name.
+    var element = jQuery('.active-library-link', parent.window.document);
+    $scope.fieldName = element.attr('id').replace('link-', '');
 
     var fieldName = $scope.fieldName.replace(/_/g, '-');
 

@@ -9,7 +9,7 @@
       <input type="file" name="document-file" id="<?php print $field_name; ?>" class="document_file" ng-file-select="onFileSelect($files, '<?php print $field_name; ?>')">
       <br/>
       <?php print t('or'); ?>
-      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>" ng-click="fieldName = '<?php print $field_name; ?>'" id="link-<?php print $field_name; ?>" ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
+      <a href="<?php print url('overlay/documents', array('absolute' => TRUE, 'purl' => array('disabled' => FALSE))); ?>" ng-click="setFieldName('<?php print $field_name; ?>')" id="link-<?php print $field_name; ?>" ng-class="{'active-library-link':fieldName === '<?php print $field_name; ?>'}">
         <?php print t('Select a Document from the library') ?>
       </a>
     </div>

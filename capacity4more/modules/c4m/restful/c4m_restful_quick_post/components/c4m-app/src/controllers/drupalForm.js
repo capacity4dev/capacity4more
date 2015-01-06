@@ -168,9 +168,12 @@ angular.module('c4mApp')
      *
      * @param $files
      *  The file.
+     * @param fieldName
+     *  Name of the current field.
      */
     $scope.onFileSelect = function($files, fieldName) {
       console.log(fieldName);
+      $scope.setFieldName(fieldName);
       //$files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
@@ -189,5 +192,14 @@ angular.module('c4mApp')
      */
     $scope.browseFiles = function(fieldName) {
       angular.element('#' + fieldName).click();
+    };
+
+    /**
+     * Set the name of the current field.
+     *
+     * @param fieldName
+     */
+    $scope.setFieldName = function(fieldName) {
+      $scope.fieldName = fieldName;
     };
   });

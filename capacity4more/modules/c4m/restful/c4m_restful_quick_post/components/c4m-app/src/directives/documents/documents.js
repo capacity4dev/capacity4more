@@ -77,11 +77,11 @@ angular.module('c4mApp')
           value = value.replace('(' + id + ')', '');
 
           var ids = angular.element('#input-' + scope.fieldName).val();
-          ids = ids.replace(id + ', ', '');
+          ids = ids.replace(id + ',', '');
           ids = ids.replace(id, '');
 
           angular.element('#edit-' + fieldName + '-und').val(value);
-          angular.element('#input-' + fieldName).val(ids);
+          angular.element('#input-' + scope.fieldName).val(ids);
         };
       }
     };
