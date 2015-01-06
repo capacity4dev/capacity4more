@@ -33,6 +33,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -86,6 +92,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'date_default',
         'weight' => 5,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -144,6 +156,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 16,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -165,13 +183,13 @@ function c4m_content_event_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'entityreference',
+      'module' => 'c4m_document_widget',
       'settings' => array(
         'match_operator' => 'CONTAINS',
         'path' => '',
         'size' => 60,
       ),
-      'type' => 'entityreference_autocomplete',
+      'type' => 'c4m_add_document',
       'weight' => 16,
     ),
   );
@@ -199,6 +217,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 17,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -220,13 +244,13 @@ function c4m_content_event_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'entityreference',
+      'module' => 'c4m_document_widget',
       'settings' => array(
         'match_operator' => 'CONTAINS',
         'path' => '',
         'size' => 60,
       ),
-      'type' => 'entityreference_autocomplete',
+      'type' => 'c4m_add_document',
       'weight' => 17,
     ),
   );
@@ -254,6 +278,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 10,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -297,6 +327,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 12,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -360,6 +396,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 11,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -811,6 +853,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'getlocations_fields_default',
         'weight' => 4,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -898,6 +946,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 2,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -947,6 +1001,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 7,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -968,13 +1028,13 @@ function c4m_content_event_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'entityreference',
+      'module' => 'c4m_document_widget',
       'settings' => array(
         'match_operator' => 'CONTAINS',
         'path' => '',
         'size' => 60,
       ),
-      'type' => 'entityreference_autocomplete',
+      'type' => 'c4m_add_document',
       'weight' => 18,
     ),
   );
@@ -1001,6 +1061,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 14,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1049,6 +1115,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 13,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1113,6 +1185,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 15,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1156,6 +1234,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 9,
       ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1198,6 +1282,12 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'og_ui',
         'settings' => array(),
         'type' => 'og_list_default',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'teaser' => array(
@@ -1270,6 +1360,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 6,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
