@@ -7,8 +7,6 @@ angular.module('c4mApp')
 
     $scope.data.group = DrupalSettings.getData('group');
 
-    $scope.data.body = DrupalSettings.getData('body');
-
     // Get related to the discussion documents.
     $scope.data.relatedDocuments = DrupalSettings.getData('relatedDocuments');
 
