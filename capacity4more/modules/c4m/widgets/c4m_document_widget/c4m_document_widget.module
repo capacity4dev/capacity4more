@@ -92,6 +92,15 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     '#weight' => $instance['widget']['weight'],
   );
 
+  // Get parent fieldset name and add it as a property to the widget.
+  $field_groups = field_group_info_groups('node', 'event');
+  foreach ($field_groups['form'] as $group) {
+    $children = $group->children;
+    if (in_array($field['field_name'], $children)) {
+      $form['add_document-' . $field_name]['#parent_fieldset'] = $group->group_name;
+    }
+  }
+
   // URL options.
   $options = array(
     'purl' => array(
@@ -127,6 +136,23 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   );
 
   return $element;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Add our custom widgets to theirs fieldsets if needed.
+ */
+function c4m_document_widget_form_alter(&$form, &$form_state, $form_id) {
+  foreach($form as $field_name => $field) {
+    if (is_array($field)) {
+      if (!empty($field['#parent_fieldset'])) {
+        // Add field as a child to his parent fieldset.
+        $form['#groups'][$field['#parent_fieldset']]->children[] = $field_name;
+        $form['#group_children'][$field_name] = $field['#parent_fieldset'];
+      }
+    }
+  }
 }
 
 /**
