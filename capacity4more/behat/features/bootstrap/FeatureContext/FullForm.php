@@ -19,20 +19,19 @@ trait FullForm {
   public function iCreateDiscussionFullForm($title, $body, $group) {
     $steps = array();
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
-    $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I press the "discussions" button');
     $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
     $steps[] = new Step\When('I press the "idea" button');
     $steps[] = new Step\When('I fill editor "body" with "' . $body . '"');
     $steps[] = new Step\When('I click "Create in full form"');
     $steps[] = new Step\When('I wait');
-    $steps[] = new Step\When('I should see "Edit Discussion New discussion"');
+    $steps[] = new Step\When('I should see "Edit Discussion ' . $title . '"');
 
     return $steps;
   }
 
   /**
-   * @When /^I fill the full form$/
+   * @When /^I fill the taxonomy in the full form$/
    */
   public function iFillFullForm() {
     $steps = array();
@@ -47,14 +46,39 @@ trait FullForm {
   }
 
   /**
-   * @Then /^I should see the entity details$/
+   * @When /^I add a document from the library$/
    */
-  public function iShouldSeeFullFormEntityDetails() {
+  public function iAddADocumentToDiscussionInFullForm() {
     $steps = array();
-    $steps[] = new Step\When('I should see "Earth"');
-    $steps[] = new Step\When('I should see "Masters Tournaments"');
-    $steps[] = new Step\When('I should see "2000"');
-    $steps[] = new Step\When('I should see "French"');
+    $steps[] = new Step\When('I click "Select a Document from the library"');
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I click on the "Nobel Prize in Physics 2014" document');
+    $steps[] = new Step\When('I press the "Save" button');
+    $steps[] = new Step\When('I wait');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I click on the "([^"]*)" document$/
+   */
+  public function iChooseLibrary($title) {
+    $javascript = "
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('[title=\"$title\"]')[0].click();
+    ";
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
+   * @Then /I should see the following details "([^"]*)"$/
+   */
+  public function iShouldSeeFullFormEntityDetails($elements) {
+    $elements = explode(',', $elements);
+
+    $steps = array();
+    foreach ($elements as $element) {
+      $steps[] = new Step\When('I should see "' . $element . '"');
+    }
 
     return $steps;
   }
