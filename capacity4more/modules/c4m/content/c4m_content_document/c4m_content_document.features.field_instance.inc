@@ -26,6 +26,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'text_summary_or_trimmed',
         'weight' => 0,
       ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -80,6 +86,15 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'c4m_teaser_table' => array(
+        'label' => 'hidden',
+        'module' => 'file_entity',
+        'settings' => array(
+          'file_view_mode' => 'teaser',
+        ),
+        'type' => 'file_rendered',
+        'weight' => 3,
       ),
       'default' => array(
         'label' => 'above',
@@ -150,6 +165,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 7,
       ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -209,6 +230,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 8,
       ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -258,6 +285,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 5,
+      ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
       ),
       'default' => array(
         'label' => 'above',
@@ -309,6 +342,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 4,
       ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -358,6 +397,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 1,
+      ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
       ),
       'default' => array(
         'label' => 'above',
@@ -409,6 +454,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 2,
+      ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'default' => array(
         'label' => 'above',
@@ -483,6 +534,12 @@ function c4m_content_document_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 3,
+      ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
       ),
       'default' => array(
         'label' => 'above',

@@ -95,6 +95,9 @@ function c4m_content_document_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'c4m_teaser_table' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
