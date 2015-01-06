@@ -93,7 +93,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     '#weight' => $instance['widget']['weight'],
   );
 
-  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field_name);
+  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field['field_name']);
   $form['add_document-' . $field_name]['#parent_fieldset'] = $fieldset;
 
   // URL options.
@@ -148,13 +148,17 @@ function c4m_document_widget_get_field_parent_fieldset($entity_type, $field_name
   $fieldset_name = NULL;
   // Get parent fieldset name and add it as a property to the widget.
   $field_groups = field_group_info_groups('node', $entity_type);
-  foreach ($field_groups['form'] as $group) {
-    $children = $group->children;
-    if (in_array($field_name, $children)) {
-      $fieldset_name = $group->group_name;
+  if (array_key_exists('form', $field_groups)) {
+    foreach ($field_groups['form'] as $group) {
+      $children = $group->children;
+      if (in_array($field_name, $children)) {
+        $fieldset_name = $group->group_name;
+        // We already found the fieldset name.
+        return $fieldset_name;
+      }
     }
   }
-  return $field_name;
+  return $fieldset_name;
 }
 
 /**
