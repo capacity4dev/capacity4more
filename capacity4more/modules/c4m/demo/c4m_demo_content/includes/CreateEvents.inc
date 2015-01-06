@@ -116,5 +116,15 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
    */
   public function complete($entity, $row) {
     $this->extractAddress($entity, $row);
+    // Save events with locationns again and simulate an 'active' location to
+    // ensure correct node vid in table getlocations_fields_entities.
+    // Module getlocations_fields assumes a location is a demo one if not
+    // set 'active' which happens on node form.
+    if (!empty($entity->c4m_location[LANGUAGE_NONE])) {
+      foreach($entity->c4m_location[LANGUAGE_NONE] as $key => $item) {
+        $entity->c4m_location[LANGUAGE_NONE][$key]['active'] = true;
+      }
+      entity_save('node', $entity);
+    }
   }
 }
