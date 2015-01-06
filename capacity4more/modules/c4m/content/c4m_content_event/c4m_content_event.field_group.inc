@@ -122,7 +122,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => 'group-details field-group-fieldset',
+        'classes' => 'group-node-details field-group-fieldset',
       ),
     ),
   );
@@ -150,7 +150,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => 'group-documents field-group-fieldset',
+        'classes' => 'group-node-documents field-group-fieldset',
       ),
     ),
   );
@@ -179,7 +179,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => 'group-organiser field-group-fieldset',
+        'classes' => 'group-node-organiser field-group-fieldset',
       ),
     ),
   );
