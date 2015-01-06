@@ -113,6 +113,8 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     'data' => array(
       'purl' => url('', $options_context),
       'relatedDocuments' => $default_values[1],
+      // The form id in HTML is with dashes, not underscores.
+      'formId' => drupal_clean_css_identifier($form_state['build_info']['form_id']),
     )
   );
 
