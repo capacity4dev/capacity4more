@@ -3,7 +3,7 @@
 /**
  * Expose organic groups as context reactions.
  */
-class c4m_og_context_reaction_unset_variables extends context_reaction {
+class c4m_context_reaction_unset_variables extends context_reaction {
 
   /**
    * Provide a form element that allow the admin to chose a menu item.

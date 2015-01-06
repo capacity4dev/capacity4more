@@ -56,6 +56,7 @@ function c4m_og_get_group_type_name($node = NULL) {
   if (!$node || !og_is_group_type('node', $node->type)) {
     return NULL;
   }
+
   return strtolower(node_type_get_name($node));
 }
 
@@ -66,13 +67,13 @@ function c4m_og_form_alter(&$form, $form_state) {
   if (empty($form['#node_edit_form']) || !og_is_group_type('node', $form['#node']->type)) {
     return;
   }
-  $form['og_purl']['purl']['value']['#title'] = t('Group path');
-  $form['og_purl']['purl']['value']['#type'] = 'machine_name';
+  $form['og_purl']['purl']['value']['#title']        = t('Group path');
+  $form['og_purl']['purl']['value']['#type']         = 'machine_name';
   $form['og_purl']['purl']['value']['#machine_name'] = array(
-    'source' => array('title'),
-    'label' => t('Group path'),
-    'exists' => 'c4m_og_purl_exists',
-    'replace' => '-',
+    'source'          => array('title'),
+    'label'           => t('Group path'),
+    'exists'          => 'c4m_og_purl_exists',
+    'replace'         => '-',
     'replace_pattern' => '[^a-z0-9_-]+',
   );
 }
@@ -100,12 +101,13 @@ function c4m_og_purl_exists($value) {
  */
 function c4m_og_get_group_bundles() {
   $result = db_select('og_role', 'ogr')
-              ->fields('ogr', array('group_bundle', 'rid', 'name'))
-              ->execute()
-              ->fetchAll();
+            ->fields('ogr', array('group_bundle', 'rid', 'name'))
+            ->execute()
+            ->fetchAll();
   foreach ($result as $row) {
     $roles[$row->group_bundle][$row->rid] = $row->name;
   }
+
   return $roles;
 }
 
@@ -119,46 +121,10 @@ function c4m_og_get_group_bundles() {
  */
 function c4m_og_get_users_by_roles($gid, $rids = array()) {
   $query = db_select('og_users_roles', 'og_users_roles');
-  return  $query->fields('og_users_roles', array('uid'))
-                ->condition('gid', $gid)
-                ->condition('rid', $rids, 'IN')
-                ->execute()
-                ->fetchAll();
-}
 
-/**
- * Implements hook_context_plugins()
- */
-function c4m_og_context_plugins() {
-  $plugins = array();
-  $plugins['c4m_og_context_reaction_unset_variables'] = array(
-    'handler' => array(
-      'class' => 'c4m_og_context_reaction_unset_variables',
-      'parent' => 'context_reaction',
-      'path' => drupal_get_path('module', 'c4m_og') . '/plugins',
-      'file' => 'c4m_og_context_reaction_unset_variables.inc',
-    ),
-  );
-  return $plugins;
-}
-
-/**
- * Implements hook_context_registry()
- */
-function c4m_og_context_registry() {
-  return array(
-    'reactions' => array(
-      'unset_variables' => array(
-        'title' => t('Unset preprocess variables'),
-        'description' => t('Unset given preprocess page variables'),
-        'plugin' => 'c4m_og_context_reaction_unset_variables',
-      ),
-    ),
-  );
-}
-
-function c4m_og_preprocess_page(&$variables){
-  if ($plugin = context_get_plugin('reaction', 'unset_variables')) {
-    $plugin->execute($variables);
-  }
+  return $query->fields('og_users_roles', array('uid'))
+               ->condition('gid', $gid)
+               ->condition('rid', $rids, 'IN')
+               ->execute()
+               ->fetchAll();
 }

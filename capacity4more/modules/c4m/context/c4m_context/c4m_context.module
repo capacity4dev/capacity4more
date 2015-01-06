@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Provides context conditions and reactions.
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function c4m_context_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_context_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_context_plugins()
+ */
+function c4m_context_context_plugins() {
+  $plugins                                         = array();
+  $plugins['c4m_context_reaction_unset_variables'] = array(
+    'handler' => array(
+      'class'  => 'c4m_context_reaction_unset_variables',
+      'parent' => 'context_reaction',
+      'path'   => drupal_get_path('module', 'c4m_context') . '/plugins',
+      'file'   => 'c4m_context_reaction_unset_variables.inc',
+    ),
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_context_registry()
+ */
+function c4m_context_context_registry() {
+  return array(
+    'reactions' => array(
+      'unset_variables' => array(
+        'title'       => t('Unset preprocess variables'),
+        'description' => t('Unset given preprocess page variables'),
+        'plugin'      => 'c4m_context_reaction_unset_variables',
+      ),
+    ),
+  );
+}
+
+function c4m_context_preprocess_page(&$variables) {
+  if ($plugin = context_get_plugin('reaction', 'unset_variables')) {
+    $plugin->execute($variables);
+  }
+}
