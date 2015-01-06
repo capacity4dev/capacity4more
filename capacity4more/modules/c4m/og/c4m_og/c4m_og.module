@@ -5,18 +5,8 @@
  * General Organic Groups functionality
  */
 
+include_once 'c4m_og.features.inc';
 include_once 'c4m_og.access.inc';
-
-
-/**
- * Implements hook_ctools_plugin_api().
- */
-function c4m_og_ctools_plugin_api($module = NULL, $api = NULL) {
-  if ($module == "context" && $api == "context") {
-    return array("version" => "3");
-  }
-}
-
 
 /**
  * Helper to get the current active group (based on og_context()).
