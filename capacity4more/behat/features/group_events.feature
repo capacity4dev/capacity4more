@@ -18,13 +18,13 @@ Feature: Group Events
     Then I should see the upcoming events overview
     And I should see the "Add an Event" link above the overview
 
-  @api @wip
+  @api
   Scenario: Check event detail as an anonymous user
     Given I am an anonymous user
     When I visit the group "event" detail page "Nobel Prize Issueing"
     Then I should see the event detail page
 
-  @api @wip
+  @api
   Scenario: Check event detail as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the group "event" detail page "Nobel Prize Issueing"

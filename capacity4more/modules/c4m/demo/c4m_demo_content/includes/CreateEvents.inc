@@ -191,8 +191,8 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     // Module getlocations_fields assumes a location is a demo one if not
     // set 'active' which happens on node form.
     if (!empty($entity->c4m_location[LANGUAGE_NONE])) {
-      foreach($entity->c4m_location[LANGUAGE_NONE] as $key => $item) {
-        $entity->c4m_location[LANGUAGE_NONE][$key]['active'] = true;
+      foreach ($entity->c4m_location[LANGUAGE_NONE] as $key => $item) {
+        $entity->c4m_location[LANGUAGE_NONE][$key]['active'] = TRUE;
       }
       entity_save('node', $entity);
     }
