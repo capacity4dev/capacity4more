@@ -130,6 +130,8 @@ trait Group {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the "c4m_related_topic" checkbox with value "Fire"');
+
+    // Submit the form.
     $steps[] = new Step\When('I press "Request"');
 
     // Giving time for saving.
