@@ -31,13 +31,19 @@
 
 .row-header {
   color: $highlight-blue;
+  font-size: 0.9em;
+  
   a {
     color: $highlight-blue;
   }
 
   .separator {
-    font-weight: bolder;
+    border: 1px solid $highlight-blue;
+    display: inline-block;
+    height: 0.9em;
     margin: 0 20px;
+    text-indent: -9999px;
+    vertical-align: middle;
   }
 
   .post-date {
