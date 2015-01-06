@@ -236,6 +236,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     '#weight' => $form['directive-c4m_vocab_geo']['#weight'] + 1,
   );
 
+  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field['field_name']);
+  $form['directive-tags']['#parent_fieldset'] = $fieldset;
+  $form['directive-categories']['#parent_fieldset'] = $fieldset;
+
   $element['target_id']['#element_validate'][] = 'c4m_og_vocab_validate';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
