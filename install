@@ -132,6 +132,9 @@ delete_www_content
 # Run the build script (drush make + extra's).
 drupal_make
 
+# Delete unneeded folders (status report).
+delete_obsolete_folders
+
 # Symlink extra modules (if any).
 symlink_externals
 
