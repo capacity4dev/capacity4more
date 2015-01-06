@@ -4,14 +4,14 @@ Feature: Group Events
   I need to be able to see an upcoming events overview page
   I need to be able to see an event detail page
 
-  @api
+  @api @wip
   Scenario: Check upcoming events overview as an anonymous user
     Given I am an anonymous user
     When I visit the upcoming events overview of group "Nobel Prize"
     Then I should see the upcoming events overview
     And I should not see the "Add an Event" link above the overview
 
-  @api
+  @api @wip
   Scenario: Check upcoming events overview as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the upcoming events overview of group "Nobel Prize"
