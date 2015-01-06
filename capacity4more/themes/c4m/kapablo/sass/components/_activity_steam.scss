@@ -30,9 +30,18 @@
 }
 
 .row-header {
-  color: $blue;
+  color: $highlight-blue;
   a {
-    color: $blue;
+    color: $highlight-blue;
+  }
+
+  .separator {
+    font-weight: bolder;
+    margin: 0 20px;
+  }
+
+  .post-date {
+    color: $gray-darker;
   }
 }
 
