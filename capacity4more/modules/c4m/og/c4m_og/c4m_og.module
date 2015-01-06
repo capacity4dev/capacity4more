@@ -9,6 +9,16 @@ include_once 'c4m_og.access.inc';
 
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function c4m_og_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
+}
+
+
+/**
  * Helper to get the current active group (based on og_context()).
  *
  * @return stdClass|FALSE
@@ -124,4 +134,41 @@ function c4m_og_get_users_by_roles($gid, $rids = array()) {
                 ->condition('rid', $rids, 'IN')
                 ->execute()
                 ->fetchAll();
+}
+
+/**
+ * Implements hook_context_plugins()
+ */
+function c4m_og_context_plugins() {
+  $plugins = array();
+  $plugins['c4m_og_context_reaction_unset_variables'] = array(
+    'handler' => array(
+      'class' => 'c4m_og_context_reaction_unset_variables',
+      'parent' => 'context_reaction',
+      'path' => drupal_get_path('module', 'c4m_og') . '/plugins',
+      'file' => 'c4m_og_context_reaction_unset_variables.inc',
+    ),
+  );
+  return $plugins;
+}
+
+/**
+ * Implements hook_context_registry()
+ */
+function c4m_og_context_registry() {
+  return array(
+    'reactions' => array(
+      'unset_variables' => array(
+        'title' => t('Unset preprocess variables'),
+        'description' => t('Unset given preprocess page variables'),
+        'plugin' => 'c4m_og_context_reaction_unset_variables',
+      ),
+    ),
+  );
+}
+
+function c4m_og_preprocess_page(&$variables){
+  if ($plugin = context_get_plugin('reaction', 'unset_variables')) {
+    $plugin->execute($variables);
+  }
 }
