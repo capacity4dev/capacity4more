@@ -30,7 +30,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 14,
       ),
       'default' => array(
         'label' => 'above',
@@ -94,7 +94,7 @@ function c4m_content_document_field_default_field_instances() {
           'file_view_mode' => 'teaser',
         ),
         'type' => 'file_rendered',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',

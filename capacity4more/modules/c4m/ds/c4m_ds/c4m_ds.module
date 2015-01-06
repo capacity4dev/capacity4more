@@ -92,7 +92,7 @@ function c4m_ds_ds_view_modes_info() {
   $ds_view_mode->entities         = array(
     'node' => 'node',
   );
-  $ds_view_modes['c4m_dashboard'] = $ds_view_mode;
+  $ds_view_modes['c4m_teaser_table'] = $ds_view_mode;
 
 
   return $ds_view_modes;
