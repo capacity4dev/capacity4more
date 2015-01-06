@@ -11,7 +11,7 @@ Feature: Test activity stream
     And   I am logged in as user "isaacnewton"
     Then  I should see "Discussion added 1" in the activity stream of the group "Discussion Insert 1"
 
-  @javascript
+  @javascript @wip
   Scenario: Check message is created after Event is created in my public group
     Given a group "Discussion Insert 3" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
