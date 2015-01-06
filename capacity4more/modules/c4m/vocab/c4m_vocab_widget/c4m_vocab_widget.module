@@ -27,6 +27,7 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   if (!$entity) {
     return;
   }
+  $entity_type = $entity->type;
 
   // Get taxonomy vocabulary and send it to the app.
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['field_name']);
@@ -67,6 +68,17 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
   );
+
+  // Get parent fieldset name and add it as a property to the widget.
+  $field_name = drupal_clean_css_identifier($field['field_name']);
+  $field_groups = field_group_info_groups('node', $entity_type);
+  foreach ($field_groups['form'] as $group) {
+    $children = $group->children;
+    if (in_array($field['field_name'], $children)) {
+      $form['directive-' . $vocabulary_machine_name]['#parent_fieldset'] = $group->group_name;
+    }
+  }
+
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
 
