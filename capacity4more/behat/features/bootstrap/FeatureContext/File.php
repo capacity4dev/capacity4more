@@ -73,26 +73,13 @@ trait File {
   }
 
   /**
-   * @Given /^I save document with title "([^"]*)"$/
+   * @Given /^I save document in the overlay$/
    */
-  public function iSaveDocumentWithTitle($title) {
-
+  public function iSaveDocumentInTheOverlay() {
 
     $javascript = "
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').slice(0,1).val('" . $title . "');
-//      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('form[name=\"documentForm\"]').find('input#label').scope().data.label = '" . $title . "';
       jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').slice(0,1).trigger('click');
     ";
     $this->getSession()->executeScript($javascript);
-
-
-    // Unique filename.
-    $filePath = $this->debug['dump_path'];
-    $fileName = rtrim(realpath($filePath), DIRECTORY_SEPARATOR)
-      . DIRECTORY_SEPARATOR
-      . date('YmdHis') . '_' . uniqid();
-    $driver = $this->getSession()->getDriver();
-    $screenshot = $driver->getScreenshot();
-    file_put_contents($fileName . '.png', $screenshot);
   }
 }
