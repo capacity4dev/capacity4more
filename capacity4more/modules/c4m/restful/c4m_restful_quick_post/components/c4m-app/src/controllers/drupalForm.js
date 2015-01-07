@@ -120,10 +120,10 @@ angular.module('c4mApp')
             if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
               $scope.model[vocab][childID] = false;
               if (vocab == 'categories') {
-                angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
+                angular.element('input[type=checkbox][value="' + childID + '"]').prop("checked", false);
               }
               else {
-                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+                angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
             }
           });
