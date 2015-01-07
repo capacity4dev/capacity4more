@@ -130,6 +130,17 @@ function c4m_features_og_documents_views_default_views() {
     1 => 0,
     3 => 0,
   );
+  /* Filter criterion: Indexed Node: Add to library */
+  $handler->display->display_options['filters']['field_add_to_library']['id'] = 'field_add_to_library';
+  $handler->display->display_options['filters']['field_add_to_library']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['field_add_to_library']['field'] = 'field_add_to_library';
+  $handler->display->display_options['filters']['field_add_to_library']['value'] = array(
+    1 => '1',
+  );
+  $handler->display->display_options['filters']['field_add_to_library']['expose']['operator_id'] = 'field_add_to_library_op';
+  $handler->display->display_options['filters']['field_add_to_library']['expose']['label'] = 'Add to library';
+  $handler->display->display_options['filters']['field_add_to_library']['expose']['operator'] = 'field_add_to_library_op';
+  $handler->display->display_options['filters']['field_add_to_library']['expose']['identifier'] = 'field_add_to_library';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -207,6 +218,13 @@ function c4m_features_og_documents_views_default_views() {
     2 => '2',
     1 => 0,
     3 => 0,
+  );
+  /* Filter criterion: Indexed Node: Add to library */
+  $handler->display->display_options['filters']['field_add_to_library']['id'] = 'field_add_to_library';
+  $handler->display->display_options['filters']['field_add_to_library']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['field_add_to_library']['field'] = 'field_add_to_library';
+  $handler->display->display_options['filters']['field_add_to_library']['value'] = array(
+    1 => '1',
   );
   $handler->display->display_options['path'] = 'overlay/documents';
   $export['c4m_overview_og_documents'] = $view;
