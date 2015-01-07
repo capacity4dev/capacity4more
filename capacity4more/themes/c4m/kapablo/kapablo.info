@@ -20,10 +20,21 @@ regions[content_bottom] = 'Page bottom'
 regions[footer]         = 'Footer'
 
 ;;;;;;;;;;;;;;;;;;;;;
+;; Overlay regions
+;;;;;;;;;;;;;;;;;;;;;
+
+overlay_regions[] = sidebar_first
+overlay_regions[] = sidebar_second
+overlay_regions[] = footer
+overlay_regions[] = content
+overlay_regions[] = content_bottom
+
+;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts
 ;;;;;;;;;;;;;;;;;;;;;
 
 scripts[] = js/kapablo.min.js
+scripts[] = js/kapablo_overlay.js
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; CDN

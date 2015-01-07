@@ -8,8 +8,6 @@ include_once 'c4m_content_discussion.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_content().
- *
- * @return array
  */
 function c4m_content_discussion_c4m_og_vocab_info_content() {
   return array(
@@ -22,24 +20,4 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
       ),
     ),
   );
-}
-
-/**
- * Implements hook_entity_type_label().
- */
-function c4m_content_discussion_entity_type_label($variables) {
-  if ($variables['entity_type'] !== 'node') {
-    return;
-  }
-
-  $node = $variables['entity'];
-
-  if ($node->type !== 'discussion') {
-    return;
-  }
-
-  $object_wrapper = entity_metadata_wrapper('node', $node);
-  $variables['return'] = $object_wrapper->c4m_discussion_type->value();
-
-  return $variables;
 }
