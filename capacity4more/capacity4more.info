@@ -15,7 +15,7 @@ dependencies[] = list
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
-;dependencies[] = overlay
+dependencies[] = overlay
 dependencies[] = path
 dependencies[] = statistics
 dependencies[] = taxonomy
@@ -139,3 +139,6 @@ dependencies[] = c4m_search_users
 
 ; Message
 dependencies[] = c4m_message
+
+; Widgets
+dependencies[] = c4m_document_widget

@@ -10,6 +10,31 @@ angular.module('c4mApp')
   .service('EntityResource', function(DrupalSettings, Request, $http) {
 
     /**
+     * Get the entity by id.
+     *
+     * @param resource
+     *  The bundle of the entity
+     * @param entityId
+     *  The node id.
+     *
+     * @returns {*}
+     *  JSON of the entity.
+     */
+    this.getEntityData = function(resource, entityId) {
+      var url = DrupalSettings.getBasePath() + 'api/' + resource;
+
+      if (entityId) {
+        url += '/' + entityId;
+      }
+
+      return $http({
+        method: 'GET',
+        url: url,
+        withCredentials: true
+      });
+    };
+
+    /**
      * Create a new entity.
      *
      * @param data
@@ -65,6 +90,28 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
     };
+
+    /**
+     * Load more activities from RESTful.
+     *
+     * @param groupID
+     *  The Id of the current group.
+     * @param lowestActivityId
+     *  The Id of the lowest activity that was loaded.
+     *
+     * @returns {*}
+     *  JSON of the loaded activity stream.
+     */
+    this.loadMoreStream = function(groupID, lowestActivityId) {
+      var config = {
+        withCredentials: true,
+        headers: {
+          "X-CSRF-Token": DrupalSettings.getCsrfToken()
+        }
+      };
+
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-id&filter[id][value]=' + lowestActivityId + '&filter[id][operator]="<"&html=1', config);
+    }
   });

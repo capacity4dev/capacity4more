@@ -1,30 +1,16 @@
 'use strict';
 
 angular.module('c4mApp')
-  .controller('MainCtrl', function($scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, $modal, QuickPostService, $interval, $sce, FileUpload) {
+  .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, QuickPostService, FileUpload) {
 
     $scope.data = DrupalSettings.getData('entity');
-
-    // Checking if this is full form or not.
-    $scope.fullForm = DrupalSettings.getData('full_form');
-
-    // Getting all existing documents.
-    $scope.documents = DrupalSettings.getDocuments();
-
-    //Getting node id if we are editing node.
-    $scope.id = $scope.data.entityId;
 
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
 
     if ($scope.resources) {
-      if (Object.keys($scope.resources).length > 1) {
         // Setting empty default resource.
         $scope.selectedResource = '';
-      }
-      else {
-        $scope.selectedResource = Object.keys($scope.resources)[0];
-      }
     }
 
     // Getting the fields information.
@@ -34,109 +20,7 @@ angular.module('c4mApp')
 
     $scope = QuickPostService.setDefaults($scope);
 
-    // Getting the activity stream.
-    $scope.existingActivities = DrupalSettings.getActivities();
-
     $scope.basePath = DrupalSettings.getBasePath();
-
-    // Empty new activities.
-    $scope.newActivities = [];
-
-    // Activity stream status, refresh time.
-    $scope.stream = {
-      // The first one is the last loaded activity, (if no activities, insert 0).
-      lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
-      status: 0
-    };
-
-    // refresh rate of the activity stream (60000 is one minute).
-    // @TODO: Import the refresh rate from the drupal settings.
-    $scope.refreshRate = 60000;
-
-    /**
-     * Refreshes the activity stream.
-     * The refresh rate is scope.refreshRate.
-     */
-    $scope.refresh = function() {
-      $scope.addNewActivities('newActivities');
-    };
-    // Start the activity stream refresh.
-    $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
-
-    /**
-     * Adds newly fetched activities to either to the activity-stream or the load button,
-     * Depending on if the current user added an activity or it's fetched from the server.
-     *
-     * @param type
-     *  Determines to which variable the new activity should be added,
-     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
-     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
-     */
-    $scope.addNewActivities = function(type) {
-      if (type == 'existingActivities') {
-        // Merge all the loaded activities before adding the created one.
-        $scope.showNewActivities();
-      }
-
-      var activityStreamInfo = {
-        group: $scope.data.group,
-        lastId: $scope.stream.lastLoadedID
-      };
-
-      // Don't send a request when data is missing.
-      if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
-        // If last ID is 0, this is a new group and there's no activities.
-        if(activityStreamInfo.lastId != 0) {
-          $scope.stream.status = 500;
-          return false;
-        }
-      }
-
-      // Call the update stream method.
-      EntityResource.updateStream(activityStreamInfo)
-        .success( function (data, status) {
-          // Update the stream status.
-          $scope.stream.status = status;
-
-          // Update if there's new activities.
-          if (data.data) {
-            // Count the activities that were fetched.
-            var position = 0;
-            angular.forEach(data.data, function (activity) {
-              this.splice(position, 0, {
-                id: activity.id,
-                html: $sce.trustAsHtml(activity.html)
-              });
-              position++;
-            }, $scope[type]);
-
-            // Update the last loaded ID.
-            // Only if there's new activities from the server.
-            $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
-          }
-        })
-        .error( function (data, status) {
-          // Update the stream status if we get an error, This will display the error message.
-          $scope.stream.status = status;
-        });
-    };
-
-    /**
-     * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
-     */
-    $scope.showNewActivities = function() {
-      var position = 0;
-      angular.forEach ($scope.newActivities, function (activity) {
-        this.splice(position, 0, {
-          id: activity.id,
-          created: activity.created,
-          html: activity.html
-        });
-        position++;
-      }, $scope.existingActivities);
-      $scope.newActivities = [];
-    };
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
@@ -175,7 +59,6 @@ angular.module('c4mApp')
         });
       });
 
-
       if (angular.isDefined($scope.data.discussion_type)) {
         // Set "Start a Debate" as default discussion type.
         $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) || !$scope.fullForm ? 'debate' : $scope.data.discussion_type;
@@ -189,9 +72,7 @@ angular.module('c4mApp')
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
       angular.forEach(textFields, function (field) {
-        if (!field || !$scope.fullForm){
-          $scope.data[field] = field == 'tags' ? [] : '';
-        }
+        $scope.data[field] = field == 'tags' ? [] : '';
       });
     }
 
@@ -268,16 +149,30 @@ angular.module('c4mApp')
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
-    // Close all popovers on "ESC" key press.
-    $scope.keyUpHandler = function(keyEvent) {
-      QuickPostService.keyUpHandler(keyEvent, $scope);
-    };
 
-    // Call the keyUpHandler function on key-up.
-    $document.on('keyup', $scope.keyUpHandler);
+    /**
+     * Close all popovers on "ESC" key press.
+     *
+     * @param event.
+     *  The press button event.
+     */
+    $document.on('keyup', function(event) {
+      // 27 is the "ESC" button.
+      if(event.which == 27) {
+        angular.forEach($scope.popups, function (value, key) {
+          if (name != key) {
+            this[key] = 0;
+          }
+        }, $scope.popups);
+        $scope.$digest();
+      }
+    });
 
     /**
      * Submit form.
+     *  Stops auto-refresh, Cleans fields (delete fields that doesn't belong to the entity being created),
+     *  Adds location details (lat, lng) to the "event" entity,
+     *  Sends the cleaned-up data to the checkForm function for entity creation.
      *
      *  @param data
      *    The submitted data.
@@ -290,7 +185,7 @@ angular.module('c4mApp')
 
       // Stop the "Activity-stream" auto refresh When submitting a new activity,
       // because we don't want the auto refresh to display the activity as an old one.
-      $interval.cancel($scope.refreshing);
+      $rootScope.$broadcast('c4m.activity.refresh', 'stop');
 
       // Reset all errors.
       $scope.errors = {};
@@ -332,6 +227,20 @@ angular.module('c4mApp')
       }
     };
 
+    /**
+     * Continue submitting form.
+     *  Creates a node of the resource type. If Type of submission is
+     *  a full form - redirects to the created node's editing page.
+     *
+     * @param submitData
+     *  The submitting data.
+     * @param resource
+     *  The bundle of the node submitted.
+     * @param resourceFields
+     *  The fields of the current resource.
+     * @param type
+     *  The type of the submission.
+     */
     var checkForm  = function(submitData, resource, resourceFields, type) {
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
@@ -345,14 +254,20 @@ angular.module('c4mApp')
         angular.forEach( errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);
+        // Scroll up upon discovering an error.
+        // The last error is the point of reference to scroll.
+        var errorName = Object.keys(errors)[Object.keys(errors).length - 1];
+        // In the body input we point to the parent div because of textAngular.
+        var errorInput = errorName == 'body' ? angular.element('#' + errorName + '-wrapper').offset() : angular.element('#' + errorName).offset();
+        angular.element('html, body').animate({scrollTop:errorInput.top}, '500', 'swing');
         return false;
       }
 
       // Call the create entity function service.
-      EntityResource.createEntity(submitData, resource, resourceFields, $scope.id)
+      EntityResource.createEntity(submitData, resource, resourceFields)
         .success( function (data, status) {
           // If requested to create in full form, Redirect user to the edit page.
-          if(type == 'full_form') {
+          if (type == 'full_form') {
             var entityID = data.data[0].id;
             $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
           }
@@ -360,21 +275,17 @@ angular.module('c4mApp')
             $scope.serverSide.data = data;
             $scope.serverSide.status = status;
 
-            // Scroll to the top of the page 50px down.
-            angular.element('html, body').animate({scrollTop:50}, '500', 'swing');
+            // Scroll up upon creating a new activity.
+            // Reference the point to scroll to the top of the form (Title input is at the top of the form).
+            var labelInput = angular.element('#label').offset();
+            angular.element('html, body').animate({scrollTop:labelInput.top}, '500', 'swing');
 
             // Add the newly created activity to the stream.
-            $scope.addNewActivities('existingActivities');
+            // By broadcasting the update to the "activity" controller.
+            $rootScope.$broadcast('c4m.activity.update');
 
             // Collapse the quick-post form.
-            if(!$scope.fullForm) {
-              $scope.selectedResource = '';
-            }
-            else {
-              // Go to the entity page after saving in the full form.
-              var entityID = data.data[0].id;
-              $window.location = DrupalSettings.getBasePath() + "node/" + entityID;
-            }
+            $scope.selectedResource = '';
           }
         })
         .error( function (data, status) {
@@ -386,7 +297,7 @@ angular.module('c4mApp')
       $scope.resetEntityForm();
 
       // Resume the "Activity-stream" auto refresh.
-      $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
+      $rootScope.$broadcast('c4m.activity.refresh', 'continue');
     };
 
     /**
@@ -403,36 +314,6 @@ angular.module('c4mApp')
           $scope.data.document = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-
-          if ($scope.fullForm && $scope.selectedResource == 'discussions') {
-            // If we are creating or editing discussion in the full form -
-            // after loading file send file id to the modal, where we'll create
-            // a document with this file.
-
-            $scope.open = function (size) {
-
-              var modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
-                size: size,
-                resolve: {
-                  getScope: function () {
-                    return $scope;
-                  }
-                }
-              });
-
-              modalInstance.result.then(function (document) {
-                $scope.data.related_document.push(document.id);
-                $scope.documentName = document.label;
-                document.id = parseInt(document.id);
-                // Add new document to list of all documents.
-                $scope.documents.push(document);
-              });
-            };
-
-            $scope.open();
-          }
         });
       }
     };
