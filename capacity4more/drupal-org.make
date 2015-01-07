@@ -174,7 +174,7 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.13"
+projects[search_api][version] = "1.14"
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.x-dev"
 projects[search_api_solr][subdir] = "contrib"
