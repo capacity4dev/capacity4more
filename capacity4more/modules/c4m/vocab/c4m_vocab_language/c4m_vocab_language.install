@@ -56,7 +56,7 @@ function c4m_vocab_language_install_terms() {
     'Arabic',
     'Chinese',
     'Russian',
-    'Other',
+    'Others',
   );
 
   $weight = -20;
