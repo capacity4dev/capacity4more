@@ -83,19 +83,4 @@ trait File {
     $steps[] = new Step\When('I wait');
     return $steps;
   }
-
-  /**
-   * @Given /^I save document in the overlay$/
-   */
-  public function iSaveDocumentInTheOverlay() {
-
-    $javascript = "
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').slice(0,1).trigger('click');
-    ";
-    $this->getSession()->executeScript($javascript);
-
-    $steps = array();
-    $steps[] = new Step\When('I wait');
-    return $steps;
-  }
 }

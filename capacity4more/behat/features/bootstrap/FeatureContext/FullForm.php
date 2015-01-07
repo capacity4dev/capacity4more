@@ -31,9 +31,9 @@ trait FullForm {
   }
 
   /**
-   * @When /^I fill the taxonomy in the full form$/
+   * @When /^I fill the taxonomy in the full form and save$/
    */
-  public function iFillFullForm() {
+  public function iFillFullFormAndSave() {
     $steps = array();
     $steps[] = new Step\When('I check the "c4m_related_topic" checkbox with value "Earth"');
     $steps[] = new Step\When('I check the "categories" checkbox with value "Masters Tournaments"');
@@ -80,6 +80,21 @@ trait FullForm {
       $steps[] = new Step\When('I should see "' . $element . '"');
     }
 
+    return $steps;
+  }
+
+  /**
+   * @Given /^I save document in the overlay$/
+   */
+  public function iSaveDocumentInTheOverlay() {
+
+    $javascript = "
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').slice(0,1).trigger('click');
+    ";
+    $this->getSession()->executeScript($javascript);
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
     return $steps;
   }
 }
