@@ -170,7 +170,7 @@ function theme_c4m_ds_content_type_icon($field) {
 
   $tag['element'] = array(
     '#tag'       => 'span',
-    'attributes' => array(
+    '#attributes' => array(
       'class' => array('node-icon', 'as-' . $icon_name),
     ),
     '#value'     => '',

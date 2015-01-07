@@ -158,6 +158,6 @@
 .as-comment {
   @include image-icon-png-fallback('icons', 'comment');
 }
-.as-event {
+.as-event, .as-event-event {
   @include image-icon-png-fallback('icons', 'event');
 }
