@@ -102,10 +102,10 @@ function c4m_content_discussion_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '10',
+          'weight' => '11',
         ),
         'locations' => array(
-          'weight' => '11',
+          'weight' => '12',
         ),
       ),
       'display' => array(),

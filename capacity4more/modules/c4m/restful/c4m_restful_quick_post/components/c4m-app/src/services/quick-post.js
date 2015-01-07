@@ -7,7 +7,7 @@
  * # Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('QuickPostService', function($http) {
+  .service('QuickPostService', function($rootScope, $http) {
     var self = this;
 
     /**
@@ -251,27 +251,10 @@ angular.module('c4mApp')
         }
       }, popups);
       // Get the width of the element clicked in the event.
-      var elem_width = angular.element(event.currentTarget).outerWidth();
-      var elemPosition = angular.element(event.target).offset();
-      var elemParentPosition = angular.element(event.target).parent().offset();
+      var elemWidth = angular.element(event.currentTarget).outerWidth();
       // Toggle the visibility variable.
       popups[name] = popups[name] == 0 ? 1 : 0;
       // Move the popover to be at the end of the button.
-      angular.element(".hidden-checkboxes").css('left', elem_width);
+      angular.element(".hidden-checkboxes").css('left', elemWidth);
     };
-
-    /**
-     * Close all popovers on "ESC" key press.
-     */
-    this.keyUpHandler = function(keyEvent, scope) {
-      if(keyEvent.which == 27) {
-        angular.forEach(scope.popups, function (value, key) {
-          this[key] = 0;
-          // Re-Bind the JS with the HTML with "digest".
-          scope.$digest();
-        }, scope.popups);
-      }
-    };
-
-
   });
