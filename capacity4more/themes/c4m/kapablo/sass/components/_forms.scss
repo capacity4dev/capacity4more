@@ -8,6 +8,7 @@
   }
 }
 
-.hidden-input {
+.hidden-input,
+input[type=file].hidden-input {
   display: none;
 }
