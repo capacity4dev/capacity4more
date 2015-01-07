@@ -158,6 +158,7 @@ function theme_c4m_ds_content_type_icon($field) {
   $object_wrapper = entity_metadata_wrapper('node', $object);
   $field_name = 'c4m_' . $icon_name . '_type';
 
+  // Check if there is a type field.
   if (!empty($object_wrapper->$field_name)) {
     $icon_name .= '-' . $object_wrapper->$field_name->value();
   }

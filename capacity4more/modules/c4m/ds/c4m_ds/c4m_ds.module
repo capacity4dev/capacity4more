@@ -49,6 +49,18 @@ function c4m_ds_ds_layout_info() {
     'image'   => FALSE,
   );
 
+  $layouts['c4m_ds_3col_icon_left'] = array(
+    'label'   => t('Three columns with the content icon left.'),
+    'path'    => $path . '/c4m_ds_3col_icon_left',
+    'regions' => array(
+      'left'  => t('Icon'),
+      'middle' => t('Content middle'),
+      'right' => t('Content right'),
+    ),
+    'form'    => TRUE,
+    'image'   => FALSE,
+  );
+
   return $layouts;
 }
 

@@ -131,7 +131,7 @@
 .as-document-zip {
   @include image-icon-png-fallback('icons', 'document-zip');
 }
-.as-document-powerpoint {
+.as-document-ppt, .as-document-pptx {
   @include image-icon-png-fallback('icons', 'document-powerpoint');
 }
 .as-document-word {
