@@ -77,10 +77,10 @@ trait File {
    */
   public function iSaveDocumentWithTitle($title) {
 
+//      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').val('" . $title . "');
     $javascript = "
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').val('" . $title . "');
-//      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').trigger('click');
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').click();
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').scope().data.label = '" . $title . "';
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').trigger('click');
     ";
     $this->getSession()->executeScript($javascript);
 
@@ -93,12 +93,5 @@ trait File {
     $driver = $this->getSession()->getDriver();
     $screenshot = $driver->getScreenshot();
     file_put_contents($fileName . '.png', $screenshot);
-
-
-//    $javascript = "jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').trigger('click');";
-//    $this->getSession()->executeScript($javascript);
-
-
-
   }
 }
