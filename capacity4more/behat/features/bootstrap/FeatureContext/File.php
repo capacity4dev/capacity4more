@@ -29,12 +29,12 @@ trait File {
 
     // Attaching file is working only if input is visible.
     $this->getSession()->getDriver()->evaluateScript(
-      "jQuery('#document_file').css('display', 'block');"
+      "jQuery('.document_file').css('display', 'block');"
     );
     $field->attachFile($file_path);
     // Make input hidden after attaching the file.
     $this->getSession()->getDriver()->evaluateScript(
-      "jQuery('#document_file').css('display', 'none');"
+      "jQuery('.document_file').css('display', 'none');"
     );
   }
 
@@ -70,5 +70,29 @@ trait File {
       throw new \Exception("File input is not found");
     }
     $field->attachFile($file_path);
+  }
+
+  /**
+   * @Given /^I save document with title "([^"]*)"$/
+   */
+  public function iSaveDocumentWithTitle($title) {
+
+
+    $javascript = "
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').slice(0,1).val('" . $title . "');
+//      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('form[name=\"documentForm\"]').find('input#label').scope().data.label = '" . $title . "';
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').slice(0,1).trigger('click');
+    ";
+    $this->getSession()->executeScript($javascript);
+
+
+    // Unique filename.
+    $filePath = $this->debug['dump_path'];
+    $fileName = rtrim(realpath($filePath), DIRECTORY_SEPARATOR)
+      . DIRECTORY_SEPARATOR
+      . date('YmdHis') . '_' . uniqid();
+    $driver = $this->getSession()->getDriver();
+    $screenshot = $driver->getScreenshot();
+    file_put_contents($fileName . '.png', $screenshot);
   }
 }
