@@ -26,7 +26,7 @@
     <div ng-hide="serverSide.file" class="drop-text">
       <span class="uppercase"><?php print t('Drop file here to upload'); ?></span><br/>
       <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-      <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+      <input type="file" name="document-file" id="document_file" class="document_file" ng-file-select="onFileSelect($files)">
     </div>
 
     <div ng-show="serverSide.file.status == 200">
