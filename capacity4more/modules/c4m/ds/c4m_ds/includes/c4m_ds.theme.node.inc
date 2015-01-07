@@ -61,25 +61,40 @@ function theme_c4m_ds_author_first_and_last_name($field) {
   if (empty($field['entity'])) {
     return;
   }
+  $tag = array();
   $entity = $field['entity'];
-  $user   = user_load($entity->uid);
-  $name   = c4m_user_name($user);
 
-  if (!trim($name)) {
-    $name = $user->name;
+  if ($entity->uid != 0) {
+    $user = user_load($entity->uid);
+    $name = c4m_user_name($user);
+
+    if (!trim($name)) {
+      $name = $user->name;
+    }
+
+    if ('author_link' == $field['formatter']) {
+      $name = l($name, 'user/' . $user->uid);
+    }
+
+    $tag['element'] = array(
+      '#tag'       => 'span',
+      'attributes' => array(
+        'class' => array('username'),
+      ),
+      '#value'     => $name,
+    );
   }
-
-  if ('author_link' == $field['formatter']) {
-    $name = l($name, 'user/' . $user->uid);
+  else {
+    if (!empty($entity->name)) {
+      $tag['element'] = array(
+        '#tag'       => 'span',
+        'attributes' => array(
+          'class' => array('username', 'anonymous'),
+        ),
+        '#value'     => $entity->name,
+      );
+    }
   }
-
-  $tag['element'] = array(
-    '#tag'       => 'span',
-    'attributes' => array(
-      'class' => array('username'),
-    ),
-    '#value'     => $name,
-  );
 
   return theme_html_tag($tag);
 }

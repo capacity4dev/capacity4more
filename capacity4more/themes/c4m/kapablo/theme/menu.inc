@@ -14,7 +14,6 @@
  * @return string
  */
 function kapablo_menu_tree__c4m_og_menu($variables) {
-//  dsm($variables);
   return '<ul class="menu nav navbar-nav" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
@@ -29,33 +28,33 @@ function kapablo_menu_link__c4m_og_menu($variables) {
 
       // Arrow for the dropdown.
       $tag['element'] = array(
-        '#tag' => 'span',
+        '#tag'        => 'span',
         '#attributes' => array(
           'class' => array('arrow'),
         ),
-        '#value' => '',
+        '#value'      => '',
       );
-      $arrow = theme_html_tag($tag);
+      $arrow          = theme_html_tag($tag);
 
       // The list to put in the dropdown.
       $tag['element'] = array(
-        '#tag' => 'ul',
+        '#tag'   => 'ul',
         // Book links will be rendered by kapablo_menu_link__book_c4m_og_menu().
         '#value' => drupal_render($element['#below']),
       );
-      $sub_menu = theme_html_tag($tag);
+      $sub_menu       = theme_html_tag($tag);
 
       // We need a wrapper around submenu to add the arrow.
-      $tag['element'] = array(
-        '#tag' => 'div',
+      $tag['element']   = array(
+        '#tag'        => 'div',
         '#attributes' => array(
           'class' => array('dropdown-menu', 'bottom'),
         ),
-        '#value' => $arrow . $sub_menu,
+        '#value'      => $arrow . $sub_menu,
       );
       $sub_menu_wrapper = theme_html_tag($tag);
 
-      $element['#attributes']['class'][] = 'dropdown';
+      $element['#attributes']['class'][]     = 'dropdown';
       $element['#localized_options']['html'] = TRUE;
 
       // Set dropdown trigger element to # to prevent inadvertant page loading
@@ -95,6 +94,7 @@ function kapablo_menu_tree__book_toc(&$variables) {
   $output = '<div class="book-toc">';
   $output .= '<ul role="menu">' . $variables['tree'] . '</ul>';
   $output .= '</div>';
+
   return $output;
 }
 
@@ -103,16 +103,16 @@ function kapablo_menu_tree__book_toc(&$variables) {
  */
 function kapablo_menu_tree__book_toc__sub_menu(&$variables) {
   $tag['element'] = array(
-    '#tag' => 'ul',
+    '#tag'        => 'ul',
     '#attributes' => array(
-      'id' => '',
+      'id'   => '',
       // It will be made collapsible and it will be expanded only for the sub
       // menu of an active menu item.
       // (So we expand current page + first generation children.
       // See kapablo_menu_link__book_toc() for that.
       'role' => array('menu'),
     ),
-    '#value' => $variables['tree'],
+    '#value'      => $variables['tree'],
   );
 
   return theme_html_tag($tag);
@@ -123,18 +123,20 @@ function kapablo_menu_tree__book_toc__sub_menu(&$variables) {
  * Add bootstrap collapsible behaviour to all expandable links.
  *
  * @param array $variables
+ *
  * @return string
  */
 function kapablo_menu_link__book_toc(array $variables) {
-  $element = $variables['element'];
+  $element  = $variables['element'];
   $sub_menu = drupal_render($element['#below']);
 
-  $link_options = $element['#localized_options'];
+  $link_options                   = $element['#localized_options'];
   $element['#attributes']['role'] = 'presentation';
-  $active = FALSE;
+  $active                         = FALSE;
   if (($element['#href'] == $_GET['q'] ||
       ($element['#href'] == '<front>' && drupal_is_front_page())) &&
-    (empty($element['#localized_options']['language']))) {
+    (empty($element['#localized_options']['language']))
+  ) {
     $element['#attributes']['class'][] = 'active';
     // We expand current page + first generation children
     // We will replace class 'collapse' set in
@@ -144,7 +146,8 @@ function kapablo_menu_link__book_toc(array $variables) {
 
   $replacement = $icon = '';
   if (!empty($sub_menu) &&
-    $mlid = $element['#original_link']['mlid']) {
+    $mlid = $element['#original_link']['mlid']
+  ) {
     // The list item should contain an icon which should act as a bootstrap
     // collapse toggle control to hide/show the submenu (= child pages).
 
@@ -152,16 +155,16 @@ function kapablo_menu_link__book_toc(array $variables) {
 
     // See kapablo_menu_tree__book_toc__sub_menu().
     $tag['element'] = array(
-      '#tag' => 'span',
+      '#tag'        => 'span',
       '#attributes' => array(
         // Tell the span element it is a collapse toggle control.
         'data-toggle' => 'collapse',
         // Tell the control which is the target to be controlled.
         'data-target' => '#' . $submenu_id,
         // Give it class as well for easy theming.
-        'class' => array('toggle'),
+        'class'       => array('toggle'),
       ),
-      '#value' => '',
+      '#value'      => '',
     );
 
     // Prepare to replace id of submenu.
@@ -170,7 +173,8 @@ function kapablo_menu_link__book_toc(array $variables) {
     // And expand only if current menu item is active or a child menu item is
     // active. We know the latter by the class 'active' being already present.
     if ($active ||
-      strpos($sub_menu, 'active') !== FALSE) {
+      strpos($sub_menu, 'active') !== FALSE
+    ) {
       $tag['element']['#attributes']['class'][] = 'expanded';
       $submenu_classes .= ' in';
     }
@@ -211,16 +215,17 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
   if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
-  $tag['element'] = array(
-    '#tag' => 'i',
+  $tag['element']                                         = array(
+    '#tag'        => 'i',
     '#attributes' => array(
       'class' => array('c4m-chevron-right'),
     ),
-    '#value' => '',
+    '#value'      => '',
   );
-  $c4m_chevron_right = theme_html_tag($tag);
+  $c4m_chevron_right                                      = theme_html_tag($tag);
   $element['#localized_options']['attributes']['class'][] = 'c4m-book-og-menu-link';
-  $element['#localized_options']['html'] = TRUE;
-  $link =  l($c4m_chevron_right . $element['#title'], $element['#href'], $element['#localized_options']);
+  $element['#localized_options']['html']                  = TRUE;
+  $link                                                   = l($c4m_chevron_right . $element['#title'], $element['#href'], $element['#localized_options']);
+
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . "</li>\n";
 }
