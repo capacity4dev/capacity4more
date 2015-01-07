@@ -18,7 +18,7 @@ function kapablo_menu_tree__c4m_og_menu($variables) {
 }
 
 function kapablo_menu_link__c4m_og_menu($variables) {
-  $element  = $variables['element'];
+  $element = $variables['element'];
   $sub_menu = $sub_menu_wrapper = '';
 
   if ($element['#below']) {
@@ -60,8 +60,11 @@ function kapablo_menu_link__c4m_og_menu($variables) {
       // Set dropdown trigger element to # to prevent inadvertant page loading
       // when a submenu link is clicked.
       $element['#localized_options']['attributes']['data-target'] = '#';
-      $element['#localized_options']['attributes']['class'][]     = 'dropdown-toggle';
-      $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
+      $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
+      // Comment data-toggle = dropdown as this causes the need for double click
+      // in combination with Angular.js
+      // See http://stackoverflow.com/questions/24218663/avoid-having-to-double-click-to-toggle-bootstrap-dropdown
+      //$element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
     }
   }
   // On primary navigation menu, class 'active' is not set on active menu item.
