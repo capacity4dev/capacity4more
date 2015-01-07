@@ -10,7 +10,7 @@
       print($file);
     ?>
 
-    <br/>col
+    <br/>
     <p>Add this document also to the group Library?</p>
     <button type="submit" id="save-edit" ng-click="addToLibrary = true" class="btn btn-primary" tabindex="100"><?php print t('YES'); ?></button>
     <button type="submit" id="save" ng-click="addToLibrary = false" class="btn btn-primary" tabindex="100"><?php print t('NO'); ?></button>

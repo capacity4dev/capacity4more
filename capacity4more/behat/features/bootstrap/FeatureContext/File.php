@@ -36,6 +36,10 @@ trait File {
     $this->getSession()->getDriver()->evaluateScript(
       "jQuery('.document_file').css('display', 'none');"
     );
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 
   /**
@@ -53,6 +57,10 @@ trait File {
 
     $fields = $this->getSession()->getDriver()->find($save_xpath);
     $fields[0]->press();
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 
   /**
@@ -70,6 +78,10 @@ trait File {
       throw new \Exception("File input is not found");
     }
     $field->attachFile($file_path);
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 
   /**
@@ -81,5 +93,9 @@ trait File {
       jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').slice(0,1).trigger('click');
     ";
     $this->getSession()->executeScript($javascript);
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 }
