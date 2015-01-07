@@ -61,25 +61,40 @@ function theme_c4m_ds_author_first_and_last_name($field) {
   if (empty($field['entity'])) {
     return;
   }
+  $tag = array();
   $entity = $field['entity'];
-  $user   = user_load($entity->uid);
-  $name   = c4m_user_name($user);
 
-  if (!trim($name)) {
-    $name = $user->name;
+  if ($entity->uid != 0) {
+    $user = user_load($entity->uid);
+    $name = c4m_user_name($user);
+
+    if (!trim($name)) {
+      $name = $user->name;
+    }
+
+    if ('author_link' == $field['formatter']) {
+      $name = l($name, 'user/' . $user->uid);
+    }
+
+    $tag['element'] = array(
+      '#tag'       => 'span',
+      'attributes' => array(
+        'class' => array('username'),
+      ),
+      '#value'     => $name,
+    );
   }
-
-  if ('author_link' == $field['formatter']) {
-    $name = l($name, 'user/' . $user->uid);
+  else {
+    if (!empty($entity->name)) {
+      $tag['element'] = array(
+        '#tag'       => 'span',
+        'attributes' => array(
+          'class' => array('username', 'anonymous'),
+        ),
+        '#value'     => $entity->name,
+      );
+    }
   }
-
-  $tag['element'] = array(
-    '#tag'       => 'span',
-    'attributes' => array(
-      'class' => array('username'),
-    ),
-    '#value'     => $name,
-  );
 
   return theme_html_tag($tag);
 }
@@ -140,15 +155,30 @@ function theme_c4m_ds_content_type_icon($field) {
 
   $icon_name = $object->type;
 
-  if ($icon_name == 'discussion') {
-    $object_wrapper = entity_metadata_wrapper('node', $object);
-    // Icon image file name is the discussion type of the discussion node.
-    $icon_name = 'discussion-' . $object_wrapper->c4m_discussion_type->value();
+  $field_name = 'c4m_' . $icon_name . '_type';
+
+  $object_wrapper = entity_metadata_wrapper('node', $object);
+  if (!isset($object_wrapper->$field_name)) {
+    return;
   }
+  // Icon image file name is the type of the node.
+  $icon_name = $object->type . '-' . $object_wrapper->$field_name->value();
+
 
   $variables['icon'] = $icon_name;
+  //drupal_set_title(, PASS_THROUGH);
 
-  return '<span class="node-icon as-' . $icon_name . '"> </span>';
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    'attributes' => array(
+      'class' => array('node-icon', 'as-' . $icon_name),
+    ),
+    '#value'     => '',
+  );
+
+  $icon = theme_html_tag($tag);
+
+  return $icon;
 }
 
 /**

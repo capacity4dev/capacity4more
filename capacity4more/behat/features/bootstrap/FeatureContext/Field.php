@@ -41,6 +41,9 @@ trait Field {
       case 'Group type':
         $locator = '.region-content .field-name-c4m-ds-group-access-info';
         break;
+      case 'Location':
+        $locator = '.region-content .field-name-c4m-location';
+        break;
       case 'Preview':
         $locator = '.region-content .view-mode-c4m_preview';
         break;
@@ -78,8 +81,14 @@ trait Field {
       case 'Details':
         $class = 'group-node-details';
         break;
+      case 'Documents':
+        $class = 'group-node-documents';
+        break;
       case 'Group dashboard details':
         $class = 'group-details';
+        break;
+      case 'Organiser':
+        $class = 'group-node-organiser';
         break;
     }
     if (!empty($class)) {

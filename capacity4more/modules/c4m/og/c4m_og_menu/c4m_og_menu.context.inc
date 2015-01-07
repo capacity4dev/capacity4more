@@ -22,7 +22,7 @@ function c4m_og_menu_context_default_contexts() {
         '_any_' => '_any_',
       ),
       'options' => array(
-        'node_form' => 0,
+        'node_form' => 1,
       ),
     ),
   );

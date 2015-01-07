@@ -54,6 +54,8 @@ angular.module('c4mApp')
       });
       submitData.document = fileId;
       submitData.group = DrupalSettings.getData('groupID');
+      submitData.add_to_library = addToLibrary ? 1 : 0;
+
 
       EntityResource.createEntity(submitData, 'documents', resourceFields)
         .success( function (data, status) {

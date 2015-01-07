@@ -1,4 +1,5 @@
 <div class="form-group input-wrapper file-wrapper" id="add-document-form">
+  <label><?php print $title; ?></label>
 
   <div class="form-control drop-box" ng-file-drop="onFileSelect($files, '<?php print $field_name; ?>');"
        ng-file-drag-over-class="file-upload-drag">
