@@ -77,10 +77,11 @@ trait File {
    */
   public function iSaveDocumentWithTitle($title) {
 
-//      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').val('" . $title . "');
+
     $javascript = "
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').scope().data.label = '" . $title . "';
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').trigger('click');
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#label').slice(0,1).val('" . $title . "');
+//      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('form[name=\"documentForm\"]').find('input#label').scope().data.label = '" . $title . "';
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('#save').slice(0,1).trigger('click');
     ";
     $this->getSession()->executeScript($javascript);
 
