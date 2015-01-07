@@ -9,6 +9,12 @@ angular.module('c4mApp')
 
     $scope.model = {};
 
+    // Need to get current field name.
+    var element = jQuery('.active-library-link', parent.window.document);
+    $scope.fieldName = element.attr('id').replace('link-', '');
+
+//    var fieldName = $scope.fieldName.replace(/_/g, '-');
+
     /**
      * Create document node.
      *
@@ -56,15 +62,15 @@ angular.module('c4mApp')
           var item = '(' + nid + ')';
 
           // Add the value we get in the hidden inputs in the parent page.
-          var value = jQuery('#edit-c4m-related-document-und', parent.window.document).val();
-          var nids = jQuery('#related-documents', parent.window.document).val();
+          var value = jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val();
+          var nids = jQuery('#input-' + $scope.fieldName, parent.window.document).val();
           if (value.indexOf(item) == -1) {
             value = value ? value + ', ' + item : item;
             nids = nids ? nids + ',' + nid : nid;
           }
 
-          jQuery('#edit-c4m-related-document-und', parent.window.document).val(value);
-          jQuery('#related-documents', parent.window.document).val(nids).trigger('click');
+          jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(value);
+          jQuery('#input-' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
 
           if (!addToLibrary) {
             // Save document and go to the parent page.

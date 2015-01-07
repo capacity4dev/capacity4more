@@ -1,0 +1,122 @@
+<?php
+/**
+ * @file
+ * Append a note on who edited given comment the last time, in order to show to other users when the author changed
+ * his or her comment.
+ */
+
+/**
+ * Implements hook_comment_update().
+ *
+ * @param $comment
+ *
+ * @return void
+ */
+function c4m_comment_edited_comment_update($comment) {
+  global $user;
+
+  $previous = comment_load($comment->cid);
+
+  // Do not log comment change where its just being unpublished.
+  if ($previous->status != $comment->status) {
+    return;
+  }
+
+  $data            = new stdClass;
+  $data->cid       = $comment->cid;
+  $data->uid       = $user->uid;
+  $data->timestamp = time();
+
+  // If there is another message of this comment then just update that.
+  $exists_query = 'SELECT cid FROM {c4m_comment_edited_data} WHERE cid = :cid';
+  $exists       = db_query($exists_query, array(':cid' => $data->cid))->fetchField();
+
+  if ($exists) {
+    drupal_write_record('c4m_comment_edited_data', $data, array('cid'));
+  }
+  else {
+    drupal_write_record('c4m_comment_edited_data', $data);
+  }
+}
+
+/**
+ * Implements hook_comment_delete().
+ *
+ * @param $comment
+ */
+function c4m_comment_edited_comment_delete($comment) {
+  // Delete message from the comment_edited table
+  // $comment is object
+  db_query('DELETE FROM {c4m_comment_edited_data} WHERE cid = :cid', array(':cid' => $comment->cid));
+  db_query('DELETE FROM {c4m_comment_edited_comments} WHERE cid = :cid', array(':cid' => $comment->cid));
+}
+
+/**
+ * Implements hook_preprocess_comment().
+ *
+ * If template display is used then just create a new variable for that.
+ */
+function c4m_comment_edited_preprocess_comment(&$variables) {
+  $message = c4m_comment_edited_get_message($variables['comment']->cid);
+
+  if (!empty($message)) {
+    $variables['comment_edited'] = theme('c4m_comment_edited_messages', array('message' => $message));
+
+    // Does not display when using Display Suite template.
+    // If this module is needed in the future, a solution has to be searched.
+    $variables['content']['c4m_comment_edited']['#weight']    = 1;
+    $variables['content']['c4m_comment_edited'][0]['#markup'] = $variables['comment_edited'];
+  }
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function c4m_comment_edited_theme() {
+  return array(
+    'c4m_comment_edited_messages' => array(
+      'variables' => array('message' => NULL),
+    ),
+  );
+}
+
+/**
+ * Return the display message for the last edited by... text
+ *
+ * @param int $cid
+ *   Comment id.
+ *
+ * @return string
+ */
+function c4m_comment_edited_get_message($cid) {
+  $data = db_query('SELECT uid, timestamp FROM {c4m_comment_edited_data} WHERE cid = :cid', array(':cid' => $cid))->fetchAssoc();
+
+  if ($data['uid'] && $data['timestamp']) {
+    $account = user_load($data['uid']);
+    $date    = format_date($data['timestamp'], 'medium');
+
+    return t('Last edited by !username on !date', array('!username' => $account->name, '!date' => $date));
+  }
+
+  return '';
+}
+
+/**
+ * Theme the last edited block.
+ *
+ * @param array $variables
+ *   A keyed array of messages that needs to be themed.
+ *
+ * @return string
+ *   Themed output.
+ */
+function theme_c4m_comment_edited_messages($variables) {
+  $message = $variables['message'];
+  $output  = '';
+
+  if (!empty($message)) {
+    $output = '<span class="last-edited">' . $message . '</span>';
+  }
+
+  return $output;
+}

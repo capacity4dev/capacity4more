@@ -231,6 +231,9 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     '#weight' => $instance['widget']['weight'],
   );
 
+  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field['field_name']);
+  $form['directive-tags']['#parent_fieldset'] = $fieldset;
+
   $element['target_id']['#element_validate'][] = 'c4m_og_vocab_validate';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
   $form['#attributes']['class'][] = 'drupal-form';
@@ -295,14 +298,8 @@ function c4m_og_vocab_validate($element, &$form_state, &$form) {
 
   // Unset previous values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (isset($data['data']['c4m'])) {
-      if (isset($data['data']['c4m']['data'])) {
-        if (isset($data['data']['c4m']['data']['values'])) {
-          if (array_key_exists('categories', $data['data']['c4m']['data']['values'])) {
-            unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
-          }
-        }
-      }
+    if (!empty($data['data']['c4m']['data']['values']['categories'])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
     }
   }
 

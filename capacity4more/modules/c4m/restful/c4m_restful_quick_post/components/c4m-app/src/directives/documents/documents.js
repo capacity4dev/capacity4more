@@ -13,7 +13,8 @@ angular.module('c4mApp')
       restrict: 'E',
       scope: {
         relatedDocuments: '=',
-        formId: '='
+        formId: '=',
+        fieldName: '='
       },
       link: function postLink(scope, element) {
 
@@ -27,7 +28,6 @@ angular.module('c4mApp')
          *  Returns array of related document information objects
          */
         scope.updateDocumentsData = function(relatedDocuments) {
-
           var documents = {};
           angular.forEach(relatedDocuments, function(value, key) {
 
@@ -42,7 +42,7 @@ angular.module('c4mApp')
         };
 
         // Get the click event form the overlay and update related documents.
-        element.parents('#' + scope.formId).find('#related-documents').on('click', function (event) {
+        element.parents('#' + scope.formId).find('#input-'+ scope.fieldName).on('click', function (event) {
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
             var ids = val.split(',');
@@ -68,16 +68,16 @@ angular.module('c4mApp')
           }
 
           // Remove value from the widget's inputs.
-          var value = angular.element('#edit-c4m-related-document-und').val();
+          var value = angular.element('#edit-' + scope.fieldName + '-und').val();
           value = value.replace('(' + id + '), ', '');
           value = value.replace('(' + id + ')', '');
 
-          var ids = angular.element('#related-documents').val();
-          ids = ids.replace(id + ', ', '');
+          var ids = angular.element('#input-' + scope.fieldName).val();
+          ids = ids.replace(id + ',', '');
           ids = ids.replace(id, '');
 
-          angular.element('#edit-c4m-related-document-und').val(value);
-          angular.element('#related-documents').val(ids);
+          angular.element('#edit-' + scope.fieldName + '-und').val(value);
+          angular.element('#input-' + scope.fieldName).val(ids);
         };
       }
     };

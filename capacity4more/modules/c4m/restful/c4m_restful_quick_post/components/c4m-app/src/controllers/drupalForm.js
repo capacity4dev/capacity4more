@@ -13,6 +13,8 @@ angular.module('c4mApp')
     // Get the form Identifier, for the related documents widget.
     $scope.formId = DrupalSettings.getData('formId');
 
+    $scope.fieldName = '';
+
     $scope.model = {};
 
     $scope.basePath = DrupalSettings.getBasePath();
@@ -51,7 +53,7 @@ angular.module('c4mApp')
 
     // Update the shown texonomies upon searching.
     $scope.updateSearch = function(vocab) {
-      $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerm);
+      $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerms[vocab]);
     };
 
     // Toggle the visibility of the popovers.
@@ -118,10 +120,10 @@ angular.module('c4mApp')
             if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
               $scope.model[vocab][childID] = false;
               if (vocab == 'categories') {
-                angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
+                angular.element('input[type=checkbox][value="' + childID + '"]').prop("checked", false);
               }
               else {
-                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+                angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
             }
           });
@@ -166,8 +168,11 @@ angular.module('c4mApp')
      *
      * @param $files
      *  The file.
+     * @param fieldName
+     *  Name of the current field.
      */
-    $scope.onFileSelect = function($files) {
+    $scope.onFileSelect = function($files, fieldName) {
+      $scope.setFieldName(fieldName);
       //$files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
@@ -175,7 +180,7 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-file/' + fileId + '?render=overlay');
+          Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-file/' + fileId + '/' + fieldName + '?render=overlay');
         });
       }
     };
@@ -184,8 +189,16 @@ angular.module('c4mApp')
     /**
      * Opens the system's file browser.
      */
-    $scope.browseFiles = function() {
-      angular.element('#document_file').click();
+    $scope.browseFiles = function(fieldName) {
+      angular.element('#' + fieldName).click();
     };
 
+    /**
+     * Set the name of the current field.
+     *
+     * @param fieldName
+     */
+    $scope.setFieldName = function(fieldName) {
+      $scope.fieldName = fieldName;
+    };
   });
