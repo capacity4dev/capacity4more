@@ -20,9 +20,17 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     array('title', 'Title'),
     array('field_date', 'Date'),
     array('organizer', 'Organizer'),
+    array('event_website', 'Event website'),
+    array('facebook', 'Facebook page'),
+    array('twitter', 'Twitter page'),
     array('body', 'Body'),
     array('location', 'Location'),
+    array('document_agenda', 'Agenda & Information'),
+    array('document_presentation', 'Presentations'),
+    array('related_document', 'Additional'),
     array('categories', 'Categories'),
+    array('topics', 'Topics'),
+    array('geo', 'Geo'),
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
@@ -37,18 +45,33 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     parent::__construct();
 
     $this->addFieldMapping('c4m_body', 'body');
+
     $this->addFieldMapping('field_date', 'field_date');
 
     $this->addFieldMapping('c4m_organised_by', 'organizer')
          ->separator(';');
 
+    $this->addFieldMapping('c4m_link', 'event_website');
+
+    $this->addFieldMapping('c4m_facebook', 'facebook');
+
+    $this->addFieldMapping('c4m_twitter', 'twitter');
+
     $this->addFieldMapping('c4m_location', 'location');
+
+    $this->addFieldMapping('c4m_document_agenda', 'agenda');
+
+    $this->addFieldMapping('c4m_document_presentation', 'presentation');
+
+    $this->addFieldMapping('c4m_related_document', 'additional');
 
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
          ->sourceMigration('C4mDemoContentCreateCategories')
          ->arguments(array('source_type' => 'tid'))
          ->separator('|');
+
+    $this->addFieldMapping('c4m_related_topic', 'topics_list');
 
     $this->addFieldMapping('c4m_vocab_tag', 'tags')
          ->sourceMigration('C4mDemoContentCreateTags')
@@ -65,7 +88,78 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public function prepareRow($row) {
     parent::prepareRow($row);
 
+    // Agenda DOCUMENT references.
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateDocuments',
+      explode('|', $row->document_agenda),
+      NULL,
+      $this
+    );
+
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->agenda = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = NULL;
+
+    // Presentation DOCUMENT references.
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateDocuments',
+      explode('|', $row->document_presentation),
+      NULL,
+      $this
+    );
+
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->presentation = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = NULL;
+    // Additional DOCUMENT references.
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateDocuments',
+      explode('|', $row->related_document),
+      NULL,
+      $this
+    );
+
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->additional = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
+    // TOPIC references.
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateTopics',
+      explode('|', $row->topics),
+      NULL,
+      $this
+    );
+
+    // By default $unfiltered_ids is an array of arrays, containing the
+    // destid1 => destination_nid, but destid2 => NULL.
+    // This NULL value is counted however and added to the query, resulting
+    // in errors. Therefore we need to filter it out.
+    $row->topics_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $this->addFieldMapping('c4m_vocab_geo', 'geo')
+      ->sourceMigration('C4mDemoContentCreateRegionTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
   }
 
   /**
@@ -92,5 +186,15 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
    */
   public function complete($entity, $row) {
     $this->extractAddress($entity, $row);
+    // Save events with locationns again and simulate an 'active' location to
+    // ensure correct node vid in table getlocations_fields_entities.
+    // Module getlocations_fields assumes a location is a demo one if not
+    // set 'active' which happens on node form.
+    if (!empty($entity->c4m_location[LANGUAGE_NONE])) {
+      foreach ($entity->c4m_location[LANGUAGE_NONE] as $key => $item) {
+        $entity->c4m_location[LANGUAGE_NONE][$key]['active'] = TRUE;
+      }
+      entity_save('node', $entity);
+    }
   }
 }

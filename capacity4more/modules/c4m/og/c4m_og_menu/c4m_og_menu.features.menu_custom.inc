@@ -10,7 +10,7 @@
 function c4m_og_menu_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: c4m-og-menu
+  // Exported menu: c4m-og-menu.
   $menus['c4m-og-menu'] = array(
     'menu_name' => 'c4m-og-menu',
     'title' => 'Group Menu',
