@@ -643,7 +643,7 @@ function c4m_message__update__node($node) {
       }
     }
     else {
-      // Need to create new massage, not to update existing one.
+      // Need to create new message, not to update existing one.
       $values = array(
         'uid' => $user->uid,
         'timestamp' => $node->timestamp,
