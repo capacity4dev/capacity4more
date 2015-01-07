@@ -74,6 +74,8 @@ angular.module('c4mApp')
       angular.forEach(textFields, function (field) {
         $scope.data[field] = field == 'tags' ? [] : '';
       });
+
+      $scope.data['add_to_library'] = 1;
     }
 
     // Preparing the data for the form.
