@@ -332,9 +332,9 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 8,
     ),
   );
@@ -382,7 +382,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'term_reference_tree',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(
         'cascading_selection' => 1,
         'filter_view' => '',
@@ -394,7 +394,7 @@ function c4m_content_group_field_default_field_instances() {
         'token_display' => '',
         'track_list' => 0,
       ),
-      'type' => 'term_reference_tree',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 10,
     ),
   );

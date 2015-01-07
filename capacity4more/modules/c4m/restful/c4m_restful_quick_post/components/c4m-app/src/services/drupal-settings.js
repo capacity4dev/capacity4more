@@ -33,13 +33,6 @@ angular.module('c4mApp')
     };
 
     /**
-     * Get list af all document objects.
-     */
-    this.getDocuments = function() {
-      return (angular.isDefined(self.settings.c4m.documents)) ? self.settings.c4m.documents : undefined;
-    }
-
-    /**
      * Get the activity stream of the current group.
      */
     this.getActivities = function() {
