@@ -64,7 +64,7 @@ trait FullForm {
    */
   public function iChooseLibrary($title) {
     $javascript = "
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('[title=\"$title\"]')[0].click();
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('[title=\"$title\"]').trigger('click');
     ";
     $this->getSession()->executeScript($javascript);
   }

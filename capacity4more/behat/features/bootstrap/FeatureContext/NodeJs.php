@@ -24,9 +24,9 @@ trait NodeJs {
     $steps = array();
     $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
 
-    $uri = strtolower(str_replace(' ', '-', trim($group)));
+    $uri = url(current_path());
 
-    $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
+    $steps[] = new Step\When('I go to "' . $uri . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text in the body"');
     return $steps;
