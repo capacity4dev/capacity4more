@@ -155,10 +155,11 @@ function theme_c4m_ds_content_type_icon($field) {
 
   $icon_name = $object->type;
 
-  if ($icon_name == 'discussion') {
-    $object_wrapper = entity_metadata_wrapper('node', $object);
-    // Icon image file name is the discussion type of the discussion node.
-    $icon_name = 'discussion-' . $object_wrapper->c4m_discussion_type->value();
+  $object_wrapper = entity_metadata_wrapper('node', $object);
+  $field_name = 'c4m_' . $icon_name . '_type';
+
+  if (!empty($object_wrapper->$field_name)) {
+    $icon_name .= '-' . $object_wrapper->$field_name->value();
   }
 
   $variables['icon'] = $icon_name;
