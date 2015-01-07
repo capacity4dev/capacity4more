@@ -1,0 +1,124 @@
+<?php
+/**
+ * @file
+ * Installation hooks for Countries & Regions vocabulary.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_vocab_geo_install() {
+  $vocabulary = _c4m_vocab_geo_install_vocabulary();
+  $terms = _c4m_vocab_geo_install_get_terms();
+  _c4m_vocab_geo_install_terms($vocabulary, $terms);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_vocab_geo_uninstall() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_geo');
+
+  if (!empty($vocab)) {
+    taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
+
+
+/**
+ * Create Countries & Regions vocabulary.
+ *
+ * @return stdClass
+ *   The Countries & Regions vocabulary.
+ */
+function _c4m_vocab_geo_install_vocabulary() {
+  $vocabulary = (object) array(
+    'name'         => st('Countries & Regions Vocabulary'),
+    'description'  => st('Countries & Regions indication for documents'),
+    'machine_name' => 'c4m_vocab_geo',
+  );
+  taxonomy_vocabulary_save($vocabulary);
+
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_geo_pattern',
+    'geo/[term:name]'
+  );
+
+  return $vocabulary;
+}
+
+/**
+ * Create default taxonomy terms for the Document Type vocabulary.
+ *
+ * @param stdClass $vocabulary
+ *   The vocabulary to which the terms should be added.
+ * @param array $terms
+ *   Array of terms.
+ * @param stdClass $parent
+ *   (optional) Parent term.
+ */
+function _c4m_vocab_geo_install_terms($vocabulary, $terms, $parent = NULL) {
+  $weight = -20;
+  foreach ($terms as $name => $children) {
+    $term              = new stdClass();
+    $term->name        = $name;
+    $term->description = 'Geo: ' . $name;
+    $term->vid         = $vocabulary->vid;
+    $term->weight      = $weight;
+    if (!empty($parent)) {
+      $term->parent = $parent->tid;
+    }
+    taxonomy_term_save($term);
+
+    if (!empty($children)) {
+      _c4m_vocab_geo_install_terms($vocabulary, $children, $term);
+    }
+    $weight++;
+  }
+}
+
+/**
+ * Get a list of type of documents terms to use during the install.
+ *
+ * @return array
+ */
+function _c4m_vocab_geo_install_get_terms() {
+  $terms = array(
+    st('Study') => array(),
+    st('Research Paper') => array(),
+    st('Policy report / Briefing') => array(),
+    st('Background material') => array(),
+    st('Strategies & Action plans') => array(),
+    st('Evaluation report') => array(),
+    st('Monitorting report') => array(),
+    st('Action document / Project fiche') => array(),
+    st('Contractual documentation') => array(
+      st('Contract') => array(),
+      st('Terms of Reference') => array(),
+      st('Technical Administrative Provisions') => array(),
+      st('Budget') => array(),
+      st('Logical framework') => array(),
+    ),
+    st('Learning material') => array(
+      st('E-learning & MOOC') => array(),
+      st('Training agenda & outlines') => array(),
+      st('Training presentations') => array(),
+    ),
+    st('Guidelines') => array(),
+    st('Toolkits & manuals') => array(),
+    st('Case study & Lessons learned') => array(),
+    st('Communication material') => array(
+      st('Newsletter') => array(),
+      st('Leaflets') => array(),
+      st('Press release') => array(),
+      st('Articles & Interviews') => array(),
+      st('Publications & Factsheets') => array(),
+      st('Picture') => array(),
+      st('Video') => array(),
+    ),
+    st('EU official document') => array(),
+    st('Other') => array(),
+  );
+
+  return $terms;
+}
