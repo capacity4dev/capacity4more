@@ -47,6 +47,10 @@ angular.module('c4mApp')
       $scope.popups[key] = 0;
     });
 
+    angular.forEach($scope.data.categories, function(item, value) {
+      item.selected = false;
+    });
+
     // Copy the vocabularies to another variable,
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
@@ -131,8 +135,10 @@ angular.module('c4mApp')
       }
     };
 
-    scope.updateSelected = function(item, vocab) {
-      $scope.data['categories'].item.selected = !item.selected;
+    $scope.updateSelected = function(item, vocab) {
+      console.log($scope.data[vocab]);
+      console.log(item);
+      item.selected = !item.selected;
     };
 
     /**
