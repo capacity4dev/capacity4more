@@ -167,7 +167,6 @@ angular.module('c4mApp')
     $document.on('mousedown', function(event) {
       // Check if we are not clicking on the popup.
       var parents = angular.element(event.target).parents();
-      parents.find('.popover');
       var close = true;
       angular.forEach(parents, function(parent, id) {
         if (parent.className.indexOf('popover') != -1) {
