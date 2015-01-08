@@ -163,7 +163,13 @@ function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, 
  * Attach Angular application to the page.
  */
 function c4m_restful_quick_post_preprocess_html(&$vars) {
+  drupal_static_reset('menu_get_item');
   $item = menu_get_item();
+  dpm($_GET['q']);
+  $allowed_paths = array(
+    'node/add',
+    'node/%/add',
+  );
 
   if (!menu_get_object() && isset($item['map']) && $item['map'][0] != 'node') {
     // Not a node page and not a node/add(edit) page.
