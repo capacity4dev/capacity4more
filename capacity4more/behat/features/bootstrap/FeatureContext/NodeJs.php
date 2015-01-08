@@ -22,11 +22,8 @@ trait NodeJs {
    */
   public function iStartCreatingInFullFormWithTitle($bundle, $title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
 
-    $uri = url(current_path());
-
-    $steps[] = new Step\When('I go to "' . $uri . '/node/add/' . $bundle . '"');
+    $steps[] = new Step\When('I go to "' . $group . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text in the body"');
     return $steps;

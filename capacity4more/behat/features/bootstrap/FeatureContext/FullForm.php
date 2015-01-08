@@ -53,6 +53,7 @@ trait FullForm {
     $steps[] = new Step\When('I click "Select a Document from the library"');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I click on the "Nobel Prize in Physics 2014" document');
+    $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I press the "Save" button');
     $steps[] = new Step\When('I wait');
 
@@ -64,7 +65,7 @@ trait FullForm {
    */
   public function iChooseLibrary($title) {
     $javascript = "
-      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('[title=\"$title\"]').trigger('click');
+      jQuery(Drupal.overlay.activeFrame[0].contentDocument).find('[title=\"$title\"]').slice(0,1).trigger('click');
     ";
     $this->getSession()->executeScript($javascript);
   }
