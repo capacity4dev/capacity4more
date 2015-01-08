@@ -91,9 +91,24 @@
 }
 
 .row-header {
-  color: $blue;
+  color: $highlight-blue;
+  font-size: 0.9em;
+  
   a {
-    color: $blue;
+    color: $highlight-blue;
+  }
+
+  .separator {
+    border: 1px solid $highlight-blue;
+    display: inline-block;
+    height: 0.9em;
+    margin: 0 20px;
+    text-indent: -9999px;
+    vertical-align: middle;
+  }
+
+  .post-date {
+    color: $gray-darker;
   }
 }
 

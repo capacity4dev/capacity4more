@@ -17,6 +17,7 @@ dependencies[] = c4m_vocab_language
 dependencies[] = c4m_vocab_widget
 dependencies[] = ctools
 dependencies[] = date
+dependencies[] = ds
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
@@ -80,4 +81,5 @@ features[variable][] = menu_parent_event
 features[variable][] = node_options_event
 features[variable][] = node_preview_event
 features[variable][] = node_submitted_event
-mtime = 1420635682
+mtime = 1420637210
+

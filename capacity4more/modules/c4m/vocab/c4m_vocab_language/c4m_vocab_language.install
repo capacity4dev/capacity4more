@@ -29,8 +29,8 @@ function c4m_vocab_language_uninstall() {
  */
 function c4m_vocab_language_install_vocabulary() {
   $language_vocab = (object) array(
-    'name'         => 'Language Vocabulary',
-    'description'  => 'Language indication for content',
+    'name' => 'Language Vocabulary',
+    'description' => 'Language indication for content',
     'machine_name' => 'c4m_vocab_language',
   );
   taxonomy_vocabulary_save($language_vocab);
@@ -48,25 +48,25 @@ function c4m_vocab_language_install_terms() {
   $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
 
   $terms = array(
-    'English',
-    'French',
-    'Spanish',
-    'German',
-    'Portuguese',
-    'Arabic',
-    'Chinese',
-    'Russian',
-    'Other',
+    st('English'),
+    st('French'),
+    st('Spanish'),
+    st('German'),
+    st('Portuguese'),
+    st('Arabic'),
+    st('Chinese'),
+    st('Russian'),
+    st('Others'),
   );
 
   $weight = -20;
   foreach ($terms as $term) {
-    $to              = new stdClass();
-    $to->name        = $term;
-    $to->description = 'Content in ' . $term;
-    $to->vid         = $vocab->vid;
-    $to->weight      = $weight;
-    taxonomy_term_save($to);
+    $term_object              = new stdClass();
+    $term_object->name        = $term;
+    $term_object->description = 'Content in ' . $term;
+    $term_object->vid         = $vocab->vid;
+    $term_object->weight      = $weight;
+    taxonomy_term_save($term_object);
 
     $weight++;
   }
