@@ -133,9 +133,9 @@
         <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.topic">
-            <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
-              {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
-            </span>
+        <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
+          {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+        </span>
       </div>
       <!-- Hidden topic checkboxes.-->
       <div class="popover right hidden-checkboxes" ng-show="popups.topic">

@@ -136,8 +136,6 @@ angular.module('c4mApp')
     };
 
     $scope.updateSelected = function(item, vocab) {
-      console.log($scope.data[vocab]);
-      console.log(item);
       item.selected = !item.selected;
     };
 

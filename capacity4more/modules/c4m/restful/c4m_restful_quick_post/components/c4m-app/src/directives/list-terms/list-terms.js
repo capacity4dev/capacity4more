@@ -50,17 +50,13 @@ angular.module('c4mApp')
           });
 
           if (selectedCount > 3) {
-            angular.element("#" + scope.type + "_description").css(
-              'color', 'red'
-            );
+            angular.element("#" + scope.type + "_description").addClass('tooMany');
             if (scope.popup) {
               scope.popup = 0;
             }
           }
           else {
-            angular.element("#" + scope.type + "_description").css(
-              'color', '#999999'
-            );
+            angular.element("#" + scope.type + "_description").removeClass('tooMany');
           }
         };
       }
