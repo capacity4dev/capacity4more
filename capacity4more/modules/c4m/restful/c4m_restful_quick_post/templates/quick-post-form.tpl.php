@@ -178,7 +178,7 @@
     <div class="popover right hidden-checkboxes" ng-show="popups.categories">
       <div class="arrow"></div>
       <div class="popover-content">
-        <list-terms type="categories" model="data.categories" items="categories"></list-terms>
+        <group-categories type="categories" model="data.categories" items="categories"></group-categories>
       </div>
     </div>
   </div>
