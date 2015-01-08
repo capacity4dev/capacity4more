@@ -16,7 +16,7 @@ include_once 'c4m_user_profile.features.inc';
 function c4m_user_profile_field_extra_fields_alter(&$info) {
   // Make sure that the Account fields are always at the top of the
   // user profile.
-  if(isset($info['user']['user']['form']['account']['weight'])) {
+  if (isset($info['user']['user']['form']['account']['weight'])) {
     $info['user']['user']['form']['account']['weight'] = -100;
   }
 }
@@ -29,12 +29,12 @@ function c4m_user_profile_field_extra_fields_alter(&$info) {
  */
 function c4m_user_profile_block_info() {
   $blocks['user_welcome'] = array(
-    'info' => t('Welcome the user in the top bar'),
+    'info'  => t('Welcome the user in the top bar'),
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
   $blocks['user_notifications'] = array(
-    'info' => t('Display the user notifications etc...'),
+    'info'  => t('Display the user notifications etc...'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
@@ -51,5 +51,71 @@ function c4m_user_profile_block_view($delta = '') {
   if (!function_exists($callback)) {
     return NULL;
   }
+
   return $callback();
+}
+
+/**
+ * Helper function to render user first and last name in one string using the
+ * user entity.
+ *
+ * @param $user
+ *
+ * @return string
+ */
+function c4m_user_profile_name($user) {
+  $wrapper = entity_metadata_wrapper('user', $user);
+
+  if ($user->uid == 0) {
+    return t('Anonymous');
+  }
+
+  $fullname = $wrapper->c4m_first_name->value() . ' ' .  $wrapper->c4m_last_name->value();
+
+  if (!trim($fullname)) {
+    $fullname = $user->name;
+  }
+
+  return $fullname;
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function c4m_user_profile_token_info() {
+  $info['tokens']['user']['full-name'] = array(
+    'name'        => t('User Full Name'),
+    'description' => t('Returns the User Full Name)'),
+  );
+  $info['tokens']['user']['url-with-name'] = array(
+    'name' => t("User profile URL with fallback for anonymous users"),
+    'description' => t("The URL of the account profile page, with fallback if anonymous."),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  $url_options = array('absolute' => TRUE);
+
+  if ($type == 'user' && !empty($data['user'])) {
+    $account = $data['user'];
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'full-name':
+          $replacements[$original] = c4m_user_profile_name($account);
+          break;
+        case 'url-with-name':
+          $name = c4m_user_profile_name($account);
+          $replacements[$original] = !empty($account->uid) ? l($name, "user/$account->uid", $url_options) : $name;
+          break;
+      }
+    }
+  }
+
+  return $replacements;
 }

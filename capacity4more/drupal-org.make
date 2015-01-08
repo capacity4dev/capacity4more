@@ -6,13 +6,13 @@ projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.3"
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.x-dev"
+projects[admin_menu][version] = "3.0-rc5"
 
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.3"
+projects[context][version] = "3.5"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "1.x-dev"
@@ -27,7 +27,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[currency][subdir] = "contrib"
 projects[currency][version] = "2.4"
@@ -60,7 +60,7 @@ projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.2"
+projects[features][version] = "2.3"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
@@ -87,7 +87,7 @@ projects[link][subdir] = "contrib"
 projects[link][version] = "1.3"
 
 projects[location][subdir] = "contrib"
-projects[location][version] = "3.4"
+projects[location][version] = "3.6"
 
 projects[mailsystem][version] = "2.34"
 projects[mailsystem][subdir] = "contrib"
@@ -125,7 +125,7 @@ projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "2.0-alpha2"
 
 projects[node_gallery][subdir] = "contrib"
-projects[node_gallery][version] = "1.0"
+projects[node_gallery][version] = "1.1"
 
 projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
@@ -174,7 +174,7 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.13"
+projects[search_api][version] = "1.14"
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.x-dev"
 projects[search_api_solr][subdir] = "contrib"
@@ -204,7 +204,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 
 projects[weight][subdir] = "contrib"
-projects[weight][version] = "2.3"
+projects[weight][version] = "2.4"
 
 
 
