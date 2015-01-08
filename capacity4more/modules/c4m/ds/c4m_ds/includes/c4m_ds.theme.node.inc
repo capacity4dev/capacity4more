@@ -66,11 +66,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
 
   if ($entity->uid != 0) {
     $user = user_load($entity->uid);
-    $name = c4m_user_name($user);
-
-    if (!trim($name)) {
-      $name = $user->name;
-    }
+    $name = c4m_user_profile_name($user);
 
     if ('author_link' == $field['formatter']) {
       $name = l($name, 'user/' . $user->uid);
@@ -115,11 +111,7 @@ function theme_c4m_ds_submitted_by_and_on($field) {
 
   $entity = $field['entity'];
   $user   = user_load($entity->uid);
-  $name   = c4m_user_name($user);
-
-  if (!trim($name)) {
-    $name = $user->name;
-  }
+  $name   = c4m_user_profile_name($user);
 
   $name = l($name, 'user/' . $user->uid);
 
@@ -163,9 +155,15 @@ function theme_c4m_ds_content_type_icon($field) {
     $icon_name .= '-' . $object_wrapper->$field_name->value();
   }
 
-  $variables['icon'] = $icon_name;
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('node-icon', 'as-' . $icon_name),
+    ),
+    '#value'     => '',
+  );
 
-  return '<span class="node-icon as-' . $icon_name . '"> </span>';
+  return theme_html_tag($tag);
 }
 
 /**
@@ -262,23 +260,8 @@ function theme_c4m_ds_group_role_members($field) {
 
   foreach ($members as $member) {
     $user = user_load($member->uid);
-    $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
+    $output .= ', ' . l(c4m_user_profile_name($user), 'user/' . $member->uid);
   }
 
   return ltrim($output, ', ');
-}
-
-/**
- * Helper function to render user first and last name in one string using the
- * user entity.
- *
- * @param $user
- *
- * @return string
- */
-function c4m_user_name($user) {
-  $wrapper = entity_metadata_wrapper('user', $user);
-
-  return $wrapper->c4m_first_name->value() . ' ' .
-  $wrapper->c4m_last_name->value();
 }
