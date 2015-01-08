@@ -5,9 +5,7 @@
   <li class="checkbox" ng-repeat="item in filteredTerms">
     <label ng-click="updateSelected(item);">
       {{item.label}}
-      <!--<input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms()"> {{item.label}}-->
     </label>
-    <!--<ul ng-show="item.children && model[item.id] == true" class="indent">-->
     <ul ng-show="item.selected == true" class="indent">
       <li ng-repeat="child in item.children">
         <label>

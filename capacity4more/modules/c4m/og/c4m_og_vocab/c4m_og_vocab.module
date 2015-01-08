@@ -226,7 +226,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   );
 
   $form['directive-categories'] = array(
-    '#markup' => theme('c4m_vocab_widget_taxonomy_widget', $variables),
+    '#markup' => theme('c4m_categories_vocab_widget', $variables),
     '#weight' => $instance['widget']['weight'],
   );
 
@@ -326,6 +326,15 @@ function c4m_og_vocab_theme() {
     'template' => 'c4m_og_vocab_widget',
     'path' => drupal_get_path('module', 'c4m_og_vocab') . '/templates',
     'variables' => array(),
+  );
+
+  $theme['c4m_categories_vocab_widget'] = array(
+    'template' => 'c4m_categories_vocab_widget',
+    'path' => drupal_get_path('module', 'c4m_og_vocab') . '/templates',
+    'variables' => array(
+      'vocabulary_label' => NULL,
+      'vocabulary_machine_name' => NULL,
+    ),
   );
 
   return $theme;

@@ -131,6 +131,10 @@ angular.module('c4mApp')
       }
     };
 
+    scope.updateSelected = function(item, vocab) {
+      $scope.data['categories'].item.selected = !item.selected;
+    };
+
     /**
      * When clicking on the "X" next to the taxonomy-term name
      * On the full form page.
