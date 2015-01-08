@@ -178,17 +178,15 @@ angular.module('c4mApp')
       }
     });
 
-
     /**
      * Make all popups closed.
      */
     $scope.closePopups = function() {
-      angular.forEach($scope.popups, function (value, key) {
-        if (name != key) {
+      $scope.$apply(function(scope) {
+        angular.forEach($scope.popups, function (value, key) {
           this[key] = 0;
-        }
-      }, $scope.popups);
-      $scope.$digest();
+        }, $scope.popups);
+      });
     };
 
     /**
