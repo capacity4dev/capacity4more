@@ -78,7 +78,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
 
     $tag['element'] = array(
       '#tag'       => 'span',
-      'attributes' => array(
+      '#attributes' => array(
         'class' => array('username'),
       ),
       '#value'     => $name,
@@ -88,7 +88,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
     if (!empty($entity->name)) {
       $tag['element'] = array(
         '#tag'       => 'span',
-        'attributes' => array(
+        '#attributes' => array(
           'class' => array('username', 'anonymous'),
         ),
         '#value'     => $entity->name,

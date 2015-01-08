@@ -24,11 +24,21 @@ function theme_c4m_content_document_icon($field) {
   if (!empty($document['filemime'])) {
     include_once DRUPAL_ROOT . '/includes/file.mimetypes.inc';
     $mapping = file_mimetype_mapping();
+    // Look for the key to find the right extension, using the mimetype.
     $key = array_search($document['filemime'], $mapping['mimetypes']);
+    // Use the key of the extension to get the extension.
     $extension = array_search($key, $mapping['extensions']);
+    // Use the extension to create a class.
     $document_type = 'as-document-' . $extension;
   }
 
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('node-icon', 'as-document ' . $document_type),
+    ),
+    '#value'     => '',
+  );
 
-  return '<span class="node-icon as-document ' . $document_type . '"> </span>';
+  return theme_html_tag($tag);
 }
