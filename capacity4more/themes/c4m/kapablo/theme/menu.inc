@@ -18,7 +18,7 @@ function kapablo_menu_tree__c4m_og_menu($variables) {
 }
 
 function kapablo_menu_link__c4m_og_menu($variables) {
-  $element  = $variables['element'];
+  $element = $variables['element'];
   $sub_menu = $sub_menu_wrapper = '';
 
   if ($element['#below']) {
