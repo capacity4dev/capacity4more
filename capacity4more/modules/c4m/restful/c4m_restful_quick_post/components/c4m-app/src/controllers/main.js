@@ -172,8 +172,17 @@ angular.module('c4mApp')
      *  The click event.
      */
     $document.on('mousedown', function(event) {
+      // Check if we are not clicking on the popup.
+      var parents = angular.element(event.target).parents();
+      parents.find('.popover');
+      var close = true;
+      angular.forEach(parents, function(parent, id) {
+        if (parent.className.indexOf('popover') != -1) {
+          close = false;
+        }
+      });
       // This is not button, that should open popup.
-      if (event.target.type != 'button') {
+      if (event.target.type != 'button' && close) {
         $scope.closePopups();
       }
     });
