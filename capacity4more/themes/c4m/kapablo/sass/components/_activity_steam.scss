@@ -143,10 +143,19 @@
 .as-document {
   @include image-icon-png-fallback('icons', 'document-unknown');
 }
+.as-document-bmp,
+.as-document-gif,
+.as-document-ico,
+.as-document-jpeg,
+.as-document-jpg,
+.as-document-png {
+  @include image-icon-png-fallback('icons', 'document-image');
+}
 .as-document-zip {
   @include image-icon-png-fallback('icons', 'document-zip');
 }
-.as-document-powerpoint {
+.as-document-ppt,
+.as-document-pptx {
   @include image-icon-png-fallback('icons', 'document-powerpoint');
 }
 .as-document-word {
@@ -173,6 +182,6 @@
 .as-comment {
   @include image-icon-png-fallback('icons', 'comment');
 }
-.as-event {
+.as-event, .as-event-event {
   @include image-icon-png-fallback('icons', 'event');
 }

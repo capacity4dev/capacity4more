@@ -74,7 +74,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
 
     $tag['element'] = array(
       '#tag'       => 'span',
-      'attributes' => array(
+      '#attributes' => array(
         'class' => array('username'),
       ),
       '#value'     => $name,
@@ -84,7 +84,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
     if (!empty($entity->name)) {
       $tag['element'] = array(
         '#tag'       => 'span',
-        'attributes' => array(
+        '#attributes' => array(
           'class' => array('username', 'anonymous'),
         ),
         '#value'     => $entity->name,
@@ -147,15 +147,23 @@ function theme_c4m_ds_content_type_icon($field) {
 
   $icon_name = $object->type;
 
-  if ($icon_name == 'discussion') {
-    $object_wrapper = entity_metadata_wrapper('node', $object);
-    // Icon image file name is the discussion type of the discussion node.
-    $icon_name = 'discussion-' . $object_wrapper->c4m_discussion_type->value();
+  $object_wrapper = entity_metadata_wrapper('node', $object);
+  $field_name = 'c4m_' . $icon_name . '_type';
+
+  // Check if there is a type field.
+  if (!empty($object_wrapper->$field_name)) {
+    $icon_name .= '-' . $object_wrapper->$field_name->value();
   }
 
-  $variables['icon'] = $icon_name;
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('node-icon', 'as-' . $icon_name),
+    ),
+    '#value'     => '',
+  );
 
-  return '<span class="node-icon as-' . $icon_name . '"> </span>';
+  return theme_html_tag($tag);
 }
 
 /**
