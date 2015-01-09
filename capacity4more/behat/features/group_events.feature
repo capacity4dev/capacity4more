@@ -12,7 +12,7 @@ Feature: Group Events
     Then I should see the upcoming events overview
     And I should not see the "Add an Event" link above the overview
 
-  @api @wip
+  @api
   Scenario: Check past events overview as an anonymous user
     Given I am an anonymous user
     When I visit the past events overview of group "Nobel Prize"
@@ -26,7 +26,7 @@ Feature: Group Events
     Then I should see the upcoming events overview
     And I should see the "Add an Event" link above the overview
 
-  @api @wip
+  @api
   Scenario: Check past events overview as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the past events overview of group "Nobel Prize"
