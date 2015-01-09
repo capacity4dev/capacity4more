@@ -19,7 +19,6 @@ function c4m_demo_content_migrate_api() {
   $classes = array(
     'C4mDemoContentCreateUsers',
     'C4mDemoContentCreateTopics',
-    'C4mDemoContentCreateRegionTerms',
     'C4mDemoContentCreateRegionNodes',
     'C4mDemoContentCreateGroups',
     'C4mDemoContentCreateBanners',

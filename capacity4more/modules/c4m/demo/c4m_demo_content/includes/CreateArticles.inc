@@ -35,7 +35,6 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
     'C4mDemoContentCreateTopics',
-    'C4mDemoContentCreateRegionTerms',
     'C4mDemoContentCreateRegionNodes',
   );
 
@@ -59,10 +58,8 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_related_topic', 'topics_list');
 
-    $this->addFieldMapping('c4m_vocab_geo', 'geo')
-      ->sourceMigration('C4mDemoContentCreateRegionTerms')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+    $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
+      ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
@@ -93,6 +90,8 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $row->topics_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
+
+    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
 
     return TRUE;
   }
