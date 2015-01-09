@@ -158,7 +158,11 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     );
 
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
-    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
+    $row->geo_entries = $this->mapTaxonomyVocabWithParent(
+      $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
+    );
+
+    return TRUE;
   }
 
   /**
