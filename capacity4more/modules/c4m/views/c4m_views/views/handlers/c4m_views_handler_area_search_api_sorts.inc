@@ -29,6 +29,8 @@ class c4m_views_handler_area_search_api_sorts extends views_handler_area {
    */
   function render($empty = FALSE) {
     $block = module_invoke('search_api_sorts', 'block_view', 'search-sorts');
+    // Allow modules to alter the search sorts.
+    drupal_alter('search_api_sorts', $block, $this->view);
     if (!$block) {
       return;
     }
