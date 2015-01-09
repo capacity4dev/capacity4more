@@ -99,7 +99,9 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       $unfiltered_ids
     );
 
-    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
+    $row->geo_entries = $this->mapTaxonomyVocabWithParent(
+      $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
+    );
 
     return TRUE;
   }

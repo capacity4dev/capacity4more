@@ -425,4 +425,26 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       }
     }
   }
+
+  /**
+   * @param $tids
+   *   Array of term ids content is tagged with.
+   *
+   * @return array
+   *   Array of term ids, including every term's parents.
+   */
+  public function mapTaxonomyVocabWithParent($tids) {
+    $all_tids = array();
+    foreach ($tids as $tid) {
+      $parents = taxonomy_get_parents_all($tid);
+      $parent_tids = array_map(create_function('$term', 'return $term->tid;'), $parents);
+      // $tid is included in $parent_tids array.
+      $all_tids = array_merge($all_tids, $parent_tids);
+    }
+
+    $unique = array_unique($all_tids);
+    sort($unique);
+
+    return $unique;
+  }
 }
