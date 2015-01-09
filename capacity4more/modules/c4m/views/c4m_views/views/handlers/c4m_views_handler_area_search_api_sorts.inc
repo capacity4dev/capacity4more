@@ -5,10 +5,7 @@
  */
 
 /**
- * Views area handler to display a button to add new content.
- *
- * The handler will validate if the user has the proper rights to add the new
- * content.
+ * Views area handler to offer search_api_sorts sort block to views.
  *
  * @ingroup views_area_handlers
  */
