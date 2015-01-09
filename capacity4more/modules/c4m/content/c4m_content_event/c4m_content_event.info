@@ -50,6 +50,7 @@ features[field_group][] = c4m_metadata|node|event|form
 features[field_group][] = c4m_og|node|event|form
 features[field_group][] = group_details|node|event|full
 features[field_group][] = group_documents|node|event|full
+features[field_group][] = group_location|node|event|full
 features[field_group][] = group_organiser|node|event|full
 features[field_instance][] = node-event-c4m_body
 features[field_instance][] = node-event-c4m_datetime_end
@@ -81,5 +82,3 @@ features[variable][] = menu_parent_event
 features[variable][] = node_options_event
 features[variable][] = node_preview_event
 features[variable][] = node_submitted_event
-mtime = 1420637210
-

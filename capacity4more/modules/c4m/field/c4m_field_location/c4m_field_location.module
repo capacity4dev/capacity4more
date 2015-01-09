@@ -31,7 +31,8 @@ function c4m_field_location_ds_fields_info($entity_type) {
     'function'   => 'theme_c4m_field_location_city_country',
     'properties' => array(
       'formatters' => array(
-        'in @city (@country)' => t('in @city (@country)'),
+        'in @city (@country)' => t('in city (country)'),
+        '@name (@country)' => t('Name (country)'),
       ),
     ),
   );

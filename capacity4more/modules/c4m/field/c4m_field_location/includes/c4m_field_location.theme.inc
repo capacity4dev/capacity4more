@@ -19,16 +19,18 @@ function theme_c4m_field_location_city_country($field) {
   $wrapper = entity_metadata_wrapper('node', $entity);
 
   $location = $wrapper->c4m_location->value();
+  $name = !empty($location['name']) ? $location['name'] : '';
   $city = !empty($location['city']) ? $location['city'] : '';
   $country = !empty($location['country_name']) ? $location['country_name'] : '';
 
   $tag['element'] = array(
     '#tag'   => 'span',
     '#attributes' => array(
-      'class' => 'location-city-country',
+      'class' => 'c4m-location',
     ),
     '#value' => t($field['formatter'],
       array(
+        '@name' => $name,
         '@city' => $city,
         '@country' => $country)
     ),
