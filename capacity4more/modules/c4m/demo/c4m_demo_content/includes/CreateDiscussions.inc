@@ -60,10 +60,8 @@ class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_related_topic', 'topics_list');
 
-    $this->addFieldMapping('c4m_vocab_geo', 'geo')
-         ->sourceMigration('C4mDemoContentCreateRegionTerms')
-         ->arguments(array('source_type' => 'tid'))
-         ->separator('|');
+    $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
+      ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('c4m_vocab_date', 'date_entries')
          ->arguments(array('source_type' => 'tid'));
@@ -119,6 +117,9 @@ class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
     // Global vocabulary.
     $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
+    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
+
+    return TRUE;
   }
 
   /**

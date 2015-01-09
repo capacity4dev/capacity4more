@@ -72,10 +72,8 @@ class C4mDemoContentCreateUsers extends Migration {
     $this->addFieldMapping('c4m_related_topic', 'topics_interest_list');
     $this->addFieldMapping('c4m_related_topic_expertise', 'topics_expertise_list');
 
-    $this->addFieldMapping('c4m_vocab_geo', 'geo')
-         ->sourceMigration('C4mDemoContentCreateRegionTerms')
-         ->arguments(array('source_type' => 'tid'))
-         ->separator('|');
+    $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
+      ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('og_user_node', 'og_user_node');
 
@@ -180,6 +178,8 @@ class C4mDemoContentCreateUsers extends Migration {
     // @TODO: ADD ROLES
     $row->og_user_node = $gids;
 
+    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
+
     return TRUE;
   }
 
@@ -236,5 +236,31 @@ class C4mDemoContentCreateUsers extends Migration {
     }
 
     return $filtered_ids;
+  }
+
+  /**
+   * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
+   *
+   * @param $sourcefield
+   */
+  public function mapTaxonomyVocab($sourcefield, $vocabname) {
+    $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
+
+    if (!empty($vocab)) {
+      $terms = explode('|', $sourcefield);
+      if (!empty($terms)) {
+        $tids = array();
+        foreach ($terms as $term_name) {
+          $term = taxonomy_get_term_by_name($term_name, $vocabname);
+          if (!empty($term)) {
+            reset($term);
+            $tid = key($term);
+            $tids[] = $tid;
+          };
+        }
+
+        return $tids;
+      }
+    }
   }
 }

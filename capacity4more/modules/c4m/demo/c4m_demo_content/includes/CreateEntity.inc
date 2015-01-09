@@ -399,4 +399,30 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     }
     return FALSE;
   }
+
+  /**
+   * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
+   *
+   * @param $sourcefield
+   */
+  public function mapTaxonomyVocab($sourcefield, $vocabname) {
+    $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
+
+    if (!empty($vocab)) {
+      $terms = explode('|', $sourcefield);
+      if (!empty($terms)) {
+        $tids = array();
+        foreach ($terms as $term_name) {
+          $term = taxonomy_get_term_by_name($term_name, $vocabname);
+          if (!empty($term)) {
+            reset($term);
+            $tid = key($term);
+            $tids[] = $tid;
+          };
+        }
+
+        return $tids;
+      }
+    }
+  }
 }
