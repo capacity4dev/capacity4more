@@ -344,7 +344,7 @@ function c4m_search_default_search_api_sort() {
   $items['c4m_search_nodes__c4m_datetime_end:value'] = entity_import('search_api_sort', '{
     "index_id" : "c4m_search_nodes",
     "field" : "c4m_datetime_end:value",
-    "name" : "Date \\u00bb Start date",
+    "name" : "Sort by Start Date",
     "enabled" : "1",
     "weight" : "0",
     "identifier" : "c4m_search_nodes__c4m_datetime_end:value",
