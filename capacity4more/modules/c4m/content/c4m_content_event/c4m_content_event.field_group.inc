@@ -109,7 +109,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '8',
+    'weight' => '11',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_geo',
@@ -138,7 +138,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Documents',
-    'weight' => '3',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_document_agenda',
       1 => 'c4m_document_presentation',
@@ -158,6 +158,35 @@ function c4m_content_event_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_location|node|event|full';
+  $field_group->group_name = 'group_location';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'event';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Location',
+    'weight' => '8',
+    'children' => array(
+      0 => 'c4m_location',
+      1 => 'c4m_field_location_city_country',
+      2 => 'c4m_content_event_link_to_gmap',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Location',
+      'instance_settings' => array(
+        'classes' => 'group-node-location field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsible',
+    ),
+  );
+  $export['group_location|node|event|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_organiser|node|event|full';
   $field_group->group_name = 'group_organiser';
   $field_group->entity_type = 'node';
@@ -166,7 +195,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Organiser',
-    'weight' => '5',
+    'weight' => '7',
     'children' => array(
       0 => 'c4m_facebook',
       1 => 'c4m_link',

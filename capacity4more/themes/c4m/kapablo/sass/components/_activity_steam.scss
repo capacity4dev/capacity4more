@@ -161,7 +161,10 @@
 .as-document-word {
   @include image-icon-png-fallback('icons', 'document-word');
 }
-.as-document-excel {
+.as-document-ods,
+.as-document-xls,
+.as-document-xlsx,
+{
   @include image-icon-png-fallback('icons', 'document-excel');
 }
 .as-document-pdf {
