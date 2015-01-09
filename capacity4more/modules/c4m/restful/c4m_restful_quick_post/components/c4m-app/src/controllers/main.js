@@ -161,14 +161,41 @@ angular.module('c4mApp')
     $document.on('keyup', function(event) {
       // 27 is the "ESC" button.
       if(event.which == 27) {
-        angular.forEach($scope.popups, function (value, key) {
-          if (name != key) {
-            this[key] = 0;
-          }
-        }, $scope.popups);
-        $scope.$digest();
+        $scope.closePopups();
       }
     });
+
+    /**
+     * Close all popovers on click outside popup box.
+     *
+     * @param event.
+     *  The click event.
+     */
+    $document.on('mousedown', function(event) {
+      // Check if we are not clicking on the popup.
+      var parents = angular.element(event.target).parents();
+      var close = true;
+      angular.forEach(parents, function(parent, id) {
+        if (parent.className.indexOf('popover') != -1) {
+          close = false;
+        }
+      });
+      // This is not button, that should open popup.
+      if (event.target.type != 'button' && close) {
+        $scope.closePopups();
+      }
+    });
+
+    /**
+     * Make all popups closed.
+     */
+    $scope.closePopups = function() {
+      $scope.$apply(function(scope) {
+        angular.forEach($scope.popups, function (value, key) {
+          this[key] = 0;
+        }, $scope.popups);
+      });
+    };
 
     /**
      * Submit form.
