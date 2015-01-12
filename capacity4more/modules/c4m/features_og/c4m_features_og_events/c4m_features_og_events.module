@@ -102,7 +102,7 @@ function c4m_features_og_events_search_api_views_query_alter(view &$view, Search
 /**
  * Implementation of hook_views_pre_render()
  *
- * We need ...
+ * On the events landing page, we need ...
  * - a Dummy View page to have an exposed search form block (page) of which we
  * will remove the output here
  * - 2 views blocks: upcoming and past
@@ -113,10 +113,28 @@ function c4m_features_og_events_search_api_views_query_alter(view &$view, Search
  * @param $view
  */
 function c4m_features_og_events_views_pre_render(&$view) {
+  if ('c4m_overview_og_events_landing' != $view->name) {
+    return;
+  }
   if ('page' == $view->current_display ||
       'block_3' == $view->current_display) {
     // Nullify Views results and total count for the dummy Views displays.
     $view->result = array();
     $view->total_rows = 0;
+  }
+}
+
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * @param $data
+ * @param $block
+ */
+function c4m_features_og_events_block_view_alter(&$data, $block) {
+  if ('events' === current_path()) {
+    // Override blocks on the events landing page.
+    module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events_landing.block');
+    return _c4m_features_og_events_landing_block_view_alter($data, $block);
   }
 }
