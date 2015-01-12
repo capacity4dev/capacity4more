@@ -16,23 +16,25 @@ class C4mDemoContentCreateRegionNodes extends C4mDemoContentCreateEntity {
    *
    * @var array
    */
-  public $csvColumns = array(
-    array('id', 'ID'),
-    array('title', 'Title'),
-    array('body', 'Body'),
-    array('image', 'Image'),
-    array('geo', 'Geo'),
-    array('uid', 'UID'),
-  );
+  public $csvColumns
+    = array(
+      array('id', 'ID'),
+      array('title', 'Title'),
+      array('body', 'Body'),
+      array('image', 'Image'),
+      array('geo', 'Geo'),
+      array('uid', 'UID'),
+    );
 
   /**
    * Content creations need to be run before this one.
    *
    * @var array
    */
-  public $dependencies = array(
-    'C4mDemoContentCreateUsers',
-  );
+  public $dependencies
+    = array(
+      'C4mDemoContentCreateUsers',
+    );
 
   /**
    * Configure the mapping during object creation.
@@ -63,7 +65,9 @@ class C4mDemoContentCreateRegionNodes extends C4mDemoContentCreateEntity {
   public function prepareRow($row) {
     parent::prepareRow($row);
 
-    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
+    $row->geo_entries = $this->mapTaxonomyVocabWithParent(
+      $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
+    );
 
     return TRUE;
   }

@@ -178,7 +178,9 @@ class C4mDemoContentCreateUsers extends Migration {
     // @TODO: ADD ROLES
     $row->og_user_node = $gids;
 
-    $row->geo_entries = $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo');
+    $row->geo_entries = $this->mapTaxonomyVocabWithParent(
+      $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
+    );
 
     return TRUE;
   }
@@ -262,5 +264,26 @@ class C4mDemoContentCreateUsers extends Migration {
         return $tids;
       }
     }
+  }
+
+  /**
+   * @param $tids
+   *   Array of term ids content is tagged with.
+   *
+   * @return array
+   *   Array of term ids, including every term's parents.
+   */
+  public function mapTaxonomyVocabWithParent($tids) {
+    $all_tids = array();
+    foreach ($tids as $tid) {
+      $parents = taxonomy_get_parents_all($tid);
+      $parent_tids = array_map(create_function('$term', 'return $term->tid;'), $parents);
+      // $tid is included in $parent_tids array.
+      $all_tids = array_merge($all_tids, $parent_tids);
+    }
+
+    $unique = array_unique($all_tids);
+
+    return $unique;
   }
 }
