@@ -343,7 +343,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['footer']['c4m_views_custom_link']['ui_name'] = 'Link to group upcoming events page';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'events/upcoming';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all upcoming events';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'upcoming-events';
+  $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'upcoming-events, link-to-view';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
@@ -406,7 +406,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['footer']['c4m_views_custom_link']['ui_name'] = 'Link to group past events page';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'events/past';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all past events';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'past-events';
+  $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'past-events, link-to-view';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Node is published */
