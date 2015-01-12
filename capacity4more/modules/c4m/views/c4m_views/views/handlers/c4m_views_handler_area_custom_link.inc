@@ -53,8 +53,9 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
     $form['link_class'] = array(
       '#type' => 'textfield',
       '#required' => TRUE,
-      '#title' => t('Link class'),
-      '#description' => t('Optionally set an additional class for the link.'),
+      '#title' => t('Link classes'),
+      '#description' => t('Optionally set additional classes for the link,
+        separated by comma.'),
       '#default_value' => $this->options['link_class'],
     );
   }
@@ -75,7 +76,7 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
     $options = array();
     //
     if (!empty($link_class)) {
-      $options['attributes']['class'] = array($link_class);
+      $options['attributes']['class'] = explode(', ', $link_class);
     }
 
     return l($link_text, $link_path, $options);
