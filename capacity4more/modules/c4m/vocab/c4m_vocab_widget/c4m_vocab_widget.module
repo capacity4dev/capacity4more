@@ -46,6 +46,8 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
 
   $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = c4m_vocab_widget_prepare_taxonomy_tree($terms);
 
+  dpm($settings['c4m']['data']['vocabularies'][$vocabulary_machine_name]);
+
   // This is node/edit page. Need to send field values to the app.
   if (isset($entity->$vocabulary_machine_name) && !empty($entity->$vocabulary_machine_name)) {
     $settings['c4m']['data']['values'][$vocabulary_machine_name] = c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name);
@@ -162,6 +164,7 @@ function c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name)
  */
 function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
   $options = array();
+  $children = array();
   foreach($terms as $term) {
     // If the term is array, this vocab is of type "node".
     if(is_array($term)) {
@@ -179,28 +182,39 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
       }
       else {
         $id = $parents[0];
-        $parent = array_filter($terms, function ($item) use (&$id) {
+        $parent = array_filter($terms, function ($item) use ($id) {
           return $item->tid == $id;
         });
 
-        $parent = reset($parent);
-        $mid_parent = $parent->parents;
+        $parent_term = reset($parent);
+        $mid_parent = $parent_term->parents;
+
         if ($mid_parent[0] == '0') {
-          // This is the child term - add it to the children of the parent term.
+          // This is the child term of the main parent term - add it to the
+          // children of the main parent term.
           $options[$parents[0]]['children'][] = array(
             'label' => check_plain($term->name),
             'id' => $term->tid,
           );
         }
         else {
-          // This is the child term - add it to the children of the parent term.
-          $options[$parents[0]]['children'][$mid_parent[0]]['children'][] = array(
+          // This is the child term of the child term - save it in the array.
+          $children[$id]['children'][] = array(
             'label' => check_plain($term->name),
             'id' => $term->tid,
           );
         }
+      }
+    }
+  }
 
-
+  // Put related child terms into the children of the existing child terms.
+  foreach ($options as $key => $term) {
+    if (!empty($term['children'])) {
+      foreach ($term['children'] as $child_key => $child) {
+        if (!empty($children[$child['id']])) {
+          $options[$key]['children'][$child_key]['children'] = $children[$child['id']]['children'];
+        }
       }
     }
   }

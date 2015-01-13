@@ -75,9 +75,12 @@ angular.module('c4mApp')
       angular.forEach(scope.referenceValues, function (data, field) {
         // Parent id.
         var parent = 0;
+        var midParent = 0;
+
         scope[field] = {};
         angular.forEach(scope.referenceValues[field], function (label, id) {
-          if(label.indexOf('-')) {
+
+          if (label.indexOf('-') == -1 && label.indexOf('--') == -1) {
             parent = id;
             scope[field][id] = {
               id: id,
@@ -86,11 +89,29 @@ angular.module('c4mApp')
             };
           }
           else {
-            if (parent > 0) {
-              scope[field][parent]['children'].push({
-                id: id,
-                label: label.replace('-','')
-              });
+            if (label.indexOf('--') == -1) {
+              if (parent > 0) {
+                midParent = id;
+                console.log(midParent);
+                scope[field][parent]['children'].push({
+                  id: id,
+                  label: label.replace('-',''),
+                  children: []
+                });
+              }
+            }
+            else {
+              console.log(midParent);
+              if (midParent > 0) {
+                angular.forEach(scope[field][parent]['children'], function(value, key) {
+                  if (value.id == midParent) {
+                    scope[field][parent]['children'][key]['children'].push({
+                      id: id,
+                      label: label.replace('--','')
+                    });
+                  }
+                });
+              }
             }
           }
         });
