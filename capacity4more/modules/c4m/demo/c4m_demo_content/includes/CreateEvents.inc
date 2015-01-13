@@ -65,6 +65,9 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_related_document', 'additional');
 
+    $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
+      ->arguments(array('source_type' => 'tid'));
+
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
          ->sourceMigration('C4mDemoContentCreateCategories')
@@ -138,8 +141,6 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     $row->additional = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
-
-    $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
     // TOPIC references.
     $unfiltered_ids = $this->handleSourceMigration(
       'C4mDemoContentCreateTopics',
@@ -156,10 +157,12 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       $unfiltered_ids
     );
 
-    $this->addFieldMapping('c4m_vocab_geo', 'geo')
-      ->sourceMigration('C4mDemoContentCreateRegionTerms')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+    $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
+    $row->geo_entries = $this->mapTaxonomyVocabWithParent(
+      $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
+    );
+
+    return TRUE;
   }
 
   /**

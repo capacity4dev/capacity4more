@@ -25,7 +25,8 @@ function kapablo_search_api_sorts_list(array $variables) {
   $active_item = NULL;
 
   foreach ($items_array as $key => $item) {
-    if ($item['#active'] === TRUE) {
+    if ($item['#active'] === TRUE &&
+        isset($items_array[$key]['#order_options'])) {
       $active_item = $item;
 
       // Remove default class, we need the opposite

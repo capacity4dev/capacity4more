@@ -1,0 +1,65 @@
+<?php
+/**
+ * @file
+ * Code for the Events feature.
+ */
+
+include_once 'c4m_features_og_events.features.inc';
+
+/**
+ * Implementation of hook_search_api_sorts_get_default_sort_alter()
+ * Courtesy of https://www.drupal.org/node/1894502
+ *
+ * Unfortunately search_api_sorts module provides one sort block and not a
+ * block per view, so we need to alter some stuff. Here the default sort.
+ *
+ * @param $default_sort
+ * @param $search_sorts
+ * @param $keys
+ */
+function c4m_features_og_events_search_api_sorts_get_default_sort_alter (&$default_sort, $search_sorts, $keys) {
+  // Change default sort into 'Start date' for events overviews.
+  if ( FALSE === strpos(current_path(), 'events', 0)) {
+    return;
+  }
+  $default_sort = $default_sort;
+  foreach($search_sorts as $search_sort) {
+    if ('Date » Start date' === $search_sort->name) {
+      $default_sort = $search_sort;
+      break;
+    }
+  }
+}
+
+/**
+ * Implements custom hook_search_api_sorts_alter().
+ * See Class c4m_views_handler_area_search_api_sorts.
+ *
+ * Unfortunately search_api_sorts module provides one sort block and not a
+ * block per view, so we need to alter some stuff. Here we remove superfluous
+ * sorts and give ours a new name.
+ *
+ * @param $block
+ */
+function c4m_features_og_events_search_api_sorts_alter(&$block, $view) {
+  // Remove 'Start date' sort if this is not events overview.
+  if ('c4m_overview_og_events' !== $view->name) {
+    foreach($block['content']['#items'] as $key => $item) {
+      if ('Date » Start date' === $item['#name']) {
+        unset($block['content']['#items'][$key]);
+        break;
+      }
+    }
+    return;
+  }
+
+  foreach($block['content']['#items'] as $key => $item) {
+    // Remove all sorts but start date if we are on events overview.
+    if ('Date » Start date' !== $item['#name']) {
+      unset($block['content']['#items'][$key]);
+    }
+    else {
+      $block['content']['#items'][$key]['#name'] = t('Sort by Start Date');
+    }
+  }
+}
