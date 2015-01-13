@@ -24,7 +24,6 @@ trait WikiPage {
 
     $steps[] = new Step\When('I should see a "Title in right region" field');
     $steps[] = new Step\When('I should see a "Author" field');
-    $steps[] = new Step\When('I should see a "Comment" field');
     $steps[] = new Step\When('I should see a Wiki "table of contents" in the "left" bar');
     $steps[] = new Step\When('I should see a Wiki "navigation" in the "right" bar');
     $steps[] = new Step\When('I should see child of current Wiki page expanded in "table of contents" in the "left" bar');
