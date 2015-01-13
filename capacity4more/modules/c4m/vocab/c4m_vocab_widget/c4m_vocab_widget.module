@@ -46,8 +46,6 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
 
   $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = c4m_vocab_widget_prepare_taxonomy_tree($terms);
 
-  dpm($settings['c4m']['data']['vocabularies'][$vocabulary_machine_name]);
-
   // This is node/edit page. Need to send field values to the app.
   if (isset($entity->$vocabulary_machine_name) && !empty($entity->$vocabulary_machine_name)) {
     $settings['c4m']['data']['values'][$vocabulary_machine_name] = c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name);

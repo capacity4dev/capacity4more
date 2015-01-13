@@ -134,7 +134,6 @@ angular.module('c4mApp')
           }
         });
       });
-
     };
 
     // Find taxonomy term name.

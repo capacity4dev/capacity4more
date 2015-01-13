@@ -98,7 +98,7 @@ angular.module('c4mApp')
      *  The name of the vocab.
      */
     $scope.updateSelectedTerms = function(key, vocab) {
-      if($scope.model[vocab][key]) {
+      if ($scope.model[vocab][key]) {
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
         }
@@ -125,7 +125,44 @@ angular.module('c4mApp')
               else {
                 angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
+
+              angular.forEach($scope.data[vocab][key].children[itemKey].children, function(childChild, childChildKey) {
+                var childChildID = childChild.id;
+                if (childChildID in $scope.model[vocab] && $scope.model[vocab][childChildID] === true) {
+                  $scope.model[vocab][childChildID] = false;
+                  if (vocab == 'categories') {
+                    angular.element('input[type=checkbox][value="' + childChildID + '"]').prop("checked", false);
+                  }
+                  else {
+                    angular.element('input[type=checkbox][name="' + vocab + '[und][' + childChildID + ']"]').prop("checked", false);
+                  }
+                }
+              });
             }
+          });
+        }
+        else {
+          console.log('here');
+          console.log(key);
+          angular.forEach($scope.data[vocab], function(term, termKey) {
+            angular.forEach($scope.data[vocab][termKey].children, function(child, childKey) {
+              console.log(child['id']);
+              console.log(key);
+              if (key == child.id) {
+                angular.forEach($scope.data[vocab][termKey].children[childKey].children, function(childChild, childChildKey) {
+                  var childID = childChild.id;
+                  if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
+                    $scope.model[vocab][childID] = false;
+                    if (vocab == 'categories') {
+                      angular.element('input[type=checkbox][value="' + childID + '"]').prop("checked", false);
+                    }
+                    else {
+                      angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
+                    }
+                  }
+                });
+              }
+            });
           });
         }
       }
