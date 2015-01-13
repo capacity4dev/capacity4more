@@ -11,6 +11,13 @@
         <label>
           <input type="checkbox" ng-name="type" ng-model="model[child.id]"> {{child.label}}
         </label>
+        <ul ng-show="child.children && model[child.id] == true" class="indent">
+          <li ng-repeat="childChild in child.children">
+            <label>
+              <input type="checkbox" ng-name="type" ng-model="model[childChild.id]"> {{childChild.label}}
+            </label>
+          </li>
+        </ul>
       </li>
     </ul>
   </li>

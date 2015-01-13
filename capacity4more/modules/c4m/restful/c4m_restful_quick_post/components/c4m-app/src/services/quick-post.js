@@ -92,7 +92,6 @@ angular.module('c4mApp')
             if (label.indexOf('--') == -1) {
               if (parent > 0) {
                 midParent = id;
-                console.log(midParent);
                 scope[field][parent]['children'].push({
                   id: id,
                   label: label.replace('-',''),
@@ -101,7 +100,6 @@ angular.module('c4mApp')
               }
             }
             else {
-              console.log(midParent);
               if (midParent > 0) {
                 angular.forEach(scope[field][parent]['children'], function(value, key) {
                   if (value.id == midParent) {
@@ -245,6 +243,13 @@ angular.module('c4mApp')
               var id = termID.toString();
               if (child.id == id) {
                 termName = child.label;
+              }
+              else if (child.hasOwnProperty('children')) {
+                angular.forEach(child.children, function(childChild, childKey) {
+                  if (childChild.id == id) {
+                    termName = childChild.label;
+                  }
+                });
               }
             });
           }
