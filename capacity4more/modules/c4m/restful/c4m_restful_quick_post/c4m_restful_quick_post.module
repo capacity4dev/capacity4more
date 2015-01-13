@@ -165,14 +165,16 @@ function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, 
 function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_static_reset('menu_get_item');
   $item = menu_get_item();
-  dpm($_GET['q']);
+
   $allowed_paths = array(
     'node/add',
-    'node/%/add',
+    'node/%/edit',
+    'node',
   );
 
-  if (!menu_get_object() && isset($item['map']) && $item['map'][0] != 'node') {
-    // Not a node page and not a node/add(edit) page.
+  if (!in_array($item['path'], $allowed_paths)) {
+    // Not a group dashboard page and not a node/add(edit) page.
+    return;
   }
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
