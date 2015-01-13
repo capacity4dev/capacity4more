@@ -188,10 +188,6 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   // For the "taxonomy" widget.
   $settings['c4m']['data']['vocabularies']['categories'] = c4m_vocab_widget_prepare_taxonomy_tree($terms['categories']);
 
-  if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
-    $settings['c4m']['data']['values']['categories'] = c4m_vocab_widget_get_selected_values($entity, 'og_vocabulary');
-  }
-
   // Send the tags to the AngularJs if we have values (On edit page).
   $tags = array();
   foreach($terms['tags'] as $term) {
@@ -210,6 +206,23 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     }
   }
   $settings['c4m']['data']['tags'] = $tags;
+
+  if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
+    $categories = c4m_vocab_widget_get_selected_values($entity, 'og_vocabulary');
+    // Exclude tags from categories.
+    foreach ($categories as $key => $value) {
+      $keep_value = TRUE;
+      foreach ($tags as $tag) {
+        if ($key == $tag['id']) {
+          // This term is tag.
+          $keep_value = FALSE;
+        }
+      }
+      if ($keep_value) {
+        $settings['c4m']['data']['values']['categories'][$key] = $value;
+      }
+    }
+  }
 
   // Send all the settings to the app.
   $form['#attached']['js'][] = array(
