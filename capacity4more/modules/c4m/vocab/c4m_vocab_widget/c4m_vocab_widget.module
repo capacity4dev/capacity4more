@@ -206,7 +206,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
     }
   }
 
-  // Put related child terms into the children of the existing child terms.
+  // Put 3 level child terms into the corresponding 2 level term's children.
   foreach ($options as $key => $term) {
     if (!empty($term['children'])) {
       foreach ($term['children'] as $child_key => $child) {

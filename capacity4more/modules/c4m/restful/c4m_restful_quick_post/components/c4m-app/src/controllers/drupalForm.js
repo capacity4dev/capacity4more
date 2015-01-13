@@ -99,6 +99,7 @@ angular.module('c4mApp')
      */
     $scope.updateSelectedTerms = function(key, vocab) {
       if ($scope.model[vocab][key]) {
+        // Checkbox has been checked.
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
         }
@@ -107,6 +108,7 @@ angular.module('c4mApp')
         }
       }
       else {
+        // Checkbox has been unchecked.
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
         }
@@ -114,9 +116,11 @@ angular.module('c4mApp')
           angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
         }
         if (key in $scope.data[vocab]) {
+          // This is the 1st level term - should uncheck all 2 an 3 levels terms.
           angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
             var childID = child.id;
 
+            // Uncheck 2 level terms.
             if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
               $scope.model[vocab][childID] = false;
               if (vocab == 'categories') {
@@ -125,7 +129,7 @@ angular.module('c4mApp')
               else {
                 angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
-
+              // Uncheck 3 level terms.
               angular.forEach($scope.data[vocab][key].children[itemKey].children, function(childChild, childChildKey) {
                 var childChildID = childChild.id;
                 if (childChildID in $scope.model[vocab] && $scope.model[vocab][childChildID] === true) {
@@ -142,13 +146,11 @@ angular.module('c4mApp')
           });
         }
         else {
-          console.log('here');
-          console.log(key);
+          // This was the 2 or 3 level term.
           angular.forEach($scope.data[vocab], function(term, termKey) {
             angular.forEach($scope.data[vocab][termKey].children, function(child, childKey) {
-              console.log(child['id']);
-              console.log(key);
               if (key == child.id) {
+                // This is the current 2 level term - should uncheck its children.
                 angular.forEach($scope.data[vocab][termKey].children[childKey].children, function(childChild, childChildKey) {
                   var childID = childChild.id;
                   if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {

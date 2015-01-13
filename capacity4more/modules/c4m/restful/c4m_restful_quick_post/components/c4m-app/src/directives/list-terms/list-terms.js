@@ -41,6 +41,7 @@ angular.module('c4mApp')
               angular.forEach(scope.items[id].children, function(child, key) {
                 var childID = child.id;
                 if (childID in scope.model && scope.model[childID] === false) {
+                  // Term of 2 level has been unchecked - uncheck its children.
                   angular.forEach(scope.items[id].children[key].children, function(childChild, childkey) {
                     var childChildID = childChild.id;
                     if (childChildID in scope.model && scope.model[childChildID] === true) {
@@ -56,7 +57,7 @@ angular.module('c4mApp')
                 var childID = child.id;
                 if (childID in scope.model && scope.model[childID] === true) {
                   scope.model[childID] = false;
-
+                  // Find all child's children and turn them to false.
                   angular.forEach(scope.items[id].children[key].children, function(childChild, childkey) {
                     var childChildID = childChild.id;
                     if (childChildID in scope.model && scope.model[childChildID] === true) {

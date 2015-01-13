@@ -118,9 +118,11 @@ angular.module('c4mApp')
       $scope.data[field][key] = false;
 
       angular.forEach($scope[field], function(term, id) {
-        // If this is parent term - find all children and turn them to false
+        // Go through all 1 level terms.
         angular.forEach($scope[field][id].children, function(child, childKey) {
           var childID = child.id;
+          // If removed current 1 level term - all 2 and 3 level terms will be removed.
+          // If removed current 2 level term - all 3 level terms will be removed.
           if (id == key || childID == key) {
             if (childID in $scope.data[field] && $scope.data[field][childID] === true) {
               $scope.data[field][childID] = false;

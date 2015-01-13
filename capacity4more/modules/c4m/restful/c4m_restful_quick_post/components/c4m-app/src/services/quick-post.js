@@ -81,6 +81,7 @@ angular.module('c4mApp')
         angular.forEach(scope.referenceValues[field], function (label, id) {
 
           if (label.indexOf('-') == -1 && label.indexOf('--') == -1) {
+            // This is parent term - 1 level.
             parent = id;
             scope[field][id] = {
               id: id,
@@ -90,6 +91,7 @@ angular.module('c4mApp')
           }
           else {
             if (label.indexOf('--') == -1) {
+              // This is child term of 2 level.
               if (parent > 0) {
                 midParent = id;
                 scope[field][parent]['children'].push({
@@ -100,6 +102,7 @@ angular.module('c4mApp')
               }
             }
             else {
+              // This is child term of 3 level.
               if (midParent > 0) {
                 angular.forEach(scope[field][parent]['children'], function(value, key) {
                   if (value.id == midParent) {
