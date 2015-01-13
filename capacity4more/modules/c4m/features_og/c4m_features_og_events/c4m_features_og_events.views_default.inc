@@ -378,12 +378,13 @@ function c4m_features_og_events_views_default_views() {
     1 => 0,
     3 => 0,
   );
-  /* Filter criterion: Date: Start date (indexed) */
-  $handler->display->display_options['filters']['c4m_datetime_end_value']['id'] = 'c4m_datetime_end_value';
-  $handler->display->display_options['filters']['c4m_datetime_end_value']['table'] = 'search_api_index_c4m_search_nodes';
-  $handler->display->display_options['filters']['c4m_datetime_end_value']['field'] = 'c4m_datetime_end_value';
-  $handler->display->display_options['filters']['c4m_datetime_end_value']['operator'] = '>=';
-  $handler->display->display_options['filters']['c4m_datetime_end_value']['value'] = 'now';
+  /* Filter criterion: Date: End date (indexed) */
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['id'] = 'c4m_datetime_end_value2';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
+  $handler->display->display_options['filters']['c4m_datetime_end_value2']['group'] = 1;
 
   /* Display: Past events */
   $handler = $view->new_display('block', 'Past events', 'block_2');

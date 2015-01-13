@@ -15,6 +15,7 @@
  *   The block information for who the block is being displayed.
  */
 function _c4m_features_og_events_landing_block_view_alter(&$data, $block) {
+return;
   $info = array(
     'Facet API: Search service: Search Nodes : Date » Start date' => 'upcoming',
     'Facet API: Search service: Search Nodes : Date » End date' => 'past',
@@ -58,3 +59,4 @@ function _c4m_features_og_events_landing_block_view_alter(&$data, $block) {
     $data['subject'] = $block_title;
   }
 }
+

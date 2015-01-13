@@ -138,3 +138,11 @@ function c4m_features_og_events_block_view_alter(&$data, $block) {
     return _c4m_features_og_events_landing_block_view_alter($data, $block);
   }
 }
+function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
+  if ($settings->facet == "c4m_datetime_end:value2") {
+    foreach($build as $key => $item) {
+      // Change the path of the link to the corresponding Views pages.
+      $build[$key]['#path'] .= '/' . $key;
+    }
+  }
+}
