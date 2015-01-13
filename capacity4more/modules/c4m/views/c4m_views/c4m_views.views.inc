@@ -26,6 +26,14 @@ function c4m_views_views_data() {
     ),
   );
 
+  $data['views']['c4m_views_result'] = array(
+    'title' => t('Result summary (with optional classes)'),
+    'help' => t('Custom configurable result summary.'),
+    'area' => array(
+      'handler' => 'c4m_views_handler_area_result',
+    ),
+  );
+
   $data['views']['c4m_views_search_api_sorts'] = array(
     'title' => t('Add Search API Sorts'),
     'help' => t('Add the sorts for the view using the block provided by the Search API Sort module.'),
