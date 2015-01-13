@@ -178,11 +178,29 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
         $options[$term->tid]['id'] = $term->tid;
       }
       else {
-        // This is the child term - add it to the children of the parent term.
-        $options[$parents[0]]['children'][] = array(
-          'label' => check_plain($term->name),
-          'id' => $term->tid,
-        );
+        $id = $parents[0];
+        $parent = array_filter($terms, function ($item) use (&$id) {
+          return $item->tid == $id;
+        });
+
+        $parent = reset($parent);
+        $mid_parent = $parent->parents;
+        if ($mid_parent[0] == '0') {
+          // This is the child term - add it to the children of the parent term.
+          $options[$parents[0]]['children'][] = array(
+            'label' => check_plain($term->name),
+            'id' => $term->tid,
+          );
+        }
+        else {
+          // This is the child term - add it to the children of the parent term.
+          $options[$parents[0]]['children'][$mid_parent[0]]['children'][] = array(
+            'label' => check_plain($term->name),
+            'id' => $term->tid,
+          );
+        }
+
+
       }
     }
   }
