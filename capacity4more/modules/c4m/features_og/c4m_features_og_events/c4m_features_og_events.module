@@ -151,8 +151,8 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
       // Change the path of the link to the corresponding Views pages.
       // upcoming events: events/upcoming
       // past events: events/past
-
       $build[$key]['#path'] .= '/' . $key;
+      $build[$key]['#class'][] = $key . '-events';
     }
   }
 }
