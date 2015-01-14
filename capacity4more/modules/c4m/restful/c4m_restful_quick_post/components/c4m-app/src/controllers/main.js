@@ -41,34 +41,17 @@ angular.module('c4mApp')
           if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
             $scope.popups[field] = 0;
-            if (!$scope.data[field]) {
-              // Field is empty.
-              $scope.data[field] = {};
-            }
-            else {
-              // Field has value and this is not a discussion or event type field,
-              // which is actually not an object.
-              if (field != 'discussion_type' && field != 'event_type') {
-                var obj = {};
-                angular.forEach($scope.data[field], function (value, key) {
-                  obj[value] = true;
-                });
-                $scope.data[field] = obj;
-              }
-            }
+            // Field is empty.
+            $scope.data[field] = {};
           }
         });
       });
 
-      if (angular.isDefined($scope.data.discussion_type)) {
-        // Set "Start a Debate" as default discussion type.
-        $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) ? 'debate' : $scope.data.discussion_type;
-      }
+      // Set "Start a Debate" as default discussion type.
+      $scope.data.discussion_type = 'debate';
 
-      if (angular.isDefined($scope.data.event_type)) {
-        // Set "Event" as default event type.
-        $scope.data.event_type = angular.isObject($scope.data.event_type) ? 'event' : $scope.data.event_type;
-      }
+      // Set "Event" as default event type.
+      $scope.data.event_type = 'event';
 
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
@@ -77,6 +60,12 @@ angular.module('c4mApp')
       });
 
       $scope.data['add_to_library'] = 1;
+
+      $scope.data.location = {};
+      $scope.data.location.street = '';
+      $scope.data.location.city = '';
+      $scope.data.location.postal_code = '';
+      $scope.data.location.country_name = '';
     }
 
     // Preparing the data for the form.
