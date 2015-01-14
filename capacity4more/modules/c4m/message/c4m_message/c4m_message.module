@@ -614,7 +614,12 @@ function c4m_message__insert__node($node) {
 function c4m_message__update__node($node, $account = NULL) {
   if (empty($account)) {
     global $user;
-    $account = $user;
+    $account = clone $user;
+  }
+
+  // Don't add entity updates from Anonymous (drush?).
+  if ($account->uid == 0) {
+    return;
   }
 
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
@@ -639,7 +644,7 @@ function c4m_message__update__node($node, $account = NULL) {
       if ($wrapper->field_operation->value() == 'update') {
         // When an existing item is updated within 6 hours after the PREVIOUS
         // UPDATE by the SAME user who did the last update.
-        $message->timestamp = $node->timestamp;
+        $message->timestamp = $node->changed;
       }
       else {
         // When an existing item is updated within 6 hours after the initial
@@ -651,18 +656,18 @@ function c4m_message__update__node($node, $account = NULL) {
       // Need to create new message, not to update existing one.
       $values = array(
         'uid' => $account->uid,
-        'timestamp' => $node->timestamp,
+        'timestamp' => $node->changed,
       );
-      $message = message_create('c4m_insert__node__' . $node->type, $values);
+      $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
     }
   }
   else {
     // More than 6 hours last - need to create a new message.
     $values = array(
       'uid' => $account->uid,
-      'timestamp' => $node->timestamp,
+      'timestamp' => $node->changed,
     );
-    $message = message_create('c4m_insert__node__' . $node->type, $values);
+    $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
   }
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
