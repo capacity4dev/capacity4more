@@ -603,14 +603,19 @@ function c4m_message__insert__node($node) {
 /**
  * Updating a node message.
  *
- * @param $node
- *   The  node object.
+ * @param object $node
+ *   The node object.
+ * @param object $account
+ *   The user object.
  *
  * @return Message
  *   The non-saved message entity, or NULL if update shouldn't occur.
  */
-function c4m_message__update__node($node) {
-  global $user;
+function c4m_message__update__node($node, $account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
 
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
@@ -630,7 +635,7 @@ function c4m_message__update__node($node) {
     $message = message_load($id);
     $wrapper = entity_metadata_wrapper('message', $message);
 
-    if ($message->uid == $user->uid) {
+    if ($message->uid == $account->uid) {
       if ($wrapper->field_operation->value() == 'update') {
         // When an existing item is updated within 6 hours after the PREVIOUS
         // UPDATE by the SAME user who did the last update.
@@ -645,7 +650,7 @@ function c4m_message__update__node($node) {
     else {
       // Need to create new message, not to update existing one.
       $values = array(
-        'uid' => $user->uid,
+        'uid' => $account->uid,
         'timestamp' => $node->timestamp,
       );
       $message = message_create('c4m_insert__node__' . $node->type, $values);
@@ -654,7 +659,7 @@ function c4m_message__update__node($node) {
   else {
     // More than 6 hours last - need to create a new message.
     $values = array(
-      'uid' => $user->uid,
+      'uid' => $account->uid,
       'timestamp' => $node->timestamp,
     );
     $message = message_create('c4m_insert__node__' . $node->type, $values);

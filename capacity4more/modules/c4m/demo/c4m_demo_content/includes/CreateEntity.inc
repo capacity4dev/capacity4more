@@ -402,8 +402,11 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
   /**
    * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
-   *
+
    * @param $sourcefield
+   * @param $vocabname
+   *
+   * @return array
    */
   public function mapTaxonomyVocab($sourcefield, $vocabname) {
     $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
