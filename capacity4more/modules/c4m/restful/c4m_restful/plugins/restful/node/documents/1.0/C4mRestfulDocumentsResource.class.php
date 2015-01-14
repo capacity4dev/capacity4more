@@ -99,6 +99,10 @@ class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
       'property' => 'status',
     );
 
+    $public_fields['add_to_library'] = array(
+      'property' => 'field_add_to_library',
+    );
+
     return $public_fields;
   }
 

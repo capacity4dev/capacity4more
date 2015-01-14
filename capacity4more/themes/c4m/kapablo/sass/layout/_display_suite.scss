@@ -15,3 +15,20 @@
     }
   }
 }
+
+.cols-3 {
+    .icon-wrapper {
+      .icon-col {
+        float: left;
+      }
+      .content-middle {
+        float: left;
+        padding-left: 15px;
+        max-width: 420px;
+      }
+      .content-right {
+        float: right;
+        padding-left: 15px;
+      }
+  }
+}

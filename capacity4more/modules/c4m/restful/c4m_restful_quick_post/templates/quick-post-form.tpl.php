@@ -26,7 +26,7 @@
     <div ng-hide="serverSide.file" class="drop-text">
       <span class="uppercase"><?php print t('Drop file here to upload'); ?></span><br/>
       <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-      <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+      <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
     </div>
 
     <div ng-show="serverSide.file.status == 200">
@@ -256,17 +256,29 @@
       </div>
       <div class="selected-values" ng-show="data.geo">
         <div class="value" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
-          <div class="parent col-sm-6">
-                <span>
-                  <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
-                  <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
-                </span>
+          <div class="parent col-sm-4">
+            <span>
+              <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
+              <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
+            </span>
           </div>
-          <div class="child col-sm-6">
-                <span ng-show="data.geo[child.id] === true" ng-repeat="(childkey, child) in geo[key].children">
+          <div class="children col-sm-8" ng-repeat="(childkey, child) in geo[key].children">
+            <div class="row">
+              <div class="col-sm-6" >
+                <span ng-show="data.geo[child.id] === true" >
                   <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
                 </span>
+              </div>
+              <div class="childChild col-sm-6">
+                <span ng-show="data.geo[childChild.id] === true" ng-repeat="(childChildkey, childChild) in geo[key].children[childkey].children">
+                  <i ng-click="removeTaxonomyValue(childChild.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, childChild.id) }}
+                </span>
+              </div>
+
+            </div>
+
           </div>
+
         </div>
       </div>
       <!-- Hidden geo checkboxes.-->

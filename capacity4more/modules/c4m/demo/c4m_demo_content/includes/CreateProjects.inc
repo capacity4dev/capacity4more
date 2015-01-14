@@ -71,6 +71,13 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function prepareRow($row) {
+    return parent::prepareRow($row);
+  }
+
+  /**
    * The entity has been created but not yet saved.
    *
    * @param object $entity

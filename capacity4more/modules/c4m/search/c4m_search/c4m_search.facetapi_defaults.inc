@@ -13,6 +13,60 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_nodes::c4m_datetime_end:value';
+  $facet->searcher = 'search_api@c4m_search_nodes';
+  $facet->realm = '';
+  $facet->facet = 'c4m_datetime_end:value';
+  $facet->enabled = FALSE;
+  $facet->settings = array(
+    'operator' => 'and',
+    'hard_limit' => '50',
+    'dependencies' => array(
+      'bundle' => 'none',
+      'bundle_selected' => array(),
+    ),
+    'facet_mincount' => '1',
+    'facet_missing' => '0',
+    'flatten' => 0,
+    'individual_parent' => 0,
+    'query_type' => 'date_range',
+    'limit_active_items' => 0,
+    'default_true' => '1',
+    'facet_search_ids' => array(),
+    'date_granularity' => 'MINUTE',
+  );
+  $export['search_api@c4m_search_nodes::c4m_datetime_end:value'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_nodes::c4m_datetime_end:value2';
+  $facet->searcher = 'search_api@c4m_search_nodes';
+  $facet->realm = '';
+  $facet->facet = 'c4m_datetime_end:value2';
+  $facet->enabled = FALSE;
+  $facet->settings = array(
+    'operator' => 'and',
+    'hard_limit' => '50',
+    'dependencies' => array(
+      'bundle' => 'none',
+      'bundle_selected' => array(),
+    ),
+    'facet_mincount' => '1',
+    'facet_missing' => '0',
+    'flatten' => 0,
+    'individual_parent' => 0,
+    'query_type' => 'date_range',
+    'limit_active_items' => 0,
+    'default_true' => '1',
+    'facet_search_ids' => array(),
+    'date_granularity' => 'MINUTE',
+  );
+  $export['search_api@c4m_search_nodes::c4m_datetime_end:value2'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_nodes:block:c4m_date';
   $facet->searcher = 'search_api@c4m_search_nodes';
   $facet->realm = 'block';
@@ -45,6 +99,126 @@ function c4m_search_facetapi_default_facet_settings() {
     'show_expanded' => 0,
   );
   $export['search_api@c4m_search_nodes:block:c4m_date'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_nodes:block:c4m_datetime_end:value';
+  $facet->searcher = 'search_api@c4m_search_nodes';
+  $facet->realm = 'block';
+  $facet->facet = 'c4m_datetime_end:value';
+  $facet->enabled = TRUE;
+  $facet->settings = array(
+    'weight' => 0,
+    'widget' => 'date_range',
+    'filters' => array(),
+    'active_sorts' => array(
+      'active' => 'active',
+      'count' => 'count',
+      'display' => 'display',
+      'indexed' => 0,
+    ),
+    'sort_weight' => array(
+      'active' => '-50',
+      'count' => '-49',
+      'display' => '-48',
+      'indexed' => '0',
+    ),
+    'sort_order' => array(
+      'active' => '3',
+      'count' => '3',
+      'display' => '4',
+      'indexed' => '4',
+    ),
+    'empty_behavior' => 'none',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
+    'soft_limit' => '20',
+    'nofollow' => 1,
+    'show_expanded' => 0,
+    'ranges' => array(
+      'upcoming' => array(
+        'label' => 'Upcoming',
+        'machine_name' => 'upcoming',
+        'date_range_start_op' => 'NOW',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'HOUR',
+        'date_range_end_op' => '+',
+        'date_range_end_amount' => '999',
+        'date_range_end_unit' => 'YEAR',
+        'weight' => '0',
+        'delete' => 0,
+      ),
+    ),
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'filtered_html',
+    ),
+    'date_ranges' => array(
+      'add_range' => 'Add a new date range',
+    ),
+  );
+  $export['search_api@c4m_search_nodes:block:c4m_datetime_end:value'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_nodes:block:c4m_datetime_end:value2';
+  $facet->searcher = 'search_api@c4m_search_nodes';
+  $facet->realm = 'block';
+  $facet->facet = 'c4m_datetime_end:value2';
+  $facet->enabled = TRUE;
+  $facet->settings = array(
+    'weight' => 0,
+    'widget' => 'date_range',
+    'filters' => array(),
+    'active_sorts' => array(
+      'active' => 'active',
+      'count' => 'count',
+      'display' => 'display',
+      'indexed' => 0,
+    ),
+    'sort_weight' => array(
+      'active' => '-50',
+      'count' => '-49',
+      'display' => '-48',
+      'indexed' => '0',
+    ),
+    'sort_order' => array(
+      'active' => '3',
+      'count' => '3',
+      'display' => '4',
+      'indexed' => '4',
+    ),
+    'empty_behavior' => 'none',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
+    'soft_limit' => '20',
+    'nofollow' => 1,
+    'show_expanded' => 0,
+    'ranges' => array(
+      'past_events' => array(
+        'label' => 'Past',
+        'machine_name' => 'past_events',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '999',
+        'date_range_start_unit' => 'YEAR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '0',
+        'delete' => 0,
+      ),
+    ),
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'filtered_html',
+    ),
+    'date_ranges' => array(
+      'add_range' => 'Add a new date range',
+    ),
+  );
+  $export['search_api@c4m_search_nodes:block:c4m_datetime_end:value2'] = $facet;
 
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */

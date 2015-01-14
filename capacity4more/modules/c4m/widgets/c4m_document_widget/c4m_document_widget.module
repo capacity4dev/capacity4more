@@ -61,6 +61,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   if (!$entity) {
     return;
   }
+  $entity_type = $entity->type;
 
   // Add autocomplete widget, that will be hidden.
   $instance['widget']['type'] = 'entityreference_autocomplete_tags';
@@ -72,10 +73,8 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   unset($element['#weight']);
   $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'] = array('c4m_document_widget_entityreference_autocomplete_tags_validate');
-  $element['#title'] = '';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
-
 
   // Add the angular directive.
 
@@ -84,14 +83,22 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
 
   $default_values = array();
   preg_match_all("/\((\d+)\)/", $default_value, $default_values);
-
   $default_value = implode(',', $default_values[1]);
 
-  $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value));
-  $form['add_document'] = array(
+  $field_name = drupal_clean_css_identifier($field['field_name']);
+  $params = array(
+    'default_value' => $default_value,
+    'field_name' => $field_name,
+    'title' => $element['#title'],
+  );
+  $directive = theme('c4m_document_widget_document_widget', $params);
+  $form['add_document-' . $field_name] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
   );
+
+  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field['field_name']);
+  $form['add_document-' . $field_name]['#parent_fieldset'] = $fieldset;
 
   // URL options.
   $options = array(
@@ -107,12 +114,17 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     ),
     'absolute' => TRUE,
   );
+
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'data' => array(
       'purl' => url('', $options_context),
-      'relatedDocuments' => $default_values[1],
+      'relatedDocuments' => array(
+        $field_name => $default_values[1],
+      ),
+      // The form id in HTML is with dashes, not underscores.
+      'formId' => drupal_clean_css_identifier($form_state['build_info']['form_id']),
     )
   );
 
@@ -126,12 +138,58 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
 }
 
 /**
+ * Get field parent fieldset name.
+ *
+ * @param $entity_type
+ *  The entity type.
+ * @param $field_name
+ *  The name of the field.
+ *
+ * @return String
+ *  Return fieldset name.
+ */
+function c4m_document_widget_get_field_parent_fieldset($entity_type, $field_name) {
+  $fieldset_name = NULL;
+  // Get parent fieldset name and add it as a property to the widget.
+  $field_groups = field_group_info_groups('node', $entity_type);
+  if (!empty($field_groups['form'])) {
+    foreach ($field_groups['form'] as $group) {
+      $children = $group->children;
+      if (in_array($field_name, $children)) {
+        $fieldset_name = $group->group_name;
+        // We already found the fieldset name.
+        return $fieldset_name;
+      }
+    }
+  }
+  return $fieldset_name;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Add our custom widgets to theirs fieldsets if needed.
+ */
+function c4m_document_widget_form_alter(&$form, &$form_state, $form_id) {
+  foreach($form as $field_name => $field) {
+    if (is_array($field)) {
+      if (!empty($field['#parent_fieldset'])) {
+        // Add field as a child to his parent fieldset.
+        $form['#groups'][$field['#parent_fieldset']]->children[] = $field_name;
+        $form['#group_children'][$field_name] = $field['#parent_fieldset'];
+      }
+    }
+  }
+}
+
+/**
  * Redefines the _entityreference_autocomplete_tags_validate().
  *
  * Only nids in the input are now required.
  */
 function c4m_document_widget_entityreference_autocomplete_tags_validate($element, &$form_state, &$form) {
   $value = array();
+  $field_name = drupal_clean_css_identifier($element['#field_name']);
   // If a value was entered into the autocomplete...
   if (!empty($element['#value'])) {
     $entities = drupal_explode_tags($element['#value']);
@@ -146,7 +204,7 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
       else {
         // Try to get a match from the input string when the user didn't use the
         // autocomplete but filled in a value manually.
-        $field = field_info_field($element['#field_name']);
+        $field = field_info_field($field_name);
         $handler = entityreference_get_selection_handler($field);
         $value[] = array(
           'target_id' => $handler->validateAutocompleteInput($entity, $element, $form_state, $form),
@@ -160,13 +218,15 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
 
   // Getting array of related document ids from the existing field value.
   $field_values = array();
+
   preg_match_all("/\((\d+)\)/", $element['#value'], $field_values);
-  $settings['c4m']['data']['relatedDocuments'] = $field_values[1];
+
+  $settings['c4m']['data']['relatedDocuments'][$field_name] = $field_values[1];
 
   // Unset previous related documents values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['relatedDocuments'])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments']);
+    if (!empty($data['data']['c4m']['data']['relatedDocuments'][$field_name])) {
+      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][$field_name]);
     }
   }
 
@@ -186,6 +246,8 @@ function c4m_document_widget_theme() {
     'path' => drupal_get_path('module', 'c4m_document_widget') . '/templates',
     'variables' => array(
       'default_value' => NULL,
+      'field_name' => NULL,
+      'title' => NULL,
     ),
   );
 

@@ -78,8 +78,17 @@ trait Field {
       case 'Details':
         $class = 'group-node-details';
         break;
+      case 'Documents':
+        $class = 'group-node-documents';
+        break;
       case 'Group dashboard details':
         $class = 'group-details';
+        break;
+      case 'Location':
+        $class = 'group-node-location';
+        break;
+      case 'Organiser':
+        $class = 'group-node-organiser';
         break;
     }
     if (!empty($class)) {
