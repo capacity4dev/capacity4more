@@ -199,5 +199,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       }
       entity_save('node', $entity);
     }
+
+    parent::complete($entity, $row);
   }
 }
