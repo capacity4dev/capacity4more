@@ -8,7 +8,7 @@
         <div class="parent col-sm-6">
           <span>
             <i ng-click="removeTaxonomyValue(key, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i> {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
-            <i ng-show="data.<?php print $vocabulary_machine_name; ?>[key]" class="fa fa-chevron-right "></i>
+            <i class="fa fa-chevron-right "></i>
           </span>
         </div>
         <div class="child col-sm-6" ng-repeat="(childkey, child) in data.<?php print $vocabulary_machine_name; ?>[key].children">

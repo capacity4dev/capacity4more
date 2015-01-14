@@ -174,8 +174,33 @@ angular.module('c4mApp')
       }
     };
 
-    $scope.updateSelected = function(item, vocab) {
+    /**
+     * Show or hide list of subcategories for the current category.
+     * Is called by click.
+     *
+     * @param item
+     *  Current category item.
+     */
+    $scope.updateSelected = function(item) {
       item.selected = !item.selected;
+    };
+
+    /**
+     * Check if current category has at least ont selected child.
+     *
+     * @param key
+     *  Category term id.
+     *
+     * @returns {boolean}
+     */
+    $scope.categoryHasChildrenSelected = function(key) {
+      var result = false;
+      angular.forEach($scope.data.categories[key].children, function(child, childKey) {
+        if ($scope.model.categories[child.id] === true) {
+          result = true;
+        }
+      });
+      return result;
     };
 
     /**

@@ -162,7 +162,14 @@ angular.module('c4mApp')
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
-
+    /**
+     * Check if current category has at least ont selected child.
+     *
+     * @param key
+     *  Category term id.
+     *
+     * @returns {boolean}
+     */
     $scope.categoryHasChildrenSelected = function(key) {
       var result = false;
       angular.forEach($scope.categories[key].children, function(child, childKey) {

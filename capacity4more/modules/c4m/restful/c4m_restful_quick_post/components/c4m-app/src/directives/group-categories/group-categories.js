@@ -30,6 +30,13 @@ angular.module('c4mApp')
           scope.filteredTerms = $filter('termsFilter')(scope.items, scope.searchTerm);
         };
 
+        /**
+         * Show or hide list of subcategories for the current category.
+         * Is called by click.
+         *
+         * @param item
+         *  Current category item.
+         */
         scope.updateSelected = function(item) {
           item.selected = !item.selected;
         };

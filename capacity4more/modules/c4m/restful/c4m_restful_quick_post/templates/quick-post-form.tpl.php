@@ -169,13 +169,12 @@
       <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
     </div>
 
-
     <div class="selected-values" ng-show="data.categories">
       <div class="value row" ng-repeat="(key, value) in categories">
         <div class="parent col-sm-6">
           <span ng-show="categoryHasChildrenSelected(key)">
             {{ findLabel(categories, key) }}
-            <i ng-show="categories[key]" class="fa fa-chevron-right "></i>
+            <i class="fa fa-chevron-right "></i>
           </span>
         </div>
         <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
@@ -185,16 +184,8 @@
           </span>
         </div>
       </div>
-
     </div>
 
-
-    <!--<div class="selected-values" ng-show="data.categories">
-      <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
-        {{ findLabel(categories, key) }}
-        <i ng-click="removeTaxonomyValue(key, 'categories')" class="fa fa-times"></i>
-      </span>
-    </div>-->
     <!-- Hidden date checkboxes.-->
     <div class="popover right hidden-checkboxes" ng-show="popups.categories">
       <div class="arrow"></div>
@@ -280,7 +271,7 @@
           <div class="parent col-sm-4">
             <span>
               <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
-              <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
+              <i class="fa fa-chevron-right "></i>
             </span>
           </div>
           <div class="children col-sm-8" ng-repeat="(childkey, child) in geo[key].children">
