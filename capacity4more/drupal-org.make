@@ -35,6 +35,9 @@ projects[currency][version] = "2.4"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
+projects[date_facets][subdir] = "contrib"
+projects[date_facets][version] = "1.x-dev"
+
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
