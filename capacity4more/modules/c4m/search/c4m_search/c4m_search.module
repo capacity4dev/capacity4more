@@ -149,3 +149,59 @@ function c4m_search_theme() {
     ),
   );
 }
+
+/**
+ * Programmatically execute a search.
+ *
+ * There must be at least one filter.
+ * Each filter contains a condition with a field name, value and operator.
+ *
+ * For example the $filters array to retrieve all published nodes of type event:
+ *
+ * $filters = array(
+ *   '0' => array(
+ *     'conjunction' => 'AND',
+ *     'condition' => array(
+ *        'field' => 'status',
+ *        'value' => 1,
+ *        'operator' => '=',
+ *     ),
+ *   ),
+ *  '1' => array(
+ *    'conjunction' => 'AND',
+ *    'condition' => array(
+ *      'field' => 'type',
+ *      'value' => 'event',
+ *       'operator' => '=',
+ *    ),
+ *  ),
+ * );
+ *
+ * @param $filters
+ * @return array
+ */
+function c4m_search_custom_search($filters) {
+  if (empty($filters)) {
+    return;
+  }
+  $index = search_api_index_load('c4m_search_nodes');
+  $query = new SearchApiQuery($index);
+  $base_filter = $subfilter = NULL;
+
+  foreach ($filters as $filter) {
+    if (empty($base_filter)) {
+      $base_filter = $query->createFilter($filter['conjunction']);
+      $base_filter->condition($filter['condition']['field'],
+        $filter['condition']['value'], $filter['condition']['operator']);
+    }
+    else {
+      $subfilter = $query->createFilter($filter['conjunction']);
+      $subfilter->condition($filter['condition']['field'],
+        $filter['condition']['value'], $filter['condition']['operator']);
+      $base_filter->filter($subfilter);
+    }
+  }
+
+  $query->filter($base_filter);
+  return $query->execute();
+}
