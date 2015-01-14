@@ -37,10 +37,11 @@ angular.module('c4mApp')
             return;
           }
           var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
-          if(angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
+
+          if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
             $scope.popups[field] = 0;
-            if (!$scope.data[field] || !$scope.fullForm) {
+            if (!$scope.data[field]) {
               // Field is empty.
               $scope.data[field] = {};
             }
@@ -61,12 +62,12 @@ angular.module('c4mApp')
 
       if (angular.isDefined($scope.data.discussion_type)) {
         // Set "Start a Debate" as default discussion type.
-        $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) || !$scope.fullForm ? 'debate' : $scope.data.discussion_type;
+        $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) ? 'debate' : $scope.data.discussion_type;
       }
 
       if (angular.isDefined($scope.data.event_type)) {
         // Set "Event" as default event type.
-        $scope.data.event_type = angular.isObject($scope.data.event_type) || !$scope.fullForm ? 'event' : $scope.data.event_type;
+        $scope.data.event_type = angular.isObject($scope.data.event_type) ? 'event' : $scope.data.event_type;
       }
 
       // Reset all the text fields.
