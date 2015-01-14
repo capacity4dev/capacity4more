@@ -168,12 +168,33 @@
               class="btn"><?php print t('Select Category'); ?></button>
       <p ng-show="errors.categories" class="help-block"><?php print t('Categories are required.'); ?></p>
     </div>
+
+
     <div class="selected-values" ng-show="data.categories">
-            <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
-              {{ findLabel(categories, key) }} <i ng-click="removeTaxonomyValue(key, 'categories')"
-                                                  class="fa fa-times"></i>
-            </span>
+      <div class="value row" ng-show="value === true" ng-repeat="(key, value) in data.categories">
+        <div class="parent col-sm-6">
+          <span ng-show="categoryHasChildrenSelected(key)">
+            {{ findLabel(categories, key) }}
+            <i ng-show="categories[key]" class="fa fa-chevron-right "></i>
+          </span>
+        </div>
+        <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
+          <span ng-show="data.categories[child.id] === true" >
+            <i ng-click="removeTaxonomyValue(child.id, 'categories')" class="fa fa-times"></i>
+            {{ findLabel(categories, child.id) }}
+          </span>
+        </div>
+      </div>
+
     </div>
+
+
+    <!--<div class="selected-values" ng-show="data.categories">
+      <span ng-show="value === true" ng-repeat="(key, value) in data.categories">
+        {{ findLabel(categories, key) }}
+        <i ng-click="removeTaxonomyValue(key, 'categories')" class="fa fa-times"></i>
+      </span>
+    </div>-->
     <!-- Hidden date checkboxes.-->
     <div class="popover right hidden-checkboxes" ng-show="popups.categories">
       <div class="arrow"></div>
