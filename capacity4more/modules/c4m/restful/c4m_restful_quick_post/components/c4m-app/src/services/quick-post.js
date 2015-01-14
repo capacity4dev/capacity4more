@@ -75,9 +75,13 @@ angular.module('c4mApp')
       angular.forEach(scope.referenceValues, function (data, field) {
         // Parent id.
         var parent = 0;
+        var midParent = 0;
+
         scope[field] = {};
         angular.forEach(scope.referenceValues[field], function (label, id) {
-          if(label.indexOf('-')) {
+
+          if (label.indexOf('-') == -1 && label.indexOf('--') == -1) {
+            // This is parent term - 1 level.
             parent = id;
             scope[field][id] = {
               id: id,
@@ -86,11 +90,29 @@ angular.module('c4mApp')
             };
           }
           else {
-            if (parent > 0) {
-              scope[field][parent]['children'].push({
-                id: id,
-                label: label.replace('-','')
-              });
+            if (label.indexOf('--') == -1) {
+              // This is child term of 2 level.
+              if (parent > 0) {
+                midParent = id;
+                scope[field][parent]['children'].push({
+                  id: id,
+                  label: label.replace('-',''),
+                  children: []
+                });
+              }
+            }
+            else {
+              // This is child term of 3 level.
+              if (midParent > 0) {
+                angular.forEach(scope[field][parent]['children'], function(value, key) {
+                  if (value.id == midParent) {
+                    scope[field][parent]['children'][key]['children'].push({
+                      id: id,
+                      label: label.replace('--','')
+                    });
+                  }
+                });
+              }
             }
           }
         });
@@ -224,6 +246,13 @@ angular.module('c4mApp')
               var id = termID.toString();
               if (child.id == id) {
                 termName = child.label;
+              }
+              else if (child.hasOwnProperty('children')) {
+                angular.forEach(child.children, function(childChild, childKey) {
+                  if (childChild.id == id) {
+                    termName = childChild.label;
+                  }
+                });
               }
             });
           }
