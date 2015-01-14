@@ -7,15 +7,16 @@
  * # A list of related to the discussion documents.
  */
 angular.module('c4mApp')
-  .directive('relatedDocuments', function (DrupalSettings, $window) {
+  .directive('relatedDocuments', function (DrupalSettings, $window, EntityResource) {
     return {
       templateUrl: DrupalSettings.getBasePath() + 'profiles/capacity4more/libraries/bower_components/c4m-app/dist/directives/documents/documents.html',
       restrict: 'E',
       scope: {
         relatedDocuments: '=',
-        documents: '='
+        formId: '=',
+        fieldName: '='
       },
-      link: function postLink(scope) {
+      link: function postLink(scope, element) {
 
         /**
          * Create array of related document objects.
@@ -27,18 +28,28 @@ angular.module('c4mApp')
          *  Returns array of related document information objects
          */
         scope.updateDocumentsData = function(relatedDocuments) {
-          var data = {};
+          var documents = {};
           angular.forEach(relatedDocuments, function(value, key) {
-            // Find document object by document id in all objects.
-            var result =  scope.documents.filter(function( obj ) {
-              return obj.id == value;
+
+            // Get all field values of the document.
+            EntityResource.getEntityData('documents', value).success( function (data, status) {
+              documents[key] = data.data[0];
+              // Format file size.
+              documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
             });
-            data[key] = angular.copy(result[0], data[key]);
-            // Format file size.
-            data[key].document.filesize = $window.filesize(data[key].document.filesize);
           });
-          return data;
+          return documents;
         };
+
+        // Get the click event form the overlay and update related documents.
+        element.parents('#' + scope.formId).find('#input-'+ scope.fieldName).on('click', function (event) {
+          var val = jQuery(this).val();
+          scope.$apply(function(scope) {
+            var ids = val.split(',');
+            scope.relatedDocuments = ids;
+            scope.data = scope.updateDocumentsData(scope.relatedDocuments);
+          });
+        });
 
         scope.data = scope.updateDocumentsData(scope.relatedDocuments);
 
@@ -55,6 +66,18 @@ angular.module('c4mApp')
           if (index != -1) {
             scope.relatedDocuments.splice(index, 1);
           }
+
+          // Remove value from the widget's inputs.
+          var value = angular.element('#edit-' + scope.fieldName + '-und').val();
+          value = value.replace('(' + id + '), ', '');
+          value = value.replace('(' + id + ')', '');
+
+          var ids = angular.element('#input-' + scope.fieldName).val();
+          ids = ids.replace(id + ',', '');
+          ids = ids.replace(id, '');
+
+          angular.element('#edit-' + scope.fieldName + '-und').val(value);
+          angular.element('#input-' + scope.fieldName).val(ids);
         };
       }
     };

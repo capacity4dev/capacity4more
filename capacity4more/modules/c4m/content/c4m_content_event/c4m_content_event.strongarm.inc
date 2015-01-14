@@ -49,14 +49,14 @@ function c4m_content_event_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_event';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['comment_preview_event'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_event';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_event'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -69,7 +69,7 @@ function c4m_content_event_strongarm() {
         'custom_settings' => TRUE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -87,6 +87,21 @@ function c4m_content_event_strongarm() {
         'custom_settings' => FALSE,
       ),
       'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'library' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_stream' => array(
+        'custom_settings' => TRUE,
+      ),
+      'c4m_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_table' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
         'custom_settings' => FALSE,
       ),
     ),

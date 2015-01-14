@@ -1,16 +1,25 @@
 <form action="#" class="search">
   <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
 </form>
-<div class="checkbox" ng-repeat="item in filteredTerms">
-  <label>
-    <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms()"> {{item.label}}
-  </label>
-  <ul ng-show="item.children && model[item.id] == true" class="indent">
-    <li ng-repeat="child in item.children">
-      <label>
-        <input type="checkbox" ng-name="type" ng-model="model[child.id]"> {{child.label}}
-      </label>
-    </li>
-  </ul>
-</div>
+<ul>
+  <li class="checkbox" ng-repeat="item in filteredTerms">
+    <label>
+      <input type="checkbox" ng-name="type" title="{{item.label}}" ng-model="model[item.id]" ng-change="updateSelectedTerms()"> {{item.label}}
+    </label>
+    <ul ng-show="item.children && model[item.id] == true" class="indent">
+      <li ng-repeat="child in item.children">
+        <label>
+          <input type="checkbox" ng-name="type" ng-model="model[child.id]" ng-change="updateSelectedTerms()"> {{child.label}}
+        </label>
+        <ul ng-show="child.children && model[child.id] == true" class="indent">
+          <li ng-repeat="childChild in child.children">
+            <label>
+              <input type="checkbox" ng-name="type" ng-model="model[childChild.id]"> {{childChild.label}}
+            </label>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 

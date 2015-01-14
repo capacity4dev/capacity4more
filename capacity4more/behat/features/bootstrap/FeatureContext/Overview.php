@@ -64,6 +64,10 @@ trait Overview {
       case 'Author':
         $class = 'user-name';
         break;
+      case 'Organiser':
+        $class = 'organiser';
+        break;
+
     }
     $element = $page->findAll('css', '.region-content .view-content .' . $class);
 

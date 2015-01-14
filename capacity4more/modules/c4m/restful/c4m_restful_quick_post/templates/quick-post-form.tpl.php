@@ -20,13 +20,13 @@
 
 <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
      ng-class="{ 'has-error' : errors.document }">
-  <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);"
-       ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
+  <div class="form-control drop-box" ng-file-drop="onFileSelect($files);"
+       ng-file-drag-over-class="file-upload-drag">
 
     <div ng-hide="serverSide.file" class="drop-text">
       <span class="uppercase"><?php print t('Drop file here to upload'); ?></span><br/>
       <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-      <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
+      <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
     </div>
 
     <div ng-show="serverSide.file.status == 200">
@@ -59,10 +59,10 @@
 </div>
 
 <!-- Body editor-->
-<div class="form-group" ng-class="{ 'has-error' : errors.body }">
+<div class="form-group" id="body-wrapper" ng-class="{ 'has-error' : errors.body }">
   <textarea ckeditor="editorOptions" name="body" id="body" ng-model="data.body"></textarea>
 
-  <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
+  <p ng-show="errors.body" class="errors"><?php print t('Body is required.'); ?></p>
 
   <div class="errors">
     <ul ng-show="serverSide.data.errors.body">
@@ -117,43 +117,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'discussions' && fullForm"
-     ng-class="{ 'has-error' : errors.discussion }">
-
-  <related-documents related-documents="data.related_document" documents="documents"></related-documents>
-
-  <div ng-show="dropSupported" class="form-control drop-box" ng-file-drop="onFileSelect($files);"
-       ng-file-drop-available="dropSupported=true" ng-file-drag-over-class="file-upload-drag">
-
-    <div name="discussion-document-upload">
-      <?php print t('Drop file here to upload or'); ?>
-      <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
-      <input type="file" name="document-file" id="document_file" ng-file-select="onFileSelect($files)">
-      <br/>
-      <?php print t('or'); ?>
-      <a href="javascript://"><?php print t('Select a Document from the library') ?></a>
-    </div>
-
-    <div ng-show="serverSide.file.status == 200">
-      <div class="alert alert-success">
-        <?php print t('The file "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
-      </div>
-    </div>
-    <div ng-show="documentName!=''">
-      <div class="alert alert-success">
-        <?php print t('The document "{{ documentName }}" was saved successfully.') ?>
-      </div>
-    </div>
-  </div>
-
-  <div class="errors">
-    <ul ng-show="serverSide.data.errors.image">
-      <li ng-repeat="error in serverSide.data.errors.image">{{error}}</li>
-    </ul>
-  </div>
-  <p ng-show="errors.discussion" class="help-block"><?php print t('Document file is required.'); ?></p>
 </div>
 
 <div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
@@ -293,17 +256,29 @@
       </div>
       <div class="selected-values" ng-show="data.geo">
         <div class="value" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
-          <div class="parent col-sm-6">
-                <span>
-                  <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
-                  <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
-                </span>
+          <div class="parent col-sm-4">
+            <span>
+              <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
+              <i ng-show="geo[key]" class="fa fa-chevron-right "></i>
+            </span>
           </div>
-          <div class="child col-sm-6">
-                <span ng-show="data.geo[child.id] === true" ng-repeat="(childkey, child) in geo[key].children">
+          <div class="children col-sm-8" ng-repeat="(childkey, child) in geo[key].children">
+            <div class="row">
+              <div class="col-sm-6" >
+                <span ng-show="data.geo[child.id] === true" >
                   <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
                 </span>
+              </div>
+              <div class="childChild col-sm-6">
+                <span ng-show="data.geo[childChild.id] === true" ng-repeat="(childChildkey, childChild) in geo[key].children[childkey].children">
+                  <i ng-click="removeTaxonomyValue(childChild.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, childChild.id) }}
+                </span>
+              </div>
+
+            </div>
+
           </div>
+
         </div>
       </div>
       <!-- Hidden geo checkboxes.-->
@@ -330,7 +305,7 @@
     <div class="qp-post-button">
       <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('POST'); ?></button>
     </div>
-    <div class="qp-post-fullform" ng-hide="fullForm">
+    <div class="qp-post-fullform">
       <a href="javascript://" id="full-from-button"
          ng-click="submitForm(data, selectedResource, 'full_form')"><?php print t('Create in full form'); ?></a>
     </div>
@@ -370,233 +345,3 @@
   </div>
 </div>
 <!-- End debug -->
-
-<!-- Modal with creation of the new document. -->
-<div ng-if="selectedResource == 'discussions' && fullForm">
-<script type="text/ng-template" id="myModalContent.html">
-
-<div class="explanation">
-  <em><?php print t('Upload Document') ?></em>
-</div>
-
-<form name="documentForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
-
-  <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
-       ng-class="{ 'has-error' : errors.document }">
-    <div>
-      File {{fileName}} has been loaded!
-    </div>
-  </div>
-
-  <div class="form-group text"
-       ng-class="{ 'has-error' : documentForm.label.$invalid && !documentForm.label.$pristine }">
-    <input id="label" class="form-control" ng-click="showFields()" name="label" type="text" ng-model="data.label"
-           placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
-
-    <p ng-show="documentForm.label.$invalid && !documentForm.label.$pristine"
-       class="help-block"><?php print t('Title is too short.'); ?></p>
-
-    <div class="errors">
-      <ul ng-show="serverSide.data.errors.label">
-        <li ng-repeat="error in serverSide.data.errors.label">{{error}}</li>
-      </ul>
-    </div>
-  </div>
-
-  <div ng-show="resources[selectedResource]">
-
-    <!-- Body editor-->
-    <div class="form-group" ng-class="{ 'has-error' : errors.body }">
-      <textarea ckeditor="editorOptions" name="body" id="body" ng-model="data.body"></textarea>
-
-      <p ng-show="errors.body" class="help-block"><?php print t('Body is required.'); ?></p>
-
-      <div class="errors">
-        <ul ng-show="serverSide.data.errors.body">
-          <li ng-repeat="error in serverSide.data.errors.body">{{error}}</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="form-group btn-group btn-group-selectors" ng-if="selectedResource == 'documents'"
-         ng-class="{ 'has-error' : errors.document_type }">
-      <div class="label-wrapper">
-        <label>{{fieldSchema.document_type.info.label}}</label>
-        <span id="document_type_description" class="description">{{fieldSchema.document_type.info.description}}</span>
-      </div>
-      <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('document_type', $event)"
-                  class="btn"><?php print t('Select Type'); ?></button>
-          <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
-        </div>
-        <div class="selected-values" ng-show="data.document_type">
-              <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
-                {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')"
-                                                       class="fa fa-times"></i>
-              </span>
-        </div>
-        <!-- Hidden document_type checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.document_type">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="document_type" model="data.document_type" items="document_type"></list-terms>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.topic }">
-      <div class="label-wrapper">
-        <label>{{fieldSchema.topic.info.label}}</label>
-        <span id="topic_description" class="description">{{fieldSchema.topic.info.description}}</span>
-      </div>
-      <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('topic', $event)"
-                  class="btn btn-primary"><?php print t('Select Topic'); ?></button>
-          <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
-        </div>
-        <div class="selected-values" ng-show="data.topic">
-              <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
-                {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
-              </span>
-        </div>
-        <!-- Hidden topic checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.topic">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="topic" model="data.topic" items="topic"></list-terms>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group btn-group" ng-if="selectedResource != 'events'" ng-class="{ 'has-error' : errors.date }">
-      <div class="label-wrapper">
-        <label>{{fieldSchema.date.info.label}}</label>
-        <span id="date_description" class="description">{{fieldSchema.date.info.description}}</span>
-      </div>
-      <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('date', $event)"
-                  class="btn btn-primary"><?php print t('Select Date'); ?></button>
-          <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
-        </div>
-        <div class="selected-values" ng-show="data.date">
-              <span ng-show="value === true" ng-repeat="(key, value) in data.date">
-                {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
-              </span>
-        </div>
-        <!-- Hidden date checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.date">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="date" model="data.date" items="date"></list-terms>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.language }">
-      <div class="label-wrapper">
-        <label>{{fieldSchema.language.info.label}}</label>
-        <span id="language_description" class="description">{{fieldSchema.language.info.description}}</span>
-      </div>
-      <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('language', $event)"
-                  class="btn btn-primary"><?php print t('Select Language'); ?></button>
-          <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
-        </div>
-        <div class="selected-values" ng-show="data.language">
-              <span ng-show="value === true" ng-repeat="(key, value) in data.language">
-                {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')"
-                                                  class="fa fa-times"></i>
-              </span>
-        </div>
-        <!-- Hidden language checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.language">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="language" model="data.language" items="language"></list-terms>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group btn-group" ng-class="{ 'has-error' : errors.geo }">
-      <div class="label-wrapper">
-        <label>{{fieldSchema.geo.info.label}}</label>
-        <span id="geo_description" class="description">{{fieldSchema.geo.info.description}}</span>
-      </div>
-      <div class="checkboxes-wrapper">
-        <div>
-          <button type="button" ng-click="togglePopover('geo', $event)"
-                  class="btn btn-primary"><?php print t('Select Region'); ?></button>
-          <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
-        </div>
-        <div class="selected-values" ng-show="data.geo">
-              <span ng-show="value === true" ng-repeat="(key, value) in data.geo">
-                {{ findLabel(geo, key) }} <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i>
-              </span>
-        </div>
-        <!-- Hidden geo checkboxes.-->
-        <div class="popover right hidden-checkboxes" ng-show="popups.geo">
-          <div class="arrow"></div>
-          <div class="popover-content">
-            <list-terms type="geo" model="data.geo" items="geo"></list-terms>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="input-wrapper tags" ng-class="{ 'has-error' : errors.tags }">
-      <label><?php print t('Tags') ?></label>
-      <input multiple type="hidden" ui-select2="{query: tagsQuery, minimumInputLength: 2}" ng-model="data.tags"
-             class="form-control"/>
-
-      <p ng-show="errors.tags" class="help-block"><?php print t('Tags are required.'); ?></p>
-    </div>
-
-    <div class="actions">
-      <button type="submit" id="quick-submit" class="btn btn-primary" tabindex="100"><?php print t('SAVE'); ?></button>
-      <a href="javascript://" id="clear-button" ng-click="cancel()"><?php print t('Cancel'); ?></a>
-    </div>
-  </div>
-</form>
-
-<div ng-show="debug">
-  <h2>Console (Server side)</h2>
-
-  <div ng-show="serverSide.status == 200 || serverSide.status == 201" class="create-success">
-    <strong>
-      New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{
-      serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
-    </strong>
-  </div>
-  <div ng-show="serverSide.status">
-    <div>
-      Status: {{ serverSide.status }}
-    </div>
-    <div>
-      Data:
-      <pre pretty-json="serverSide.data"/>
-    </div>
-  </div>
-</div>
-<br/>
-<div class="messages" ng-show="debug == 0">
-  <div ng-show="serverSide.status == 200 || serverSide.status == 201">
-    <div class="alert alert-success">
-      <?php print t('The {{ resources[selectedResource].bundle }} was saved successfully.') ?>
-    </div>
-  </div>
-  <div ng-show="serverSide.status > 0 && serverSide.status != 200 && serverSide.status != 201">
-    <div class="alert alert-danger">
-          <?php print t('Error saving {{ resources[selectedResource].bundle }}.') ?>
-        </div>
-  </div>
-</div>
-</script>
-</div>

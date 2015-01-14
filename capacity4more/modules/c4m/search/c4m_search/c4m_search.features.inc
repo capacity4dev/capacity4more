@@ -159,6 +159,9 @@ function c4m_search_default_search_api_index() {
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_date" : { "type" : "date" },
+        "c4m_datetime_end:duration" : { "type" : "duration" },
+        "c4m_datetime_end:value" : { "type" : "date" },
+        "c4m_datetime_end:value2" : { "type" : "date" },
         "c4m_discussion_type" : { "type" : "string" },
         "c4m_document_agenda" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_document_presentation" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
@@ -175,6 +178,7 @@ function c4m_search_default_search_api_index() {
         "changed" : { "type" : "date" },
         "comment_count" : { "type" : "integer" },
         "created" : { "type" : "date" },
+        "field_add_to_library" : { "type" : "boolean" },
         "group_group" : { "type" : "boolean" },
         "is_new" : { "type" : "boolean" },
         "nid" : { "type" : "integer" },
@@ -337,6 +341,19 @@ function c4m_search_default_search_api_index() {
  */
 function c4m_search_default_search_api_sort() {
   $items = array();
+  $items['c4m_search_nodes__c4m_datetime_end:value'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_nodes",
+    "field" : "c4m_datetime_end:value",
+    "name" : "Sort by Start Date",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_nodes__c4m_datetime_end:value",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "asc",
+    "options" : { "field_name" : "Date \\u00bb Start date" },
+    "rdf_mapping" : []
+  }');
   $items['c4m_search_nodes__comment_count'] = entity_import('search_api_sort', '{
     "index_id" : "c4m_search_nodes",
     "field" : "comment_count",

@@ -172,6 +172,18 @@ function drupal_make {
 }
 
 ##
+# Delete obsolete folders, like the plupload examples folder.
+##
+function delete_obsolete_folders {
+  # Cleanup the sass cache
+  if [ -d $ROOT/$PROFILE_NAME/libraries/plupload/examples ]; then
+    echo -e "${LBLUE}> Delete obsoletely downloaded plupload/examples folder.${RESTORE}"
+    rm -rf $ROOT/$PROFILE_NAME/libraries/plupload/examples
+    echo
+  fi
+}
+
+##
 # Install the profile as configured in the config.sh file.
 ##
 function install_drupal_profile {
@@ -354,7 +366,6 @@ function build_angular_app {
 
   # Build the dependencies.
   cd $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
-  bundle install
   npm install
   grunt build --show-parser-errors
   cd $ROOT

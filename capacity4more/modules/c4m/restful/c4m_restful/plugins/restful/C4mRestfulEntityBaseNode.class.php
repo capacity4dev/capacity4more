@@ -24,8 +24,9 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     // Multiple values.
     $return = array();
     foreach ($value as $value_item) {
-      // Add group ID to the field "og_vocabulary" (tags).
+      // Add group ID to the field "og_vocabulary" (categories, tags).
       if ($field_info['field_name'] == 'og_vocabulary' && is_array($value_item)) {
+        $handler = restful_get_restful_handler('tags');
         $value_item['group'] = $request['group'];
       }
       $return[] = $this->createOrUpdateSubResourceItem($value_item, $handler);
@@ -40,6 +41,11 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
    * For OG vocab fields we get only the ones of the group passed context.
    */
   protected function getFormSchemaAllowedValues($field) {
+    if ($field['field_name'] == 'c4m_related_document') {
+      // We don't need allowed values for related documents, because we are
+      // getting them from library.
+      return array();
+    }
     if ($field['field_name'] != OG_VOCAB_FIELD) {
       return parent::getFormSchemaAllowedValues($field);
     }
