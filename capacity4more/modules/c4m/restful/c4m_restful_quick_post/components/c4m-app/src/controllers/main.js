@@ -166,7 +166,7 @@ angular.module('c4mApp')
     $scope.categoryHasChildrenSelected = function(key) {
       var result = false;
       angular.forEach($scope.categories[key].children, function(child, childKey) {
-        if (data.categories[child.id] === true) {
+        if ($scope.data.categories[child.id] === true) {
           result = true;
         }
       });

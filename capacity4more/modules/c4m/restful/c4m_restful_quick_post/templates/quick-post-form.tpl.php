@@ -171,7 +171,7 @@
 
 
     <div class="selected-values" ng-show="data.categories">
-      <div class="value row" ng-show="value === true" ng-repeat="(key, value) in data.categories">
+      <div class="value row" ng-repeat="(key, value) in categories">
         <div class="parent col-sm-6">
           <span ng-show="categoryHasChildrenSelected(key)">
             {{ findLabel(categories, key) }}
