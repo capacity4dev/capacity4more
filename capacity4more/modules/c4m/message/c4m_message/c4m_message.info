@@ -61,4 +61,3 @@ features[variable][] = field_bundle_settings_message__c4m_insert__node__wiki_pag
 features[views_view][] = group_activity_stream
 features_exclude[dependencies][entity] = entity
 features_exclude[dependencies][views] = views
-mtime = 1418650226

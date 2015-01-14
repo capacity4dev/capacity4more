@@ -1,0 +1,4 @@
+name = Comment Edited
+description = Displays message after editing comments.
+core = 7.x
+dependencies[] = comment

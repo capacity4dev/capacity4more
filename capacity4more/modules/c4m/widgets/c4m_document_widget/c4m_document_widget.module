@@ -73,7 +73,6 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   unset($element['#weight']);
   $element = entityreference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'] = array('c4m_document_widget_entityreference_autocomplete_tags_validate');
-  $element['#title'] = '';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 
@@ -87,7 +86,12 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   $default_value = implode(',', $default_values[1]);
 
   $field_name = drupal_clean_css_identifier($field['field_name']);
-  $directive = theme('c4m_document_widget_document_widget', array('default_value' => $default_value, 'field_name' => $field_name));
+  $params = array(
+    'default_value' => $default_value,
+    'field_name' => $field_name,
+    'title' => $element['#title'],
+  );
+  $directive = theme('c4m_document_widget_document_widget', $params);
   $form['add_document-' . $field_name] = array(
     '#markup' => $directive,
     '#weight' => $instance['widget']['weight'],
@@ -242,6 +246,8 @@ function c4m_document_widget_theme() {
     'path' => drupal_get_path('module', 'c4m_document_widget') . '/templates',
     'variables' => array(
       'default_value' => NULL,
+      'field_name' => NULL,
+      'title' => NULL,
     ),
   );
 
@@ -378,7 +384,7 @@ function c4m_document_widget_add_document_file($file_id) {
   $context = og_context();
   if (!$context) {
     // There is no og context.
-    return;
+    return t('File @file was saved. Unable to create document outside the group', array('@file' => $file->filename));
   }
   $group_id = $context['gid'];
 

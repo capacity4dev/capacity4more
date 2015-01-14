@@ -44,7 +44,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    * {@inheritdoc}
    */
   public function prepareRow($row) {
-    parent::prepareRow($row);
+    return parent::prepareRow($row);
   }
 
   /**

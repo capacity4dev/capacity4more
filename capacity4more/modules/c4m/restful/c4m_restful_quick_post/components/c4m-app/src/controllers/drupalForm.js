@@ -98,7 +98,8 @@ angular.module('c4mApp')
      *  The name of the vocab.
      */
     $scope.updateSelectedTerms = function(key, vocab) {
-      if($scope.model[vocab][key]) {
+      if ($scope.model[vocab][key]) {
+        // Checkbox has been checked.
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
         }
@@ -107,6 +108,7 @@ angular.module('c4mApp')
         }
       }
       else {
+        // Checkbox has been unchecked.
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
         }
@@ -114,18 +116,55 @@ angular.module('c4mApp')
           angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
         }
         if (key in $scope.data[vocab]) {
+          // This is the 1st level term - should uncheck all 2 an 3 levels terms.
           angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
             var childID = child.id;
 
+            // Uncheck 2 level terms.
             if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
               $scope.model[vocab][childID] = false;
               if (vocab == 'categories') {
-                angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
+                angular.element('input[type=checkbox][value="' + childID + '"]').prop("checked", false);
               }
               else {
-                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+                angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
+              // Uncheck 3 level terms.
+              angular.forEach($scope.data[vocab][key].children[itemKey].children, function(childChild, childChildKey) {
+                var childChildID = childChild.id;
+                if (childChildID in $scope.model[vocab] && $scope.model[vocab][childChildID] === true) {
+                  $scope.model[vocab][childChildID] = false;
+                  if (vocab == 'categories') {
+                    angular.element('input[type=checkbox][value="' + childChildID + '"]').prop("checked", false);
+                  }
+                  else {
+                    angular.element('input[type=checkbox][name="' + vocab + '[und][' + childChildID + ']"]').prop("checked", false);
+                  }
+                }
+              });
             }
+          });
+        }
+        else {
+          // This was the 2 or 3 level term.
+          angular.forEach($scope.data[vocab], function(term, termKey) {
+            angular.forEach($scope.data[vocab][termKey].children, function(child, childKey) {
+              if (key == child.id) {
+                // This is the current 2 level term - should uncheck its children.
+                angular.forEach($scope.data[vocab][termKey].children[childKey].children, function(childChild, childChildKey) {
+                  var childID = childChild.id;
+                  if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
+                    $scope.model[vocab][childID] = false;
+                    if (vocab == 'categories') {
+                      angular.element('input[type=checkbox][value="' + childID + '"]').prop("checked", false);
+                    }
+                    else {
+                      angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
+                    }
+                  }
+                });
+              }
+            });
           });
         }
       }
@@ -154,14 +193,41 @@ angular.module('c4mApp')
     $document.on('keyup', function(event) {
       // 27 is the "ESC" button.
       if(event.which == 27) {
-        angular.forEach($scope.popups, function (value, key) {
-          if (name != key) {
-            this[key] = 0;
-          }
-        }, $scope.popups);
-       $scope.$digest();
+        $scope.closePopups();
       }
     });
+
+    /**
+     * Close all popovers on click outside popup box.
+     *
+     * @param event.
+     *  The click event.
+     */
+    $document.on('mousedown', function(event) {
+      // Check if we are not clicking on the popup.
+      var parents = angular.element(event.target).parents();
+      var close = true;
+      angular.forEach(parents, function(parent, id) {
+        if (parent.className.indexOf('popover') != -1) {
+          close = false;
+        }
+      });
+      // This is not button, that should open popup.
+      if (event.target.type != 'button' && close) {
+        $scope.closePopups();
+      }
+    });
+
+    /**
+     * Make all popups closed.
+     */
+    $scope.closePopups = function() {
+      $scope.$apply(function(scope) {
+        angular.forEach($scope.popups, function (value, key) {
+          this[key] = 0;
+        }, $scope.popups);
+      });
+    };
 
     /**
      * Uploading document file.
@@ -180,7 +246,8 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-file/' + fileId + '/' + fieldName + '?render=overlay');
+          var openPath = DrupalSettings.getData('purl') == $scope.basePath ? $scope.basePath : DrupalSettings.getData('purl') + '/';
+          Drupal.overlay.open(openPath + 'overlay-file/' + fileId + '?render=overlay');
         });
       }
     };

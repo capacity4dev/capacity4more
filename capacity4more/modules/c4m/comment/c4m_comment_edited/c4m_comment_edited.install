@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Database definition and install hooks.
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * Defining database fields for storing edit information.
+ */
+function c4m_comment_edited_schema() {
+  $schema = array();
+
+  $schema['c4m_comment_edited_data'] = array(
+    'fields'      => array(
+      'cid'       => array(
+        'description' => 'The id of the changed comment.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'default'     => 0,
+        'not null'    => TRUE
+      ),
+      'uid'       => array(
+        'description' => 'The id of the user who last changed the comment.',
+        'type'        => 'int',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0
+      ),
+      'timestamp' => array(
+        'description' => 'The timestamp of the last change on the comment.',
+        'type'        => 'int',
+        'not null'    => TRUE,
+        'default'     => 0
+      ),
+    ),
+    'unique keys' => array('edited_key' => array('cid')),
+    'description' => "User ID and timestamp for the last edit on a certain comment.",
+  );
+
+  return $schema;
+}
