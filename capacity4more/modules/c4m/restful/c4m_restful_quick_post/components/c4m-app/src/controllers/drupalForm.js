@@ -186,7 +186,7 @@ angular.module('c4mApp')
     };
 
     /**
-     * Check if current category has at least ont selected child.
+     * Check if current category has at least one selected child.
      *
      * @param key
      *  Category term id.
@@ -194,13 +194,13 @@ angular.module('c4mApp')
      * @returns {boolean}
      */
     $scope.categoryHasChildrenSelected = function(key) {
-      var result = false;
-      angular.forEach($scope.data.categories[key].children, function(child, childKey) {
-        if ($scope.model.categories[child.id] === true) {
-          result = true;
+      for (var i = 0; i < $scope.data.categories[key].children.length; i++) {
+        var id = $scope.categories[key].children[i].id;
+        if ($scope.model.categories[id] === true) {
+          return true;
         }
-      });
-      return result;
+      }
+      return false;
     };
 
     /**

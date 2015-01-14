@@ -207,7 +207,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   }
   $settings['c4m']['data']['tags'] = $tags;
 
-  if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
+  if (!empty($entity->og_vocabulary)) {
     $categories = c4m_vocab_widget_get_selected_values($entity, 'og_vocabulary');
     // Exclude tags from categories.
     foreach ($categories as $key => $value) {

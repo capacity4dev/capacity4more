@@ -66,13 +66,13 @@ angular.module('c4mApp')
           });
 
           if (selectedCount > 3) {
-            angular.element("#" + scope.type + "_description").addClass('tooMany');
+            angular.element("#" + scope.type + "_description").addClass('error-too-many-selected');
             if (scope.popup) {
               scope.popup = 0;
             }
           }
           else {
-            angular.element("#" + scope.type + "_description").removeClass('tooMany');
+            angular.element("#" + scope.type + "_description").removeClass('error-too-many-selected');
           }
         };
       }
