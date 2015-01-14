@@ -274,8 +274,8 @@
               <i class="fa fa-chevron-right "></i>
             </span>
           </div>
-          <div class="children col-sm-8" ng-repeat="(childkey, child) in geo[key].children">
-            <div class="row">
+          <div class="col-sm-8">
+            <div class="children row" ng-repeat="(childkey, child) in geo[key].children">
               <div class="col-sm-6" >
                 <span ng-show="data.geo[child.id] === true" >
                   <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
@@ -286,11 +286,8 @@
                   <i ng-click="removeTaxonomyValue(childChild.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, childChild.id) }}
                 </span>
               </div>
-
             </div>
-
           </div>
-
         </div>
       </div>
       <!-- Hidden geo checkboxes.-->
