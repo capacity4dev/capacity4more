@@ -41,7 +41,6 @@ angular.module('c4mApp')
           if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
             $scope.popups[field] = 0;
-            // Field is empty.
             $scope.data[field] = {};
           }
         });
