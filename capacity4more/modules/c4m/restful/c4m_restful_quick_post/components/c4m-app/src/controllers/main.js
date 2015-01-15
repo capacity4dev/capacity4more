@@ -162,6 +162,23 @@ angular.module('c4mApp')
       QuickPostService.togglePopover(name, event, $scope.popups);
     };
 
+    /**
+     * Check if current category has at least one selected child.
+     *
+     * @param key
+     *  Category term id.
+     *
+     * @returns {boolean}
+     */
+    $scope.categoryHasChildrenSelected = function(key) {
+      for (var i = 0; i < $scope.categories[key].children.length; i++) {
+        var id = $scope.categories[key].children[i].id;
+        if ($scope.data.categories[id] === true) {
+          return true;
+        }
+      }
+      return false;
+    };
 
     /**
      * Close all popovers on "ESC" key press.
