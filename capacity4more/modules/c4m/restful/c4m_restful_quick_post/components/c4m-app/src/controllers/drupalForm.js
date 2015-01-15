@@ -47,6 +47,10 @@ angular.module('c4mApp')
       $scope.popups[key] = 0;
     });
 
+    angular.forEach($scope.data.categories, function(item, value) {
+      item.selected = false;
+    });
+
     // Copy the vocabularies to another variable,
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
@@ -168,6 +172,35 @@ angular.module('c4mApp')
           });
         }
       }
+    };
+
+    /**
+     * Show or hide list of subcategories for the current category.
+     * Is called by click.
+     *
+     * @param item
+     *  Current category item.
+     */
+    $scope.updateSelected = function(item) {
+      item.selected = !item.selected;
+    };
+
+    /**
+     * Check if current category has at least one selected child.
+     *
+     * @param key
+     *  Category term id.
+     *
+     * @returns {boolean}
+     */
+    $scope.categoryHasChildrenSelected = function(key) {
+      for (var i = 0; i < $scope.data.categories[key].children.length; i++) {
+        var id = $scope.categories[key].children[i].id;
+        if ($scope.model.categories[id] === true) {
+          return true;
+        }
+      }
+      return false;
     };
 
     /**
