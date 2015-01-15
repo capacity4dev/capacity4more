@@ -112,22 +112,19 @@ function theme_c4m_ds_submitted_by_and_on($field) {
   $entity = $field['entity'];
   $user   = user_load($entity->uid);
   $name   = c4m_user_profile_name($user);
+  $options = array('attributes' => array('class' => array('user-name')));
 
-  $name = l($name, 'user/' . $user->uid);
+  $name = l($name, 'user/' . $user->uid, $options);
 
-  switch ($field['formatter']) {
-    case 'ds_time_ago':
-      $interval = REQUEST_TIME - $field['entity']->created;
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('creation-date'),
+    ),
+    '#value'     => c4m_helper_date_time_ago($entity->created, $field['formatter']),
+  );
 
-      return t('Submitted !interval ago by !user.', array('!interval' => format_interval($interval), '!user' => $name));
-    default:
-      $date_format = str_replace('ds_post_date_', '', $field['formatter']);
-
-      return t('Submitted by !user on !date.', array(
-        '!user' => $name,
-        '!date' => format_date($field['entity']->created, $date_format)
-      ));
-  }
+  return $name . theme_html_tag($tag);
 }
 
 /**

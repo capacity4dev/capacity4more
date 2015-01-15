@@ -159,22 +159,18 @@ function c4m_ds_ds_fields_info($entity_type) {
   );
 
 
-  // Created time.
-  $format_types    = system_get_date_types();
-  $date_formatters = array();
-  foreach ($format_types as $formatter) {
-    $date_formatters['ds_post_date_' . $formatter['type']] = t($formatter['title']);
-  }
-  $date_formatters = array('ds_time_ago' => t('Time ago')) + $date_formatters;
-
+  // Creation time.
   $fields['node']['c4m_ds_submitted_by_and_on'] = array(
-    'title'      => t('Submitted by %name on %date'),
+    'title'      => t('User name + creation date'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'   => array('*|*'),
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_submitted_by_and_on',
     'properties' => array(
-      'formatters' => $date_formatters,
+      'formatters' => array(
+        'j F Y' => t('Time ago or (old) date without time'),
+        'j F Y, G:i' => t('Time ago or (old) date with time')
+      ),
     ),
   );
 
