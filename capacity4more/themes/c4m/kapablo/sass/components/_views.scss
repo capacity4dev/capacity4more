@@ -4,6 +4,21 @@
     margin-bottom: 15px;
     padding-bottom: 15px;
 
+    .user-name, .field-name-c4m-ds-creation-date {
+      float: left;
+      line-height: 0.8em;
+      margin: 10px 0;
+    }
+
+    .field-name-c4m-ds-creation-date {
+      border-left: 1px solid $gray;
+      margin-left: 10px;
+      padding-left: 10px;
+    }
+    .field-name-c4m-body {
+      clear: left;
+    }
+
     &:last-child {
       border-bottom: none;
     }

@@ -73,7 +73,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_teaser_table';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -84,9 +84,25 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_author_first_and_last_name' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'user-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'j F Y',
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
@@ -165,7 +181,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -175,28 +191,12 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'links' => array(
-      'weight' => '5',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'post_date' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'ds_post_date_day',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'c4m_ds_author_first_and_last_name' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'author_link',
       'formatter_settings' => array(
@@ -210,6 +210,11 @@ function c4m_content_document_ds_field_settings_info() {
           'ow-def-at' => FALSE,
         ),
       ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'j F Y',
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
@@ -282,15 +287,17 @@ function c4m_content_document_ds_layout_settings_info() {
       'middle' => array(
         1 => 'title',
         2 => 'c4m_ds_author_first_and_last_name',
+        3 => 'c4m_ds_creation_date',
       ),
       'right' => array(
-        3 => 'c4m_document',
+        4 => 'c4m_document',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'middle',
       'c4m_ds_author_first_and_last_name' => 'middle',
+      'c4m_ds_creation_date' => 'middle',
       'c4m_document' => 'right',
     ),
     'classes' => array(),
@@ -379,7 +386,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'right' => array(
         1 => 'title',
         2 => 'c4m_ds_author_first_and_last_name',
-        3 => 'post_date',
+        3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_document',
         6 => 'links',
@@ -389,7 +396,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
-      'post_date' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'links' => 'right',

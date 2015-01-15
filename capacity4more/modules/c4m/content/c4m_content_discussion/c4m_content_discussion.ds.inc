@@ -270,22 +270,6 @@ function c4m_content_discussion_ds_field_settings_info() {
         'class' => '',
       ),
     ),
-    'post_date' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'ds_post_date_short',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'c4m_ds_author_first_and_last_name' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -304,13 +288,18 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+    ),
     'c4m_ds_content_type_icon' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -445,7 +434,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'right' => array(
         1 => 'title',
         2 => 'c4m_ds_author_first_and_last_name',
-        3 => 'post_date',
+        3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_ds_content_footer_stats',
       ),
@@ -454,7 +443,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_ds_content_type_icon' => 'left',
       'title' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
-      'post_date' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
     ),
