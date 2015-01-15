@@ -614,12 +614,12 @@ function c4m_message__insert__node($node) {
 function c4m_message__update__node($node, $account = NULL) {
   if (empty($account)) {
     global $user;
-    $account = $user;
+    $account = clone $user;
   }
 
   if ($account->uid == 0) {
     // Drush has user "0". Assign updates to the original node creator.
-    $account = user_load($node->nid);
+    $account = user_load($node->uid);
   }
 
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
