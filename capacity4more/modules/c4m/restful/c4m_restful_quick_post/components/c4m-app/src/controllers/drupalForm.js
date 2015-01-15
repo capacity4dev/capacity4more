@@ -252,7 +252,6 @@ angular.module('c4mApp')
       }
     };
 
-
     /**
      * Opens the system's file browser.
      */
