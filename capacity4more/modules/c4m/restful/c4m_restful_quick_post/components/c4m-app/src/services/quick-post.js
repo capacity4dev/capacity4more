@@ -58,6 +58,7 @@ angular.module('c4mApp')
       scope.data.location.city = '';
       scope.data.location.postal_code = '';
       scope.data.location.country_name = '';
+      scope.data.location.location_name = '';
 
       return scope;
     };

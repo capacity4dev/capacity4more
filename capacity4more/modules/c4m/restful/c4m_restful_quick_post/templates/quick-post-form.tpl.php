@@ -151,9 +151,8 @@
 <div class="form-group place btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
   <label><?php print t('Where') ?></label>
 
-  <div class="row">
-    <location data="data"></location>
-  </div>
+  <location data="data"></location>
+
   <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
 

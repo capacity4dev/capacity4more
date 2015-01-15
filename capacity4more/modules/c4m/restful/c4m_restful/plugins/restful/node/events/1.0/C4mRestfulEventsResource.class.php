@@ -135,6 +135,7 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
         'country' => $request['location']['country'],
         'latitude' => $request['location']['lat'],
         'longitude' => $request['location']['lng'],
+        'name' => $request['location']['location_name'],
       ),
     );
 
