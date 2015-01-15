@@ -131,8 +131,8 @@ projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
 projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
-projects[og][download][branch] = 12
+projects[og][download][url] = "https://github.com/Gizra/og.git"
+projects[og][download][branch] = context-access
 projects[og][subdir] = "contrib"
 projects[og][type] = "module"
 
