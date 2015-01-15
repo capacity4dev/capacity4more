@@ -133,6 +133,31 @@ function theme_c4m_ds_submitted_by_and_on($field) {
 /**
  * DS function field.
  *
+ * Render node creation date according to time ago.
+ *
+ * If timestamp is within 24h of now: Indicate the time ago:
+ *  - x seconds ago
+ *  - x minutes ago
+ *  - x hours ago
+ * If timestamp is more then 1 day go: Show as a date (with or without time):
+ * - 5 January 2015 (, 16:47)
+ * - 28 August 2014 (, 9:05)
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_creation_date($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+  return c4m_helper_date_time_ago($field['entity']->created,
+    $field['formatter']);
+}
+
+/**
+ * DS function field.
+ *
  * Render a span with the relevant content type icon.
  *
  * @param $field

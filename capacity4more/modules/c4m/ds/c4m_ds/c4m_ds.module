@@ -178,6 +178,20 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_creation_date'] = array(
+    'title'      => t('C4M creation date'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_creation_date',
+    'properties' => array(
+      'formatters' => array(
+        'j F Y' => t('Time ago or (old) date without time'),
+        'j F Y, G:i' => t('Time ago or (old) date with time')
+      ),
+    ),
+  );
+
   $fields['node']['c4m_ds_type_posted_by'] = array(
     'title'      => t('Node type posted by - on (meta)'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
