@@ -119,4 +119,3 @@ function _c4m_features_og_events_block_event_views_links() {
     'content' => $list,
   );
 }
-
