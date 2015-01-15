@@ -123,7 +123,8 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       if (rand(0, 1)) {
         // Random update between creation time and current time.
         $row->changed = rand($row->created, time());
-      } else {
+      }
+      else {
         $row->changed = $row->created;
       }
     }
