@@ -655,7 +655,7 @@ function c4m_message__update__node($node, $account = NULL) {
     else {
       // Need to create new message, not to update existing one.
       $values = array(
-        'uid' => $user->uid,
+        'uid' => $account->uid,
         'timestamp' => $node->timestamp,
       );
       $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
@@ -664,7 +664,7 @@ function c4m_message__update__node($node, $account = NULL) {
   else {
     // More than 6 hours last - need to create a new message.
     $values = array(
-      'uid' => $user->uid,
+      'uid' => $account->uid,
       'timestamp' => $node->timestamp,
     );
     $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
