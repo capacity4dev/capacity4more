@@ -75,7 +75,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
     $tag['element'] = array(
       '#tag'       => 'span',
       '#attributes' => array(
-        'class' => array('username'),
+        'class' => array('user-name'),
       ),
       '#value'     => $name,
     );
@@ -85,7 +85,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
       $tag['element'] = array(
         '#tag'       => 'span',
         '#attributes' => array(
-          'class' => array('username', 'anonymous'),
+          'class' => array('user-name', 'anonymous'),
         ),
         '#value'     => $entity->name,
       );
@@ -148,8 +148,17 @@ function theme_c4m_ds_creation_date($field) {
   if (empty($field['entity'])) {
     return;
   }
-  return c4m_helper_date_time_ago($field['entity']->created,
-    $field['formatter']);
+
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('creation-date'),
+    ),
+    '#value'     => c4m_helper_date_time_ago($field['entity']->created,
+      $field['formatter']),
+  );
+
+  return theme_html_tag($tag);
 }
 
 /**

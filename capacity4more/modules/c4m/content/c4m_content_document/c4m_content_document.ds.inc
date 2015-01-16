@@ -89,13 +89,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'user-name',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -103,6 +97,11 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
@@ -189,13 +188,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'user-name',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -203,6 +196,11 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
