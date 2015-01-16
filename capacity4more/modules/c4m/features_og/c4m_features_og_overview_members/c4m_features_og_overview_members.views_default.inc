@@ -112,7 +112,7 @@ function c4m_features_og_overview_members_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'thumbnail',
+    'image_style' => 'c4m_user_author_thumb_image',
     'image_link' => '',
   );
   /* Field: User: First Name */
