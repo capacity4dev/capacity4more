@@ -77,8 +77,8 @@ before_script:
   # Install Tika.
   - mkdir -p $TRAVIS_BUILD_DIR/tika
   - cd $TRAVIS_BUILD_DIR/tika
-  - wget http://www.eu.apache.org/dist/tika/tika-app-1.6.jar
-  - chmod +x ./tika-app-1.6.jar
+  - wget http://archive.apache.org/dist/tika/tika-app-1.7.jar
+  - chmod +x ./tika-app-*.jar
   - cd $TRAVIS_BUILD_DIR
 
   # Install capacity4more profile.
