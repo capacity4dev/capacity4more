@@ -1,9 +1,11 @@
 .right {
   .panel-pane {
-    border-left: 1px solid $gray-dark;
+    @media screen and (min-width: $screen-sm-min) {
+      border-left: 1px solid $gray-dark;
+      margin-left: 15px;
+      padding: 0 0 5px 15px;
+    }
     margin-bottom: 50px;
-    margin-left: 15px;
-    padding: 0 0 5px 15px;
 
     h2 {
       border-bottom: 2px dashed $gray-dark;
@@ -36,3 +38,4 @@ h2 {
     color: $brown;
   }
 }
+
