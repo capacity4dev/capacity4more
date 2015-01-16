@@ -50,12 +50,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-pCEQqOSjbuaFLdY30eZA5OBNq2HlCyR7' => array(
-          'module' => 'facetapi',
-          'delta' => 'pCEQqOSjbuaFLdY30eZA5OBNq2HlCyR7',
-          'region' => 'sidebar_first',
-          'weight' => '-9',
-        ),
         'facetapi-U2RdpobygmZU7ZqgOAKBurq0NTgFuZ10' => array(
           'module' => 'facetapi',
           'delta' => 'U2RdpobygmZU7ZqgOAKBurq0NTgFuZ10',
