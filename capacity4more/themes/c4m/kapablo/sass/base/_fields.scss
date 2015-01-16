@@ -101,19 +101,16 @@
   }
 }
 
-.field-name-c4m-ds-author-first-and-last-name {
-  color: $blue;
+.user-name {
   display: inline-block;
+  line-height: 0.8em;
 
-  & + .field-name-post-date {
-    color: $blue;
+  & + .creation-date {
     display: inline-block;
-
-    &:before {
-      color: $blue;
-      content: '|';
-      margin: 0 10px;
-    }
+    border-left: 1px solid $gray;
+    margin-left: 10px;
+    padding-left: 10px;
+    line-height: 0.8em;
   }
 }
 
