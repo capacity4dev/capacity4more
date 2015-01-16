@@ -70,14 +70,14 @@ function c4m_user_profile_name($user) {
     return t('Anonymous');
   }
 
-  $fullname = $wrapper->c4m_first_name->value() . ' '
-    . $wrapper->c4m_last_name->value();
+  $fullname = trim($wrapper->c4m_first_name->value()) . ' '
+    . trim($wrapper->c4m_last_name->value());
 
   if (!trim($fullname)) {
     $fullname = $user->name;
   }
 
-  return $fullname;
+  return trim($fullname);
 }
 
 /**
