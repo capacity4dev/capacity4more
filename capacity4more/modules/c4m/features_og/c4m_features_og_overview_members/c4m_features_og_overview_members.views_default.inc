@@ -228,6 +228,7 @@ function c4m_features_og_overview_members_views_default_views() {
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['defaults']['use_more_text'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'Show all members';
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
@@ -243,6 +244,17 @@ function c4m_features_og_overview_members_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: User: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'users';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = '';
+  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uid']['alter']['trim_whitespace'] = TRUE;
+  $handler->display->display_options['fields']['uid']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['uid']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
   /* Field: Field: Image */
   $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
   $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
@@ -276,7 +288,7 @@ function c4m_features_og_overview_members_views_default_views() {
     3 => 0,
     7 => 0,
   );
-  $handler->display->display_options['block_caching'] = '4';
+  $handler->display->display_options['block_caching'] = '-1';
   $export['c4m_overview_og_members'] = $view;
 
   return $export;
