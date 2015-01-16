@@ -86,6 +86,7 @@ function kapablo_preprocess_page(&$variables) {
  */
 function kapablo_preprocess_field(&$variables, $hook) {
   $element = $variables['element'];
+
   switch ($element['#field_name']) {
     case 'c4m_ds_group_access_info':
       $group = $element['#object'];
@@ -171,4 +172,60 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
   }
 
   return $replace;
+}
+
+/**
+ * Implements template_preprocess_views_view_fields().
+ *
+ * @param $vars
+ */
+function kapablo_preprocess_views_view_fields(&$vars) {
+  $view = $vars['view'];
+
+  switch ($view->name) {
+    case 'c4m_overview_og_members':
+      $fields = $vars['fields'];
+      if (!empty($fields['c4m_media'])) {
+        $value = strip_tags($fields['c4m_media']->content, '<a><img>');
+        if (empty($value)) {
+          $uid = $fields['c4m_media']->raw;
+          $fields['c4m_media']->content = c4m_user_profile_initials_themed(user_load($uid));
+          $vars['fields'] = $fields;
+        }
+      }
+
+      break;
+  }
+}
+
+/**
+ * Implements template_preprocess_views_view_table().
+ *
+ * @param $vars
+ */
+function kapablo_preprocess_views_view_table(&$vars) {
+  $view = $vars['view'];
+
+  switch ($view->name) {
+    case 'c4m_overview_og_members':
+      $rows = $vars['rows'];
+      $result = $vars['result'];
+
+      if (empty($result) || empty($rows)) {
+        return;
+      }
+
+      foreach ($rows as $key => $row) {
+        if (empty($row['c4m_media'])) {
+          $uid = $result[$key]->uid;
+
+          $row['c4m_media'] = c4m_user_profile_initials_themed(user_load($uid), FALSE);
+
+          $vars['rows'][$key] = $row;
+        }
+      }
+
+
+      break;
+  }
 }
