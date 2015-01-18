@@ -73,7 +73,7 @@ trait Group {
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $options = array_merge($options, array('purl' => $purl));
+    $options = array_merge($options, array('purl' => $purl, 'absolute' => FALSE));
     $uri = ltrim(url($path, $options), '/');
 
     return $uri;
@@ -231,5 +231,36 @@ trait Group {
     if (!$found) {
       throw new \Exception("No $text link found on group menu.");
     }
+  }
+
+  /**
+   * @When /^I change access of group "([^"]*)" to "([^"]*)"$/
+   */
+  public function iChangeAccessOfGroupTo($title, $access) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select the radio button "' . $access . '"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I should not see "Group access"');
+    $steps[] = new Step\When('I should not see "There was an error"');
+    return $steps;
+  }
+  /**
+   * @Given /^I change access of group "([^"]*)" to Restricted with "([^"]*)" restriction$/
+   */
+  public function iChangeAccessOfGroupToRestrictedWithRestriction($title, $domain) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select the radio button "Restricted"');
+    $steps[] = new Step\When('I fill in "restricted_by_domain" with "' . $domain . '"');
+    $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I should not see "Group access"');
+    $steps[] = new Step\When('I should not see "There was an error"');
+    return $steps;
   }
 }
