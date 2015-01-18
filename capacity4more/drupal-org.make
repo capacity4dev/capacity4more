@@ -62,6 +62,9 @@ projects[entityreference_prepopulate][version] = "1.5"
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
+projects[facetapi_bonus][subdir] = "contrib"
+projects[facetapi_bonus][version] = "1.1"
+
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.3"
 
