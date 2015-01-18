@@ -163,7 +163,6 @@ function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, 
  * Attach Angular application to the page.
  */
 function c4m_restful_quick_post_preprocess_html(&$vars) {
-  drupal_static_reset('menu_get_item');
   $item = menu_get_item();
 
   $allowed_paths = array(
