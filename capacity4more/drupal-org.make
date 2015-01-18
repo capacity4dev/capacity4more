@@ -219,7 +219,9 @@ projects[weight][version] = "2.4"
 ; Development modules
 ; Modules
 projects[devel][subdir] = "development"
-;projects[coder][subdir] = "development"
+
+projects[coder][subdir] = "development"
+projects[coder][version] = "2.4"
 
 projects[migrate][version] = "2.5"
 projects[migrate][subdir] = "development"
