@@ -9,4 +9,5 @@ dependencies[] = ctools
 features[context][] = c4m_context_og_hide_main_navigation
 features[ctools][] = context:context:3
 features[features_api][] = api:2
+files[] = c4m_og_access_plugin.inc
 mtime = 1420555991
