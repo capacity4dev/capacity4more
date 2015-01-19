@@ -375,6 +375,14 @@ angular.module('c4mApp')
       }
     };
 
+    $scope.removeFile = function() {
+      angular.element('#document_file').val('');
+      $scope.data.document = null;
+      delete $scope.data.fileName;
+      delete $scope.serverSide.file;
+
+    };
+
     /**
      * Opens the system's file browser.
      */

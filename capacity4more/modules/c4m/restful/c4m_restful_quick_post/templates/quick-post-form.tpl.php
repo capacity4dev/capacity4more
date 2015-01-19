@@ -31,7 +31,7 @@
   <div ng-show="serverSide.file.status == 200">
     <div class="alert alert-success">
       <?php print t('The document "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
-      <button ng-click="removeFile();"><?php print t('Remove the file.'); ?></button>
+      <input type="button" ng-click="removeFile();" value="<?php print t('Remove the file.'); ?>">
     </div>
   </div>
 
