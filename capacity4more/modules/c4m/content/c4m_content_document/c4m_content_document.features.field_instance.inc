@@ -503,6 +503,12 @@ function c4m_content_document_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -552,7 +558,7 @@ function c4m_content_document_field_default_field_instances() {
   $field_instances['node-document-og_group_ref'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
-    'default_value_function' => '',
+    'default_value_function' => 'entityreference_prepopulate_field_default_value',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -593,6 +599,7 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 17,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'og_group_ref',
     'label' => 'Groups',
@@ -600,6 +607,7 @@ function c4m_content_document_field_default_field_instances() {
     'settings' => array(
       'behaviors' => array(
         'og_widget' => array(
+          'access_override' => 0,
           'admin' => array(
             'widget_type' => 'entityreference_autocomplete',
           ),
@@ -609,7 +617,15 @@ function c4m_content_document_field_default_field_instances() {
           'status' => TRUE,
         ),
         'prepopulate' => array(
-          'status' => 0,
+          'action' => 'hide',
+          'action_on_edit' => 0,
+          'fallback' => 'none',
+          'providers' => array(
+            'og_context' => 1,
+            'url' => 0,
+          ),
+          'skip_perm' => 0,
+          'status' => 1,
         ),
       ),
       'user_register_form' => FALSE,
@@ -702,6 +718,7 @@ function c4m_content_document_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Add to library');
   t('Date');
   t('Description');
   t('Document');
