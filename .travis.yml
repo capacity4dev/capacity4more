@@ -46,7 +46,7 @@ install:
   # Install Coder for code standard reviews.
   - cd $TRAVIS_BUILD_DIR
   - composer global require drupal/coder:\>7
-  - drush pm-download coder --destination=$HOME/.drush
+  - drush pm-download coder --dev --destination=$HOME/.drush
   - phpenv rehash
   - drush cache-clear drush
 

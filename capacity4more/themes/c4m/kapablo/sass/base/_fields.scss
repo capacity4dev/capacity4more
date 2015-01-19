@@ -31,6 +31,24 @@
   color: $blue;
 }
 
+.user-name-and-creation {
+  margin: 10px 0;
+  padding-bottom: 10px;
+  .label-inline , .user-name, .creation-date {
+    float: left;
+    line-height: 0.8em;
+  }
+  .user-name {
+    margin: 0px 5px;
+  }
+
+  .creation-date {
+    margin-left: 10px;
+    border-left: 1px solid $gray;
+    padding-left: 10px;
+  }
+}
+
 .node-icon {
   background-position: 50% 50%;
   background-repeat: no-repeat;
