@@ -618,7 +618,7 @@ function c4m_content_document_field_default_field_instances() {
         ),
         'prepopulate' => array(
           'action' => 'hide',
-          'action_on_edit' => 0,
+          'action_on_edit' => 1,
           'fallback' => 'none',
           'providers' => array(
             'og_context' => 1,
