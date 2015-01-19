@@ -375,6 +375,9 @@ angular.module('c4mApp')
       }
     };
 
+    /**
+     * Remove uploasded file.
+     */
     $scope.removeFile = function() {
       angular.element('#document_file').val('');
       $scope.data.document = null;
