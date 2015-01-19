@@ -31,6 +31,12 @@
   color: $blue;
 }
 
+.date {
+  .label-inline {
+    margin-right: 5px;
+  }
+}
+
 .user-name-and-creation {
   margin: 10px 0;
   padding-bottom: 10px;
