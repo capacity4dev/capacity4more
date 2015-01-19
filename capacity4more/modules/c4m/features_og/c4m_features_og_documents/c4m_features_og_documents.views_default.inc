@@ -97,6 +97,8 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['arguments']['og_group_ref']['default_action'] = 'default';
   $handler->display->display_options['arguments']['og_group_ref']['default_argument_type'] = 'og_context';
   $handler->display->display_options['arguments']['og_group_ref']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_group_ref']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['og_group_ref']['validate']['type'] = 'numeric';
   $handler->display->display_options['arguments']['og_group_ref']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['og_group_ref']['not'] = 0;
   /* Filter criterion: Node is published */
