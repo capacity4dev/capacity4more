@@ -232,4 +232,22 @@ trait Group {
       throw new \Exception("No $text link found on group menu.");
     }
   }
+
+  /**
+   * @When /^I start creating "([^"]*)" "([^"]*)" in group "([^"]*)"$/
+   */
+  public function iStartCreatingInGroup($bundle, $title, $group_title) {
+    $steps = array();
+
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+
+
+    return $steps;
+  }
+
 }
