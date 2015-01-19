@@ -135,7 +135,7 @@ projects[node_gallery][version] = "1.1"
 
 projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
-projects[og][download][branch] = 12
+projects[og][download][branch] = content-privacy-change
 projects[og][subdir] = "contrib"
 projects[og][type] = "module"
 
@@ -156,7 +156,7 @@ projects[pathauto][version] = "1.2"
 
 projects[pluggable_node_access][download][type] = "git"
 projects[pluggable_node_access][download][url] = "https://github.com/HelenaEksler/pluggable_node_access.git"
-projects[pluggable_node_access][download][branch] = 20
+projects[pluggable_node_access][download][branch] = 16
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
@@ -218,7 +218,9 @@ projects[weight][version] = "2.4"
 ; Development modules
 ; Modules
 projects[devel][subdir] = "development"
+
 projects[coder][subdir] = "development"
+projects[coder][version] = "2.4"
 
 projects[migrate][version] = "2.5"
 projects[migrate][subdir] = "development"
