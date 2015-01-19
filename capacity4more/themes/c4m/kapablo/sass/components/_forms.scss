@@ -33,10 +33,21 @@ form {
 
   .form-item-pluggable-group-access {
     label {
+      //      background-repeat: no-repeat;
+      //      background-position: 0 0;
+      //      background-size: 1em;
+      ////      font-weight: lighter;
+      //      padding-left: 30px;
+      ////      text-transform: uppercase;
+      //
+      //      &[for='edit-pluggable-group-access-public'] {
+      //          background-image: image-url('group-icons/public.png');
+      //      }
+      //
+      //      input {
+      //        margin-left: -50px;
+      //      }
 
-      &[for='edit-pluggable-group-access-public'] {
-        // Private icon
-      }
     }
   }
 }
@@ -94,6 +105,52 @@ input[type="checkbox"] {
   &:checked {
     &:before {
       @include image-icon-png-fallback('icons', 'checkmark');
+    }
+  }
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+  background: none !important;
+}
+
+.form-control.select2-container {
+  &:not(.select2-dropdown-open) {
+    background: none;
+  }
+
+  &.select2-dropdown-open {
+    @include box-shadow(none);
+    @include border-radius(15px 15px 0 0);
+  }
+  .select2-choices {
+    @include box-shadow(none);
+    @include input-rounded($beige);
+  }
+  .select2-search-choice {
+    @include box-shadow(none);
+    @include border-radius(15px);
+
+    background-image: none;
+    background: $white;
+    border: 0;
+    margin: 7px 0 7px 7px;
+    padding: 3px 18px 3px 5px;
+  }
+  .select2-search-choice-close {
+    left: auto;
+    right: 3px;
+  }
+}
+
+.select2-drop-active, .select2-drop {
+  @include border-radius(0 0 15px 15px);
+  @include box-shadow(none);
+  border: 1px solid $beige;
+
+  .select2-results {
+    li {
+      background: none;
+      color: $gray-dark;
     }
   }
 }
