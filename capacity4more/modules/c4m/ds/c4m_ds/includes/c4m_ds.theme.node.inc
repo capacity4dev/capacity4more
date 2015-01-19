@@ -215,8 +215,11 @@ function theme_c4m_ds_type_posted_by($field) {
   $entity = $field['entity'];
 
   $tag['element'] = array(
-    '#tag'   => 'div',
-    '#value' => t('@entity_label posted by', array('@entity_label' => ucwords(c4m_helper_entity_get_entity_type_label($entity)))),
+    '#tag'   => 'span',
+    '#attributes' => array(
+      'class' => array('posted-by'),
+    ),
+    '#value' => t('@entity_label', array('@entity_label' => ucfirst(c4m_helper_entity_get_entity_type_label($entity)))),
   );
 
   return theme_html_tag($tag);

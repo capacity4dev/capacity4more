@@ -160,6 +160,19 @@ function c4m_ds_ds_fields_info($entity_type) {
 
 
   // Creation time.
+  $format_types    = system_get_date_types();
+  $date_formatters = array();
+  foreach (system_get_date_formats() as $type => $format) {
+    // Only use date format types from C4M.
+    if (FALSE === strpos($type, 'c4m', 0)) {
+      continue;
+    }
+    foreach($format as $format_instance) {
+      $date_formatters[$format_instance['format']] = t("Time ago or date format '!date'",
+        array('!date' => $format_types[$type]['title'] . ' (' . $format_instance['format'] . ')'));
+    }
+  }
+
   $fields['node']['c4m_ds_submitted_by_and_on'] = array(
     'title'      => t('User name + creation date'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -167,10 +180,7 @@ function c4m_ds_ds_fields_info($entity_type) {
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_submitted_by_and_on',
     'properties' => array(
-      'formatters' => array(
-        'j F Y' => t('Time ago or (old) date without time'),
-        'j F Y, G:i' => t('Time ago or (old) date with time')
-      ),
+      'formatters' => $date_formatters,
     ),
   );
 
@@ -181,10 +191,7 @@ function c4m_ds_ds_fields_info($entity_type) {
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_creation_date',
     'properties' => array(
-      'formatters' => array(
-        'j F Y' => t('Time ago or (old) date without time'),
-        'j F Y, G:i' => t('Time ago or (old) date with time')
-      ),
+      'formatters' => $date_formatters,
     ),
   );
 

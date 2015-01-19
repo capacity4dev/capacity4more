@@ -1,5 +1,40 @@
 <?php
 
+include_once 'c4m_helper_date.features.inc';
+
+/**
+ * Implementation of hook_date_format_types
+ *
+ * @return array
+ */
+function c4m_helper_date_date_format_types() {
+  // Define the core date format types.
+  return array(
+    'c4m_long_without_time' => t('C4M long without time'),
+    'c4m_long_with_time' => t('C4M long with time'),
+  );
+}
+
+/**
+ * Implementation of hook_data_formats()
+ *
+ * @return array
+ */
+function c4m_helper_date_date_formats() {
+  return array(
+    array(
+      'type' => 'c4m_long_without_time',
+      'format' => 'j F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'c4m_long_with_time',
+      'format' => 'j F Y, G:i',
+      'locales' => array(),
+    ),
+  );
+}
+
 /**
  * Helper function to render timestamp as date or time ago depending on the
  * time which his passed since.

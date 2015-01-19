@@ -93,27 +93,29 @@ function c4m_content_discussion_ds_field_settings_info() {
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lbw-el' => 'span',
-          'lbw-cl' => 'user-name',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'user-name',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '11',
+      'weight' => '10',
       'label' => 'hidden',
-      'format' => 'j F Y',
+      'format' => 'j F Y, G:i',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_ds_type_posted_by' => array(
       'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_ds_content_type_icon' => array(
       'weight' => '0',
@@ -370,8 +372,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
         7 => 'c4m_ds_node_author_image',
         8 => 'c4m_ds_type_posted_by',
         9 => 'group_node_details',
-        10 => 'c4m_related_topic',
-        11 => 'c4m_ds_author_first_and_last_name',
+        10 => 'c4m_ds_author_first_and_last_name',
+        11 => 'c4m_related_topic',
         12 => 'og_vocabulary',
         13 => 'c4m_ds_creation_date',
         14 => 'c4m_vocab_date',
@@ -390,8 +392,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_ds_node_author_image' => 'right',
       'c4m_ds_type_posted_by' => 'right',
       'group_node_details' => 'right',
-      'c4m_related_topic' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_related_topic' => 'right',
       'og_vocabulary' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_vocab_date' => 'right',

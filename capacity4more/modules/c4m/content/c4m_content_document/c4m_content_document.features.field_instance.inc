@@ -520,7 +520,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 20,
       ),
       'library' => array(
         'label' => 'above',
