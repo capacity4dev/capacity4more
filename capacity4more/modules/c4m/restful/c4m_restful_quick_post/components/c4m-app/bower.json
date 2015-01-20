@@ -21,7 +21,6 @@
     "angular": "~1.2.16",
     "ng-prettyjson": "~0.1.3",
     "ng-ckeditor": "latest",
-    "components-font-awesome": "latest",
     "angular-ui-select2": "~0.0.5",
     "angular-bootstrap": "~0.11.0",
     "danialfarid-angular-file-upload": "~1.4.0",
