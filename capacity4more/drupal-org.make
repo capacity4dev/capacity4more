@@ -62,6 +62,9 @@ projects[entityreference_prepopulate][version] = "1.5"
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
+projects[facetapi_bonus][subdir] = "contrib"
+projects[facetapi_bonus][version] = "1.1"
+
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.3"
 
@@ -215,7 +218,9 @@ projects[weight][version] = "2.4"
 ; Development modules
 ; Modules
 projects[devel][subdir] = "development"
+
 projects[coder][subdir] = "development"
+projects[coder][version] = "2.x-dev"
 
 projects[migrate][version] = "2.5"
 projects[migrate][subdir] = "development"
