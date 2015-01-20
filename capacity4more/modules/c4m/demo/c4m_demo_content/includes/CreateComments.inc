@@ -16,10 +16,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
     array('pid', 'Parent'),
     array('status', 'Status'),
     array('node_id', 'NID'),
-    array('name', 'Name'),
-    array('mail', 'Email'),
     array('uid', 'UID'),
-    array('subject', 'Subject'),
     array('comment_body', 'Body'),
   );
 
@@ -47,7 +44,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
       array('@type' => $this->entityType, '@bundle' => $this->bundle)
     );
 
-    $this->addSimpleMappings(array('name', 'mail', 'subject', 'created'));
+    $this->addSimpleMappings(array('created', 'changed'));
 
     $this->addFieldMapping('status', 'status')
       ->defaultValue(COMMENT_PUBLISHED);
@@ -105,6 +102,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
       // Create a random timestamp from the last year.
       $year_ago = time() - 3600 * 24 * 365;
       $row->created = rand($year_ago, time());
+      $row->changed = $row->created;
     }
 
     return TRUE;
@@ -153,5 +151,59 @@ abstract class C4mDemoContentCreateComments extends Migration {
     }
 
     return $filtered_ids;
+  }
+
+
+  /**
+   * Actions after the data is saved in the database.
+   *
+   * @param object $entity
+   *   The entity that is saved into the platform.
+   * @param object $row
+   *   The data row we are importing.
+   */
+  public function complete($entity, $row) {
+    // Make sure the messages have the proper timestamp.
+    $this->messageInsertSave($entity, $row);
+  }
+
+  /**
+   * Reset the $message->timestamp of any related insert message (if any).
+   *
+   * @param object $entity
+   *   Comment object we want to set the message timestamp for.
+   * @param object $row
+   *   The source data of the migrated entity.
+   */
+  public function messageInsertSave($comment, $row) {
+    if (!module_exists('c4m_message')) {
+      return;
+    }
+
+    // Load the message(s).
+    $message_type = 'c4m_insert__comment';
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->propertyCondition('type', $message_type)
+      ->fieldCondition('field_node', 'target_id', $comment->nid)
+      ->fieldCondition('field_comment', 'target_id', $comment->cid)
+      ->execute();
+
+    if (empty($result['message'])) {
+      return;
+    }
+
+    // Update the timestamp.
+    $message_ids = array_keys($result['message']);
+    foreach ($message_ids as $message_id) {
+      $message = message_load($message_id);
+      if (!$message) {
+        continue;
+      }
+
+      $message->timestamp = $row->created;
+      message_save($message);
+    }
   }
 }

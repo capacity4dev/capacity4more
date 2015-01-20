@@ -66,7 +66,7 @@ function c4m_message_entity_load($entities, $entity_type) {
 
   foreach ($entities as $entity) {
 
-    list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+    list(, , $bundle) = entity_extract_ids($entity_type, $entity);
     $func = 'c4m_message_load__' . $bundle;
 
     if (function_exists($func)) {
@@ -123,7 +123,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   $message = NULL;
 
   $func = 'c4m_message__' . $op . '__' . $entity_type;
-  list(,, $bundle) = entity_extract_ids($entity_type, $entity);
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
   $bundle_func = $func . '__' . $bundle;
 
   if (function_exists($bundle_func)) {
@@ -167,6 +167,7 @@ function c4m_message_load_general_arguments(Message $message) {
  *
  * @param Message $message
  *   The Message entity.
+ *
  * @return string
  *   The formatted date.
  */
@@ -485,6 +486,7 @@ function c4m_message_format_rendered_node(Message $message) {
  * Return the body of the comment.
  *
  * @param Message $message
+ *
  * @return string
  */
 function c4m_message_format_rendered_comment(Message $message) {
@@ -603,14 +605,24 @@ function c4m_message__insert__node($node) {
 /**
  * Updating a node message.
  *
- * @param $node
- *   The  node object.
+ * @param object $node
+ *   The node object.
+ * @param object $account
+ *   The user object.
  *
  * @return Message
  *   The non-saved message entity, or NULL if update shouldn't occur.
  */
-function c4m_message__update__node($node) {
-  global $user;
+function c4m_message__update__node($node, $account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = clone $user;
+  }
+
+  if ($account->uid == 0) {
+    // Drush has user "0". Assign updates to the original node creator.
+    $account = user_load($node->uid);
+  }
 
   $time_since = time() - variable_get('c4m_message_join_messages', '3600');
   // Load existing message that is not older then 6 hours for the current node.
@@ -645,19 +657,19 @@ function c4m_message__update__node($node) {
     else {
       // Need to create new message, not to update existing one.
       $values = array(
-        'uid' => $user->uid,
+        'uid' => $account->uid,
         'timestamp' => $node->timestamp,
       );
-      $message = message_create('c4m_insert__node__' . $node->type, $values);
+      $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
     }
   }
   else {
     // More than 6 hours last - need to create a new message.
     $values = array(
-      'uid' => $user->uid,
+      'uid' => $account->uid,
       'timestamp' => $node->timestamp,
     );
-    $message = message_create('c4m_insert__node__' . $node->type, $values);
+    $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
   }
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
@@ -670,9 +682,9 @@ function c4m_message__update__node($node) {
  *
  * @param Message $message
  *    The message entity.
- * @param $entity_type
+ * @param         $entity_type
  *    The entity type.
- * @param $entity
+ * @param         $entity
  *    The Entity for we create/update message.
  */
 function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
@@ -771,8 +783,8 @@ function c4m_message_preprocess_node__event(&$variables) {
   $start = $node_wrapper->c4m_datetime_end->value->value();
   $end = $node_wrapper->c4m_datetime_end->value2->value();
 
-  $start_date = format_date($start ,'custom', 'd/m/Y');
-  $end_date = format_date($end ,'custom', 'd/m/Y');
+  $start_date = format_date($start, 'custom', 'd/m/Y');
+  $end_date = format_date($end, 'custom', 'd/m/Y');
 
   $start_date_time = format_date($start ,'custom', 'd/m/Y H:i');
   $end_date_time = $start_date == $end_date ? format_date($end ,'custom', 'H:i') : format_date($end ,'custom', 'd/m/Y H:i');
@@ -786,10 +798,10 @@ function c4m_message_preprocess_node__event(&$variables) {
  */
 function c4m_message_theme($existing, $type, $theme, $path) {
   return array(
-    'c4m_message_entity_views'  => array(
+    'c4m_message_entity_views' => array(
       'variables' => array('count' => '0'),
     ),
-    'c4m_message_entity_comments'  => array(
+    'c4m_message_entity_comments' => array(
       'variables' => array('count' => '0'),
     ),
   );
@@ -803,7 +815,8 @@ function c4m_message_theme($existing, $type, $theme, $path) {
  * @return string
  */
 function theme_c4m_message_entity_views($variables) {
-  return '<span class="row-entity-count count-views">' . $variables['count'] . '</span>';
+  return '<span class="row-entity-count count-views">' . $variables['count']
+  . '</span>';
 }
 
 
@@ -815,5 +828,6 @@ function theme_c4m_message_entity_views($variables) {
  * @return string
  */
 function theme_c4m_message_entity_comments($variables) {
-  return '<span class="row-entity-count count-comments">' . $variables['count'] . '</span>';
+  return '<span class="row-entity-count count-comments">' . $variables['count']
+  . '</span>';
 }

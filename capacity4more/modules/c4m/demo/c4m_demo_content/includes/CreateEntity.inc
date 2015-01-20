@@ -51,6 +51,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       case 'node':
         $this->addFieldMapping('title', 'title');
         $this->addFieldMapping('created', 'created');
+        $this->addFieldMapping('changed', 'changed');
         $this->addFieldMapping('promote', 'promote');
         $class_name = 'MigrateDestinationNode';
         $this->postConstruct($class_name);
@@ -117,6 +118,15 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       // Create a random timestamp from the last year.
       $year_ago = time() - 3600 * 24 * 365;
       $row->created = rand($year_ago, time());
+
+      // Give some content some updates.
+      if (rand(0, 1)) {
+        // Random update between creation time and current time.
+        $row->changed = rand($row->created, time());
+      }
+      else {
+        $row->changed = $row->created;
+      }
     }
 
     return TRUE;
@@ -402,8 +412,11 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
   /**
    * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
-   *
+
    * @param $sourcefield
+   * @param $vocabname
+   *
+   * @return array
    */
   public function mapTaxonomyVocab($sourcefield, $vocabname) {
     $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
@@ -424,6 +437,8 @@ abstract class C4mDemoContentCreateEntity extends Migration {
         return $tids;
       }
     }
+
+    return array();
   }
 
   /**
