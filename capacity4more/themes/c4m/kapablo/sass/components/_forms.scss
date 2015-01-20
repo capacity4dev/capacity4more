@@ -50,9 +50,14 @@
 
       }
     }
+
+    .form-autocomplete .input-group-addon {
+      background: $beige;
+      border: none;
+    }
   }
 
-  input[type="radio"] {
+  input[type="radio"]:not(old) {
     @include border-radius(10px);
 
     background-color: $beige;
@@ -63,24 +68,24 @@
     position: relative;
     width: 15px;
     -webkit-appearance: none;
+
+    &:after {
+      @include border-radius(25px);
+      content: '';
+      display: block;
+      height: 7px;
+      left: 4px;
+      position: relative;
+      top: 4px;
+      width: 7px;
+    }
+
+    &:checked:after {
+      background-color: $gray-dark;
+    }
   }
 
-  input[type="radio"]:after {
-    @include border-radius(25px);
-    content: '';
-    display: block;
-    height: 7px;
-    left: 4px;
-    position: relative;
-    top: 4px;
-    width: 7px;
-  }
-
-  input[type="radio"]:checked:after {
-    background-color: $gray-dark;
-  }
-
-  input[type="checkbox"] {
+  input[type="checkbox"]:not(old) {
     visibility: hidden;
 
     &:before {
@@ -132,7 +137,7 @@
 
       background-image: none;
       background: $white;
-      border: 0;
+      border: none;
       margin: 7px 0 7px 7px;
       padding: 3px 18px 3px 5px;
     }
