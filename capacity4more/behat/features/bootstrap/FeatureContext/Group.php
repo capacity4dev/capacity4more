@@ -73,7 +73,7 @@ trait Group {
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $options = array_merge($options, array('purl' => $purl, 'absolute' => FALSE));
+    $options = array_merge($options, array('purl' => $purl));
     $uri = ltrim(url($path, $options), '/');
 
     return $uri;
