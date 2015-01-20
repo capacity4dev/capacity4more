@@ -3,7 +3,22 @@ Feature: Group Events
   In order to see and search into all events
   I need to be able to see an upcoming events overview page
   I need to be able to see a past events overview page
+  I need to be able to see the events landing page
   I need to be able to see an event detail page
+
+  @api
+  Scenario: Check events landing page as an anonymous user
+    Given I am an anonymous user
+    When I visit the events landing page of group "Nobel Prize"
+    Then I should see an upcoming and past events block
+    And I should not see the "Add an event" link above the overview
+
+  @api
+  Scenario: Check events landing page as group owner
+    Given I am logged in as user "alfrednobel"
+    When I visit the events landing page of group "Nobel Prize"
+    Then I should see an upcoming and past events block
+    And I should see the "Add an event" link above the overview
 
   @api
   Scenario: Check upcoming events overview as an anonymous user

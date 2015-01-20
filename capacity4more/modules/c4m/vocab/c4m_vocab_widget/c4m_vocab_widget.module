@@ -162,6 +162,7 @@ function c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name)
  */
 function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
   $options = array();
+  $children = array();
   foreach($terms as $term) {
     // If the term is array, this vocab is of type "node".
     if(is_array($term)) {
@@ -178,11 +179,40 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
         $options[$term->tid]['id'] = $term->tid;
       }
       else {
-        // This is the child term - add it to the children of the parent term.
-        $options[$parents[0]]['children'][] = array(
-          'label' => check_plain($term->name),
-          'id' => $term->tid,
-        );
+        $id = $parents[0];
+        $parent = array_filter($terms, function ($item) use ($id) {
+          return $item->tid == $id;
+        });
+
+        $parent_term = reset($parent);
+        $mid_parent = $parent_term->parents;
+
+        if ($mid_parent[0] == '0') {
+          // This is the child term of the main parent term - add it to the
+          // children of the main parent term.
+          $options[$parents[0]]['children'][] = array(
+            'label' => check_plain($term->name),
+            'id' => $term->tid,
+          );
+        }
+        else {
+          // This is the child term of the child term - save it in the array.
+          $children[$id]['children'][] = array(
+            'label' => check_plain($term->name),
+            'id' => $term->tid,
+          );
+        }
+      }
+    }
+  }
+
+  // Put 3 level child terms into the corresponding 2 level term's children.
+  foreach ($options as $key => $term) {
+    if (!empty($term['children'])) {
+      foreach ($term['children'] as $child_key => $child) {
+        if (!empty($children[$child['id']])) {
+          $options[$key]['children'][$child_key]['children'] = $children[$child['id']]['children'];
+        }
       }
     }
   }

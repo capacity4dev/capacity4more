@@ -47,6 +47,10 @@ angular.module('c4mApp')
       $scope.popups[key] = 0;
     });
 
+    angular.forEach($scope.data.categories, function(item, value) {
+      item.selected = false;
+    });
+
     // Copy the vocabularies to another variable,
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
@@ -98,7 +102,8 @@ angular.module('c4mApp')
      *  The name of the vocab.
      */
     $scope.updateSelectedTerms = function(key, vocab) {
-      if($scope.model[vocab][key]) {
+      if ($scope.model[vocab][key]) {
+        // Checkbox has been checked.
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
         }
@@ -107,6 +112,7 @@ angular.module('c4mApp')
         }
       }
       else {
+        // Checkbox has been unchecked.
         if (vocab == 'categories') {
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", false);
         }
@@ -114,9 +120,11 @@ angular.module('c4mApp')
           angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
         }
         if (key in $scope.data[vocab]) {
+          // This is the 1st level term - should uncheck all 2 an 3 levels terms.
           angular.forEach($scope.data[vocab][key].children, function(child, itemKey) {
             var childID = child.id;
 
+            // Uncheck 2 level terms.
             if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
               $scope.model[vocab][childID] = false;
               if (vocab == 'categories') {
@@ -125,10 +133,74 @@ angular.module('c4mApp')
               else {
                 angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
               }
+              // Uncheck 3 level terms.
+              angular.forEach($scope.data[vocab][key].children[itemKey].children, function(childChild, childChildKey) {
+                var childChildID = childChild.id;
+                if (childChildID in $scope.model[vocab] && $scope.model[vocab][childChildID] === true) {
+                  $scope.model[vocab][childChildID] = false;
+                  if (vocab == 'categories') {
+                    angular.element('input[type=checkbox][value="' + childChildID + '"]').prop("checked", false);
+                  }
+                  else {
+                    angular.element('input[type=checkbox][name="' + vocab + '[und][' + childChildID + ']"]').prop("checked", false);
+                  }
+                }
+              });
             }
           });
         }
+        else {
+          // This was the 2 or 3 level term.
+          angular.forEach($scope.data[vocab], function(term, termKey) {
+            angular.forEach($scope.data[vocab][termKey].children, function(child, childKey) {
+              if (key == child.id) {
+                // This is the current 2 level term - should uncheck its children.
+                angular.forEach($scope.data[vocab][termKey].children[childKey].children, function(childChild, childChildKey) {
+                  var childID = childChild.id;
+                  if (childID in $scope.model[vocab] && $scope.model[vocab][childID] === true) {
+                    $scope.model[vocab][childID] = false;
+                    if (vocab == 'categories') {
+                      angular.element('input[type=checkbox][value="' + childID + '"]').prop("checked", false);
+                    }
+                    else {
+                      angular.element('input[type=checkbox][name="' + vocab + '[und][' + childID + ']"]').prop("checked", false);
+                    }
+                  }
+                });
+              }
+            });
+          });
+        }
       }
+    };
+
+    /**
+     * Show or hide list of subcategories for the current category.
+     * Is called by click.
+     *
+     * @param item
+     *  Current category item.
+     */
+    $scope.updateSelected = function(item) {
+      item.selected = !item.selected;
+    };
+
+    /**
+     * Check if current category has at least one selected child.
+     *
+     * @param key
+     *  Category term id.
+     *
+     * @returns {boolean}
+     */
+    $scope.categoryHasChildrenSelected = function(key) {
+      for (var i = 0; i < $scope.data.categories[key].children.length; i++) {
+        var id = $scope.categories[key].children[i].id;
+        if ($scope.model.categories[id] === true) {
+          return true;
+        }
+      }
+      return false;
     };
 
     /**
