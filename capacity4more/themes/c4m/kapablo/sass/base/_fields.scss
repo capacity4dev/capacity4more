@@ -6,7 +6,7 @@
   }
 
   a {
-    color: $blue;
+    color: $color-blue;
     font-size: 75%;
   }
 }
@@ -16,11 +16,11 @@
 }
 
 .user-name {
-  color: $blue;
+  color: $color-blue;
 
   & + .post-date {
     &:before {
-      color: $blue;
+      color: $color-blue;
       content: '|';
       margin: 0 10px;
     }
@@ -28,7 +28,7 @@
 }
 
 .post-date {
-  color: $blue;
+  color: $color-blue;
 }
 
 .node-icon {
@@ -102,15 +102,15 @@
 }
 
 .field-name-c4m-ds-author-first-and-last-name {
-  color: $blue;
+  color: $color-blue;
   display: inline-block;
 
   & + .field-name-post-date {
-    color: $blue;
+    color: $color-blue;
     display: inline-block;
 
     &:before {
-      color: $blue;
+      color: $color-blue;
       content: '|';
       margin: 0 10px;
     }

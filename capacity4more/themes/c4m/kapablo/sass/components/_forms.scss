@@ -2,7 +2,7 @@
     .form-submit {
       @include input-rounded($gray-darker, 20px);
 
-      color: $white;
+      color: $color-white;
       padding: 10px 50px;
       text-transform: uppercase;
     }
@@ -22,12 +22,18 @@
     input, .form-control {
       @include box-shadow(none);
 
-      background: $beige;
+      background: $color-beige;
       border: none;
       color: $gray-darker;
 
       &.form-text {
         @include border-radius(15px);
+      }
+    }
+
+    > div {
+      > .form-item, > .form-group, > .form-wrapper {
+        margin-bottom: 20px;
       }
     }
 
@@ -52,15 +58,20 @@
     }
 
     .form-autocomplete .input-group-addon {
-      background: $beige;
+      background: $color-beige;
       border: none;
+    }
+
+    .resizable-textarea .grippie {
+      background: $color-beige;
+      border: 0;
     }
   }
 
   input[type="radio"]:not(old) {
     @include border-radius(10px);
 
-    background-color: $beige;
+    background-color: $color-beige;
     cursor: pointer;
     display: inline-block;
     height: 15px;
@@ -89,7 +100,7 @@
     visibility: hidden;
 
     &:before {
-      background: $beige;
+      background: $color-beige;
       color: $highlight-blue;
       content: '';
       display: inline-block;
@@ -129,14 +140,14 @@
     }
     .select2-choices {
       @include box-shadow(none);
-      @include input-rounded($beige);
+      @include input-rounded($color-beige);
     }
     .select2-search-choice {
       @include box-shadow(none);
       @include border-radius(15px);
 
       background-image: none;
-      background: $white;
+      background: $color-white;
       border: none;
       margin: 7px 0 7px 7px;
       padding: 3px 18px 3px 5px;
@@ -150,7 +161,7 @@
   .select2-drop-active, .select2-drop {
     @include border-radius(0 0 15px 15px);
     @include box-shadow(none);
-    border: 1px solid $beige;
+    border: 1px solid $color-beige;
 
     .select2-results {
       li {

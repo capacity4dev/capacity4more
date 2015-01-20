@@ -127,7 +127,7 @@
 
 .pane-quick-form {
   .form-control {
-    @include input-rounded($beige);
+    @include input-rounded($color-beige);
 
     &.drop-box {
       @include input-rounded($highlight-blue);
@@ -197,11 +197,11 @@
   }
   .popup-button {
     button {
-      @include border-radius(0);
       @include read-more-icon('right');
 
       border: none;
-      color: $blue;
+      color: $color-blue;
+      border-radius: 0;
       font-size: 90%;
       padding-bottom: 0;
       padding-left: 0;
@@ -226,7 +226,7 @@
     border: 0;
 
     .cke_inner .cke_wysiwyg_div {
-      background: $beige;
+      background: $color-beige;
     }
   }
 
@@ -330,7 +330,7 @@
 
 .drop-box {
   border: 0;
-  color: $white;
+  color: $color-white;
   display: block;
   padding: 0;
   height: auto;
@@ -342,7 +342,7 @@
     padding: 20px 30px;
 
     a {
-      color: $white;
+      color: $color-white;
       text-decoration: underline;
 
       &:hover {

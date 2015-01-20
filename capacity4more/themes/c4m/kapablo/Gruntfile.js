@@ -134,7 +134,7 @@ module.exports = function (grunt) {
       watch: {
         svgmin: {
           files: ['images/svg/**/*.svg'],
-          tasks: ['svgmin', 'grunticon', 'compass', 'pleeease'],
+          tasks: ['svgmin', 'grunticon', 'compass'],
           options: {
             livereload: true
           }
@@ -142,7 +142,7 @@ module.exports = function (grunt) {
 
         compass: {
           files: ['sass/*.scss', 'sass/**/*.scss'],
-          tasks: ['compass'],
+          tasks: ['compass', 'pleeease'],
           options: {
             livereload: true
           }

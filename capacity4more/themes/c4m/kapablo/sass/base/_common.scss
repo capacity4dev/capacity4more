@@ -1,3 +1,13 @@
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+}
+
 .svg-icon, %svg-icon {
   line-height: 25px;
   padding-left: 30px;

@@ -17,7 +17,7 @@
   .node-create {
     @include input-rounded($highlight-blue, 25px);
 
-    color: $white;
+    color: $color-white;
     font-size: 18px;
     padding: 9px 35px;
     text-transform: uppercase;
@@ -112,7 +112,7 @@
 
 .views-widget {
   input {
-    @include input-rounded($beige);
+    @include input-rounded($color-beige);
   }
 }
 
