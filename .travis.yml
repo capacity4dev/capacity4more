@@ -46,7 +46,7 @@ install:
   # Install Coder for code standard reviews.
   - cd $TRAVIS_BUILD_DIR
   - composer global require drupal/coder:\>7
-  - drush pm-download coder --destination=$HOME/.drush
+  - drush pm-download coder-7.x-2.x-dev --destination=$HOME/.drush
   - phpenv rehash
   - drush cache-clear drush
 
@@ -77,8 +77,8 @@ before_script:
   # Install Tika.
   - mkdir -p $TRAVIS_BUILD_DIR/tika
   - cd $TRAVIS_BUILD_DIR/tika
-  - wget http://www.eu.apache.org/dist/tika/tika-app-1.6.jar
-  - chmod +x ./tika-app-1.6.jar
+  - wget http://archive.apache.org/dist/tika/tika-app-1.7.jar
+  - chmod +x ./tika-app-*.jar
   - cd $TRAVIS_BUILD_DIR
 
   # Install capacity4more profile.
