@@ -53,12 +53,6 @@ angular.module('c4mApp')
       // Minute step.
       scope.mstep = 1;
 
-      scope.data.location = {};
-      scope.data.location.street = '';
-      scope.data.location.city = '';
-      scope.data.location.postal_code = '';
-      scope.data.location.country_name = '';
-
       return scope;
     };
 
