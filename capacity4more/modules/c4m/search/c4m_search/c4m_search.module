@@ -177,10 +177,15 @@ function c4m_search_theme() {
  *  ),
  * );
  *
+ * You can also set options on the query. F.i. nr. of rows to return: 'limit'
+ * F.i. to retrieve counts of documents only and not return items:
+ * $query->setOption('limit', 0);
+ *
  * @param $filters
+ * @param $options
  * @return array
  */
-function c4m_search_custom_search($filters) {
+function c4m_search_custom_search($filters, $options = array()) {
   if (empty($filters)) {
     return;
   }
@@ -203,5 +208,9 @@ function c4m_search_custom_search($filters) {
   }
 
   $query->filter($base_filter);
+  foreach ($options as $option) {
+    $query->setOption($option['name'], $option['value']);
+  }
+
   return $query->execute();
 }
