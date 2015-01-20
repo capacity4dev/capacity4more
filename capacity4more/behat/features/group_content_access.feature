@@ -43,7 +43,7 @@ Feature: Group content access
     Then  I visit "Content in public to restricted group" node of type "discussion"
     And   I should see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check group privacy from restricted to private
     Given a moderated group "My restricted to private group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
@@ -53,7 +53,7 @@ Feature: Group content access
     Then  I visit "Content in restricted to private group" node of type "discussion"
     And   I should see "Access denied"
 
-  @javascript @wip
+  @javascript
   Scenario: Check group privacy restriction
     Given a moderated group "My restricted to restricted group" with "gravity.com" restriction is created with group manager "turing"
     And   I am logged in as user "turing"
