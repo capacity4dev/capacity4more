@@ -88,7 +88,7 @@
 
 .field-name-c4m-ds-node-author-image, .field-name-c4m-ds-comment-author-image {
   img {
-    @include border-radius(50%);
+    border-radius: 50%;
   }
 }
 

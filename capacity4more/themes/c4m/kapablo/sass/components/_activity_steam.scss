@@ -80,11 +80,11 @@
       a,
       span {
         background-color: $highlight-blue;
+        border-radius: 20px;
         display: inline-block;
         padding: 12px 43px 9px;
         color: white;
         font-weight: bold;
-        @include border-radius(20px);
       }
     }
   }

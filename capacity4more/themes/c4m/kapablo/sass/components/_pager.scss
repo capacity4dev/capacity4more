@@ -55,9 +55,8 @@
 }
 
 %circle-button-30 {
-  @include border-radius(12px);
-
   border: 0;
+  border-radius: 12px;
   color: $color-white;
   display: inline-block;
   font-size: 12px;

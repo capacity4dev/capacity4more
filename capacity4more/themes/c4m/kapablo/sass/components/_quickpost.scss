@@ -24,16 +24,12 @@
   }
 
   .form-group {
-
     .label-wrapper {
       border-bottom: 1px solid black;
       margin-bottom: 10px;
       width: 100%;
       display: block;
     }
-  }
-
-  .form-group {
 
     .drop-box {
       height: 80px;
@@ -49,7 +45,6 @@
   }
 
   .file-wrapper {
-
     img {
       height: 50px;
       width: 50px;
@@ -57,7 +52,6 @@
   }
 
   .selected-values {
-
     span {
       margin-right: 4px;
       float: left;
@@ -126,14 +120,6 @@
 }
 
 .pane-quick-form {
-  .form-control {
-    @include input-rounded($color-beige);
-
-    &.drop-box {
-      @include input-rounded($highlight-blue);
-      @include border-radius(80px);
-    }
-  }
 
   .group-resources {
     margin-bottom: 20px;
@@ -164,9 +150,9 @@
       }
 
       &.active, &:hover {
-        @include border-radius(0);
         @include box-shadow(none);
 
+        border-radius: 0;
         color: $highlight-blue !important;
       }
     }
@@ -293,14 +279,13 @@
 }
 
 .reset-button {
-  @include border-radius(0);
-
   background: none;
   border: none;
+  border-radius: 0;
 
   &:active {
-    @include border-radius(0);
     @include box-shadow(none);
+    border-radius: 0;
   }
 }
 
@@ -326,45 +311,6 @@
   display: inline-block;
   float: right;
   margin: 15px;
-}
-
-.drop-box {
-  border: 0;
-  color: $color-white;
-  display: block;
-  padding: 0;
-  height: auto;
-  margin: 10px 0 0 0;
-  text-align: center;
-  width: 100%;
-
-  .drop-text {
-    padding: 20px 30px;
-
-    a {
-      color: $color-white;
-      text-decoration: underline;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-
-    &:before {
-      background: image-url('misc/hand.png') no-repeat 50% 50%;
-      content: '';
-      display: block;
-      height: 33px;
-      margin-bottom: 10px;
-    }
-  }
-
-  .alert {
-    @include border-radius(80px);
-
-    margin: 0;
-    padding: 30px;
-  }
 }
 
 .qp-timeselector {

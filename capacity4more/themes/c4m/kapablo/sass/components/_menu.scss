@@ -51,8 +51,8 @@
     .og-menu-link {
       a {
         @extend %svg-icon;
-        @include border-radius(0, 0);
 
+        border-radius: 0;
         color: $gray-darker;
         text-align: left;
         text-transform: uppercase;

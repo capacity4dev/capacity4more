@@ -44,26 +44,25 @@
 
     &.open {
       button {
-        @include border-radius(0);
         @include box-shadow(none);
 
         background: inherit;
         border: 0;
+        border-radius: 0;
         color: $highlight-blue;
       }
     }
 
     button {
-      @include border-radius(0);
-
       border: 0;
+      border-radius: 0;
       color: $highlight-blue;
 
       &:hover, &:focus, &:active, &.active {
-        @include border-radius(0);
         @include box-shadow(none);
 
         background: none;
+        border-radius: 0;
       }
     }
   }
