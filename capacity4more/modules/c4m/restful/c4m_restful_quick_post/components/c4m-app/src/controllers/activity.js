@@ -132,6 +132,7 @@ angular.module('c4mApp')
             angular.forEach(data.data, function (activity) {
               this.splice(position, 0, {
                 id: activity.id,
+                timestamp: activity.timestamp,
                 html: $sce.trustAsHtml(activity.html)
               });
               position++;
