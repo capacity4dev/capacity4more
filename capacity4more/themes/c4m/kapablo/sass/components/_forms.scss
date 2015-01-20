@@ -95,14 +95,10 @@ input[type="checkbox"]:not(old) {
     color: $highlight-blue;
     content: '';
     display: inline-block;
-    font: normal normal normal 15px/1 FontAwesome;
-    font-size: inherit;
+    font-family: FontAwesome;
     height: 1em;
-    //    padding: 0.1em;
-    text-rendering: auto;
     visibility: visible;
     width: 1em;
-    -webkit-font-smoothing: antialiased;
   }
 
   &:hover {
