@@ -90,7 +90,8 @@ module.exports = function (grunt) {
         require: 'config.rb'
       },
       dist: {
-        src: ['sass/style.scss']
+        cwd: 'css/',
+        src: 'style.css'
       }
     },
 
@@ -98,7 +99,7 @@ module.exports = function (grunt) {
     postcss: {
       options: {
         processors: [
-          autoprefixer({ browsers: ['last 4 version'] }).postcss
+          autoprefixer({ browsers: ['last 4 version'] }).postcss,
         ]
       },
       dist: { src: 'css/style.css' }
@@ -141,6 +142,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-csscss');
   grunt.loadNpmTasks('grunt-postcss');
+  grunt.loadNpmTasks('grunt-css-mqpacker');
 
   grunt.registerTask('dev', [
     'svgmin',
@@ -159,7 +161,7 @@ module.exports = function (grunt) {
     'concat',
     'uglify',
     'compass:prod',
-    'postcss'
+    'postcss',
   ]);
 
   grunt.registerTask('default', [

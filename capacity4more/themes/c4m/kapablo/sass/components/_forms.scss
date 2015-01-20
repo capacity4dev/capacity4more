@@ -15,7 +15,7 @@
 
   form {
     label, .control-label {
-      color: $gray;
+      color: $gray-dark;
       font-weight: normal;
     }
 
@@ -24,7 +24,7 @@
 
       background: $beige;
       border: none;
-      color: $gray;
+      color: $gray-dark;
 
       &.form-text {
         @include border-radius(15px);
