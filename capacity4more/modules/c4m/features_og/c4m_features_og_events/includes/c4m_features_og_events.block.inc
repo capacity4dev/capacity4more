@@ -61,7 +61,7 @@ function _c4m_features_og_events_block_event_views_links() {
   );
 
   foreach ($pages as $key => $page) {
-    $filters = array(
+    $search_filters = array(
       '0' => array(
         'conjunction' => 'AND',
         'condition' => array(
@@ -96,12 +96,21 @@ function _c4m_features_og_events_block_event_views_links() {
       ),
     );
 
-    $result = c4m_search_custom_search($filters);
+    // Execute search to retrieve counts only, so we set number of rows we
+    // to be returned to 0.
+    $search_options = array(
+      '0' => array(
+        'name' => 'limit',
+        'value' => 0,
+      )
+    );
+    $result = c4m_search_custom_search($search_filters, $search_options);
 
-    $count = !empty($result['result count']) ? ' (' . $result['result count'] .
-      ')' : '';
+    $link_options = array('query' => drupal_get_query_parameters());
+
+    $count = ' (' . $result['result count'] . ')';
     $items[] = array(
-      'data' => l($page['text'] . $count, 'events/' . $key),
+      'data' => l($page['text'] . $count, 'events/' . $key, $link_options),
       'class' => array('leaf'),
     );
   }
@@ -119,4 +128,3 @@ function _c4m_features_og_events_block_event_views_links() {
     'content' => $list,
   );
 }
-
