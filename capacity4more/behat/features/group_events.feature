@@ -60,3 +60,10 @@ Feature: Group Events
     When I visit the group "event" detail page "Nobel Prize Issueing"
     Then I should see the event detail page
 
+  @javascript
+  Scenario: Check group reference field is filled from context and hidden
+    Given I am logged in as user "mariecurie"
+    When  I start creating "document" "Some new document" in group "Architecture"
+    And   I should not see an "edit-og-group-ref-und-0-default" element
+    And   I press "Save"
+    Then  I should see "Some new document1" in the activity stream of the group "Architecture"

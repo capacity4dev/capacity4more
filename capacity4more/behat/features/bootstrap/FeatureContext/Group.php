@@ -242,13 +242,9 @@ trait Group {
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
 
-//    $uri = str_replace('capacity4more/www/', '', $uri);
-
     $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
-
-
 
     return $steps;
   }

@@ -19,8 +19,6 @@ trait GroupDashboard {
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
 
-//    $uri = str_replace('capacity4more/www/', '', $uri);
-
     return new Given("I go to \"$uri\"");
   }
 
