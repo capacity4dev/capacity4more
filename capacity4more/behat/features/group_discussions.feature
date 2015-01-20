@@ -30,11 +30,10 @@ Feature: Group Discussions
     When I visit the group "discussion" detail page "Nobel Foundation"
     Then I should see the discussion detail page
 
-  @javascript 
+  @api
   Scenario: Check group reference field is filled from context and hidden
-    Given I am logged in as user "isaacnewton"
-    When  I start creating "discussion" "Some new content1" in group "Nobel Prize"
+    Given I am logged in as user "mariecurie"
+    When  I start creating "discussion" "Some new content1" in group "Architecture"
     And   I should not see an "edit-og-group-ref-und-0-default" element
     And   I press "Save"
-    Then  I visit the dashboard of group "Nobel Prize"
-    And   I should see "Some new content1"
+    Then  I should see "Some new content1" in the activity stream of the group "Architecture"
