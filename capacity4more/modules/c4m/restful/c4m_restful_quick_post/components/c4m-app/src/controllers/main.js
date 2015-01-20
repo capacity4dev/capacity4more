@@ -60,6 +60,7 @@ angular.module('c4mApp')
 
       $scope.data['add_to_library'] = 1;
 
+      // Default location is empty.
       $scope.data.location = {};
       $scope.data.location.street = '';
       $scope.data.location.city = '';
