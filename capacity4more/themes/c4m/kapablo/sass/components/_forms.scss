@@ -207,3 +207,30 @@ input[type="checkbox"]:not(old) {
     padding: 30px;
   }
 }
+
+.field-name-c4m-discussion-type {
+  .discussion-type-button {
+    @extend %svg-icon;
+
+    float: left;
+    margin: 0;
+    width: 25%;
+
+    &.discussion-type-info {
+      @include link-icon-png-fallback('icons', 'discussion-qp-info');
+    }
+    &.discussion-type-debate {
+      @include link-icon-png-fallback('icons', 'discussion-qp-debate');
+    }
+    &.discussion-type-idea {
+      @include link-icon-png-fallback('icons', 'discussion-qp-idea');
+    }
+    &.discussion-type-question {
+      @include link-icon-png-fallback('icons', 'discussion-qp-question');
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+  }
+}

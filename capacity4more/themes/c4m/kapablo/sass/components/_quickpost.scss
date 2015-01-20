@@ -230,6 +230,8 @@
     .btn-default {
       @extend %svg-icon;
 
+      @extend %discution-type-values;
+
       background-position: 5px 50%;
       background-repeat: no-repeat;
       background-size: 20px;
@@ -238,22 +240,6 @@
 
       &:last-child {
         border-right: 0;
-      }
-
-      &[value=debate] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-debate');
-      }
-
-      &[value=idea] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-idea');
-      }
-
-      &[value=info] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-info');
-      }
-
-      &[value=question] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-question');
       }
 
       &[value=event] {
@@ -333,4 +319,23 @@
 .document {
   padding-top: 5px;
   border-top: 1px solid #000;
+}
+
+
+%discution-type-values {
+  &[value=debate] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-debate');
+  }
+
+  &[value=idea] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-idea');
+  }
+
+  &[value=info] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-info');
+  }
+
+  &[value=question] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-question');
+  }
 }
