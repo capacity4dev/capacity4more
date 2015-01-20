@@ -30,7 +30,7 @@ Feature: Group Discussions
     When I visit the group "discussion" detail page "Nobel Foundation"
     Then I should see the discussion detail page
 
-  @api
+  @javascript 
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start creating "discussion" "Some new content1" in group "Architecture"
