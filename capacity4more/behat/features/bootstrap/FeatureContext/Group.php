@@ -249,4 +249,22 @@ trait Group {
     return $steps;
   }
 
+  /**
+   * @When /^I start editing "([^"]*)" "([^"]*)" in group "([^"]*)"$/
+   */
+  public function iStartEditingInGroup($bundle, $title, $group_title) {
+    $steps = array();
+
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+
+    $nodes = entity_load('node', FALSE, array('type' => $bundle, 'title' => $title));
+    $node = reset($nodes);
+    $nid = $node->nid;
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/' . $nid . '/edit"');
+
+    return $steps;
+  }
+
 }
