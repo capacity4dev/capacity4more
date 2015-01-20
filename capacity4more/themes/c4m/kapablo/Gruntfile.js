@@ -1,4 +1,7 @@
 module.exports = function (grunt) {
+  var mozjpeg = require('imagemin-mozjpeg');
+
+
   grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
 
@@ -49,6 +52,22 @@ module.exports = function (grunt) {
           ]
         }
       },
+
+      imagemin: {                          // Task
+        dynamic: {                         // Another target
+          options: {                       // Target options
+            optimizationLevel: 12,
+            svgoPlugins: [{ removeViewBox: false }],
+            use: [mozjpeg()]
+          },
+          files: [{
+            expand: true,                  // Enable dynamic expansion
+            src: ['images/**/*.{png,jpg,gif}']   // Actual patterns to match
+          }]
+        }
+      },
+
+
 
       // JS
       concat: {
@@ -115,7 +134,7 @@ module.exports = function (grunt) {
       watch: {
         svgmin: {
           files: ['images/svg/**/*.svg'],
-          tasks: ['svgmin', 'grunticon', 'compass'],
+          tasks: ['svgmin', 'grunticon', 'compass', 'pleeease'],
           options: {
             livereload: true
           }
@@ -149,10 +168,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-csscss');
   grunt.loadNpmTasks('grunt-pleeease');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
 
   grunt.registerTask('dev', [
     'svgmin',
     'grunticon',
+    'imagemin',
     'concat',
     'uglify',
     'compass:dev',
@@ -164,6 +185,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'svgmin',
     'grunticon',
+    'imagemin',
     'concat',
     'uglify',
     'compass:prod',
