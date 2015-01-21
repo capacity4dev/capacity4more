@@ -2,7 +2,8 @@ language: php
 
 env:
   # Create a build job per BEHAT feature TAG
-  - BEHAT_TAG="~@wip"
+  - BEHAT_TAG="@api"
+  - BEHAT_TAG="@javascript"
 
 php:
   - 5.4
