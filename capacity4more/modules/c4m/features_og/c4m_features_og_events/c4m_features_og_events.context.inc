@@ -129,6 +129,12 @@ function c4m_features_og_events_context_default_contexts() {
           'module' => 'views',
           'delta' => '6da07ce607871afb2b6c335fc8de3e45',
           'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
+        'c4m_features_og_events-event_views_links' => array(
+          'module' => 'c4m_features_og_events',
+          'delta' => 'event_views_links',
+          'region' => 'sidebar_first',
           'weight' => '-9',
         ),
         'facetapi-ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => array(
@@ -205,6 +211,12 @@ function c4m_features_og_events_context_default_contexts() {
           'delta' => '1c4f4c3eaf1f8bde7197f2a715ff4ee4',
           'region' => 'sidebar_first',
           'weight' => '-10',
+        ),
+        'c4m_features_og_events-event_views_links' => array(
+          'module' => 'c4m_features_og_events',
+          'delta' => 'event_views_links',
+          'region' => 'sidebar_first',
+          'weight' => '-9',
         ),
         'facetapi-ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => array(
           'module' => 'facetapi',

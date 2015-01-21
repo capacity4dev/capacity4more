@@ -104,10 +104,10 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 5,
       ),
       'full' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'date',
         'settings' => array(
-          'format_type' => 'long',
+          'format_type' => 'c4m_long_with_time',
           'fromto' => 'both',
           'multiple_from' => '',
           'multiple_number' => '',
@@ -123,10 +123,10 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'date',
         'settings' => array(
-          'format_type' => 'long',
+          'format_type' => 'c4m_long_without_time',
           'fromto' => 'both',
           'multiple_from' => '',
           'multiple_number' => '',
