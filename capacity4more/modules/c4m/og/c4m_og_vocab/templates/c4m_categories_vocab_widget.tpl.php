@@ -26,10 +26,7 @@
           <input ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>" ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')" class="form-control" type="text" placeholder="Search"/>
         </form>
         <ul>
-          <li class="checkbox" ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
-            <label ng-click="updateSelected(item);">
-              {{item.label}}
-            </label>
+          <li class="checkbox table-display" ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
             <ul ng-show="item.selected == true" class="indent">
               <li ng-repeat="child in item.children">
                 <label>
@@ -37,6 +34,9 @@
                 </label>
               </li>
             </ul>
+            <label ng-click="updateSelected(item);" class="parent-select">
+              {{item.label}}
+            </label>
           </li>
         </ul>
       </div>

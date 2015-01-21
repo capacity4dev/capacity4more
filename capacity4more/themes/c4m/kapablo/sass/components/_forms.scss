@@ -211,7 +211,6 @@ input[type="checkbox"]:not(old) {
 // If JS is disabled, we can't propagate the radio button behavior.
 .js {
   .field-name-c4m-discussion-type .form-type-radios {
-
     .form-item {
       border-right: 1px solid $gray;
       margin: 0;
@@ -242,5 +241,20 @@ input[type="checkbox"]:not(old) {
         display: none;
       }
     }
+  }
+}
+
+.popover-content {
+  .table-display {
+    display: table;
+  }
+  .table-display ul {
+    display: table-footer-group;
+  }
+  .parent-select {
+    @include arrow-image('down', 'blue', 'before');
+  }
+  .ng-hide + .parent-select {
+    @include arrow-image('right', 'blue', 'before');
   }
 }

@@ -23,5 +23,25 @@
         });
       }
     };
+    Drupal.behaviors.vocabToggle = {
+      attach: function (context, settings) {
+        var $parentSelectors = $('.popover .parent-select');
+        $parentSelectors.each(function () {
+          if ($(this).siblings('ng-hide')) {
+            $(this).addClass('parent-hide');
+          }
+
+          $(this).click(function() {
+            console.log(this);
+            if ($(this).hasClass('parent-hide')) {
+              $(this).removeClass('parent-hide');
+            }
+            else {
+              $(this).addClass('parent-hide');
+            }
+          });
+        });
+      }
+    };
   }
 )(jQuery);
