@@ -112,6 +112,21 @@ input[type="checkbox"]:not(old) {
   }
 }
 
+.checkboxes-wrapper {
+  position: relative;
+
+  button.btn-primary {
+    padding: 7px;
+    left: 0;
+  }
+
+  .hidden-checkboxes {
+    display: block;
+    left: 150px;
+    top: -85px;
+  }
+}
+
 .select2-container-multi .select2-choices .select2-search-field input.select2-active {
   background: none !important;
 }
@@ -212,7 +227,6 @@ input[type="checkbox"]:not(old) {
 .js {
   .field-name-c4m-discussion-type, .field-name-c4m-event-type {
     .form-type-radios {
-
       .form-item {
         border-right: 1px solid $gray;
         margin: 0;

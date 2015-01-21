@@ -64,21 +64,6 @@
     }
   }
 
-  .checkboxes-wrapper {
-    position: relative;
-
-    button.btn-primary {
-      padding: 2px 4px;
-      left: 0;
-    }
-
-    .hidden-checkboxes {
-      display: block;
-      left: 150px;
-      top: -85px;
-    }
-  }
-
   .popover-content {
     height: 190px;
     overflow-y: scroll;

@@ -23,6 +23,7 @@
         });
       }
     };
+    
     Drupal.behaviors.eventFormClasses = {
       attach: function (context, settings) {
         $('#edit-c4m-event-type-und').addClass('row');
