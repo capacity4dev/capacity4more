@@ -11,4 +11,3 @@ dependencies[] = panels_bootstrap_layouts
 features[ctools][] = page_manager:pages_default:1
 features[features_api][] = api:2
 features[page_manager_pages][] = c4m_og_group_dashboard
-mtime = 1418717613
