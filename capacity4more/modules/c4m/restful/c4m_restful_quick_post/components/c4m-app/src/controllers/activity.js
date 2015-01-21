@@ -72,7 +72,7 @@ angular.module('c4mApp')
 
       // Call the update stream method.
       EntityResource.updateStream(activityStreamInfo)
-        .success( function (data, status) {
+        .success(function(data, status) {
           // Update the stream status.
           $scope.stream.status = status;
 
@@ -80,7 +80,7 @@ angular.module('c4mApp')
           if (data.data) {
             // Count the activities that were fetched.
             var position = 0;
-            angular.forEach(data.data, function (activity) {
+            angular.forEach(data.data, function(activity) {
               this.splice(position, 0, {
                 id: activity.id,
                 timestamp: activity.timestamp,
@@ -94,7 +94,7 @@ angular.module('c4mApp')
             $scope.stream.lastLoadedTimestamp = $scope[type][0].timestamp ? $scope[type][0].timestamp : $scope.stream.lastLoadedTimestamp;
           }
         })
-        .error( function (data, status) {
+        .error(function(data, status) {
           // Update the stream status if we get an error, This will display the error message.
           $scope.stream.status = status;
         });
@@ -108,7 +108,7 @@ angular.module('c4mApp')
      *  The position in which to add the new activities.
      */
     $scope.showNewActivities = function(position) {
-      angular.forEach ($scope.newActivities, function (activity) {
+      angular.forEach($scope.newActivities, function(activity) {
         this.splice(position, 0, {
           id: activity.id,
           timestamp: activity.timestamp,
@@ -129,9 +129,9 @@ angular.module('c4mApp')
       var position = $scope.existingActivities.length;
 
       EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedTimestamp)
-        .success( function (data, status) {
+        .success(function(data, status) {
           if (data.data) {
-            angular.forEach(data.data, function (activity) {
+            angular.forEach(data.data, function(activity) {
               this.splice(position, 0, {
                 id: activity.id,
                 timestamp: activity.timestamp,
@@ -162,7 +162,7 @@ angular.module('c4mApp')
     // In case of resuming the activity stream,
     // Wait for 10 seconds to avoid any conflicts between the normal refresh and the "create new activity" pull.
     $scope.$on('c4m.activity.refresh', function(broadcast, action) {
-      if(action == 'stop') {
+      if (action == 'stop') {
         $interval.cancel($scope.refreshing);
       }
       else {
