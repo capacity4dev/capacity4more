@@ -307,3 +307,30 @@ input[type="checkbox"]:not(old) {
     @include arrow-image('right', 'blue', 'before');
   }
 }
+
+#c4m-location-add-more-wrapper {
+  .panel-body {
+    > div {
+      margin: 0 0 15px 0;
+      &.form-item-c4m-location-und-0-postal-code {
+        float: left;
+        margin-right: 5%;
+        width: 20%;
+      }
+      &.getlocations_fields_city_wrapper {
+        clear: right;
+        float: left;
+        width: 75%;
+      }
+      &.getlocations_fields_province_wrapper {
+        clear: both;
+      }
+    }
+  }
+
+  input[value="Clear"] {
+    float: right;
+  }
+
+
+}

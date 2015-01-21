@@ -15,6 +15,18 @@
     }
   }
 
+  #c4m-location-add-more-wrapper {
+    .panel-body {
+      > div {
+        &.form-item-c4m-location-und-0-postal-code, &.getlocations_fields_city_wrapper {
+          display: block;
+          float: none;
+          width: 100%;
+        }
+      }
+    }
+  }
+
   .js {
     .field-name-c4m-discussion-type, .field-name-c4m-event-type {
       .form-type-radios {
