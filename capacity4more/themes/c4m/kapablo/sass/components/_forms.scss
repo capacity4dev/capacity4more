@@ -210,11 +210,17 @@ input[type="checkbox"]:not(old) {
 
 // If JS is disabled, we can't propagate the radio button behavior.
 .js {
-  .field-name-c4m-discussion-type {
+  .field-name-c4m-discussion-type .form-type-radios {
+
     .form-item {
+      border-right: 1px solid $gray;
       margin: 0;
       padding-bottom: 10px;
       padding-top: 10px;
+
+      &:last-child {
+        border-right: none;
+      }
     }
     .discussion-type-button {
       @extend %svg-icon;

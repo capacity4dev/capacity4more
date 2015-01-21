@@ -13,7 +13,7 @@
           $(this).parent()
             .addClass('discussion-type-button')
             .addClass('discussion-type-' + value)
-            .parent().addClass('col-xs-6').addClass('col-md-3');
+            .parent().addClass('col-xs-6').addClass('col-sm-3');
           $(this).click(function () {
             $discussionTypes.each(function () {
               $(this).parent().removeClass('active');

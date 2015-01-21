@@ -1,0 +1,25 @@
+// SMALL SCREENS
+@media screen and (max-width: $screen-xs-max) {
+  form {
+    label {
+      clear: both;
+      display: block;
+      float: none;
+      width: 100%;
+    }
+    input {
+      clear: both;
+      display: block;
+      float: none;
+      width: 100%;
+    }
+  }
+
+  .js {
+    .field-name-c4m-discussion-type .form-type-radios {
+      .form-item {
+        border: none;
+      }
+    }
+  }
+}
