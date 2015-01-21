@@ -124,6 +124,29 @@ function c4m_features_og_events_views_pre_render(&$view) {
   }
 }
 
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_og_events_block_info() {
+  $blocks['event_views_links'] = array(
+    'info' => t('Links to event views'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_og_events_block_view($delta = '') {
+  module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events.block');
+  $callback = '_c4m_features_og_events_block_' . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+
+  return $callback();
+}
 
 /**
  * Implements hook_block_view_alter().
@@ -134,7 +157,7 @@ function c4m_features_og_events_views_pre_render(&$view) {
 function c4m_features_og_events_block_view_alter(&$data, $block) {
   if ('events' === current_path()) {
     // Override blocks on the events landing page.
-    module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events_landing.block');
+    module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events.block');
     return _c4m_features_og_events_landing_block_view_alter($data, $block);
   }
 }
@@ -153,6 +176,17 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
       // past events: events/past
       $build[$key]['#path'] .= '/' . $key;
       $build[$key]['#class'][] = $key . '-events';
+      // Remove the filter on this range, because it's superfluous.
+      foreach ($build[$key]['#query']['f'] as $i => $facet) {
+        $range_facet = 'c4m_datetime_end%3Avalue2:' . $key;
+        if ($range_facet === $facet) {
+          unset($build[$key]['#query']['f'][$i]);
+        }
+      }
+      // If there are no more facet query parameters, remove them entirely.
+      if (empty($build[$key]['#query']['f'])) {
+        unset($build[$key]['#query']['f']);
+      }
     }
   }
 }

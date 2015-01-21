@@ -75,7 +75,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
     $tag['element'] = array(
       '#tag'       => 'span',
       '#attributes' => array(
-        'class' => array('username'),
+        'class' => array('user-name'),
       ),
       '#value'     => $name,
     );
@@ -85,7 +85,7 @@ function theme_c4m_ds_author_first_and_last_name($field) {
       $tag['element'] = array(
         '#tag'       => 'span',
         '#attributes' => array(
-          'class' => array('username', 'anonymous'),
+          'class' => array('user-name', 'anonymous'),
         ),
         '#value'     => $entity->name,
       );
@@ -112,22 +112,53 @@ function theme_c4m_ds_submitted_by_and_on($field) {
   $entity = $field['entity'];
   $user   = user_load($entity->uid);
   $name   = c4m_user_profile_name($user);
+  $options = array('attributes' => array('class' => array('user-name')));
 
-  $name = l($name, 'user/' . $user->uid);
+  $name = l($name, 'user/' . $user->uid, $options);
 
-  switch ($field['formatter']) {
-    case 'ds_time_ago':
-      $interval = REQUEST_TIME - $field['entity']->created;
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('creation-date'),
+    ),
+    '#value'     => c4m_helper_date_time_ago($entity->created, $field['formatter']),
+  );
 
-      return t('Submitted !interval ago by !user.', array('!interval' => format_interval($interval), '!user' => $name));
-    default:
-      $date_format = str_replace('ds_post_date_', '', $field['formatter']);
+  return $name . theme_html_tag($tag);
+}
 
-      return t('Submitted by !user on !date.', array(
-        '!user' => $name,
-        '!date' => format_date($field['entity']->created, $date_format)
-      ));
+/**
+ * DS function field.
+ *
+ * Render node creation date according to time ago.
+ *
+ * If timestamp is within 24h of now: Indicate the time ago:
+ *  - x seconds ago
+ *  - x minutes ago
+ *  - x hours ago
+ * If timestamp is more then 1 day go: Show as a date (with or without time):
+ * - 5 January 2015 (, 16:47)
+ * - 28 August 2014 (, 9:05)
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_creation_date($field) {
+  if (empty($field['entity'])) {
+    return;
   }
+
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('creation-date'),
+    ),
+    '#value'     => c4m_helper_date_time_ago($field['entity']->created,
+      $field['formatter']),
+  );
+
+  return theme_html_tag($tag);
 }
 
 /**
@@ -184,8 +215,11 @@ function theme_c4m_ds_type_posted_by($field) {
   $entity = $field['entity'];
 
   $tag['element'] = array(
-    '#tag'   => 'div',
-    '#value' => t('@entity_label posted by', array('@entity_label' => ucwords(c4m_helper_entity_get_entity_type_label($entity)))),
+    '#tag'   => 'span',
+    '#attributes' => array(
+      'class' => array('posted-by'),
+    ),
+    '#value' => t('@entity_label', array('@entity_label' => ucfirst(c4m_helper_entity_get_entity_type_label($entity)))),
   );
 
   return theme_html_tag($tag);
