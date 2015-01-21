@@ -169,10 +169,11 @@ function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, 
 function c4m_restful_quick_post_preprocess_html(&$vars) {
   $item = menu_get_item();
 
-  $allowed_paths = array(
-    'node/add',
-    'node/%/edit',
-  );
+  $allowed_paths = array();
+  foreach(array_keys(node_type_get_types()) as $bundle) {
+    $allowed_paths[] = 'node/add/' . $bundle;
+  }
+  $allowed_paths[] = 'node/%/edit';
 
   if (drupal_is_front_page() && !og_context()) {
     // User doesn't have accesss to this dashboard or it's the homepage.
@@ -183,7 +184,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
     // Not a group dashboard page and not a node/add(edit) page.
     return;
   }
-
+  
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
   $vars['attributes_array']['ng-cloak'][] = 'true';
