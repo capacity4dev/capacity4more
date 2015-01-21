@@ -245,11 +245,17 @@ input[type="checkbox"]:not(old) {
 }
 
 .popover-content {
+  > ul {
+    margin-top: 10px;
+  }
   .table-display {
     display: table;
   }
   .table-display ul {
     display: table-footer-group;
+    li {
+      margin-left: 15px;
+    }
   }
   .parent-select {
     @include arrow-image('down', 'blue', 'before');
