@@ -29,12 +29,12 @@ function c4m_user_profile_field_extra_fields_alter(&$info) {
  */
 function c4m_user_profile_block_info() {
   $blocks['user_welcome'] = array(
-    'info'  => t('Welcome the user in the top bar'),
+    'info' => t('Welcome the user in the top bar'),
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
   $blocks['user_notifications'] = array(
-    'info'  => t('Display the user notifications etc...'),
+    'info' => t('Display the user notifications etc...'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
@@ -70,13 +70,14 @@ function c4m_user_profile_name($user) {
     return t('Anonymous');
   }
 
-  $fullname = $wrapper->c4m_first_name->value() . ' ' .  $wrapper->c4m_last_name->value();
+  $fullname = trim($wrapper->c4m_first_name->value()) . ' '
+    . trim($wrapper->c4m_last_name->value());
 
   if (!trim($fullname)) {
     $fullname = $user->name;
   }
 
-  return $fullname;
+  return trim($fullname);
 }
 
 /**
@@ -111,11 +112,92 @@ function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $o
           break;
         case 'url-with-name':
           $name = c4m_user_profile_name($account);
-          $replacements[$original] = !empty($account->uid) ? l($name, "user/$account->uid", $url_options) : $name;
+          $replacements[$original] = !empty($account->uid) ? l(
+            $name, "user/$account->uid", $url_options
+          ) : $name;
           break;
       }
     }
   }
 
   return $replacements;
+}
+
+/**
+ * Return the initials (max 2) of a user's full name.
+ *
+ * @param $account
+ *
+ * @return string
+ */
+function c4m_user_profile_initials($account) {
+  $name = c4m_user_profile_name($account);
+  $words = preg_split("/[\s,_-]+/", $name);
+  $initials = '';
+
+  foreach ($words as $w) {
+    $initials .= $w[0];
+  }
+
+  return substr($initials, 0, 2);
+}
+
+/**
+ * Return the themed initials (max 2) of a user's full name.
+ *
+ * @param $account
+ *
+ * @return string
+ */
+function c4m_user_profile_initials_themed($account, $linked = TRUE) {
+  $initials = c4m_user_profile_initials($account);
+  static $colors;
+
+  if (empty($colors)) {
+    $colors = _c4m_user_profile_initials_colors();
+  }
+
+  if ($linked) {
+    $output = l($initials, 'user/' . $account->uid);
+  }
+  else {
+    $output = $initials;
+  }
+
+  $tag = array(
+    'element' => array(
+      '#tag' => 'div',
+      '#attributes' => array(
+        'class' => array(
+          'no-avatar',
+          'initials',
+          'bg-' . $colors[mt_rand(0, count($colors) - 1)]
+        ),
+      ),
+      '#value' => $output,
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * Get some background classes (random colors).
+ *
+ * @return array
+ */
+function _c4m_user_profile_initials_colors() {
+  return array(
+    'dark-navy',
+    'pastel-pink',
+    'beige',
+    'brown',
+    'brown-light',
+    'blue',
+    'salmon',
+    'pastel-orange',
+    'green',
+    'green-light',
+    'pink-dark',
+  );
 }
