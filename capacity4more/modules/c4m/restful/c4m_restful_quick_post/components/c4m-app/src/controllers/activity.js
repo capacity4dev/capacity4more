@@ -62,9 +62,9 @@ angular.module('c4mApp')
       };
 
       // Don't send a request when data is missing.
-      if(!activityStreamInfo.lastTimestamp || !activityStreamInfo.group) {
+      if (!activityStreamInfo.lastTimestamp || !activityStreamInfo.group) {
         // If last Timestamp is 0, this is a new group and there are no activities.
-        if(activityStreamInfo.lastTimestamp != 0) {
+        if (activityStreamInfo.lastTimestamp != 0) {
           $scope.stream.status = 500;
           return false;
         }
