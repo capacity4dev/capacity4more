@@ -168,7 +168,6 @@ function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, 
  */
 function c4m_restful_quick_post_preprocess_html(&$vars) {
   $item = menu_get_item();
-
   $allowed_paths = array(
     'node/add',
     'node/%/edit',
@@ -179,7 +178,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
     // Not a group dashboard page and not a node/add(edit) page.
     return;
   }
-  if ($item['path'] == 'node' && !og_context()) {
+  if (drupal_is_front_page() && !og_context()) {
     // User doesn't have accesss to this dashboard or it's the homepage.
     return;
   }
