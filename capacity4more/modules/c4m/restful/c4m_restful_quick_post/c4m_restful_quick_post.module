@@ -58,7 +58,6 @@ function c4m_restful_quick_post_form($group_id) {
 
   $show_resources = $resources;
 
-
   // Get fields.
   $field_schema = array();
   $public_fields = array();
@@ -129,6 +128,11 @@ function c4m_restful_quick_post_form($group_id) {
   );
   drupal_add_js($settings, 'setting');
 
+//  if (in_array('non-member', og_get_user_roles('node', $group_id))) {
+//    // User is not a group member.
+//    return;
+//  }
+
   // Theme function adds the Quick post form.
   return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
 }
@@ -173,6 +177,10 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
 
   if (!in_array($item['path'], $allowed_paths)) {
     // Not a group dashboard page and not a node/add(edit) page.
+    return;
+  }
+  if ($item['path'] == 'node' && !og_context()) {
+    // User doesn't have accesss to this dashboard or it's the homepage.
     return;
   }
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
