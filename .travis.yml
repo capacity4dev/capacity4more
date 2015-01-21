@@ -36,7 +36,7 @@ before_install:
 
 
 install:
-  - echo ">> TIMESTAMP : $(date)"
+  - echo ">> TIMESTAMP : `date`"
 
   # Install php packages required for running a web server from drush on php 5.3.
   - sudo apt-get install -y --force-yes php5-cgi php5-mysql
