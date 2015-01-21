@@ -2,6 +2,8 @@
   function ($) {
     Drupal.behaviors.discussionClasses = {
       attach: function (context, settings) {
+        $('#edit-c4m-discussion-type-und').addClass('row');
+
         var $discussionTypes = $('#edit-c4m-discussion-type input[type="radio"]');
         $discussionTypes.each(function () {
           if ($(this).is(':checked')) {
@@ -10,7 +12,8 @@
           value = $(this).attr('value');
           $(this).parent()
             .addClass('discussion-type-button')
-            .addClass('discussion-type-' + value);
+            .addClass('discussion-type-' + value)
+            .parent().addClass('col-xs-6').addClass('col-md-3');
           $(this).click(function () {
             $discussionTypes.each(function () {
               $(this).parent().removeClass('active');
