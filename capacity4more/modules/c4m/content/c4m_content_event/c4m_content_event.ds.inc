@@ -110,6 +110,22 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_datetime_end' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'From',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
     'c4m_document_agenda' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -252,6 +268,22 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_datetime_end' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'From',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => 'date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
     'c4m_organised_by' => array(
       'formatter_settings' => array(

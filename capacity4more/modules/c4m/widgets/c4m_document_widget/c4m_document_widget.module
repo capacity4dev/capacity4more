@@ -264,26 +264,6 @@ function c4m_document_widget_theme() {
 }
 
 /**
- * Implements hook_entity_type_label().
- */
-function c4m_document_widget_entity_type_label($variables) {
-  if ($variables['entity_type'] !== 'node') {
-    return;
-  }
-
-  $node = $variables['entity'];
-
-  if ($node->type !== 'discussion') {
-    return;
-  }
-
-  $object_wrapper = entity_metadata_wrapper('node', $node);
-  $variables['return'] = $object_wrapper->c4m_discussion_type->value();
-
-  return $variables;
-}
-
-/**
  * Implements hook_menu_alter().
  *
  * Add a custom menu alter for editing nodes which simply can be opened via
