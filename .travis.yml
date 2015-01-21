@@ -131,13 +131,16 @@ script:
   - sleep 5
 
   # Run phantomJs.
+  - date
   - phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
 
   # Run behat tests.
+  - date
   - cd $TRAVIS_BUILD_DIR/capacity4more/behat
   - ./bin/behat -p phantomjs --tags=${BEHAT_TAG}
 
   # Run WebTests ---------------------------------------------------------------
+  - date
   - drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
@@ -146,6 +149,7 @@ script:
   # End Run WebTests -----------------------------------------------------------
 
   # Run Code Style validation.
+  - date
   - drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
   - drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
 
