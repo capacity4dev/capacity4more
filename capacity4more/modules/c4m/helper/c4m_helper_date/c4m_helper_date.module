@@ -1,0 +1,120 @@
+<?php
+
+include_once 'c4m_helper_date.features.inc';
+
+/**
+ * Implementation of hook_date_format_types
+ *
+ * @return array
+ */
+function c4m_helper_date_date_format_types() {
+  // Define the core date format types.
+  return array(
+    'c4m_long_without_time' => t('C4M long without time'),
+    'c4m_long_with_time' => t('C4M long with time'),
+  );
+}
+
+/**
+ * Implementation of hook_data_formats()
+ *
+ * @return array
+ */
+function c4m_helper_date_date_formats() {
+  return array(
+    array(
+      'type' => 'c4m_long_without_time',
+      'format' => 'j F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'c4m_long_with_time',
+      'format' => 'j F Y, G:i',
+      'locales' => array(),
+    ),
+  );
+}
+
+/**
+ * Helper function to render timestamp as date or time ago depending on the
+ * time which his passed since.
+ *
+ * @param $timestamp
+ * @return mixed|null|string
+ */
+/**
+ * @param $timestamp
+ *   Timestamp on which to base output time ago or date.
+ * @param string $format
+ *   The date format for the (old) date.
+ * @param int $switch
+ *   The time past that decides to show time ago or date.
+ *   By default time ago will be shown as long as date is within 24 hours of now.
+ * @return mixed|null|string
+ */
+function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400) {
+  If (!is_numeric($timestamp) ||
+      (int) $timestamp != $timestamp) {
+    return;
+  }
+
+  $time_since = time() - $timestamp;
+  if ($time_since < $switch) {
+    $suffix = t('ago');
+    return c4m_helper_date_format_interval($time_since, 1, $suffix);
+  }
+  else {
+    return format_date($timestamp, 'custom', $format);
+  }
+}
+
+
+/**
+ * Formats a time interval with the requested granularity.
+ *
+ * Modified copy of format_interval().
+ *  - We modify the units somewhat.
+ *  - We provide an optional suffix.
+ *
+ * @see format_interval
+ *
+ * @param $interval
+ *   The length of the interval in seconds.
+ * @param $granularity
+ *   How many different units to display in the string.
+ * @param string $suffix
+ *   A suffix for the rendered date.
+ *   Optional language code to translate to a language other than
+ *   what is used to display the page.
+ *
+ * @return
+ *   A translated string representation of the interval.
+ */
+function c4m_helper_date_format_interval($interval, $granularity = 2,
+                                         $suffix = '', $langcode = NULL) {
+  $units = array(
+    '1 year|@count years' => 31536000,
+    '1 month|@count months' => 2592000,
+    '1 week|@count weeks' => 604800,
+    '1 day|@count days' => 86400,
+    '1 hour|@count hours' => 3600,
+    '1 min|@count minutes' => 60,
+    '1 sec|@count seconds' => 1
+  );
+  $output = '';
+  foreach ($units as $key => $value) {
+    $key = explode('|', $key);
+    if ($interval >= $value) {
+      $output .= ($output ? ' ' : '') . format_plural(floor($interval / $value), $key[0], $key[1], array(), array('langcode' => $langcode));
+      $interval %= $value;
+      $granularity--;
+    }
+
+    if ($granularity == 0) {
+      break;
+    }
+  }
+  $output = $output ? $output : t('0 seconds', array(), array('langcode' => $langcode));
+  $output = $suffix ? $output . ' ' . $suffix : $output;
+  return $output;
+}

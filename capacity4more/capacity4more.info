@@ -74,6 +74,7 @@ dependencies[] = views_bulk_operations
 
 ; Helpers
 dependencies[] = c4m_helper_comment
+dependencies[] = c4m_helper_date
 dependencies[] = c4m_helper_entity
 
 ; Vocabularies
