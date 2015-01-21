@@ -79,3 +79,16 @@ function c4m_content_document_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
+/**
+ *  Implements hook_entity_type_label_alter().
+ *
+ *  @param $variables
+ */
+function c4m_content_document_entity_type_label_alter(&$variables) {
+  if (empty($variables['entity']->type) ||
+      'document' !== $variables['entity']->type) {
+    return;
+  }
+  $variables['label'] .= ' ' . ('uploaded by');
+}

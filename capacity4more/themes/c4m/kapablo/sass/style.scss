@@ -5,6 +5,8 @@
 @import "compass/utilities";
 @import "compass/css3/border-radius";
 
+@import "fontawesome/font-awesome";
+
 // Common utility classes to extend or settings.
 @import "base/settings";
 @import "base/mixins";
@@ -36,6 +38,7 @@
 
 // Components - Content types
 @import "components/discussion";
+@import "components/document";
 @import "components/event";
 
 // State: State rules are ways to describe how our modules or layouts will look when in a particular state.

@@ -203,5 +203,7 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
 
     // Manually save the node.
     entity_save('node', $entity);
+
+    parent::complete($entity, $row);
   }
 }

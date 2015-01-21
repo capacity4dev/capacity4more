@@ -1,0 +1,11 @@
+.node-type-discussion {
+  .view-mode-full {
+    .user-name {
+      & + .creation-date {
+        border-left: none;
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+    }
+  }
+}

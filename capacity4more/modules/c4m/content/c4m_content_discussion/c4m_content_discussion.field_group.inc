@@ -21,7 +21,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '11',
+    'weight' => '8',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_date',
@@ -54,9 +54,9 @@ function c4m_content_discussion_field_group_info() {
     'label' => 'Group meta',
     'weight' => '6',
     'children' => array(
-      0 => 'post_date',
-      1 => 'c4m_ds_node_author_image',
-      2 => 'c4m_ds_author_first_and_last_name',
+      0 => 'c4m_ds_node_author_image',
+      1 => 'c4m_ds_author_first_and_last_name',
+      2 => 'c4m_ds_creation_date',
       3 => 'c4m_ds_type_posted_by',
     ),
     'format_type' => 'html5',

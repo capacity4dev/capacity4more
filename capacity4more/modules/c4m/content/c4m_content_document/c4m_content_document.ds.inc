@@ -73,7 +73,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_teaser_table';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -84,9 +84,24 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_author_first_and_last_name' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
@@ -113,23 +128,6 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'post_date' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'ds_post_date_day',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lbw-el' => 'span',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => '',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'c4m_ds_node_author_image' => array(
       'weight' => '4',
       'label' => 'hidden',
@@ -137,20 +135,32 @@ function c4m_content_document_ds_field_settings_info() {
     ),
     'c4m_ds_author_first_and_last_name' => array(
       'weight' => '6',
-      'label' => 'inline',
+      'label' => 'hidden',
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Document uploaded by',
-          'lb-el' => 'span',
+          'func' => 'theme_ds_field_reset',
           'lb-col' => TRUE,
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'user-name',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'j F Y, G:i',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_posted_by' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -165,7 +175,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -175,39 +185,27 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'links' => array(
-      'weight' => '5',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'post_date' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'ds_post_date_day',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'c4m_ds_author_first_and_last_name' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'ow' => TRUE,
-          'ow-el' => 'span',
-          'ow-cl' => 'user-name',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
@@ -282,15 +280,17 @@ function c4m_content_document_ds_layout_settings_info() {
       'middle' => array(
         1 => 'title',
         2 => 'c4m_ds_author_first_and_last_name',
+        3 => 'c4m_ds_creation_date',
       ),
       'right' => array(
-        3 => 'c4m_document',
+        4 => 'c4m_document',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'middle',
       'c4m_ds_author_first_and_last_name' => 'middle',
+      'c4m_ds_creation_date' => 'middle',
       'c4m_document' => 'right',
     ),
     'classes' => array(),
@@ -324,15 +324,16 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         4 => 'c4m_ds_node_author_image',
-        5 => 'c4m_vocab_document_type',
-        6 => 'c4m_related_topic',
+        5 => 'c4m_ds_type_posted_by',
+        6 => 'c4m_vocab_document_type',
         7 => 'c4m_ds_author_first_and_last_name',
-        8 => 'post_date',
+        8 => 'c4m_related_topic',
         9 => 'og_vocabulary',
-        10 => 'group_node_details',
+        10 => 'c4m_ds_creation_date',
         11 => 'c4m_vocab_date',
-        12 => 'c4m_vocab_language',
-        13 => 'c4m_vocab_geo',
+        12 => 'group_node_details',
+        13 => 'c4m_vocab_language',
+        14 => 'c4m_vocab_geo',
       ),
     ),
     'fields' => array(
@@ -341,13 +342,14 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_document' => 'left',
       'comments' => 'left',
       'c4m_ds_node_author_image' => 'right',
+      'c4m_ds_type_posted_by' => 'right',
       'c4m_vocab_document_type' => 'right',
-      'c4m_related_topic' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
-      'post_date' => 'right',
+      'c4m_related_topic' => 'right',
       'og_vocabulary' => 'right',
-      'group_node_details' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_vocab_date' => 'right',
+      'group_node_details' => 'right',
       'c4m_vocab_language' => 'right',
       'c4m_vocab_geo' => 'right',
     ),
@@ -361,6 +363,8 @@ function c4m_content_document_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'hide_page_title' => '0',
+    'page_option_title' => '',
   );
   $export['node|document|full'] = $ds_layout;
 
@@ -379,7 +383,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'right' => array(
         1 => 'title',
         2 => 'c4m_ds_author_first_and_last_name',
-        3 => 'post_date',
+        3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_document',
         6 => 'links',
@@ -389,7 +393,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
-      'post_date' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'links' => 'right',
