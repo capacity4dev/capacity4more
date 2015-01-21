@@ -97,7 +97,7 @@ function c4m_restful_quick_post_form($group_id) {
       'group' => $group_id,
     ),
     'html' => true,
-    // Sort the activity stream by ID descending.
+    // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
   );
 
