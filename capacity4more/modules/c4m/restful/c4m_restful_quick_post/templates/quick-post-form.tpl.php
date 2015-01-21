@@ -71,7 +71,7 @@
   </div>
 </div>
 
-<div class="form-group text btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
+<div class="form-group text clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
   <label>{{fieldSchema.resources[selectedResource].organiser.info.label}}</label>
   <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
 
@@ -82,7 +82,7 @@
   </div>
 </div>
 
-<div class="form-group date btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
+<div class="form-group date clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
   <label><?php print t('When') ?></label>
 
   <div class="row">
@@ -91,7 +91,7 @@
   <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-if="selectedResource == 'documents'"
+<div class="form-group btn-group clearfix btn-group-selectors" ng-if="selectedResource == 'documents'"
      ng-class="{ 'has-error' : errors.document_type }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].document_type.info.label}}</label>
@@ -119,7 +119,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
     <span id="topic_description"
@@ -148,15 +148,16 @@
   </div>
 </div>
 
-<div class="form-group place btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+<div class="form-group place clearfix btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
   <label><?php print t('Where') ?></label>
 
-  <location data="data"></location>
-
+  <div class="row">
+    <location data="data"></location>
+  </div>
   <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
   <div class="label-wrapper">
     <label><?php print t('Group categories') ?></label>
     <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
@@ -195,7 +196,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-if="selectedResource != 'events'"
+<div class="form-group btn-group clearfix btn-group-selectors" ng-if="selectedResource != 'events'"
      ng-class="{ 'has-error' : errors.date }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
@@ -226,7 +227,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
     <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
@@ -252,7 +253,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.geo }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.geo }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].geo.info.label}}</label>
     <span id="geo_description"

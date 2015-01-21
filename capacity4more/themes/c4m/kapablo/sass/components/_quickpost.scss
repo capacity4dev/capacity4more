@@ -230,7 +230,7 @@
     .btn-default {
       @extend %svg-icon;
 
-      @extend %discution-type-values;
+      @extend %discussion-type-values;
 
       background-position: 5px 50%;
       background-repeat: no-repeat;
@@ -254,6 +254,10 @@
         //        @include link-icon-png-fallback('icons', 'question-qp-icon');
       }
     }
+  }
+
+  .btn-group-event_type .btn-default {
+    padding-left: 0;
   }
 }
 
@@ -322,7 +326,7 @@
 }
 
 
-%discution-type-values {
+%discussion-type-values {
   &[value=debate] {
     @include link-icon-png-fallback('icons', 'discussion-qp-debate');
   }

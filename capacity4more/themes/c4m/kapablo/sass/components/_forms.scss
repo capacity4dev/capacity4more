@@ -210,17 +210,22 @@ input[type="checkbox"]:not(old) {
 
 // If JS is disabled, we can't propagate the radio button behavior.
 .js {
-  .field-name-c4m-discussion-type .form-type-radios {
-    .form-item {
-      border-right: 1px solid $gray;
-      margin: 0;
-      padding-bottom: 10px;
-      padding-top: 10px;
+  .field-name-c4m-discussion-type, .field-name-c4m-event-type {
+    .form-type-radios {
 
-      &:last-child {
-        border-right: none;
+      .form-item {
+        border-right: 1px solid $gray;
+        margin: 0;
+        padding-bottom: 10px;
+        padding-top: 10px;
+
+        &:last-child {
+          border-right: none;
+        }
       }
     }
+  }
+  .field-name-c4m-discussion-type {
     .discussion-type-button {
       @extend %svg-icon;
 
@@ -239,6 +244,30 @@ input[type="checkbox"]:not(old) {
 
       input[type="radio"] {
         display: none;
+      }
+    }
+  }
+  .field-name-c4m-event-type {
+    .event-type-button {
+      @extend %svg-icon;
+      padding-left: 0;
+
+      &.event-type-event {
+        //          @include link-icon-png-fallback('icons', 'event-qp-event');
+      }
+      &.event-type-learning {
+        //          @include link-icon-png-fallback('icons', 'event-qp-learning');
+      }
+      &.event-type-meeting {
+        //          @include link-icon-png-fallback('icons', 'event-qp-meeting');
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      &.active, &:hover {
+        color: $highlight-blue;
       }
     }
   }

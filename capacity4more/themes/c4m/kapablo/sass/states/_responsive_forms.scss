@@ -16,9 +16,11 @@
   }
 
   .js {
-    .field-name-c4m-discussion-type .form-type-radios {
-      .form-item {
-        border: none;
+    .field-name-c4m-discussion-type, .field-name-c4m-event-type {
+      .form-type-radios {
+        .form-item {
+          border: none;
+        }
       }
     }
   }
