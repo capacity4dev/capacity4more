@@ -13,7 +13,7 @@ mysql:
   encoding: utf8
 
 before_install:
-  - echo ">> TIMESTAMP : $(date)"
+  - date
   - sudo apt-get update > /dev/null
   - composer self-update
 
@@ -36,7 +36,7 @@ before_install:
 
 
 install:
-  - echo ">> TIMESTAMP : `date`"
+  - date
 
   # Install php packages required for running a web server from drush on php 5.3.
   - sudo apt-get install -y --force-yes php5-cgi php5-mysql
@@ -58,7 +58,7 @@ install:
   - drush cache-clear drush
 
 before_script:
-  - echo ">> TIMESTAMP : $(date)"
+  - date
 
   # Install Apache.
   - sudo apt-get install apache2 libapache2-mod-fastcgi
@@ -117,7 +117,7 @@ before_script:
   - wget http://localhost:8983/solr/capacity4more/update?commit=true
 
 script:
-  - echo ">> TIMESTAMP : $(date)"
+  - date
 
   # Create display.
   - export DISPLAY=:99.0
@@ -150,7 +150,7 @@ script:
   - drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
 
 after_script:
-  - echo ">> TIMESTAMP : $(date)"
+  - date
   - sudo cat /var/log/apache2/error.log
 
   # Debug MySQL config.
@@ -160,4 +160,4 @@ after_script:
   - chmod +x ./mysqltuner.pl
   - ./mysqltuner.pl --user=root
 
-  - echo ">> TIMESTAMP : $(date)"
+  - date
