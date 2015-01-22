@@ -20,13 +20,11 @@ before_install:
   - date
   - sudo apt-get update > /dev/null
   - composer self-update
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 
 install:
   - date
-
-  # Instal grunt & bower
-  - $TRAVIS_BUILD_DIR/build/travis/install/taskrunners.sh
 
   # Install Apache + extra PHP packages.
   - $TRAVIS_BUILD_DIR/build/travis/install/apache.sh
@@ -51,6 +49,9 @@ install:
 
   # Run headless browser environment.
   - $TRAVIS_BUILD_DIR/build/travis/install/browser.sh
+
+  # Instal grunt & bower
+  - $TRAVIS_BUILD_DIR/build/travis/install/taskrunners.sh
 
 
 before_script:
