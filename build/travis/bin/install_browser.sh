@@ -9,7 +9,7 @@ set -e
 
 
 # Check first if we realy need this.
-if [[ "$BEHAT_TAG" != "javascript" ]]; then
+if [ "$BEHAT_TAG" != "javascript" ]; then
   exit 0
 fi
 
