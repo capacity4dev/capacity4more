@@ -1,4 +1,6 @@
-<form name="entityForm" ng-submit="submitForm(data, selectedResource, 'quick_post')">
+<form name="entityForm"
+      ng-submit="submitForm(data, selectedResource, 'quick_post')"
+      xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
   <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label"
@@ -20,20 +22,34 @@
 
 <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
      ng-class="{ 'has-error' : errors.document }">
-  <div class="form-control drop-box" ng-file-drop="onFileSelect($files);"
+  <div ng-hide="serverSide.file"  class="form-control drop-box" ng-file-drop="onFileSelect($files);"
        ng-file-drag-over-class="file-upload-drag">
-
-    <div ng-hide="serverSide.file" class="drop-text">
+    <div class="drop-text">
       <span class="uppercase"><?php print t('Drop file here to upload'); ?></span><br/>
       <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
       <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
     </div>
+  </div>
+  <div ng-show="serverSide.file.status == 200">
+    <div class="row">
+      <div class="col-sm-2">
+        <img src="missing_icon.png"/>
+      </div>
+      <div class="col-sm-10">
+        <p> {{serverSide.file.config.file.name}} </p>
+        <p> Filetype: {{serverSide.file.config.file.type}} | Filesize: {{serverSide.file.config.file.size | filesize:1}} </p>
 
-    <div ng-show="serverSide.file.status == 200">
-      <div class="alert alert-success">
-        <?php print t('The document "{{ serverSide.file.data.data[0].label }}" was saved successfully.') ?>
+        <div ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-upload-drag">
+          <span><?php print t('Drop file here to replace '); ?></span>
+          <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+          <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
+          <br/>
+          <a href="javascript://" ng-click="removeFile()"><?php print t('Remove the file.'); ?></a>
+        </div>
       </div>
     </div>
+
+
   </div>
 
   <div class="errors">
