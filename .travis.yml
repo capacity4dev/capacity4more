@@ -2,10 +2,10 @@ language: php
 
 env:
   # Create a build job per BEHAT feature TAG
-  - BEHAT_TAG="@api"
+  - BEHAT_TAG="api"
     CODE_REVIEW=1
-  - BEHAT_TAG="@javascript"
-    CODE_REVIEW=0
+  #- BEHAT_TAG="javascript"
+  #  CODE_REVIEW=0
 
 php:
   - 5.5
@@ -19,22 +19,22 @@ mysql:
 before_install:
   - date
   - sudo apt-get update > /dev/null
-  - composer self-update
-
-  # Install grunt.
-  - npm install -g grunt-cli
-  - npm install -g bower
 
 
 install:
   - date
+
+  # Update composer.
+  - $TRAVIS_BUILD_DIR/build/travis/install/composer.sh
+
+  # Instal grunt & bower
+  - $TRAVIS_BUILD_DIR/build/travis/install/taskrunners.sh
 
   # Install Apache + extra PHP packages.
   - $TRAVIS_BUILD_DIR/build/travis/install/apache.sh
 
   # Install drush.
   - $TRAVIS_BUILD_DIR/build/travis/install/drush.sh
-  - drush status
 
   # Install Coder for code standard reviews. Install only when we run all tests.
   - test $CODE_REVIEW = 1 && $TRAVIS_BUILD_DIR/build/travis/install/coder.sh
@@ -78,7 +78,7 @@ script:
   # Run behat tests.
   - date
   - cd $TRAVIS_BUILD_DIR/capacity4more/behat
-  - ./bin/behat -p phantomjs --tags=${BEHAT_TAG}
+  - ./bin/behat -p phantomjs --tags=@${BEHAT_TAG}
 
   # Run WebTests ---------------------------------------------------------------
   - date
