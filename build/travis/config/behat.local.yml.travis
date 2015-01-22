@@ -1,3 +1,5 @@
+# Behat configuration used during Travis-CI builds.
+
 default:
   context:
     parameters:
