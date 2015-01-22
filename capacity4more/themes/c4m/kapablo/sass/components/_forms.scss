@@ -388,4 +388,24 @@ input[type="checkbox"]:not(old) {
   }
 }
 
+.panel-default {
+  @include box-shadow(none);
+
+  border: none;
+
+  > .panel-heading {
+    background: none;
+    border: none;
+    color: $color-blue;
+
+    a {
+      @include arrow-image('down');
+
+      display: inline-block;
+
+      &.collapsed {
+        @include arrow-image('right');
+      }
+    }
+  }
 }
