@@ -70,15 +70,12 @@ script:
   - date
 
   # Run behat tests, different run based on the environment setting.
-  - date
   - $TRAVIS_BUILD_DIR/build/travis/bin/run_behat.sh
 
   # Run WebTests
-  - date
   - $TRAVIS_BUILD_DIR/build/travis/bin/run_simpletest.sh
 
   # Run Code Style validation.
-  - date
   - $TRAVIS_BUILD_DIR/build/travis/bin/run_coder.sh
 
 
