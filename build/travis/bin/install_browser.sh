@@ -26,3 +26,5 @@ sleep 5
 
 # Run phantomJs.
 phantomjs --webdriver=8643 > ~/phantomjs.log 2>&1 &
+
+cd $TRAVIS_BUILD_DIR
