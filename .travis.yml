@@ -3,9 +3,9 @@ language: php
 env:
   # Create a build job per BEHAT feature TAG
   - BEHAT_TAG="@api"
-    TEST_ALL=1
+    CODE_REVIEW=1
   - BEHAT_TAG="@javascript"
-    TEST_ALL=0
+    CODE_REVIEW=0
 
 php:
   - 5.5
@@ -34,9 +34,10 @@ install:
 
   # Install drush.
   - $TRAVIS_BUILD_DIR/build/travis/install/drush.sh
+  - drush status
 
   # Install Coder for code standard reviews. Install only when we run all tests.
-  - test $TEST_ALL = 1 && $TRAVIS_BUILD_DIR/build/travis/install/coder.sh
+  - test $CODE_REVIEW = 1 && $TRAVIS_BUILD_DIR/build/travis/install/coder.sh
 
   # Install MySQL.
   - $TRAVIS_BUILD_DIR/build/travis/install/mysql.sh
@@ -90,8 +91,8 @@ script:
 
   # Run Code Style validation.
   - date
-  - test $TEST_ALL = 1 && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
-  - test $TEST_ALL = 1 && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
+  - test $CODE_REVIEW = 1 && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
+  - test $CODE_REVIEW = 1 && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
 
 
 after_script:
