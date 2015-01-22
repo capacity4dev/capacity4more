@@ -37,7 +37,7 @@ install:
   - test $TEST_ALL = 1 \
       && $TRAVIS_BUILD_DIR/build/travis/install/coder.sh
 
-  # Install MySQL
+  # Install MySQL.
   - $TRAVIS_BUILD_DIR/build/travis/install/mysql.sh
 
   # Install Apache Solr, pass the name of the SOLR core.
