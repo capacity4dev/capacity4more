@@ -18,7 +18,7 @@ label, .control-label {
   font-weight: normal;
 }
 
-input, .form-control:not(.form-textarea) {
+input, .form-control {
   @include input-rounded($color-beige, 15px);
 }
 
@@ -155,12 +155,20 @@ input[type="checkbox"]:not(old) {
     background: $color-white;
     border: none;
     border-radius: 15px;
-    margin: 7px 0 7px 7px;
-    padding: 3px 18px 3px 5px;
+    height: 26px;
+    line-height: 26px;
+    margin: 3px 0 3px 3px;
+    padding: 0 27px 0 8px;
+
+    div {
+      border-right: 1px solid $color-beige;
+      padding-right: 5px;
+    }
   }
   .select2-search-choice-close {
     left: auto;
-    right: 3px;
+    right: 8px;
+    top: 6px;
   }
 }
 
