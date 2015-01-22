@@ -14,6 +14,8 @@ if [ "$BEHAT_TAG" = "" ]; then
 fi
 
 
+cd $TRAVIS_BUILD_DIR/capacity4more/behat
+
 # Run tests for the api tag.
 if [ "$BEHAT_TAG" = "api" ]; then
   ./bin/behat --tags=@api
@@ -23,3 +25,5 @@ fi
 if [ "$BEHAT_TAG" = "javascript" ]; then
   ./bin/behat -p phantomjs --tags=@javascript
 fi
+
+cd $TRAVIS_BUILD_DIR
