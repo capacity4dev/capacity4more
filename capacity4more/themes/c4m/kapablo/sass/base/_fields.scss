@@ -1,5 +1,5 @@
 .field-name-title {
-  color: $gray-darker;
+  color: $color-gray;
 
   h2 {
     margin: 0;
@@ -12,7 +12,7 @@
 }
 
 .field-name-c4m-body {
-  color: $gray-darker;
+  color: $color-gray;
 }
 
 .user-name {
@@ -50,7 +50,7 @@
 
   .creation-date {
     margin-left: 10px;
-    border-left: 1px solid $gray;
+    border-left: 1px solid $color-gray;
     padding-left: 10px;
   }
 }
@@ -67,7 +67,7 @@
 }
 
 .field-name-c4m-ds-content-footer-stats {
-  color: $gray-darker;
+  color: $color-gray;
   margin-top: 5px;
 }
 
