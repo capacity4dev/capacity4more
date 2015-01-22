@@ -36,22 +36,20 @@ overlay_regions[] = content_bottom
 scripts[] = js/kapablo.min.js
 scripts[] = js/kapablo_overlay.js
 
-;;;;;;;;;;;;;;;;;;;;;
-;; Scripts
-;;;;;;;;;;;;;;;;;;;;;
+scripts[] = 'js/bootstrap/affix.js'
+scripts[] = 'js/bootstrap/alert.js'
+scripts[] = 'js/bootstrap/button.js'
+scripts[] = 'js/bootstrap/carousel.js'
+scripts[] = 'js/bootstrap/collapse.js'
+scripts[] = 'js/bootstrap/dropdown.js'
+scripts[] = 'js/bootstrap/modal.js'
+scripts[] = 'js/bootstrap/tooltip.js'
+scripts[] = 'js/bootstrap/popover.js'
+scripts[] = 'js/bootstrap/scrollspy.js'
+scripts[] = 'js/bootstrap/tab.js'
+scripts[] = 'js/bootstrap/transition.js'
 
-scripts[] = 'bootstrap/js/affix.js'
-scripts[] = 'bootstrap/js/alert.js'
-scripts[] = 'bootstrap/js/button.js'
-scripts[] = 'bootstrap/js/carousel.js'
-scripts[] = 'bootstrap/js/collapse.js'
-scripts[] = 'bootstrap/js/dropdown.js'
-scripts[] = 'bootstrap/js/modal.js'
-scripts[] = 'bootstrap/js/tooltip.js'
-scripts[] = 'bootstrap/js/popover.js'
-scripts[] = 'bootstrap/js/scrollspy.js'
-scripts[] = 'bootstrap/js/tab.js'
-scripts[] = 'bootstrap/js/transition.js'
+scripts[] = 'js/bootstrap.min.js'
 
 ; Disable BootstrapCDN so the compiled SASS source files can be used.
 settings[bootstrap_cdn] = ''

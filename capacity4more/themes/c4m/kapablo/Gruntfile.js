@@ -80,6 +80,12 @@ module.exports = function (grunt) {
             'js/app/modernizr.js'
           ],
           dest: 'js/<%= pkg.name %>.concat.js'
+        },
+        bootstrap: {
+          src: [
+          'js/bootstrap/*.js'
+          ],
+          dest: 'js/bootstrap.concat.js'
         }
       },
       uglify: {
@@ -89,7 +95,12 @@ module.exports = function (grunt) {
         app: {
           src: ['<%= concat.app.dest %>'],
           dest: 'js/<%= pkg.name %>.min.js'
+        },
+        bootstrap: {
+          src: ['<%= concat.bootstrap.dest %>'],
+          dest: 'js/bootstrap.min.js'
         }
+
 //            ie7: {
 //                src: ['js/app/ie7.js'],
 //                dest: 'js/<%= pkg.name %>.ie7.min.js'
@@ -178,7 +189,7 @@ module.exports = function (grunt) {
     'uglify',
     'compass:dev',
     'pleeease',
-    'csscss',
+    //'csscss',
     'watch'
   ]);
 

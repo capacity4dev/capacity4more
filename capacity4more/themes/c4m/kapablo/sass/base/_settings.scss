@@ -10,6 +10,7 @@ $color-brown: #7C6E5A;
 $color-gray: #70706D;
 $color-gray-dark: #3E3E3E;
 $color-green: #ACBD40;
+$color-green-light: #F0FED0;
 $color-orange: #D66745;
 $color-red: #C65A56;
 $color-white: #FFFFFF;
@@ -32,6 +33,8 @@ $private: $color-private;
 $link-color: $color-blue;
 $link-hover-color: $link-color;
 
+$activity-load: $color-green-light;
+
 // Avatar bg colors:
 $ava-dark-navy: #47727B;
 $ava-pastel-pink: #D1A2B4;
@@ -44,5 +47,3 @@ $ava-pastel-orange: #CF7F58;
 $ava-green: $color-green;
 $ava-green-light: #8CD771;
 $ava-pink-dark: #523F46;
-
-$activity-load: #F0FED0;
