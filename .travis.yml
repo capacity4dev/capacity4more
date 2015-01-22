@@ -32,7 +32,7 @@ install:
   # Install drush.
   - $TRAVIS_BUILD_DIR/build/travis/install/drush.sh
 
-  # Install Coder for code standard reviews. Install only when we run all tests.
+  # Install Coder for code standard reviews. Install only when needed.
   - test $CODE_REVIEW = 1 && $TRAVIS_BUILD_DIR/build/travis/install/coder.sh
 
   # Install MySQL.
@@ -59,7 +59,7 @@ before_script:
 
   # Install capacity4more profile.
   - cd $TRAVIS_BUILD_DIR
-  - cp $TRAVIS_BUILD_DIR/build/travis/config/config.sh config.sh
+  - cp $TRAVIS_BUILD_DIR/build/travis/config/config.sh.travis config.sh
   - ./install -dy
   - cd $TRAVIS_BUILD_DIR/www
   - drush -y dis dblog
