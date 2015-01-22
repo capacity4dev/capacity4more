@@ -369,3 +369,23 @@ input[type="checkbox"]:not(old) {
 .form-control-feedback {
   right: 15px;
 }
+
+#c4m-datetime-end-add-more-wrapper {
+  .container-inline-date {
+    clear: none;
+    float: left;
+    width: 50%;
+
+    .form-group {
+      width: auto;
+    }
+
+    .end-date-wrapper {
+      > .control-label {
+        display: none;
+      }
+    }
+  }
+}
+
+}
