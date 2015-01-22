@@ -4,8 +4,10 @@ env:
   # Create a build job per BEHAT feature TAG
   - BEHAT_TAG="api"
     CODE_REVIEW=1
-  #- BEHAT_TAG="javascript"
-  #  CODE_REVIEW=0
+    SIMPLETEST=1
+  - BEHAT_TAG="javascript"
+    CODE_REVIEW=0
+    SIMPLETEST=0
 
 php:
   - 5.5
@@ -44,11 +46,11 @@ install:
   # Install Tika, pass the desired version number.
   - $TRAVIS_BUILD_DIR/build/travis/install/tika.sh "1.7"
 
-  # Configure Behat + Install dependencies.
-  - $TRAVIS_BUILD_DIR/build/travis/install/behat.sh
+  # Configure Behat + Install dependencies, only needed if the BEHAT_TAG is set.
+  - test "$BEHAT_TAG" != "" && $TRAVIS_BUILD_DIR/build/travis/install/behat.sh
 
-  # Run headless browser environment.
-  - $TRAVIS_BUILD_DIR/build/travis/install/browser.sh
+  # Run headless browser environment, only needed for @javascript behat tests.
+  - test "$BEHAT_TAG" = "javascript" && $TRAVIS_BUILD_DIR/build/travis/install/browser.sh
 
   # Instal grunt & bower
   - $TRAVIS_BUILD_DIR/build/travis/install/taskrunners.sh
@@ -74,17 +76,16 @@ before_script:
 script:
   - date
 
-  # Run behat tests.
+  # Run behat tests, different run based on the environment setting.
   - date
   - cd $TRAVIS_BUILD_DIR/capacity4more/behat
-  - ./bin/behat -p phantomjs --tags=@${BEHAT_TAG}
+  - test "$BEHAT_TAG" = "api" && ./bin/behat --tags=@api
+  - test "$BEHAT_TAG" = "javascript" && ./bin/behat -p phantomjs --tags=@javascript
 
   # Run WebTests ---------------------------------------------------------------
   - date
-  - drush @capacity4more -y en simpletest
-
-  # Add the tests here. Use the group name, classname or the file.
-  - drush @capacity4more test-run "capacity4more:og:vocab"
+  - test $SIMPLETEST = 1 && drush @capacity4more -y en simpletest
+  - test $SIMPLETEST = 1 && drush @capacity4more test-run "capacity4more"
 
   # End Run WebTests -----------------------------------------------------------
 
@@ -95,14 +96,4 @@ script:
 
 
 after_script:
-  - date
-  - sudo cat /var/log/apache2/error.log
-
-  # Debug MySQL config.
-  - cat /etc/mysql/conf.d/drupal.cnf
-  - cd $TRAVIS_BUILD_DIR
-  - wget https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
-  - chmod +x ./mysqltuner.pl
-  - ./mysqltuner.pl --user=root
-
   - date
