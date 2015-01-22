@@ -19,13 +19,11 @@ mysql:
 before_install:
   - date
   - sudo apt-get update > /dev/null
+  - composer self-update
 
 
 install:
   - date
-
-  # Update composer.
-  - $TRAVIS_BUILD_DIR/build/travis/install/composer.sh
 
   # Instal grunt & bower
   - $TRAVIS_BUILD_DIR/build/travis/install/taskrunners.sh
