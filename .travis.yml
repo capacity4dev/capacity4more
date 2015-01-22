@@ -2,8 +2,10 @@ language: php
 
 env:
   # Create a build job per BEHAT feature TAG
-  - BEHAT_TAG="@api" TEST_ALL=1
-  - BEHAT_TAG="@javascript" TEST_ALL=0
+  - BEHAT_TAG="@api"
+    TEST_ALL=1
+  - BEHAT_TAG="@javascript"
+    TEST_ALL=0
 
 php:
   - 5.5
@@ -25,78 +27,39 @@ before_install:
 install:
   - date
 
-  # Install php packages required for running a web server from drush on php 5.3.
-  - sudo apt-get install -y --force-yes php5-cgi php5-mysql
-
-  # Set sendmail so drush doesn't throw an error during site install.
-  - echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
+  # Install Apache + extra PHP packages.
+  - $TRAVIS_BUILD_DIR/build/travis/install/apache.sh
 
   # Install drush.
-  - cd $TRAVIS_BUILD_DIR
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require drush/drush 6.*
-  - phpenv rehash
+  - $TRAVIS_BUILD_DIR/build/travis/install/drush.sh
 
-  # Install Coder for code standard reviews.
-  - cd $TRAVIS_BUILD_DIR
-  - composer global require drupal/coder:\>7
-  - drush pm-download coder-7.x-2.x-dev --destination=$HOME/.drush
-  - phpenv rehash
-  - drush cache-clear drush
+  # Install Coder for code standard reviews. Install only when we run all tests.
+  - test $TEST_ALL = 1 \
+      && $TRAVIS_BUILD_DIR/build/travis/install/coder.sh
+
+  # Install MySQL
+  - $TRAVIS_BUILD_DIR/build/travis/install/mysql.sh
+
+  # Install Apache Solr, pass the name of the SOLR core.
+  - $TRAVIS_BUILD_DIR/build/travis/install/solr.sh capacity4more
+
+  # Install Tika, pass the desired version number.
+  - $TRAVIS_BUILD_DIR/build/travis/install/tika.sh "1.7"
 
 before_script:
   - date
 
-  # Install Apache.
-  - sudo apt-get install apache2 libapache2-mod-fastcgi
-  - sudo a2enmod rewrite
-  - sudo service apache2 restart
-
-  # Enable php-fpm.
-  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo a2enmod rewrite actions fastcgi alias
-  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-
-  # Configure MySQL.
-  - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-  - echo -e "\nwait_timeout=300" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-  - echo -e "\nmax_connections=250" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-  - sudo service mysql restart
-
-  # Install Solr.
-  - cd $TRAVIS_BUILD_DIR
-  - drush dl search_api_solr
-  - curl -sSL https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh | SOLR_CORE=capacity4more SOLR_CONFS="$TRAVIS_BUILD_DIR/search_api_solr/solr-conf/4.x" bash
-  - rm -R $TRAVIS_BUILD_DIR/search_api_solr
-
-  # Install Tika.
-  - mkdir -p $TRAVIS_BUILD_DIR/tika
-  - cd $TRAVIS_BUILD_DIR/tika
-  - wget http://archive.apache.org/dist/tika/tika-app-1.7.jar
-  - chmod +x ./tika-app-*.jar
-  - cd $TRAVIS_BUILD_DIR
-
   # Install capacity4more profile.
   - cd $TRAVIS_BUILD_DIR
-  - cp $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.config.sh config.sh
+  - cp $TRAVIS_BUILD_DIR/build/travis/config/config.sh config.sh
   - ./install -dy
   - cd $TRAVIS_BUILD_DIR/www
   - drush -y dis dblog
   - drush cc all --yes
 
-  # Configure apache virtual hosts.
-  - sudo cp -f $TRAVIS_BUILD_DIR/capacity4more/behat/travis-ci.apache.conf /etc/apache2/sites-available/default
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$TRAVIS_BUILD_DIR?g" --in-place /etc/apache2/sites-available/default
-  - sudo service apache2 restart
-
   # Create a behat configuration file.
-  - cd $TRAVIS_BUILD_DIR/capacity4more/behat
-  - cp behat.local.yml.travis behat.local.yml
-
-  # Create Drush alias.
-  - cp $TRAVIS_BUILD_DIR/capacity4more/behat/aliases.drushrc.php ~/.drush/
-  - composer install --prefer-source
+  - cp $TRAVIS_BUILD_DIR/build/travis/config/behat.local.yml \
+    $TRAVIS_BUILD_DIR/capacity4more/behat/behat.local.yml
 
   # Index content in Solr.
   - drush @capacity4more search-api-index
@@ -128,17 +91,18 @@ script:
 
   # Run WebTests ---------------------------------------------------------------
   - date
-  - (( TEST_ALL )) && drush @capacity4more -y en simpletest
+  - drush @capacity4more -y en simpletest
 
   # Add the tests here. Use the group name, classname or the file.
-  - (( TEST_ALL )) && drush @capacity4more test-run "capacity4more:og:vocab"
+  - drush @capacity4more test-run "capacity4more:og:vocab"
 
   # End Run WebTests -----------------------------------------------------------
 
   # Run Code Style validation.
   - date
-  - (( TEST_ALL )) && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
-  - (( TEST_ALL )) && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
+  - test $TEST_ALL = 1 \
+      && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m \
+      && drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
 
 after_script:
   - date
