@@ -8,7 +8,8 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
-echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-echo -e "\nwait_timeout=300" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
-echo -e "\nmax_connections=250" | sudo tee -a /etc/mysql/conf.d/drupal.cnf
+# Copy the proper config file.
+sudo cp -f $TRAVIS_BUILD_DIR/build/travis/config/drupal.cnf /etc/mysql/conf.d/drupal.cnf
+
+# Restart the mysql service.
 sudo service mysql restart
