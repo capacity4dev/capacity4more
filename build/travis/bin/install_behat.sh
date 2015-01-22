@@ -6,6 +6,13 @@
 #
 # ---------------------------------------------------------------------------- #
 
+
+# Check first if we relay need behat.
+if [[ "$BEHAT_TAG" = "" ]]; then
+  exit 0;
+fi
+
+
 cd $TRAVIS_BUILD_DIR/capacity4more/behat
 
 # Copy the travis specific behat config file.

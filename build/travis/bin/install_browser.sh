@@ -7,6 +7,12 @@
 # ---------------------------------------------------------------------------- #
 
 
+# Check first if we realy need this.
+if [[ "$BEHAT_TAG" != "javascript" ]]; then
+  exit 0
+fi
+
+
 # Create display.
 export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
