@@ -60,17 +60,10 @@ before_script:
   - date
 
   # Install capacity4more profile.
-  - cd $TRAVIS_BUILD_DIR
-  - cp $TRAVIS_BUILD_DIR/build/travis/config/config.sh.travis config.sh
-  - ./install -dy
-  - cd $TRAVIS_BUILD_DIR/www
-  - drush -y dis dblog
-  - drush cc all --yes
+  - $TRAVIS_BUILD_DIR/build/travis/bin/install_drupal.sh
 
   # Index content in Solr.
-  - drush @capacity4more search-api-index
-  - sleep 10
-  - wget http://localhost:8983/solr/capacity4more/update?commit=true
+  - $TRAVIS_BUILD_DIR/build/travis/bin/index_drupal.sh
 
 
 script:
@@ -80,11 +73,9 @@ script:
   - date
   - $TRAVIS_BUILD_DIR/build/travis/bin/run_behat.sh
 
-  # Run WebTests ---------------------------------------------------------------
+  # Run WebTests
   - date
   - $TRAVIS_BUILD_DIR/build/travis/bin/run_simpletest.sh
-
-  # End Run WebTests -----------------------------------------------------------
 
   # Run Code Style validation.
   - date
