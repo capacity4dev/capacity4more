@@ -1,10 +1,12 @@
 #!/bin/sh
+set -e
 
 # ---------------------------------------------------------------------------- #
 #
 # Installs SOLR search server.
 #
 # ---------------------------------------------------------------------------- #
+
 
 # We use a script hosted on GitHub.
 SCRIPT_URL="https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh"

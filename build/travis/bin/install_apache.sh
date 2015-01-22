@@ -1,10 +1,12 @@
 #!/bin/sh
+set -e
 
 # ---------------------------------------------------------------------------- #
 #
 # Installs the Apache server on Travis-CI
 #
 # ---------------------------------------------------------------------------- #
+
 
 # Install necesary php packages.
 sudo apt-get install -y --force-yes php5-cgi php5-mysql

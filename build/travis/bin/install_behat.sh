@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # ---------------------------------------------------------------------------- #
 #
@@ -8,7 +9,7 @@
 
 
 # Check first if we relay need behat.
-if [[ "$BEHAT_TAG" = "" ]]; then
+if [ "$BEHAT_TAG" = "" ]; then
   exit 0;
 fi
 

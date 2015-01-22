@@ -1,10 +1,12 @@
 #!/bin/sh
+set -e
 
 # ---------------------------------------------------------------------------- #
 #
 # Installs TIKA script to extract the content of documents.
 #
 # ---------------------------------------------------------------------------- #
+
 
 VERSION="$1"
 DOWNLOAD_URL="http://archive.apache.org/dist/tika/tika-app-$VERSION.jar"
