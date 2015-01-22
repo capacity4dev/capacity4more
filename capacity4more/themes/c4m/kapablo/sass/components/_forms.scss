@@ -20,6 +20,7 @@ label, .control-label {
 
 input, .form-control {
   @include input-rounded($color-beige, 15px);
+  @include box-shadow(none);
 }
 
 .form-textarea {

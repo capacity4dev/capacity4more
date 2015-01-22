@@ -321,9 +321,12 @@
 .place, .date {
   .input-group .form-control {
     @include input-rounded($color-beige, 15px);
+
+    &.date-input {
+      border-radius: 15px 0 0 15px;
+    }
   }
 }
-
 
 %discussion-type-values {
   &[value=debate] {
@@ -340,5 +343,27 @@
 
   &[value=question] {
     @include link-icon-png-fallback('icons', 'discussion-qp-question');
+  }
+}
+
+.datetime-start, .datetime-end {
+  table {
+    @include input-rounded($color-beige, 15px);
+    border-radius: 0 15px 15px 0;
+
+    input {
+      @include box-shadow(none);
+      background-color: transparent;
+    }
+  }
+
+  .date-container {
+    display: inline-block;
+    margin-right: 3%;
+    width: 57%;
+  }
+  .time-container {
+    display: inline-block;
+    width: 40%;
   }
 }

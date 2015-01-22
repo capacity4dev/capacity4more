@@ -1,29 +1,25 @@
 <div class="col-md-6 datetime-start" id="datetime">
   <div class="input-group">
-    <div class="row">
-      <div class="col-md-7">
+    <div class="date-container">
         <label>Start Date</label>
-        <input type="text" autocomplete="off" class="form-control" datepicker-popup="{{format}}" ng-click="startOpened = true" ng-model="data.datetime.startDate" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" name="startDate" close-text="Close" />
-      </div>
-      <div class="col-md-5">
-        <label>Start Time</label>
-        <timepicker ng-model="data.datetime.startTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
-      </div>
+        <input type="text" autocomplete="off" class="form-control date-input" datepicker-popup="{{format}}" ng-click="startOpened = true" ng-model="data.datetime.startDate" is-open="startOpened" min-date="minDate" datepicker-options="dateOptions" name="startDate" close-text="Close" />
+    </div>
+    <div class="time-container">
+      <label>Start Time</label>
+      <timepicker ng-model="data.datetime.startTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
     </div>
   </div>
 </div>
 <!--<div class="col-md-2 date-chevron"><i class="glyphicon glyphicon-chevron-right"></i></div>-->
 <div class="col-md-6 datetime-end">
   <div class="input-group">
-    <div class="row">
-      <div class="col-md-7">
-        <label>End Date</label>
-        <input type="text" autocomplete="off" class="form-control" datepicker-popup="{{format}}" ng-click="endOpened = true" ng-model="data.datetime.endDate" is-open="endOpened" init-date="data.datetime.startDate" min-date="data.datetime.startDate" datepicker-options="dateOptions" close-text="Close"  name="endDate"/>
-      </div>
-      <div class="col-md-5">
-        <label>End Time</label>
-        <timepicker ng-model="data.datetime.endTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
-      </div>
+    <div class="date-container">
+      <label>End Date</label>
+      <input type="text" autocomplete="off" class="form-control date-input" datepicker-popup="{{format}}" ng-click="endOpened = true" ng-model="data.datetime.endDate" is-open="endOpened" init-date="data.datetime.startDate" min-date="data.datetime.startDate" datepicker-options="dateOptions" close-text="Close"  name="endDate"/>
+    </div>
+    <div class="time-container">
+      <label>End Time</label>
+      <timepicker ng-model="data.datetime.endTime" hour-step="hstep" minute-step="mstep" show-meridian="false"></timepicker>
     </div>
   </div>
 </div>
