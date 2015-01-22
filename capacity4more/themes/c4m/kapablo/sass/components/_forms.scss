@@ -18,8 +18,12 @@ label, .control-label {
   font-weight: normal;
 }
 
-input, .form-control {
+input, .form-control:not(.form-textarea) {
   @include input-rounded($color-beige, 15px);
+}
+
+.form-textarea {
+  @include input-rounded($color-beige, 0);
 }
 
 form {
@@ -55,7 +59,7 @@ form {
   }
 
   .resizable-textarea .grippie {
-    background: $color-beige;
+    background-color: $color-beige;
     border: 0;
   }
 }
@@ -332,4 +336,27 @@ input[type="checkbox"]:not(old) {
     float: right;
   }
 
+}
+
+.form-type-password-confirm {
+  .label {
+    display: inline-block !important;
+  }
+
+  .help-block {
+    @extend .col-sm-4;
+
+    ul {
+      padding-left: 25px;
+    }
+  }
+
+  .progress {
+    height: 3px;
+    margin-top: 15px;
+  }
+}
+
+.form-control-feedback {
+  right: 15px;
 }

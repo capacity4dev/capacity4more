@@ -153,7 +153,7 @@ module.exports = function (grunt) {
 
         compass: {
           files: ['sass/*.scss', 'sass/**/*.scss'],
-          tasks: ['compass', 'pleeease'],
+          tasks: ['compass:dev', 'pleeease'],
           options: {
             livereload: true
           }
@@ -204,7 +204,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'build',
+    'dev',
     'watch'
   ]);
 }
