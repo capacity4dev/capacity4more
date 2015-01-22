@@ -16,4 +16,3 @@ phpenv rehash
 # Create the Drush alias.
 mkdir -p ~/.drush
 cp $TRAVIS_BUILD_DIR/build/travis/config/aliases.drushrc.php ~/.drush/
-composer install --prefer-source
