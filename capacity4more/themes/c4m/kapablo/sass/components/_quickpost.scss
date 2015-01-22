@@ -106,6 +106,14 @@
 
 .pane-quick-form {
 
+  .form-control {
+    padding: 6px 10px;
+  }
+
+  .input-group {
+    width: 100%;
+  }
+
   .group-resources {
     margin-bottom: 20px;
   }
@@ -308,6 +316,12 @@
 .document {
   padding-top: 5px;
   border-top: 1px solid #000;
+}
+
+.place, .date {
+  .input-group .form-control {
+    @include input-rounded($color-beige, 15px);
+  }
 }
 
 

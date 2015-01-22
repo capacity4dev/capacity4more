@@ -152,7 +152,7 @@
   <label><?php print t('Where') ?></label>
 
   <div class="row">
-    <location data="data"></location>
+    <location data="data" class="col-xs-12"></location>
   </div>
   <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
