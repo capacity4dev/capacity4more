@@ -1,6 +1,6 @@
 .form-actions {
   .form-submit {
-    @include input-rounded($gray-darker, 20px);
+    @include input-rounded($color-gray, 20px);
 
     color: $color-white;
     padding: 10px 50px;
@@ -14,7 +14,7 @@ input[type=file].hidden-input {
 }
 
 label, .control-label {
-  color: $gray-darker;
+  color: $color-gray;
   font-weight: normal;
 }
 
@@ -331,6 +331,5 @@ input[type="checkbox"]:not(old) {
   input[value="Clear"] {
     float: right;
   }
-
 
 }
