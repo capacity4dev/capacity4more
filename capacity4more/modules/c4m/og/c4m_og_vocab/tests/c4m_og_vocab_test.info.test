@@ -17,7 +17,7 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
     return array(
       'name' => 'c4m - Group Vocabulary Info',
       'description' => 'Test the get info functionality.',
-      'group' => 'capacity4more:og:vocab',
+      'group' => 'capacity4more',
     );
   }
 
