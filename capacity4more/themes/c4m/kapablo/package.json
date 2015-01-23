@@ -15,5 +15,10 @@
     "grunt-grunticon": "^1.4.0",
     "grunt-pleeease": "^1.2.0",
     "grunt-svgmin": "^2.0.0"
+  },
+  "dependencies": {
+    "grunt-pleeease": "^1.2.0",
+    "imagemin-mozjpeg": "^4.0.0",
+    "pleeease": "^2.0.0"
   }
 }
