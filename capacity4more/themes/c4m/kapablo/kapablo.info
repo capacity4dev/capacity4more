@@ -49,7 +49,5 @@ scripts[] = 'js/bootstrap/scrollspy.js'
 scripts[] = 'js/bootstrap/tab.js'
 scripts[] = 'js/bootstrap/transition.js'
 
-scripts[] = 'js/bootstrap.min.js'
-
 ; Disable BootstrapCDN so the compiled SASS source files can be used.
 settings[bootstrap_cdn] = ''
