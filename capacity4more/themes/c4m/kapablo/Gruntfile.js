@@ -1,4 +1,7 @@
 module.exports = function (grunt) {
+  var mozjpeg = require('imagemin-mozjpeg');
+
+
   grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
 
@@ -54,11 +57,12 @@ module.exports = function (grunt) {
         dynamic: {
           options: {
             optimizationLevel: 5,
-            svgoPlugins: [{removeViewBox: true}]
+            svgoPlugins: [{removeViewBox: true}],
+            use: [mozjpeg()]
           },
           files: [{
             expand: true,
-            src: ['images/**/*.{png,jpg,gif}']
+            src: ['images/**/*.{png,jpg,gif,jpeg}']
           }]
         }
       },
