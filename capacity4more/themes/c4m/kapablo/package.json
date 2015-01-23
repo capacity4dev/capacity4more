@@ -16,5 +16,8 @@
     "grunt-pleeease": "^1.2.0",
     "grunt-svgmin": "^2.0.0",
     "imagemin-mozjpeg": "^4.0.0"
+  },
+  "dependencies": {
+    "imagemin-mozjpeg": "^4.0.0"
   }
 }
