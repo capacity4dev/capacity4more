@@ -80,10 +80,17 @@ trait Group {
   }
 
   /**
+   * @When /^I visit the group "([^"]*)" detail page "([^"]*)" with status "([^"]*)"$/
+   */
+  public function iVisitTheGroupDetailPageWithStatus($type, $title, $status) {
+    return $this->iVisitNodePageOfTypeWithStatus($title, $type, $status);
+  }
+
+  /**
    * @When /^I visit the group "([^"]*)" detail page "([^"]*)"$/
    */
   public function iVisitTheGroupDetailPage($type, $title) {
-    return $this->iVisitNodePageOfType($title, $type);
+    return $this->iVisitTheGroupDetailPageWithStatus($type, $title, NODE_PUBLISHED);
   }
 
   /**

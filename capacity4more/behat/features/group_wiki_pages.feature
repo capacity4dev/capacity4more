@@ -5,6 +5,7 @@ Feature: Group Wiki pages
   the OG permission to 'view unpublished group content'
   As a non-member I cannot see an unpublished WIKI detail page even if I have
   the OG permission to 'view unpublished group content'
+  As anonymous user I cannot see an unpublished WIKI detail page
 
   @api
   Scenario: Check Wiki detail as an anonymous user
@@ -18,14 +19,20 @@ Feature: Group Wiki pages
     When I visit the group "wiki_page" detail page "Prizes"
     Then I should see the Wiki detail page
 
-  @api @wip
+  @api
   Scenario: Check if group member can see unpublished WIKI page
-    Given I am logged in as user "alfredsgroupie"
-    When I visit the group "wiki_page" detail page "Unpublished"
-    Then I should see the Wiki detail page
+    Given I am logged in as user "alfrednobel"
+    When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Tennis)" with status "unpublished"
+    Then I should see an unpublished Wiki detail page
 
-  @api @wip
+  @api
   Scenario: Check if non-member can see unpublished WIKI page
-    Given I am logged in as user "alfredsgroupie"
-    When I visit the group "wiki_page" detail page "Wonders"
-    Then I should see an Access denied page
+    Given I am logged in as user "alfrednobel"
+    When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Popcorn)" with status "unpublished"
+    Then I should see "Access denied"
+
+  @api
+  Scenario: Check if anonymous user can see unpublished WIKI page
+    Given I am an anonymous user
+    When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Tennis)" with status "unpublished"
+    Then I should see "Access denied"
