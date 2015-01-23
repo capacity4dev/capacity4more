@@ -76,8 +76,7 @@ module.exports = function (grunt) {
         app: {
           files: {
             'js/kapablo.min.js': [
-              // Are we making advantage of modernizr?
-              //'js/app/modernizr.js',
+              'js/app/modernizr.js',
               'js/app/kapablo.js'
             ]
           }

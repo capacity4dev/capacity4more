@@ -33,18 +33,18 @@
   <div ng-show="serverSide.file.status == 200">
     <div class="row">
       <div class="col-sm-2">
-        <img src="missing_icon.png"/>
+        <span class="icon icon-missing"></span>
       </div>
       <div class="col-sm-10">
-        <p> {{serverSide.file.config.file.name}} </p>
-        <p> Filetype: {{serverSide.file.config.file.type}} | Filesize: {{serverSide.file.config.file.size | filesize:1}} </p>
+        <h4>{{serverSide.file.config.file.name}}
+          <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="glyphicon glyphicon-remove"></span></a></h4>
+        <p>Filetype: {{serverSide.file.config.file.type}} <span class="separator">|</span> Filesize: {{serverSide.file.config.file.size | filesize:1}}</p>
 
         <div ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-upload-drag">
-          <span><?php print t('Drop file here to replace '); ?></span>
-          <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+          <span><?php print t('Drop a file here to replace'); ?></span>
+          <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>.
           <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
           <br/>
-          <a href="javascript://" ng-click="removeFile()"><?php print t('Remove the file.'); ?></a>
         </div>
       </div>
     </div>

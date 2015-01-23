@@ -17,7 +17,7 @@
       </div>
       <div class="col-sm-9">
         <div class="row">
-          <h2> <img src="missing_icon.png"/>  <?php print $node->title; ?> </h2>
+          <h2> <span class="icon icon-missing"></span>  <?php print $node->title; ?> </h2>
         </div>
         <div class="row">
           <span> <?php print $document_data; ?> </span>

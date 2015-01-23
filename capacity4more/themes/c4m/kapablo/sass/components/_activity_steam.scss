@@ -99,12 +99,7 @@
   }
 
   .separator {
-    border: 1px solid $highlight-blue;
-    display: inline-block;
-    height: 0.9em;
-    margin: 0 20px;
-    text-indent: -9999px;
-    vertical-align: middle;
+    border-color: $highlight-blue;
   }
 
   .post-date {
