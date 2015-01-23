@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         dynamic: {                         // Another target
           options: {                       // Target options
             optimizationLevel: 12,
-            svgoPlugins: [{ removeViewBox: false }],
+            svgoPlugins: [{removeViewBox: false}],
             use: [mozjpeg()]
           },
           files: [{
@@ -68,37 +68,35 @@ module.exports = function (grunt) {
       },
 
 
-
       // JS
-      concat: {
-        options: {
-          stripBanners: true
-        },
-        app: {
-          src: [
-            'js/app/kapablo.js',
-            'js/app/modernizr.js'
-          ],
-          dest: 'js/<%= pkg.name %>.concat.js'
-        },
-        bootstrap: {
-          src: [
-          'js/bootstrap/*.js'
-          ],
-          dest: 'js/bootstrap.concat.js'
-        }
-      },
       uglify: {
         options: {
           report: 'min'
         },
         app: {
-          src: ['<%= concat.app.dest %>'],
-          dest: 'js/<%= pkg.name %>.min.js'
+          files: {
+            'js/kapablo.min.js': [
+              // Are we making advantage of modernizr?
+              //'js/app/modernizr.js',
+              'js/app/kapablo.js'
+            ]
+          }
         },
         bootstrap: {
-          src: ['<%= concat.bootstrap.dest %>'],
-          dest: 'js/bootstrap.min.js'
+          files: {
+            'js/bootstrap.min.js': ['js/bootstrap/transition.js',
+              'js/bootstrap/alert.js',
+              'js/bootstrap/button.js',
+              'js/bootstrap/carousel.js',
+              'js/bootstrap/collapse.js',
+              'js/bootstrap/dropdown.js',
+              'js/bootstrap/modal.js',
+              'js/bootstrap/tooltip.js',
+              'js/bootstrap/popover.js',
+              'js/bootstrap/scrollspy.js',
+              'js/bootstrap/tab.js',
+              'js/bootstrap/affix.js']
+          }
         }
 
 //            ie7: {
@@ -126,7 +124,7 @@ module.exports = function (grunt) {
         custom: {
           options: {
             "browsers": ["ie 8"],
-            //autoprefixer: {'browsers': ['last 4 versions', 'ios 6']},
+            autoprefixer: {'browsers': ['last 4 versions', 'ios 6']},
             filters: {'oldIE': true},
             minifier: false,
             pseudoElements: true,
@@ -161,7 +159,7 @@ module.exports = function (grunt) {
 
         scripts: {
           files: ['js/app/*.js'],
-          tasks: ['concat:app', 'uglify:app'],
+          tasks: ['uglify:app'],
           options: {
             livereload: true
           }
@@ -185,7 +183,6 @@ module.exports = function (grunt) {
     'svgmin',
     'grunticon',
     'imagemin',
-    'concat',
     'uglify',
     'compass:dev',
     'pleeease',
@@ -197,7 +194,6 @@ module.exports = function (grunt) {
     'svgmin',
     'grunticon',
     'imagemin',
-    'concat',
     'uglify',
     'compass:prod',
     'pleeease',
