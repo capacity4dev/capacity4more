@@ -1,0 +1,55 @@
+.bg-dark-navy {
+  background: $ava-dark-navy;
+}
+
+.bg-pastel-pink {
+  background: $ava-pastel-pink;
+}
+
+.bg-beige {
+  background: $ava-beige;
+}
+
+.bg-brown {
+  background: $ava-brown;
+}
+
+.bg-brown-light {
+  background: $ava-brown-light;
+}
+
+.bg-blue {
+  background: $ava-blue;
+}
+
+.bg-salmon {
+  background: $ava-salmon;
+}
+
+.bg-pastel-orange {
+  background: $ava-pastel-orange;
+}
+
+.bg-green {
+  background: $ava-green;
+}
+
+.bg-green-light {
+  background: $ava-green-light;
+}
+
+.bg-pink-dark {
+  background: $ava-pink-dark;
+}
+
+.no-avatar.initials {
+  color: $white;
+  display: block;
+  font-size: 25px;
+  font-weight: lighter;
+  line-height: 60px;
+  text-align: center;
+  a {
+    color: $white;
+  }
+}

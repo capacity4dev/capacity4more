@@ -37,37 +37,20 @@ angular.module('c4mApp')
             return;
           }
           var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
-          if(angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
+
+          if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
             $scope.popups[field] = 0;
-            if (!$scope.data[field] || !$scope.fullForm) {
-              // Field is empty.
-              $scope.data[field] = {};
-            }
-            else {
-              // Field has value and this is not a discussion or event type field,
-              // which is actually not an object.
-              if (field != 'discussion_type' && field != 'event_type') {
-                var obj = {};
-                angular.forEach($scope.data[field], function (value, key) {
-                  obj[value] = true;
-                });
-                $scope.data[field] = obj;
-              }
-            }
+            $scope.data[field] = {};
           }
         });
       });
 
-      if (angular.isDefined($scope.data.discussion_type)) {
-        // Set "Start a Debate" as default discussion type.
-        $scope.data.discussion_type = angular.isObject($scope.data.discussion_type) || !$scope.fullForm ? 'debate' : $scope.data.discussion_type;
-      }
+      // Set "Start a Debate" as default discussion type.
+      $scope.data.discussion_type = 'debate';
 
-      if (angular.isDefined($scope.data.event_type)) {
-        // Set "Event" as default event type.
-        $scope.data.event_type = angular.isObject($scope.data.event_type) || !$scope.fullForm ? 'event' : $scope.data.event_type;
-      }
+      // Set "Event" as default event type.
+      $scope.data.event_type = 'event';
 
       // Reset all the text fields.
       var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
@@ -76,6 +59,14 @@ angular.module('c4mApp')
       });
 
       $scope.data['add_to_library'] = 1;
+
+      // Default location is empty.
+      $scope.data.location = {};
+      $scope.data.location.street = '';
+      $scope.data.location.city = '';
+      $scope.data.location.postal_code = '';
+      $scope.data.location.country_name = '';
+      $scope.data.location.location_name = '';
     }
 
     // Preparing the data for the form.
@@ -373,6 +364,17 @@ angular.module('c4mApp')
           $scope.serverSide.file = data;
         });
       }
+    };
+
+    /**
+     * Remove uploaded file.
+     */
+    $scope.removeFile = function() {
+      angular.element('#document_file').val('');
+      $scope.data.document = null;
+      delete $scope.data.fileName;
+      delete $scope.serverSide.file;
+
     };
 
     /**
