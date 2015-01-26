@@ -1,4 +1,5 @@
 <?php
+# Drush alias settings used during Travis-CI builds.
 
 $aliases['capacity4more'] = array(
   'uri' => 'http://127.0.0.1:8080',

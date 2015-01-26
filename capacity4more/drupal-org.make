@@ -137,7 +137,7 @@ projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
 projects[og][download][branch] = content-privacy-change
 projects[og][subdir] = "contrib"
-projects[og][type] = "module"
+projects[og][version] = "2.x-dev"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.2"
