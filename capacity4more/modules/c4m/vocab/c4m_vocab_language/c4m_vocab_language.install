@@ -29,7 +29,7 @@ function c4m_vocab_language_uninstall() {
  */
 function c4m_vocab_language_install_vocabulary() {
   $language_vocab = (object) array(
-    'name' => 'Language',
+    'name' => 'Languages',
     'description' => 'Language indication for content',
     'machine_name' => 'c4m_vocab_language',
   );
