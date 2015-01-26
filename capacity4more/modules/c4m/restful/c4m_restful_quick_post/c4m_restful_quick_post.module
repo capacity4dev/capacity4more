@@ -216,9 +216,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap.min.js');
   drupal_add_js($bower_path . '/angular-bootstrap/ui-bootstrap-tpls.min.js');
 
-  // Font-awesome library.
-  drupal_add_css($bower_path . '/components-font-awesome/css/font-awesome.min.css');
-
   // Filesize library.
   drupal_add_js($bower_path . '/filesize/lib/filesize.min.js');
 

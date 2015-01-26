@@ -2,7 +2,7 @@
   .views-row {
     border-bottom: 1px solid $gray-lighter;
     margin-bottom: 15px;
-    padding-bottom: 15px;
+    padding-bottom: 15px; 
 
     &:last-child {
       border-bottom: none;
@@ -126,4 +126,30 @@ li {
 
 .views-exposed-form .views-exposed-widget {
   padding-top: 0;
+}
+
+.view-c4m-overview-og-members {
+  &.view-display-id-block_1 {
+    .views-row {
+      border: 0;
+      float: left;
+      width: 20%;
+    }
+  }
+
+  .views-field-c4m-media {
+    img, .initials {
+      @include border-radius(50%);
+      height: 60px;
+      margin: 0 auto;
+      width: 60px;
+    }
+  }
+
+  .more-link {
+    clear: both;
+    a {
+      color: $highlight-blue;
+    }
+  }
 }

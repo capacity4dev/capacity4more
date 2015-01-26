@@ -1,6 +1,6 @@
-ID,Parent,Status,NID,Name,Email,UID,Subject,Body
-cp_1,,1,photo_1,,,user_2,"Nice","Nice conceptual picture!"
-cp_2,,1,photo_4,,,user_5,"Woow","Woow, this really blows my mind"
-cp_2_1,cp_2,1,photo_4,John Doe,,,,"Indeed, this is really amazing"
-cp_2_2,cp_2,1,photo_4,,,user_1,,"Breathtaking"
-cp_3,,1,photo_3,Jane Doe,jane@doe.com,,"Heath","Hopefully it won't be too hot to play."
+ID,Parent,Status,NID,UID,Body
+cp_1,,1,photo_1,user_2,"Nice conceptual picture!"
+cp_2,,1,photo_4,user_5,"Woow, this really blows my mind"
+cp_2_1,cp_2,1,photo_4,user_4,"Indeed, this is really amazing"
+cp_2_2,cp_2,1,photo_4,user_1,"Breathtaking"
+cp_3,,1,photo_3,user_3,"Hopefully it won't be too hot to play."
