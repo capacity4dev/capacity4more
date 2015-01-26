@@ -60,11 +60,13 @@ angular.module('c4mApp')
 
       $scope.data['add_to_library'] = 1;
 
+      // Default location is empty.
       $scope.data.location = {};
       $scope.data.location.street = '';
       $scope.data.location.city = '';
       $scope.data.location.postal_code = '';
       $scope.data.location.country_name = '';
+      $scope.data.location.location_name = '';
     }
 
     // Preparing the data for the form.
@@ -362,6 +364,17 @@ angular.module('c4mApp')
           $scope.serverSide.file = data;
         });
       }
+    };
+
+    /**
+     * Remove uploaded file.
+     */
+    $scope.removeFile = function() {
+      angular.element('#document_file').val('');
+      $scope.data.document = null;
+      delete $scope.data.fileName;
+      delete $scope.serverSide.file;
+
     };
 
     /**
