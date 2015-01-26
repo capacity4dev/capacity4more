@@ -29,7 +29,7 @@ function c4m_vocab_date_uninstall() {
  */
 function c4m_vocab_date_install_vocab() {
   $date_vocab = (object) array(
-    'name'         => 'Date Vocabulary',
+    'name'         => 'Date',
     'description'  => 'Date indication for content',
     'machine_name' => 'c4m_vocab_date',
   );
