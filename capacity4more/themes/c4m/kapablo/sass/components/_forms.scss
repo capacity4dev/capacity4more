@@ -207,6 +207,10 @@ input[type="checkbox"]:not(old) {
   text-align: center;
   width: 100%;
 
+  &.file-upload-drag {
+    background-color: $color-red;
+  }
+
   .drop-text {
     color: $color-white;
     padding: 20px 30px;
