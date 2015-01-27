@@ -43,6 +43,7 @@ angular.module('c4mApp')
       angular.forEach(rawActivities, function (activity) {
         this.push({
           id: activity.id,
+          timestamp: activity.timestamp,
           html: $sce.trustAsHtml(activity.html)
         });
       }, activities);

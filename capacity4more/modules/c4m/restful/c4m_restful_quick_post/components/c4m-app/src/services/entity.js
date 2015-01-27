@@ -90,7 +90,7 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-id&filter[id][value]=' + data.lastId + '&filter[id][operator]=">"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + data.lastTimestamp + '&filter[timestamp][operator]=">"&html=1', config);
     };
 
     /**
@@ -98,13 +98,13 @@ angular.module('c4mApp')
      *
      * @param groupID
      *  The Id of the current group.
-     * @param lowestActivityId
-     *  The Id of the lowest activity that was loaded.
+     * @param lowestActivityTimestamp
+     *  The Timestamp of the lowest activity that was loaded.
      *
      * @returns {*}
      *  JSON of the loaded activity stream.
      */
-    this.loadMoreStream = function(groupID, lowestActivityId) {
+    this.loadMoreStream = function(groupID, lowestActivityTimestamp) {
       var config = {
         withCredentials: true,
         headers: {
@@ -112,6 +112,6 @@ angular.module('c4mApp')
         }
       };
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-id&filter[id][value]=' + lowestActivityId + '&filter[id][operator]="<"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-timestamp&filter[timestamp][value]=' + lowestActivityTimestamp + '&filter[timestamp][operator]="<"&html=1', config);
     }
   });
