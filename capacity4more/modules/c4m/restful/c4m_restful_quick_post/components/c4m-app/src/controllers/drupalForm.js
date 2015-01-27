@@ -279,11 +279,11 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-file/' + fileId + '/' + fieldName + '?render=overlay');
+          var openPath = DrupalSettings.getData('purl') == $scope.basePath ? $scope.basePath : DrupalSettings.getData('purl') + '/';
+          Drupal.overlay.open(openPath + 'overlay-file/' + fileId + '?render=overlay');
         });
       }
     };
-
 
     /**
      * Opens the system's file browser.
