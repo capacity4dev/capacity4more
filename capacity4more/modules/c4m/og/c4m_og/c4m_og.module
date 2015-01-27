@@ -146,6 +146,11 @@ function c4m_og_views_plugins() {
   return $plugins;
 }
 
+/**
+ * Implementation of hook_access()
+ *
+ * @return bool
+ */
 function c4m_og_access() {
   $access = TRUE;
   $og_context = og_context();
