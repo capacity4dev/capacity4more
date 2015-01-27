@@ -195,7 +195,7 @@ angular.module('c4mApp')
      */
     $scope.categoryHasChildrenSelected = function(key) {
       for (var i = 0; i < $scope.data.categories[key].children.length; i++) {
-        var id = $scope.categories[key].children[i].id;
+        var id = $scope.data.categories[key].children[i].id;
         if ($scope.model.categories[id] === true) {
           return true;
         }
