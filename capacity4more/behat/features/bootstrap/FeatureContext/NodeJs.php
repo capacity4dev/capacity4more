@@ -22,13 +22,10 @@ trait NodeJs {
    */
   public function iStartCreatingInFullFormWithTitle($bundle, $title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
 
-    $uri = strtolower(str_replace(' ', '-', trim($group)));
-
-    $steps[] = new Step\When('I visit "' . $uri . '/node/js-add/' . $bundle . '"');
-    $steps[] = new Step\When('I fill in "label" with "' . $title . '"');
-    $steps[] = new Step\When('I fill editor "body" with "Some text in the body"');
+    $steps[] = new Step\When('I go to "' . $group . '/node/add/' . $bundle . '"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text in the body"');
     return $steps;
   }
 }

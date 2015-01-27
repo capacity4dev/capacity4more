@@ -1,15 +1,18 @@
-<div ng-controller="DocumentCtrl">
+<div ng-controller="DocumentCtrl" id="documentFile">
 
   <form name="documentForm" action="overlay-file/<?php print $file_id; ?>?render=overlay" ng-submit="createDocument($event, '<?php print $file_id; ?>', data, addToLibrary)">
 
     <?php
-      print('Upload new document: <br/>');
+      print t('Upload new document:') . $file_name;
+    ?>
+    <br/>
+    <?php
       print($file);
     ?>
 
     <br/>
     <label class="control-label" for="edit-title">Title <span class="form-required" title="This field is required.">*</span></label>
-    <input id="label" class="form-control" name="label" type="text" placeholder="<?php print t('Add document title'); ?>" ng-minlength=3 ng-model="data.label" required>
+    <input id="label" class="form-control" name="label" type="text" ng-init="data.label='<?php print $file_name; ?>'" value="<?php print $file_name; ?>" ng-minlength=3 ng-model="data.label" required>
     <br/>
     <p>Add this document also to the group Library?</p>
     <button type="submit" id="save-edit" ng-click="addToLibrary = true" class="btn btn-primary" tabindex="100"><?php print t('YES'); ?></button>

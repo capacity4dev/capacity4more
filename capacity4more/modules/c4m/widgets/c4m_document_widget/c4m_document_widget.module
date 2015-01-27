@@ -257,6 +257,7 @@ function c4m_document_widget_theme() {
     'variables' => array(
       'file_id' => NULL,
       'file' => NULL,
+      'file_name' => NULL,
     ),
   );
 
@@ -358,6 +359,7 @@ function c4m_document_widget_add_document_file($file_id) {
   $variables = array(
     'file_id' => $file_id,
     'file' => drupal_render($file_view, 'teaser'),
+    'file_name' => $file->filename ,
   );
 
   // Get group context or use the default one.

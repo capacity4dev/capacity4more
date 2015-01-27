@@ -29,13 +29,17 @@ trait File {
 
     // Attaching file is working only if input is visible.
     $this->getSession()->getDriver()->evaluateScript(
-      "jQuery('#document_file').css('display', 'block');"
+      "jQuery('.document_file').css('display', 'block');"
     );
     $field->attachFile($file_path);
     // Make input hidden after attaching the file.
     $this->getSession()->getDriver()->evaluateScript(
-      "jQuery('#document_file').css('display', 'none');"
+      "jQuery('.document_file').css('display', 'none');"
     );
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 
   /**
@@ -53,6 +57,10 @@ trait File {
 
     $fields = $this->getSession()->getDriver()->find($save_xpath);
     $fields[0]->press();
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 
   /**
@@ -70,5 +78,9 @@ trait File {
       throw new \Exception("File input is not found");
     }
     $field->attachFile($file_path);
+
+    $steps = array();
+    $steps[] = new Step\When('I wait');
+    return $steps;
   }
 }
