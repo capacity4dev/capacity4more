@@ -195,7 +195,7 @@ angular.module('c4mApp')
      */
     $scope.categoryHasChildrenSelected = function(key) {
       for (var i = 0; i < $scope.data.categories[key].children.length; i++) {
-        var id = $scope.categories[key].children[i].id;
+        var id = $scope.data.categories[key].children[i].id;
         if ($scope.model.categories[id] === true) {
           return true;
         }
@@ -279,11 +279,11 @@ angular.module('c4mApp')
           var fileId = data.data.data[0].id;
           $scope.data.fileName = data.data.data[0].label;
           $scope.serverSide.file = data;
-          Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-file/' + fileId + '/' + fieldName + '?render=overlay');
+          var openPath = DrupalSettings.getData('purl') == $scope.basePath ? $scope.basePath : DrupalSettings.getData('purl') + '/';
+          Drupal.overlay.open(openPath + 'overlay-file/' + fileId + '?render=overlay');
         });
       }
     };
-
 
     /**
      * Opens the system's file browser.
