@@ -1,7 +1,7 @@
 Feature: Group access
   Test group access
 
-  @javascript 
+  @javascript
   Scenario: Check public group
     Given a group "My bad hair day new group 111" with "Public" access is created with group manager "turing"
       And a discussion "My content 111" in group "My bad hair day new group 111" is created
