@@ -133,9 +133,6 @@ projects[module_filter][version] = "2.0-alpha2"
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
-projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
-projects[og][download][branch] = content-privacy-change
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.x-dev"
 
