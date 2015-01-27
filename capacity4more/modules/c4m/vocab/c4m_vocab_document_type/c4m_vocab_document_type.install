@@ -33,7 +33,7 @@ function c4m_vocab_document_type_uninstall() {
  */
 function _c4m_vocab_document_type_install_vocabulary() {
   $vocabulary = (object) array(
-    'name'         => st('Type of Document Vocabulary'),
+    'name'         => st('Type of Document'),
     'description'  => st('Type indication for documents'),
     'machine_name' => 'c4m_vocab_document_type',
   );
