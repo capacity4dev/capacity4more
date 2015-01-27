@@ -215,7 +215,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
 }
 
 /**
- * Helper to determine if a path requires the Angular c4m-app.
+ * Helper to determine if a the current path requires the Angular c4m-app.
  *
  * The app should be loaded if:
  * - We are on a group dashboard (<front> with OG active OG context).
@@ -223,7 +223,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
  * - On a node edit form (node/%/edit).
  *
  * @return bool
- *   True if path requires the app to be loaded.
+ *   True if current path requires the app to be loaded.
  */
 function c4m_restful_quick_post_needs_app() {
   // Check first if the user is on the global homepage.
