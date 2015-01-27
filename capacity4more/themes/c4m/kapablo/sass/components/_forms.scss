@@ -317,9 +317,6 @@ input[type="checkbox"]:not(old) {
   > ul {
     margin-top: 10px;
   }
-  .table-display {
-    display: table;
-  }
   .table-display ul {
     display: table-footer-group;
     li {
@@ -331,6 +328,10 @@ input[type="checkbox"]:not(old) {
   }
   .ng-hide + .parent-select {
     @include arrow-image('right', 'blue', 'before');
+  }
+
+  label.ng-binding {
+    text-transform: none;
   }
 }
 

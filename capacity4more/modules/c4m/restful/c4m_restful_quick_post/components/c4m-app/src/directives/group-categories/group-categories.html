@@ -2,10 +2,7 @@
   <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
 </form>
 <ul>
-  <li class="checkbox" ng-repeat="item in filteredTerms">
-    <label ng-click="updateSelected(item);">
-      {{item.label}}
-    </label>
+  <li class="checkbox table-display" ng-repeat="item in filteredTerms">
     <ul ng-show="item.selected == true" class="indent">
       <li ng-repeat="child in item.children">
         <label>
@@ -13,6 +10,9 @@
         </label>
       </li>
     </ul>
+    <label ng-click="updateSelected(item);" class="parent-select">
+      {{item.label}}
+    </label>
   </li>
 </ul>
 
