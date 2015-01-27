@@ -162,21 +162,8 @@ function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, 
  * Attach Angular application to the page.
  */
 function c4m_restful_quick_post_preprocess_html(&$vars) {
-  $item = menu_get_item();
-
-  $allowed_paths = array();
-  foreach(array_keys(node_type_get_types()) as $bundle) {
-    $allowed_paths[] = 'node/add/' . $bundle;
-  }
-  $allowed_paths[] = 'node/%/edit';
-
-  if (drupal_is_front_page() && !og_context()) {
-    // User doesn't have accesss to this dashboard or it's the homepage.
-    return;
-  }
-
-  if (!in_array($item['path'], $allowed_paths) && !drupal_is_front_page()) {
-    // Not a group dashboard page and not a node/add(edit) page.
+  // Check if we need to load the c4m-app on the current page.
+  if (!c4m_restful_quick_post_needs_app()) {
     return;
   }
 
@@ -225,4 +212,47 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
 
   $settings['c4m'] = array();
   drupal_add_js($settings, 'setting');
+}
+
+/**
+ * Helper to determine if a path requires the Angular c4m-app.
+ *
+ * The app should be loaded if:
+ * - We are on a group dashboard (<front> with OG active OG context).
+ * - On a node add form (node/add/<bundle-type>).
+ * - On a node edit form (node/%/edit).
+ *
+ * @return bool
+ *   True if path requires the app to be loaded.
+ */
+function c4m_restful_quick_post_needs_app() {
+  // Check first if the user is on the global homepage.
+  // Or if he is on a group dashboard he has no access to.
+  if (drupal_is_front_page() && !og_context()) {
+    return FALSE;
+  }
+
+  // If we are on a group homepage, we need the app.
+  if (drupal_is_front_page()) {
+    return TRUE;
+  }
+
+  // Get the current path.
+  $item = menu_get_item();
+  $path = $item['path'];
+
+  // If we are on a group edit form, the app should be loaded.
+  if ($path === 'node/%/edit') {
+    return TRUE;
+  }
+
+  // If we are on a node creation form, the app should be loaded.
+  $node_types = array_keys(node_type_get_types());
+  foreach ($node_types as $bundle) {
+    if ($path === 'node/add/' . $bundle) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
