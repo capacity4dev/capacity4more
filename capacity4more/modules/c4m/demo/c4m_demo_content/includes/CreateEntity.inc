@@ -51,6 +51,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       case 'node':
         $this->addFieldMapping('title', 'title');
         $this->addFieldMapping('created', 'created');
+        $this->addFieldMapping('status', 'status')->defaultValue(1);
         $this->addFieldMapping('changed', 'changed');
         $this->addFieldMapping('promote', 'promote');
         $class_name = 'MigrateDestinationNode';
