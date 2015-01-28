@@ -23,6 +23,7 @@ dependencies[] = field_group
 dependencies[] = file
 dependencies[] = file_entity
 dependencies[] = image
+dependencies[] = list
 dependencies[] = media
 dependencies[] = og
 dependencies[] = og_ui
