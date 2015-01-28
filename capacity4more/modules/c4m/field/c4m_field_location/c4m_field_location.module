@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the Location Field feature.
+ */
+
+include_once 'c4m_field_location.features.inc';
+/**
+ * @file
  */
 
 /**
