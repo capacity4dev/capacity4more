@@ -36,7 +36,7 @@ Feature: Group content access
     Then  I visit "Test content" node of type "discussion"
     And   I should see "Access denied"
 
-  @javascript
+  @javascript @wip
   Scenario: Check group privacy from private to restricted with some email domain
     Given I am logged in as user "turing"
     And   I change access of group "My test group" to Restricted with "gravity.com" restriction
