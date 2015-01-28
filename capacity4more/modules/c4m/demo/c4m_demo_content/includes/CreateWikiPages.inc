@@ -159,6 +159,10 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
    *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
+    parent::complete($entity, $row);
+
+    $entity->_skip_message = TRUE;
+
     // Take care of import --update.
     // Now there's an Integrity constraint violation
     // Duplicate entry for key nid.
@@ -199,11 +203,10 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
     $book['weight'] = $row->weight;
 
     $entity->book = $book;
+
     _book_update_outline($entity);
 
     // Manually save the node.
     entity_save('node', $entity);
-
-    parent::complete($entity, $row);
   }
 }
