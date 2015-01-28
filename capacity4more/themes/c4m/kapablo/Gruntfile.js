@@ -140,15 +140,15 @@ module.exports = function (grunt) {
 
       // Automate some tasks during development (if files change).
       watch: {
-        svgmin: {
+        svg: {
           files: ['images/svg/**/*.svg'],
-          tasks: ['svgmin', 'grunticon', 'compass'],
+          tasks: ['svgmin', 'grunticon', 'compass:dev', 'pleeease'],
           options: {
             livereload: true
           }
         },
 
-        compass: {
+        style: {
           files: ['sass/*.scss', 'sass/**/*.scss'],
           tasks: ['compass:dev', 'pleeease'],
           options: {

@@ -290,16 +290,16 @@ input[type="checkbox"]:not(old) {
   .field-name-c4m-event-type {
     .event-type-button {
       @extend %svg-icon;
-      padding-left: 0;
+      padding-left: 25px;
 
       &.event-type-event {
-        //          @include link-icon-png-fallback('icons', 'event-qp-event');
+        @include link-icon-png-fallback('icons', 'event-qp-event');
       }
       &.event-type-learning {
-        //          @include link-icon-png-fallback('icons', 'event-qp-learning');
+        @include link-icon-png-fallback('icons', 'event-qp-learning');
       }
       &.event-type-meeting {
-        //          @include link-icon-png-fallback('icons', 'event-qp-meeting');
+        @include link-icon-png-fallback('icons', 'event-qp-meeting');
       }
 
       input[type="radio"] {
@@ -307,7 +307,7 @@ input[type="checkbox"]:not(old) {
       }
 
       &.active, &:hover {
-        color: $highlight-blue;
+        color: $color-blue !important;
       }
     }
   }
@@ -432,6 +432,7 @@ input[type="checkbox"]:not(old) {
   margin-left: 0;
   position: static;
 }
+
 .sticky-header .checkbox {
   display: none;
 }

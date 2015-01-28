@@ -143,7 +143,7 @@
         @include box-shadow(none);
 
         border-radius: 0;
-        color: $highlight-blue !important;
+        color: $color-blue !important;
       }
     }
   }
@@ -233,15 +233,15 @@
       }
 
       &[value=event] {
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'event-qp-event');
       }
 
       &[value=learning] {
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'event-qp-learning');
       }
 
       &[value=meeting] {
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'event-qp-meeting');
       }
     }
   }
