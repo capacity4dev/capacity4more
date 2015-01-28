@@ -301,43 +301,40 @@ function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
  *   with tag node_access where the first condition is for the node.status column.
  */
 function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $query) {
-  // Only alter query ...
-  // - on og group type or
-  // - on wiki page
-  // - or on node form for wiki page
-  // - or during ajax call to retrieve the parent list on wiki page node form
-  $object = menu_get_object();
+  // Only alter a node_access query ...
+  //
+  // - if it has 3 conditions of which we know exactly what those are
+  // ( here meaning it originates from menu_tree_check_access() which is called
+  // by menu_build_tree().
+  // See c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter.
+  //
+  //- and it is querying for group nodes or wiki pages.
+  //
+  // If that is the case, we remove the check on node status as we allow
+  // group members to see unpublished pages.
+  //
+  // Non-group members still won't be able to see these as this query is tagged
+  // with node_access and grants will be checked for.
 
-  if (isset($object->type)) {
-    if (!og_is_group_type('node', $object->type) &&
-        'wiki_page' != $object->type) {
-      // Don't alter query if this is not a group node or a WIKI page.
-      return;
-    }
-  }
-  elseif ('system/ajax' == current_path()) {
-    if (!isset($_POST['form_id'])) {
-      // Don't alter query if there is no form information in post.
-      return;
-    }
-    elseif ('wiki_page_node_form' != $_POST['form_id']) {
-      // Don't alter query if this is an ajax call but not for WIKI page node
-      //form.
-      return;
-    }
-  }
-  elseif ('node/add/wiki-page' != current_path()) {
-    // Do not alter the query if this is not the WIKI page node form.
-    return;
-  }
   $c = &$query->conditions();
-  // Remove the status condition if we suspect this query originates from
-  // menu_tree_check_access().
   if (count($c) == 3 &&
-    is_string($c[0]['field']) && $c[0]['field'] == 'n.status' &&
-    is_string($c[1]['field']) && $c[1]['field'] == 'n.nid' && $c[1]['operator'] == 'IN'
-  ) {
-    unset($c[0]);
+      is_string($c[0]['field']) &&
+      $c[0]['field'] == 'n.status' &&
+      is_string($c[1]['field']) &&
+      $c[1]['field'] == 'n.nid' &&
+      $c[1]['operator'] == 'IN' &&
+      is_array($c[1]['value'])) {
+    $nr_of_nids = sizeof($c[1]['value']);
+    // Check if values of the query are group or wiki pages.
+    $result = db_select('node','n')
+              ->fields('n',array('nid'))
+              ->condition('n.type', array('group', 'wiki_page', 'IN'))
+              ->condition('n.nid', $c[1]['value'], 'IN')
+              ->range(0, $nr_of_nids)
+              ->execute()
+              ->rowCount();
+    if ($result === $nr_of_nids ) {
+      unset($c[0]);
+    }
   }
 }
-

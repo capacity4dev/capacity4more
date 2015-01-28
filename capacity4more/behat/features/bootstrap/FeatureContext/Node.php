@@ -15,16 +15,17 @@ use Behat\Behat\Context\Step;
  * DO NOT USE THIS TRAIT FOR FUNCTIONALITY ABOUT QUICK POST.
  */
 trait Node {
+
   /**
-   * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
+   * @When /^I visit "([^"]*)" node page of type "([^"]*)" with status "([^"]*)"$/
    */
-  public function iVisitNodePageOfType($title, $type) {
+  public function iVisitNodePageOfTypeWithStatus($title, $type, $status) {
     $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', strtolower($type))
       ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
+      ->propertyCondition('status', $status)
       ->range(0, 1)
       ->execute();
 
@@ -32,13 +33,21 @@ trait Node {
       $params = array(
         '@title' => $title,
         '@type' => $type,
+        '@status' => $status,
       );
-      throw new \Exception(format_string("Node @title of @type not found.", $params));
+      throw new \Exception(format_string("@status node @title of @type with not found.", $params));
     }
 
     $nid = key($result['node']);
     // Use Drupal Context 'I am at'.
     return new Given("I go to \"node/$nid\"");
+  }
+
+  /**
+   * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
+   */
+  public function iVisitNodePageOfType($title, $type) {
+    return $this->iVisitNodePageOfTypeWithStatus($title, $type, NODE_PUBLISHED);
   }
 
   /**

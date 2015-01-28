@@ -32,6 +32,16 @@ trait WikiPage {
   }
 
   /**
+   * @Then /^I should see an unpublished Wiki detail page$/
+   */
+  public function iShouldSeeAnUnpublishedWikiDetailPage() {
+    $steps[] = new Step\When('I should see a "Title in right region" field');
+    $steps[] = new Step\When('I should see a "Author" field');
+    $steps[] = new Step\When('I should see a Wiki "table of contents" in the "left" bar');
+    return $steps;
+  }
+
+  /**
    * @Given /^I should see a Wiki "([^"]*)" in the "([^"]*)" bar$/
    */
   public function iShouldSeeAWikiInTheBar($wrapper, $region) {
