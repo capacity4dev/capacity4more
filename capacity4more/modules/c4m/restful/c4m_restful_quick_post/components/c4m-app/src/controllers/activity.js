@@ -15,9 +15,9 @@ angular.module('c4mApp')
     // Activity stream status, refresh time.
     $scope.stream = {
       // The first one is the last loaded activity, (if no activities, insert 0).
-      lastLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].id : 0,
-      // The ID of the last activity in the activity stream (bottom) which has the lowest ID (if no activities, insert 0).
-      firstLoadedID: $scope.existingActivities.length > 0 ? $scope.existingActivities[$scope.existingActivities.length - 1].id : 0,
+      lastLoadedTimestamp: $scope.existingActivities.length > 0 ? $scope.existingActivities[0].timestamp : 0,
+      // The Timestamp of the last activity in the activity stream (bottom) which has the lowest Timestamp (if no activities, insert 0).
+      firstLoadedTimestamp: $scope.existingActivities.length > 0 ? $scope.existingActivities[$scope.existingActivities.length - 1].timestamp : 0,
       status: 0
     };
 
@@ -58,13 +58,13 @@ angular.module('c4mApp')
 
       var activityStreamInfo = {
         group: $scope.group,
-        lastId: $scope.stream.lastLoadedID
+        lastTimestamp: $scope.stream.lastLoadedTimestamp
       };
 
       // Don't send a request when data is missing.
-      if(!activityStreamInfo.lastId || !activityStreamInfo.group) {
-        // If last ID is 0, this is a new group and there's no activities.
-        if(activityStreamInfo.lastId != 0) {
+      if (!activityStreamInfo.lastTimestamp || !activityStreamInfo.group) {
+        // If last Timestamp is 0, this is a new group and there are no activities.
+        if (activityStreamInfo.lastTimestamp != 0) {
           $scope.stream.status = 500;
           return false;
         }
@@ -72,7 +72,7 @@ angular.module('c4mApp')
 
       // Call the update stream method.
       EntityResource.updateStream(activityStreamInfo)
-        .success( function (data, status) {
+        .success(function(data, status) {
           // Update the stream status.
           $scope.stream.status = status;
 
@@ -80,20 +80,21 @@ angular.module('c4mApp')
           if (data.data) {
             // Count the activities that were fetched.
             var position = 0;
-            angular.forEach(data.data, function (activity) {
+            angular.forEach(data.data, function(activity) {
               this.splice(position, 0, {
                 id: activity.id,
+                timestamp: activity.timestamp,
                 html: $sce.trustAsHtml(activity.html)
               });
               position++;
             }, $scope[type]);
 
-            // Update the last loaded ID.
+            // Update the last loaded Timestamp.
             // Only if there's new activities from the server.
-            $scope.stream.lastLoadedID = $scope[type][0].id ? $scope[type][0].id : $scope.stream.lastLoadedID;
+            $scope.stream.lastLoadedTimestamp = $scope[type][0].timestamp ? $scope[type][0].timestamp : $scope.stream.lastLoadedTimestamp;
           }
         })
-        .error( function (data, status) {
+        .error(function(data, status) {
           // Update the stream status if we get an error, This will display the error message.
           $scope.stream.status = status;
         });
@@ -107,9 +108,10 @@ angular.module('c4mApp')
      *  The position in which to add the new activities.
      */
     $scope.showNewActivities = function(position) {
-      angular.forEach ($scope.newActivities, function (activity) {
+      angular.forEach($scope.newActivities, function(activity) {
         this.splice(position, 0, {
           id: activity.id,
+          timestamp: activity.timestamp,
           html: activity.html
         });
         position++;
@@ -126,22 +128,23 @@ angular.module('c4mApp')
       // Determine the position of the loaded activities depending on the number of the loaded page.
       var position = $scope.existingActivities.length;
 
-      EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedID)
-        .success( function (data, status) {
+      EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedTimestamp)
+        .success(function(data, status) {
           if (data.data) {
-            angular.forEach(data.data, function (activity) {
+            angular.forEach(data.data, function(activity) {
               this.splice(position, 0, {
                 id: activity.id,
+                timestamp: activity.timestamp,
                 html: $sce.trustAsHtml(activity.html)
               });
               position++;
             }, $scope.existingActivities);
 
-            // Update the ID of the last activity in the activity stream.
-            $scope.stream.firstLoadedID = data.data[data.data.length - 1].id;
+            // Update the Timestamp of the last activity in the activity stream.
+            $scope.stream.firstLoadedTimestamp = data.data[data.data.length - 1].timestamp;
 
             // Keep the "show more" button, only if the remaining activities to load is more than the range.
-            // The "Count" variable will go down as we are filtering with the lowest activity ID.
+            // The "Count" variable will go down as we are filtering with the lowest activity Timestamp.
             $scope.showMoreButton = data.count >= $scope.range;
           }
         });
@@ -159,7 +162,7 @@ angular.module('c4mApp')
     // In case of resuming the activity stream,
     // Wait for 10 seconds to avoid any conflicts between the normal refresh and the "create new activity" pull.
     $scope.$on('c4m.activity.refresh', function(broadcast, action) {
-      if(action == 'stop') {
+      if (action == 'stop') {
         $interval.cancel($scope.refreshing);
       }
       else {

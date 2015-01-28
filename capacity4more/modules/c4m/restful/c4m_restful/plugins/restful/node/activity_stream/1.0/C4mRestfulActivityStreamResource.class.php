@@ -23,6 +23,12 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
         ),
       ),
     );
+    $public_fields['timestamp'] = array(
+      'property' => 'timestamp',
+      'data' => array(
+        'type' => 'string',
+      ),
+    );
     return $public_fields;
   }
   /**
