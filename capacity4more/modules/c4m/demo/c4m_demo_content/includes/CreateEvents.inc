@@ -188,6 +188,10 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
    *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
+    parent::complete($entity, $row);
+
+    $entity->_skip_message = TRUE;
+
     $this->extractAddress($entity, $row);
     // Save events with locationns again and simulate an 'active' location to
     // ensure correct node vid in table getlocations_fields_entities.
@@ -199,7 +203,5 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       }
       entity_save('node', $entity);
     }
-
-    parent::complete($entity, $row);
   }
 }
