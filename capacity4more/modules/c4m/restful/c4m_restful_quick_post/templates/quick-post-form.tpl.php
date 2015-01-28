@@ -283,7 +283,7 @@
         <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.geo">
-        <div class="value" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
+        <div class="value row" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
           <div class="parent col-sm-4">
             <span>
               <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
