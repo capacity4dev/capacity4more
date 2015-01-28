@@ -17,6 +17,7 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
    */
   public $csvColumns = array(
     array('id', 'ID'),
+    array('status', 'status'),
     array('parent', 'PID'),
     array('weight', 'Weight'),
     array('title', 'Title'),
@@ -42,7 +43,7 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
     $this->dependencies[] = 'C4mDemoContentCreateDocuments';
     $this->dependencies[] = 'C4mDemoContentCreateGroups';
     $this->dependencies[] = 'C4mDemoContentCreateProjects';
-
+    $this->addFieldMapping('status', 'status');
     $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_related_document', 'documents');
