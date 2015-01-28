@@ -48,4 +48,3 @@ features[variable][] = node_options_photoalbum
 features[variable][] = node_preview_photoalbum
 features[variable][] = node_submitted_photoalbum
 features[views_view][] = c4m_photoalbum_item_views
-mtime = 1420015794
