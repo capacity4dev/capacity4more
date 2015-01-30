@@ -26,9 +26,9 @@ function c4m_og_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'og_context_providers_weight_group_context';
   $strongarm->value = array(
+    'og_purl' => '-10',
     'url' => '-9',
     'node' => '-8',
-    'og_purl' => '-10',
     'comment' => '-7',
     'user-view' => '-6',
     'user-edit' => '-5',
