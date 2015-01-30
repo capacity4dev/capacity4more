@@ -1,26 +1,26 @@
 .field-name-title {
-  color: $gray-darker;
+  color: $color-gray;
 
   h2 {
     margin: 0;
   }
 
   a {
-    color: $blue;
+    color: $color-blue;
     font-size: 75%;
   }
 }
 
 .field-name-c4m-body {
-  color: $gray-darker;
+  color: $color-gray;
 }
 
 .user-name {
-  color: $blue;
+  color: $color-blue;
 
   & + .post-date {
     &:before {
-      color: $blue;
+      color: $color-blue;
       content: '|';
       margin: 0 10px;
     }
@@ -28,7 +28,7 @@
 }
 
 .post-date {
-  color: $blue;
+  color: $color-blue;
 }
 
 .date {
@@ -50,7 +50,7 @@
 
   .creation-date {
     margin-left: 10px;
-    border-left: 1px solid $gray;
+    border-left: 1px solid $color-gray;
     padding-left: 10px;
   }
 }
@@ -67,7 +67,7 @@
 }
 
 .field-name-c4m-ds-content-footer-stats {
-  color: $gray-darker;
+  color: $color-gray;
   margin-top: 5px;
 }
 
@@ -112,7 +112,7 @@
 
 .field-name-c4m-ds-node-author-image, .field-name-c4m-ds-comment-author-image {
   img {
-    @include border-radius(50%);
+    border-radius: 50%;
   }
 }
 
@@ -135,6 +135,23 @@
     margin-left: 10px;
     padding-left: 10px;
     line-height: 0.8em;
+  }
+}
+
+
+.field-name-c4m-ds-author-first-and-last-name {
+  color: $color-blue;
+  display: inline-block;
+
+  & + .field-name-post-date {
+    color: $color-blue;
+    display: inline-block;
+
+    &:before {
+      color: $color-blue;
+      content: '|';
+      margin: 0 10px;
+    }
   }
 }
 

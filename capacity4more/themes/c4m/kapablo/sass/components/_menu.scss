@@ -51,9 +51,9 @@
     .og-menu-link {
       a {
         @extend %svg-icon;
-        @include border-radius(0, 0);
 
-        color: $gray-darker;
+        border-radius: 0;
+        color: $color-gray;
         text-align: left;
         text-transform: uppercase;
 
@@ -181,7 +181,7 @@
 }
 
 // Everything > 480px
-@media screen and (min-width: $screen-sm-max) {
+@media screen and (min-width: $screen-md-min) {
   #block-menu-c4m-og-menu {
     .navbar-collapse {
       .og-menu-link {

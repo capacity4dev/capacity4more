@@ -42,17 +42,16 @@
   }
 
   .group-details {
-    @include border-radius(0);
     @include box-shadow(none);
 
     background: none;
     border: 0;
 
     legend {
-      @include border-radius(0);
       @include box-shadow(none);
 
       background: none;
+      border-radius: 0;
       color: $gray-dark;
       padding: 0;
       border: 0;

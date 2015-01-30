@@ -80,7 +80,7 @@ function c4m_content_document_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -166,6 +166,74 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-document-c4m_document_add_to_library'
+  $field_instances['node-document-c4m_document_add_to_library'] = array(
+    'bundle' => 'document',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_teaser_table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 13,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_document_add_to_library',
+    'label' => 'Add to library',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'node-document-c4m_related_topic'
   $field_instances['node-document-c4m_related_topic'] = array(
     'bundle' => 'document',
@@ -234,7 +302,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -296,7 +364,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -358,7 +426,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
@@ -420,7 +488,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -482,75 +550,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 7,
-    ),
-  );
-
-  // Exported field_instance: 'node-document-field_add_to_library'
-  $field_instances['node-document-field_add_to_library'] = array(
-    'bundle' => 'document',
-    'default_value' => array(
-      0 => array(
-        'value' => 1,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_stream' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'c4m_teaser_table' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 16,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 13,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 20,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 18,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_add_to_library',
-    'label' => 'Add to library',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 12,
+      'weight' => 8,
     ),
   );
 
@@ -712,7 +712,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 

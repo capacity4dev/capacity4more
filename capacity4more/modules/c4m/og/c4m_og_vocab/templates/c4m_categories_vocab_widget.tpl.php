@@ -5,13 +5,13 @@
     </div>
     <div class="selected-values" ng-show="model.<?php print $vocabulary_machine_name; ?>">
       <div class="value row" ng-repeat="(key, value) in data.<?php print $vocabulary_machine_name; ?>">
-        <div class="parent col-sm-6">
-          <span ng-show="categoryHasChildrenSelected(key)">
+        <div class="parent col-xs-12 col-sm-3">
+          <span ng-show="categoryHasChildrenSelected(key)" class="parent-label">
             {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
             <i class="fa fa-chevron-right "></i>
           </span>
         </div>
-        <div class="child col-sm-6">
+        <div class="child col-xs-12 col-sm-9">
           <span ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true" ng-repeat="(childkey, child) in data.<?php print $vocabulary_machine_name; ?>[key].children">
             <i ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i> {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}
           </span>
@@ -26,10 +26,7 @@
           <input ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>" ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')" class="form-control" type="text" placeholder="Search"/>
         </form>
         <ul>
-          <li class="checkbox" ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
-            <label ng-click="updateSelected(item);">
-              {{item.label}}
-            </label>
+          <li class="checkbox table-display" ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
             <ul ng-show="item.selected == true" class="indent">
               <li ng-repeat="child in item.children">
                 <label>
@@ -37,6 +34,9 @@
                 </label>
               </li>
             </ul>
+            <label ng-click="updateSelected(item);" class="parent-select">
+              {{item.label}}
+            </label>
           </li>
         </ul>
       </div>

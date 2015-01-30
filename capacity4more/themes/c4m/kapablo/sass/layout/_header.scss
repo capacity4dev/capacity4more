@@ -4,13 +4,13 @@
 
 .content-user {
   background: $highlight-blue;
-  color: $white;
+  color: $color-white;
   line-height: 28px;
   width: 100%;
 
   a {
-    border-bottom: 1px dashed $white;
-    color: $white;
+    border-bottom: 1px dashed $color-white;
+    color: $color-white;
     text-decoration: none;
 
     &:hover {
@@ -21,9 +21,9 @@
 }
 
 .navbar.container {
-  background: $white;
+  background: $color-white;
   border: 0;
-  @include border-radius(0);
+  border-radius: 0;
   margin-top: 0;
 }
 

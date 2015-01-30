@@ -80,11 +80,11 @@
       a,
       span {
         background-color: $highlight-blue;
+        border-radius: 20px;
         display: inline-block;
         padding: 12px 43px 9px;
         color: white;
         font-weight: bold;
-        @include border-radius(20px);
       }
     }
   }
@@ -99,22 +99,16 @@
   }
 
   .separator {
-    border: 1px solid $highlight-blue;
-    display: inline-block;
-    height: 0.9em;
-    margin: 0 20px;
-    text-indent: -9999px;
-    vertical-align: middle;
+    border-color: $highlight-blue;
   }
 
   .post-date {
-    color: $gray-darker;
+    color: $color-gray;
   }
 }
 
 .message-title {
   a {
-    color: $gray-dark;
     font-size: 1.2em;
     text-transform: uppercase;
   }

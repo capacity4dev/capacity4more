@@ -7,6 +7,8 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
+# Update npm
+npm install -g npm@2
 
 # Install Grunt.
 npm install -g grunt-cli

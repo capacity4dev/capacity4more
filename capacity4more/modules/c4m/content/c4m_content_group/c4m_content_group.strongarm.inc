@@ -108,10 +108,10 @@ function c4m_content_group_strongarm() {
           'weight' => '1',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '12',
         ),
         'locations' => array(
-          'weight' => '12',
+          'weight' => '10',
         ),
       ),
       'display' => array(),
