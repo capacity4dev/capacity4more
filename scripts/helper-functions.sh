@@ -386,7 +386,6 @@ function build_kapablo_theme {
   # Build the dependencies.
   cd $ROOT/capacity4more/themes/c4m/kapablo
   bundle install
-  npm install -g npm@2
   npm install
   grunt build
   cd $ROOT
