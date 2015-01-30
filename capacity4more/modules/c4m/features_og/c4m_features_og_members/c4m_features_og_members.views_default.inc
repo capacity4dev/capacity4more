@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_features_og_overview_members.views_default.inc
+ * c4m_features_og_members.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_og_overview_members_views_default_views() {
+function c4m_features_og_members_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -24,8 +24,7 @@ function c4m_features_og_overview_members_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Overview - Members';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'access user profiles';
+  $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';

@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * c4m_features_og_overview_tasklists.views_default.inc
+ * c4m_features_og_tasklists.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_features_og_overview_tasklists_views_default_views() {
+function c4m_features_og_tasklists_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_overview_og_task_lists';
+  $view->name = 'c4m_overview_og_tasklists';
   $view->description = 'Overview table of task lists content.';
   $view->tag = 'default';
   $view->base_table = 'node';
@@ -25,7 +25,7 @@ function c4m_features_og_overview_tasklists_views_default_views() {
   $handler->display->display_options['title'] = 'Task lists Overview';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['group_by'] = TRUE;
-  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -187,7 +187,7 @@ function c4m_features_og_overview_tasklists_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['c4m_overview_og_task_lists'] = $view;
+  $export['c4m_overview_og_tasklists'] = $view;
 
   return $export;
 }

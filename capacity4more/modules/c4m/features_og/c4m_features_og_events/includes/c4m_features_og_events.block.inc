@@ -27,7 +27,9 @@ function _c4m_features_og_events_landing_block_view_alter(&$data, $block) {
         // Add link to Overview
         $item['class'] = 'leaf';
         $item['data'] = l(t('Overview'), 'events');
-        array_unshift($data['content']['c4m_datetime_end:value2']['#items'], $item);
+        if ($data['content']['c4m_datetime_end:value2']['#items']) {
+          array_unshift($data['content']['c4m_datetime_end:value2']['#items'], $item);
+        }
         break;
     }
     $data['subject'] = $block_title;
@@ -41,6 +43,9 @@ function _c4m_features_og_events_landing_block_view_alter(&$data, $block) {
  */
 function _c4m_features_og_events_block_event_views_links() {
   $group = c4m_og_current_group();
+  if (!$group) {
+    return;
+  }
 
   // Link to the general overview page.
   $items[] = array(
