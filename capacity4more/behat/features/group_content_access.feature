@@ -29,36 +29,9 @@ Feature: Group content access
     And   I should see "Access denied"
 
   @javascript
-  Scenario: Check group privacy restriction
-    Given I am logged in as user "turing"
-    And   I change access of group "My test group" to Restricted with "example.com" restriction
-    When  I am logged in as user "isaacnewton"
-    Then  I visit "Test content" node of type "discussion"
-    And   I should see "Access denied"
-
-  @javascript
-  Scenario: Check group privacy from private to restricted with some email domain
-    Given I am logged in as user "turing"
-    And   I change access of group "My test group" to Restricted with "gravity.com" restriction
-    When  I am logged in as user "isaacnewton"
-    Then  I visit "Test content" node of type "discussion"
-    And   I should not see "Access denied"
-    And   I should see "Test content"
-
-  @javascript
   Scenario: Check group privacy from restricted to private
     Given I am logged in as user "turing"
     And   I change access of group "My test group" to "Private"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
     And   I should see "Access denied"
-
-  @javascript
-  Scenario: Check group privacy from restricted to public
-    Given I am logged in as user "turing"
-    And   I change access of group "My test group" to "Restricted"
-    And   I change access of group "My test group" to "Public"
-    When  I am logged in as user "isaacnewton"
-    Then  I visit "Test content" node of type "discussion"
-    And   I should not see "Access denied"
-    And   I should see "Test content"
