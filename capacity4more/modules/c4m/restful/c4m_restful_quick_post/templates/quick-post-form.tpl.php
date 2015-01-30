@@ -33,7 +33,7 @@
   <div ng-show="serverSide.file.status == 200">
     <div class="row">
       <div class="col-sm-2">
-        <img src="missing_icon.png"/>
+        <span class="node-icon as-document"></span>
       </div>
       <div class="col-sm-10">
         <p> {{serverSide.file.config.file.name}} </p>
