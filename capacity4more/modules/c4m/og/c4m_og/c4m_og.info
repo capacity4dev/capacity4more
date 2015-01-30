@@ -14,6 +14,4 @@ features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[og_features_permission][] = node:group:view unpublished group content
-features[variable][] = og_context_negotiation_group_context
-features[variable][] = og_context_providers_weight_group_context
 files[] = c4m_og_access_plugin.inc
