@@ -1,5 +1,5 @@
-name = Members overview
-description = Overview of all members of a group
+name = Members
+description = Provides the members functionality within a Group
 core = 7.x
 package = capacity4more - Features Group
 version = 7.x-1.x-dev

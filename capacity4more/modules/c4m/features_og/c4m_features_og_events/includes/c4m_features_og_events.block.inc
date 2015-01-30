@@ -43,6 +43,9 @@ function _c4m_features_og_events_landing_block_view_alter(&$data, $block) {
  */
 function _c4m_features_og_events_block_event_views_links() {
   $group = c4m_og_current_group();
+  if (!$group) {
+    return;
+  }
 
   // Link to the general overview page.
   $items[] = array(
