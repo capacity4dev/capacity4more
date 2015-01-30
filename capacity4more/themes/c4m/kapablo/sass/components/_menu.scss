@@ -84,6 +84,11 @@
           @include link-icon-png-fallback('icons', 'library-icon');
         }
       }
+      &.events {
+        a {
+          @include link-icon-png-fallback('icons', 'event-icon');
+        }
+      }
       &.tasklists {
         a {
           @include link-icon-png-fallback('icons', 'tasks-icon');

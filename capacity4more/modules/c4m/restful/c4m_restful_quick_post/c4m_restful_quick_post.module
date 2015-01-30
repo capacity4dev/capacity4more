@@ -253,6 +253,9 @@ function c4m_restful_quick_post_needs_app() {
       return TRUE;
     }
   }
+  if (preg_match('/overlay/i', current_path())) {
+    return TRUE;
+  }
 
   return FALSE;
 }
