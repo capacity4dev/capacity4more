@@ -105,7 +105,7 @@ function c4m_content_group_strongarm() {
           'weight' => '0',
         ),
         'og_purl' => array(
-          'weight' => '1',
+          'weight' => '0',
         ),
         'path' => array(
           'weight' => '12',
