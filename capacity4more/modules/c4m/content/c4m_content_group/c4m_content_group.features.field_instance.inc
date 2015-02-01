@@ -87,7 +87,7 @@ function c4m_content_group_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 7,
+      'weight' => 6,
     ),
   );
 
@@ -232,7 +232,7 @@ function c4m_content_group_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -299,7 +299,7 @@ function c4m_content_group_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'options_select',
-      'weight' => 9,
+      'weight' => 8,
     ),
   );
 

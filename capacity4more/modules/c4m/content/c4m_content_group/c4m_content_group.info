@@ -13,6 +13,7 @@ dependencies[] = c4m_vocab_geo
 dependencies[] = c4m_vocab_widget
 dependencies[] = context
 dependencies[] = ctools
+dependencies[] = ds
 dependencies[] = ds_extras
 dependencies[] = entityreference
 dependencies[] = features
