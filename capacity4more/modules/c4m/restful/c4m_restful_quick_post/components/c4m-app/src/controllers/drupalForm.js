@@ -186,18 +186,50 @@ angular.module('c4mApp')
     };
 
     /**
-     * Check if current category has at least one selected child.
+     * Check if current term has at least one selected child.
      *
+     * @param vocab
+     *  Vocabulary name.
      * @param key
-     *  Category term id.
+     *  1-st level term id.
+     * @param childKey
+     *  2-nd level term id.
      *
      * @returns {boolean}
      */
-    $scope.categoryHasChildrenSelected = function(key) {
-      for (var i = 0; i < $scope.data.categories[key].children.length; i++) {
-        var id = $scope.data.categories[key].children[i].id;
-        if ($scope.model.categories[id] === true) {
-          return true;
+    $scope.termHasChildrenSelected = function(vocab, key, childKey) {
+      if (childKey != 'null') {
+        // This is 2-level term.
+        if (!$scope.data[vocab][key].children[childKey]) {
+          // This term has been removed.
+          return false;
+        }
+        if (!$scope.data[vocab][key].children[childKey].children) {
+          // This term doesn't have children at all.
+          return false;
+        }
+        for (var i = 0; i < $scope.data[vocab][key].children[childKey].children.length; i++) {
+          var id = $scope.data[vocab][key].children[childKey].children[i].id;
+          if ($scope.model[vocab][id] === true) {
+            return true;
+          }
+        }
+      }
+      else {
+        // This is 1-level term.
+        if (!$scope.data[vocab][key]) {
+          // This term has been removed.
+          return false;
+        }
+        if (!$scope.data[vocab][key].children) {
+          // This term doesn't have children at all.
+          return false;
+        }
+        for (var i = 0; i < $scope.data[vocab][key].children.length; i++) {
+          var id = $scope.data[vocab][key].children[i].id;
+          if ($scope.model[vocab][id] === true) {
+            return true;
+          }
         }
       }
       return false;
