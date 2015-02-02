@@ -441,10 +441,12 @@ input[type="checkbox"]:not(old) {
   display: none;
 }
 
-.geo-values .fa-chevron-right {
-  position: absolute;
-  right: 0;
-  top: 14px;
+.geo-values, .c4m_vocab_geo {
+  .fa-chevron-right {
+    position: absolute;
+    right: 0;
+    top: 14px;
+  }
 }
 
 .file-wrapper {
