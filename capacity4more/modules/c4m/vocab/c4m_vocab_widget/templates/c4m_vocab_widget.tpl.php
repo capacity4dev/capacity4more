@@ -7,8 +7,9 @@
       <div class="value row" ng-show="value === true && data.<?php print $vocabulary_machine_name; ?>[key]" ng-repeat="(key, value) in model.<?php print $vocabulary_machine_name; ?>">
         <div class="parent col-sm-4">
           <span>
-            <i ng-click="removeTaxonomyValue(key, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i> {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
-            <i class="fa fa-chevron-right "></i>
+            <i ng-click="removeTaxonomyValue(key, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i>
+            {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, key) }}
+            <i class="fa fa-chevron-right" ng-show="termHasChildrenSelected('<?php print $vocabulary_machine_name; ?>', key, 'null')"></i>
           </span>
         </div>
         <div class="col-sm-8">
@@ -17,12 +18,14 @@
               <span ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true" >
                 <i ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i>
                 {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}
+                <i class="fa fa-chevron-right" ng-show="termHasChildrenSelected('<?php print $vocabulary_machine_name; ?>', key, childkey)"></i>
               </span>
             </div>
             <div class="childChild col-sm-6">
               <span ng-show="model.<?php print $vocabulary_machine_name; ?>[childChild.id] === true" ng-repeat="(childChildkey, childChild) in data.<?php print $vocabulary_machine_name; ?>[key].children[childkey].children">
                 <i ng-click="removeTaxonomyValue(childChild.id, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i>
                 {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, childChild.id) }}
+
               </span>
             </div>
           </div>

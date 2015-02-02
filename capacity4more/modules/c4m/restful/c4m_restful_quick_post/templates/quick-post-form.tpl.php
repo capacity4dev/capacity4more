@@ -31,7 +31,7 @@
     </div>
   </div>
   <div ng-show="serverSide.file.status == 200">
-    <div class="row">
+    <div class="row" ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-change-drag">
       <div class="col-sm-2">
         <span class="icon icon-missing"></span>
       </div>
@@ -40,7 +40,7 @@
           <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="glyphicon glyphicon-remove"></span></a></h4>
         <p>Filetype: {{serverSide.file.config.file.type}} <span class="separator">|</span> Filesize: {{serverSide.file.config.file.size | filesize:1}}</p>
 
-        <div ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-upload-drag">
+        <div>
           <span><?php print t('Drop a file here to replace'); ?></span>
           <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>.
           <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
@@ -48,8 +48,6 @@
         </div>
       </div>
     </div>
-
-
   </div>
 
   <div class="errors">
@@ -188,9 +186,9 @@
     <div class="selected-values" ng-show="data.categories">
       <div class="value row" ng-repeat="(key, value) in categories">
         <div class="parent col-sm-6">
-          <span ng-show="categoryHasChildrenSelected(key)">
+          <span ng-show="termHasChildrenSelected('categories', key, 'null')">
             {{ findLabel(categories, key) }}
-            <i class="fa fa-chevron-right "></i>
+            <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('categories', key, 'null')"></i>
           </span>
         </div>
         <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
@@ -287,7 +285,7 @@
           <div class="parent col-sm-4">
             <span>
               <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
-              <i class="fa fa-chevron-right "></i>
+              <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('geo', key, 'null')"></i>
             </span>
           </div>
           <div class="col-sm-8">
@@ -295,6 +293,7 @@
               <div class="col-sm-6" >
                 <span ng-show="data.geo[child.id] === true" >
                   <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
+                  <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('geo', key, childkey)"></i>
                 </span>
               </div>
               <div class="childChild col-sm-6">
