@@ -31,7 +31,7 @@
     </div>
   </div>
   <div ng-show="serverSide.file.status == 200">
-    <div class="row">
+    <div class="row" ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-change-drag">
       <div class="col-sm-2">
         <span class="icon icon-missing"></span>
       </div>
@@ -40,7 +40,7 @@
           <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="glyphicon glyphicon-remove"></span></a></h4>
         <p>Filetype: {{serverSide.file.config.file.type}} <span class="separator">|</span> Filesize: {{serverSide.file.config.file.size | filesize:1}}</p>
 
-        <div ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-upload-drag">
+        <div>
           <span><?php print t('Drop a file here to replace'); ?></span>
           <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>.
           <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
@@ -48,8 +48,6 @@
         </div>
       </div>
     </div>
-
-
   </div>
 
   <div class="errors">

@@ -249,6 +249,10 @@ input[type="checkbox"]:not(old) {
   }
 }
 
+.file-change-drag {
+  background-color: $color-red;
+}
+
 // If JS is disabled, we can't propagate the radio button behavior.
 .js {
   .field-name-c4m-discussion-type, .field-name-c4m-event-type {
