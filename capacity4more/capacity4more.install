@@ -57,14 +57,6 @@ function capacity4more_install() {
   variable_set('date_first_day', 1);
   _capacity4more_install_set_default_date_formats();
 
-  // OG CONTEXT negotiation
-  $values = array(
-    'url'     => TRUE,
-    'node'    => TRUE,
-    'og_purl' => TRUE,
-  );
-  variable_set("og_context_negotiation_group_context", $values);
-
   // Quick post debug, Disabled by default.
   variable_set('c4m_quick_post_debug', 0);
 }
