@@ -446,3 +446,16 @@ input[type="checkbox"]:not(old) {
   right: 0;
   top: 14px;
 }
+
+.file-wrapper {
+  .document {
+    border-bottom: 1px solid $color-gray;
+    border-top: 0;
+    margin: 15px 0;
+    padding-bottom: 15px;
+
+    .document-description {
+      display: inline-block;
+    }
+  }
+}
