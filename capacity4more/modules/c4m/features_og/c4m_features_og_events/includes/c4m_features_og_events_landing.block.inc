@@ -21,7 +21,7 @@ function _c4m_features_og_events_landing_block_view_alter(&$data, $block) {
         // Add link to Overview
         $item['class'] = array('leaf');
         $item['data'] = l(t('Overview'), 'events');
-        if (!empty($data['content']['c4m_datetime_end:value2']['#items'])){
+        if (!empty($data['content']['c4m_datetime_end:value2']['#items'])) {
           array_unshift($data['content']['c4m_datetime_end:value2']['#items'], $item);
         }
         break;
