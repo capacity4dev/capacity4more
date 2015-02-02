@@ -188,9 +188,9 @@
     <div class="selected-values" ng-show="data.categories">
       <div class="value row" ng-repeat="(key, value) in categories">
         <div class="parent col-sm-6">
-          <span ng-show="categoryHasChildrenSelected(key)">
+          <span ng-show="termHasChildrenSelected('categories', key, 'null')">
             {{ findLabel(categories, key) }}
-            <i class="fa fa-chevron-right "></i>
+            <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('categories', key, 'null')"></i>
           </span>
         </div>
         <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
@@ -287,7 +287,7 @@
           <div class="parent col-sm-4">
             <span>
               <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
-              <i class="fa fa-chevron-right "></i>
+              <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('geo', key, 'null')"></i>
             </span>
           </div>
           <div class="col-sm-8">
@@ -295,6 +295,7 @@
               <div class="col-sm-6" >
                 <span ng-show="data.geo[child.id] === true" >
                   <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
+                  <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('geo', key, childkey)"></i>
                 </span>
               </div>
               <div class="childChild col-sm-6">
