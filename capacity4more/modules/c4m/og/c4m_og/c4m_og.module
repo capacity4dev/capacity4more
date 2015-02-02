@@ -107,9 +107,9 @@ function c4m_og_purl_exists($value) {
 function c4m_og_get_group_bundles() {
   $roles = array();
   $result = db_select('og_role', 'ogr')
-            ->fields('ogr', array('group_bundle', 'rid', 'name'))
-            ->execute()
-            ->fetchAll();
+    ->fields('ogr', array('group_bundle', 'rid', 'name'))
+    ->execute()
+    ->fetchAll();
   foreach ($result as $row) {
     $roles[$row->group_bundle][$row->rid] = $row->name;
   }
@@ -175,10 +175,10 @@ function c4m_og_get_users_by_roles($gid, $rids = array()) {
   $query = db_select('og_users_roles', 'og_users_roles');
 
   return $query->fields('og_users_roles', array('uid'))
-               ->condition('gid', $gid)
-               ->condition('rid', $rids, 'IN')
-               ->execute()
-               ->fetchAll();
+    ->condition('gid', $gid)
+    ->condition('rid', $rids, 'IN')
+    ->execute()
+    ->fetchAll();
 }
 
 /**
@@ -192,9 +192,9 @@ function c4m_og_views_plugins() {
         'help' => t('this is a custom access plugin'),
         'handler' => 'c4m_og_access_plugin',
         'path' => drupal_get_path('module', 'c4m_og'),
-        ),
       ),
-    );
+    ),
+  );
   return $plugins;
 }
 
@@ -301,7 +301,7 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
   // Allow group members with the right permission to view unpublished group
   // content nodes.
   if (empty($node->status) &&
-      og_is_group_content_type('node', $node->type)) {
+    og_is_group_content_type('node', $node->type)) {
     // Node is unpublished, so og_access will not deliver grants, nor will node
     // (module).
 
@@ -325,4 +325,105 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * In case the group entity was marked with group privacy change,
+ * create batch operation to update group content.
+ */
+function c4m_og_entity_update($entity, $entity_type) {
+  if (!og_access_check_node_access_grants_is_needed($entity, $entity_type)) {
+    return;
+  }
+  // If node access grants need a check, we will also need to reindex the nodes.
+  // Handle group privacy change.
+  c4m_og_handle_group_privacy_change($entity_type, $entity);
+}
+
+/**
+ * In case of group privacy change, create batch operation to reindex group content.
+ *
+ * When group privacy (OG_ACCESS_FIELD) is changed, its group content should be
+ * reindexed as well. Since a group might have big amount of content, it is being
+ * handled using Batch API.
+ *
+ *
+ * @param $entity_type
+ *   The group type.
+ * @param $entity
+ *   The group entity object.
+ */
+function c4m_og_handle_group_privacy_change($entity_type, $entity) {
+  list($id) = entity_extract_ids($entity_type, $entity);
+
+  if (!module_exists('c4m_search')) {
+    return;
+  }
+
+  $batch = array(
+    'title' => t('Reindex group content'),
+    'operations' => array(
+      array('c4m_og_reindex_group_content', array($entity_type, $id)),
+    ),
+  );
+  batch_set($batch);
+}
+
+/**
+ * Batch API group content privacy change callback.
+ *
+ * @param $group_type
+ *   The group type to handle.
+ * @param $group_id
+ *   The group id to handle.
+ * @param $context
+ *   Batch API context.
+ */
+function c4m_og_reindex_group_content($group_type, $group_id, &$context) {
+  if (empty($context['sandbox'])) {
+    // Count relevant nodes.
+    $query = new EntityFieldQuery();
+    $total = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('group_type', $group_type, '=')
+      ->propertyCondition('entity_type', 'node', '=')
+      ->propertyCondition('gid', $group_id, '=')
+      ->count()->execute();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['last_id'] = 0;
+    $context['sandbox']['total'] = $total;
+  }
+
+  $limit = 50;
+
+  // Retrieve the next batch.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', $group_type, '=')
+    ->propertyCondition('entity_type', 'node', '=')
+    ->range(0, $limit)
+    ->propertyCondition('etid', $context['sandbox']['last_id'], '>')
+    ->propertyCondition('gid', $group_id, '=')
+    ->execute();
+
+  // Mark "finished" if there are no more results.
+  if (!isset($result['og_membership'])) {
+    $context['finished'] = 1;
+    return;
+  }
+
+  foreach (entity_load('og_membership', array_keys($result['og_membership'])) as $og_membership) {
+    // Clear field cache for the node.
+    cache_clear_all('field:node:' . $og_membership->etid, 'cache_field');
+
+    // Reindex the node.
+    search_api_track_item_change('node', array($og_membership->etid));
+    $context['sandbox']['progress']++;
+    $context['sandbox']['last_id'] = $og_membership->etid;
+  }
+  $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
 }
