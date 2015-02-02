@@ -182,6 +182,37 @@ function c4m_og_get_users_by_roles($gid, $rids = array()) {
 }
 
 /**
+ * Implements hook_views_plugins().
+ */
+function c4m_og_views_plugins() {
+  $plugins = array(
+    'access' => array(
+      'c4m_og_access_og_context' => array(
+        'title' => t('User has access to the OG context'),
+        'help' => t('this is a custom access plugin'),
+        'handler' => 'c4m_og_access_plugin',
+        'path' => drupal_get_path('module', 'c4m_og'),
+        ),
+      ),
+    );
+  return $plugins;
+}
+
+/**
+ * Implementation of hook_access()
+ *
+ * @return bool
+ */
+function c4m_og_access() {
+  $access = TRUE;
+  $og_context = og_context();
+  if (!$og_context) {
+    $access = FALSE;
+  }
+  return $access;
+}
+
+/**
  * Implementation of hook_og_permission
  *
  * Add group permissions.

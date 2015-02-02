@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ * Install & Update hooks for c4m_og
+ */
+
+/**
+ * Implements hook_install
+ */
+function c4m_og_install() {
+  _c4m_og_install_context();
+}
+
+
+/**
+ * Helper to set the contexts order.
+ */
+function _c4m_og_install_context() {
+  $config = array(
+    'og_purl' => array(),
+    'url'     => array(),
+    'node'    => array(),
+
+  );
+  variable_set('og_context_negotiation_group_context', $config);
+
+  $weights = array(
+    'og_purl' => '-10',
+    'url' => '-9',
+    'node' => '-8',
+    'comment' => '-7',
+    'user-view' => '-6',
+    'user-edit' => '-5',
+  );
+  variable_set('og_context_providers_weight_group_context', $weights);
+}

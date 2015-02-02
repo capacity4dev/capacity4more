@@ -134,7 +134,10 @@ projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.x-dev"
+; projects[og][version] = "2.x-dev"
+projects[og][download][type] = "git"
+projects[og][download][url] = "https://github.com/Gizra/og.git"
+projects[og][download][revision] = "66d3b723b6c305006acf5204fca27d7d2f30bc26"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.2"
