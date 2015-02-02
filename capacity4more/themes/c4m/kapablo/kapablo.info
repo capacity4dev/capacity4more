@@ -34,7 +34,6 @@ overlay_regions[] = content_bottom
 ;;;;;;;;;;;;;;;;;;;;;
 
 scripts[] = js/kapablo.min.js
-scripts[] = js/kapablo_overlay.js
 
 scripts[] = js/bootstrap.min.js
 
