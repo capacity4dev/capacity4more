@@ -33,18 +33,18 @@
   <div ng-show="serverSide.file.status == 200">
     <div class="row">
       <div class="col-sm-2">
-        <img src="missing_icon.png"/>
+        <span class="icon icon-missing"></span>
       </div>
       <div class="col-sm-10">
-        <p> {{serverSide.file.config.file.name}} </p>
-        <p> Filetype: {{serverSide.file.config.file.type}} | Filesize: {{serverSide.file.config.file.size | filesize:1}} </p>
+        <h4>{{serverSide.file.config.file.name}}
+          <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="glyphicon glyphicon-remove"></span></a></h4>
+        <p>Filetype: {{serverSide.file.config.file.type}} <span class="separator">|</span> Filesize: {{serverSide.file.config.file.size | filesize:1}}</p>
 
         <div ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-upload-drag">
-          <span><?php print t('Drop file here to replace '); ?></span>
-          <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>
+          <span><?php print t('Drop a file here to replace'); ?></span>
+          <?php print t('or');?> <a href="javascript://" ng-click="browseFiles()"><?php print t('Browse') ?></a>.
           <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
           <br/>
-          <a href="javascript://" ng-click="removeFile()"><?php print t('Remove the file.'); ?></a>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@
   </div>
 </div>
 
-<div class="form-group text btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
+<div class="form-group text clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.organiser }">
   <label>{{fieldSchema.resources[selectedResource].organiser.info.label}}</label>
   <input id="organiser" class="form-control" name="organiser" type="text" ng-model="data.organiser">
 
@@ -98,7 +98,7 @@
   </div>
 </div>
 
-<div class="form-group date btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
+<div class="form-group date clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.datetime}">
   <label><?php print t('When') ?></label>
 
   <div class="row">
@@ -107,7 +107,7 @@
   <p class="errors" ng-show="errors.datetime"><?php print t('Date / time is not valid'); ?></p>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-if="selectedResource == 'documents'"
+<div class="form-group btn-group clearfix btn-group-selectors" ng-if="selectedResource == 'documents'"
      ng-class="{ 'has-error' : errors.document_type }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].document_type.info.label}}</label>
@@ -135,7 +135,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
     <span id="topic_description"
@@ -164,15 +164,16 @@
   </div>
 </div>
 
-<div class="form-group place btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+<div class="form-group place clearfix btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
   <label><?php print t('Where') ?></label>
 
-  <location data="data"></location>
-
+  <div class="row">
+    <location data="data" class="col-xs-12"></location>
+  </div>
   <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
   <div class="label-wrapper">
     <label><?php print t('Group categories') ?></label>
     <span id="date_description" class="description">{{fieldSchema.resources[selectedResource].categories.info.description}}</span>
@@ -211,7 +212,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-if="selectedResource != 'events'"
+<div class="form-group btn-group clearfix btn-group-selectors" ng-if="selectedResource != 'events'"
      ng-class="{ 'has-error' : errors.date }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
@@ -242,7 +243,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.language }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].language.info.label}}</label>
     <span id="language_description" class="description">{{fieldSchema.resources[selectedResource].language.info.description}}</span>
@@ -268,7 +269,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group btn-group-selectors" ng-class="{ 'has-error' : errors.geo }">
+<div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.geo }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].geo.info.label}}</label>
     <span id="geo_description"
@@ -281,8 +282,8 @@
                 class="btn"><?php print t('Select Region'); ?></button>
         <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
       </div>
-      <div class="selected-values" ng-show="data.geo">
-        <div class="value" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
+      <div class="selected-values geo-values" ng-show="data.geo">
+        <div class="value row" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
           <div class="parent col-sm-4">
             <span>
               <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}

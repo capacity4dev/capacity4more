@@ -178,7 +178,7 @@ function c4m_search_default_search_api_index() {
         "changed" : { "type" : "date" },
         "comment_count" : { "type" : "integer" },
         "created" : { "type" : "date" },
-        "field_add_to_library" : { "type" : "boolean" },
+        "c4m_document_add_to_library" : { "type" : "boolean" },
         "group_group" : { "type" : "boolean" },
         "is_new" : { "type" : "boolean" },
         "nid" : { "type" : "integer" },

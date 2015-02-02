@@ -1,3 +1,13 @@
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+}
+
 .svg-icon, %svg-icon {
   line-height: 25px;
   padding-left: 30px;
@@ -42,4 +52,30 @@ div.label-inline {
 
 .sort-desc {
   @include arrow-image('up', 'highlight-blue', 'after');
+}
+
+.separator {
+  border-left: 1px solid grey;
+  display: inline-block;
+  height: 0.9em;
+  margin: 0 15px;
+  text-indent: -99999px;
+  vertical-align: middle;
+  width: 1px;
+}
+
+a {
+  .glyphicon-remove {
+    color: $color-red;
+    font-size: 60%;
+    margin-left: 4px;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+.table-display {
+  display: table;
 }

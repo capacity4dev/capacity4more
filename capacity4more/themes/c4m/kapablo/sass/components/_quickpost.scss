@@ -24,16 +24,12 @@
   }
 
   .form-group {
-
     .label-wrapper {
       border-bottom: 1px solid black;
       margin-bottom: 10px;
       width: 100%;
       display: block;
     }
-  }
-
-  .form-group {
 
     .drop-box {
       height: 80px;
@@ -43,13 +39,7 @@
     }
   }
 
-  .file-upload-drag {
-    background: grey;
-    border-color: lightBlue;
-  }
-
   .file-wrapper {
-
     img {
       height: 50px;
       width: 50px;
@@ -57,7 +47,6 @@
   }
 
   .selected-values {
-
     span {
       margin-right: 4px;
       float: left;
@@ -67,21 +56,6 @@
         color: $brand-primary;
         cursor: pointer;
       }
-    }
-  }
-
-  .checkboxes-wrapper {
-    position: relative;
-
-    button.btn-primary {
-      padding: 2px 4px;
-      left: 0;
-    }
-
-    .hidden-checkboxes {
-      display: block;
-      left: 150px;
-      top: -85px;
     }
   }
 
@@ -126,14 +100,15 @@
 }
 
 .pane-quick-form {
-  .form-control {
-    @include input-rounded($beige);
 
-    &.drop-box {
-      @include input-rounded($highlight-blue);
-      @include border-radius(80px);
-      color: $white;
+  .place {
+    .form-control {
+      padding: 6px 10px;
     }
+  }
+
+  .input-group {
+    width: 100%;
   }
 
   .group-resources {
@@ -165,10 +140,10 @@
       }
 
       &.active, &:hover {
-        @include border-radius(0);
         @include box-shadow(none);
 
-        color: $highlight-blue !important;
+        border-radius: 0;
+        color: $color-blue !important;
       }
     }
   }
@@ -195,38 +170,14 @@
   }
   .input-wrapper.tags {
     border-bottom: none;
-    .select2-container {
-      &.select2-dropdown-open {
-        @include box-shadow(none);
-        @include border-radius(15px 15px 0 0);
-      }
-      .select2-choices {
-        @include box-shadow(none);
-        @include input-rounded($beige);
-      }
-      .select2-search-choice {
-        @include box-shadow(none);
-        @include border-radius(15px);
-
-        background-image: none;
-        background: $white;
-        border: 0;
-        margin: 7px 0 7px 7px;
-        padding: 3px 18px 3px 5px;
-      }
-      .select2-search-choice-close {
-        left: auto;
-        right: 3px;
-      }
-    }
   }
   .popup-button {
     button {
-      @include border-radius(0);
       @include read-more-icon('right');
 
       border: none;
-      color: $blue;
+      color: $color-blue;
+      border-radius: 0;
       font-size: 90%;
       padding-bottom: 0;
       padding-left: 0;
@@ -234,23 +185,6 @@
       text-transform: uppercase;
     }
   }
-}
-
-.select2-drop-active, .select2-drop {
-  @include border-radius(0 0 15px 15px);
-  @include box-shadow(none);
-  border: 1px solid $beige;
-
-  .select2-results {
-    li {
-      background: none;
-      color: $gray-dark;
-    }
-  }
-}
-
-.select2-container-multi .select2-choices .select2-search-field input.select2-active {
-  background: none !important;
 }
 
 .quickpost-btn-group-selectors {
@@ -268,7 +202,7 @@
     border: 0;
 
     .cke_inner .cke_wysiwyg_div {
-      background: $beige;
+      background: $color-beige;
     }
   }
 
@@ -286,6 +220,8 @@
     .btn-default {
       @extend %svg-icon;
 
+      @extend %discussion-type-values;
+
       background-position: 5px 50%;
       background-repeat: no-repeat;
       background-size: 20px;
@@ -296,34 +232,22 @@
         border-right: 0;
       }
 
-      &[value=debate] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-debate');
-      }
-
-      &[value=idea] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-idea');
-      }
-
-      &[value=info] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-info');
-      }
-
-      &[value=question] {
-        @include link-icon-png-fallback('icons', 'discussion-qp-question');
-      }
-
       &[value=event] {
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'event-qp-event');
       }
 
       &[value=learning] {
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'event-qp-learning');
       }
 
       &[value=meeting] {
-        //        @include link-icon-png-fallback('icons', 'question-qp-icon');
+        @include link-icon-png-fallback('icons', 'event-qp-meeting');
       }
     }
+  }
+
+  .btn-group-event_type .btn-default {
+    padding-left: 0;
   }
 }
 
@@ -335,14 +259,13 @@
 }
 
 .reset-button {
-  @include border-radius(0);
-
   background: none;
   border: none;
+  border-radius: 0;
 
   &:active {
-    @include border-radius(0);
     @include box-shadow(none);
+    border-radius: 0;
   }
 }
 
@@ -370,44 +293,6 @@
   margin: 15px;
 }
 
-.drop-box {
-  border: 0;
-  display: block;
-  padding: 0;
-  height: auto;
-  margin: 10px 0 0 0;
-  text-align: center;
-  width: 100%;
-
-  .drop-text {
-    padding: 20px 30px;
-
-    a {
-      color: $white;
-      text-decoration: underline;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-
-    &:before {
-      background: image-url('misc/hand.png') no-repeat 50% 50%;
-      content: '';
-      display: block;
-      height: 33px;
-      margin-bottom: 10px;
-    }
-  }
-
-  .alert {
-    @include border-radius(80px);
-
-    margin: 0;
-    padding: 30px;
-  }
-}
-
 .qp-timeselector {
   color: $gray-dark;
 
@@ -428,4 +313,60 @@
 .document {
   padding-top: 5px;
   border-top: 1px solid #000;
+}
+
+.place, .date {
+  .input-group .form-control {
+    @include input-rounded($color-beige, 15px);
+
+    &.date-input {
+      border-radius: 15px 0 0 15px;
+    }
+  }
+}
+
+%discussion-type-values {
+  &[value=debate] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-debate');
+  }
+
+  &[value=idea] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-idea');
+  }
+
+  &[value=info] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-info');
+  }
+
+  &[value=question] {
+    @include link-icon-png-fallback('icons', 'discussion-qp-question');
+  }
+}
+
+.datetime-start, .datetime-end {
+  table {
+    @include input-rounded($color-beige, 15px);
+    border-radius: 0 15px 15px 0;
+
+    input {
+      @include box-shadow(none);
+      background-color: transparent;
+    }
+  }
+
+  .date-container {
+    display: inline-block;
+    margin-right: 3%;
+    width: 57%;
+  }
+  .time-container {
+    display: inline-block;
+    width: 40%;
+  }
+}
+
+.file-wrapper {
+  h4 {
+    margin-top: 0;
+  }
 }

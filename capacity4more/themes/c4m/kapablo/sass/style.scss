@@ -1,9 +1,17 @@
 // Make sure the charset is set appropriately
 @charset "UTF-8";
 
+// Import Bootstrap Compass integration
+@import "bootstrap-compass";
+
+// Import custom Bootstrap variables
+@import "bootstrap-variables";
+
+// Import Bootstrap for Sass
+@import "bootstrap";
+
 @import "compass/css3";
 @import "compass/utilities";
-@import "compass/css3/border-radius";
 
 @import "fontawesome/font-awesome";
 
@@ -29,6 +37,7 @@
 @import "components/comments";
 @import "components/quickpost";
 @import "components/activity_steam";
+@import "components/icon";
 @import "components/panels";
 @import "components/pager";
 @import "components/group_blocks";
@@ -36,6 +45,7 @@
 @import "components/forms";
 @import "components/facets";
 @import "components/user";
+@import "components/admin";
 
 // Components - Content types
 @import "components/discussion";
@@ -44,3 +54,4 @@
 
 // State: State rules are ways to describe how our modules or layouts will look when in a particular state.
 @import "states/states";
+@import "states/responsive_forms";
