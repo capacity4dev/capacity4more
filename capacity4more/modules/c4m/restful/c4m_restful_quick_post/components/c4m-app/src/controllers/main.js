@@ -167,7 +167,6 @@ angular.module('c4mApp')
      */
     $scope.termHasChildrenSelected = function(vocab, key, childKey) {
       if (childKey != 'null') {
-        console.log(childKey);
         // This is 2-level term.
         if (!$scope[vocab][key].children[childKey]) {
           // This term has been removed.
@@ -185,7 +184,6 @@ angular.module('c4mApp')
         }
       }
       else {
-        console.log(key);
         // This is 1-level term.
         if (!$scope[vocab][key]) {
           // This term has been removed.
