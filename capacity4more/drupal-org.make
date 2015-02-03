@@ -140,7 +140,8 @@ projects[og][download][url] = "https://github.com/Gizra/og.git"
 projects[og][download][revision] = "66d3b723b6c305006acf5204fca27d7d2f30bc26"
 
 projects[og_purl][subdir] = "contrib"
-projects[og_purl][version] = "1.2"
+projects[og_purl][version] = "1.x-dev"
+projects[og_purl][patch][] = "https://www.drupal.org/files/issues/og_purl_node_delete-2419277-1.patch"
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
@@ -166,6 +167,7 @@ projects[plupload][version] = "1.6"
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
 projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
+projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
