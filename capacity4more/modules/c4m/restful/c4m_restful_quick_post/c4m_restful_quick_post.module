@@ -259,3 +259,14 @@ function c4m_restful_quick_post_needs_app() {
 
   return FALSE;
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ *
+ * Allow non-administrators to set status of nodes.
+ */
+function c4m_restful_quick_post_entity_property_info_alter(&$info) {
+  if (!empty($info['node']['properties']['status']['setter permission'])) {
+    unset($info['node']['properties']['status']['setter permission']);
+  }
+}
