@@ -192,6 +192,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     'edit own discussion content',
     'create event content',
     'edit own event content',
+    'create messages',
     'create files',
     'view own files',
     'access media browser',
