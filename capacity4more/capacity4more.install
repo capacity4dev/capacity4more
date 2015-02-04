@@ -168,6 +168,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
       'access content',
       'access comments',
       'access user profiles',
+      'create messages',
       $filtered_html_permission
     )
   );
