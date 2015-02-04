@@ -137,6 +137,7 @@ dependencies[] = c4m_features_og_wiki
 dependencies[] = c4m_search
 dependencies[] = c4m_search_nodes
 dependencies[] = c4m_search_users
+dependencies[] = c4m_search_og
 
 ; Message
 dependencies[] = c4m_message

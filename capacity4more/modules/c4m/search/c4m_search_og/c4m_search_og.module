@@ -1,0 +1,105 @@
+<?php
+/**
+ * @file
+ * Integration between Search API and OG
+ */
+
+/**
+ * Implements hook_batch_alter().
+ *
+ * Mark OG group content data as dirty when the access type of a group changes.
+ *
+ * When the group access changes (og_access) the node_access data is rebuild for
+ * all nodes within that group. Rebuilding that data does not trigger a
+ * node_save. Search API does not know that the permissions, that are also
+ * indexed, should be re-indexed.
+ *
+ * To fix this we alter the og_access batch set and add an extra set to mark
+ * all group content as dirty so search_api will pass it to the search engine
+ * for re-indexing.
+ */
+function c4m_search_og_batch_alter(&$batch) {
+  $operations = $batch['sets'][0]['operations'];
+
+  if (!isset($operations[0][0]) || !isset($operations[0][1])) {
+    return;
+  }
+
+  if ($operations[0][0] !== 'og_access_invoke_node_access_acquire_grants') {
+    return;
+  }
+
+  // We need the same args as og_access_invoke_node_access_acquire_grants().
+  $args = $operations[0][1];
+
+  // Add a new batch set to the batch.
+  $search_set = array(
+    'title' => t('Handle group privacy change for search'),
+    'operations' => array(
+      array('c4m_search_og_reindex_og_access_node_grants', $args),
+    ),
+  );
+  batch_set($search_set);
+  $batch;
+}
+
+/**
+ * Batch operation to mark all nodes, whose node_access changed, as dirty index.
+ *
+ * @param $group_type
+ *   The group type to handle.
+ * @param $group_id
+ *   The group id to handle.
+ * @param $context
+ *   Batch API context.
+ */
+function c4m_search_og_reindex_og_access_node_grants(
+  $group_type, $group_id, &$context
+) {
+  $limit = 50;
+
+  // Init the batch.
+  if (empty($context['sandbox'])) {
+    // Count relevant nodes.
+    $query = new EntityFieldQuery();
+    $total = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('group_type', $group_type, '=')
+      ->propertyCondition('entity_type', 'node', '=')
+      ->propertyCondition('gid', $group_id, '=')
+      ->count()->execute();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['last_id'] = 0;
+    $context['sandbox']['total'] = $total;
+  }
+
+
+  // Retrieve the next batch.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('group_type', $group_type, '=')
+    ->propertyCondition('entity_type', 'node', '=')
+    ->range(0, $limit)
+    ->propertyCondition('etid', $context['sandbox']['last_id'], '>')
+    ->propertyCondition('gid', $group_id, '=')
+    ->execute();
+
+  // Mark "finished" if there are no more results.
+  if (!isset($result['og_membership'])) {
+    $context['finished'] = 1;
+    return;
+  }
+
+  // Mark each group node for re-indexing.
+  foreach (entity_load('og_membership', array_keys($result['og_membership'])) as $og_membership) {
+    search_api_track_item_change('node', array($og_membership->etid));
+
+    $context['sandbox']['progress']++;
+    $context['sandbox']['last_id'] = $og_membership->etid;
+  }
+
+  // Set the progress.
+  $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['total'];
+}
