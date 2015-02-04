@@ -127,7 +127,7 @@ module.exports = function(grunt) {
         autoWatch: true
       }
     },
-    ngmin: {
+    ngAnnotate: {
       options: {
         banner: '<%= meta.banner %>'
       },
