@@ -14,7 +14,7 @@ include_once 'c4m_features_overview_homepage.features.inc';
  */
 function c4m_features_overview_homepage_init() {
   if (!drupal_is_front_page()) {
-    //return;
+    return;
   }
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
@@ -22,7 +22,7 @@ function c4m_features_overview_homepage_init() {
   $request = array(
     'filter' => array(
       'group' => array(
-        'value' => array(4, 7),
+        'value' => c4m_og_get_groups_by_access('private'),
         'operator' => 'IN'
       ),
     ),

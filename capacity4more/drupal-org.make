@@ -172,11 +172,8 @@ projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
-projects[restful][download][type] = "git"
-projects[restful][download][url] = "https://github.com/RESTful-Drupal/restful.git"
-projects[restful][download][branch] = 7.x-1.x
 projects[restful][subdir] = "contrib"
-projects[restful][type] = "module"
+projects[restful][varsion] = "1.0-rc4"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
