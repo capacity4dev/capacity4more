@@ -76,25 +76,12 @@
  */
 ?>
 
-<div class="intro-block">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <p><?php print t('Capacity4dev.eu is a knowledge sharing platform set-up by
-        European Commission Directorate EuropeAid. It supports the creation of
-        the Communities of the Practices in Groups where development practitioners
-        can exchange on their experience and collaborate in live.'); ?></p>
-        <input type="button" onclick="window.location.replace('user/register')" value="JOIN - SHARE - LEARN">
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="main-container container">
 
   <div class="row">
     <div class="col-md-12">
       <?php print $content['content_top']; ?>
+      <input type="button" onclick="window.location.replace('user/register')" value="JOIN - SHARE - LEARN">
     </div>
   </div>
 
