@@ -74,21 +74,28 @@ angular.module('c4mApp')
     };
 
     /**
-     * Update the activity stream.
+     * Update the activity stream,
+     * And Load more activities ('Show more') button.
      *
      * @param data
      *  The stream data.
      *
+     * @param action
+     *  The type of action requested (Update activity || Load more activity).
+     *
      * @returns {*}
      *  JSON of the updated activity stream.
      */
-    this.updateStream = function(data) {
+    this.updateStream = function(data, action) {
       var config = {
         withCredentials: true,
         headers: {
           "X-CSRF-Token": DrupalSettings.getCsrfToken()
         }
       };
+
+      var timestamp = action == 'update' ? data.lastTimestamp : data.firstLoadedTimestamp;
+      var operator = action == 'update' ? '>' : '<';
 
       // If we have more than one group then add "IN",
       // operator and breakdown the group IDs to separate filters.
@@ -98,42 +105,9 @@ angular.module('c4mApp')
           filter += 'filter[group][value][' + index + ']=' + group + '&';
         });
 
-        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + filter + 'filter[group][operator]=IN&sort=-timestamp&filter[timestamp][value]=' + data.lastTimestamp + '&filter[timestamp][operator]=">"&html=1', config);
+        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + filter + 'filter[group][operator]=IN&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
       }
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + data.lastTimestamp + '&filter[timestamp][operator]=">"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
     };
-
-    /**
-     * Load more activities from RESTful.
-     *
-     * @param groups
-     *  The Id of the current group.
-     * @param lowestActivityTimestamp
-     *  The Timestamp of the lowest activity that was loaded.
-     *
-     * @returns {*}
-     *  JSON of the loaded activity stream.
-     */
-    this.loadMoreStream = function(groups, lowestActivityTimestamp) {
-      var config = {
-        withCredentials: true,
-        headers: {
-          "X-CSRF-Token": DrupalSettings.getCsrfToken()
-        }
-      };
-
-      // If we have more than one group then add "IN",
-      // operator and breakdown the group IDs to separate filters.
-      if (angular.isObject(groups)) {
-        var filter = '';
-        angular.forEach(groups, function(index, group) {
-          filter += 'filter[group][value][' + index + ']=' + group + '&';
-        });
-
-        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + filter + 'filter[group][operator]=IN&sort=-timestamp&filter[timestamp][value]=' + lowestActivityTimestamp + '&filter[timestamp][operator]="<"&html=1', config);
-      }
-
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-timestamp&filter[timestamp][value]=' + lowestActivityTimestamp + '&filter[timestamp][operator]="<"&html=1', config);
-    }
   });

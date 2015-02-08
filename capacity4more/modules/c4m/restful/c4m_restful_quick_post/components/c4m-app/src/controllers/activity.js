@@ -71,7 +71,7 @@ angular.module('c4mApp')
       }
 
       // Call the update stream method.
-      EntityResource.updateStream(activityStreamInfo)
+      EntityResource.updateStream(activityStreamInfo, 'update')
         .success(function(data, status) {
           // Update the stream status.
           $scope.stream.status = status;
@@ -128,7 +128,12 @@ angular.module('c4mApp')
       // Determine the position of the loaded activities depending on the number of the loaded page.
       var position = $scope.existingActivities.length;
 
-      EntityResource.loadMoreStream($scope.data.group, $scope.stream.firstLoadedTimestamp)
+      var activityStreamInfo = {
+        group: $scope.group,
+        firstLoadedTimestamp: $scope.stream.firstLoadedTimestamp
+      };
+
+      EntityResource.updateStream(activityStreamInfo, 'load')
         .success(function(data, status) {
           if (data.data) {
             angular.forEach(data.data, function(activity) {

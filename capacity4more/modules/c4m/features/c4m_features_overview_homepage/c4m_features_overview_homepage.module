@@ -8,18 +8,18 @@ include_once 'c4m_features_overview_homepage.features.inc';
 
 
 /**
- * Implements hook_init().
+ * Implements hook_preprocess_html().
  *
  * Add settings to the Angular application.
  */
-function c4m_features_overview_homepage_init() {
+function c4m_features_overview_homepage_preprocess_html() {
   global $user;
 
   if (!drupal_is_front_page()) {
     return;
   }
 
-  $groups = $user->uid > 0 ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
