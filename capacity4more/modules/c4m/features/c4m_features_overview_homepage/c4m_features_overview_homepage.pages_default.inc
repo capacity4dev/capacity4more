@@ -75,6 +75,28 @@ function c4m_features_overview_homepage_default_page_manager_pages() {
   $display->uuid = '2dd546f8-fc69-46b1-b6bd-71d0393ccb0e';
   $display->content = array();
   $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-3a528cea-86ad-4e87-b7e3-da5c2bf9ff1e';
+    $pane->panel = 'left';
+    $pane->type = 'activity_stream';
+    $pane->subtype = 'activity_stream';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '3a528cea-86ad-4e87-b7e3-da5c2bf9ff1e';
+    $display->content['new-3a528cea-86ad-4e87-b7e3-da5c2bf9ff1e'] = $pane;
+    $display->panels['left'][0] = 'new-3a528cea-86ad-4e87-b7e3-da5c2bf9ff1e';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -143,6 +165,28 @@ function c4m_features_overview_homepage_default_page_manager_pages() {
     $pane->uuid = '2f9244f8-7ed7-49fd-b5e6-f92025e7c761';
     $display->content['new-2f9244f8-7ed7-49fd-b5e6-f92025e7c761'] = $pane;
     $display->panels['content_top'][0] = 'new-2f9244f8-7ed7-49fd-b5e6-f92025e7c761';
+    $pane = new stdClass();
+    $pane->pid = 'new-e09a244d-e246-4f5e-9095-9225c6fb7943';
+    $pane->panel = 'sidebar_second';
+    $pane->type = 'activity_stream';
+    $pane->subtype = 'activity_stream';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'e09a244d-e246-4f5e-9095-9225c6fb7943';
+    $display->content['new-e09a244d-e246-4f5e-9095-9225c6fb7943'] = $pane;
+    $display->panels['sidebar_second'][0] = 'new-e09a244d-e246-4f5e-9095-9225c6fb7943';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
