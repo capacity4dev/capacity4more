@@ -32,7 +32,7 @@ function c4m_features_overview_homepage_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Panel',
+    'title' => 'Homepage Authenticated',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -111,6 +111,10 @@ function c4m_features_overview_homepage_default_page_manager_pages() {
       'left' => NULL,
       'right' => NULL,
       'bottom' => NULL,
+      'page_top' => NULL,
+      'sidebar_first' => NULL,
+      'sidebar_second' => NULL,
+      'page_bottom' => NULL,
     ),
   );
   $display->cache = array();
@@ -118,7 +122,7 @@ function c4m_features_overview_homepage_default_page_manager_pages() {
   $display->uuid = '20b56f90-2d32-4320-94fc-cddaba435150';
   $display->content = array();
   $display->panels = array();
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
