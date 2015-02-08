@@ -91,7 +91,7 @@ function capacity4more_setup_set_variables(&$install_state) {
   $variables = array(
     // Homepage
     'weight_frontpage' => '0',
-    'site_frontpage' => 'home',
+    'site_frontpage' => 'node',
 
     // Theme
     'theme_default' => 'kapablo',

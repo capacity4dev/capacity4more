@@ -21,7 +21,6 @@ features[field_instance][] = node-page_element-body
 features[field_instance][] = node-page_element-field_page
 features[field_instance][] = node-page_element-field_position
 features[node][] = page_element
-features[page_manager_pages][] = c4m_homepage
 features[variable][] = comment_anonymous_page_element
 features[variable][] = comment_default_mode_page_element
 features[variable][] = comment_default_per_page_page_element
