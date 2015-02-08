@@ -336,8 +336,7 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
  * @return array
  *  Entity IDs of the public groups.
  */
-function c4m_og_get_groups_by_access($access) {
-  $groups = array();
+function c4m_og_get_groups_by_access_type($access) {
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'node')
@@ -346,11 +345,5 @@ function c4m_og_get_groups_by_access($access) {
     ->fieldCondition(OG_ACCESS_FIELD, 'value', $access)
     ->execute();
 
-  if (!empty($result['node'])) {
-    foreach ($result['node'] as $group) {
-      $groups[] = $group->nid;
-    }
-  }
-
-  return $groups;
+  return !empty($result['node']) ? array_keys($result['node']) : array();
 }

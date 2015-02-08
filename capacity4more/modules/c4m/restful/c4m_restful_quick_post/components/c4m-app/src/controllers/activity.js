@@ -22,7 +22,7 @@ angular.module('c4mApp')
     };
 
     // Range of the initial loaded activity stream.
-    $scope.range = 20;
+    $scope.range = 10;
 
     // Display the "show more" button only if the activity stream is equal to the the range.
     $scope.showMoreButton = $scope.existingActivities.length >= $scope.range;

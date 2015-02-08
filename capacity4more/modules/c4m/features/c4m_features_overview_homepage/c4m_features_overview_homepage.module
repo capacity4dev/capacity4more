@@ -13,16 +13,20 @@ include_once 'c4m_features_overview_homepage.features.inc';
  * Add settings to the Angular application.
  */
 function c4m_features_overview_homepage_init() {
+  global $user;
+
   if (!drupal_is_front_page()) {
     return;
   }
+
+  $groups = $user->uid > 0 ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
     'filter' => array(
       'group' => array(
-        'value' => c4m_og_get_groups_by_access('private'),
+        'value' => isset($groups['node']) ? $groups['node'] : $groups,
         'operator' => 'IN'
       ),
     ),
@@ -46,6 +50,9 @@ function c4m_features_overview_homepage_init() {
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
+    'data' => array(
+      'entity' => array('group' => isset($groups['node']) ? $groups['node'] : $groups),
+    ),
   );
   drupal_add_js($settings, 'setting');
 

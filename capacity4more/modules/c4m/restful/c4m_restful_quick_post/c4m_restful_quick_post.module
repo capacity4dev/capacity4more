@@ -226,12 +226,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
  *   True if current path requires the app to be loaded.
  */
 function c4m_restful_quick_post_needs_app() {
-  // Check first if the user is on the global homepage.
-  // Or if he is on a group dashboard he has no access to.
-  if (drupal_is_front_page() && !og_context()) {
-    return FALSE;
-  }
-
   // If we are on a group homepage, we need the app.
   if (drupal_is_front_page()) {
     return TRUE;

@@ -90,13 +90,24 @@ angular.module('c4mApp')
         }
       };
 
+      // If we have more than one group then add "IN",
+      // operator and breakdown the group IDs to separate filters.
+      if (angular.isObject(data.group)) {
+        var filter = '';
+        angular.forEach(data.group, function(group, index) {
+          filter += 'filter[group][value][' + index + ']=' + group + '&';
+        });
+
+        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + filter + 'filter[group][operator]=IN&sort=-timestamp&filter[timestamp][value]=' + data.lastTimestamp + '&filter[timestamp][operator]=">"&html=1', config);
+      }
+
       return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + data.lastTimestamp + '&filter[timestamp][operator]=">"&html=1', config);
     };
 
     /**
      * Load more activities from RESTful.
      *
-     * @param groupID
+     * @param groups
      *  The Id of the current group.
      * @param lowestActivityTimestamp
      *  The Timestamp of the lowest activity that was loaded.
@@ -104,13 +115,24 @@ angular.module('c4mApp')
      * @returns {*}
      *  JSON of the loaded activity stream.
      */
-    this.loadMoreStream = function(groupID, lowestActivityTimestamp) {
+    this.loadMoreStream = function(groups, lowestActivityTimestamp) {
       var config = {
         withCredentials: true,
         headers: {
           "X-CSRF-Token": DrupalSettings.getCsrfToken()
         }
       };
+
+      // If we have more than one group then add "IN",
+      // operator and breakdown the group IDs to separate filters.
+      if (angular.isObject(groups)) {
+        var filter = '';
+        angular.forEach(groups, function(index, group) {
+          filter += 'filter[group][value][' + index + ']=' + group + '&';
+        });
+
+        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + filter + 'filter[group][operator]=IN&sort=-timestamp&filter[timestamp][value]=' + lowestActivityTimestamp + '&filter[timestamp][operator]="<"&html=1', config);
+      }
 
       return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + groupID + '&sort=-timestamp&filter[timestamp][value]=' + lowestActivityTimestamp + '&filter[timestamp][operator]="<"&html=1', config);
     }
