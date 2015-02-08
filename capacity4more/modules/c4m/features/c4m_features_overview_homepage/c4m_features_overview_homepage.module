@@ -5,3 +5,48 @@
  */
 
 include_once 'c4m_features_overview_homepage.features.inc';
+
+
+/**
+ * Implements hook_init().
+ *
+ * Add settings to the Angular application.
+ */
+function c4m_features_overview_homepage_init() {
+  if (!drupal_is_front_page()) {
+    //return;
+  }
+
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'filter' => array(
+      'group' => array(
+        'value' => array(4, 7),
+        'operator' => 'IN'
+      ),
+    ),
+    'html' => true,
+    // Sort the activity stream by timestamp descending.
+    'sort' => '-timestamp',
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'activities' => $activities,
+  );
+  drupal_add_js($settings, 'setting');
+
+}
