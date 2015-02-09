@@ -312,11 +312,6 @@ function c4m_content_event_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'upcoming_event';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'links' => array(
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
@@ -325,11 +320,6 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'c4m_datetime_end' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
   );
   $export['node|event|upcoming_event'] = $ds_fieldsetting;
