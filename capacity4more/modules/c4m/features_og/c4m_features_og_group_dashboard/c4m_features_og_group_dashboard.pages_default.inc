@@ -53,19 +53,19 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
-        0 => array(
-          'name' => 'og_context',
-          'settings' => array(
-            'og_context_access_groups' => array(
-              'group' => 'group',
-              'project' => 0,
-            ),
-          ),
-          'not' => FALSE,
-        ),
         1 => array(
           'name' => 'front',
           'settings' => NULL,
+          'not' => FALSE,
+        ),
+        2 => array(
+          'name' => 'og_context',
+          'settings' => array(
+            'og_context_access_groups' => array(
+              'group' => 0,
+              'project' => 0,
+            ),
+          ),
           'not' => FALSE,
         ),
       ),
@@ -257,7 +257,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'c4m_og_group_dashboard';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = -3;
   $handler->conf = array(
     'title' => 'Homepage Anonymous',
     'no_blocks' => 0,
@@ -278,6 +278,14 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
             ),
           ),
           'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => '',
+            'php' => 'return !og_context(\'node\', NULL, NULL, FALSE);',
+          ),
           'not' => FALSE,
         ),
       ),
@@ -335,7 +343,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $pane->uuid = '9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $display->content['new-9077df0a-aec8-47e5-a469-8fa9d5a7717a'] = $pane;
     $display->panels['content_top'][0] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -346,7 +354,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'c4m_og_group_dashboard';
   $handler->handler = 'panel_context';
-  $handler->weight = 3;
+  $handler->weight = -2;
   $handler->conf = array(
     'title' => 'Homepage Authenticated',
     'no_blocks' => 0,
@@ -370,6 +378,14 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'context' => 'logged-in-user',
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => '',
+            'php' => 'return !og_context(\'node\', NULL, NULL, FALSE);',
+          ),
+          'not' => FALSE,
+        ),
       ),
       'logic' => 'and',
     ),
@@ -387,13 +403,29 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Homepage';
   $display->uuid = '1fe2c852-912c-466f-afc5-6a2ff8f583fc';
   $display->content = array();
   $display->panels = array();
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_c4m_og_group_dashboard_http_response';
+  $handler->task = 'page';
+  $handler->subtask = 'c4m_og_group_dashboard';
+  $handler->handler = 'http_response';
+  $handler->weight = 4;
+  $handler->conf = array(
+    'title' => 'access denied',
+    'contexts' => array(),
+    'relationships' => array(),
+    'code' => '403',
+    'destination' => '',
+  );
   $page->default_handlers[$handler->name] = $handler;
   $pages['c4m_og_group_dashboard'] = $page;
 
