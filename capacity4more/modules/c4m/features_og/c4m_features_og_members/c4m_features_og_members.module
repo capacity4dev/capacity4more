@@ -5,3 +5,35 @@
  */
 
 include_once 'c4m_features_og_members.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_features_og_members_menu() {
+  $items['members/promote/%user'] = array(
+    'title' => 'Promote user',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_members_promote', 2),
+    'access callback' => 'c4m_features_og_members_access_group',
+    'access arguments' => array('manage members'),
+    'file' => 'c4m_features_og_members.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Menu access; Check if there is a group context and user has permission to it.
+ *
+ * @param      $perm
+ */
+function c4m_features_og_members_access_group($perm) {
+  $group = c4m_og_current_group();
+
+  if (!$group) {
+    return FALSE;
+  }
+
+  // Re-use built-in og user access checks.
+  return og_ui_user_access_group($perm, 'node', $group->nid);
+}
