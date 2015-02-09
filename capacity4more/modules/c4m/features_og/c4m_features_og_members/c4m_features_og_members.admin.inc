@@ -23,14 +23,15 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
   if (!$membership) {
     $error = t('User is not a member of the group.');
   }
-
-  switch ($membership->state) {
-    case OG_STATE_PENDING:
-      $error = t('User is not approved as group member yet.');
-      break;
-    case OG_STATE_BLOCKED:
-      $error = t('User is blocked from this group.');
-      break;
+  else {
+    switch ($membership->state) {
+      case OG_STATE_PENDING:
+        $error = t('User is not approved as group member yet.');
+        break;
+      case OG_STATE_BLOCKED:
+        $error = t('User is blocked from this group.');
+        break;
+    }
   }
 
   $roles = og_roles('node', $group->type, $group->nid);
@@ -123,6 +124,7 @@ function c4m_features_og_members_promote_submit($form, &$form_state) {
 
   $form_state['redirect'] = 'members';
 }
+
 /**
  * Form callback to demote a user.
  *
