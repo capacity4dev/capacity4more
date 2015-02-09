@@ -226,8 +226,48 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
  *   True if current path requires the app to be loaded.
  */
 function c4m_restful_quick_post_needs_app() {
-  // If we are on a group homepage, we need the app.
+  // If we are on a group homepage, we need the app and we call the activity stream.
   if (drupal_is_front_page()) {
+
+    global $user;
+
+    $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+
+    $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+    $request = array(
+      'filter' => array(
+        'group' => array(
+          'value' => isset($groups['node']) ? $groups['node'] : $groups,
+          'operator' => 'IN'
+        ),
+      ),
+      'html' => true,
+      // Sort the activity stream by timestamp descending.
+      'sort' => '-timestamp',
+    );
+
+    $activities = $activity_stream_handler->get('', $request);
+
+    // URL options.
+    $options = array(
+      'purl' => array(
+        'disabled' => TRUE,
+      ),
+      'absolute' => TRUE,
+    );
+
+    // Pass info via Drupal.settings.
+    $settings['c4m'] = array(
+      'basePath' => url('', $options),
+      'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+      'activities' => $activities,
+      'data' => array(
+        'entity' => array('group' => isset($groups['node']) ? $groups['node'] : $groups),
+      ),
+    );
+    drupal_add_js($settings, 'setting');
+
     return TRUE;
   }
 
