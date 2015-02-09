@@ -214,7 +214,13 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
 }
 
 /**
- * @TODO: Add docs.
+ * Fetches upcoming events (Events in the future that haven't started yet),
+ * Depending on the user's role (guest, logged-in),
+ * This function fetches the events from user's groups or public groups.
+ * 1 Event for anonymous user, 3 for logged in.
+ *
+ * @return string
+ *  HTML of rendered upcoming events.
  */
 function c4m_features_og_events_upcoming_events() {
   global $user;
