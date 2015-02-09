@@ -227,14 +227,10 @@ function c4m_features_og_events_upcoming_events() {
   $date = date('Y-m-d H:i:s', time());
   $events = '';
 
-  if ($user->uid) {
-    $groups = og_get_groups_by_user($user);
-    $range = 3;
-  }
-  else {
-    $groups = c4m_og_get_groups_by_access_type('public');
-    $range = 1;
-  }
+  // User's group when user is logged in, Public groups when not.
+  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+  // 3 Events when user is logged in, 1 when not.
+  $range = $user->uid ? 3 : 1;
 
   $query = new EntityFieldQuery();
   $result = $query
