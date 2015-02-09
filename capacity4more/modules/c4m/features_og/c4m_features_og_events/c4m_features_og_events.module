@@ -190,3 +190,10 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
     }
   }
 }
+
+/**
+ * @TODO: Add docs.
+ */
+function c4m_features_og_events_upcoming_event() {
+  return '';
+}
