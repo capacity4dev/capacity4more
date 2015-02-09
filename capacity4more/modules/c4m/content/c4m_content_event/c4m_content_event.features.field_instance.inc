@@ -145,8 +145,8 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'inline',
         'module' => 'date',
         'settings' => array(
-          'format_type' => 'c4m_long_without_time',
-          'fromto' => 'both',
+          'format_type' => 'day',
+          'fromto' => 'value',
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
