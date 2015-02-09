@@ -788,6 +788,52 @@ function c4m_message_preprocess_node__event(&$variables) {
   $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
 }
 
+/**
+ * Adds the activity stream to the AngularJs app.
+ * Depending on if the user is logged in or not,
+ * The activity stream is loaded from the user's groups,
+ * Or from all the public groups if user is anonymous.
+ */
+function c4m_message_load_activity_stream() {
+  global $user;
+
+  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'filter' => array(
+      'group' => array(
+        'value' => isset($groups['node']) ? $groups['node'] : $groups,
+        'operator' => 'IN'
+      ),
+    ),
+    'html' => true,
+    // Sort the activity stream by timestamp descending.
+    'sort' => '-timestamp',
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'activities' => $activities,
+    'data' => array(
+      'entity' => array('group' => isset($groups['node']) ? $groups['node'] : $groups),
+    ),
+  );
+  drupal_add_js($settings, 'setting');
+}
 
 /**
  * Implements hook_theme().
