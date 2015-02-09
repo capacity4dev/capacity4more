@@ -5,5 +5,6 @@
         <div class="layer">{{ carousel.image }}</div>
       </li>
     </ul>
+    <div rn-carousel-indicators ng-if="carouselImages.length > 1" slides="carouselImages"></div>
   </div>
 </div>
