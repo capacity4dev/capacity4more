@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_features_overview_homepage.features.field_instance.inc
+ * c4m_content_page_element.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function c4m_features_overview_homepage_field_default_field_instances() {
+function c4m_content_page_element_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-page_element-body'

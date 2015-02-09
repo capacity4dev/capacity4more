@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_features_overview_homepage.features.field_base.inc
+ * c4m_content_page_element.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function c4m_features_overview_homepage_field_default_field_bases() {
+function c4m_content_page_element_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'body'

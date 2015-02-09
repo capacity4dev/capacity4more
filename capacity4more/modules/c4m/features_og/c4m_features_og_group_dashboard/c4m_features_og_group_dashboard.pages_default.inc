@@ -63,6 +63,11 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           ),
           'not' => FALSE,
         ),
+        1 => array(
+          'name' => 'front',
+          'settings' => NULL,
+          'not' => FALSE,
+        ),
       ),
       'logic' => 'and',
     ),
