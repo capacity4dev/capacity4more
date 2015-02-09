@@ -8,6 +8,15 @@ define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Sort by Start Date");
 include_once 'c4m_features_og_events.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Implementation of hook_search_api_sorts_get_default_sort_alter()
  * Courtesy of https://www.drupal.org/node/1894502
  *
@@ -194,6 +203,22 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
 /**
  * @TODO: Add docs.
  */
-function c4m_features_og_events_upcoming_event() {
-  return '';
+function c4m_features_og_events_upcoming_events() {
+  global $user;
+
+  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+  $date = date('Y-m-d H:i:s', time());
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'event')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', isset($groups['node']) ? $groups['node'] : $groups, 'IN')
+    ->fieldCondition('c4m_datetime_end', 'value', $date, '>')
+    ->fieldOrderBy('c4m_datetime_end', 'value', 'ASC')
+    ->range(0, 1)
+    ->execute();
+
+  return !empty($result['node']) ? drupal_render(node_view(node_load(array_shift($result['node'])->nid), 'teaser')) : '';
 }

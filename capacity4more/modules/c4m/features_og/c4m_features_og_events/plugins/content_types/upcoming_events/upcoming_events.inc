@@ -16,7 +16,7 @@ function c4m_features_og_events_upcoming_events_content_type_render($subtype, $c
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = c4m_features_og_events_upcoming_event();
+  $block->content = c4m_features_og_events_upcoming_events();
   return $block;
 }
 
