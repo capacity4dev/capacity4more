@@ -281,11 +281,8 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => '',
-            'php' => 'return !og_context(\'node\', NULL, NULL, FALSE);',
-          ),
+          'name' => 'og_no_context',
+          'settings' => NULL,
           'not' => FALSE,
         ),
       ),
@@ -378,12 +375,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'context' => 'logged-in-user',
           'not' => FALSE,
         ),
-        1 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => '',
-            'php' => 'return !og_context(\'node\', NULL, NULL, FALSE);',
-          ),
+        2 => array(
+          'name' => 'og_no_context',
+          'settings' => NULL,
           'not' => FALSE,
         ),
       ),
