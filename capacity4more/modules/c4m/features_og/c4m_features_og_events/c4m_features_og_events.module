@@ -201,6 +201,19 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
 }
 
 /**
+ * Implements hook_entity_info_alter().
+ *
+ * Add "Upcoming event" view mode.
+ */
+function c4m_features_og_events_entity_info_alter(&$entity_info) {
+
+  $entity_info['node']['view modes']['upcoming_event'] = array(
+    'label' => t('Upcoming event'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
  * @TODO: Add docs.
  */
 function c4m_features_og_events_upcoming_events() {
@@ -230,7 +243,7 @@ function c4m_features_og_events_upcoming_events() {
 
   if (!empty($result['node'])) {
     foreach ($result['node'] as $event) {
-      $node = node_view(node_load($event->nid), 'teaser');
+      $node = node_view(node_load($event->nid), 'upcoming_event');
       $events .= drupal_render($node);
     }
   }
