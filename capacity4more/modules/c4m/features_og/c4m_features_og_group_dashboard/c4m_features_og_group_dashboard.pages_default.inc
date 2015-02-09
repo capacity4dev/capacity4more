@@ -336,6 +336,28 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $display->content['new-9077df0a-aec8-47e5-a469-8fa9d5a7717a'] = $pane;
     $display->panels['content_top'][0] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $pane = new stdClass();
+    $pane->pid = 'new-ac7a18c9-366c-4827-bb60-b1813d3ff7c1';
+    $pane->panel = 'sidebar_first';
+    $pane->type = 'upcoming_events';
+    $pane->subtype = 'upcoming_events';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'ac7a18c9-366c-4827-bb60-b1813d3ff7c1';
+    $display->content['new-ac7a18c9-366c-4827-bb60-b1813d3ff7c1'] = $pane;
+    $display->panels['sidebar_first'][0] = 'new-ac7a18c9-366c-4827-bb60-b1813d3ff7c1';
+    $pane = new stdClass();
     $pane->pid = 'new-e0e09f71-2091-4e34-a4fe-7544c3316210';
     $pane->panel = 'sidebar_second';
     $pane->type = 'activity_stream';
