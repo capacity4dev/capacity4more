@@ -1,5 +1,0 @@
-name = Group user
-description = This module provides functionality for the group member.
-core = 7.x
-package = capacity4more - User
-version = 7.x-1.x-dev

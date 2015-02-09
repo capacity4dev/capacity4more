@@ -1,5 +1,7 @@
 <?php
 
+include_once 'c4m_user.features.inc';
+
 /**
  * Expose default view modes.
  *
@@ -7,7 +9,7 @@
  * hook_ctools_plugin_api(). The values of this hook can be overridden
  * and reverted through the UI.
  */
-function c4m_user_og_ds_view_modes_info() {
+function c4m_user_ds_view_modes_info() {
   $ds_view_modes = array();
 
   $ds_view_mode                   = new stdClass;
@@ -48,17 +50,17 @@ function c4m_user_og_ds_view_modes_info() {
  *
  * @see ds_get_fields()
  */
-function c4m_user_og_ds_fields_info($entity_type) {
+function c4m_user_ds_fields_info($entity_type) {
   $fields = array();
 
-  $path = drupal_get_path('module', 'c4m_ds');
+  $path = drupal_get_path('module', 'c4m_user');
 
   // Fields for entity type user (, within a group)
   $fields['user']['c4m_user_og_membership_type'] = array(
     'title'      => t('OG user membership type'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user_og.theme.inc',
+    'file'       => $path . '/includes/c4m_user.theme.inc',
     'function'   => 'theme_c4m_user_og_membership_type',
     'properties' => array(
       'formatters' => array(
