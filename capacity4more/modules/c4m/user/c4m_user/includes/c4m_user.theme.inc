@@ -9,7 +9,7 @@
 /**
  * DS function field.
  *
- * Render Author profile image
+ * Render ...
  *
  * @param $field
  *
