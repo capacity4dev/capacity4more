@@ -36,13 +36,13 @@ function c4m_content_article_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_intro_text'
-  $field_bases['field_intro_text'] = array(
+  // Exported field_base: 'c4m_intro_text'
+  $field_bases['c4m_intro_text'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_intro_text',
+    'field_name' => 'c4m_intro_text',
     'foreign keys' => array(
       'format' => array(
         'columns' => array(

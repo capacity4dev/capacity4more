@@ -376,8 +376,8 @@ function c4m_content_article_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_intro_text'
-  $field_instances['node-article-field_intro_text'] = array(
+  // Exported field_instance: 'node-article-c4m_intro_text'
+  $field_instances['node-article-c4m_intro_text'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
@@ -411,7 +411,7 @@ function c4m_content_article_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_intro_text',
+    'field_name' => 'c4m_intro_text',
     'label' => 'Intro text',
     'required' => 0,
     'settings' => array(
