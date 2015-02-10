@@ -56,3 +56,22 @@ function c4m_content_featured_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
   );
 }
+
+/**
+ * Node preprocess.
+ */
+function c4m_content_featured_preprocess_node(&$variables) {
+  if ($variables['view_mode'] == 'featured_block') {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__featured_block';
+  }
+  $preprocess_function = "c4m_content_featured_preprocess_node__{$variables['node']->type}";
+  if (function_exists($preprocess_function)) {
+    $preprocess_function($variables);
+  }
+}
+
+function c4m_content_featured_preprocess_node__featured(&$variables) {
+  $node = $variables['node'];
+  $node = node_load($node->nid);
+  dpm($variables);
+}
