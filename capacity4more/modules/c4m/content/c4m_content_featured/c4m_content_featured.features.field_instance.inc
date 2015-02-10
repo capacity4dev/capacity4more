@@ -10,9 +10,9 @@
 function c4m_content_featured_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-c4m_content_featured-c4m_body'
-  $field_instances['node-c4m_content_featured-c4m_body'] = array(
-    'bundle' => 'c4m_content_featured',
+  // Exported field_instance: 'node-featured-c4m_body'
+  $field_instances['node-featured-c4m_body'] = array(
+    'bundle' => 'featured',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -67,9 +67,9 @@ function c4m_content_featured_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-c4m_content_featured-c4m_link'
-  $field_instances['node-c4m_content_featured-c4m_link'] = array(
-    'bundle' => 'c4m_content_featured',
+  // Exported field_instance: 'node-featured-c4m_link'
+  $field_instances['node-featured-c4m_link'] = array(
+    'bundle' => 'featured',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -137,9 +137,9 @@ function c4m_content_featured_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-c4m_content_featured-c4m_media'
-  $field_instances['node-c4m_content_featured-c4m_media'] = array(
-    'bundle' => 'c4m_content_featured',
+  // Exported field_instance: 'node-featured-c4m_media'
+  $field_instances['node-featured-c4m_media'] = array(
+    'bundle' => 'featured',
     'deleted' => 0,
     'description' => '',
     'display' => array(

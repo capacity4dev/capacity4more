@@ -18,7 +18,7 @@ function c4m_content_featured_ctools_plugin_api($module = NULL, $api = NULL) {
  */
 function c4m_content_featured_node_info() {
   $items = array(
-    'c4m_content_featured' => array(
+    'featured' => array(
       'name' => t('Featured'),
       'base' => 'node_content',
       'description' => t('Featured content type'),
