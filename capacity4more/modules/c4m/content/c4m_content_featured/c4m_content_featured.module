@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Code for the Featured content type feature.
+ */
+
+include_once 'c4m_content_featured.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_content_featured_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+function c4m_content_featured_render_featured_blocks() {
+  $range = 3;
+  $featured = '';
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'c4m_content_featured')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->addTag('random')
+    ->range(0, $range)
+    ->execute();
+
+  if (!empty($result['node'])) {
+    foreach (array_keys($result['node']) as $nid) {
+      $view = node_view(node_load($nid), 'featured_block');
+      $featured .= drupal_render($view);
+    }
+  }
+
+  return $featured;
+}
+
+/**
+ * Implementation of hook_query_TAG_alter
+ */
+function c4m_content_featured_query_random_alter($query) {
+  $query->orderRandom();
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add "Upcoming event" view mode.
+ */
+function c4m_content_featured_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['featured_block'] = array(
+    'label' => t('Featured block'),
+    'custom settings' => TRUE,
+  );
+}

@@ -95,6 +95,7 @@ dependencies[] = c4m_content_book
 dependencies[] = c4m_content_discussion
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
+dependencies[] = c4m_content_featured
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_banner
 dependencies[] = c4m_content_photo
