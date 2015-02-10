@@ -187,9 +187,8 @@ function kapablo_preprocess_views_view_fields(&$vars) {
       $fields = $vars['fields'];
       if (!empty($fields['c4m_media'])) {
         $value = strip_tags($fields['c4m_media']->content, '<a><img>');
-        if (empty($value)) {
-          $uid = $fields['c4m_media']->raw;
-          $fields['c4m_media']->content = c4m_user_profile_initials_themed(user_load($uid));
+        if (is_numeric($value)) {
+          $fields['c4m_media']->content = c4m_user_profile_initials_themed(user_load($value));
           $vars['fields'] = $fields;
         }
       }
