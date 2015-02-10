@@ -281,7 +281,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'og_no_context',
+          'name' => 'og_no_purl',
           'settings' => NULL,
           'not' => FALSE,
         ),
@@ -376,7 +376,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'og_no_context',
+          'name' => 'og_no_purl',
           'settings' => NULL,
           'not' => FALSE,
         ),
