@@ -17,11 +17,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'hidden',
         'weight' => 4,
       ),
     ),
@@ -54,6 +59,13 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -85,6 +97,13 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -123,11 +142,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
+        'type' => 'hidden',
         'weight' => 11,
       ),
     ),
@@ -160,11 +184,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
+        'type' => 'hidden',
         'weight' => 12,
       ),
     ),
@@ -193,6 +222,13 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -226,12 +262,22 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'c4m_user_author_thumb_image',
+        ),
+        'type' => 'image',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'image_style' => 'c4m_user_author_thumb_image',
         ),
         'type' => 'image',
         'weight' => 3,
@@ -283,6 +329,13 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -317,11 +370,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'hidden',
         'weight' => 7,
       ),
     ),
@@ -352,13 +410,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 9,
       ),
     ),
@@ -391,13 +452,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 10,
       ),
     ),
@@ -429,11 +493,16 @@ function c4m_user_profile_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'The regions & Countries you are interested in.',
     'display' => array(
+      'c4m_user_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
+        'type' => 'hidden',
         'weight' => 8,
       ),
     ),

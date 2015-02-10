@@ -23,29 +23,7 @@ function theme_c4m_ds_node_author_image($field) {
   $entity = $field['entity'];
   $user   = user_load($entity->uid);
 
-  return c4m_ds_node_author_image($user, $field['formatter']);
-}
-
-/**
- * Helper function to render C4M user image based on a user entity.
- *
- * @param $user
- *
- * @return string
- */
-function c4m_ds_node_author_image($user, $style = NULL) {
-  $output  = '';
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $file    = $wrapper->c4m_media->value();
-  if (!empty($file)) {
-    $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
-    $file['path']       = $file['uri'];
-    $file['attributes'] = array('class' => 'user-image');
-    $img                = theme_image_style($file);
-    $output             = l($img, 'user/' . $user->uid, array('html' => 'TRUE'));
-  }
-
-  return $output;
+  return c4m_user_image($user, $field['formatter']);
 }
 
 /**
