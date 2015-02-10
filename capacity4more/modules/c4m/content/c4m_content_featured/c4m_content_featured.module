@@ -22,7 +22,7 @@ function c4m_content_featured_render_featured_blocks() {
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'c4m_content_featured')
+    ->entityCondition('bundle', 'featured')
     ->propertyCondition('status', NODE_PUBLISHED)
     ->addTag('random')
     ->range(0, $range)
