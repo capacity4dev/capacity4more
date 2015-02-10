@@ -291,8 +291,8 @@ function c4m_document_widget_admin_paths() {
     'overlay/*' => TRUE,
     '*/overlay-file/*' => TRUE,
     'overlay-file/*' => TRUE,
-    '*/overlay-node/*' =>TRUE,
-    'overlay-node/*' =>TRUE,
+    '*/overlay-node/*' => TRUE,
+    'overlay-node/*' => TRUE,
   );
   return $paths;
 }
