@@ -68,8 +68,38 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Members';
   $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Indexed User: User ID */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = '';
+  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['uid']['link_to_entity'] = 0;
+  /* Field: Indexed User: Picture */
+  $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
+  $handler->display->display_options['fields']['c4m_media']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['fields']['c4m_media']['field'] = 'c4m_media';
+  $handler->display->display_options['fields']['c4m_media']['label'] = '';
+  $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['c4m_media']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
+  );
   $export['c4m_overview_og_members'] = $view;
 
   return $export;
