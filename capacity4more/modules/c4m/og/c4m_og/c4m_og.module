@@ -326,3 +326,39 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
     }
   }
 }
+
+/**
+ * Check if a user is power user within a group, meaning the user...
+ *
+ * - has the site wide role 'administrator'
+ * OR
+ * - is author of the group
+ * OR
+ * - has the 'administrator member' role within the group
+ *
+ * @param null $group
+ * @param null $user
+ */
+function c4m_og_is_power_user($group = NULL, $user = NULL) {
+  if (!isset($user)) {
+    global $user;
+  }
+  // The user has the sitewide role 'administrator'.
+  if (in_array('administrator', $user->roles)) {
+    return TRUE;
+  }
+
+  if (!isset($group)) {
+    $group = c4m_og_current_group();
+  }
+
+  // The user is the group owner.
+  // What is a group owner? see https://www.drupal.org/node/1114858.
+  if ($group->uid === $user->uid) {
+    return TRUE;
+  }
+
+  // The user has the group role 'administrator member'.
+  return in_array('administrator member',
+    og_get_user_roles('node', $group->nid, $user->uid));
+}

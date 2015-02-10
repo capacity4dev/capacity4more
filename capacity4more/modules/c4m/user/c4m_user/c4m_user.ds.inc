@@ -48,20 +48,18 @@ function c4m_user_ds_layout_settings_info() {
       'right' => array(
         0 => 'c4m_first_name',
         1 => 'c4m_last_name',
-        2 => 'og_user_node',
         3 => 'c4m_organisation',
-        5 => 'c4m_country',
+        4 => 'c4m_country',
       ),
       'left' => array(
-        4 => 'c4m_media',
+        2 => 'c4m_media',
       ),
     ),
     'fields' => array(
       'c4m_first_name' => 'right',
       'c4m_last_name' => 'right',
-      'og_user_node' => 'right',
-      'c4m_organisation' => 'right',
       'c4m_media' => 'left',
+      'c4m_organisation' => 'right',
       'c4m_country' => 'right',
     ),
     'classes' => array(),
