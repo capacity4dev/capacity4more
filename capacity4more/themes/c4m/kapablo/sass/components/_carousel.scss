@@ -1,0 +1,32 @@
+ul[rn-carousel] {
+  width: 100%;
+  height: 300px;
+  margin: 0 auto;
+
+  .bgimage {
+    text-align: right;
+    color: white;
+    background-size: cover;
+    height: 100%;
+    background-position: center center;
+  }
+
+  .rn-carousel-control {
+
+    &:before {
+      font-size: 30px;
+    }
+  }
+}
+
+div.rn-carousel-indicator {
+  text-align: center;
+
+  span {
+    font-size: 30px;
+
+    &.active {
+      color: $color-blue-light;
+    }
+  }
+}
