@@ -26,6 +26,14 @@ function c4m_features_og_members_menu() {
     'access arguments' => array('manage members'),
     'file' => 'c4m_features_og_members.admin.inc',
   );
+  $items['members/remove/%user'] = array(
+    'title' => 'Remove from group',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_members_remove', 2),
+    'access callback' => 'c4m_features_og_members_access_group',
+    'access arguments' => array('manage members'),
+    'file' => 'c4m_features_og_members.admin.inc',
+  );
 
   return $items;
 }

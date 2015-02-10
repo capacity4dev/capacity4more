@@ -233,3 +233,92 @@ function c4m_features_og_members_demote_submit($form, &$form_state) {
 
   $form_state['redirect'] = 'members';
 }
+
+/**
+ * Form callback to remove a user.
+ *
+ * @param $account
+ */
+function c4m_features_og_members_remove($form, &$form_state, $account) {
+  $group = c4m_og_current_group();
+  $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
+  $error = NULL;
+  $warning = NULL;
+
+  if (!$membership) {
+    $error = t('User is not a member of the group.');
+  }
+
+  if ($group->uid == $account->uid) {
+    $warning = t('Can not remove the group manager.');
+  }
+
+  $return_link = array(
+    '#markup' => l(
+      '&laquo; ' . t('Return to the members overview'), 'members',
+      array('html' => TRUE)
+    ),
+  );
+
+  if ($error) {
+    $form['error_message'] = array(
+      '#markup' => $error,
+      '#prefix' => '<div class="alert alert-danger" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>',
+      '#suffix' => '</div>'
+    );
+
+    $form['return'] = $return_link;
+
+    return $form;
+  }
+  elseif ($warning) {
+    $form['warning_message'] = array(
+      '#markup' => $warning,
+      '#prefix' => '<div class="alert alert-warning" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Warning:</span>',
+      '#suffix' => '</div>'
+    );
+
+    $form['return'] = $return_link;
+
+    return $form;
+  }
+  else {
+    // Add group membership form. We still don't have the user or state.
+    $form_state['og_membership'] = $membership;
+
+    return confirm_form(
+      $form,
+      t('Are you sure you want to remove user?'),
+      url('members'),
+      t('Are you sure you want to remove user %user from this group?',
+        array('%user' => c4m_user_profile_name($account))
+      ),
+      t('Remove'),
+      t('Return to the members overview')
+    );
+  }
+}
+
+/**
+ * Submit handler; Remove membership in group.
+ */
+function c4m_features_og_members_remove_submit($form, &$form_state) {
+  $og_membership = $form_state['og_membership'];
+  $group = node_load($og_membership->gid);
+
+  if (!$group) {
+    form_set_error(NULL, t('Error removing user'));
+  }
+
+  og_membership_delete($og_membership->id);
+
+  $og_membership->save();
+
+  drupal_set_message(t('User successfully removed.'));
+
+  $form_state['redirect'] = 'members';
+}
