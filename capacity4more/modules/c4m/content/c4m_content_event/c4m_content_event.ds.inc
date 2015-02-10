@@ -315,6 +315,12 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_type_icon' => array(
       'weight' => '0',
