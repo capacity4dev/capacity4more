@@ -72,6 +72,6 @@ function c4m_content_featured_preprocess_node(&$variables) {
 
 function c4m_content_featured_preprocess_node__featured(&$variables) {
   $node = $variables['node'];
-  $node = node_load($node->nid);
-  dpm($variables);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $variables['link'] = $wrapper->c4m_link->url->value();
 }

@@ -953,4 +953,21 @@ body {
       }
     }
   }
+
+  .featured-block {
+    border: 1px solid black;
+
+    img {
+      height: 300px;
+      position: relative;
+    }
+
+    .caption {
+      position: absolute;
+      width: 100%;
+      bottom: 0px;
+      padding: 10px;
+      background-color: red;
+    }
+  }
 }
