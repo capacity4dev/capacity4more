@@ -5,3 +5,39 @@
  */
 
 include_once 'c4m_features_og_group_dashboard.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_og_group_dashboard_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_og_group_dashboard_theme() {
+  $theme['c4m_features_og_group_dashboard_video'] = array(
+    'template' => 'what-is-c4d-video',
+    'path' => drupal_get_path('module', 'c4m_features_og_group_dashboard') . '/templates',
+    'variables' => array(
+      'video_embed' => NULL,
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * @return string
+ */
+function c4m_features_og_group_dashboard_c4d_video($video_url) {
+  $video_id = str_replace('http://youtu.be/', '', $video_url);
+  if (preg_match('/https:/i', $video_url)) {
+    $video_id = str_replace('https://www.youtube.com/watch?v=', '', $video_url);
+  }
+  $video_embed = '<iframe width="550" height="320" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=0" frameborder="0" allowfullscreen></iframe>';
+  return theme('c4m_features_og_group_dashboard_video' , array('video_embed' => $video_embed));
+}
