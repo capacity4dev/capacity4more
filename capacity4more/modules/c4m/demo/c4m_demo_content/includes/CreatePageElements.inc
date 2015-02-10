@@ -31,11 +31,12 @@ class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
 
     $fields = array(
       'title',
-      'body',
       'field_page',
       'field_position'
     );
 
     $this->addSimpleMappings($fields);
+
+    $this->addFieldMapping('c4m_body', 'body');
   }
 }

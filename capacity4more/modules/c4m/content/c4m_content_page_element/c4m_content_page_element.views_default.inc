@@ -32,12 +32,12 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  /* Field: Field: Description */
+  $handler->display->display_options['fields']['c4m_body']['id'] = 'c4m_body';
+  $handler->display->display_options['fields']['c4m_body']['table'] = 'field_data_c4m_body';
+  $handler->display->display_options['fields']['c4m_body']['field'] = 'c4m_body';
+  $handler->display->display_options['fields']['c4m_body']['label'] = '';
+  $handler->display->display_options['fields']['c4m_body']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';

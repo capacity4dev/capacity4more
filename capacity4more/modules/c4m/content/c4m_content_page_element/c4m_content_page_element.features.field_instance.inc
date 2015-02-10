@@ -10,8 +10,8 @@
 function c4m_content_page_element_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-page_element-body'
-  $field_instances['node-page_element-body'] = array(
+  // Exported field_instance: 'node-page_element-c4m_body'
+  $field_instances['node-page_element-c4m_body'] = array(
     'bundle' => 'page_element',
     'default_value' => NULL,
     'deleted' => 0,
@@ -24,11 +24,11 @@ function c4m_content_page_element_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'library' => array(
         'label' => 'above',
@@ -37,23 +37,25 @@ function c4m_content_page_element_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'text',
+        'label' => 'above',
         'settings' => array(),
-        'type' => 'text_plain',
+        'type' => 'hidden',
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'body',
+    'field_name' => 'c4m_body',
     'label' => 'Body',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
-      'display_summary' => TRUE,
+      'display_summary' => 0,
+      'summary_display' => 'default',
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'rows' => 20,
@@ -61,7 +63,7 @@ function c4m_content_page_element_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 31,
+      'weight' => 35,
     ),
   );
 
