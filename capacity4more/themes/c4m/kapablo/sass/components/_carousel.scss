@@ -9,12 +9,32 @@ ul[rn-carousel] {
     background-size: cover;
     height: 100%;
     background-position: center center;
+
+    .intro-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 98%;
+      padding: 5px 10px;
+      background: white;
+      color: $color-gray;
+      text-align: center;
+      margin: 10px;
+
+      .title,
+      .text {
+        display: block;
+        padding-bottom: 10px;
+      }
+    }
   }
 
   .rn-carousel-control {
 
     &:before {
-      font-size: 30px;
+      font-size: 45px;
+      color: $color-blue-light;
+      font-weight: bold;
     }
   }
 }

@@ -3,6 +3,14 @@
     <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-controls rn-carousel-buffered class="carousel">
       <li ng-repeat="slide in carouselImages track by slide.id" ng-class="'id-' + slide.id">
         <div ng-style="{'background-image': 'url(' + slide.image + ')'}"  class="bgimage">
+          <div class="intro-text">
+            <span class="title">
+            {{ slide.title }}
+          </span>
+          <span class="text">
+            {{ slide.text }}
+          </span>
+          </div>
         </div>
       </li>
     </ul>
