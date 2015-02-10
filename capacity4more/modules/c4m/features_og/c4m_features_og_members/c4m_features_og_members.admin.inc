@@ -57,26 +57,14 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
   );
 
   if ($error) {
-    $form['error_message'] = array(
-      '#markup' => $error,
-      '#prefix' => '<div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>',
-      '#suffix' => '</div>'
-    );
+    _c4m_features_og_members_create_form_alert($form, $error, 'error', 'danger');
 
     $form['return'] = $return_link;
 
     return $form;
   }
   elseif ($warning) {
-    $form['warning_message'] = array(
-      '#markup' => $warning,
-      '#prefix' => '<div class="alert alert-warning" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Warning:</span>',
-      '#suffix' => '</div>'
-    );
+    _c4m_features_og_members_create_form_alert($form, $warning);
 
     $form['return'] = $return_link;
 
@@ -171,26 +159,14 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
   );
 
   if ($error) {
-    $form['error_message'] = array(
-      '#markup' => $error,
-      '#prefix' => '<div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>',
-      '#suffix' => '</div>'
-    );
+    _c4m_features_og_members_create_form_alert($form, $error, 'error', 'danger');
 
     $form['return'] = $return_link;
 
     return $form;
   }
   elseif ($warning) {
-    $form['warning_message'] = array(
-      '#markup' => $warning,
-      '#prefix' => '<div class="alert alert-warning" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Warning:</span>',
-      '#suffix' => '</div>'
-    );
+    _c4m_features_og_members_create_form_alert($form, $warning);
 
     $form['return'] = $return_link;
 
@@ -273,26 +249,14 @@ function c4m_features_og_members_remove($form, &$form_state, $account) {
   );
 
   if ($error) {
-    $form['error_message'] = array(
-      '#markup' => $error,
-      '#prefix' => '<div class="alert alert-danger" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>',
-      '#suffix' => '</div>'
-    );
+    _c4m_features_og_members_create_form_alert($form, $error, 'error', 'danger');
 
     $form['return'] = $return_link;
 
     return $form;
   }
   elseif ($warning) {
-    $form['warning_message'] = array(
-      '#markup' => $warning,
-      '#prefix' => '<div class="alert alert-warning" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Warning:</span>',
-      '#suffix' => '</div>'
-    );
+    _c4m_features_og_members_create_form_alert($form, $warning);
 
     $form['return'] = $return_link;
 
@@ -336,4 +300,20 @@ function c4m_features_og_members_remove_submit($form, &$form_state) {
   drupal_set_message(t('User successfully removed.'));
 
   $form_state['redirect'] = 'members';
+}
+
+/**
+ *
+ *
+ * @param        $message
+ * @param string $severity
+ */
+function _c4m_features_og_members_create_form_alert(&$form, $message, $severity = 'warning', $class = 'warning') {
+  $form[$severity . '_message'] = array(
+    '#markup' => $message,
+    '#prefix' => '<div class="alert alert-' . $class . '" role="alert">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">' . ucfirst($severity) . ':</span>',
+    '#suffix' => '</div>'
+  );
 }
