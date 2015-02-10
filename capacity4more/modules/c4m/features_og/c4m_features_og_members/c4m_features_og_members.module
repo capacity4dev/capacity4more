@@ -11,7 +11,7 @@ include_once 'c4m_features_og_members.features.inc';
  */
 function c4m_features_og_members_menu() {
   $items['members/promote/%user'] = array(
-    'title' => 'Promote user',
+    'title' => 'Promote to group administrator',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_promote', 2),
     'access callback' => 'c4m_features_og_members_access_group',
@@ -19,7 +19,7 @@ function c4m_features_og_members_menu() {
     'file' => 'c4m_features_og_members.admin.inc',
   );
   $items['members/demote/%user'] = array(
-    'title' => 'Demote user',
+    'title' => 'Demote to normal group member',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_demote', 2),
     'access callback' => 'c4m_features_og_members_access_group',
