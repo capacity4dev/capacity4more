@@ -307,6 +307,29 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
+    $pane->pid = 'new-6bfb0cb3-db74-487c-bc2e-9c7acf970127';
+    $pane->panel = 'content_top';
+    $pane->type = 'what_c4d_video';
+    $pane->subtype = 'what_c4d_video';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'video' => 'http://youtu.be/O2AfmjzwAFY',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6bfb0cb3-db74-487c-bc2e-9c7acf970127';
+    $display->content['new-6bfb0cb3-db74-487c-bc2e-9c7acf970127'] = $pane;
+    $display->panels['content_top'][0] = 'new-6bfb0cb3-db74-487c-bc2e-9c7acf970127';
+    $pane = new stdClass();
     $pane->pid = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $pane->panel = 'content_top';
     $pane->type = 'views';
@@ -335,11 +358,11 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $display->content['new-9077df0a-aec8-47e5-a469-8fa9d5a7717a'] = $pane;
-    $display->panels['content_top'][0] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
+    $display->panels['content_top'][1] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
   $handler->conf['display'] = $display;
