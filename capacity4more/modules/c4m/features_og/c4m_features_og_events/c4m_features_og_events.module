@@ -206,7 +206,6 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
  * Add "Upcoming event" view mode.
  */
 function c4m_features_og_events_entity_info_alter(&$entity_info) {
-
   $entity_info['node']['view modes']['upcoming_event'] = array(
     'label' => t('Upcoming event'),
     'custom settings' => TRUE,
@@ -224,7 +223,7 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
  */
 function c4m_features_og_events_upcoming_events() {
   global $user;
-  $date = date('Y-m-d H:i:s', time());
+  $date = date('Y-m-d H:i:s', strtotime('+1 day'));
   $events = '';
 
   // User's group when user is logged in, Public groups when not.
@@ -238,7 +237,7 @@ function c4m_features_og_events_upcoming_events() {
     ->entityCondition('bundle', 'event')
     ->propertyCondition('status', NODE_PUBLISHED)
     ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', isset($groups['node']) ? $groups['node'] : $groups, 'IN')
-    ->fieldCondition('c4m_datetime_end', 'value', $date, '>')
+    ->fieldCondition('c4m_datetime_end', 'value', $date, '>=')
     ->fieldOrderBy('c4m_datetime_end', 'value', 'ASC')
     ->range(0, $range)
     ->execute();

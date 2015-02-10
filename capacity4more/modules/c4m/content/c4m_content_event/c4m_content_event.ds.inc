@@ -315,6 +315,12 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_type_icon' => array(
       'weight' => '0',
@@ -493,6 +499,43 @@ function c4m_content_event_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['node|event|teaser'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|event|upcoming_event';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'event';
+  $ds_layout->view_mode = 'upcoming_event';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_ds_content_type_icon',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_datetime_end',
+        3 => 'og_group_ref',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_content_type_icon' => 'left',
+      'title' => 'right',
+      'c4m_datetime_end' => 'right',
+      'og_group_ref' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|event|upcoming_event'] = $ds_layout;
 
   return $export;
 }
