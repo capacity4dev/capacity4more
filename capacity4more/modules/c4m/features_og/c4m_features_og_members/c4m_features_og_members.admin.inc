@@ -8,6 +8,8 @@ define('C4M_ADMINISTRATOR_ROLE_NAME', 'administrator member');
 /**
  * Form callback to promote a user.
  *
+ * @param $form
+ * @param $form_state
  * @param $account
  */
 function c4m_features_og_members_promote($form, &$form_state, $account) {
@@ -99,6 +101,9 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
 
 /**
  * Submit handler; Edit membership in group.
+ *
+ * @param $form
+ * @param $form_state
  */
 function c4m_features_og_members_promote_submit($form, &$form_state) {
   $og_membership = $form_state['og_membership'];
@@ -128,6 +133,8 @@ function c4m_features_og_members_promote_submit($form, &$form_state) {
 /**
  * Form callback to demote a user.
  *
+ * @param $form
+ * @param $form_state
  * @param $account
  */
 function c4m_features_og_members_demote($form, &$form_state, $account) {
@@ -208,6 +215,9 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
 
 /**
  * Submit handler; Edit membership in group.
+ *
+ * @param $form
+ * @param $form_state
  */
 function c4m_features_og_members_demote_submit($form, &$form_state) {
   $og_membership = $form_state['og_membership'];
@@ -237,6 +247,8 @@ function c4m_features_og_members_demote_submit($form, &$form_state) {
 /**
  * Form callback to remove a user.
  *
+ * @param $form
+ * @param $form_state
  * @param $account
  */
 function c4m_features_og_members_remove($form, &$form_state, $account) {
@@ -305,6 +317,9 @@ function c4m_features_og_members_remove($form, &$form_state, $account) {
 
 /**
  * Submit handler; Remove membership in group.
+ *
+ * @param $form
+ * @param $form_state
  */
 function c4m_features_og_members_remove_submit($form, &$form_state) {
   $og_membership = $form_state['og_membership'];
