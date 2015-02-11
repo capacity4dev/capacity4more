@@ -50,7 +50,7 @@ function c4m_features_og_group_dashboard_video_embed_content_type_edit_form($for
   $conf = $form_state['conf'];
 
   $form['title'] = array(
-    '#title' => t('Button title'),
+    '#title' => t('Video title'),
     '#type' => 'textfield',
     '#default_value' => $conf['title'],
     '#description' => t('Title of the video (If empty, it will default to "Watch what is capacity4dev").'),

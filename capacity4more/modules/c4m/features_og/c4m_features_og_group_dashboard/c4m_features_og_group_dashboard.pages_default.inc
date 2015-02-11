@@ -307,15 +307,16 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-6bfb0cb3-db74-487c-bc2e-9c7acf970127';
+    $pane->pid = 'new-587178c9-edc4-48cd-a094-33878249d6a7';
     $pane->panel = 'content_top';
-    $pane->type = 'what_c4d_video';
-    $pane->subtype = 'what_c4d_video';
+    $pane->type = 'video_embed';
+    $pane->subtype = 'video_embed';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'title' => '',
       'video' => 'http://youtu.be/O2AfmjzwAFY',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -326,9 +327,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = '6bfb0cb3-db74-487c-bc2e-9c7acf970127';
-    $display->content['new-6bfb0cb3-db74-487c-bc2e-9c7acf970127'] = $pane;
-    $display->panels['content_top'][0] = 'new-6bfb0cb3-db74-487c-bc2e-9c7acf970127';
+    $pane->uuid = '587178c9-edc4-48cd-a094-33878249d6a7';
+    $display->content['new-587178c9-edc4-48cd-a094-33878249d6a7'] = $pane;
+    $display->panels['content_top'][0] = 'new-587178c9-edc4-48cd-a094-33878249d6a7';
     $pane = new stdClass();
     $pane->pid = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $pane->panel = 'content_top';
