@@ -48,15 +48,25 @@ function theme_c4m_features_og_members_admin_actions($field) {
 
     if ($access) {
       $callback = str_replace('[user_uid]', $user->uid, $hook_info['callback']);
-      $title = str_replace('[group_type]', ucfirst($group->type), $hook_info['title']);
+      $title = str_replace(
+        '[group_type]', ucfirst($group->type), $hook_info['title']
+      );
       $options = array(
         'attributes' => array(
-          'class' => !empty($hook_info['class']) ? $hook_info['class'] : array(),
+          'class' => !empty($hook_info['class']) ? $hook_info['class']
+            : array(),
         ),
       );
       $links[] = '<li>' . l($title, $callback, $options) . '</li>';
     }
   }
 
-  return theme('c4m_administer_member_links', array('links' => $links, 'user_id' => $user->uid));
+  if (empty($links)) {
+    return;
+  }
+
+  return theme(
+    'c4m_administer_member_links',
+    array('links' => $links, 'user_id' => $user->uid)
+  );
 }
