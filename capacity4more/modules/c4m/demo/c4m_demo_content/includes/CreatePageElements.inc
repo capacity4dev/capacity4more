@@ -19,8 +19,8 @@ class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
     array('id', 'ID'),
     array('title', 'Title'),
     array('body', 'Body'),
-    array('field_page', 'Page'),
-    array('field_position', 'Position'),
+    array('page', 'Page'),
+    array('position', 'Position'),
   );
 
   /**
@@ -29,14 +29,8 @@ class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
   public function __construct() {
     parent::__construct();
 
-    $fields = array(
-      'title',
-      'field_page',
-      'field_position'
-    );
-
-    $this->addSimpleMappings($fields);
-
     $this->addFieldMapping('c4m_body', 'body');
+    $this->addFieldMapping('c4m_page', 'page');
+    $this->addFieldMapping('c4m_position', 'position');
   }
 }
