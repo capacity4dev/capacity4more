@@ -53,3 +53,161 @@ function c4m_features_og_members_access_group($perm) {
   // Re-use built-in og user access checks.
   return og_ui_user_access_group($perm, 'node', $group->nid);
 }
+
+/**
+ * Define fields.
+ *
+ * These fields are not overridden through the interface.
+ * If you want those, look at hook_ds_custom_fields_info().
+ *
+ * @param string $entity_type
+ *   The name of the entity which we are requesting fields for, e.g. 'node'.
+ *
+ * @return array
+ *   A collection of fields which keys are the entity type name and values
+ *   a collection fields.
+ *
+ * @see ds_get_fields()
+ */
+function c4m_features_og_members_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_features_og_members');
+  // Administrator links field for entity type user (, within a group)
+  $fields['user']['c4m_features_og_members_admin_actions'] = array(
+    'title' => t('OG administer user links'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_features_og_members.theme.inc',
+    'function' => 'theme_c4m_features_og_members_admin_actions',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  return $fields;
+}
+
+/**
+ * Load and cache all actionable links to administer users in a group.
+ *
+ * @param object $user
+ *   Drupal user entity object.
+ * @param object $group
+ *   Drupal group entity object.
+ *
+ * @return array
+ *   Configuration as collected trough the implemented
+ *   hook_c4m_features_og_members_administer_links hooks.
+ */
+function c4m_features_og_members_get_administer_links($user, $group) {
+  $cache_key = 'c4m_features_og_members:administer_links';
+  $info = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($info)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $info = $cache->data;
+    }
+    else {
+      $hook = 'c4m_features_og_members_administer_links';
+      $info = module_invoke_all($hook);
+      cache_set($cache_key, $info);
+    }
+  }
+
+  return $info;
+}
+
+
+/**
+ * Implements hook_c4m_features_og_members_administer_links().
+ *
+ * @return array
+ */
+function c4m_features_og_members_c4m_features_og_members_administer_links() {
+  return array(
+    'promote' => array(
+      'callback' => 'members/promote/[user_uid]',
+      'title' => t('Promote'),
+      'conditions' => array(
+        '_c4m_features_og_members_condition_user_active_member',
+        '_c4m_features_og_members_condition_user_not_admin',
+        '_c4m_features_og_members_condition_user_not_owner',
+      ),
+      'weight' => -8,
+    ),
+    'demote' => array(
+      'callback' => 'members/demote/[user_uid]',
+      'title' => t('Demote'),
+      'conditions' => array(
+        '_c4m_features_og_members_condition_user_active_member',
+        '_c4m_features_og_members_condition_user_admin',
+        '_c4m_features_og_members_condition_user_not_owner',
+        ),
+      'weight' => -7,
+    ),
+    'remove' => array(
+      'callback' => 'members/remove/[user_uid]',
+      'title' => t('Remove'),
+      'conditions' => array(
+        '_c4m_features_og_members_condition_user_active_member',
+        '_c4m_features_og_members_condition_user_not_owner',
+      ),
+      'weight' => 10,
+    ),
+    'approve' => array(
+      'callback' => 'members/approve/[user_uid]',
+      'title' => t('Approve'),
+      'conditions' => array(
+        '_c4m_features_og_members_condition_user_pending_member',
+      ),
+      'weight' => -10,
+    ),
+    'reject' => array(
+      'callback' => 'members/reject/[user_uid]',
+      'title' => t('Reject'),
+      'conditions' => array(
+        '_c4m_features_og_members_condition_user_pending_member',
+      ),
+      'weight' => -9,
+    ),
+  );
+}
+
+function _c4m_features_og_members_condition_user_active_member($account, $group) {
+  return TRUE;
+}
+
+function _c4m_features_og_members_condition_user_pending_member($account, $group) {
+  return TRUE;
+}
+
+function _c4m_features_og_members_condition_user_not_admin($account, $group) {
+  return TRUE;
+}
+
+function _c4m_features_og_members_condition_user_admin($account, $group) {
+  return TRUE;
+}
+
+function _c4m_features_og_members_condition_user_not_owner($account, $group) {
+  return TRUE;
+}
+
+
+/**
+ * usort callback for weighted multidimensional arrays.
+ *
+ * @param array $a
+ * @param array $b
+ */
+function _c4m_features_og_members_sort_weight($a, $b) {
+  if ($a['weight'] == $b['weight']) {
+    return 0;
+  }
+
+  return ($a['weight'] > $b['weight']) ? 1 : -1;
+}
