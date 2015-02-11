@@ -29,8 +29,11 @@ function c4m_features_og_group_dashboard_theme() {
 }
 
 /**
- * @TODO: Add docs.
+ * Fetches 6 "Article" entities which has "Banner" and "Into text",
+ * Adds these entity to the setting for the angular-carousel directive,
+ *
  * @return string
+ *  Rendered HTML of the angular-carousel directive.
  */
 function c4m_features_og_group_dashboard_voices_views_carousel() {
   $carousels = array();
