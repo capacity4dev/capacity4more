@@ -10,6 +10,7 @@ dependencies[] = c4m_field_media
 dependencies[] = c4m_vocab_geo
 dependencies[] = c4m_vocab_widget
 dependencies[] = ctools
+dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = image
