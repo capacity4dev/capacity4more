@@ -32,6 +32,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreatePhotoComments',
     'C4mDemoContentCreateEvents',
     'C4mDemoContentCreateEventComments',
+    'C4mDemoContentCreateFeatured',
     'C4mDemoContentCreateDocuments',
     'C4mDemoContentCreateDocumentComments',
     'C4mDemoContentCreateTasklists',

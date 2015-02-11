@@ -18,6 +18,7 @@ files[] = includes/CreateDocuments.inc
 files[] = includes/CreateEntity.inc
 files[] = includes/CreateEventComments.inc
 files[] = includes/CreateEvents.inc
+files[] = includes/CreateFeatured.inc
 files[] = includes/CreateGroups.inc
 files[] = includes/CreateBanners.inc
 files[] = includes/CreateOgContent.inc
