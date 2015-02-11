@@ -18,7 +18,7 @@ $plugin = array(
  * Render callback.
  */
 function c4m_features_og_group_dashboard_video_embed_content_type_render($subtype, $conf, $args, $context) {
-  if(!isset($conf['video']) && !$conf['video']) {
+  if (!$conf['video']) {
     return FALSE;
   }
 

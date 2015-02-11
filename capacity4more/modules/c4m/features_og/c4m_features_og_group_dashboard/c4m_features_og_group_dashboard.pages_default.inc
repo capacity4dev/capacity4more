@@ -316,7 +316,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     $pane->configuration = array(
       'title' => '',
       'video' => 'http://youtu.be/O2AfmjzwAFY',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
