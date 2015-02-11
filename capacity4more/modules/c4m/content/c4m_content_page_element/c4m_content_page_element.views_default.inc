@@ -32,12 +32,12 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  /* Field: Field: Description */
+  $handler->display->display_options['fields']['c4m_body']['id'] = 'c4m_body';
+  $handler->display->display_options['fields']['c4m_body']['table'] = 'field_data_c4m_body';
+  $handler->display->display_options['fields']['c4m_body']['field'] = 'c4m_body';
+  $handler->display->display_options['fields']['c4m_body']['label'] = '';
+  $handler->display->display_options['fields']['c4m_body']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -57,16 +57,16 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'page_element' => 'page_element',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = 'homepage';
+  /* Filter criterion: Content: Page (c4m_page) */
+  $handler->display->display_options['filters']['c4m_page_value']['id'] = 'c4m_page_value';
+  $handler->display->display_options['filters']['c4m_page_value']['table'] = 'field_data_c4m_page';
+  $handler->display->display_options['filters']['c4m_page_value']['field'] = 'c4m_page_value';
+  $handler->display->display_options['filters']['c4m_page_value']['value'] = 'homepage';
   /* Filter criterion: Content: Position (field_position) */
-  $handler->display->display_options['filters']['field_position_value']['id'] = 'field_position_value';
-  $handler->display->display_options['filters']['field_position_value']['table'] = 'field_data_field_position';
-  $handler->display->display_options['filters']['field_position_value']['field'] = 'field_position_value';
-  $handler->display->display_options['filters']['field_position_value']['value'] = 'top';
+  $handler->display->display_options['filters']['c4m_position_value']['id'] = 'c4m_position_value';
+  $handler->display->display_options['filters']['c4m_position_value']['table'] = 'field_data_c4m_position';
+  $handler->display->display_options['filters']['c4m_position_value']['field'] = 'c4m_position_value';
+  $handler->display->display_options['filters']['c4m_position_value']['value'] = 'top';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
