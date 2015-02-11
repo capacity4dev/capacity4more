@@ -1,20 +1,20 @@
 <?php
 /**
  * @file
- * c4m_features_og_group_dashboard.pages_default.inc
+ * c4m_features_homepage.pages_default.inc
  */
 
 /**
  * Implements hook_default_page_manager_pages().
  */
-function c4m_features_og_group_dashboard_default_page_manager_pages() {
+function c4m_features_homepage_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'c4m_og_group_dashboard';
+  $page->name = 'c4m_homepage';
   $page->task = 'page';
-  $page->admin_title = 'Group Dashboard';
-  $page->admin_description = 'Front page for "Group" group types.';
+  $page->admin_title = 'Homepage';
+  $page->admin_description = 'Front page.';
   $page->path = 'node';
   $page->access = array();
   $page->menu = array();
@@ -26,9 +26,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_c4m_og_group_dashboard_panel_context';
+  $handler->name = 'page_c4m_homepage_panel_context';
   $handler->task = 'page';
-  $handler->subtask = 'c4m_og_group_dashboard';
+  $handler->subtask = 'c4m_homepage';
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
@@ -253,9 +253,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_c4m_og_group_dashboard_panel_context_2';
+  $handler->name = 'page_c4m_homepage_panel_context_2';
   $handler->task = 'page';
-  $handler->subtask = 'c4m_og_group_dashboard';
+  $handler->subtask = 'c4m_homepage';
   $handler->handler = 'panel_context';
   $handler->weight = -3;
   $handler->conf = array(
@@ -281,7 +281,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'not' => FALSE,
         ),
         1 => array(
-          'name' => 'og_no_context',
+          'name' => 'og_no_purl',
           'settings' => NULL,
           'not' => FALSE,
         ),
@@ -391,9 +391,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_c4m_og_group_dashboard_panel_context_4';
+  $handler->name = 'page_c4m_homepage_panel_context_4';
   $handler->task = 'page';
-  $handler->subtask = 'c4m_og_group_dashboard';
+  $handler->subtask = 'c4m_homepage';
   $handler->handler = 'panel_context';
   $handler->weight = -2;
   $handler->conf = array(
@@ -420,7 +420,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'og_no_context',
+          'name' => 'og_no_purl',
           'settings' => NULL,
           'not' => FALSE,
         ),
@@ -474,9 +474,9 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_c4m_og_group_dashboard_http_response';
+  $handler->name = 'page_c4m_homepage_http_response';
   $handler->task = 'page';
-  $handler->subtask = 'c4m_og_group_dashboard';
+  $handler->subtask = 'c4m_homepage';
   $handler->handler = 'http_response';
   $handler->weight = 4;
   $handler->conf = array(
@@ -487,7 +487,7 @@ function c4m_features_og_group_dashboard_default_page_manager_pages() {
     'destination' => '',
   );
   $page->default_handlers[$handler->name] = $handler;
-  $pages['c4m_og_group_dashboard'] = $page;
+  $pages['c4m_homepage'] = $page;
 
   return $pages;
 
