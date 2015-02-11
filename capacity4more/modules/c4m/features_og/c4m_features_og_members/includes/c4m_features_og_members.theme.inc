@@ -61,7 +61,7 @@ function theme_c4m_features_og_members_admin_actions($field) {
   }
 
   if ('membership_level' == $field['formatter']) {
-    $membership_level = _c4m_features_og_members_get_membership_level($user, $group);
+    $membership_level = c4m_features_og_members_get_membership_level($user, $group);
   }
   else {
     $membership_level = NULL;
@@ -80,36 +80,4 @@ function theme_c4m_features_og_members_admin_actions($field) {
       'user_id' => $user->uid
     )
   );
-}
-
-function _c4m_features_og_members_get_membership_level($user, $group) {
-  if ($user->uid == $group->uid) {
-    return t('@group_type Owner', array('@group_type' => ucfirst($group->type)));
-  }
-
-  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
-
-  if (!$membership) {
-    return;
-  }
-
-  switch ($membership->state) {
-    case OG_STATE_PENDING:
-      return t('Requested Membership');
-    case OG_STATE_BLOCKED:
-      return t('Blocked/Rejected Membership');
-  }
-
-  // Active user...
-
-  $roles = og_roles('node', $group->type, $group->nid);
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
-  if ($admin_role) {
-    $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
-    if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
-      return t('@group_type Administrator', array('@group_type' => ucfirst($group->type)));
-    }
-  }
-
-  return t('@group_type Member', array('@group_type' => ucfirst($group->type)));
 }

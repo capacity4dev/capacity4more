@@ -136,6 +136,10 @@ li {
     }
   }
 
+  .icon-wrapper .content-col {
+    margin-left: 60px;
+  }
+
   .more-link {
     clear: both;
     a {
@@ -145,12 +149,19 @@ li {
 
   .views-row {
     position: relative;
+
+    .field-name-c4m-user-first-and-last-name {
+      float: left;
+    }
+    .field-name-c4m-organisation {
+      display: inline-block;
+      width: 100%;
+    }
     .field-name-c4m-features-og-members-admin-actions {
-      position: absolute;
-      right: 0;
-      top: 0;
+      float: right;
 
       .dropdown-menu {
+        color: $color-blue;
         left: auto;
         right: 0;
         .bold-text {
@@ -158,15 +169,27 @@ li {
         }
       }
       .dropdown {
+        color: $color-gray;
+
+        li {
+          a {
+            color: $color-blue;
+
+            &:hover {
+              background: #EEE;
+            }
+          }
+        }
+
         .btn {
           @include box-shadow(none);
           background: none;
           border: 0;
+          color: $color-gray;
           margin: 0;
           padding: 0;
-
           .glyphicon {
-            color: $color-gray;
+            color: $color-blue;
           }
         }
       }
