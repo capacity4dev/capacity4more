@@ -16,7 +16,9 @@
   #c4dVideoModal {
 
     .modal-dialog {
-      width: 900px;
+      @media screen and (min-width: $screen-md-max) {
+        width: 900px;
+      }
     }
   }
 }

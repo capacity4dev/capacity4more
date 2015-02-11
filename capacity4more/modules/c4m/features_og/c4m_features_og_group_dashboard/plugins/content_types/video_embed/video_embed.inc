@@ -29,7 +29,7 @@ function c4m_features_og_group_dashboard_video_embed_content_type_render($subtyp
   if (preg_match('/https:/i', $conf['video'])) {
     $video_id = str_replace('https://www.youtube.com/watch?v=', '', $conf['video']);
   }
-  $video_embed = '<iframe width="850" height="480" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=0" frameborder="0" allowfullscreen></iframe>';
+  $video_embed = '<iframe width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=0" frameborder="0" allowfullscreen></iframe>';
 
   $variables = array(
     'video_title' => $button_title,
