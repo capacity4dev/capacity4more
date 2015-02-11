@@ -57,16 +57,16 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'page_element' => 'page_element',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = 'homepage';
+  /* Filter criterion: Content: Page (c4m_page) */
+  $handler->display->display_options['filters']['c4m_page_value']['id'] = 'c4m_page_value';
+  $handler->display->display_options['filters']['c4m_page_value']['table'] = 'field_data_c4m_page';
+  $handler->display->display_options['filters']['c4m_page_value']['field'] = 'c4m_page_value';
+  $handler->display->display_options['filters']['c4m_page_value']['value'] = 'homepage';
   /* Filter criterion: Content: Position (field_position) */
-  $handler->display->display_options['filters']['field_position_value']['id'] = 'field_position_value';
-  $handler->display->display_options['filters']['field_position_value']['table'] = 'field_data_field_position';
-  $handler->display->display_options['filters']['field_position_value']['field'] = 'field_position_value';
-  $handler->display->display_options['filters']['field_position_value']['value'] = 'top';
+  $handler->display->display_options['filters']['c4m_position_value']['id'] = 'c4m_position_value';
+  $handler->display->display_options['filters']['c4m_position_value']['table'] = 'field_data_c4m_position';
+  $handler->display->display_options['filters']['c4m_position_value']['field'] = 'c4m_position_value';
+  $handler->display->display_options['filters']['c4m_position_value']['value'] = 'top';
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
