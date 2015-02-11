@@ -35,7 +35,7 @@ function c4m_content_featured_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_featured';
-  $strongarm->value = '2';
+  $strongarm->value = '1';
   $export['comment_featured'] = $strongarm;
 
   $strongarm = new stdClass();
