@@ -49,6 +49,13 @@ function c4m_document_widget_module_implements_alter(&$implementations, $hook) {
     unset($implementations['c4m_document_widget']);
     $implementations['c4m_document_widget'] = $c4m_document_widget;
   }
+
+  // Make sure that this modules custom_theme hook is called last.
+  if ($hook == 'custom_theme') {
+    $callback = $implementations['c4m_document_widget'];
+    unset($implementations['c4m_document_widget']);
+    $implementations['c4m_document_widget'] = $callback;
+  }
 }
 
 
@@ -284,10 +291,36 @@ function c4m_document_widget_admin_paths() {
     'overlay/*' => TRUE,
     '*/overlay-file/*' => TRUE,
     'overlay-file/*' => TRUE,
-    '*/node/*/edit' => TRUE,
-    'overlay-node/*' =>TRUE,
+    '*/overlay-node/*' => TRUE,
+    'overlay-node/*' => TRUE,
   );
   return $paths;
+}
+
+/**
+ * Implements hook_custom_theme().
+ *
+ * Make sure to use the default theme in the custom overlay pages.
+ */
+function c4m_document_widget_custom_theme() {
+  // Get the first or second argument of the current path.
+  $args = array(arg(0));
+  if (arg(1)) {
+    $args[] = arg(1);
+  }
+
+  // Overlay paths we want the default theme for.
+  $overlay_paths = array(
+    'overlay',
+    'overlay-file',
+    'overlay-node',
+  );
+
+  $intersect = array_intersect($overlay_paths, $args);
+  if (0 < count($intersect)) {
+    $theme = variable_get('theme_default', 'kapablo');
+    return $theme;
+  }
 }
 
 /**
