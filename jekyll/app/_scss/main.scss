@@ -954,8 +954,7 @@ body {
     }
   }
 
-  .featured-block {
-    border: 1px solid black;
+  .pane-featured-block {
 
     img {
       height: 300px;
@@ -967,7 +966,6 @@ body {
       width: 100%;
       bottom: 0px;
       padding: 10px;
-      background-color: red;
     }
   }
 }

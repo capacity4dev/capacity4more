@@ -35,6 +35,7 @@ function c4m_content_featured_render_featured_blocks() {
     }
   }
 
+  $featured = '<div class"row">' . $featured . '</div>';
   return $featured;
 }
 
