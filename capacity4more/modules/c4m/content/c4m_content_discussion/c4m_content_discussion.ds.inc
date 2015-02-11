@@ -39,15 +39,15 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_comment_author_image' => array(
-      'weight' => '0',
+    'c4m_user_picture' => array(
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'c4m_user_author_thumb_image',
     ),
-    'c4m_ds_author_first_and_last_name' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '-2',
       'label' => 'hidden',
-      'format' => 'author_link',
+      'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -55,7 +55,7 @@ function c4m_content_discussion_ds_field_settings_info() {
           'lb-col' => TRUE,
           'ow' => TRUE,
           'ow-el' => 'span',
-          'ow-cl' => 'field-name-c4m-ds-author-first-and-last-name',
+          'ow-cl' => 'field-name-c4m-user-first-and-last-name',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -82,15 +82,15 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'above',
       'format' => 'default',
     ),
-    'c4m_ds_node_author_image' => array(
-      'weight' => '7',
+    'c4m_user_picture' => array(
+      'weight' => '8',
       'label' => 'hidden',
-      'format' => 'c4m_user_author_thumb_image',
+      'format' => 'linked_c4m_user_author_thumb_image',
     ),
-    'c4m_ds_author_first_and_last_name' => array(
-      'weight' => '9',
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '11',
       'label' => 'hidden',
-      'format' => 'author_link',
+      'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -98,7 +98,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '10',
+      'weight' => '12',
       'label' => 'hidden',
       'format' => 'j F Y, G:i',
       'formatter_settings' => array(
@@ -108,7 +108,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_type_posted_by' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -269,10 +269,10 @@ function c4m_content_discussion_ds_field_settings_info() {
         'class' => '',
       ),
     ),
-    'c4m_ds_author_first_and_last_name' => array(
-      'weight' => '2',
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '3',
       'label' => 'hidden',
-      'format' => 'author_link',
+      'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -321,19 +321,19 @@ function c4m_content_discussion_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
-        0 => 'c4m_ds_author_first_and_last_name',
+        0 => 'c4m_user_first_and_last_name',
         1 => 'post_date',
         3 => 'comment_body',
         4 => 'links',
       ),
       'left' => array(
-        2 => 'c4m_ds_comment_author_image',
+        2 => 'c4m_user_picture',
       ),
     ),
     'fields' => array(
-      'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
-      'c4m_ds_comment_author_image' => 'left',
+      'c4m_user_picture' => 'left',
       'comment_body' => 'right',
       'links' => 'right',
     ),
@@ -369,15 +369,15 @@ function c4m_content_discussion_ds_layout_settings_info() {
       ),
       'right' => array(
         6 => 'group_node_meta',
-        7 => 'c4m_ds_node_author_image',
-        8 => 'c4m_ds_type_posted_by',
-        9 => 'group_node_details',
-        10 => 'c4m_ds_author_first_and_last_name',
-        11 => 'c4m_related_topic',
-        12 => 'og_vocabulary',
-        13 => 'c4m_ds_creation_date',
-        14 => 'c4m_vocab_date',
-        15 => 'c4m_vocab_language',
+        7 => 'c4m_user_picture',
+        8 => 'group_node_details',
+        9 => 'c4m_ds_type_posted_by',
+        10 => 'c4m_related_topic',
+        11 => 'og_vocabulary',
+        12 => 'c4m_user_first_and_last_name',
+        13 => 'c4m_vocab_date',
+        14 => 'c4m_vocab_language',
+        15 => 'c4m_ds_creation_date',
         16 => 'c4m_vocab_geo',
       ),
     ),
@@ -389,15 +389,15 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_related_document' => 'left',
       'comments' => 'left',
       'group_node_meta' => 'right',
-      'c4m_ds_node_author_image' => 'right',
-      'c4m_ds_type_posted_by' => 'right',
+      'c4m_user_picture' => 'right',
       'group_node_details' => 'right',
-      'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_ds_type_posted_by' => 'right',
       'c4m_related_topic' => 'right',
       'og_vocabulary' => 'right',
-      'c4m_ds_creation_date' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
       'c4m_vocab_date' => 'right',
       'c4m_vocab_language' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_vocab_geo' => 'right',
     ),
     'classes' => array(),
@@ -429,7 +429,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_ds_author_first_and_last_name',
+        2 => 'c4m_user_first_and_last_name',
         3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_ds_content_footer_stats',
@@ -438,7 +438,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'fields' => array(
       'c4m_ds_content_type_icon' => 'left',
       'title' => 'right',
-      'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',

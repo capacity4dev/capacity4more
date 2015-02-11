@@ -55,6 +55,53 @@ function theme_c4m_user_picture($field) {
 /**
  * DS function field.
  *
+ * Render Author first and last name.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_user_first_and_last_name($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+  $tag = array();
+  $entity = $field['entity'];
+
+  if ($entity->uid != 0) {
+    $user = user_load($entity->uid);
+    $name = c4m_user_name($user);
+
+    if ('linked_user' == $field['formatter']) {
+      $name = l($name, 'user/' . $user->uid);
+    }
+
+    $tag['element'] = array(
+      '#tag'       => 'span',
+      '#attributes' => array(
+        'class' => array('user-name'),
+      ),
+      '#value'     => $name,
+    );
+  }
+  else {
+    if (!empty($entity->name)) {
+      $tag['element'] = array(
+        '#tag'       => 'span',
+        '#attributes' => array(
+          'class' => array('user-name', 'anonymous'),
+        ),
+        '#value'     => $entity->name,
+      );
+    }
+  }
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
  * Render ...
  *
  * @param $field

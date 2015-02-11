@@ -110,7 +110,7 @@
   }
 }
 
-.field-name-c4m-ds-node-author-image, .field-name-c4m-ds-comment-author-image {
+.field-name-c4m-user-picture {
   img {
     border-radius: 50%;
   }
@@ -118,7 +118,7 @@
 
 .node {
   .group-right {
-    .field-name-c4m-ds-node-author-image {
+    .field-name-c4m-user-picture {
       float: left;
       margin-right: 15px;
     }
@@ -139,7 +139,7 @@
 }
 
 
-.field-name-c4m-ds-author-first-and-last-name {
+.field-name-c4m-user-first-and-last-name {
   color: $color-blue;
   display: inline-block;
 

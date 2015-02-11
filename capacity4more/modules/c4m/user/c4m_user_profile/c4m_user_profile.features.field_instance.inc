@@ -72,7 +72,7 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 4,
       ),
       'c4m_user_teaser_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
@@ -116,7 +116,7 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 1,
       ),
       'c4m_user_teaser_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
@@ -259,7 +259,7 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 2,
       ),
       'c4m_user_teaser_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
@@ -374,7 +374,7 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 5,
       ),
       'c4m_user_teaser_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
