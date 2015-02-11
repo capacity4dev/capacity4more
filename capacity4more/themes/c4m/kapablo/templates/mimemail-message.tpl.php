@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Default theme implementation to format an HTML mail.
+ * Format the HTML mail.
  *
  * Copy this file in your default theme folder to create a custom themed mail.
  * Rename it to mimemail-message--[module]--[key].tpl.php to override it for a
@@ -30,11 +29,14 @@
     </style>
     <?php endif; ?>
   </head>
+
   <body id="mimemail-body" <?php if ($module && $key): print 'class="'. $module .'-'. $key .'"'; endif; ?>>
+
     <div id="center">
       <div id="main">
         <?php print $body ?>
       </div>
     </div>
+
   </body>
 </html>

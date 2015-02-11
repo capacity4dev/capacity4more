@@ -115,7 +115,10 @@ module.exports = function (grunt) {
           require: 'config.rb'
         },
         dist: {
-          src: 'css/style.css'
+          src: [
+            'css/style.css',
+            'css/mail.css'
+          ]
         }
       },
 
@@ -133,7 +136,8 @@ module.exports = function (grunt) {
             colors: true
           },
           files: {
-            'css/style.css': 'css/style.css'
+            'css/style.css': 'css/style.css',
+            'css/mail.css': 'css/mail.css',
           }
         }
       },
