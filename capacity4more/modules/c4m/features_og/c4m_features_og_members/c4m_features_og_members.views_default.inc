@@ -22,7 +22,6 @@ function c4m_features_og_members_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Overview - OG - Members';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -33,6 +32,23 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_teaser_list';
+  /* Header: Add link to list */
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['id'] = 'c4m_views_switch_page_1';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['field'] = 'c4m_views_switch_page';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['ui_name'] = 'Add link to list';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_path'] = 'members';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'List';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'list';
+  /* Header: Add link to table */
+  $handler->display->display_options['header']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
+  $handler->display->display_options['header']['c4m_views_switch_page']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
+  $handler->display->display_options['header']['c4m_views_switch_page']['ui_name'] = 'Add link to table';
+  $handler->display->display_options['header']['c4m_views_switch_page']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'members/table';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'Table';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'table';
   /* Field: Indexed User: User ID */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
   $handler->display->display_options['fields']['uid']['table'] = 'search_api_index_c4m_search_users';
@@ -82,6 +98,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_picture';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Indexed User: User ID */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
@@ -102,6 +119,18 @@ function c4m_features_og_members_views_default_views() {
     'image_style' => '',
     'image_link' => '',
   );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_teaser_table';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['path'] = 'members/table';
   $export['c4m_overview_og_members'] = $view;
 
   return $export;

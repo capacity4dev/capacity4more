@@ -20,6 +20,7 @@ function c4m_features_og_members_context_default_contexts() {
     'views' => array(
       'values' => array(
         'c4m_overview_og_members:page' => 'c4m_overview_og_members:page',
+        'c4m_overview_og_members:page_1' => 'c4m_overview_og_members:page_1',
       ),
     ),
   );
