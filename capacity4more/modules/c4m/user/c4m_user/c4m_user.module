@@ -15,6 +15,17 @@ function c4m_user_ds_view_modes_info() {
   $ds_view_mode                   = new stdClass;
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
+  $ds_view_mode->view_mode        = 'c4m_user_picture';
+  $ds_view_mode->label            = 'User picture only';
+  $ds_view_mode->entities         = array(
+    'user' => 'user',
+  );
+  $ds_view_modes['c4m_user_picture'] = $ds_view_mode;
+
+
+  $ds_view_mode                   = new stdClass;
+  $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_teaser_list';
   $ds_view_mode->label            = 'User teaser list';
   $ds_view_mode->entities         = array(
@@ -54,7 +65,12 @@ function c4m_user_ds_fields_info($entity_type) {
   $fields = array();
 
   $path = drupal_get_path('module', 'c4m_user');
-
+  $image_styles = array();
+  foreach (image_styles() as $image_style_id => $image_style) {
+    $image_styles[$image_style_id] = $image_style['label'];
+    $image_styles['linked_' . $image_style_id] = $image_style['label'] . ' ' .
+      t('linked to profile');
+  }
   // Fields for entity type user
   $fields['user']['c4m_user_picture'] = array(
     'title'      => t('User picture'),
@@ -62,12 +78,7 @@ function c4m_user_ds_fields_info($entity_type) {
     'ui_limit'   => array('*|*'),
     'file'       => $path . '/includes/c4m_user.theme.inc',
     'function'   => 'theme_c4m_user_picture',
-    'properties' => array(
-      'formatters' => array(
-        'default' => t('Default'),
-        'linked' => t('Linked to user profile'),
-      ),
-    ),
+    'properties' => array('formatters' => $image_styles),
   );
 
   // Fields for entity type user (, within a group)

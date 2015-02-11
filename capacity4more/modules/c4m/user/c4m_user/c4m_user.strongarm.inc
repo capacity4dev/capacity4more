@@ -31,6 +31,9 @@ function c4m_user_strongarm() {
       'c4m_user_teaser_table' => array(
         'custom_settings' => FALSE,
       ),
+      'c4m_user_picture' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(),
@@ -41,7 +44,11 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'c4m_user_teaser_list' => array(
-            'weight' => '5',
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'c4m_user_picture' => array(
+            'weight' => '10',
             'visible' => FALSE,
           ),
         ),
