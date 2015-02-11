@@ -81,7 +81,6 @@
   <div class="row">
     <div class="col-md-12">
       <?php print $content['content_top']; ?>
-      <input type="button" onclick="window.location.replace('user/register')" value="JOIN - SHARE - LEARN">
     </div>
   </div>
 
