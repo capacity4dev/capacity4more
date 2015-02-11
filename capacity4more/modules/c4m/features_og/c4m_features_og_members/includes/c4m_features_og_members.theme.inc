@@ -60,7 +60,12 @@ function theme_c4m_features_og_members_admin_actions($field) {
     }
   }
 
-  $membership_level = _c4m_features_og_members_get_membership_level($user, $group);
+  if ('membership_level' == $field['formatter']) {
+    $membership_level = _c4m_features_og_members_get_membership_level($user, $group);
+  }
+  else {
+    $membership_level = NULL;
+  }
 
   if (empty($links)) {
     return theme('c4m_administer_member_level', array(

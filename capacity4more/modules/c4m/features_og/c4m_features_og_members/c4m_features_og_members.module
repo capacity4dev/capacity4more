@@ -100,7 +100,8 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
     'function' => 'theme_c4m_features_og_members_admin_actions',
     'properties' => array(
       'formatters' => array(
-        'default' => t('Default'),
+        'default' => t('Default (only cog)'),
+        'membership_level' => t('With membership level text'),
       ),
     ),
   );

@@ -45,7 +45,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_features_og_members_admin_actions' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'membership_level',
     ),
   );
   $export['user|user|c4m_user_teaser_list'] = $ds_fieldsetting;
