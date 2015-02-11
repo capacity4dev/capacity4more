@@ -55,6 +55,21 @@ function c4m_user_ds_fields_info($entity_type) {
 
   $path = drupal_get_path('module', 'c4m_user');
 
+  // Fields for entity type user
+  $fields['user']['c4m_user_picture'] = array(
+    'title'      => t('User picture'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_user.theme.inc',
+    'function'   => 'theme_c4m_user_picture',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+        'linked' => t('Linked to user profile'),
+      ),
+    ),
+  );
+
   // Fields for entity type user (, within a group)
   $fields['user']['c4m_user_og_membership_type'] = array(
     'title'      => t('OG user membership type'),
@@ -92,4 +107,108 @@ function c4m_user_image($user, $style = NULL) {
   }
 
   return $output;
+}
+
+/**
+ * Return the themed initials (max 2) of a user's full name.
+ *
+ * @param $account
+ *
+ * @return string
+ */
+function c4m_user_initials_themed($account, $linked = TRUE) {
+  $initials = c4m_user_initials($account);
+  static $colors;
+
+  if (empty($colors)) {
+    $colors = _c4m_user_initials_colors();
+  }
+
+  if ($linked) {
+    $output = l($initials, 'user/' . $account->uid);
+  }
+  else {
+    $output = $initials;
+  }
+
+  $tag = array(
+    'element' => array(
+      '#tag' => 'div',
+      '#attributes' => array(
+        'class' => array(
+          'no-avatar',
+          'initials',
+          'bg-' . $colors[mt_rand(0, count($colors) - 1)]
+        ),
+      ),
+      '#value' => $output,
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * Return the initials (max 2) of a user's full name.
+ *
+ * @param $account
+ *
+ * @return string
+ */
+function c4m_user_initials($account) {
+  $name = c4m_user_name($account);
+  $words = preg_split("/[\s,_-]+/", $name);
+  $initials = '';
+
+  foreach ($words as $w) {
+    $initials .= $w[0];
+  }
+
+  return substr($initials, 0, 2);
+}
+
+/**
+ * Helper function to render user first and last name in one string using the
+ * user entity.
+ *
+ * @param $user
+ *
+ * @return string
+ */
+function c4m_user_name($user) {
+  $wrapper = entity_metadata_wrapper('user', $user);
+
+  if ($user->uid == 0) {
+    return t('Anonymous');
+  }
+
+  $fullname = trim($wrapper->c4m_first_name->value()) . ' '
+    . trim($wrapper->c4m_last_name->value());
+
+  if (!trim($fullname)) {
+    $fullname = $user->name;
+  }
+
+  return trim($fullname);
+}
+
+/**
+ * Get some background classes (random colors).
+ *
+ * @return array
+ */
+function _c4m_user_initials_colors() {
+  return array(
+    'dark-navy',
+    'pastel-pink',
+    'beige',
+    'brown',
+    'brown-light',
+    'blue',
+    'salmon',
+    'pastel-orange',
+    'green',
+    'green-light',
+    'pink-dark',
+  );
 }
