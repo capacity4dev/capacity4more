@@ -19,7 +19,7 @@ function theme_c4m_user_picture($field) {
     return;
   }
   $linked = ('linked' == $field['formatter']) ? TRUE : FALSE;
-  return c4m_user_initials_themed($field['entity']->uid, $linked);
+  return c4m_user_initials_themed(user_load($field['entity']->uid), $linked);
 }
 
 /**
