@@ -11,13 +11,13 @@ $plugin = array(
     'title' => FALSE,
     'video' => FALSE,
   ),
-  'hook theme' => 'c4m_features_og_group_dashboard_video_embed_content_type_theme',
+  'hook theme' => 'c4m_features_homepage_video_embed_content_type_theme',
 );
 
 /**
  * Render callback.
  */
-function c4m_features_og_group_dashboard_video_embed_content_type_render($subtype, $conf, $args, $context) {
+function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, $args, $context) {
   if (!$conf['video']) {
     return FALSE;
   }
@@ -46,7 +46,7 @@ function c4m_features_og_group_dashboard_video_embed_content_type_render($subtyp
 /**
  * Edit form.
  */
-function c4m_features_og_group_dashboard_video_embed_content_type_edit_form($form, &$form_state) {
+function c4m_features_homepage_video_embed_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
 
   $form['title'] = array(
@@ -68,7 +68,7 @@ function c4m_features_og_group_dashboard_video_embed_content_type_edit_form($for
 /**
 * Edit form submit callback.
  */
-function c4m_features_og_group_dashboard_video_embed_content_type_edit_form_submit($form, &$form_state) {
+function c4m_features_homepage_video_embed_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['title'] = $form_state['values']['title'];
   $form_state['conf']['video'] = $form_state['values']['video'];
 }
@@ -76,7 +76,7 @@ function c4m_features_og_group_dashboard_video_embed_content_type_edit_form_subm
 /**
  * Delegated hook_theme().
  */
-function c4m_features_og_group_dashboard_video_embed_content_type_theme(&$theme, $plugin) {
+function c4m_features_homepage_video_embed_content_type_theme(&$theme, $plugin) {
   $theme['video_embed'] = array(
     'variables' => array(
       'video_title' => NULL,

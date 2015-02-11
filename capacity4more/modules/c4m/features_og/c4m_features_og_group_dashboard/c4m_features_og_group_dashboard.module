@@ -5,12 +5,3 @@
  */
 
 include_once 'c4m_features_og_group_dashboard.features.inc';
-
-/**
- * Implements hook_ctools_plugin_directory().
- */
-function c4m_features_og_group_dashboard_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools') {
-    return 'plugins/' . $plugin;
-  }
-}
