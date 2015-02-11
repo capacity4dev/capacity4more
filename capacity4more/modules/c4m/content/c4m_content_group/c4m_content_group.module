@@ -68,3 +68,48 @@ function c4m_content_group_preprocess_block(&$variables) {
     }
   }
 }
+
+/**
+ * Helper function to render group details.
+ * @return string
+ */
+function c4m_content_group_c4m_suggested_groups_get_groups() {
+  global $user;
+
+  $account = user_load($user->uid);
+  $user_wrapper = entity_metadata_wrapper('user', $account);
+  $interests = $user_wrapper->c4m_related_topic->raw();
+
+  $groups = '';
+
+
+  $query = new EntityFieldQuery();
+
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'group')
+    ->propertyCondition('status', NODE_PUBLISHED);
+  if (!empty($interests)) {
+    $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
+  }
+  $result = $query
+    ->addTag('random')
+    ->range(0, 3)
+    ->execute();
+
+  if (!empty($result['node'])) {
+    foreach ($result['node'] as $group) {
+      $node_view = node_view(node_load($group->nid), 'teaser');
+      $groups .= drupal_render($node_view);
+    }
+  }
+
+  return $groups;
+}
+
+/**
+ * Implementation of hook_query_TAG_alter
+ */
+function c4m_content_group_query_random_alter($query) {
+  $query->orderRandom();
+}
