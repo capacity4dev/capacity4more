@@ -109,6 +109,22 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function c4m_features_og_members_theme() {
+  $theme['c4m_administer_member_links'] = array(
+    'template' => 'c4m_administer_member_links',
+    'path' => drupal_get_path('module', 'c4m_features_og_members') . '/templates',
+    'variables' => array(
+      'links' => array(),
+      'user_id' => 0,
+    ),
+  );
+  return $theme;
+}
+
+
+/**
  * Load and cache all actionable links to administer users in a group.
  *
  * @param object $user
@@ -149,27 +165,33 @@ function c4m_features_og_members_c4m_features_og_members_administer_links() {
   return array(
     'promote' => array(
       'callback' => 'members/promote/[user_uid]',
-      'title' => t('Promote'),
+      'title' => t('Promote to [group_type] Administrator'),
       'conditions' => array(
         '_c4m_features_og_members_condition_user_active_member',
         '_c4m_features_og_members_condition_user_not_admin',
         '_c4m_features_og_members_condition_user_not_owner',
       ),
       'weight' => -8,
+      'class' => array(
+        'bold-text'
+      ),
     ),
     'demote' => array(
       'callback' => 'members/demote/[user_uid]',
-      'title' => t('Demote'),
+      'title' => t('Demote to normal [group_type] Member'),
       'conditions' => array(
         '_c4m_features_og_members_condition_user_active_member',
         '_c4m_features_og_members_condition_user_admin',
         '_c4m_features_og_members_condition_user_not_owner',
         ),
       'weight' => -7,
+      'class' => array(
+        'bold-text'
+      ),
     ),
     'remove' => array(
       'callback' => 'members/remove/[user_uid]',
-      'title' => t('Remove'),
+      'title' => t('Remove from [group_type]'),
       'conditions' => array(
         '_c4m_features_og_members_condition_user_active_member',
         '_c4m_features_og_members_condition_user_not_owner',
@@ -178,15 +200,18 @@ function c4m_features_og_members_c4m_features_og_members_administer_links() {
     ),
     'approve' => array(
       'callback' => 'members/approve/[user_uid]',
-      'title' => t('Approve'),
+      'title' => t('Approve Membership request'),
       'conditions' => array(
         '_c4m_features_og_members_condition_user_pending_member',
       ),
       'weight' => -10,
+      'class' => array(
+        'bold-text'
+      ),
     ),
     'reject' => array(
       'callback' => 'members/reject/[user_uid]',
-      'title' => t('Reject'),
+      'title' => t('Reject Membership request'),
       'conditions' => array(
         '_c4m_features_og_members_condition_user_pending_member',
       ),
@@ -344,10 +369,4 @@ function _c4m_features_og_members_get_admin_role($group) {
   }
 
   return $info;
-
-
-
-
-
-
 }
