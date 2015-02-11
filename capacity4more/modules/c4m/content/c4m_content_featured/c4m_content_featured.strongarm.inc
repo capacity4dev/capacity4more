@@ -20,13 +20,6 @@ function c4m_content_featured_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_featured';
-  $strongarm->value = '2';
-  $export['comment_featured'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_mode_featured';
   $strongarm->value = 1;
   $export['comment_default_mode_featured'] = $strongarm;
@@ -37,6 +30,13 @@ function c4m_content_featured_strongarm() {
   $strongarm->name = 'comment_default_per_page_featured';
   $strongarm->value = '50';
   $export['comment_default_per_page_featured'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_featured';
+  $strongarm->value = '1';
+  $export['comment_featured'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
