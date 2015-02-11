@@ -15,16 +15,34 @@ function c4m_content_featured_ctools_plugin_directory($module, $plugin) {
   }
 }
 
+/**
+ * Gets 3 random published Featured nodes.
+ * Returns formatted html for 3-column block.
+ *
+ * @return string
+ */
 function c4m_content_featured_render_featured_blocks() {
+  global $user;
+
   $range = 3;
   $featured = '';
 
   $query = new EntityFieldQuery();
-  $result = $query
+  $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'featured')
-    ->propertyCondition('status', NODE_PUBLISHED)
-    ->addTag('random')
+    ->propertyCondition('status', NODE_PUBLISHED);
+  if ($user->uid) {
+    // For Authenticated user every time get random nodes.
+    $query->addTag('random');
+  }
+  else {
+    // For anonymous user values shouldn't be changed until new content is added.
+    // In this case order the query by file id in order to imitate the randomising.
+    $query->fieldOrderBy('c4m_media', 'fid', 'DESC');
+  }
+
+  $result = $query
     ->range(0, $range)
     ->execute();
 
@@ -49,7 +67,7 @@ function c4m_content_featured_query_random_alter($query) {
 /**
  * Implements hook_entity_info_alter().
  *
- * Add "Upcoming event" view mode.
+ * Add "Featured block" view mode.
  */
 function c4m_content_featured_entity_info_alter(&$entity_info) {
   $entity_info['node']['view modes']['featured_block'] = array(
@@ -71,6 +89,11 @@ function c4m_content_featured_preprocess_node(&$variables) {
   }
 }
 
+/**
+ * Node featured preprocess.
+ *
+ * Prepare Link to put into the template.
+ */
 function c4m_content_featured_preprocess_node__featured(&$variables) {
   $node = $variables['node'];
   $wrapper = entity_metadata_wrapper('node', $node);
