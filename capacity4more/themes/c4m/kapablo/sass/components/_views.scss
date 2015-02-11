@@ -136,13 +136,6 @@ li {
     }
   }
 
-  .user-image, .initials {
-    @include border-radius(50%);
-    height: 60px;
-    margin: 0 auto;
-    width: 60px;
-  }
-
   .more-link {
     clear: both;
     a {

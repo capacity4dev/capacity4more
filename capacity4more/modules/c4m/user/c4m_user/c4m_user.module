@@ -71,9 +71,10 @@ function c4m_user_ds_fields_info($entity_type) {
     $image_styles['linked_' . $image_style_id] = $image_style['label'] . ' ' .
       t('linked to profile');
   }
+
   // Fields for entity type user
   $fields['user']['c4m_user_picture'] = array(
-    'title'      => t('User picture'),
+    'title'      => t('C4M user picture'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'   => array('*|*'),
     'file'       => $path . '/includes/c4m_user.theme.inc',
@@ -83,7 +84,7 @@ function c4m_user_ds_fields_info($entity_type) {
 
   // Fields for entity type user (, within a group)
   $fields['user']['c4m_user_og_membership_type'] = array(
-    'title'      => t('OG user membership type'),
+    'title'      => t('C4M OG user membership type'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'   => array('*|*'),
     'file'       => $path . '/includes/c4m_user.theme.inc',
@@ -94,6 +95,31 @@ function c4m_user_ds_fields_info($entity_type) {
       ),
     ),
   );
+
+  $fields['user']['c4m_user_first_and_last_name'] = array(
+    'title'      => t('C4M User first and last name'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_user.theme.inc',
+    'function'   => 'theme_c4m_user_first_and_last_name',
+    'properties' => array(
+      'formatters' => array(
+        'user'      => 'User first and last name',
+        'linked_user' => 'User first and last name linked to profile',
+      )
+    ),
+  );
+
+  // User related fields for entity type node
+  $fields['node']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
+  $fields['node']['c4m_user_first_and_last_name'] =
+    $fields['user']['c4m_user_first_and_last_name'];
+
+  // User related fields for entity type comment
+  $fields['comment']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
+  $fields['comment']['c4m_user_first_and_last_name'] =
+    $fields['user']['c4m_user_first_and_last_name'];
+
 
   return $fields;
 }

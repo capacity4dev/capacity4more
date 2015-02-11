@@ -131,33 +131,6 @@ function c4m_ds_ds_fields_info($entity_type) {
   $path = drupal_get_path('module', 'c4m_ds');
 
   // Fields for entity type node.
-  $image_styles = array();
-  foreach (image_styles() as $image_style_id => $image_style) {
-    $image_styles[$image_style_id] = $image_style['label'];
-  }
-  $fields['node']['c4m_ds_node_author_image'] = array(
-    'title'      => t('Author image'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_node_author_image',
-    'properties' => array('formatters' => $image_styles),
-  );
-
-  $fields['node']['c4m_ds_author_first_and_last_name'] = array(
-    'title'      => t('Author first and last name'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_author_first_and_last_name',
-    'properties' => array(
-      'formatters' => array(
-        'author'      => 'Author first and last name',
-        'author_link' => 'Author first and last name linked to profile',
-      )
-    ),
-  );
-
 
   // Creation time.
   $format_types    = system_get_date_types();
@@ -279,30 +252,6 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit'   => array('document|*'),
     'file'       => $path . '/includes/c4m_ds.theme.file.inc',
     'function'   => 'theme_c4m_ds_document_preview',
-  );
-
-  // Fields for entity type comments.
-  $fields['comment']['c4m_ds_comment_author_image'] = array(
-    'title'      => t('Author image'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_node_author_image',
-    'properties' => array('formatters' => $image_styles),
-  );
-
-  $fields['comment']['c4m_ds_author_first_and_last_name'] = array(
-    'title'      => t('Author first and last name'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_author_first_and_last_name',
-    'properties' => array(
-      'formatters' => array(
-        'author'      => 'Author first and last name',
-        'author_link' => 'Author first and last name linked to profile',
-      )
-    ),
   );
 
   return $fields;
