@@ -79,7 +79,7 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
       t('Are you sure you want to promote user?'),
       url('members'),
       t('Are you sure you want to promote user %user to group administrator?',
-        array('%user' => c4m_user_profile_name($account))
+        array('%user' => c4m_user_name($account))
       ),
       t('Promote'),
       t('Return to the members overview')
@@ -181,7 +181,7 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
       t('Are you sure you want to demote user?'),
       url('members'),
       t('Are you sure you want to take away the group administrator role from user %user?',
-        array('%user' => c4m_user_profile_name($account))
+        array('%user' => c4m_user_name($account))
       ),
       t('Demote'),
       t('Return to the members overview')
@@ -271,7 +271,7 @@ function c4m_features_og_members_remove($form, &$form_state, $account) {
       t('Are you sure you want to remove user?'),
       url('members'),
       t('Are you sure you want to remove user %user from this group?',
-        array('%user' => c4m_user_profile_name($account))
+        array('%user' => c4m_user_name($account))
       ),
       t('Remove'),
       t('Return to the members overview')

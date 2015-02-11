@@ -41,7 +41,6 @@ function theme_c4m_features_og_members_admin_actions($field) {
     // Check conditions
     foreach ($hook_info['conditions'] as $condition) {
       if (!$condition($user, $group)) {
-        dsm('FAAL');
         $access = FALSE;
         break;
       }
@@ -52,7 +51,7 @@ function theme_c4m_features_og_members_admin_actions($field) {
       $links[] = l($hook_info['title'], $callback);
     }
   }
-  
+
   // Theme!
   return implode('<br/>', $links);
 }
