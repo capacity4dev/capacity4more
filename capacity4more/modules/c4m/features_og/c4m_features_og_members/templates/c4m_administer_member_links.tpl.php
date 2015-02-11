@@ -2,7 +2,7 @@
   <button class="btn btn-default dropdown-toggle" type="button"
           id="adminster-user-<?php print $user_id; ?>" data-toggle="dropdown"
           aria-expanded="true">
-    <span class="glyphicon glyphicon-cog"></span>
+    <?php print $membership_level; ?> <span class="glyphicon glyphicon-cog"></span>
   </button>
   <ul class="dropdown-menu" role="menu"
       aria-labelledby="adminster-user-<?php print $user_id; ?>">

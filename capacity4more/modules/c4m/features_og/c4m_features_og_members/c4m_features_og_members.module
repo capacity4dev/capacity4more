@@ -117,6 +117,16 @@ function c4m_features_og_members_theme() {
     'path' => drupal_get_path('module', 'c4m_features_og_members') . '/templates',
     'variables' => array(
       'links' => array(),
+      'membership_level' => NULL,
+      'user_id' => 0,
+    ),
+  );
+  $theme['c4m_administer_member_level'] = array(
+    'template' => 'c4m_administer_member_level',
+    'path' => drupal_get_path('module', 'c4m_features_og_members') . '/templates',
+    'variables' => array(
+      'links' => array(),
+      'membership_level' => NULL,
       'user_id' => 0,
     ),
   );

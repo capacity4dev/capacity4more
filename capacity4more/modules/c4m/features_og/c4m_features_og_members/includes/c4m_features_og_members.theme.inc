@@ -60,13 +60,26 @@ function theme_c4m_features_og_members_admin_actions($field) {
     }
   }
 
+  $membership_level = _c4m_features_og_members_get_membership_level($user, $group);
+
   if (empty($links)) {
-    return;
+    return theme('c4m_administer_member_level', array(
+        'membership_level' => $membership_level,
+      )
+    );
   }
 
   return theme('c4m_administer_member_links', array(
+      'membership_level' => $membership_level,
       'links' => $links,
       'user_id' => $user->uid
     )
   );
+}
+
+function _c4m_features_og_members_get_membership_level($user, $group) {
+  if ($user->uid == $group->uid) {
+    return t('Group owner');
+  }
+  return 'Group administrator';
 }
