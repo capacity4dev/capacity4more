@@ -160,6 +160,11 @@ function c4m_message_load_general_arguments(Message $message) {
     'callback' => 'c4m_message_format_date_for_message',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!group_info'] = array(
+    'callback' => 'c4m_messages_group_info',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -175,6 +180,20 @@ function c4m_message_format_date_for_message(Message $message) {
   $format = variable_get('date_format_c4m_long_without_time', 'j F Y');
   return c4m_helper_date_time_ago($message->timestamp, $format);
 }
+
+function c4m_messages_group_info(Message $message) {
+  $group_info = '';
+  // Add group info for activity stream on the homepage,
+  // When the request is from RESTful, "drupal_is_front_page" won't work.
+  if ((drupal_is_front_page() && empty(og_purl_og_context_handler()) || (isset($_REQUEST['filter']) && $_REQUEST['filter']['group']['operator'] == 'IN'))) {
+    if (isset($message->field_group_node) && !empty($message->field_group_node)) {
+      $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
+      $group_info = t('Group: ') . l($wrapper->label(), $wrapper->value()->purl);
+    }
+  }
+  return $group_info;
+}
+
 
 /**
  * Delegated hook_entity_load() for node of "discussion" bundle.
@@ -794,7 +813,7 @@ function c4m_message_preprocess_node__event(&$variables) {
  * The activity stream is loaded from the user's groups,
  * Or from all the public groups if user is anonymous.
  */
-function c4m_message_load_activity_stream() {
+function c4m_message_load_homepage_activity_stream() {
   global $user;
 
   $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');

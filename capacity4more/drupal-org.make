@@ -174,7 +174,7 @@ projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
 projects[restful][subdir] = "contrib"
-projects[restful][varsion] = "1.0-rc4"
+projects[restful][version] = "1.0-rc4"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
