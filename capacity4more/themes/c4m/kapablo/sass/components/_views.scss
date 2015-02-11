@@ -136,13 +136,11 @@ li {
     }
   }
 
-  .views-field-c4m-media {
-    img, .initials {
-      @include border-radius(50%);
-      height: 60px;
-      margin: 0 auto;
-      width: 60px;
-    }
+  .user-image, .initials {
+    @include border-radius(50%);
+    height: 60px;
+    margin: 0 auto;
+    width: 60px;
   }
 
   .more-link {

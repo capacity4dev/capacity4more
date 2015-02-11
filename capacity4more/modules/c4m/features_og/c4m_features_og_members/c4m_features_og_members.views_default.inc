@@ -73,31 +73,15 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-  /* Display: Recent Members */
-  $handler = $view->new_display('block', 'Recent Members', 'block_1');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Overview - Recent Members';
-  $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Show all members';
-  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_picture';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Indexed User: User ID */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
@@ -105,8 +89,6 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['fields']['uid']['field'] = 'uid';
   $handler->display->display_options['fields']['uid']['label'] = '';
   $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['uid']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['uid']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['uid']['link_to_entity'] = 0;
   /* Field: Indexed User: Picture */
@@ -115,15 +97,11 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['field'] = 'c4m_media';
   $handler->display->display_options['fields']['c4m_media']['label'] = '';
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_media']['empty'] = '[uid]';
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'c4m_user_author_thumb_image',
-    'image_link' => 'content',
+    'image_style' => '',
+    'image_link' => '',
   );
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  $handler->display->display_options['block_caching'] = '-1';
   $export['c4m_overview_og_members'] = $view;
 
   return $export;
