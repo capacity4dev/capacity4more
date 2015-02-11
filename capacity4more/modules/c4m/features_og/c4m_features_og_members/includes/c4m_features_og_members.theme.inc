@@ -4,10 +4,9 @@
  *
  * Custom Display Suite function fields.
  */
+
 /**
- * DS function field.
- *
- * Render ...
+ * Render administrator actions on OG members list.
  *
  * @param $field
  *
@@ -53,8 +52,8 @@ function theme_c4m_features_og_members_admin_actions($field) {
       );
       $options = array(
         'attributes' => array(
-          'class' => !empty($hook_info['class']) ? $hook_info['class']
-            : array(),
+          'class' =>
+            !empty($hook_info['class']) ? $hook_info['class'] : array(),
         ),
       );
       $links[] = '<li>' . l($title, $callback, $options) . '</li>';
@@ -65,8 +64,9 @@ function theme_c4m_features_og_members_admin_actions($field) {
     return;
   }
 
-  return theme(
-    'c4m_administer_member_links',
-    array('links' => $links, 'user_id' => $user->uid)
+  return theme('c4m_administer_member_links', array(
+      'links' => $links,
+      'user_id' => $user->uid
+    )
   );
 }
