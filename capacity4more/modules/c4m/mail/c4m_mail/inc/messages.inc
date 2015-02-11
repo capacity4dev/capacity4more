@@ -8,7 +8,7 @@
 /**
  * Class to manage the email messages.
  */
-class c4m_mail_messages {
+class C4mMailMessages {
   /**
    * Base path where all messages are stored.
    *
@@ -32,7 +32,7 @@ class c4m_mail_messages {
       . DIRECTORY_SEPARATOR
       . 'messages';
 
-    module_load_include('inc', 'c4m_mail', 'messages/list');
+    include $this->path . '/list.inc';
     /* @var $messages array */
     $this->list = $messages;
   }
@@ -44,39 +44,50 @@ class c4m_mail_messages {
    *   List of message titles processed.
    */
   public function update() {
-    $result = $this->process($this->list);
-    return $result;
-  }
-
-  /**
-   * Process the message list.
-   *
-   * Replace all message variables with the data found in the files.
-   *
-   * @param array $list
-   *   The list of messages and their parts to process.
-   *
-   * @return array
-   *   List of message titles processed.
-   */
-  protected function process($list) {
     $processed = array();
-    $parts = array('subject' => 'txt', 'body' => 'html');
 
-    foreach ($list as $item) {
-      foreach ($parts as $part => $type) {
-        $variable = $item[$part];
-        $text = $this->load_text($item['module'], $variable, $type);
-        if (!$text) {
-          continue;
-        }
-
-        variable_set($variable, $text);
-        $processed[] = $variable;
+    foreach ($this->list as $item) {
+      if ($this->updateMessage(
+        $item['module'],
+        $item['subject'],
+        $item['body']
+      )) {
+        $processed[] = $item['title'];
       }
     }
 
     return $processed;
+  }
+
+  /**
+   * Process all variables of a message
+   *
+   * @param string $module
+   *   The name of the module.
+   * @param string $subject
+   *   The subject variable name.
+   * @param string $body
+   *   The body variable name.
+   *
+   * @return bool
+   *   Success
+   */
+  protected function updateMessage($module, $subject, $body) {
+    $parts = array(
+      $subject => 'txt',
+      $body => 'html'
+    );
+
+    foreach ($parts as $variable => $filetype) {
+      $text = $this->loadText($module, $variable, $filetype);
+      if (!$text) {
+        return FALSE;
+      }
+
+      variable_set($variable, $text);
+    }
+
+    return TRUE;
   }
 
   /**
@@ -92,8 +103,10 @@ class c4m_mail_messages {
    * @return string
    *   The contents of the loaded file.
    */
-  protected function load_text($module, $filename, $filetype) {
-    $file = $this->path . DIRECTORY_SEPARATOR . $filename . '.' . $filetype;
+  protected function loadText($module, $filename, $filetype) {
+    $file = $this->path
+      . DIRECTORY_SEPARATOR . $module
+      . DIRECTORY_SEPARATOR . $filename . '.' . $filetype;
     if (!file_exists($file)) {
       return FALSE;
     }
