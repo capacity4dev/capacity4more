@@ -44,7 +44,7 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'c4m_user_teaser_list' => array(
-            'weight' => '10',
+            'weight' => '12',
             'visible' => FALSE,
           ),
           'c4m_user_picture' => array(

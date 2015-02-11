@@ -37,6 +37,16 @@ function c4m_user_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'linked_media_thumbnail',
     ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'user',
+    ),
+    'c4m_features_og_members_admin_actions' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['user|user|c4m_user_teaser_list'] = $ds_fieldsetting;
 
@@ -90,16 +100,16 @@ function c4m_user_ds_layout_settings_info() {
         0 => 'c4m_user_picture',
       ),
       'right' => array(
-        1 => 'c4m_first_name',
-        2 => 'c4m_last_name',
+        1 => 'c4m_user_first_and_last_name',
+        2 => 'c4m_features_og_members_admin_actions',
         3 => 'c4m_organisation',
         4 => 'c4m_country',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
-      'c4m_first_name' => 'right',
-      'c4m_last_name' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_features_og_members_admin_actions' => 'right',
       'c4m_organisation' => 'right',
       'c4m_country' => 'right',
     ),
