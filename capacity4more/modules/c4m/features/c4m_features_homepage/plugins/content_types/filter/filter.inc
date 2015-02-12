@@ -17,7 +17,7 @@ function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args
   global $user;
   $account = user_load($user->uid);
   $is_member = !empty($account->og_user_node);
-
+  drupal_add_js(drupal_get_path('module', 'c4m_features_homepage') . '/js/filter_check_radio.js');
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
   $block->title = '';
