@@ -903,7 +903,7 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
    $query->condition($or);
 
   foreach ($conditions as $key => $condition) {
-    if ($conditions['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
+    if (isset($condition['field']) && !is_object($condition['field']) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
       unset($conditions[$key]);
     }
   }
