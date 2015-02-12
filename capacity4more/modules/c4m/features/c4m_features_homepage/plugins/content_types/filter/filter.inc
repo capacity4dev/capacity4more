@@ -22,6 +22,11 @@ function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args
   return $block;
 }
 
+/**
+ * Create form element for homepage filter.
+ *
+ * @return mixed
+ */
 function c4m_features_homepage_filter_form_create() {
   $options = og_get_entity_groups() ? array('groups' => t('My groups')) : array();
   $options += array(
