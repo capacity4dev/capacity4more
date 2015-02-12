@@ -240,6 +240,30 @@ trait Group {
   }
 
   /**
+   * @Given /^I should see the Recent Members$/
+   */
+  public function iShouldSeeTheRecentMembers() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find(
+      'css',
+      '.pane-c4m-overview-og-members .view-id-c4m_overview_og_members.view-display-id-block_1'
+    );
+    if ($el === null) {
+      throw new \Exception('The Recent Members block is not visible.');
+    }
+
+    $subel = $page->find(
+      'css',
+      '.pane-c4m-overview-og-members .view-id-c4m_overview_og_members.view-display-id-block_1 .no-avatar.initials,
+       .pane-c4m-overview-og-members .view-id-c4m_overview_og_members.view-display-id-block_1 img.user-image'
+    );
+
+    if ($subel === null) {
+      throw new \Exception('No users found in the Recent Members block.');
+    }
+  }
+
+  /**
    * @Then /^I should see the group menu$/
    */
   public function iShouldSeeTheGroupMenu() {
