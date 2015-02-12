@@ -41,7 +41,29 @@ function c4m_message_default_message_type() {
         {
           "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] commented on a @node_type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E@date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row-footer\\u0022\\u003E!footer\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] commented on a @node_type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row-footer\\u0022\\u003E!footer\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] commented on a @node_type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E@date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row-footer\\u0022\\u003E!footer\\u003C\\/div\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_insert__node__article'] = entity_import('message_type', '{
+    "name" : "c4m_insert__node__article",
+    "description" : "c4m Insert Node Article",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Article \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row-footer\\u0022\\u003E!footer\\u003C\\/div\\u003E",
+          "format" : "full_html",
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Article \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-title\\u0022\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row-footer\\u0022\\u003E!footer\\u003C\\/div\\u003E\\n"
         }
       ]
     },
