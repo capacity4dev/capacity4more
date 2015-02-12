@@ -7,7 +7,7 @@
 
 class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles {
 
-  protected $range = 20;
+  protected $range = 10;
 
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
