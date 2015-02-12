@@ -116,8 +116,8 @@ module.exports = function (grunt) {
         },
         dist: {
           src: [
-            'css/style.css',
-            'css/mail.css'
+            'css/mail.css',
+            'css/style.css'
           ]
         }
       },
@@ -136,8 +136,8 @@ module.exports = function (grunt) {
             colors: true
           },
           files: {
-            'css/style.css': 'css/style.css',
             'css/mail.css': 'css/mail.css',
+            'css/style.css': 'css/style.css'
           }
         }
       },
