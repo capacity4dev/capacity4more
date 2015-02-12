@@ -22,12 +22,22 @@ function theme_c4m_features_og_members_admin_actions($field) {
     return;
   }
 
-  if (!c4m_features_og_members_access_group('manage members')) {
-    return;
-  }
-
   $entity = $field['entity'];
   $user = user_load($entity->uid);
+
+  if ('membership_level' == $field['formatter']) {
+    $membership_level = c4m_features_og_members_get_membership_level($user, $group);
+  }
+  else {
+    $membership_level = NULL;
+  }
+
+  if (!c4m_features_og_members_access_group('manage members')) {
+    return theme('c4m_administer_member_level', array(
+        'membership_level' => $membership_level,
+      )
+    );
+  }
 
   $links = array();
 
@@ -60,13 +70,7 @@ function theme_c4m_features_og_members_admin_actions($field) {
     }
   }
 
-  if ('membership_level' == $field['formatter']) {
-    $membership_level = c4m_features_og_members_get_membership_level($user, $group);
-  }
-  else {
-    $membership_level = NULL;
-  }
-
+  // There are no links (group owner).
   if (empty($links)) {
     return theme('c4m_administer_member_level', array(
         'membership_level' => $membership_level,
