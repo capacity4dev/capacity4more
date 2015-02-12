@@ -167,6 +167,11 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
     return;
   }
 
+  // Call the activity stream on the homepage.
+  if (drupal_is_front_page() && empty(og_purl_og_context_handler())) {
+    c4m_message_load_homepage_activity_stream();
+  }
+
   $vars['attributes_array']['ng-app'][] = 'c4mApp';
   $vars['attributes_array']['ng-controller'][] = 'MainCtrl';
   $vars['attributes_array']['ng-cloak'][] = 'true';
@@ -226,13 +231,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
  *   True if current path requires the app to be loaded.
  */
 function c4m_restful_quick_post_needs_app() {
-  // Check first if the user is on the global homepage.
-  // Or if he is on a group dashboard he has no access to.
-  if (drupal_is_front_page() && !og_context()) {
-    return FALSE;
-  }
-
-  // If we are on a group homepage, we need the app.
+  // If we are on the site homepage or a group dashboard, we need the app.
   if (drupal_is_front_page()) {
     return TRUE;
   }
