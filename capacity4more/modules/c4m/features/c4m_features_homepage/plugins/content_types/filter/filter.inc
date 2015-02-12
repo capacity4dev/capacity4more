@@ -7,22 +7,44 @@ $plugin = array(
   'title' => t('Content Filter'),
   'description' => t('Renders Content Filter.'),
   'category' => t('C4M'),
-  'hook theme' => 'c4m_features_homepage_filter_content_type_theme',
 );
 
 /**
  * Render callback.
  */
 function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args, $context) {
-  global $user;
-  $account = user_load($user->uid);
-  $is_member = !empty($account->og_user_node);
-  drupal_add_js(drupal_get_path('module', 'c4m_features_homepage') . '/js/filter_check_radio.js');
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
   $block->title = '';
-  $block->content = theme('c4m_features_homepage_filter', array('is_member' =>$is_member));
+
+  $block->content = drupal_get_form('c4m_features_homepage_filter_form_create');
+
   return $block;
+}
+
+function c4m_features_homepage_filter_form_create() {
+  $options = og_get_entity_groups() ? array('groups' => t('My groups')) : array();
+  $options += array(
+    'interests' => t('My interests'),
+    'showAll' => t('Show all'),
+  );
+
+  $default_value = !empty($_GET['filter']) ? $_GET['filter'] : 'showAll';
+
+  if (!array_key_exists($default_value, $options)) {
+    $default_value = 'showAll';
+  }
+
+  $element['homepage-filter'] = array(
+    '#type' => 'radios',
+    '#title' => t('Filter by'),
+    '#options' => $options,
+    '#default_value' => $default_value,
+  );
+
+   $element['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
+
+  return $element;
 }
 
 /**
@@ -30,17 +52,4 @@ function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args
  */
 function c4m_features_homepage_filter_content_type_edit_form($form, &$form_state) {
   return $form;
-}
-
-/**
- * Delegated hook_theme().
- */
-function c4m_features_homepage_filter_content_type_theme(&$theme, $plugin) {
-  $theme['c4m_features_homepage_filter'] = array(
-    'variables' => array(
-      'is_member' => FALSE,
-    ),
-    'path' => $plugin['path'],
-    'template' => 'filter',
-  );
 }
