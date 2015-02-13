@@ -108,14 +108,31 @@ function theme_c4m_user_first_and_last_name($field) {
  *
  * @return string
  */
-function theme_c4m_user_og_membership_type($field) {
-  if (empty($field['entity'])) {
+function theme_c4m_user_country($field) {
+  if (empty($field['entity']->uid)) {
     return;
   }
 
-  $entity = $field['entity'];
-  $user   = user_load($entity->uid);
-
-  return '';
+  // Check if this is a user or node entity.
+  $user = 'user' === $field['entity_type'] ? $field['entity'] :
+    user_load($field['entity']->uid);
+  $allowed_values = &drupal_static(__FUNCTION__);
+  if (empty($allowed_values)) {
+    $field = field_info_field('c4m_country');
+    $allowed_values = list_allowed_values($field);
+  }
+  // Check if we have an image.
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $country = $allowed_values[$wrapper->c4m_country->value()];
+  if (!empty($country) &&
+      '- choose country or region -' !== drupal_strtolower($country)) {
+    $tag['element'] = array(
+      '#tag'       => 'span',
+      '#attributes' => array(
+        'class' => array('country'),
+      ),
+      '#value'     => t(ucwords(drupal_strtolower($country))),
+    );
+    return theme_html_tag($tag);
+  }
 }
-

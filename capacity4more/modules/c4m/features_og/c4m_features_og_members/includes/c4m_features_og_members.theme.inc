@@ -85,3 +85,62 @@ function theme_c4m_features_og_members_admin_actions($field) {
     )
   );
 }
+
+/**
+ * Render date on which user became group member.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_features_og_members_since($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return;
+  }
+
+  $membership = og_get_membership('node', $group->nid, 'user',
+    $field['entity']->uid);
+  if (!$membership) {
+    return;
+  }
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('member-since'),
+    ),
+    '#value'     => format_date($membership->created, 'c4m_long_without_time'),
+  );
+  return theme_html_tag($tag);
+}
+
+/**
+ * Render user activity summary within group.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_features_og_members_activity_summary($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return;
+  }
+
+  /*$membership = og_get_membership('node', $group->nid, 'user',
+    $field['entity']->uid);
+  if (!$membership) {
+    return FALSE;
+  }
+  else {
+    return format_date($membership->created, 'c4m_long_without_time');
+  }*/
+}

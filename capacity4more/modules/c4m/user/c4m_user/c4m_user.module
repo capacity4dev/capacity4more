@@ -82,20 +82,6 @@ function c4m_user_ds_fields_info($entity_type) {
     'properties' => array('formatters' => $image_styles),
   );
 
-  // Fields for entity type user (, within a group)
-  $fields['user']['c4m_user_og_membership_type'] = array(
-    'title'      => t('C4M OG user membership type'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user.theme.inc',
-    'function'   => 'theme_c4m_user_og_membership_type',
-    'properties' => array(
-      'formatters' => array(
-        'default' => t('Default'),
-      ),
-    ),
-  );
-
   $fields['user']['c4m_user_first_and_last_name'] = array(
     'title'      => t('C4M User first and last name'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -106,6 +92,19 @@ function c4m_user_ds_fields_info($entity_type) {
       'formatters' => array(
         'user'      => 'User first and last name',
         'linked_user' => 'User first and last name linked to profile',
+      )
+    ),
+  );
+
+  $fields['user']['c4m_user_country'] = array(
+    'title'      => t('C4M User country'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_user.theme.inc',
+    'function'   => 'theme_c4m_user_country',
+    'properties' => array(
+      'formatters' => array(
+        'default'      => t('Default'),
       )
     ),
   );

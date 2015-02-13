@@ -40,15 +40,68 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'user',
+      'format' => 'linked_user',
+    ),
+    'c4m_user_country' => array(
+      'weight' => '5',
+      'label' => 'inline',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Based in',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
     ),
     'c4m_features_og_members_admin_actions' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'membership_level',
     ),
+    'c4m_features_og_members_since' => array(
+      'weight' => '6',
+      'label' => 'inline',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Member since',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
   );
   $export['user|user|c4m_user_teaser_list'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'user|user|c4m_user_teaser_table';
+  $ds_fieldsetting->entity_type = 'user';
+  $ds_fieldsetting->bundle = 'user';
+  $ds_fieldsetting->view_mode = 'c4m_user_teaser_table';
+  $ds_fieldsetting->settings = array(
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+    ),
+  );
+  $export['user|user|c4m_user_teaser_table'] = $ds_fieldsetting;
 
   return $export;
 }
@@ -101,17 +154,19 @@ function c4m_user_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'c4m_user_first_and_last_name',
-        2 => 'c4m_features_og_members_admin_actions',
-        3 => 'c4m_organisation',
-        4 => 'c4m_country',
+        2 => 'c4m_organisation',
+        3 => 'c4m_features_og_members_admin_actions',
+        4 => 'c4m_user_country',
+        5 => 'c4m_features_og_members_since',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_features_og_members_admin_actions' => 'right',
       'c4m_organisation' => 'right',
-      'c4m_country' => 'right',
+      'c4m_features_og_members_admin_actions' => 'right',
+      'c4m_user_country' => 'right',
+      'c4m_features_og_members_since' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -125,6 +180,34 @@ function c4m_user_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['user|user|c4m_user_teaser_list'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'user|user|c4m_user_teaser_table';
+  $ds_layout->entity_type = 'user';
+  $ds_layout->bundle = 'user';
+  $ds_layout->view_mode = 'c4m_user_teaser_table';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_user_first_and_last_name',
+      ),
+    ),
+    'fields' => array(
+      'c4m_user_first_and_last_name' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['user|user|c4m_user_teaser_table'] = $ds_layout;
 
   return $export;
 }

@@ -93,7 +93,7 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
   $path = drupal_get_path('module', 'c4m_features_og_members');
   // Administrator links field for entity type user (, within a group)
   $fields['user']['c4m_features_og_members_admin_actions'] = array(
-    'title' => t('OG administer user links'),
+    'title' => t('C4M OG administer user links'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_features_og_members.theme.inc',
@@ -102,6 +102,32 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
       'formatters' => array(
         'default' => t('Default (only cog)'),
         'membership_level' => t('With membership level text'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_features_og_members_since'] = array(
+    'title' => t('C4M OG member since'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_features_og_members.theme.inc',
+    'function' => 'theme_c4m_features_og_members_since',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_features_og_members_activity_summary'] = array(
+    'title' => t('C4M OG member activity summary'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_features_og_members.theme.inc',
+    'function' => 'theme_c4m_features_og_members_activity_summary',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
       ),
     ),
   );
@@ -543,7 +569,7 @@ function _c4m_features_og_members_facet_country_alter(&$build, &$settings) {
   $allowed_values = list_allowed_values($field);
   foreach($build as $key => $item) {
     $build[$key]["#markup"] = t('@country', array('@country' =>
-      ucfirst(drupal_strtolower($allowed_values[drupal_strtoupper($key)]))));
+      ucwords(drupal_strtolower($allowed_values[drupal_strtoupper($key)]))));
   }
 }
 

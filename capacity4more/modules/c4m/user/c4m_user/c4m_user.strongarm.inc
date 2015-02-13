@@ -29,7 +29,7 @@ function c4m_user_strongarm() {
         'custom_settings' => FALSE,
       ),
       'c4m_user_teaser_table' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_user_picture' => array(
         'custom_settings' => TRUE,
@@ -40,15 +40,19 @@ function c4m_user_strongarm() {
       'display' => array(
         'summary' => array(
           'default' => array(
-            'weight' => '5',
+            'weight' => '11',
             'visible' => FALSE,
           ),
           'c4m_user_teaser_list' => array(
-            'weight' => '12',
+            'weight' => '14',
             'visible' => FALSE,
           ),
           'c4m_user_picture' => array(
             'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'c4m_user_teaser_table' => array(
+            'weight' => '11',
             'visible' => FALSE,
           ),
         ),
