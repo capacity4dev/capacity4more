@@ -186,7 +186,8 @@ function c4m_messages_group_info(Message $message) {
   $group_info = '';
   // Add group info for activity stream on the homepage,
   // When the request is from RESTful, "drupal_is_front_page" won't work.
-  if ((drupal_is_front_page() && empty(og_purl_og_context_handler()) || (isset($_REQUEST['filter']) && $_REQUEST['filter']['group']['operator'] == 'IN'))) {
+  $handler = og_purl_og_context_handler();
+  if ((drupal_is_front_page() && empty($handler) || (isset($_REQUEST['filter']) && $_REQUEST['filter']['group']['operator'] == 'IN'))) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
       $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
       $group_info = t('Group: ') . l($wrapper->label(), $wrapper->value()->purl);
