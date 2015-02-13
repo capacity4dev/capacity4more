@@ -522,29 +522,70 @@ function c4m_features_og_members_get_membership_level($user, $group,
  * @param $settings
  */
 function c4m_features_og_members_facet_items_alter(&$build, &$settings) {
-  if ($settings->facet == "c4m_og_membership_type") {
-    $group = c4m_og_current_group();
-    $types = array(
-      'pending' => t('Requested Membership'),
-      'blocked' => t('Blocked/Rejected Membership'),
-      'member' => t('@group_type Member',
-        array('@group_type' => ucfirst($group->type))),
-      'owner' => t('@group_type Owner',
-        array('@group_type' => ucfirst($group->type))),
-      'administrator member' => t('@group_type Administrator',
-        array('@group_type' => ucfirst($group->type)))
-    );
-
-    foreach($build as $key => $item) {
-      $membership_type = explode('_', $key);
-      $gid = $membership_type[0];
-      // Remove groups which are not current
-      if ($gid !== $group->nid) {
-        unset($build[$key]);
-        continue;
-      }
-      $type = $membership_type[1];
-      $build[$key]["#markup"] = $types[$type];
-    }
+  switch ($settings->facet) {
+    case 'c4m_country':
+      _c4m_features_og_members_facet_country_alter($build, $settings);
+      break;
+    case 'c4m_og_membership_type':
+      _c4m_features_og_members_facet_membership_type_alter($build, $settings);
+      break;
   }
+}
+
+/**
+ * Helper function to alter the facet for the country.
+ *
+ * @param $build
+ * @param $settings
+ */
+function _c4m_features_og_members_facet_country_alter(&$build, &$settings) {
+  $field = field_info_field($settings->facet);
+  $allowed_values = list_allowed_values($field);
+  foreach($build as $key => $item) {
+    $build[$key]["#markup"] = t('@country', array('@country' =>
+      ucfirst(drupal_strtolower($allowed_values[drupal_strtoupper($key)]))));
+  }
+}
+
+/**
+ * Helper function to alter the facet for the OG membership type.
+ *
+ * @param $build
+ * @param $settings
+ */
+function _c4m_features_og_members_facet_membership_type_alter(&$build, &$settings) {
+  $group = c4m_og_current_group();
+  $types = array(
+    'pending' => t('Requested Membership'),
+    'blocked' => t('Blocked/Rejected Membership'),
+    'member' => t('@group_type Member',
+      array('@group_type' => ucfirst($group->type))),
+    'owner' => t('@group_type Owner',
+      array('@group_type' => ucfirst($group->type))),
+    'administrator member' => t('@group_type Administrator',
+      array('@group_type' => ucfirst($group->type)))
+  );
+
+  foreach($build as $key => $item) {
+    $membership_type = explode('_', $key);
+    $gid = $membership_type[0];
+    // Remove groups which are not current
+    if ($gid !== $group->nid) {
+      unset($build[$key]);
+      continue;
+    }
+    $type = $membership_type[1];
+    $build[$key]["#markup"] = $types[$type];
+  }
+}
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * @param $data
+ * @param $block
+ */
+function c4m_features_og_members_block_view_alter(&$data, $block) {
+  module_load_include('inc', 'c4m_features_og_members', 'includes/c4m_features_og_members.block');
+  _c4m_features_og_members_block_view_alter($data, $block);
 }

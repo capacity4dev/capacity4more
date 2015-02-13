@@ -19,16 +19,13 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
   // Array of title overrides as "block-delta" => "title".
   $titles = array(
     // Global.
-    'W0DMisaKwCfTLdactv0tMtbP8g1Lyz26' => t('Based in'), // Countries.
     'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => t('Date'),
     '4Erg9yLvJMABad12YSuX81wXLf2eoV17' => t('Language'),
     'lcuW9WS3uMIsaaA0uZQgyEVGKcC2RDWB' => t('OG Vocab'),
     'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => t('Regions & Countries'),
     'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => t('Topics'),
-    'iQ26gccTLht1A9qD9c7qFfumTFyaMvX5' => t('Topics of Expertise'),
     'QgJEmEcjJBhqSVzHPi5bPE2bqBu7Y67h' => t('Topics of Interest'),
     'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => t('Type'), // Content type.
-    '1nI1X13vjFOCoDtPbNHnLS8h5giilscl' => t('Type of Organisation'),
 
     // Group vocabularies.
     'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => t('Categories'),
