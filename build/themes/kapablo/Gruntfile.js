@@ -5,6 +5,16 @@ module.exports = function (grunt) {
   grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
 
+      /**
+       * Set project object
+       *
+       * Variables:
+       * <%= project.root %> : The root path of the project.
+       */
+      project: {
+        root: '../../../capacity4more/themes/c4m/kapablo'
+      },
+
       // SCSS
       compass: {
         dev: {
@@ -12,7 +22,9 @@ module.exports = function (grunt) {
             config: 'config.rb',
             outputStyle: 'expanded',
             debugInfo: true,
-            environment: 'development'
+            environment: 'development',
+            sassDir: '<%= project.root %>/sass',
+            cssDir: '<%= project.root %>/css'
           }
         },
         prod: {
@@ -20,7 +32,9 @@ module.exports = function (grunt) {
             config: 'config.rb',
             outputStyle: 'compressed',
             debugInfo: false,
-            environment: 'production'
+            environment: 'production',
+            sassDir: '<%= project.root %>/sass',
+            cssDir: '<%= project.root %>/css'
           }
         }
       },
@@ -31,9 +45,9 @@ module.exports = function (grunt) {
           files: [
             {
               expand: true,
-              cwd: 'images/svg/',
+              cwd: '<%= project.root %>/images/svg/',
               src: ['**/*.svg'],
-              dest: 'images/svgmin'
+              dest: '<%= project.root %>/images/svgmin'
             }
           ]
         }
@@ -45,9 +59,9 @@ module.exports = function (grunt) {
           files: [
             {
               expand: true,
-              cwd: 'images/svgmin/icons',
+              cwd: '<%= project.root %>/images/svgmin/icons',
               src: ['**/*.svg'],
-              dest: 'images/icons'
+              dest: '<%= project.root %>/images/icons'
             }
           ]
         }
@@ -62,7 +76,7 @@ module.exports = function (grunt) {
           },
           files: [{
             expand: true,
-            src: ['images/**/*.{png,jpg,gif,jpeg}']
+            src: ['<%= project.root %>/images/**/*.{png,jpg,gif,jpeg}']
           }]
         }
       },
@@ -75,32 +89,33 @@ module.exports = function (grunt) {
         },
         app: {
           files: {
-            'js/kapablo.min.js': [
-              'js/app/modernizr.js',
-              'js/app/kapablo.js'
+            '<%= project.root %>/js/kapablo.min.js': [
+              '<%= project.root %>/js/app/modernizr.js',
+              '<%= project.root %>/js/app/kapablo.js'
             ]
           }
         },
         bootstrap: {
           files: {
-            'js/bootstrap.min.js': ['js/bootstrap/transition.js',
-              'js/bootstrap/alert.js',
-              'js/bootstrap/button.js',
-              'js/bootstrap/carousel.js',
-              'js/bootstrap/collapse.js',
-              'js/bootstrap/dropdown.js',
-              'js/bootstrap/modal.js',
-              'js/bootstrap/tooltip.js',
-              'js/bootstrap/popover.js',
-              'js/bootstrap/scrollspy.js',
-              'js/bootstrap/tab.js',
-              'js/bootstrap/affix.js']
+            '<%= project.root %>/js/bootstrap.min.js': [
+              '<%= project.root %>/js/bootstrap/transition.js',
+              '<%= project.root %>/js/bootstrap/alert.js',
+              '<%= project.root %>/js/bootstrap/button.js',
+              '<%= project.root %>/js/bootstrap/carousel.js',
+              '<%= project.root %>/js/bootstrap/collapse.js',
+              '<%= project.root %>/js/bootstrap/dropdown.js',
+              '<%= project.root %>/js/bootstrap/modal.js',
+              '<%= project.root %>/js/bootstrap/tooltip.js',
+              '<%= project.root %>/js/bootstrap/popover.js',
+              '<%= project.root %>/js/bootstrap/scrollspy.js',
+              '<%= project.root %>/js/bootstrap/tab.js',
+              '<%= project.root %>/js/bootstrap/affix.js']
           }
         }
 
 //            ie7: {
-//                src: ['js/app/ie7.js'],
-//                dest: 'js/<%= pkg.name %>.ie7.min.js'
+//                src: ['<%= project.root %>/js/app/ie7.js'],
+//                dest: '<%= project.root %>/js/<%= pkg.name %>.ie7.min.js'
 //            }
       },
 
@@ -115,10 +130,11 @@ module.exports = function (grunt) {
           require: 'config.rb'
         },
         dist: {
-          src: 'css/style.css'
+          src: '<%= project.root %>/css/style.css'
         }
       },
 
+      // All the annoying CSS stuff we don't want to do in 1 tool.
       pleeease: {
         custom: {
           options: {
@@ -133,7 +149,7 @@ module.exports = function (grunt) {
             colors: true
           },
           files: {
-            'css/style.css': 'css/style.css'
+            '<%= project.root %>/css/style.css': '<%= project.root %>/css/style.css'
           }
         }
       },
@@ -141,7 +157,7 @@ module.exports = function (grunt) {
       // Automate some tasks during development (if files change).
       watch: {
         svg: {
-          files: ['images/svg/**/*.svg'],
+          files: ['<%= project.root %>/images/svg/**/*.svg'],
           tasks: ['svgmin', 'grunticon', 'compass:dev', 'pleeease'],
           options: {
             livereload: true
@@ -149,7 +165,10 @@ module.exports = function (grunt) {
         },
 
         style: {
-          files: ['sass/*.scss', 'sass/**/*.scss'],
+          files: [
+            '<%= project.root %>/sass/*.scss',
+            '<%= project.root %>/sass/**/*.scss'
+          ],
           tasks: ['compass:dev', 'pleeease'],
           options: {
             livereload: true
@@ -157,7 +176,7 @@ module.exports = function (grunt) {
         },
 
         scripts: {
-          files: ['js/app/*.js'],
+          files: ['<%= project.root %>js/app/*.js'],
           tasks: ['uglify:app'],
           options: {
             livereload: true
