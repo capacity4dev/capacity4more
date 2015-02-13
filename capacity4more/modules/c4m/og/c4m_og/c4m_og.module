@@ -326,3 +326,24 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
     }
   }
 }
+
+/**
+ * Get all the groups ID by the access status.
+ *
+ * @param $access
+ *  The groups access field status.
+ *
+ * @return array
+ *  Entity IDs of the public groups.
+ */
+function c4m_og_get_groups_by_access_type($access) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'group')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition(OG_ACCESS_FIELD, 'value', $access)
+    ->execute();
+
+  return !empty($result['node']) ? array_keys($result['node']) : array();
+}

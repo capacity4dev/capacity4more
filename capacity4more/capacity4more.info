@@ -95,8 +95,10 @@ dependencies[] = c4m_content_book
 dependencies[] = c4m_content_discussion
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
+dependencies[] = c4m_content_featured
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_banner
+dependencies[] = c4m_content_page_element
 dependencies[] = c4m_content_photo
 dependencies[] = c4m_content_photoalbum
 dependencies[] = c4m_content_project
@@ -116,6 +118,7 @@ dependencies[] = c4m_features_overview_people
 dependencies[] = c4m_features_overview_projects
 dependencies[] = c4m_features_overview_regions
 dependencies[] = c4m_features_overview_topics
+dependencies[] = c4m_features_homepage
 
 ; RESTful
 dependencies[] = c4m_restful_quick_post
