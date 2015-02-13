@@ -54,4 +54,10 @@ $messages = array(
     'subject' => 'user_mail_password_reset_subject',
     'body' => 'user_mail_password_reset_body',
   ),
+  array(
+    'module' => 'user',
+    'title' => 'Admin alert about new user registration',
+    'subject' => 'user_mail_register_pending_approval_admin_subject',
+    'body' => 'user_mail_register_pending_approval_admin_body',
+  )
 );
