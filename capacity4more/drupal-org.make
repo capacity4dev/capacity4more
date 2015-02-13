@@ -133,11 +133,12 @@ projects[module_filter][version] = "2.0-alpha2"
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
-projects[og][subdir] = "contrib"
 ; projects[og][version] = "2.x-dev"
+projects[og][subdir] = "contrib"
 projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/Gizra/og.git"
-projects[og][download][revision] = "66d3b723b6c305006acf5204fca27d7d2f30bc26"
+projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
+projects[og][download][branch] = og_context_check_access
+projects[og][type] = "module"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
@@ -172,11 +173,8 @@ projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
-projects[restful][download][type] = "git"
-projects[restful][download][url] = "https://github.com/Gizra/restful.git"
-projects[restful][download][branch] = 7.x-1.x
 projects[restful][subdir] = "contrib"
-projects[restful][type] = "module"
+projects[restful][version] = "1.0-rc4"
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
