@@ -134,13 +134,36 @@ function theme_c4m_features_og_members_activity_summary($field) {
   if (empty($group)) {
     return;
   }
+  $user = $field['entity'];
 
-  /*$membership = og_get_membership('node', $group->nid, 'user',
-    $field['entity']->uid);
+  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
   if (!$membership) {
-    return FALSE;
+    return;
   }
-  else {
-    return format_date($membership->created, 'c4m_long_without_time');
-  }*/
+
+  // Count published posts of user in this group.
+  $query = db_select('node', 'n');
+  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
+  $query->fields('n', array('nid'))
+    ->condition('n.status', 1)
+    ->condition('n.uid', $user->uid)
+    ->condition('ogm.gid', $group->nid)
+    ->condition('ogm.entity_type', 'node');
+  $nr_of_nodes = $query->countQuery()->execute()->fetchField();
+
+  // Count published comments of user in this group.
+  $query = db_select('comment', 'c');
+  $query->join('node', 'n', 'c.nid = n.nid');
+  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
+  $query->fields('c', array('cid'))
+    ->condition('c.status', 1)
+    ->condition('n.status', 1)
+    ->condition('c.uid', $user->uid)
+    ->condition('ogm.gid', $group->nid)
+    ->condition('ogm.entity_type', 'node');
+  $nr_of_comments = $query->countQuery()->execute()->fetchField();
+  return t('Posted') . ' ' .
+    format_plural($nr_of_nodes, '1 Item', '@count Items') . ' ' .
+    t('and') . ' ' .
+    format_plural($nr_of_comments, '1 Comment', '@count Comments');
 }

@@ -41,9 +41,14 @@ function c4m_user_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_user_country' => array(
-      'weight' => '5',
+      'weight' => '4',
       'label' => 'inline',
       'format' => 'default',
       'formatter_settings' => array(
@@ -62,12 +67,15 @@ function c4m_user_ds_field_settings_info() {
       ),
     ),
     'c4m_features_og_members_admin_actions' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'membership_level',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
     'c4m_features_og_members_since' => array(
-      'weight' => '6',
+      'weight' => '5',
       'label' => 'inline',
       'format' => 'default',
       'formatter_settings' => array(
@@ -84,6 +92,11 @@ function c4m_user_ds_field_settings_info() {
           'ow-def-at' => FALSE,
         ),
       ),
+    ),
+    'c4m_features_og_members_activity_summary' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
   );
   $export['user|user|c4m_user_teaser_list'] = $ds_fieldsetting;
@@ -154,19 +167,21 @@ function c4m_user_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'c4m_user_first_and_last_name',
-        2 => 'c4m_organisation',
-        3 => 'c4m_features_og_members_admin_actions',
+        2 => 'c4m_features_og_members_admin_actions',
+        3 => 'c4m_organisation',
         4 => 'c4m_user_country',
         5 => 'c4m_features_og_members_since',
+        6 => 'c4m_features_og_members_activity_summary',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_organisation' => 'right',
       'c4m_features_og_members_admin_actions' => 'right',
+      'c4m_organisation' => 'right',
       'c4m_user_country' => 'right',
       'c4m_features_og_members_since' => 'right',
+      'c4m_features_og_members_activity_summary' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
