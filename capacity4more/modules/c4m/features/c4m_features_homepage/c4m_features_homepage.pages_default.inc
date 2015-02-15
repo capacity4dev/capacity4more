@@ -329,6 +329,30 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-1a82e36e-404d-4872-a2d3-7c3a7420f438'] = $pane;
     $display->panels['content_bottom'][0] = 'new-1a82e36e-404d-4872-a2d3-7c3a7420f438';
     $pane = new stdClass();
+    $pane->pid = 'new-9076cbe7-c0d0-4318-be1e-477b0192befc';
+    $pane->panel = 'content_top';
+    $pane->type = 'video_embed';
+    $pane->subtype = 'video_embed';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'title' => '',
+      'video' => 'http://youtu.be/O2AfmjzwAFY',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '9076cbe7-c0d0-4318-be1e-477b0192befc';
+    $display->content['new-9076cbe7-c0d0-4318-be1e-477b0192befc'] = $pane;
+    $display->panels['content_top'][0] = 'new-9076cbe7-c0d0-4318-be1e-477b0192befc';
+    $pane = new stdClass();
     $pane->pid = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $pane->panel = 'content_top';
     $pane->type = 'views';
@@ -361,7 +385,7 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->locks = array();
     $pane->uuid = '9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $display->content['new-9077df0a-aec8-47e5-a469-8fa9d5a7717a'] = $pane;
-    $display->panels['content_top'][0] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
+    $display->panels['content_top'][1] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $pane = new stdClass();
     $pane->pid = 'new-0d617d03-b15f-4233-a2b6-91e6bc19b93d';
     $pane->panel = 'sidebar_first';
