@@ -122,6 +122,11 @@ function c4m_content_group_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_group_members_count' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|group|teaser'] = $ds_fieldsetting;
 
@@ -195,12 +200,14 @@ function c4m_content_group_ds_layout_settings_info() {
       'right' => array(
         1 => 'title',
         2 => 'c4m_ds_author_first_and_last_name',
+        3 => 'c4m_ds_group_members_count',
       ),
     ),
     'fields' => array(
       'c4m_ds_content_type_icon' => 'left',
       'title' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_ds_group_members_count' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
