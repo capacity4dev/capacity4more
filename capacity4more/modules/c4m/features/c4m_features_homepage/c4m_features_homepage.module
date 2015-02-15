@@ -5,3 +5,74 @@
  */
 
 include_once 'c4m_features_homepage.features.inc';
+
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_homepage_theme() {
+  $theme['c4m_voices_views_carousel'] = array(
+    'template' => 'voices-views-carousel',
+    'path' => drupal_get_path('module', 'c4m_features_homepage') . '/templates',
+    'variables' => NULL,
+  );
+
+  return $theme;
+}
+
+
+/**
+ * Fetches 6 "Article" entities which has "Banner" and "Into text",
+ * Adds these entity to the setting for the angular-carousel directive,
+ *
+ * @return string
+ *  Rendered HTML of the angular-carousel directive.
+ */
+function c4m_features_homepage_voices_views_carousel() {
+  $carousels = array();
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'article')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_banner', 'fid', '', '!=')
+    ->fieldCondition('c4m_intro_text', 'value', '', '!=')
+    ->propertyOrderBy('sticky', 'DESC')
+    ->propertyOrderBy('promote', 'DESC')
+    ->propertyOrderBy('created', 'DESC')
+    ->range(0, 6)
+    ->execute();
+
+  if (!empty($result['node'])) {
+    foreach ($result['node'] as $article) {
+      $wrapper = entity_metadata_wrapper('node', $article->nid);
+      $banner = $wrapper->c4m_banner->value();
+      $carousels[] = array(
+        'id' => $wrapper->getIdentifier(),
+        'title' => $wrapper->label(),
+        'text' => $wrapper->c4m_intro_text->value(),
+        'image' => file_create_url($banner['uri']),
+      );
+    }
+  }
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'carousels' => $carousels,
+  );
+  drupal_add_js($settings, 'setting');
+
+  // Theme function adds the carousel.
+  return theme('c4m_voices_views_carousel');
+}
+

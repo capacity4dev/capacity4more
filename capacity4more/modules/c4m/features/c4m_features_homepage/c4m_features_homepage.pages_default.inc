@@ -363,6 +363,28 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-9077df0a-aec8-47e5-a469-8fa9d5a7717a'] = $pane;
     $display->panels['content_top'][0] = 'new-9077df0a-aec8-47e5-a469-8fa9d5a7717a';
     $pane = new stdClass();
+    $pane->pid = 'new-d70c1276-27cc-4f41-9031-eb10e77a5408';
+    $pane->panel = 'content_top';
+    $pane->type = 'voices_views_carousel';
+    $pane->subtype = 'voices_views_carousel';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'd70c1276-27cc-4f41-9031-eb10e77a5408';
+    $display->content['new-d70c1276-27cc-4f41-9031-eb10e77a5408'] = $pane;
+    $display->panels['content_top'][1] = 'new-d70c1276-27cc-4f41-9031-eb10e77a5408';
+    $pane = new stdClass();
     $pane->pid = 'new-0d617d03-b15f-4233-a2b6-91e6bc19b93d';
     $pane->panel = 'sidebar_first';
     $pane->type = 'upcoming_events';
