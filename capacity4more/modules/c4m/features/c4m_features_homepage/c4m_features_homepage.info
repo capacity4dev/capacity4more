@@ -1,0 +1,13 @@
+name = Homepage
+description = The site homepage.
+core = 7.x
+package = capacity4more - Features
+dependencies[] = c4m_features_og_group_dashboard
+dependencies[] = c4m_og
+dependencies[] = ctools
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = panels_bootstrap_layouts
+features[ctools][] = page_manager:pages_default:1
+features[features_api][] = api:2
+features[page_manager_pages][] = c4m_homepage
