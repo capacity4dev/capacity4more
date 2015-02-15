@@ -24,6 +24,8 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     array('video', 'Video'),
     array('topics', 'Topics'),
     array('geo', 'Geo'),
+    array('intro', 'Intro text'),
+    array('banner', 'Banner'),
     array('uid', 'UID'),
   );
 
@@ -60,6 +62,14 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
       ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_intro_text', 'intro');
+
+    $this->addFieldMapping('c4m_banner', 'banner');
+    $this->addFieldMapping('c4m_media:file_replace')
+      ->defaultValue(FILE_EXISTS_REPLACE);
+    $this->addFieldMapping('c4m_media:source_dir')
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
