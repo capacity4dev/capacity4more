@@ -31,6 +31,8 @@ function c4m_features_homepage_theme() {
 
 
 /**
+ * Render homepage carousel for anonymous users.
+ *
  * Fetches 6 "Article" entities which has "Banner" and "Into text",
  * Adds these entity to the setting for the angular-carousel directive,
  *
