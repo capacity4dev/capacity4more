@@ -29,9 +29,10 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   if (preg_match('/https:/i', $conf['video'])) {
     $video_id = str_replace('https://www.youtube.com/watch?v=', '', $conf['video']);
   }
-  $video_embed = '<iframe width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=0" frameborder="0" allowfullscreen></iframe>';
+  $video_embed = '<iframe id="c4mVideo" allowfullscreen="true" width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>';
 
   $variables = array(
+    'video_id' => $video_id,
     'video_title' => $button_title,
     'video_embed' => $video_embed,
   );
@@ -79,6 +80,7 @@ function c4m_features_homepage_video_embed_content_type_edit_form_submit($form, 
 function c4m_features_homepage_video_embed_content_type_theme(&$theme, $plugin) {
   $theme['video_embed'] = array(
     'variables' => array(
+      'video_id' => NULL,
       'video_title' => NULL,
       'video_embed' => NULL,
     ),
