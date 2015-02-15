@@ -347,3 +347,26 @@ function c4m_og_get_groups_by_access_type($access) {
 
   return !empty($result['node']) ? array_keys($result['node']) : array();
 }
+
+/**
+ * Counts the number of members in a given group.
+ *
+ * @param $group
+ *  The group entity.
+ *
+ * @return int
+ *  The count of members in the group.
+ */
+function c4m_og_get_members_count($group) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    // This is the group ID
+    ->propertyCondition('gid', $group->nid, '=')
+    // Get only the active members
+    ->propertyCondition('state', OG_STATE_ACTIVE)
+    ->count()
+    ->execute();
+
+  return $result;
+}

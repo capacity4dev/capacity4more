@@ -86,6 +86,45 @@ function c4m_content_group_ds_field_settings_info() {
   );
   $export['node|group|c4m_dashboard'] = $ds_fieldsetting;
 
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|group|teaser';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'group';
+  $ds_fieldsetting->view_mode = 'teaser';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_author_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'inline',
+      'format' => 'author_link',
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Owned by',
+        ),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['node|group|teaser'] = $ds_fieldsetting;
+
   return $export;
 }
 
@@ -140,6 +179,41 @@ function c4m_content_group_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['node|group|c4m_dashboard'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|group|teaser';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'group';
+  $ds_layout->view_mode = 'teaser';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_ds_content_type_icon',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_ds_author_first_and_last_name',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_content_type_icon' => 'left',
+      'title' => 'right',
+      'c4m_ds_author_first_and_last_name' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|group|teaser'] = $ds_layout;
 
   return $export;
 }

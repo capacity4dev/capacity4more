@@ -39,6 +39,9 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   // First 3 groups are displayed (first_groups), the rest are hidden and only shown when user clicks on "Show all" (extra_groups).
   $count = 0;
   foreach ($my_groups as $group) {
+    if ($group->type != 'group') {
+      continue;
+    }
     $node_view = node_view($group, 'teaser');
     if ($count < 3) {
       $first_groups .= drupal_render($node_view);

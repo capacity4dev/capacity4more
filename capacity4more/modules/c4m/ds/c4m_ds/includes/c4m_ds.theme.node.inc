@@ -276,6 +276,30 @@ function theme_c4m_ds_group_access_info($field) {
 /**
  * DS function field.
  *
+ * Render group members count
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_members_count($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $group_members = c4m_og_get_members_count($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => $group_members . '&nbsp;' . t('members'),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
  * Render members of a group with particular role.
  *
  * @param $field
