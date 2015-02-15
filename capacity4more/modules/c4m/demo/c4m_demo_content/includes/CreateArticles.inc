@@ -66,9 +66,9 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_intro_text', 'intro');
 
     $this->addFieldMapping('c4m_banner', 'banner');
-    $this->addFieldMapping('c4m_media:file_replace')
+    $this->addFieldMapping('c4m_banner:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);
-    $this->addFieldMapping('c4m_media:source_dir')
+    $this->addFieldMapping('c4m_banner:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
     $this->addFieldMapping('uid', 'uid')
