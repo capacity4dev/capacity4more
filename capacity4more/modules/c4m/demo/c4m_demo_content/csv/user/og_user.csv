@@ -1,0 +1,8 @@
+ID,GID,Type,UID,Admin,State
+member_1,group_7,Group,user_1,1,1
+member_2,group_7,Group,user_2,0,0
+member_3,group_7,Group,user_3,0,0
+member_4,group_7,Group,user_4,1,1
+member_5,group_7,Group,user_5,0,1
+member_6,group_7,Group,user_6,0,0
+member_7,group_7,Group,user_7,0,1
