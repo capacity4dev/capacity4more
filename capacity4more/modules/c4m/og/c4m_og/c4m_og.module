@@ -343,7 +343,7 @@ function c4m_og_get_groups_by_access_type($access) {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'group')
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition('pluggable_node_access', 'target_id', $access)
+    ->fieldCondition(OG_ACCESS_FIELD, 'value', $access)
     ->execute();
 
   return !empty($result['node']) ? array_keys($result['node']) : array();
