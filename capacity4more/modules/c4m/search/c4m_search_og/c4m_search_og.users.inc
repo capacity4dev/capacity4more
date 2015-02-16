@@ -56,7 +56,7 @@ function c4m_search_og_og_role_revoke($entity_type, $gid, $uid, $rid) {
  *   The OG membership that is being changed.
  */
 function c4m_search_og_og_membership_track_change(OgMembership $og_membership) {
-  if ($og_membership->entityType() !== 'user') {
+  if ($og_membership->entity_type !== 'user') {
     return;
   }
 

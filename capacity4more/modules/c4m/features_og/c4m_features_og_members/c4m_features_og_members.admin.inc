@@ -292,9 +292,6 @@ function c4m_features_og_members_remove_submit($form, &$form_state) {
   }
 
   og_membership_delete($og_membership->id);
-
-  $og_membership->save();
-
   drupal_set_message(t('User successfully removed.'));
 
   $form_state['redirect'] = 'members';
@@ -380,9 +377,7 @@ function c4m_features_og_members_approve_submit($form, &$form_state) {
   }
 
   $og_membership->state = OG_STATE_ACTIVE;
-
-  $og_membership->save();
-
+  og_membership_save($og_membership);
   drupal_set_message(t('User successfully approved to the group.'));
 
   $form_state['redirect'] = 'members';
@@ -468,9 +463,7 @@ function c4m_features_og_members_reject_submit($form, &$form_state) {
   }
 
   $og_membership->state = OG_STATE_BLOCKED;
-
-  $og_membership->save();
-
+  og_membership_save($og_membership);
   drupal_set_message(t('User successfully rejected from the group.'));
 
   $form_state['redirect'] = 'members';
