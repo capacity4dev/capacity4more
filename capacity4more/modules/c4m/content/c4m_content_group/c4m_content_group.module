@@ -80,6 +80,13 @@ function c4m_content_group_c4m_suggested_groups_get_groups() {
   $user_wrapper = entity_metadata_wrapper('user', $account);
   $interests = $user_wrapper->c4m_related_topic->raw();
 
+  $filter = !empty($_GET['filter']) ? $_GET['filter'] : NULL;
+
+  if ($filter == 'groups') {
+    return;
+  }
+
+  $user_groups = og_get_groups_by_user();
   $groups = '';
 
 
@@ -88,20 +95,24 @@ function c4m_content_group_c4m_suggested_groups_get_groups() {
   $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'group')
-    ->propertyCondition('status', NODE_PUBLISHED);
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('nid', $user_groups, 'NOT IN');
+
   if (!empty($interests)) {
     $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
   }
+
   $result = $query
     ->addTag('random')
     ->range(0, 3)
     ->execute();
 
-  if (!empty($result['node'])) {
-    foreach ($result['node'] as $group) {
-      $node_view = node_view(node_load($group->nid), 'teaser');
-      $groups .= drupal_render($node_view);
-    }
+  if (empty($result['node'])) {
+    return;
+  }
+  foreach ($result['node'] as $group) {
+    $node_view = node_view(node_load($group->nid), 'teaser');
+    $groups .= drupal_render($node_view);
   }
 
   return $groups;
