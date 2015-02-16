@@ -246,7 +246,7 @@ function c4m_features_og_events_upcoming_events() {
     $range = 1;
   }
 
-  // Filter: Case "interests": Public groups and restricted groups which user's mail address is matching the domain AND AND tagged with one or more of the users topics of interest.
+  // Filter: Case "interests": Public groups and restricted groups which user's mail address is matching the domain AND tagged with one or more of the users topics of interest.
   // Filter: Case "groups": User's groups, If there's no groups, No events are shown.
   // Filter: Default: Show all events from all groups.
   switch ($filter) {
