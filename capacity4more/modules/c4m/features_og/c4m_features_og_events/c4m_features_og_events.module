@@ -219,38 +219,94 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
  * 1 Event for anonymous user, 3 for logged in.
  *
  * @return string
- *  HTML of rendered upcoming events.
+ *  HTML of rendered upcoming events, FALSE if there's no events.
  */
 function c4m_features_og_events_upcoming_events() {
   global $user;
   $events = '';
+  $filter = '';
 
   // Show all events starting from midnight onwards.
   $tomorrow = new DateTime('midnight tomorrow');
   $date = $tomorrow->format('Y-m-d H:i:s');
 
-  // User's group when user is logged in, Public groups when not.
-  $groups = $user->uid ? og_get_groups_by_user() : c4m_og_get_groups_by_access_type('public');
+  // Get user's interests when user is logged in.
+  // Get content filter when user is logged in.
+  // Get user's group when user is logged in, Public groups when not.
   // 3 Events when user is logged in, 1 when not.
-  $range = $user->uid ? 3 : 1;
+  if ($user->uid) {
+    // Check if content filter is applied.
+    $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+    $interests = $user_wrapper->c4m_related_topic->raw();
+    $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+    $range = 3;
+  }
+  else {
+    $groups = c4m_og_get_groups_by_access_type('public');
+    $range = 1;
+  }
+
+  // Filter: Case "interests": Public groups and restricted groups which user's mail address is matching the domain AND AND tagged with one or more of the users topics of interest.
+  // Filter: Case "groups": User's groups, If there's no groups, No events are shown.
+  // Filter: Default: Show all events from all groups.
+  switch ($filter) {
+    case 'interests':
+      if (!empty($interests)) {
+        $all_groups = array_merge(c4m_og_get_groups_by_access_type('public'), c4m_og_get_groups_by_access_type('restricted'));
+        dpm($all_groups);
+      }
+      break;
+    case 'groups':
+      $groups = og_get_groups_by_user();
+      $groups = !empty($groups['node']) ? $groups['node'] : array('no_groups');
+      break;
+    default:
+      $groups = array();
+      break;
+  }
 
   $query = new EntityFieldQuery();
-  $result = $query
+  $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'event')
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', isset($groups['node']) ? $groups['node'] : $groups, 'IN')
-    ->fieldCondition('c4m_datetime_end', 'value', $date, '>=')
+    ->fieldCondition('c4m_datetime_end', 'value', $date, '>=');
+
+  if (!empty($groups)) {
+    $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $groups, 'IN');
+  }
+
+  $result = $query
     ->fieldOrderBy('c4m_datetime_end', 'value', 'ASC')
     ->range(0, $range)
     ->execute();
 
-  if (!empty($result['node'])) {
-    foreach ($result['node'] as $event) {
-      $node = node_view(node_load($event->nid), 'upcoming_event');
-      $events .= drupal_render($node);
-    }
+  if (empty($result['node'])) {
+    return FALSE;
   }
+
+  // Render title.
+  $title['element'] = array(
+    '#tag'   => 'h4',
+    '#value' => t('Upcoming events'),
+  );
+  $events .= theme_html_tag($title);
+
+  // Render events.
+  foreach ($result['node'] as $event) {
+    $node = node_view(node_load($event->nid), 'upcoming_event');
+    $events .= drupal_render($node);
+  }
+
+  // Render "see more" link.
+  $link['element'] = array(
+    '#tag'        => 'a',
+    '#value'      => t('See more'),
+    '#attributes' => array(
+      'href' => url('events'),
+    ),
+  );
+  $events .= theme_html_tag($link);
 
   return $events;
 }

@@ -337,12 +337,13 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
  *  Entity IDs of the public groups.
  */
 function c4m_og_get_groups_by_access_type($access) {
+  $access = $access == 'public' ? 0 : 1;
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'group')
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition(OG_ACCESS_FIELD, 'value', $access)
+    ->fieldCondition('pluggable_node_access', 'target_id', $access)
     ->execute();
 
   return !empty($result['node']) ? array_keys($result['node']) : array();
