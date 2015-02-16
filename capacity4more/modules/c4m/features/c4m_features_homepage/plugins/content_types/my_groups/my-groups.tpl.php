@@ -4,9 +4,7 @@
       <div class="title"><?php print t('My Groups') ?></div>
       <?php print $first_groups ?>
       <div class="collapse" id="allGroups">
-        <div class="well">
-          <?php print $extra_groups ?>
-        </div>
+        <?php print $extra_groups ?>
       </div>
       <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#allGroups" aria-expanded="false" aria-controls="allGroups">
         <?php print t('Show all') ?>
