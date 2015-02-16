@@ -26,8 +26,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   }
 
   // Load node for each group and add the first 2 letters of the group title as a key.
-  foreach ($groups['node'] as $group) {
-    $node = node_load($group);
+  foreach (node_load_multiple($groups['node']) as $node) {
     $my_groups[strtolower(substr($node->title, 0, 2))] = $node;
   }
 

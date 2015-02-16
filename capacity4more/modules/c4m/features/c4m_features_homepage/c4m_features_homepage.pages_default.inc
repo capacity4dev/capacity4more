@@ -500,28 +500,6 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->uuid = 'f5cbe6e8-548b-420f-828a-3896d25f75f1';
     $display->content['new-f5cbe6e8-548b-420f-828a-3896d25f75f1'] = $pane;
     $display->panels['right'][0] = 'new-f5cbe6e8-548b-420f-828a-3896d25f75f1';
-    $pane = new stdClass();
-    $pane->pid = 'new-985cb664-952d-4982-acd1-0a8dd301d92c';
-    $pane->panel = 'right';
-    $pane->type = 'upcoming_events';
-    $pane->subtype = 'upcoming_events';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '985cb664-952d-4982-acd1-0a8dd301d92c';
-    $display->content['new-985cb664-952d-4982-acd1-0a8dd301d92c'] = $pane;
-    $display->panels['right'][1] = 'new-985cb664-952d-4982-acd1-0a8dd301d92c';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
