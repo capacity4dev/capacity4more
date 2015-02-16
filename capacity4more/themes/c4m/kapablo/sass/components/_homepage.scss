@@ -8,8 +8,8 @@
       color: white;
       position: absolute;
       bottom: 0px;
-      left: 0px;
-      right: 0px;
+      left: 4px;
+      right: 4px;
       padding: 10px;
       font-size: 16px;
       font-weight: bold;
@@ -22,7 +22,7 @@
     padding-left: 0px;
 
     .caption {
-      right: 4px;
+      left: 0px;
     }
   }
 
@@ -30,7 +30,7 @@
     padding-right: 0px;
 
     .caption {
-      left: 4px;
+      righ: 0px;
     }
   }
 
