@@ -32,6 +32,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('groups', 'Groups'),
     array('projects', 'Projects'),
     array('membership_open_request', 'Membership_Request'),
+    array('group_access', 'Access'),
   );
 
   /**
