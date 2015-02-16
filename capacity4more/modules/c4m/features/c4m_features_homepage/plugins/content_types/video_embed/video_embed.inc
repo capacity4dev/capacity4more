@@ -37,6 +37,8 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
     'video_embed' => $video_embed,
   );
 
+  drupal_add_js(drupal_get_path('module', 'c4m_features_homepage') . '/js/video_embed.js');
+
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
