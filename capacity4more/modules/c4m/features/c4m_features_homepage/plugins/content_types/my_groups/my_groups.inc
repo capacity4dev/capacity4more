@@ -14,13 +14,12 @@ $plugin = array(
  * Render callback.
  */
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
-  global $user;
   $my_groups = array();
   $first_groups = '';
   $extra_groups = '';
 
   // Get All user's groups (We get them sorted by id).
-  $groups = og_get_groups_by_user($user);
+  $groups = og_get_groups_by_user();
 
   if (empty($groups['node'])) {
     return FALSE;

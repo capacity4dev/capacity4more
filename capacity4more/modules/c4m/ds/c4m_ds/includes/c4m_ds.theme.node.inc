@@ -291,7 +291,7 @@ function theme_c4m_ds_group_members_count($field) {
 
   $tag['element'] = array(
     '#tag'   => 'span',
-    '#value' => $group_members . '&nbsp;' . t('members'),
+    '#value' => t('@count members', array('@count' => $group_members)),
   );
 
   return theme_html_tag($tag);
