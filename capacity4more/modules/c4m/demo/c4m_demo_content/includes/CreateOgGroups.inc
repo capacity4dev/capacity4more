@@ -51,6 +51,8 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_related_group', 'groups_list');
 
     $this->addFieldMapping('c4m_related_projects', 'projects_list');
+
+    $this->addFieldMapping('field_membership_open_request', 'membership_open_request');
   }
 
   /**

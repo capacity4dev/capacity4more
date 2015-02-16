@@ -39,6 +39,7 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
     array('geo', 'Geo'),
     array('groups', 'Groups'),
     array('projects', 'Projects'),
+    array('membership_open_request', 'Membership_Request'),
   );
 
   /**
