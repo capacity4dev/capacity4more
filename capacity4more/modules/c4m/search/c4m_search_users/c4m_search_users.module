@@ -5,3 +5,14 @@
  */
 
 include_once 'c4m_search_users.features.inc';
+
+
+/**
+ * Mark a user for re-indexing.
+ *
+ * @param int $uid
+ *   The User ID of the user that needs to be re-indexed.
+ */
+function c4m_search_users_track_change($uid) {
+  search_api_track_item_change('user', array($uid));
+}

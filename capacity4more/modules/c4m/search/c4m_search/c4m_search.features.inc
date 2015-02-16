@@ -204,7 +204,7 @@ function c4m_search_default_search_api_index() {
     "server" : "c4m_solr",
     "item_type" : "user",
     "options" : {
-      "index_directly" : 0,
+      "index_directly" : 1,
       "cron_limit" : "50",
       "fields" : {
         "c4m_country" : { "type" : "string" },
