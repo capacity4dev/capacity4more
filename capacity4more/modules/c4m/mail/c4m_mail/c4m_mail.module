@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Mail feature.
+ */
+
+include_once 'c4m_mail.features.inc';

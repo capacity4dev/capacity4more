@@ -14,15 +14,6 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
    */
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
-    $public_fields['group'] = array(
-      'property' => 'field_group_node',
-      'resource' => array(
-        'group' => array(
-          'name' => 'groups',
-          'full_view' => FALSE,
-        ),
-      ),
-    );
     $public_fields['timestamp'] = array(
       'property' => 'timestamp',
       'data' => array(
@@ -53,12 +44,26 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
   /**
    * Overrides \RestfulEntityBaseMultipleBundles::getQueryForList().
    *
-   * Display only published entities in the activity stream.
+   * Display only published entities in the activity stream,
+   * Custom group filter.
    */
   public function getQueryForList() {
+    $request = $this->getRequest();
     $query = parent::getQueryForList();
 
     $query->fieldCondition('field_entity_published', 'value', 1);
+
+    // Add group filter to the activity stream.
+    if (!empty($request['group'])) {
+      $query->fieldCondition('field_group_node', 'target_id', $request['group'], is_array($request['group']) ? 'IN' : '=');
+    }
+
+    // In homepage, an alteration to the query is required.
+    // See: c4m_message_query_activity_stream_homepage_alter().
+    if (!empty($request['homepage']) && !empty($request['group'])) {
+      $query->addTag('activity_stream_homepage');
+    }
+
     return $query;
   }
 }
