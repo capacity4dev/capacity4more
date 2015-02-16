@@ -7,9 +7,9 @@ $plugin = array(
   'icon' => 'home_anonymous.png',
   'theme' => 'homepage',
   'regions' => array(
-    'content_top' => t('Top'),
-    'sidebar_first' => t('Right'),
-    'sidebar_second' => t('Left'),
-    'content_bottom' => t('Bottom'),
+    'top' => t('Top'),
+    'left' => t('Left'),
+    'right' => t('Right'),
+    'bottom' => t('Bottom'),
   ),
 );
