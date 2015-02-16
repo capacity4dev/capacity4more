@@ -32,12 +32,14 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   $video_embed = '<iframe id="c4mVideo" allowfullscreen="true" width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>';
 
   $variables = array(
-    'video_id' => $video_id,
     'video_title' => $button_title,
     'video_embed' => $video_embed,
   );
 
+  // This js will enable communication with YouTube's API.
   drupal_add_js(drupal_get_path('module', 'c4m_features_homepage') . '/js/video_embed.js');
+  // Add the video ID to the js settings.
+  drupal_add_js('settings', array('youtubeVideoId' => $video_id));
 
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
@@ -82,7 +84,6 @@ function c4m_features_homepage_video_embed_content_type_edit_form_submit($form, 
 function c4m_features_homepage_video_embed_content_type_theme(&$theme, $plugin) {
   $theme['video_embed'] = array(
     'variables' => array(
-      'video_id' => NULL,
       'video_title' => NULL,
       'video_embed' => NULL,
     ),
