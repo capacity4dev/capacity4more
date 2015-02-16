@@ -1,0 +1,101 @@
+<?php
+/**
+ * @file
+ * Code for the Featured content type feature.
+ */
+
+include_once 'c4m_content_featured.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_content_featured_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Gets 3 random published Featured nodes.
+ * Returns formatted html for 3-column block.
+ *
+ * @return string
+ */
+function c4m_content_featured_render_featured_blocks() {
+  global $user;
+
+  $range = 3;
+  $featured = '';
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'featured')
+    ->propertyCondition('status', NODE_PUBLISHED);
+  if ($user->uid) {
+    // For Authenticated user every time get random nodes.
+    $query->addTag('random');
+  }
+  else {
+    // For anonymous user values shouldn't be changed until new content is added.
+    // In this case order the query by file id in order to imitate the randomising.
+    $query->fieldOrderBy('c4m_media', 'fid', 'DESC');
+  }
+
+  $result = $query
+    ->range(0, $range)
+    ->execute();
+
+  if (!empty($result['node'])) {
+    foreach (array_keys($result['node']) as $nid) {
+      $view = node_view(node_load($nid), 'featured_block');
+      $featured .= drupal_render($view);
+    }
+  }
+
+  $featured = '<div class"row">' . $featured . '</div>';
+  return $featured;
+}
+
+/**
+ * Implementation of hook_query_TAG_alter
+ */
+function c4m_content_featured_query_random_alter($query) {
+  $query->orderRandom();
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add "Featured block" view mode.
+ */
+function c4m_content_featured_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['featured_block'] = array(
+    'label' => t('Featured block'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Node preprocess.
+ */
+function c4m_content_featured_preprocess_node(&$variables) {
+  if ($variables['view_mode'] == 'featured_block') {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__featured_block';
+  }
+  $preprocess_function = "c4m_content_featured_preprocess_node__{$variables['node']->type}";
+  if (function_exists($preprocess_function)) {
+    $preprocess_function($variables);
+  }
+}
+
+/**
+ * Node featured preprocess.
+ *
+ * Prepare Link to put into the template.
+ */
+function c4m_content_featured_preprocess_node__featured(&$variables) {
+  $node = $variables['node'];
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $variables['link'] = $wrapper->c4m_link->url->value();
+}

@@ -109,6 +109,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     'photoalbum',
     'document',
     'wiki_page',
+    'article',
   );
 
   if (!in_array($entity_type, $valid_entity_types)) {
@@ -160,6 +161,11 @@ function c4m_message_load_general_arguments(Message $message) {
     'callback' => 'c4m_message_format_date_for_message',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!group_info'] = array(
+    'callback' => 'c4m_messages_group_info',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -176,6 +182,20 @@ function c4m_message_format_date_for_message(Message $message) {
   return c4m_helper_date_time_ago($message->timestamp, $format);
 }
 
+function c4m_messages_group_info(Message $message) {
+  $group_info = '';
+  // Add group info for activity stream on the homepage,
+  // When the request is from RESTful, "drupal_is_front_page" won't work.
+  if ((drupal_is_front_page() && empty(og_purl_og_context_handler()) || (isset($_REQUEST['group']) && is_array($_REQUEST['group'])))) {
+    if (isset($message->field_group_node) && !empty($message->field_group_node)) {
+      $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
+      $group_info = t('Group: ') . l($wrapper->label(), $wrapper->value()->purl);
+    }
+  }
+  return $group_info;
+}
+
+
 /**
  * Delegated hook_entity_load() for node of "discussion" bundle.
  *
@@ -188,6 +208,33 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
   c4m_message_load_general_arguments($message);
   $message->arguments['@type'] = array(
     'callback' => 'c4m_message_format_node_discussion_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!footer'] = array(
+    'callback' => 'c4m_message_format_footer',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Delegated hook_entity_load() for node of "article" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__article(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
 
@@ -410,6 +457,8 @@ function c4m_message_format_operation(Message $message) {
       return $operation == 'insert' ? t('created a new') : t('updated the');
     case 'c4m_insert__node__wiki_page':
       return $operation == 'insert' ? t('created a new') : t('updated the');
+    case 'c4m_insert__node__article':
+      return $operation == 'insert' ? t('posted an') : t('updated the');
   }
 }
 
@@ -453,6 +502,8 @@ function c4m_message_format_comment(Message $message) {
         return t('Photo');
       case 'task':
         return t('Task');
+      case 'article':
+        return t('Article');
     }
   }
 }
@@ -692,6 +743,8 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
   $node_wrapper = entity_metadata_wrapper($entity_type, $entity);
   $node = $entity;
 
+  $message_wrapper->field_node->set($node);
+
   if (!isset($node_wrapper->{OG_AUDIENCE_FIELD})) {
     return;
   }
@@ -702,7 +755,6 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
 
   $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
   $message_wrapper->field_group_node->set($group_id);
-  $message_wrapper->field_node->set($node);
 }
 
 /**
@@ -788,6 +840,74 @@ function c4m_message_preprocess_node__event(&$variables) {
   $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
 }
 
+/**
+ * Adds the activity stream to the AngularJs app.
+ * Depending on if the user is logged in or not,
+ * The activity stream is loaded from the user's groups,
+ * Or from all the public groups if user is anonymous.
+ */
+function c4m_message_load_homepage_activity_stream() {
+  global $user;
+
+  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+  $groups = isset($groups['node']) ? $groups['node'] : $groups;
+
+  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+
+  $request = array(
+    'group' => $groups,
+    'html' => true,
+    // Sort the activity stream by timestamp descending.
+    'sort' => '-timestamp',
+    'homepage' => 1,
+  );
+
+  $activities = $activity_stream_handler->get('', $request);
+
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+    'activities' => $activities,
+    'data' => array(
+      'entity' => array('group' => $groups),
+    ),
+  );
+  drupal_add_js($settings, 'setting');
+}
+
+/**
+ * Implementation of hook_query_TAG_alter().
+ *
+ * Changes the join of the group field to "LEFT" join,
+ * So it's possible to get messages without this field,
+ * Also changes the condition from AND to OR. (field group has those values OR is null).
+ */
+function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
+  $tables = &$query->getTables();
+  $conditions = &$query->conditions();
+
+  $tables['field_data_field_group_node1']['join type'] = 'LEFT';
+  $values = $conditions[1]['value'];
+  $or = db_or()
+    ->condition('field_group_node_target_id',  $values, 'IN')
+    ->isNull('field_group_node_target_id');
+   $query->condition($or);
+
+  foreach ($conditions as $key => $condition) {
+    if (isset($condition['field']) && !is_object($condition['field']) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
+      unset($conditions[$key]);
+    }
+  }
+}
 
 /**
  * Implements hook_theme().

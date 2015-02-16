@@ -52,3 +52,5 @@ scripts[] = js/bootstrap.min.js
 
 ; Disable BootstrapCDN so the compiled SASS source files can be used.
 settings[bootstrap_cdn] = ''
+
+plugins[panels][layouts] = layouts
