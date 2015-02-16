@@ -100,14 +100,14 @@ angular.module('c4mApp')
       // If we have more than one group then add "IN",
       // operator and breakdown the group IDs to separate filters.
       if (angular.isObject(data.group)) {
-        var filter = '';
+        var group_filter = '';
         angular.forEach(data.group, function(group, index) {
-          filter += 'filter[group][value][' + index + ']=' + group + '&';
+          group_filter += 'group[' + index + ']=' + group + '&';
         });
 
-        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + filter + 'filter[group][operator]=IN&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
+        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + group_filter + '&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
       }
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?filter[group]=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
     };
   });
