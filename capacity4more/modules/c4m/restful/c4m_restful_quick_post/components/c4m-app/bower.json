@@ -25,7 +25,7 @@
     "danialfarid-angular-file-upload": "latest",
     "filesize": "latest",
     "angular-animate": "1.2.28",
-    "angular-carousel": "latest",
+    "angular-carousel": "https://github.com/dcjohnston/angular-carousel.git#master",
     "angular-touch": "1.2.28"
   },
   "devDependencies": {
