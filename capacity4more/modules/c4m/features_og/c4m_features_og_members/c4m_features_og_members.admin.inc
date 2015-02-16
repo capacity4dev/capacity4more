@@ -477,7 +477,7 @@ function c4m_features_og_members_reject_submit($form, &$form_state) {
 }
 
 /**
- *
+ * Create an alert form item.
  *
  * @param        $message
  * @param string $severity
