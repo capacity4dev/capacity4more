@@ -108,31 +108,35 @@ function delete_profile_contrib {
 # - Remove css folder
 ##
 function delete_profile_dist {
-  # Cleanup the bootstrap library
-  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/bootstrap ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/bootstrap directory${RESTORE}"
-    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/bootstrap
+  # Cleanup the bootstrap library.
+  PATH_THEME_BOOTSTRAP="$ROOT/$PROFILE_NAME/themes/c4m/kapablo/bootstrap"
+  if [ -d $PATH_THEME_BOOTSTRAP ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_BOOTSTRAP directory${RESTORE}"
+    rm -rf $PATH_THEME_BOOTSTRAP
     echo
   fi
 
-  # Cleanup the npm modules
-  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/node_modules ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/node_modules directory${RESTORE}"
-    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/node_modules
+  # Cleanup the npm modules.
+  PATH_THEME_NODE_MODULES="$ROOT/build/themes/kapablo/node_modules"
+  if [ -d $PATH_THEME_NODE_MODULES ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_NODE_MODULES directory${RESTORE}"
+    rm -rf $PATH_THEME_NODE_MODULES
     echo
   fi
 
-  # Cleanup the sass cache
-  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/.sass-cache ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/.sass-cache directory${RESTORE}"
-    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/.sass-cache
+  # Cleanup the sass cache.
+  PATH_THEME_SASS_CACHE="$ROOT/build/themes/kapablo/.sass-cache"
+  if [ -d $PATH_THEME_SASS_CACHE ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_SASS_CACHE directory${RESTORE}"
+    rm -rf $PATH_THEME_SASS_CACHE
     echo
   fi
 
-  # Cleanup the css folder
-  if [ -d $ROOT/$PROFILE_NAME/themes/c4m/kapablo/css ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/c4m/kapablo/css directory${RESTORE}"
-    rm -rf $ROOT/$PROFILE_NAME/themes/c4m/kapablo/css
+  # Cleanup the css folder.
+  PATH_THEME_CSS="$ROOT/$PROFILE_NAME/themes/c4m/kapablo/css"
+  if [ -d $PATH_THEME_CSS ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_CSS directory${RESTORE}"
+    rm -rf $PATH_THEME_CSS
     echo
   fi
 }
@@ -384,7 +388,7 @@ function build_kapablo_theme {
   echo -e "${LBLUE}> Build dependencies for Kapablo theme.${RESTORE}"
 
   # Build the dependencies.
-  cd $ROOT/capacity4more/themes/c4m/kapablo
+  cd $ROOT/build/themes/kapablo
   bundle install
   npm install
   grunt build
