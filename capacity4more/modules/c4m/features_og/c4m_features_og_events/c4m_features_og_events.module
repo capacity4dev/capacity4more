@@ -252,8 +252,16 @@ function c4m_features_og_events_upcoming_events() {
   switch ($filter) {
     case 'interests':
       if (!empty($interests)) {
-        $all_groups = array_merge(c4m_og_get_groups_by_access_type('public'), c4m_og_get_groups_by_access_type('restricted'));
-        dpm($all_groups);
+        $query = new EntityFieldQuery();
+
+        $result = $query
+          ->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'group')
+          ->propertyCondition('status', NODE_PUBLISHED)
+          ->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN')
+          ->execute();
+
+        $groups = !empty($result['node']) ? array_keys($result['node']) : array();
       }
       break;
     case 'groups':
