@@ -7,7 +7,7 @@
       print $membership_level;
     endif;
     ?>
-    <span class="glyphicon glyphicon-cog"></span>
+    <i class="fa fa-cog"></i>
   </button>
   <ul class="dropdown-menu" role="menu"
       aria-labelledby="adminster-user-<?php print $user_id; ?>">
