@@ -115,6 +115,8 @@ function c4m_content_group_c4m_suggested_groups_get_groups() {
     $groups .= drupal_render($node_view);
   }
 
+  $groups .= l(t('see more'), 'groups');
+
   return $groups;
 }
 
