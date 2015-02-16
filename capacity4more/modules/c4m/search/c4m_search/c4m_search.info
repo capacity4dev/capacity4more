@@ -27,6 +27,7 @@ features[facetapi][] = search_api@c4m_search_nodes:block:c4m_vocab_language
 features[facetapi][] = search_api@c4m_search_nodes:block:c4m_vocab_tag
 features[facetapi][] = search_api@c4m_search_nodes:block:type
 features[facetapi][] = search_api@c4m_search_users:block:c4m_country
+features[facetapi][] = search_api@c4m_search_users:block:c4m_og_membership_type
 features[facetapi][] = search_api@c4m_search_users:block:c4m_organisation_type
 features[facetapi][] = search_api@c4m_search_users:block:c4m_related_topic
 features[facetapi][] = search_api@c4m_search_users:block:c4m_related_topic_expertise
