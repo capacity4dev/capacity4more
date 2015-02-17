@@ -230,7 +230,7 @@ function c4m_features_og_events_upcoming_events() {
   $date = $tomorrow->format('Y-m-d H:i:s');
 
   // User's group when user is logged in, Public groups when not.
-  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+  $groups = $user->uid ? og_get_groups_by_user() : c4m_og_get_groups_by_access_type('public');
   // 3 Events when user is logged in, 1 when not.
   $range = $user->uid ? 3 : 1;
 
