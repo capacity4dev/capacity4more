@@ -6,6 +6,9 @@
 
 include_once 'c4m_ds.features.inc';
 
+// Fallback to avoid missing bootstrap functionality.
+require_once(drupal_get_path('theme', 'bootstrap') . '/includes/process.inc');
+
 /**
  * Implements hook_ds_layout_info().
  */
@@ -24,7 +27,7 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Right'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
   );
 
   $layouts['c4m_ds_8_4_fluid'] = array(
@@ -35,7 +38,7 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Right'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
   );
 
   $layouts['c4m_ds_2col_icon_left'] = array(
@@ -46,7 +49,7 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Content'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
   );
 
   $layouts['c4m_ds_3col_icon_left'] = array(
@@ -58,7 +61,20 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Content right'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
+  );
+
+  $layouts['c4m_ds_4col_table_vbo'] = array(
+    'label'   => t('Fluid 4 columns with space on the left for a bulk operation checkbox.'),
+    'path'    => $path . '/c4m_ds_4col_table_vbo',
+    'regions' => array(
+      'first' => t('First'),
+      'second' => t('Second'),
+      'third' => t('Third'),
+      'fourth' => t('Fourth'),
+    ),
+    'form'    => TRUE,
+    'image'   => TRUE,
   );
 
   return $layouts;
