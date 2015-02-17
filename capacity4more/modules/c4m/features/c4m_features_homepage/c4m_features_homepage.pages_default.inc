@@ -379,7 +379,7 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-62ed89a9-556d-4b3b-b08c-25eee2613b0f'] = $pane;
     $display->panels['top'][0] = 'new-62ed89a9-556d-4b3b-b08c-25eee2613b0f';
     $pane = new stdClass();
-    $pane->pid = 'new-19296c5d-1903-4e8e-9b38-269ff72c3fbe';
+    $pane->pid = 'new-d8a7f33c-d4fd-40c8-b768-5fab4cc2fe41';
     $pane->panel = 'top';
     $pane->type = 'views_panes';
     $pane->subtype = 'intro_block-panel_pane_1';
