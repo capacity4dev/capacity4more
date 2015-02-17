@@ -461,3 +461,11 @@ input[type="checkbox"]:not(old) {
     }
   }
 }
+
+.pane-filter {
+
+  .form-type-radio,
+  .form-radios {
+    display: inline-block;
+  }
+}
