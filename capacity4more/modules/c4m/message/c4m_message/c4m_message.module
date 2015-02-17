@@ -887,7 +887,18 @@ function c4m_message_load_homepage_activity_stream() {
       }
     }
     else {
-      $groups = array();
+      // Get all groups user has access to.
+      $query = new EntityFieldQuery();
+
+      $result = $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'group')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        ->execute();
+
+      if (!empty($result['node'])) {
+        $groups = !empty($result['node']) ? array_keys($result['node']) : array();
+      }
     }
   }
 
