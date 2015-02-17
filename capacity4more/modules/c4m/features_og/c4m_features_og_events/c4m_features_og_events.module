@@ -239,6 +239,7 @@ function c4m_features_og_events_upcoming_events() {
     $user_wrapper = entity_metadata_wrapper('user', $user->uid);
     $interests = $user_wrapper->c4m_related_topic->raw();
     $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+    $groups = array();
     $range = 3;
   }
   else {
@@ -276,7 +277,6 @@ function c4m_features_og_events_upcoming_events() {
       $groups = !empty($groups['node']) ? $groups['node'] : array('no_groups');
       break;
     default:
-      $groups = array();
       break;
   }
 
@@ -316,9 +316,10 @@ function c4m_features_og_events_upcoming_events() {
   // Render "see more" link.
   $link['element'] = array(
     '#tag'        => 'a',
-    '#value'      => t('See more'),
+    '#value'      => t('See More ') . '<i class="fa fa-chevron-right"></i>',
     '#attributes' => array(
       'href' => url('events'),
+      'class' => 'see-more-link'
     ),
   );
   $events .= theme_html_tag($link);
