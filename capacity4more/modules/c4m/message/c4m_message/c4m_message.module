@@ -849,8 +849,59 @@ function c4m_message_preprocess_node__event(&$variables) {
 function c4m_message_load_homepage_activity_stream() {
   global $user;
 
-  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
-  $groups = isset($groups['node']) ? $groups['node'] : $groups;
+
+  if (!$user->uid) {
+    // This is an Anonymous user.
+    $groups = c4m_og_get_groups_by_access_type('public');
+  }
+  else {
+    // This is an Authenticated user.
+
+    // Get filter value.
+    $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+
+    if ($filter == 'interests' || $filter == 'groups') {
+      $groups = og_get_groups_by_user();
+      $groups = isset($groups['node']) ? $groups['node'] : array();
+
+      if ($filter == 'interests') {
+        // Get user's interests.
+        $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+        $interests = $user_wrapper->c4m_related_topic->raw();
+
+        // Get groups that have topics from user's interests
+        // but user is not member of these groups (we already have this list)
+        $query = new EntityFieldQuery();
+
+        $query
+          ->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'group')
+          ->propertyCondition('status', NODE_PUBLISHED);
+        if (!empty($groups)) {
+          $query->propertyCondition('nid', $groups, 'NOT IN');
+        }
+        if (!empty($interests)) {
+          $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
+        }
+        $result = $query->execute();
+        $groups += !empty($result['node']) ? array_keys($result['node']) : array();
+      }
+    }
+    else {
+      // Get all groups user has access to.
+      $query = new EntityFieldQuery();
+
+      $result = $query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'group')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        ->execute();
+
+      if (!empty($result['node'])) {
+        $groups = !empty($result['node']) ? array_keys($result['node']) : array();
+      }
+    }
+  }
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
