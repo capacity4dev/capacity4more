@@ -1,0 +1,57 @@
+.pane-featured-block {
+
+  .col-sm-4 {
+    padding-left: 4px;
+    padding-right: 4px;
+
+    .caption {
+      color: white;
+      position: absolute;
+      bottom: 0px;
+      left: 4px;
+      right: 4px;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.5);
+      margin: 8px;
+    }
+  }
+
+  .col-sm-4:first-of-type {
+    padding-left: 0px;
+
+    .caption {
+      left: 0px;
+    }
+  }
+
+  .col-sm-4:last-of-type {
+    padding-right: 0px;
+
+    .caption {
+      right: 0px;
+    }
+  }
+
+  .field-item {
+    overflow: hidden;
+
+    img {
+      height: 300px;
+      width: auto;
+      max-width: none;
+      left: 50%;
+      transform: translate(-50%, 0);
+      position: relative;
+    }
+  }
+
+  .field-name-c4m-body {
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  margin-bottom: 50px;
+}
+
