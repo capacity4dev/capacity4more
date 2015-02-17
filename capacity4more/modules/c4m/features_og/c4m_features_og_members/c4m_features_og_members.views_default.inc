@@ -49,10 +49,16 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'members/table';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'Table';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'table';
-  /* Field: Indexed User: User ID */
-  $handler->display->display_options['fields']['uid']['id'] = 'uid';
-  $handler->display->display_options['fields']['uid']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  /* Field: User: Rendered User */
+  $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';
+  $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['label'] = '';
+  $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 0;
+  $handler->display->display_options['fields']['rendered_entity']['display'] = 'view';
+  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'c4m_user_teaser_table';
+  $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
   /* Contextual filter: Indexed User: User ID */
   $handler->display->display_options['arguments']['uid']['id'] = 'uid';
   $handler->display->display_options['arguments']['uid']['table'] = 'search_api_index_c4m_search_users';
@@ -126,8 +132,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_teaser_table';
+  $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'members/table';
