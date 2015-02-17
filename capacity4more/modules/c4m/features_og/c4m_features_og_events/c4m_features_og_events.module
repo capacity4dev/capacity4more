@@ -251,17 +251,24 @@ function c4m_features_og_events_upcoming_events() {
   // Filter: Default: Show all events from all groups.
   switch ($filter) {
     case 'interests':
+
+      $groups = og_get_groups_by_user();
+      $groups = !empty($groups['node']) ? $groups['node'] : array();
+
       if (!empty($interests)) {
         $query = new EntityFieldQuery();
 
-        $result = $query
+        $query
           ->entityCondition('entity_type', 'node')
           ->entityCondition('bundle', 'group')
           ->propertyCondition('status', NODE_PUBLISHED)
-          ->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN')
-          ->execute();
+          ->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
+        if (!empty($groups)) {
+          $query->propertyCondition('nid', $groups, 'NOT IN');
+        }
+        $result = $query->execute();
 
-        $groups = !empty($result['node']) ? array_keys($result['node']) : array();
+        $groups += !empty($result['node']) ? array_keys($result['node']) : array();
       }
       break;
     case 'groups':
