@@ -850,7 +850,7 @@ function c4m_message_preprocess_node__event(&$variables) {
 function c4m_message_load_homepage_activity_stream() {
   global $user;
 
-  $groups = $user->uid ? og_get_groups_by_user($user) : c4m_og_get_groups_by_access_type('public');
+  $groups = $user->uid ? og_get_groups_by_user() : c4m_og_get_groups_by_access_type('public');
   $groups = isset($groups['node']) ? $groups['node'] : $groups;
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
