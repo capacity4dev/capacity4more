@@ -80,23 +80,23 @@
 
   <div class="row">
     <div class="col-md-12">
-      <?php print $content['content_top']; ?>
+      <?php print $content['top']; ?>
     </div>
   </div>
 
   <div class="row">
     <aside class="col-md-8" role="complementary">
-      <?php print $content['sidebar_second']; ?>
+      <?php print $content['left']; ?>
     </aside>  <!-- /#sidebar-first -->
 
     <aside class="col-md-4" role="complementary">
-      <?php print $content['sidebar_first']; ?>
+      <?php print $content['right']; ?>
     </aside>  <!-- /#sidebar-first -->
   </div>
 
   <div class="row">
     <div class="col-md-12">
-      <?php print $content['content_bottom']; ?>
+      <?php print $content['bottom']; ?>
     </div>
   </div>
 
