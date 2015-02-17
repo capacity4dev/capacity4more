@@ -6,7 +6,6 @@
 
 include_once 'c4m_features_homepage.features.inc';
 
-
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -79,4 +78,3 @@ function c4m_features_homepage_voices_views_carousel() {
   // Theme function adds the carousel.
   return theme('c4m_voices_views_carousel');
 }
-
