@@ -61,9 +61,10 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
     // In homepage, an alteration to the query is required.
     // See: c4m_message_query_activity_stream_homepage_alter().
     if (!empty($request['homepage']) && !empty($request['group'])) {
-      $query->addTag('activity_stream_homepage');
+      if (empty($request['hide_articles'])) {
+        $query->addTag('activity_stream_homepage');
+      }
     }
-
     return $query;
   }
 }

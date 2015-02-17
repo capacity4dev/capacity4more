@@ -849,6 +849,8 @@ function c4m_message_preprocess_node__event(&$variables) {
 function c4m_message_load_homepage_activity_stream() {
   global $user;
 
+// Get filter value.
+  $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
 
   if (!$user->uid) {
     // This is an Anonymous user.
@@ -856,9 +858,6 @@ function c4m_message_load_homepage_activity_stream() {
   }
   else {
     // This is an Authenticated user.
-
-    // Get filter value.
-    $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
 
     if ($filter == 'interests' || $filter == 'groups') {
       $groups = og_get_groups_by_user();
@@ -903,6 +902,8 @@ function c4m_message_load_homepage_activity_stream() {
     }
   }
 
+  $hide_articles = $filter == 'groups' ? 1 : 0;
+
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
@@ -911,6 +912,7 @@ function c4m_message_load_homepage_activity_stream() {
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
     'homepage' => 1,
+    'hide_articles' => $hide_articles,
   );
 
   $activities = $activity_stream_handler->get('', $request);
