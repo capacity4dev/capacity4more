@@ -407,14 +407,15 @@ function _c4m_features_og_members_membership_type_getter_callback($user) {
   $og_memberships = array_merge(
     $wrapper->{'og_membership__' . OG_STATE_ACTIVE}->value(),
     $wrapper->{'og_membership__' . OG_STATE_PENDING}->value());
-  if ($og_memberships) {
-    foreach ($og_memberships as $og_membership) {
-      if (!empty($og_membership)) {
-        $values[] = $og_membership->gid . '_' .
-          c4m_user_og_get_role_in_group($user,
-          node_load($og_membership->gid), FALSE);
-      }
+
+  foreach ($og_memberships as $og_membership) {
+    if (empty($og_membership)) {
+      continue;
     }
+
+    $values[] = $og_membership->gid
+      . '_' .
+      c4m_user_og_get_role_in_group($user, node_load($og_membership->gid));
   }
 
   return $values;
@@ -457,21 +458,14 @@ function _c4m_features_og_members_facet_country_alter(&$build, &$settings) {
 /**
  * Helper function to alter the facet for the OG membership type.
  *
+ * @TODO : Fix the order of the items: Pending should always be first and
+ *         should have extra styling.
+ *
  * @param $build
  * @param $settings
  */
 function _c4m_features_og_members_facet_membership_type_alter(&$build, &$settings) {
   $group = c4m_og_current_group();
-  $types = array(
-    'pending' => t('Requested Membership'),
-    'blocked' => t('Blocked/Rejected Membership'),
-    'member' => t('@group_type Member',
-      array('@group_type' => ucfirst($group->type))),
-    'owner' => t('@group_type Owner',
-      array('@group_type' => ucfirst($group->type))),
-    'administrator member' => t('@group_type Administrator',
-      array('@group_type' => ucfirst($group->type)))
-  );
 
   foreach($build as $key => $item) {
     $membership_type = explode('_', $key);
@@ -482,7 +476,7 @@ function _c4m_features_og_members_facet_membership_type_alter(&$build, &$setting
       continue;
     }
     $type = $membership_type[1];
-    $build[$key]["#markup"] = $types[$type];
+    $build[$key]["#markup"] = c4m_user_og_get_human_role_name($type, $group);
   }
 }
 

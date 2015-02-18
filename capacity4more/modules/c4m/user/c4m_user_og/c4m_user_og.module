@@ -98,7 +98,30 @@ function c4m_user_og_get_role_in_group($user, $group) {
  */
 function c4m_user_og_get_role_in_group_human($user, $group) {
   $role = c4m_user_og_get_role_in_group($user, $group);
-  $role_human = NULL;
+  $role_human = c4m_user_og_get_human_role_name($role, $group);
+  return $role_human;
+}
+
+/**
+ * Translate a machine user role name into a human name.
+ *
+ * @param string $role
+ *   The machine name of the role.
+ * @param object $group
+ *   The (optional) group node for who we are translating the role name.
+ *
+ * @return string
+ *   The human name of the role.
+ */
+function c4m_user_og_get_human_role_name($role, $group = NULL) {
+  if (!$group) {
+    $group = c4m_og_current_group();
+  }
+  if (!$group) {
+    return;
+  }
+
+  $role_human = $role;
   $group_type = ucfirst(node_type_get_name($group));
 
   switch ($role) {
@@ -110,6 +133,7 @@ function c4m_user_og_get_role_in_group_human($user, $group) {
       break;
 
     case 'administrator':
+    case 'administrator member':
       $role_human = t(
         '@group_type Administrator',
         array('@group_type' => $group_type)
