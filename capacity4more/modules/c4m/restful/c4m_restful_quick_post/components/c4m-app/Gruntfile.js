@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
   // Configurable paths
   var yeomanConfig = {
-    livereload: 35729,
+    livereload: 35730,
     src: 'src',
     dist: 'dist'
   };
