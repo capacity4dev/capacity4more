@@ -1,0 +1,183 @@
+<?php
+/**
+ * @file
+ * Functionality to probide missing info about a user and his
+ * (activity within) groups.
+ */
+
+
+/**
+ * Check if a user has a specific permission within the group.
+ *
+ * @param string $permission
+ *   The permission name.
+ * @param stdClass $group
+ *   (optional) If no group is given, the current group will be used.
+ *
+ * @return bool
+ *   Has access to the given permission.
+ */
+function c4m_user_og_has_group_permission($permission, $group = NULL) {
+  if (is_null($group) || is_object($group)) {
+    $group = c4m_og_current_group();
+  }
+
+  if (!$group) {
+    return FALSE;
+  }
+
+  // Re-use built-in og user access checks.
+  return og_ui_user_access_group($permission, 'node', $group->nid);
+}
+
+/**
+ * Get the role a user has within the given group.
+ *
+ * Only the highest role will be returned.
+ * Possible roles (highest order to lowest):
+ * - owner : the user is the owner (creator) of the group.
+ * - administrator : the user can manage the group.
+ * - member : the user is a member of the group.
+ * - blocked : the user is blocked or his membership request was rejected.
+ * - pending : the membership was requested and waiting for approval.
+ *
+ * @param object $user
+ *   The user for who we are collecting his role.
+ * @param object $group
+ *   The group where we are trying to determine the users role for.
+ *
+ * @return string
+ */
+function c4m_user_og_get_role_in_group($user, $group) {
+  // Is user the owner of the group node?
+  if ((int) $user->uid === (int) $group->uid) {
+    return 'owner';
+  }
+
+  // Has the user a membership for the given group?
+  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
+  if (!$membership) {
+    return NULL;
+  }
+
+  // Check if not pending or blocked.
+  switch ($membership->state) {
+    case OG_STATE_PENDING:
+      return 'pending';
+
+    case OG_STATE_BLOCKED:
+      return 'blocked';
+  }
+
+  // Check if the user has the administrator role.
+  $roles = og_roles('node', $group->type, $group->nid);
+  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  if ($admin_role) {
+    $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
+    if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+      return 'administrator';
+    }
+  }
+
+  // Ok, normal member.
+  return 'member';
+}
+
+/**
+ * Get the human name of the role a user has within a group.
+ *
+ * Is a wrapper around c4m_user_og_get_role_in_group(). It translates the
+ * machine name of the role into a human label.
+ *
+ * @param object $user
+ *   The user for who we are collecting his role.
+ * @param object $group
+ *   The group where we are trying to determine the users role for.
+ *
+ * @return string
+ */
+function c4m_user_og_get_role_in_group_human($user, $group) {
+  $role = c4m_user_og_get_role_in_group($user, $group);
+  $role_human = NULL;
+  $group_type = ucfirst(node_type_get_name($group));
+
+  switch ($role) {
+    case 'owner':
+      $role_human = t(
+        '@group_type Owner',
+        array('@group_type' => $group_type)
+      );
+      break;
+
+    case 'administrator':
+      $role_human = t(
+        '@group_type Administrator',
+        array('@group_type' => $group_type)
+      );
+      break;
+
+    case 'member':
+      $role_human = t(
+        '@group_type Member',
+        array('@group_type' => $group_type)
+      );
+      break;
+
+    case 'blocked':
+      $role_human = t('Blocked/Rejected Membership');
+      break;
+
+    case 'pending':
+      $role_human = t('Requested Membership');
+      break;
+  }
+
+  return $role_human;
+}
+
+
+/**
+ * Get the number of posts (nodes) for the given user within the given group.
+ *
+ * @param int $uid
+ *   The User ID.
+ * @param int $gid
+ *   The Group ID (node id).
+ *
+ * @return int
+ */
+function c4m_user_og_count_nodes_in_group($uid, $gid) {
+  $query = db_select('node', 'n');
+  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
+  $query->fields('n', array('nid'))
+    ->condition('n.status', 1)
+    ->condition('n.uid', (int) $uid)
+    ->condition('ogm.gid', (int) $gid)
+    ->condition('ogm.entity_type', 'node');
+
+  return (int) $query->countQuery()->execute()->fetchField();
+}
+
+/**
+ * Get the number of comments for the given user within the given group.
+ *
+ * @param int $uid
+ *   The User ID.
+ * @param int $gid
+ *   The Group ID (node id).
+ *
+ * @return int
+ */
+function c4m_user_og_count_comments_in_group($uid, $gid) {
+  $query = db_select('comment', 'c');
+  $query->join('node', 'n', 'c.nid = n.nid');
+  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
+  $query->fields('c', array('cid'))
+    ->condition('c.status', 1)
+    ->condition('n.status', 1)
+    ->condition('c.uid', (int) $uid)
+    ->condition('ogm.gid', (int) $gid)
+    ->condition('ogm.entity_type', 'node');
+
+  return (int) $query->countQuery()->execute()->fetchField();
+}

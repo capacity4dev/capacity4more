@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * Bootstrap 8-4 template for Display Suite.
+ * 4 column layout to use in "table" views with views bulk operations.
  */
 ?>
 
-<<?php print $layout_wrapper; print $layout_attributes; ?> class="<?php print $classes; ?>">
 
+<<?php print $layout_wrapper; print $layout_attributes; ?> class="<?php print $classes; ?>">
 <?php if (isset($title_suffix['contextual_links'])): ?>
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
 
-<div class="icon-wrapper clearfix">
+<div class="row">
   <<?php print $first_wrapper; ?> class="content-first <?php print $first_classes; ?>">
     <?php print $first; ?>
   </<?php print $first_wrapper; ?>>
@@ -24,7 +24,10 @@
   <<?php print $fourth_wrapper; ?> class="content-fourth <?php print $fourth_classes; ?>">
     <?php print $fourth; ?>
   </<?php print $fourth_wrapper; ?>>
+</div>
+
 </<?php print $layout_wrapper ?>>
+
 
 <!-- Needed to activate display suite support on forms -->
 <?php if (!empty($drupal_render_children)): ?>

@@ -26,13 +26,13 @@ function theme_c4m_features_og_members_admin_actions($field) {
   $user = user_load($entity->uid);
 
   if ('membership_level' == $field['formatter']) {
-    $membership_level = c4m_features_og_members_get_membership_level($user, $group);
+    $membership_level = c4m_user_og_get_role_in_group_human($user, $group);
   }
   else {
     $membership_level = NULL;
   }
 
-  if (!c4m_features_og_members_access_group('manage members')) {
+  if (!c4m_user_og_has_group_permission('manage members')) {
     return theme('c4m_administer_member_level', array(
         'membership_level' => $membership_level,
       )
@@ -84,6 +84,28 @@ function theme_c4m_features_og_members_admin_actions($field) {
       'user_id' => $user->uid
     )
   );
+}
+
+/**
+ * Render the role within the group.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_features_og_members_role($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return;
+  }
+
+  $entity = $field['entity'];
+  $user = user_load($entity->uid);
+  return c4m_user_og_get_role_in_group_human($user, $group);
 }
 
 /**
@@ -142,26 +164,11 @@ function theme_c4m_features_og_members_activity_summary($field) {
   }
 
   // Count published posts of user in this group.
-  $query = db_select('node', 'n');
-  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
-  $query->fields('n', array('nid'))
-    ->condition('n.status', 1)
-    ->condition('n.uid', $user->uid)
-    ->condition('ogm.gid', $group->nid)
-    ->condition('ogm.entity_type', 'node');
-  $nr_of_nodes = $query->countQuery()->execute()->fetchField();
+  $nr_of_nodes = c4m_user_og_count_nodes_in_group($user->uid, $group->nid);
 
   // Count published comments of user in this group.
-  $query = db_select('comment', 'c');
-  $query->join('node', 'n', 'c.nid = n.nid');
-  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
-  $query->fields('c', array('cid'))
-    ->condition('c.status', 1)
-    ->condition('n.status', 1)
-    ->condition('c.uid', $user->uid)
-    ->condition('ogm.gid', $group->nid)
-    ->condition('ogm.entity_type', 'node');
-  $nr_of_comments = $query->countQuery()->execute()->fetchField();
+  $nr_of_comments = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
+
   return t('Posted') . ' ' .
     format_plural($nr_of_nodes, '1 Item', '@count Items') . ' ' .
     t('and') . ' ' .

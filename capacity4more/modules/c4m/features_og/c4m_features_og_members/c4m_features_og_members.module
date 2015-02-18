@@ -16,7 +16,7 @@ function c4m_features_og_members_menu() {
     'title' => 'Promote to group administrator',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_promote', 2),
-    'access callback' => 'c4m_features_og_members_access_group',
+    'access callback' => 'c4m_user_og_has_group_permission',
     'access arguments' => array('manage members'),
     'file' => 'c4m_features_og_members.admin.inc',
   );
@@ -24,7 +24,7 @@ function c4m_features_og_members_menu() {
     'title' => 'Demote to normal group member',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_demote', 2),
-    'access callback' => 'c4m_features_og_members_access_group',
+    'access callback' => 'c4m_user_og_has_group_permission',
     'access arguments' => array('manage members'),
     'file' => 'c4m_features_og_members.admin.inc',
   );
@@ -32,7 +32,7 @@ function c4m_features_og_members_menu() {
     'title' => 'Remove from group',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_remove', 2),
-    'access callback' => 'c4m_features_og_members_access_group',
+    'access callback' => 'c4m_user_og_has_group_permission',
     'access arguments' => array('manage members'),
     'file' => 'c4m_features_og_members.admin.inc',
   );
@@ -40,7 +40,7 @@ function c4m_features_og_members_menu() {
     'title' => 'Approve membership request',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_approve', 2),
-    'access callback' => 'c4m_features_og_members_access_group',
+    'access callback' => 'c4m_user_og_has_group_permission',
     'access arguments' => array('manage members'),
     'file' => 'c4m_features_og_members.admin.inc',
   );
@@ -48,28 +48,12 @@ function c4m_features_og_members_menu() {
     'title' => 'Reject membership request',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_members_reject', 2),
-    'access callback' => 'c4m_features_og_members_access_group',
+    'access callback' => 'c4m_user_og_has_group_permission',
     'access arguments' => array('manage members'),
     'file' => 'c4m_features_og_members.admin.inc',
   );
 
   return $items;
-}
-
-/**
- * Menu access; Check if there is a group context and user has permission to it.
- *
- * @param      $perm
- */
-function c4m_features_og_members_access_group($perm) {
-  $group = c4m_og_current_group();
-
-  if (!$group) {
-    return FALSE;
-  }
-
-  // Re-use built-in og user access checks.
-  return og_ui_user_access_group($perm, 'node', $group->nid);
 }
 
 /**
@@ -102,6 +86,20 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
       'formatters' => array(
         'default' => t('Default (only cog)'),
         'membership_level' => t('With membership level text'),
+      ),
+    ),
+  );
+
+  // The type of membership within the group.
+  $fields['user']['c4m_features_og_members_role'] = array(
+    'title' => t('C4M OG role within group'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_features_og_members.theme.inc',
+    'function' => 'theme_c4m_features_og_members_role',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
       ),
     ),
   );
@@ -475,7 +473,7 @@ function _c4m_features_og_members_membership_type_getter_callback($user) {
     foreach ($og_memberships as $og_membership) {
       if (!empty($og_membership)) {
         $values[] = $og_membership->gid . '_' .
-          c4m_features_og_members_get_membership_level($user,
+          c4m_user_og_get_role_in_group($user,
           node_load($og_membership->gid), FALSE);
       }
     }
@@ -484,62 +482,7 @@ function _c4m_features_og_members_membership_type_getter_callback($user) {
   return $values;
 }
 
-/**
- * Get the type of membership a user has to a group.
- *
- * - is author of the group (owner)
- * OR
- *  - has a pending membership
- * OR
- *  - has a blocked membership
- * OR
- * - has the 'administrator member' role within the group
- * OR
- * - has the 'member' role within the group
- *
- * @param object $user
- * @param object $group
- * @param bollean $translated
- *
- * @return string
- */
-function c4m_features_og_members_get_membership_level($user, $group,
-                                                      $translated = TRUE) {
-  if ($user->uid == $group->uid) {
-    return $translated ? t('@group_type Owner',
-      array('@group_type' => ucfirst($group->type))) : 'owner';
-  }
 
-  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
-
-  if (!$membership) {
-    return '';
-  }
-
-  switch ($membership->state) {
-    case OG_STATE_PENDING:
-      return $translated ? t('Requested Membership') : 'pending';
-    case OG_STATE_BLOCKED:
-      return $translated ? t('Blocked/Rejected Membership') : 'blocked';
-  }
-
-  // Active user...
-
-  $roles = og_roles('node', $group->type, $group->nid);
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
-  if ($admin_role) {
-    $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
-    if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
-      return $translated ? t('@group_type Administrator',
-        array('@group_type' => ucfirst($group->type))) :
-        C4M_ADMINISTRATOR_ROLE_NAME;
-    }
-  }
-
-  return $translated ?
-    t('@group_type Member',
-      array('@group_type' => ucfirst($group->type))) : 'member';
-}
 
 /**
  * Implementation of hook_facet_items_alter()
