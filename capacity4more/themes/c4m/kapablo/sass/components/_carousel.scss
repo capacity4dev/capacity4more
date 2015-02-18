@@ -6,14 +6,16 @@
     display: inline-block;
     border-bottom: 0 none;
     margin: 0;
-    padding: 0 0 10px 75px;
-    font-size: $font-size-h2;
+    padding: 0 0 8px 90px;
+    font-size: 32px;
+    font-weight: 200;
+    letter-spacing: 1px;
   }
 
   .see-more-link {
     float: right;
-    font-size: 15px;
-    margin: 18px 22px 0 0;
+    font-size: 16px;
+    margin: 18px 18px 0 0;
   }
 }
 ul[rn-carousel] {
@@ -55,7 +57,7 @@ ul[rn-carousel] {
   }
 
   .rn-carousel-control {
-    top: 32%;
+    top: 31%;
     font-family: FontAwesome;
     font-size: 47px;
 
@@ -84,7 +86,7 @@ ul[rn-carousel] {
 
 div.rn-carousel-indicator {
   text-align: center;
-  margin-top: -6px;
+  margin-top: -5px;
 
   span {
     font-size: 22px;
