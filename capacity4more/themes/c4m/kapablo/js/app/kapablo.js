@@ -63,7 +63,7 @@
         $('#allGroups').on('shown.bs.collapse', function () {
           $('.see-more-link').html('Show less <i class="fa fa-chevron-right"></i>');
         }).on('hidden.bs.collapse', function () {
-          $('.see-more-link').html('Show more <i class="fa fa-chevron-right"></i>');
+          $('.see-more-link').html('Show all <i class="fa fa-chevron-right"></i>');
         });
       }
     };
