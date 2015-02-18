@@ -2,16 +2,23 @@
   text-align: center;
 
   .block-title {
-    color: $color-gray;
+    color: $color-brown;
+    display: inline-block;
+    border-bottom: 0 none;
+    margin: 0;
+    padding: 0 0 10px 75px;
+    font-size: $font-size-h2;
   }
 
   .see-more-link {
     float: right;
+    font-size: 15px;
+    margin: 18px 22px 0 0;
   }
 }
 ul[rn-carousel] {
   width: 100%;
-  height: 300px;
+  height: 313px;
   margin: 0 auto;
 
   .bgimage {
@@ -48,23 +55,45 @@ ul[rn-carousel] {
   }
 
   .rn-carousel-control {
+    top: 32%;
+    font-family: FontAwesome;
+    font-size: 47px;
 
     &:before {
-      font-size: 45px;
+      font-size: 35px;
       color: $color-black;
       font-weight: bold;
+    }
+
+    &.rn-carousel-control-prev {
+      left: .3em;
+
+      &:before {
+        content: "\f053";
+      }
+    }
+
+    &.rn-carousel-control-next {
+
+      &:before {
+        content: "\f054";
+      }
     }
   }
 }
 
 div.rn-carousel-indicator {
   text-align: center;
+  margin-top: -6px;
 
   span {
-    font-size: 30px;
+    font-size: 22px;
+    margin-right: 11px;
+    margin-left: -9px;
+    color: $color-blue-light;
 
     &.active {
-      color: $color-blue-light;
+      color: $color-blue-dark;
     }
   }
 }
