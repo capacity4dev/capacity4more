@@ -10,9 +10,9 @@ include_once 'c4m_features_homepage.features.inc';
  * Implements hook_ctools_plugin_directory().
  */
 
-function c4m_features_homepage_ctools_plugin_directory($module, $plugin_type) {
-  if ($module == 'ctools' && $plugin_type == 'content_types') {
-    return 'plugins/' . $plugin_type;
+function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
   }
 }
 
