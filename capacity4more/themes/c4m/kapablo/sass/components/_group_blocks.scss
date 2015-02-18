@@ -118,3 +118,50 @@
     }
   }
 }
+
+.right {
+
+  .my-groups {
+
+    h2.pane-title {
+      color: $color-brown;
+      border-bottom: 0 none;
+    }
+
+    .node.node-teaser {
+      margin-bottom: 25px;
+
+      .group-left,
+      .group-right {
+        padding: 0;
+
+        .field-name-title {
+
+          h3 {
+            margin-bottom: 4px;
+
+            a {
+              color: $color-black;
+              text-transform: none;
+            }
+          }
+        }
+
+        .owner,
+        .group-members-count {
+          font-size: 12px;
+          font-weight: normal;
+          display: inline-block;
+          color: $color-gray;
+
+          &.owner {
+            margin-right: 5px;
+            .label-inline {
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
