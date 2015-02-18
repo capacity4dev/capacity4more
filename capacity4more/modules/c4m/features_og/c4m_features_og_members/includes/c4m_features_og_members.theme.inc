@@ -129,13 +129,69 @@ function theme_c4m_features_og_members_activity_summary($field) {
   }
 
   // Count published posts of user in this group.
-  $nr_of_nodes = c4m_user_og_count_nodes_in_group($user->uid, $group->nid);
+  $count_posts = c4m_user_og_count_nodes_in_group($user->uid, $group->nid);
 
   // Count published comments of user in this group.
-  $nr_of_comments = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
+  $count_comments = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
 
-  return t('Posted') . ' ' .
-    format_plural($nr_of_nodes, '1 Item', '@count Items') . ' ' .
-    t('and') . ' ' .
-    format_plural($nr_of_comments, '1 Comment', '@count Comments');
+  return t('Posted !posts and !comments', array(
+    '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
+    '!comments' => format_plural($count_comments, '1 Comment', '@count Comments')
+  ));
+}
+
+/**
+ * Render count of posts (nodes) for the given user in the current group.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_features_og_members_activity_posts($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return;
+  }
+  $user = $field['entity'];
+
+  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
+  if (!$membership) {
+    return;
+  }
+
+  // Count published posts of user in this group.
+  $count = c4m_user_og_count_nodes_in_group($user->uid, $group->nid);
+  return format_plural($count, '1 Post', '@count Posts');
+}
+
+/**
+ * Render count of comments for the given user in the current group.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_features_og_members_activity_comments($field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return;
+  }
+  $user = $field['entity'];
+
+  $membership = og_get_membership('node', $group->nid, 'user', $user->uid);
+  if (!$membership) {
+    return;
+  }
+
+  // Count published posts of user in this group.
+  $count = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
+  return format_plural($count, '1 Comment', '@count Comments');
 }

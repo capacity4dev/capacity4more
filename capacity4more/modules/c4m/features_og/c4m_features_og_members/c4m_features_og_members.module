@@ -117,12 +117,37 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
     ),
   );
 
+  // Activity.
   $fields['user']['c4m_features_og_members_activity_summary'] = array(
     'title' => t('C4M OG member activity summary'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_features_og_members.theme.inc',
     'function' => 'theme_c4m_features_og_members_activity_summary',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+  $fields['user']['c4m_features_og_members_activity_posts'] = array(
+    'title' => t('C4M OG member count posts'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_features_og_members.theme.inc',
+    'function' => 'theme_c4m_features_og_members_activity_posts',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+  $fields['user']['c4m_features_og_members_activity_comments'] = array(
+    'title' => t('C4M OG member count comments'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_features_og_members.theme.inc',
+    'function' => 'theme_c4m_features_og_members_activity_comments',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

@@ -52,13 +52,13 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'c4m_user_teaser_table' => array(
-            'weight' => '15',
+            'weight' => '21',
             'visible' => FALSE,
           ),
         ),
         'mimemail' => array(
           'c4m_user_teaser_table' => array(
-            'weight' => '7',
+            'weight' => '14',
             'visible' => FALSE,
           ),
         ),
