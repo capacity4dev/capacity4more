@@ -115,7 +115,7 @@ function c4m_content_group_ds_field_settings_info() {
           'lb-el' => 'span',
           'lb-col' => TRUE,
           'prefix' => '<span class="owner">',
-          'suffix' => ',</span>',
+          'suffix' => '</span>',
         ),
       ),
     ),
