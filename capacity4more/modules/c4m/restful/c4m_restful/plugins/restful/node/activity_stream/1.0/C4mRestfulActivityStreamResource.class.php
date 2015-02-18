@@ -65,6 +65,14 @@ class C4mRestfulActivityStreamResource extends \RestfulEntityBaseMultipleBundles
         $query->addTag('activity_stream_homepage');
       }
     }
+
+    if (empty($request['group'])) {
+
+      $query->fieldCondition('field_group_node', 'target_id', 'NULL', '!=');
+      $query->addTag('activity_stream_node_access');
+      $query->addTag('entity_field_access');
+//      $query->addTag('node_access');
+    }
     return $query;
   }
 }
