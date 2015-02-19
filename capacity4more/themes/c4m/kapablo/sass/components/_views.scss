@@ -195,4 +195,43 @@ li {
       }
     }
   }
+  &.view-display-id-page_1 {
+    .view-header {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    #views-form-c4m-overview-og-members-page-1{
+      fieldset.form-inline {
+        .panel-heading {
+          display: none;
+        }
+        .panel-body {
+          padding: 0;
+        }
+      }
+      .table-responsive {
+        table {
+          overflow-x: hidden;
+          .views-field-rendered-entity {
+            .row>div {
+              display: inline-block;
+            }
+            .content-first {
+              width: 35%;
+            }
+            .content-second {
+              width: 30%;
+            }
+            .content-third {
+              width: 20%;
+            }
+            .content-fourth {
+              width: 10%;
+            }
+          }
+        }
+      }
+    }
+  }
 }
