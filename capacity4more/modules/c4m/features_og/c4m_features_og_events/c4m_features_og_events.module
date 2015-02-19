@@ -213,10 +213,7 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Fetches upcoming events (Events in the future that haven't started yet),
- * Depending on the user's role (guest, logged-in),
- * This function fetches the events from user's groups or public groups.
- * 1 Event for anonymous user, 3 for logged in.
+ * Get rendered events for loggedin user.
  *
  * @return string
  *  HTML of rendered upcoming events, FALSE if there's no events.
@@ -235,11 +232,31 @@ function c4m_features_og_events_upcoming_events_loggedin() {
   return $events;
 }
 
+/**
+ * Get rendered events for anonymous user.
+ *
+ * @return string
+ *  HTML of rendered upcoming events, FALSE if there's no events.
+ */
+function c4m_features_og_events_upcoming_events_anonymous() {
+  $range = 1;
+  return c4m_features_og_events_upcoming_events_get_events($range);
+}
+
+/**
+ * Get groups list based on filter value.
+ *
+ * @param $filter
+ *  Value of the filter.
+ *
+ * @return array
+ *  Returns array of groups or FALSE.
+ */
 function c4m_features_og_events_get_groups_by_filter($filter) {
   global $user;
 
   if (!$filter || $filter == 'showAll') {
-    return;
+    return FALSE;
   }
 
   $groups = array();
@@ -278,11 +295,15 @@ function c4m_features_og_events_get_groups_by_filter($filter) {
   return $groups;
 }
 
-function c4m_features_og_events_upcoming_events_anonymous() {
-  $range = 1;
-  return c4m_features_og_events_upcoming_events_get_events($range);
-}
-
+/**
+ * @param $range
+ *  Count of events should be taken.
+ * @param $groups
+ *  Optionally list of groups events belong to.
+ *
+ * @return bool|string
+ *  HTML of rendered upcoming events, FALSE if there's no events.
+ */
 function  c4m_features_og_events_upcoming_events_get_events($range, $groups = array()) {
   // Show all events starting from midnight onwards.
   $tomorrow = new DateTime('midnight tomorrow');
