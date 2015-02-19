@@ -248,3 +248,21 @@ function _c4m_user_initials_colors() {
     'pink-dark',
   );
 }
+
+/**
+ *  Implements hook_action_info().
+ */
+function c4m_user_action_info() {
+  module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact.action');
+  return c4m_user_contact_action_info();
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Set's the message subject and body as configured.
+ */
+function c4m_user_mail($key, &$message, $params) {
+  $message['subject'] .= str_replace(array("\r", "\n"), '', $params['subject']);
+  $message['body'][] = $params['body'];
+}
