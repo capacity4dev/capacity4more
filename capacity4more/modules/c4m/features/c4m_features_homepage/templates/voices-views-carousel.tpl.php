@@ -1,5 +1,7 @@
-<div class="row" ng-controller="CarouselCtrl">
+<div class="row carousel" ng-controller="CarouselCtrl">
   <div class="col-md-12" ng-if="carouselImages.length > 0">
+    <span class="block-title"><?php print t('VOICES & VIEWS'); ?></span>
+    <?php print $link; ?>
     <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-loop rn-carousel-controls class="carousel">
       <li ng-repeat="slide in carouselImages track by slide.id" ng-class="'id-' + slide.id">
         <div ng-style="{'background-image': 'url(' + slide.image + ')'}"  class="bgimage">

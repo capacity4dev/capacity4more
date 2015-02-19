@@ -91,7 +91,9 @@ function c4m_features_homepage_theme() {
   $theme['c4m_voices_views_carousel'] = array(
     'template' => 'voices-views-carousel',
     'path' => drupal_get_path('module', 'c4m_features_homepage') . '/templates',
-    'variables' => NULL,
+    'variables' => array(
+      'link' => NULL,
+    ),
   );
 
   return $theme;
@@ -144,6 +146,18 @@ function c4m_features_homepage_voices_views_carousel() {
   );
   drupal_add_js($settings, 'setting');
 
+  // Render "see more" link.
+  $link['element'] = array(
+    '#tag'        => 'a',
+    '#value'      => t('Read all'),
+    '#attributes' => array(
+      'href' => url('articles'),
+      'class' => 'see-more-link'
+    ),
+  );
+
+  $variables['link'] = theme_html_tag($link);
+
   // Theme function adds the carousel.
-  return theme('c4m_voices_views_carousel');
+  return theme('c4m_voices_views_carousel', $variables);
 }
