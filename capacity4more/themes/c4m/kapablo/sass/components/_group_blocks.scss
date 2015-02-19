@@ -118,3 +118,26 @@
     }
   }
 }
+
+.video-preview-wrapper {
+
+  .video-preview {
+    cursor: pointer;
+
+    .video-description {
+      background-color: $color-blue-light;
+      padding: 10px 15px;
+      color: $color-white;
+
+      &:after {
+        font-family: fontAwesome;
+        content: "\f0d7";
+        font-size: 4em;
+        position: absolute;
+        top: 25px;
+        right: 40%;
+        color: $color-blue-light;
+      }
+    }
+  }
+}

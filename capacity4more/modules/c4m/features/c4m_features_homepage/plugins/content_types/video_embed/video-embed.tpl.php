@@ -1,7 +1,12 @@
-<div class="button-wrapper">
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#c4mVideoModal">
-    <?php print $video_title ?>
-  </button>
+<div class="video-preview-wrapper">
+  <div class="video-preview" data-toggle="modal" data-target="#c4mVideoModal">
+    <div class="video-description">
+      <?php print $video_title ?>
+    </div>
+    <div>
+      <?php print $video_thumbnail ?>
+    </div>
+  </div>
 </div>
 <div class="modal fade" id="c4mVideoModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
