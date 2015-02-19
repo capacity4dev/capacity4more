@@ -266,3 +266,63 @@ function c4m_user_mail($key, &$message, $params) {
   $message['subject'] .= str_replace(array("\r", "\n"), '', $params['subject']);
   $message['body'][] = $params['body'];
 }
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_user_theme() {
+  $theme['c4m_user_views_bulk_operations_confirmation'] = array(
+    'variables' => array(
+      'rows' => NULL,
+      'vbo' => NULL,
+      'operation' => NULL,
+      'select_all_pages' => FALSE
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ *  Implements hook_theme_registry_alter().
+ */
+function c4m_user_theme_registry_alter(&$theme_registry) {
+  // Replace the theming of the Views Bulk Operation confirmation form.
+  $theme_registry['views_bulk_operations_confirmation']['function'] =
+    'theme_c4m_user_views_bulk_operations_confirmation';
+}
+
+/**
+ * Theme function to show the confirmation page before executing the operation.
+ */
+function theme_c4m_user_views_bulk_operations_confirmation($variables) {
+  $select_all_pages = $variables['select_all_pages'];
+  $vbo = $variables['vbo'];
+  $entity_type = $vbo->get_entity_type();
+  $rows = $variables['rows'];
+  $items = array();
+  // Load the entities from the current page, and show their titles.
+  $entities = _views_bulk_operations_entity_load($entity_type, array_values($rows), $vbo->revision);
+  foreach ($entities as $entity) {
+    $items[] = 'user' == $entity_type ? c4m_user_name($entity) :
+       check_plain(_views_bulk_operations_entity_label($entity_type, $entity));
+  }
+  // All rows on all pages have been selected, so show a count of additional items.
+  if ($select_all_pages) {
+    $more_count = $vbo->view->total_rows - count($vbo->view->result);
+    $items[] = t('...and %count more.', array('%count' => $more_count));
+  }
+  $item_text = 'user' == $entity_type ? t('user') : t('item');
+
+  $count = format_plural(count($entities), $item_text, '@count ' . $item_text . 's');
+
+  switch ($variables['operation']->id()) {
+    case 'action::c4m_user_contact_action' :
+      // Count already escaped by format_plural().
+      $title = t('You selected') . ' ' . $count . ' ' . t('to contact:');
+      break;
+  }
+
+  $output = theme('item_list', array('items' => $items, 'title' => $title));
+  return $output;
+}
