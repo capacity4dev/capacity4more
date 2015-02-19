@@ -893,7 +893,7 @@ function c4m_message_load_homepage_activity_stream() {
 
   $hide_articles = $filter == 'groups' ? 1 : 0;
 
-  $activity_stream_handler = restful_get_restful_handler('activity_stream');
+  $activity_stream_handler = restful_get_restful_handler('activity_stream', 1, 1);
 
   $request = array(
     'group' => $groups,
@@ -952,14 +952,9 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
 }
 
 function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery &$query) {
-  $tables = &$query->getTables();
-  $conditions = &$query->conditions();
-
-  $query->leftJoin('field_data_field_group_node', 'gn', "message.mid = gn.entity_id AND gn.entity_type = 'message'");
   $query->addMetaData('base_table', 'field_data_field_group_node');
 
   global $user;
-  $type = 'entity';
 
   // Read meta-data from query, if provided.
   if (!$account = $query->getMetaData('account')) {
@@ -984,78 +979,15 @@ function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery
 
   $tables = $query->getTables();
   $base_table = $query->getMetaData('base_table');
-  // If no base table is specified explicitly, search for one.
-  if (!$base_table) {
-    $fallback = '';
-    foreach ($tables as $alias => $table_info) {
-      if (!($table_info instanceof SelectQueryInterface)) {
-        $table = $table_info['table'];
-        // If the node table is in the query, it wins immediately.
-        if ($table == 'node') {
-          $base_table = $table;
-          break;
-        }
-        // Check whether the table has a foreign key to node.nid. If it does,
-        // do not run this check again as we found a base table and only node
-        // can triumph that.
-        if (!$base_table) {
-          // The schema is cached.
-          $schema = drupal_get_schema($table);
-          if (isset($schema['fields']['nid'])) {
-            if (isset($schema['foreign keys'])) {
-              foreach ($schema['foreign keys'] as $relation) {
-                if ($relation['table'] === 'node' && $relation['columns'] === array('nid' => 'nid')) {
-                  $base_table = $table;
-                }
-              }
-            }
-            else {
-              // At least it's a nid. A table with a field called nid is very
-              // very likely to be a node.nid in a node access query.
-              $fallback = $table;
-            }
-          }
-        }
-      }
-    }
-    // If there is nothing else, use the fallback.
-    if (!$base_table) {
-      if ($fallback) {
-        watchdog('security', 'Your node listing query is using @fallback as a base table in a query tagged for node access. This might not be secure and might not even work. Specify foreign keys in your schema to node.nid ', array('@fallback' => $fallback), WATCHDOG_WARNING);
-        $base_table = $fallback;
-      }
-      else {
-        throw new Exception(t('Query tagged for node access but there is no nid. Add foreign keys to node.nid in schema to fix.'));
-      }
-    }
-  }
 
   // Find all instances of the base table being joined -- could appear
   // more than once in the query, and could be aliased. Join each one to
   // the node_access table.
 
   $grants = node_access_grants($op, $account);
-  if ($type == 'entity') {
-    // The original query looked something like:
-    // @code
-    //  SELECT nid FROM sometable s
-    //  INNER JOIN node_access na ON na.nid = s.nid
-    //  WHERE ($node_access_conditions)
-    // @endcode
-    //
-    // Our query will look like:
-    // @code
-    //  SELECT entity_type, entity_id
-    //  FROM field_data_something s
-    //  LEFT JOIN node_access na ON s.entity_id = na.nid
-    //  WHERE (entity_type = 'node' AND $node_access_conditions) OR (entity_type <> 'node')
-    // @endcode
-    //
-    // So instead of directly adding to the query object, we need to collect
-    // all of the node access conditions in a separate db_and() object and
-    // then add it to the query at the end.
-    $node_conditions = db_and();
-  }
+
+  $node_conditions = db_and();
+
   foreach ($tables as $nalias => $tableinfo) {
     $table = $tableinfo['table'];
     if (!($table instanceof SelectQueryInterface) && $table == $base_table) {
@@ -1082,25 +1014,17 @@ function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery
       $subquery->condition('na.grant_' . $op, 1, '>=');
       $field = 'nid';
       // Now handle entities.
-      if ($type == 'entity') {
-        // Set a common alias for entities.
-        $base_alias = $nalias;
-        $field = 'field_group_node_target_id';
-      }
+      // Set a common alias for entities.
+      $base_alias = $nalias;
+      $field = 'field_group_node_target_id';
       $subquery->where("$nalias.$field = na.nid");
 
       // For an entity query, attach the subquery to entity conditions.
-      if ($type == 'entity') {
-        $node_conditions->exists($subquery);
-      }
-      // Otherwise attach it to the node query itself.
-      else {
-        $query->exists($subquery);
-      }
+      $node_conditions->exists($subquery);
     }
   }
 
-  if ($type == 'entity' && count($subquery->conditions())) {
+  if (count($subquery->conditions())) {
     // All the node access conditions are only for field values belonging to
     // nodes.
     $node_conditions->condition("$base_alias.entity_type", 'message');
