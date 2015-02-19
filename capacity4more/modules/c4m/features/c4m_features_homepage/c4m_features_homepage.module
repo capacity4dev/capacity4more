@@ -9,7 +9,6 @@ include_once 'c4m_features_homepage.features.inc';
 /**
  * Implements hook_ctools_plugin_directory().
  */
-
 function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools') {
     return 'plugins/' . $plugin;
@@ -18,8 +17,14 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 
 
 /**
- * Helper function to render group details.
+ * Renders 3 suggested group for the user.
+ *
+ * Suggest 3 random groups for the user which he is not subscribed to,
+ * When interests filter is applied,
+ * select groups which has at least one common topic of interest with the user (Interests are taken from user's profile).
+ *
  * @return string
+ *  Rendered HTML of 3 suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
@@ -36,7 +41,6 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $user_groups = og_get_groups_by_user();
   $groups = '';
 
-
   $query = new EntityFieldQuery();
 
   $query
@@ -50,7 +54,8 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   }
 
   if (!empty($interests)) {
-    $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
+    $query
+      ->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
   }
 
   $result = $query
@@ -61,6 +66,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   if (empty($result['node'])) {
     return;
   }
+
   foreach ($result['node'] as $group) {
     $node_view = node_view(node_load($group->nid), 'teaser');
     $groups .= drupal_render($node_view);
@@ -102,7 +108,6 @@ function c4m_features_homepage_theme() {
 
   return $theme;
 }
-
 
 /**
  * Render homepage carousel for anonymous users.

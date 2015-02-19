@@ -13,7 +13,6 @@ $plugin = array(
  * Render callback.
  */
 function c4m_features_homepage_c4m_suggested_groups_content_type_render($subtype, $conf, $args, $context) {
-  // Add custom JavaScript for some behaviour on the group details pane.
   $block = new stdClass();
   $block->title = t('Suggested groups');
   $block->module = 'c4m_features_homepage';
@@ -21,8 +20,6 @@ function c4m_features_homepage_c4m_suggested_groups_content_type_render($subtype
 
   return $block;
 }
-
-
 
 /**
  * Edit form.
