@@ -42,8 +42,12 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'group')
-    ->propertyCondition('status', NODE_PUBLISHED)
-    ->propertyCondition('nid', $user_groups, 'NOT IN');
+    ->propertyCondition('status', NODE_PUBLISHED);
+
+  if (!empty($user_groups['node'])) {
+    $query
+      ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
+  }
 
   if (!empty($interests)) {
     $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
