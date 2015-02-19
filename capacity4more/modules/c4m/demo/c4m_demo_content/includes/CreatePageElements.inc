@@ -29,7 +29,8 @@ class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
   public function __construct() {
     parent::__construct();
 
-    $this->addFieldMapping('c4m_body', 'body');
+    $this->addFieldMapping('c4m_body', 'body')
+      ->arguments(array('format' => 'full_html'));
     $this->addFieldMapping('c4m_page', 'page');
     $this->addFieldMapping('c4m_position', 'position');
   }

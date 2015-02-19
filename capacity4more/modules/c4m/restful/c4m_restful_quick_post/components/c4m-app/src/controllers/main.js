@@ -16,8 +16,6 @@ angular.module('c4mApp')
     // Getting the fields information.
     $scope.fieldSchema = DrupalSettings.getFieldSchema();
 
-    $scope.debug = DrupalSettings.getDebugStatus();
-
     $scope = QuickPostService.setDefaults($scope);
 
     $scope.basePath = DrupalSettings.getBasePath();
