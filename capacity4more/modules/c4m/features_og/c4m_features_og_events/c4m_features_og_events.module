@@ -239,17 +239,15 @@ function c4m_features_og_events_upcoming_events() {
     $user_wrapper = entity_metadata_wrapper('user', $user->uid);
     $interests = $user_wrapper->c4m_related_topic->raw();
     $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
-    $groups = array();
     $range = 3;
   }
   else {
-    $groups = c4m_og_get_groups_by_access_type('public');
     $range = 1;
   }
 
-  // Filter: Case "interests": Public groups and restricted groups which user's mail address is matching the domain AND tagged with one or more of the users topics of interest.
+  // Filter: Case "interests": Events from groups user is member of OR tagged
+  // with one or more of the users topics of interest.
   // Filter: Case "groups": User's groups, If there's no groups, No events are shown.
-  // Filter: Default: Show all events from all groups.
   switch ($filter) {
     case 'interests':
 
@@ -274,9 +272,7 @@ function c4m_features_og_events_upcoming_events() {
       break;
     case 'groups':
       $groups = og_get_groups_by_user();
-      $groups = !empty($groups['node']) ? $groups['node'] : array('no_groups');
-      break;
-    default:
+      $groups = !empty($groups['node']) ? $groups['node'] : array();
       break;
   }
 
@@ -318,7 +314,7 @@ function c4m_features_og_events_upcoming_events() {
     '#tag'        => 'a',
     '#value'      => t('See More ') . '<i class="fa fa-chevron-right"></i>',
     '#attributes' => array(
-      'href' => url('events'),
+      'href' => url('global-events'),
       'class' => 'see-more-link'
     ),
   );
