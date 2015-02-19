@@ -126,9 +126,9 @@
     h2.pane-title {
       color: $color-brown;
       border-bottom: 0 none;
-      padding-top: 9px;
-      margin-bottom: 9px;
-      font-size: 26px;
+      padding-top: 7px;
+      margin-bottom: 6px;
+      font-size: $font-size-h2;
     }
 
     .node.node-teaser {
@@ -143,8 +143,7 @@
           img {
             width: 50px;
             height: 50px;
-            margin-left: 20px;
-            margin-bottom: 5px;
+            margin: 5px 0 -5px 20px;
           }
         }
 
@@ -182,12 +181,16 @@
             }
           }
         }
+
+        &.group-right {
+          margin-left: -6px;
+        }
       }
     }
   }
 
   .see-more-link {
-    margin: 27px 0 0 5px;
+    margin: 26px 0 0 5px;
     display: inline-block;
     font-size: 16px;
   }
