@@ -379,8 +379,8 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-62ed89a9-556d-4b3b-b08c-25eee2613b0f';
     $pane->panel = 'top';
-    $pane->type = 'video_embed';
-    $pane->subtype = 'video_embed';
+    $pane->type = 'video_overlay';
+    $pane->subtype = 'video_overlay';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(

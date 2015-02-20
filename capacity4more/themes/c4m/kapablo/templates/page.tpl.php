@@ -105,6 +105,12 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-12 header-content">
+          <?php print render($page['header']); ?>
+        </div>
+      </div>
+
       <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
 
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -140,8 +146,6 @@
     <?php if (!empty($site_slogan)): ?>
       <p class="lead"><?php print $site_slogan; ?></p>
     <?php endif; ?>
-
-    <?php print render($page['header']); ?>
   </header>
   <!-- /#page-header -->
 

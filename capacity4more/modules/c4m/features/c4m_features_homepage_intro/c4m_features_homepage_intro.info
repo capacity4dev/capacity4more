@@ -1,0 +1,6 @@
+name = Homepage Intro video
+description = Provides an intro video about capacity4dev on the homepage.
+core = 7.x
+package = capacity4more - Features
+dependencies[] = ctools
+dependencies[] = context
