@@ -377,30 +377,6 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-5abcf7ba-8a73-4ba1-8599-8e144b4326b1'] = $pane;
     $display->panels['right'][0] = 'new-5abcf7ba-8a73-4ba1-8599-8e144b4326b1';
     $pane = new stdClass();
-    $pane->pid = 'new-62ed89a9-556d-4b3b-b08c-25eee2613b0f';
-    $pane->panel = 'top';
-    $pane->type = 'video_overlay';
-    $pane->subtype = 'video_overlay';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'title' => '',
-      'video' => 'http://youtu.be/O2AfmjzwAFY',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '62ed89a9-556d-4b3b-b08c-25eee2613b0f';
-    $display->content['new-62ed89a9-556d-4b3b-b08c-25eee2613b0f'] = $pane;
-    $display->panels['top'][0] = 'new-62ed89a9-556d-4b3b-b08c-25eee2613b0f';
-    $pane = new stdClass();
     $pane->pid = 'new-19296c5d-1903-4e8e-9b38-269ff72c3fbe';
     $pane->panel = 'top';
     $pane->type = 'views_panes';
