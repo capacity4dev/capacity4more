@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the Homepage Intro video feature.
+ */
+
+include_once 'c4m_features_homepage_intro.features.inc';
+/**
+ * @file
  * Provides a block to show an intro video about capacity4more.
  */
 
