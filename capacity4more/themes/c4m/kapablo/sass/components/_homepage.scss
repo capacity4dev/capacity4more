@@ -1,12 +1,42 @@
-
+// Header depends on the user logged in state.
 body.front {
+  #header-content-wrapper {
+    background: transparent url('../images/header/background-green-white.png') repeat-x top left;
+  }
   .header-content {
-    height:
+    background: transparent url('../images/header/homepage-user.png') no-repeat top center;
+    height: 115px;
+  }
+}
+body.front.not-logged-in {
+  #header-content-wrapper {
+    background: transparent url('../images/header/background-green.png') repeat-x top left;
+  }
+  .header-content {
+    background: transparent url('../images/header/homepage-anonymous.png') no-repeat top center;
+    height: 298px;
   }
 }
 
-.view-intro-block {
 
+// Video (intro) block on the home page.
+#block-c4m-features-homepage-intro-video {
+  .button-wrapper {
+    text-align: center;
+  }
+  .btn {
+    background-color: transparent;
+    border: none;
+    color: transparent;
+    height: 298px;
+    outline: 0;
+    width: 400px;
+  }
+}
+
+
+// Join.Share.Learn block.
+.view-intro-block {
   background-color: $color-beige-light;
   color: $color-blue-dark;
   text-align: center;
@@ -23,6 +53,8 @@ body.front {
   }
 }
 
+
+// Featured block on the bottom of the page.
 .pane-featured-block {
 
   .col-sm-4 {

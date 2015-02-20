@@ -80,7 +80,7 @@
 
   <!--  USER BAR -->
   <?php if (!empty($page['user'])): ?>
-    <section class="content-user">
+    <section id="user-bar">
       <div class="container">
         <div class="row">
           <?php print render($page['user']); ?>
@@ -89,27 +89,40 @@
     </section>
   <?php endif; ?>
 
-
-  <div id="navbar">
+  <div id="header-ec-wrapper">
     <div class="container">
       <div class="row">
+
         <div class="col-sm-12 col-md-6 header-logo">
           <?php if ($logo): ?>
-            <a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+            <a class="logo pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
               <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
             </a>
           <?php endif; ?>
         </div>
-        <div class="col-sm-12 col-md-6 header-search">
-<!--          SEARCH-->
-        </div>
-      </div>
 
+        <div class="col-sm-12 col-md-6 header-search">
+          <!-- SEARCH-->
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /banner-ec -->
+
+  <div id="header-content-wrapper">
+    <div class="container">
       <div class="row">
-        <div class="col-md-12 header-content">
+
+        <div class="col-sm-12 col-md-12 header-content">
           <?php print render($page['header']); ?>
         </div>
+
       </div>
+    </div>
+  </div><!-- /header-content-wrapper -->
+
+  <div id="navbar">
+    <div class="container">
 
       <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
 
