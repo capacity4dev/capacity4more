@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('c4mApp', [
-    'ngPrettyJson',
     'ngCkeditor',
     'ui.select2',
     'ui.bootstrap',
     'angularFileUpload',
-    'ngAnimate'
+    'ngAnimate',
+    'angular-carousel',
+    'ngTouch'
   ], function($httpProvider) {
 
     // Use x-www-form-urlencoded Content-Type

@@ -347,25 +347,3 @@
     <?php print t('Error saving {{ resources[createdResource].bundle }}.') ?>
   </div>
 </div>
-
-<!-- Debug -->
-<div ng-show="debug">
-  <h2>Console (Server side)</h2>
-
-  <div ng-show="serverSide.status == 200 || serverSide.status == 201" class="create-success">
-    <strong>
-      New {{ resources[selectedResource].bundle }} created: <a ng-href="{{ serverSide.data.self }}" target="_blank">{{
-        serverSide.data.label }}</a> (node ID {{ serverSide.data.data[0].id }})
-    </strong>
-  </div>
-  <div ng-show="serverSide.status">
-    <div>
-      Status: {{ serverSide.status }}
-    </div>
-    <div>
-      Data:
-      <pre pretty-json="serverSide.data"/>
-    </div>
-  </div>
-</div>
-<!-- End debug -->
