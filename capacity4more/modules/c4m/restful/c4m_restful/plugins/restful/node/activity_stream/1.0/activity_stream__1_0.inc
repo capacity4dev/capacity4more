@@ -19,4 +19,8 @@ $plugin = array(
   'class' => 'C4mRestfulActivityStreamResource',
   'authentication_types' => TRUE,
   'authentication_optional' => TRUE,
+  'data_provider_options' => array(
+    'table_name' => 'message',
+    'id_column' => 'mid',
+  ),
 );
