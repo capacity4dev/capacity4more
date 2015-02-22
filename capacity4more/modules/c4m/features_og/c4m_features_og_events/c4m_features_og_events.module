@@ -219,8 +219,6 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
  *  HTML of rendered upcoming events, FALSE if there's no events.
  */
 function c4m_features_og_events_upcoming_events_loggedin() {
-  $events = '';
-
   // Get content filter.
   $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
   $range = 3;
