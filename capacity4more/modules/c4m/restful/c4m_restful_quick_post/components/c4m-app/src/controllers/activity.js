@@ -6,6 +6,16 @@ angular.module('c4mApp')
     // Get the current group ID.
     $scope.group = DrupalSettings.getData('entity').group;
 
+    $scope.topics = DrupalSettings.getData('entity').topics;
+
+    $scope.homepage = DrupalSettings.getData('entity').homepage;
+
+    $scope.homepage = $scope.homepage === undefined ? 0 : $scope.homepage;
+
+    $scope.hideArticles = DrupalSettings.getData('entity').hide_articles;
+
+    $scope.hideArticles = $scope.hideArticles === undefined ? 0 : $scope.hideArticles;
+
     // Getting the activity stream.
     $scope.existingActivities = DrupalSettings.getActivities();
 
@@ -58,7 +68,10 @@ angular.module('c4mApp')
 
       var activityStreamInfo = {
         group: $scope.group,
-        lastTimestamp: $scope.stream.lastLoadedTimestamp
+        lastTimestamp: $scope.stream.lastLoadedTimestamp,
+        homepage: $scope.homepage,
+        hideArticles: $scope.hideArticles,
+        topics: $scope.topics
       };
 
       // Don't send a request when data is missing.
@@ -78,6 +91,9 @@ angular.module('c4mApp')
 
           // Update if there's new activities.
           if (data.data) {
+            if (data.data.length == 0) {
+              return;
+            }
             // Count the activities that were fetched.
             var position = 0;
             angular.forEach(data.data, function(activity) {
@@ -130,7 +146,10 @@ angular.module('c4mApp')
 
       var activityStreamInfo = {
         group: $scope.group,
-        firstLoadedTimestamp: $scope.stream.firstLoadedTimestamp
+        firstLoadedTimestamp: $scope.stream.firstLoadedTimestamp,
+        homepage: $scope.homepage,
+        hideArticles: $scope.hideArticles,
+        topics: $scope.topics
       };
 
       EntityResource.updateStream(activityStreamInfo, 'load')

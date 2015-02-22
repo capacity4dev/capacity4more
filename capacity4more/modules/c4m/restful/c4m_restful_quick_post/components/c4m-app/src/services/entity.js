@@ -97,6 +97,17 @@ angular.module('c4mApp')
       var timestamp = action == 'update' ? data.lastTimestamp : data.firstLoadedTimestamp;
       var operator = action == 'update' ? '>' : '<';
 
+      var homepage = '&homepage=' + data.homepage;
+      var hideArticles = '&hide_articles=' + data.hideArticles;
+      var topics = data.topics;
+
+      if (angular.isObject(topics)) {
+        var topics_filter = '';
+        angular.forEach(topics, function(topic, index) {
+          topics_filter += '&topics[' + index + ']=' + topic;
+        });
+      }
+
       // If we have more than one group then add "IN",
       // operator and breakdown the group IDs to separate filters.
       if (angular.isObject(data.group)) {
@@ -105,9 +116,13 @@ angular.module('c4mApp')
           group_filter += 'group[' + index + ']=' + group + '&';
         });
 
-        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?' + group_filter + '&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
+        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?'
+        + group_filter + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
+        + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage +  hideArticles + topics_filter, config);
       }
 
-      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group=' + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp + '&filter[timestamp][operator]="' + operator + '"&html=1', config);
+      return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group='
+      + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
+      + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage + hideArticles + topics_filter, config);
     };
   });
