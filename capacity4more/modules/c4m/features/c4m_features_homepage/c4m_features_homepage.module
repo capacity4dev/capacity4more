@@ -72,19 +72,9 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     $groups .= drupal_render($node_view);
   }
 
-  // Render "see more" link.
-  $link['element'] = array(
-    '#tag'        => 'a',
-    '#value'      => t('See More ') . '<i class="fa fa-chevron-right"></i>',
-    '#attributes' => array(
-      'href' => url('groups'),
-      'class' => 'see-more-link'
-      ),
-  );
+  $variables['groups'] = $groups;
 
-  $groups .= theme_html_tag($link);
-
-  return $groups;
+  return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
 }
 
 /**
