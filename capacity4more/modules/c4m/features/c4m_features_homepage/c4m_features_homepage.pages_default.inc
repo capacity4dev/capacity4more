@@ -567,6 +567,28 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7'] = $pane;
     $display->panels['right'][1] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane = new stdClass();
+    $pane->pid = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $pane->panel = 'right';
+    $pane->type = 'upcoming_events';
+    $pane->subtype = 'upcoming_events';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $display->content['new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c'] = $pane;
+    $display->panels['right'][1] = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
+    $pane = new stdClass();
     $pane->pid = 'new-225dc4fb-702b-464d-94a7-55028265236b';
     $pane->panel = 'top';
     $pane->type = 'voices_views_carousel';
