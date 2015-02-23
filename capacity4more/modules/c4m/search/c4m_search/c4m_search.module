@@ -151,7 +151,7 @@ function c4m_search_theme() {
 }
 
 /**
- * Programmatically execute a search.
+ * Pragmatically execute a search.
  *
  * There must be at least one filter.
  * Each filter contains a condition with a field name, value and operator.

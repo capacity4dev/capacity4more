@@ -14,6 +14,13 @@ function c4m_search_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function c4m_search_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_default_search_api_index().
  */
 function c4m_search_default_search_api_index() {
@@ -208,10 +215,10 @@ function c4m_search_default_search_api_index() {
       "cron_limit" : "50",
       "fields" : {
         "c4m_country" : { "type" : "string" },
-        "c4m_first_name" : { "type" : "text" },
+        "c4m_first_name" : { "type" : "string" },
         "c4m_is_deleted" : { "type" : "boolean" },
         "c4m_is_spammer" : { "type" : "boolean" },
-        "c4m_last_name" : { "type" : "text" },
+        "c4m_last_name" : { "type" : "string" },
         "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
         "c4m_organisation" : { "type" : "text" },
         "c4m_organisation_type" : { "type" : "string" },
