@@ -850,17 +850,57 @@ function c4m_message_preprocess_node__event(&$variables) {
 function c4m_message_load_homepage_activity_stream() {
   global $user;
 
-  $groups = $user->uid ? og_get_groups_by_user() : c4m_og_get_groups_by_access_type('public');
-  $groups = isset($groups['node']) ? $groups['node'] : $groups;
+// Get filter value.
+  $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+  $groups = array();
+  $interests = array();
+  $hide_articles = $filter == 'groups' ? 1 : 0;
+
+  if ($user->uid) {
+    // This is an Authenticated user.
+
+    if ($filter == 'interests' || $filter == 'groups') {
+      $groups = og_get_groups_by_user();
+      $groups = isset($groups['node']) ? $groups['node'] : array();
+
+      if ($filter == 'interests') {
+        $hide_articles = 0;
+        // Get user's interests.
+        $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+        $interests = $user_wrapper->c4m_related_topic->raw();
+
+        // Get groups that have topics from user's interests
+        // but user is not member of these groups (we already have this list)
+        $query = new EntityFieldQuery();
+
+        $query
+          ->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'group')
+          ->propertyCondition('status', NODE_PUBLISHED);
+        if (!empty($groups)) {
+          $query->propertyCondition('nid', $groups, 'NOT IN');
+        }
+        if (!empty($interests)) {
+          $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
+        }
+        $result = $query->execute();
+        $groups += !empty($result['node']) ? array_keys($result['node']) : array();
+      }
+    }
+  }
+
+
 
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
     'group' => $groups,
+    'topics' => $interests,
     'html' => true,
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
     'homepage' => 1,
+    'hide_articles' => $hide_articles,
   );
 
   $activities = $activity_stream_handler->get('', $request);
@@ -879,7 +919,13 @@ function c4m_message_load_homepage_activity_stream() {
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
     'data' => array(
-      'entity' => array('group' => $groups),
+      'entity' => array(
+        'group' => $groups,
+        'topics' => $interests,
+        'homepage' => 1,
+        'hide_articles' => $hide_articles,
+      ),
+
     ),
   );
   drupal_add_js($settings, 'setting');
@@ -907,6 +953,94 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
     if (isset($condition['field']) && !is_object($condition['field']) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
       unset($conditions[$key]);
     }
+  }
+}
+
+function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery &$query) {
+  $query->addMetaData('base_table', 'field_data_field_group_node');
+
+  global $user;
+
+  // Read meta-data from query, if provided.
+  if (!$account = $query->getMetaData('account')) {
+    $account = $user;
+  }
+  if (!$op = $query->getMetaData('op')) {
+    $op = 'view';
+  }
+
+  // If $account can bypass node access, or there are no node access modules,
+  // or the operation is 'view' and the $account has a global view grant
+  // (such as a view grant for node ID 0), we don't need to alter the query.
+  if (user_access('bypass node access', $account)) {
+    return;
+  }
+  if (!count(module_implements('node_grants'))) {
+    return;
+  }
+  if ($op == 'view' && node_access_view_all_nodes($account)) {
+    return;
+  }
+
+  $tables = $query->getTables();
+  $base_table = $query->getMetaData('base_table');
+
+  // Find all instances of the base table being joined -- could appear
+  // more than once in the query, and could be aliased. Join each one to
+  // the node_access table.
+
+  $grants = node_access_grants($op, $account);
+
+  $node_conditions = db_and();
+
+  foreach ($tables as $nalias => $tableinfo) {
+    $table = $tableinfo['table'];
+    if (!($table instanceof SelectQueryInterface) && $table == $base_table) {
+      // Set the subquery.
+      $subquery = db_select('node_access', 'na')
+        ->fields('na', array('nid'));
+
+      $grant_conditions = db_or();
+      // If any grant exists for the specified user, then user has access
+      // to the node for the specified operation.
+      foreach ($grants as $realm => $gids) {
+        foreach ($gids as $gid) {
+          $grant_conditions->condition(db_and()
+            ->condition('na.gid', $gid)
+            ->condition('na.realm', $realm)
+          );
+        }
+      }
+
+      // Attach conditions to the subquery for nodes.
+      if (count($grant_conditions->conditions())) {
+        $subquery->condition($grant_conditions);
+      }
+      $subquery->condition('na.grant_' . $op, 1, '>=');
+      $field = 'nid';
+      // Now handle entities.
+      // Set a common alias for entities.
+      $base_alias = $nalias;
+      $field = 'field_group_node_target_id';
+      $subquery->where("$nalias.$field = na.nid");
+
+      // For an entity query, attach the subquery to entity conditions.
+      $node_conditions->exists($subquery);
+    }
+  }
+
+  if (count($subquery->conditions())) {
+    // All the node access conditions are only for field values belonging to
+    // nodes.
+    $node_conditions->condition("$base_alias.entity_type", 'message');
+    $or = db_or();
+    $or->condition($node_conditions);
+    // If the field value belongs to a non-node entity type then this function
+    // does not do anything with it.
+    $or->condition("$base_alias.entity_type", 'message', '<>');
+    $or->isNull('gn.field_group_node_target_id');
+    // Add the compiled set of rules to the query.
+    $query->condition($or);
   }
 }
 
