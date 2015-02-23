@@ -127,7 +127,9 @@ li {
   padding-top: 0;
 }
 
-.view-c4m-overview-og-members {
+.view-c4m-overview-og-members,
+.my-groups,
+.suggested-groups {
   &.view-display-id-block_1 {
     .views-row {
       border: 0;
@@ -136,7 +138,8 @@ li {
     }
   }
 
-  .views-field-c4m-media {
+  .views-field-c4m-media,
+  .round-bg {
     img, .initials {
       @include border-radius(50%);
       height: 60px;

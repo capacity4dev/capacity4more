@@ -27,11 +27,6 @@ function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
 function capacity4more_install_tasks() {
   $tasks = array();
 
-//  $tasks['capacity4more_setup_og_permissions'] = array(
-//    'display_name' => st('Setup Blocks'),
-//    'display' => FALSE,
-//  );
-
   $tasks['capacity4more_setup_set_variables'] = array(
     'display_name' => st('Set variables'),
     'display' => FALSE,
@@ -50,28 +45,6 @@ function capacity4more_install_tasks() {
 
   return $tasks;
 }
-
-/**
- * Task callback; Setup OG permissions.
- *
- * We do this here, late enough to make sure all group-content were
- * created.
- */
-//function capacity4more_setup_og_permissions() {
-//  $og_roles = og_roles('node', 'company');
-//  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
-//
-//  $permissions = array();
-//  $types = array(
-//    'discussion',
-//  );
-//  foreach ($types as $type) {
-//    $permissions["create $type content"] = TRUE;
-//    $permissions["update own $type content"] = TRUE;
-//    $permissions["update any $type content"] = TRUE;
-//  }
-//  og_role_change_permissions($rid, $permissions);
-//}
 
 /**
  * Task callback; Rebuild permissions (node access).
@@ -107,6 +80,9 @@ function capacity4more_setup_set_variables(&$install_state) {
 
     // Enable counting views of the entity.
     'statistics_count_content_views' => TRUE,
+
+    // Set the homepage intro video.
+    'c4m_features_homepage_intro_video_url' => 'http://youtu.be/O2AfmjzwAFY',
   );
 
   foreach ($variables as $key => $value) {
