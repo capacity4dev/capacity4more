@@ -2,8 +2,9 @@
   width: 100%;
 }
 
-.content-user {
-  background: $highlight-blue;
+// User bar on top of the site.
+#user-bar {
+  background: $userbar-blue;
   color: $color-white;
   line-height: 28px;
   width: 100%;
@@ -18,8 +19,22 @@
       text-decoration: none;
     }
   }
+
+  #block-c4m-user-profile-user-notifications {
+    text-align: right;
+  }
 }
 
+
+// EC logo bar.
+#header-ec-wrapper {
+  a.logo {
+    padding: 10px 0;
+  }
+}
+
+
+// Navigation.
 .navbar.container {
   background: $color-white;
   border: 0;
@@ -27,6 +42,3 @@
   margin-top: 0;
 }
 
-#block-c4m-user-profile-user-notifications {
-  text-align: right;
-}
