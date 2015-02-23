@@ -14,6 +14,13 @@ function c4m_search_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function c4m_search_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_default_search_api_index().
  */
 function c4m_search_default_search_api_index() {
@@ -163,6 +170,7 @@ function c4m_search_default_search_api_index() {
         "c4m_datetime_end:value" : { "type" : "date" },
         "c4m_datetime_end:value2" : { "type" : "date" },
         "c4m_discussion_type" : { "type" : "string" },
+        "c4m_document_add_to_library" : { "type" : "boolean" },
         "c4m_document_agenda" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_document_presentation" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_event_type" : { "type" : "string" },
@@ -178,7 +186,6 @@ function c4m_search_default_search_api_index() {
         "changed" : { "type" : "date" },
         "comment_count" : { "type" : "integer" },
         "created" : { "type" : "date" },
-        "c4m_document_add_to_library" : { "type" : "boolean" },
         "group_group" : { "type" : "boolean" },
         "is_new" : { "type" : "boolean" },
         "nid" : { "type" : "integer" },
@@ -204,16 +211,17 @@ function c4m_search_default_search_api_index() {
     "server" : "c4m_solr",
     "item_type" : "user",
     "options" : {
-      "index_directly" : 0,
+      "index_directly" : 1,
       "cron_limit" : "50",
       "fields" : {
         "c4m_country" : { "type" : "string" },
-        "c4m_first_name" : { "type" : "text" },
+        "c4m_first_name" : { "type" : "string" },
         "c4m_is_deleted" : { "type" : "boolean" },
         "c4m_is_spammer" : { "type" : "boolean" },
-        "c4m_last_name" : { "type" : "text" },
+        "c4m_last_name" : { "type" : "string" },
+        "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
         "c4m_organisation" : { "type" : "text" },
-        "c4m_organisation_type" : { "type" : "text" },
+        "c4m_organisation_type" : { "type" : "string" },
         "c4m_related_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_related_topic_expertise" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
@@ -391,6 +399,32 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "search_api_relevance" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "c4m_first_name",
+    "name" : "First Name",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__c4m_first_name",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "asc",
+    "options" : { "field_name" : "First Name" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__c4m_last_name'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "c4m_last_name",
+    "name" : "Last Name",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__c4m_last_name",
+    "default_sort" : "1",
+    "default_sort_no_terms" : "0",
+    "default_order" : "asc",
+    "options" : { "field_name" : "Last Name" },
     "rdf_mapping" : []
   }');
   return $items;

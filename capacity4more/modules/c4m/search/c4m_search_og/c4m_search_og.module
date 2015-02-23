@@ -4,6 +4,9 @@
  * Integration between Search API and OG
  */
 
+include_once 'c4m_search_og.users.inc';
+
+
 /**
  * Implements hook_batch_alter().
  *
@@ -94,7 +97,7 @@ function c4m_search_og_reindex_og_access_node_grants(
 
   // Mark each group node for re-indexing.
   foreach (entity_load('og_membership', array_keys($result['og_membership'])) as $og_membership) {
-    search_api_track_item_change('node', array($og_membership->etid));
+    c4m_search_nodes_track_change($og_membership->etid);
 
     $context['sandbox']['progress']++;
     $context['sandbox']['last_id'] = $og_membership->etid;

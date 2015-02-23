@@ -39,15 +39,15 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_comment_author_image' => array(
+    'c4m_user_picture' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'c4m_user_author_thumb_image',
     ),
-    'c4m_ds_author_first_and_last_name' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'author_link',
+      'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -55,7 +55,7 @@ function c4m_content_event_ds_field_settings_info() {
           'lb-col' => TRUE,
           'ow' => TRUE,
           'ow-el' => 'span',
-          'ow-cl' => 'field-name-c4m-ds-author-first-and-last-name',
+          'ow-cl' => 'field-name-c4m-user-first-and-last-name',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -349,18 +349,18 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_comment_author_image',
+        0 => 'c4m_user_picture',
       ),
       'right' => array(
-        1 => 'c4m_ds_author_first_and_last_name',
+        1 => 'c4m_user_first_and_last_name',
         2 => 'post_date',
         3 => 'comment_body',
         4 => 'links',
       ),
     ),
     'fields' => array(
-      'c4m_ds_comment_author_image' => 'left',
-      'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_user_picture' => 'left',
+      'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
       'comment_body' => 'right',
       'links' => 'right',

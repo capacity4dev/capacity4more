@@ -23,6 +23,7 @@ files[] = includes/CreateGroups.inc
 files[] = includes/CreateBanners.inc
 files[] = includes/CreateOgContent.inc
 files[] = includes/CreateOgGroups.inc
+files[] = includes/CreateOgUsers.inc
 files[] = includes/CreateWikiPageComments.inc
 files[] = includes/CreateWikiPages.inc
 files[] = includes/CreatePageElements.inc

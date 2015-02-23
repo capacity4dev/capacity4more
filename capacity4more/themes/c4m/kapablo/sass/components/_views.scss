@@ -2,7 +2,7 @@
   .views-row {
     border-bottom: 1px solid $gray-lighter;
     margin-bottom: 15px;
-    padding-bottom: 15px; 
+    padding-bottom: 15px;
 
     &:last-child {
       border-bottom: none;
@@ -94,6 +94,19 @@
       }
     }
   }
+
+  a.custom-link {
+    display: inline-block;
+    padding-left: .5em;
+  }
+  a.custom-link.active {
+    color: $color-black;
+  }
+  a.custom-link.has-icon {
+    span.icon-label {
+      display: none;
+    }
+  }
 }
 
 .view-content {
@@ -127,7 +140,7 @@ li {
   padding-top: 0;
 }
 
-.view-c4m-overview-og-members,
+
 .my-groups,
 .suggested-groups {
   &.view-display-id-block_1 {
