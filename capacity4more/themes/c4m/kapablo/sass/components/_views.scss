@@ -242,8 +242,21 @@ li {
           padding: 0;
         }
       }
+      .view-mode-c4m_user_teaser_table_header {
+        display: none;
+
+        @media screen and (min-width: $screen-sm-min) {
+          display: block;
+        }
+      }
+
       .table-responsive {
         table {
+          @media screen and (max-width: $screen-sm-min) {
+            .row {
+              margin: 0;
+            }
+          }
           @media screen and (min-width: $screen-sm-min) {
             .views-field-rendered-entity {
               .row > div {
