@@ -390,11 +390,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '19296c5d-1903-4e8e-9b38-269ff72c3fbe';
     $display->content['new-19296c5d-1903-4e8e-9b38-269ff72c3fbe'] = $pane;
-    $display->panels['top'][1] = 'new-19296c5d-1903-4e8e-9b38-269ff72c3fbe';
+    $display->panels['top'][0] = 'new-19296c5d-1903-4e8e-9b38-269ff72c3fbe';
     $pane = new stdClass();
     $pane->pid = 'new-afc6317f-416b-4682-b8f9-cf0330924740';
     $pane->panel = 'top';
@@ -412,11 +412,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'afc6317f-416b-4682-b8f9-cf0330924740';
     $display->content['new-afc6317f-416b-4682-b8f9-cf0330924740'] = $pane;
-    $display->panels['top'][2] = 'new-afc6317f-416b-4682-b8f9-cf0330924740';
+    $display->panels['top'][1] = 'new-afc6317f-416b-4682-b8f9-cf0330924740';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -523,6 +523,31 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-53b1536c-6f9b-49a7-ad44-245d4e106f4f'] = $pane;
     $display->panels['left'][0] = 'new-53b1536c-6f9b-49a7-ad44-245d4e106f4f';
     $pane = new stdClass();
+    $pane->pid = 'new-6291300a-bfa2-4b41-b466-2acf76adce64';
+    $pane->panel = 'right';
+    $pane->type = 'video_embed';
+    $pane->subtype = 'video_embed';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'title' => 'You\'re not yet a member of any group.',
+      'description' => 'Learn how to learn and share knowledge by joining a group',
+      'video' => 'http://youtu.be/ISNcUnbQkVQ',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6291300a-bfa2-4b41-b466-2acf76adce64';
+    $display->content['new-6291300a-bfa2-4b41-b466-2acf76adce64'] = $pane;
+    $display->panels['right'][0] = 'new-6291300a-bfa2-4b41-b466-2acf76adce64';
+    $pane = new stdClass();
     $pane->pid = 'new-f5cbe6e8-548b-420f-828a-3896d25f75f1';
     $pane->panel = 'right';
     $pane->type = 'my_groups';
@@ -539,11 +564,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'f5cbe6e8-548b-420f-828a-3896d25f75f1';
     $display->content['new-f5cbe6e8-548b-420f-828a-3896d25f75f1'] = $pane;
-    $display->panels['right'][0] = 'new-f5cbe6e8-548b-420f-828a-3896d25f75f1';
+    $display->panels['right'][1] = 'new-f5cbe6e8-548b-420f-828a-3896d25f75f1';
     $pane = new stdClass();
     $pane->pid = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane->panel = 'right';
@@ -561,11 +586,11 @@ function c4m_features_homepage_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = '5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $display->content['new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7'] = $pane;
-    $display->panels['right'][1] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
+    $display->panels['right'][2] = 'new-5be4e32c-b632-48f9-81af-3ecb57a2eaf7';
     $pane = new stdClass();
     $pane->pid = 'new-c4bc1d1e-44b3-4475-a4ff-8d0061d9ff5c';
     $pane->panel = 'right';

@@ -12,13 +12,13 @@
       padding: 0 15px 0 0;
     }
   }
+}
 
-  #c4mVideoModal {
+#c4mVideoModal {
 
-    .modal-dialog {
-      @media screen and (min-width: $screen-md-max) {
-        width: 900px;
-      }
+  .modal-dialog {
+    @media screen and (min-width: $screen-md-max) {
+      width: 900px;
     }
   }
 }
