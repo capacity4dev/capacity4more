@@ -1,7 +1,17 @@
-<div class="button-wrapper">
-  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#c4mVideoModal">
-    <?php print $video_title ?>
-  </button>
+<div class="video-preview-wrapper">
+  <div class="video-preview" data-toggle="modal" data-target="#c4mVideoModal">
+    <div class="video-details">
+      <span class="video-title">
+        <?php print $video_title ?>
+      </span>
+      <span class="video-description">
+        <?php print $video_description ?>
+      </span>
+    </div>
+    <div>
+      <?php print $video_thumbnail ?>
+    </div>
+  </div>
 </div>
 <div class="modal fade" id="c4mVideoModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
@@ -11,7 +21,7 @@
         <h4 class="modal-title" id="c4dVideoLabel"><?php print $video_title ?></h4>
       </div>
       <div class="modal-body">
-        <iframe id="c4mVideo" allowfullscreen="true" width="100%" height="477" src="https://www.youtube.com/embed/<?php print $video_id; ?>?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>
+        <?php print $video_embed ?>
       </div>
     </div>
   </div>
