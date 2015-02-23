@@ -401,5 +401,31 @@ function c4m_search_default_search_api_sort() {
     "options" : { "field_name" : "search_api_relevance" },
     "rdf_mapping" : []
   }');
+  $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "c4m_first_name",
+    "name" : "First Name",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__c4m_first_name",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "asc",
+    "options" : { "field_name" : "First Name" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__c4m_last_name'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "c4m_last_name",
+    "name" : "Last Name",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__c4m_last_name",
+    "default_sort" : "1",
+    "default_sort_no_terms" : "0",
+    "default_order" : "asc",
+    "options" : { "field_name" : "Last Name" },
+    "rdf_mapping" : []
+  }');
   return $items;
 }
