@@ -75,16 +75,18 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
   $handler->display->display_options['header']['c4m_views_switch_page']['ui_name'] = 'Add list view';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'documents';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'List';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'List view';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'list-teaser-view';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_icon'] = 'fa-list';
   /* Header: Add table view */
   $handler->display->display_options['header']['c4m_views_switch_page_1']['id'] = 'c4m_views_switch_page_1';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['table'] = 'views';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['field'] = 'c4m_views_switch_page';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['ui_name'] = 'Add table view';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_path'] = 'documents/table';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'Table';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'Table view';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'table-teaser-view';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_icon'] = 'fa-table';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';

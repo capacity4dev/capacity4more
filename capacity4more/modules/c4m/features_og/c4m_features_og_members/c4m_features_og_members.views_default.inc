@@ -49,7 +49,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page_1']['field'] = 'c4m_views_switch_page';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['ui_name'] = 'Add link to list';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_path'] = 'members';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'List';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'List view';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'list-teaser-view';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_icon'] = 'fa-list';
   /* Header: Add link to table */
@@ -59,7 +59,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page']['ui_name'] = 'Add link to table';
   $handler->display->display_options['header']['c4m_views_switch_page']['empty'] = TRUE;
   $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'members/table';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'Table';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'Table view';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'table-teaser-view';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_icon'] = 'fa-table';
   /* Field: User: Rendered User */
