@@ -130,6 +130,12 @@ li {
 .view-c4m-overview-og-members,
 .my-groups,
 .suggested-groups {
+  .table-responsive {
+    overflow: visible;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
   &.view-display-id-block_1 {
     .views-row {
       border: 0;
@@ -140,6 +146,7 @@ li {
 
   .icon-wrapper .content-col {
     margin-left: 60px;
+  }
 
   .views-field-c4m-media,
   .round-bg {
@@ -158,6 +165,12 @@ li {
     }
   }
 
+  .view-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   .views-row {
     position: relative;
 
@@ -168,50 +181,58 @@ li {
       display: inline-block;
       width: 100%;
     }
-    .field-name-c4m-features-og-members-admin-actions {
-      float: right;
 
-      .dropdown-menu {
-        color: $color-blue;
-        left: auto;
-        right: 0;
-        .bold-text {
-          font-weight: bold;
+  }
+
+  .field-name-c4m-features-og-members-admin-actions {
+    float: right;
+
+    .dropdown-menu {
+      color: $color-blue;
+      left: auto;
+      right: 0;
+      .bold-text {
+        font-weight: bold;
+      }
+    }
+    .dropdown {
+      color: $color-gray;
+
+      li {
+        a {
+          color: $color-blue;
+
+          &:hover {
+            background: #EEE;
+          }
         }
       }
-      .dropdown {
+
+      .btn {
+        @include box-shadow(none);
+        background: none;
+        border: 0;
         color: $color-gray;
-
-        li {
-          a {
-            color: $color-blue;
-
-            &:hover {
-              background: #EEE;
-            }
-          }
-        }
-
-        .btn {
-          @include box-shadow(none);
-          background: none;
-          border: 0;
-          color: $color-gray;
-          margin: 0;
-          padding: 0;
-          .fa {
-            color: $color-blue;
-          }
+        margin: 0;
+        padding: 0;
+        .fa {
+          color: $color-blue;
         }
       }
     }
   }
-  &.view-display-id-page_1 {
-    .view-header {
-      position: absolute;
-      top: 0;
-      right: 0;
+
+  .user-name {
+    font-size: 22.5px;
+  }
+
+  &.view-display-id-page {
+    .view-content {
+      margin-top: 60px;
     }
+  }
+
+  &.view-display-id-page_1 {
     #views-form-c4m-overview-og-members-page-1{
       fieldset.form-inline {
         .panel-heading {
@@ -223,22 +244,28 @@ li {
       }
       .table-responsive {
         table {
-          overflow-x: hidden;
-          .views-field-rendered-entity {
-            .row>div {
-              display: inline-block;
-            }
-            .content-first {
-              width: 35%;
-            }
-            .content-second {
-              width: 30%;
-            }
-            .content-third {
-              width: 20%;
-            }
-            .content-fourth {
-              width: 10%;
+          @media screen and (min-width: $screen-sm-min) {
+            .views-field-rendered-entity {
+              .row > div {
+                display: inline-block;
+                vertical-align: top;
+              }
+              .content-first {
+                width: 35%;
+
+                .user-name {
+                  font-size: 18px;
+                }
+              }
+              .content-second {
+                width: 30%;
+              }
+              .content-third {
+                width: 20%;
+              }
+              .content-fourth {
+                width: 10%;
+              }
             }
           }
         }
