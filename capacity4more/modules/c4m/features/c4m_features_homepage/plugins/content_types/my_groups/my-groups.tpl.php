@@ -6,10 +6,12 @@
       <div class="collapse" id="allGroups">
         <?php print $extra_groups ?>
       </div>
-      <a class="see-more-link" href="javascript://" data-toggle="collapse" data-target="#allGroups" aria-expanded="false" aria-controls="allGroups">
+      <?php if ($show_all_link) : ?>
+      <a class="see-more-link" id="toggleMyGroups" href="javascript://" data-toggle="collapse" data-target="#allGroups" aria-expanded="false" aria-controls="allGroups">
         <?php print t('Show all') ?>
         <i class="fa fa-chevron-right"></i>
       </a>
+      <?php endif; ?>
     </div>
   </div>
 </div>

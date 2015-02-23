@@ -61,9 +61,9 @@
     Drupal.behaviors.collapseExpand = {
       attach: function (context, settings) {
         $('#allGroups').on('shown.bs.collapse', function () {
-          $('.see-more-link').html('Show less <i class="fa fa-chevron-right"></i>');
+          $('#toggleMyGroups').html('Show less <i class="fa fa-chevron-right"></i>');
         }).on('hidden.bs.collapse', function () {
-          $('.see-more-link').html('Show all <i class="fa fa-chevron-right"></i>');
+          $('#toggleMyGroups').html('Show all <i class="fa fa-chevron-right"></i>');
         });
       }
     };
