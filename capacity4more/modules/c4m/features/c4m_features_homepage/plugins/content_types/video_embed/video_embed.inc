@@ -40,7 +40,7 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   $video_embed = '<iframe id="c4mVideo" allowfullscreen="true" width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>';
 
   $video_thumb = array(
-    'path' => 'http://img.youtube.com/vi/' . $video_id . '/hqdefault.jpg',
+    'path' => 'http://img.youtube.com/vi/' . $video_id . '/maxresdefault.jpg',
     'width' => '',
     'height' => '',
     'alt' => $video_title,
