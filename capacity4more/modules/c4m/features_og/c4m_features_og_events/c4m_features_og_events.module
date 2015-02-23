@@ -219,13 +219,17 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
  *  HTML of rendered upcoming events, FALSE if there's no events.
  */
 function c4m_features_og_events_upcoming_events_loggedin() {
+  global $user;
   // Get content filter.
   $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
   $range = 3;
 
-  $groups = c4m_features_og_events_get_groups_by_filter($filter);
+  $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+  $interests = $filter == 'interests' ? $user_wrapper->c4m_related_topic->raw() : array();
 
-  $events = c4m_features_og_events_upcoming_events_get_events($range, $groups);
+  $groups = $filter == 'groups' ? og_get_groups_by_user() : array();
+
+  $events = c4m_features_og_events_upcoming_events_get_events($range, $interests, $groups);
 
   return $events;
 }
@@ -242,67 +246,17 @@ function c4m_features_og_events_upcoming_events_anonymous() {
 }
 
 /**
- * Get groups list based on filter value.
- *
- * @param $filter
- *  Value of the filter.
- *
- * @return array
- *  Returns array of groups or FALSE.
- */
-function c4m_features_og_events_get_groups_by_filter($filter) {
-  global $user;
-
-  if (!$filter || $filter == 'showAll') {
-    return FALSE;
-  }
-
-  $groups = array();
-
-  switch ($filter) {
-    case 'interests':
-      // Get user's interests when user is logged in.
-      $user_wrapper = entity_metadata_wrapper('user', $user->uid);
-      $interests = $user_wrapper->c4m_related_topic->raw();
-
-      $groups = og_get_groups_by_user();
-      $groups = !empty($groups['node']) ? $groups['node'] : array();
-
-      if (!empty($interests)) {
-        $query = new EntityFieldQuery();
-
-        $query
-          ->entityCondition('entity_type', 'node')
-          ->entityCondition('bundle', 'group')
-          ->propertyCondition('status', NODE_PUBLISHED)
-          ->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
-        if (!empty($groups)) {
-          $query->propertyCondition('nid', $groups, 'NOT IN');
-        }
-        $result = $query->execute();
-
-        $groups += !empty($result['node']) ? array_keys($result['node']) : array();
-      }
-      break;
-    case 'groups':
-      $groups = og_get_groups_by_user();
-      $groups = !empty($groups['node']) ? $groups['node'] : array();
-      break;
-  }
-
-  return $groups;
-}
-
-/**
  * @param $range
  *  Count of events should be taken.
  * @param $groups
  *  Optionally list of groups events belong to.
+ * @param $topics
+ *  Optionally list of topics user is interested in.
  *
  * @return bool|string
  *  HTML of rendered upcoming events, FALSE if there's no events.
  */
-function  c4m_features_og_events_upcoming_events_get_events($range, $groups = array()) {
+function  c4m_features_og_events_upcoming_events_get_events($range, $topics = array(), $groups = array()) {
   // Show all events starting from midnight onwards.
   $tomorrow = new DateTime('midnight tomorrow');
   $date = $tomorrow->format('Y-m-d H:i:s');
@@ -317,6 +271,10 @@ function  c4m_features_og_events_upcoming_events_get_events($range, $groups = ar
 
   if (!empty($groups)) {
     $query->fieldCondition(OG_AUDIENCE_FIELD, 'target_id', $groups, 'IN');
+  }
+
+  if (!empty($topics)) {
+    $query->fieldCondition('c4m_related_topics', 'target_id', $topics, 'IN');
   }
 
   $result = $query
