@@ -33,6 +33,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -109,6 +115,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'date_default',
         'weight' => 5,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'inline',
         'module' => 'date',
@@ -142,7 +154,7 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 4,
       ),
       'upcoming_event' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'date',
         'settings' => array(
           'format_type' => 'c4m_long_without_time',
@@ -204,6 +216,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 16,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'above',
@@ -280,6 +298,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 17,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'above',
@@ -358,6 +382,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 10,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'settings' => array(),
@@ -418,6 +448,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 12,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -500,6 +536,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 11,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1015,6 +1057,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'getlocations_fields_default',
         'weight' => 4,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'getlocations_fields',
@@ -1323,6 +1371,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 2,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -1391,6 +1445,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 7,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'above',
@@ -1468,6 +1528,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 14,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -1536,6 +1602,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 13,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -1619,6 +1691,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 15,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1681,6 +1759,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 9,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1742,6 +1826,12 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'og_ui',
         'settings' => array(),
         'type' => 'og_list_default',
+        'weight' => 0,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'full' => array(
@@ -1845,6 +1935,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 6,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'full' => array(
         'label' => 'above',

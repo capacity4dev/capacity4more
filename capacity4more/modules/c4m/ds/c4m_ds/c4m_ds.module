@@ -6,6 +6,9 @@
 
 include_once 'c4m_ds.features.inc';
 
+// Fallback to avoid missing bootstrap functionality.
+require_once(drupal_get_path('theme', 'bootstrap') . '/includes/process.inc');
+
 /**
  * Implements hook_ds_layout_info().
  */
@@ -35,7 +38,7 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Right'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
   );
 
   $layouts['c4m_ds_8_4_fluid'] = array(
@@ -46,7 +49,7 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Right'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
   );
 
   $layouts['c4m_ds_2col_icon_left'] = array(
@@ -57,7 +60,7 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Content'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
   );
 
   $layouts['c4m_ds_3col_icon_left'] = array(
@@ -69,7 +72,20 @@ function c4m_ds_ds_layout_info() {
       'right' => t('Content right'),
     ),
     'form'    => TRUE,
-    'image'   => FALSE,
+    'image'   => TRUE,
+  );
+
+  $layouts['c4m_ds_4col_table_vbo'] = array(
+    'label'   => t('Fluid 4 columns with space on the left for a bulk operation checkbox.'),
+    'path'    => $path . '/c4m_ds_4col_table_vbo',
+    'regions' => array(
+      'first' => t('First'),
+      'second' => t('Second'),
+      'third' => t('Third'),
+      'fourth' => t('Fourth'),
+    ),
+    'form'    => TRUE,
+    'image'   => TRUE,
   );
 
   return $layouts;
@@ -142,33 +158,6 @@ function c4m_ds_ds_fields_info($entity_type) {
   $path = drupal_get_path('module', 'c4m_ds');
 
   // Fields for entity type node.
-  $image_styles = array();
-  foreach (image_styles() as $image_style_id => $image_style) {
-    $image_styles[$image_style_id] = $image_style['label'];
-  }
-  $fields['node']['c4m_ds_node_author_image'] = array(
-    'title'      => t('Author image'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_node_author_image',
-    'properties' => array('formatters' => $image_styles),
-  );
-
-  $fields['node']['c4m_ds_author_first_and_last_name'] = array(
-    'title'      => t('Author first and last name'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_author_first_and_last_name',
-    'properties' => array(
-      'formatters' => array(
-        'author'      => 'Author first and last name',
-        'author_link' => 'Author first and last name linked to profile',
-      )
-    ),
-  );
-
 
   // Creation time.
   $format_types    = system_get_date_types();
@@ -303,30 +292,6 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit'   => array('document|*'),
     'file'       => $path . '/includes/c4m_ds.theme.file.inc',
     'function'   => 'theme_c4m_ds_document_preview',
-  );
-
-  // Fields for entity type comments.
-  $fields['comment']['c4m_ds_comment_author_image'] = array(
-    'title'      => t('Author image'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_node_author_image',
-    'properties' => array('formatters' => $image_styles),
-  );
-
-  $fields['comment']['c4m_ds_author_first_and_last_name'] = array(
-    'title'      => t('Author first and last name'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
-    'function'   => 'theme_c4m_ds_author_first_and_last_name',
-    'properties' => array(
-      'formatters' => array(
-        'author'      => 'Author first and last name',
-        'author_link' => 'Author first and last name linked to profile',
-      )
-    ),
   );
 
   return $fields;

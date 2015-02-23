@@ -5,100 +5,11 @@
  * Custom Display Suite function fields.
  */
 
-
 /**
  * DS function field.
  *
- * Render Author profile image
- *
- * @param $field
- *
- * @return string
- */
-function theme_c4m_ds_node_author_image($field) {
-  if (empty($field['entity'])) {
-    return;
-  }
-
-  $entity = $field['entity'];
-  $user   = user_load($entity->uid);
-
-  return c4m_ds_node_author_image($user, $field['formatter']);
-}
-
-/**
- * Helper function to render C4M user image based on a user entity.
- *
- * @param $user
- *
- * @return string
- */
-function c4m_ds_node_author_image($user, $style = NULL) {
-  $output  = '';
-  $wrapper = entity_metadata_wrapper('user', $user);
-  $file    = $wrapper->c4m_media->value();
-  if (!empty($file)) {
-    $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
-    $file['path']       = $file['uri'];
-    $file['attributes'] = array('class' => 'user-image');
-    $img                = theme_image_style($file);
-    $output             = l($img, 'user/' . $user->uid, array('html' => 'TRUE'));
-  }
-
-  return $output;
-}
-
-/**
- * DS function field.
- *
- * Render Author first and last name.
- *
- * @param $field
- *
- * @return string
- */
-function theme_c4m_ds_author_first_and_last_name($field) {
-  if (empty($field['entity'])) {
-    return;
-  }
-  $tag = array();
-  $entity = $field['entity'];
-
-  if ($entity->uid != 0) {
-    $user = user_load($entity->uid);
-    $name = c4m_user_profile_name($user);
-
-    if ('author_link' == $field['formatter']) {
-      $name = l($name, 'user/' . $user->uid);
-    }
-
-    $tag['element'] = array(
-      '#tag'       => 'span',
-      '#attributes' => array(
-        'class' => array('user-name'),
-      ),
-      '#value'     => $name,
-    );
-  }
-  else {
-    if (!empty($entity->name)) {
-      $tag['element'] = array(
-        '#tag'       => 'span',
-        '#attributes' => array(
-          'class' => array('user-name', 'anonymous'),
-        ),
-        '#value'     => $entity->name,
-      );
-    }
-  }
-
-  return theme_html_tag($tag);
-}
-
-/**
- * DS function field.
- *
- * Render "Submitted by" Author first and last name on timestamp. (extends default ds field with first + last name).
+ * Render "Submitted by" User first and last name on timestamp.
+ * (extends default ds field with first + last name).
  *
  * @param $field
  *
@@ -111,7 +22,7 @@ function theme_c4m_ds_submitted_by_and_on($field) {
 
   $entity = $field['entity'];
   $user   = user_load($entity->uid);
-  $name   = c4m_user_profile_name($user);
+  $name   = c4m_user_name($user);
   $options = array('attributes' => array('class' => array('user-name')));
 
   $name = l($name, 'user/' . $user->uid, $options);
@@ -318,7 +229,7 @@ function theme_c4m_ds_group_role_members($field) {
 
   foreach ($members as $member) {
     $user = user_load($member->uid);
-    $output .= ', ' . l(c4m_user_profile_name($user), 'user/' . $member->uid);
+    $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
   }
 
   return ltrim($output, ', ');

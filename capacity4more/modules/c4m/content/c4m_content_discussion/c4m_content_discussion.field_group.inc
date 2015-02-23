@@ -54,8 +54,8 @@ function c4m_content_discussion_field_group_info() {
     'label' => 'Group meta',
     'weight' => '6',
     'children' => array(
-      0 => 'c4m_ds_node_author_image',
-      1 => 'c4m_ds_author_first_and_last_name',
+      0 => 'c4m_user_picture',
+      1 => 'c4m_user_first_and_last_name',
       2 => 'c4m_ds_creation_date',
       3 => 'c4m_ds_type_posted_by',
     ),
