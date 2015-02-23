@@ -1,0 +1,28 @@
+<?php
+/**
+ * @file
+ * Helper functionality around $entity objects.
+ */
+
+function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node') {
+  $variables = array(
+    'entity' => $entity,
+    'entity_type' => $entity_type,
+    'label' => $entity_type,
+  );
+
+  if ($entity_type == 'node') {
+    $variables['label'] = $entity->type;
+  }
+
+  $field_name = 'c4m_' . $entity->type . '_type';
+
+  if (!empty($entity->$field_name)) {
+    $object_wrapper = entity_metadata_wrapper('node', $entity);
+    $variables['label'] = $object_wrapper->$field_name->value();
+  }
+
+  drupal_alter('entity_type_label', $variables);
+
+  return $variables['label'];
+}

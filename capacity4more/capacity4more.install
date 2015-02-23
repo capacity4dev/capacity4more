@@ -28,22 +28,19 @@ function capacity4more_install() {
   menu_rebuild();
 
   // THEMES
-  $theme_default = variable_get('theme_default', 'bartik');
+  $theme_default = variable_get('theme_default', 'bootstrap');
 
   $theme_admin = 'seven';
   _capacity4more_install_save_theme($theme_admin, 1);
   variable_set('admin_theme', $theme_admin);
   variable_set('node_admin_theme', TRUE);
 
-  // TODO: Replace this with the actual theme when we have one!
-  $theme_capacity4more = $theme_default;
-  /*
-  $theme_capacity4more = 'capacity4more_theme_name';
+  // Custom theme (subtheme of bootstrap).
+  $theme_capacity4more = 'kapablo';
   _capacity4more_install_save_theme($theme_capacity4more, 1);
   variable_set('theme_default', $theme_capacity4more);
   // Disable Bartik
   _capacity4more_install_save_theme($theme_default, 0);
-  */
 
   // BLOCKS
   $admin_blocks = _capacity4more_install_get_admin_theme_blocks($theme_admin);
@@ -54,21 +51,14 @@ function capacity4more_install() {
 
   _capacity4more_install_set_default_date_formats();
 
-
   // DATE & DATE FORMAT
   date_default_timezone_set('Europe/Brussels');
   variable_set('date_default_timezone', 'Europe/Brussels');
   variable_set('date_first_day', 1);
   _capacity4more_install_set_default_date_formats();
 
-  // OG CONTEXT negotiation
-  $values = array(
-    'url'     => TRUE,
-    'node'    => TRUE,
-    'og_purl' => TRUE,
-  );
-  variable_set("og_context_negotiation_group_context", $values);
-
+  // Quick post debug, Disabled by default.
+  variable_set('c4m_quick_post_debug', 0);
 }
 
 
@@ -178,6 +168,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
       'access content',
       'access comments',
       'access user profiles',
+      'create messages',
       $filtered_html_permission
     )
   );
@@ -192,6 +183,23 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
       $filtered_html_permission
     )
   );
+
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access content',
+    'create group content',
+    'edit own group content',
+    'create discussion content',
+    'edit own discussion content',
+    'create event content',
+    'edit own event content',
+    'create messages',
+    'create files',
+    'view own files',
+    'access media browser',
+    'access overlay',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
   // Create a default role for site administrators, with all available permissions assigned.
   $admin_role = new stdClass();
@@ -299,6 +307,8 @@ function _capacity4more_install_save_theme_blocks($blocks) {
  * @return array
  */
 function _capacity4more_install_get_default_theme_blocks($theme) {
+  // Only content & help blocks.
+  // All other blocks are set trough features & context.
   $blocks = array(
     array(
       'module' => 'system',
@@ -307,46 +317,6 @@ function _capacity4more_install_get_default_theme_blocks($theme) {
       'status' => 1,
       'weight' => 0,
       'region' => 'content',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'search',
-      'delta' => 'form',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => -1,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'user',
-      'delta' => 'login',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'navigation',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'powered-by',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 10,
-      'region' => 'footer',
       'pages' => '',
       'cache' => -1,
     ),
@@ -416,28 +386,6 @@ function _capacity4more_install_get_admin_theme_blocks($theme) {
       'pages' => '',
       'cache' => -1,
     ),
-    // Only if the dashboard module is in use...
-    /*array(
-      'module' => 'user',
-      'delta' => 'new',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'dashboard_sidebar',
-      'pages' => '',
-      'cache' => -1,
-    ),*/
-    // Only if the dashboard module is in use...
-    /*array(
-      'module' => 'search',
-      'delta' => 'form',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => -10,
-      'region' => 'dashboard_sidebar',
-      'pages' => '',
-      'cache' => -1,
-    ),*/
   );
 
   return $blocks;

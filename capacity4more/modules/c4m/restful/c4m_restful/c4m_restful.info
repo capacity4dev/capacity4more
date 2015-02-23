@@ -1,0 +1,8 @@
+name = C4M RESTful
+description = C4M RESTful module.
+core = 7.x
+package = capacity4more - Restful
+dependencies[] = restful
+
+files[] = plugins/restful/C4mRestfulEntityBaseNode.class.php
+files[] = plugins/restful/C4mRestfulEntityBaseTaxonomyTerm.class.php

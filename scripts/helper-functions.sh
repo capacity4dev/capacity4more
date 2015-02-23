@@ -100,6 +100,48 @@ function delete_profile_contrib {
   fi
 }
 
+##
+# Cleanup the profile/themes/c4m directory:
+# - Remove bootstrap library
+# - Remove sass cache
+# - Remove node_modules (npm install)
+# - Remove css folder
+##
+function delete_profile_dist {
+  # Cleanup the bootstrap library.
+  PATH_THEME_BOOTSTRAP="$ROOT/$PROFILE_NAME/themes/c4m/kapablo/bootstrap"
+  if [ -d $PATH_THEME_BOOTSTRAP ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_BOOTSTRAP directory${RESTORE}"
+    rm -rf $PATH_THEME_BOOTSTRAP
+    echo
+  fi
+
+  # Cleanup the npm modules.
+  PATH_THEME_NODE_MODULES="$ROOT/build/themes/kapablo/node_modules"
+  if [ -d $PATH_THEME_NODE_MODULES ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_NODE_MODULES directory${RESTORE}"
+    rm -rf $PATH_THEME_NODE_MODULES
+    echo
+  fi
+
+  # Cleanup the sass cache.
+  PATH_THEME_SASS_CACHE="$ROOT/build/themes/kapablo/.sass-cache"
+  if [ -d $PATH_THEME_SASS_CACHE ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_SASS_CACHE directory${RESTORE}"
+    rm -rf $PATH_THEME_SASS_CACHE
+    echo
+  fi
+
+  # Cleanup the css folder.
+  PATH_THEME_CSS="$ROOT/$PROFILE_NAME/themes/c4m/kapablo/css"
+  if [ -d $PATH_THEME_CSS ]; then
+    echo -e "${LBLUE}> Cleaning up the $PATH_THEME_CSS directory${RESTORE}"
+    rm -rf $PATH_THEME_CSS
+    echo
+  fi
+}
+
+
 
 ##
 # Delete all the content within the /www folder.
@@ -131,6 +173,18 @@ function drupal_make {
   echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
   bash $ROOT/scripts/build
   echo
+}
+
+##
+# Delete obsolete folders, like the plupload examples folder.
+##
+function delete_obsolete_folders {
+  # Cleanup the sass cache
+  if [ -d $ROOT/$PROFILE_NAME/libraries/plupload/examples ]; then
+    echo -e "${LBLUE}> Delete obsoletely downloaded plupload/examples folder.${RESTORE}"
+    rm -rf $ROOT/$PROFILE_NAME/libraries/plupload/examples
+    echo
+  fi
 }
 
 ##
@@ -195,7 +249,7 @@ function migrate_dummy_content {
   echo -e "${LBLUE}> Importing dummy data${RESTORE}"
   cd $ROOT/www
   drush en -y migrate migrate_ui c4m_demo_content
-  drush mi --update --group=c4m_demo_content
+  drush --uri="http://$BASE_DOMAIN_URL" mi --force --update --group=c4m_demo_content
   cd $ROOT
   echo
 }
@@ -306,4 +360,55 @@ function run_post_script {
   echo -e "${LBLUE}> Run $POST_FUNCT_NAME script.${RESTORE}"
   $POST_FUNCT_NAME
   echo
+}
+
+##
+# Build the javascript dependencies
+##
+function build_angular_app {
+  echo -e "${LBLUE}> Build dependencies & AngularJs App.${RESTORE}"
+
+  # Build the dependencies.
+  cd $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
+  npm install
+  grunt build --show-parser-errors
+  cd $ROOT
+
+  # Install angular components via bower.
+  bower cache clean
+  bower install $ROOT/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app
+
+  echo
+}
+
+##
+# Build the Kapablo theme dependencies
+##
+function build_kapablo_theme {
+  echo -e "${LBLUE}> Build dependencies for Kapablo theme.${RESTORE}"
+
+  # Build the dependencies.
+  cd $ROOT/build/themes/kapablo
+  bundle install
+  npm install
+  grunt build
+  cd $ROOT
+
+  echo
+}
+
+##
+# Overwrite the TIKA config (if needed).
+##
+function install_tika_config {
+  cd "$ROOT/www"
+
+  if [ -n "$TIKA_PATH" ]; then
+    drush vset search_api_attachments_tika_path "$TIKA_PATH"
+  fi
+  if [ -n "$TIKA_FILE" ]; then
+    drush vset search_api_attachments_tika_jar "$TIKA_FILE"
+  fi
+
+  cd "$ROOT"
 }

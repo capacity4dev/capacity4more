@@ -139,6 +139,9 @@ delete_sites_default_content
 # Install the installation profile.
 install_drupal_profile
 
+# Overwrite the TIKA config
+install_tika_config
+
 # Setup the files directory.
 create_sites_default_files_directory
 
@@ -149,6 +152,12 @@ enable_development_modules
 if [ $DEMO_CONTENT ]; then
   migrate_dummy_content
 fi
+
+# Build the AngularJs application.
+build_angular_app
+
+# Build Kapablo theme.
+build_kapablo_theme
 
 # Run post script (if any).
 run_post_script "reset"

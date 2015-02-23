@@ -57,6 +57,7 @@ capacity4more/behat/vendor/
 behat.local.yml
 capacity4more/behat/bin
 capacity4more/behat/composer.phar
+capacity4more/behat/features/dump
 
 # Temporay "build" files
 www
@@ -64,3 +65,22 @@ www
 # Local Configuration
 config.sh
 symlinks.sh
+
+# Ignore for Yeoman-Jekyll projects #
+jekyll/app/_bower_components
+jekyll/app/bower_components
+jekyll/dist
+jekyll/node_modules
+jekyll/.tmp
+jekyll/.jekyll
+jekyll/.sass-cache
+
+node_modules
+.sass-cache
+capacity4more/themes/c4m/kapablo/css
+capacity4more/themes/c4m/kapablo/bootstrap
+behat-failed-step*.png
+capacity4more/themes/c4m/kapablo/images/svgmin
+capacity4more/themes/c4m/kapablo/images/icons
+*.concat.js
+*.min.js

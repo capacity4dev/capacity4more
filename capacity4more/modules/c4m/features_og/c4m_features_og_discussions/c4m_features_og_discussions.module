@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Discussions feature.
+ */
+
+include_once 'c4m_features_og_discussions.features.inc';

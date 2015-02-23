@@ -1,0 +1,98 @@
+<?php
+/**
+ * @file
+ * Installation hooks for Date vocabulary.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_vocab_date_install() {
+  c4m_vocab_date_install_vocab();
+  c4m_vocab_date_install_terms();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_vocab_date_uninstall() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+
+  if (!empty($vocab)) {
+    taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
+
+
+/**
+ * Create date vocabulary.
+ */
+function c4m_vocab_date_install_vocab() {
+  $date_vocab = (object) array(
+    'name'         => 'Dates',
+    'description'  => 'Date indication for content',
+    'machine_name' => 'c4m_vocab_date',
+  );
+  taxonomy_vocabulary_save($date_vocab);
+
+  // 'language/...' results in an error. Probably system reserved alias.
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_date_pattern',
+    'content-date/[term:name]'
+  );
+}
+
+/**
+ * Create default taxonomy terms for the Date vocab.
+ */
+function c4m_vocab_date_install_terms() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_date');
+  $terms = array(
+    'Before 1990',
+    '1990',
+    '1991',
+    '1992',
+    '1993',
+    '1994',
+    '1995',
+    '1996',
+    '1997',
+    '1998',
+    '1999',
+    '2000',
+    '2001',
+    '2002',
+    '2003',
+    '2004',
+    '2005',
+    '2006',
+    '2007',
+    '2008',
+    '2009',
+    '2010',
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    'After 2020',
+  );
+
+  $weight = -100;
+  foreach ($terms as $term) {
+    $to              = new stdClass();
+    $to->name        = $term;
+    $to->description = 'Content from ' . $term;
+    $to->vid         = $vocab->vid;
+    $to->weight      = $weight;
+
+    taxonomy_term_save($to);
+
+    $weight++;
+  }
+}

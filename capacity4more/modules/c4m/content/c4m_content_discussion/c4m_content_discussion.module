@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ * Code for the Discussion content type feature.
+ */
+
+include_once 'c4m_content_discussion.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ */
+function c4m_content_discussion_c4m_og_vocab_info_content() {
+  return array(
+    'discussion' => array(
+      'entity_type'  => 'node',
+      'bundle'       => 'discussion',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag'
+      ),
+    ),
+  );
+}
+
+/**
+ *  Implements hook_entity_type_label_alter().
+ *
+ *  @param $variables
+ */
+function c4m_content_discussion_entity_type_label_alter(&$variables) {
+  if (empty($variables['entity']->type) ||
+      'discussion' !== $variables['entity']->type) {
+    return;
+  }
+  $variables['label'] .= ' ' . ('posted by');
+}

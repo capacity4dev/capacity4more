@@ -51,6 +51,9 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       case 'node':
         $this->addFieldMapping('title', 'title');
         $this->addFieldMapping('created', 'created');
+        $this->addFieldMapping('status', 'status')->defaultValue(1);
+        $this->addFieldMapping('changed', 'changed');
+        $this->addFieldMapping('promote', 'promote');
         $class_name = 'MigrateDestinationNode';
         $this->postConstruct($class_name);
         break;
@@ -116,6 +119,15 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       // Create a random timestamp from the last year.
       $year_ago = time() - 3600 * 24 * 365;
       $row->created = rand($year_ago, time());
+
+      // Give some content some updates.
+      if (rand(0, 1)) {
+        // Random update between creation time and current time.
+        $row->changed = rand($row->created + 1, time());
+      }
+      else {
+        $row->changed = $row->created;
+      }
     }
 
     return TRUE;
@@ -397,5 +409,58 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       return TRUE;
     }
     return FALSE;
+  }
+
+  /**
+   * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
+
+   * @param $sourcefield
+   * @param $vocabname
+   *
+   * @return array
+   */
+  public function mapTaxonomyVocab($sourcefield, $vocabname) {
+    $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
+
+    if (!empty($vocab)) {
+      $terms = explode('|', $sourcefield);
+      if (!empty($terms)) {
+        $tids = array();
+        foreach ($terms as $term_name) {
+          $term = taxonomy_get_term_by_name($term_name, $vocabname);
+          if (!empty($term)) {
+            reset($term);
+            $tid = key($term);
+            $tids[] = $tid;
+          };
+        }
+
+        return $tids;
+      }
+    }
+
+    return array();
+  }
+
+  /**
+   * @param $tids
+   *   Array of term ids content is tagged with.
+   *
+   * @return array
+   *   Array of term ids, including every term's parents.
+   */
+  public function mapTaxonomyVocabWithParent($tids) {
+    $all_tids = array();
+    foreach ($tids as $tid) {
+      $parents = taxonomy_get_parents_all($tid);
+      $parent_tids = array_map(create_function('$term', 'return $term->tid;'), $parents);
+      // $tid is included in $parent_tids array.
+      $all_tids = array_merge($all_tids, $parent_tids);
+    }
+
+    $unique = array_unique($all_tids);
+    sort($unique);
+
+    return $unique;
   }
 }

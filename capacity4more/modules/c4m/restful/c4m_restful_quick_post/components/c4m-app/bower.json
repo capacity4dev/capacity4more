@@ -1,0 +1,34 @@
+{
+  "name": "c4m-app",
+  "version": "0.0.1",
+  "homepage": "https://github.com/capacity4dev/capacity4more",
+  "authors": [
+    "Gizra"
+  ],
+  "description": "Angular application for RESTFul angularJs forms.",
+  "main": "dist/c4m-app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "src"
+  ],
+  "dependencies": {
+    "angular": "1.2.28",
+    "ng-ckeditor": "latest",
+    "angular-ui-select2": "latest",
+    "angular-bootstrap": "latest",
+    "danialfarid-angular-file-upload": "latest",
+    "filesize": "latest",
+    "angular-animate": "1.2.28",
+    "angular-carousel": "https://github.com/dcjohnston/angular-carousel.git#master",
+    "angular-touch": "1.2.28"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.9"
+  }
+}

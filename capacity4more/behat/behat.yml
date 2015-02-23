@@ -1,4 +1,31 @@
 default:
+  context:
+    parameters:
+      drupal_users:
+        admin:
+          'admin'
+        mariecurie:
+          'drupal'
+        isaacnewton:
+          'drupal'
+        badhairday:
+          'drupal'
+        galileo:
+          'drupal'
+        survivalofthefittest:
+          'drupal'
+        turing:
+          'drupal'
+        president:
+          'drupal'
+        alfrednobel:
+          'drupal'
+
+      debug:
+        dump_html: true
+        dump_screenshot: true
+        dump_path: 'features/dump'
+
   paths:
     features: 'features'
   extensions:
@@ -6,8 +33,18 @@ default:
       goutte: ~
       selenium2: ~
       javascript_session: 'selenium2'
+      files_path: 'features/files'
     Drupal\DrupalExtension\Extension:
       blackbox: ~
+
+phantomjs:
+  context:
+      class:  'FeatureContext'
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte: ~
+      selenium2:
+        wd_host: 'http://localhost:8643/wd/hub'
 
 imports:
   - behat.local.yml

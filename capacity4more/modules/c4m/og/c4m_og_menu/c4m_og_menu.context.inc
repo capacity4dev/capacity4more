@@ -22,17 +22,17 @@ function c4m_og_menu_context_default_contexts() {
         '_any_' => '_any_',
       ),
       'options' => array(
-        'node_form' => 0,
+        'node_form' => 1,
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'menu-menu-group-menu' => array(
+        'menu-c4m-og-menu' => array(
           'module' => 'menu',
-          'delta' => 'menu-group-menu',
-          'region' => 'featured',
+          'delta' => 'c4m-og-menu',
+          'region' => 'content_top',
           'weight' => '-10',
         ),
       ),

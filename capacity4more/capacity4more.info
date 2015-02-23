@@ -15,17 +15,17 @@ dependencies[] = list
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
-;dependencies[] = overlay
+dependencies[] = overlay
 dependencies[] = path
+dependencies[] = statistics
 dependencies[] = taxonomy
 dependencies[] = dblog
-dependencies[] = search
 dependencies[] = shortcut
-dependencies[] = toolbar
 dependencies[] = file
 dependencies[] = rdf
 
 ; Contrib modules -------------------------------------------------------------
+dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = context
 dependencies[] = ctools
@@ -36,12 +36,17 @@ dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
+dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
+dependencies[] = jquery_update
 dependencies[] = libraries
+dependencies[] = message
+dependencies[] = link
 ;dependencies[] = message
+
 dependencies[] = module_filter
 dependencies[] = og
 dependencies[] = og_access
@@ -49,41 +54,61 @@ dependencies[] = og_context
 dependencies[] = og_ui
 dependencies[] = og_purl
 dependencies[] = og_vocab
+dependencies[] = page_manager
+dependencies[] = panels
 dependencies[] = pathauto
+dependencies[] = pluggable_node_access
 dependencies[] = reldate
+dependencies[] = restful
 ;dependencies[] = rules
 dependencies[] = strongarm
+dependencies[] = term_reference_tree
 dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
+dependencies[] = views_content
 dependencies[] = views_bulk_operations
 
 
 ; capacity4more ---------------------------------------------------------------
+
+; Helpers
+dependencies[] = c4m_helper_comment
+dependencies[] = c4m_helper_date
+dependencies[] = c4m_helper_entity
 
 ; Vocabularies
 dependencies[] = c4m_vocab_category
 dependencies[] = c4m_vocab_tag
 
 ; Users
+dependencies[] = c4m_user
+dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_profile
 
+dependencies[] = c4m_comment
+dependencies[] = c4m_comment_delete
+;dependencies[] = c4m_comment_edited
+
 ; Content Types
+dependencies[] = c4m_content_article
 dependencies[] = c4m_content_book
+dependencies[] = c4m_content_discussion
 dependencies[] = c4m_content_document
+dependencies[] = c4m_content_event
+dependencies[] = c4m_content_featured
 dependencies[] = c4m_content_group
-dependencies[] = c4m_content_project
-dependencies[] = c4m_content_tasklist
-dependencies[] = c4m_content_task
-dependencies[] = c4m_content_blog
-dependencies[] = c4m_content_region
-dependencies[] = c4m_content_minisite
-dependencies[] = c4m_content_page
-dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_banner
+dependencies[] = c4m_content_page_element
 dependencies[] = c4m_content_photo
 dependencies[] = c4m_content_photoalbum
-dependencies[] = c4m_content_article
-dependencies[] = c4m_content_event
+dependencies[] = c4m_content_project
+dependencies[] = c4m_content_region
+dependencies[] = c4m_content_task
+dependencies[] = c4m_content_tasklist
+dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_wiki_page
+
 dependencies[] = c4m_field_related_og
 
 ; Overview content
@@ -94,13 +119,34 @@ dependencies[] = c4m_features_overview_people
 dependencies[] = c4m_features_overview_projects
 dependencies[] = c4m_features_overview_regions
 dependencies[] = c4m_features_overview_topics
+dependencies[] = c4m_features_homepage
+dependencies[] = c4m_features_homepage_intro
+
+; RESTful
+dependencies[] = c4m_restful_quick_post
+dependencies[] = c4m_restful
 
 ; Overview content within groups
 dependencies[] = c4m_og_menu
-dependencies[] = c4m_features_og_overview_blogs
-dependencies[] = c4m_features_og_overview_documents
-dependencies[] = c4m_features_og_overview_events
-dependencies[] = c4m_features_og_overview_members
-dependencies[] = c4m_features_og_overview_pages
-dependencies[] = c4m_features_og_overview_tasklists
+dependencies[] = c4m_features_og_events
+dependencies[] = c4m_features_og_group_dashboard
+dependencies[] = c4m_features_og_discussions
+dependencies[] = c4m_features_og_documents
+dependencies[] = c4m_features_og_highlights
+dependencies[] = c4m_features_og_members
+dependencies[] = c4m_features_og_tasklists
 dependencies[] = c4m_features_og_overview_tasks
+dependencies[] = c4m_features_og_wiki
+
+; Search
+dependencies[] = c4m_search
+dependencies[] = c4m_search_nodes
+dependencies[] = c4m_search_users
+dependencies[] = c4m_search_og
+
+; Message
+dependencies[] = c4m_mail
+dependencies[] = c4m_message
+
+; Widgets
+dependencies[] = c4m_document_widget

@@ -27,16 +27,15 @@ function capacity4more_form_install_configure_form_alter(&$form, $form_state) {
 function capacity4more_install_tasks() {
   $tasks = array();
 
-  $tasks['capacity4more_setup_blocks'] = array(
-    'display_name' => st('Setup Blocks'),
+  $tasks['capacity4more_setup_set_variables'] = array(
+    'display_name' => st('Set variables'),
     'display' => FALSE,
   );
 
-//  $tasks['capacity4more_setup_og_permissions'] = array(
-//    'display_name' => st('Setup Blocks'),
-//    'display' => FALSE,
-//  );
-
+  $tasks['capacity4more_setup_set_permissions'] = array(
+    'display_name' => st('Set permissions'),
+    'display' => FALSE,
+  );
 
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
@@ -48,63 +47,6 @@ function capacity4more_install_tasks() {
 }
 
 /**
- * Task callback; Setup blocks.
- */
-function capacity4more_setup_blocks() {
-  $default_theme = variable_get('theme_default', 'bartik');
-
-  $blocks = array(
-    array(
-      'module' => 'system',
-      'delta' => 'user-menu',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'header',
-      'pages' => '',
-      'title' => '<none>',
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-  );
-
-  drupal_static_reset();
-  _block_rehash($default_theme);
-  foreach ($blocks as $record) {
-    $module = array_shift($record);
-    $delta = array_shift($record);
-    $theme = array_shift($record);
-    db_update('block')
-      ->fields($record)
-      ->condition('module', $module)
-      ->condition('delta', $delta)
-      ->condition('theme', $theme)
-      ->execute();
-  }
-}
-
-/**
- * Task callback; Setup OG permissions.
- *
- * We do this here, late enough to make sure all group-content were
- * created.
- */
-//function capacity4more_setup_og_permissions() {
-//  $og_roles = og_roles('node', 'company');
-//  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
-//
-//  $permissions = array();
-//  $types = array(
-//    'blog',
-//  );
-//  foreach ($types as $type) {
-//    $permissions["create $type content"] = TRUE;
-//    $permissions["update own $type content"] = TRUE;
-//    $permissions["update any $type content"] = TRUE;
-//  }
-//  og_role_change_permissions($rid, $permissions);
-//}
-
-/**
  * Task callback; Rebuild permissions (node access).
  *
  * Setting up the platform triggers the need to rebuild the permissions.
@@ -113,4 +55,51 @@ function capacity4more_setup_blocks() {
  */
 function capacity4more_setup_rebuild_permissions() {
   node_access_rebuild();
+}
+
+/**
+ * Task callback; Set variables.
+ */
+function capacity4more_setup_set_variables(&$install_state) {
+  $variables = array(
+    // Homepage
+    'weight_frontpage' => '0',
+    'site_frontpage' => 'node',
+
+    // Theme
+    'theme_default' => 'kapablo',
+    'admin_theme' => 'seven',
+    'node_admin_theme' => 0,
+    'jquery_update_jquery_version' => '1.10',
+    'jquery_update_jquery_admin_version' => '1.10',
+    'page_manager_node_view_disabled' => FALSE,
+    'page_manager_term_view_disabled' => FALSE,
+
+    // RESTful
+    'restful_file_upload' => TRUE,
+
+    // Enable counting views of the entity.
+    'statistics_count_content_views' => TRUE,
+
+    // Set the homepage intro video.
+    'c4m_features_homepage_intro_video_url' => 'http://youtu.be/O2AfmjzwAFY',
+  );
+
+  foreach ($variables as $key => $value) {
+    variable_set($key, $value);
+  }
+}
+
+/**
+ * Task callback; Create permissions.
+ */
+function capacity4more_setup_set_permissions(&$install_state) {
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access content',
+    'create group content',
+    'edit own group content',
+    'delete own group content',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }

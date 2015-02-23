@@ -1,0 +1,28 @@
+.node {
+  .group-right {
+    section {
+      border-left: 1px solid $gray-dark;
+      color: $gray-dark;
+      padding: 5px 25px;
+      margin-bottom: 35px;
+    }
+    h1, h2, h3, h4 {
+      text-transform: uppercase;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    .links {
+      clear: left;
+    }
+
+    .group-detail-element {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+.node-teaser {
+}

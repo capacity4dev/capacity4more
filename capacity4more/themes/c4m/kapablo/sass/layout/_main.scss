@@ -1,0 +1,24 @@
+.main-container {
+  .region-sidebar-first {
+    @include box-shadow(none);
+
+    background: none;
+    border: 0;
+    border-radius: 0;
+
+    @media screen and (min-width: $screen-md-min) {
+      border-right: 1px solid $gray-dark;
+      margin: 0 15px 0 0;
+      padding: 0 15px 0 0;
+    }
+  }
+}
+
+#c4mVideoModal {
+
+  .modal-dialog {
+    @media screen and (min-width: $screen-md-max) {
+      width: 900px;
+    }
+  }
+}

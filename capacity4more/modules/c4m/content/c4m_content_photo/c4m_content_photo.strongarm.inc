@@ -49,14 +49,14 @@ function c4m_content_photo_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_photo';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['comment_preview_photo'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_photo';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_photo'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -71,10 +71,20 @@ function c4m_content_photo_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '7',
+        ),
+        'locations' => array(
+          'weight' => '8',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'node_gallery_navigation' => array(
+          'activity_stream' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__photo'] = $strongarm;

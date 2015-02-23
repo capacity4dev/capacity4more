@@ -99,6 +99,14 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No People found.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
+  /* Field: User: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'users';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = '';
+  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
   /* Field: Field: Image */
   $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
   $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
@@ -122,6 +130,8 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['fields']['c4m_last_name']['label'] = 'Name';
   $handler->display->display_options['fields']['c4m_last_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['c4m_last_name']['alter']['text'] = '[c4m_first_name] [c4m_last_name]';
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['c4m_last_name']['alter']['path'] = 'user/[uid]';
   /* Field: User: Type of Organisation */
   $handler->display->display_options['fields']['c4m_organisation_type']['id'] = 'c4m_organisation_type';
   $handler->display->display_options['fields']['c4m_organisation_type']['table'] = 'field_data_c4m_organisation_type';

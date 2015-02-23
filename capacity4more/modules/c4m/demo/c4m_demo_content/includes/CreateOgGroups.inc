@@ -16,7 +16,6 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
     'C4mDemoContentCreateTopics',
-    'C4mDemoContentCreateRegionTerms',
     'C4mDemoContentCreateRegionNodes',
   );
 
@@ -32,15 +31,19 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+    $this->addFieldMapping('c4m_banner', 'banner')
+      ->separator(';');
+    $this->addFieldMapping('c4m_banner:file_replace')
+      ->defaultValue(FILE_EXISTS_REPLACE);
+    $this->addFieldMapping('c4m_banner:source_dir')
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
     $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_related_topic', 'topics_list');
 
-    $this->addFieldMapping('c4m_vocab_geo', 'geo')
-      ->sourceMigration('C4mDemoContentCreateRegionTerms')
-      ->arguments(array('source_type' => 'tid'))
-      ->separator('|');
+    $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
+      ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
@@ -48,6 +51,12 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_related_group', 'groups_list');
 
     $this->addFieldMapping('c4m_related_projects', 'projects_list');
+
+    $this->addFieldMapping('field_membership_open_request', 'membership_open_request')
+    ->defaultValue(OG_STATE_ACTIVE);
+
+    $this->addFieldMapping(OG_ACCESS_FIELD, 'group_access')
+      ->defaultValue(0);
   }
 
   /**
@@ -94,6 +103,10 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     );
     $row->projects_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
+    );
+
+    $row->geo_entries = $this->mapTaxonomyVocabWithParent(
+      $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
     );
 
     return TRUE;

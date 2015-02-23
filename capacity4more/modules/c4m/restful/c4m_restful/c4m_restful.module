@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * c4m restful module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_restful_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Gets the og_vocab by it's group ID.
+ *
+ * @param $group_type.
+ *  The type of the group.
+ * @param $gid.
+ *  The ID of the group.
+ * @param $vocab_name
+ *  The name of the Vocab.
+ *
+ * @return array().
+ *  Returns the details of the og_vocab.
+ */
+function c4m_restful_get_og_vocab_by_name($group_type, $gid, $vocab_name) {
+  $query = db_select('og_vocab_relation', 'ogr');
+  $query->innerJoin('taxonomy_vocabulary', 'tv', 'ogr.vid = tv.vid');
+  return $query->fields('ogr', array('vid'))
+    ->fields('tv', array('machine_name'))
+    ->condition('ogr.group_type', $group_type)
+    ->condition('ogr.gid', $gid)
+    ->condition('tv.name', $vocab_name)
+    ->range(0, 1)
+    ->execute()
+    ->fetchAll();
+}

@@ -1,5 +1,8 @@
 <?php
 /**
  * @file
- * Drupal requires this empty file.
+ * Code for the Media field feature.
  */
+
+include_once 'c4m_field_media.features.inc';
+

@@ -8,6 +8,9 @@
  * Implements hook_ctools_plugin_api().
  */
 function c4m_content_task_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "ds" && $api == "ds") {
+    return array("version" => "1");
+  }
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -28,5 +31,6 @@ A task list is always related to an Tasklist.'),
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

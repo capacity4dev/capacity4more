@@ -1,0 +1,18 @@
+<?php
+/**
+ * @file
+ * Code for the Search Content feature.
+ */
+
+include_once 'c4m_search_nodes.features.inc';
+
+
+/**
+ * Mark a node for re-indexing.
+ *
+ * @param int $nid
+ *   The Node ID of the node that needs to be re-indexed.
+ */
+function c4m_search_nodes_track_change($nid) {
+  search_api_track_item_change('node', array($nid));
+}

@@ -3,5 +3,6 @@ Feature: Test tasks
 
   @api
   Scenario: Create a comment on a task while changing some task fields and
-    Given I visit "/user"
+    Given I am an anonymous user
+     When I visit "/user"
      Then I should see "Log in"

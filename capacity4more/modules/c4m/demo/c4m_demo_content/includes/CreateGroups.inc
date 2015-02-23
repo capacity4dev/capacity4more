@@ -25,11 +25,14 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('title', 'Title'),
     array('purl', 'PURL'),
     array('image', 'Image'),
+    array('banner', 'Banner'),
     array('body', 'Body'),
     array('topics', 'Topics'),
     array('geo', 'Geo'),
     array('groups', 'Groups'),
     array('projects', 'Projects'),
+    array('membership_open_request', 'Membership_Request'),
+    array('group_access', 'Access'),
   );
 
   /**
@@ -43,7 +46,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    * {@inheritdoc}
    */
   public function prepareRow($row) {
-    parent::prepareRow($row);
+    return parent::prepareRow($row);
   }
 
   /**

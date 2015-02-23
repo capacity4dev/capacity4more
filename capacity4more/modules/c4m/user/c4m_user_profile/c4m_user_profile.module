@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the User Profile feature.
+ */
+
+include_once 'c4m_user_profile.features.inc';
+/**
+ * @file
  * capacity4more User Profile module
  */
 
@@ -10,7 +16,84 @@
 function c4m_user_profile_field_extra_fields_alter(&$info) {
   // Make sure that the Account fields are always at the top of the
   // user profile.
-  if(isset($info['user']['user']['form']['account']['weight'])) {
+  if (isset($info['user']['user']['form']['account']['weight'])) {
     $info['user']['user']['form']['account']['weight'] = -100;
   }
+}
+
+/******************************************************************************
+ * BLOCK
+ ******************************************************************************/
+/**
+ * Implements hook_block_info().
+ */
+function c4m_user_profile_block_info() {
+  $blocks['user_welcome'] = array(
+    'info' => t('Welcome the user in the top bar'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
+  $blocks['user_notifications'] = array(
+    'info' => t('Display the user notifications etc...'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_user_profile_block_view($delta = '') {
+  $module_name = 'c4m_user_profile';
+  module_load_include('inc', $module_name, "{$module_name}.block");
+  $callback = "_{$module_name}_block_" . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+
+  return $callback();
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function c4m_user_profile_token_info() {
+  $info['tokens']['user']['full-name'] = array(
+    'name'        => t('User Full Name'),
+    'description' => t('Returns the User Full Name)'),
+  );
+  $info['tokens']['user']['url-with-name'] = array(
+    'name' => t("User profile URL with fallback for anonymous users"),
+    'description' => t("The URL of the account profile page, with fallback if anonymous."),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  $url_options = array('absolute' => TRUE);
+
+  if ($type == 'user' && !empty($data['user'])) {
+    $account = $data['user'];
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'full-name':
+          $replacements[$original] = c4m_user_name($account);
+          break;
+        case 'url-with-name':
+          $name = c4m_user_name($account);
+          $replacements[$original] = !empty($account->uid) ? l(
+            $name, "user/$account->uid", $url_options
+          ) : $name;
+          break;
+      }
+    }
+  }
+
+  return $replacements;
 }

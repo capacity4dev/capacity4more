@@ -1,0 +1,73 @@
+<?php
+/**
+ * @file
+ * Installation hooks for Language vocabulary.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_vocab_language_install() {
+  c4m_vocab_language_install_vocabulary();
+  c4m_vocab_language_install_terms();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_vocab_language_uninstall() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
+
+  if (!empty($vocab)) {
+    taxonomy_vocabulary_delete($vocab->vid);
+  }
+}
+
+
+/**
+ * Create language vocabulary.
+ */
+function c4m_vocab_language_install_vocabulary() {
+  $language_vocab = (object) array(
+    'name' => 'Languages',
+    'description' => 'Language indication for content',
+    'machine_name' => 'c4m_vocab_language',
+  );
+  taxonomy_vocabulary_save($language_vocab);
+
+  variable_set(
+    'pathauto_taxonomy_term_c4m_vocab_language_pattern',
+    'content-language/[term:name]'
+  );
+}
+
+/**
+ * Set pathauto pattern.
+ */
+function c4m_vocab_language_install_terms() {
+  $vocab = taxonomy_vocabulary_machine_name_load('c4m_vocab_language');
+
+  $terms = array(
+    st('English'),
+    st('French'),
+    st('Spanish'),
+    st('German'),
+    st('Portuguese'),
+    st('Arabic'),
+    st('Chinese'),
+    st('Russian'),
+    st('Others'),
+  );
+
+  $weight = -20;
+  foreach ($terms as $term) {
+    $term_object              = new stdClass();
+    $term_object->name        = $term;
+    $term_object->description = 'Content in ' . $term;
+    $term_object->vid         = $vocab->vid;
+    $term_object->weight      = $weight;
+    taxonomy_term_save($term_object);
+
+    $weight++;
+  }
+}
