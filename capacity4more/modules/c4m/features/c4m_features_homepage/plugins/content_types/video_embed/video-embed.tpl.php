@@ -1,7 +1,12 @@
 <div class="video-preview-wrapper">
   <div class="video-preview" data-toggle="modal" data-target="#c4mVideoModal">
-    <div class="video-description">
-      <?php print $video_title ?>
+    <div class="video-details">
+      <span class="video-title">
+        <?php print $video_title ?>
+      </span>
+      <span class="video-description">
+        <?php print $video_description ?>
+      </span>
     </div>
     <div>
       <?php print $video_thumbnail ?>

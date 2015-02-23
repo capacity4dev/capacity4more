@@ -120,22 +120,34 @@
 }
 
 .video-preview-wrapper {
+  padding-right: 18px;
 
   .video-preview {
     cursor: pointer;
 
-    .video-description {
+    .video-details {
       background-color: $color-blue-light;
-      padding: 10px 15px;
+      padding: 10px 5px 10px 20px;
       color: $color-white;
+
+      .video-title {
+        display: block;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .video-description {
+        display: block;
+        margin-bottom: 12px;
+      }
 
       &:after {
         font-family: fontAwesome;
         content: "\f0d7";
         font-size: 4em;
         position: absolute;
-        top: 25px;
-        right: 40%;
+        top: 7%;
+        right: 49%;
         color: $color-blue-light;
       }
     }
