@@ -292,12 +292,5 @@ function  c4m_features_og_events_upcoming_events_get_events($range, $topics = ar
     $events .= drupal_render($node);
   }
 
-  $options = array(
-    'attributes' => array('class' => 'see-more-link'),
-    'html' => TRUE
-  );
-
-  $events .= l(t('See More ') . '<i class="fa fa-chevron-right"></i>', 'global-events', $options);
-
   return $events;
 }

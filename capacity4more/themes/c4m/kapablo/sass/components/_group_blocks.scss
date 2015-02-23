@@ -157,8 +157,18 @@
 
 .right {
 
+  .upcoming-events {
+
+    .group-right.col-sm-9 {
+      border-left: solid 1px;
+      margin-left: -25px !important;
+      padding-left: 11px !important;
+    }
+  }
+
   .my-groups,
-  .suggested-groups {
+  .suggested-groups,
+  .upcoming-events {
 
     h2.pane-title {
       color: $color-brown;
@@ -168,12 +178,28 @@
       font-size: $font-size-h2;
     }
 
-    .node.node-teaser {
+    .node.node-teaser,
+    .node.node-event {
       margin-bottom: 25px;
+
+      .field-name-og-group-ref {
+        .field-label {
+          text-transform: lowercase;
+          font-weight: normal;
+        }
+      }
+
+      .group-left {
+        text-align: center;
+      }
 
       .group-left,
       .group-right {
         padding: 0;
+
+        .node-icon.as-event-event {
+          margin: 5px 0 -5px 20px;
+        }
 
         .round-bg {
 
@@ -216,6 +242,17 @@
                 content: ",";
               }
             }
+          }
+        }
+
+        .group-ref {
+          font-size: 12px;
+          font-weight: normal;
+          display: inline-block;
+          color: $color-gray;
+
+          .label-inline {
+            margin-right: 5px;
           }
         }
 

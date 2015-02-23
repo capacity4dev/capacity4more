@@ -246,7 +246,7 @@ function c4m_content_event_ds_field_settings_info() {
       'format' => 'default',
       'formatter_settings' => array(
         'link' => '1',
-        'wrapper' => 'h2',
+        'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),
       ),
@@ -326,6 +326,18 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'og_group_ref' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'group',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'prefix' => '<span class="group-ref">',
+          'suffix' => '</span>',
+        ),
+      ),
     ),
   );
   $export['node|event|upcoming_event'] = $ds_fieldsetting;
@@ -463,7 +475,7 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'event';
   $ds_layout->view_mode = 'teaser';
-  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
@@ -506,7 +518,7 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'event';
   $ds_layout->view_mode = 'upcoming_event';
-  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
