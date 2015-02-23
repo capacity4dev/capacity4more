@@ -27,6 +27,9 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
     $options['link_class'] = array(
       'default' => '',
     );
+    $options['link_icon'] = array(
+      'default' => '',
+    );
 
     return $options;
   }
@@ -58,6 +61,14 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
         separated by comma.'),
       '#default_value' => $this->options['link_class'],
     );
+
+    $form['link_icon'] = array(
+      '#type' => 'textfield',
+      '#required' => TRUE,
+      '#title' => t('Link icon'),
+      '#description' => t('Optionally icon to use for this link (fontawesome).'),
+      '#default_value' => $this->options['link_icon'],
+    );
   }
 
   /**
@@ -69,17 +80,38 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
     $link_path = filter_xss_admin($this->options['link_path']);
     $link_text = filter_xss_admin($this->options['link_text']);
     $link_class = filter_xss_admin($this->options['link_class']);
+    $link_icon = filter_xss_admin($this->options['link_icon']);
+
     if (!$link_path || !$link_text) {
       return;
     }
 
-    $options = array();
+    $options = array(
+      'html' => TRUE,
+      'attributes' => array(
+        'class' => array('custom-link'),
+      ),
+    );
     //
     if (!empty($link_class)) {
-      $options['attributes']['class'] = explode(', ', $link_class);
+      $classes = explode(', ', $link_class);
+      $options['attributes']['class'] = array_merge(
+        $options['attributes']['class'],
+        $classes
+      );
     }
 
-    return l($link_text, $link_path, $options);
+    $icon = NULL;
+    if ($link_icon) {
+      $icon = '<i class="fa ' . $icon . '"></li>"';
+      $options['attributes']['title'] = $link_text;
+    }
+
+    return l(
+      $icon . '<span class="label">' . $link_text . '</span>',
+      $link_path,
+      $options
+    );
   }
 }
 

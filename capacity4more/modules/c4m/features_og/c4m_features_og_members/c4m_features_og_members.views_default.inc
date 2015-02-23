@@ -22,6 +22,7 @@ function c4m_features_og_members_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Members';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -32,6 +33,16 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_teaser_list';
+  /* Header: Sorts */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sorts';
+  /* Header: Global: Result summary */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['content'] = '@total items';
   /* Header: Add link to list */
   $handler->display->display_options['header']['c4m_views_switch_page_1']['id'] = 'c4m_views_switch_page_1';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['table'] = 'views';
@@ -39,7 +50,8 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page_1']['ui_name'] = 'Add link to list';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_path'] = 'members';
   $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'List';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'list';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'list-teaser-view';
+  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_icon'] = 'fa-list';
   /* Header: Add link to table */
   $handler->display->display_options['header']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
   $handler->display->display_options['header']['c4m_views_switch_page']['table'] = 'views';
@@ -48,7 +60,8 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['header']['c4m_views_switch_page']['empty'] = TRUE;
   $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'members/table';
   $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'Table';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'table';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'table-teaser-view';
+  $handler->display->display_options['header']['c4m_views_switch_page']['link_icon'] = 'fa-table';
   /* Field: User: Rendered User */
   $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
   $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';
@@ -271,18 +284,6 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'c4m_user_teaser_table';
   $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Indexed User: First Name */
-  $handler->display->display_options['sorts']['c4m_first_name']['id'] = 'c4m_first_name';
-  $handler->display->display_options['sorts']['c4m_first_name']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['sorts']['c4m_first_name']['field'] = 'c4m_first_name';
-  $handler->display->display_options['sorts']['c4m_first_name']['exposed'] = TRUE;
-  $handler->display->display_options['sorts']['c4m_first_name']['expose']['label'] = 'First Name';
-  /* Sort criterion: Indexed User: Last Name */
-  $handler->display->display_options['sorts']['c4m_last_name']['id'] = 'c4m_last_name';
-  $handler->display->display_options['sorts']['c4m_last_name']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['sorts']['c4m_last_name']['field'] = 'c4m_last_name';
-  $handler->display->display_options['sorts']['c4m_last_name']['exposed'] = TRUE;
-  $handler->display->display_options['sorts']['c4m_last_name']['expose']['label'] = 'Last Name';
   $handler->display->display_options['path'] = 'members/table';
   $export['c4m_overview_og_members'] = $view;
 

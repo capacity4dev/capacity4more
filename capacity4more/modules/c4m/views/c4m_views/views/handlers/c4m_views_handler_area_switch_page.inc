@@ -31,6 +31,9 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     $options['link_class'] = array(
       'default' => '',
     );
+    $options['link_icon'] = array(
+      'default' => '',
+    );
 
     return $options;
   }
@@ -86,6 +89,14 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
       '#description' => t('Optionally set an additional class for the link.'),
       '#default_value' => $this->options['link_class'],
     );
+
+    $form['link_icon'] = array(
+      '#type' => 'textfield',
+      '#required' => FALSE,
+      '#title' => t('Link icon'),
+      '#description' => t('Optionally icon to use for this link (fontawesome).'),
+      '#default_value' => $this->options['link_icon'],
+    );
   }
 
 
@@ -105,6 +116,7 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     $link_path = filter_xss_admin($this->options['link_path']);
     $link_text = filter_xss_admin($this->options['link_text']);
     $link_class = filter_xss_admin($this->options['link_class']);
+    $link_icon = filter_xss_admin($this->options['link_icon']);
     if (!$link_path || !$link_text) {
       return;
     }
@@ -115,7 +127,13 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
       return;
     }
 
-    $options = array();
+    $options = array(
+      'html' => TRUE,
+      'attributes' => array(
+        'class' => array('custom-link'),
+      ),
+    );
+
     // Get query parameters.
     $query = drupal_get_query_parameters();
 
@@ -144,10 +162,22 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     }
     $options['query'] = $query;
     if (!empty($link_class)) {
-      $options['attributes']['class'] = array($link_class);
+      $options['attributes']['class'][] = $link_class;
     }
 
-    return l($link_text, $link_path, $options);
+    // Add the icon (if any).
+    $icon = NULL;
+    if ($link_icon) {
+      $icon = '<i class="fa ' . $link_icon . '"></i>';
+      $options['attributes']['class'][] = 'has-icon';
+      $options['attributes']['title'] = $link_text;
+    }
+
+    return l(
+      $icon . '<span class="icon-label">' . $link_text . '</span>',
+      $link_path,
+      $options
+    );
   }
 }
 
