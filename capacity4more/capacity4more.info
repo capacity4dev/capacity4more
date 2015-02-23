@@ -120,6 +120,7 @@ dependencies[] = c4m_features_overview_projects
 dependencies[] = c4m_features_overview_regions
 dependencies[] = c4m_features_overview_topics
 dependencies[] = c4m_features_homepage
+dependencies[] = c4m_features_homepage_intro
 
 ; RESTful
 dependencies[] = c4m_restful_quick_post

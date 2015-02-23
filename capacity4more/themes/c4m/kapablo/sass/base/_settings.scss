@@ -7,6 +7,7 @@ $color-beige-light: #F3F2ED;
 $color-black: #000000;
 $color-blue: #557D86;
 $color-blue-light: #8BBCCA;
+$color-blue-dark: #2B4753;
 $color-brown: #7C6E5A;
 $color-gray: #70706D;
 $color-gray-dark: #3E3E3E;
@@ -27,6 +28,7 @@ $color-public: $color-green;
 $color-restricted: $color-yellow;
 $color-private: $color-red;
 
+$userbar-blue: $color-blue-dark;
 $highlight-blue: $color-blue-light;
 
 $public: $color-public;

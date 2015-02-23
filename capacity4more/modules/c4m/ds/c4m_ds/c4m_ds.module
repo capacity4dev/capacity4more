@@ -19,6 +19,17 @@ function c4m_ds_ds_layout_info() {
   $layouts = array();
 
   // Details of the layouts.
+  $layouts['c4m_ds_3_9_fluid'] = array(
+    'label'   => t('Fluid 3-9 unstacked.'),
+    'path'    => $path . '/c4m_ds_3_9_fluid',
+    'regions' => array(
+      'left'  => t('Left'),
+      'right' => t('Right'),
+    ),
+    'form'    => TRUE,
+    'image'   => FALSE,
+  );
+
   $layouts['c4m_ds_4_8_fluid'] = array(
     'label'   => t('Fluid 4-8 unstacked.'),
     'path'    => $path . '/c4m_ds_4_8_fluid',

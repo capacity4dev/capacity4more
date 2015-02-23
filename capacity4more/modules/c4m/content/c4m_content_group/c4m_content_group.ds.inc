@@ -110,22 +110,35 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'author_link',
       'formatter_settings' => array(
         'ft' => array(
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Owned by',
+          'lb-el' => 'span',
+          'lb-col' => TRUE,
+          'prefix' => '<span class="owner">',
+          'suffix' => '</span>',
         ),
-      ),
-    ),
-    'c4m_ds_content_type_icon' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(),
       ),
     ),
     'c4m_ds_group_members_count' => array(
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<span class="group-members-count">',
+          'suffix' => '</span>',
+        ),
+      ),
+    ),
+    'c4m_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<div class="round-bg">',
+          'suffix' => '</div>',
+        ),
+      ),
     ),
   );
   $export['node|group|teaser'] = $ds_fieldsetting;
@@ -191,11 +204,11 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'group';
   $ds_layout->view_mode = 'teaser';
-  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_content_type_icon',
+        0 => 'c4m_media',
       ),
       'right' => array(
         1 => 'title',
@@ -204,7 +217,7 @@ function c4m_content_group_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'c4m_ds_content_type_icon' => 'left',
+      'c4m_media' => 'left',
       'title' => 'right',
       'c4m_ds_author_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
