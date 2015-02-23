@@ -47,6 +47,15 @@ Feature: Test homepage activity stream
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
 
   @javascript
+  Scenario: Logged in user not member should see only activities from groups of
+  interests when filter is set to My interests
+    Given I am logged in as user "president"
+    When  I visit ""
+    And   I select the radio button "My interests" with the id "edit-homepage-filter-interests"
+    Then  I should see "posted an Article" in the "div.activity-stream" element
+    And   I should not see "Lusail City" in the "div.activity-stream" element
+
+  @javascript
   Scenario: Change one group access back to public.
     Given I am logged in as user "admin"
     When  I change access of group "Nobel prize" to "Public"
