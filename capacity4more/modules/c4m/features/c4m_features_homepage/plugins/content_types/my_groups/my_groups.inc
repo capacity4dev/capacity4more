@@ -53,6 +53,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $variables = array(
     'first_groups' => $first_groups,
     'extra_groups' => $extra_groups,
+    'show_all_link' => $count > 3 ? TRUE : FALSE,
   );
 
   $block = new stdClass();
@@ -77,6 +78,7 @@ function c4m_features_homepage_my_groups_content_type_theme(&$theme, $plugin) {
     'variables' => array(
       'first_groups' => NULL,
       'extra_groups' => NULL,
+      'show_all_link' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'my-groups',
