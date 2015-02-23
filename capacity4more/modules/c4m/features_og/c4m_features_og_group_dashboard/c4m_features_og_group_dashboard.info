@@ -3,6 +3,7 @@ description = Group dashboard for groups of the type "Group".
 core = 7.x
 package = capacity4more - Features Group
 version = 7.x-1.x-dev
+dependencies[] = c4m_features_homepage
 dependencies[] = c4m_og
 dependencies[] = ctools
 dependencies[] = page_manager
