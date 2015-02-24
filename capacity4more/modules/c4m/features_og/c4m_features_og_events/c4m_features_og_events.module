@@ -274,7 +274,7 @@ function  c4m_features_og_events_upcoming_events_get_events($range, $topics = ar
   }
 
   if (!empty($topics)) {
-    $query->fieldCondition('c4m_related_topics', 'target_id', $topics, 'IN');
+    $query->fieldCondition('c4m_related_topic', 'target_id', $topics, 'IN');
   }
 
   $result = $query
