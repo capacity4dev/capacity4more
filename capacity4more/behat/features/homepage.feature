@@ -30,7 +30,7 @@ Feature: Test homepage and activity stream in the homepage
   @javascript
   Scenario: Change one group access to restricted.
     Given I am logged in as user "admin"
-    Then  I change access of group "Nobel prize" to Restricted with "gravity.com" restriction
+    Then  I change access of group "Nobel prize" to "Private"
 
   @javascript
   Scenario: Anonymous user can see article activities and doesn't see filter.
@@ -47,7 +47,7 @@ Feature: Test homepage and activity stream in the homepage
     When  I visit the site homepage
     And   I wait
     Then  I should see "Filter by"
-    And   I should see "Nobel Prize" in the "div.activity-stream" element
+    And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "My groups" in the "div.pane-filter" element
     And   I should see "posted an Article" in the "div.activity-stream" element
 
