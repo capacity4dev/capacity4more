@@ -59,7 +59,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
   $block->title = '';
-  $block->content = theme('c4m_features_homepage_my_groups', $variables);
+  $block->content = $first_groups ? theme('c4m_features_homepage_my_groups', $variables) : FALSE;
   return $block;
 }
 
