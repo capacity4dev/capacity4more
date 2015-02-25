@@ -245,7 +245,7 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),
@@ -316,7 +316,7 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),

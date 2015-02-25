@@ -264,9 +264,10 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'h2',
         'class' => '',
+        'ft' => array(),
       ),
     ),
     'c4m_user_first_and_last_name' => array(
