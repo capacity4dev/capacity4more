@@ -75,7 +75,7 @@ function c4m_user_ds_field_settings_info() {
       ),
     ),
     'c4m_features_og_members_since' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'inline',
       'format' => 'default',
       'formatter_settings' => array(
@@ -94,9 +94,29 @@ function c4m_user_ds_field_settings_info() {
       ),
     ),
     'c4m_features_og_members_activity_summary' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_related_topic_expertise' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Expertise',
+          'lb-el' => 'span',
+          'fis' => TRUE,
+          'fis-el' => 'span',
+          'fis-cl' => 'expertises',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+          'fi' => TRUE,
+          'fi-el' => 'span',
+          'fi-cl' => 'expertise',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+        ),
+      ),
     ),
   );
   $export['user|user|c4m_user_teaser_list'] = $ds_fieldsetting;
@@ -198,8 +218,9 @@ function c4m_user_ds_layout_settings_info() {
         2 => 'c4m_features_og_members_admin_actions',
         3 => 'c4m_organisation',
         4 => 'c4m_user_country',
-        5 => 'c4m_features_og_members_since',
-        6 => 'c4m_features_og_members_activity_summary',
+        5 => 'c4m_related_topic_expertise',
+        6 => 'c4m_features_og_members_since',
+        7 => 'c4m_features_og_members_activity_summary',
       ),
     ),
     'fields' => array(
@@ -208,6 +229,7 @@ function c4m_user_ds_layout_settings_info() {
       'c4m_features_og_members_admin_actions' => 'right',
       'c4m_organisation' => 'right',
       'c4m_user_country' => 'right',
+      'c4m_related_topic_expertise' => 'right',
       'c4m_features_og_members_since' => 'right',
       'c4m_features_og_members_activity_summary' => 'right',
     ),

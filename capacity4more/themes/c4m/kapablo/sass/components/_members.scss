@@ -48,7 +48,26 @@
       display: inline-block;
       width: 100%;
     }
+    .country {
+      padding-left: 3px;
+    }
 
+    .expertises {
+      display: inline-block;
+      .expertise {
+        &:after {
+          content: ", ";
+          color: black;
+        }
+        &:last-child:after {
+          content: "";
+        }
+      }
+    }
+
+    .member-since {
+      padding-left: 3px;
+    }
   }
 
   .field-name-c4m-features-og-members-admin-actions {
