@@ -4,12 +4,19 @@
  * Code for the C4M Display Suite feature.
  */
 
+// Link types that support purl.
+define ('C4M_DS_LINK_TYPE_PURL_AUTO', 'purl_auto');
+define ('C4M_DS_LINK_TYPE_PURL_DISABLED', 'purl_disabled');
+define ('C4M_DS_LINK_TYPE_PURL_OG_DASHBOARD', 'purl_og_dashboard');
+
+
 include_once 'c4m_ds.features.inc';
 
 // DS specific files.
 include_once 'c4m_ds.ds_field_formatter.inc';
 include_once 'c4m_ds.ds_fields_info.inc';
 include_once 'c4m_ds.ds_layout_info.inc';
+include_once 'c4m_ds.ds_render_field.inc';
 include_once 'c4m_ds.ds_view_modes_info.inc';
 
 // Fallback to avoid missing bootstrap functionality.

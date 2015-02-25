@@ -168,10 +168,16 @@ function c4m_ds_ds_fields_info($entity_type) {
  * Implements hook_ds_fields_info_alter().
  */
 function c4m_ds_ds_fields_info_alter(&$fields, $entity_type) {
-  if (isset($fields['node']['title']['properties']['settings']['link'])) {
-    $fields['node']['title']['properties']['settings']['link'][] = 'PURL auto';
-    $fields['node']['title']['properties']['settings']['link'][] = 'PURL disabled';
+  if (isset($fields['title']['properties']['settings']['link']['options'])) {
+    $options = $fields['title']['properties']['settings']['link']['options'];
+    $options[C4M_DS_LINK_TYPE_PURL_AUTO] = t('Yes, auto PURL');
+    $options[C4M_DS_LINK_TYPE_PURL_DISABLED] = t('Yes, disable PURL');
+    $options[C4M_DS_LINK_TYPE_PURL_OG_DASHBOARD] = t('Yes, to group dashboard');
+    $fields['title']['properties']['settings']['link']['options'] = $options;
+  }
+  if (isset($fields['title'])) {
+    $fields['title']['function'] = 'c4m_ds_ds_render_field';
   }
 
-  var_dump($fields['node']['title']);
+  $fields;
 }
