@@ -89,6 +89,7 @@ Feature: Test homepage content and blocks
   Scenario: Everyone should see a functioning carousel.
     Given I am logged in as user "president"
     When  I visit the site homepage
+    And   I wait
     Then  I should see the carousel and all the slides
 
   @javascript
