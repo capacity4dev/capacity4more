@@ -37,7 +37,12 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
 
     if (!empty($request['html'])) {
       $message = message_load($row->mid);
-      $output = $message->view('activity_stream');
+      if ($request['homepage']) {
+        $output = $message->view('activity_trimmed');
+      }
+      else {
+        $output = $message->view('activity_stream');
+      }
       $return['id'] = $row->mid;
       $return['html'] = drupal_render($output);
     }

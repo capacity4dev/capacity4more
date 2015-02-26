@@ -83,6 +83,10 @@ function c4m_content_photo_strongarm() {
             'weight' => '1',
             'visible' => FALSE,
           ),
+          'activity_trimmed' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),
