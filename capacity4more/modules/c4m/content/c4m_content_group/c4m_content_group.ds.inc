@@ -104,15 +104,14 @@ function c4m_content_group_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_author_first_and_last_name' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '2',
       'label' => 'inline',
-      'format' => 'author_link',
+      'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'lb' => 'Owned by',
-          'lb-el' => 'span',
           'lb-col' => TRUE,
           'prefix' => '<span class="owner">',
           'suffix' => '</span>',
@@ -212,14 +211,14 @@ function c4m_content_group_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_ds_author_first_and_last_name',
+        2 => 'c4m_user_first_and_last_name',
         3 => 'c4m_ds_group_members_count',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
       'title' => 'right',
-      'c4m_ds_author_first_and_last_name' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
     ),
     'classes' => array(),

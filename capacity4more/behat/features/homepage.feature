@@ -22,6 +22,12 @@ Feature: Test homepage and activity stream in the homepage
     Then I should see the site homepage
 
   @api
+  Scenario: Logged in user should see group owner in "My Groups" block.
+    Given I am logged in as user "isaacnewton"
+    When  I visit the site homepage
+    And   I should see "Charles Darwin" in the "span.owner" element
+
+  @api
   Scenario: Anonymous user should see button to open the introduction video.
     Given I am an anonymous user
     When I visit the site homepage
