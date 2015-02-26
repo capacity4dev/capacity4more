@@ -90,7 +90,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "admin"
     Then  I change access of group "Nobel prize" to "Private"
 
-  @javascript @test
+  @javascript
   Scenario: Everyone should see a functioning carousel.
     Given I am logged in as user "president"
     When  I visit the site homepage
