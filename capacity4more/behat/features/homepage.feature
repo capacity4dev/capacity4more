@@ -1,7 +1,7 @@
-Feature: Test homepage and activity stream in the homepage
-  In order to see recent content
+Feature: Test homepage content and blocks
+  In order to test the correct content displayed in the homepage
   As a group member and non-member and anonymous user
-  I need to be able to see an activity stream of recent operations
+  I need to be able to see various content for various user roles.
 
   @api
   Scenario: Logged in user should have access to the site homepage.
@@ -26,6 +26,64 @@ Feature: Test homepage and activity stream in the homepage
     Given I am an anonymous user
     When I visit the site homepage
     Then I should see the homepage introduction video block
+
+  @api
+  Scenario: Anonymous user can't see "My Groups" block
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should not see "My Groups"
+
+  @api
+  Scenario: Logged in, non member user can't see "My Groups" block
+    Given I am logged in as user "president"
+    When  I visit the site homepage
+    Then  I should not see "My Groups"
+
+  @api
+  Scenario: Logged in, member user should see "My Groups" block
+    Given I am logged in as user "mariecurie"
+    When  I visit the site homepage
+    Then  I should see "My Groups"
+    And   I should see "Architecture" in the "div.my-groups" element
+    And   I should see "Show all" in the "div.my-groups" element
+
+  @api
+  Scenario: Anonymous user can't see "Suggested Groups" block
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should not see "Suggested Groups"
+
+  @api
+  Scenario: Logged in, non member user should see "Suggested Groups" block
+    Given I am logged in as user "president"
+    When  I visit the site homepage
+    Then  I should see "Suggested Groups"
+
+  @api
+  Scenario: Anonymous user should see only one "Upcoming event"
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
+    And   I should see only "1" events
+
+  @api
+  Scenario: Logged in user should see more than one "Upcoming event"
+    Given I am logged in as user "mariecurie"
+    When  I visit the site homepage
+    Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
+    And   I should see only "2" events
+
+  @api
+  Scenario: Check featured block is displayed correctly.
+    Given I am an anonymous user
+    When  I visit the site homepage
+    Then  I should see the featured block
+
+  @javascript
+  Scenario: Everyone should see a functioning carousel.
+    Given I am logged in as user "president"
+    When  I visit the site homepage
+    Then  I should see the carousel and all the slides
 
   @javascript
   Scenario: Change one group access to restricted.
@@ -62,7 +120,7 @@ Feature: Test homepage and activity stream in the homepage
     And   I should not see "posted an Article" in the "div.activity-stream" element
 
   @javascript
-  Scenario: Logged in user not member can't see My group filter and restricted
+  Scenario: Logged in, non member user can't see My group filter and restricted
   group activities
     Given I am logged in as user "president"
     When  I visit the site homepage
@@ -73,7 +131,7 @@ Feature: Test homepage and activity stream in the homepage
     And   I should see "posted an Article" in the "div.activity-stream" element
 
   @javascript
-  Scenario: Logged in user not member should see only activities from groups of
+  Scenario: Logged in, non member user should see only activities from groups of
   interests when filter is set to My interests
     Given I am logged in as user "president"
     When  I visit the site homepage
