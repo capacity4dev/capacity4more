@@ -10,7 +10,7 @@
  * Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
-  if ($variables['view_mode'] != 'activity_stream') {
+  if ($variables['view_mode'] != ('activity_stream' || 'activity_trimmed')) {
     return;
   }
 
