@@ -77,7 +77,7 @@ Feature: Test homepage content and blocks
   Scenario: Check featured block is displayed correctly.
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should see the featured block
+    Then  I should see "Featured block"
 
   @api
   Scenario: Logged in, non member user should see the suggested groups video.
@@ -86,15 +86,15 @@ Feature: Test homepage content and blocks
     Then  I should see the suggested groups video block
 
   @javascript
+  Scenario: Change one group access to restricted.
+    Given I am logged in as user "admin"
+    Then  I change access of group "Nobel prize" to "Private"
+
+  @javascript @test
   Scenario: Everyone should see a functioning carousel.
     Given I am logged in as user "president"
     When  I visit the site homepage
     Then  I should see the carousel and all the slides
-
-  @javascript
-  Scenario: Change one group access to restricted.
-    Given I am logged in as user "admin"
-    Then  I change access of group "Nobel prize" to "Private"
 
   @javascript
   Scenario: Anonymous user can see article activities and doesn't see filter.

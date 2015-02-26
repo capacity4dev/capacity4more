@@ -30,18 +30,6 @@ trait Homepage {
   }
 
   /**
-   * @Then /^I should see the featured block$/
-   */
-  public function iShouldFeaturedBlock() {
-    $steps[] = new Step\When('I should see "Featured block"');
-    $steps[] = new Step\When('I should see "Nobel Foundation" in the "div.pane-featured-block" element');
-    $steps[] = new Step\When('I should see "Nobel Banquet" in the "div.pane-featured-block" element');
-    $steps[] = new Step\When('I should see "Second Prize" in the "div.pane-featured-block" element');
-
-    return $steps;
-  }
-
-  /**
    * @Then /^I should see the suggested groups video block$/
    */
   public function iShouldEmbeddedVideoBlock() {
@@ -87,15 +75,15 @@ trait Homepage {
   public function iShouldSeeFunctioningCarousel() {
     $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
     $steps[] = new Step\When('I should see "Read all"');
-    $steps[] = new Step\When('I should see "Gene Therapy Achieves Major Success"');
+    $steps[] = new Step\When('I should see "Gene Therapy Achieves Major Success" in the "div.intro-text" element');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
     $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
-    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System"');
+    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System" in the "div.intro-text" element');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
     $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
-    $steps[] = new Step\When('I should see "Recovery of Oldest Human DNA"');
+    $steps[] = new Step\When('I should see "Recovery of Oldest Human DNA" in the "div.intro-text" element');
 
     return $steps;
   }
