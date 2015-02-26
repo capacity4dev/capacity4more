@@ -79,6 +79,12 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should see the featured block
 
+  @api
+  Scenario: Logged in, non member user should see the suggested groups video.
+    Given I am logged in as user "president"
+    When  I visit the site homepage
+    Then  I should see the suggested groups video block
+
   @javascript
   Scenario: Everyone should see a functioning carousel.
     Given I am logged in as user "president"

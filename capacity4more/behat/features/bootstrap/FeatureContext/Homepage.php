@@ -42,6 +42,16 @@ trait Homepage {
   }
 
   /**
+   * @Then /^I should see the suggested groups video block/
+   */
+  public function iShouldEmbeddedVideoBlock() {
+    $steps[] = new Step\When('I should see "You\'re not yet a member of any group." in the "div.video-preview-wrapper" element');
+    $steps[] = new Step\When('I should see "Learn how to learn and share knowledge by joining a group" in the "div.video-preview-wrapper" element');
+
+    return $steps;
+  }
+
+  /**
    * @Then /^I should see the carousel and all the slides$/
    */
   public function iShouldSeeFunctioningCarousel() {
