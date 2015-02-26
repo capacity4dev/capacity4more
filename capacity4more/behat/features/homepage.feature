@@ -89,7 +89,6 @@ Feature: Test homepage content and blocks
   Scenario: Everyone should see a functioning carousel.
     Given I am logged in as user "president"
     When  I visit the site homepage
-    And   I wait
     Then  I should see the carousel and all the slides
 
   @javascript
@@ -101,8 +100,7 @@ Feature: Test homepage content and blocks
   Scenario: Anonymous user can see article activities and doesn't see filter.
     Given I am an anonymous user
     When  I visit the site homepage
-    And   I wait
-    Then  I should not see "Filter by"
+    Then  I should wait not to see "Filter by"
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "posted an Article" in the "div.activity-stream" element
 
@@ -110,8 +108,7 @@ Feature: Test homepage content and blocks
   Scenario: Logged in user can see article activities and filter.
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
-    And   I wait
-    Then  I should see "Filter by"
+    Then  I should wait to see "Filter by"
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "My groups" in the "div.pane-filter" element
     And   I should see "posted an Article" in the "div.activity-stream" element
@@ -121,8 +118,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
     And   I select the radio button "My groups" with the id "edit-homepage-filter-groups"
-    And   I wait
-    Then  I should not see "Nobel Prize" in the "div.activity-stream" element
+    Then  I should wait not to see "Nobel Prize" in the "div.activity-stream" element
     And   I should not see "Football Talk" in the "div.activity-stream" element
     And   I should not see "posted an Article" in the "div.activity-stream" element
 
@@ -131,8 +127,7 @@ Feature: Test homepage content and blocks
   group activities
     Given I am logged in as user "president"
     When  I visit the site homepage
-    And   I wait
-    Then  I should see "Filter by"
+    Then  I should wait to see "Filter by"
     And   I should not see "My groups" in the "div.pane-filter" element
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "posted an Article" in the "div.activity-stream" element
@@ -143,8 +138,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "president"
     When  I visit the site homepage
     And   I select the radio button "My interests" with the id "edit-homepage-filter-interests"
-    And   I wait
-    Then  I should not see "Lusail City" in the "div.activity-stream" element
+    Then  I should wait not to see "Lusail City" in the "div.activity-stream" element
     And   I should see "posted an Article" in the "div.activity-stream" element
 
   @javascript

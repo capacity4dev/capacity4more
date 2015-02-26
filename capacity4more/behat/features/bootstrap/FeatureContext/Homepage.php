@@ -42,7 +42,7 @@ trait Homepage {
   }
 
   /**
-   * @Then /^I should see the suggested groups video block/
+   * @Then /^I should see the suggested groups video block$/
    */
   public function iShouldEmbeddedVideoBlock() {
     $steps[] = new Step\When('I should see "You\'re not yet a member of any group." in the "div.video-preview-wrapper" element');
@@ -52,14 +52,44 @@ trait Homepage {
   }
 
   /**
+   * @Then /^I should wait not to see "([^"]*)"$/
+   */
+  public function iShouldWaitNotToSee($text) {
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I should not see "' . $text . '"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should wait not to see "([^"]*)" in the "([^"]*)" element$/
+   */
+  public function iShouldWaitNotToSeeInElement($text, $element) {
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I should not see "' . $text . '" in the "' . $element . '" element');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should wait to see "([^"]*)"$/
+   */
+  public function iShouldWaitToSee($text) {
+    $steps[] = new Step\When('I wait');
+    $steps[] = new Step\When('I should see "' . $text . '"');
+
+    return $steps;
+  }
+
+  /**
    * @Then /^I should see the carousel and all the slides$/
    */
   public function iShouldSeeFunctioningCarousel() {
-    $steps[] = new Step\When('I should see "VOICES & VIEWS"');
+    $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
     $steps[] = new Step\When('I should see "Read all"');
-    $steps[] = new Step\When('I should see "Gene Therapy Achieves Major Success" in the "div.carousel" element');
-    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System" in the "div.carousel" element');
-    $steps[] = new Step\When('I should see "Recovery of Oldest Human DNA" in the "div.carousel" element');
+    $steps[] = new Step\When('I should see "Gene Therapy Achieves Major Success"');
+    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System"');
+    $steps[] = new Step\When('I should see "Recovery of Oldest Human DNA"');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
     $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
