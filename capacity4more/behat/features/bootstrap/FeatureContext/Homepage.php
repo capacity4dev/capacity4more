@@ -88,11 +88,14 @@ trait Homepage {
     $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
     $steps[] = new Step\When('I should see "Read all"');
     $steps[] = new Step\When('I should see "Gene Therapy Achieves Major Success"');
-    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System"');
-    $steps[] = new Step\When('I should see "Recovery of Oldest Human DNA"');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
     $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
+    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System"');
+
+    // Flip to the next slide (If the test can't execute the function, an error will appear).
+    $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
+    $steps[] = new Step\When('I should see "Recovery of Oldest Human DNA"');
 
     return $steps;
   }
