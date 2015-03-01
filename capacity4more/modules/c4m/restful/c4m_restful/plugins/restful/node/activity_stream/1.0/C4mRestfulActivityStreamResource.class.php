@@ -37,7 +37,7 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
 
     if (!empty($request['html'])) {
       $message = message_load($row->mid);
-      if (!empty($request['homepage'])) {
+      if ($request['homepage']) {
         $output = $message->view('activity_trimmed');
       }
       else {
