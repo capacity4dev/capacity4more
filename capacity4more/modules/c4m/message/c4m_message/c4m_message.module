@@ -187,7 +187,7 @@ function c4m_messages_group_info(Message $message) {
   // Add group info for activity stream on the homepage,
   // When the request is from RESTful, "drupal_is_front_page" won't work.
   $handler = og_purl_og_context_handler();
-  if (((drupal_is_front_page() || !empty($_REQUEST['homepage'])) && empty($handler) || (isset($_REQUEST['group']) && is_array($_REQUEST['group'])))) {
+  if (((drupal_is_front_page() || !empty($_GET['homepage'])) && empty($handler) || (isset($_GET['group']) && is_array($_GET['group'])))) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
       $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
       $group_info = t('Group: ') . l($wrapper->label(), $wrapper->value()->purl);
@@ -784,7 +784,7 @@ function c4m_message_preprocess_node(&$variables) {
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__activity_stream';
     // Trim the body of activity stream in the homepage.
     $handler = og_purl_og_context_handler();
-    if ((drupal_is_front_page() || !empty($_REQUEST['homepage'])) && empty($handler)) {
+    if ((drupal_is_front_page() || !empty($_GET['homepage'])) && empty($handler)) {
       $body = strip_tags(truncate_utf8($variables['node']->c4m_body[LANGUAGE_NONE][0]['safe_value'], 150, TRUE, TRUE));
       $variables['node']->c4m_body[LANGUAGE_NONE][0]['safe_value'] = $body;
     }
