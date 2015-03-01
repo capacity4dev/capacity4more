@@ -925,13 +925,8 @@ function c4m_message_load_homepage_activity_stream() {
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
     'data' => array(
-      'entity' => array(
-        'group' => $groups,
-        'topics' => $interests,
-        'homepage' => 1,
-        'hide_articles' => $hide_articles,
-      ),
-
+      'request' => $request,
+      'entity' => array('group' => $groups),
     ),
   );
   drupal_add_js($settings, 'setting');
