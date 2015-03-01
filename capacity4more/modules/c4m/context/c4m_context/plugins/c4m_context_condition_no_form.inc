@@ -53,7 +53,7 @@ class c4m_context_condition_no_form extends context_condition {
         // The moment we find a combination of a form and an operation which
         // we disallow, we stop checking the combinations because condition is
         // not met.
-        foreach($combinations as $combination) {
+        foreach ($combinations as $combination) {
           list($form_id, $op) = explode('|', $combination);
           if (!empty($current_op) &&
               !empty($current_form_id) &&
