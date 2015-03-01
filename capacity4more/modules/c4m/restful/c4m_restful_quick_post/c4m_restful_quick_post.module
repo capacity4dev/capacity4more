@@ -118,6 +118,7 @@ function c4m_restful_quick_post_form($group_id) {
     'activities' => $activities,
     'data' => array(
       'entity' => $entity_fields,
+      'request' => $request,
     ),
   );
   drupal_add_js($settings, 'setting');

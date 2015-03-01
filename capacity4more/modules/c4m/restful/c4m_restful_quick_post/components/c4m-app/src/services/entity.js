@@ -101,10 +101,10 @@ angular.module('c4mApp')
       var hideArticles = '&hide_articles=' + data.hideArticles;
       var topics = data.topics;
 
+      var topicsFilter = '';
       if (angular.isObject(topics)) {
-        var topics_filter = '';
         angular.forEach(topics, function(topic, index) {
-          topics_filter += '&topics[' + index + ']=' + topic;
+          topicsFilter += '&topics[' + index + ']=' + topic;
         });
       }
 
@@ -118,11 +118,11 @@ angular.module('c4mApp')
 
         return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?'
         + group_filter + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
-        + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage +  hideArticles + topics_filter, config);
+        + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage +  hideArticles + topicsFilter, config);
       }
 
       return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group='
       + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
-      + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage + hideArticles + topics_filter, config);
+      + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage + hideArticles + topicsFilter, config);
     };
   });
