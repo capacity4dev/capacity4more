@@ -67,7 +67,6 @@ function c4m_features_og_members_context_default_contexts() {
   t('cap4more - Members');
   $export['c4m_overview_og_members_list'] = $context;
 
-
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;

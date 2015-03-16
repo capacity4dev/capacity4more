@@ -570,9 +570,12 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 14,
       ),
       'c4m_user_teaser_list' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
         'weight' => 18,
       ),
       'c4m_user_teaser_table' => array(
