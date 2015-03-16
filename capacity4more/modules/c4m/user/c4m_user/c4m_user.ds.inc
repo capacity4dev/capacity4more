@@ -218,9 +218,9 @@ function c4m_user_ds_layout_settings_info() {
         2 => 'c4m_features_og_members_admin_actions',
         3 => 'c4m_organisation',
         4 => 'c4m_user_country',
-        5 => 'c4m_related_topic_expertise',
-        6 => 'c4m_features_og_members_since',
-        7 => 'c4m_features_og_members_activity_summary',
+        5 => 'c4m_features_og_members_since',
+        6 => 'c4m_features_og_members_activity_summary',
+        7 => 'c4m_related_topic_expertise',
       ),
     ),
     'fields' => array(
@@ -229,9 +229,9 @@ function c4m_user_ds_layout_settings_info() {
       'c4m_features_og_members_admin_actions' => 'right',
       'c4m_organisation' => 'right',
       'c4m_user_country' => 'right',
-      'c4m_related_topic_expertise' => 'right',
       'c4m_features_og_members_since' => 'right',
       'c4m_features_og_members_activity_summary' => 'right',
+      'c4m_related_topic_expertise' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
