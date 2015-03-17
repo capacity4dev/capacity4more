@@ -21,7 +21,7 @@ trait Event {
    */
   public function iVisitTheEventsLandingPageOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-    $uri = $this->createUriWithGroupContext($group, 'calendar');
+    $uri = $this->createUriWithGroupContext($group, 'events');
     return new Given('I go to "' . $uri . '"');
   }
 
@@ -30,7 +30,7 @@ trait Event {
    */
   public function iVisitTheUpcomingEventsOverviewOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-    $uri = $this->createUriWithGroupContext($group, 'calendar/upcoming');
+    $uri = $this->createUriWithGroupContext($group, 'events/upcoming');
     return new Given('I go to "' . $uri . '"');
   }
 
@@ -39,7 +39,7 @@ trait Event {
    */
   public function iVisitThePastEventsOverviewOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
-    $uri = $this->createUriWithGroupContext($group, 'calendar/past');
+    $uri = $this->createUriWithGroupContext($group, 'events/past');
     return new Given('I go to "' . $uri . '"');
   }
 

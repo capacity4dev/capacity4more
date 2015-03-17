@@ -19,7 +19,7 @@ function c4m_features_og_events_context_default_contexts() {
   $context->conditions = array(
     'path' => array(
       'values' => array(
-        'calendar' => 'calendar',
+        'events' => 'events',
       ),
     ),
   );
