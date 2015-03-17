@@ -29,7 +29,7 @@ function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_features_og_events_search_api_sorts_get_default_sort_alter (&$default_sort, $search_sorts, $keys) {
   // Change default sort into 'Sort by Start Date' for events overviews.
-  if ( FALSE === strpos(current_path(), 'calendar', 0)) {
+  if ( FALSE === strpos(current_path(), 'events', 0)) {
     return;
   }
   $default_sort = $default_sort;
@@ -164,7 +164,7 @@ function c4m_features_og_events_block_view($delta = '') {
  * @param $block
  */
 function c4m_features_og_events_block_view_alter(&$data, $block) {
-  if ('calendar' === current_path()) {
+  if ('events' === current_path()) {
     // Override blocks on the events landing page.
     module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events.block');
     return _c4m_features_og_events_landing_block_view_alter($data, $block);

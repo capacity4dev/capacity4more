@@ -49,7 +49,7 @@ function _c4m_features_og_events_block_event_views_links() {
 
   // Link to the general overview page.
   $items[] = array(
-    'data' => l(t('Overview'), 'calendar'),
+    'data' => l(t('Overview'), 'events'),
     'class' => array('leaf'),
   );
 
@@ -115,7 +115,7 @@ function _c4m_features_og_events_block_event_views_links() {
 
     $count = ' (' . $result['result count'] . ')';
     $items[] = array(
-      'data' => l($page['text'] . $count, 'calendar/' . $key, $link_options),
+      'data' => l($page['text'] . $count, 'events/' . $key, $link_options),
       'class' => array('leaf'),
     );
   }
