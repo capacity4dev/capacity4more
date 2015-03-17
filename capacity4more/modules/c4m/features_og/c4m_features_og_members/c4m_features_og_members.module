@@ -505,6 +505,10 @@ function _c4m_features_og_members_facet_country_alter(&$build, &$settings) {
 function _c4m_features_og_members_facet_membership_type_alter(&$build, &$settings) {
   $group = c4m_og_current_group();
 
+  if (empty($group)) {
+    return;
+  }
+
   foreach($build as $key => $item) {
     $membership_type = explode('_', $key);
     $gid = $membership_type[0];
