@@ -30,8 +30,8 @@ function c4m_og_og_no_purl_ctools_access_settings($form, &$form_state, $conf) {
  * Check for access based on the fact the page URL doesn't have group purl in it.
  */
 function c4m_og_og_no_purl_ctools_access_check($conf, $context) {
-
-  return empty(og_purl_og_context_handler());
+  $handler = og_purl_og_context_handler();
+  return empty($handler);
 }
 
 /**
