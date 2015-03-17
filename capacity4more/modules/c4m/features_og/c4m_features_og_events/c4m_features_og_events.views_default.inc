@@ -156,7 +156,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['group'] = 1;
-  $handler->display->display_options['path'] = 'events/upcoming';
+  $handler->display->display_options['path'] = 'calendar/upcoming';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
@@ -208,7 +208,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['field'] = 'c4m_datetime_end_value2';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['operator'] = '<';
   $handler->display->display_options['filters']['c4m_datetime_end_value2']['value'] = 'now';
-  $handler->display->display_options['path'] = 'events/past';
+  $handler->display->display_options['path'] = 'calendar/past';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
@@ -308,7 +308,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['footer']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
   $handler->display->display_options['footer']['c4m_views_switch_page']['table'] = 'views';
   $handler->display->display_options['footer']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
-  $handler->display->display_options['path'] = 'events';
+  $handler->display->display_options['path'] = 'calendar';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Events';
   $handler->display->display_options['menu']['weight'] = '3';
@@ -348,7 +348,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['footer']['c4m_views_custom_link']['table'] = 'views';
   $handler->display->display_options['footer']['c4m_views_custom_link']['field'] = 'c4m_views_custom_link';
   $handler->display->display_options['footer']['c4m_views_custom_link']['ui_name'] = 'Link to group upcoming events page';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'events/upcoming';
+  $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'calendar/upcoming';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all upcoming events';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'upcoming-events, link-to-view';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
@@ -418,7 +418,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['footer']['c4m_views_custom_link']['table'] = 'views';
   $handler->display->display_options['footer']['c4m_views_custom_link']['field'] = 'c4m_views_custom_link';
   $handler->display->display_options['footer']['c4m_views_custom_link']['ui_name'] = 'Link to group past events page';
-  $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'events/past';
+  $handler->display->display_options['footer']['c4m_views_custom_link']['link_path'] = 'calendar/past';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_text'] = 'Show all past events';
   $handler->display->display_options['footer']['c4m_views_custom_link']['link_class'] = 'past-events, link-to-view';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
