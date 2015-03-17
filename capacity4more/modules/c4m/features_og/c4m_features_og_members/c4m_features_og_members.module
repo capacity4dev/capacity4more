@@ -469,27 +469,9 @@ function _c4m_features_og_members_membership_type_getter_callback($user) {
  */
 function c4m_features_og_members_facet_items_alter(&$build, &$settings) {
   switch ($settings->facet) {
-    case 'c4m_country':
-      _c4m_features_og_members_facet_country_alter($build, $settings);
-      break;
     case 'c4m_og_membership_type':
       _c4m_features_og_members_facet_membership_type_alter($build, $settings);
       break;
-  }
-}
-
-/**
- * Helper function to alter the facet for the country.
- *
- * @param $build
- * @param $settings
- */
-function _c4m_features_og_members_facet_country_alter(&$build, &$settings) {
-  $field = field_info_field($settings->facet);
-  $allowed_values = list_allowed_values($field);
-  foreach($build as $key => $item) {
-    $build[$key]["#markup"] = t('@country', array('@country' =>
-      ucwords(drupal_strtolower($allowed_values[drupal_strtoupper($key)]))));
   }
 }
 

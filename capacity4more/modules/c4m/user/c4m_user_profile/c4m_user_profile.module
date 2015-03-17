@@ -97,3 +97,35 @@ function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $o
 
   return $replacements;
 }
+
+/**
+ * Implementation of hook_facet_items_alter()
+ *
+ * @param $build
+ * @param $settings
+ */
+function c4m_user_profile_facet_items_alter(&$build, &$settings) {
+  switch ($settings->facet) {
+    case 'c4m_country':
+      _c4m_user_profile_facet_country_alter($build, $settings);
+      break;
+  }
+}
+
+/**
+ * Helper function to alter the facet for the country.
+ *
+ * Display full country name instead of country code.
+ *
+ * @param $build
+ * @param $settings
+ */
+function _c4m_user_profile_facet_country_alter(&$build, &$settings) {
+  $field = field_info_field($settings->facet);
+  $allowed_values = list_allowed_values($field);
+  foreach($build as $key => $item) {
+    $build[$key]["#markup"] = t('@country', array('@country' =>
+      ucwords(drupal_strtolower($allowed_values[drupal_strtoupper($key)]))
+    ));
+  }
+}
