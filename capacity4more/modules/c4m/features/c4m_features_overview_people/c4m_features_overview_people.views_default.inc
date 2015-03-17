@@ -33,7 +33,7 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_teaser_list';
+  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_teaser_list_global';
   /* Header: Sorts */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
@@ -106,37 +106,6 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_picture';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Indexed User: User ID */
-  $handler->display->display_options['fields']['uid']['id'] = 'uid';
-  $handler->display->display_options['fields']['uid']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['fields']['uid']['field'] = 'uid';
-  $handler->display->display_options['fields']['uid']['label'] = '';
-  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['uid']['link_to_entity'] = 0;
-  /* Field: Indexed User: Picture */
-  $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
-  $handler->display->display_options['fields']['c4m_media']['table'] = 'search_api_index_c4m_search_users';
-  $handler->display->display_options['fields']['c4m_media']['field'] = 'c4m_media';
-  $handler->display->display_options['fields']['c4m_media']['label'] = '';
-  $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => '',
-    'image_link' => '',
-  );
-
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -177,7 +146,7 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 0;
   $handler->display->display_options['fields']['rendered_entity']['display'] = 'view';
-  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'c4m_user_teaser_table';
+  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'c4m_user_teaser_table_global';
   $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   $handler->display->display_options['path'] = 'people/table';

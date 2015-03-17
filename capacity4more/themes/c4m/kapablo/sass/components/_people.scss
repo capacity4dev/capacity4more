@@ -117,52 +117,50 @@
   }
 
   &.view-display-id-page_1 {
-    #views-form-c4m-overview-people-page-1 {
-      fieldset.form-inline {
-        .panel-heading {
-          display: none;
-        }
-        .panel-body {
-          padding: 0;
-        }
-      }
-      .view-mode-c4m_user_teaser_table_header {
+    fieldset.form-inline {
+      .panel-heading {
         display: none;
-
-        @media screen and (min-width: $screen-sm-min) {
-          display: block;
-        }
       }
+      .panel-body {
+        padding: 0;
+      }
+    }
+    .view-mode-c4m_user_teaser_table_header {
+      display: none;
 
-      .table-responsive {
-        table {
-          @media screen and (max-width: $screen-sm-min) {
-            .row {
-              margin: 0;
-            }
+      @media screen and (min-width: $screen-sm-min) {
+        display: block;
+      }
+    }
+
+    .table-responsive {
+      table {
+        @media screen and (max-width: $screen-sm-min) {
+          .row {
+            margin: 0;
           }
-          @media screen and (min-width: $screen-sm-min) {
-            .views-field-rendered-entity {
-              .row > div {
-                display: inline-block;
-                vertical-align: top;
-              }
-              .content-first {
-                width: 35%;
+        }
+        @media screen and (min-width: $screen-sm-min) {
+          .views-field-rendered-entity {
+            .row > div {
+              display: inline-block;
+              vertical-align: top;
+            }
+            .content-first {
+              width: 35%;
 
-                .user-name {
-                  font-size: 18px;
-                }
+              .user-name {
+                font-size: 18px;
               }
-              .content-second {
-                width: 30%;
-              }
-              .content-third {
-                width: 20%;
-              }
-              .content-fourth {
-                width: 10%;
-              }
+            }
+            .content-second {
+              width: 30%;
+            }
+            .content-third {
+              width: 20%;
+            }
+            .content-fourth {
+              width: 10%;
             }
           }
         }
