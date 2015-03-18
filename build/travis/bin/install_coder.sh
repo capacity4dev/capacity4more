@@ -14,7 +14,6 @@ fi
 
 
 cd $TRAVIS_BUILD_DIR
-composer global require drupal/coder:\>7
-drush pm-download coder-7.x-2.x-dev --destination=$HOME/.drush
-phpenv rehash
-drush cache-clear drush
+composer global require squizlabs/PHP_CodeSniffer:\<2
+composer global require drupal/coder
+phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer

@@ -8,6 +8,11 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
+if [ $INSTALL_PROFILE != 1 ]; then
+ exit 0;
+fi
+
+
 cd $TRAVIS_BUILD_DIR
 
 # Use the travis config file.
