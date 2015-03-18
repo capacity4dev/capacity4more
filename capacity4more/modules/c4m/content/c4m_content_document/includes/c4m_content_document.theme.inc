@@ -1,19 +1,24 @@
 <?php
+/**
+ * @file
+ * Theme functions for the c4m_content_document module.
+ */
 
 /**
  * DS function field.
  *
  * Render a document icon.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
  * @return string
+ *   The rendered version of the field.
  */
-function theme_c4m_content_document_icon($field) {
+function theme_c4m_content_document_icon(array $field) {
   if (empty($field['entity']->c4m_document)) {
-    return;
+    return NULL;
   }
-  //include_once DRUPAL_ROOT . '/includes/file.mimetypes.inc';
 
   $object = $field['entity'];
 
