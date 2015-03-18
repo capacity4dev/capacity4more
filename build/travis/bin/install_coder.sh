@@ -14,6 +14,5 @@ fi
 
 
 cd $TRAVIS_BUILD_DIR
-composer global require squizlabs/PHP_CodeSniffer:\<2
 composer global require drupal/coder
 phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
