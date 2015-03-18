@@ -29,7 +29,7 @@ function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_features_og_events_search_api_sorts_get_default_sort_alter (&$default_sort, $search_sorts, $keys) {
   // Change default sort into 'Sort by Start Date' for events overviews.
-  if ( FALSE === strpos(current_path(), 'calendar', 0)) {
+  if (FALSE === strpos(current_path(), 'calendar', 0)) {
     return;
   }
   $default_sort = $default_sort;
@@ -52,6 +52,10 @@ function c4m_features_og_events_search_api_sorts_get_default_sort_alter (&$defau
  * @param $block
  */
 function c4m_features_og_events_search_api_sorts_alter(&$block, $view) {
+  // Change default sort into 'Sort by Start Date' for events overviews.
+  if (FALSE === strpos(current_path(), 'calendar', 0)) {
+    return;
+  }
   // Remove 'Start date' sort if this is not an events overview.
   if (!in_array($view->name, array('c4m_overview_og_events',
       'c4m_overview_og_events_landing'))) {

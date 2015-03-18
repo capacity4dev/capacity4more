@@ -24,7 +24,6 @@ function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$
   if (FALSE === strpos(current_path(), 'events', 0)) {
     return;
   }
-
   $default_sort = $default_sort;
   foreach($search_sorts as $search_sort) {
     if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $search_sort->name) {
@@ -45,6 +44,10 @@ function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$
  * @param $block
  */
 function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
+  // Change default sort into 'Sort by Start Date' for events overviews.
+  if (FALSE === strpos(current_path(), 'events', 0)) {
+    return;
+  }
   // Remove 'Start date' sort if this is not an events overview.
   if (!in_array($view->name, array('c4m_overview_events',
     'c4m_overview_events_landing'))) {
