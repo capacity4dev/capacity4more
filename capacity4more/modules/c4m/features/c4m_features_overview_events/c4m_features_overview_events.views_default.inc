@@ -34,14 +34,6 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
-  /* Header: Add Event link */
-  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add Event link';
-  $handler->display->display_options['header']['c4m_views_node_add']['empty'] = TRUE;
-  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
-  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an Event';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -314,14 +306,6 @@ function c4m_features_overview_events_views_default_views() {
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
   $handler->display->display_options['header']['result']['content'] = '@total in total';
-  /* Header: Add event link */
-  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add event link';
-  $handler->display->display_options['header']['c4m_views_node_add']['label'] = 'Add an event';
-  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
-  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an event';
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Link to group upcoming events page */
   $handler->display->display_options['footer']['c4m_views_custom_link']['id'] = 'c4m_views_custom_link';
