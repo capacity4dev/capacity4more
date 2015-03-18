@@ -149,17 +149,3 @@ function c4m_features_overview_events_block_view($delta = '') {
 
   return $callback();
 }
-
-/**
- * Implements hook_block_view_alter().
- *
- * @param $data
- * @param $block
- */
-function c4m_features_overview_events_block_view_alter(&$data, $block) {
-  if ('events' === current_path()) {
-    // Override blocks on the events landing page.
-    module_load_include('inc', 'c4m_features_overview_events', 'includes/c4m_features_overview_events.block');
-    return _c4m_features_overview_events_landing_block_view_alter($data, $block);
-  }
-}
