@@ -152,7 +152,4 @@ class C4mDemoContentCreateOgUsers extends Migration {
     return $filtered_ids;
   }
 
-  public function complete($entity, $row) {
-    var_dump($entity);
-  }
 }
