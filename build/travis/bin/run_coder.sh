@@ -17,7 +17,7 @@ echo
 # Review custom modules, run each folder seperatly to avoid memory limits.
 for dir in $TRAVIS_BUILD_DIR/capacity4more/modules/c4m/*/ ; do
     echo "Reviewing : $dir"
-    phpcs --standard=Drupal --colors -p $dir
+    phpcs --standard=Drupal --colors -p --ignore=*.features.* $dir
 done
 
 echo
