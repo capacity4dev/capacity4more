@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateComments
+ * Class C4mDemoContentCreateComments.
  */
 abstract class C4mDemoContentCreateComments extends Migration {
   /**
@@ -130,7 +130,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
    * @return array
    *   The filtered array.
    */
-  protected function filterDestid2FromEntityReference($dest_field) {
+  protected function filterDestid2FromEntityReference(array $dest_field) {
     $filtered_ids = array();
     if (!empty($dest_field['destid1'])) {
       if (!empty($dest_field['destid2'])) {
@@ -170,7 +170,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
   /**
    * Reset the $message->timestamp of any related insert message (if any).
    *
-   * @param object $entity
+   * @param object $comment
    *   Comment object we want to set the message timestamp for.
    * @param object $row
    *   The source data of the migrated entity.
@@ -206,4 +206,5 @@ abstract class C4mDemoContentCreateComments extends Migration {
       message_save($message);
     }
   }
+
 }

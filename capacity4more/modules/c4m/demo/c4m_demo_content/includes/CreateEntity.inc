@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateEntity
+ * Class C4mDemoContentCreateEntity.
  */
 abstract class C4mDemoContentCreateEntity extends Migration {
   /**
@@ -463,4 +463,5 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
     return $unique;
   }
+
 }

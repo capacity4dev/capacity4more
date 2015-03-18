@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateDocuments
+ * Class C4mDemoContentCreateDocuments.
  */
 class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
   public $bundle = 'document';
@@ -124,4 +124,5 @@ class C4mDemoContentCreateDocuments extends C4mDemoContentCreateOgContent {
 
     return TRUE;
   }
+
 }
