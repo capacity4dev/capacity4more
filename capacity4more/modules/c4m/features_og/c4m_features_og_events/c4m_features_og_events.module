@@ -181,8 +181,8 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
   if ($settings->facet == "c4m_datetime_end:value2") {
     foreach($build as $key => $item) {
       // Change the path of the link to the corresponding Views pages.
-      // upcoming events: events/upcoming
-      // past events: events/past
+      // upcoming events: ./upcoming
+      // past events: ./past
       $build[$key]['#path'] .= '/' . $key;
       $build[$key]['#class'][] = $key . '-events';
       // Remove the filter on this range, because it's superfluous.

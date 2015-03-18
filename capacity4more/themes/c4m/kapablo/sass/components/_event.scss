@@ -1,4 +1,4 @@
-.view-c4m-overview-og-events-landing {
+.view-c4m-overview-events-landing, .view-c4m-overview-og-events-landing {
   position: relative;
   .view-header {
     position: absolute;
@@ -9,7 +9,7 @@
     float: right;
   }
 }
-#block-c4m-features-og-events-event-views-links {
+#block-c4m-features-overview-events-event-views-links, #block-c4m-features-og-events-event-views-links {
   li {
     a {
       color: #999999;
