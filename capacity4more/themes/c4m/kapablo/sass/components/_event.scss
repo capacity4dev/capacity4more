@@ -7,6 +7,9 @@
   }
   a.link-to-view {
     float: right;
+    span {
+      color: inherit;
+    }
   }
 }
 #block-c4m-features-overview-events-event-views-links, #block-c4m-features-og-events-event-views-links {
