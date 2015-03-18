@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 # ---------------------------------------------------------------------------- #
 #
@@ -13,14 +12,17 @@ if [ $CODE_REVIEW != 1 ]; then
   exit 0
 fi
 
-# Review custom modules.
-phpcs --standard=Drupal $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
+echo
+
+# Review custom modules, run each folder seperatly to avoid memory limits.
+for dir in $TRAVIS_BUILD_DIR/capacity4more/modules/c4m/*/ ; do
+    echo "Reviewing : $dir"
+    phpcs --standard=Drupal --colors -p $dir
+done
+
+echo
 
 # Review custom themes.
-phpcs --standard=Drupal $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
-
-# Review custom modules.
-#drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/modules/c4m
-
-# Review custom themes.
-#drush coder --major --no-empty $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
+# Disabled as it does not play nice with mixt environments (tpl…).
+# See https://github.com/squizlabs/PHP_CodeSniffer/issues/512
+#phpcs --standard=Drupal --colors $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
