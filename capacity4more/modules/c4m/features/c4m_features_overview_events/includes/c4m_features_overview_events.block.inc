@@ -40,6 +40,66 @@ function _c4m_features_overview_events_landing_block_view_alter(&$data, $block) 
   }
 }
 
+/**
+ * A block with filters for event views.
+ *
+ * @return array
+ */
+function _c4m_features_overview_events_block_event_filter() {
+  return array(
+    'subject' => NULL,
+    'content' => drupal_get_form('_c4m_features_overview_events_block_event_filter_form'),
+  );
+}
+
+/**
+ * Create form to filter event views.
+ *
+ * @return mixed
+ */
+function _c4m_features_overview_events_block_event_filter_form() {
+  // Remove unique form token so request can be cached. This is accompanied by
+  // code in a hook_form_alter to ignore the token and remove the build_id.
+  $form['#token'] = FALSE;
+  $form['#method'] = 'get';
+  $form['#action'] = request_uri();
+
+  // Create options.
+  $options = array();
+  $groups = og_get_groups_by_user();
+  if (!empty($groups)) {
+    $options += array('groups' => t('My groups'));
+  }
+  $options += array(
+    'interests' => t('My interests'),
+    'showAll' => t('Show all')
+  );
+
+  // Create links for each option.
+  $params = drupal_get_query_parameters();
+  foreach ($options as $key => $option) {
+    $query = array_merge($params, array('filter' => $key));
+    $options[$key] = l($option, current_path(), array('query' => $query));
+  }
+
+  $default_value = !empty($_GET['filter']) ? $_GET['filter'] : 'showAll';
+
+  if (!array_key_exists($default_value, $options)) {
+    $default_value = 'showAll';
+  }
+
+  $form['filter'] = array(
+    '#type' => 'radios',
+    '#title' => t('Filter by'),
+    '#options' => $options,
+    '#default_value' => $default_value,
+    '#attributes' => array('onchange' => 'this.form.submit();'),
+  );
+
+  return $form;
+}
+
+/**
  * The links to event views.
  *
  * @return array

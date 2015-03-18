@@ -26,23 +26,29 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_features_overview_events-event_filter' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views-22e892cecdd19333a8cbdbce3f0955a9' => array(
           'module' => 'views',
           'delta' => '22e892cecdd19333a8cbdbce3f0955a9',
           'region' => 'content',
-          'weight' => '-7',
+          'weight' => '-9',
         ),
         'views-a293ba715040ddc0f8c58e830b5a412d' => array(
           'module' => 'views',
           'delta' => 'a293ba715040ddc0f8c58e830b5a412d',
           'region' => 'content',
-          'weight' => '-6',
+          'weight' => '-8',
         ),
         'views-fafb99d29b872f81d88c61ac133d6050' => array(
           'module' => 'views',
           'delta' => 'fafb99d29b872f81d88c61ac133d6050',
           'region' => 'content',
-          'weight' => '-5',
+          'weight' => '-7',
         ),
         'views-7bb1ca745e57e37fa0b09b237cb1086c' => array(
           'module' => 'views',
@@ -125,6 +131,12 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_features_overview_events-event_filter' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_events-page_1' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_events-page_1',
@@ -206,6 +218,12 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_features_overview_events-event_filter' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_events-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_events-page',

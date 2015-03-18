@@ -133,6 +133,10 @@ function c4m_features_overview_events_views_pre_render(&$view) {
  * Implements hook_block_info().
  */
 function c4m_features_overview_events_block_info() {
+  $blocks['event_filter'] = array(
+    'info' => t('Filter for event views'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
   $blocks['event_views_links'] = array(
     'info' => t('Links to event views'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
@@ -164,5 +168,52 @@ function c4m_features_overview_events_block_view_alter(&$data, $block) {
     // Override blocks on the events landing page.
     module_load_include('inc', 'c4m_features_overview_events', 'includes/c4m_features_overview_events.block');
     return _c4m_features_overview_events_landing_block_view_alter($data, $block);
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_query_alter().
+ *
+ * Apply filter on search results in event overview.
+ *
+ * @param array $call_args
+ * @param \SearchApiQueryInterface $query
+ */
+function c4m_features_overview_events_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
+  if (FALSE === strpos(current_path(), 'events', 0) || empty($_GET['filter'])) {
+    return;
+  }
+
+  global $user;
+
+  switch ($_GET['filter']) {
+    case 'groups':
+      // Filter on groups.
+      $groups = og_get_groups_by_user();
+      $groups = isset($groups['node']) ? $groups['node'] : array();
+      foreach ($groups as $group) {
+        $args[] = 'is_og_group_ref:"' . $group . '"';
+      }
+      $call_args['params']['fq'][] = '(' . implode(' OR ', $args) . ')';
+      break;
+    case 'interests':
+      // Filter on interests.
+      $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+      $interests = $user_wrapper->c4m_related_topic->raw();
+      foreach ($interests as $interest) {
+        $args[] = '{!tag=facet:c4m_related_topic}im_c4m_related_topic:"' . $interest . '"';
+      }
+      $call_args['params']['fq'][] = '(' . implode(' OR ', $args) . ')';
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_features_overview_events_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == '_c4m_features_overview_events_block_event_filter_form') {
+    // Unset the hidden token field and form_build_id field.
+    unset($form['form_id'], $form['#token'], $form['form_build_id'], $form['#build_id']);
   }
 }
