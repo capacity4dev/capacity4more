@@ -44,11 +44,11 @@ function c4m_features_overview_groups_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-8',
         ),
-        'facetapi-O8mTVZgvB4vQXVOP4FQE0yR9tc0ehTp0' => array(
+        'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',
-          'delta' => 'O8mTVZgvB4vQXVOP4FQE0yR9tc0ehTp0',
+          'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '-6',
         ),
       ),
     ),
