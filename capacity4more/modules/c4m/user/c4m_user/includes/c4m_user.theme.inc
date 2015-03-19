@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Custom Display Suite function fields.
  */
 
@@ -10,13 +9,15 @@
  *
  * Render ...
  *
- * @param $field
+ * @param array $field
+ *   Field info.
  *
  * @return string
+ *   Rendered data.
  */
-function theme_c4m_user_picture($field) {
+function theme_c4m_user_picture(array $field) {
   if (empty($field['entity']->uid)) {
-    return;
+    return NULL;
   }
 
   // Check if image needs to be linked to user profile.
@@ -57,14 +58,17 @@ function theme_c4m_user_picture($field) {
  *
  * Render Author first and last name.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
  * @return string
+ *   The rendered field.
  */
-function theme_c4m_user_first_and_last_name($field) {
+function theme_c4m_user_first_and_last_name(array $field) {
   if (empty($field['entity'])) {
-    return;
+    return NULL;
   }
+
   $tag = array();
   $entity = $field['entity'];
 
@@ -104,13 +108,15 @@ function theme_c4m_user_first_and_last_name($field) {
  *
  * Render ...
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
  * @return string
+ *   The rendered output.
  */
-function theme_c4m_user_country($field) {
+function theme_c4m_user_country(array $field) {
   if (empty($field['entity']->uid)) {
-    return;
+    return NULL;
   }
 
   // Check if this is a user or node entity.
@@ -124,15 +130,24 @@ function theme_c4m_user_country($field) {
   // Check if we have an image.
   $wrapper = entity_metadata_wrapper('user', $user);
   $country = $allowed_values[$wrapper->c4m_country->value()];
-  if (!empty($country) &&
-      '- choose country or region -' !== drupal_strtolower($country)) {
-    $tag['element'] = array(
-      '#tag'       => 'span',
-      '#attributes' => array(
-        'class' => array('country'),
-      ),
-      '#value'     => t(ucwords(drupal_strtolower($country))),
-    );
-    return theme_html_tag($tag);
+
+  if (empty($country)) {
+    return NULL;
   }
+  if ('- choose country or region -' !== drupal_strtolower($country)) {
+    return NULL;
+  }
+
+  // @codingStandardsIgnoreStart
+  $value = t(ucwords(drupal_strtolower($country)));
+  // @codingStandardsIgnoreEnd
+
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('country'),
+    ),
+    '#value'     => $value,
+  );
+  return theme_html_tag($tag);
 }
