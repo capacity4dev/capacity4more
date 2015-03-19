@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Discussions plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Discussions'),

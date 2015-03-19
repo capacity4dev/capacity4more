@@ -8,16 +8,18 @@
  * OG selection handler.
  */
 class C4MOgSelectionHandler extends OgSelectionHandler {
-
   /**
-   * {@inheritDoc
+   * {@inheritdoc}
    */
   public static function getInstance($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
     return new C4MOgSelectionHandler($field, $instance, $entity_type, $entity);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validateReferencableEntities(array $ids) {
-    // Remove empty ids
+    // Remove empty ids.
     foreach ($ids as $key => $value) {
       if ($value === NULL) {
         unset($ids[$key]);
@@ -27,9 +29,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
   }
 
   /**
-   * Build an EntityFieldQuery to get referencable entities.
-   *
-   * {@inheritDoc
+   * {@inheritdoc}
    */
   public function buildEntityFieldQuery($match = NULL, $match_operator = 'CONTAINS') {
     parent::buildEntityFieldQuery();

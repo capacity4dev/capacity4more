@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Regions & Countries plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Languages'),
