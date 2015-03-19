@@ -124,13 +124,13 @@ class C4mDemoContentCreateOgUsers extends Migration {
   /**
    * Filter the destiny field ID.
    *
-   * @param array $dest_field
+   * @param mixed $dest_field
    *   The destiny field settings.
    *
    * @return array
    *   The filtered array.
    */
-  protected function filterDestid2FromEntityReference(array $dest_field) {
+  protected function filterDestid2FromEntityReference($dest_field) {
     $filtered_ids = array();
 
     if (!empty($dest_field['destid1'])) {
