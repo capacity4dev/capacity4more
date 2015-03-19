@@ -26,28 +26,31 @@ function c4m_features_overview_groups_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'views--exp-c4m_overview_groups-page' => array(
+          'module' => 'views',
+          'delta' => '-exp-c4m_overview_groups-page',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
         'facetapi-1nI1X13vjFOCoDtPbNHnLS8h5giilscl' => array(
           'module' => 'facetapi',
           'delta' => '1nI1X13vjFOCoDtPbNHnLS8h5giilscl',
           'region' => 'sidebar_first',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
         'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
           'module' => 'facetapi',
           'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
           'region' => 'sidebar_first',
-          'weight' => '-9',
+          'weight' => '-8',
         ),
         'facetapi-O8mTVZgvB4vQXVOP4FQE0yR9tc0ehTp0' => array(
           'module' => 'facetapi',
           'delta' => 'O8mTVZgvB4vQXVOP4FQE0yR9tc0ehTp0',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '-7',
         ),
       ),
-    ),
-    'debug' => array(
-      'debug' => 1,
     ),
   );
   $context->condition_mode = 1;
