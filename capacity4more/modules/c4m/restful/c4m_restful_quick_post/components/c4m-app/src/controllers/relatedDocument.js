@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides the Related Documents controller.
+ */
+
 angular.module('c4mApp')
   .controller('DocumentCtrl', function($scope, DrupalSettings, EntityResource, Request) {
 
@@ -12,8 +17,6 @@ angular.module('c4mApp')
     // Need to get current field name.
     var element = jQuery('.active-library-link', parent.window.document);
     $scope.fieldName = element.attr('id').replace('link-', '');
-
-//    var fieldName = $scope.fieldName.replace(/_/g, '-');
 
     /**
      * Create document node.
@@ -41,13 +44,13 @@ angular.module('c4mApp')
           return;
         }
         var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
-        if(angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
+        if (angular.isObject(allowedValues) && Object.keys(allowedValues).length) {
           submitData[field] = {};
         }
 
         var textFields = ['label', 'body', 'tags', 'organiser' , 'datetime'];
         angular.forEach(textFields, function (field) {
-          if (!field){
+          if (!field) {
             submitData[field] = field == 'tags' ? [] : '';
           }
         });
@@ -56,9 +59,8 @@ angular.module('c4mApp')
       submitData.group = DrupalSettings.getData('groupID');
       submitData.add_to_library = addToLibrary ? 1 : 0;
 
-
       EntityResource.createEntity(submitData, 'documents', resourceFields)
-        .success( function (data, status) {
+        .success(function (data, status) {
           var nid = data.data[0].id;
 
           var item = '(' + nid + ')';
