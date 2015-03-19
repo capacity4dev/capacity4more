@@ -12,7 +12,7 @@ if [ $CODE_REVIEW != 1 ]; then
   exit 0
 fi
 
-PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc"
+PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc"
 HAS_ERRORS=0
 
 echo
@@ -21,8 +21,8 @@ echo
 for dir in $TRAVIS_BUILD_DIR/capacity4more/modules/c4m/*/ ; do
   echo "Reviewing : $dir"
   phpcs --standard=Drupal \
-    --colors \
     -p \
+    --colors \
     --ignore=$PATTERNS \
     $dir
 

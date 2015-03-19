@@ -1,15 +1,23 @@
 <?php
+/**
+ * @file
+ * Theme functionality for locations fields.
+ */
 
 /**
  * DS function field.
  *
  * Render location city and country.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
  * @return string
+ *   The rendered field.
  */
-function theme_c4m_field_location_city_country($field) {
+function theme_c4m_field_location_city_country(array $field) {
+  var_dump($field);
+
   $output = '';
 
   if (empty($field['entity']->c4m_location)) {
@@ -23,6 +31,7 @@ function theme_c4m_field_location_city_country($field) {
   $city = !empty($location['city']) ? $location['city'] : '';
   $country = !empty($location['country_name']) ? $location['country_name'] : '';
 
+  // @codingStandardsIgnoreStart
   $tag['element'] = array(
     '#tag'   => 'span',
     '#attributes' => array(
@@ -35,6 +44,7 @@ function theme_c4m_field_location_city_country($field) {
         '@country' => $country)
     ),
   );
+  // @codingStandardsIgnoreEnd
 
   return theme_html_tag($tag);
 }
