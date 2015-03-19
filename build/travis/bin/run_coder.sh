@@ -12,7 +12,7 @@ if [ $CODE_REVIEW != 1 ]; then
   exit 0
 fi
 
-PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc"
+PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules"
 HAS_ERRORS=0
 
 echo
