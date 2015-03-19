@@ -22,7 +22,7 @@ class C4mSearchWidgetLinksGrouped extends FacetapiWidgetLinks {
    * @return array
    *   The "items" parameter for theme_item_list().
    */
-  function buildListItems($build) {
+  public function buildListItems(array $build) {
     static $level = 0;
 
     $settings = $this->settings->settings;
@@ -96,4 +96,5 @@ class C4mSearchWidgetLinksGrouped extends FacetapiWidgetLinks {
 
     return $items;
   }
+
 }

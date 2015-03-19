@@ -12,10 +12,10 @@
  *
  * @param array $data
  *   The render array.
- * @param stdClass $block
+ * @param object $block
  *   The block information for who the block is being displayed.
  */
-function _c4m_search_block_facetapi_view_alter(&$data, $block) {
+function _c4m_search_block_facetapi_view_alter(array &$data, $block) {
   // Array of title overrides as "block-delta" => "title".
   $titles = array(
     // Global.
@@ -25,16 +25,20 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => t('Regions & Countries'),
     'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => t('Topics'),
     'QgJEmEcjJBhqSVzHPi5bPE2bqBu7Y67h' => t('Topics of Interest'),
-    'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => t('Type'), // Content type.
+    // Content type.
+    'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => t('Type'),
 
     // Group vocabularies.
     'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => t('Categories'),
     'w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx' => t('Tags'),
 
     // Content type specific.
-    'RA7qZWw02okb78IuBysWTadEIVCrCL1b' => t('Type'), // Discussion type.
-    '2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH' => t('Type'), // Document type.
-    'ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => t('Type'), // Event type.
+    // Discussion type.
+    'RA7qZWw02okb78IuBysWTadEIVCrCL1b' => t('Type'),
+    // Document type.
+    '2qrTnbxWr0rI2lmcQR6mBDryPwkuS1PH' => t('Type'),
+    // Event type.
+    'ajPbeoCHay77liOuYn2HrFBMw0VZUgCz' => t('Type'),
   );
 
   // Check if we have an override for the block delta.

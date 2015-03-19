@@ -4,6 +4,7 @@
  * Add the option to sort facet terms based on the taxonomy weight.
  *
  * Improved version of the facetapi_taxonomy_sort module.
+ *
  * @see https://drupal.org/project/facetapi_taxonomy_sort
  */
 
@@ -88,7 +89,7 @@ function c4m_search_facetapi_sort_info() {
  *   The realm definition as returned by facetapi_realm_load().
  * @param array $facet
  *   The facet definition as returned by facetapi_facet_load().
- * @param $option
+ * @param bool $option
  *   If TRUE, the the requirements will pass if the facet indexes taxonomy
  *   terms. If FALSE, the facet must NOT index taxonomy terms in order to pass
  *   the requirements.
