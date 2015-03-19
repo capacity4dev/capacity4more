@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateUsers
+ * Class C4mDemoContentCreateUsers.
  */
 class C4mDemoContentCreateUsers extends Migration {
   /**
@@ -213,7 +213,7 @@ class C4mDemoContentCreateUsers extends Migration {
    * @return array
    *   The filtered array.
    */
-  protected function filterDestid2FromEntityReference($dest_field) {
+  protected function filterDestid2FromEntityReference(array $dest_field) {
     $filtered_ids = array();
 
     if (!empty($dest_field['destid1'])) {
@@ -241,9 +241,15 @@ class C4mDemoContentCreateUsers extends Migration {
   }
 
   /**
-   * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
+   * Map terms to the existing terms in the database for a specified taxonomy.
    *
-   * @param $sourcefield
+   * @param string $sourcefield
+   *   Source field name.
+   * @param string $vocabname
+   *   The name of the vocabulary to load the terms from.
+   *
+   * @return array
+   *   The term id's.
    */
   public function mapTaxonomyVocab($sourcefield, $vocabname) {
     $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
@@ -267,13 +273,15 @@ class C4mDemoContentCreateUsers extends Migration {
   }
 
   /**
-   * @param $tids
+   * Load all the terms, including parents, based on a list of term id's.
+   *
+   * @param array $tids
    *   Array of term ids content is tagged with.
    *
    * @return array
    *   Array of term ids, including every term's parents.
    */
-  public function mapTaxonomyVocabWithParent($tids) {
+  public function mapTaxonomyVocabWithParent(array $tids) {
     $all_tids = array();
     foreach ($tids as $tid) {
       $parents = taxonomy_get_parents_all($tid);
@@ -286,4 +294,5 @@ class C4mDemoContentCreateUsers extends Migration {
 
     return $unique;
   }
+
 }

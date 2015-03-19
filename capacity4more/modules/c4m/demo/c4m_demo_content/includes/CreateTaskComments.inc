@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateTaskComments
+ * Class C4mDemoContentCreateTaskComments.
  */
 class C4mDemoContentCreateTaskComments extends C4mDemoContentCreateComments {
   public $bundle = 'comment_node_task';
@@ -49,4 +49,5 @@ class C4mDemoContentCreateTaskComments extends C4mDemoContentCreateComments {
 
     return TRUE;
   }
+
 }

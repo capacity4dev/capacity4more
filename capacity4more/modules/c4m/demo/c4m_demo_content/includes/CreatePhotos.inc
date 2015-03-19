@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreatePhotos
+ * Class C4mDemoContentCreatePhotos.
  */
 class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
   public $bundle = 'photo';
@@ -66,4 +66,5 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
 
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
   }
+
 }
