@@ -2,6 +2,7 @@
  * @file
  * The c4m AngulerJS app.
  */
+
 'use strict';
 
 angular.module('c4mApp', [

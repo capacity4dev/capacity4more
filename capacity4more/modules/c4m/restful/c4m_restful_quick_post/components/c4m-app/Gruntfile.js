@@ -1,4 +1,10 @@
-// Generated on 2014-05-18 using generator-angular-component 0.2.3
+// @codingStandardsIgnoreFile
+
+/**
+ * @file
+ * Grunt script.
+ */
+
 'use strict';
 
 module.exports = function(grunt) {
@@ -81,7 +87,8 @@ module.exports = function(grunt) {
     connect: {
       options: {
         port: 9000,
-        hostname: '0.0.0.0' // Change this to '0.0.0.0' to access the server from outside.
+        // Change this to '0.0.0.0' to access the server from outside.
+        hostname: '0.0.0.0'
       },
       livereload: {
         options: {
@@ -135,11 +142,6 @@ module.exports = function(grunt) {
         src: ['<%= yeoman.dist %>/<%= pkg.name %>.js'],
         dest: '<%= yeoman.dist %>/<%= pkg.name %>.js'
       }
-      // dist: {
-      //   files: {
-      //     '/.js': '/.js'
-      //   }
-      // }
     },
     concat: {
       options: {
