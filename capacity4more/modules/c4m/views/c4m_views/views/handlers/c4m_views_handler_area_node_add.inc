@@ -1,4 +1,6 @@
 <?php
+// @codingStandardsIgnoreFile
+
 /**
  * @file
  * Handler to add a node add button to a view area.
@@ -13,8 +15,10 @@
  * @ingroup views_area_handlers
  */
 class c4m_views_handler_area_node_add extends views_handler_area {
-
-  function option_definition() {
+  /**
+   * {@inheritdoc}
+   */
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['node_type'] = array(
@@ -28,7 +32,10 @@ class c4m_views_handler_area_node_add extends views_handler_area {
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  /**
+   * {@inheritdoc}
+   */
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['node_type'] = array(
@@ -48,11 +55,10 @@ class c4m_views_handler_area_node_add extends views_handler_area {
     );
   }
 
-
   /**
-   * Find out the information to render.
+   * {@inheritdoc}
    */
-  function render($empty = FALSE) {
+  public function render($empty = FALSE) {
     $node_type = filter_xss_admin($this->options['node_type']);
     $link_text = filter_xss_admin($this->options['link_text']);
     if (!$node_type || !$link_text) {
@@ -67,10 +73,10 @@ class c4m_views_handler_area_node_add extends views_handler_area {
     $options = array(
       'attributes' => array(
         'class' => array('node-create', 'node-create-' . $node_type),
-      )
+      ),
     );
 
     return l($link_text, 'node/add/' . $node_type, $options);
   }
-}
 
+}

@@ -1,4 +1,6 @@
 <?php
+// @codingStandardsIgnoreFile
+
 /**
  * @file
  * Handler to optionally add links to page displays of a view.
@@ -13,8 +15,10 @@
  * @ingroup views_area_handlers
  */
 class c4m_views_handler_area_custom_link extends views_handler_area {
-
-  function option_definition() {
+  /**
+   * {@inheritdoc}
+   */
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['link_path'] = array(
@@ -34,7 +38,10 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  /**
+   * {@inheritdoc}
+   */
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['link_path'] = array(
@@ -75,15 +82,21 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
    * Find out the information to render.
    *
    * We do not retain query parameters as we are going elsewhere altogether.
+   *
+   * @param bool $empty
+   *   Is the field empty.
+   *
+   * @return string
+   *   The rendered content.
    */
-  function render($empty = FALSE) {
+  public function render($empty = FALSE) {
     $link_path = filter_xss_admin($this->options['link_path']);
     $link_text = filter_xss_admin($this->options['link_text']);
     $link_class = filter_xss_admin($this->options['link_class']);
     $link_icon = filter_xss_admin($this->options['link_icon']);
 
     if (!$link_path || !$link_text) {
-      return;
+      return NULL;
     }
 
     $options = array(
@@ -92,7 +105,7 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
         'class' => array('custom-link'),
       ),
     );
-    //
+
     if (!empty($link_class)) {
       $classes = explode(', ', $link_class);
       $options['attributes']['class'] = array_merge(
@@ -113,5 +126,5 @@ class c4m_views_handler_area_custom_link extends views_handler_area {
       $options
     );
   }
-}
 
+}
