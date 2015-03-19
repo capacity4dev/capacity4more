@@ -46,6 +46,10 @@ function _c4m_features_overview_events_landing_block_view_alter(&$data, $block) 
  * @return array
  */
 function _c4m_features_overview_events_block_event_filter() {
+  // Hide filter block for anonymous users.
+  if (user_is_anonymous()) {
+    return;
+  }
   return array(
     'subject' => NULL,
     'content' => drupal_get_form('_c4m_features_overview_events_block_event_filter_form'),
