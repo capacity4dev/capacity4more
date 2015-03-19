@@ -6,17 +6,20 @@
 
 include_once 'c4m_features_overview_events.features.inc';
 
-define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', "Sort by Start Date");
+define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', 'Sort by Start Date');
+define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE', 'Relevance');
 
 /**
- * Implementation of hook_search_api_sorts_get_default_sort_alter()
- * Courtesy of https://www.drupal.org/node/1894502
+ * Implementation of hook_search_api_sorts_get_default_sort_alter().
+ *
+ * Courtesy of https://www.drupal.org/node/1894502.
  *
  * Unfortunately search_api_sorts module provides one sort block and not a
  * block per view, so we need to alter some stuff. Here the default sort.
  *
- * @param $default_sort
- * @param $search_sorts
+ * @param array $default_sort
+ *   The default sorts array.
+ * @param array $search_sorts
  * @param $keys
  */
 function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
@@ -61,8 +64,9 @@ function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
   }
 
   foreach($block['content']['#items'] as $key => $item) {
-    // Remove all sorts but start date if we are on events overview.
-    if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE !== $item['#name']) {
+    // Remove all sorts but start date and relevance.
+    if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE !== $item['#name']
+        && C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE !== $item['#name']) {
       unset($block['content']['#items'][$key]);
     }
   }
