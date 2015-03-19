@@ -172,14 +172,13 @@ function c4m_features_overview_events_block_view_alter(&$data, $block) {
 }
 
 /**
- * Implements hook_search_api_solr_query_alter().
+ * Implements hook_search_api_query_alter().
  *
  * Apply filter on search results in event overview.
  *
- * @param array $call_args
  * @param \SearchApiQueryInterface $query
  */
-function c4m_features_overview_events_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
+function c4m_features_overview_events_search_api_query_alter(SearchApiQueryInterface $query) {
   if (FALSE === strpos(current_path(), 'events', 0) || empty($_GET['filter'])) {
     return;
   }
@@ -188,22 +187,46 @@ function c4m_features_overview_events_search_api_solr_query_alter(array &$call_a
 
   switch ($_GET['filter']) {
     case 'groups':
-      // Filter on groups.
+      // Get groups.
       $groups = og_get_groups_by_user();
-      $groups = isset($groups['node']) ? $groups['node'] : array();
-      foreach ($groups as $group) {
-        $args[] = 'is_og_group_ref:"' . $group . '"';
+      if (isset($groups['node'])) {
+        $groups = $groups['node'];
+      } else {
+        return;
       }
-      $call_args['params']['fq'][] = '(' . implode(' OR ', $args) . ')';
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on groups.
+      foreach ($groups as $group) {
+        $filter->condition('og_group_ref', $group);
+      }
+
+      // Apply filter.
+      $query->filter($filter);
       break;
     case 'interests':
-      // Filter on interests.
+      // Get user object.
       $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on interests.
       $interests = $user_wrapper->c4m_related_topic->raw();
       foreach ($interests as $interest) {
-        $args[] = '{!tag=facet:c4m_related_topic}im_c4m_related_topic:"' . $interest . '"';
+        $filter->condition('c4m_related_topic', $interest);
       }
-      $call_args['params']['fq'][] = '(' . implode(' OR ', $args) . ')';
+
+      // Filter on geographic regions.
+      $regions = $user_wrapper->c4m_vocab_geo->raw();
+      foreach ($regions as $region) {
+        $filter->condition('c4m_vocab_geo', $region);
+      }
+
+      // Apply filter.
+      $query->filter($filter);
       break;
   }
 }
