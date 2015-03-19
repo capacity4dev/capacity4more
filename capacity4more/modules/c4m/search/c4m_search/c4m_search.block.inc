@@ -10,12 +10,12 @@
  * Is called by @see c4m_search_block_view_alter() when the block is provided
  * by the facetapi module.
  *
- * @param array $data
+ * @param mixed $data
  *   The render array.
  * @param object $block
  *   The block information for who the block is being displayed.
  */
-function _c4m_search_block_facetapi_view_alter(array &$data, $block) {
+function _c4m_search_block_facetapi_view_alter(&$data, $block) {
   // Array of title overrides as "block-delta" => "title".
   $titles = array(
     // Global.
