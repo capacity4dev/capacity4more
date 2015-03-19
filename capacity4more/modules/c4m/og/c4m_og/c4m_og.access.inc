@@ -4,7 +4,6 @@
  * Functionality regarding OG access (public/restricted/private).
  */
 
-
 /**
  * Utility function; Return the organizations info from code or from variable.
  */
@@ -47,7 +46,7 @@ function c4m_og_access_types() {
   $group_types = &drupal_static(__FUNCTION__);
 
   if (!isset($group_types)) {
-    $group_types =  array(
+    $group_types = array(
       'public' => array(
         'type' => 'public',
         'title' => t('Public group'),
@@ -76,7 +75,7 @@ function c4m_og_access_types() {
  * Get the group info (public/restricted/private) by the group.
  *
  * @param object $group
- *  The group entity.
+ *   The group entity.
  *
  * @return array
  *   Group access info.
@@ -111,7 +110,7 @@ function c4m_og_get_access_type($group) {
  * - c4m_og_get_organisations($group)
  * - c4m_og_get_email_domains($group)
  *
- * @param stdClass $group
+ * @param object $group
  *   The group we want to get the info from.
  *
  * @return array
@@ -182,7 +181,7 @@ function c4m_og_reset_restricted_info() {
 /**
  * Get the organisations for the given group.
  *
- * @param stdClass $group
+ * @param object $group
  *   The group we want to get the organisations.
  *
  * @return array
@@ -196,7 +195,7 @@ function c4m_og_get_organisations($group) {
 /**
  * Get the email domains that have access to the given group.
  *
- * @param stdClass $group
+ * @param object $group
  *   The group we want to get the email domains.
  *
  * @return array
@@ -291,7 +290,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#type' => 'checkboxes',
     '#options' => $organisation_field_options,
     '#states' => array(
-      // Show the checkboxes only when "restricted" is selected
+      // Show the checkboxes only when "restricted" is selected.
       'visible' => array(
         ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
@@ -304,7 +303,7 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#description' => t('Users registered to the platform with an email domain in this list will have access to this Group. Users must request to join this Group. Add one or more email domains. The email domain is the part of the email address after the @. Example: add gmail.com to allow users with an email address like jane.doo@gmail.com.'),
     '#type' => 'textfield',
     '#states' => array(
-      // Show the checkboxes only when "restricted" is selected
+      // Show the checkboxes only when "restricted" is selected.
       'visible' => array(
         ':input[name="pluggable_group_access"]' => array('value' => 'restricted'),
       ),
@@ -319,9 +318,10 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#description' => t('Only Group members will be able to access this Group.'),
   );
 
-  // Show field_membership_open_request only when pluggable_group_access is not private
+  // Show field_membership_open_request only when pluggable_group_access is not
+  // private.
   $form['field_membership_open_request']['#states'] = array(
-    // Show the checkboxes only when "restricted" is selected
+    // Show the checkboxes only when "restricted" is selected.
     'invisible' => array(
       ':input[name="pluggable_group_access"]' => array('value' => 'private'),
     ),
@@ -379,7 +379,7 @@ function c4m_og_select2_widget_after_build($element, &$form_state) {
 
   $setting[] = array(
     'selector' => '#' . $element['#id'],
-    'cardinality' => 3,//$element['#cardinality'],
+    'cardinality' => 3,
   );
 
   drupal_add_js(array('select2_widget' => $setting), 'setting');
@@ -445,14 +445,14 @@ function c4m_og_group_form_submit($form, &$form_state) {
 /**
  * API to save the pluggable_node_access record for a restricted group.
  *
- * @param stdClass $group
+ * @param object $group
  *   The group the pluggable access needs to be saved for.
  * @param array $organisations
  *   The organisations that needs to be linked to the node_access.
  * @param array $domains
  *   Optional domains to link to the group node_access.
  *
- * @return stdClass
+ * @return object
  *   The pluggable_node_access entity.
  */
 function c4m_og_save_pluggable_node_access_restricted(
@@ -496,12 +496,15 @@ function c4m_og_save_pluggable_node_access_restricted(
 /**
  * Utility function; Removes referenced entity and form value.
  *
- * @param $wrapper
- *   Node wrapper object.
- * @param $form_state
+ * @param entity_metadata_wrapper $wrapper
+ *   Wrapped node entity.
+ * @param array $form_state
  *   Form state array.
  */
-function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
+function c4m_og_remove_pluggable_node_access(
+  entity_metadata_wrapper $wrapper,
+  array &$form_state
+) {
   // Delete referenced entity.
   if ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
     $pluggable_node_access->delete();
@@ -513,6 +516,7 @@ function c4m_og_remove_pluggable_node_access($wrapper, &$form_state) {
 
 /**
  * Implements hook_og_user_access_alter().
+ *
  * Allow subscribing based on field_membership_open_request value.
  */
 function c4m_og_og_user_access_alter(&$perm, $context) {

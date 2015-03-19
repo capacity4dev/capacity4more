@@ -16,8 +16,6 @@
  *   The rendered field.
  */
 function theme_c4m_field_location_city_country(array $field) {
-  var_dump($field);
-
   $output = '';
 
   if (empty($field['entity']->c4m_location)) {

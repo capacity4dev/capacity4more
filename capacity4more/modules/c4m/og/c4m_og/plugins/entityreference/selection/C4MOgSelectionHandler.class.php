@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @file
+ * OG Selection handler.
+ */
 
 /**
  * OG selection handler.
@@ -7,7 +10,7 @@
 class C4MOgSelectionHandler extends OgSelectionHandler {
 
   /**
-   * Implements EntityReferenceHandler::getInstance().
+   * {@inheritDoc
    */
   public static function getInstance($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
     return new C4MOgSelectionHandler($field, $instance, $entity_type, $entity);
@@ -25,8 +28,12 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
   /**
    * Build an EntityFieldQuery to get referencable entities.
+   *
+   * {@inheritDoc
    */
   public function buildEntityFieldQuery($match = NULL, $match_operator = 'CONTAINS') {
+    parent::buildEntityFieldQuery();
+
     $handler = EntityReference_SelectionHandler_Generic::getInstance($this->field, $this->instance, $this->entity_type, $this->entity);
     $query = $handler->buildEntityFieldQuery($match, $match_operator);
 
@@ -65,4 +72,5 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
 
     return $query;
   }
+
 }
