@@ -34,6 +34,11 @@ function c4m_features_overview_groups_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  /* Header: Sorts */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sorts';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
