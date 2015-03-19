@@ -496,13 +496,13 @@ function c4m_og_save_pluggable_node_access_restricted(
 /**
  * Utility function; Removes referenced entity and form value.
  *
- * @param entity_metadata_wrapper $wrapper
+ * @param EntityMetadataWrapper $wrapper
  *   Wrapped node entity.
  * @param array $form_state
  *   Form state array.
  */
 function c4m_og_remove_pluggable_node_access(
-  entity_metadata_wrapper $wrapper,
+  EntityMetadataWrapper $wrapper,
   array &$form_state
 ) {
   // Delete referenced entity.
