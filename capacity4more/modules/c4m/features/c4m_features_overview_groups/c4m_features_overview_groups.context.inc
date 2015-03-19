@@ -32,9 +32,9 @@ function c4m_features_overview_groups_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-1nI1X13vjFOCoDtPbNHnLS8h5giilscl' => array(
+        'facetapi-0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp' => array(
           'module' => 'facetapi',
-          'delta' => '1nI1X13vjFOCoDtPbNHnLS8h5giilscl',
+          'delta' => '0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp',
           'region' => 'sidebar_first',
           'weight' => '-9',
         ),
@@ -42,7 +42,7 @@ function c4m_features_overview_groups_context_default_contexts() {
           'module' => 'facetapi',
           'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '-7',
         ),
         'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',

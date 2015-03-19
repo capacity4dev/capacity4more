@@ -349,3 +349,29 @@ function c4m_og_get_members_count($group) {
 
   return $result;
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_og_entity_property_info_alter(&$info) {
+  $info['node']['properties']['c4m_og_group_type'] = array(
+    'type' => 'text',
+    'label' => t('Group type'),
+    'sanitized' => TRUE,
+    'getter callback' => '_c4m_og_group_type_getter_callback',
+  );
+}
+
+/**
+ * Getter callback for created_week_day property.
+ *
+ * @param $item
+ * @return string
+ */
+function _c4m_og_group_type_getter_callback($item) {
+  // Get group type information.
+  $group_access = c4m_og_get_access_type($item);
+  if (!empty($group_access['type'])) {
+    return ucfirst($group_access['type']);
+  }
+}
