@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * template to render the Quick post forms.
+ * Template to render the Quick post forms.
  */
 ?>
 <form name="entityForm"
