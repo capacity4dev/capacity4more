@@ -63,7 +63,7 @@ function c4m_og_vocab_trigger_create_group_vocabularies($node) {
  * @return array
  *   The vocabulary objects.
  */
-function c4m_og_vocab_create_group_vocabularies($group, $vocabularies) {
+function c4m_og_vocab_create_group_vocabularies($group, array $vocabularies) {
   $vocabs = array();
 
   foreach ($vocabularies as $vocabulary_name => $vocabulary) {
@@ -132,7 +132,7 @@ function c4m_og_vocab_create_group_vocabulary(
  *   Settings to use when creating the term reference widget.
  */
 function c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
-  $types, $vocab, $settings
+  array $types, $vocab, array $settings
 ) {
   foreach ($types as $info) {
     // We do not support group taxonomies of non group content types.
@@ -186,8 +186,8 @@ function c4m_og_vocab_get_info_content_types_by_vocabulary_name($name) {
  * Helper to fill in the node variables into a string.
  *
  * The supported placeholders are:
- * - [node:nid] : The node id
- * - [node:type] : The node type
+ * - [node:nid] : The node id.
+ * - [node:type] : The node type.
  *
  * @param object $node
  *   The group node.

@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides the FileUpload service.
+ */
+
 'use strict';
 
 /**
+ * Provides the FileUpload service.
+ *
  * @ngdoc service
+ *
  * @name c4mApp.service:FileUpload
- * @description
- * # Uploads file to drupal.
+ *
+ * @description Uploads file to drupal.
  */
 angular.module('c4mApp')
   .service('FileUpload', function(DrupalSettings, $upload) {
@@ -29,5 +37,4 @@ angular.module('c4mApp')
         }
       });
     };
-
   });

@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateVocabulary
+ * Class C4mDemoContentCreateVocabulary.
  */
 abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateEntity {
   public $entityType = 'taxonomy_term';
@@ -85,6 +85,7 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
    *   The term data that will be stored.
    *
    * @return bool
+   *   Success.
    */
   protected function prepareRowTaxonomyTerm(&$row) {
     switch ($row->group_type) {
@@ -104,6 +105,8 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
     $name = $this->bundle . '_' . $mapped_id['destid1'];
 
     $row->vocabulary_machine_name = $name;
+
+    return TRUE;
   }
 
   /**
@@ -125,4 +128,5 @@ abstract class C4mDemoContentCreateVocabularyTerms extends C4mDemoContentCreateE
       $this
     );
   }
+
 }

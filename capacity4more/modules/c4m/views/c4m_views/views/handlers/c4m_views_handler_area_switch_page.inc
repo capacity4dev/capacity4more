@@ -1,4 +1,6 @@
 <?php
+// @codingStandardsIgnoreFile
+
 /**
  * @file
  * Handler to optionally add links to page displays of a view.
@@ -17,8 +19,10 @@
  * @ingroup views_area_handlers
  */
 class c4m_views_handler_area_switch_page extends views_handler_area {
-
-  function option_definition() {
+  /**
+   * {@inheritdoc}
+   */
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['link_path'] = array(
@@ -40,24 +44,31 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
 
   /**
    * Retrieve the paths to page displays of this view.
+   *
+   * @return array
+   *   The allowed pages.
    */
-  function allowed_pages() {
+  public function allowed_pages() {
     $options = array();
     foreach ($this->view->display as $display) {
       if ('page' == $display->display_plugin &&
           !empty($display->display_options['path'])) {
-        $options[$display->display_options['path']]['path'] = 
-          $display->display_options['path'];
+        $options[$display->display_options['path']]['path']
+          = $display->display_options['path'];
+
         if (!empty($display->display_options['pager']['options']['items_per_page'])) {
-          $options[$display->display_options['path']]['items_per_page'] =
-            $display->display_options['pager']['options']['items_per_page'];
+          $options[$display->display_options['path']]['items_per_page']
+            = $display->display_options['pager']['options']['items_per_page'];
         }
       }
     }
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  /**
+   * {@inheritdoc}
+   */
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     // Retrieve the paths to page displays of current View.
@@ -99,7 +110,6 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
     );
   }
 
-
   /**
    * Find out the information to render.
    *
@@ -111,14 +121,20 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
    * - The pager parameter ONLY when the current page view and the page
    * view you are switching to have the same amount of items per page
    * (pager settings).
+   *
+   * @param bool $empty
+   *   Is the field empty.
+   *
+   * @return string
+   *   The rendered output.
    */
-  function render($empty = FALSE) {
+  public function render($empty = FALSE) {
     $link_path = filter_xss_admin($this->options['link_path']);
     $link_text = filter_xss_admin($this->options['link_text']);
     $link_class = filter_xss_admin($this->options['link_class']);
     $link_icon = filter_xss_admin($this->options['link_icon']);
     if (!$link_path || !$link_text) {
-      return;
+      return NULL;
     }
 
     // This handler is not to add custom paths.
@@ -139,9 +155,8 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
 
     // Remove pager if the number of items per page of the page it links to
     // is not equal to the number of items of the current page.
-
     // Initialize the numbers per item as they may be missing.
-    $number_of_items_per_page_on_current_page =
+    $number_of_items_per_page_on_current_page = NULL;
     $number_of_items_per_page_on_linked_page = NULL;
 
     foreach ($this->allowed_pages() as $path => $page) {
@@ -179,5 +194,5 @@ class c4m_views_handler_area_switch_page extends views_handler_area {
       $options
     );
   }
-}
 
+}

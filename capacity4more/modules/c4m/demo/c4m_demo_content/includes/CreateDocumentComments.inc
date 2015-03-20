@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateDocumentComments
+ * Class C4mDemoContentCreateDocumentComments.
  */
 class C4mDemoContentCreateDocumentComments extends C4mDemoContentCreateComments {
   public $bundle = 'comment_node_document';
@@ -49,4 +49,5 @@ class C4mDemoContentCreateDocumentComments extends C4mDemoContentCreateComments 
 
     return TRUE;
   }
+
 }

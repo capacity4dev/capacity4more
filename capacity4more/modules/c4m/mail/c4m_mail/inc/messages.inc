@@ -1,9 +1,8 @@
 <?php
 /**
- * Code to set/update the mail content based on the test in messages folder.
  * @file
+ * Code to set/update the mail content based on the test in messages folder.
  */
-
 
 /**
  * Class to manage the email messages.
@@ -60,7 +59,7 @@ class C4mMailMessages {
   }
 
   /**
-   * Process all variables of a message
+   * Process all variables of a message.
    *
    * @param string $module
    *   The name of the module.
@@ -70,12 +69,12 @@ class C4mMailMessages {
    *   The body variable name.
    *
    * @return bool
-   *   Success
+   *   Success.
    */
   protected function updateMessage($module, $subject, $body) {
     $parts = array(
       $subject => 'txt',
-      $body => 'html'
+      $body => 'html',
     );
 
     foreach ($parts as $variable => $filetype) {
@@ -114,4 +113,5 @@ class C4mMailMessages {
     $text = file_get_contents($file);
     return $text;
   }
+
 }

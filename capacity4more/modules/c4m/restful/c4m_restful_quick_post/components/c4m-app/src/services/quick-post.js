@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides the QuickPostService.
+ */
+
 'use strict';
 
 /**
+ * Provides the QuickPostService.
+ *
  * @ngdoc service
+ *
  * @name c4mApp.service:QuickPostService
- * @description
- * # Imports the settings sent from drupal.
+ *
+ * @description Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
   .service('QuickPostService', function($rootScope, $http) {
@@ -147,7 +155,7 @@ angular.module('c4mApp')
         return;
       }
 
-      $http.get(url+'?autocomplete[string]=' + query.term + '&group=' + group.id)
+      $http.get(url + '?autocomplete[string]=' + query.term + '&group=' + group.id)
         .success(function(data) {
           if (data.data.length == 0) {
             terms.results.push({
@@ -188,9 +196,9 @@ angular.module('c4mApp')
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
-      angular.element( ".bundle-select" ).removeClass( "active" );
+      angular.element(".bundle-select").removeClass("active");
       // Add class "active" to clicked element.
-      element.addClass( "active" );
+      element.addClass("active");
       // Update Bundle.
       return resource;
     };
@@ -211,9 +219,9 @@ angular.module('c4mApp')
       // Get element clicked in the event.
       var element = angular.element(event.srcElement);
       // Remove class "active" from all elements.
-      angular.element( "." + field ).removeClass( "active" );
+      angular.element("." + field).removeClass("active");
       // Add class "active" to clicked element.
-      element.addClass( "active" );
+      element.addClass("active");
       // Update Bundle.
       return type;
     };
@@ -225,6 +233,7 @@ angular.module('c4mApp')
      *  Taxonomy vocabulary object.
      * @param termID
      *  Taxonomy term id.
+     *
      * @returns string
      *  Returns the name of the taxonomy term.
      */
@@ -255,16 +264,15 @@ angular.module('c4mApp')
       }
     };
 
-
     /**
      * Toggle the visibility of the popovers.
      *
      * @param name
-     *  The name of the pop-over.
-     *  @param event
-     *    The click event.
-     *  @param popups
-     *    The scope object.
+     *   The name of the pop-over.
+     * @param event
+     *   The click event.
+     * @param popups
+     *   The scope object.
      */
     this.togglePopover = function(name, event, popups) {
       // Hide all the other pop-overs, Except the one the user clicked on.

@@ -31,8 +31,6 @@
  * WARNING: You should always use the node id in the machine name as it needs
  *          to be unique for each vocabulary instance.
  *
- * @param void
- *
  * @return array
  *   An array of vocabularies and their settings. The keys are used to identify
  *   the available vocabulary types when creating the group vocabularies and
@@ -49,7 +47,8 @@
  *     fields on the group content types.
  *     - required : Is this a required field.
  *     - widget_type : The widget type to use. Following types are supported:
- *       - options_buttons : radio buttons or checkboxes, depends on cardinality.
+ *       - options_buttons : radio buttons or checkboxes, depends on
+ *                           cardinality.
  *       - options_select : select list.
  *       - entityreference_autocomplete : autocomplete field.
  *       - entityreference_autocomplete_tags : autocomplete + free tagging.
@@ -66,7 +65,7 @@ function hook_c4m_og_vocab_info_vocabularies() {
         'required' => 0,
         'widget_type' => 'options_buttons',
         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-      )
+      ),
     ),
     'c4m_vocab_tag' => array(
       'name' => t('Tags'),
@@ -76,8 +75,8 @@ function hook_c4m_og_vocab_info_vocabularies() {
         'required' => 0,
         'widget_type' => 'entityreference_autocomplete_tags',
         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-      )
-    )
+      ),
+    ),
   );
 }
 
@@ -92,8 +91,6 @@ function hook_c4m_og_vocab_info_vocabularies() {
  *
  * The vocabulary names refer to the config in the
  * hook_c4m_og_vocab_info_vocabularies() info hooks.
- *
- * @param void
  *
  * @return array
  *   The array contains per group node type an array of vocabulary names.
@@ -120,8 +117,6 @@ function hook_c4m_og_vocab_info_groups() {
  * It will only enable vocabularies if the content type is a group content
  * post type and if the vocabulary is in use for the created group.
  *
- * @param void
- *
  * @return array
  *   An array describing for each group content type what vocabularies
  *   should be refered to.
@@ -139,7 +134,7 @@ function hook_c4m_og_vocab_info_content() {
       'bundle' => 'discussion',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
     'event' => array(

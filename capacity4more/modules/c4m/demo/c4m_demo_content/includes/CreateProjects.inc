@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateProjects
+ * Class C4mDemoContentCreateProjects.
  */
 class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
   public $entityType = 'node';
@@ -136,4 +136,5 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
       return FALSE;
     }
   }
+
 }

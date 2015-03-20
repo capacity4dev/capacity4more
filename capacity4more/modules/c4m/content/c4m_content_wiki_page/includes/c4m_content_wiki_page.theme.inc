@@ -1,34 +1,36 @@
 <?php
 /**
  * @file
- *
  * Custom Display Suite function fields.
  */
 
 /**
  * DS function field.
  *
- * Render WIKI Page navigation
+ * Render WIKI Page navigation.
  *
- * @param $field
+ * @param array $field
+ *   Field info.
+ *
  * @return string
+ *   The rendered version of the field.
  */
-function theme_c4m_content_wiki_page_navigation($field) {
+function theme_c4m_content_wiki_page_navigation(array $field) {
   if (empty($field['entity']->book['menu_name'])) {
-    return;
+    return NULL;
   }
+
   $book = $field['entity']->book;
-  $markup = '';
 
   // We have to replicate some code because we cannot just
   // call theme('book_navigation', array('book_link' => ...)) because
   // we want to remove level 0 from the tree.
-
   $tree = menu_build_tree($book['menu_name']);
 
   if (empty($tree)) {
     return;
   }
+
   // Remove level 0 first.
   $tree = $tree[key($tree)]['below'];
   $tree = menu_tree_output($tree);

@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides a list of related to the discussion documents.
+ */
+
 'use strict';
 
 /**
+ * Provides a list of related to the discussion documents.
+ *
  * @ngdoc directive
+ *
  * @name c4mApp.directive:relatedDocuments
- * @description
- * # A list of related to the discussion documents.
+ *
+ * @description A list of related to the discussion documents.
  */
 angular.module('c4mApp')
   .directive('relatedDocuments', function (DrupalSettings, $window, EntityResource) {
@@ -32,7 +40,7 @@ angular.module('c4mApp')
           angular.forEach(relatedDocuments, function(value, key) {
 
             // Get all field values of the document.
-            EntityResource.getEntityData('documents', value).success( function (data, status) {
+            EntityResource.getEntityData('documents', value).success(function (data, status) {
               documents[key] = data.data[0];
               // Format file size.
               documents[key].document.filesize = $window.filesize(documents[key].document.filesize);
@@ -42,7 +50,7 @@ angular.module('c4mApp')
         };
 
         // Get the click event form the overlay and update related documents.
-        element.parents('#' + scope.formId).find('#input-'+ scope.fieldName).on('click', function (event) {
+        element.parents('#' + scope.formId).find('#input-' + scope.fieldName).on('click', function (event) {
           var val = jQuery(this).val();
           scope.$apply(function(scope) {
             var ids = val.split(',');

@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateComments
+ * Class C4mDemoContentCreateComments.
  */
 abstract class C4mDemoContentCreateComments extends Migration {
   /**
@@ -124,7 +124,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
   /**
    * Filter the destiny field ID.
    *
-   * @param array $dest_field
+   * @param mixed $dest_field
    *   The destiny field settings.
    *
    * @return array
@@ -170,7 +170,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
   /**
    * Reset the $message->timestamp of any related insert message (if any).
    *
-   * @param object $entity
+   * @param object $comment
    *   Comment object we want to set the message timestamp for.
    * @param object $row
    *   The source data of the migrated entity.
@@ -206,4 +206,5 @@ abstract class C4mDemoContentCreateComments extends Migration {
       message_save($message);
     }
   }
+
 }

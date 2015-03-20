@@ -8,6 +8,12 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
+# No need for Solr if the profile is not installed.
+if [ $INSTALL_PROFILE != 1 ]; then
+ exit 0;
+fi
+
+
 VERSION="$1"
 DOWNLOAD_URL="http://archive.apache.org/dist/tika/tika-app-$VERSION.jar"
 

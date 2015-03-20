@@ -3,14 +3,16 @@
  * @file
  * Code for group blocks.
  */
+
 /**
  * Function to preprocess a block.
  *
  * We set classes here to avoid another wrapper div within the block.
  *
- * @param $variables
+ * @param array $variables
+ *   Block variables.
  */
-function _c4m_content_group_preprocess_header_name_banner(&$variables) {
+function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
   // First establish the current group.
   $group = c4m_og_current_group();
 
@@ -40,7 +42,7 @@ function _c4m_content_group_block_header_name_banner() {
   $markup = theme_html_tag($tag);
 
   if (drupal_is_front_page()) {
-    // Add group image
+    // Add group image.
     $file = $wrapper->c4m_banner->value();
     if (!empty($file)) {
       $file['style_name'] = 'banner';

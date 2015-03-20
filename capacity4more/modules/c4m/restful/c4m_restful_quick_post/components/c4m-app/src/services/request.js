@@ -1,8 +1,17 @@
+/**
+ * @file
+ * Functionality to clean and prepare the RESTful request object.
+ */
+
 'use strict';
 
 /**
+ * Service to clean and prepare the RESTful request object.
+ *
  * @ngdoc service
+ *
  * @name c4mApp.service:Request
+ *
  * @description
  * # Cleans and prepares the RESTful request object.
  */
@@ -96,16 +105,14 @@ angular.module('c4mApp')
      * Check for required fields.
      *
      * @param data
-     *  The request data.
-     *
+     *   The request data.
      * @param resource
-     *  The entity resource.
-     *
-     *  @param resourceFields
+     *   The entity resource.
+     * @param resourceFields
      *   The fields information.
      *
      * @returns {*}
-     *  The errors object.
+     *   The errors object.
      */
     this.checkRequired = function (data, resource, resourceFields) {
       var errors = {};
@@ -129,7 +136,7 @@ angular.module('c4mApp')
         }
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
-        if (fieldRequired && (!values || !values.length ) && field != "datetime") {
+        if (fieldRequired && (!values || !values.length) && field != "datetime") {
           this[field] = 1;
         }
       }, errors);
@@ -137,16 +144,15 @@ angular.module('c4mApp')
       return errors;
     };
 
-
     /**
-     * Cleaning the submitted data from other resources fields,
-     * because the RESTful will return an error if there's undefined fields.
+     * Cleaning the submitted data from other resources fields.
+     *
+     * Because the RestFul will return an error if there's undefined fields.
      *
      * @param data
-     *  The request data.
-     *
+     *   The request data.
      * @param resourceFields
-     *  The fields information.
+     *   The fields information.
      *
      * @returns {*}
      *  Object of the cleaned data.

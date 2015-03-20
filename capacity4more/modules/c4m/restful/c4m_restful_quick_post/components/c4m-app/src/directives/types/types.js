@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides the different discussion types.
+ */
+
 'use strict';
 
 /**
+ * Provides the different discussion types.
+ *
  * @ngdoc directive
+ *
  * @name c4mApp.directive:discussionTypes
- * @description
- * # The types of the discussion.
+ *
+ * @description The types of the discussion.
  */
 angular.module('c4mApp')
   .directive('types', function ($window, DrupalSettings) {

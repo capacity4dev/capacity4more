@@ -1,4 +1,10 @@
 <?php
+// @codingStandardsIgnoreFile
+
+/**
+ * @file
+ * Context to react to form ID's.
+ */
 
 /**
  * Expose form id's as a context condition.

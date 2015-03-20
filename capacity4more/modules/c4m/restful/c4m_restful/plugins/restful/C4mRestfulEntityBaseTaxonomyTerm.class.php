@@ -1,10 +1,12 @@
 <?php
-
 /**
  * @file
  * Contains \C4mRestfulEntityBaseTaxonomyTerm.
  */
 
+/**
+ * Class C4mRestfulEntityBaseTaxonomyTerm.
+ */
 class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
 
   /**
@@ -48,10 +50,12 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
 
       $this->bundle = $og_vocab[0]->machine_name;
 
-      // Group ID removed from the request because it's not a field in the taxonomy.
+      // Group ID removed from the request because it's not a field in the
+      // taxonomy.
       unset($request['group']);
     }
 
     return parent::process($path, $request, $method, $check_rate_limit);
   }
+
 }
