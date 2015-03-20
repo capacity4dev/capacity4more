@@ -30,6 +30,10 @@ function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$
   $default_sort = $default_sort;
   foreach($search_sorts as $search_sort) {
     if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $search_sort->name) {
+      // Sort past events on date descending.
+      if (0 === strpos(current_path(), 'events/past', 0)) {
+        $search_sort->default_order = 'desc';
+      }
       $default_sort = $search_sort;
       break;
     }
