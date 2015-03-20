@@ -62,11 +62,11 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'c4m_user_teaser_list_global' => array(
-            'weight' => '16',
+            'weight' => '17',
             'visible' => FALSE,
           ),
           'c4m_user_teaser_table_global' => array(
-            'weight' => '21',
+            'weight' => '23',
             'visible' => FALSE,
           ),
         ),
@@ -84,11 +84,11 @@ function c4m_user_strongarm() {
             'visible' => TRUE,
           ),
           'c4m_user_teaser_list_global' => array(
-            'weight' => '17',
+            'weight' => '18',
             'visible' => FALSE,
           ),
           'c4m_user_teaser_table_global' => array(
-            'weight' => '14',
+            'weight' => '15',
             'visible' => FALSE,
           ),
         ),
