@@ -9,11 +9,13 @@
  *
  * Render date on which user became C4M member.
  *
- * @param $field
+ * @param array $field
+ *   The field information.
  *
- * @return string
+ * @return mixed
+ *   The rendered field output.
  */
-function theme_c4m_user_member_since($field) {
+function theme_c4m_user_member_since(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -32,11 +34,13 @@ function theme_c4m_user_member_since($field) {
 /**
  * Render user activity summary.
  *
- * @param $field
+ * @param array $field
+ *   Field information.
  *
- * @return string
+ * @return mixed
+ *   The rendered field output.
  */
-function theme_c4m_user_activity_summary($field) {
+function theme_c4m_user_activity_summary(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -49,20 +53,25 @@ function theme_c4m_user_activity_summary($field) {
   // Count published comments of user.
   $count_comments = c4m_user_count_comments($user->uid);
 
-  return t('Posted !posts and !comments', array(
-    '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-    '!comments' => format_plural($count_comments, '1 Comment', '@count Comments')
-  ));
+  return t(
+    'Posted !posts and !comments',
+    array(
+      '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
+      '!comments' => format_plural($count_comments, '1 Comment', '@count Comments'),
+    )
+  );
 }
 
 /**
  * Render count of posts (nodes) for the given user.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered field output.
  */
-function theme_c4m_user_activity_posts($field) {
+function theme_c4m_user_activity_posts(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -77,11 +86,13 @@ function theme_c4m_user_activity_posts($field) {
 /**
  * Render count of comments for the given user.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered field output.
  */
-function theme_c4m_user_activity_comments($field) {
+function theme_c4m_user_activity_comments(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -93,7 +104,6 @@ function theme_c4m_user_activity_comments($field) {
   return format_plural($count, '1 Comment', '@count Comments');
 }
 
-
 /**
  * DS function field.
  *
@@ -102,12 +112,12 @@ function theme_c4m_user_activity_comments($field) {
  * @param array $field
  *   Field info.
  *
- * @return string
+ * @return mixed
  *   Rendered data.
  */
 function theme_c4m_user_picture(array $field) {
   if (empty($field['entity']->uid)) {
-    return NULL;
+    return;
   }
 
   // Check if image needs to be linked to user profile.
@@ -151,12 +161,12 @@ function theme_c4m_user_picture(array $field) {
  * @param array $field
  *   The field info.
  *
- * @return string
+ * @return mixed
  *   The rendered field.
  */
 function theme_c4m_user_first_and_last_name(array $field) {
   if (empty($field['entity'])) {
-    return NULL;
+    return;
   }
 
   $tag = array();
@@ -201,12 +211,12 @@ function theme_c4m_user_first_and_last_name(array $field) {
  * @param array $field
  *   The field info.
  *
- * @return string
+ * @return mixed
  *   The rendered output.
  */
 function theme_c4m_user_country(array $field) {
   if (empty($field['entity']->uid)) {
-    return NULL;
+    return;
   }
 
   // Check if this is a user or node entity.
