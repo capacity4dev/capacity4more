@@ -8,6 +8,11 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
+# No need for Behat if the profile is not installed.
+if [ $INSTALL_PROFILE != 1 ]; then
+ exit 0;
+fi
+
 # Do we have a tag to run?
 if [ "$BEHAT_TAG" = "" ]; then
   exit 0

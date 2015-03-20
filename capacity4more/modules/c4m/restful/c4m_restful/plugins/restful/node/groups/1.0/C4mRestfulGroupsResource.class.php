@@ -1,12 +1,13 @@
 <?php
-
 /**
  * @file
  * Contains C4mRestfulGroupsResource.
  */
 
+/**
+ * Class C4mRestfulGroupsResource.
+ */
 class C4mRestfulGroupsResource extends RestfulEntityBaseNode {
-
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */
@@ -20,4 +21,5 @@ class C4mRestfulGroupsResource extends RestfulEntityBaseNode {
 
     return $public_fields;
   }
+
 }

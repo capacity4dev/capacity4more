@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides the Activity Controller (ActivityCtrl).
+ */
+
 'use strict';
 
 angular.module('c4mApp')
@@ -37,12 +42,13 @@ angular.module('c4mApp')
     // Display the "show more" button only if the activity stream is equal to the the range.
     $scope.showMoreButton = $scope.existingActivities.length >= $scope.range;
 
-    // refresh rate of the activity stream (60000 is one minute).
+    // Refresh rate of the activity stream (60000 is one minute).
     // @TODO: Import the refresh rate from the drupal settings.
     $scope.refreshRate = 60000;
 
     /**
      * Refreshes the activity stream.
+     *
      * The refresh rate is scope.refreshRate.
      */
     $scope.refresh = function() {
@@ -52,13 +58,18 @@ angular.module('c4mApp')
     $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
 
     /**
-     * Adds newly fetched activities to either to the activity-stream or the load button,
-     * Depending on if the current user added an activity or it's fetched from the server.
+     * Adds newly fetched activities.
+     *
+     * To either to the activity-stream or the load button.
+     * Depending on if the current user added an activity or it's fetched from
+     * the server.
      *
      * @param type
      *  Determines to which variable the new activity should be added,
-     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
-     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
+     *  existingActivities: The new activity will be added straight to the
+     *                      activity stream. (Highlighted as well)
+     *  newActivities: The "new posts" notification button will appear in the
+     *                 user's activity stream.
      */
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
@@ -118,7 +129,10 @@ angular.module('c4mApp')
 
     /**
      * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     *
+     * When a user has clicked on the "new posts", we grab the activities in
+     * the "new activity" group and push them to the top of the
+     * "existing activity", and clear the "new activity" group.
      *
      * @param position.
      *  The position in which to add the new activities.
@@ -136,7 +150,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * When clicking on the "show more" button,
+     * When clicking on the "show more" button.
+     *
      * Request the next set of activities from RESTful,
      * Adds the newly loaded activity stream to the bottom of the "existingActivities" array.
      */

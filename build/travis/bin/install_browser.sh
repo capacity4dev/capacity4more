@@ -8,6 +8,11 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
+# No need for browser if the profile is not installed.
+if [ $INSTALL_PROFILE != 1 ]; then
+ exit 0;
+fi
+
 # Check first if we realy need this.
 if [ "$BEHAT_TAG" != "javascript" ]; then
   exit 0

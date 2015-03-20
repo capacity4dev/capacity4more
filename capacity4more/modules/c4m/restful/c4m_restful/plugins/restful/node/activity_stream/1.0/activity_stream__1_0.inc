@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Activity stream Plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Activity stream'),

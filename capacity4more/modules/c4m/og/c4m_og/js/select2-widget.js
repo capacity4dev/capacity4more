@@ -1,7 +1,11 @@
+/**
+ * @file
+ * Add Select2 functionality to select fields.
+ */
+
 (function ($) {
   Drupal.behaviors.select2Widget = {
     // Add Select2 functionality to select fields.
-
     attach: function (context, settings) {
 
       // Get needed data about all select elements that should be using Select2.
@@ -23,4 +27,3 @@
     }
   }
 })(jQuery);
-

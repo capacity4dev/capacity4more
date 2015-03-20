@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Groups plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Groups'),

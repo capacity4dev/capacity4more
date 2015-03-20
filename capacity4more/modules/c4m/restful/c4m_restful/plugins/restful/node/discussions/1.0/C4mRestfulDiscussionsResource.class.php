@@ -1,10 +1,12 @@
 <?php
-
 /**
  * @file
  * Contains C4mRestfulDiscussionsResource.
  */
 
+/**
+ * Class C4mRestfulDiscussionsResource.
+ */
 class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
 
   /**
@@ -98,4 +100,5 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
 
     return $public_fields;
   }
+
 }

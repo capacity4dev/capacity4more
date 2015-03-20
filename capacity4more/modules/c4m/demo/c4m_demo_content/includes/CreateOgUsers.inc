@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateOgUsers
+ * Class C4mDemoContentCreateOgUsers.
  */
 class C4mDemoContentCreateOgUsers extends Migration {
   /**
@@ -31,8 +31,16 @@ class C4mDemoContentCreateOgUsers extends Migration {
     'C4mDemoContentCreateProjects',
   );
 
+  /**
+   * The entity type used in this migration.
+   *
+   * @var string
+   */
   public $entityType = 'user';
 
+  /**
+   * Constructor.
+   */
   public function __construct() {
     parent::__construct(
       MigrateGroup::getInstance(C4M_DEMO_CONTENT_MIGRATION_GROUP)
@@ -80,7 +88,11 @@ class C4mDemoContentCreateOgUsers extends Migration {
   /**
    * Prepare a row.
    *
-   * @param $row
+   * @param object $row
+   *   The source data.
+   *
+   * @return bool
+   *   Success.
    */
   public function prepareRow($row) {
     switch ($row->type) {
@@ -93,6 +105,7 @@ class C4mDemoContentCreateOgUsers extends Migration {
           $this
         );
         break;
+
       case 'Project':
         $gid = $this->handleSourceMigration(
           'C4mDemoContentCreateProjects',
@@ -105,13 +118,13 @@ class C4mDemoContentCreateOgUsers extends Migration {
 
     $row->gid = $this->filterDestid2FromEntityReference($gid);
 
-    parent::prepareRow($row);
+    return parent::prepareRow($row);
   }
 
   /**
    * Filter the destiny field ID.
    *
-   * @param array $dest_field
+   * @param mixed $dest_field
    *   The destiny field settings.
    *
    * @return array
@@ -125,13 +138,12 @@ class C4mDemoContentCreateOgUsers extends Migration {
       if (!empty($dest_field['destid2'])) {
         $filtered_ids = array(
           'destid1' => $dest_field['destid1'],
-          'destid2' => $dest_field['destid2']
+          'destid2' => $dest_field['destid2'],
         );
       }
       else {
         return $dest_field['destid1'];
       }
-
     }
     elseif (is_array($dest_field)) {
       foreach ($dest_field as $key => $dest) {
@@ -139,7 +151,7 @@ class C4mDemoContentCreateOgUsers extends Migration {
           $filtered_ids[$key] = array('destid1' => $dest['destid1']);
         }
 
-// Stubs generate array('<value_1>', '<value_2>') without keys.
+        // Stubs generate array('<value_1>', '<value_2>') without keys.
         else {
           $filtered_ids[$key] = array('destid1' => $dest);
         }
@@ -152,7 +164,4 @@ class C4mDemoContentCreateOgUsers extends Migration {
     return $filtered_ids;
   }
 
-  public function complete($entity, $row) {
-    var_dump($entity);
-  }
 }

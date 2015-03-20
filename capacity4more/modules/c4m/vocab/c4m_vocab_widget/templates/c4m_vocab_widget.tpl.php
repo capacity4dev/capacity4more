@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Template to render the Vocabulary widget.
+ */
+?>
 <div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>
