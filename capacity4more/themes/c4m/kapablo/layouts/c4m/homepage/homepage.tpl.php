@@ -65,12 +65,13 @@
  * - $page['page_top']: Items for the page top region.
  * - $page['page_bottom']: Items for the page bottom region.
  *
- * @see     kapablo_preprocess_page()
- * @see     template_preprocess()
- * @see     template_preprocess_page()
- * @see     bootstrap_process_page()
- * @see     template_process()
- * @see     html.tpl.php
+ * @see kapablo_preprocess_page()
+ * @see template_preprocess()
+ * @see template_preprocess_page()
+ * @see bootstrap_process_page()
+ * @see template_process()
+ *
+ * @link html.tpl.php
  *
  * @ingroup themeable
  */
