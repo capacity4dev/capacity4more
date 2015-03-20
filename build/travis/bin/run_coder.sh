@@ -12,32 +12,53 @@ if [ $CODE_REVIEW != 1 ]; then
   exit 0
 fi
 
-PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules"
 HAS_ERRORS=0
 
-echo
+# Add some color support.
+source $TRAVIS_BUILD_DIR/scripts/helper-colors.sh
 
-# Review custom modules, run each folder seperatly to avoid memory limits.
-for dir in $TRAVIS_BUILD_DIR/capacity4more/modules/c4m/*/ ; do
-  echo "Reviewing : $dir"
-  phpcs --standard=Drupal \
-    -p \
-    --colors \
-    --ignore=$PATTERNS \
-    $dir
+
+##
+# Function to run the actual code review
+#
+# This function takes 2 params:
+# @param string $1
+#   The file path to the directory or file to check.
+# @param string $2
+#   The ignore pattern(s).
+##
+code_review () {
+  echo "${LWHITE}$1${RESTORE}"
+  phpcs --standard=Drupal -p --colors --ignore=$2 $1
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
   fi
+}
+
+
+# Review custom modules, run each folder seperatly to avoid memory limits.
+PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules"
+
+echo
+echo "${LBLUE}> Sniffing capacity4more Modules${RESTORE}"
+echo
+for dir in $TRAVIS_BUILD_DIR/capacity4more/modules/c4m/*/ ; do
+  code_review $dir $PATTERNS
 done
 
 echo
 
+# Review custom theme(s).
+PATTERNS=".sass-cache,css,fonts,images,modernizr.js,bootstrap,node_modules,*.min.js,*.concat.js"
 
-# Review custom themes.
-# Disabled as it does not play nice with mixt environments (tpl…).
-# See https://github.com/squizlabs/PHP_CodeSniffer/issues/512
-#phpcs --standard=Drupal --colors $TRAVIS_BUILD_DIR/capacity4more/themes/c4m
+echo
+echo "${LBLUE}> Sniffing capacity4more Themes${RESTORE}"
+echo
+for dir in $TRAVIS_BUILD_DIR/capacity4more/themes/c4m/*/ ; do
+  code_review $dir $PATTERNS
+done
 
+echo
 
 exit $HAS_ERRORS
