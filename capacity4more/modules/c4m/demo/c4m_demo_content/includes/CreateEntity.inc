@@ -5,17 +5,19 @@
  */
 
 /**
- * Class C4mDemoContentCreateEntity
+ * Class C4mDemoContentCreateEntity.
  */
 abstract class C4mDemoContentCreateEntity extends Migration {
   /**
+   * The OG vocabulary to use.
+   *
    * If the entity-type is "taxonomy_term", determine of the term should
    * be assigned to a vocabulary owned by OG-vocab.
    */
   public $ogVocab = FALSE;
 
   /**
-   * Supported entity types
+   * Supported entity types.
    *
    * @var array
    */
@@ -136,7 +138,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   /**
    * Filter the destiny field ID.
    *
-   * @param array $dest_field
+   * @param mixed $dest_field
    *   The destiny field settings.
    *
    * @return array
@@ -412,12 +414,15 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   }
 
   /**
-   * Map terms to the existing (install hook) terms in the database for a specified taxonomy.
-
-   * @param $sourcefield
-   * @param $vocabname
+   * Map terms to the existing terms in the database for a specified taxonomy.
+   *
+   * @param string $sourcefield
+   *   The source field name.
+   * @param string $vocabname
+   *   The name of the vocabulary.
    *
    * @return array
+   *   The mapping.
    */
   public function mapTaxonomyVocab($sourcefield, $vocabname) {
     $vocab = taxonomy_vocabulary_machine_name_load($vocabname);
@@ -443,13 +448,15 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   }
 
   /**
-   * @param $tids
+   * Get an array of all the terms and their parents based on the given terms.
+   *
+   * @param array $tids
    *   Array of term ids content is tagged with.
    *
    * @return array
    *   Array of term ids, including every term's parents.
    */
-  public function mapTaxonomyVocabWithParent($tids) {
+  public function mapTaxonomyVocabWithParent(array $tids) {
     $all_tids = array();
     foreach ($tids as $tid) {
       $parents = taxonomy_get_parents_all($tid);
@@ -463,4 +470,5 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
     return $unique;
   }
+
 }

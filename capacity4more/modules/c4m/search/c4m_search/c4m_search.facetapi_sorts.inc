@@ -4,6 +4,7 @@
  * Add the option to sort facet terms based on the taxonomy weight.
  *
  * Improved version of the facetapi_taxonomy_sort module.
+ *
  * @see https://drupal.org/project/facetapi_taxonomy_sort
  */
 
@@ -84,11 +85,11 @@ function c4m_search_facetapi_sort_info() {
 /**
  * Checks whether the facet indexes taxonomy terms.
  *
- * @param array $realm
+ * @param string $realm
  *   The realm definition as returned by facetapi_realm_load().
  * @param array $facet
  *   The facet definition as returned by facetapi_facet_load().
- * @param $option
+ * @param bool $option
  *   If TRUE, the the requirements will pass if the facet indexes taxonomy
  *   terms. If FALSE, the facet must NOT index taxonomy terms in order to pass
  *   the requirements.
@@ -96,7 +97,7 @@ function c4m_search_facetapi_sort_info() {
  * @return bool
  *   TRUE if the hierarchical status matches $option, FALSE otherwise.
  */
-function c4m_search_is_taxonomy_facet(array $realm, array $facet, $option) {
+function c4m_search_is_taxonomy_facet($realm, array $facet, $option) {
   $is_taxonomy_facet = c4m_search_is_term_reference_field($facet);
   return ($option) ? $is_taxonomy_facet : !$is_taxonomy_facet;
 }

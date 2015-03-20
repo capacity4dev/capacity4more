@@ -1,12 +1,13 @@
 <?php
-
 /**
  * @file
  * Contains C4mRestfulEntityBaseNode.
  */
 
+/**
+ * Class C4mRestfulEntityBaseNode.
+ */
 class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
-
   /**
    * Overrides ResfulEntityBase::createOrUpdateSubResourceItems().
    *
@@ -81,4 +82,5 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
 
     return $return;
   }
+
 }

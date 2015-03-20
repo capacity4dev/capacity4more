@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Events plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Events'),

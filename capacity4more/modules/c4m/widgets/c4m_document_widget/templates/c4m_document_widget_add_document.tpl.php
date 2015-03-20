@@ -1,11 +1,16 @@
+<?php
+/**
+ * @file
+ * Template to render the upload new document widget.
+ */
+?>
 <div ng-controller="DocumentCtrl">
 
   <form name="documentForm" action="overlay-file/<?php print $file_id; ?>?render=overlay" ng-submit="createDocument($event, '<?php print $file_id; ?>', data, addToLibrary)">
 
-    <?php
-      print('Upload new document: <br/>');
-      print($file);
-    ?>
+    <?php print t('Upload new document:'); ?>
+    <br/>
+    <?php print $file; ?>
 
     <br/>
     <label class="control-label" for="edit-title">Title <span class="form-required" title="This field is required.">*</span></label>

@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides a list of filterable taxonomy terms.
+ */
+
 'use strict';
 
 /**
+ * Provides a list of filterable taxonomy terms.
+ *
  * @ngdoc directive
+ *
  * @name c4mApp.directive:listTerms
- * @description
- * # A list of filterable taxonomy terms.
+ *
+ * @description A list of filterable taxonomy terms.
  */
 angular.module('c4mApp')
   .directive('listTerms', function ($window, DrupalSettings, $timeout, $filter) {
@@ -25,7 +33,8 @@ angular.module('c4mApp')
         scope.updateSearch = function() {
           scope.filteredTerms = $filter('termsFilter')(scope.items, scope.searchTerm);
         };
-        // updating the popover position && No more than 3 regions can be selected.
+        // Updating the popover position && No more than 3 regions can be
+        // selected.
         // TODO: Stop user from selecting more values.
         scope.updateSelectedTerms = function() {
           // Update the position of the popover.
@@ -52,7 +61,7 @@ angular.module('c4mApp')
               });
             }
             else if (id in scope.model && scope.model[id] === false) {
-              // Find all children and turn them to false
+              // Find all children and turn them to false.
               angular.forEach(scope.items[id].children, function(child, key) {
                 var childID = child.id;
                 if (childID in scope.model && scope.model[childID] === true) {

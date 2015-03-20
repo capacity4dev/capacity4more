@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateTasks
+ * Class C4mDemoContentCreateTasks.
  */
 class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
   public $bundle = 'task';
@@ -93,6 +93,8 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
     $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
 
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
+
+    return TRUE;
   }
 
   /**
@@ -106,4 +108,5 @@ class C4mDemoContentCreateTasks extends C4mDemoContentCreateOgContent {
   public function prepare($entity, $row) {
     $this->extractDate($entity, $row, 'field_date');
   }
+
 }

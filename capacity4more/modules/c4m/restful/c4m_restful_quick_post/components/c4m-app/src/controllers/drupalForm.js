@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides the controller to handle Drupal forms (DrupalFormCtrl).
+ */
+
 'use strict';
 
 angular.module('c4mApp')
@@ -75,7 +80,7 @@ angular.module('c4mApp')
     // This way it can be saved in the Drupal Form.
     $scope.$watch('data.tags', function() {
       var tags = [];
-      angular.forEach ($scope.data.tags, function(tag) {
+      angular.forEach($scope.data.tags, function(tag) {
         if (!tag.isNew) {
           tags.push(tag.text + ' (' + tag.id + ')');
         }
@@ -89,17 +94,17 @@ angular.module('c4mApp')
     });
 
     /**
-     * Update the checkboxes in the Drupal form,
+     * Update the checkboxes in the Drupal form.
+     *
      * We have to fill the fields according to the name of the field because
      * It's more accurate and we have conflicting values,
      * But in the case of "og_vocab", The structure of the field name is different
      * and we update it according to the value instead.
      *
      * @param key
-     *  The ID of the term that was changed.
-     *
+     *   The ID of the term that was changed.
      * @param vocab
-     *  The name of the vocab.
+     *   The name of the vocab.
      */
     $scope.updateSelectedTerms = function(key, vocab) {
       if ($scope.model[vocab][key]) {
@@ -176,6 +181,7 @@ angular.module('c4mApp')
 
     /**
      * Show or hide list of subcategories for the current category.
+     *
      * Is called by click.
      *
      * @param item
@@ -236,8 +242,7 @@ angular.module('c4mApp')
     };
 
     /**
-     * When clicking on the "X" next to the taxonomy-term name
-     * On the full form page.
+     * When clicking on the "X" next to the taxonomy-term name (full form page).
      *
      * @param key
      *  The ID of the taxonomy.
@@ -249,25 +254,15 @@ angular.module('c4mApp')
       $scope.updateSelectedTerms(key, vocab);
     };
 
-    /**
-     * Close all popovers on "ESC" key press.
-     *
-     * @param event.
-     *  The press button event.
-     */
+    // Close all popovers on "ESC" key press.
     $document.on('keyup', function(event) {
       // 27 is the "ESC" button.
-      if(event.which == 27) {
+      if (event.which == 27) {
         $scope.closePopups();
       }
     });
 
-    /**
-     * Close all popovers on click outside popup box.
-     *
-     * @param event.
-     *  The click event.
-     */
+    // Close all popovers on click outside popup box.
     $document.on('mousedown', function(event) {
       // Check if we are not clicking on the popup.
       var parents = angular.element(event.target).parents();
@@ -304,7 +299,7 @@ angular.module('c4mApp')
      */
     $scope.onFileSelect = function($files, fieldName) {
       $scope.setFieldName(fieldName);
-      //$files: an array of files selected, each file has name, size, and type.
+      // $files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
         FileUpload.upload(file).then(function(data) {

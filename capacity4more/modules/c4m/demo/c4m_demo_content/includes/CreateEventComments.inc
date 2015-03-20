@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateEventComments
+ * Class C4mDemoContentCreateEventComments.
  */
 class C4mDemoContentCreateEventComments extends C4mDemoContentCreateComments {
   public $bundle = 'comment_node_event';
@@ -49,4 +49,5 @@ class C4mDemoContentCreateEventComments extends C4mDemoContentCreateComments {
 
     return TRUE;
   }
+
 }

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Template for the Categories vocabulary widget.
+ */
+?>
 <div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>
