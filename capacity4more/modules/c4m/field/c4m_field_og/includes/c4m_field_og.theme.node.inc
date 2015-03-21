@@ -15,7 +15,7 @@
  * @return mixed
  *   A string with a HTML link to the node's group or NULL if not a group node.
  */
-function theme_c4m_field_og_group($field) {
+function theme_c4m_field_og_group(array $field) {
   if (empty($field['entity'])) {
     return;
   }
