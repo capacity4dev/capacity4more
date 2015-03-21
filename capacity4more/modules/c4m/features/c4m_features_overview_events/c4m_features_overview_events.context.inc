@@ -1,52 +1,58 @@
 <?php
 /**
  * @file
- * c4m_features_og_events.context.inc
+ * c4m_features_overview_events.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function c4m_features_og_events_context_default_contexts() {
+function c4m_features_overview_events_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'c4m_overview_og_events_landing';
-  $context->description = 'Overview page of all Group Events';
+  $context->name = 'c4m_overview_events_landing';
+  $context->description = 'Overview page of all Events';
   $context->tag = 'cap4more - Events';
   $context->conditions = array(
     'path' => array(
       'values' => array(
-        'calendar' => 'calendar',
+        'events' => 'events',
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-3e9a9707eba7963ecaa8b99564d20039' => array(
-          'module' => 'views',
-          'delta' => '3e9a9707eba7963ecaa8b99564d20039',
-          'region' => 'content',
+        'c4m_features_overview_events-event_filter' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_filter',
+          'region' => 'content_top',
           'weight' => '-10',
         ),
-        'views-5218f8132a449400191061a0818719a1' => array(
+        'views-22e892cecdd19333a8cbdbce3f0955a9' => array(
           'module' => 'views',
-          'delta' => '5218f8132a449400191061a0818719a1',
+          'delta' => '22e892cecdd19333a8cbdbce3f0955a9',
           'region' => 'content',
           'weight' => '-9',
         ),
-        'views-1616c88372ab872314baee532830c643' => array(
+        'views-a293ba715040ddc0f8c58e830b5a412d' => array(
           'module' => 'views',
-          'delta' => '1616c88372ab872314baee532830c643',
+          'delta' => 'a293ba715040ddc0f8c58e830b5a412d',
           'region' => 'content',
           'weight' => '-8',
         ),
-        'views-5cece47fc853c63eb27c1cd4604667de' => array(
+        'views-fafb99d29b872f81d88c61ac133d6050' => array(
           'module' => 'views',
-          'delta' => '5cece47fc853c63eb27c1cd4604667de',
+          'delta' => 'fafb99d29b872f81d88c61ac133d6050',
+          'region' => 'content',
+          'weight' => '-7',
+        ),
+        'views-7bb1ca745e57e37fa0b09b237cb1086c' => array(
+          'module' => 'views',
+          'delta' => '7bb1ca745e57e37fa0b09b237cb1086c',
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
@@ -68,12 +74,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-6',
         ),
-        'facetapi-ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => array(
-          'module' => 'facetapi',
-          'delta' => 'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3',
-          'region' => 'sidebar_first',
-          'weight' => '-5',
-        ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
           'delta' => 'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5',
@@ -92,12 +92,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-2',
         ),
-        'facetapi-w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx' => array(
-          'module' => 'facetapi',
-          'delta' => 'w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx',
-          'region' => 'sidebar_first',
-          'weight' => '-1',
-        ),
       ),
     ),
   );
@@ -105,34 +99,40 @@ function c4m_features_og_events_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Overview page of all Group Events');
+  t('Overview page of all Events');
   t('cap4more - Events');
-  $export['c4m_overview_og_events_landing'] = $context;
+  $export['c4m_overview_events_landing'] = $context;
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'c4m_overview_og_events_past';
-  $context->description = 'Overview page of all past Group Events';
+  $context->name = 'c4m_overview_events_past';
+  $context->description = 'Overview page of all past Events';
   $context->tag = 'cap4more - Events';
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'c4m_overview_og_events:page_1' => 'c4m_overview_og_events:page_1',
+        'c4m_overview_events:page_1' => 'c4m_overview_events:page_1',
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-6da07ce607871afb2b6c335fc8de3e45' => array(
+        'c4m_features_overview_events-event_filter' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
+        'views--exp-c4m_overview_events-page_1' => array(
           'module' => 'views',
-          'delta' => '6da07ce607871afb2b6c335fc8de3e45',
+          'delta' => '-exp-c4m_overview_events-page_1',
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'c4m_features_og_events-event_views_links' => array(
-          'module' => 'c4m_features_og_events',
+        'c4m_features_overview_events-event_views_links' => array(
+          'module' => 'c4m_features_overview_events',
           'delta' => 'event_views_links',
           'region' => 'sidebar_first',
           'weight' => '-9',
@@ -149,12 +149,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-7',
         ),
-        'facetapi-ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => array(
-          'module' => 'facetapi',
-          'delta' => 'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3',
-          'region' => 'sidebar_first',
-          'weight' => '-6',
-        ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
           'delta' => 'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5',
@@ -173,12 +167,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-3',
         ),
-        'facetapi-w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx' => array(
-          'module' => 'facetapi',
-          'delta' => 'w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx',
-          'region' => 'sidebar_first',
-          'weight' => '-2',
-        ),
       ),
     ),
   );
@@ -186,34 +174,40 @@ function c4m_features_og_events_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Overview page of all past Group Events');
+  t('Overview page of all past Events');
   t('cap4more - Events');
-  $export['c4m_overview_og_events_past'] = $context;
+  $export['c4m_overview_events_past'] = $context;
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'c4m_overview_og_events_upcoming';
-  $context->description = 'Overview page of all upcoming Group Events';
+  $context->name = 'c4m_overview_events_upcoming';
+  $context->description = 'Overview page of all upcoming Events';
   $context->tag = 'cap4more - Events';
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'c4m_overview_og_events:page' => 'c4m_overview_og_events:page',
+        'c4m_overview_events:page' => 'c4m_overview_events:page',
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-1c4f4c3eaf1f8bde7197f2a715ff4ee4' => array(
+        'c4m_features_overview_events-event_filter' => array(
+          'module' => 'c4m_features_overview_events',
+          'delta' => 'event_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
+        'views--exp-c4m_overview_events-page' => array(
           'module' => 'views',
-          'delta' => '1c4f4c3eaf1f8bde7197f2a715ff4ee4',
+          'delta' => '-exp-c4m_overview_events-page',
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'c4m_features_og_events-event_views_links' => array(
-          'module' => 'c4m_features_og_events',
+        'c4m_features_overview_events-event_views_links' => array(
+          'module' => 'c4m_features_overview_events',
           'delta' => 'event_views_links',
           'region' => 'sidebar_first',
           'weight' => '-9',
@@ -230,12 +224,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-7',
         ),
-        'facetapi-ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => array(
-          'module' => 'facetapi',
-          'delta' => 'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3',
-          'region' => 'sidebar_first',
-          'weight' => '-6',
-        ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
           'delta' => 'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5',
@@ -254,12 +242,6 @@ function c4m_features_og_events_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-3',
         ),
-        'facetapi-w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx' => array(
-          'module' => 'facetapi',
-          'delta' => 'w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx',
-          'region' => 'sidebar_first',
-          'weight' => '-2',
-        ),
       ),
     ),
   );
@@ -267,9 +249,9 @@ function c4m_features_og_events_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Overview page of all upcoming Group Events');
+  t('Overview page of all upcoming Events');
   t('cap4more - Events');
-  $export['c4m_overview_og_events_upcoming'] = $context;
+  $export['c4m_overview_events_upcoming'] = $context;
 
   return $export;
 }
