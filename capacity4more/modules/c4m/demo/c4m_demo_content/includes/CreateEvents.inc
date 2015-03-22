@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateEvents
+ * Class C4mDemoContentCreateEvents.
  */
 class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public $bundle = 'event';
@@ -204,4 +204,5 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       entity_save('node', $entity);
     }
   }
+
 }

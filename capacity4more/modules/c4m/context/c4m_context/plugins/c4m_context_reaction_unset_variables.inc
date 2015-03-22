@@ -1,4 +1,10 @@
 <?php
+// @codingStandardsIgnoreFile
+
+/**
+ * @file
+ * Context plugin.
+ */
 
 /**
  * Expose organic groups as context reactions.

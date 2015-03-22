@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateTags
+ * Class C4mDemoContentCreateTags.
  */
 class C4mDemoContentCreateTags extends C4mDemoContentCreateVocabularyTerms {
   public $bundle = 'c4m_vocab_tag';
@@ -20,4 +20,5 @@ class C4mDemoContentCreateTags extends C4mDemoContentCreateVocabularyTerms {
   public $dependencies = array(
     'C4mDemoContentCreateGroups',
   );
+
 }

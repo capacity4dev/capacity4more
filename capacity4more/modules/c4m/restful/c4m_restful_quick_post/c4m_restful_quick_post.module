@@ -51,7 +51,6 @@ function c4m_restful_quick_post_form($group_id) {
       'bundle' => 'Event',
       'description' => t('Event'),
     ),
-    // MORE
   );
 
   $resource_names = array_keys($resources);
@@ -63,7 +62,8 @@ function c4m_restful_quick_post_form($group_id) {
   $public_fields = array();
   foreach ($resource_names as $resource_name) {
     $handler = restful_get_restful_handler($resource_name);
-    // Send the fields to the app as separate objects by resource (for validation on submit.)
+    // Send the fields to the app as separate objects by resource
+    // (for validation on submit.)
     $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
     $public_fields += $handler->getPublicFields();
   }
@@ -75,7 +75,7 @@ function c4m_restful_quick_post_form($group_id) {
     'self',
   );
 
-  foreach($public_fields as $public_field_name => $value) {
+  foreach ($public_fields as $public_field_name => $value) {
     // Skipped fields.
     if (in_array($public_field_name, $skipped_fields)) {
       continue;
@@ -93,7 +93,7 @@ function c4m_restful_quick_post_form($group_id) {
 
   $request = array(
     'group' => $group_id,
-    'html' => true,
+    'html' => TRUE,
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
     'hide_articles' => 1,
@@ -141,7 +141,8 @@ function c4m_restful_quick_post_field_info_alter(&$info) {
 
 /**
  * Additional callback to adapt the property info for file fields.
- * @see entity_metadata_field_entity_property_info().
+ *
+ * @see entity_metadata_field_entity_property_info()
  */
 function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, $entity_type, $field, $instance, $field_type) {
   $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
@@ -197,7 +198,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
   drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
 
-  // Select UI
+  // Select UI.
   drupal_add_css($bower_path . '/select2/select2.css');
   drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
   drupal_add_js($bower_path . '/select2/select2.js');

@@ -95,12 +95,14 @@ function theme_c4m_features_og_members_since($field) {
   if (!$membership) {
     return;
   }
+
   $tag['element'] = array(
     '#tag'       => 'span',
     '#attributes' => array(
       'class' => array('member-since'),
     ),
-    '#value'     => format_date($membership->created, 'c4m_long_without_time'),
+    '#value'     => c4m_helper_date_time_ago($membership->created,
+                      '<none>', 86400, '>', t('today')),
   );
   return theme_html_tag($tag);
 }

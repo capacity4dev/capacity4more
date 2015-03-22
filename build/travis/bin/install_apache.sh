@@ -8,6 +8,12 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
+# No need for Apache if the profile is not installed.
+if [ $INSTALL_PROFILE != 1 ]; then
+ exit 0;
+fi
+
+
 # Install necesary php packages.
 sudo apt-get install -y --force-yes php5-cgi php5-mysql
 

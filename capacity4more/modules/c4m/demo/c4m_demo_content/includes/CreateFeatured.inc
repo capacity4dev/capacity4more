@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateFeatured
+ * Class C4mDemoContentCreateFeatured.
  */
 class C4mDemoContentCreateFeatured extends C4mDemoContentCreateOgContent {
   public $bundle = 'featured';
@@ -40,4 +40,5 @@ class C4mDemoContentCreateFeatured extends C4mDemoContentCreateOgContent {
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
   }
+
 }

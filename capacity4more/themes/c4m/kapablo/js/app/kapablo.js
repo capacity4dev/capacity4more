@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Kapablo theme global behaviours.
+ */
+
 (
   function ($) {
     Drupal.behaviors.discussionFormClasses = {
@@ -50,7 +55,7 @@
 
     Drupal.behaviors.youTubeVideo = {
       attach: function (context, settings) {
-        // Inject YouTube API script
+        // Inject YouTube API script.
         var tag = document.createElement('script');
         tag.src = "//www.youtube.com/player_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];

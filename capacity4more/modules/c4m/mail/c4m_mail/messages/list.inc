@@ -1,7 +1,7 @@
 <?php
 /**
- * Index of all the messages.
  * @file
+ * Index of all the messages.
  */
 
 $messages = array(
@@ -59,5 +59,5 @@ $messages = array(
     'title' => 'Admin alert about new user registration',
     'subject' => 'user_mail_register_pending_approval_admin_subject',
     'body' => 'user_mail_register_pending_approval_admin_body',
-  )
+  ),
 );

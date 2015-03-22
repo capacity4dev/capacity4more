@@ -160,18 +160,7 @@ function c4m_ds_ds_fields_info($entity_type) {
   // Fields for entity type node.
 
   // Creation time.
-  $format_types    = system_get_date_types();
-  $date_formatters = array();
-  foreach (system_get_date_formats() as $type => $format) {
-    // Only use date format types from C4M.
-    if (FALSE === strpos($type, 'c4m', 0)) {
-      continue;
-    }
-    foreach($format as $format_instance) {
-      $date_formatters[$format_instance['format']] = t("Time ago or date format '!date'",
-        array('!date' => $format_types[$type]['title'] . ' (' . $format_instance['format'] . ')'));
-    }
-  }
+  $date_formatters = c4m_helper_date_formatters();
 
   $fields['node']['c4m_ds_submitted_by_and_on'] = array(
     'title'      => t('User name + creation date'),

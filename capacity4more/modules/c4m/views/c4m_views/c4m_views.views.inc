@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_views_data()
+ * Implements hook_views_data().
  */
 function c4m_views_views_data() {
   $data = array();

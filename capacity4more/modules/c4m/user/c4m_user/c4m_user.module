@@ -36,12 +36,32 @@ function c4m_user_ds_view_modes_info() {
   $ds_view_mode                   = new stdClass;
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
+  $ds_view_mode->view_mode        = 'c4m_user_teaser_list_global';
+  $ds_view_mode->label            = 'User teaser list global';
+  $ds_view_mode->entities         = array(
+    'user' => 'user',
+  );
+  $ds_view_modes['c4m_user_teaser_list_global'] = $ds_view_mode;
+
+  $ds_view_mode                   = new stdClass;
+  $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_teaser_table';
   $ds_view_mode->label            = 'User teaser table';
   $ds_view_mode->entities         = array(
     'user' => 'user',
   );
   $ds_view_modes['c4m_user_teaser_table'] = $ds_view_mode;
+
+  $ds_view_mode                   = new stdClass;
+  $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version      = 1;
+  $ds_view_mode->view_mode        = 'c4m_user_teaser_table_global';
+  $ds_view_mode->label            = 'User teaser table global';
+  $ds_view_mode->entities         = array(
+    'user' => 'user',
+  );
+  $ds_view_modes['c4m_user_teaser_table_global'] = $ds_view_mode;
 
   return $ds_view_modes;
 }
@@ -73,6 +93,58 @@ function c4m_user_ds_fields_info($entity_type) {
   }
 
   // Fields for entity type user
+  $fields['user']['c4m_user_member_since'] = array(
+    'title' => t('C4M member since'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_member_since',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_user_activity_summary'] = array(
+    'title' => t('C4M member activity summary'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_activity_summary',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_user_activity_posts'] = array(
+    'title' => t('C4M member count posts'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_activity_posts',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['user']['c4m_user_activity_comments'] = array(
+    'title' => t('C4M member count comments'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_activity_comments',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   $fields['user']['c4m_user_picture'] = array(
     'title'      => t('C4M user picture'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -325,4 +397,40 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
 
   $output = theme('item_list', array('items' => $items, 'title' => $title));
   return $output;
+}
+
+/**
+ * Get the number of posts (nodes) for the given user.
+ *
+ * @param int $uid
+ *   The User ID.
+ *
+ * @return int
+ */
+function c4m_user_count_nodes($uid) {
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid'))
+    ->condition('n.status', 1)
+    ->condition('n.uid', (int) $uid);
+
+  return (int) $query->countQuery()->execute()->fetchField();
+}
+
+/**
+ * Get the number of comments for the given user.
+ *
+ * @param int $uid
+ *   The User ID.
+ *
+ * @return int
+ */
+function c4m_user_count_comments($uid) {
+  $query = db_select('comment', 'c');
+  $query->join('node', 'n', 'c.nid = n.nid');
+  $query->fields('c', array('cid'))
+    ->condition('c.status', 1)
+    ->condition('n.status', 1)
+    ->condition('c.uid', (int) $uid);
+
+  return (int) $query->countQuery()->execute()->fetchField();
 }
