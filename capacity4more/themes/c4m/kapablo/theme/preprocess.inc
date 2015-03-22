@@ -10,13 +10,13 @@
  * Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
-  if ($variables['view_mode'] != 'activity_group') {
+  if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
     return;
   }
 
   $message = $variables['message'];
-  $variables['theme_hook_suggestions'][] = 'message__activity_group';
-  $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_group";
+  $variables['theme_hook_suggestions'][] = 'message__activity_stream';
+  $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
   $variables['content'] = $message->getText();
 
