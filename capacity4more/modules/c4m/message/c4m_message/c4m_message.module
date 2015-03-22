@@ -782,12 +782,6 @@ function c4m_message_preprocess_node(&$variables) {
   if ($variables['view_mode'] == 'activity_stream') {
     $variables['theme_hook_suggestions'][] = 'node__activity_stream';
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__activity_stream';
-    // Trim the body of activity stream in the homepage.
-    $handler = og_purl_og_context_handler();
-    if ((drupal_is_front_page() || !empty($_GET['homepage'])) && empty($handler)) {
-      $body = strip_tags(truncate_utf8($variables['node']->c4m_body[LANGUAGE_NONE][0]['safe_value'], 150, TRUE, TRUE));
-      $variables['node']->c4m_body[LANGUAGE_NONE][0]['safe_value'] = $body;
-    }
   }
   $preprocess_function = "c4m_message_preprocess_node__{$variables['node']->type}";
   if (function_exists($preprocess_function)) {
