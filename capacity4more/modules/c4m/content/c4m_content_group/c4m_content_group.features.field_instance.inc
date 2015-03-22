@@ -16,7 +16,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select an image, photo that will be displayed in the header of the group page',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -110,7 +110,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -186,7 +186,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'The image, photo or logo, is used in the group overview page.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -284,7 +284,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select up to 3 groups that are related to this project. You can only select groups you are member of.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -363,7 +363,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select one or more categories that apply',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -440,7 +440,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -522,7 +522,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'How should membership requests be handled in this Group ?',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -589,7 +589,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Please provide a rief description of the objectives and the scope of the group.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -663,7 +663,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -744,7 +744,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Determine if this is an OG group.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -829,7 +829,7 @@ function c4m_content_group_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Reference to Pluggable node access entities.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

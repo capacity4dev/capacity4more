@@ -16,7 +16,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -93,7 +93,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Content of the Article (HTML).',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(
@@ -155,7 +155,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -205,7 +205,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'A picture to use on the Article listings.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -281,7 +281,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -337,7 +337,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -386,7 +386,7 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
