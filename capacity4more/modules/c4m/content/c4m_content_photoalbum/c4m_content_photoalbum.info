@@ -18,6 +18,7 @@ dependencies[] = og_ui
 dependencies[] = og_vocab
 dependencies[] = options
 dependencies[] = plupload
+dependencies[] = smart_trim
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text

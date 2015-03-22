@@ -113,11 +113,19 @@ function c4m_content_article_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'text',
+        'module' => 'smart_trim',
         'settings' => array(
-          'trim_length' => 150,
+          'more_link' => 0,
+          'more_text' => 'Read more',
+          'summary_handler' => 'trim',
+          'trim_length' => 200,
+          'trim_options' => array(
+            'text' => 'text',
+          ),
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
         ),
-        'type' => 'text_summary_or_trimmed',
+        'type' => 'smart_trim_format',
         'weight' => 0,
       ),
       'activity_group' => array(

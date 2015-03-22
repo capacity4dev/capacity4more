@@ -62,6 +62,7 @@ dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
 dependencies[] = strongarm
+dependencies[] = smart_trim
 dependencies[] = term_reference_tree
 dependencies[] = transliteration
 dependencies[] = token

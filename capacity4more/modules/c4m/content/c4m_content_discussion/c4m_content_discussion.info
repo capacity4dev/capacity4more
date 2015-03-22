@@ -28,6 +28,7 @@ dependencies[] = og_vocab
 dependencies[] = options
 dependencies[] = page_manager
 dependencies[] = panels
+dependencies[] = smart_trim
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text
