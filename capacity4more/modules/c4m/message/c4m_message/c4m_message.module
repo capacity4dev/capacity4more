@@ -525,7 +525,13 @@ function c4m_message_format_comment(Message $message) {
 function c4m_message_format_rendered_node(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  $view = node_view($wrapper->field_node->value(), 'activity_group');
+  $handler = og_purl_og_context_handler();
+  if ((empty($_GET['homepage'])) && !empty($handler)) {
+    $view = node_view($wrapper->field_node->value(), 'activity_group');
+  }
+  else {
+    $view = node_view($wrapper->field_node->value(), 'activity_global');
+  }
 
   return drupal_render($view);
 }
@@ -803,7 +809,7 @@ function c4m_message_preprocess_node(&$variables) {
  * Node document preprocess.
  */
 function c4m_message_preprocess_node__document(&$variables) {
-  if ($variables['view_mode'] != 'activity_group') {
+  if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
     // Current view mode is not an 'activity stream'.
     return;
   }
@@ -831,7 +837,7 @@ function c4m_message_preprocess_node__document(&$variables) {
  * Node event preprocess.
  */
 function c4m_message_preprocess_node__event(&$variables) {
-  if ($variables['view_mode'] != 'activity_group') {
+  if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
     // Current view mode is not an 'activity stream'.
     return;
   }
