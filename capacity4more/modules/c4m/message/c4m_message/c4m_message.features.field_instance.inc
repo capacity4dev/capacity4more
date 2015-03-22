@@ -18,6 +18,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -66,6 +72,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -104,6 +116,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -153,6 +171,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -201,6 +225,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -240,6 +270,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -289,6 +325,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -331,6 +373,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -369,6 +417,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -418,6 +472,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -466,6 +526,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -503,6 +569,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -541,6 +613,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -590,6 +668,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -638,6 +722,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -675,6 +765,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -713,6 +809,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -762,6 +864,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -810,6 +918,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -847,6 +961,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -885,6 +1005,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -934,6 +1060,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -982,6 +1114,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1019,6 +1157,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1057,6 +1201,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1106,6 +1256,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1154,6 +1310,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1191,6 +1353,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1229,6 +1397,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1278,6 +1452,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1326,6 +1506,12 @@ function c4m_message_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),

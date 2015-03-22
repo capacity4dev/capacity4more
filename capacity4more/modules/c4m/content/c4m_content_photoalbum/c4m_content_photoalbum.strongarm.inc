@@ -83,6 +83,10 @@ function c4m_content_photoalbum_strongarm() {
             'weight' => '1',
             'visible' => TRUE,
           ),
+          'activity_global' => array(
+            'weight' => '100',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),
