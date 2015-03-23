@@ -2,11 +2,17 @@ language: php
 
 env:
   # Create a build job per BEHAT feature TAG
-  - BEHAT_TAG="api"
-    CODE_REVIEW=1
-    SIMPLETEST=1
-  - BEHAT_TAG="javascript"
+  - INSTALL_PROFILE=1
+    BEHAT_TAG="api"
     CODE_REVIEW=0
+    SIMPLETEST=1
+  - INSTALL_PROFILE=1
+    BEHAT_TAG="javascript"
+    CODE_REVIEW=0
+    SIMPLETEST=0
+  - INSTALL_PROFILE=0
+    BEHAT_TAG=
+    CODE_REVIEW=1
     SIMPLETEST=0
 
 php:

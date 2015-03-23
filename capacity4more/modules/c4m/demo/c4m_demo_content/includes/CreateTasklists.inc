@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateTasklists
+ * Class C4mDemoContentCreateTasklists.
  */
 class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
   public $bundle = 'tasklist';
@@ -96,6 +96,8 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
     $row->date_entries = $this->mapTaxonomyVocab($row->date, 'c4m_vocab_date');
 
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
+
+    return TRUE;
   }
 
   /**
@@ -109,4 +111,5 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
   public function prepare($entity, $row) {
     $this->assignTags($entity, $row);
   }
+
 }

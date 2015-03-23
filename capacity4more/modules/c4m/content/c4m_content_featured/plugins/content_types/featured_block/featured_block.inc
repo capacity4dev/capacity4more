@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Plugin to render the featured block pane.
+ */
 
 /**
  * Plugin definition.

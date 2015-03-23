@@ -1,18 +1,21 @@
 <?php
 /**
  * @file
- *
  * Custom Display Suite function fields.
  */
+
 /**
  * Theme function for gmap link.
  *
- * @param $variables
- * @return null|string
+ * @param array $field
+ *   The field info.
+ *
+ * @return string
+ *   The rendered version of the field.
  */
-function theme_c4m_content_event_link_to_gmap($field) {
+function theme_c4m_content_event_link_to_gmap(array $field) {
   if (empty($field['entity'])) {
-    return;
+    return NULL;
   }
 
   $entity = $field['entity'];

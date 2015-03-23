@@ -1,12 +1,13 @@
 <?php
-
 /**
  * @file
  * Contains \RestfulEntityTaxonomyTermGeo.
  */
 
+/**
+ * Class RestfulEntityTaxonomyTermGeo.
+ */
 class RestfulEntityTaxonomyTermGeo extends \C4mRestfulEntityBaseTaxonomyTerm {
-
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */
@@ -20,4 +21,5 @@ class RestfulEntityTaxonomyTermGeo extends \C4mRestfulEntityBaseTaxonomyTerm {
 
     return $public_fields;
   }
+
 }

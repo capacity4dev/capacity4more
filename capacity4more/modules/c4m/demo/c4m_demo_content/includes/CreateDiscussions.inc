@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateDiscussions
+ * Class C4mDemoContentCreateDiscussions.
  */
 class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
   public $bundle = 'discussion';
@@ -136,4 +136,5 @@ class C4mDemoContentCreateDiscussions extends C4mDemoContentCreateOgContent {
   public function prepare($entity, $row) {
     $this->assignTags($entity, $row);
   }
+
 }

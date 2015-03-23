@@ -30,7 +30,7 @@
     <?php endif; ?>
   </head>
 
-  <body id="mimemail-body" <?php if ($module && $key): print 'class="'. $module .'-'. $key .'"'; endif; ?>>
+  <body id="mimemail-body" <?php if ($module && $key): print 'class="' . $module . '-' . $key . '"'; endif; ?>>
 
     <div id="center">
       <div id="main">

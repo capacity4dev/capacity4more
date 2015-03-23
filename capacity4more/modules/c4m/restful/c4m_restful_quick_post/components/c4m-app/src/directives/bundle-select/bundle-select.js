@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides the bundleSelect directive.
+ */
+
 'use strict';
 
 /**
+ * Provides the bundleSelect directive.
+ *
  * @ngdoc directive
+ *
  * @name c4mApp.directive:bundleSelect
- * @description
- * # bundleSelect
+ *
+ * @description bundleSelect.
  */
 angular.module('c4mApp')
   .directive('bundleSelect', function ($window, DrupalSettings) {

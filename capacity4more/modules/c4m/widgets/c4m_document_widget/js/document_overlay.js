@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Document overlay widget behaviour.
+ */
+
 (function ($) {
 
   $(document).on('click', function(event) {
@@ -14,7 +19,6 @@
     if ($target.is('button') && $target.val() == 'Delete') {
       // We are on the node/edit page in the overlay. On click on the "Delete"
       // button should remove the node id from inputs on the parent page.
-
       var value = $('#edit-' + fieldName + '-und', parent.window.document).val();
       var ids = $('#input-' + fieldName, parent.window.document).val();
 
@@ -74,5 +78,3 @@
   });
 
 })(jQuery);
-
-

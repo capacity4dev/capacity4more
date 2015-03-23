@@ -16,13 +16,13 @@ class C4mSearchWidgetLinksGrouped extends FacetapiWidgetLinks {
    * The recursion allows this function to act on the various levels of a
    * hierarchical data set.
    *
-   * @param array $build
+   * @param mixed $build
    *   The items in the facet's render array being transformed.
    *
    * @return array
    *   The "items" parameter for theme_item_list().
    */
-  function buildListItems($build) {
+  public function buildListItems($build) {
     static $level = 0;
 
     $settings = $this->settings->settings;
@@ -96,4 +96,5 @@ class C4mSearchWidgetLinksGrouped extends FacetapiWidgetLinks {
 
     return $items;
   }
+
 }

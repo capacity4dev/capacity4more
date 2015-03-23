@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateWikiPages
+ * Class C4mDemoContentCreateWikiPages.
  */
 class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
   public $bundle = 'wiki_page';
@@ -210,4 +210,5 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
     // Manually save the node.
     entity_save('node', $entity);
   }
+
 }

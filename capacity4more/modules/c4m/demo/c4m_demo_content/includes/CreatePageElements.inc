@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreatePageElements
+ * Class C4mDemoContentCreatePageElements.
  */
 class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
   public $bundle = 'page_element';
@@ -34,4 +34,5 @@ class C4mDemoContentCreatePageElements extends C4mDemoContentCreateOgContent {
     $this->addFieldMapping('c4m_page', 'page');
     $this->addFieldMapping('c4m_position', 'position');
   }
+
 }

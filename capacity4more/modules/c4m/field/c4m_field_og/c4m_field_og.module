@@ -3,3 +3,28 @@
  * @file
  * Drupal needs this blank file.
  */
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_field_og_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_field_og');
+
+  // A field to indicate the group a group node belongs to
+  $fields['node']['c4m_field_og_group'] = array(
+    'title'      => t('Group'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_field_og.theme.node.inc',
+    'function'   => 'theme_c4m_field_og_group',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  return $fields;
+}

@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreatePhotoalbums
+ * Class C4mDemoContentCreatePhotoalbums.
  */
 class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
   public $bundle = 'photoalbum';
@@ -78,4 +78,5 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
   public function prepare($entity, $row) {
     $this->assignTags($entity, $row);
   }
+
 }

@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreatePhotoComments
+ * Class C4mDemoContentCreatePhotoComments.
  */
 class C4mDemoContentCreatePhotoComments extends C4mDemoContentCreateComments {
   public $bundle = 'comment_node_photo';
@@ -49,4 +49,5 @@ class C4mDemoContentCreatePhotoComments extends C4mDemoContentCreateComments {
 
     return TRUE;
   }
+
 }
