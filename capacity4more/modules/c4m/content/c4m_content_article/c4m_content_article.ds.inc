@@ -12,6 +12,32 @@ function c4m_content_article_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|article|c4m_teaser_list';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'article';
+  $ds_fieldsetting->view_mode = 'c4m_teaser_list';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '1',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|article|c4m_teaser_list'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|group|c4m_teaser_list';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'group';
@@ -136,6 +162,43 @@ function c4m_content_article_ds_field_settings_info() {
  */
 function c4m_content_article_ds_layout_settings_info() {
   $export = array();
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|article|c4m_teaser_list';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'article';
+  $ds_layout->view_mode = 'c4m_teaser_list';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_media',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_intro_text',
+        3 => 'c4m_ds_content_footer_stats',
+      ),
+    ),
+    'fields' => array(
+      'c4m_media' => 'left',
+      'title' => 'right',
+      'c4m_intro_text' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|article|c4m_teaser_list'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
