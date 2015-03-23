@@ -4,3 +4,63 @@
  * Code for the Search Filter feature.
  */
 
+/**
+ * Implements hook_search_api_query_alter().
+ */
+function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query) {
+  if (empty($_GET['filter'])) {
+    return;
+  }
+
+  global $user;
+
+  switch ($_GET['filter']) {
+    case 'groups':
+      // Get groups.
+      $groups = og_get_groups_by_user();
+      if (isset($groups['node'])) {
+        $groups = $groups['node'];
+      } else {
+        return;
+      }
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on groups.
+      foreach ($groups as $group) {
+        $filter->condition('og_group_ref', $group);
+      }
+
+      // Apply filter.
+      $query->filter($filter);
+      break;
+    case 'interests':
+      // Get user object.
+      $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+
+      // Get interests & regions.
+      $interests = $user_wrapper->c4m_related_topic->raw();
+      $regions = $user_wrapper->c4m_vocab_geo->raw();
+      if (empty($interests) && empty($regions)) {
+        return;
+      }
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on interests.
+      foreach ($interests as $interest) {
+        $filter->condition('c4m_related_topic', $interest);
+      }
+
+      // Filter on geographic regions.
+      foreach ($regions as $region) {
+        $filter->condition('c4m_vocab_geo', $region);
+      }
+
+      // Apply filter.
+      $query->filter($filter);
+      break;
+  }
+}
