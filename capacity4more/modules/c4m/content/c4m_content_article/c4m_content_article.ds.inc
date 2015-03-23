@@ -32,6 +32,11 @@ function c4m_content_article_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '4',
