@@ -30,6 +30,9 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'c4m_teaser_list';
@@ -40,6 +43,11 @@ function c4m_features_overview_articles_views_default_views() {
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
   $handler->display->display_options['header']['result']['content'] = '@total in total';
+  /* Header: Sort by */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort by';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
