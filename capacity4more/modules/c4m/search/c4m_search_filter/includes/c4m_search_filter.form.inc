@@ -11,6 +11,11 @@
  *   An array containing the search filter form.
  */
 function c4m_search_filter_search_filter_form($form, &$form_state, $filter_type = 'all') {
+  // Don't show form for anonymous users.
+  if (user_is_anonymous()) {
+    return array();
+  }
+
   // Create filter options.
   $options = array();
 

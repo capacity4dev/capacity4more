@@ -164,10 +164,12 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
       $text  = t('Debate');
       $class = 'fl-debate';
       break;
+
     case t('Public'):
       $text  = t('Public');
       $class = 'fl-public';
       break;
+
     case t('Private'):
       $text  = t('Private');
       $class = 'fl-private';
