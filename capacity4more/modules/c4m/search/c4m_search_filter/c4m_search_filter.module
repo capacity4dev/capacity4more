@@ -5,6 +5,47 @@
  */
 
 /**
+ * Implements hook_block_info().
+ */
+function c4m_search_filter_block_info() {
+  $blocks['search_filter'] = array(
+    'info' => t('Search Filter: groups & interests'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  $blocks['search_filter_groups'] = array(
+    'info' => t('Search Filter: groups'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  $blocks['search_filter_interests'] = array(
+    'info' => t('Search Filter: interests'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_search_filter_block_view($delta = '') {
+  module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.block');
+  $callback = '_c4m_search_filter_block_' . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+  return $callback();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_search_filter_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'c4m_search_filter_search_filter_form') {
+    // Unset hidden fields so they don't appear in the url.
+    unset($form['form_id'], $form['#token'], $form['form_build_id'], $form['#build_id']);
+  }
+}
+
+/**
  * Implements hook_search_api_query_alter().
  */
 function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query) {
@@ -29,7 +70,11 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       // Filter on groups.
       foreach ($groups as $group) {
-        $filter->condition('og_group_ref', $group);
+        if (0 === strpos(current_path(), 'groups', 0)) {
+          $filter->condition('nid', $group);
+        } else {
+          $filter->condition('og_group_ref', $group);
+        }
       }
 
       // Apply filter.
