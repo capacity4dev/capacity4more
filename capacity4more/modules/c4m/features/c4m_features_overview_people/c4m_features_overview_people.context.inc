@@ -26,6 +26,12 @@ function c4m_features_overview_people_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'views-3ea5d2361b53bfac9a8a2c7de319e7ad' => array(
+          'module' => 'views',
+          'delta' => '3ea5d2361b53bfac9a8a2c7de319e7ad',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_people-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_people-page',
@@ -83,6 +89,12 @@ function c4m_features_overview_people_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'views-3ea5d2361b53bfac9a8a2c7de319e7ad' => array(
+          'module' => 'views',
+          'delta' => '3ea5d2361b53bfac9a8a2c7de319e7ad',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_people-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_people-page',
