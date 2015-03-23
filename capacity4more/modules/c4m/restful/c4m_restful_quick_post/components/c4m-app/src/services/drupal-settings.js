@@ -1,22 +1,26 @@
+/**
+ * @file
+ * Provides a wrapper around the DrupalSettings object.
+ */
+
 'use strict';
 
 /**
+ * Provides a wrapper around the DrupalSettings object.
+ *
  * @ngdoc service
+ *
  * @name c4mApp.service:DrupalSettings
- * @description
- * # Imports the settings sent from drupal.
+ *
+ * @description Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
   .service('DrupalSettings', function($window, $sce) {
     var self = this;
 
-    /**
-     * Wraps inside AngularJs Drupal settings global object.
-     *
-     * @type {Drupal.settings}
-     */
+    // Wraps inside AngularJs Drupal settings global object.
+    // @type {Drupal.settings}
     this.settings = $window.Drupal.settings;
-
 
     /**
      * Get the base path of the Drupal installation.

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Document types plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Document types'),

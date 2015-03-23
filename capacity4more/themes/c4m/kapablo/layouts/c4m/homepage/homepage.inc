@@ -1,6 +1,9 @@
 <?php
+/**
+ * @file
+ * Bootstrap plugin definition.
+ */
 
-// Plugin definition
 $plugin = array(
   'title' => t('Homepage'),
   'category' => t('Bootstrap'),

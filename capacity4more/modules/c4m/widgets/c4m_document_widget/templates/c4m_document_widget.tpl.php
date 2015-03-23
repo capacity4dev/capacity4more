@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Template to render the document widget.
+ */
+?>
 <div class="form-group input-wrapper file-wrapper" id="add-document-form">
   <label><?php print $title; ?></label>
 

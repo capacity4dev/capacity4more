@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Custom menu theme implementation to display a block.

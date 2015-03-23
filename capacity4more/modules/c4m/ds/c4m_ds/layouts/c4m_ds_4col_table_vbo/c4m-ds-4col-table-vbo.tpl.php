@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * 4 column layout to use in "table" views with views bulk operations.
+ * Four column layout to use in "table" views with views bulk operations.
  */
 ?>
 

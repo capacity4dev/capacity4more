@@ -5,21 +5,27 @@
  */
 
 /**
- * theme_menu_tree__MENU_ID().
+ * Implements theme_menu_tree__MENU_ID().
  *
- * Add bootstrap classes to the menu to style it as a horizontal menu (default bootstrap).
- *
- * @param $variables
- *
- * @return string
+ * Add bootstrap classes to the menu to style it as a horizontal menu
+ * (default bootstrap).
  */
-function kapablo_menu_tree__c4m_og_menu($variables) {
+function kapablo_menu_tree__c4m_og_menu(array $variables) {
   return '<ul class="menu nav navbar-nav" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
-function kapablo_menu_link__c4m_og_menu($variables) {
+/**
+ * Theme a menu link.
+ *
+ * @param array $variables
+ *   The menu link variables.
+ *
+ * @return string
+ *   The rendered list item.
+ */
+function kapablo_menu_link__c4m_og_menu(array $variables) {
   $element = $variables['element'];
-  $sub_menu = $sub_menu_wrapper = '';
+  $sub_menu_wrapper = NULL;
 
   if ($element['#below']) {
     if ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] == 1)) {
@@ -65,11 +71,12 @@ function kapablo_menu_link__c4m_og_menu($variables) {
           !c4m_restful_quick_post_needs_app()) {
         // Do not add "data-toggle = dropdown" in combination with Angular.js
         // as this causes the need for double click.
-        // See http://stackoverflow.com/questions/24218663/avoid-having-to-double-click-to-toggle-bootstrap-dropdown
+        // @see http://stackoverflow.com/questions/24218663/avoid-having-to-double-click-to-toggle-bootstrap-dropdown
         $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
       }
     }
   }
+
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
   if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
@@ -86,7 +93,6 @@ function kapablo_menu_link__c4m_og_menu($variables) {
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
 
   // @TODO: SET ACTIVE TRAIL/CLASS FOR OG!!!
-
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu_wrapper . "</li>\n";
 }
 
@@ -123,11 +129,14 @@ function kapablo_menu_tree__book_toc__sub_menu(&$variables) {
 
 /**
  * Overrides theme_menu_link() for book module.
+ *
  * Add bootstrap collapsible behaviour to all expandable links.
  *
  * @param array $variables
+ *   The theme variables.
  *
  * @return string
+ *   The rendered list item html.
  */
 function kapablo_menu_link__book_toc(array $variables) {
   $element  = $variables['element'];
@@ -153,7 +162,6 @@ function kapablo_menu_link__book_toc(array $variables) {
   ) {
     // The list item should contain an icon which should act as a bootstrap
     // collapse toggle control to hide/show the submenu (= child pages).
-
     $submenu_id = 'children-of-' . $mlid;
 
     // See kapablo_menu_tree__book_toc__sub_menu().
@@ -187,7 +195,6 @@ function kapablo_menu_link__book_toc(array $variables) {
 
     $icon = theme_html_tag($tag);
 
-
     $replacement = 'id="' . $submenu_id . '" class="' . $submenu_classes . '"';
   }
   // We replace previously placed empty id by id + classes.
@@ -205,13 +212,11 @@ function kapablo_menu_link__book_toc(array $variables) {
 
 /**
  * Overrides theme_menu_link().
- * Specifically to override book first level child links in c4m_og_menu.
  *
+ * Specifically to override book first level child links in c4m_og_menu.
  */
 function kapablo_menu_link__book_c4m_og_menu(array $variables) {
   $element = $variables['element'];
-  // We don't render a submenu of book links in c4m_og_menu
-  //$element['#below']);
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674

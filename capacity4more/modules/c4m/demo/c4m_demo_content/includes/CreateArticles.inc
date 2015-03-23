@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateArticles
+ * Class C4mDemoContentCreateArticles.
  */
 class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
@@ -107,4 +107,5 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     return TRUE;
   }
+
 }

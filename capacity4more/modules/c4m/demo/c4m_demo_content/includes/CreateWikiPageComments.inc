@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateWikiPageComments
+ * Class C4mDemoContentCreateWikiPageComments.
  */
 class C4mDemoContentCreateWikiPageComments extends C4mDemoContentCreateComments {
   public $bundle = 'comment_node_wiki_page';
@@ -49,4 +49,5 @@ class C4mDemoContentCreateWikiPageComments extends C4mDemoContentCreateComments 
 
     return TRUE;
   }
+
 }

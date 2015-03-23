@@ -27,14 +27,17 @@ function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
  * @param $search_sorts
  * @param $keys
  */
-function c4m_features_og_events_search_api_sorts_get_default_sort_alter (&$default_sort, $search_sorts, $keys) {
+function c4m_features_og_events_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
   // Change default sort into 'Sort by Start Date' for events overviews.
-  if ( FALSE === strpos(current_path(), 'events', 0)) {
+  if (FALSE === strpos(current_path(), 'calendar', 0)) {
     return;
   }
-  $default_sort = $default_sort;
   foreach($search_sorts as $search_sort) {
     if (C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE === $search_sort->name) {
+      // Sort past events on date descending.
+      if (0 === strpos(current_path(), 'calendar/past', 0)) {
+        $search_sort->default_order = 'desc';
+      }
       $default_sort = $search_sort;
       break;
     }
@@ -52,6 +55,10 @@ function c4m_features_og_events_search_api_sorts_get_default_sort_alter (&$defau
  * @param $block
  */
 function c4m_features_og_events_search_api_sorts_alter(&$block, $view) {
+  // Change default sort into 'Sort by Start Date' for events overviews.
+  if (FALSE === strpos(current_path(), 'calendar', 0)) {
+    return;
+  }
   // Remove 'Start date' sort if this is not an events overview.
   if (!in_array($view->name, array('c4m_overview_og_events',
       'c4m_overview_og_events_landing'))) {
@@ -164,7 +171,7 @@ function c4m_features_og_events_block_view($delta = '') {
  * @param $block
  */
 function c4m_features_og_events_block_view_alter(&$data, $block) {
-  if ('events' === current_path()) {
+  if ('calendar' === current_path()) {
     // Override blocks on the events landing page.
     module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events.block');
     return _c4m_features_og_events_landing_block_view_alter($data, $block);
@@ -181,8 +188,8 @@ function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
   if ($settings->facet == "c4m_datetime_end:value2") {
     foreach($build as $key => $item) {
       // Change the path of the link to the corresponding Views pages.
-      // upcoming events: events/upcoming
-      // past events: events/past
+      // upcoming events: ./upcoming
+      // past events: ./past
       $build[$key]['#path'] .= '/' . $key;
       $build[$key]['#class'][] = $key . '-events';
       // Remove the filter on this range, because it's superfluous.

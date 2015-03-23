@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Categories plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Categories'),

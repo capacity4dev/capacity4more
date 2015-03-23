@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Dates plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Dates'),

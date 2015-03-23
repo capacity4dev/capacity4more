@@ -1,12 +1,13 @@
 <?php
-
 /**
  * @file
  * Contains C4mRestfulDocumentsResource.
  */
 
+/**
+ * Class C4mRestfulDocumentsResource.
+ */
 class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
-
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */
@@ -109,13 +110,13 @@ class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
   /**
    * Process a property value.
    *
-   * @param $value
-   *  The property value.
+   * @param array $value
+   *   The property value.
    *
    * @return array
-   *  The new value.
+   *   The new value.
    */
-  protected function processDocument($value) {
+  protected function processDocument(array $value) {
     return array(
       'id' => $value['fid'],
       'filename' => $value['filename'],
@@ -124,4 +125,5 @@ class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
       'url' => file_create_url($value['uri']),
     );
   }
+
 }

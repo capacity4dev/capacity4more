@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Plugin to show the group details.
+ */
 
 /**
  * Plugin definition.
@@ -9,12 +13,14 @@ $plugin = array(
   'category' => t('C4M'),
   'render callback' => 'c4m_content_group_details_render',
 );
+
 /**
  * Run time rendering of the body of the content type.
  *
  * Render group details.
  *
- * @return stdClass
+ * @return object
+ *   The block definition.
  */
 function c4m_content_group_details_render() {
   // Add custom JavaScript for some behaviour on the group details pane.
@@ -29,7 +35,9 @@ function c4m_content_group_details_render() {
 
 /**
  * Helper function to render group details.
+ *
  * @return string
+ *   The rendered version of the group node.
  */
 function c4m_content_group_details() {
   // Retrieve current group.

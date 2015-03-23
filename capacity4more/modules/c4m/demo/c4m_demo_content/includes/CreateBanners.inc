@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateBanners
+ * Class C4mDemoContentCreateBanners.
  */
 class C4mDemoContentCreateBanners extends C4mDemoContentCreateOgContent {
   public $bundle = 'banner';
@@ -37,4 +37,5 @@ class C4mDemoContentCreateBanners extends C4mDemoContentCreateOgContent {
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
   }
+
 }
