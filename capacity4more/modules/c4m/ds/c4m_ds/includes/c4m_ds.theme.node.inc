@@ -259,6 +259,33 @@ function theme_c4m_ds_group_type($field) {
 /**
  * DS function field.
  *
+ * Render group membership type.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_membership_type($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  // Get membership type.
+  global $user;
+  $group = node_load($field['entity']->nid);
+  $group_membership_type = c4m_user_og_get_role_in_group_human($user, $group);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => $group_membership_type,
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
  * Render members of a group with particular role.
  *
  * @param $field
