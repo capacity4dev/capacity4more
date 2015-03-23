@@ -36,6 +36,15 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(
+          'trim_length' => 600,
+        ),
+        'type' => 'text_summary_or_trimmed',
+        'weight' => 1,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -43,7 +52,7 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
@@ -105,6 +114,13 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'hidden',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 3,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -115,7 +131,7 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -189,6 +205,16 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'banner',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -196,10 +222,10 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -275,6 +301,12 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -285,7 +317,7 @@ function c4m_content_inthe_picture_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'upcoming_event' => array(
         'label' => 'above',
