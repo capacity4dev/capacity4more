@@ -177,15 +177,15 @@ function c4m_content_article_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_ds_content_footer_stats',
-        3 => 'c4m_intro_text',
+        2 => 'c4m_intro_text',
+        3 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
       'title' => 'right',
-      'c4m_ds_content_footer_stats' => 'right',
       'c4m_intro_text' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

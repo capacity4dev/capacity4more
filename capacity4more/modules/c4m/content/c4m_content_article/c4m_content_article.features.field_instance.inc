@@ -26,7 +26,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 18,
       ),
       'default' => array(
         'label' => 'above',
@@ -124,7 +124,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 19,
       ),
       'default' => array(
         'label' => 'above',
@@ -271,7 +271,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
