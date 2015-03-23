@@ -211,6 +211,54 @@ function theme_c4m_ds_group_members_count($field) {
 /**
  * DS function field.
  *
+ * Render group posts count.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_posts_count($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $group_posts = c4m_og_get_posts_count($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => t('@count posts', array('@count' => $group_posts)),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group type.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_type($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $group_type = c4m_og_get_access_type($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => $group_type['title'],
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
  * Render members of a group with particular role.
  *
  * @param $field
