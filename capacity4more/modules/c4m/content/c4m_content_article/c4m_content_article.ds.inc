@@ -28,8 +28,13 @@ function c4m_content_article_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+    ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -177,13 +182,15 @@ function c4m_content_article_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_intro_text',
-        3 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_ds_creation_date',
+        3 => 'c4m_intro_text',
+        4 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
       'title' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_intro_text' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
     ),
