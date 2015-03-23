@@ -111,10 +111,10 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Group created on ',
+          'lb' => 'Created on ',
           'lb-col' => TRUE,
           'ow' => TRUE,
-          'ow-el' => 'span',
+          'ow-el' => 'div',
           'ow-cl' => 'post-date',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
@@ -129,11 +129,11 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Owned by',
+          'lb' => 'Owned by ',
           'lb-col' => TRUE,
           'ow' => TRUE,
           'ow-el' => 'span',
-          'ow-cl' => 'owner',
+          'ow-cl' => 'owner field-separator',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -165,7 +165,7 @@ function c4m_content_group_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'ow' => TRUE,
           'ow-el' => 'span',
-          'ow-cl' => 'group-posts-count',
+          'ow-cl' => 'group-posts-count field-separator',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
