@@ -198,11 +198,11 @@ function theme_c4m_ds_group_members_count($field) {
     return NULL;
   }
 
-  $group_members = c4m_og_get_members_count($field['entity']);
+  $members = c4m_og_get_members_count($field['entity']);
 
   $tag['element'] = array(
     '#tag'   => 'span',
-    '#value' => t('@count members', array('@count' => $group_members)),
+    '#value' => format_plural($members, '1 member', '@count members', array('@count' => $members)),
   );
 
   return theme_html_tag($tag);
@@ -222,11 +222,11 @@ function theme_c4m_ds_group_posts_count($field) {
     return NULL;
   }
 
-  $group_posts = c4m_og_get_posts_count($field['entity']);
+  $posts = c4m_og_get_posts_count($field['entity']);
 
   $tag['element'] = array(
     '#tag'   => 'span',
-    '#value' => t('@count posts', array('@count' => $group_posts)),
+    '#value' => format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
   );
 
   return theme_html_tag($tag);

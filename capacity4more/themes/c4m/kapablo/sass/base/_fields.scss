@@ -138,6 +138,13 @@
   }
 }
 
+.field-separator {
+  display: inline-block;
+  border-left: 1px solid $gray;
+  margin-left: 10px;
+  padding-left: 10px;
+  line-height: 0.8em;
+}
 
 .field-name-c4m-user-first-and-last-name {
   color: $color-blue;
