@@ -169,7 +169,7 @@ function c4m_content_article_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'article';
   $ds_layout->view_mode = 'c4m_teaser_list';
-  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
