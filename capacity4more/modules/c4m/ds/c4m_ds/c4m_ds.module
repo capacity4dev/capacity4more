@@ -29,6 +29,17 @@ function c4m_ds_ds_layout_info() {
     'form'    => TRUE,
     'image'   => FALSE,
   );
+  $layouts['c4m_ds_3_9_fluid_stacked'] = array(
+    'label'    => t('Fluid 3-9 stacked.'),
+    'path'     => $path . '/c4m_ds_3_9_fluid_stacked',
+    'regions'  => array(
+      'header' => t('Header'),
+      'left'   => t('Left'),
+      'right'  => t('Right'),
+    ),
+    'form'     => TRUE,
+    'image'    => FALSE,
+  );
 
   $layouts['c4m_ds_4_8_fluid'] = array(
     'label'   => t('Fluid 4-8 unstacked.'),
@@ -264,6 +275,58 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit'   => array('group|*'),
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_group_members_count',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_group_posts_count'] = array(
+    'title'      => t('Group posts count'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_group_posts_count',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_group_type'] = array(
+    'title'      => t('Group type'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_group_type',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_group_type_icon'] = array(
+    'title'      => t('Group type icon'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_group_type_icon',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_group_membership_type'] = array(
+    'title'      => t('Group membership type'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_group_membership_type',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
