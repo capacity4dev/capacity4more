@@ -142,7 +142,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 6,
       ),
       'library' => array(
         'label' => 'above',
@@ -220,7 +220,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 7,
+        'weight' => 9,
       ),
       'library' => array(
         'label' => 'above',
@@ -290,7 +290,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 10,
       ),
       'library' => array(
         'label' => 'above',
@@ -367,7 +367,7 @@ function c4m_content_article_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
-        'weight' => 6,
+        'weight' => 8,
       ),
       'library' => array(
         'label' => 'above',
@@ -463,7 +463,7 @@ function c4m_content_article_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 9,
+        'weight' => 11,
       ),
       'library' => array(
         'label' => 'above',
@@ -536,7 +536,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 10,
+        'weight' => 12,
       ),
       'library' => array(
         'label' => 'above',
