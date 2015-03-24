@@ -73,10 +73,22 @@ function c4m_content_group_preprocess_block(&$variables) {
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide some fields from authorized user.
+  // By default anonymous user don't have access to this page. 
   global $user;
   if (!in_array('administrator', $user->roles)) {
     $form['c4m_related_group']['#access'] = FALSE;
     $form['c4m_related_projects']['#access'] = FALSE;
     $form['revision_information']['#access'] = FALSE;
+
+    // After a user click request button run next function.
+    $form['#submit'][] = 'c4m_content_group_submit_redirect';
   }
+}
+
+function c4m_content_group_submit_redirect(&$form, &$form_state) {
+  // Set a successful message for a user.
+  drupal_set_message(t('The group you requested is pending review by one of the administrators. You will receive an email with the outcome of that review.'));
+  // Redirect a user to homepage.
+  drupal_goto('');
 }
