@@ -39,14 +39,14 @@ function c4m_content_article_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'image_style' => 'banner',
         ),
         'type' => 'image',
-        'weight' => 6,
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -142,7 +142,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'library' => array(
         'label' => 'above',
@@ -220,7 +220,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 3,
+        'weight' => 7,
       ),
       'library' => array(
         'label' => 'above',
@@ -290,7 +290,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 8,
       ),
       'library' => array(
         'label' => 'above',
@@ -367,7 +367,7 @@ function c4m_content_article_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
-        'weight' => 1,
+        'weight' => 6,
       ),
       'library' => array(
         'label' => 'above',
@@ -463,7 +463,7 @@ function c4m_content_article_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 4,
+        'weight' => 9,
       ),
       'library' => array(
         'label' => 'above',
@@ -536,7 +536,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
+        'weight' => 10,
       ),
       'library' => array(
         'label' => 'above',
