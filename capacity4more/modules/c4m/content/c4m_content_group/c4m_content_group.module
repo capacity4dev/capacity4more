@@ -68,3 +68,15 @@ function c4m_content_group_preprocess_block(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  if (!in_array('administrator', $user->roles)) {
+    $form['c4m_related_group']['#access'] = FALSE;
+    $form['c4m_related_projects']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+  }
+}
