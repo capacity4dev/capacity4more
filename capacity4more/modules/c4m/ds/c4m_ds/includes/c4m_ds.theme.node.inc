@@ -235,7 +235,7 @@ function theme_c4m_ds_group_posts_count($field) {
 /**
  * DS function field.
  *
- * Render group type.
+ * Render group access type.
  *
  * @param $field
  *
@@ -251,6 +251,33 @@ function theme_c4m_ds_group_type($field) {
   $tag['element'] = array(
     '#tag'   => 'span',
     '#value' => $group_type['title'],
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group access type icon.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_type_icon($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $group_type = c4m_og_get_access_type($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('group-icon', 'group-' . $group_type['type']),
+    ),
+    '#value'     => '',
   );
 
   return theme_html_tag($tag);

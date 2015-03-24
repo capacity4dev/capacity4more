@@ -94,18 +94,21 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_teaser_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'link' => '1',
         'wrapper' => 'h3',
         'class' => '',
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'span',
+        ),
       ),
     ),
     'post_date' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'inline',
       'format' => 'ds_post_date_c4m_long_without_time',
       'formatter_settings' => array(
@@ -123,7 +126,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -141,7 +144,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -157,7 +160,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_posts_count' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -173,7 +176,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_type' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -188,10 +191,23 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_group_membership_type' => array(
-      'weight' => '2',
+    'c4m_ds_group_type_icon' => array(
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_group_membership_type' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
     'c4m_media' => array(
       'formatter_settings' => array(
@@ -326,27 +342,31 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'group';
   $ds_layout->view_mode = 'c4m_teaser_list';
-  $ds_layout->layout = 'c4m_ds_3_9_fluid';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
+      'header' => array(
+        0 => 'c4m_ds_group_type_icon',
+        1 => 'c4m_ds_group_membership_type',
+        2 => 'title',
+      ),
       'left' => array(
-        0 => 'c4m_media',
+        3 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'title',
-        2 => 'c4m_ds_group_membership_type',
-        3 => 'c4m_ds_group_type',
-        4 => 'c4m_user_first_and_last_name',
-        5 => 'post_date',
-        6 => 'c4m_body',
-        7 => 'c4m_ds_group_members_count',
-        8 => 'c4m_ds_group_posts_count',
+        4 => 'c4m_ds_group_type',
+        5 => 'c4m_user_first_and_last_name',
+        6 => 'post_date',
+        7 => 'c4m_body',
+        8 => 'c4m_ds_group_members_count',
+        9 => 'c4m_ds_group_posts_count',
       ),
     ),
     'fields' => array(
+      'c4m_ds_group_type_icon' => 'header',
+      'c4m_ds_group_membership_type' => 'header',
+      'title' => 'header',
       'c4m_media' => 'left',
-      'title' => 'right',
-      'c4m_ds_group_membership_type' => 'right',
       'c4m_ds_group_type' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
@@ -356,6 +376,7 @@ function c4m_content_group_ds_layout_settings_info() {
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
     ),
