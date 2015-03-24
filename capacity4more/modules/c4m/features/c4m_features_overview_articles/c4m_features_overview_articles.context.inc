@@ -27,6 +27,12 @@ function c4m_features_overview_articles_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_search_filter-search_filter_interests' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter_interests',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_articles-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_articles-page',
