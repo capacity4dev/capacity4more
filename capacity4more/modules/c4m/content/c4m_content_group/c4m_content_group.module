@@ -68,3 +68,57 @@ function c4m_content_group_preprocess_block(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_node_access(),
+ *
+ * Set right permissions for users to group nodes based on c4m_og_status field.
+ */
+function c4m_content_group_node_access($node, $op, $account) {
+  if (!is_object($node) || $node->type != 'group') {
+    return NODE_ACCESS_IGNORE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $value = $wrapper->c4m_og_status->value();
+
+  if (user_access('administer site', $account)) {
+    // This is site administrator.
+    return NODE_ACCESS_IGNORE;
+  }
+
+  if (!$account->uid) {
+    // This is an anonymous user.
+    if (in_array($value, array('requested', 'draft', 'rejected', 'deleted')) && $op == 'view') {
+      // Anonymous user can't view groups that  are not public with
+      // published or archived status.
+      return NODE_ACCESS_DENY;
+    }
+  }
+
+  if ($account->uid == $node->uid) {
+    // Group owner.
+    if ($value == 'deleted' && ($op == 'view' || $op == 'update')) {
+      // Group owner can't view deleted groups.
+      return NODE_ACCESS_DENY;
+    }
+
+    return NODE_ACCESS_ALLOW;
+  }
+
+  if (og_is_member('node', $node->nid, 'user', $account)) {
+
+    if (!og_user_access('node', $node->nid, 'administer group', $account) && $op == 'update') {
+      // not group administrator.
+      return NODE_ACCESS_DENY;
+    }
+
+    if (in_array($value, array('requested', 'rejected', 'deleted')) && ($op == 'view' || $op == 'update')) {
+      // Anonymous user can't view groups that  are not public with
+      // published or archived status.
+      return NODE_ACCESS_DENY;
+    }
+  }
+
+  return NODE_ACCESS_IGNORE;
+}
