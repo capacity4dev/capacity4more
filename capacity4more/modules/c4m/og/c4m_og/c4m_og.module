@@ -349,3 +349,49 @@ function c4m_og_get_members_count($group) {
 
   return $result;
 }
+
+/**
+ * Counts the number of posts in a given group.
+ *
+ * @param $group
+ *  The group entity.
+ *
+ * @return int
+ *  The count of posts in the group.
+ */
+function c4m_og_get_posts_count($group) {
+  $query = db_select('node', 'n');
+  $query->join('og_membership', 'ogm', 'n.nid = ogm.etid');
+  $query->fields('n', array('nid'))
+    ->condition('n.status', 1)
+    ->condition('ogm.gid', (int) $group->nid)
+    ->condition('ogm.entity_type', 'node');
+
+  return (int) $query->countQuery()->execute()->fetchField();
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_og_entity_property_info_alter(&$info) {
+  $info['node']['properties']['c4m_og_group_type'] = array(
+    'type' => 'text',
+    'label' => t('Group type'),
+    'sanitized' => TRUE,
+    'getter callback' => '_c4m_og_group_type_getter_callback',
+  );
+}
+
+/**
+ * Getter callback for created_week_day property.
+ *
+ * @param $item
+ * @return string
+ */
+function _c4m_og_group_type_getter_callback($item) {
+  // Get group type information.
+  $group_access = c4m_og_get_access_type($item);
+  if (!empty($group_access['type'])) {
+    return ucfirst($group_access['type']);
+  }
+}
