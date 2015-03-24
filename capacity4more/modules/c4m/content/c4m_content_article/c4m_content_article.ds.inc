@@ -24,8 +24,8 @@ function c4m_content_article_ds_layout_settings_info() {
       ),
       'left' => array(
         1 => 'title',
-        2 => 'c4m_ds_creation_date',
-        3 => 'post_date',
+        2 => 'post_date',
+        3 => 'c4m_ds_content_footer_stats',
         4 => 'links',
         5 => 'c4m_body',
         6 => 'comments',
@@ -41,8 +41,8 @@ function c4m_content_article_ds_layout_settings_info() {
     'fields' => array(
       'c4m_banner' => 'header',
       'title' => 'left',
-      'c4m_ds_creation_date' => 'left',
       'post_date' => 'left',
+      'c4m_ds_content_footer_stats' => 'left',
       'links' => 'left',
       'c4m_body' => 'left',
       'comments' => 'left',
