@@ -164,6 +164,21 @@ trait Group {
   }
 
   /**
+   * @Then /^I should see the group management table$/
+   */
+  public function iShouldSeeGroupTable() {
+    $steps = array();
+    $steps[] = new Step\When('I should see "Name"');
+    $steps[] = new Step\When('I should see "Architecture"');
+    $steps[] = new Step\When('I should see "Status"');
+    $steps[] = new Step\When('I should see "Owner"');
+    $steps[] = new Step\When('I should see "mariecurie"');
+    $steps[] = new Step\When('I should see "edit"');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I change access of group "([^"]*)" to Restricted with "([^"]*)" restriction$/
    */
   public function iChangeAccessOfGroupToRestrictedWithRestriction($title, $domain) {
