@@ -26,11 +26,11 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_features_overview_events-event_filter' => array(
-          'module' => 'c4m_features_overview_events',
-          'delta' => 'event_filter',
+        'c4m_search_filter-search_filter' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter',
           'region' => 'content_top',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
         'views-22e892cecdd19333a8cbdbce3f0955a9' => array(
           'module' => 'views',
@@ -119,9 +119,9 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_features_overview_events-event_filter' => array(
-          'module' => 'c4m_features_overview_events',
-          'delta' => 'event_filter',
+        'c4m_search_filter-search_filter' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter',
           'region' => 'content_top',
           'weight' => '-10',
         ),
@@ -194,9 +194,9 @@ function c4m_features_overview_events_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_features_overview_events-event_filter' => array(
-          'module' => 'c4m_features_overview_events',
-          'delta' => 'event_filter',
+        'c4m_search_filter-search_filter' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter',
           'region' => 'content_top',
           'weight' => '-10',
         ),
