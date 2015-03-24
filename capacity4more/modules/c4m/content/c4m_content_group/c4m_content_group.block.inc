@@ -31,7 +31,8 @@ function _c4m_content_group_block_header_name_banner() {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $title = $wrapper->title->value();
-  $tag['element'] = array(
+  $status = $wrapper->c4m_og_status->value();
+  $tag['title']['element'] = array(
     '#tag' => 'h1',
     '#attributes' => array(
       'class' => array('group-title'),
@@ -39,7 +40,19 @@ function _c4m_content_group_block_header_name_banner() {
     '#value' => $title,
   );
 
-  $markup = theme_html_tag($tag);
+  $markup = theme_html_tag($tag['title']);
+
+  if ($status != 'published') {
+    $tag['status']['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('group-status'),
+      ),
+      '#value' => $status,
+    );
+    $markup .= theme_html_tag($tag['status']);
+  }
+
 
   if (drupal_is_front_page()) {
     // Add group image.
