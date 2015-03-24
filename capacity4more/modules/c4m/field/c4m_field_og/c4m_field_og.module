@@ -86,40 +86,51 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function c4m_field_og_form_alter(&$form, &$form_state, $form_id) {
+function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
   if (!isset($form_state['field']['c4m_og_status'])) {
     return;
   }
-  global $user;
 
   $account = user_load($user->uid);
   $entity = $form_state['node'];
   $wrapper = entity_metadata_wrapper('node', $entity);
   $value = $wrapper->c4m_og_status->value();
 
+  if (user_access('administer site', $account)) {
+    // This is site administrator.
+    return;
+  }
+
   if ($account->uid == $entity->uid) {
     // Group owner.
 
-    $allowed_values = array(
+    $unallowed_values = array(
       'requested' => array(
-        'requested' =>'Requested',
-        'deleted' => 'Deleted'
+        'draft',
+        'published',
+        'archived',
+        'rejected',
       ),
       'draft' => array(
-        'draft' => 'Draft',
-        'deleted' => 'Deleted',
-        'published' => 'Published',
+        'archived',
+        'rejected',
+        'requested',
       ),
       'published' => array(
-        'published' => 'Published',
-        'archived' => 'Archived',
-        'deleted' => 'Deleted',
+        'draft',
+        'rejected',
+        'requested',
       ),
     );
-    if (array_key_exists($value, $allowed_values)) {
-      $form['c4m_og_status']['und']['#options'] = $allowed_values[$value];
+
+    if (!empty($unallowed_values[$value])) {
+      foreach ($unallowed_values[$value] as $key) {
+        unset($form['c4m_og_status'][LANGUAGE_NONE]['#options'][$key]);
+      }
     }
     return;
   }
@@ -127,19 +138,23 @@ function c4m_field_og_form_alter(&$form, &$form_state, $form_id) {
   if (og_user_access('node', $entity->nid, 'administer group', $account)) {
     // Group administrator.
 
-    $allowed_values = array(
+    $unallowed_values = array(
       'draft' => array(
-        'draft' => 'Draft',
-        'published' => 'Published',
-        'deleted' => 'Deleted',
+        'requested',
+        'archived',
+        'rejected',
       ),
       'published' => array(
-        'published' => 'Published',
-        'deleted' => 'Deleted',
+        'requested',
+        'draft',
+        'archived',
+        'rejected',
       ),
     );
-    if (array_key_exists($value, $allowed_values)) {
-      $form['c4m_og_status']['und']['#options'] = $allowed_values[$value];
+    if (!empty($unallowed_values[$value])) {
+      foreach ($unallowed_values[$value] as $key) {
+        unset($form['c4m_og_status'][LANGUAGE_NONE]['#options'][$key]);
+      }
     }
   }
 }
