@@ -205,3 +205,64 @@ function c4m_user_og_count_comments_in_group($uid, $gid) {
 
   return (int) $query->countQuery()->execute()->fetchField();
 }
+
+/**
+ * Check if a user has groups.
+ *
+ * @param mixed $account
+ *   Optional account object, defaults to the active user.
+ *
+ * @param string $bundle
+ *   Optional bundle type, can be 'group' (default) or 'project'.
+ *
+ * @param int $status
+ *   Optional status of the groups to filter on, default published.
+ *
+ * @return bool
+ *   Boolean indication if the user has groups.
+ */
+function c4m_user_og_has_groups($account = NULL, $bundle = 'group', $status = NODE_PUBLISHED) {
+  $groups = og_get_groups_by_user($account);
+  if (empty($groups)) {
+    return FALSE;
+  }
+
+  // Count groups of bundle type.
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $bundle)
+    ->entityCondition('entity_id', $groups['node'], 'IN')
+    ->propertyCondition('status', $status)
+    ->count();
+  $count = $query->execute();
+
+  return $count > 0;
+}
+
+/**
+ * Get groups a user belongs to.
+ *
+ * @param mixed $account
+ *   Optional account object, defaults to the active user.
+ *
+ * @param string $bundle
+ *   Optional bundle type, can be 'group' (default) or 'project'.
+ *
+ * @param int $status
+ *   Optional status of the groups to filter on, default published.
+ *
+ * @return array|void
+ *   An array with the groups or an empty array.
+ */
+function c4m_user_og_get_groups($account = NULL, $bundle = 'group', $status = NODE_PUBLISHED) {
+  //$bundle = 'project';
+  $groups = og_get_groups_by_user($account);
+
+  if (empty($groups)) {
+    return array();
+  }
+
+  // Load groups of bundle type.
+  $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
+  return $group_nodes;
+}
