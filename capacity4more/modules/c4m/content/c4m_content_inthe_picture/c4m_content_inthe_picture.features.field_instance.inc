@@ -249,12 +249,12 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-inthe_picture-field_page'
-  $field_instances['node-inthe_picture-field_page'] = array(
+  // Exported field_instance: 'node-inthe_picture-c4m_overview_page'
+  $field_instances['node-inthe_picture-c4m_overview_page'] = array(
     'bundle' => 'inthe_picture',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Select the overview page where this in the picture item should be shown.',
     'display' => array(
       'activity_stream' => array(
         'label' => 'above',
@@ -296,8 +296,8 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_page',
-    'label' => 'Page',
+    'field_name' => 'c4m_overview_page',
+    'label' => 'Overview page',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -316,7 +316,7 @@ function c4m_content_inthe_picture_field_default_field_instances() {
   t('Body');
   t('Image');
   t('Link');
-  t('Page');
+  t('Overview page');
 
   return $field_instances;
 }
