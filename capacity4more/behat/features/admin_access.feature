@@ -19,4 +19,4 @@ Feature: Test custom admin pages
   Scenario: Admin user visits "Group Management" page should see groups table
     Given I am logged in as user "mariecurie"
     When  I go to "admin/c4m/groups"
-    Then  I should see the group management table
+    Then  I should see the groups and the user "mariecurie" in the group management table
