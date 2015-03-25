@@ -50,7 +50,7 @@ class C4mDemoContentCreateInThePicture extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_link', 'link');
 
-    $this->addFieldMapping('field_page', 'page');
+    $this->addFieldMapping('c4m_overview_page', 'page');
   }
 
 }
