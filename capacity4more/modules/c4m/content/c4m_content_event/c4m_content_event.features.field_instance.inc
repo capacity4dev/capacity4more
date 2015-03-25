@@ -1907,9 +1907,9 @@ function c4m_content_event_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'og',
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'og_complex',
+      'type' => 'options_select',
       'weight' => 5,
     ),
   );

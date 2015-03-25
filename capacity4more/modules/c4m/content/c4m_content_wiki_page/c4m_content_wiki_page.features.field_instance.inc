@@ -33,6 +33,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -47,6 +53,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -98,6 +110,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 2,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -114,6 +132,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -168,6 +192,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 7,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -184,6 +214,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -232,6 +268,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 5,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -246,6 +288,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -288,6 +336,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 8,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -302,6 +356,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -345,6 +405,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 6,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -359,6 +425,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -402,6 +474,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'og_list_default',
         'weight' => 0,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'above',
         'settings' => array(),
@@ -415,6 +493,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -466,9 +550,9 @@ function c4m_content_wiki_page_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'og',
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'og_complex',
+      'type' => 'options_select',
       'weight' => 9,
     ),
   );
@@ -495,6 +579,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'type' => 'og_vocab',
         'weight' => 4,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'full' => array(
         'label' => 'hidden',
         'module' => 'og_vocab',
@@ -511,6 +601,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

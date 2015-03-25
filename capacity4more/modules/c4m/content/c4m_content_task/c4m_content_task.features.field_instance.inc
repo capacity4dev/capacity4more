@@ -30,6 +30,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -37,6 +43,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -90,6 +102,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'date_default',
         'weight' => 3,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -97,6 +115,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -153,6 +177,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 6,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -160,6 +190,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -214,6 +250,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 0,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -221,6 +263,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -275,6 +323,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 4,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -282,6 +336,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -337,6 +397,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 2,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -344,6 +410,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -390,6 +462,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 1,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -397,6 +475,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -439,6 +523,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 8,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -446,6 +536,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -488,6 +584,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 9,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -495,6 +597,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -538,6 +646,12 @@ function c4m_content_task_field_default_field_instances() {
         'type' => 'og_list_default',
         'weight' => 7,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -545,6 +659,12 @@ function c4m_content_task_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -596,9 +716,9 @@ function c4m_content_task_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'og',
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'og_complex',
+      'type' => 'options_select',
       'weight' => 10,
     ),
   );
