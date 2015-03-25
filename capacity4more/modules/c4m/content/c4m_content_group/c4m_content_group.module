@@ -41,6 +41,80 @@ function c4m_content_group_block_info() {
 }
 
 /**
+ * Implements hook_entity_insert().
+ *
+ */
+function c4m_content_group_node_insert($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  $admin = user_load(1);
+  $user = user_load($node->uid);
+
+  $to = $admin->mail;
+  $from = variable_get('site_mail', ini_get('sendmail_from'));
+  $language = language_default();
+
+  $module = 'c4m_og';
+  $key = 'group_pending_approval_admin';
+  $params = array(
+    '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+    '@title' => $node->title,
+    '@user' => $user->name,
+  );
+  drupal_mail($module, $key, $to, $language, $params, $from);
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function c4m_content_group_node_update($node) {
+  // Only for OG enabled content type.
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  $original_node = $node->original;
+
+  $status = $node->c4m_og_status[LANGUAGE_NONE][0]['value'];
+
+  if ($status == $original_node->c4m_og_status[LANGUAGE_NONE][0]['value']) {
+    return;
+  }
+
+  switch ($status) {
+    case 'rejected':
+      $key = 'group_rejected_user';
+      break;
+    case 'published':
+      $key = 'group_approved_user';
+      break;
+    default:
+      $key = NULL;
+      break;
+  }
+
+  // Send mail only if there's a key.
+  if ($key) {
+    $user = user_load($node->uid);
+
+    $to = $user->mail;
+    $from = variable_get('site_mail', ini_get('sendmail_from'));
+    $language = language_default();
+
+    $module = 'c4m_og';
+    $params = array(
+      '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+      '@title' => $node->title,
+      '@user' => $user->name,
+    );
+    drupal_mail($module, $key, $to, $language, $params, $from);
+  }
+}
+
+/**
  * Implements hook_block_view().
  */
 function c4m_content_group_block_view($delta = '') {
