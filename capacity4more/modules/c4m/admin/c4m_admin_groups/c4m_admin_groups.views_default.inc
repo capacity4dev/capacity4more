@@ -128,6 +128,35 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'group' => 'group',
   );
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['operator'] = 'contains';
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Name';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: Content: Status (c4m_og_status) */
+  $handler->display->display_options['filters']['c4m_og_status_value']['id'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['table'] = 'field_data_c4m_og_status';
+  $handler->display->display_options['filters']['c4m_og_status_value']['field'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['c4m_og_status_value']['expose']['operator_id'] = 'c4m_og_status_value_op';
+  $handler->display->display_options['filters']['c4m_og_status_value']['expose']['label'] = 'Status';
+  $handler->display->display_options['filters']['c4m_og_status_value']['expose']['operator'] = 'c4m_og_status_value_op';
+  $handler->display->display_options['filters']['c4m_og_status_value']['expose']['identifier'] = 'c4m_og_status_value';
+  $handler->display->display_options['filters']['c4m_og_status_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
