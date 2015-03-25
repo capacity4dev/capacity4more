@@ -121,6 +121,8 @@ java -jar selenium-server-standalone-2.45.0.jar
 #### Install and run Behat
 ```shell
 $ cd capacity4more/behat
+$ cp behat.local.yml.example behat.local.yml
+# Setup your local behat configuration in behat.local.yml file.
 $ composer install
 $ bin/behat
 ```
