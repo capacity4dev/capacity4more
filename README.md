@@ -108,12 +108,12 @@ adding -d top the command:
 For testing use Behat with PhantomJS and SeleniumHQ. To install this software do next steps:
 
 #### Install and run PhantomJS.
-Use next [instruction](https://github.com/Gizra/KnowledgeBase/wiki/Behat-phantomJs-install)
+Use the following [instruction](https://github.com/Gizra/KnowledgeBase/wiki/Behat-phantomJs-install)
 
 #### Install and run SeleniumHQ
 
 Download Selenium Server from next [link](http://docs.seleniumhq.org/download/).
-And run by next command:
+And run with the following command:
 ```
 java -jar selenium-server-standalone-2.45.0.jar
 ```
