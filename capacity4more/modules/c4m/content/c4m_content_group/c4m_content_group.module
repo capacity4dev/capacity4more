@@ -73,15 +73,14 @@ function c4m_content_group_preprocess_block(&$variables) {
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
-  // Hide fields for authenticated users.
   global $user;
   if (!in_array('anonymous user', $user->roles)
     && !in_array('administrator', $user->roles)
     && strpos($form['#action'], 'add')) {
+    // Hide fields for authenticated users.
     $form['c4m_related_group']['#access'] = FALSE;
     $form['c4m_related_projects']['#access'] = FALSE;
     $form['revision_information']['#access'] = FALSE;
-
     // After a form is submitted, run a redirect function.
     $form['#submit'][] = 'c4m_content_group_submit_redirect';
   }
