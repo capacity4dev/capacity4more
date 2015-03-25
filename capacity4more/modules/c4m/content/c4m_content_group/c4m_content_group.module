@@ -75,7 +75,9 @@ function c4m_content_group_preprocess_block(&$variables) {
 function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
   // Hide fields for authenticated users.
   global $user;
-  if (!in_array('anonymous user', $user->roles) && !in_array('administrator', $user->roles)) {
+  if (!in_array('anonymous user', $user->roles)
+    && !in_array('administrator', $user->roles)
+    && strpos($form['#action'], 'add')) {
     $form['c4m_related_group']['#access'] = FALSE;
     $form['c4m_related_projects']['#access'] = FALSE;
     $form['revision_information']['#access'] = FALSE;
