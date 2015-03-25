@@ -34,6 +34,8 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
   public function buildEntityFieldQuery($match = NULL, $match_operator = 'CONTAINS') {
     parent::buildEntityFieldQuery();
 
+    global $user;
+
     $handler = EntityReference_SelectionHandler_Generic::getInstance($this->field, $this->instance, $this->entity_type, $this->entity);
     $query = $handler->buildEntityFieldQuery($match, $match_operator);
 
@@ -58,6 +60,13 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     // Show only the entities that are active groups.
     $query->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=');
 
+    $account = user_load($user->uid);
+    if (user_access('administer site configuration', $account)) {
+      // Site administrator can choose also groups he is not member of.
+      $query->fieldCondition('c4m_og_status', 'value', array('deleted'),'NOT IN');
+      return $query;
+    }
+
     $user_groups = og_get_groups_by_user(NULL, $group_type);
     $user_groups = $user_groups ? $user_groups : array();
 
@@ -70,17 +79,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
     }
 
-    global $user;
-
-    $account = user_load($user->uid);
-    if (user_access('administer nodes', $account)) {
-      // Platform administrator
-      $query->fieldCondition('c4m_og_status', 'value', array('deleted'),'NOT IN');
-    }
-    else {
-      // Group member/owner/admin
-      $query->fieldCondition('c4m_og_status', 'value', array('requested','archived','rejected','deleted'),'NOT IN');
-    }
+    $query->fieldCondition('c4m_og_status', 'value', array('requested','archived','rejected','deleted'),'NOT IN');
 
     return $query;
   }
