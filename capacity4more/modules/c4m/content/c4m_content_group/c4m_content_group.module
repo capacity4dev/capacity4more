@@ -82,7 +82,7 @@ function c4m_content_group_node_access($node, $op, $account) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $value = $wrapper->c4m_og_status->value();
 
-  if (user_access('administer site', $account)) {
+  if (user_access('administer nodes', $account)) {
     // This is site administrator.
     return NODE_ACCESS_IGNORE;
   }

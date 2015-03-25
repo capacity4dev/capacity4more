@@ -70,6 +70,18 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
     }
 
+    global $user;
+
+    $account = user_load($user->uid);
+    if (user_access('administer nodes', $account)) {
+      // Platform administrator
+      $query->fieldCondition('c4m_og_status', array('deleted'),'NOT IN');
+    }
+    else {
+      // Group member/owner/admin
+      $query->fieldCondition('c4m_og_status', array('requested','archived','rejected','deleted'),'NOT IN');
+    }
+
     return $query;
   }
 
