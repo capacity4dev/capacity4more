@@ -346,4 +346,17 @@ trait Group {
 
     return $steps;
   }
+
+  /**
+   * @Given /^I start editing group "([^"]*)"$/
+   */
+  public function iStartEditingGroup($group_title) {
+    $steps = array();
+
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
+
+    return $steps;
+  }
+
 }

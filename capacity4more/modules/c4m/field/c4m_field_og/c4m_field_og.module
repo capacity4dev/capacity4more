@@ -38,7 +38,7 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
     return;
   }
 
-  if (user_access('administer site', $account)) {
+  if (user_access('administer site configuration', $account)) {
     // This is site administrator.
     return TRUE;
   }
@@ -72,7 +72,6 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
 
   if (og_user_access($entity_type, $entity->nid, 'administer group', $account)) {
     // Group administrator.
-
     $allowed_values = array(
       'draft',
       'published',
@@ -100,8 +99,48 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
   $wrapper = entity_metadata_wrapper('node', $entity);
   $value = $wrapper->c4m_og_status->value();
 
-  if (user_access('administer site', $account)) {
+  if (user_access('administer site configuration', $account)) {
     // This is site administrator.
+    $unallowed_values = array(
+      'requested' => array(
+        'archived',
+        'published',
+      ),
+      'draft' => array(
+        'requested',
+        'rejected',
+        'archived',
+      ),
+      'published' => array(
+        'rejected',
+        'requested',
+      ),
+      'archived' => array(
+        'rejected',
+        'requested',
+        'draft',
+      ),
+      'rejected' => array(
+        'requested',
+        'draft',
+        'published',
+        'archived',
+      ),
+      'deleted' => array(
+        'requested',
+        'rejected',
+      ),
+    );
+
+    if ($wrapper->{OG_ACCESS_FIELD}->value()) {
+      unset($unallowed_values['requested']['published']);
+    }
+
+    if (!empty($unallowed_values[$value])) {
+      foreach ($unallowed_values[$value] as $key) {
+        unset($form['c4m_og_status'][LANGUAGE_NONE]['#options'][$key]);
+      }
+    }
     return;
   }
 
