@@ -141,10 +141,6 @@ function c4m_features_overview_events_views_pre_render(&$view) {
  * Implements hook_block_info().
  */
 function c4m_features_overview_events_block_info() {
-  $blocks['event_filter'] = array(
-    'info' => t('Filter for event views'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-  );
   $blocks['event_views_links'] = array(
     'info' => t('Links to event views'),
     'cache' => DRUPAL_CACHE_PER_PAGE,

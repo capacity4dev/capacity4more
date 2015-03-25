@@ -87,6 +87,13 @@
   }
 }
 
+.field-name-c4m-ds-group-membership-type {
+  float: right;
+  line-height: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 .field-name-c4m-related-document {
   margin-top: 50px;
 
@@ -138,6 +145,13 @@
   }
 }
 
+.field-separator {
+  display: inline-block;
+  border-left: 1px solid $gray;
+  margin-left: 10px;
+  padding-left: 10px;
+  line-height: 0.8em;
+}
 
 .field-name-c4m-user-first-and-last-name {
   color: $color-blue;

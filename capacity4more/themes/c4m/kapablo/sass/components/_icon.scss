@@ -11,3 +11,22 @@
   height: 75px;
   width: 75px;
 }
+
+.group-icon {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 30px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 20px 5px 10px 0;
+  padding: 0;
+  float: left;
+
+  &.group-public {
+    background-image: image-url('group-icons/public-group.png');
+  }
+  &.group-private {
+    background-image: image-url('group-icons/private-group.png');
+  }
+}
