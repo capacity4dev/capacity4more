@@ -71,6 +71,11 @@ function c4m_content_group_preprocess_block(&$variables) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ * Hide fields for authenticated users and set submit function.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
  */
 function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
@@ -88,6 +93,7 @@ function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $for
 
 /**
  * Submit form function.
+ * Set redirect and successful message.
  *
  * @param $form
  * @param $form_state
