@@ -103,26 +103,79 @@ adding -d top the command:
    /capacity4more 7. directory.
 7. Restore the backup of the sites/default folder.
 
+
+
 ## Unit testing
    
-For testing use Behat with PhantomJS and SeleniumHQ. To install this software do next steps:
+### Install requirements
 
-#### Install and run PhantomJS.
-Use the following [instruction](https://github.com/Gizra/KnowledgeBase/wiki/Behat-phantomJs-install)
+For testing use Behat with PhantomJS.
 
-#### Install and run SeleniumHQ
+#### Install Behat 
 
-Download Selenium Server from next [link](http://docs.seleniumhq.org/download/).
-And run with the following command:
+To run our tests, we need behat (and some extensions). With composer installed, we can quickly install the right versions: 
+
 ```
-java -jar selenium-server-standalone-2.45.0.jar
-```
-
-#### Install and run Behat
-```shell
-$ cd capacity4more/behat
-$ cp behat.local.yml.example behat.local.yml
-# Setup your local behat configuration in behat.local.yml file.
+$ cd /PATH/TO/capacity4more/capacity4more/behat
 $ composer install
-$ bin/behat
+```
+
+This will download the right versions of all dependencies into the behat/bin folder.
+
+#### Install PhantomJS
+
+To test javascript behaviour we need to install PhantomJs:
+
+```
+$ sudo npm install -g phantomjs
+```
+
+You need to start the webdriver before you start the tests:
+
+```
+$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ phantomjs --webdriver=4444
+```
+
+
+### Configure Behat
+
+Behat needs a configuration file. Copy the example file and fill in the local configuration parameters.
+
+```
+$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cp behat.local.yml.example behat.local.yml
+$ vi behat.local.yml
+```
+
+
+### Run tests
+
+Executing behat is as simple as running
+
+```
+$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ ./bin/behat
+```
+
+This will run all tests.
+
+#### Run specific tests
+
+If you only want to test the API and don't need the JavaScript tests (or you don't have PhantomJS installed/running), you can add tags to our scenarios and only execute them.
+
+There are 2 default tags in use:
+
+**@api** : Run all tests that **don't require** PhantomJs:
+
+```
+$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ ./bin/behat --tags=@api
+```
+
+**@javascript** : Run only the tests that **require** PhantomJs:
+
+```
+$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ ./bin/behat --tags=@javascript
 ```
