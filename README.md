@@ -103,7 +103,24 @@ adding -d top the command:
    /capacity4more 7. directory.
 7. Restore the backup of the sites/default folder.
 
+## Unit testing
+   
+For testing use Behat with PhantomJS and SeleniumHQ. To install this software do next steps:
 
+#### Install and run PhantomJS.
+Use next [instruction](https://github.com/Gizra/KnowledgeBase/wiki/Behat-phantomJs-install)
 
+#### Install and run SeleniumHQ
 
+Download Selenium Server from next [link](http://docs.seleniumhq.org/download/).
+And run by next command:
+```
+java -jar selenium-server-standalone-2.45.0.jar
+```
 
+#### Install and run Behat
+```shell
+$ cd capacity4more/behat
+$ composer install
+$ bin/behat
+```
