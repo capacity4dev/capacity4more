@@ -114,11 +114,11 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = array(
+  /* Filter criterion: Content: Page (c4m_overview_page) */
+  $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['value'] = array(
     'Groups' => 'Groups',
   );
 
@@ -140,11 +140,11 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = array(
+  /* Filter criterion: Content: Page (c4m_overview_page) */
+  $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['value'] = array(
     'Voices & Views' => 'Voices & Views',
   );
 
@@ -166,11 +166,11 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = array(
+  /* Filter criterion: Content: Page (c4m_overview_page) */
+  $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['value'] = array(
     'Groups' => 'Groups',
   );
 
@@ -192,11 +192,11 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = array(
+  /* Filter criterion: Content: Page (c4m_overview_page) */
+  $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['value'] = array(
     'Projects' => 'Projects',
   );
 
@@ -218,11 +218,11 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = array(
+  /* Filter criterion: Content: Page (c4m_overview_page) */
+  $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['value'] = array(
     'Events' => 'Events',
   );
 
@@ -244,11 +244,11 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (field_page) */
-  $handler->display->display_options['filters']['field_page_value']['id'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['table'] = 'field_data_field_page';
-  $handler->display->display_options['filters']['field_page_value']['field'] = 'field_page_value';
-  $handler->display->display_options['filters']['field_page_value']['value'] = array(
+  /* Filter criterion: Content: Page (c4m_overview_page) */
+  $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
+  $handler->display->display_options['filters']['c4m_overview_page_value']['value'] = array(
     'People' => 'People',
   );
   $export['c4m_overview_inthe_picture_blocks'] = $view;
