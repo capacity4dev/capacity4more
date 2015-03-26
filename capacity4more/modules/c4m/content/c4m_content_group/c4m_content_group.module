@@ -71,11 +71,8 @@ function c4m_content_group_preprocess_block(&$variables) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
- * Hide fields for authenticated users and set submit function.
  *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * Hide fields for authenticated users and set submit function.
  */
 function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
   global $user;
@@ -86,12 +83,13 @@ function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $for
     $form['c4m_related_projects']['#access'] = FALSE;
     $form['revision_information']['#access'] = FALSE;
     // After a form is submitted, run a redirect function.
-    $form['#submit'][] = 'c4m_content_group_submit_redirect';
+    $form['actions']['submit']['#submit'][] = 'c4m_content_group_submit_redirect';
   }
 }
 
 /**
  * Submit form function.
+ *
  * Set redirect and successful message.
  *
  * @param $form
@@ -101,5 +99,5 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
   // Set a successful message for a user.
   drupal_set_message(t('The group you requested is pending review by one of the administrators. You will receive an email with the outcome of that review.'));
   // Redirect a user to homepage.
-  drupal_goto('');
+  $form_state['redirect'] = url('', array('absolute' => TRUE));
 }
