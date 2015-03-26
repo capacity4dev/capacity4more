@@ -198,7 +198,8 @@ function c4m_search_default_search_api_index() {
         "status" : { "type" : "integer" },
         "sticky" : { "type" : "boolean" },
         "title" : { "type" : "text", "boost" : "5.0" },
-        "type" : { "type" : "string" }
+        "type" : { "type" : "string" },
+        "views" : { "type" : "integer" }
       }
     },
     "enabled" : "1",
@@ -400,6 +401,19 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "search_api_relevance" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_nodes__views'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_nodes",
+    "field" : "views",
+    "name" : "Number of views",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_nodes__views",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Number of views" },
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{
