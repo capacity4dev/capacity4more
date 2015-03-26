@@ -300,6 +300,7 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
         'module' => 'text',
