@@ -80,11 +80,11 @@ function c4m_content_photo_strongarm() {
       'display' => array(
         'node_gallery_navigation' => array(
           'activity_group' => array(
-            'weight' => '1',
+            'weight' => '17',
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '-100',
+            'weight' => '17',
             'visible' => FALSE,
           ),
         ),
