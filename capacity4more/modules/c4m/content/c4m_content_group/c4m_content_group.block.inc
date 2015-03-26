@@ -53,7 +53,6 @@ function _c4m_content_group_block_header_name_banner() {
     $markup .= theme_html_tag($tag['status']);
   }
 
-
   if (drupal_is_front_page()) {
     // Add group image.
     $file = $wrapper->c4m_banner->value();
