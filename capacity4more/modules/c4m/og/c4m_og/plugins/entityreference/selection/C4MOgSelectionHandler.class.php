@@ -63,7 +63,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $account = user_load($user->uid);
     if (user_access('administer site configuration', $account)) {
       // Site administrator can choose also groups he is not member of.
-      $query->fieldCondition('c4m_og_status', 'value', array('deleted'),'NOT IN');
+      $query->fieldCondition('c4m_og_status', 'value', array('deleted'), 'NOT IN');
       return $query;
     }
 
@@ -79,7 +79,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
     }
 
-    $query->fieldCondition('c4m_og_status', 'value', array('requested','archived','rejected','deleted'),'NOT IN');
+    $query->fieldCondition('c4m_og_status', 'value', array('requested', 'archived', 'rejected', 'deleted'), 'NOT IN');
 
     return $query;
   }
