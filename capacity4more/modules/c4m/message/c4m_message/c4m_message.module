@@ -187,7 +187,7 @@ function c4m_messages_group_info(Message $message) {
   // Add group info for activity stream on the homepage,
   // When the request is from RESTful, "drupal_is_front_page" won't work.
   $handler = og_purl_og_context_handler();
-  if ((drupal_is_front_page() && empty($handler) || (isset($_REQUEST['group']) && is_array($_REQUEST['group'])))) {
+  if (((drupal_is_front_page() || !empty($_GET['homepage'])) && empty($handler) || (isset($_GET['group']) && is_array($_GET['group'])))) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
       $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
       $group_info = t('Group: ') . l($wrapper->label(), $wrapper->value()->purl);
@@ -216,11 +216,6 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
   );
-
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
-    'pass message' => TRUE,
-  );
 }
 
 /**
@@ -241,11 +236,6 @@ function c4m_message_load__c4m_insert__node__article(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
 }
@@ -270,11 +260,6 @@ function c4m_message_load__c4m_insert__node__wiki_page(Message $message) {
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
   );
-
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
-    'pass message' => TRUE,
-  );
 }
 
 /**
@@ -290,11 +275,6 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
 
@@ -320,11 +300,6 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
@@ -347,11 +322,6 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
     'pass message' => TRUE,
   );
 
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
-    'pass message' => TRUE,
-  );
-
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
@@ -371,11 +341,6 @@ function c4m_message_load__c4m_insert__node__event(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
 
@@ -403,11 +368,6 @@ function c4m_message_load__c4m_insert__comment(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_comment',
-    'pass message' => TRUE,
-  );
-
-  $message->arguments['!footer'] = array(
-    'callback' => 'c4m_message_format_footer',
     'pass message' => TRUE,
   );
 }
@@ -525,7 +485,13 @@ function c4m_message_format_comment(Message $message) {
 function c4m_message_format_rendered_node(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
-  $view = node_view($wrapper->field_node->value(), 'activity_stream');
+  $handler = og_purl_og_context_handler();
+  if ((empty($_GET['homepage'])) && !empty($handler)) {
+    $view = node_view($wrapper->field_node->value(), 'activity_group');
+  }
+  else {
+    $view = node_view($wrapper->field_node->value(), 'activity_global');
+  }
 
   return drupal_render($view);
 }
@@ -540,34 +506,6 @@ function c4m_message_format_rendered_node(Message $message) {
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   return $wrapper->field_comment->comment_body->value->value();
-}
-
-/**
- * Return the formatted footer.
- *
- * @param Message $message
- *   The Message entity.
- *
- * @return string
- *   The formated string.
- */
-function c4m_message_format_footer(Message $message) {
-  if ($message->type == 'c4m_insert__comment') {
-    return '';
-  }
-  $items = array();
-  $message_wrapper = entity_metadata_wrapper('message', $message);
-  $node = $message_wrapper->field_node->value();
-  $statistic = statistics_get($node->nid);
-
-  $items['comments'] = theme('c4m_message_entity_comments', array('count' => $node->comment_count));
-  
-  if (empty($statistic['totalcount'])) {
-    $statistic['totalcount'] = 0;
-  }
-  $items['views'] = theme('c4m_message_entity_views', array('count' => $statistic['totalcount']));
-
-  return implode($items);
 }
 
 /**
@@ -764,13 +702,23 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
  * Add "Activity stream" view mode.
  */
 function c4m_message_entity_info_alter(&$entity_info) {
-  $entity_info['message']['view modes']['activity_stream'] = array(
-    'label' => t('Activity stream'),
+  $entity_info['message']['view modes']['activity_group'] = array(
+    'label' => t('Activity group'),
     'custom settings' => TRUE,
   );
 
-  $entity_info['node']['view modes']['activity_stream'] = array(
-    'label' => t('Activity stream'),
+  $entity_info['node']['view modes']['activity_group'] = array(
+    'label' => t('Activity group'),
+    'custom settings' => TRUE,
+  );
+
+  $entity_info['message']['view modes']['activity_global'] = array(
+    'label' => t('Activity global'),
+    'custom settings' => TRUE,
+  );
+
+  $entity_info['node']['view modes']['activity_global'] = array(
+    'label' => t('Activity global'),
     'custom settings' => TRUE,
   );
 }
@@ -779,7 +727,7 @@ function c4m_message_entity_info_alter(&$entity_info) {
  * Node preprocess.
  */
 function c4m_message_preprocess_node(&$variables) {
-  if ($variables['view_mode'] == 'activity_stream') {
+  if ($variables['view_mode'] == 'activity_group' || $variables['view_mode'] == 'activity_global') {
     $variables['theme_hook_suggestions'][] = 'node__activity_stream';
     $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__activity_stream';
   }
@@ -793,7 +741,7 @@ function c4m_message_preprocess_node(&$variables) {
  * Node document preprocess.
  */
 function c4m_message_preprocess_node__document(&$variables) {
-  if ($variables['view_mode'] != 'activity_stream') {
+  if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
     // Current view mode is not an 'activity stream'.
     return;
   }
@@ -821,7 +769,7 @@ function c4m_message_preprocess_node__document(&$variables) {
  * Node event preprocess.
  */
 function c4m_message_preprocess_node__event(&$variables) {
-  if ($variables['view_mode'] != 'activity_stream') {
+  if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
     // Current view mode is not an 'activity stream'.
     return;
   }
@@ -919,13 +867,8 @@ function c4m_message_load_homepage_activity_stream() {
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
     'data' => array(
-      'entity' => array(
-        'group' => $groups,
-        'topics' => $interests,
-        'homepage' => 1,
-        'hide_articles' => $hide_articles,
-      ),
-
+      'request' => $request,
+      'entity' => array('group' => $groups),
     ),
   );
   drupal_add_js($settings, 'setting');
