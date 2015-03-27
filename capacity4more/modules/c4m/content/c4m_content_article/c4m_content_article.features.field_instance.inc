@@ -881,6 +881,92 @@ function c4m_content_article_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-article-c4m_related_articles'
+  $field_instances['node-article-c4m_related_articles'] = array(
+    'bundle' => 'article',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'Select related articles.',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 10,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_articles',
+    'label' => 'Related Articles',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 12,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('A picture to use on the Article listings.');
@@ -897,7 +983,9 @@ function c4m_content_article_field_default_field_instances() {
   t('Image');
   t('Intro text');
   t('Regions & Countries');
+  t('Related Articles');
   t('Related Groups');
+  t('Select related articles.');
   t('Topics');
 
   return $field_instances;
