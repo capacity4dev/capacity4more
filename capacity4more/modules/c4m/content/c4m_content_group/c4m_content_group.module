@@ -68,3 +68,36 @@ function c4m_content_group_preprocess_block(&$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide fields for authenticated users and set submit function.
+ */
+function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  if ($user->uid && !user_access('administer nodes', $user)
+    && strpos($form['#action'], 'add')) {
+    // Hide fields for authenticated users.
+    $form['c4m_related_group']['#access'] = FALSE;
+    $form['c4m_related_projects']['#access'] = FALSE;
+    $form['revision_information']['#access'] = FALSE;
+    // After a form is submitted, run a redirect function.
+    $form['actions']['submit']['#submit'][] = 'c4m_content_group_submit_redirect';
+  }
+}
+
+/**
+ * Submit form function.
+ *
+ * Set redirect and successful message.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function c4m_content_group_submit_redirect(&$form, &$form_state) {
+  // Set a successful message for a user.
+  drupal_set_message(t('The group you requested is pending review by one of the administrators. You will receive an email with the outcome of that review.'));
+  // Redirect a user to homepage.
+  $form_state['redirect'] = url('', array('absolute' => TRUE));
+}

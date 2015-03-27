@@ -50,3 +50,19 @@ Feature: Group access
       And I should see "Access denied"
       And I visit "My content 5" node of type "discussion"
       And I should see "Access denied"
+
+  @api
+  Scenario: Check hidden fields for an authorized user while creating a new group.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/group"
+    Then I should not see an ".field-name-c4m-related-projects" element
+    And I should not see an ".field-name-c4m-related-group" element
+    And I should not see an ".field-name-c4m-og-status" element
+    And I should not see an ".tabbable.tabs-left.vertical-tabs" element
+
+  @javascript
+  Scenario: Check redirect and successful message for an authorized user after create a new group.
+    Given I am logged in as user "isaacnewton"
+    When a group "New group" with "Public" access is created with group manager "isaacnewton"
+    Then I should be on the homepage
+    And I should see "The group you requested is pending review by one of the administrators."
