@@ -154,7 +154,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'library' => array(
         'label' => 'above',
@@ -237,7 +237,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 23,
       ),
       'library' => array(
         'label' => 'above',
@@ -397,7 +397,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 22,
       ),
       'library' => array(
         'label' => 'above',
@@ -499,7 +499,7 @@ function c4m_content_article_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 10,
+        'weight' => 7,
       ),
       'library' => array(
         'label' => 'above',
@@ -578,7 +578,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 11,
+        'weight' => 8,
       ),
       'library' => array(
         'label' => 'above',
