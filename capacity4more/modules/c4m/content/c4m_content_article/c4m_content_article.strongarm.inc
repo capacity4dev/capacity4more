@@ -117,7 +117,7 @@ function c4m_content_article_strongarm() {
           'weight' => '5',
         ),
         'locations' => array(
-          'weight' => '30',
+          'weight' => '6',
         ),
       ),
       'display' => array(),
