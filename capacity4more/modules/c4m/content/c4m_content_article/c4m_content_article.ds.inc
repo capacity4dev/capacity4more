@@ -76,7 +76,7 @@ function c4m_content_article_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_ds_content_disclaimer' => array(
+    'c4m_content_article_disclaimer' => array(
       'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
@@ -153,7 +153,7 @@ function c4m_content_article_ds_layout_settings_info() {
         3 => 'c4m_ds_content_footer_stats',
         4 => 'c4m_intro_text',
         5 => 'c4m_body',
-        6 => 'c4m_ds_content_disclaimer',
+        6 => 'c4m_content_article_disclaimer',
         7 => 'comments',
       ),
       'right' => array(
@@ -168,7 +168,7 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_intro_text' => 'left',
       'c4m_body' => 'left',
-      'c4m_ds_content_disclaimer' => 'left',
+      'c4m_content_article_disclaimer' => 'left',
       'comments' => 'left',
       'c4m_related_topic' => 'right',
       'c4m_vocab_geo' => 'right',

@@ -164,26 +164,6 @@ function theme_c4m_ds_content_footer_stats($field) {
 /**
  * DS function field.
  *
- * Render an <em> tag with the content disclaimer.
- *
- * @param $field
- *
- * @return string
- */
-function theme_c4m_ds_content_disclaimer($field) {
-  $disclaimer = variable_get('c4m_ds_content_disclaimer', 'DISCLAIMER: This information is provided in the interests of knowledge sharing and capacity development and should not be interpreted as the official view of the European Commission, or any other organisation.');
-
-  $tag['element'] = array(
-    '#tag'   => 'em',
-    '#value' => $disclaimer,
-  );
-
-  return theme_html_tag($tag);
-}
-
-/**
- * DS function field.
- *
  * Render group type info
  *
  * @param $field
