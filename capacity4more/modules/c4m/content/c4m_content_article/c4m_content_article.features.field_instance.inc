@@ -457,6 +457,92 @@ function c4m_content_article_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-article-c4m_related_group'
+  $field_instances['node-article-c4m_related_group'] = array(
+    'bundle' => 'article',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'Enter group(s) that are related to this article.',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 8,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_group',
+    'label' => 'Related Groups',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-article-c4m_related_topic'
   $field_instances['node-article-c4m_related_topic'] = array(
     'bundle' => 'article',
@@ -709,11 +795,13 @@ function c4m_content_article_field_default_field_instances() {
   t('Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.');
   t('Content of the Article (HTML).');
   t('Contributors');
+  t('Enter group(s) that are related to this article.');
   t('Enter the name(s) of registered users.');
   t('Has Video');
   t('Image');
   t('Intro text');
   t('Regions & Countries');
+  t('Related Groups');
   t('Topics');
 
   return $field_instances;
