@@ -14,11 +14,24 @@ function c4m_content_article_ds_fields_info($entity_type) {
   $fields = array();
 
   $fields['node']['c4m_content_article_disclaimer'] = array(
-    'title'      => t('Disclaimer'),
+    'title'      => t('Article Disclaimer'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'   => array('article|*'),
     'file'       => $path . '/includes/c4m_content_article.ds_fields.inc',
     'function'   => 'c4m_content_article_disclaimer',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_content_article_contributors'] = array(
+    'title'      => t('Article Contributors'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('article|*'),
+    'file'       => $path . '/includes/c4m_content_article.ds_fields.inc',
+    'function'   => 'c4m_content_article_contributors',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

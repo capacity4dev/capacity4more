@@ -81,6 +81,67 @@ function c4m_content_article_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_content_article_contributors' => array(
+      'weight' => '9',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Topics & Subtopics',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_vocab_geo' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Regions & Countries',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_related_user' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Contributors',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'article-contributors',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_related_group' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Related groups',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_related_articles' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Related Articles',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
   );
   $export['node|article|full'] = $ds_fieldsetting;
 
@@ -157,8 +218,14 @@ function c4m_content_article_ds_layout_settings_info() {
         7 => 'comments',
       ),
       'right' => array(
-        8 => 'c4m_related_topic',
-        9 => 'c4m_vocab_geo',
+        8 => 'group_node_meta',
+        9 => 'c4m_content_article_contributors',
+        10 => 'c4m_related_user',
+        11 => 'c4m_link_multiple',
+        12 => 'c4m_related_topic',
+        13 => 'c4m_vocab_geo',
+        14 => 'c4m_related_group',
+        15 => 'c4m_related_articles',
       ),
     ),
     'fields' => array(
@@ -170,8 +237,14 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_body' => 'left',
       'c4m_content_article_disclaimer' => 'left',
       'comments' => 'left',
+      'group_node_meta' => 'right',
+      'c4m_content_article_contributors' => 'right',
+      'c4m_related_user' => 'right',
+      'c4m_link_multiple' => 'right',
       'c4m_related_topic' => 'right',
       'c4m_vocab_geo' => 'right',
+      'c4m_related_group' => 'right',
+      'c4m_related_articles' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
