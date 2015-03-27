@@ -7,13 +7,15 @@
 /**
  * Overwrite of the normal field renderer so we can link to the proper PURL URL.
  *
- * @see ds_render_field().
- *
  * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered field (if not empty).
+ *
+ * @see ds_render_field()
  */
-function c4m_og_purl_ds_render_field($field) {
+function c4m_og_purl_ds_render_field(array $field) {
   $title_field = FALSE;
 
   $output = '';
@@ -22,10 +24,11 @@ function c4m_og_purl_ds_render_field($field) {
     : array();
   $settings += $field['properties']['default'];
 
-
   // Basic string.
   if (isset($settings['link text'])) {
+    // @codingStandardsIgnoreStart
     $output = t($settings['link text']);
+    // @codingStandardsIgnoreEnd
   }
   elseif (isset($field['properties']['entity_render_key']) && isset($field['entity']->{$field['properties']['entity_render_key']})) {
     if ($field['entity_type'] == 'user' && $field['properties']['entity_render_key'] == 'name') {

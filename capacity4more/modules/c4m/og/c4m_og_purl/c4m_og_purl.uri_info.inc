@@ -4,7 +4,6 @@
  * Functionality to change uri_info based on the entity type and PURL settings.
  */
 
-
 /**
  * Alter uri info based on the given type and the entity in the uri_info.
  *
@@ -17,14 +16,9 @@
  *   - options : the options for the link.
  *               the options should contain the entity for who we want the
  *               uri_info.
- *
- * @return array
- *   URI info. Contains:
- *   - path : the URI path.
- *   - options : the URI options.
  */
-function c4m_og_purl_alter_uri_info($type, &$uri_info) {
-  switch($type) {
+function c4m_og_purl_alter_uri_info($type, array &$uri_info) {
+  switch ($type) {
     case C4M_OG_PURL_LINK_AUTO:
       c4m_og_purl_alter_uri_info_purl_auto($uri_info);
       break;
@@ -44,10 +38,8 @@ function c4m_og_purl_alter_uri_info($type, &$uri_info) {
  *
  * @param array $uri_info
  *   The link info array.
- *
- * @return array
  */
-function c4m_og_purl_alter_uri_info_purl_auto(&$uri_info) {
+function c4m_og_purl_alter_uri_info_purl_auto(array &$uri_info) {
   $entity = $uri_info['options']['entity'];
   $gid = c4m_og_get_gid_from_entity($entity);
 
@@ -71,10 +63,8 @@ function c4m_og_purl_alter_uri_info_purl_auto(&$uri_info) {
  *
  * @param array $uri_info
  *   The link info array.
- *
- * @return array
  */
-function c4m_og_purl_alter_uri_info_purl_disabled(&$uri_info) {
+function c4m_og_purl_alter_uri_info_purl_disabled(array &$uri_info) {
   $uri_info['options']['purl'] = array(
     'disabled' => TRUE,
   );
@@ -85,10 +75,8 @@ function c4m_og_purl_alter_uri_info_purl_disabled(&$uri_info) {
  *
  * @param array $uri_info
  *   The link info array.
- *
- * @return array
  */
-function c4m_og_purl_alter_uri_info_purl_dashboard(&$uri_info) {
+function c4m_og_purl_alter_uri_info_purl_dashboard(array &$uri_info) {
   $entity = $uri_info['options']['entity'];
   $gid = c4m_og_get_gid_from_entity($entity);
 
