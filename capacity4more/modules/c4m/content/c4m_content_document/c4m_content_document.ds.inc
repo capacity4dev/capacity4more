@@ -77,7 +77,7 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'div',
         'class' => 'message-title',
         'ft' => array(),
@@ -87,11 +87,6 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'c4m_body' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
   );
   $export['node|document|activity_global'] = $ds_fieldsetting;
@@ -108,7 +103,7 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'div',
         'class' => 'message-title',
         'ft' => array(),
@@ -134,7 +129,7 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'h2',
         'class' => '',
         'ft' => array(),
@@ -235,9 +230,10 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'h2',
         'class' => '',
+        'ft' => array(),
       ),
     ),
     'links' => array(

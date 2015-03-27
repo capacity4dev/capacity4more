@@ -22,7 +22,7 @@ function c4m_content_article_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_disabled',
         'wrapper' => 'div',
         'class' => 'message-title',
         'ft' => array(),
@@ -51,7 +51,7 @@ function c4m_content_article_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_disabled',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),

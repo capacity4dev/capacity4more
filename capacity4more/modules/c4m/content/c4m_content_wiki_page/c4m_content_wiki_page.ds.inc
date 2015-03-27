@@ -77,7 +77,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'div',
         'class' => 'message-title',
         'ft' => array(),
@@ -87,11 +87,6 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'c4m_body' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
   );
   $export['node|wiki_page|activity_global'] = $ds_fieldsetting;
@@ -108,7 +103,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'div',
         'class' => 'message-title',
         'ft' => array(),
