@@ -151,3 +151,6 @@ dependencies[] = c4m_message
 
 ; Widgets
 dependencies[] = c4m_document_widget
+
+; Organic Groups
+dependencies[] = c4m_og_purl
