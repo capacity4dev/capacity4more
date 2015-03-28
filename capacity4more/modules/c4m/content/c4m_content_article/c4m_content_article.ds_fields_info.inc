@@ -26,18 +26,5 @@ function c4m_content_article_ds_fields_info($entity_type) {
     ),
   );
 
-  $fields['node']['c4m_content_article_contributors'] = array(
-    'title'      => t('Article Contributors'),
-    'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('article|*'),
-    'file'       => $path . '/includes/c4m_content_article.ds_fields.inc',
-    'function'   => 'c4m_content_article_contributors',
-    'properties' => array(
-      'formatters' => array(
-        'default' => t('Default'),
-      ),
-    ),
-  );
-
   return $fields;
 }
