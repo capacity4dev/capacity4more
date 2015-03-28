@@ -397,6 +397,18 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Enter the names of non-registered contributors.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -601,6 +613,18 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select related articles.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -691,6 +715,18 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Enter group(s) that are related to this article.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -871,6 +907,18 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Enter the name(s) of registered users.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
