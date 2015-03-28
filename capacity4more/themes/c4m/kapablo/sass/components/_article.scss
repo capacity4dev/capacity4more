@@ -3,14 +3,20 @@
     .field-name-c4m-banner {
       margin-bottom: 20px;
     }
-
     .field-name-c4m-intro-text {
       font-weight: bold;
       margin-bottom: 20px;
     }
     .group-right {
-      h3 {
+      h3.label-above {
         margin-top: 20px;
+      }
+      .user-name {
+        display: inline;
+        margin-left: 0.2em;
+        &:after {
+          content: ",";
+        }
       }
     }
   }

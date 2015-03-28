@@ -50,7 +50,7 @@ function c4m_content_article_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group meta',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_geo',
@@ -58,7 +58,6 @@ function c4m_content_article_field_group_info() {
       3 => 'c4m_related_group',
       4 => 'c4m_link_multiple',
       5 => 'c4m_related_articles',
-      6 => 'c4m_content_article_contributors',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
