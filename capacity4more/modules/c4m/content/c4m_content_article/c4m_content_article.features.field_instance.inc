@@ -16,11 +16,17 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 17,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -121,14 +127,31 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Content of the Article (HTML).',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => 0,
+          'more_text' => 'Read more',
+          'summary_handler' => 'trim',
+          'trim_length' => 200,
+          'trim_options' => array(
+            'text' => 'text',
+          ),
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
+        'weight' => 1,
+      ),
+      'activity_group' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -208,11 +231,17 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 21,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -283,11 +312,17 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
       ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
@@ -456,11 +491,17 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'A picture to use on the Article listings.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 19,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
       ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
@@ -740,11 +781,17 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 18,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -913,11 +960,17 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_global' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',

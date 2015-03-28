@@ -89,7 +89,7 @@ function c4m_content_document_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
-      'activity_stream' => array(
+      'activity_group' => array(
         'custom_settings' => TRUE,
       ),
       'revision' => array(

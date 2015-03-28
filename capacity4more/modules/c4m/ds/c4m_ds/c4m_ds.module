@@ -410,10 +410,22 @@ function c4m_ds_field_formatter_view($entity_type, $entity, $field, $instance, $
  * Implements hook_theme().
  */
 function c4m_ds_theme() {
+  $path = drupal_get_path('module', 'c4m_ds') . '/templates';
+
   return array(
     'c4m_ds_formatter_link_and_size' => array(
       'variables' => array('file' => NULL, 'icon_directory' => NULL, 'text' => NULL),
-      'file'      => 'includes/c4m_ds.theme.file.inc',
+      'file' => 'includes/c4m_ds.theme.file.inc',
+    ),
+    'c4m_ds_entity_comments_count' => array(
+      'variables' => array('count' => 0),
+      'path' => $path,
+      'template' => 'c4m_ds_entity_comments_count',
+    ),
+    'c4m_ds_entity_views_count' => array(
+      'variables' => array('count' => 0),
+      'path' => $path,
+      'template' => 'c4m_ds_entity_views_count',
     ),
   );
 }
