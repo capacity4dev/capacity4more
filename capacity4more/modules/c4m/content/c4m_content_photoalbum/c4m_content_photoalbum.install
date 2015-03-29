@@ -46,7 +46,7 @@ function _c4m_content_photoalbum_create_relationship() {
   $r->settings['relationship_type']['item_types'] = array(C4M_PHOTOALBUM_ITEM_TYPE);
   $r->settings['view_modes']['full']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_1';
   $r->settings['view_modes']['teaser']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_6';
-  $r->settings['view_modes']['activity_stream']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_7';
+  $r->settings['view_modes']['activity_group']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_7';
   $r->settings['item_view']['view_navigator_item_display'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_5';
   $r->filefield_name = C4M_PHOTOALBUM_FIELD_NAME;
   $r->label = $r->settings['relationship']['name'];

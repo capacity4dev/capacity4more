@@ -21,8 +21,7 @@ function c4m_search_filter_search_filter_form($form, &$form_state, $filter_type 
 
   // Add groups filter.
   if ($filter_type == 'all' || $filter_type == 'groups') {
-    $groups = og_get_groups_by_user();
-    if (!empty($groups)) {
+    if (c4m_user_og_has_groups()) {
       $options += array('groups' => t('My groups'));
     }
   }

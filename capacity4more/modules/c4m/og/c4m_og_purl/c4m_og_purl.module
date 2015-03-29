@@ -1,0 +1,35 @@
+<?php
+/**
+ * @file
+ * Hooks & plugins for the c4m_og_purl module.
+ */
+
+// Link types that can be used to auto-magically create the proper URL.
+define ('C4M_OG_PURL_LINK_AUTO', 'purl_auto');
+define ('C4M_OG_PURL_LINK_DISABLED', 'purl_disabled');
+define ('C4M_OG_PURL_LINK_DASHBOARD', 'purl_og_dashboard');
+
+include_once 'c4m_og_purl.ds_render_field.inc';
+include_once 'c4m_og_purl.uri_info.inc';
+
+
+/**
+ * Implements hook_ds_fields_info_alter().
+ */
+function c4m_og_purl_ds_fields_info_alter(&$fields, $entity_type) {
+  // Replace the title render function for title fields.
+  if (isset($fields['title'])) {
+    $fields['title']['function'] = 'c4m_og_purl_ds_render_field';
+  }
+
+  // Add extra link type options.
+  if (isset($fields['title']['properties']['settings']['link']['options'])) {
+    $options = $fields['title']['properties']['settings']['link']['options'];
+    $options[C4M_OG_PURL_LINK_AUTO] = t('Yes, auto PURL');
+    $options[C4M_OG_PURL_LINK_DISABLED] = t('Yes, disable PURL');
+    $options[C4M_OG_PURL_LINK_DASHBOARD] = t('Yes, to group dashboard');
+    $fields['title']['properties']['settings']['link']['options'] = $options;
+  }
+
+  $fields;
+}

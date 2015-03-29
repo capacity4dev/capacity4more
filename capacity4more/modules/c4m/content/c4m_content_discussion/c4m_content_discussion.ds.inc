@@ -67,6 +67,58 @@ function c4m_content_discussion_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|discussion|activity_global';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'discussion';
+  $ds_fieldsetting->view_mode = 'activity_global';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'div',
+        'class' => 'message-title',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|discussion|activity_global'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|discussion|activity_group';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'discussion';
+  $ds_fieldsetting->view_mode = 'activity_group';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'div',
+        'class' => 'message-title',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|discussion|activity_group'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|discussion|full';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'discussion';
@@ -264,9 +316,10 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_auto',
         'wrapper' => 'h2',
         'class' => '',
+        'ft' => array(),
       ),
     ),
     'c4m_user_first_and_last_name' => array(
@@ -349,6 +402,70 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['comment|comment_node_discussion|default'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|discussion|activity_global';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'discussion';
+  $ds_layout->view_mode = 'activity_global';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'c4m_body',
+        2 => 'c4m_ds_content_footer_stats',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'c4m_body' => 'ds_content',
+      'c4m_ds_content_footer_stats' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|discussion|activity_global'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|discussion|activity_group';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'discussion';
+  $ds_layout->view_mode = 'activity_group';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'c4m_body',
+        2 => 'c4m_ds_content_footer_stats',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'c4m_body' => 'ds_content',
+      'c4m_ds_content_footer_stats' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|discussion|activity_group'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
