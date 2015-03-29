@@ -79,8 +79,12 @@ function c4m_content_photoalbum_strongarm() {
       ),
       'display' => array(
         'node_gallery_view' => array(
-          'activity_stream' => array(
-            'weight' => '1',
+          'activity_group' => array(
+            'weight' => '2',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '2',
             'visible' => TRUE,
           ),
         ),

@@ -46,7 +46,7 @@ function c4m_message_strongarm() {
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
-          'activity_stream' => array(
+          'activity_group' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),
