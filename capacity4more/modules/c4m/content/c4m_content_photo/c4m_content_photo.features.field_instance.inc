@@ -453,9 +453,9 @@ function c4m_content_photo_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'options',
+      'module' => 'og',
       'settings' => array(),
-      'type' => 'options_select',
+      'type' => 'og_complex',
       'weight' => 6,
     ),
   );
