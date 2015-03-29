@@ -79,7 +79,13 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       $query->propertyCondition($entity_info['entity keys']['id'], -1, '=');
     }
 
-    $query->fieldCondition('c4m_og_status', 'value', array('requested', 'archived', 'rejected', 'deleted'), 'NOT IN');
+    $unallowed_values = array(
+      'requested',
+      'archived',
+      'rejected',
+      'deleted'
+    );
+    $query->fieldCondition('c4m_og_status', 'value', $unallowed_values, 'NOT IN');
 
     return $query;
   }
