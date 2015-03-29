@@ -38,7 +38,7 @@ function c4m_features_og_manage_group_details_content_type_edit_form($form, &$fo
 function c4m_features_og_manage_group_details_content_type_theme(&$theme, $plugin) {
   $theme['c4m_features_og_manage_group_details'] = array(
     'variables' => array(
-      'events' => NULL,
+      'details' => NULL,
     ),
     'path' => $plugin['path'],
     'template' => 'group-details',
