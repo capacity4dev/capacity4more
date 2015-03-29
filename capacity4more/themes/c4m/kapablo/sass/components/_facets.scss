@@ -4,6 +4,12 @@
   display: inline-block;
   margin-bottom: 10px;
 
+  &.fl-public {
+    background-image: image-url('group-icons/public-group.png');
+  }
+  &.fl-private {
+    background-image: image-url('group-icons/private-group.png');
+  }
   &.fl-debate {
     @include image-icon-png-fallback('icons', 'discussion-qp-debate-hover');
   }

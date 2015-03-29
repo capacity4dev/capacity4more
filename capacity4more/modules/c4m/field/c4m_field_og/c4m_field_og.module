@@ -38,7 +38,7 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
     return;
   }
 
-  if (user_access('administer nodes', $account)) {
+  if (user_access('administer site configuration', $account)) {
     // This is site administrator.
     return TRUE;
   }
@@ -99,7 +99,7 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
   $wrapper = entity_metadata_wrapper('node', $entity);
   $value = $wrapper->c4m_og_status->value();
 
-  if (user_access('administer nodes', $account)) {
+  if (user_access('administer site configuration', $account)) {
     // This is site administrator.
     $unallowed_values = array(
       'requested' => array(

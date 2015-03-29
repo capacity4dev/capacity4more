@@ -198,11 +198,113 @@ function theme_c4m_ds_group_members_count($field) {
     return NULL;
   }
 
-  $group_members = c4m_og_get_members_count($field['entity']);
+  $members = c4m_og_get_members_count($field['entity']);
 
   $tag['element'] = array(
     '#tag'   => 'span',
-    '#value' => t('@count members', array('@count' => $group_members)),
+    '#value' => format_plural($members, '1 member', '@count members', array('@count' => $members)),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group posts count.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_posts_count($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $posts = c4m_og_get_posts_count($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group access type.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_type($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $group_type = c4m_og_get_access_type($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => $group_type['title'],
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group access type icon.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_type_icon($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  $group_type = c4m_og_get_access_type($field['entity']);
+
+  $tag['element'] = array(
+    '#tag'       => 'span',
+    '#attributes' => array(
+      'class' => array('group-icon', 'group-' . $group_type['type']),
+    ),
+    '#value'     => '',
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
+ * DS function field.
+ *
+ * Render group membership type.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_membership_type($field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+
+  // Get membership type.
+  global $user;
+  $group = node_load($field['entity']->nid);
+  $group_membership_type = c4m_user_og_get_role_in_group_human($user, $group);
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => $group_membership_type,
   );
 
   return theme_html_tag($tag);
