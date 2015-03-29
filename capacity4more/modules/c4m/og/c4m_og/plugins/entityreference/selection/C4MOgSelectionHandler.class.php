@@ -83,7 +83,7 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       'requested',
       'archived',
       'rejected',
-      'deleted'
+      'deleted',
     );
     $query->fieldCondition('c4m_og_status', 'value', $unallowed_values, 'NOT IN');
 
