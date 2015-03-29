@@ -109,15 +109,20 @@ function c4m_content_group_node_access($node, $op, $account) {
   if (og_is_member('node', $node->nid, 'user', $account)) {
 
     if (!og_user_access('node', $node->nid, 'administer group', $account) && $op == 'update') {
-      // not group administrator.
+      // Not group administrator can't change group.
       return NODE_ACCESS_DENY;
     }
 
     if (in_array($value, array('requested', 'rejected', 'deleted')) && ($op == 'view' || $op == 'update')) {
-      // Anonymous user can't view groups that  are not public with
-      // published or archived status.
+      // Group member can't view groups with requested, rejected or deleted status.
       return NODE_ACCESS_DENY;
     }
+  }
+
+  if ($op == 'update' || in_array($value, array('requested', 'draft', 'rejected', 'deleted'))) {
+    // Authenticated users not members of the group can only view groups with
+    // published and archived status.
+    return NODE_ACCESS_DENY;
   }
 
   return NODE_ACCESS_IGNORE;
@@ -154,4 +159,43 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
   drupal_set_message(t('The group you requested is pending review by one of the administrators. You will receive an email with the outcome of that review.'));
   // Redirect a user to homepage.
   $form_state['redirect'] = url('', array('absolute' => TRUE));
+}
+
+/**
+ * Implements hook_og_user_access_alter().
+ *
+ * Set permissions to users based on og_role and group status.
+ */
+function c4m_content_group_og_user_access_alter(&$perm, $context) {
+
+  $account = $context['account'];
+  $group = $context['group'];
+
+  if (!$account->uid) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $status = $wrapper->c4m_og_status->value();
+
+  $site_admin = user_access('administer site configuration', $account);
+  $group_owner = $account->uid == $group->uid;
+  $group_admin = !empty($perm['administer group']) ? $perm['administer group'] : FALSE;
+
+  if ($site_admin || $group_owner || $group_admin) {
+    // Site admin/group owner/group admin can invite/approve group members only
+    // for Draft and Published groups.
+
+    if ($status != 'draft' && $status != 'published') {
+      $perm['add user'] = FALSE;
+      $perm['approve and deny subscription'] = FALSE;
+    }
+  }
+  else if (!og_is_member('node', $group->nid, 'user', $account)) {
+    // Users that are not members can ask membership only for published groups.
+
+    if ($status != 'published') {
+      $perm['subscribe'] = FALSE;
+    }
+  }
 }
