@@ -170,6 +170,10 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
   $account = $context['account'];
   $group = $context['group'];
 
+  if ($group->type != 'group') {
+    return;
+  }
+
   if (!$account->uid) {
     return;
   }
@@ -190,7 +194,14 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
       $perm['approve and deny subscription'] = FALSE;
     }
   }
-  else if (!og_is_member('node', $group->nid, 'user', $account)) {
+  else {
+    // Not site admin/group owner/group admin can't invite/approve group members.
+    $perm['add user'] = FALSE;
+    $perm['approve and deny subscription'] = FALSE;
+  }
+
+
+  if (!og_is_member('node', $group->nid, 'user', $account)) {
     // Users that are not members can ask membership only for published groups.
 
     if ($status != 'published') {
