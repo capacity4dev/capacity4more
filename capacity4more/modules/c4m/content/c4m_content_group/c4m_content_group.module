@@ -84,7 +84,7 @@ function c4m_content_group_node_access($node, $op, $account) {
 
   if (user_access('administer site configuration', $account)) {
     // This is site administrator.
-    return NODE_ACCESS_IGNORE;
+    return NODE_ACCESS_ALLOW;
   }
 
   if (!$account->uid) {
@@ -94,6 +94,7 @@ function c4m_content_group_node_access($node, $op, $account) {
       // published or archived status.
       return NODE_ACCESS_DENY;
     }
+    return NODE_ACCESS_IGNORE;
   }
 
   if ($account->uid == $node->uid) {
@@ -102,7 +103,6 @@ function c4m_content_group_node_access($node, $op, $account) {
       // Group owner can't view deleted groups.
       return NODE_ACCESS_DENY;
     }
-
     return NODE_ACCESS_ALLOW;
   }
 
@@ -118,8 +118,7 @@ function c4m_content_group_node_access($node, $op, $account) {
       return NODE_ACCESS_DENY;
     }
   }
-
-  if ($op == 'update' || in_array($value, array('requested', 'draft', 'rejected', 'deleted'))) {
+  else if ($op == 'update' || in_array($value, array('requested', 'draft', 'rejected', 'deleted'))) {
     // Authenticated users not members of the group can only view groups with
     // published and archived status.
     return NODE_ACCESS_DENY;
