@@ -92,7 +92,7 @@ function c4m_content_event_strongarm() {
       'library' => array(
         'custom_settings' => TRUE,
       ),
-      'activity_stream' => array(
+      'activity_group' => array(
         'custom_settings' => TRUE,
       ),
       'c4m_dashboard' => array(

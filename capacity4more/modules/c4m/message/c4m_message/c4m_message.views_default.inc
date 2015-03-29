@@ -31,7 +31,7 @@ function c4m_message_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'activity_stream';
+  $handler->display->display_options['row_options']['view_mode'] = 'activity_group';
   /* Relationship: Entity Reference: Referenced Entity */
   $handler->display->display_options['relationships']['field_node_target_id']['id'] = 'field_node_target_id';
   $handler->display->display_options['relationships']['field_node_target_id']['table'] = 'field_data_field_node';
