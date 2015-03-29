@@ -92,6 +92,28 @@ function c4m_features_og_manage_default_page_manager_pages() {
   $display->uuid = '64886205-27ad-4340-99e5-94b18d31189e';
   $display->content = array();
   $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-6a0022f6-90d2-4d90-809b-2b922b35a788';
+    $pane->panel = 'left';
+    $pane->type = 'group_details';
+    $pane->subtype = 'group_details';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6a0022f6-90d2-4d90-809b-2b922b35a788';
+    $display->content['new-6a0022f6-90d2-4d90-809b-2b922b35a788'] = $pane;
+    $display->panels['left'][0] = 'new-6a0022f6-90d2-4d90-809b-2b922b35a788';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
