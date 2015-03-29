@@ -54,7 +54,7 @@ function _c4m_content_group_block_header_name_banner() {
 
   // If current page is the Group Management page and user has 'administer group' access,
   // Print an edit link (In the block where the banner should be).
-  if (current_path() == 'manage' && og_user_access($group->type, $group->nid, 'administer group')) {
+  if (current_path() == 'manage' && og_user_access($wrapper->type(), $wrapper->getIdentifier(), 'administer group')) {
     $edit_link = l(t('Edit'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)));
     $tag['element'] = array(
       '#tag' => 'div',
