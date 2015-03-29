@@ -98,7 +98,7 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_og_dashboard',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(
@@ -237,7 +237,7 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => '1',
+        'link' => 'purl_og_dashboard',
         'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),

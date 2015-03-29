@@ -202,6 +202,9 @@ projects[term_reference_tree][version] = "1.10"
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
 
+projects[smart_trim][subdir] = "contrib"
+projects[smart_trim][version] = "1.4"
+
 projects[summary_settings][subdir] = "contrib"
 projects[summary_settings][version] = "1.x-dev"
 
