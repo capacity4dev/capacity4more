@@ -43,6 +43,8 @@ function c4m_content_group_block_info() {
 /**
  * Implements hook_entity_insert().
  *
+ * Sends notifications (By email) to site administrators to notify
+ * about a new group request.
  */
 function c4m_content_group_node_insert($node) {
   // Only for OG enabled content type.
@@ -50,25 +52,41 @@ function c4m_content_group_node_insert($node) {
     return;
   }
 
-  $admin = user_load(1);
-  $user = user_load($node->uid);
+  // Get all site administrators.
+  $admin_role = user_role_load_by_name('administrator');
+  $results = db_select('users_roles', 'r')
+            ->fields('r', array('uid'))
+            ->condition('rid', $admin_role->rid, '=')
+            ->execute()
+            ->fetchAll();
 
-  $to = $admin->mail;
-  $from = variable_get('site_mail', ini_get('sendmail_from'));
-  $language = language_default();
+  // Send a notification for each site admin.
+  if (!empty($results)) {
+    foreach ($results as $result) {
+      $admin = user_load($result->uid);
+      $user = user_load($node->uid);
 
-  $module = 'c4m_og';
-  $key = 'group_pending_approval_admin';
-  $params = array(
-    '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
-    '@title' => $node->title,
-    '@user' => $user->name,
-  );
-  drupal_mail($module, $key, $to, $language, $params, $from);
+      $to = $admin->mail;
+      $from = variable_get('site_mail', ini_get('sendmail_from'));
+      $language = language_default();
+
+      $module = 'c4m_og';
+      $key = 'group_pending_approval_admin';
+      $params = array(
+        '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
+        '@title' => $node->title,
+        '@user' => $user->name,
+      );
+      drupal_mail($module, $key, $to, $language, $params, $from);
+    }
+  }
 }
 
 /**
  * Implements hook_node_update().
+ *
+ * Sends notifications (By email) to the group author,
+ * when the group status changes (Rejected/ Approved).
  */
 function c4m_content_group_node_update($node) {
   // Only for OG enabled content type.

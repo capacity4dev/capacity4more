@@ -329,6 +329,8 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
 
 /**
  * Implements hook_mail().
+ *
+ * Defines the subject and body of the message depending on the "key".
  */
 function c4m_og_mail($key, &$message, $params) {
   switch ($key) {
