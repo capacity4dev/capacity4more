@@ -98,6 +98,7 @@ function c4m_content_group_node_update($node) {
 
   $status = $node->c4m_og_status[LANGUAGE_NONE][0]['value'];
 
+  // Don't do anything if status did NOT change.
   if ($status == $original_node->c4m_og_status[LANGUAGE_NONE][0]['value']) {
     return;
   }
