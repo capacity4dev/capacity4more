@@ -145,6 +145,8 @@ trait Group {
     // Check there was no error.
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
+    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     return $steps;
   }
 
@@ -356,6 +358,21 @@ trait Group {
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
     $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
 
+    return $steps;
+  }
+
+  /**
+   * @Given /^The group "([^"]*)" status is changed by admin to "([^"]*)"$/
+   */
+  public function theGroupStatusIsChangedByAdminTo($group_title, $status) {
+    $steps = array();
+
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $steps[] = new Step\When('I am logged in as user "admin"');
+    $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I wait');
     return $steps;
   }
 
