@@ -395,3 +395,26 @@ function _c4m_og_group_type_getter_callback($item) {
     return ucfirst($group_access['type']);
   }
 }
+
+/**
+ * Get the group nid of the given entity.
+ *
+ * @param object $entity
+ *   The entity we want the group id of.
+ *
+ * @return NULL|int
+ *   The group ID if any.
+ */
+function c4m_og_get_gid_from_entity($entity) {
+  if (og_is_group_type('node', $entity->type)) {
+    return (int) $entity->nid;
+  }
+
+  if (og_is_group_content_type('node', $entity->type)
+    && isset($entity->og_group_ref[LANGUAGE_NONE][0]['target_id'])
+  ) {
+    return (int) $entity->og_group_ref[LANGUAGE_NONE][0]['target_id'];
+  }
+
+  return NULL;
+}

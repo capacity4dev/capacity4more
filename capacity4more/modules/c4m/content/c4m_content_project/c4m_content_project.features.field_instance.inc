@@ -16,7 +16,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -85,7 +85,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Description about the Project.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -134,7 +134,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Contract numbers from the CRIS platform.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -180,7 +180,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Decision numbers from the CRIS platform.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -225,7 +225,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Start + End date of the Project.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -285,7 +285,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Names of organisations & companies who implement the project.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -330,7 +330,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'A picture to use on the Project dashboard and Project listings',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -399,7 +399,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -740,7 +740,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Names of organisations & companies who are the partners (stakeholders) of the Project.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -787,7 +787,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -842,7 +842,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -892,7 +892,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Names of organisations & companies who fund the Project.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -938,7 +938,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -985,7 +985,7 @@ function c4m_content_project_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

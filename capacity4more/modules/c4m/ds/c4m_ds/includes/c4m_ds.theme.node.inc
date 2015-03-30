@@ -137,26 +137,30 @@ function theme_c4m_ds_type_posted_by($field) {
 }
 
 /**
- * DS function field.
+ * Get all entity stats in one field.
  *
- * Render a span with the relevant content type icon.
- *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
  * @return string
+ *   The rendered field.
  */
-function theme_c4m_ds_content_footer_stats($field) {
-  // HOOK CALLBACK????
-
+function theme_c4m_ds_content_footer_stats(array $field) {
   $entity = $field['entity'];
 
-  $statistic         = statistics_get($entity->nid);
-  $items['comments'] = theme('c4m_message_entity_comments', array('count' => $entity->comment_count));
+  $items['comments'] = theme(
+    'c4m_ds_entity_comments_count',
+    array('count' => $entity->comment_count)
+  );
 
+  $statistic = statistics_get($entity->nid);
   if (empty($statistic['totalcount'])) {
     $statistic['totalcount'] = 0;
   }
-  $items['views'] = theme('c4m_message_entity_views', array('count' => $statistic['totalcount']));
+  $items['views'] = theme(
+    'c4m_ds_entity_views_count',
+    array('count' => $statistic['totalcount'])
+  );
 
   return implode($items);
 }
