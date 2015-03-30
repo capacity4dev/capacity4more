@@ -15,8 +15,9 @@
  *   The text variables.
  *
  * @return string
+ *   The mail text.
  */
-function _c4m_content_group_mail_text($key, $language, $variables) {
+function _c4m_content_group_mail_text($key, $language, array $variables) {
   // Try to load the text first from variable.
   $text = variable_get($key, NULL);
   if ($text) {
@@ -38,8 +39,9 @@ function _c4m_content_group_mail_text($key, $language, $variables) {
  *   The text variables.
  *
  * @return string
+ *   The text to use in the outgoing email.
  */
-function _c4m_content_group_mail_text_default($key, $language, $variables) {
+function _c4m_content_group_mail_text_default($key, $language, array $variables) {
   $options = array();
   if (!empty($language->langcode)) {
     $options['langcode'] = $language->langcode;
