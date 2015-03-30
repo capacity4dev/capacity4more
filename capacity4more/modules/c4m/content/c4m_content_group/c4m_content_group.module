@@ -41,7 +41,25 @@ function c4m_content_group_block_info() {
 }
 
 /**
- * Implements hook_entity_insert().
+ * Implements hook_module_implements_alter().
+ *
+ * Make sure that:
+ * - c4m_content_group_node_insert().
+ * - c4m_content_group_node_update().
+ * Are called last.
+ */
+function c4m_content_group_module_implements_alter(&$implementations, $hook) {
+  $last_hooks = array('node_insert', 'node_update');
+
+  if (in_array($hook, $last_hooks)) {
+    $group = $implementations['c4m_content_group'];
+    unset($implementations['c4m_content_group']);
+    $implementations['c4m_content_group'] = $group;
+  }
+}
+
+/**
+ * Implements hook_node_insert().
  *
  * Sends notifications (By email) to site administrators to notify
  * about a new group request.
@@ -64,21 +82,10 @@ function c4m_content_group_node_insert($node) {
   if (!empty($results)) {
     foreach ($results as $result) {
       $admin = user_load($result->uid);
-      $user = user_load($node->uid);
-
-      $to = $admin->mail;
-      $from = variable_get('site_mail', ini_get('sendmail_from'));
-      $language = language_default();
 
       // Send the actual mail.
-      $module = 'c4m_content_group';
       $key = 'group_pending_approval_admin';
-      $params = array(
-        '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
-        '@title' => $node->title,
-        '@user' => $user->name,
-      );
-      drupal_mail($module, $key, $to, $language, $params, $from);
+      c4m_content_group_send_mail($key, $admin, $node);
     }
   }
 }
@@ -104,6 +111,7 @@ function c4m_content_group_node_update($node) {
     return;
   }
 
+  $key = NULL;
   switch ($status_new) {
     case 'rejected':
       $key = 'group_rejected_user';
@@ -113,29 +121,56 @@ function c4m_content_group_node_update($node) {
     case 'published':
       $key = 'group_approved_user';
       break;
-
-    default:
-      $key = NULL;
-      break;
   }
 
   // Send mail only if there's a key.
   if ($key) {
-    $user = user_load($node->uid);
-
-    $to = $user->mail;
-    $from = variable_get('site_mail', ini_get('sendmail_from'));
-    $language = language_default();
-
-    // Send the mail.
-    $module = 'c4m_content_group';
-    $params = array(
-      '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
-      '@title' => $node->title,
-      '@user' => $user->name,
-    );
-    drupal_mail($module, $key, $to, $language, $params, $from);
+    $account = user_load($node->uid);
+    c4m_content_group_send_mail($key, $account, $node);
   }
+}
+
+/**
+ * Helper to send out an email.
+ *
+ * @param string $key
+ *   The message type key.
+ * @param object $account
+ *   The user where to send the mail to.
+ * @param object $group
+ *   The group to send the mail for.
+ *
+ * @return array
+ *   The $message array structure containing all details of the
+ *   message. If already sent ($send = TRUE), then the 'result' element
+ *   will contain the success indicator of the e-mail, failure being already
+ *   written to the watchdog. (Success means nothing more than the message being
+ *   accepted at php-level, which still doesn't guarantee it to be delivered.)
+ */
+function c4m_content_group_send_mail($key, $account, $group) {
+  $language = user_preferred_language($account, language_default());
+
+  $owner = user_load($group->uid);
+
+  $module = 'c4m_content_group';
+  $to = $account->mail;
+
+  $url_options = array(
+    'absolute' => TRUE,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+      'id' => $group->nid,
+    ),
+  );
+  $params = array(
+    '@group_info_url' => url('node/' . $group->nid, $url_options),
+    '@group_dashboard_url' => url('<front>', $url_options),
+    '@group_owner' => $owner->name,
+    '@group_title' => $group->title,
+  );
+  $from = variable_get('site_mail', ini_get('sendmail_from'));
+
+  return drupal_mail($module, $key, $to, $language, $params, $from);
 }
 
 /**

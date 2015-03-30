@@ -54,7 +54,7 @@ function _c4m_content_group_mail_text_default($key, $language, $variables) {
     case 'group_pending_approval_admin_body':
       $text = t('Hello,
 
-A new request from user: @user for a group titled "@title" has been created (@url).',
+A new request from user: @group_owner for a group titled "@group_title" has been created (@group_dashboard_url).',
         $variables,
         $options
       );
@@ -65,9 +65,9 @@ A new request from user: @user for a group titled "@title" has been created (@ur
       break;
 
     case 'group_rejected_user_body':
-      $text = t('Hello @user,
+      $text = t('Hello @group_owner,
 
-Your group titled "@title" has been rejected.',
+Your group titled "@group_title" has been rejected.',
         $variables,
         $options
       );
@@ -78,9 +78,9 @@ Your group titled "@title" has been rejected.',
       break;
 
     case 'group_approved_user_body':
-      $text = t('Hello @user,
+      $text = t('Hello @group_owner,
 
-Your group titled "@title" has been approved (@url).',
+Your group titled "@group_title" has been approved (@group_dashboard_url).',
         $variables,
         $options);
       break;
