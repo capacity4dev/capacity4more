@@ -1,0 +1,114 @@
+<?php
+/**
+ * @file
+ * Code for the Search Filter feature.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_search_filter_block_info() {
+  $blocks['search_filter'] = array(
+    'info' => t('Search Filter: groups & interests'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  $blocks['search_filter_groups'] = array(
+    'info' => t('Search Filter: groups'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  $blocks['search_filter_interests'] = array(
+    'info' => t('Search Filter: interests'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_search_filter_block_view($delta = '') {
+  module_load_include('inc', 'c4m_search_filter', 'includes/c4m_search_filter.block');
+  $callback = '_c4m_search_filter_block_' . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+  return $callback();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_search_filter_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'c4m_search_filter_search_filter_form') {
+    // Unset hidden fields so they don't appear in the url.
+    unset($form['form_id'], $form['#token'], $form['form_build_id'], $form['#build_id']);
+  }
+}
+
+/**
+ * Implements hook_search_api_query_alter().
+ */
+function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query) {
+  $params = drupal_get_query_parameters();
+  if (empty($params['filter'])) {
+    return;
+  }
+
+  global $user;
+
+  switch ($params['filter']) {
+    case 'groups':
+      // Get groups.
+      $groups = og_get_groups_by_user();
+      if (isset($groups['node'])) {
+        $groups = $groups['node'];
+      }
+      else {
+        return;
+      }
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on groups.
+      foreach ($groups as $group) {
+        if (0 === strpos(current_path(), 'groups', 0)) {
+          $filter->condition('nid', $group);
+        }
+        else {
+          $filter->condition('og_group_ref', $group);
+        }
+      }
+
+      // Apply filter.
+      $query->filter($filter);
+      break;
+    case 'interests':
+      // Get user object.
+      $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+
+      // Get interests & regions.
+      $interests = $user_wrapper->c4m_related_topic->raw();
+      $regions = $user_wrapper->c4m_vocab_geo->raw();
+      if (empty($interests) && empty($regions)) {
+        return;
+      }
+
+      // Create filter.
+      $filter = $query->createFilter('OR');
+
+      // Filter on interests.
+      foreach ($interests as $interest) {
+        $filter->condition('c4m_related_topic', $interest);
+      }
+
+      // Filter on geographic regions.
+      foreach ($regions as $region) {
+        $filter->condition('c4m_vocab_geo', $region);
+      }
+
+      // Apply filter.
+      $query->filter($filter);
+      break;
+  }
+}

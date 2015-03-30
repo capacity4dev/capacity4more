@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateGroups
+ * Class C4mDemoContentCreateGroups.
  */
 class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
   public $entityType = 'node';
@@ -33,6 +33,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('projects', 'Projects'),
     array('membership_open_request', 'Membership_Request'),
     array('group_access', 'Access'),
+    array('group_status', 'Status'),
   );
 
   /**
@@ -92,4 +93,5 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
       return FALSE;
     }
   }
+
 }

@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile
 
 /**
  * @file
@@ -11,8 +12,10 @@
  * @ingroup views_area_handlers
  */
 class c4m_views_handler_area_result extends views_handler_area_result {
-
-  function option_definition() {
+  /**
+   * {@inheritdoc}
+   */
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['classes'] = array(
@@ -22,7 +25,10 @@ class c4m_views_handler_area_result extends views_handler_area_result {
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  /**
+   * {@inheritdoc}
+   */
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['classes'] = array(
@@ -35,11 +41,10 @@ class c4m_views_handler_area_result extends views_handler_area_result {
     );
   }
 
-
   /**
-   * Find out the information to render.
+   * {@inheritdoc}
    */
-  function render($empty = FALSE) {
+  public function render($empty = FALSE) {
     $content = parent::render($empty);
     if (!empty($content)) {
       $tag['element'] = array(
@@ -54,4 +59,5 @@ class c4m_views_handler_area_result extends views_handler_area_result {
       return theme_html_tag($tag);
     }
   }
+
 }

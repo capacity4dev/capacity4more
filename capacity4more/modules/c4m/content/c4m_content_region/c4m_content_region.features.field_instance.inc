@@ -17,7 +17,7 @@ function c4m_content_region_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -65,7 +65,7 @@ function c4m_content_region_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Add an image of a map to illustrate the Region.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -134,7 +134,7 @@ function c4m_content_region_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select the Region from Regions & Countries vocabulary that relates to this Region.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

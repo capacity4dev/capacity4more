@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Topics plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Topics'),

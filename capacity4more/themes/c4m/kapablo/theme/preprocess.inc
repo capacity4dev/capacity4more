@@ -10,11 +10,11 @@
  * Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
-  if ($variables['view_mode'] != 'activity_stream') {
+  if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
     return;
   }
 
-  $message                               = $variables['message'];
+  $message = $variables['message'];
   $variables['theme_hook_suggestions'][] = 'message__activity_stream';
   $variables['theme_hook_suggestions'][] = "message__{$message->type}__activity_stream";
 
@@ -51,8 +51,6 @@ function kapablo_preprocess_message(&$variables) {
 function kapablo_preprocess_block(&$variables) {
   $block_id        = $variables['block']->module . '-' . $variables['block']->delta;
   $classes         = & $variables['classes_array'];
-  $title_classes   = & $variables['title_attributes_array']['class'];
-  $content_classes = & $variables['content_attributes_array']['class'];
 
   // Add classes based on the block delta.
   switch ($block_id) {
@@ -90,6 +88,7 @@ function kapablo_preprocess_field(&$variables, $hook) {
   switch ($element['#field_name']) {
     case 'c4m_ds_group_access_info':
       $group = $element['#object'];
+
       // Retrieve group access info.
       $group_access = c4m_og_get_access_type($group);
 
@@ -108,38 +107,38 @@ function kapablo_preprocess_field(&$variables, $hook) {
  */
 function kapablo_preprocess_facetapi_link_inactive(&$variables) {
   $replace = _kapablo_help_facetapi_link_replace($variables['text']);
+  if (empty($replace['class'])) {
+    return;
+  }
 
-  // Needs to be done in another way. No longer alphabetical if we change text hardcoded.
-  //  if (!empty($replace['text'])) {
-  //    $variables['text'] = $replace['text'];
-  //  }
-
-  if (!empty($replace['class'])) {
-    foreach ($replace['class'] as $class) {
-      $variables['options']['attributes']['class'][] = $class;
-    }
+  foreach ($replace['class'] as $class) {
+    $variables['options']['attributes']['class'][] = $class;
   }
 }
-
 
 /**
  * Implements hook_preprocess_facetapi_link_active().
  */
 function kapablo_preprocess_facetapi_link_active(&$variables) {
   $replace = _kapablo_help_facetapi_link_replace($variables['text']);
+  if (empty($replace['class'])) {
+    return;
+  }
 
-  // Needs to be done in another way. No longer alphabetical if we change text hardcoded.
-  //  if (!empty($replace['text'])) {
-  //    $variables['text'] = $replace['text'];
-  //  }
-
-  if (!empty($replace['class'])) {
-    foreach ($replace['class'] as $class) {
-      $variables['options']['attributes']['class'][] = $class;
-    }
+  foreach ($replace['class'] as $class) {
+    $variables['options']['attributes']['class'][] = $class;
   }
 }
 
+/**
+ * Create replacement array for the faceted items label strings for discussions.
+ *
+ * @param string $text_orig
+ *   The original text.
+ *
+ * @return array
+ *   The replace info.
+ */
 function _kapablo_help_facetapi_link_replace($text_orig) {
   $replace = array();
   $text    = $text_orig;
@@ -150,17 +149,35 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
       $text  = t('Question');
       $class = 'fl-question';
       break;
+
     case t('Share an Idea'):
       $text  = t('Idea');
       $class = 'fl-idea';
       break;
+
     case t('Share Information'):
       $text  = t('Information');
       $class = 'fl-info';
       break;
+
     case t('Start a Debate'):
       $text  = t('Debate');
       $class = 'fl-debate';
+      break;
+
+    case t('Public'):
+      $text  = t('Public');
+      $class = 'fl-public';
+      break;
+
+    case t('Private'):
+      $text  = t('Private');
+      $class = 'fl-private';
+      break;
+
+    case t('Restricted'):
+      $text  = t('Restricted');
+      $class = 'fl-restricted';
       break;
   }
 

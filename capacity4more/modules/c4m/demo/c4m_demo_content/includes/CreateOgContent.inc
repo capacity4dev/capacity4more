@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Base to create Og Content Classes
+ * Base to create Og Content Classes.
  */
 
 /**
- * Class C4mDemoContentCreateOgContent
+ * Class C4mDemoContentCreateOgContent.
  */
 abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
@@ -49,16 +49,29 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
 
     switch ($row->group_type) {
       case 'group':
-        $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateGroups', $row->group_map, NULL, $this);
+        $unfiltered_ids = $this->handleSourceMigration(
+          'C4mDemoContentCreateGroups',
+          $row->group_map,
+          NULL,
+          $this
+        );
         break;
 
       case 'project':
-        $unfiltered_ids = $this->handleSourceMigration('C4mDemoContentCreateProjects', $row->group_map, NULL, $this);
+        $unfiltered_ids = $this->handleSourceMigration(
+          'C4mDemoContentCreateProjects',
+          $row->group_map,
+          NULL,
+          $this
+        );
         break;
     }
+
     $row->{OG_AUDIENCE_FIELD} = $this->filterDestid2FromEntityReference(
-                                     $unfiltered_ids
+      $unfiltered_ids
     );
+
+    return TRUE;
   }
 
   /**
@@ -73,7 +86,7 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
     // Make sure the messages have the proper timestamp.
     $this->messageInsertSave($entity, $row);
 
-    // make sure the update message also exists.
+    // Make sure the update message also exists.
     $this->messageUpdateSave($entity, $row);
   }
 
@@ -140,4 +153,5 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
     $message->timestamp = $row->changed;
     message_save($message);
   }
+
 }

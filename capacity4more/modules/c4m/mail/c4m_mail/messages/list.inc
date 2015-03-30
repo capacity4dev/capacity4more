@@ -1,7 +1,7 @@
 <?php
 /**
- * Index of all the messages.
  * @file
+ * Index of all the messages.
  */
 
 $messages = array(
@@ -59,5 +59,25 @@ $messages = array(
     'title' => 'Admin alert about new user registration',
     'subject' => 'user_mail_register_pending_approval_admin_subject',
     'body' => 'user_mail_register_pending_approval_admin_body',
-  )
+  ),
+
+  // Group status request & approvals.
+  array(
+    'module' => 'c4m_content_group',
+    'title' => 'Admin alert when a new group has been requested.',
+    'subject' => 'group_pending_approval_admin_subject',
+    'body' => 'group_pending_approval_admin_body',
+  ),
+  array(
+    'module' => 'c4m_content_group',
+    'title' => 'User alert when a new group request has been rejected.',
+    'subject' => 'group_rejected_user_subject',
+    'body' => 'group_rejected_user_body',
+  ),
+  array(
+    'module' => 'c4m_content_group',
+    'title' => 'User alert when a new group request has been approved.',
+    'subject' => 'group_approved_user_subject',
+    'body' => 'group_approved_user_body',
+  ),
 );

@@ -3,14 +3,16 @@
  * @file
  * Code for group blocks.
  */
+
 /**
  * Function to preprocess a block.
  *
  * We set classes here to avoid another wrapper div within the block.
  *
- * @param $variables
+ * @param array $variables
+ *   Block variables.
  */
-function _c4m_content_group_preprocess_header_name_banner(&$variables) {
+function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
   // First establish the current group.
   $group = c4m_og_current_group();
 
@@ -29,7 +31,8 @@ function _c4m_content_group_block_header_name_banner() {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $title = $wrapper->title->value();
-  $tag['element'] = array(
+  $status = $wrapper->c4m_og_status->value();
+  $tag['title']['element'] = array(
     '#tag' => 'h1',
     '#attributes' => array(
       'class' => array('group-title'),
@@ -37,10 +40,21 @@ function _c4m_content_group_block_header_name_banner() {
     '#value' => $title,
   );
 
-  $markup = theme_html_tag($tag);
+  $markup = theme_html_tag($tag['title']);
+
+  if ($status != 'published') {
+    $tag['status']['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('group-status'),
+      ),
+      '#value' => $status,
+    );
+    $markup .= theme_html_tag($tag['status']);
+  }
 
   if (drupal_is_front_page()) {
-    // Add group image
+    // Add group image.
     $file = $wrapper->c4m_banner->value();
     if (!empty($file)) {
       $file['style_name'] = 'banner';

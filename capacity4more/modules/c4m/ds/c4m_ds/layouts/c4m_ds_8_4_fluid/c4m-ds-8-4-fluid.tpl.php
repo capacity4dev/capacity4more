@@ -9,6 +9,13 @@
 <?php if (isset($title_suffix['contextual_links'])): ?>
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
+<?php if (!empty($header)): ?>
+<div class="row">
+  <<?php print $header_wrapper; ?> class="group-header col-sm-12 <?php print $header_classes; ?>">
+  <?php print $header; ?>
+</<?php print $header_wrapper; ?>>
+</div>
+<?php endif; ?>
 <div class="row">
   <<?php print $left_wrapper; ?> class="group-left col-sm-8 <?php print $left_classes; ?>">
   <?php print $left; ?>

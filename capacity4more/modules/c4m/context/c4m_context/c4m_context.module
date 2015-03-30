@@ -27,6 +27,14 @@ function c4m_context_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_context_context_plugins() {
   $plugins                                         = array();
+  $plugins['c4m_context_condition_no_form'] = array(
+    'handler' => array(
+      'class'  => 'c4m_context_condition_no_form',
+      'parent' => 'context_condition',
+      'path'   => drupal_get_path('module', 'c4m_context') . '/plugins',
+      'file'   => 'c4m_context_condition_no_form.inc',
+    ),
+  );
   $plugins['c4m_context_reaction_unset_variables'] = array(
     'handler' => array(
       'class'  => 'c4m_context_reaction_unset_variables',
@@ -44,6 +52,15 @@ function c4m_context_context_plugins() {
  */
 function c4m_context_context_registry() {
   return array(
+    'conditions' => array(
+      'no_form' => array(
+        'title' => t('No combination of form and operation on this
+          page'),
+        'description' => t('This context will be set if the form and operation
+          entered (form_id|operation name) are not on the page.'),
+        'plugin' => 'c4m_context_condition_no_form',
+      ),
+    ),
     'reactions' => array(
       'unset_variables' => array(
         'title'       => t('Unset preprocess variables'),
@@ -57,5 +74,17 @@ function c4m_context_context_registry() {
 function c4m_context_preprocess_page(&$variables) {
   if ($plugin = context_get_plugin('reaction', 'unset_variables')) {
     $plugin->execute($variables);
+  }
+  /*if ($plugin = context_get_plugin('condition', 'no_form')) {
+      $plugin->execute();
+  }*/
+}
+
+/**
+ * Implementation of hook_views_pre_view().
+ */
+function c4m_context_views_pre_view($view, $display) {
+  if ($plugin = context_get_plugin('condition', 'no_form')) {
+    $plugin->execute($view);
   }
 }

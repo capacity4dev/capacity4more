@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides the EntityResource service.
+ */
+
 'use strict';
 
 /**
+ * Provides the EntityResource service.
+ *
  * @ngdoc service
+ *
  * @name c4mApp.service:EntityResource
- * @description
- * # Sends the request to RESTful.
+ *
+ * @description Sends the request to RESTful.
  */
 angular.module('c4mApp')
   .service('EntityResource', function(DrupalSettings, Request, $http) {
@@ -74,17 +82,17 @@ angular.module('c4mApp')
     };
 
     /**
-     * Update the activity stream,
-     * And Load more activities ('Show more') button.
+     * Update the activity stream, and Load more activities.
+     *
+     * Provides the 'Show more' button.
      *
      * @param data
-     *  The stream data.
-     *
+     *   The stream data.
      * @param action
-     *  The type of action requested (Update activity || Load more activity).
+     *   The type of action requested (Update activity || Load more activity).
      *
      * @returns {*}
-     *  JSON of the updated activity stream.
+     *   JSON of the updated activity stream.
      */
     this.updateStream = function(data, action) {
       var config = {
@@ -101,10 +109,10 @@ angular.module('c4mApp')
       var hideArticles = '&hide_articles=' + data.hideArticles;
       var topics = data.topics;
 
+      var topicsFilter = '';
       if (angular.isObject(topics)) {
-        var topics_filter = '';
         angular.forEach(topics, function(topic, index) {
-          topics_filter += '&topics[' + index + ']=' + topic;
+          topicsFilter += '&topics[' + index + ']=' + topic;
         });
       }
 
@@ -116,13 +124,22 @@ angular.module('c4mApp')
           group_filter += 'group[' + index + ']=' + group + '&';
         });
 
-        return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?'
-        + group_filter + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
-        + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage +  hideArticles + topics_filter, config);
+        return $http.get(
+          DrupalSettings.getBasePath()
+            + 'api/activity_stream?'
+            + group_filter
+            + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
+            + '&filter[timestamp][operator]="' + operator
+            + '"&html=1'
+            + homepage
+            + hideArticles
+            + topicsFilter
+          , config
+        );
       }
 
       return $http.get(DrupalSettings.getBasePath() + 'api/activity_stream?group='
       + data.group + '&sort=-timestamp&filter[timestamp][value]=' + timestamp
-      + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage + hideArticles + topics_filter, config);
+      + '&filter[timestamp][operator]="' + operator + '"&html=1' + homepage + hideArticles + topicsFilter, config);
     };
   });

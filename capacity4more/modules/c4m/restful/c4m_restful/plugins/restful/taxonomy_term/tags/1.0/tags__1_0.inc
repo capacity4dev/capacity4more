@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Tags plugin for RestFul.
+ */
 
 $plugin = array(
   'label' => t('Tags'),

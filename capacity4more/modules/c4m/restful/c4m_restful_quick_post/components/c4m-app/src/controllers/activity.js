@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides the Activity Controller (ActivityCtrl).
+ */
+
 'use strict';
 
 angular.module('c4mApp')
@@ -6,13 +11,13 @@ angular.module('c4mApp')
     // Get the current group ID.
     $scope.group = DrupalSettings.getData('entity').group;
 
-    $scope.topics = DrupalSettings.getData('entity').topics;
+    $scope.topics = DrupalSettings.getData('request').topics;
 
-    $scope.homepage = DrupalSettings.getData('entity').homepage;
+    $scope.homepage = DrupalSettings.getData('request').homepage;
 
     $scope.homepage = $scope.homepage === undefined ? 0 : $scope.homepage;
 
-    $scope.hideArticles = DrupalSettings.getData('entity').hide_articles;
+    $scope.hideArticles = DrupalSettings.getData('request').hide_articles;
 
     $scope.hideArticles = $scope.hideArticles === undefined ? 0 : $scope.hideArticles;
 
@@ -37,12 +42,13 @@ angular.module('c4mApp')
     // Display the "show more" button only if the activity stream is equal to the the range.
     $scope.showMoreButton = $scope.existingActivities.length >= $scope.range;
 
-    // refresh rate of the activity stream (60000 is one minute).
+    // Refresh rate of the activity stream (60000 is one minute).
     // @TODO: Import the refresh rate from the drupal settings.
     $scope.refreshRate = 60000;
 
     /**
      * Refreshes the activity stream.
+     *
      * The refresh rate is scope.refreshRate.
      */
     $scope.refresh = function() {
@@ -52,13 +58,18 @@ angular.module('c4mApp')
     $scope.refreshing = $interval($scope.refresh, $scope.refreshRate);
 
     /**
-     * Adds newly fetched activities to either to the activity-stream or the load button,
-     * Depending on if the current user added an activity or it's fetched from the server.
+     * Adds newly fetched activities.
+     *
+     * To either to the activity-stream or the load button.
+     * Depending on if the current user added an activity or it's fetched from
+     * the server.
      *
      * @param type
      *  Determines to which variable the new activity should be added,
-     *  existingActivities: The new activity will be added straight to the activity stream. (Highlighted as well)
-     *  newActivities: The "new posts" notification button will appear in the user's activity stream.
+     *  existingActivities: The new activity will be added straight to the
+     *                      activity stream. (Highlighted as well)
+     *  newActivities: The "new posts" notification button will appear in the
+     *                 user's activity stream.
      */
     $scope.addNewActivities = function(type) {
       if (type == 'existingActivities') {
@@ -118,7 +129,10 @@ angular.module('c4mApp')
 
     /**
      * Merge the "new activity" with the existing activity stream.
-     * When a user has clicked on the "new posts", we grab the activities in the "new activity" group and push them to the top of the "existing activity", and clear the "new activity" group.
+     *
+     * When a user has clicked on the "new posts", we grab the activities in
+     * the "new activity" group and push them to the top of the
+     * "existing activity", and clear the "new activity" group.
      *
      * @param position.
      *  The position in which to add the new activities.
@@ -136,7 +150,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * When clicking on the "show more" button,
+     * When clicking on the "show more" button.
+     *
      * Request the next set of activities from RESTful,
      * Adds the newly loaded activity stream to the bottom of the "existingActivities" array.
      */
@@ -164,12 +179,14 @@ angular.module('c4mApp')
               position++;
             }, $scope.existingActivities);
 
-            // Update the Timestamp of the last activity in the activity stream.
-            $scope.stream.firstLoadedTimestamp = data.data[data.data.length - 1].timestamp;
+            if (data.data.length > 0) {
+              // Update the Timestamp of the last activity in the activity stream.
+              $scope.stream.firstLoadedTimestamp = data.data[data.data.length - 1].timestamp;
+            }
 
             // Keep the "show more" button, only if the remaining activities to load is more than the range.
             // The "Count" variable will go down as we are filtering with the lowest activity Timestamp.
-            $scope.showMoreButton = data.count >= $scope.range;
+            $scope.showMoreButton = data.data.length >= $scope.range;
           }
         });
     };

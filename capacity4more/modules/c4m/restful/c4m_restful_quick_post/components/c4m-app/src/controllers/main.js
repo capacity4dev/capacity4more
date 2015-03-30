@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides the Main Controller (MainCtrl) for the c4mApp.
+ */
+
 'use strict';
 
 angular.module('c4mApp')
@@ -22,6 +27,7 @@ angular.module('c4mApp')
 
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
+     *
      * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
      * Set "popups" to 0, as to hide all of the pop-overs on load.
      */
@@ -83,7 +89,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * Called by the directive "bundle-select",
+     * Called by the directive "bundle-select".
+     *
      * Updates the bundle of the entity to send to the correct API url.
      *
      * @param resource
@@ -96,6 +103,7 @@ angular.module('c4mApp')
 
     /**
      * Remove taxonomy term from the data.
+     *
      * Called by click on added term.
      *
      * @param key
@@ -133,7 +141,8 @@ angular.module('c4mApp')
     };
 
     /**
-     * Called by the directive "types",
+     * Called by the directive "types".
+     *
      * Updates the type of the selected resource.
      *
      * @param type
@@ -201,25 +210,15 @@ angular.module('c4mApp')
       return false;
     };
 
-    /**
-     * Close all popovers on "ESC" key press.
-     *
-     * @param event.
-     *  The press button event.
-     */
+    // Close all popovers on "ESC" key press.
     $document.on('keyup', function(event) {
       // 27 is the "ESC" button.
-      if(event.which == 27) {
+      if (event.which == 27) {
         $scope.closePopups();
       }
     });
 
-    /**
-     * Close all popovers on click outside popup box.
-     *
-     * @param event.
-     *  The click event.
-     */
+    // Close all popovers on click outside popup box.
     $document.on('mousedown', function(event) {
       // Check if we are not clicking on the popup.
       var parents = angular.element(event.target).parents();
@@ -248,9 +247,12 @@ angular.module('c4mApp')
 
     /**
      * Submit form.
-     *  Stops auto-refresh, Cleans fields (delete fields that doesn't belong to the entity being created),
-     *  Adds location details (lat, lng) to the "event" entity,
-     *  Sends the cleaned-up data to the checkForm function for entity creation.
+     *
+     * Stops auto-refresh, Cleans fields (delete fields that doesn't belong to
+     * the entity being created).
+     * Adds location details (lat, lng) to the "event" entity.
+     * Sends the cleaned-up data to the checkForm function for entity
+     * creation.
      *
      *  @param data
      *    The submitted data.
@@ -307,8 +309,9 @@ angular.module('c4mApp')
 
     /**
      * Continue submitting form.
-     *  Creates a node of the resource type. If Type of submission is
-     *  a full form - redirects to the created node's editing page.
+     *
+     * Creates a node of the resource type. If Type of submission is
+     * a full form - redirects to the created node's editing page.
      *
      * @param submitData
      *  The submitting data.
@@ -329,7 +332,7 @@ angular.module('c4mApp')
 
       // Cancel submit and display errors if we have errors.
       if (Object.keys(errors).length && type == 'quick_post') {
-        angular.forEach( errors, function(value, field) {
+        angular.forEach(errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);
         // Scroll up upon discovering an error.
@@ -343,7 +346,7 @@ angular.module('c4mApp')
 
       // Call the create entity function service.
       EntityResource.createEntity(submitData, resource, resourceFields)
-        .success( function (data, status) {
+        .success(function (data, status) {
           // If requested to create in full form, Redirect user to the edit page.
           if (type == 'full_form') {
             var entityID = data.data[0].id;
@@ -366,7 +369,7 @@ angular.module('c4mApp')
             $scope.selectedResource = '';
           }
         })
-        .error( function (data, status) {
+        .error(function (data, status) {
           $scope.serverSide.data = data;
           $scope.serverSide.status = status;
         });
@@ -385,7 +388,7 @@ angular.module('c4mApp')
      *  The file.
      */
     $scope.onFileSelect = function($files) {
-      //$files: an array of files selected, each file has name, size, and type.
+      // $files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
         FileUpload.upload(file).then(function(data) {
@@ -416,6 +419,7 @@ angular.module('c4mApp')
 
     /**
      * Resets the quick-post form validations.
+     *
      * Clears all the fields for a new entry.
      */
     $scope.resetEntityForm = function() {

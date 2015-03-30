@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Template for the Vocabulary widget.
+ */
+?>
 <div class="input-wrapper tags" ng-class="{ 'has-error' : errors.tags }">
   <label><?php print t('Tags') ?></label>
   <input multiple type="hidden" ui-select2="{query: tagsQuery, minimumInputLength: 2}" ng-model="data.tags" class="form-control"/>

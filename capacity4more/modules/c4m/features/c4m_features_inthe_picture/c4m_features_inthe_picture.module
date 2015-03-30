@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the In the Pictures overviews feature.
+ */
+
+include_once 'c4m_features_inthe_picture.features.inc';

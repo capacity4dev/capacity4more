@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Template to render the Quick post forms.
+ */
+?>
 <form name="entityForm"
       ng-submit="submitForm(data, selectedResource, 'quick_post')"
       xmlns="http://www.w3.org/1999/html">

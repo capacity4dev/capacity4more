@@ -1,8 +1,21 @@
 <?php
+// @codingStandardsIgnoreFile
+
+/**
+ * @file
+ * OG access plugin.
+ */
+
 /**
  * Access plugin that provides property based access control.
  */
 class c4m_og_access_plugin extends views_plugin_access {
+  /**
+   * Plugin summary title.
+   *
+   * @return string
+   *   The summary text.
+   */
   function summary_title() {
     return t('Custom access plugin');
   }
@@ -10,8 +23,9 @@ class c4m_og_access_plugin extends views_plugin_access {
   /**
    * Determine if the current user has access or not.
    *
-   * @param $account
+   * @param object $account
    *    The user object.
+   *
    * @return bool
    *    TRUE if user has access to the view.
    */

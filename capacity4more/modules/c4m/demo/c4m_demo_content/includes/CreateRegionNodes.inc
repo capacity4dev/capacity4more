@@ -5,7 +5,7 @@
  */
 
 /**
- * Class C4mDemoContentCreateRegionNodes
+ * Class C4mDemoContentCreateRegionNodes.
  */
 class C4mDemoContentCreateRegionNodes extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
@@ -71,4 +71,5 @@ class C4mDemoContentCreateRegionNodes extends C4mDemoContentCreateEntity {
 
     return TRUE;
   }
+
 }

@@ -1,12 +1,13 @@
 <?php
-
 /**
  * @file
  * Contains C4mRestfulEventsResource.
  */
 
+/**
+ * Class C4mRestfulEventsResource.
+ */
 class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
-
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */
@@ -97,13 +98,13 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
   /**
    * Location process callback.
    *
-   * @param $value
-   *  The array with the field value.
+   * @param array $value
+   *   The array with the field value.
    *
    * @return array
-   *  Array with the necessary location values.
+   *   Array with the necessary location values.
    */
-  protected function processLocation($value) {
+  protected function processLocation(array $value) {
     return array(
       'street' => $value['street'],
       'city' => $value['city'],
@@ -154,4 +155,5 @@ class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
     $wrapper = entity_metadata_wrapper($this->entityType, $entity);
     return array($this->viewEntity($wrapper->getIdentifier()));
   }
+
 }

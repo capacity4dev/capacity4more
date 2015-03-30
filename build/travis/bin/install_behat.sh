@@ -8,7 +8,12 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 
-# Check first if we relay need behat.
+# Behat has no use if the profile is not installed.
+if [ $INSTALL_PROFILE != 1 ]; then
+ exit 0;
+fi
+
+# Check first if we need behat.
 if [ "$BEHAT_TAG" = "" ]; then
   exit 0;
 fi

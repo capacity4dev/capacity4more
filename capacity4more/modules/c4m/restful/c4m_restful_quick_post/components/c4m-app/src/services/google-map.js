@@ -1,10 +1,18 @@
+/**
+ * @file
+ * Provides the GoogleMap Service.
+ */
+
 'use strict';
 
 /**
+ * Provides the GoogleMap Service.
+ *
  * @ngdoc service
+ *
  * @name c4mApp.service:GoogleMap
- * @description
- * # Sends request for address to google maps API.
+ *
+ * @description Sends request for address to google maps API.
  */
 angular.module('c4mApp')
   .service('GoogleMap', function($http) {

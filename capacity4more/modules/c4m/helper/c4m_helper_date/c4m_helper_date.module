@@ -36,13 +36,30 @@ function c4m_helper_date_date_formats() {
 }
 
 /**
+ * Helper function to return c4m date formatters (only).
+ *
+ * @return array
+ */
+function c4m_helper_date_formatters() {
+  $format_types    = system_get_date_types();
+  $date_formatters = array();
+  foreach (system_get_date_formats() as $type => $format) {
+    // Only use date format types from C4M.
+    if (FALSE === strpos($type, 'c4m', 0)) {
+      continue;
+    }
+    foreach($format as $format_instance) {
+      $date_formatters[$format_instance['format']] = t("Time ago or date format '!date'",
+        array('!date' => $format_types[$type]['title'] . ' (' . $format_instance['format'] . ')'));
+    }
+  }
+  return $date_formatters;
+}
+
+/**
  * Helper function to render timestamp as date or time ago depending on the
  * time which his passed since.
  *
- * @param $timestamp
- * @return mixed|null|string
- */
-/**
  * @param $timestamp
  *   Timestamp on which to base output time ago or date.
  * @param string $format
@@ -50,22 +67,38 @@ function c4m_helper_date_date_formats() {
  * @param int $switch
  *   The time past that decides to show time ago or date.
  *   By default time ago will be shown as long as date is within 24 hours of now.
+ * @param string $operator
+ *   The operator which decides if 'time ago' is used if time since is smaller
+ *   or bigger than current time.
+ * @param string $string
+ *    String to return instead of date formatting.
  * @return mixed|null|string
  */
-function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400) {
+function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400, $operator = '<', $string ='') {
   If (!is_numeric($timestamp) ||
       (int) $timestamp != $timestamp) {
     return;
   }
 
   $time_since = time() - $timestamp;
-  if ($time_since < $switch) {
+
+  if ('<' === $operator &&
+      $time_since < $switch) {
+      $suffix = t('ago');
+      return c4m_helper_date_format_interval($time_since, 1, $suffix);
+  }
+  elseif ('>' === $operator &&
+          $time_since > $switch) {
     $suffix = t('ago');
     return c4m_helper_date_format_interval($time_since, 1, $suffix);
   }
-  else {
-    return format_date($timestamp, 'custom', $format);
+
+  if ('<none>' === $format &&
+      !empty($string)) {
+    return $string;
   }
+
+  return format_date($timestamp, 'custom', $format);
 }
 
 

@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides the Carousel Controller (CarouselCtrl).
+ */
+
 'use strict';
 
 angular.module('c4mApp')

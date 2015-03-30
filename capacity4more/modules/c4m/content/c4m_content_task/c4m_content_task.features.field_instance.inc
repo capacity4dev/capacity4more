@@ -17,7 +17,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -71,7 +71,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -138,7 +138,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -199,7 +199,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -260,7 +260,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -324,7 +324,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -377,7 +377,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'The status of the Task.',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -426,7 +426,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -475,7 +475,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -525,7 +525,7 @@ function c4m_content_task_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_stream' => array(
+      'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

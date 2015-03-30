@@ -62,6 +62,7 @@ dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
 dependencies[] = strongarm
+dependencies[] = smart_trim
 dependencies[] = term_reference_tree
 dependencies[] = transliteration
 dependencies[] = token
@@ -71,6 +72,9 @@ dependencies[] = views_bulk_operations
 
 
 ; capacity4more ---------------------------------------------------------------
+
+; Admin Management
+dependencies[] = c4m_admin_groups
 
 ; Helpers
 dependencies[] = c4m_helper_comment
@@ -98,6 +102,7 @@ dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
 dependencies[] = c4m_content_featured
 dependencies[] = c4m_content_group
+dependencies[] = c4m_content_inthe_picture
 dependencies[] = c4m_content_banner
 dependencies[] = c4m_content_page_element
 dependencies[] = c4m_content_photo
@@ -112,6 +117,7 @@ dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_field_related_og
 
 ; Overview content
+dependencies[] = c4m_features_inthe_picture
 dependencies[] = c4m_features_overview_articles
 dependencies[] = c4m_features_overview_events
 dependencies[] = c4m_features_overview_groups
@@ -150,3 +156,6 @@ dependencies[] = c4m_message
 
 ; Widgets
 dependencies[] = c4m_document_widget
+
+; Organic Groups
+dependencies[] = c4m_og_purl

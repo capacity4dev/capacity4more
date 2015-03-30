@@ -89,7 +89,7 @@ function c4m_content_wiki_page_strongarm() {
       'teaser' => array(
         'custom_settings' => TRUE,
       ),
-      'activity_stream' => array(
+      'activity_group' => array(
         'custom_settings' => TRUE,
       ),
       'rss' => array(
