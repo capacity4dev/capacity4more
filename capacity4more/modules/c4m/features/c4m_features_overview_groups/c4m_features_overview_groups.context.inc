@@ -26,11 +26,17 @@ function c4m_features_overview_groups_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'views-f38a69c54df9a3d3692d47f18bb2c0af' => array(
+          'module' => 'views',
+          'delta' => 'f38a69c54df9a3d3692d47f18bb2c0af',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
           'region' => 'content_top',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
         'views--exp-c4m_overview_groups-page' => array(
           'module' => 'views',
