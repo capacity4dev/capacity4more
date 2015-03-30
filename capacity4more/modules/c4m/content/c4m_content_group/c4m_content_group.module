@@ -143,27 +143,23 @@ function c4m_content_group_node_update($node) {
  *
  * Defines the Subject and Body of the message depending on the "key".
  */
-function c4m_content_group_mail($key, &$message, $params) {
-  switch ($key) {
-    case 'group_pending_approval_admin':
-      $message['subject'] = t("Group request", $params);
-      $message['body'] = array();
-      $message['body'][] = t("Hello,", $params);
-      $message['body'][] = t("A new request from user: @user for a group titled '@title' has been created (@url).", $params);
-      break;
-    case 'group_rejected_user':
-      $message['subject'] = t("Your group was rejected", $params);
-      $message['body'] = array();
-      $message['body'][] = t("Hello @user,", $params);
-      $message['body'][] = t("Your group titled '@title' has been rejected.", $params);
-      break;
-    case 'group_approved_user':
-      $message['subject'] = t("Your group was approved", $params);
-      $message['body'] = array();
-      $message['body'][] = t("Hello @user,", $params);
-      $message['body'][] = t("Your group titled '@title' has been approved (@url).", $params);
-      break;
-  }
+function c4m_content_group_mail($key, &$message, $variables) {
+  module_load_include('inc', 'c4m_content_group', 'c4m_content_group.mail');
+
+  $language = isset($message['language'])
+    ? $message['language']
+    : NULL;
+
+  $message['subject'] .= _c4m_content_group_mail_text(
+    $key . '_subject',
+    $language,
+    $variables
+  );
+  $message['body'][] = _c4m_content_group_mail_text(
+    $key . '_body',
+    $language,
+    $variables
+  );
 }
 
 /**
