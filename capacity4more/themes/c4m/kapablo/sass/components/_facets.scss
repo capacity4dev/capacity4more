@@ -10,6 +10,9 @@
   &.fl-private {
     background-image: image-url('group-icons/private-group.png');
   }
+  &.fl-restricted {
+    background-image: image-url('group-icons/restricted-group.png');
+  }
   &.fl-debate {
     @include image-icon-png-fallback('icons', 'discussion-qp-debate-hover');
   }

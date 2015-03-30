@@ -29,4 +29,7 @@
   &.group-private {
     background-image: image-url('group-icons/private-group.png');
   }
+  &.group-restricted {
+    background-image: image-url('group-icons/restricted-group.png');
+  }
 }
