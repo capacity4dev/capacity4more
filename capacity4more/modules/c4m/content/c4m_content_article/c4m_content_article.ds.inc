@@ -75,6 +75,112 @@ function c4m_content_article_ds_field_settings_info() {
   );
   $export['node|article|c4m_teaser_list'] = $ds_fieldsetting;
 
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|article|full';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'article';
+  $ds_fieldsetting->view_mode = 'full';
+  $ds_fieldsetting->settings = array(
+    'comments' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_status' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_content_article_disclaimer' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Topics & Subtopics',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'topic',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_vocab_geo' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Regions & Countries',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'region',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_related_user' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Contributors',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'article-contributors',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_related_group' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Related groups',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_related_articles' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Related Articles',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+  );
+  $export['node|article|full'] = $ds_fieldsetting;
+
   return $export;
 }
 
@@ -189,6 +295,70 @@ function c4m_content_article_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['node|article|c4m_teaser_list'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|article|full';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'article';
+  $ds_layout->view_mode = 'full';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'header' => array(
+        0 => 'c4m_banner',
+      ),
+      'left' => array(
+        1 => 'c4m_ds_content_status',
+        2 => 'c4m_ds_creation_date',
+        3 => 'c4m_ds_content_footer_stats',
+        4 => 'c4m_intro_text',
+        5 => 'c4m_body',
+        6 => 'c4m_content_article_disclaimer',
+        7 => 'comments',
+      ),
+      'right' => array(
+        8 => 'group_node_meta',
+        9 => 'c4m_related_user',
+        10 => 'c4m_link_multiple',
+        11 => 'c4m_related_topic',
+        12 => 'c4m_vocab_geo',
+        13 => 'c4m_related_group',
+        14 => 'c4m_related_articles',
+      ),
+    ),
+    'fields' => array(
+      'c4m_banner' => 'header',
+      'c4m_ds_content_status' => 'left',
+      'c4m_ds_creation_date' => 'left',
+      'c4m_ds_content_footer_stats' => 'left',
+      'c4m_intro_text' => 'left',
+      'c4m_body' => 'left',
+      'c4m_content_article_disclaimer' => 'left',
+      'comments' => 'left',
+      'group_node_meta' => 'right',
+      'c4m_related_user' => 'right',
+      'c4m_link_multiple' => 'right',
+      'c4m_related_topic' => 'right',
+      'c4m_vocab_geo' => 'right',
+      'c4m_related_group' => 'right',
+      'c4m_related_articles' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'hide_page_title' => '0',
+    'page_option_title' => '',
+  );
+  $export['node|article|full'] = $ds_layout;
 
   return $export;
 }

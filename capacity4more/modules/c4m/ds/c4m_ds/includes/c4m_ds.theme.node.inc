@@ -166,6 +166,33 @@ function theme_c4m_ds_content_footer_stats(array $field) {
 }
 
 /**
+ * Get a label with the publication status of a node.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return string
+ *   The rendered field.
+ */
+function theme_c4m_ds_content_status(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+  $entity = $field['entity'];
+
+  if (intval($entity->status) !== NODE_NOT_PUBLISHED) {
+    return NULL;
+  }
+
+  $tag['element'] = array(
+    '#tag'   => 'span',
+    '#value' => t('Draft'),
+  );
+
+  return theme_html_tag($tag);
+}
+
+/**
  * DS function field.
  *
  * Render group type info

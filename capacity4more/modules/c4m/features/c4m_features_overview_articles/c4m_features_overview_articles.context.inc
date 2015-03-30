@@ -13,6 +13,35 @@ function c4m_features_overview_articles_context_default_contexts() {
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
+  $context->name = 'c4m_detail_articles';
+  $context->description = 'Detail page of Voices & Views';
+  $context->tag = 'cap4more - Voices & Views';
+  $context->conditions = array(
+    'node' => array(
+      'values' => array(
+        'article' => 'article',
+      ),
+      'options' => array(
+        'node_form' => '0',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'menu' => array(
+      0 => 'main-menu:articles',
+    ),
+  );
+  $context->condition_mode = 1;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Detail page of Voices & Views');
+  t('cap4more - Voices & Views');
+  $export['c4m_detail_articles'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
   $context->name = 'c4m_overview_articles';
   $context->description = 'Overview page of all Voices & Views';
   $context->tag = 'cap4more - Voices & Views';

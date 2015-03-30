@@ -11,6 +11,9 @@ function c4m_features_overview_articles_ctools_plugin_api($module = NULL, $api =
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
 }
 
 /**
