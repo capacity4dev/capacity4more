@@ -70,7 +70,8 @@ function c4m_content_group_node_insert($node) {
       $from = variable_get('site_mail', ini_get('sendmail_from'));
       $language = language_default();
 
-      $module = 'c4m_og';
+      // Send the actual mail.
+      $module = 'c4m_content_group';
       $key = 'group_pending_approval_admin';
       $params = array(
         '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
@@ -94,22 +95,24 @@ function c4m_content_group_node_update($node) {
     return;
   }
 
-  $original_node = $node->original;
-
-  $status = $node->c4m_og_status[LANGUAGE_NONE][0]['value'];
+  // Status now and before update.
+  $status_new = $node->c4m_og_status[LANGUAGE_NONE][0]['value'];
+  $status_original = $node->original->c4m_og_status[LANGUAGE_NONE][0]['value'];
 
   // Don't do anything if status did NOT change.
-  if ($status == $original_node->c4m_og_status[LANGUAGE_NONE][0]['value']) {
+  if ($status_original === $status_new) {
     return;
   }
 
-  switch ($status) {
+  switch ($status_new) {
     case 'rejected':
       $key = 'group_rejected_user';
       break;
+
     case 'published':
       $key = 'group_approved_user';
       break;
+
     default:
       $key = NULL;
       break;
@@ -123,13 +126,42 @@ function c4m_content_group_node_update($node) {
     $from = variable_get('site_mail', ini_get('sendmail_from'));
     $language = language_default();
 
-    $module = 'c4m_og';
+    // Send the mail.
+    $module = 'c4m_content_group';
     $params = array(
       '@url' => url('node/' . $node->nid, array('absolute' => TRUE)),
       '@title' => $node->title,
       '@user' => $user->name,
     );
     drupal_mail($module, $key, $to, $language, $params, $from);
+  }
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Defines the Subject and Body of the message depending on the "key".
+ */
+function c4m_content_group_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'group_pending_approval_admin':
+      $message['subject'] = t("Group request", $params);
+      $message['body'] = array();
+      $message['body'][] = t("Hello,", $params);
+      $message['body'][] = t("A new request from user: @user for a group titled '@title' has been created (@url).", $params);
+      break;
+    case 'group_rejected_user':
+      $message['subject'] = t("Your group was rejected", $params);
+      $message['body'] = array();
+      $message['body'][] = t("Hello @user,", $params);
+      $message['body'][] = t("Your group titled '@title' has been rejected.", $params);
+      break;
+    case 'group_approved_user':
+      $message['subject'] = t("Your group was approved", $params);
+      $message['body'] = array();
+      $message['body'][] = t("Hello @user,", $params);
+      $message['body'][] = t("Your group titled '@title' has been approved (@url).", $params);
+      break;
   }
 }
 

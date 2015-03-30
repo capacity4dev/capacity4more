@@ -328,34 +328,6 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
 }
 
 /**
- * Implements hook_mail().
- *
- * Defines the Subject and Body of the message depending on the "key".
- */
-function c4m_og_mail($key, &$message, $params) {
-  switch ($key) {
-    case 'group_pending_approval_admin':
-      $message['subject'] = t("Group request", $params);
-      $message['body'] = array();
-      $message['body'][] = t("Hello,", $params);
-      $message['body'][] = t("A new request from user: @user for a group titled '@title' has been created (@url).", $params);
-      break;
-    case 'group_rejected_user':
-      $message['subject'] = t("Your group was rejected", $params);
-      $message['body'] = array();
-      $message['body'][] = t("Hello @user,", $params);
-      $message['body'][] = t("Your group titled '@title' has been rejected.", $params);
-      break;
-    case 'group_approved_user':
-      $message['subject'] = t("Your group was approved", $params);
-      $message['body'] = array();
-      $message['body'][] = t("Hello @user,", $params);
-      $message['body'][] = t("Your group titled '@title' has been approved (@url).", $params);
-      break;
-  }
-}
-
-/**
  * Counts the number of members in a given group.
  *
  * @param $group
