@@ -114,6 +114,7 @@ dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_field_related_og
 
 ; Overview content
+dependencies[] = c4m_features_inthe_picture
 dependencies[] = c4m_features_overview_articles
 dependencies[] = c4m_features_overview_events
 dependencies[] = c4m_features_overview_groups
