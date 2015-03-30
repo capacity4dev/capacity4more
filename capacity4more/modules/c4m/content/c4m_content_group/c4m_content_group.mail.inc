@@ -32,7 +32,7 @@ function _c4m_content_group_mail_text($key, $language, array $variables) {
     $variables,
     array(
       'language' => $language,
-      'callback' => 'c4m_content_group_tokens',
+      'callback' => 'c4m_content_group_mail_tokens',
       'sanitize' => FALSE,
       'clear' => TRUE,
     )
