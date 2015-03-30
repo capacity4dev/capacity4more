@@ -28,3 +28,172 @@ function c4m_field_og_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
+/**
+ * Implements hook_field_access().
+ */
+function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account) {
+  if ($field['field_name'] != 'c4m_og_status') {
+    // Not a status field.
+    return;
+  }
+
+  if (user_access('administer site configuration', $account)) {
+    // This is site administrator.
+    return TRUE;
+  }
+
+  if (!$account->uid) {
+    // This is an anonymous user.
+    return FALSE;
+  }
+
+  if (empty($entity->nid)) {
+    // Entity isn't saved yet.
+    return FALSE;
+  }
+
+  // Get current Status field value.
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  $value = $wrapper->c4m_og_status->value();
+
+  if ($account->uid == $entity->uid) {
+    // Group owner.
+
+    $allowed_values = array(
+      'requested',
+      'draft',
+      'published',
+    );
+    if ($op == 'view' || in_array($value, $allowed_values)) {
+      return TRUE;
+    }
+  }
+
+  if (og_user_access($entity_type, $entity->nid, 'administer group', $account)) {
+    // Group administrator.
+    $allowed_values = array(
+      'draft',
+      'published',
+    );
+    if ($op == 'view' || in_array($value, $allowed_values)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if (!isset($form_state['field']['c4m_og_status'])) {
+    return;
+  }
+
+  $account = user_load($user->uid);
+  $entity = $form_state['node'];
+  $wrapper = entity_metadata_wrapper('node', $entity);
+  $value = $wrapper->c4m_og_status->value();
+
+  if (user_access('administer site configuration', $account)) {
+    // This is site administrator.
+    $unallowed_values = array(
+      'requested' => array(
+        'archived',
+        'published',
+      ),
+      'draft' => array(
+        'requested',
+        'rejected',
+        'archived',
+      ),
+      'published' => array(
+        'rejected',
+        'requested',
+      ),
+      'archived' => array(
+        'rejected',
+        'requested',
+        'draft',
+      ),
+      'rejected' => array(
+        'requested',
+        'draft',
+        'published',
+        'archived',
+      ),
+      'deleted' => array(
+        'requested',
+        'rejected',
+      ),
+    );
+
+    if ($wrapper->{OG_ACCESS_FIELD}->value()) {
+      unset($unallowed_values['requested']['published']);
+    }
+
+    if (!empty($unallowed_values[$value])) {
+      foreach ($unallowed_values[$value] as $key) {
+        unset($form['c4m_og_status'][LANGUAGE_NONE]['#options'][$key]);
+      }
+    }
+    return;
+  }
+
+  if ($account->uid == $entity->uid) {
+    // Group owner.
+
+    $unallowed_values = array(
+      'requested' => array(
+        'draft',
+        'published',
+        'archived',
+        'rejected',
+      ),
+      'draft' => array(
+        'archived',
+        'rejected',
+        'requested',
+      ),
+      'published' => array(
+        'draft',
+        'rejected',
+        'requested',
+      ),
+    );
+
+    if (!empty($unallowed_values[$value])) {
+      foreach ($unallowed_values[$value] as $key) {
+        unset($form['c4m_og_status'][LANGUAGE_NONE]['#options'][$key]);
+      }
+    }
+    return;
+  }
+
+  if (og_user_access('node', $entity->nid, 'administer group', $account)) {
+    // Group administrator.
+
+    $unallowed_values = array(
+      'draft' => array(
+        'requested',
+        'archived',
+        'rejected',
+      ),
+      'published' => array(
+        'requested',
+        'draft',
+        'archived',
+        'rejected',
+      ),
+    );
+    if (!empty($unallowed_values[$value])) {
+      foreach ($unallowed_values[$value] as $key) {
+        unset($form['c4m_og_status'][LANGUAGE_NONE]['#options'][$key]);
+      }
+    }
+  }
+}

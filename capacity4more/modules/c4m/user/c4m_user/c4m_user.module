@@ -388,6 +388,7 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
 
   $count = format_plural(count($entities), $item_text, '@count ' . $item_text . 's');
 
+  $title = '';
   switch ($variables['operation']->id()) {
     case 'action::c4m_user_contact_action' :
       // Count already escaped by format_plural().

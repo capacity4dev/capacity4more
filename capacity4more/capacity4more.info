@@ -73,6 +73,9 @@ dependencies[] = views_bulk_operations
 
 ; capacity4more ---------------------------------------------------------------
 
+; Admin Management
+dependencies[] = c4m_admin_groups
+
 ; Helpers
 dependencies[] = c4m_helper_comment
 dependencies[] = c4m_helper_date

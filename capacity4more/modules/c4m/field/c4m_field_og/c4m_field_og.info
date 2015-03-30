@@ -7,6 +7,7 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = list
 features[features_api][] = api:2
+features[field_base][] = c4m_og_status
 features[field_base][] = group_group
 features[field_base][] = og_group_ref
 features[field_base][] = og_vocabulary
