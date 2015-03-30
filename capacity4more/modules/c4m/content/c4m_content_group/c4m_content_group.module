@@ -109,6 +109,7 @@ function c4m_content_group_node_update($node) {
       $key = 'group_rejected_user';
       break;
 
+    case 'draft':
     case 'published':
       $key = 'group_approved_user';
       break;
