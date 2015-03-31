@@ -33,6 +33,7 @@ function c4m_features_og_manage_group_details() {
 
   $wrapper = entity_metadata_wrapper('node', $group);
 
+  // Info about the membership request field.
   $membership_field = field_info_field('field_membership_open_request');
 
   $details = array(
@@ -48,6 +49,7 @@ function c4m_features_og_manage_group_details() {
     'related_projects' => t('No Related Projects'),
   );
 
+  // List of related topics.
   if ($topics = $wrapper->c4m_related_topic->value()) {
     $topic_list = array(
       'title' => NULL,
@@ -71,6 +73,7 @@ function c4m_features_og_manage_group_details() {
     $details['topics'] = theme_item_list($topic_list);
   }
 
+  // List of regions & countries.
   if ($geo = $wrapper->c4m_vocab_geo->value()) {
     $geo_list = array(
       'title' => NULL,
@@ -94,6 +97,7 @@ function c4m_features_og_manage_group_details() {
     $details['locations'] = theme_item_list($geo_list);
   }
 
+  // List of related groups.
   if ($related_groups = $wrapper->c4m_related_group->value()) {
     $related_groups_list = array(
       'title' => NULL,
@@ -116,6 +120,7 @@ function c4m_features_og_manage_group_details() {
     $details['related_groups'] = theme_item_list($related_groups_list);
   }
 
+  // List of related projects.
   if ($related_projects = $wrapper->c4m_related_projects->value()) {
     $related_projects_list = array(
       'title' => NULL,
@@ -137,6 +142,7 @@ function c4m_features_og_manage_group_details() {
 
     $details['related_projects'] = theme_item_list($related_projects_list);
   }
+  
   // Get categories and terms count for current group.
   $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
   $details['taxonomy_manage_link'] = l(t('Edit'), url('group/node/' . $group->nid . '/admin/taxonomy/' . $og_vocab[0]->machine_name, array('absolute' => TRUE)));
@@ -155,4 +161,70 @@ function c4m_features_og_manage_group_details() {
   $details['terms_count'] = $terms_count;
 
   return $details;
+}
+
+/**
+ * Gets the group status and thumbnail.
+ *
+ * For the group management dashboard,
+ * This function gets the current status of the group,
+ * An archive link (If the group is not archived),
+ * The number of the group membership requests which links to the "members" page (Filtered by pending)
+ * and a thumbnail image of the group with an edit link.
+ *
+ * @return array|bool
+ *  An array of current group's status and thumbnail image OR false if there's no group in current context.
+ */
+function c4m_features_og_manage_group_status_and_thumbnail() {
+  $group = c4m_og_current_group();
+  if (!$group) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+
+  // Pending memberships count link.
+  $pending_memberships_count_text = t('@count Group membership requests', array(
+      '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
+    )
+  );
+  $link_options = array(
+    'absolute' => TRUE,
+    'query' => array(
+      'f[0]' => 'c4m_og_membership_type:' . $group->nid .'_pending',
+    ),
+  );
+  $info = array(
+    'status' => $wrapper->c4m_og_status->value(),
+    'pending_members_link' => l($pending_memberships_count_text, url('members', $link_options)),
+  );
+
+  // Group thumbnail image with edit link.
+  $file = $wrapper->c4m_media->value();
+  if (!empty($file)) {
+    $options = array(
+      'html' => TRUE,
+      'attributes' => array(
+        'class' => array(
+          'edit-thumbnail',
+        ),
+      ),
+    );
+    $edit_link['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('edit-link'),
+      ),
+      '#value' => t('Edit'),
+    );
+    $file['style_name'] = 'medium';
+    $file['path'] = $file['uri'];
+    $file['attributes'] = array('class' => 'group-thumbnail');
+    $info['thumbnail_image'] = l(theme_image_style($file) . theme_html_tag($edit_link), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)), $options);
+  }
+
+  // Archive group link (If group is not archived already).
+  $info['archive_link'] = $info['status'] != 'archived' ? l(t('Archive group'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE))) : '';
+
+  return $info;
 }

@@ -4,8 +4,8 @@
  * Plugin definition.
  */
 $plugin = array(
-  'title' => t('Management group dashboard'),
-  'description' => t('Renders group management dashboard with edit links.'),
+  'title' => t('Group details management dashboard'),
+  'description' => t('Renders group details management dashboard with edit links.'),
   'category' => t('C4M'),
   'hook theme' => 'c4m_features_og_manage_group_details_content_type_theme',
 );

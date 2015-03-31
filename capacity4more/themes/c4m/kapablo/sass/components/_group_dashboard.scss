@@ -81,6 +81,19 @@ body.og-context {
             }
           }
         }
+
+        &.group-status {
+
+          .group-status-text {
+            font-weight: bold;
+            text-transform: capitalize;
+            font-size: $font-size-h3;
+          }
+
+          .archive-group {
+            margin-top: 8px;
+          }
+        }
       }
     }
   }
