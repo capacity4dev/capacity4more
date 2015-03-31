@@ -53,6 +53,34 @@ body.og-context {
         .row {
           margin-bottom: 10px;
         }
+
+        &.group-permissions {
+
+          .access-title {
+            background-repeat: no-repeat;
+            background-position: 0 3px;
+            background-size: 1em;
+            font-weight: bold;
+            padding-left: 1.2em;
+
+            &.public {
+              background-image: image-url('group-icons/public.png');
+            }
+            &.private {
+              background-image: image-url('group-icons/private.png');
+            }
+            &.restricted {
+              background-image: image-url('group-icons/restricted.png');
+            }
+          }
+
+          .membership-request {
+
+            strong {
+              display: block;
+            }
+          }
+        }
       }
     }
   }

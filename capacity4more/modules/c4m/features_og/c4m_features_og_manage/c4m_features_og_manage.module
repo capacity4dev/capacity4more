@@ -38,7 +38,7 @@ function c4m_features_og_manage_group_details() {
   $details = array(
     'edit_link' => l(t('Edit'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE))),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
-    'title' => $wrapper->label(),
+    'title' => '<strong>' . $wrapper->label() . '</strong>',
     'description' => $wrapper->c4m_body->value(),
     'membership_open_request' => $membership_field['settings']['allowed_values'][$wrapper->field_membership_open_request->value()],
     'group_access' => c4m_og_get_access_type($group),

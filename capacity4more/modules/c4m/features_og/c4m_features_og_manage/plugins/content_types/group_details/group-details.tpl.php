@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row membership-request">
         <div class="col-md-3"><?php print t('Membership requests') ?></div>
         <div class="col-md-9"><?php print $details['membership_open_request'] ?></div>
       </div>
