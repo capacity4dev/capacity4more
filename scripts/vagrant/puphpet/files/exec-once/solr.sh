@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Configure SOLR
+# Configure SOLR.
 cd /tmp
 wget --quiet http://ftp.drupal.org/files/projects/search_api_solr-7.x-1.6.tar.gz
 tar -xzf search_api_solr-7.x-1.6.tar.gz
