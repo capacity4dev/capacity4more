@@ -67,7 +67,7 @@
         <?php print $details['taxonomy_manage_link'] ?>
       </div>
       <div class="row">
-        <div class="col-md-12"><?php print t('This group has <strong>@cat_count Categories</strong> and <strong>@term_count Terms</strong>', array('@cat_count' => $details['categories_count'], '@term_count' => $details['tags_count'])) ?></div>
+        <div class="col-md-12"><?php print t('This group has <strong>@cat_count Categories</strong> and <strong>@term_count Terms</strong>', array('@cat_count' => $details['categories_count'], '@term_count' => $details['terms_count'])) ?></div>
       </div>
     </div>
   </div>

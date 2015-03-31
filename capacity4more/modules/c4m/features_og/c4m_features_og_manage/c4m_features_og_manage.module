@@ -37,7 +37,6 @@ function c4m_features_og_manage_group_details() {
 
   $details = array(
     'edit_link' => l(t('Edit'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE))),
-    'taxonomy_manage_link' => l(t('Edit'), url('group/node/' . $group->nid . '/admin/taxonomy', array('absolute' => TRUE))),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => $wrapper->label(),
     'description' => $wrapper->c4m_body->value(),
@@ -138,20 +137,22 @@ function c4m_features_og_manage_group_details() {
 
     $details['related_projects'] = theme_item_list($related_projects_list);
   }
-
-  $handler = restful_get_restful_handler('categories');
-  $request = array(
-    'group' => $group->nid,
-  );
-  $categories = $handler->get('', $request);
-  $details['categories_count'] = count($categories);
-
-  $handler = restful_get_restful_handler('tags');
-  $request = array(
-    'group' => $group->nid,
-  );
-  $tags = $handler->get('', $request);
-  $details['tags_count'] = count($tags);
+  // Get categories and terms count for current group.
+  $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
+  $details['taxonomy_manage_link'] = l(t('Edit'), url('group/node/' . $group->nid . '/admin/taxonomy/' . $og_vocab[0]->machine_name, array('absolute' => TRUE)));
+  $categories = taxonomy_get_tree($og_vocab[0]->vid);
+  $categories_count = 0;
+  $terms_count = 0;
+  foreach ($categories as $category) {
+    if ($category->parents[0]) {
+      $terms_count++;
+    }
+    else {
+      $categories_count++;
+    }
+  }
+  $details['categories_count'] = $categories_count;
+  $details['terms_count'] = $terms_count;
 
   return $details;
 }
