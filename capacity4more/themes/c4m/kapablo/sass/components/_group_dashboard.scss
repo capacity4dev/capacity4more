@@ -54,17 +54,22 @@ body.og-context {
           margin-bottom: 10px;
         }
 
-        &.group-permissions {
+        &.group-permissions,
+        &.group-related-content {
 
           .access-title {
             background-repeat: no-repeat;
-            background-position: 0 3px;
+            background-position: 0 0;
             background-size: 1em;
             font-weight: bold;
             padding-left: 1.2em;
+            color: $color-black;
+            text-decoration: none;
+            display: inline-block;
 
             &.public {
               background-image: image-url('group-icons/public.png');
+              background-position: 0 2px;
             }
             &.private {
               background-image: image-url('group-icons/private.png');

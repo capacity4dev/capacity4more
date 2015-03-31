@@ -31,7 +31,7 @@ function _c4m_content_group_block_header_name_banner() {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   $title = $wrapper->title->value();
-  $status = $wrapper->c4m_og_status->value();
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
   $tag['title']['element'] = array(
     '#tag' => 'h1',
     '#attributes' => array(

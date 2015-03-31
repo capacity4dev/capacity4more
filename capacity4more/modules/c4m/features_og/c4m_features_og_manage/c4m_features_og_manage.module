@@ -106,7 +106,7 @@ function c4m_features_og_manage_group_details() {
       'attributes' => array(),
     );
 
-    $options = array(
+    $url_options = array(
       'purl' => array(
         'disabled' => TRUE,
       ),
@@ -114,7 +114,16 @@ function c4m_features_og_manage_group_details() {
     );
 
     foreach ($related_groups as $related_group) {
-      $related_groups_list['items'][] = l($related_group->title, url('node/' . $related_group->nid, $options));
+      $access_type = c4m_og_get_access_type($related_group);
+      $link_options = array(
+        'attributes' => array(
+          'class' => array(
+            'access-title',
+            $access_type['type'],
+          ),
+        ),
+      );
+      $related_groups_list['items'][] = l($related_group->title, url($related_group->purl, $url_options), $link_options);
     }
 
     $details['related_groups'] = theme_item_list($related_groups_list);
@@ -129,7 +138,7 @@ function c4m_features_og_manage_group_details() {
       'attributes' => array(),
     );
 
-    $options = array(
+    $url_options = array(
       'purl' => array(
         'disabled' => TRUE,
       ),
@@ -137,7 +146,16 @@ function c4m_features_og_manage_group_details() {
     );
 
     foreach ($related_projects as $related_project) {
-      $related_projects_list['items'][] = l($related_project->title, url('node/' . $related_project->nid, $options));
+      $access_type = c4m_og_get_access_type($related_project);
+      $link_options = array(
+        'attributes' => array(
+          'class' => array(
+            'access-title',
+            $access_type['type'],
+          ),
+        ),
+      );
+      $related_projects_list['items'][] = l($related_project->title, url($related_project->purl, $url_options), $link_options);
     }
 
     $details['related_projects'] = theme_item_list($related_projects_list);
