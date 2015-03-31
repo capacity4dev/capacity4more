@@ -16,7 +16,19 @@ function c4m_features_og_manage_default_page_manager_pages() {
   $page->admin_title = 'Group Management';
   $page->admin_description = '';
   $page->path = 'manage/';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'perm',
+        'settings' => array(
+          'perm' => 'administer group',
+        ),
+        'context' => 'logged-in-user',
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
@@ -61,14 +73,6 @@ function c4m_features_og_manage_default_page_manager_pages() {
               'project' => 0,
             ),
           ),
-          'not' => FALSE,
-        ),
-        2 => array(
-          'name' => 'perm',
-          'settings' => array(
-            'perm' => 'administer group',
-          ),
-          'context' => 'logged-in-user',
           'not' => FALSE,
         ),
       ),
