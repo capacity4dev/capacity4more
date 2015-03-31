@@ -82,7 +82,7 @@ function c4m_field_og_field_default_field_bases() {
     'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
-      'handler' => 'og',
+      'handler' => 'og_c4m',
       'handler_settings' => array(
         'behaviors' => array(
           'og_behavior' => array(
@@ -94,7 +94,9 @@ function c4m_field_og_field_default_field_bases() {
         ),
         'membership_type' => 'og_membership_type_default',
         'sort' => array(
-          'type' => 'none',
+          'direction' => 'ASC',
+          'property' => 'title',
+          'type' => 'property',
         ),
         'target_bundles' => array(),
       ),

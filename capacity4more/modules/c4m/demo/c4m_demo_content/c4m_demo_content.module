@@ -21,6 +21,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateTopics',
     'C4mDemoContentCreateRegionNodes',
     'C4mDemoContentCreateGroups',
+    'C4mDemoContentCreateInThePicture',
     'C4mDemoContentCreateBanners',
     'C4mDemoContentCreateProjects',
     'C4mDemoContentCreateArticles',
