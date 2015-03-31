@@ -65,6 +65,9 @@ function c4m_content_article_strongarm() {
   $strongarm->name = 'field_bundle_settings_node__article';
   $strongarm->value = array(
     'view_modes' => array(
+      'full' => array(
+        'custom_settings' => TRUE,
+      ),
       'teaser' => array(
         'custom_settings' => TRUE,
       ),
@@ -80,12 +83,6 @@ function c4m_content_article_strongarm() {
       'activity_stream' => array(
         'custom_settings' => TRUE,
       ),
-      'c4m_teaser_list' => array(
-        'custom_settings' => TRUE,
-      ),
-      'full' => array(
-        'custom_settings' => FALSE,
-      ),
       'rss' => array(
         'custom_settings' => FALSE,
       ),
@@ -100,6 +97,9 @@ function c4m_content_article_strongarm() {
       ),
       'c4m_dashboard' => array(
         'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_list' => array(
+        'custom_settings' => TRUE,
       ),
       'c4m_teaser_table' => array(
         'custom_settings' => FALSE,
@@ -117,7 +117,7 @@ function c4m_content_article_strongarm() {
           'weight' => '5',
         ),
         'locations' => array(
-          'weight' => '30',
+          'weight' => '6',
         ),
       ),
       'display' => array(),

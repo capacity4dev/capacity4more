@@ -7,4 +7,5 @@ dependencies[] = link
 features[features_api][] = api:2
 features[field_base][] = c4m_facebook
 features[field_base][] = c4m_link
+features[field_base][] = c4m_link_multiple
 features[field_base][] = c4m_twitter

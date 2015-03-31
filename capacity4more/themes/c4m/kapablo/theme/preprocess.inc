@@ -174,6 +174,11 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
       $text  = t('Private');
       $class = 'fl-private';
       break;
+
+    case t('Restricted'):
+      $text  = t('Restricted');
+      $class = 'fl-restricted';
+      break;
   }
 
   if ($text_orig !== $text) {
