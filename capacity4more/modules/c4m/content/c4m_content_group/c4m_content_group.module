@@ -360,6 +360,11 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     $account = user_load($user->uid);
   }
 
+  $grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
+    c4m_group_status_GRANT_ID_view_published,
+    c4m_group_status_GRANT_ID_view_archived,
+  );
+
   if (user_access('administer site configuration', $account)) {
     // Site admin.
 
@@ -537,6 +542,12 @@ function c4m_content_group_node_access_records($node) {
             'grant_update' => 0,
           ),
         );
+        $realm_grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
+          array(
+            'gid' => c4m_group_status_GRANT_ID_view_published,
+            'grant_update' => 0,
+          ),
+        );
       }
       break;
     case 'archived':
@@ -565,6 +576,12 @@ function c4m_content_group_node_access_records($node) {
       if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
         // Only for public groups.
         $realm_grants[C4M_NODE_ACCESS_REALM . '_anon'] = array(
+          array(
+            'gid' => c4m_group_status_GRANT_ID_view_archived,
+            'grant_update' => 0,
+          ),
+        );
+        $realm_grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
           array(
             'gid' => c4m_group_status_GRANT_ID_view_archived,
             'grant_update' => 0,
@@ -640,7 +657,7 @@ function c4m_content_group_add_grants($rows, &$grants) {
         'realm' => $realm,
         'gid' => $grant['gid'],
         'grant_view' => 1,
-        'grunt_update' => $grant['grunt_update'],
+        'grant_update' => $grant['grant_update'],
         'grant_delete' => 0,
         'priority' => 0,
       );
