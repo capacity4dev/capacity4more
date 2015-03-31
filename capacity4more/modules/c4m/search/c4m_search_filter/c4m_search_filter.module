@@ -49,19 +49,21 @@ function c4m_search_filter_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_search_api_query_alter().
  */
 function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query) {
-  if (empty($_GET['filter'])) {
+  $params = drupal_get_query_parameters();
+  if (empty($params['filter'])) {
     return;
   }
 
   global $user;
 
-  switch ($_GET['filter']) {
+  switch ($params['filter']) {
     case 'groups':
       // Get groups.
       $groups = og_get_groups_by_user();
       if (isset($groups['node'])) {
         $groups = $groups['node'];
-      } else {
+      }
+      else {
         return;
       }
 
@@ -72,7 +74,8 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       foreach ($groups as $group) {
         if (0 === strpos(current_path(), 'groups', 0)) {
           $filter->condition('nid', $group);
-        } else {
+        }
+        else {
           $filter->condition('og_group_ref', $group);
         }
       }

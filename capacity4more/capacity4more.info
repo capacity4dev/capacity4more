@@ -102,6 +102,7 @@ dependencies[] = c4m_content_document
 dependencies[] = c4m_content_event
 dependencies[] = c4m_content_featured
 dependencies[] = c4m_content_group
+dependencies[] = c4m_content_inthe_picture
 dependencies[] = c4m_content_banner
 dependencies[] = c4m_content_page_element
 dependencies[] = c4m_content_photo
@@ -116,6 +117,7 @@ dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_field_related_og
 
 ; Overview content
+dependencies[] = c4m_features_inthe_picture
 dependencies[] = c4m_features_overview_articles
 dependencies[] = c4m_features_overview_events
 dependencies[] = c4m_features_overview_groups

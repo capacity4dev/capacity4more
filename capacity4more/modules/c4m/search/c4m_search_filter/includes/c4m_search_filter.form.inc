@@ -38,17 +38,19 @@ function c4m_search_filter_search_filter_form($form, &$form_state, $filter_type 
     'showAll' => t('Show all'),
   );
 
-  // Create links for each option.
+  // Get default filter.
   $params = drupal_get_query_parameters();
+  $default_filter = !empty($params['filter']) ? $params['filter'] : 'showAll';
+
+  // Create links for each option.
   foreach ($options as $key => $option) {
     $query = array_merge($params, array('filter' => $key));
     $options[$key] = l($option, current_path(), array('query' => $query));
   }
 
-  $default_value = !empty($_GET['filter']) ? $_GET['filter'] : 'showAll';
-
-  if (!array_key_exists($default_value, $options)) {
-    $default_value = 'showAll';
+  // Check if default filter exists.
+  if (!array_key_exists($default_filter, $options)) {
+    $default_filter = 'showAll';
   }
 
   // Create the form.
@@ -57,7 +59,7 @@ function c4m_search_filter_search_filter_form($form, &$form_state, $filter_type 
     '#type' => 'radios',
     '#title' => t('Filter by'),
     '#options' => $options,
-    '#default_value' => $default_value,
+    '#default_value' => $default_filter,
     '#attributes' => array('onchange' => 'this.form.submit();'),
   );
 
