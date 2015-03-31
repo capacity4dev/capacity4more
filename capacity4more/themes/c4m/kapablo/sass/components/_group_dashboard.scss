@@ -5,3 +5,36 @@ body.front.og-context.not-logged-in {
     display: none;
   }
 }
+body.og-context {
+
+  .group-management-dashboard {
+
+    .group-management-wrapper {
+
+      > div {
+
+        .title {
+          border-bottom: 1px solid $color-gray;
+          margin: 0 0 10px 0;
+
+          h2 {
+            font-weight: lighter;
+            padding: 0 5px 10px 5px;
+            margin: 0;
+            text-transform: uppercase;
+            color: $color-gray;
+            display: inline-block;
+          }
+
+          a {
+            display: inline-block;
+          }
+        }
+
+        .row {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
