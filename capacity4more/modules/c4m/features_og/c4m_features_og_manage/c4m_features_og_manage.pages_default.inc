@@ -49,6 +49,14 @@ function c4m_features_og_manage_default_page_manager_pages() {
         ),
         'id' => 1,
       ),
+      1 => array(
+        'identifier' => 'Current User',
+        'keyword' => 'user',
+        'name' => 'user',
+        'type' => 'current',
+        'uid' => '',
+        'id' => 1,
+      ),
     ),
     'relationships' => array(),
     'access' => array(
@@ -64,11 +72,13 @@ function c4m_features_og_manage_default_page_manager_pages() {
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'perm',
+          'name' => 'og_perm',
           'settings' => array(
             'perm' => 'administer group',
           ),
-          'context' => 'logged-in-user',
+          'context' => array(
+            0 => 'logged-in-user',
+          ),
           'not' => FALSE,
         ),
       ),
