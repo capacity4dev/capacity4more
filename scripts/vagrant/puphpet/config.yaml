@@ -47,9 +47,12 @@ vagrantfile-local:
             i4iS5Ae3XHqq:
                 owner: www-data
                 group: www-data
-                source: /Volumes/webdev/www
+                # This is the path your files are stored on the host machine.
+                # Replace the path in front of /www to the git checkout path.
+                # Windows users: You must use forward-slash c:/c4m/www or double back-slash c:\\c4m\\www
+                source: {path-to-git-checkout}/www
                 target: /var/www
-                sync_type: default
+                sync_type: nfs
                 rsync:
                     args:
                         - '--verbose'
