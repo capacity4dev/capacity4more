@@ -217,6 +217,12 @@ define('c4m_group_status_GRANT_ID_view_published', 2);
 define('c4m_group_status_GRANT_ID_view_archived', 3);
 define('c4m_group_status_GRANT_ID_view_rejected', 4);
 define('c4m_group_status_GRANT_ID_view_deleted', 5);
+define('c4m_group_status_GRANT_ID_update_requested', 6);
+define('c4m_group_status_GRANT_ID_update_draft', 7);
+define('c4m_group_status_GRANT_ID_update_published', 8);
+define('c4m_group_status_GRANT_ID_update_archived', 9);
+define('c4m_group_status_GRANT_ID_update_rejected', 10);
+define('c4m_group_status_GRANT_ID_update_deleted', 11);
 
 
 /**
@@ -230,56 +236,111 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     $account = user_load($user->uid);
   }
 
-  if ($op != 'view') {
-    return array();
-  }
+  if ($op == 'view') {
+    // View operation.
 
-  if (!$account->uid || empty($nodes)) {
-    $grants[REALM . '_0'] = array(
-      c4m_group_status_GRANT_ID_view_published,
-      c4m_group_status_GRANT_ID_view_archived,
-    );
-    return $grants;
-  }
+    if (!$account->uid || empty($nodes)) {
+      $grants[REALM . '_0'] = array(
+        c4m_group_status_GRANT_ID_view_published,
+        c4m_group_status_GRANT_ID_view_archived,
+      );
+      return $grants;
+    }
 
-  if (user_access('administer site configuration', $account)) {
-    // Site admin.
+    if (user_access('administer site configuration', $account)) {
+      // Site admin.
 
-    $grants[REALM . '_all'] = array(
-      c4m_group_status_GRANT_ID_view_requested ,
-      c4m_group_status_GRANT_ID_view_draft,
-      c4m_group_status_GRANT_ID_view_published,
-      c4m_group_status_GRANT_ID_view_archived,
-      c4m_group_status_GRANT_ID_view_rejected,
-      c4m_group_status_GRANT_ID_view_deleted,
-    );
-    return $grants;
-  }
+      $grants[REALM . '_all'] = array(
+        c4m_group_status_GRANT_ID_view_requested,
+        c4m_group_status_GRANT_ID_view_draft,
+        c4m_group_status_GRANT_ID_view_published,
+        c4m_group_status_GRANT_ID_view_archived,
+        c4m_group_status_GRANT_ID_view_rejected,
+        c4m_group_status_GRANT_ID_view_deleted,
+      );
+      return $grants;
+    }
 
-  foreach (og_get_entity_groups() as $group_type => $gids) {
-    foreach ($gids as $gid) {
-      $node = node_load($gid);
+    foreach (og_get_entity_groups() as $group_type => $gids) {
+      foreach ($gids as $gid) {
+        $node = node_load($gid);
 
-      if ($account->uid == $node->uid) {
-        // Group owner.
+        if ($account->uid == $node->uid) {
+          // Group owner.
 
-        $grants[REALM . '_' . $node->nid] = array(
-          c4m_group_status_GRANT_ID_view_requested,
-          c4m_group_status_GRANT_ID_view_draft,
-          c4m_group_status_GRANT_ID_view_published,
-          c4m_group_status_GRANT_ID_view_archived,
-          c4m_group_status_GRANT_ID_view_rejected,
-        );
-        return $grants;
+          $grants[REALM . '_' . $gid] = array(
+            c4m_group_status_GRANT_ID_view_requested,
+            c4m_group_status_GRANT_ID_view_draft,
+            c4m_group_status_GRANT_ID_view_published,
+            c4m_group_status_GRANT_ID_view_archived,
+            c4m_group_status_GRANT_ID_view_rejected,
+          );
+          return $grants;
+        } else {
+          // Group admin or group member.
+
+          $grants[REALM . '_' . $gid] = array(
+            c4m_group_status_GRANT_ID_view_published,
+            c4m_group_status_GRANT_ID_view_archived,
+            c4m_group_status_GRANT_ID_view_draft,
+          );
+        }
       }
-      else {
-        // Group admin or group member.
+    }
+  }
+  else if ($op == 'update') {
+    // Update operation.
 
-        $grants[REALM . '_' . $gid] = array(
-          c4m_group_status_GRANT_ID_view_published,
-          c4m_group_status_GRANT_ID_view_archived,
-          c4m_group_status_GRANT_ID_view_draft,
-        );
+    if (!$account->uid || empty($nodes)) {
+      $grants[REALM . '_0'] = array();
+      return $grants;
+    }
+
+    if (user_access('administer site configuration', $account)) {
+      // Site admin.
+
+      $grants[REALM . '_all'] = array(
+        c4m_group_status_GRANT_ID_update_requested,
+        c4m_group_status_GRANT_ID_update_draft,
+        c4m_group_status_GRANT_ID_update_published,
+        c4m_group_status_GRANT_ID_update_archived,
+        c4m_group_status_GRANT_ID_update_rejected,
+        c4m_group_status_GRANT_ID_update_deleted,
+      );
+      return $grants;
+    }
+
+    foreach (og_get_entity_groups() as $group_type => $gids) {
+      foreach ($gids as $gid) {
+        $node = node_load($gid);
+
+        if ($account->uid == $node->uid) {
+          // Group owner.
+
+          $grants[REALM . '_' . $gid] = array(
+            c4m_group_status_GRANT_ID_update_requested,
+            c4m_group_status_GRANT_ID_update_draft,
+            c4m_group_status_GRANT_ID_update_published,
+            c4m_group_status_GRANT_ID_update_archived,
+            c4m_group_status_GRANT_ID_update_rejected,
+          );
+          return $grants;
+        }
+        else {
+          // Group admin or group member.
+          if (og_user_access('node', $gid, 'administer group', $account)) {
+            // Group admin.
+
+            $grants[REALM . '_' . $gid] = array(
+              c4m_group_status_GRANT_ID_view_published,
+              c4m_group_status_GRANT_ID_view_archived,
+              c4m_group_status_GRANT_ID_view_draft,
+            );
+          }
+          else {
+            $grants[REALM . '_' . $gid] = array();
+          }
+        }
       }
     }
   }
@@ -292,7 +353,7 @@ function c4m_content_group_node_access_records($node) {
     // Node is not a group.
     return array();
   }
-
+  $wrapper = entity_metadata_wrapper('node', $node);
   $grants = array();
 
   switch ($node->c4m_og_status[LANGUAGE_NONE][0]['value']) {
@@ -306,7 +367,7 @@ function c4m_content_group_node_access_records($node) {
         'priority' => 0,
       );
       $grants[] = array(
-        'realm' => REALM . '_0',
+        'realm' => REALM . '_all',
         'gid' => c4m_group_status_GRANT_ID_view_requested,
         'grant_view' => 1,
         'grant_update' => 0,
@@ -314,10 +375,18 @@ function c4m_content_group_node_access_records($node) {
         'priority' => 0,
       );
       $grants[] = array(
+        'realm' => REALM . '_' . $node->nid,
+        'gid' => c4m_group_status_GRANT_ID_update_requested,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
         'realm' => REALM . '_all',
-        'gid' => c4m_group_status_GRANT_ID_view_requested,
-        'grant_view' => 1,
-        'grant_update' => 0,
+        'gid' => c4m_group_status_GRANT_ID_update_requested,
+        'grant_view' => 0,
+        'grant_update' => 1,
         'grant_delete' => 0,
         'priority' => 0,
       );
@@ -339,6 +408,22 @@ function c4m_content_group_node_access_records($node) {
         'grant_delete' => 0,
         'priority' => 0,
       );
+      $grants[] = array(
+        'realm' => REALM . '_' . $node->nid,
+        'gid' => c4m_group_status_GRANT_ID_update_draft,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
+        'realm' => REALM . '_all',
+        'gid' => c4m_group_status_GRANT_ID_update_draft,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
       break;
     case 'published':
       $grants[] = array(
@@ -349,8 +434,19 @@ function c4m_content_group_node_access_records($node) {
         'grant_delete' => 0,
         'priority' => 0,
       );
+      if (!$wrapper->{OG_AUDIENCE_FIELD}->value()) {
+        // Only for public groups.
+        $grants[] = array(
+          'realm' => REALM . '_0',
+          'gid' => c4m_group_status_GRANT_ID_view_published,
+          'grant_view' => 1,
+          'grant_update' => 0,
+          'grant_delete' => 0,
+          'priority' => 0,
+        );
+      }
       $grants[] = array(
-        'realm' => REALM . '_0',
+        'realm' => REALM . '_all',
         'gid' => c4m_group_status_GRANT_ID_view_published,
         'grant_view' => 1,
         'grant_update' => 0,
@@ -358,10 +454,18 @@ function c4m_content_group_node_access_records($node) {
         'priority' => 0,
       );
       $grants[] = array(
+        'realm' => REALM . '_' . $node->nid,
+        'gid' => c4m_group_status_GRANT_ID_update_published,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
         'realm' => REALM . '_all',
-        'gid' => c4m_group_status_GRANT_ID_view_published,
-        'grant_view' => 1,
-        'grant_update' => 0,
+        'gid' => c4m_group_status_GRANT_ID_update_published,
+        'grant_view' => 0,
+        'grant_update' => 1,
         'grant_delete' => 0,
         'priority' => 0,
       );
@@ -375,8 +479,19 @@ function c4m_content_group_node_access_records($node) {
         'grant_delete' => 0,
         'priority' => 0,
       );
+      if (!$wrapper->{OG_AUDIENCE_FIELD}->value()) {
+        // Only for public groups.
+        $grants[] = array(
+          'realm' => REALM . '_0',
+          'gid' => c4m_group_status_GRANT_ID_view_archived,
+          'grant_view' => 1,
+          'grant_update' => 0,
+          'grant_delete' => 0,
+          'priority' => 0,
+        );
+      }
       $grants[] = array(
-        'realm' => REALM . '_0',
+        'realm' => REALM . '_all',
         'gid' => c4m_group_status_GRANT_ID_view_archived,
         'grant_view' => 1,
         'grant_update' => 0,
@@ -384,10 +499,18 @@ function c4m_content_group_node_access_records($node) {
         'priority' => 0,
       );
       $grants[] = array(
+        'realm' => REALM . '_' . $node->nid,
+        'gid' => c4m_group_status_GRANT_ID_update_archived,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
         'realm' => REALM . '_all',
-        'gid' => c4m_group_status_GRANT_ID_view_archived,
-        'grant_view' => 1,
-        'grant_update' => 0,
+        'gid' => c4m_group_status_GRANT_ID_update_archived,
+        'grant_view' => 0,
+        'grant_update' => 1,
         'grant_delete' => 0,
         'priority' => 0,
       );
@@ -409,6 +532,22 @@ function c4m_content_group_node_access_records($node) {
         'grant_delete' => 0,
         'priority' => 0,
       );
+      $grants[] = array(
+        'realm' => REALM . '_' . $node->nid,
+        'gid' => c4m_group_status_GRANT_ID_update_rejected,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
+        'realm' => REALM . '_all',
+        'gid' => c4m_group_status_GRANT_ID_update_rejected,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
       break;
     case 'deleted':
       $grants[] = array(
@@ -424,6 +563,22 @@ function c4m_content_group_node_access_records($node) {
         'gid' => c4m_group_status_GRANT_ID_view_deleted,
         'grant_view' => 1,
         'grant_update' => 0,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
+        'realm' => REALM . '_' . $node->nid,
+        'gid' => c4m_group_status_GRANT_ID_update_deleted,
+        'grant_view' => 0,
+        'grant_update' => 1,
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+      $grants[] = array(
+        'realm' => REALM . '_all',
+        'gid' => c4m_group_status_GRANT_ID_update_deleted,
+        'grant_view' => 0,
+        'grant_update' => 1,
         'grant_delete' => 0,
         'priority' => 0,
       );
