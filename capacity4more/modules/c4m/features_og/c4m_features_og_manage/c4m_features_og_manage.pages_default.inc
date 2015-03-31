@@ -15,7 +15,7 @@ function c4m_features_og_manage_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Group Management';
   $page->admin_description = '';
-  $page->path = 'manage/';
+  $page->path = 'manage';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array();
@@ -41,16 +41,17 @@ function c4m_features_og_manage_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(
       0 => array(
-        'identifier' => 'OG current group',
+        'identifier' => ' OG current group',
         'keyword' => 'og_context',
         'name' => 'og_context',
         'og_context_group_types' => array(
           'group' => 'group',
+          'project' => 'project',
         ),
         'id' => 1,
       ),
       1 => array(
-        'identifier' => 'Current User',
+        'identifier' => 'User',
         'keyword' => 'user',
         'name' => 'user',
         'type' => 'current',
@@ -65,19 +66,17 @@ function c4m_features_og_manage_default_page_manager_pages() {
           'name' => 'og_context',
           'settings' => array(
             'og_context_access_groups' => array(
-              'group' => 0,
-              'project' => 0,
+              'group' => 'group',
+              'project' => 'project',
             ),
           ),
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'og_perm',
+          'name' => 'php',
           'settings' => array(
-            'perm' => 'administer group',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
+            'description' => 'Only accessible for group users who can manage the group (group owner & group administrators).',
+            'php' => 'return c4m_features_og_manage_page_permissions($contexts);',
           ),
           'not' => FALSE,
         ),

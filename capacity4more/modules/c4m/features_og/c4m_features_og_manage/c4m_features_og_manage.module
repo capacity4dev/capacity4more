@@ -246,3 +246,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 
   return $info;
 }
+
+function c4m_features_og_manage_page_permissions($contexts) {
+  return og_user_access('node', $contexts['context_og_context_1']->data->nid, 'administer group', $contexts['context_user_1']->data);
+}
