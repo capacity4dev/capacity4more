@@ -2,6 +2,6 @@
 
 # Install TIKA
 cd /opt/tika
-wget http://archive.apache.org/dist/tika/tika-app-1.5.jar
+wget --quiet http://archive.apache.org/dist/tika/tika-app-1.5.jar
 sudo mkdir /opt/tika
 sudo mv tika-app-1.5.jar /opt/tika/tika-app.jar
