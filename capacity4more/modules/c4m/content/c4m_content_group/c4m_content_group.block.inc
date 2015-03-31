@@ -53,29 +53,38 @@ function _c4m_content_group_block_header_name_banner() {
     $markup .= theme_html_tag($tag['status']);
   }
 
-  if (drupal_is_front_page()) {
+  $menu_item = menu_get_item();
+  if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
     // Add group image.
     $file = $wrapper->c4m_banner->value();
     if (!empty($file)) {
       $file['style_name'] = 'banner';
       $file['path'] = $file['uri'];
       $file['attributes'] = array('class' => 'group-banner');
-      $markup .= theme_image_style($file);
+      // If current page is the Group Management page,
+      // Add an edit link to the banner.
+      if ($menu_item['path'] == 'manage') {
+        $edit_link['element'] = array(
+          '#tag' => 'span',
+          '#attributes' => array(
+            'class' => array('edit-link'),
+          ),
+          '#value' => t('Edit'),
+        );
+        $options = array(
+          'html' => TRUE,
+          'attributes' => array(
+            'class' => array(
+              'edit-banner',
+            ),
+          ),
+        );
+        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)), $options);
+      }
+      else {
+        $markup .= theme_image_style($file);
+      }
     }
-  }
-
-  // If current page is the Group Management page and user has 'administer group' access,
-  // Print an edit link (In the block where the banner should be).
-  if (current_path() == 'manage' && og_user_access($wrapper->type(), $wrapper->getIdentifier(), 'administer group')) {
-    $edit_link = l(t('Edit'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)));
-    $tag['element'] = array(
-      '#tag' => 'div',
-      '#attributes' => array(
-        'class' => array('edit-banner'),
-      ),
-      '#value' => $edit_link,
-    );
-    $markup .= theme_html_tag($tag);
   }
 
   return array(

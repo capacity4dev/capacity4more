@@ -42,10 +42,10 @@ function c4m_features_og_manage_group_details() {
     'description' => $wrapper->c4m_body->value(),
     'membership_open_request' => $membership_field['settings']['allowed_values'][$wrapper->field_membership_open_request->value()],
     'group_access' => c4m_og_get_access_type($group),
-    'topics' => '',
-    'locations' => '',
-    'related_groups' => '',
-    'related_projects' => '',
+    'topics' => t('No Group Topics'),
+    'locations' => t('No Group Regions & Countries'),
+    'related_groups' => t('No Related Groups'),
+    'related_projects' => t('No Related Projects'),
   );
 
   if ($topics = $wrapper->c4m_related_topic->value()) {
@@ -96,7 +96,7 @@ function c4m_features_og_manage_group_details() {
 
   if ($related_groups = $wrapper->c4m_related_group->value()) {
     $related_groups_list = array(
-      'title' => '',
+      'title' => NULL,
       'type' => 'ul',
       'items' => array(),
       'attributes' => array(),
@@ -118,7 +118,7 @@ function c4m_features_og_manage_group_details() {
 
   if ($related_projects = $wrapper->c4m_related_projects->value()) {
     $related_projects_list = array(
-      'title' => '',
+      'title' => NULL,
       'type' => 'ul',
       'items' => array(),
       'attributes' => array(),
