@@ -47,6 +47,7 @@ body.og-context {
     .group-management-wrapper {
 
       > div {
+        margin-bottom: 30px;
 
         .title {
           border-bottom: 1px solid $color-gray;
@@ -59,6 +60,7 @@ body.og-context {
             text-transform: uppercase;
             color: $color-gray;
             display: inline-block;
+            border: 0 none;
           }
 
           a {
