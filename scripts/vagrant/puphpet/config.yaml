@@ -1,30 +1,30 @@
 ---
 vagrantfile-local:
     vm:
-        box: puphpet/debian75-x64
-        box_url: puphpet/debian75-x64
+        box: puphpet/ubuntu1404-x64
+        box_url: puphpet/ubuntu1404-x64
         hostname: ''
-        memory: '2048'
-        cpus: '2'
+        memory: '4096'
+        cpus: '4'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.55.101
             forwarded_port:
-                udAr2R8Q3K3n:
+                Cgq7pqhZ6PZW:
                     host: '5522'
                     guest: '22'
-                OUSukVunNScc:
+                vXmyIih6EjNk:
                     host: '5580'
-                    guest: '80'
-                uMuzc8bCF1sk:
-                    host: '5581'
-                    guest: '1080'
-                9kzJV2PlLZhY:
-                    host: '5583'
-                    guest: '8983'
-                tERUQpuWUpsl:
+                    guest: '56'
+                cYlP2dAOVNPV:
                     host: '5506'
                     guest: '3306'
+                Gmu92NqENGH5:
+                    host: '5581'
+                    guest: '1080'
+                ChfUKQZQ8TB4:
+                    host: '5583'
+                    guest: '8983'
         post_up_message: ''
         provider:
             virtualbox:
@@ -44,15 +44,11 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            i4iS5Ae3XHqq:
+            IAJPhBYCEkv6:
                 owner: www-data
                 group: www-data
-                # This is the path your files are stored on the host machine.
-                # Replace the path in front of /www to the git checkout path.
-                # Windows users: You must use forward-slash c:/c4m/www or double back-slash c:\\c4m\\www
-                source: {path-to-git-checkout}/www
+                source: ./
                 target: /var/www
-                # Windows users: You may need to change the file system setting to default.
                 sync_type: nfs
                 rsync:
                     args:
@@ -83,8 +79,11 @@ server:
         - htop
 users_groups:
     install: '1'
-    groups: {  }
-    users: {  }
+    groups:
+        - staff
+    users:
+        - c4m
+        - 'maartensegers:staff'
 cron:
     install: '1'
     jobs: {  }
@@ -107,7 +106,7 @@ apache:
         - headers
         - expires
     vhosts:
-        z50asn9wqqat:
+        l1sjifzqubo8:
             servername: capacity4more.eu.dev
             serveraliases:
                 - capacity4more.eu.vm
@@ -118,7 +117,7 @@ apache:
                 - 'APPLICATION_ENV development'
             custom_fragment: ''
             directories:
-                fdiaf7kp0qlg:
+                y24axfac1c4i:
                     provider: directory
                     path: /var/www/c4m/www
                     options:
@@ -131,7 +130,7 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        za8fyo7kdjjr:
+                        xr3tnt3pb2i8:
                             provider: filesmatch
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
@@ -148,7 +147,7 @@ nginx:
         proxy_buffers: '4 256k'
     upstreams: {  }
     vhosts:
-        ggdizhdml0mx:
+        eohx2o7dx1q1:
             proxy: ''
             server_name: awesome.dev
             server_aliases:
@@ -161,7 +160,7 @@ nginx:
                 - index.php
             client_max_body_size: 1m
             locations:
-                3iqh7k4ldhw7:
+                e8aeixm7czcg:
                     location: /
                     try_files:
                         - $uri
@@ -170,7 +169,7 @@ nginx:
                     fastcgi: ''
                     fastcgi_index: ''
                     fastcgi_split_path: ''
-                21e6ckcpu5dl:
+                s7h46mbzidux:
                     location: '~ \.php$'
                     try_files:
                         - $uri
@@ -235,12 +234,12 @@ xdebug:
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
 xhprof:
-    install: '0'
+    install: '1'
 wpcli:
     install: '0'
     version: v0.17.1
 drush:
-    install: '0'
+    install: '1'
     version: 6.3.0
 ruby:
     install: '1'
@@ -266,18 +265,18 @@ mysql:
         override_options: {  }
     adminer: '1'
     users:
-        seBZnggPi446:
+        Y5VjHcEhEwcA:
             name: amp
             password: drupal
     databases:
-        jOu93fiXrnkh:
+        ZCKzNH1d78bh:
             name: amp_c4m
             sql: ''
-        9FvsgRetFmAM:
+        wK0sLOvEqhG1:
             name: amp_c4d
             sql: ''
     grants:
-        tfY0y3xE0M3Y:
+        eWd4H2GfMxKC:
             user: amp
             table: '*.*'
             privileges:
