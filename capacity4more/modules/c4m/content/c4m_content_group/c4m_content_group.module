@@ -365,6 +365,18 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     c4m_group_status_GRANT_ID_view_archived,
   );
 
+  if (!$account->uid || empty($nodes)) {
+    // Anonymous user or user that is not a member of any group.
+
+    $anonymous_grant_ids = array(
+      c4m_group_status_GRANT_ID_view_published,
+      c4m_group_status_GRANT_ID_view_archived,
+    );
+
+    $grants[C4M_NODE_ACCESS_REALM . '_anon'] = $op == 'view' ? $anonymous_grant_ids : array();
+    return $grants;
+  }
+
   if (user_access('administer site configuration', $account)) {
     // Site admin.
 
@@ -382,18 +394,6 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       c4m_group_status_GRANT_ID_update_rejected,
       c4m_group_status_GRANT_ID_update_deleted,
     );
-    return $grants;
-  }
-
-  if (!$account->uid || empty($nodes)) {
-    // Anonymous user or user that is not a member of any group.
-
-    $anonymous_grant_ids = array(
-      c4m_group_status_GRANT_ID_view_published,
-      c4m_group_status_GRANT_ID_view_archived,
-    );
-
-    $grants[C4M_NODE_ACCESS_REALM . '_anon'] = $op == 'view' ? $anonymous_grant_ids : array();
     return $grants;
   }
 
@@ -444,7 +444,6 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       }
     }
   }
-
   return $grants;
 }
 
