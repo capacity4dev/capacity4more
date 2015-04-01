@@ -52,6 +52,7 @@ vagrantfile-local:
                 # Windows users: You must use forward-slash c:/c4m/www or double back-slash c:\\c4m\\www
                 source: {path-to-git-checkout}/www
                 target: /var/www
+                # Windows users: You may need to change the file system setting to default.
                 sync_type: nfs
                 rsync:
                     args:
