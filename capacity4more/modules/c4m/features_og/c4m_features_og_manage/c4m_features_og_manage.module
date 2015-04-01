@@ -258,7 +258,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
  *  TRUE when user has access, FALSE when user does not or there's a context missing.
  */
 function c4m_features_og_manage_page_permissions($contexts) {
-  if (!$contexts['context_og_context_1'] || $contexts['context_user_1']) {
+  if (!$contexts['context_og_context_1'] || !$contexts['context_user_1']) {
     return FALSE;
   }
   return og_user_access('node', $contexts['context_og_context_1']->data->nid, 'administer group', $contexts['context_user_1']->data);
