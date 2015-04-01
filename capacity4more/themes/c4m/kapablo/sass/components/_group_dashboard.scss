@@ -7,22 +7,33 @@ body.front.og-context.not-logged-in {
 }
 body.og-context {
 
-  .edit-banner {
+  .edit-banner,
+  .edit-thumbnail {
     position: relative;
     display: block;
 
     .edit-link {
       position: absolute;
+      left: 0;
+      bottom: 0;
       width: 100%;
-      height: 100%;
-      background-color: $color-black;
+      padding: 5px 0;
       display: inline-block;
       color: $color-white;
-      opacity: 0.6;
       z-index: 100;
       font-size: $font-size-h2;
       text-transform: uppercase;
       text-align: center;
+      font-weight: lighter;
+      background-color: $color-blue-dark;
+      opacity: 0.8;
+    }
+
+    &.edit-thumbnail {
+
+      .edit-link {
+        font-size: $font-size-base;
+      }
     }
   }
 
