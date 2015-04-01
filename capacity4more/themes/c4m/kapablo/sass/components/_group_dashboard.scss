@@ -30,6 +30,11 @@ body.og-context {
     }
 
     &.edit-thumbnail {
+      text-align: center;
+
+      .img-responsive {
+        display: inline-block;
+      }
 
       .edit-link {
         font-size: $font-size-base;
