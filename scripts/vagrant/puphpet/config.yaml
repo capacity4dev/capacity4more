@@ -47,7 +47,7 @@ vagrantfile-local:
             IAJPhBYCEkv6:
                 owner: www-data
                 group: www-data
-                source: ./
+                source: /Volumes/webdev/www
                 target: /var/www
                 sync_type: nfs
                 rsync:
