@@ -272,38 +272,3 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 
   return $info;
 }
-
-function c4m_features_og_manage_group_categories($vid) {
-  $group = c4m_og_current_group();
-  if (!$group) {
-    return FALSE;
-  }
-
-  dpm(taxonomy_vocabulary_load($vid));
-
-  $variables = array(
-    'info' => array(
-      'return_link' => l(t('Return to overview'), url('manage', array('absolute' => TRUE))),
-    ),
-    'table' => '',
-  );
-
-  return $variables;
-}
-
-/**
- * Custom permission check for group management page.
- *
- * Checks if the logged in user has access to "administer group" permission.
- *
- * @param $contexts
- *  The contexts available in the panel.
- * @return bool
- *  TRUE when user has access, FALSE when user does not or there's a context missing.
- */
-function c4m_features_og_manage_page_permissions($contexts) {
-  if (!$contexts['context_og_context_1'] || !$contexts['context_user_1']) {
-    return FALSE;
-  }
-  return og_user_access('node', $contexts['context_og_context_1']->data->nid, 'administer group', $contexts['context_user_1']->data);
-}
