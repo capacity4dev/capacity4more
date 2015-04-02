@@ -8,6 +8,21 @@ define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Sort by Start Date");
 include_once 'c4m_features_og_events.features.inc';
 
 /**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_events_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_events' => array(
+      'name' => t('Events'),
+      'description' => t('Events overview.'),
+      'machine_name' => 'c4m_features_og_events',
+      'weight' => 4,
+      'default' => TRUE,
+    ),
+  );
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {

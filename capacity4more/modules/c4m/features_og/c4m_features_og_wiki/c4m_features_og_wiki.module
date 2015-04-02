@@ -1,6 +1,21 @@
 <?php
 
 /**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_wiki_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_wiki' => array(
+      'name' => t('Wiki'),
+      'description' => t('Wiki overview.'),
+      'machine_name' => 'c4m_features_og_wiki',
+      'weight' => 1,
+      'default' => TRUE,
+    ),
+  );
+}
+
+/**
  * Implementation of hook_menu().
  *
  * @param $entity_type

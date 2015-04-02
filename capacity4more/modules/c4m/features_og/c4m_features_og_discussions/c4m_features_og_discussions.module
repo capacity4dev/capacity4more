@@ -5,3 +5,18 @@
  */
 
 include_once 'c4m_features_og_discussions.features.inc';
+
+/**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_discussions_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_discussions' => array(
+      'name' => t('Discussions'),
+      'description' => t('Discussions overview.'),
+      'machine_name' => 'c4m_features_og_discussions',
+      'weight' => 2,
+      'default' => TRUE,
+    ),
+  );
+}
