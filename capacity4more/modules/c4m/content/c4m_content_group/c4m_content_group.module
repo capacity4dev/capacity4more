@@ -306,7 +306,6 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
  * Set permissions to users based on OG role and group status.
  */
 function c4m_content_group_og_user_access_alter(&$perm, $context) {
-
   $account = $context['account'];
   $group = $context['group'];
 
@@ -358,7 +357,8 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
     global $user;
     $account = user_load($user->uid);
   }
-  $nodes = og_get_entity_groups();
+
+  $nodes = og_get_entity_groups('user', $account, array(OG_STATE_ACTIVE), NULL, TRUE);
 
   $grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
     c4m_group_status_GRANT_ID_view_published,
@@ -417,12 +417,9 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
           c4m_group_status_GRANT_ID_update_archived,
           c4m_group_status_GRANT_ID_update_rejected,
         );
-        return $grants;
       }
-
       // Group admin or group member.
-
-      if (og_user_access('node', $gid, 'administer group', $account)) {
+      else if (og_user_access('node', $gid, 'administer group', $account)) {
         // Group admin.
 
         $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = array(
@@ -455,7 +452,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 function c4m_content_group_node_access_records($node) {
   if ($node->type != 'group') {
     // Node is not a group.
-    return array();
+    return;
   }
   $wrapper = entity_metadata_wrapper('node', $node);
   $grants = array();
