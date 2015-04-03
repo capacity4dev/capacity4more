@@ -204,8 +204,8 @@ function c4m_og_views_plugins() {
  *
  * @param string $feature
  *   Determine if the specified user has access to a given feature.
- * @param null $account
- *  If the $account argument is omitted, the current user is used.
+ * @param object $account
+ *   If the $account argument is omitted, the current user is used.
  *
  * @return bool
  */
