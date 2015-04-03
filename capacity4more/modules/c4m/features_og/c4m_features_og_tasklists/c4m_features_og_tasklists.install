@@ -9,7 +9,7 @@
  */
 function c4m_features_og_tasklists_install() {
   // Install this feature.
-  c4m_og_feature_install('c4m_features_og_tasklists');
+  c4m_og_feature_install('c4m_features_og_tasklists', FALSE);
 }
 
 /**
