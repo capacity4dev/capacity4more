@@ -484,7 +484,7 @@ function c4m_og_feature_enabled($feature) {
 
   // Check if the feature is enabled.
   $settings = variable_get('c4m_og_features_group', array());
-  if ($settings[$feature] === $feature) {
+  if (isset($settings[$feature]) && $settings[$feature] === $feature) {
     return TRUE;
   }
 
