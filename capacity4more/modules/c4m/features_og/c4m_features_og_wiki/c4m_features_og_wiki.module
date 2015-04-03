@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Code for the Group Wiki feature.
+ */
 
 /**
  * Implements hook_c4m_og_feature_info().

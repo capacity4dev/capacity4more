@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Events feature.
+ * Code for the Group Events feature.
  */
 define('C4M_FEATURES_OG_EVENTS_SORT_BY_START_DATE', "Sort by Start Date");
 

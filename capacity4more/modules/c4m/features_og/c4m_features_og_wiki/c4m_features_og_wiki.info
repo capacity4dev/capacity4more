@@ -2,4 +2,5 @@ name = Wiki
 description = Provides the Wiki pages within Groups.
 core = 7.x
 version = 7.x-1.x-dev
+dependencies[] = c4m_og
 dependencies[] = c4m_og_menu

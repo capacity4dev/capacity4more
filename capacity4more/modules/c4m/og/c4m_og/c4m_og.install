@@ -9,6 +9,7 @@
  */
 function c4m_og_install() {
   _c4m_og_install_context();
+  _c4m_og_install_og_variable_realm();
 }
 
 
@@ -33,4 +34,14 @@ function _c4m_og_install_context() {
     'user-edit' => '-5',
   );
   variable_set('og_context_providers_weight_group_context', $weights);
+}
+
+/**
+ * Helper to set the OG variable realm.
+ */
+function _c4m_og_install_og_variable_realm() {
+  // Enable OG realm variable for group features.
+  $og_realm = variable_get('variable_realm_list_og', array());
+  $og_realm[] = 'c4m_og_features_[group_type]';
+  variable_set('variable_realm_list_og', $og_realm);
 }

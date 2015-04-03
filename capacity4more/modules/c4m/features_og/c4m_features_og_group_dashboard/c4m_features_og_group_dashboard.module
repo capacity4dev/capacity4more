@@ -5,18 +5,3 @@
  */
 
 include_once 'c4m_features_og_group_dashboard.features.inc';
-
-/**
- * Implements hook_c4m_og_feature_info().
- */
-function c4m_features_og_group_dashboard_c4m_og_feature_info() {
-  return array(
-    'c4m_features_og_group_dashboard' => array(
-      'name' => t('Home'),
-      'description' => t('Group dashboard.'),
-      'machine_name' => 'c4m_features_og_group_dashboard',
-      'weight' => 0,
-      'default' => TRUE,
-    ),
-  );
-}

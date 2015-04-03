@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Task lists overview feature.
+ * Code for the Group Tasks feature.
  */
 
 include_once 'c4m_features_og_tasklists.features.inc';

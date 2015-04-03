@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Document overview feature.
+ * Code for the Group Documents feature.
  */
 
 include_once 'c4m_features_og_documents.features.inc';

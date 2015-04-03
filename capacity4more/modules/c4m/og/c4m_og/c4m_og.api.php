@@ -28,10 +28,10 @@
  */
 function hook_c4m_og_feature_info() {
   return array(
-    'c4m_features_og_group_dashboard' => array(
-      'name' => t('Dashboard'),
-      'description' => t('A dashboard overview.'),
-      'machine_name' => 'c4m_features_og_group_dashboard',
+    'c4m_og' => array(
+      'name' => t('Groups'),
+      'description' => t('Group features.'),
+      'machine_name' => 'c4m_og',
       'weight' => 0,
       'default' => TRUE,
     ),
