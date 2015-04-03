@@ -32,7 +32,8 @@ function c4m_features_og_wiki_menu() {
     'title' => 'Wiki pages',
     'page callback' => 'c4m_features_og_wiki_wiki',
     'file' => 'includes/c4m_features_og_wiki.inc',
-    'access arguments' => array('access content'),
+    'access callback' => array('c4m_og_access'),
+    'access arguments' => array('c4m_features_og_wiki'),
     'type' => MENU_CALLBACK,
   );
 
@@ -56,6 +57,9 @@ function c4m_features_og_wiki_theme() {
  * No title for the group menu.
  */
 function c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter(&$data, $block) {
+  if (!c4m_og_access('c4m_features_og_wiki')) {
+    return;
+  }
   $group = c4m_og_current_group();
   if (!isset($group->book)) {
     return;
