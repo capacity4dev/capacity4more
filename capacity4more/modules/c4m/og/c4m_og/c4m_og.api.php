@@ -25,15 +25,19 @@
  *   - machine_name : The machine name of the feature.
  *   - weight : The weight used to sort the feature in listings.
  *   - default : The default state of the feature.
+ *   - group_types : An array of group types the feature is available for.
+ *   - content_types : An array of enabled content types.
  */
 function hook_c4m_og_feature_info() {
   return array(
     'c4m_og' => array(
-      'name' => t('Groups'),
-      'description' => t('Group features.'),
+      'name' => t('Organic Groups'),
+      'description' => t('Organic Group features.'),
       'machine_name' => 'c4m_og',
       'weight' => 0,
       'default' => TRUE,
+      'group_types' => array('group', 'project'),
+      'content_types' => array('group', 'project'),
     ),
   );
 }
