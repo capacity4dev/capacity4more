@@ -111,6 +111,10 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
     'wiki_page',
   );
 
+  // Hide message for the type 'article' when the operation 'update' happened.
+  if ($op != 'update')
+    array_push($valid_node_types, 'article');
+
   if (!in_array($entity_type, $valid_entity_types)) {
     // Not an entity related to message.
     return;
