@@ -15,7 +15,7 @@ Feature: Group Manage
   @api
   Scenario: Check anchors in the edit form page
     Given I am logged in as user "alfrednobel"
-    When  I go to "nobelprize/node/37/edit"
+    When  I start editing group "Nobel Prize"
     And   I should see an "#edit-details" element
     And   I should see an "#edit-permissions" element
     And   I should see an "#edit-related-content" element
