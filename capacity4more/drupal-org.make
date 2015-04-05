@@ -144,6 +144,9 @@ projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
 projects[og_purl][patch][] = "https://www.drupal.org/files/issues/og_purl_node_delete-2419277-1.patch"
 
+projects[og_variables][subdir] = "contrib"
+projects[og_variables][version] = "1.0-beta2"
+
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
@@ -210,6 +213,9 @@ projects[summary_settings][version] = "1.x-dev"
 
 projects[transliteration][subdir] = contrib
 projects[transliteration][version] = "3.2"
+
+projects[variable][subdir] = "contrib"
+projects[variable][version] = "2.5"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.8"
