@@ -65,7 +65,7 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
 
     // Show only publish content in active stream.
     $query->condition('node.status', 1);
-    
+
     if (!empty($request['topics'])) {
       // Join related to Articles tables to get V&V activities with user's
       // topics of interest.
