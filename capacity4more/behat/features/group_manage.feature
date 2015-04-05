@@ -2,7 +2,7 @@ Feature: Group Manage
   Test group manage page links.
 
 
-  @api 
+  @api
   Scenario: Check anchors in the links on manage group page
     Given I am logged in as user "alfrednobel"
     When  I go to "nobelprize/manage"
