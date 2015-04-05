@@ -194,7 +194,6 @@ function theme_c4m_taxonomy_overview_terms($variables) {
   $form = $variables['form'];
 
   $vocabulary = $form['#vocabulary'];
-  $page_increment  = $form['#page_increment'];
   $page_entries    = $form['#page_entries'];
   $back_step     = $form['#back_step'];
   $forward_step  = $form['#forward_step'];
@@ -226,9 +225,16 @@ function theme_c4m_taxonomy_overview_terms($variables) {
   }
 
   // Link to go back to manage page.
-  $output = l(t('Return to overview'), url('manage', array('absolute' => TRUE)));
+  $title['element'] = array(
+    '#tag' => 'h2',
+    '#attributes' => array(
+      'class' => array('category-edit-title-text'),
+    ),
+    '#value' => t('Edit Group @title', array('@title' => $vocabulary->name)),
+  );
+  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage', array('absolute' => TRUE))) . '</div>';
   // Static page description.
-  $output .= '<div class="taxonomy-description">';
+  $output .= '<div class="category-edit-description">';
   $output .= t('
       Here you can define the category terms that will be used to classify documents and other contents submitted to the group.
       You can add, edit and delete the category terms. The category Group will not show up if there are no terms added to it.
@@ -236,7 +242,11 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     ');
   $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
   $output .= '</div>';
-  $header = array(t('Name') . l(t('Order items alphabetically'), url('')), t('Operations'));
+  $header[] = array(
+    'data' => t('Name') . l(t('Order items alphabetically'), url('')),
+    'class' => array('category-name-column')
+  );
+  $header[] = t('Operations');
   foreach ($parents as $parent) {
     // Add necessary classes to rows.
     $row_position = 0;
@@ -288,9 +298,19 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       'absolute' => TRUE,
       'query' => drupal_get_destination(),
     );
-    $output .= theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    $output .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
-    $output .= '|' . l(t('Delete'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
+    $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
+    $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
+    $category_title .= '|' . l(t('Delete'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
+
+    $category_title_element['element'] = array(
+      '#tag' => 'div',
+      '#attributes' => array(
+        'class' => array('category-title-wrapper'),
+      ),
+      '#value' => $category_title,
+    );
+
+    $output .= theme_html_tag($category_title_element);
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
 
     // Add term form.
