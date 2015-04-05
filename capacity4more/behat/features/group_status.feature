@@ -93,15 +93,15 @@ Feature: Group Status
   Scenario: Check group dashboard access by group owner
     Given I am logged in as user "alfrednobel"
     When  I visit the dashboard of group "Requested group"
-    Then  I should see the group dashboard
+    Then  I should have access to the page
     And   I visit the dashboard of group "Draft group"
-    And   I should see the group dashboard
+    And   I should have access to the page
     And   I visit the dashboard of group "Published group"
-    And   I should see the group dashboard
+    And   I should have access to the page
     And   I visit the dashboard of group "Archived group"
-    And   I should see the group dashboard
+    And   I should have access to the page
     And   I visit the dashboard of group "Rejected group"
-    And   I should see the group dashboard
+    And   I should have access to the page
     And   I visit the dashboard of group "Deleted group"
     And   I should see "Access denied"
 
