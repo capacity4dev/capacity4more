@@ -21,6 +21,7 @@ class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateOgContent {
     array('body', 'Body'),
     array('image', 'Icon'),
     array('domain', 'Domain'),
+    array('uid', 'UID'),
   );
 
   /**
