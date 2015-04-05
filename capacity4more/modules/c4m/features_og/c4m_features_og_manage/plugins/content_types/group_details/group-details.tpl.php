@@ -3,7 +3,7 @@
     <div class="group-details">
       <div class="title">
         <h2><?php print t('Group details') ?></h2>
-        <?php print $details['edit_link'] ?>
+        <a href="<?php print $details['edit_link'] ?>#edit-details"><?php print t('Edit') ?></a>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Group name') ?></div>
@@ -29,7 +29,7 @@
     <div class="group-permissions">
       <div class="title">
         <h2><?php print t('Group permissions') ?></h2>
-        <?php print $details['edit_link'] ?>
+        <a href="<?php print $details['edit_link'] ?>#edit-permisssions"><?php print t('Edit') ?> </a>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Group access') ?></div>
@@ -50,7 +50,7 @@
     <div class="group-related-content">
       <div class="title">
         <h2><?php print t('Related content') ?></h2>
-        <?php print $details['edit_link'] ?>
+        <a href="<?php print $details['edit_link'] ?>#edit-related-content"><?php print t('Edit') ?> </a>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Related Groups') ?></div>
@@ -64,7 +64,7 @@
     <div class="group-related-content">
       <div class="title">
         <h2><?php print t('Categories') ?></h2>
-        <?php print $details['taxonomy_manage_link'] ?>
+        <a href="<?php print $details['edit_link'] ?>"><?php print t('Edit') ?> </a>
       </div>
       <div class="row">
         <div class="col-md-12"><?php print t('This group has <strong>@cat_count Categories</strong> and <strong>@term_count Terms</strong>', array('@cat_count' => $details['categories_count'], '@term_count' => $details['terms_count'])) ?></div>
