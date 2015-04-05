@@ -6,18 +6,18 @@
 
 define('C4M_NODE_ACCESS_REALM', 'c4m_group_status');
 define('C4M_NODE_ACCESS_REALM_ALL', 'c4m_group_status_admin');
-define('c4m_group_status_view_requested', 0);
-define('c4m_group_status_view_draft', 1);
-define('c4m_group_status_view_published', 2);
-define('c4m_group_status_view_archived', 3);
-define('c4m_group_status_view_rejected', 4);
-define('c4m_group_status_view_deleted', 5);
-define('c4m_group_status_update_requested', 6);
-define('c4m_group_status_update_draft', 7);
-define('c4m_group_status_update_published', 8);
-define('c4m_group_status_update_archived', 9);
-define('c4m_group_status_update_rejected', 10);
-define('c4m_group_status_update_deleted', 11);
+define('C4M_GROUP_STATUS_VIEW_REQUESTED', 0);
+define('C4M_GROUP_STATUS_VIEW_DRAFT', 1);
+define('C4M_GROUP_STATUS_VIEW_PUBLISHED', 2);
+define('C4M_GROUP_STATUS_VIEW_ARCHIVED', 3);
+define('C4M_GROUP_STATUS_VIEW_REJECTED', 4);
+define('C4M_GROUP_STATUS_VIEW_DELETED', 5);
+define('C4M_GROUP_STATUS_UPDATE_REQUESTED', 6);
+define('C4M_GROUP_STATUS_UPDATE_DRAFT', 7);
+define('C4M_GROUP_STATUS_UPDATE_PUBLISHED', 8);
+define('C4M_GROUP_STATUS_UPDATE_ARCHIVED', 9);
+define('C4M_GROUP_STATUS_UPDATE_REJECTED', 10);
+define('C4M_GROUP_STATUS_UPDATE_DELETED', 11);
 
 include_once 'c4m_content_group.features.inc';
 
@@ -309,11 +309,7 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
   $account = $context['account'];
   $group = $context['group'];
 
-  if ($group->type != 'group') {
-    return;
-  }
-
-  if (!$account->uid) {
+  if ($group->type != 'group' || !$account->uid) {
     return;
   }
 
@@ -327,7 +323,6 @@ function c4m_content_group_og_user_access_alter(&$perm, $context) {
   if ($site_admin || $group_owner || $group_admin) {
     // Site admin/group owner/group admin can invite/approve group members only
     // for Draft and Published groups.
-
     $allowed_values = array('draft', 'published');
     if (!in_array($status, $allowed_values)) {
       $perm['add user'] = FALSE;
@@ -361,16 +356,15 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
   $nodes = og_get_entity_groups();
 
   $grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
-    c4m_group_status_view_published,
-    c4m_group_status_view_archived,
+    C4M_GROUP_STATUS_VIEW_PUBLISHED,
+    C4M_GROUP_STATUS_VIEW_ARCHIVED,
   );
 
   if (!$account->uid || empty($nodes)) {
     // Anonymous user or user that is not a member of any group.
-
     $anonymous_grant_ids = array(
-      c4m_group_status_view_published,
-      c4m_group_status_view_archived,
+      C4M_GROUP_STATUS_VIEW_PUBLISHED,
+      C4M_GROUP_STATUS_VIEW_ARCHIVED,
     );
 
     $grants[C4M_NODE_ACCESS_REALM . '_anon'] = $op == 'view' ? $anonymous_grant_ids : array();
@@ -379,20 +373,19 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 
   if (user_access('administer site configuration', $account)) {
     // Site admin.
-
     $grants[C4M_NODE_ACCESS_REALM_ALL] = array(
-      c4m_group_status_view_requested,
-      c4m_group_status_view_draft,
-      c4m_group_status_view_published,
-      c4m_group_status_view_archived,
-      c4m_group_status_view_rejected,
-      c4m_group_status_view_deleted,
-      c4m_group_status_update_requested,
-      c4m_group_status_update_draft,
-      c4m_group_status_update_published,
-      c4m_group_status_update_archived,
-      c4m_group_status_update_rejected,
-      c4m_group_status_update_deleted,
+      C4M_GROUP_STATUS_VIEW_REQUESTED,
+      C4M_GROUP_STATUS_VIEW_DRAFT,
+      C4M_GROUP_STATUS_VIEW_PUBLISHED,
+      C4M_GROUP_STATUS_VIEW_ARCHIVED,
+      C4M_GROUP_STATUS_VIEW_REJECTED,
+      C4M_GROUP_STATUS_VIEW_DELETED,
+      C4M_GROUP_STATUS_UPDATE_REQUESTED,
+      C4M_GROUP_STATUS_UPDATE_DRAFT,
+      C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+      C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+      C4M_GROUP_STATUS_UPDATE_REJECTED,
+      C4M_GROUP_STATUS_UPDATE_DELETED,
     );
     return $grants;
   }
@@ -404,40 +397,38 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 
       if ($account->uid == $node->uid) {
         // Group owner.
-
         $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = array(
-          c4m_group_status_view_requested,
-          c4m_group_status_view_draft,
-          c4m_group_status_view_published,
-          c4m_group_status_view_archived,
-          c4m_group_status_view_rejected,
-          c4m_group_status_update_requested,
-          c4m_group_status_update_draft,
-          c4m_group_status_update_published,
-          c4m_group_status_update_archived,
-          c4m_group_status_update_rejected,
+          C4M_GROUP_STATUS_VIEW_REQUESTED,
+          C4M_GROUP_STATUS_VIEW_DRAFT,
+          C4M_GROUP_STATUS_VIEW_PUBLISHED,
+          C4M_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_GROUP_STATUS_VIEW_REJECTED,
+          C4M_GROUP_STATUS_UPDATE_REQUESTED,
+          C4M_GROUP_STATUS_UPDATE_DRAFT,
+          C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+          C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+          C4M_GROUP_STATUS_UPDATE_REJECTED,
         );
         continue;
       }
       // Group admin or group member.
       else if (og_user_access('node', $gid, 'administer group', $account)) {
         // Group admin.
-
         $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = array(
-          c4m_group_status_view_published,
-          c4m_group_status_view_archived,
-          c4m_group_status_view_draft,
-          c4m_group_status_update_published,
-          c4m_group_status_update_archived,
-          c4m_group_status_update_draft,
+          C4M_GROUP_STATUS_VIEW_PUBLISHED,
+          C4M_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_GROUP_STATUS_VIEW_DRAFT,
+          C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+          C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+          C4M_GROUP_STATUS_UPDATE_DRAFT,
         );
         continue;
       }
       else {
         $member_grant_ids = array(
-          c4m_group_status_view_published,
-          c4m_group_status_view_archived,
-          c4m_group_status_view_draft,
+          C4M_GROUP_STATUS_VIEW_PUBLISHED,
+          C4M_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_GROUP_STATUS_VIEW_DRAFT,
         );
         $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = $op == 'view' ? $member_grant_ids : array();
         continue;
@@ -466,21 +457,21 @@ function c4m_content_group_node_access_records($node) {
       $realm_grants = array(
         C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => c4m_group_status_view_requested,
+            'gid' => C4M_GROUP_STATUS_VIEW_REQUESTED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_requested,
+            'gid' => C4M_GROUP_STATUS_UPDATE_REQUESTED,
             'grant_update' => 1,
           ),
         ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
-            'gid' => c4m_group_status_view_requested,
+            'gid' => C4M_GROUP_STATUS_VIEW_REQUESTED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_requested,
+            'gid' => C4M_GROUP_STATUS_UPDATE_REQUESTED,
             'grant_update' => 1,
           ),
         ),
@@ -490,21 +481,21 @@ function c4m_content_group_node_access_records($node) {
       $realm_grants = array(
         C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => c4m_group_status_view_draft,
+            'gid' => C4M_GROUP_STATUS_VIEW_DRAFT,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_draft,
+            'gid' => C4M_GROUP_STATUS_UPDATE_DRAFT,
             'grant_update' => 1,
           ),
         ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
-            'gid' => c4m_group_status_view_draft,
+            'gid' => C4M_GROUP_STATUS_VIEW_DRAFT,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_draft,
+            'gid' => C4M_GROUP_STATUS_UPDATE_DRAFT,
             'grant_update' => 1,
           ),
         ),
@@ -514,21 +505,21 @@ function c4m_content_group_node_access_records($node) {
       $realm_grants = array(
         C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => c4m_group_status_view_published,
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_published,
+            'gid' => C4M_GROUP_STATUS_UPDATE_PUBLISHED,
             'grant_update' => 1,
           ),
         ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
-            'gid' => c4m_group_status_view_published,
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_published,
+            'gid' => C4M_GROUP_STATUS_UPDATE_PUBLISHED,
             'grant_update' => 1,
           ),
         ),
@@ -537,13 +528,13 @@ function c4m_content_group_node_access_records($node) {
         // Only for public groups.
         $realm_grants[C4M_NODE_ACCESS_REALM . '_anon'] = array(
           array(
-            'gid' => c4m_group_status_view_published,
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
             'grant_update' => 0,
           ),
         );
         $realm_grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
           array(
-            'gid' => c4m_group_status_view_published,
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
             'grant_update' => 0,
           ),
         );
@@ -553,21 +544,21 @@ function c4m_content_group_node_access_records($node) {
       $realm_grants = array(
         C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => c4m_group_status_view_archived,
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_archived,
+            'gid' => C4M_GROUP_STATUS_UPDATE_ARCHIVED,
             'grant_update' => 1,
           ),
         ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
-            'gid' => c4m_group_status_view_archived,
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_archived,
+            'gid' => C4M_GROUP_STATUS_UPDATE_ARCHIVED,
             'grant_update' => 1,
           ),
         ),
@@ -576,13 +567,13 @@ function c4m_content_group_node_access_records($node) {
         // Only for public groups.
         $realm_grants[C4M_NODE_ACCESS_REALM . '_anon'] = array(
           array(
-            'gid' => c4m_group_status_view_archived,
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
             'grant_update' => 0,
           ),
         );
         $realm_grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
           array(
-            'gid' => c4m_group_status_view_archived,
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
             'grant_update' => 0,
           ),
         );
@@ -592,21 +583,21 @@ function c4m_content_group_node_access_records($node) {
       $realm_grants = array(
         C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => c4m_group_status_view_rejected,
+            'gid' => C4M_GROUP_STATUS_VIEW_REJECTED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_rejected,
+            'gid' => C4M_GROUP_STATUS_UPDATE_REJECTED,
             'grant_update' => 1,
           ),
         ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
-            'gid' => c4m_group_status_view_rejected,
+            'gid' => C4M_GROUP_STATUS_VIEW_REJECTED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_rejected,
+            'gid' => C4M_GROUP_STATUS_UPDATE_REJECTED,
             'grant_update' => 1,
           ),
         ),
@@ -616,17 +607,17 @@ function c4m_content_group_node_access_records($node) {
       $realm_grants = array(
         C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
           array(
-            'gid' => c4m_group_status_view_deleted,
+            'gid' => C4M_GROUP_STATUS_VIEW_DELETED,
             'grant_update' => 0,
           ),
         ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
-            'gid' => c4m_group_status_view_deleted,
+            'gid' => C4M_GROUP_STATUS_VIEW_DELETED,
             'grant_update' => 0,
           ),
           array(
-            'gid' => c4m_group_status_update_deleted,
+            'gid' => C4M_GROUP_STATUS_UPDATE_DELETED,
             'grant_update' => 1,
           ),
         ),
