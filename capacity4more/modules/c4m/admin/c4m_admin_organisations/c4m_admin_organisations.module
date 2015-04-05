@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Admin Organisations feature.
+ */
+
+include_once 'c4m_admin_organisations.inc';
