@@ -176,6 +176,10 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   return $form;
 }
 
+function c4m_taxonomy_vocabulary_title($vocabulary) {
+  return t('Edit Group @title', array('@title' => $vocabulary->name));
+}
+
 /**
  * Returns HTML for a terms overview form as a sortable list of terms.
  *
@@ -189,6 +193,7 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
 function theme_c4m_taxonomy_overview_terms($variables) {
   $form = $variables['form'];
 
+  $vocabulary = $form['#vocabulary'];
   $page_increment  = $form['#page_increment'];
   $page_entries    = $form['#page_entries'];
   $back_step     = $form['#back_step'];
@@ -204,6 +209,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       $row = array();
       if (isset($term['#term']['depth']) && $term['#term']['depth'] == 0) {
         $parents[] = $term;
+        unset($form[$key]);
         continue;
       }
       $row[] = drupal_render($term['view']);
@@ -219,8 +225,18 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     }
   }
 
-  $output = '';
-  $header = array(t('Name'), t('Operations'));
+  // Link to go back to manage page.
+  $output = l(t('Return to overview'), url('manage', array('absolute' => TRUE)));
+  // Static page description.
+  $output .= '<div class="taxonomy-description">';
+  $output .= t('
+      Here you can define the category terms that will be used to classify documents and other contents submitted to the group.
+      You can add, edit and delete the category terms. The category Group will not show up if there are no terms added to it.
+      Manual order terms by dragging them. You can move terms from one category Group to another:
+    ');
+  $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
+  $output .= '</div>';
+  $header = array(t('Name') . l(t('Order items alphabetically'), url('')), t('Operations'));
   foreach ($parents as $parent) {
     // Add necessary classes to rows.
     $row_position = 0;
@@ -273,7 +289,30 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       'query' => drupal_get_destination(),
     );
     $output .= theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
+    $output .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
+    $output .= '|' . l(t('Delete'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
+
+    // Add term form.
+    $add_term_form = array(
+      '#prefix' => '<div id="add-term">',
+      '#suffix' => '</div>',
+      'name' => array(
+        '#title' => '',
+        '#type' => 'textfield',
+        '#name' => 'name',
+        '#description' => '',
+      ),
+      'submit' => array(
+        '#type' => 'button',
+        '#value' => t('Add Term'),
+        '#attributes' => array(
+          'onclick' => 'addTerm("' . $parent['tid']['#value'] . '", "' . $vocabulary->machine_name . '")',
+        ),
+      ),
+    );
+
+    $output .= drupal_render($add_term_form);
 
     // Add drag and drop if parent fields are present in the form.
     if ($form['#parent_fields']) {

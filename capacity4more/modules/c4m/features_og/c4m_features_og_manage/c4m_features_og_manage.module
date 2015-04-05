@@ -20,8 +20,8 @@ function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_features_og_manage_menu() {
   $items['manage/categories/%taxonomy_vocabulary_machine_name'] = array(
-    'title callback' => 'entity_label',
-    'title arguments' => array('taxonomy_vocabulary', 2),
+    'title callback' => 'c4m_taxonomy_vocabulary_title',
+    'title arguments' => array(2),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_taxonomy_overview_terms', 2),
     'access callback' => TRUE,
