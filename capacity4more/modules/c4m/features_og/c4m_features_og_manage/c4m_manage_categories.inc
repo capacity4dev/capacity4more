@@ -26,6 +26,12 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   $form['#tree'] = TRUE;
   $form['#parent_fields'] = FALSE;
 
+  $parameters = drupal_get_query_parameters();
+  // Check for confirmation forms.
+  if (isset($parameters['delete'])) {
+    return array_merge($form, c4m_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
+  }
+
   $page            = isset($_GET['page']) ? $_GET['page'] : 0;
   $page_increment  = variable_get('taxonomy_terms_per_page_admin', 100);  // Number of terms per page.
   $page_entries    = 0;   // Elements shown on this page.
@@ -154,7 +160,7 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
       );
     }
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'taxonomy/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
-    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'taxonomy/term/' . $term->tid . '/delete', '#options' => array('query' => drupal_get_destination()));
+    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $vocabulary->machine_name, '#options' => array('query' => array('delete' => $term->tid)));
   }
 
   $form['#total_entries'] = $total_entries;
@@ -174,6 +180,47 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   }
 
   return $form;
+}
+
+/**
+ * Form builder for the term delete form.
+ *
+ * @ingroup forms
+ * @see taxonomy_term_confirm_delete_submit()
+ */
+function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
+  $term = taxonomy_term_load($tid);
+
+  // Always provide entity id in the same form key as in the entity edit form.
+  $form['tid'] = array('#type' => 'value', '#value' => $tid);
+
+  $form['#term'] = $term;
+  $form['type'] = array('#type' => 'value', '#value' => 'term');
+  $form['name'] = array('#type' => 'value', '#value' => $term->name);
+  $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
+  $form['delete'] = array('#type' => 'value', '#value' => TRUE);
+  return confirm_form($form,
+    t('Are you sure you want to delete the term %title?',
+      array('%title' => $term->name)),
+    'manage/categories/' . $form['#vocabulary']->machine_name,
+    t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
+    t('Delete'),
+    t('Cancel'));
+}
+
+/**
+ * Submit handler for vocabularies overview. Updates changed vocabulary weights.
+ *
+ * @see taxonomy_overview_vocabularies()
+ */
+function c4m_taxonomy_overview_vocabularies_submit($form, &$form_state) {
+  foreach ($form_state['values'] as $vid => $vocabulary) {
+    if (is_numeric($vid) && $form[$vid]['#vocabulary']->weight != $form_state['values'][$vid]['weight']) {
+      $form[$vid]['#vocabulary']->weight = $form_state['values'][$vid]['weight'];
+      taxonomy_vocabulary_save($form[$vid]['#vocabulary']);
+    }
+  }
+  drupal_set_message(t('The configuration options have been saved.'));
 }
 
 function c4m_taxonomy_vocabulary_title($vocabulary) {
@@ -299,8 +346,11 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       'query' => drupal_get_destination(),
     );
     $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
-    $category_title .= '|' . l(t('Delete'), url('taxonomy/term/' . $parent['tid']['#value'], $options));
+    $options['fragment'] = 'edit-weight';
+    $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
+    unset($options['fragment']);
+    $options['query']['delete'] = $parent['tid']['#value'];
+    $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
 
     $category_title_element['element'] = array(
       '#tag' => 'div',
