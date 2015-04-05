@@ -1,12 +1,12 @@
 <?php
-
-
 /**
  * @file
  * Plugin to provide access control based on user permission strings in a group.
  */
 
 /**
+ * C4M_OG_PERM plugin information.
+ *
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
  */
@@ -23,11 +23,11 @@ $plugin = array(
 );
 
 /**
- * Settings form for the 'by perm' access plugin
+ * Settings form for the 'by perm' access plugin.
  */
 function c4m_og_c4m_og_perm_ctools_access_settings($form, &$form_state, $conf) {
   $perms = array();
-  // Get list of permissions
+  // Get list of permissions.
   foreach (og_get_permissions() as $perm => $value) {
     // By keeping them keyed by module we can use optgroups with the
     // 'select' type.
@@ -67,4 +67,3 @@ function c4m_og_c4m_og_perm_ctools_access_summary($conf, $context) {
   $permissions = og_get_permissions();
   return t('User has "@perm" in group', array('@perm' => $permissions[$conf['perm']]['title']));
 }
-
