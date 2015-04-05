@@ -73,10 +73,12 @@ function c4m_features_og_manage_default_page_manager_pages() {
           'not' => FALSE,
         ),
         2 => array(
-          'name' => 'php',
+          'name' => 'c4m_og_perm',
           'settings' => array(
-            'description' => 'Only accessible for group users who can manage the group (group owner & group administrators).',
-            'php' => 'return c4m_features_og_manage_page_permissions($contexts);',
+            'perm' => 'administer group',
+          ),
+          'context' => array(
+            0 => 'logged-in-user',
           ),
           'not' => FALSE,
         ),

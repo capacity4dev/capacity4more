@@ -8,6 +8,7 @@ dependencies[] = context
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = og_context
+dependencies[] = og_variables
 dependencies[] = strongarm
 features[context][] = c4m_context_og_hide_main_navigation
 features[ctools][] = context:context:3
