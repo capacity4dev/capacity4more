@@ -12,7 +12,7 @@ Feature: Group Manage
     And   the response should contain "#edit-image-banner"
     And   the response should contain "#edit-image-list"
 
-  @api @foo
+  @api
   Scenario: Check anchors in the edit form page
     Given I am logged in as user "alfrednobel"
     When  I go to "nobelprize/node/37/edit"
