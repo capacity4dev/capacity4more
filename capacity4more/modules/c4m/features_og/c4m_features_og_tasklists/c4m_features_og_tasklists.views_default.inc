@@ -26,6 +26,7 @@ function c4m_features_og_tasklists_views_default_views() {
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_tasklists';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';

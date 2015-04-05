@@ -192,24 +192,36 @@ function c4m_og_views_plugins() {
         'help' => t('this is a custom access plugin'),
         'handler' => 'c4m_og_access_plugin',
         'path' => drupal_get_path('module', 'c4m_og'),
-        ),
+        'uses options' => TRUE,
       ),
-    );
+    ),
+  );
   return $plugins;
 }
 
 /**
- * Implementation of hook_access()
+ * Access callback for the c4m_og_access_plugin access plugin.
+ *
+ * @param string $feature
+ *   Determine if the specified user has access to a given feature.
+ * @param object $account
+ *   If the $account argument is omitted, the current user is used.
  *
  * @return bool
  */
-function c4m_og_access() {
-  $access = TRUE;
+function c4m_og_access($feature, $account = NULL) {
+  // Check if the user has access to the group context.
   $og_context = og_context();
   if (!$og_context) {
-    $access = FALSE;
+    return FALSE;
   }
-  return $access;
+
+  // Check if the feature is enabled.
+  if (c4m_og_feature_enabled($feature)) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**
@@ -419,4 +431,95 @@ function c4m_og_get_gid_from_entity($entity) {
   }
 
   return NULL;
+}
+
+/**
+ * Load all group features info from implemented c4m_og_feature hooks.
+ *
+ * @param string $feature
+ *   Only return data for a given feature.
+ *
+ * @return array
+ *   Configuration as collected trough the implemented
+ *   hook_c4m_og_feature_info hooks.
+ */
+function c4m_og_feature_info($feature = NULL) {
+  $cache_key  = 'c4m_og:feature_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'c4m_og_feature_info';
+      $data = module_invoke_all($hook);
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Only return data for a given feature.
+  if (isset($data[$feature])) {
+    return $data[$feature];
+  }
+
+  // Return all data.
+  return $data;
+}
+
+/**
+ * Check if a given feature is enabled.
+ *
+ * @param string $feature
+ *   The feature to check.
+ *
+ * @return bool
+ *   True if the feature is enabled for the active group.
+ */
+function c4m_og_feature_enabled($feature) {
+  // Check if the feature exists.
+  $og_feature = c4m_og_feature_info($feature);
+  if (!isset($og_feature['machine_name'])) {
+    return FALSE;
+  }
+
+  // Check if the feature is enabled.
+  $settings = variable_get('c4m_og_features_group', array());
+  if (isset($settings[$feature]) && $settings[$feature] === $feature) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Install a given feature.
+ *
+ * @param string $feature
+ *   The feature to install.
+ * @param bool $enabled
+ *   Optional, if the feature should be enabled by default (default = TRUE).
+ */
+function c4m_og_feature_install($feature, $enabled = TRUE) {
+  $settings = variable_get('c4m_og_features_group');
+  if ($enabled) {
+    $settings[$feature] = $feature;
+  }
+  else {
+    $settings[$feature] = 0;
+  }
+  variable_set('c4m_og_features_group', $settings);
+}
+
+/**
+ * Uninstall a given feature.
+ *
+ * @param string $feature
+ *   The feature to uninstall.
+ */
+function c4m_og_feature_uninstall($feature) {
+  $settings = variable_get('c4m_og_features_group');
+  unset($settings[$feature]);
+  variable_set('c4m_og_features_group', $settings);
 }

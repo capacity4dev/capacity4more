@@ -67,13 +67,7 @@ function kapablo_menu_link__c4m_og_menu(array $variables) {
       // when a submenu link is clicked.
       $element['#localized_options']['attributes']['data-target'] = '#';
       $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
-      if (!module_exists('c4m_restful') ||
-          !c4m_restful_quick_post_needs_app()) {
-        // Do not add "data-toggle = dropdown" in combination with Angular.js
-        // as this causes the need for double click.
-        // @see http://stackoverflow.com/questions/24218663/avoid-having-to-double-click-to-toggle-bootstrap-dropdown
-        $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
-      }
+      $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
     }
   }
 

@@ -25,6 +25,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_events';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -231,6 +232,7 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['title'] = 'Past events';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'c4m_og_access_og_context';
+  $handler->display->display_options['access']['feature'] = 'c4m_features_og_events';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
