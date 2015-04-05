@@ -103,8 +103,10 @@ function c4m_content_group_node_update($node) {
   }
 
   // Status now and before update.
-  $status_new = $node->c4m_og_status[LANGUAGE_NONE][0]['value'];
-  $status_original = (isset($node->original->c4m_og_status[LANGUAGE_NONE][0]['value']))
+  $status_new = isset($node->original->c4m_og_status)
+    ? $node->c4m_og_status[LANGUAGE_NONE][0]['value']
+    : NULL;
+  $status_original = (isset($node->original->c4m_og_status))
     ? $node->original->c4m_og_status[LANGUAGE_NONE][0]['value']
     : NULL;
 
