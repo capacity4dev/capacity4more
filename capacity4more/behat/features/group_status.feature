@@ -85,117 +85,206 @@ Feature: Group Status
     And   the "#edit-c4m-og-status-und" element should not contain "requested"
 
   @api
-  Scenario: Check deleted group as group owner
+  Scenario: Check group access by group owner
     Given I am logged in as user "alfrednobel"
-    Then  I should not be allowed to edit a group "Deleted group"
+    When  I visit the dashboard of group "Requested group"
+    Then  I should have access to the page
+    And   I visit "Requested group" node of type "group"
+    And   I should not see "Access denied"
+    And   I should be allowed to edit a group "Requested group"
 
   @api
   Scenario: Check group dashboard access by group owner
     Given I am logged in as user "alfrednobel"
-    When  I visit the dashboard of group "Requested group"
+    When  I visit the dashboard of group "Draft group"
     Then  I should have access to the page
-    And   I visit the dashboard of group "Draft group"
-    And   I should have access to the page
-    And   I visit the dashboard of group "Published group"
-    And   I should have access to the page
-    And   I visit the dashboard of group "Archived group"
-    And   I should have access to the page
-    And   I visit the dashboard of group "Rejected group"
-    And   I should have access to the page
-    And   I visit the dashboard of group "Deleted group"
-    And   I should see "Access denied"
-
-  @api
-  Scenario: Check group access by group owner
-    Given I am logged in as user "alfrednobel"
-    When  I visit "Requested group" node of type "group"
-    Then  I should not see "Access denied"
-    And   I should be allowed to edit a group "Requested group"
     And   I visit "Draft group" node of type "group"
     And   I should not see "Access denied"
     And   I should be allowed to edit a group "Draft group"
+
+  @api
+  Scenario: Check group dashboard access by group owner
+    Given I am logged in as user "alfrednobel"
+    When  I visit the dashboard of group "Published group"
+    Then  I should have access to the page
     And   I visit "Published group" node of type "group"
     And   I should not see "Access denied"
     And   I should be allowed to edit a group "Published group"
+
+  @api
+  Scenario: Check group dashboard access by group owner
+    Given I am logged in as user "alfrednobel"
+    When  I visit the dashboard of group "Archived group"
+    Then  I should have access to the page
     And   I visit "Archived group" node of type "group"
     And   I should not see "Access denied"
     And   I should be allowed to edit a group "Archived group"
+
+  @api
+  Scenario: Check group dashboard access by group owner
+    Given I am logged in as user "alfrednobel"
+    When  I visit the dashboard of group "Rejected group"
+    Then  I should have access to the page
     And   I visit "Rejected group" node of type "group"
     And   I should not see "Access denied"
     And   I should be allowed to edit a group "Rejected group"
-    And   I visit "Deleted group" node of type "group"
-    And   I should see "Access denied"
-    And   I should not be allowed to edit a group "Deleted group"
+
+  @api
+  Scenario: Check group dashboard access by group owner
+    Given I am logged in as user "alfrednobel"
+    When  I visit the dashboard of group "Deleted group"
+    Then  I should see "Access denied"
 
   @api
   Scenario: Check group access by group admin
     Given I am logged in as user "turing"
     When  I visit "Requested group" node of type "group"
     Then  I should see "Access denied"
-    And   I should not be allowed to edit a group "Requested group"
-    And   I visit "Draft group" node of type "group"
-    And   I should not see "Access denied"
+
+  @api
+  Scenario: Check group access by group admin
+    Given I am logged in as user "turing"
+    When  I visit "Draft group" node of type "group"
+    Then  I should not see "Access denied"
     And   I should be allowed to edit a group "Draft group"
-    And   I visit "Published group" node of type "group"
-    And   I should not see "Access denied"
+
+  @api
+  Scenario: Check group access by group admin
+    Given I am logged in as user "turing"
+    When  I visit "Published group" node of type "group"
+    Then  I should not see "Access denied"
     And   I should be allowed to edit a group "Published group"
-    And   I visit "Archived group" node of type "group"
-    And   I should not see "Access denied"
+
+  @api
+  Scenario: Check group access by group admin
+    Given I am logged in as user "turing"
+    When  I visit "Archived group" node of type "group"
+    Then  I should not see "Access denied"
     And   I should be allowed to edit a group "Archived group"
-    And   I visit "Rejected group" node of type "group"
-    And   I should see "Access denied"
-    And   I should not be allowed to edit a group "Rejected group"
-    And   I visit "Deleted group" node of type "group"
-    And   I should see "Access denied"
-    And   I should not be allowed to edit a group "Deleted group"
+
+  @api
+  Scenario: Check group access by group admin
+    Given I am logged in as user "turing"
+    When  I visit "Rejected group" node of type "group"
+    Then  I should see "Access denied"
+
+  @api
+  Scenario: Check group access by group admin
+    Given I am logged in as user "turing"
+    When  I visit "Deleted group" node of type "group"
+    Then  I should see "Access denied"
 
   @api
   Scenario: Check group access by group member
     Given I am logged in as user "isaacnewton"
     When  I visit "Requested group" node of type "group"
     Then  I should see "Access denied"
-    And   I visit "Draft group" node of type "group"
-    And   I should not see "Access denied"
-    And   I visit "Published group" node of type "group"
-    And   I should not see "Access denied"
+
+  @api
+  Scenario: Check group access by group member
+    Given I am logged in as user "isaacnewton"
+    When  I visit "Draft group" node of type "group"
+    Then  I should not see "Access denied"
+    And   I should not be allowed to edit a group "Draft group"
+
+  @api
+  Scenario: Check group access by group member
+    Given I am logged in as user "isaacnewton"
+    When  I visit "Published group" node of type "group"
+    Then  I should not see "Access denied"
     And   I should not be allowed to edit a group "Published group"
-    And   I visit "Archived group" node of type "group"
-    And   I should not see "Access denied"
-    And   I visit "Rejected group" node of type "group"
-    And   I should see "Access denied"
-    And   I visit "Deleted group" node of type "group"
-    And   I should see "Access denied"
+
+  @api
+  Scenario: Check group access by group member
+    Given I am logged in as user "isaacnewton"
+    When  I visit "Archived group" node of type "group"
+    Then  I should not see "Access denied"
+    And   I should not be allowed to edit a group "Archived group"
+
+  @api
+  Scenario: Check group access by group member
+    Given I am logged in as user "isaacnewton"
+    When  I visit "Rejected group" node of type "group"
+    Then  I should see "Access denied"
+
+  @api
+  Scenario: Check group access by group member
+    Given I am logged in as user "isaacnewton"
+    When  I visit "Deleted group" node of type "group"
+    Then  I should see "Access denied"
 
   @api
   Scenario: Check group access by not member
     Given I am logged in as user "president"
     When  I visit "Requested group" node of type "group"
     Then  I should see "Access denied"
-    And   I visit "Draft group" node of type "group"
-    And   I should see "Access denied"
-    And   I visit "Published group" node of type "group"
-    And   I should not see "Access denied"
+
+  @api
+  Scenario: Check group access by not member
+    Given I am logged in as user "president"
+    When  I visit "Draft group" node of type "group"
+    Then  I should see "Access denied"
+
+  @api
+  Scenario: Check group access by not member
+    Given I am logged in as user "president"
+    When  I visit "Published group" node of type "group"
+    Then  I should not see "Access denied"
     And   I should not be allowed to edit a group "Published group"
-    And   I visit "Archived group" node of type "group"
-    And   I should not see "Access denied"
-    And   I visit "Rejected group" node of type "group"
-    And   I should see "Access denied"
-    And   I visit "Deleted group" node of type "group"
-    And   I should see "Access denied"
+
+  @api
+  Scenario: Check group access by not member
+    Given I am logged in as user "president"
+    When  I visit "Archived group" node of type "group"
+    Then  I should not see "Access denied"
+    And   I should not be allowed to edit a group "Archived group"
+
+  @api
+  Scenario: Check group access by not member
+    Given I am logged in as user "president"
+    When  I visit "Rejected group" node of type "group"
+    Then  I should see "Access denied"
+
+  @api
+  Scenario: Check group access by not member
+    Given I am logged in as user "president"
+    When  I visit "Deleted group" node of type "group"
+    Then  I should see "Access denied"
 
   @api
   Scenario: Check group access by anonymous user
     Given I am an anonymous user
     When  I visit "Requested group" node of type "group"
     Then  I should see "Access denied"
-    And   I visit "Draft group" node of type "group"
-    And   I should see "Access denied"
-    And   I visit "Published group" node of type "group"
-    And   I should not see "Access denied"
+
+  @api
+  Scenario: Check group access by anonymous user
+    Given I am an anonymous user
+    When  I visit "Draft group" node of type "group"
+    Then  I should see "Access denied"
+
+  @api
+  Scenario: Check group access by anonymous user
+    Given I am an anonymous user
+    When  I visit "Published group" node of type "group"
+    Then  I should not see "Access denied"
     And   I should not be allowed to edit a group "Published group"
-    And   I visit "Archived group" node of type "group"
-    And   I should not see "Access denied"
-    And   I visit "Rejected group" node of type "group"
-    And   I should see "Access denied"
-    And   I visit "Deleted group" node of type "group"
-    And   I should see "Access denied"
+
+  @api
+  Scenario: Check group access by anonymous user
+    Given I am an anonymous user
+    When  I visit "Archived group" node of type "group"
+    Then  I should not see "Access denied"
+    And   I should not be allowed to edit a group "Archived group"
+
+  @api
+  Scenario: Check group access by anonymous user
+    Given I am an anonymous user
+    When  I visit "Rejected group" node of type "group"
+    Then  I should see "Access denied"
+
+  @api
+  Scenario: Check group access by anonymous user
+    Given I am an anonymous user
+    When  I visit "Deleted group" node of type "group"
+    Then  I should see "Access denied"
