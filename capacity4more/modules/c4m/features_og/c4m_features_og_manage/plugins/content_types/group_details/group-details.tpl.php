@@ -29,7 +29,7 @@
     <div class="group-permissions">
       <div class="title">
         <h2><?php print t('Group permissions') ?></h2>
-        <a href="<?php print $details['edit_link'] ?>#edit-permisssions"><?php print t('Edit') ?> </a>
+        <a href="<?php print $details['edit_link'] ?>#edit-permissions"><?php print t('Edit') ?> </a>
       </div>
       <div class="row">
         <div class="col-md-3"><?php print t('Group access') ?></div>
