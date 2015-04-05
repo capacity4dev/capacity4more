@@ -37,7 +37,7 @@ function c4m_features_og_manage_group_details() {
   $membership_field = field_info_field('field_membership_open_request');
 
   $details = array(
-    'edit_link' => l(t('Edit'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE))),
+    'edit_link' => url('node/' . $group->nid . '/edit', array('absolute' => TRUE)),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => '<strong>' . $wrapper->label() . '</strong>',
     'description' => $wrapper->c4m_body->value(),
@@ -238,7 +238,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
     $file['style_name'] = 'medium';
     $file['path'] = $file['uri'];
     $file['attributes'] = array('class' => 'group-thumbnail');
-    $info['thumbnail_image'] = l(theme_image_style($file) . theme_html_tag($edit_link), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)), $options);
+    $info['thumbnail_image'] = l(theme_image_style($file) . theme_html_tag($edit_link), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-list')), $options);
   }
 
   // Archive group link (If group is not archived already).
@@ -262,4 +262,22 @@ function c4m_features_og_manage_page_permissions($contexts) {
     return FALSE;
   }
   return og_user_access('node', $contexts['context_og_context_1']->data->nid, 'administer group', $contexts['context_user_1']->data);
+}
+
+/**
+ * Implements hook_form_FROM_ID_form_alter().
+ *
+ * Add anchors to the following elements by adding an ID on their elements.
+ */
+function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state) {
+
+  $form_elements = array(
+    'title' => 'edit-details',
+    'c4m_related_group' => 'edit-related-content',
+    'c4m_banner' => 'edit-image-banner',
+    'c4m_media' => 'edit-image-list');
+  foreach($form_elements as $element => $id) {
+    $form[$element]['#prefix'] = "<div id='$id'>";
+    $form[$element]['#suffix'] = '</div>';
+  }
 }
