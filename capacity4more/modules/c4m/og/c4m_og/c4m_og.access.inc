@@ -223,7 +223,6 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $organisations_info = c4m_og_organisations_info();
   foreach ($organisations_info as $name => $organisation) {
     // Set arrays for later use.
-    dpm($organisation);
     $image_options = array(
       'path' => $organisation['icon']['uri'],
       'attributes' => array(

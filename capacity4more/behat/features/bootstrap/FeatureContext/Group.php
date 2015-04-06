@@ -126,7 +126,7 @@ trait Group {
       if ($organizations) {
         foreach ($organizations as $organization) {
           $node = $this->loadGroupByTitleAndType($organization, 'organisation');
-          $steps[] = new Step\When('I check the box "' . $node->nid . '"');
+          $steps[] = new Step\When('I check the box "edit-restricted-organisations-' . $node->nid . '"');
         }
       }
     }
