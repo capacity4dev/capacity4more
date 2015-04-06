@@ -5,33 +5,22 @@
  */
 
 /**
- * Utility function; Return the organizations info from code or from variable.
+ * Utility function; Return the organizations info from organizations.
  */
 function c4m_og_organisations_info() {
-  $default_info = array(
-    'ec' => array(
-      'title' => t('EC/EEAS'),
-      'domains' => array(
-        'ec.europa.eu',
-        'echofield.eu',
-        'eeas.europa.eu',
-        'ext.eeas.europa.eu',
-        'ext.jrc.ec.europa.eu',
-        'jrc.ec.europa.eu',
-      ),
-    ),
-    'eu' => array(
-      'title' => t('EU'),
-      'domains' => array(
-        'ada.gv.at',
-        'adetef.finances.gouv.fr',
-        'aecid.es',
-        'afd.fr',
-      ),
-    ),
-  );
+  $default_info = array();
+  $type = 'organisation';
+  $nodes = node_load_multiple(array(), array('type' => $type, 'status' => NODE_PUBLISHED));
+  foreach ($nodes as $organisation) {
+    $wrapper = entity_metadata_wrapper('node', $organisation);
+    $domains = $wrapper->c4m_domain->value();
+    $default_info[$organisation->nid] = array(
+      'title' => $organisation->title,
+      'domains' => $domains,
+    );
+  }
 
-  return variable_get('c4m_og_organisations', $default_info);
+  return $default_info;
 }
 
 /**
