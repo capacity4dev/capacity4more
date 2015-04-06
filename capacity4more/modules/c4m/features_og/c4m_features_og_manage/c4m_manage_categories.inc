@@ -439,13 +439,22 @@ function theme_c4m_taxonomy_overview_terms($variables) {
 
     // Add term form.
     $add_term_form = array(
-      '#prefix' => '<div id="add-term">',
+      '#prefix' => '<div id="add-term" ng-controller="AddTermCtrl">',
       '#suffix' => '</div>',
       'name' => array(
         '#title' => '',
         '#type' => 'textfield',
         '#name' => 'name',
         '#description' => '',
+      ),
+      'parent' => array(
+        '#attributes' => array(
+          'id' => 'parent-id',
+        ),
+        '#title' => '',
+        '#type' => 'hidden',
+        '#name' => 'parent',
+        '#value' => $parent['tid']['#value'],
       ),
       'submit' => array(
         '#type' => 'button',
@@ -462,12 +471,13 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     if ($form['#parent_fields']) {
       drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
       drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
+      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'order', 'sibling', 'term-weight');
+      drupal_add_js(array('taxonomy-'  . $parent['tid']['#value'] => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
     }
   }
 
   if ($form['#parent_fields']) {
-    drupal_add_js(array('taxonomy' => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
-    drupal_add_js(drupal_get_path('module', 'taxonomy') . '/taxonomy.js');
+    drupal_add_js(drupal_get_path('module', 'c4m_features_og_manage') . '/js/taxonomy.js');
     drupal_add_css(drupal_get_path('module', 'taxonomy') . '/taxonomy.css');
   }
   $output .= theme('pager');
