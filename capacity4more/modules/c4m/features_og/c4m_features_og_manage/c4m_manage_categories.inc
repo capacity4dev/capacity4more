@@ -209,22 +209,97 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
 }
 
 /**
- * Submit handler for vocabularies overview. Updates changed vocabulary weights.
- *
- * @see taxonomy_overview_vocabularies()
+ * @see taxonomy_overview_terms_submit()
  */
-function c4m_taxonomy_overview_vocabularies_submit($form, &$form_state) {
-  foreach ($form_state['values'] as $vid => $vocabulary) {
-    if (is_numeric($vid) && $form[$vid]['#vocabulary']->weight != $form_state['values'][$vid]['weight']) {
-      $form[$vid]['#vocabulary']->weight = $form_state['values'][$vid]['weight'];
-      taxonomy_vocabulary_save($form[$vid]['#vocabulary']);
+function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
+  // Sort term order based on weight.
+  uasort($form_state['values'], 'drupal_sort_weight');
+
+  $vocabulary = $form['#vocabulary'];
+  $hierarchy = 0; // Update the current hierarchy type as we go.
+
+  $changed_terms = array();
+  $tree = taxonomy_get_tree($vocabulary->vid);
+
+  if (empty($tree)) {
+    return;
+  }
+
+  // Build a list of all terms that need to be updated on previous pages.
+  $weight = 0;
+  $term = (array) $tree[0];
+  while ($term['tid'] != $form['#first_tid']) {
+    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
+      $term['parent'] = $term['parents'][0];
+      $term['weight'] = $weight;
+      $changed_terms[$term['tid']] = $term;
+    }
+    $weight++;
+    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
+    $term = (array) $tree[$weight];
+  }
+
+  // Renumber the current page weights and assign any new parents.
+  $level_weights = array();
+  foreach ($form_state['values'] as $tid => $values) {
+    if (isset($form[$tid]['#term'])) {
+      $term = $form[$tid]['#term'];
+      // Give terms at the root level a weight in sequence with terms on previous pages.
+      if ($values['parent'] == 0 && $term['weight'] != $weight) {
+        $term['weight'] = $weight;
+        $changed_terms[$term['tid']] = $term;
+      }
+      // Terms not at the root level can safely start from 0 because they're all on this page.
+      elseif ($values['parent'] > 0) {
+        $level_weights[$values['parent']] = isset($level_weights[$values['parent']]) ? $level_weights[$values['parent']] + 1 : 0;
+        if ($level_weights[$values['parent']] != $term['weight']) {
+          $term['weight'] = $level_weights[$values['parent']];
+          $changed_terms[$term['tid']] = $term;
+        }
+      }
+      // Update any changed parents.
+      if ($values['parent'] != $term['parent']) {
+        $term['parent'] = $values['parent'];
+        $changed_terms[$term['tid']] = $term;
+      }
+      $hierarchy = $term['parent'] != 0 ? 1 : $hierarchy;
+      $weight++;
     }
   }
-  drupal_set_message(t('The configuration options have been saved.'));
-}
 
-function c4m_taxonomy_vocabulary_title($vocabulary) {
-  return t('Edit Group @title', array('@title' => $vocabulary->name));
+  // Build a list of all terms that need to be updated on following pages.
+  for ($weight; $weight < count($tree); $weight++) {
+    $term = (array) $tree[$weight];
+    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
+      $term['parent'] = $term['parents'][0];
+      $term['weight'] = $weight;
+      $changed_terms[$term['tid']] = $term;
+    }
+    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
+  }
+
+  // Save all updated terms.
+  foreach ($changed_terms as $changed) {
+    $term = (object) $changed;
+    // Update term_hierachy and term_data directly since we don't have a
+    // fully populated term object to save.
+    db_update('taxonomy_term_hierarchy')
+      ->fields(array('parent' => $term->parent))
+      ->condition('tid', $term->tid, '=')
+      ->execute();
+
+    db_update('taxonomy_term_data')
+      ->fields(array('weight' => $term->weight))
+      ->condition('tid', $term->tid, '=')
+      ->execute();
+  }
+
+  // Update the vocabulary hierarchy to flat or single hierarchy.
+  if ($vocabulary->hierarchy != $hierarchy) {
+    $vocabulary->hierarchy = $hierarchy;
+    taxonomy_vocabulary_save($vocabulary);
+  }
+  drupal_set_message(t('The configuration options have been saved.'));
 }
 
 /**
