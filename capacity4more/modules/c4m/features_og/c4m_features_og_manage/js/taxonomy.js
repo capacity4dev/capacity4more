@@ -9,30 +9,32 @@
 Drupal.behaviors.termDrag = {
   attach: function (context, settings) {
     for(id in settings.tableDrag) {
+      // Remove term-weight object element in order not to get relationship error.
+      delete settings.tableDrag[id]['term-weight'];
       var table = $('#' + id, context);
       var tableDrag = Drupal.tableDrag[id]; // Get the blocks tableDrag object.
       var rows = $('tr', table).length;
-
-      // When a row is swapped, keep previous and next page classes set.
-      tableDrag.row.prototype.onSwap = function (swappedRow) {
+      // Disable indent option for drag'n'drop objects.
+      tableDrag.indentEnabled = false;
+        tableDrag.row.prototype.onSwap = function (swappedRow) {
+        // When a row is swapped, keep previous and next page classes set.
         $('tr.taxonomy-term-preview', table).removeClass('taxonomy-term-preview');
         $('tr.taxonomy-term-divider-top', table).removeClass('taxonomy-term-divider-top');
         $('tr.taxonomy-term-divider-bottom', table).removeClass('taxonomy-term-divider-bottom');
-
-        if (settings.taxonomy.backStep) {
-          for (var n = 0; n < settings.taxonomy.backStep; n++) {
+        if (settings[id].backStep) {
+          for (var n = 0; n < settings[id].backStep; n++) {
             $(table[0].tBodies[0].rows[n]).addClass('taxonomy-term-preview');
           }
-          $(table[0].tBodies[0].rows[settings.taxonomy.backStep - 1]).addClass('taxonomy-term-divider-top');
-          $(table[0].tBodies[0].rows[settings.taxonomy.backStep]).addClass('taxonomy-term-divider-bottom');
+          $(table[0].tBodies[0].rows[settings[id].backStep - 1]).addClass('taxonomy-term-divider-top');
+          $(table[0].tBodies[0].rows[settings[id].backStep]).addClass('taxonomy-term-divider-bottom');
         }
 
-        if (settings.taxonomy.forwardStep) {
-          for (var n = rows - settings.taxonomy.forwardStep - 1; n < rows - 1; n++) {
+        if (settings[id].forwardStep) {
+          for (var n = rows - settings[id].forwardStep - 1; n < rows - 1; n++) {
             $(table[0].tBodies[0].rows[n]).addClass('taxonomy-term-preview');
           }
-          $(table[0].tBodies[0].rows[rows - settings.taxonomy.forwardStep - 2]).addClass('taxonomy-term-divider-top');
-          $(table[0].tBodies[0].rows[rows - settings.taxonomy.forwardStep - 1]).addClass('taxonomy-term-divider-bottom');
+          $(table[0].tBodies[0].rows[rows - settings[id].forwardStep - 2]).addClass('taxonomy-term-divider-top');
+          $(table[0].tBodies[0].rows[rows - settings[id].forwardStep - 1]).addClass('taxonomy-term-divider-bottom');
         }
       };
     };

@@ -212,9 +212,6 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
  * @see taxonomy_overview_terms_submit()
  */
 function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
-  // Sort term order based on weight.
-  uasort($form_state['values'], 'drupal_sort_weight');
-
   $vocabulary = $form['#vocabulary'];
   $hierarchy = 0; // Update the current hierarchy type as we go.
 
