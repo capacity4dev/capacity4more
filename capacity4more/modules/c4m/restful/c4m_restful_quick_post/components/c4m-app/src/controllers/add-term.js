@@ -32,6 +32,12 @@ angular.module('c4mApp')
       // Error hidden element (Hide in case it was displayed in previous request).
       var errorLabelElement = angular.element('#label-error-' + $scope.parent);
       errorLabelElement.hide();
+      // Label should not be empty.
+      if (!$scope.label || $scope.label == '') {
+        errorLabelElement.text('Term label is required.');
+        errorLabelElement.show();
+        return false;
+      }
       // Prepare the request.
       var request = {
         parent: [$scope.parent],
