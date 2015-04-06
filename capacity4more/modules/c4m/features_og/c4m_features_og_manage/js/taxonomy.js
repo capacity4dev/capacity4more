@@ -9,14 +9,16 @@
 Drupal.behaviors.termDrag = {
   attach: function (context, settings) {
     for(id in settings.tableDrag) {
-      // Remove term-weight object element in order not to get relationship error.
+      // Remove term-weight, term-parent, term-depth object element in order not to get relationship error.
       delete settings.tableDrag[id]['term-weight'];
+      delete settings.tableDrag[id]['term-parent'];
+      delete settings.tableDrag[id]['term-depth'];
       var table = $('#' + id, context);
       var tableDrag = Drupal.tableDrag[id]; // Get the blocks tableDrag object.
       var rows = $('tr', table).length;
       // Disable indent option for drag'n'drop objects.
       tableDrag.indentEnabled = false;
-        tableDrag.row.prototype.onSwap = function (swappedRow) {
+      tableDrag.row.prototype.onSwap = function (swappedRow) {
         // When a row is swapped, keep previous and next page classes set.
         $('tr.taxonomy-term-preview', table).removeClass('taxonomy-term-preview');
         $('tr.taxonomy-term-divider-top', table).removeClass('taxonomy-term-divider-top');
