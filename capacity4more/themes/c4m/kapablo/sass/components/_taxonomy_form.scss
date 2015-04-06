@@ -75,6 +75,11 @@
         display: none;
       }
 
+      .label-error {
+        color: $color-red;
+        display: inline;
+      }
+
       .form-control {
         @include border-radius(1px);
       }
@@ -82,6 +87,7 @@
 
     .form-submit {
       margin-left: 10px;
+      vertical-align: top;
     }
   }
 }

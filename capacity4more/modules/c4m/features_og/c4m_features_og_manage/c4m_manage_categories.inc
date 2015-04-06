@@ -16,6 +16,10 @@
  */
 function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   global $pager_page_array, $pager_total, $pager_total_items;
+  // If no group context, Redirect to homepage.
+  if (!$group = og_context()) {
+    drupal_goto('');
+  }
 
   // Check for confirmation forms.
   if (isset($form_state['confirm_reset_alphabetical'])) {
@@ -23,6 +27,7 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   }
 
   $form['#vocabulary'] = $vocabulary;
+  $form['#group'] = $group;
   $form['#tree'] = TRUE;
   $form['#parent_fields'] = FALSE;
 
@@ -445,22 +450,37 @@ function theme_c4m_taxonomy_overview_terms($variables) {
         '#title' => '',
         '#type' => 'textfield',
         '#name' => 'name',
-        '#description' => '',
+        '#field_suffix' => '<span class="label-error" id="label-error-' . $parent['tid']['#value'] . '"></span>',
+        '#attributes' => array(
+          'ng-model' => 'label',
+          'class' => array('label-input'),
+        ),
       ),
       'parent' => array(
         '#attributes' => array(
-          'id' => 'parent-id',
+          'ng-model' => 'parent',
+          'ng-value' => $parent['tid']['#value'],
+          'ng-init' => 'parent=' . $parent['tid']['#value'],
         ),
         '#title' => '',
         '#type' => 'hidden',
         '#name' => 'parent',
-        '#value' => $parent['tid']['#value'],
+      ),
+      'group' => array(
+        '#attributes' => array(
+          'ng-model' => 'group',
+          'ng-value' => $form['#group']['gid'],
+          'ng-init' => 'group=' . $form['#group']['gid'],
+        ),
+        '#title' => '',
+        '#type' => 'hidden',
+        '#name' => 'group',
       ),
       'submit' => array(
         '#type' => 'button',
         '#value' => t('Add Term'),
         '#attributes' => array(
-          'onclick' => 'addTerm("' . $parent['tid']['#value'] . '", "' . $vocabulary->machine_name . '")',
+          'ng-click' => 'addCategoryTerm()',
         ),
       ),
     );
