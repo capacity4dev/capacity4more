@@ -469,3 +469,9 @@ input[type="checkbox"]:not(old) {
     display: inline-block;
   }
 }
+
+#edit-restricted-organisations {
+  .form-item {
+    margin-bottom: 10px;
+  }
+}

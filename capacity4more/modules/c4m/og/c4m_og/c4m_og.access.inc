@@ -13,10 +13,12 @@ function c4m_og_organisations_info() {
   $nodes = node_load_multiple(array(), array('type' => $type, 'status' => NODE_PUBLISHED));
   foreach ($nodes as $organisation) {
     $wrapper = entity_metadata_wrapper('node', $organisation);
-    $domains = $wrapper->c4m_domain->value();
     $default_info[$organisation->nid] = array(
       'title' => $organisation->title,
-      'domains' => $domains,
+      'nid' => $wrapper->nid,
+      'description' => $wrapper->c4m_body->value(),
+      'icon' => $wrapper->c4m_icon->value(),
+      'domains' => $wrapper->c4m_domain->value(),
     );
   }
 
@@ -221,8 +223,17 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $organisations_info = c4m_og_organisations_info();
   foreach ($organisations_info as $name => $organisation) {
     // Set arrays for later use.
-    $organisation_field_options[$name] = $organisation['title']
+    dpm($organisation);
+    $image_options = array(
+      'path' => $organisation['icon']['uri'],
+      'attributes' => array(
+        'class' => 'organisation-icon',
+      ),
+    );
+    $organisation_field_options[$name] = theme('image', $image_options)
+      . $organisation['title']
       . '<div>'
+      . $organisation['description']['value'] . '</br>'
       . t(
         'Accessible to users with email domains: @domains',
         array('@domains' => implode(', ', $organisation['domains']))
