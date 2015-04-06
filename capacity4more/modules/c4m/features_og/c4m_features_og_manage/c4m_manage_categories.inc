@@ -330,7 +330,6 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       $row = array();
       if (isset($term['#term']['depth']) && $term['#term']['depth'] == 0) {
         $parents[] = $term;
-        unset($form[$key]);
         continue;
       }
       $row[] = drupal_render($term['view']);
