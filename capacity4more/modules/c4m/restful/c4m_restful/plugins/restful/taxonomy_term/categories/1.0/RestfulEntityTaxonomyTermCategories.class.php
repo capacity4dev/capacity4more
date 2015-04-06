@@ -21,4 +21,5 @@ class RestfulEntityTaxonomyTermCategories extends \C4mRestfulEntityBaseTaxonomyT
 
     return $public_fields;
   }
+
 }

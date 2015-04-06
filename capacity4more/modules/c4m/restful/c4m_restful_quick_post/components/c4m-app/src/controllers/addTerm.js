@@ -1,6 +1,6 @@
 /**
  * @file
- * Provides the Activity Controller (ActivityCtrl).
+ * Provides the Add Terms Controller (AddTermCtrl).
  */
 
 'use strict';
