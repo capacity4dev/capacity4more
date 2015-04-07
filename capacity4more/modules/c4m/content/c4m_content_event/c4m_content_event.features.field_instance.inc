@@ -63,6 +63,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -156,6 +162,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'date_default',
         'weight' => 3,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -261,6 +273,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 16,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -349,6 +367,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 17,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -435,6 +459,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 24,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -508,6 +538,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 12,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -602,6 +638,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 11,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -1330,6 +1372,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'getlocations_fields_default',
         'weight' => 1,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1449,6 +1497,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 2,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1531,6 +1585,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 18,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -1620,6 +1680,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 14,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1698,6 +1764,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 13,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -1793,6 +1865,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 17,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1867,6 +1945,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 16,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1940,6 +2024,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 23,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -2057,6 +2147,12 @@ function c4m_content_event_field_default_field_instances() {
         ),
         'type' => 'og_vocab',
         'weight' => 15,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
