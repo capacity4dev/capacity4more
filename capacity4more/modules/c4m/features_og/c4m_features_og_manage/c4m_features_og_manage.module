@@ -178,6 +178,11 @@ function c4m_features_og_manage_group_details() {
   $details['categories_count'] = $categories_count;
   $details['terms_count'] = $terms_count;
 
+  // Get features settings.
+  $details['features_available'] = c4m_og_feature_info();
+  $details['features_manage_link'] = l(t('Edit'), url('group/node/' . $group->nid . '/admin/variables', array('absolute' => TRUE)));
+  $details['features_enabled'] = variable_get('c4m_og_features_group', array());
+
   return $details;
 }
 

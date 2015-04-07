@@ -70,5 +70,17 @@
         <div class="col-md-12"><?php print t('This group has <strong>@cat_count Categories</strong> and <strong>@term_count Terms</strong>', array('@cat_count' => $details['categories_count'], '@term_count' => $details['terms_count'])) ?></div>
       </div>
     </div>
+    <div class="group-features">
+      <div class="title">
+        <h2><?php print t('Features') ?></h2>
+        <?php print $details['features_manage_link'] ?>
+      </div>
+      <?php foreach($details['features_available'] as $feature): ?>
+        <div class="row">
+          <div class="col-md-3"><?php print $feature['name']; ?></div>
+          <div class="col-md-9"><?php print empty($details['features_enabled'][$feature['machine_name']]) ? t('Disabled') : '<strong>' . t('Enabled') . '</strong>'; ?></div>
+        </div>
+      <? endforeach; ?>
+    </div>
   </div>
 </div>
