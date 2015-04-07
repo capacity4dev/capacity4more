@@ -27,15 +27,33 @@ function c4m_features_og_manage_menu() {
     'access callback' => TRUE,
     'file' => 'c4m_manage_categories.inc',
   );
-  $items['manage/categories/types/%taxonomy_vocabulary_machine_name'] = array(
-    'title callback' => 'c4m_taxonomy_vocabulary_title',
-    'title arguments' => array(3),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_taxonomy_overview_terms', 3),
+  $items['manage/categories/types'] = array(
+    'page callback' => 'c4m_features_og_manage_get_form',
     'access callback' => TRUE,
     'file' => 'c4m_manage_categories_types.inc',
   );
   return $items;
+}
+
+function c4m_features_og_manage_get_form() {
+  $context = og_context();
+  if (!$context) {
+    drupal_set_message(t('You are out of group'));
+    return array();
+  }
+  $group = node_load($context['gid']);
+  $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
+  $vocab = taxonomy_vocabulary_machine_name_load($og_vocab[0]->machine_name);
+  $form_state = array();
+  $args = array(
+    'c4m_taxonomy_overview_terms | (Callback) c4m_taxonomy_overview_terms();',
+    $vocab,
+  );
+  // Remove $form_id from the arguments.
+  array_shift($args);
+  $form_state['build_info']['args'] = $args;
+
+  return drupal_build_form('c4m_taxonomy_overview_terms', $form_state);
 }
 
 /**

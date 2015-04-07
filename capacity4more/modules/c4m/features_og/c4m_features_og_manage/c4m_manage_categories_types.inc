@@ -365,82 +365,80 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     'class' => array('category-name-column')
   );
   $header[] = t('Operations');
-//  foreach ($parents as $parent) {
-    // Add necessary classes to rows.
-    $row_position = 0;
-    foreach ($rows[$parent['tid']['#value']] as $key => $row) {
-      $rows[$parent['tid']['#value']][$key]['class'] = array();
-      if (isset($form['#parent_fields'])) {
-        $rows[$parent['tid']['#value']][$key]['class'][] = 'draggable';
-      }
-
-      // Add classes that mark which terms belong to previous and next pages.
-      if ($row_position < $back_step || $row_position >= $page_entries - $forward_step) {
-        $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-preview';
-      }
-
-      if ($row_position !== 0 && $row_position !== count($rows[$parent['tid']['#value']]) - 1) {
-        if ($row_position == $back_step - 1 || $row_position == $page_entries - $forward_step - 1) {
-          $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-divider-top';
-        }
-        elseif ($row_position == $back_step || $row_position == $page_entries - $forward_step) {
-          $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-divider-bottom';
-        }
-      }
-
-      // Add an error class if this row contains a form error.
-      foreach ($errors as $error_key => $error) {
-        if (strpos($error_key, $key) === 0) {
-          $rows[$parent['tid']['#value']][$key]['class'][] = 'error';
-        }
-      }
-      $row_position++;
+  // Add necessary classes to rows.
+  $row_position = 0;
+  foreach ($rows[$parent['tid']['#value']] as $key => $row) {
+    $rows[$parent['tid']['#value']][$key]['class'] = array();
+    if (isset($form['#parent_fields'])) {
+      $rows[$parent['tid']['#value']][$key]['class'][] = 'draggable';
     }
 
-    if (empty($rows[$parent['tid']['#value']])) {
-      $rows[$parent['tid']['#value']][] = array(array('data' => $form['#empty_text'], 'colspan' => '3'));
+    // Add classes that mark which terms belong to previous and next pages.
+    if ($row_position < $back_step || $row_position >= $page_entries - $forward_step) {
+      $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-preview';
     }
 
-    $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
-
-    // Add term form.
-    $add_term_form = array(
-      '#prefix' => '<div id="add-term" ng-controller="AddTermCtrl">',
-      '#suffix' => '</div>',
-      'name' => array(
-        '#title' => '',
-        '#type' => 'textfield',
-        '#name' => 'name',
-        '#description' => '',
-      ),
-      'parent' => array(
-        '#attributes' => array(
-          'id' => 'parent-id',
-        ),
-        '#title' => '',
-        '#type' => 'hidden',
-        '#name' => 'parent',
-        '#value' => $parent['tid']['#value'],
-      ),
-      'submit' => array(
-        '#type' => 'button',
-        '#value' => t('Add Term'),
-        '#attributes' => array(
-          'onclick' => 'addTerm("' . $parent['tid']['#value'] . '", "' . $vocabulary->machine_name . '")',
-        ),
-      ),
-    );
-
-    $output .= drupal_render($add_term_form);
-
-    // Add drag and drop if parent fields are present in the form.
-    if ($form['#parent_fields']) {
-      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
-      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
-      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'order', 'sibling', 'term-weight');
-      drupal_add_js(array('taxonomy-'  . $parent['tid']['#value'] => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
+    if ($row_position !== 0 && $row_position !== count($rows[$parent['tid']['#value']]) - 1) {
+      if ($row_position == $back_step - 1 || $row_position == $page_entries - $forward_step - 1) {
+        $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-divider-top';
+      }
+      elseif ($row_position == $back_step || $row_position == $page_entries - $forward_step) {
+        $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-divider-bottom';
+      }
     }
-//  }
+
+    // Add an error class if this row contains a form error.
+    foreach ($errors as $error_key => $error) {
+      if (strpos($error_key, $key) === 0) {
+        $rows[$parent['tid']['#value']][$key]['class'][] = 'error';
+      }
+    }
+    $row_position++;
+  }
+
+  if (empty($rows[$parent['tid']['#value']])) {
+    $rows[$parent['tid']['#value']][] = array(array('data' => $form['#empty_text'], 'colspan' => '3'));
+  }
+
+  $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
+
+  // Add term form.
+  $add_term_form = array(
+    '#prefix' => '<div id="add-term" ng-controller="AddTermCtrl">',
+    '#suffix' => '</div>',
+    'name' => array(
+      '#title' => '',
+      '#type' => 'textfield',
+      '#name' => 'name',
+      '#description' => '',
+    ),
+    'parent' => array(
+      '#attributes' => array(
+        'id' => 'parent-id',
+      ),
+      '#title' => '',
+      '#type' => 'hidden',
+      '#name' => 'parent',
+      '#value' => $parent['tid']['#value'],
+    ),
+    'submit' => array(
+      '#type' => 'button',
+      '#value' => t('Add Term'),
+      '#attributes' => array(
+        'onclick' => 'addTerm("' . $parent['tid']['#value'] . '", "' . $vocabulary->machine_name . '")',
+      ),
+    ),
+  );
+
+  $output .= drupal_render($add_term_form);
+
+  // Add drag and drop if parent fields are present in the form.
+  if ($form['#parent_fields']) {
+    drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
+    drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
+    drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'order', 'sibling', 'term-weight');
+    drupal_add_js(array('taxonomy-'  . $parent['tid']['#value'] => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
+  }
 
   if ($form['#parent_fields']) {
     drupal_add_js(drupal_get_path('module', 'c4m_features_og_manage') . '/js/taxonomy.js');
