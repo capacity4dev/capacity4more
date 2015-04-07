@@ -1,6 +1,6 @@
 /**
  * @file
- * Provides the Activity Controller (ActivityCtrl).
+ * Provides the Add Terms Controller (AddTermCtrl).
  */
 
 'use strict';
@@ -11,8 +11,8 @@ angular.module('c4mApp')
     $scope.group = 0;
     $scope.label = '';
 
-    // Prevent default behavior when keyPress event triggered
-    // on the label input.
+    // Prevent default behavior (Submit form)
+    // when 'enter' key pressed on the label input.
     var labelInput = angular.element('.label-input');
     labelInput.on('keypress', function(e) {
       if (e.keyCode == 13) {
