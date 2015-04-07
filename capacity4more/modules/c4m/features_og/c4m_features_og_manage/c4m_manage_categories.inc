@@ -303,7 +303,7 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, &$form
     $params
   );
   $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' :$form_state['values']['machine_name'];
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form_state['values']['machine_name'];
 
   if (isset($form_state['values']['name'])) {
     drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
@@ -340,7 +340,9 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
   $hierarchy = 0; // Update the current hierarchy type as we go.
 
   $changed_terms = array();
-  $tree = taxonomy_get_tree($vocabulary->vid);
+
+  $menu_item = menu_get_item(current_path());
+  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
 
   if (empty($tree)) {
     return;
@@ -398,7 +400,6 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
     }
     $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
   }
-
   // Save all updated terms.
   foreach ($changed_terms as $changed) {
     $term = (object) $changed;
@@ -446,6 +447,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
   $menu_item = menu_get_item(current_path());
 
   $parents = $menu_item['path'] != 'manage/categories/types' ? array() : array(array('tid' => array('#value' => 0)));
+  $overview_path = $menu_item['path'] == 'manage/categories/types' ? '/categories/' . $vocabulary->machine_name : '';
   foreach (element_children($form) as $key) {
     if (isset($form[$key]['#term'])) {
       $term = &$form[$key];
@@ -478,7 +480,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     ),
     '#value' => t('Edit Group @title', array('@title' => $vocabulary->name)),
   );
-  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage', array('absolute' => TRUE))) . '</div>';
+  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage' . $overview_path, array('absolute' => TRUE))) . '</div>';
   // Static page description.
   $output .= '<div class="category-edit-description">';
   $output .= t('

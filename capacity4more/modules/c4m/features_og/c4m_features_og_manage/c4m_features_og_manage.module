@@ -38,8 +38,7 @@ function c4m_features_og_manage_menu() {
 function c4m_features_og_manage_get_form() {
   $context = og_context();
   if (!$context) {
-    drupal_set_message(t('You are out of group'));
-    return array();
+    drupal_goto('/');
   }
   $group = node_load($context['gid']);
   $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
