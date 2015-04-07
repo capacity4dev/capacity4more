@@ -475,4 +475,11 @@ input[type="checkbox"]:not(old) {
   .glyphicon-warning-sign:before {
     content: "\002A";
   }
+
+  .actions {
+
+    a {
+      display: none;
+    }
+  }
 }

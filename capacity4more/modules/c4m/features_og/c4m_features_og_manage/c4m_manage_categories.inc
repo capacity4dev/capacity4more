@@ -636,7 +636,9 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     drupal_add_css(drupal_get_path('module', 'taxonomy') . '/taxonomy.css');
   }
   $output .= theme('pager');
+  $output .= '<div class="actions">';
   $output .= drupal_render_children($form);
+  $output .= '</div>';
 
   return $output;
 }
