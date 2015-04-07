@@ -455,6 +455,7 @@ function c4m_og_feature_info($feature = NULL) {
     else {
       $hook = 'c4m_og_feature_info';
       $data = module_invoke_all($hook);
+      uasort($data, 'drupal_sort_weight');
       cache_set($cache_key, $data);
     }
   }
