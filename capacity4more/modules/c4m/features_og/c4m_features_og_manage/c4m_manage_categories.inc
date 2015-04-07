@@ -214,9 +214,32 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
 }
 
 /**
+ * Submit handler to delete a term after confirmation.
+ *
+ * @see taxonomy_term_confirm_delete_submit()
+ */
+function c4m_taxonomy_term_confirm_delete_submit($form, &$form_state) {
+  taxonomy_term_delete($form_state['values']['tid']);
+  taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
+  drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
+  watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
+  $form_state['redirect'] = 'manage/categories/' . $form['#vocabulary']->machine_name;
+  cache_clear_all();
+  return;
+}
+
+/**
  * @see taxonomy_overview_terms_submit()
  */
 function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == t('Delete')) {
+    // Execute the term deletion.
+    if ($form_state['values']['delete'] === TRUE) {
+      c4m_taxonomy_term_confirm_delete_submit($form, $form_state);
+      return;
+    }
+  }
+
   $vocabulary = $form['#vocabulary'];
   $hierarchy = 0; // Update the current hierarchy type as we go.
 
