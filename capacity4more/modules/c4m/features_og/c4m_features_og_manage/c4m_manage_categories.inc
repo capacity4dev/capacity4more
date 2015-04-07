@@ -490,7 +490,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
   $output .= '</div>';
 
   $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' :$vocabulary['values']['machine_name'];
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $vocabulary->machine_name;
 
   foreach ($parents as $parent) {
     $parent_id = $parent['tid']['#value'];
@@ -557,7 +557,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       );
       $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent_id . '/edit', $options));
       $options['fragment'] = 'edit-weight';
-      $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent_id . '/edit', $options));
+      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
       unset($options['fragment']);
       unset($options['query']);
       $options['query']['delete'] = $parent_id;
