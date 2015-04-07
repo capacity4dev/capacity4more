@@ -203,7 +203,6 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
  */
 function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $term = taxonomy_term_load($tid);
-
   // Always provide entity id in the same form key as in the entity edit form.
   $form['tid'] = array('#type' => 'value', '#value' => $tid);
 
@@ -212,10 +211,12 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $form['name'] = array('#type' => 'value', '#value' => $term->name);
   $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
   $form['delete'] = array('#type' => 'value', '#value' => TRUE);
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form['#vocabulary']->machine_name;
   return confirm_form($form,
     t('Are you sure you want to delete the term %title?',
       array('%title' => $term->name)),
-    'manage/categories/' . $form['#vocabulary']->machine_name,
+    'manage/categories/' . $path,
     t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
     t('Delete'),
     t('Cancel'));
@@ -231,7 +232,9 @@ function c4m_taxonomy_term_confirm_delete_submit($form, &$form_state) {
   taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
   drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
   watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
-  $form_state['redirect'] = 'manage/categories/' . $form['#vocabulary']->machine_name;
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form['#vocabulary']->machine_name;
+  $form_state['redirect'] = 'manage/categories/' . $path;
   cache_clear_all();
   return;
 }
@@ -244,22 +247,34 @@ function c4m_taxonomy_term_confirm_delete_submit($form, &$form_state) {
  */
 function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state, $vid, $tid) {
   $vocabulary = taxonomy_vocabulary_load($vid);
-  $term = taxonomy_term_load($tid);
-
   $form['type'] = array('#type' => 'value', '#value' => 'vocabulary');
   $form['vid'] = array('#type' => 'value', '#value' => $vid);
-  $form['parent_tid'] = array('#type' => 'value', '#value' => $tid);
   $form['machine_name'] = array('#type' => 'value', '#value' => $vocabulary->machine_name);
-  $form['name'] = array('#type' => 'value', '#value' => $term->name);
   $form['reset_alphabetical'] = array('#type' => 'value', '#value' => TRUE);
-  return confirm_form($form,
-    t('Are you sure you want to reset the children of the term %title to alphabetical order?',
-      array('%title' => $term->name)),
-    'manage/categories/' . $vocabulary->machine_name,
-    t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
-      array('%title' => $term->name)),
-    t('Reset to alphabetical'),
-    t('Cancel'));
+  $path = $tid ? $vocabulary->machine_name : 'types';
+
+  if ($tid) {
+    $term = taxonomy_term_load($tid);
+    $form['parent_tid'] = array('#type' => 'value', '#value' => $tid);
+    $form['name'] = array('#type' => 'value', '#value' => $term->name);
+
+    return confirm_form($form,
+      t('Are you sure you want to reset the children of the term %title to alphabetical order?',
+        array('%title' => $term->name)),
+      'manage/categories/' . $path,
+      t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
+        array('%title' => $term->name)),
+      t('Reset to alphabetical'),
+      t('Cancel'));
+  }
+  else {
+    return confirm_form($form,
+      t('Are you sure you want to reset the Categories to alphabetical order?'),
+      'manage/categories/' . $path,
+      t('Resetting the the Categories will discard all custom ordering and sort items alphabetically.'),
+      t('Reset to alphabetical'),
+      t('Cancel'));
+  }
 }
 
 /**
@@ -268,21 +283,37 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state,
  * @see c4m_taxonomy_vocabulary_confirm_reset_alphabetical()
  */
 function c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, &$form_state) {
+  $params = array(
+    ':weight' => 0,
+    ':vid' => $form_state['values']['vid'],
+  );
+  $condition = '';
+  if (isset($form_state['values']['parent_tid'])) {
+    $params[':parent_tid'] = $form_state['values']['parent_tid'];
+    $condition = ' AND h.parent = :parent_tid';
+  }
+
   db_query(
     'UPDATE {taxonomy_term_data} AS d ' .
     'JOIN {taxonomy_term_hierarchy} AS h ' .
     'ON d.tid = h.tid ' .
     'SET d.weight = :weight ' .
-    'WHERE d.vid = :vid AND h.parent = :parent_tid',
-    array(
-      ':weight' => 0,
-      ':vid' => $form_state['values']['vid'],
-      ':parent_tid' => $form_state['values']['parent_tid'],
-    )
+    'WHERE d.vid = :vid' .
+    $condition,
+    $params
   );
-  drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
-  watchdog('taxonomy', 'Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
-  $form_state['redirect'] = 'manage/categories/' . $form_state['values']['machine_name'];
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' :$form_state['values']['machine_name'];
+
+  if (isset($form_state['values']['name'])) {
+    drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
+    watchdog('taxonomy', 'Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
+  }
+  else {
+    drupal_set_message(t('Reset Categories to alphabetical order.'));
+    watchdog('taxonomy', 'Reset Categories to alphabetical order.', WATCHDOG_NOTICE);
+  }
+  $form_state['redirect'] = 'manage/categories/' . $path;
 }
 
 /**
@@ -457,6 +488,10 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     ');
   $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
   $output .= '</div>';
+
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' :$vocabulary['values']['machine_name'];
+
   foreach ($parents as $parent) {
     $parent_id = $parent['tid']['#value'];
     // Set header for the table.
@@ -468,7 +503,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     );
     $header = array(
       array(
-        'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $vocabulary->machine_name, $reset_link_options)),
+        'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $path, $reset_link_options)),
         'class' => array('category-name-column')
       ),
       t('Operations')
