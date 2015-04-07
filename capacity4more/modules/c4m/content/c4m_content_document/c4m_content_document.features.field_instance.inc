@@ -67,7 +67,7 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -166,7 +166,7 @@ function c4m_content_document_field_default_field_instances() {
           'file_view_mode' => 'c4m_preview',
         ),
         'type' => 'file_rendered',
-        'weight' => 2,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -269,10 +269,9 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 22,
+        'type' => 'hidden',
+        'weight' => 23,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -798,12 +797,9 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 23,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -923,7 +919,7 @@ function c4m_content_document_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'og_vocab',
         'settings' => array(
           'concatenate' => FALSE,
