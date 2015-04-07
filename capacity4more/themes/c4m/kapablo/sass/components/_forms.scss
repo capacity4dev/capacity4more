@@ -469,3 +469,10 @@ input[type="checkbox"]:not(old) {
     display: inline-block;
   }
 }
+
+#c4m-taxonomy-overview-terms {
+
+  .glyphicon-warning-sign:before {
+    content: "\002A";
+  }
+}
