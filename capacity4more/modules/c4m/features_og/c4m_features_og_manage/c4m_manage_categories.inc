@@ -50,7 +50,14 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
 
   $delta = 0;
   $term_deltas = array();
-  $tree = taxonomy_get_tree($vocabulary->vid);
+  $menu_item = menu_get_item(current_path());
+  if ($menu_item['path'] == 'manage/categories/types') {
+    // This is first level categories.
+    $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
+  }
+  else {
+    $tree = taxonomy_get_tree($vocabulary->vid);
+  }
   $term = current($tree);
   do {
     // In case this tree is completely empty.
@@ -159,8 +166,9 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
         '#default_value' => $term->depth,
       );
     }
+    $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $vocabulary->machine_name;
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'taxonomy/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
-    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $vocabulary->machine_name, '#options' => array('query' => array('delete' => $term->tid)));
+    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
   }
 
   $form['#total_entries'] = $total_entries;
@@ -319,15 +327,19 @@ function theme_c4m_taxonomy_overview_terms($variables) {
 
   $errors = form_get_errors() != FALSE ? form_get_errors() : array();
   $rows = array();
-  $parents = array();
+  $menu_item = menu_get_item(current_path());
+
+  $parents = $menu_item['path'] != 'manage/categories/types' ? array() : array(array('tid' => array('#value' => 0)));
   foreach (element_children($form) as $key) {
     if (isset($form[$key]['#term'])) {
       $term = &$form[$key];
 
       $row = array();
       if (isset($term['#term']['depth']) && $term['#term']['depth'] == 0) {
-        $parents[] = $term;
-        continue;
+        if ($menu_item['path'] != 'manage/categories/types') {
+          $parents[] = $term;
+          continue;
+        }
       }
       $row[] = drupal_render($term['view']);
       if ($form['#parent_fields']) {
@@ -400,38 +412,39 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     if (empty($rows[$parent['tid']['#value']])) {
       $rows[$parent['tid']['#value']][] = array(array('data' => $form['#empty_text'], 'colspan' => '3'));
     }
+    if ($menu_item['path'] != 'manage/categories/types') {
+      $parent_element['element'] = array(
+        '#tag' => 'h3',
+        '#attributes' => array(
+          'class' => array('category-title'),
+        ),
+        '#value' => $parent['#term']['name'],
+      );
 
-    $parent_element['element'] = array(
-      '#tag' => 'h3',
-      '#attributes' => array(
-        'class' => array('category-title'),
-      ),
-      '#value' => $parent['#term']['name'],
-    );
+      $options = array(
+        'purl' => array(
+          'disabled' => TRUE,
+        ),
+        'absolute' => TRUE,
+        'query' => drupal_get_destination(),
+      );
+      $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
+      $options['fragment'] = 'edit-weight';
+      $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
+      unset($options['fragment']);
+      $options['query']['delete'] = $parent['tid']['#value'];
+      $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
 
-    $options = array(
-      'purl' => array(
-        'disabled' => TRUE,
-      ),
-      'absolute' => TRUE,
-      'query' => drupal_get_destination(),
-    );
-    $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    $options['fragment'] = 'edit-weight';
-    $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    unset($options['fragment']);
-    $options['query']['delete'] = $parent['tid']['#value'];
-    $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
+      $category_title_element['element'] = array(
+        '#tag' => 'div',
+        '#attributes' => array(
+          'class' => array('category-title-wrapper'),
+        ),
+        '#value' => $category_title,
+      );
 
-    $category_title_element['element'] = array(
-      '#tag' => 'div',
-      '#attributes' => array(
-        'class' => array('category-title-wrapper'),
-      ),
-      '#value' => $category_title,
-    );
-
-    $output .= theme_html_tag($category_title_element);
+      $output .= theme_html_tag($category_title_element);
+    }
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
 
     // Add term form.

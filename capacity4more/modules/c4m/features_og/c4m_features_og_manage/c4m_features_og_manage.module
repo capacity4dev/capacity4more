@@ -30,7 +30,7 @@ function c4m_features_og_manage_menu() {
   $items['manage/categories/types'] = array(
     'page callback' => 'c4m_features_og_manage_get_form',
     'access callback' => TRUE,
-    'file' => 'c4m_manage_categories_types.inc',
+    'file' => 'c4m_manage_categories.inc',
   );
   return $items;
 }
