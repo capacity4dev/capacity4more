@@ -429,8 +429,20 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'document';
   $ds_layout->view_mode = 'full';
-  $ds_layout->layout = 'ds_2col_fluid';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'hide_page_title' => '0',
+    'page_option_title' => '',
     'regions' => array(
       'left' => array(
         0 => 'links',
@@ -439,17 +451,17 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'comments',
       ),
       'right' => array(
-        4 => 'c4m_user_picture',
-        5 => 'c4m_vocab_document_type',
-        6 => 'c4m_related_topic',
-        7 => 'c4m_ds_type_posted_by',
-        8 => 'c4m_user_first_and_last_name',
-        9 => 'og_vocabulary',
-        10 => 'c4m_ds_creation_date',
-        11 => 'c4m_vocab_date',
-        12 => 'c4m_vocab_language',
-        13 => 'group_node_details',
-        14 => 'c4m_vocab_geo',
+        0 => 'c4m_user_picture',
+        1 => 'c4m_vocab_document_type',
+        2 => 'c4m_related_topic',
+        3 => 'c4m_ds_type_posted_by',
+        4 => 'c4m_user_first_and_last_name',
+        5 => 'og_vocabulary',
+        6 => 'c4m_ds_creation_date',
+        7 => 'c4m_vocab_date',
+        8 => 'c4m_vocab_language',
+        9 => 'group_node_details',
+        10 => 'c4m_vocab_geo',
       ),
     ),
     'fields' => array(
@@ -469,18 +481,6 @@ function c4m_content_document_ds_layout_settings_info() {
       'group_node_details' => 'right',
       'c4m_vocab_geo' => 'right',
     ),
-    'classes' => array(),
-    'wrappers' => array(
-      'left' => 'div',
-      'right' => 'div',
-    ),
-    'layout_wrapper' => 'div',
-    'layout_attributes' => '',
-    'layout_attributes_merge' => 1,
-    'layout_link_attribute' => '',
-    'layout_link_custom' => '',
-    'hide_page_title' => '0',
-    'page_option_title' => '',
   );
   $export['node|document|full'] = $ds_layout;
 
