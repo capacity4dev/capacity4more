@@ -51,7 +51,6 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   $delta = 0;
   $term_deltas = array();
   $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
-  dsm ($tree);
   $term = current($tree);
   do {
     // In case this tree is completely empty.
@@ -213,8 +212,6 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
  * @see taxonomy_overview_terms_submit()
  */
 function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
-  // Sort term order based on weight.
-  uasort($form_state['values'], 'drupal_sort_weight');
 
   $vocabulary = $form['#vocabulary'];
   $hierarchy = 0; // Update the current hierarchy type as we go.
@@ -323,16 +320,15 @@ function theme_c4m_taxonomy_overview_terms($variables) {
 
   $errors = form_get_errors() != FALSE ? form_get_errors() : array();
   $rows = array();
-  $parents = array(0);
+  $parent = array('tid' => array('#value' => 0));
   foreach (element_children($form) as $key) {
     if (isset($form[$key]['#term'])) {
       $term = &$form[$key];
 
       $row = array();
-//      if (isset($term['#term']['depth']) && $term['#term']['depth'] == 0) {
-//        $parents[] = $term;
-//        continue;
-//      }
+      if (isset($term['#term']['depth']) && $term['#term']['depth'] <> 0) {
+        continue;
+      }
       $row[] = drupal_render($term['view']);
       if ($form['#parent_fields']) {
         $term['tid']['#attributes']['class'] = array('term-id');
@@ -345,7 +341,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       $rows[$term['#term']['parent']][$key] = $row;
     }
   }
-var_dump($rows);
+
   // Link to go back to manage page.
   $title['element'] = array(
     '#tag' => 'h2',
@@ -358,7 +354,7 @@ var_dump($rows);
   // Static page description.
   $output .= '<div class="category-edit-description">';
   $output .= t('
-      FEDOR to classify documents and other contents submitted to the group.
+      Here you can define the category terms that will be used to classify documents and other contents submitted to the group.
       You can add, edit and delete the category terms. The category Group will not show up if there are no terms added to it.
       Manual order terms by dragging them. You can move terms from one category Group to another:
     ');
@@ -369,9 +365,7 @@ var_dump($rows);
     'class' => array('category-name-column')
   );
   $header[] = t('Operations');
-
 //  foreach ($parents as $parent) {
-  $parent = array('tid' => array('#value' => 0));
     // Add necessary classes to rows.
     $row_position = 0;
     foreach ($rows[$parent['tid']['#value']] as $key => $row) {
@@ -407,48 +401,26 @@ var_dump($rows);
       $rows[$parent['tid']['#value']][] = array(array('data' => $form['#empty_text'], 'colspan' => '3'));
     }
 
-    $parent_element['element'] = array(
-      '#tag' => 'h3',
-      '#attributes' => array(
-        'class' => array('category-title'),
-      ),
-      '#value' => $parent['#term']['name'],
-    );
-
-    $options = array(
-      'purl' => array(
-        'disabled' => TRUE,
-      ),
-      'absolute' => TRUE,
-      'query' => drupal_get_destination(),
-    );
-    $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    $options['fragment'] = 'edit-weight';
-    $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    unset($options['fragment']);
-    $options['query']['delete'] = $parent['tid']['#value'];
-    $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
-
-    $category_title_element['element'] = array(
-      '#tag' => 'div',
-      '#attributes' => array(
-        'class' => array('category-title-wrapper'),
-      ),
-      '#value' => $category_title,
-    );
-
-    $output .= theme_html_tag($category_title_element);
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
 
     // Add term form.
     $add_term_form = array(
-      '#prefix' => '<div id="add-term">',
+      '#prefix' => '<div id="add-term" ng-controller="AddTermCtrl">',
       '#suffix' => '</div>',
       'name' => array(
         '#title' => '',
         '#type' => 'textfield',
         '#name' => 'name',
         '#description' => '',
+      ),
+      'parent' => array(
+        '#attributes' => array(
+          'id' => 'parent-id',
+        ),
+        '#title' => '',
+        '#type' => 'hidden',
+        '#name' => 'parent',
+        '#value' => $parent['tid']['#value'],
       ),
       'submit' => array(
         '#type' => 'button',
@@ -465,12 +437,13 @@ var_dump($rows);
     if ($form['#parent_fields']) {
       drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
       drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
+      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'order', 'sibling', 'term-weight');
+      drupal_add_js(array('taxonomy-'  . $parent['tid']['#value'] => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
     }
 //  }
 
   if ($form['#parent_fields']) {
-    drupal_add_js(array('taxonomy' => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
-    drupal_add_js(drupal_get_path('module', 'taxonomy') . '/taxonomy.js');
+    drupal_add_js(drupal_get_path('module', 'c4m_features_og_manage') . '/js/taxonomy.js');
     drupal_add_css(drupal_get_path('module', 'taxonomy') . '/taxonomy.css');
   }
   $output .= theme('pager');
