@@ -40,7 +40,7 @@
             $(table[0].tBodies[0].rows[rows - settings[id].forwardStep - 1]).addClass('taxonomy-term-divider-bottom');
           }
         };
-      };
+      }
     }
   };
 
