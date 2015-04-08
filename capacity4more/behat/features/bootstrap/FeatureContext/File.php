@@ -85,7 +85,7 @@ trait File {
       $fids = array_keys($result['file']);
     }
     $this->getSession()->getDriver()->evaluateScript(
-      "jQuery(\"input[name='c4m_banner[und][0][fid]']\").val(" . $fids[0] . ");"
+      "jQuery(\"input[name='c4m_banner[und][0][fid]']\").val(\"" . $fids[0] . "\");"
     );
   }
 

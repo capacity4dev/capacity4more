@@ -66,3 +66,18 @@ Feature: Group access
     When a group "New group" with "Public" access is created with group manager "isaacnewton"
     Then I should be on the homepage
     And I should see "The group you requested is pending review by one of the administrators."
+
+  @javascript
+  Scenario: Test.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/group"
+    And I fill in "title" with "Test group"
+    And I select the radio button "Public"
+    And I fill in "edit-c4m-body-und-0-value" with "This is default summary."
+    And I check the related topic checkbox
+    And I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."
+    And I attach the file to the field "edit-c4m-banner-und-0-attach-button"
+    And I press "Request"
+    And I wait
+    Then I should not see "Group access"
+    And I should not see "There was an error"
