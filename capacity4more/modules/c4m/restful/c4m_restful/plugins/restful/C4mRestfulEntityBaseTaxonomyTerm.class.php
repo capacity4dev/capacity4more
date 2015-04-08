@@ -18,7 +18,29 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
+    $resource_name = $this->getResourceName();
+    if ($resource_name == 'categories') {
+      $group = c4m_restful_get_group_by_og_vocab_name($entity->vocabulary_machine_name);
+      $gid = $group[0]->gid;
+      return og_user_access('node', $gid, 'administer group', $account);
+    }
     return user_access('create content', $account);
+  }
+
+  /**
+   * Overrides \RestfulEntityBaseTaxonomyTerm::checkPropertyAccess().
+   *
+   * Allow user to set the parent term for the unsaved term, even if the user
+   * doesn't have access to update existing terms, as required by the entity
+   * metadata wrapper's access check.
+   */
+  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property, EntityMetadataWrapper $wrapper) {
+    $info = $property->info();
+    $term = $wrapper->value();
+    if (!empty($info['name']) && $info['name'] == 'parent' && empty($term->tid) && $op == 'edit') {
+      return TRUE;
+    }
+    return parent::checkPropertyAccess($op, $public_field_name, $property, $wrapper);
   }
 
   /**
