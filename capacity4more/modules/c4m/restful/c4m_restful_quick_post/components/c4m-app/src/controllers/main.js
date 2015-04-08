@@ -8,7 +8,7 @@
 angular.module('c4mApp')
   .controller('MainCtrl', function($rootScope, $scope, DrupalSettings, GoogleMap, EntityResource, Request, $window, $document, QuickPostService, FileUpload) {
     $scope.editorOptions = {
-      resize_minHeight : 200,
+      resize_minHeight : 300,
       height: 200
     };
     $scope.data = DrupalSettings.getData('entity');
