@@ -111,10 +111,10 @@ function c4m_content_event_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '11',
+          'weight' => '10',
         ),
         'locations' => array(
-          'weight' => '14',
+          'weight' => '15',
         ),
       ),
       'display' => array(),
