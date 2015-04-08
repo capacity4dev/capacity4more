@@ -558,10 +558,8 @@ function theme_c4m_taxonomy_overview_terms($variables) {
         'query' => drupal_get_destination(),
       );
       $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent_id . '/edit', $options));
-      $options['fragment'] = 'edit-weight';
-      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
-      unset($options['fragment']);
       unset($options['query']);
+      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
       $options['query']['delete'] = $parent_id;
       $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
 
@@ -572,7 +570,6 @@ function theme_c4m_taxonomy_overview_terms($variables) {
         ),
         '#value' => $category_title,
       );
-
       $output .= theme_html_tag($category_title_element);
     }
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent_id], 'attributes' => array('id' => 'taxonomy-' . $parent_id)));
