@@ -142,7 +142,7 @@ trait Group {
     $step[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
 
     // This is the required banner
-    $steps[] = new Step\When('I upload the file "cat1.jpg" in the field "edit-c4m-banner-und-0-attach-button"');
+    $steps[] = new Step\When('I attach the file to the field "edit-c4m-banner-und-0-attach-button"');
 
     $steps[] = new Step\When('I press "Request"');
 
