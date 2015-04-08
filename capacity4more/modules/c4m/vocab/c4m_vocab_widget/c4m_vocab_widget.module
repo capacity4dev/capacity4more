@@ -167,6 +167,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
     // If the term is array, this vocab is of type "node".
     if(is_array($term)) {
       foreach($term as $id => $label) {
+        // Decode ampersand back to & after sanitization.
         $options[$id]['label'] = str_replace("&amp;", "&", check_plain($label));
         $options[$id]['id'] = $id;
       }
@@ -175,6 +176,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
       $parents = $term->parents;
       if ($parents[0] == '0') {
         // This is the parent term.
+        // Decode ampersand back to & after sanitization.
         $options[$term->tid]['label'] = str_replace("&amp;", "&", check_plain($term->name));
         $options[$term->tid]['id'] = $term->tid;
       }
@@ -191,6 +193,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
           // This is the child term of the main parent term - add it to the
           // children of the main parent term.
           $options[$parents[0]]['children'][] = array(
+            // Decode ampersand back to & after sanitization.
             'label' => str_replace("&amp;", "&", check_plain($term->name)),
             'id' => $term->tid,
           );
@@ -198,6 +201,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
         else {
           // This is the child term of the child term - save it in the array.
           $children[$id]['children'][] = array(
+            // Decode ampersand back to & after sanitization.
             'label' => str_replace("&amp;", "&", check_plain($term->name)),
             'id' => $term->tid,
           );
