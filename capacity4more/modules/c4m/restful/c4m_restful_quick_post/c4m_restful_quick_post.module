@@ -124,7 +124,7 @@ function c4m_restful_quick_post_form($group_id) {
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
-  return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
+  return user_is_logged_in() ? theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources)) : '';
 }
 
 /**
