@@ -56,13 +56,7 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   $delta = 0;
   $term_deltas = array();
   $menu_item = menu_get_item(current_path());
-  if ($menu_item['path'] == 'manage/categories/types') {
-    // This is first level categories.
-    $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
-  }
-  else {
-    $tree = taxonomy_get_tree($vocabulary->vid);
-  }
+  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
   $term = current($tree);
   do {
     // In case this tree is completely empty.
@@ -389,11 +383,6 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
           $term['weight'] = $level_weights[$values['parent']];
           $changed_terms[$term['tid']] = $term;
         }
-      }
-      // Update any changed parents.
-      if ($values['parent'] != $term['parent']) {
-        $term['parent'] = $values['parent'];
-        $changed_terms[$term['tid']] = $term;
       }
       $hierarchy = $term['parent'] != 0 ? 1 : $hierarchy;
       $weight++;
