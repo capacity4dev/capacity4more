@@ -146,7 +146,6 @@ trait Group {
 
     $steps[] = new Step\When('I press "Request"');
 
-
     // Giving time for saving.
     $steps[] = new Step\When('I wait');
 
