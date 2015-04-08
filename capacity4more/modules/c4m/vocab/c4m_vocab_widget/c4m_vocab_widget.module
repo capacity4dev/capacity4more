@@ -61,7 +61,7 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $variables = array(
     'vocabulary_label' => $vocabulary_label,
     'vocabulary_machine_name' => $vocabulary_machine_name,
-
+    'required' => $element['#required'],
   );
   $directive = theme('c4m_vocab_widget_taxonomy_widget', $variables);
   $form['directive-' . $vocabulary_machine_name] = array(
