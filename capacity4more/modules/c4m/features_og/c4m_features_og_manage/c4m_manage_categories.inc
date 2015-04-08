@@ -217,7 +217,10 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
     t('Are you sure you want to delete the term %title?',
       array('%title' => $term->name)),
     'manage/categories/' . $path,
-    t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
+    '<div class="question">'
+    . t('Are you sure you want to delete the term %title?', array('%title' => $term->name))
+    . '</div>'
+    . t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
     t('Delete'),
     t('Cancel'));
 }
@@ -262,7 +265,11 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state,
       t('Are you sure you want to reset the children of the term %title to alphabetical order?',
         array('%title' => $term->name)),
       'manage/categories/' . $path,
-      t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
+      '<div class="question">'
+      . t('Are you sure you want to reset the children of the term %title to alphabetical order?',
+        array('%title' => $term->name))
+      . '</div>'
+      . t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
         array('%title' => $term->name)),
       t('Reset to alphabetical'),
       t('Cancel'));
@@ -271,7 +278,10 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state,
     return confirm_form($form,
       t('Are you sure you want to reset the Categories to alphabetical order?'),
       'manage/categories/' . $path,
-      t('Resetting the the Categories will discard all custom ordering and sort items alphabetically.'),
+      '<div class="question">'
+      . t('Are you sure you want to reset the Categories to alphabetical order?')
+      . '</div>'
+      . t('Resetting the the Categories will discard all custom ordering and sort items alphabetically.'),
       t('Reset to alphabetical'),
       t('Cancel'));
   }
