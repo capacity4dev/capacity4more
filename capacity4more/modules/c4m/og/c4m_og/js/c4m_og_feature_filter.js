@@ -12,7 +12,6 @@
         }
         $cell.prepend('<div class="toggle-enable ' + $state + '"><div>&nbsp;</div></div>', $cell);
         var $switch = $('.toggle-enable', $cell);
-          console.log($switch);
         $switch.click(function() {
           $checkbox.click();
         });
