@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Improve UX to enable/disable features.
+ */
+
 (function ($) {
 
   Drupal.behaviors.c4mOgFeatureFilter = {

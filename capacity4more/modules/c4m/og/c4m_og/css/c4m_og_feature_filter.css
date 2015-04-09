@@ -42,18 +42,18 @@ html.js .toggle-enable div {
   border-radius: 2px;
   background: white;
   text-shadow: 1px 1px 0 white;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #FEFEFE), color-stop(100%, #EAEAEA));
-  background-image: -moz-linear-gradient(top, #FEFEFE 0%, #EAEAEA 100%);
-  background-image: linear-gradient(top, #FEFEFE 0%, #EAEAEA 100%);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #fefefe), color-stop(100%, #eaeaea));
+  background-image: -moz-linear-gradient(top, #fefefe 0%, #eaeaea 100%);
+  background-image: linear-gradient(top, #fefefe 0%, #eaeaea 100%);
   -webkit-transition: left 0.2s;
   -mox-transition: left 0.2s;
   -o-transition: left 0.2s;
   transition: left 0.2s;
 }
 html.js .toggle-enable.disabled div {
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #FEFEFE), color-stop(100%, #EEEEEE));
-  background-image: -moz-linear-gradient(top, #FEFEFE 0%, #EEEEEE 100%);
-  background-image: linear-gradient(top, #FEFEFE 0%, #EEEEEE 100%);
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #fefefe), color-stop(100%, #eeeeee));
+  background-image: -moz-linear-gradient(top, #fefefe 0%, #eeeeee 100%);
+  background-image: linear-gradient(top, #fefefe 0%, #eeeeee 100%);
 }
 html.js .toggle-enable div:after,
 html.js .toggle-enable div:before {
