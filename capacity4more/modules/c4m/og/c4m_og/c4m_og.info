@@ -15,6 +15,4 @@ features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[og_features_permission][] = node:group:view unpublished group content
-files[] = js/c4m_og_feature_filter.css
-files[] = js/c4m_og_feature_filter.js
 files[] = c4m_og_access_plugin.inc
