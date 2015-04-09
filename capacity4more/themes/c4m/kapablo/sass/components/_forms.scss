@@ -470,8 +470,13 @@ input[type="checkbox"]:not(old) {
   }
 }
 
-#edit-variables-c4m-og-c4m-og-features-group div.checkbox {
-  margin: 1em 0;
+#edit-variables-c4m-og-c4m-og-features-group {
+  div.checkbox {
+    margin: 1em 0;
+  }
+  span.description {
+    font-size: smaller;
+  }
 }
 
 // Checkbox toggle.
