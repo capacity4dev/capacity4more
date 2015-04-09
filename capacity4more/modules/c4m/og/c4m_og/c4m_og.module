@@ -84,6 +84,31 @@ function c4m_og_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_og_form_variable_realm_edit_variables_form_alter(&$form, &$form_state, $form_id) {
+  // Set page title on variable manage form.
+  drupal_set_title('Manage features');
+
+  // Alter variable manage form layout.
+  $form['variables']['#type'] = 'div';
+  $form['variables']['c4m_og']['#type'] = 'div';
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
+
+  // Attach CSS/JavaScript.
+  $form['variables']['#attached'] = array(
+    'js' => array(
+      drupal_get_path('module', 'c4m_og') . '/js/c4m_og_feature_filter'
+    ),
+    'css' => array(
+      drupal_get_path('module', 'c4m_og') .'/css/c4m_og_feature_filter.css'
+    ),
+  );
+}
+
+/**
  * Implements hook_module_implements_alter().
  */
 function c4m_og_module_implements_alter(&$implementations, $hook) {
