@@ -278,8 +278,8 @@ ruby:
     install: '1'
     versions:
         bTMtyWB04xu5:
-            default: '0'
-            version: ''
+            default: '1'
+            version: 2.1.2
             bundler: '1'
 nodejs:
     install: '1'
