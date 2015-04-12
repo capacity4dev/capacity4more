@@ -4,7 +4,7 @@
  * Template to render the Vocabulary widget.
  */
 ?>
-<div ng-show="'<?php print $vocabulary_machine_name; ?>' == 'c4m_related_topic'">
+<div ng-show="'<?php print t($vocabulary_machine_name); ?>' == 'c4m_related_topic'">
   You can select up to 3 Topics and unlimited subtopics within these Topics.
 </div>
 <div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
