@@ -7,6 +7,9 @@
 <div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>
+      <div ng-show="'<?php print $vocabulary_machine_name; ?>' == 'c4m_related_topic'">
+        You can select up to 3 Topics and unlimited subtopics within these Topics.
+      </div>
       <button name="<?php print $vocabulary_machine_name ?>" type="button" ng-click="togglePopover('<?php print $vocabulary_machine_name; ?>', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select @name', array('@name' => $vocabulary_label)); ?></button>
     </div>
     <div class="selected-values" ng-show="data.<?php print $vocabulary_machine_name; ?>">
