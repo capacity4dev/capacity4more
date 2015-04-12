@@ -21,7 +21,7 @@ Feature: Group access
       And I visit "My content 2" node of type "discussion"
       And I should see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check restricted group accessed by accepted user
     Given a moderated group "My bad hair day new group 3" with "gravity.com" restriction is created with group manager "turing"
       And a discussion "My content 3" in group "My bad hair day new group 3" is created
@@ -71,12 +71,12 @@ Feature: Group access
   Scenario: Test.
     Given I am logged in as user "isaacnewton"
     When I visit "node/add/group"
-    And I fill in "title" with "Test group"
+    And I fill in "title" with "Test group3"
     And I select the radio button "Public"
     And I fill in "edit-c4m-body-und-0-value" with "This is default summary."
     And I check the related topic checkbox
     And I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."
-    And I attach the file to the field "edit-c4m-banner-und-0-attach-button"
+    And I attach the file to the field banner
     And I press "Request"
     And I wait
     Then I should not see "Group access"

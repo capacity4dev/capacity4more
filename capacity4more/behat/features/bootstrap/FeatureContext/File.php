@@ -73,9 +73,9 @@ trait File {
   }
 
   /**
-   * @When /^I attach the file to the field "([^"]*)"$/
+   * @When /^I attach the file to the field banner$/
    */
-  public function iAttachTheFileToTheField($field) {
+  public function iAttachTheFileToTheField() {
     $query = new \entityFieldQuery();
     $query->entityCondition('entity_type', 'file')
       ->propertyCondition('filename', 'banner6.jpg', 'LIKE')
@@ -84,7 +84,10 @@ trait File {
     if (!empty($result['file'])) {
       $fids = array_keys($result['file']);
     }
-    $this->getSession()->getDriver()->evaluateScript(
+    else {
+      throw new \Exception("File is not found");
+    }
+    $this->getSession()->executeScript(
       "jQuery(\"input[name='c4m_banner[und][0][fid]']\").val(\"" . $fids[0] . "\");"
     );
   }

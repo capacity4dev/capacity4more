@@ -111,9 +111,6 @@ trait Group {
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
-    // Generate URL from title.
-    $url = strtolower(str_replace(' ', '_', trim($title)));
-
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
@@ -139,10 +136,10 @@ trait Group {
     $steps[] = new Step\When('I check the related topic checkbox');
 
     // This is the required message to admin.
-    $step[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+    $step[] = new Step\When('I fill in "field_message_to_site_admin[und][0][value]" with "This is default message to admin."');
 
     // This is the required banner
-    $steps[] = new Step\When('I attach the file to the field "edit-c4m-banner-und-0-attach-button"');
+    $steps[] = new Step\When('I attach the file to the field banner');
 
     $steps[] = new Step\When('I press "Request"');
 
