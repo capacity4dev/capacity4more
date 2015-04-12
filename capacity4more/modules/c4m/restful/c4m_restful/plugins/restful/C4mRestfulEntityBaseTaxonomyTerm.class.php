@@ -18,7 +18,7 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
-    return user_access('create content', $account);
+    return user_access('create group content', $account);
   }
 
   /**
