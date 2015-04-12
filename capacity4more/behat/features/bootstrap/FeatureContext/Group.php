@@ -215,6 +215,17 @@ trait Group {
   }
 
   /**
+   * @Given /^I check the related topic checkbox "([^"]*)"$/
+   */
+  public function iCheckRelatedGroupTopic($name) {
+    $javascript = "
+      var target = jQuery('input[type=checkbox][title=\"" . $name . "\"]').data('target');
+      jQuery('input[type=checkbox][value=' + target + ']').prop(\"checked\", true);
+    ";
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
    * @Given /^I should see the Group Details$/
    */
   public function iShouldSeeTheGroupDetails() {
