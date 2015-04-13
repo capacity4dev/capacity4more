@@ -114,6 +114,7 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
+
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -135,11 +136,11 @@ trait Group {
     // This is a required tag.
     $steps[] = new Step\When('I check the related topic checkbox');
 
-    // This is the required message to admin.
-    $step[] = new Step\When('I fill in "field_message_to_site_admin[und][0][value]" with "This is default message to admin."');
-
     // This is the required banner
     $steps[] = new Step\When('I attach the file to the field banner');
+
+    // This is the required message to admin.
+    $step[] = new Step\When('I fill field message to site admin with "This is default message to admin."');
 
     $steps[] = new Step\When('I press "Request"');
 
@@ -151,6 +152,15 @@ trait Group {
     $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
+
+  /**
+   * @Given /^I fill field message to site admin with "([^"]*)"$/
+   */
+  public function iFillFieldMessageToSiteAdminWith($text) {
+    $javascript = "jQuery('#edit-field-message-to-site-admin-und-0-value').val('" . $text . "');";
+    $this->getSession()->executeScript($javascript);
+  }
+
 
   /**
    * @When /^I change access of group "([^"]*)" to "([^"]*)"$/

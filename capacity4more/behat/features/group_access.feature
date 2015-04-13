@@ -71,11 +71,11 @@ Feature: Group access
   Scenario: Test.
     Given I am logged in as user "isaacnewton"
     When I visit "node/add/group"
-    And I fill in "title" with "Test group3"
+    And I fill in "title" with "Test group6"
     And I select the radio button "Public"
     And I fill in "edit-c4m-body-und-0-value" with "This is default summary."
+    And I fill field message to site admin with "This is default message to admin."
     And I check the related topic checkbox
-    And I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."
     And I attach the file to the field banner
     And I press "Request"
     And I wait
