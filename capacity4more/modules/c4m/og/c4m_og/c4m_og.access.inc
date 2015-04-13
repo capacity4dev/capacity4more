@@ -230,13 +230,10 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
       ),
     );
     $organisation_field_options[$name] = theme('image', $image_options)
-      . $organisation['title']
+      . filter_xss($organisation['title'])
       . '<div>'
-      . $organisation['description']['value'] . '</br>'
-      . t(
-        'Accessible to users with email domains: @domains',
-        array('@domains' => implode(', ', $organisation['domains']))
-      )
+      . filter_xss($organisation['description']['value']) . '</br>'
+      . t('Accessible to users with email domains: @domains', array('@domains' => implode(', ', $organisation['domains'])))
       . '</div>';
   }
 
@@ -412,11 +409,7 @@ function c4m_og_group_form_submit($form, &$form_state) {
       );
 
       // Save the pluggable_node_access.
-      $pluggable_node_access = c4m_og_save_pluggable_node_access_restricted(
-        $node,
-        $organisations,
-        $domains
-      );
+      $pluggable_node_access = c4m_og_save_pluggable_node_access_restricted($node, $organisations, $domains);
       $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = $pluggable_node_access->id;
       break;
 
