@@ -32,8 +32,13 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-  $tasks['capacity4more_setup_set_permissions'] = array(
-    'display_name' => st('Set permissions'),
+//  $tasks['capacity4more_setup_set_permissions'] = array(
+//    'display_name' => st('Set permissions'),
+//    'display' => FALSE,
+//  );
+
+  $tasks['capacity4more_setup_set_og_permissions'] = array(
+    'display_name' => st('Set OG permissions'),
     'display' => FALSE,
   );
 
@@ -93,13 +98,92 @@ function capacity4more_setup_set_variables(&$install_state) {
 /**
  * Task callback; Create permissions.
  */
-function capacity4more_setup_set_permissions(&$install_state) {
-  // Enable default permissions for authenticated users.
+//function capacity4more_setup_set_permissions(&$install_state) {
+//  // Enable default permissions for authenticated users.
+//  $permissions = array(
+//    'access content',
+//    'create group content',
+//    'edit own group content',
+//    'delete own group content',
+//  );
+//  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+//}
+
+/**
+ * Task callback; Setting OG permissions.
+ */
+function capacity4more_setup_set_og_permissions() {
   $permissions = array(
-    'access content',
-    'create group content',
-    'edit own group content',
-    'delete own group content',
+    'update own discussion content',
+    'delete own discussion content',
+
+    'update own document content',
+    'delete own document content',
+
+    'update own event content',
+    'delete own event content',
+
+    'update own photo content',
+    'delete own photo content',
+
+    'update own photoalbum content',
+    'delete any photoalbum content',
+
+    'update own task content',
+    'delete own task content',
+
+    'update own tasklist content',
+    'delete own tasklist content',
+
+    'update own wiki_page content',
+    'delete own wiki_page content',
   );
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+
+  $roles = og_roles('node', 'group');
+  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
+//
+//  $permissions = array(
+//    'view field_budget_support field',
+//    'update field_budget_support field',
+//
+//    'view field_location field',
+//
+//    'view field_stakeholder_analysis field',
+//    'update field_stakeholder_analysis field',
+//
+//    'view field_summary field',
+//    'update field_summary field',
+//
+//    'view field_total_estimated_cost field',
+//    'update field_total_estimated_cost field',
+//
+//    'view field_total_eu_contribution field',
+//    'update field_total_eu_contribution field',
+//
+//    'view field_amaim field',
+//    'update field_amaim field',
+//
+//    'view field_dac_codes field',
+//    'update field_dac_codes field',
+//
+//    'view field_sector_of_concentration field',
+//    'update field_sector_of_concentration field',
+//
+//    'view field_cris_number field',
+//    'update field_cris_number field',
+//
+//    'view field_zone field',
+//    'update field_zone field',
+//  );
+//
+//  $anon_rid = array_search(OG_ANONYMOUS_ROLE, $roles);
+//  og_role_grant_permissions($anon_rid, $permissions);
+//
+//  $permissions = array(
+//    'approve or deny track changes',
+//  );
+//
+//  $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+//  og_role_grant_permissions($admin_rid, $permissions);
 }
