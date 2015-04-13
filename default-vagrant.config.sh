@@ -16,14 +16,14 @@ PROFILE_TITLE="capacity4more"
 
 
 # Modify the URL below to match your local domain the site will be accessible on.
-BASE_DOMAIN_URL="capacity4more.eu.dev"
+BASE_DOMAIN_URL="capacity4more.eu.vm"
 
 
 # Modify the login details below to be the desired 
 # login details for the Drupal Administrator account.
-ADMIN_USERNAME=""
-ADMIN_PASSWORD=""
-ADMIN_EMAIL=""
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="drupal"
+ADMIN_EMAIL="drupal@amplexor.com"
 
 
 # Modify the MySQL settings below so they will match your own.
