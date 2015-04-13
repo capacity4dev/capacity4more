@@ -68,7 +68,7 @@ function c4m_features_og_manage_group_details() {
   $membership_field = field_info_field('field_membership_open_request');
 
   $details = array(
-    'edit_link' => l(t('Edit'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE))),
+    'edit_link' => url('node/' . $group->nid . '/edit', array('absolute' => TRUE)),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => '<strong>' . $wrapper->label() . '</strong>',
     'description' => $wrapper->c4m_body->value(),
@@ -274,7 +274,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
     $file['style_name'] = 'medium';
     $file['path'] = $file['uri'];
     $file['attributes'] = array('class' => 'group-thumbnail');
-    $info['thumbnail_image'] = l(theme_image_style($file) . theme_html_tag($edit_link), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)), $options);
+    $info['thumbnail_image'] = l(theme_image_style($file) . theme_html_tag($edit_link), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-list')), $options);
   }
 
   // Archive group link (If group is not archived already).
@@ -285,9 +285,11 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter variable manage form layout.
  */
 function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$form, &$form_state, $form_id) {
-  // Alter variable manage form layout.
+  // Don't use vertival tabs.
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t('Enable or disable features for this group.');
@@ -298,7 +300,25 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$
   // Attach CSS/JavaScript.
   $form['variables']['#attached'] = array(
     'js' => array(
-      drupal_get_path('module', 'c4m_features_og_manage') . '/js/manage_features.js'
+      drupal_get_path('module', 'c4m_features_og_manage') . '/js/manage_features.js',
     ),
   );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add anchors to the following elements by adding an ID on their elements.
+ */
+function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state) {
+  $form_elements = array(
+    'title' => 'edit-details',
+    'c4m_related_group' => 'edit-related-content',
+    'c4m_banner' => 'edit-image-banner',
+    'c4m_media' => 'edit-image-list',
+  );
+  foreach($form_elements as $element => $id) {
+    $form[$element]['#prefix'] = "<div id='$id'>";
+    $form[$element]['#suffix'] = '</div>';
+  }
 }

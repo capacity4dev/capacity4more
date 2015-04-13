@@ -9,6 +9,9 @@
             <span class="title">
             {{ slide.title }}
           </span>
+          <span class="date">
+            {{ slide.date }}
+          </span>
           <span class="text">
             {{ slide.text }}
           </span>
