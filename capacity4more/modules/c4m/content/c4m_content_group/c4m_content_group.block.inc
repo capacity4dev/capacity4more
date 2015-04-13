@@ -79,7 +79,7 @@ function _c4m_content_group_block_header_name_banner() {
             ),
           ),
         );
-        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE)), $options);
+        $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-banner')), $options);
       }
       else {
         $markup .= theme_image_style($file);
