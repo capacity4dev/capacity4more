@@ -1,6 +1,7 @@
 .node-type-document {
   .view-mode-full {
     .user-name {
+      display: inline;
       & + .creation-date {
         border-left: none;
         margin-left: 0px;
