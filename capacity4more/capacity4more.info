@@ -39,6 +39,7 @@ dependencies[] = entityreference_prepopulate
 dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = field_group
+dependencies[] = file_download_count
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
