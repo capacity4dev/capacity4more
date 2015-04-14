@@ -38,7 +38,7 @@ Feature: Group access
 
   @javascript
   Scenario: Check restricted group accessed by accepted organization user
-    Given a moderated group "My bad hair day new group 5" with "ec" organization restriction is created with group manager "turing"
+    Given a moderated group "My bad hair day new group 5" with "EC/EEAS" organization restriction is created with group manager "turing"
       And a discussion "My content 5" in group "My bad hair day new group 5" is created
      When I am logged in as user "president"
      Then I visit "My bad hair day new group 5" node of type "group"
