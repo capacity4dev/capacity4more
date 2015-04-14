@@ -142,48 +142,4 @@ function capacity4more_setup_set_og_permissions() {
   $roles = og_roles('node', 'group');
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
-//
-//  $permissions = array(
-//    'view field_budget_support field',
-//    'update field_budget_support field',
-//
-//    'view field_location field',
-//
-//    'view field_stakeholder_analysis field',
-//    'update field_stakeholder_analysis field',
-//
-//    'view field_summary field',
-//    'update field_summary field',
-//
-//    'view field_total_estimated_cost field',
-//    'update field_total_estimated_cost field',
-//
-//    'view field_total_eu_contribution field',
-//    'update field_total_eu_contribution field',
-//
-//    'view field_amaim field',
-//    'update field_amaim field',
-//
-//    'view field_dac_codes field',
-//    'update field_dac_codes field',
-//
-//    'view field_sector_of_concentration field',
-//    'update field_sector_of_concentration field',
-//
-//    'view field_cris_number field',
-//    'update field_cris_number field',
-//
-//    'view field_zone field',
-//    'update field_zone field',
-//  );
-//
-//  $anon_rid = array_search(OG_ANONYMOUS_ROLE, $roles);
-//  og_role_grant_permissions($anon_rid, $permissions);
-//
-//  $permissions = array(
-//    'approve or deny track changes',
-//  );
-//
-//  $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
-//  og_role_grant_permissions($admin_rid, $permissions);
 }

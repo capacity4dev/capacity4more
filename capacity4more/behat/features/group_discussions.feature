@@ -44,7 +44,7 @@ Feature: Group Discussions
     When  I start editing "discussion" "Some new discussion1" in group "Architecture"
     Then  I should not see an "edit-og-group-ref-und-0-default" element
 
-  @javascript @foo
+  @javascript
   Scenario: Check edit own discussion of member group.
     Given I am logged in as user "galileo"
     When  a discussion "Some new discussion3" in group "Tennis Group" is created
