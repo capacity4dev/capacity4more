@@ -10,7 +10,7 @@
 function c4m_features_og_wiki_c4m_og_feature_info() {
   return array(
     'c4m_features_og_wiki' => array(
-      'name' => t('Wiki'),
+      'name' => t('Wiki pages'),
       'description' => t('Wiki overview.'),
       'machine_name' => 'c4m_features_og_wiki',
       'weight' => 1,
