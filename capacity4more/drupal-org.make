@@ -161,7 +161,8 @@ projects[pathauto][version] = "1.2"
 
 projects[pluggable_node_access][download][type] = "git"
 projects[pluggable_node_access][download][url] = "https://github.com/HelenaEksler/pluggable_node_access.git"
-projects[pluggable_node_access][download][branch] = 16
+;projects[pluggable_node_access][download][branch] = 16
+projects[pluggable_node_access][download][branch] = pluggable_node_access_type
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
