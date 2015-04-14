@@ -66,3 +66,33 @@ Feature: Group access
     When a group "New group" with "Public" access is created with group manager "isaacnewton"
     Then I should be on the homepage
     And I should see "The group you requested is pending review by one of the administrators."
+
+  @api
+  Scenario: Check redirect to homepage  if no values are provided via URL.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/discussion"
+    Then I should be on the homepage
+
+  @api
+  Scenario: Check redirect to homepage  if no values are provided via URL.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/document"
+    Then I should be on the homepage
+
+  @api
+  Scenario: Check redirect to homepage  if no values are provided via URL.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/photo"
+    Then I should be on the homepage
+
+  @api
+  Scenario: Check redirect to homepage  if no values are provided via URL.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/task"
+    Then I should be on the homepage
+
+  @api
+  Scenario: Check redirect to homepage  if no values are provided via URL.
+    Given I am logged in as user "isaacnewton"
+    When I visit "node/add/tasklist"
+    Then I should be on the homepage
