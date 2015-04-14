@@ -32,10 +32,10 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
-//  $tasks['capacity4more_setup_set_permissions'] = array(
-//    'display_name' => st('Set permissions'),
-//    'display' => FALSE,
-//  );
+  $tasks['capacity4more_setup_set_permissions'] = array(
+    'display_name' => st('Set permissions'),
+    'display' => FALSE,
+  );
 
   $tasks['capacity4more_setup_set_og_permissions'] = array(
     'display_name' => st('Set OG permissions'),
@@ -98,16 +98,16 @@ function capacity4more_setup_set_variables(&$install_state) {
 /**
  * Task callback; Create permissions.
  */
-//function capacity4more_setup_set_permissions(&$install_state) {
-//  // Enable default permissions for authenticated users.
-//  $permissions = array(
-//    'access content',
-//    'create group content',
-//    'edit own group content',
-//    'delete own group content',
-//  );
-//  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
-//}
+function capacity4more_setup_set_permissions(&$install_state) {
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access content',
+    'create group content',
+    'edit own group content',
+    'delete own group content',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+}
 
 /**
  * Task callback; Setting OG permissions.
