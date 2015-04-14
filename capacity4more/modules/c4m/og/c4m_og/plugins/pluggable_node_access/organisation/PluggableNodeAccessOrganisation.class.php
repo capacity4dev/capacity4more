@@ -70,8 +70,9 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
     }
 
     $grants = array();
-
-    foreach ($this->getAccessEntities('node', $node, 'organisation') as $entity) {
+    $entities = $this->getAccessEntities('node', $node, 'organisation');
+    $entities = array_unique($entities);
+    foreach ($entities as $entity) {
       foreach ($entity->data as $organisation) {
         $realm = 'organisation::' . $organisation;
         $grants[] = array (

@@ -397,6 +397,8 @@ function c4m_og_group_form_submit($form, &$form_state) {
 
       // Save the pluggable_node_access.
       $pluggable_node_accesses = c4m_og_save_pluggable_node_access_restricted($node, $organisations, $domains);
+
+      $form_state['values']['pluggable_node_access'][LANGUAGE_NONE] = NULL;
       foreach ($pluggable_node_accesses as $pluggable_node_access) {
         $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][] = array('target_id' => $pluggable_node_access->id);
       }
@@ -518,12 +520,14 @@ function c4m_og_remove_pluggable_node_access(
   array &$form_state
 ) {
   // Delete referenced entity.
-  if ($pluggable_node_access = $wrapper->pluggable_node_access->value()) {
-    $pluggable_node_access->delete();
+  if ($pluggable_node_accesses = $wrapper->pluggable_node_access->value()) {
+    foreach ($pluggable_node_accesses as $pluggable_node_access) {
+      $pluggable_node_access->delete();
+    }
   }
 
   // Clean form value.
-  $form_state['values']['pluggable_node_access'][LANGUAGE_NONE][0]['target_id'] = NULL;
+  $form_state['values']['pluggable_node_access'][LANGUAGE_NONE] = NULL;
 }
 
 /**
