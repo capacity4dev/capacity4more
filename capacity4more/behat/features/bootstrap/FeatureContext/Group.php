@@ -140,7 +140,7 @@ trait Group {
     $steps[] = new Step\When('I attach the file to the field banner');
 
     // This is the required message to admin.
-    $step[] = new Step\When('I fill field message to site admin with "This is default message to admin."');
+    $steps[] = new Step\When('I fill field message to site admin with "This is default message to admin."');
 
     $steps[] = new Step\When('I press "Request"');
 
