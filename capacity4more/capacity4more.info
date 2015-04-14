@@ -75,6 +75,7 @@ dependencies[] = views_bulk_operations
 
 ; Admin Management
 dependencies[] = c4m_admin_groups
+dependencies[] = c4m_admin_organisations
 
 ; Helpers
 dependencies[] = c4m_helper_comment
@@ -113,6 +114,7 @@ dependencies[] = c4m_content_task
 dependencies[] = c4m_content_tasklist
 dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_wiki_page
+dependencies[] = c4m_content_organisation
 
 dependencies[] = c4m_field_related_og
 
