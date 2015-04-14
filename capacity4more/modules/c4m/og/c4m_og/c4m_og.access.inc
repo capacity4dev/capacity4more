@@ -138,6 +138,7 @@ function c4m_og_get_restricted_info($group) {
         case 'email_domain':
           $info['domains'] = $data;
           break;
+
         case 'organisation':
           $info['organisations'] = $data;
           break;
@@ -445,8 +446,45 @@ function c4m_og_save_pluggable_node_access_restricted($group, $organisations = a
   $pluggable_node_accesses = $wrapper->pluggable_node_access->value();
   $entities = array();
 
-    if (empty($pluggable_node_accesses)) {
-      // Create new pluggable_node_access entity.
+  if (empty($pluggable_node_accesses)) {
+    // Create new pluggable_node_access entity.
+    $values = array(
+      'type' => 'email_domain',
+      'data' => $domains,
+    );
+    $pluggable_node_access = entity_create('pluggable_node_access', $values);
+    $pluggable_node_access->save();
+    $entities[] = $pluggable_node_access;
+
+    $values = array(
+      'type' => 'organisation',
+      'data' => $organisations,
+    );
+    $pluggable_node_access = entity_create('pluggable_node_access', $values);
+    $pluggable_node_access->save();
+    $entities[] = $pluggable_node_access;
+  }
+  else {
+    $domains_saved = FALSE;
+    $organisations_saved = FALSE;
+    $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
+    foreach ($pluggable_node_accesses as $pluggable_node_access) {
+      switch ($pluggable_node_access->type) {
+        case 'email_domain':
+          $pluggable_node_access->data = $domains;
+          $domains_saved = TRUE;
+          break;
+
+        case 'organisation':
+          $pluggable_node_access->data = $organisations;
+          $organisations_saved = TRUE;
+          break;
+      }
+      $pluggable_node_access->save();
+      $entities[] = $pluggable_node_access;
+    }
+
+    if (!$domains_saved) {
       $values = array(
         'type' => 'email_domain',
         'data' => $domains,
@@ -454,7 +492,9 @@ function c4m_og_save_pluggable_node_access_restricted($group, $organisations = a
       $pluggable_node_access = entity_create('pluggable_node_access', $values);
       $pluggable_node_access->save();
       $entities[] = $pluggable_node_access;
+    }
 
+    if (!$organisations_saved) {
       $values = array(
         'type' => 'organisation',
         'data' => $organisations,
@@ -463,46 +503,7 @@ function c4m_og_save_pluggable_node_access_restricted($group, $organisations = a
       $pluggable_node_access->save();
       $entities[] = $pluggable_node_access;
     }
-    else {
-      $domains_saved = FALSE;
-      $organisations_saved = FALSE;
-      $pluggable_node_accesses = is_array($pluggable_node_accesses) ? $pluggable_node_accesses : array($pluggable_node_accesses);
-      foreach ($pluggable_node_accesses as $pluggable_node_access) {
-        switch ($pluggable_node_access->type) {
-          case 'email_domain':
-            $pluggable_node_access->data = $domains;
-            $domains_saved = TRUE;
-            break;
-          case 'organisation':
-            $pluggable_node_access->data = $organisations;
-            $organisations_saved = TRUE;
-            break;
-        }
-        $pluggable_node_access->save();
-        $entities[] = $pluggable_node_access;
-      }
-
-      if (!$domains_saved) {
-        $values = array(
-          'type' => 'email_domain',
-          'data' => $domains,
-        );
-        $pluggable_node_access = entity_create('pluggable_node_access', $values);
-        $pluggable_node_access->save();
-        $entities[] = $pluggable_node_access;
-      }
-
-      if (!$organisations_saved) {
-        $values = array(
-          'type' => 'organisation',
-          'data' => $organisations,
-        );
-        $pluggable_node_access = entity_create('pluggable_node_access', $values);
-        $pluggable_node_access->save();
-        $entities[] = $pluggable_node_access;
-      }
-    }
-
+  }
 
   return $entities;
 }
