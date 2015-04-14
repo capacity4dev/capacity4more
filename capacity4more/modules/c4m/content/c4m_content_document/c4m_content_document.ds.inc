@@ -229,7 +229,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'downloads',
     ),
     'c4m_related_topic' => array(
       'formatter_settings' => array(
