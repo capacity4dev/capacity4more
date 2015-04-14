@@ -7,6 +7,7 @@
     }
   }
 }
+
 .activity-stream {
 
   #new-activities-button {
@@ -102,7 +103,7 @@
 .row-header {
   color: $highlight-blue;
   font-size: 0.9em;
-  
+
   a {
     color: $highlight-blue;
   }
@@ -130,22 +131,40 @@
 .row-entity-count {
   @extend %svg-icon;
 
+  color: $color-blue-dark;
+
   &.count-views {
     @include image-icon-png-fallback('icons', 'count-views');
+  }
+
+  &.count-downloads {
+    @include image-icon-png-fallback('icons', 'count-downloads');
   }
 
   &.count-comments {
     @include image-icon-png-fallback('icons', 'count-comments');
 
-    &+ .count-views {
+    & + .count-views {
       margin-left: 50px;
+
+      & + .count-downloads {
+        margin-left: 50px;
+      }
     }
+  }
+}
+
+.download-link {
+  a {
+    @extend %svg-icon;
+    @include image-icon-png-fallback('icons', 'count-downloads');
   }
 }
 
 .as-document {
   @include image-icon-png-fallback('icons', 'document-unknown');
 }
+
 .as-document-bmp,
 .as-document-gif,
 .as-document-ico,
@@ -154,40 +173,51 @@
 .as-document-png {
   @include image-icon-png-fallback('icons', 'document-image');
 }
+
 .as-document-zip {
   @include image-icon-png-fallback('icons', 'document-zip');
 }
+
 .as-document-ppt,
 .as-document-pptx {
   @include image-icon-png-fallback('icons', 'document-powerpoint');
 }
+
 .as-document-word {
   @include image-icon-png-fallback('icons', 'document-word');
 }
+
 .as-document-ods,
 .as-document-xls,
 .as-document-xlsx,
 {
   @include image-icon-png-fallback('icons', 'document-excel');
 }
+
 .as-document-pdf {
   @include image-icon-png-fallback('icons', 'document-pdf');
 }
+
 .as-discussion-info {
   @include image-icon-png-fallback('icons', 'discussion-info');
 }
+
 .as-discussion-idea {
   @include image-icon-png-fallback('icons', 'discussion-idea');
 }
+
 .as-discussion-question {
   @include image-icon-png-fallback('icons', 'discussion-question');
 }
+
 .as-discussion-debate {
   @include image-icon-png-fallback('icons', 'discussion-debate');
 }
+
 .as-comment {
   @include image-icon-png-fallback('icons', 'comment');
 }
+
 .as-event, .as-event-event {
   @include image-icon-png-fallback('icons', 'event');
 }
