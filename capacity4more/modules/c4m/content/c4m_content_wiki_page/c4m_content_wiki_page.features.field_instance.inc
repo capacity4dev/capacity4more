@@ -578,7 +578,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'prepopulate' => array(
           'action' => 'hide',
           'action_on_edit' => 1,
-          'fallback' => 'none',
+          'fallback' => 'redirect',
           'providers' => array(
             'og_context' => 1,
             'url' => 0,
