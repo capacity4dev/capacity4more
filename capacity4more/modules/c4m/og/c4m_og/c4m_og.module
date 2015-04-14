@@ -34,6 +34,21 @@ function c4m_og_current_group() {
 }
 
 /**
+ * Helper to get the current active group id (based on og_context()).
+ *
+ * @return NULL|int
+ *   The group id, or NULL if no context was found.
+ */
+function c4m_og_current_group_id() {
+  $context = og_context();
+  if (!$context) {
+    return NULL;
+  }
+
+  return $context['gid'];
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_og_ctools_plugin_directory($module, $plugin) {
@@ -182,21 +197,10 @@ function c4m_og_get_users_by_roles($gid, $rids = array()) {
 }
 
 /**
- * Implements hook_views_plugins().
+ * Implements hook_views_api().
  */
-function c4m_og_views_plugins() {
-  $plugins = array(
-    'access' => array(
-      'c4m_og_access_og_context' => array(
-        'title' => t('User has access to the OG context'),
-        'help' => t('this is a custom access plugin'),
-        'handler' => 'c4m_og_access_plugin',
-        'path' => drupal_get_path('module', 'c4m_og'),
-        'uses options' => TRUE,
-      ),
-    ),
-  );
-  return $plugins;
+function c4m_og_views_api() {
+  return array('api' => 3.0);
 }
 
 /**
@@ -455,6 +459,7 @@ function c4m_og_feature_info($feature = NULL) {
     else {
       $hook = 'c4m_og_feature_info';
       $data = module_invoke_all($hook);
+      uasort($data, 'drupal_sort_weight');
       cache_set($cache_key, $data);
     }
   }
@@ -491,6 +496,44 @@ function c4m_og_feature_enabled($feature) {
   }
 
   return FALSE;
+}
+
+/**
+ * Get a list of enabled features for the active group.
+ *
+ * @return array
+ *   An array with the features that are enabled for the active group.
+ */
+function c4m_og_feature_enabled_features() {
+  $features = variable_get('c4m_og_features_group');
+
+  foreach ($features as $feature => $status) {
+    if (!$status) {
+      unset($features[$feature]);
+    }
+  }
+
+  return array_keys($features);
+}
+
+/**
+ * Get a list of enabled content types for the active group.
+ *
+ * @return array
+ *   An array with the content types that are enabled for the active group.
+ */
+function c4m_og_feature_enabled_content_types() {
+  $content_types = array();
+
+  $feature_info = c4m_og_feature_info();
+  $features = c4m_og_feature_enabled_features();
+
+  foreach ($features as $feature) {
+    $group_content_types = $feature_info[$feature]['content_types'];
+    $content_types = array_merge($content_types, $group_content_types);
+  }
+
+  return $content_types;
 }
 
 /**
