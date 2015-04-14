@@ -1722,7 +1722,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -1902,7 +1902,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 15,
+      'weight' => 13,
     ),
   );
 
@@ -1982,7 +1982,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 14,
+      'weight' => 12,
     ),
   );
 
@@ -2184,7 +2184,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 12,
+      'weight' => 11,
     ),
   );
 

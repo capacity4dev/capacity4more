@@ -50,12 +50,11 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '12',
+    'weight' => '13',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
-      2 => 'c4m_vocab_language',
-      3 => 'og_vocabulary',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_language',
+      2 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -81,7 +80,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '13',
+    'weight' => '14',
     'children' => array(
       0 => 'og_group_ref',
     ),
