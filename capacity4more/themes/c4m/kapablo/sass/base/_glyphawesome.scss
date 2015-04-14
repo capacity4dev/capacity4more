@@ -1,0 +1,13 @@
+.glyphicon {
+  @extend .fa;
+
+  // Overloading "glyphicon-chevron-left" with "fa-arrow-left".
+  &.glyphicon-chevron-left {
+    @extend .fa-chevron-left;
+  }
+
+  // Overloading "glyphicon-chevron-right" with "fa-arrow-right".
+  &.glyphicon-chevron-right {
+    @extend .fa-chevron-right;
+  }
+}
