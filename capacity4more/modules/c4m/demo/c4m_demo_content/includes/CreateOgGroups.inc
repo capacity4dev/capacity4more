@@ -61,7 +61,7 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       ->defaultValue(0);
 
     $this->addFieldMapping('c4m_og_status', 'group_status')
-      ->defaultValue('requested');
+      ->defaultValue('published');
   }
 
   /**
