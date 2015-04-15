@@ -154,10 +154,16 @@
   }
 }
 
-.download-link {
-  a {
-    @extend %svg-icon;
-    @include image-icon-png-fallback('icons', 'count-downloads');
+.download-link-icon {
+  @extend %svg-icon;
+  @include image-icon-png-fallback('icons', 'download-link');
+
+  padding-left: 35px;
+  font-size: 90%;
+  line-height: 1.1;
+
+  .download-link {
+    text-transform: uppercase;
   }
 }
 
