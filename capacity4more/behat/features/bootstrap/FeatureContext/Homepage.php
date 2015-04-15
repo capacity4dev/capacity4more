@@ -75,7 +75,7 @@ trait Homepage {
   public function iShouldSeeFunctioningCarousel() {
     $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
     $steps[] = new Step\When('I should see "Read all"');
-    $steps[] = new Step\When('I should see "The First Neutrinos from Outside the Solar System"');
+    $steps[] = new Step\When('I should see "DNA nanotechnology designed nanostructures out of nucleic acids"');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
     $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
