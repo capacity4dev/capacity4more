@@ -362,11 +362,10 @@ function theme_c4m_ds_group_role_members($field) {
 
   foreach ($members as $member) {
     // Don't list the group owner twice.
-    if ($entity->uid === $member->uid) {
-      continue;
+    if ($entity->uid !== $member->uid) {
+      $user = user_load($member->uid);
+      $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
     }
-    $user = user_load($member->uid);
-    $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
   }
 
   return ltrim($output, ', ');
