@@ -46,6 +46,11 @@
 
     background: none;
     border: 0;
+    height: auto;
+
+    &.collapsed {
+      height: auto;
+    }
 
     legend {
       @include box-shadow(none);
