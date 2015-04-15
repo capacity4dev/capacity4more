@@ -1705,9 +1705,10 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 30,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_topic',
-    'label' => 'Related Topics',
+    'label' => 'Topics',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -1718,11 +1719,11 @@ function c4m_content_event_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
+      'active' => 0,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 12,
+      'weight' => 11,
     ),
   );
 
@@ -1902,7 +1903,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 13,
+      'weight' => 14,
     ),
   );
 
@@ -1982,7 +1983,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -2184,7 +2185,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -2207,8 +2208,8 @@ function c4m_content_event_field_default_field_instances() {
   t('Organised by');
   t('Presentations');
   t('Regions & Countries');
-  t('Related Topics');
   t('Start and end date of the Event.');
+  t('Topics');
   t('Twitter page');
   t('Type of Event');
   t('You can select up to 3 Regions and unlimited Countries within these Regions.');
