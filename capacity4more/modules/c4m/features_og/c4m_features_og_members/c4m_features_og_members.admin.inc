@@ -479,7 +479,7 @@ function _c4m_features_og_members_create_form_alert(&$form, $message, $severity 
   $form[$severity . '_message'] = array(
     '#markup' => $message,
     '#prefix' => '<div class="alert alert-' . $class . '" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
   <span class="sr-only">' . ucfirst($severity) . ':</span>',
     '#suffix' => '</div>'
   );

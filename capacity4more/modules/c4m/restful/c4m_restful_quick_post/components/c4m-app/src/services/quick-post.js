@@ -42,7 +42,7 @@ angular.module('c4mApp')
       scope.tagsQueryCache = [];
 
       // Date Calendar options.
-      scope.minDate = new Date();
+      scope.minDate = new Date("January 1, 1970");
 
       scope.startOpened = false;
 
