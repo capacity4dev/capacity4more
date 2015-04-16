@@ -106,12 +106,12 @@
           @include arrow-image('down', 'gray-darker', 'after');
           padding-right: 35px;
           background-position: 75px 50%;
-          background-size: 1.2em;
+          background-size: 1.2em 1.2em;
           &:hover, &.active-trail {
             @include arrow-image('down', 'gray-dark', 'after');
             padding-right: 35px;
             background-position: 75px 50%;
-            background-size: 1.2em;
+            background-size: 1.2em 1.2em;
           }
         }
         div.dropdown-menu {

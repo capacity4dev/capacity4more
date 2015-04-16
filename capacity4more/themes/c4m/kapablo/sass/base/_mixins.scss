@@ -54,7 +54,7 @@
     background: $full-png no-repeat left 50%;
     padding-left: 15px;
   }
-  background-size: 1em;
+  background-size: 1em 1em;
 
   html.inlinesvg & {
     background-image: $full-svg;
