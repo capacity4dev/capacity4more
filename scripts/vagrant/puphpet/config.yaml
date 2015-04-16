@@ -30,6 +30,8 @@ vagrantfile-local:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
+                setextradata:
+                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant: 1
             vmware:
                 numvcpus: 1
             parallels:
