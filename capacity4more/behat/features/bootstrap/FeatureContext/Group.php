@@ -314,6 +314,26 @@ trait Group {
   }
 
   /**
+   * @Given /^I should not see the "([^"]*)" link on the group menu$/
+   */
+  public function iShouldNotSeeTheLinkOnTheGroupMenu($text) {
+    $page = $this->getSession()->getPage();
+    $locator = '#c4m-og-menu > ul > li > a';
+    $links = $page->findAll('css', $locator);
+    $found = FALSE;
+    foreach ($links as $link) {
+      if ($link->getText() === $text) {
+        $found = TRUE;
+        break;
+      }
+    }
+
+    if ($found) {
+      throw new \Exception("$text link found on group menu.");
+    }
+  }
+
+  /**
    * @When /^I start creating "([^"]*)" "([^"]*)" in group "([^"]*)"$/
    */
   public function iStartCreatingInGroup($bundle, $title, $group_title) {
@@ -357,6 +377,34 @@ trait Group {
     $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
 
     return $steps;
+  }
+
+  /**
+   * @Given /^I enable the group feature "([^"]*)"$/
+   */
+  public function iEnableGroupFeature($feature) {
+    $steps = array();
+    $steps[] = new Step\When('I check the box "edit-variables-c4m-og-c4m-og-features-group-c4m-features-og-' . $feature . '"');
+    return $steps;
+  }
+
+  /**
+   * @Given /^I disable the group feature "([^"]*)"$/
+   */
+  public function iDisableGroupFeature($feature) {
+    $steps = array();
+    $steps[] = new Step\When('I uncheck the box "edit-variables-c4m-og-c4m-og-features-group-c4m-features-og-' . $feature . '"');
+    return $steps;
+  }
+
+  /**
+   * @When /^I manage the features of group "([^"]*)"$/
+   */
+  public function iManageFeaturesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/features');
+
+    return new Given("I go to \"$uri\"");
   }
 
 }
