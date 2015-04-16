@@ -1,0 +1,6 @@
+name = Admin
+description = This module provides global administration functionality
+core = 7.x
+package = capacity4more - Admin
+version = 7.x-1.0
+project = c4m_admin
