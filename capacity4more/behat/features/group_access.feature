@@ -11,7 +11,7 @@ Feature: Group access
       And I visit "My content 111" node of type "discussion"
       And I should not see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check private group
     Given a group "My bad hair day new group 2" with "Private" access is created with group manager "turing"
       And a discussion "My content 2" in group "My bad hair day new group 2" is created
@@ -66,18 +66,3 @@ Feature: Group access
     When a group "New group" with "Public" access is created with group manager "isaacnewton"
     Then I should be on the homepage
     And I should see "The group you requested is pending review by one of the administrators."
-
-  @javascript
-  Scenario: Test.
-    Given I am logged in as user "isaacnewton"
-    When I visit "node/add/group"
-    And I fill in "title" with "Test group6"
-    And I select the radio button "Public"
-    And I fill in "edit-c4m-body-und-0-value" with "This is default summary."
-    And I fill field message to site admin with "This is default message to admin."
-    And I check the related topic checkbox
-    And I attach the file to the field banner
-    And I press "Request"
-    And I wait
-    Then I should not see "Group access"
-    And I should not see "There was an error"
