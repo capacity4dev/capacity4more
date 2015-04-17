@@ -239,6 +239,7 @@ function c4m_ds_ds_fields_info($entity_type) {
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),
+        'downloads' => t('Default + number of downloads'),
       ),
     ),
   );
@@ -439,6 +440,11 @@ function c4m_ds_theme() {
       'variables' => array('count' => 0),
       'path' => $path,
       'template' => 'c4m_ds_entity_views_count',
+    ),
+    'c4m_ds_entity_downloads_count' => array(
+      'variables' => array('count' => 0),
+      'path' => $path,
+      'template' => 'c4m_ds_entity_downloads_count',
     ),
   );
 }
