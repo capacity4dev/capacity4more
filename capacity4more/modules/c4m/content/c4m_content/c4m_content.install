@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the content module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_content_install() {
+  // Enable the cancel button.
+  variable_set('c4m_nodeform_cancel_button', 1);
+}

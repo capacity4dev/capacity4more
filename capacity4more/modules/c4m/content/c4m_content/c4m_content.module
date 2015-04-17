@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Code for the Article content type feature.
+ */
+
+/**
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+    // Add an additional cancel button to defined forms
+    $cancel = variable_get('c4m_nodeform_cancel_button', FALSE);
+    $og_group = og_context();
+
+    if($cancel) {
+        // Use destination parameter when set
+        if (isset($_GET['destination']) || $og_group) {
+            $form['actions']['cancel'] = array(
+                '#type'   => 'submit',
+                '#value'  => t('Cancel'),
+                '#submit' => array('c4m_content_cancel_button_callback'),
+                '#limit_validation_errors' => array(),
+                '#weight' => 14,
+            );
+
+            if ($og_group) {
+                $form_state['c4m_redirect'] = '<front>';
+            }
+        }
+        // Use javascript history.go(-1) when destination is not set
+        else {
+            $form['actions']['cancel'] = array(
+                '#type'   => 'button',
+                '#value'  => t('Cancel'),
+                '#attributes' => array('onClick' => 'history.go(-1); return true;'),
+                '#post_render' => array('c4m_content_cancel_button_change_type'),
+                '#weight' => 14,
+            );
+        }
+    }
+}
+
+/**
+ * Cancel button callback when a destination parameter was set.
+ */
+function c4m_content_cancel_button_callback($form, &$form_state) {
+    $form_state['redirect'] = isset($form_state['c4m_redirect']) ? $form_state['c4m_redirect'] : $form_state['redirect'];
+}
+
+/**
+ * Changed the default html button type from 'submit' to 'button'
+ */
+function c4m_content_cancel_button_change_type($markup, $element) {
+    $markup = str_replace('type="submit', 'type="button', $markup);
+    return $markup;
+}
