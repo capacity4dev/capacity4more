@@ -171,15 +171,7 @@ trait Group {
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
 
-    $admin_message = $this->getSession()->getDriver()->find('xpath', '//textarea[@id="edit-field-message-to-site-admin-und-0-value" and .=""]');
-    if (!$admin_message) {
-      $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
-    }
-
-    $banner = $this->getSession()->getDriver()->find('xpath', 'input[@name="c4m_banner[und][0][fid]"  and .=""]');
-    if (!$banner) {
-      $steps[] = new Step\When('I attach the file to the field banner');
-    }
+    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
 
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
