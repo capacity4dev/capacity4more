@@ -4,12 +4,11 @@
  * Code for the Article content type feature.
  */
 
+
 /**
+ * Implements hook_form_FORM_ID_alter().
+ * 
  * Add a cancel button to all node forms.
- *
- * @param $form
- * @param $form_state
- * @param $form_id
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   // Check if a cancel button should be added to node forms.
