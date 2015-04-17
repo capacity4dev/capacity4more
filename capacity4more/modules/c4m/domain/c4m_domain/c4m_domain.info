@@ -1,0 +1,5 @@
+name = Email Domain functionalities
+description = This module defines a custom entity type that specifies how email domains are validated.
+core = 7.x
+package = capacity4more - Domain
+version = 7.x-1.x-dev

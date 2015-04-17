@@ -164,3 +164,6 @@ dependencies[] = c4m_document_widget
 
 ; Organic Groups
 dependencies[] = c4m_og_purl
+
+; Email Domains
+dependencies[] = c4m_domain
