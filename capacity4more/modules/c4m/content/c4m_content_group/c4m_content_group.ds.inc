@@ -31,7 +31,7 @@ function c4m_content_group_ds_field_settings_info() {
     'post_date' => array(
       'weight' => '0',
       'label' => 'inline',
-      'format' => 'ds_post_date_day',
+      'format' => 'ds_post_date_c4m_long_without_time',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
