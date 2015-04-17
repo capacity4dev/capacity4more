@@ -90,7 +90,6 @@ module.exports = function (grunt) {
         app: {
           files: {
             '<%= project.root %>/js/kapablo.min.js': [
-              '<%= project.root %>/js/app/modernizr.js',
               '<%= project.root %>/js/app/kapablo.js'
             ]
           }
