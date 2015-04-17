@@ -7,6 +7,37 @@
 include_once 'c4m_features_og_manage.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_features_og_manage_menu() {
+  $items = array();
+
+  $items['manage/features'] = array(
+    'title' => 'Manage features',
+    'description' => 'Enable or disable group features.',
+    'page callback' => 'c4m_features_og_manage_features',
+    'file' => 'includes/c4m_features_og_manage_features.inc',
+    'access callback' => array('c4m_features_og_manage_features_access'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Access callback for manage features menu.
+ */
+function c4m_features_og_manage_features_access() {
+  // Check if in a group.
+  $gid = c4m_og_current_group_id();
+  if (empty($gid)) {
+    return FALSE;
+  }
+  // Check if user has permission to manage group settings.
+  return og_ui_user_access_group('manage variables', 'node', $gid);
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
@@ -178,6 +209,11 @@ function c4m_features_og_manage_group_details() {
   $details['categories_count'] = $categories_count;
   $details['terms_count'] = $terms_count;
 
+  // Get features settings.
+  $details['features_available'] = c4m_og_feature_info();
+  $details['features_manage_link'] = l(t('Edit'), url('manage/features', array('absolute' => TRUE)));
+  $details['features_enabled'] = variable_get('c4m_og_features_group', array());
+
   return $details;
 }
 
@@ -248,17 +284,39 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 }
 
 /**
- * Implements hook_form_FROM_ID_form_alter().
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter variable manage form layout.
+ */
+function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$form, &$form_state, $form_id) {
+  // Don't use vertival tabs.
+  $form['variables']['#type'] = 'div';
+  $form['variables']['c4m_og']['#type'] = 'div';
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t('Enable or disable features for this group.');
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
+
+  // Attach CSS/JavaScript.
+  $form['variables']['#attached'] = array(
+    'js' => array(
+      drupal_get_path('module', 'c4m_features_og_manage') . '/js/manage_features.js',
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
  *
  * Add anchors to the following elements by adding an ID on their elements.
  */
 function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state) {
-
   $form_elements = array(
     'title' => 'edit-details',
     'c4m_related_group' => 'edit-related-content',
     'c4m_banner' => 'edit-image-banner',
-    'c4m_media' => 'edit-image-list');
+    'c4m_media' => 'edit-image-list',
+  );
   foreach($form_elements as $element => $id) {
     $form[$element]['#prefix'] = "<div id='$id'>";
     $form[$element]['#suffix'] = '</div>';

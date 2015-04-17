@@ -8,8 +8,9 @@
  */
 function theme_c4m_ds_formatter_link_and_size($variables) {
   $output = '';
-  if ('file' != $variables['entity_type'] ||
-    empty($variables['entity']->fid)) {
+  if ('file' != $variables['entity_type']
+    || empty($variables['entity']->fid)
+  ) {
     return $output;
   }
   else {
@@ -30,34 +31,40 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
 
   // Perform unsanitized token replacement if $uri['options']['html'] is empty
   // since then l() will escape the link text.
-  $variables['text'] = token_replace($variables['text'], array('file' => $file),
-    array('clear' => TRUE, 'sanitize' => !empty($uri['options']['html'])));
+  $variables['text'] = token_replace(
+    $variables['text'], array('file' => $file),
+    array('clear' => TRUE, 'sanitize' => !empty($uri['options']['html']))
+  );
 
   // Download link
   $tag['element'] = array(
-    '#tag' => 'p',
+    '#tag'        => 'span',
     '#attributes' => array(
       'class' => "download-link",
     ),
-    '#value' => l($variables['text'], $uri['path'], $uri['options']),
+    '#value'      => l($variables['text'], $uri['path'], $uri['options']),
   );
   $inner = theme_html_tag($tag);
 
   // Filesize
   $tag['element'] = array(
-    '#tag' => 'p',
+    '#tag'        => 'span',
     '#attributes' => array(
       'class' => "file-size",
     ),
-    '#value' => t('Filesize') . ': ' . format_size($file->filesize),
+    '#value'      => t('Size') . ': ' . format_size($file->filesize),
   );
-  $inner .= theme_html_tag($tag);
+  $inner .= '<br/>' . theme_html_tag($tag);
 
   $tag['element'] = array(
-    '#tag' => 'div',
-    '#value' => $inner,
+    '#tag'        => 'div',
+    '#attributes' => array(
+      'class' => "download-link-icon",
+    ),
+    '#value'      => $inner,
   );
   $output .= theme_html_tag($tag);
+
 
   return $output;
 }
@@ -68,6 +75,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
  * Render preview of document
  *
  * @param $field
+ *
  * @return string
  */
 function theme_c4m_ds_document_preview($field) {
@@ -77,7 +85,7 @@ function theme_c4m_ds_document_preview($field) {
     $entity = $field['entity'];
 
     $tag['element'] = array(
-      '#tag' => 'i',
+      '#tag'   => 'i',
       '#value' => 'To be replaced by document preview.',
     );
     $output .= theme_html_tag($tag);

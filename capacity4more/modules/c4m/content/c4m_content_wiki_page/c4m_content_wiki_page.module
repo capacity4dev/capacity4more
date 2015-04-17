@@ -169,14 +169,16 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
     if (empty($form['book']['plid']['#type'])
       || $form['book']['plid']['#type'] !== 'select'
     ) {
-      $book = $node->book;
-      $book['bid'] = $group->book['bid'];
-      $book['plid'] = $group->book['mlid'];
-      $form['book']['plid'] = _book_parent_select($book);
+      if (isset($node->book)) {
+        $book = $node->book;
+        $book['bid'] = $group->book['bid'];
+        $book['plid'] = $group->book['mlid'];
+        $form['book']['plid'] = _book_parent_select($book);
+      }
     }
   }
 
-  if ($node->book['nid'] !== $node->book['bid']) {
+  if (isset($node->book) && $node->book['nid'] !== $node->book['bid']) {
     $form['book']['plid']['#description'] = t('The parent page in the book. The
       maximum depth for a book and all child pages is !maxdepth. Some pages in
       the selected book may not be available as parents if selecting them would
