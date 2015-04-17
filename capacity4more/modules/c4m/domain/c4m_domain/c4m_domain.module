@@ -3,3 +3,56 @@
  * @file
  * Code for the C4M Email Domain module.
  */
+
+/**
+ * Implements hook_c4m_domain_validators_info().
+ */
+function c4m_domain_c4m_domain_validators_info() {
+  return array(
+    'c4m_domain_validate_email' => array(
+      'name' => t('E-mail domain'),
+      'description' => t('Validate the domain matches the given email address.'),
+      'callback' => 'c4m_domain_validate_email',
+    ),
+  );
+}
+
+/**
+ * Callback for hook_c4m_domain_validators_info.
+ *
+ * @param string $email
+ *   The email address to validate.
+ *
+ * @return bool
+ *   Whether the domain is valid or not.
+ */
+function c4m_domain_validate_email($email) {
+  return TRUE;
+}
+
+/**
+ * Retrieve a list of domain validators.
+ *
+ * @return array
+ *   Validators information as collected trough the implemented
+ *   hook_c4m_domain_validators_info hooks.
+ */
+function c4m_domain_validators_info() {
+  $cache_key  = 'c4m_domain:validators_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'hook_c4m_domain_validators_info';
+      $data = module_invoke_all($hook);
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Return all data.
+  return $data;
+}
