@@ -154,15 +154,6 @@ trait Group {
   }
 
   /**
-   * @Given /^I fill field message to site admin with "([^"]*)"$/
-   */
-  public function iFillFieldMessageToSiteAdminWith($text) {
-    $javascript = "jQuery('#edit-field-message-to-site-admin-und-0-value').val('" . $text . "');";
-    $this->getSession()->executeScript($javascript);
-  }
-
-
-  /**
    * @When /^I change access of group "([^"]*)" to "([^"]*)"$/
    */
   public function iChangeAccessOfGroupTo($title, $access) {
