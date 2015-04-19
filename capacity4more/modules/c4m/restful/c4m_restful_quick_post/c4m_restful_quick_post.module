@@ -242,7 +242,7 @@ function c4m_restful_quick_post_needs_app() {
   $path = $item['path'];
 
   // If we are on a group edit form, the app should be loaded.
-  if ($path === 'node/%/edit' || $path === 'manage/categories/%' || $path === 'manage/categories/types') {
+  if ($path === 'node/%/edit' || $path === 'manage/categories' || $path === 'manage/categories/types') {
     return TRUE;
   }
 

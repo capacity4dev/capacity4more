@@ -165,7 +165,7 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
         '#default_value' => $term->depth,
       );
     }
-    $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $vocabulary->machine_name;
+    $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'taxonomy/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
     $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
   }
@@ -175,7 +175,7 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   $form['#page_entries'] = $page_entries;
   $form['#back_step'] = $back_step;
   $form['#forward_step'] = $forward_step;
-  $form['#empty_text'] = t('No terms available. <a href="@link">Add term</a>.', array('@link' => url('admin/structure/taxonomy/' . $vocabulary->machine_name . '/add')));
+  $form['#empty_text'] = t('No terms available.');
 
   if ($vocabulary->hierarchy < 2 && count($tree) > 1) {
     $form['actions'] = array('#type' => 'actions', '#tree' => FALSE);
@@ -206,7 +206,7 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
   $form['delete'] = array('#type' => 'value', '#value' => TRUE);
   $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form['#vocabulary']->machine_name;
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
   return confirm_form($form,
     t('Are you sure you want to delete the term %title?',
       array('%title' => $term->name)),
@@ -230,7 +230,7 @@ function c4m_taxonomy_term_confirm_delete_submit($form, &$form_state) {
   drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
   watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
   $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form['#vocabulary']->machine_name;
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
   $form_state['redirect'] = 'manage/categories/' . $path;
   cache_clear_all();
   return;
@@ -307,7 +307,7 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, &$form
     $params
   );
   $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form_state['values']['machine_name'];
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
 
   if (isset($form_state['values']['name'])) {
     drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
@@ -446,7 +446,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
   $menu_item = menu_get_item(current_path());
 
   $parents = $menu_item['path'] != 'manage/categories/types' ? array() : array(array('tid' => array('#value' => 0)));
-  $overview_path = $menu_item['path'] == 'manage/categories/types' ? '/categories/' . $vocabulary->machine_name : '';
+  $overview_path = $menu_item['path'] == 'manage/categories/types' ? '/categories' : '';
   foreach (element_children($form) as $key) {
     if (isset($form[$key]['#term'])) {
       $term = &$form[$key];
@@ -491,7 +491,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
   $output .= '</div>';
 
   $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $vocabulary->machine_name;
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
 
   foreach ($parents as $parent) {
     $parent_id = $parent['tid']['#value'];
@@ -511,33 +511,35 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     );
     // Add necessary classes to rows.
     $row_position = 0;
-    foreach ($rows[$parent_id] as $key => $row) {
-      $rows[$parent_id][$key]['class'] = array();
-      if (isset($form['#parent_fields'])) {
-        $rows[$parent_id][$key]['class'][] = 'draggable';
-      }
-
-      // Add classes that mark which terms belong to previous and next pages.
-      if ($row_position < $back_step || $row_position >= $page_entries - $forward_step) {
-        $rows[$parent_id][$key]['class'][] = 'taxonomy-term-preview';
-      }
-
-      if ($row_position !== 0 && $row_position !== count($rows[$parent_id]) - 1) {
-        if ($row_position == $back_step - 1 || $row_position == $page_entries - $forward_step - 1) {
-          $rows[$parent_id][$key]['class'][] = 'taxonomy-term-divider-top';
+    if(!empty($rows[$parent_id])) {
+      foreach ($rows[$parent_id] as $key => $row) {
+        $rows[$parent_id][$key]['class'] = array();
+        if (isset($form['#parent_fields'])) {
+          $rows[$parent_id][$key]['class'][] = 'draggable';
         }
-        elseif ($row_position == $back_step || $row_position == $page_entries - $forward_step) {
-          $rows[$parent_id][$key]['class'][] = 'taxonomy-term-divider-bottom';
-        }
-      }
 
-      // Add an error class if this row contains a form error.
-      foreach ($errors as $error_key => $error) {
-        if (strpos($error_key, $key) === 0) {
-          $rows[$parent_id][$key]['class'][] = 'error';
+        // Add classes that mark which terms belong to previous and next pages.
+        if ($row_position < $back_step || $row_position >= $page_entries - $forward_step) {
+          $rows[$parent_id][$key]['class'][] = 'taxonomy-term-preview';
         }
+
+        if ($row_position !== 0 && $row_position !== count($rows[$parent_id]) - 1) {
+          if ($row_position == $back_step - 1 || $row_position == $page_entries - $forward_step - 1) {
+            $rows[$parent_id][$key]['class'][] = 'taxonomy-term-divider-top';
+          }
+          elseif ($row_position == $back_step || $row_position == $page_entries - $forward_step) {
+            $rows[$parent_id][$key]['class'][] = 'taxonomy-term-divider-bottom';
+          }
+        }
+
+        // Add an error class if this row contains a form error.
+        foreach ($errors as $error_key => $error) {
+          if (strpos($error_key, $key) === 0) {
+            $rows[$parent_id][$key]['class'][] = 'error';
+          }
+        }
+        $row_position++;
       }
-      $row_position++;
     }
 
     if (empty($rows[$parent_id])) {
@@ -560,7 +562,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       unset($options['query']);
       $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
       $options['query']['delete'] = $parent_id;
-      $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
+      $category_title .= '|' . l(t('Delete'), url('manage/categories', $options));
 
       $category_title_element['element'] = array(
         '#tag' => 'div',
