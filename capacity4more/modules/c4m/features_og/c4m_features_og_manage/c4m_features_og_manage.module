@@ -21,11 +21,8 @@ function c4m_features_og_manage_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['manage/categories/%taxonomy_vocabulary_machine_name'] = array(
-    'title callback' => 'c4m_taxonomy_vocabulary_title',
-    'title arguments' => array(2),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_taxonomy_overview_terms', 2),
+  $items['manage/categories'] = array(
+    'page callback' => 'c4m_features_og_manage_get_form',
     'access callback' => TRUE,
     'file' => 'c4m_manage_categories.inc',
   );
@@ -240,7 +237,7 @@ function c4m_features_og_manage_group_details() {
   
   // Get categories and terms count for current group.
   $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
-  $details['taxonomy_manage_link'] = l(t('Edit'), url('manage/categories/' . $og_vocab[0]->machine_name, array('absolute' => TRUE)));
+  $details['taxonomy_manage_link'] = l(t('Edit'), url('manage/categories', array('absolute' => TRUE)));
   $categories = taxonomy_get_tree($og_vocab[0]->vid);
   $categories_count = 0;
   $terms_count = 0;
