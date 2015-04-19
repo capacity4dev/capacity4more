@@ -58,18 +58,20 @@ function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
   }
 }
 
+/**
+ * Page callback for manage group categories form.
+ */
 function c4m_features_og_manage_get_form() {
-  $context = og_context();
-  if (!$context) {
-    drupal_goto('/');
+  $group = c4m_og_current_group();
+  if (!$group || ($group && !og_user_access('node', $group->nid,'administer group'))) {
+    drupal_access_denied();
+    return;
   }
-  $group = node_load($context['gid']);
-  $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
-  $vocab = taxonomy_vocabulary_machine_name_load($og_vocab[0]->machine_name);
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
   $form_state = array();
   $args = array(
     'c4m_taxonomy_overview_terms | (Callback) c4m_taxonomy_overview_terms();',
-    $vocab,
+    $vocabulary,
   );
   // Remove $form_id from the arguments.
   array_shift($args);
@@ -332,7 +334,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
  * Alter variable manage form layout.
  */
 function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$form, &$form_state, $form_id) {
-  // Don't use vertival tabs.
+  // Don't use vertical tabs.
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t('Enable or disable features for this group.');
@@ -363,5 +365,18 @@ function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state)
   foreach($form_elements as $element => $id) {
     $form[$element]['#prefix'] = "<div id='$id'>";
     $form[$element]['#suffix'] = '</div>';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Prevent access to the "description" and "relations" fields for non platform-administrators.
+ */
+function c4m_features_og_manage_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  global $user;
+  if (!in_array('administrator', $user->roles)) {
+    $form['description']['#access'] = FALSE;
+    $form['relations']['#access'] = FALSE;
   }
 }
