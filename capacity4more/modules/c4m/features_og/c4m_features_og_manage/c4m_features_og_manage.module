@@ -21,6 +21,21 @@ function c4m_features_og_manage_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['manage/categories/%taxonomy_vocabulary_machine_name'] = array(
+    'title callback' => 'c4m_taxonomy_vocabulary_title',
+    'title arguments' => array(2),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_taxonomy_overview_terms', 2),
+    'access callback' => TRUE,
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/types'] = array(
+    'page callback' => 'c4m_features_og_manage_get_form',
+    'access callback' => TRUE,
+    'file' => 'c4m_manage_categories.inc',
+  );
+
   return $items;
 }
 
@@ -44,26 +59,6 @@ function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools') {
     return 'plugins/' . $plugin;
   }
-}
-
-/**
- * Implements hook_menu().
- */
-function c4m_features_og_manage_menu() {
-  $items['manage/categories/%taxonomy_vocabulary_machine_name'] = array(
-    'title callback' => 'c4m_taxonomy_vocabulary_title',
-    'title arguments' => array(2),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_taxonomy_overview_terms', 2),
-    'access callback' => TRUE,
-    'file' => 'c4m_manage_categories.inc',
-  );
-  $items['manage/categories/types'] = array(
-    'page callback' => 'c4m_features_og_manage_get_form',
-    'access callback' => TRUE,
-    'file' => 'c4m_manage_categories.inc',
-  );
-  return $items;
 }
 
 function c4m_features_og_manage_get_form() {
