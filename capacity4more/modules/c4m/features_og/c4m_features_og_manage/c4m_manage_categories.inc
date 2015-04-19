@@ -18,7 +18,8 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   global $pager_page_array, $pager_total, $pager_total_items;
   // If no group context, Redirect to homepage.
   if (!$group = og_context()) {
-    drupal_goto('/');
+    drupal_access_denied();
+    return;
   }
 
   $form['#vocabulary'] = $vocabulary;
