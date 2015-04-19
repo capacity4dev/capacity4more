@@ -37,6 +37,7 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   if (preg_match('/https:/i', $conf['video'])) {
     $video_id = str_replace('https://www.youtube.com/watch?v=', '', $conf['video']);
   }
+  
   $video_embed = '<iframe id="c4mVideo" allowfullscreen="true" width="100%" height="477" src="https://www.youtube.com/embed/' . $video_id . '?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>';
 
   $video_thumb = array(
@@ -53,9 +54,6 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
     'video_description' => $video_description,
     'video_embed' => $video_embed,
   );
-
-  // This js will enable communication with YouTube's API.
-  drupal_add_js(drupal_get_path('module', 'c4m_features_homepage') . '/js/video_embed.js');
 
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';

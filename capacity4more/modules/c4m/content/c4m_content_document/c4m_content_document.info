@@ -55,6 +55,7 @@ features[field_base][] = c4m_document_add_to_library
 features[field_base][] = c4m_related_document
 features[field_group][] = c4m_og|node|document|form
 features[field_group][] = group_node_details|node|document|full
+features[field_group][] = group_node_meta|node|document|full
 features[field_instance][] = node-document-c4m_body
 features[field_instance][] = node-document-c4m_document
 features[field_instance][] = node-document-c4m_document_add_to_library

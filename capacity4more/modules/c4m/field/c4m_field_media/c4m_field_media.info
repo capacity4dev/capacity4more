@@ -28,4 +28,3 @@ features[file_display][] = document__c4m_preview__file_field_media_large_icon
 features[file_display][] = image__c4m_preview__file_field_image
 features[variable][] = field_bundle_settings_file__document
 features[variable][] = field_bundle_settings_file__image
-mtime = 1420555168

@@ -46,6 +46,11 @@
 
     background: none;
     border: 0;
+    height: auto;
+
+    &.collapsed {
+      height: auto;
+    }
 
     legend {
       @include box-shadow(none);
@@ -130,6 +135,7 @@
       background-color: $color-blue-light;
       padding: 10px 5px 10px 20px;
       color: $color-white;
+      position: relative;
 
       .video-title {
         display: block;
@@ -147,8 +153,10 @@
         content: "\f0d7";
         font-size: 4em;
         position: absolute;
-        top: 7%;
         right: 49%;
+        bottom: -45px;
+        margin: 0;
+        padding: 0;
         color: $color-blue-light;
       }
     }
