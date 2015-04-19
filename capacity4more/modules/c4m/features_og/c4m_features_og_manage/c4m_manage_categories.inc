@@ -16,20 +16,25 @@
  */
 function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
   global $pager_page_array, $pager_total, $pager_total_items;
-
-  // Check for confirmation forms.
-  if (isset($form_state['confirm_reset_alphabetical'])) {
-    return taxonomy_vocabulary_confirm_reset_alphabetical($form, $form_state, $vocabulary->vid);
+  // If no group context, Redirect to homepage.
+  if (!$group = og_context()) {
+    drupal_goto('/');
   }
 
   $form['#vocabulary'] = $vocabulary;
+  $form['#group'] = $group;
   $form['#tree'] = TRUE;
   $form['#parent_fields'] = FALSE;
 
   $parameters = drupal_get_query_parameters();
   // Check for confirmation forms.
   if (isset($parameters['delete'])) {
+    // Delete confirmation form.
     return array_merge($form, c4m_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
+  }
+  if (isset($parameters['reset_alphabetical'])) {
+    // Reset alphabetically confirmation form.
+    return c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, $form_state, $vocabulary->vid, $parameters['reset_alphabetical']);
   }
 
   $page            = isset($_GET['page']) ? $_GET['page'] : 0;
@@ -50,7 +55,8 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
 
   $delta = 0;
   $term_deltas = array();
-  $tree = taxonomy_get_tree($vocabulary->vid);
+  $menu_item = menu_get_item(current_path());
+  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
   $term = current($tree);
   do {
     // In case this tree is completely empty.
@@ -159,8 +165,9 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
         '#default_value' => $term->depth,
       );
     }
+    $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $vocabulary->machine_name;
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'taxonomy/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
-    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $vocabulary->machine_name, '#options' => array('query' => array('delete' => $term->tid)));
+    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
   }
 
   $form['#total_entries'] = $total_entries;
@@ -190,7 +197,6 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
  */
 function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $term = taxonomy_term_load($tid);
-
   // Always provide entity id in the same form key as in the entity edit form.
   $form['tid'] = array('#type' => 'value', '#value' => $tid);
 
@@ -199,27 +205,148 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $form['name'] = array('#type' => 'value', '#value' => $term->name);
   $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
   $form['delete'] = array('#type' => 'value', '#value' => TRUE);
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form['#vocabulary']->machine_name;
   return confirm_form($form,
     t('Are you sure you want to delete the term %title?',
       array('%title' => $term->name)),
-    'manage/categories/' . $form['#vocabulary']->machine_name,
-    t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
+    'manage/categories/' . $path,
+    '<div class="question">'
+    . t('Are you sure you want to delete the term %title?', array('%title' => $term->name))
+    . '</div>'
+    . t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
     t('Delete'),
     t('Cancel'));
+}
+
+/**
+ * Submit handler to delete a term after confirmation.
+ *
+ * @see taxonomy_term_confirm_delete_submit()
+ */
+function c4m_taxonomy_term_confirm_delete_submit($form, &$form_state) {
+  taxonomy_term_delete($form_state['values']['tid']);
+  taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
+  drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
+  watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form['#vocabulary']->machine_name;
+  $form_state['redirect'] = 'manage/categories/' . $path;
+  cache_clear_all();
+  return;
+}
+
+/**
+ * Form builder to confirm resetting a terms under a specific category to alphabetical order.
+ *
+ * @ingroup forms
+ * @see taxonomy_vocabulary_confirm_reset_alphabetical()
+ */
+function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state, $vid, $tid) {
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  $form['type'] = array('#type' => 'value', '#value' => 'vocabulary');
+  $form['vid'] = array('#type' => 'value', '#value' => $vid);
+  $form['machine_name'] = array('#type' => 'value', '#value' => $vocabulary->machine_name);
+  $form['reset_alphabetical'] = array('#type' => 'value', '#value' => TRUE);
+  $path = $tid ? $vocabulary->machine_name : 'types';
+
+  if ($tid) {
+    $term = taxonomy_term_load($tid);
+    $form['parent_tid'] = array('#type' => 'value', '#value' => $tid);
+    $form['name'] = array('#type' => 'value', '#value' => $term->name);
+
+    return confirm_form($form,
+      t('Are you sure you want to reset the children of the term %title to alphabetical order?',
+        array('%title' => $term->name)),
+      'manage/categories/' . $path,
+      '<div class="question">'
+      . t('Are you sure you want to reset the children of the term %title to alphabetical order?',
+        array('%title' => $term->name))
+      . '</div>'
+      . t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
+        array('%title' => $term->name)),
+      t('Reset to alphabetical'),
+      t('Cancel'));
+  }
+  else {
+    return confirm_form($form,
+      t('Are you sure you want to reset the Categories to alphabetical order?'),
+      'manage/categories/' . $path,
+      '<div class="question">'
+      . t('Are you sure you want to reset the Categories to alphabetical order?')
+      . '</div>'
+      . t('Resetting the the Categories will discard all custom ordering and sort items alphabetically.'),
+      t('Reset to alphabetical'),
+      t('Cancel'));
+  }
+}
+
+/**
+ * Submit handler to reset a specific category's children to alphabetical order after confirmation.
+ *
+ * @see c4m_taxonomy_vocabulary_confirm_reset_alphabetical()
+ */
+function c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, &$form_state) {
+  $params = array(
+    ':weight' => 0,
+    ':vid' => $form_state['values']['vid'],
+  );
+  $condition = '';
+  if (isset($form_state['values']['parent_tid'])) {
+    $params[':parent_tid'] = $form_state['values']['parent_tid'];
+    $condition = ' AND h.parent = :parent_tid';
+  }
+
+  db_query(
+    'UPDATE {taxonomy_term_data} AS d ' .
+    'JOIN {taxonomy_term_hierarchy} AS h ' .
+    'ON d.tid = h.tid ' .
+    'SET d.weight = :weight ' .
+    'WHERE d.vid = :vid' .
+    $condition,
+    $params
+  );
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $form_state['values']['machine_name'];
+
+  if (isset($form_state['values']['name'])) {
+    drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
+    watchdog('taxonomy', 'Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
+  }
+  else {
+    drupal_set_message(t('Reset Categories to alphabetical order.'));
+    watchdog('taxonomy', 'Reset Categories to alphabetical order.', WATCHDOG_NOTICE);
+  }
+  $form_state['redirect'] = 'manage/categories/' . $path;
 }
 
 /**
  * @see taxonomy_overview_terms_submit()
  */
 function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
-  // Sort term order based on weight.
-  uasort($form_state['values'], 'drupal_sort_weight');
+  if ($form_state['triggering_element']['#value'] == t('Delete')) {
+    // Execute the term deletion.
+    if ($form_state['values']['delete'] === TRUE) {
+      c4m_taxonomy_term_confirm_delete_submit($form, $form_state);
+      return;
+    }
+  }
+
+  if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
+    // Execute the term reset alphabetical.
+    if ($form_state['values']['reset_alphabetical'] === TRUE) {
+      c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, $form_state);
+      return;
+    }
+  }
 
   $vocabulary = $form['#vocabulary'];
   $hierarchy = 0; // Update the current hierarchy type as we go.
 
   $changed_terms = array();
-  $tree = taxonomy_get_tree($vocabulary->vid);
+
+  $menu_item = menu_get_item(current_path());
+  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
 
   if (empty($tree)) {
     return;
@@ -257,11 +384,6 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
           $changed_terms[$term['tid']] = $term;
         }
       }
-      // Update any changed parents.
-      if ($values['parent'] != $term['parent']) {
-        $term['parent'] = $values['parent'];
-        $changed_terms[$term['tid']] = $term;
-      }
       $hierarchy = $term['parent'] != 0 ? 1 : $hierarchy;
       $weight++;
     }
@@ -277,7 +399,6 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
     }
     $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
   }
-
   // Save all updated terms.
   foreach ($changed_terms as $changed) {
     $term = (object) $changed;
@@ -322,15 +443,20 @@ function theme_c4m_taxonomy_overview_terms($variables) {
 
   $errors = form_get_errors() != FALSE ? form_get_errors() : array();
   $rows = array();
-  $parents = array();
+  $menu_item = menu_get_item(current_path());
+
+  $parents = $menu_item['path'] != 'manage/categories/types' ? array() : array(array('tid' => array('#value' => 0)));
+  $overview_path = $menu_item['path'] == 'manage/categories/types' ? '/categories/' . $vocabulary->machine_name : '';
   foreach (element_children($form) as $key) {
     if (isset($form[$key]['#term'])) {
       $term = &$form[$key];
 
       $row = array();
       if (isset($term['#term']['depth']) && $term['#term']['depth'] == 0) {
-        $parents[] = $term;
-        continue;
+        if ($menu_item['path'] != 'manage/categories/types') {
+          $parents[] = $term;
+          continue;
+        }
       }
       $row[] = drupal_render($term['view']);
       if ($form['#parent_fields']) {
@@ -353,7 +479,7 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     ),
     '#value' => t('Edit Group @title', array('@title' => $vocabulary->name)),
   );
-  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage', array('absolute' => TRUE))) . '</div>';
+  $output = '<div class="category-edit-title">' . theme_html_tag($title) . l(t('Return to overview'), url('manage' . $overview_path, array('absolute' => TRUE))) . '</div>';
   // Static page description.
   $output .= '<div class="category-edit-description">';
   $output .= t('
@@ -363,79 +489,89 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     ');
   $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
   $output .= '</div>';
-  $header[] = array(
-    'data' => t('Name') . l(t('Order items alphabetically'), url('')),
-    'class' => array('category-name-column')
-  );
-  $header[] = t('Operations');
+
+  $menu_item = menu_get_item(current_path());
+  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : $vocabulary->machine_name;
+
   foreach ($parents as $parent) {
+    $parent_id = $parent['tid']['#value'];
+    // Set header for the table.
+    $reset_link_options = array(
+      'absolute' => TRUE,
+      'query' => array(
+        'reset_alphabetical' => $parent_id
+      ),
+    );
+    $header = array(
+      array(
+        'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $path, $reset_link_options)),
+        'class' => array('category-name-column')
+      ),
+      t('Operations')
+    );
     // Add necessary classes to rows.
     $row_position = 0;
-    foreach ($rows[$parent['tid']['#value']] as $key => $row) {
-      $rows[$parent['tid']['#value']][$key]['class'] = array();
+    foreach ($rows[$parent_id] as $key => $row) {
+      $rows[$parent_id][$key]['class'] = array();
       if (isset($form['#parent_fields'])) {
-        $rows[$parent['tid']['#value']][$key]['class'][] = 'draggable';
+        $rows[$parent_id][$key]['class'][] = 'draggable';
       }
 
       // Add classes that mark which terms belong to previous and next pages.
       if ($row_position < $back_step || $row_position >= $page_entries - $forward_step) {
-        $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-preview';
+        $rows[$parent_id][$key]['class'][] = 'taxonomy-term-preview';
       }
 
-      if ($row_position !== 0 && $row_position !== count($rows[$parent['tid']['#value']]) - 1) {
+      if ($row_position !== 0 && $row_position !== count($rows[$parent_id]) - 1) {
         if ($row_position == $back_step - 1 || $row_position == $page_entries - $forward_step - 1) {
-          $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-divider-top';
+          $rows[$parent_id][$key]['class'][] = 'taxonomy-term-divider-top';
         }
         elseif ($row_position == $back_step || $row_position == $page_entries - $forward_step) {
-          $rows[$parent['tid']['#value']][$key]['class'][] = 'taxonomy-term-divider-bottom';
+          $rows[$parent_id][$key]['class'][] = 'taxonomy-term-divider-bottom';
         }
       }
 
       // Add an error class if this row contains a form error.
       foreach ($errors as $error_key => $error) {
         if (strpos($error_key, $key) === 0) {
-          $rows[$parent['tid']['#value']][$key]['class'][] = 'error';
+          $rows[$parent_id][$key]['class'][] = 'error';
         }
       }
       $row_position++;
     }
 
-    if (empty($rows[$parent['tid']['#value']])) {
-      $rows[$parent['tid']['#value']][] = array(array('data' => $form['#empty_text'], 'colspan' => '3'));
+    if (empty($rows[$parent_id])) {
+      $rows[$parent_id][] = array(array('data' => $form['#empty_text'], 'colspan' => '3'));
     }
+    if ($menu_item['path'] != 'manage/categories/types') {
+      $parent_element['element'] = array(
+        '#tag' => 'h3',
+        '#attributes' => array(
+          'class' => array('category-title'),
+        ),
+        '#value' => $parent['#term']['name'],
+      );
 
-    $parent_element['element'] = array(
-      '#tag' => 'h3',
-      '#attributes' => array(
-        'class' => array('category-title'),
-      ),
-      '#value' => $parent['#term']['name'],
-    );
+      $options = array(
+        'absolute' => TRUE,
+        'query' => drupal_get_destination(),
+      );
+      $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent_id . '/edit', $options));
+      unset($options['query']);
+      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
+      $options['query']['delete'] = $parent_id;
+      $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
 
-    $options = array(
-      'purl' => array(
-        'disabled' => TRUE,
-      ),
-      'absolute' => TRUE,
-      'query' => drupal_get_destination(),
-    );
-    $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    $options['fragment'] = 'edit-weight';
-    $category_title .= '|' . l(t('Change order'), url('taxonomy/term/' . $parent['tid']['#value'] . '/edit', $options));
-    unset($options['fragment']);
-    $options['query']['delete'] = $parent['tid']['#value'];
-    $category_title .= '|' . l(t('Delete'), url('manage/categories/' . $vocabulary->machine_name, $options));
-
-    $category_title_element['element'] = array(
-      '#tag' => 'div',
-      '#attributes' => array(
-        'class' => array('category-title-wrapper'),
-      ),
-      '#value' => $category_title,
-    );
-
-    $output .= theme_html_tag($category_title_element);
-    $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent['tid']['#value']], 'attributes' => array('id' => 'taxonomy-' . $parent['tid']['#value'])));
+      $category_title_element['element'] = array(
+        '#tag' => 'div',
+        '#attributes' => array(
+          'class' => array('category-title-wrapper'),
+        ),
+        '#value' => $category_title,
+      );
+      $output .= theme_html_tag($category_title_element);
+    }
+    $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent_id], 'attributes' => array('id' => 'taxonomy-' . $parent_id)));
 
     // Add term form.
     $add_term_form = array(
@@ -445,22 +581,37 @@ function theme_c4m_taxonomy_overview_terms($variables) {
         '#title' => '',
         '#type' => 'textfield',
         '#name' => 'name',
-        '#description' => '',
+        '#field_suffix' => '<span class="label-error" id="label-error-' . $parent_id . '"></span>',
+        '#attributes' => array(
+          'ng-model' => 'label',
+          'class' => array('label-input'),
+        ),
       ),
       'parent' => array(
         '#attributes' => array(
-          'id' => 'parent-id',
+          'ng-model' => 'parent',
+          'ng-value' => $parent_id,
+          'ng-init' => 'parent=' . $parent_id,
         ),
         '#title' => '',
         '#type' => 'hidden',
         '#name' => 'parent',
-        '#value' => $parent['tid']['#value'],
+      ),
+      'group' => array(
+        '#attributes' => array(
+          'ng-model' => 'group',
+          'ng-value' => $form['#group']['gid'],
+          'ng-init' => 'group=' . $form['#group']['gid'],
+        ),
+        '#title' => '',
+        '#type' => 'hidden',
+        '#name' => 'group',
       ),
       'submit' => array(
         '#type' => 'button',
         '#value' => t('Add Term'),
         '#attributes' => array(
-          'onclick' => 'addTerm("' . $parent['tid']['#value'] . '", "' . $vocabulary->machine_name . '")',
+          'ng-click' => 'addCategoryTerm()',
         ),
       ),
     );
@@ -469,10 +620,10 @@ function theme_c4m_taxonomy_overview_terms($variables) {
 
     // Add drag and drop if parent fields are present in the form.
     if ($form['#parent_fields']) {
-      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
-      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
-      drupal_add_tabledrag('taxonomy-' . $parent['tid']['#value'], 'order', 'sibling', 'term-weight');
-      drupal_add_js(array('taxonomy-'  . $parent['tid']['#value'] => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
+      drupal_add_tabledrag('taxonomy-' . $parent_id, 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
+      drupal_add_tabledrag('taxonomy-' . $parent_id, 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
+      drupal_add_tabledrag('taxonomy-' . $parent_id, 'order', 'sibling', 'term-weight');
+      drupal_add_js(array('taxonomy-'  . $parent_id => array('backStep' => $back_step, 'forwardStep' => $forward_step)), 'setting');
     }
   }
 
@@ -481,7 +632,9 @@ function theme_c4m_taxonomy_overview_terms($variables) {
     drupal_add_css(drupal_get_path('module', 'taxonomy') . '/taxonomy.css');
   }
   $output .= theme('pager');
+  $output .= '<div class="actions">';
   $output .= drupal_render_children($form);
+  $output .= '</div>';
 
   return $output;
 }

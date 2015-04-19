@@ -4,6 +4,10 @@
     display: none;
   }
 
+  .question {
+    font-size: 20px;
+  }
+
   .category-edit-title {
     border-bottom: 1px solid $color-black;
     margin-bottom: 20px;
@@ -75,6 +79,11 @@
         display: none;
       }
 
+      .label-error {
+        color: $color-red;
+        display: inline;
+      }
+
       .form-control {
         @include border-radius(1px);
       }
@@ -82,6 +91,7 @@
 
     .form-submit {
       margin-left: 10px;
+      vertical-align: top;
     }
   }
 }
@@ -95,5 +105,19 @@ a.tabledrag-handle {
   .handle {
     width: 20px;
     height: 22px;
+  }
+}
+
+#c4m-taxonomy-overview-terms {
+
+  .glyphicon-warning-sign:before {
+    content: "\002A";
+  }
+
+  .actions {
+
+    a {
+      display: none;
+    }
   }
 }
