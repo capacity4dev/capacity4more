@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Plugin to Grant access by matching organisation.
  */
 
