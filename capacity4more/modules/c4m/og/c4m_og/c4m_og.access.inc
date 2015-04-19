@@ -270,6 +270,8 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
     '#required' => TRUE,
     '#options' => $options,
     '#default_value' => $default_access_type,
+    '#prefix' => '<div id="edit-permissions">',
+    '#suffix' => '</div>',
   );
   $form['pluggable_group_access']['public'] = array(
     '#type' => 'radio',

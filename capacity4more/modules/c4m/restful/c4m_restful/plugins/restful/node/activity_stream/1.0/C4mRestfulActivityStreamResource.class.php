@@ -60,12 +60,15 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
     $request = $this->getRequest();
 
     $query->leftJoin($table_name, 'gn', "message.mid = gn.entity_id AND gn.entity_type='message'");
+    $query->innerJoin('field_data_field_node', 'fn', "message.mid = fn.entity_id AND fn.entity_type='message'");
+    $query->innerJoin('node', 'node', "fn.field_node_target_id = node.nid");
+
+    // Show only publish content in active stream.
+    $query->condition('node.status', 1);
 
     if (!empty($request['topics'])) {
       // Join related to Articles tables to get V&V activities with user's
       // topics of interest.
-      $query->innerJoin('field_data_field_node', 'fn', "message.mid = fn.entity_id AND fn.entity_type='message'");
-      $query->innerJoin('node', 'node', "fn.field_node_target_id = node.nid");
       $query->innerJoin('field_data_c4m_related_topic', 'crt', "node.nid = crt.entity_id AND crt.entity_type='node'");
     }
 

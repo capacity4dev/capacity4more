@@ -12,7 +12,7 @@ include_once 'c4m_features_og_tasklists.features.inc';
 function c4m_features_og_tasklists_c4m_og_feature_info() {
   return array(
     'c4m_features_og_tasklists' => array(
-      'name' => t('Tasks'),
+      'name' => t('Task lists'),
       'description' => t('Tasks overview.'),
       'machine_name' => 'c4m_features_og_tasklists',
       'weight' => 5,

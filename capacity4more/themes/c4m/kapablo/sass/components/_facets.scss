@@ -32,5 +32,16 @@
     a {
       color: $gray-dark;
     }
+    &.expanded a.facetapi-active {
+      @include arrow-image('down', 'highlight-blue', 'before');
+    }
+    &.collapsed a.facetapi-inactive,
+    &.expanded a.facetapi-inactive {
+      @include arrow-image('right', 'highlight-blue', 'before');
+    }
   }
+}
+
+.facetapi-deactivate {
+  float: right;
 }

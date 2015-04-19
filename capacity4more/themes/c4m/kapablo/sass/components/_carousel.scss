@@ -42,7 +42,8 @@ ul[rn-carousel] {
       margin: 10px 10px;
 
       .title,
-      .text {
+      .text,
+      .date {
         text-align: left;
         display: block;
         padding-bottom: 10px;
@@ -51,6 +52,11 @@ ul[rn-carousel] {
           font-weight: bold;
           text-transform: uppercase;
           font-size: 18px;
+          padding-bottom: 0;
+        }
+
+        &.date {
+          font-weight: bold;
         }
       }
     }
