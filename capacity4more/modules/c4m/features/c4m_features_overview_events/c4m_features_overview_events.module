@@ -164,13 +164,18 @@ function c4m_features_overview_events_block_view_alter(&$data, $block) {
  * Apply filter on search results in event overview.
  */
 function c4m_features_overview_events_search_api_query_alter(SearchApiQueryInterface $query) {
-  if (FALSE === strpos(current_path(), 'events', 0) || empty($_GET['filter'])) {
+  if (FALSE === strpos(current_path(), 'events', 0)) {
+    return;
+  }
+
+  $params = drupal_get_query_parameters();
+  if (empty($params['filter'])) {
     return;
   }
 
   global $user;
 
-  switch ($_GET['filter']) {
+  switch ($params['filter']) {
     case 'groups':
       // Get groups.
       $groups = og_get_groups_by_user();

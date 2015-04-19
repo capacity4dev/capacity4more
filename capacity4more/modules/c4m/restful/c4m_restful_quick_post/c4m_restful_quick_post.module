@@ -248,7 +248,7 @@ function c4m_restful_quick_post_needs_app() {
   // If we are on a node creation form, the app should be loaded.
   $node_types = array_keys(node_type_get_types());
   foreach ($node_types as $bundle) {
-    if ($path === 'node/add/' . $bundle) {
+    if ($path === 'node/add/' . str_replace('_', '-', $bundle)) {
       return TRUE;
     }
   }

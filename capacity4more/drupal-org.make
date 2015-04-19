@@ -74,6 +74,9 @@ projects[field_group][version] = "1.4"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 
+projects[file_download_count][subdir] = "contrib"
+projects[file_download_count][version] = "1.0-rc1"
+
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.5"
 
@@ -160,9 +163,8 @@ projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
 projects[pluggable_node_access][download][type] = "git"
-projects[pluggable_node_access][download][url] = "https://github.com/HelenaEksler/pluggable_node_access.git"
-;projects[pluggable_node_access][download][branch] = 16
-projects[pluggable_node_access][download][branch] = pluggable_node_access_type
+projects[pluggable_node_access][download][url] = "https://github.com/Gizra/pluggable_node_access.git"
+projects[pluggable_node_access][download][branch] = 7.x-1.x
 projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
