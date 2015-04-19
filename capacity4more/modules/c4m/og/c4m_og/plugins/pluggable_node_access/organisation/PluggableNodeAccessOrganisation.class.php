@@ -4,6 +4,9 @@
  * Contains \PluggableNodeAccessOrganisation.
  */
 
+/**
+ * Class PluggableNodeAccessOrganisation.
+ */
 class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
 
   /**
