@@ -83,7 +83,7 @@ angular.module('c4mApp')
 
     // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
-      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource);
+      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource, $scope.resources);
     };
 
     // Getting matching tags.

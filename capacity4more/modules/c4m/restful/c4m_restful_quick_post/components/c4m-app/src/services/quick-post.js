@@ -126,9 +126,10 @@ angular.module('c4mApp')
     /**
      * Display the fields upon clicking on the label field.
      */
-    this.showFields = function (selectedResource) {
+    this.showFields = function (selectedResource, resources) {
+      // Show the first resource available if user didn't select a specific resource.
       if (!selectedResource) {
-        return 'discussions';
+        return Object.keys(resources)[0];
       }
       return selectedResource;
     };
