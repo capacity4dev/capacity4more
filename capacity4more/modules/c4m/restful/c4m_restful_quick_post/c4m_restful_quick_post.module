@@ -38,6 +38,8 @@ function c4m_restful_quick_post_theme() {
  *   A rendered form of the Quick Post.
  */
 function c4m_restful_quick_post_form($group_id) {
+  $group_enabled_features = c4m_og_feature_enabled_features();
+
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
@@ -61,6 +63,10 @@ function c4m_restful_quick_post_form($group_id) {
   $field_schema = array();
   $public_fields = array();
   foreach ($resource_names as $resource_name) {
+    if (!in_array('c4m_features_og_' . $resource_name, $group_enabled_features)) {
+      unset($show_resources[$resource_name]);
+      continue;
+    }
     $handler = restful_get_restful_handler($resource_name);
     // Send the fields to the app as separate objects by resource
     // (for validation on submit.)
