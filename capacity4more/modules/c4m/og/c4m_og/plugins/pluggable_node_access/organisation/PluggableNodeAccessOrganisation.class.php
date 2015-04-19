@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \PluggableNodeAccessEmailDomain.
+ * Contains \PluggableNodeAccessOrganisation.
  */
 
 class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
@@ -27,24 +27,6 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
     }
     $organisations = array();
     $realms = array();
-
-//    $email_domain = explode('@', $account->mail);
-//    // Get organisations ids whose mail list includes user's mail domain.
-//    $query = new EntityFieldQuery();
-//    $query
-//      ->entityCondition('entity_type', 'node')
-//      ->propertyCondition('type', 'organisation')
-//      ->propertyCondition('status', NODE_PUBLISHED)
-//      ->fieldCondition('c4m_domain', 'value', $email_domain[1]);
-//
-//    $result = $query
-//      ->execute();
-//
-//    if (empty($result['node'])) {
-//      return array();
-//    }
-//
-//    $organisations = array_keys($result['node']);
 
     foreach ($organisations as $organisation) {
       // The "realm" name is the plugin name.
@@ -75,7 +57,7 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
     foreach ($entities as $entity) {
       foreach ($entity->data as $organisation) {
         $realm = 'organisation::' . $organisation;
-        $grants[] = array (
+        $grants[] = array(
           'realm' => $realm,
           'gid' => 1,
           'grant_view' => 1,
@@ -102,7 +84,7 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
     // Get editing node.
     $node = $this->getNode();
     $fields = $this->getReferenceFields($node);
-    foreach($fields as $field) {
+    foreach ($fields as $field) {
       // Removed or added number of restricted access entities.
       if ($node->original->{$field} != $node->{$field}) {
         return TRUE;
@@ -110,4 +92,5 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
     }
     return FALSE;
   }
+
 }
