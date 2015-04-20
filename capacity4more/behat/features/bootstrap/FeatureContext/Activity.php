@@ -36,6 +36,19 @@ trait Activity {
   }
 
   /**
+   * @Then /^I should see "([^"]*)" with author "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeAuthorFullNameInTheActivityStreamOfTheGroup($text, $author, $group) {
+    $url = strtolower(str_replace(' ', '-', trim($group)));
+    $steps = array();
+    $steps[] = new Step\When("I go to \"$url\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
+    $steps[] = new Step\When('I should see "' . $text . '" in the ".row-header a" element');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
