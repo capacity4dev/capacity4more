@@ -72,7 +72,7 @@
       padding: 0;
       border: 0;
       display: inline-block;
-      margin: 0;
+      margin: 10px 0;
       text-transform: capitalize;
       width: auto;
 
@@ -83,10 +83,20 @@
           @include read-more-icon('up', 'gray-dark');
         }
       }
+
+      
+    }
+    
+    .field-name-c4m-ds-group-role-members {
+      clear: left;
     }
 
     .panel-body {
       padding: 0;
+
+      > div {
+        margin-bottom: 15px;
+      }
     }
     .field-name-c4m-user-picture {
       float: left;
