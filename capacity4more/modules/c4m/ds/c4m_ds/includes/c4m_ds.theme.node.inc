@@ -227,6 +227,7 @@ function theme_c4m_ds_group_access_info($field) {
   $tag['element'] = array(
     '#tag'   => 'h4',
     '#value' => $group_access['title'],
+    '#class' => array('col-md-6'),
   );
 
   return theme_html_tag($tag);
@@ -403,6 +404,9 @@ function theme_c4m_ds_group_administer_link($field) {
   $entity = $field['entity'];
 
   if (og_user_access('node', $entity->nid, 'administer group', $user)) {
-    return l(t('Manage this @group_type', array('@group_type' => $entity->type)), 'manage');
+    return l(
+      '<i class="fa fa-cog"></i> ' . t('Manage this @group_type', array('@group_type' => $entity->type)),
+      'manage',
+      array('html' => TRUE));
   }
 }
