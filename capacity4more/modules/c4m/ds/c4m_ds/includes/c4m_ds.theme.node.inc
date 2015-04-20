@@ -387,3 +387,22 @@ function theme_c4m_ds_group_role_members($field) {
 
   return ltrim($output, ', ');
 }
+
+/**
+ * DS function field.
+ *
+ * Render administration link.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_administer_link($field) {
+  global $user;
+
+  $entity = $field['entity'];
+
+  if (og_user_access('node', $entity->nid, 'administer group', $user)) {
+    return l(t('Manage this @group_type', array('@group_type' => $entity->type)), 'manage');
+  }
+}
