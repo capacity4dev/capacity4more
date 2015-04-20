@@ -93,7 +93,6 @@ input[type="radio"]:not(old) {
 }
 
 input[type="checkbox"]:not(old) {
-  visibility: hidden;
 
   &:before {
     background: $color-beige;
