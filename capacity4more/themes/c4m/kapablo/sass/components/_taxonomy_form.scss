@@ -118,6 +118,10 @@ a.tabledrag-handle {
 
     a {
       display: none;
+
+      &#edit-new-category {
+        display: inline;
+      }
     }
   }
 }

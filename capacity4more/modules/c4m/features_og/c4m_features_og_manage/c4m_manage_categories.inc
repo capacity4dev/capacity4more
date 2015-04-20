@@ -184,6 +184,16 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
       '#type' => 'submit',
       '#value' => t('Save')
     );
+    $form['actions']['new_category'] = array(
+      '#type' => 'link',
+      '#title' => t('Add new type of category'),
+      '#href' => 'manage/categories/types',
+      '#attributes' => array(
+        'class' => array(
+          'btn btn-default',
+        ),
+      ),
+    );
     $form_state['redirect'] = array($_GET['q'], (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()));
   }
 
