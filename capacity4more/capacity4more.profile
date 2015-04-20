@@ -113,31 +113,25 @@ function capacity4more_setup_set_permissions(&$install_state) {
  * Task callback; Setting OG permissions.
  */
 function capacity4more_setup_set_og_permissions() {
-  $permissions = array(
-    'update own discussion content',
-    'delete own discussion content',
-
-    'update own document content',
-    'delete own document content',
-
-    'update own event content',
-    'delete own event content',
-
-    'update own photo content',
-    'delete own photo content',
-
-    'update own photoalbum content',
-    'delete any photoalbum content',
-
-    'update own task content',
-    'delete own task content',
-
-    'update own tasklist content',
-    'delete own tasklist content',
-
-    'update own wiki_page content',
-    'delete own wiki_page content',
+  $content_types = array(
+    'discussion',
+    'document',
+    'event',
+    'photo',
+    'photoalbum',
+    'task',
+    'tasklist',
+    'wiki_page',
   );
+
+  $permissions = array();
+  foreach ($content_types as $content_type) {
+    $permissions += array(
+      "create $content_type content",
+      "update own $content_type content",
+      "delete own $content_type content",
+    );
+  }
 
   $roles = og_roles('node', 'group');
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
