@@ -80,13 +80,13 @@ trait Group {
   }
 
   /**
-   * @When /^I visit the group "([^"]*)" overview$/
+   * @When /^I visit page "([^"]*)" in the group "([^"]*)"$/
    */
-  public function iVisitTheGroupOverview($type) {
-    $steps = array();
-    $steps[] = new Step\When('I visit "' . $type .'"');
+  public function iVisitPageInGroup($page, $title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, $page);
 
-    return $steps;
+    return new Given("I go to \"$uri\"");
   }
 
   /**
