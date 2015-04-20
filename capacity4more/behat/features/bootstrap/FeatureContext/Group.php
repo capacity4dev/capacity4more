@@ -80,6 +80,16 @@ trait Group {
   }
 
   /**
+   * @When /^I visit the group "([^"]*)" overview$/
+   */
+  public function iVisitTheGroupOverview($type) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "' . $type .'"');
+
+    return $steps;
+  }
+
+  /**
    * @When /^I visit the group "([^"]*)" detail page "([^"]*)" with status "([^"]*)"$/
    */
   public function iVisitTheGroupDetailPageWithStatus($type, $title, $status) {
