@@ -13,6 +13,9 @@
 
   .c4m-access-info {
     border-bottom: 1px dashed $color-gray;
+    border-top: 1px dotted $color-blue-light;
+    margin-top: 10px;
+    padding: 10px 0;
     h5 {
       background-repeat: no-repeat;
       background-position: 0 0;
@@ -43,6 +46,7 @@
 
     a {
       display: inline-block;
+      line-height: 1.1;
       margin: 10px 0;
       text-align: right;
     }
