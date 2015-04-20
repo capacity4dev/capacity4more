@@ -225,7 +225,7 @@ function theme_c4m_ds_group_access_info($field) {
 
   $group_access   = c4m_og_get_access_type($field['entity']);
   $tag['element'] = array(
-    '#tag'   => 'h4',
+    '#tag'   => 'h5',
     '#value' => $group_access['title'],
     '#class' => array('col-md-6'),
   );

@@ -13,6 +13,61 @@ function c4m_content_group_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'c4m_access_info|node|group|c4m_dashboard';
+  $field_group->group_name = 'c4m_access_info';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'group';
+  $field_group->mode = 'c4m_dashboard';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => '',
+    'weight' => '3',
+    'children' => array(
+      0 => 'c4m_extra_info',
+    ),
+    'format_type' => 'html5',
+    'format_settings' => array(
+      'label' => '',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'c4m-access-info',
+        'wrapper' => 'section',
+      ),
+    ),
+  );
+  $export['c4m_access_info|node|group|c4m_dashboard'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'c4m_extra_info|node|group|c4m_dashboard';
+  $field_group->group_name = 'c4m_extra_info';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'group';
+  $field_group->mode = 'c4m_dashboard';
+  $field_group->parent_name = 'c4m_access_info';
+  $field_group->data = array(
+    'label' => '',
+    'weight' => '37',
+    'children' => array(
+      0 => 'c4m_ds_group_access_info',
+      1 => 'c4m_ds_group_administer_link',
+    ),
+    'format_type' => 'html5',
+    'format_settings' => array(
+      'label' => '',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'row',
+        'wrapper' => 'section',
+      ),
+    ),
+  );
+  $export['c4m_extra_info|node|group|c4m_dashboard'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_details|node|group|c4m_dashboard';
   $field_group->group_name = 'group_details';
   $field_group->entity_type = 'node';
@@ -21,7 +76,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'More details',
-    'weight' => '4',
+    'weight' => '6',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_geo',

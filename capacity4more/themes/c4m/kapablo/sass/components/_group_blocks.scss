@@ -11,8 +11,9 @@
     }
   }
 
-  .field-name-c4m-ds-group-access-info {
-    h4 {
+  .c4m-access-info {
+    border-bottom: 1px dashed $color-gray;
+    h5 {
       background-repeat: no-repeat;
       background-position: 0 0;
       background-size: 1em;
@@ -21,23 +22,29 @@
       text-transform: uppercase;
     }
 
-    &.group-public {
-      h4 {
+    .group-public {
+      h5 {
         background-image: image-url('group-icons/public.png');
         color: $public;
       }
     }
-    &.group-private {
-      h4 {
+    .group-private {
+      h5 {
         background-image: image-url('group-icons/private.png');
         color: $private;
       }
     }
-    &.group-restricted {
-      h4 {
+    .group-restricted {
+      h5 {
         background-image: image-url('group-icons/restricted.png');
         color: $restricted;
       }
+    }
+
+    a {
+      display: inline-block;
+      margin: 10px 0;
+      text-align: right;
     }
   }
 
