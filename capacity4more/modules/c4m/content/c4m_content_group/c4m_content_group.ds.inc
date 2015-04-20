@@ -18,7 +18,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_dashboard';
   $ds_fieldsetting->settings = array(
     'node_link' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -26,24 +26,6 @@ function c4m_content_group_ds_field_settings_info() {
         'wrapper' => '',
         'class' => '',
         'ft' => array(),
-      ),
-    ),
-    'post_date' => array(
-      'weight' => '0',
-      'label' => 'inline',
-      'format' => 'ds_post_date_c4m_long_without_time',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Group created on ',
-          'lb-col' => TRUE,
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
       ),
     ),
     'c4m_user_picture' => array(
@@ -68,6 +50,24 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '1',
+      'label' => 'inline',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Group created on ',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'post-date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
     'c4m_ds_group_role_members' => array(
       'weight' => '4',
       'label' => 'inline',
@@ -79,7 +79,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_access_info' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -300,28 +300,28 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'post_date',
-        1 => 'c4m_body',
-        2 => 'c4m_user_picture',
+        0 => 'c4m_ds_creation_date',
+        1 => 'c4m_user_picture',
+        2 => 'c4m_body',
         3 => 'node_link',
         4 => 'c4m_user_first_and_last_name',
         5 => 'c4m_ds_group_access_info',
-        6 => 'group_details',
-        7 => 'c4m_ds_group_role_members',
-        8 => 'c4m_related_topic',
+        6 => 'c4m_ds_group_role_members',
+        7 => 'c4m_related_topic',
+        8 => 'group_details',
         9 => 'c4m_vocab_geo',
       ),
     ),
     'fields' => array(
-      'post_date' => 'ds_content',
-      'c4m_body' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'c4m_user_picture' => 'ds_content',
+      'c4m_body' => 'ds_content',
       'node_link' => 'ds_content',
       'c4m_user_first_and_last_name' => 'ds_content',
       'c4m_ds_group_access_info' => 'ds_content',
-      'group_details' => 'ds_content',
       'c4m_ds_group_role_members' => 'ds_content',
       'c4m_related_topic' => 'ds_content',
+      'group_details' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
     ),
     'classes' => array(),

@@ -32,7 +32,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 30,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -51,6 +51,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 13,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -141,7 +147,7 @@ function c4m_content_group_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
@@ -160,6 +166,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 2,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -229,7 +241,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 32,
       ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
@@ -252,6 +264,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 1,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -319,6 +337,102 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-group-c4m_og_status'
+  $field_instances['node-group-c4m_og_status'] = array(
+    'bundle' => 'group',
+    'default_value' => array(
+      0 => array(
+        'value' => 'Requested',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
+      ),
+      'c4m_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 14,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_og_status',
+    'label' => 'Status',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 16,
+    ),
+  );
+
   // Exported field_instance: 'node-group-c4m_related_group'
   $field_instances['node-group-c4m_related_group'] = array(
     'bundle' => 'group',
@@ -343,7 +457,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 25,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -361,6 +475,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 5,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -460,6 +580,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -545,6 +671,12 @@ function c4m_content_group_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -617,7 +749,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 28,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -633,6 +765,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 11,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -696,7 +834,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 29,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -712,6 +850,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 12,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -755,78 +899,6 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_og_status'
-  $field_instances['node-group-c4m_og_status'] = array(
-    'bundle' => 'group',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Requested',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_stream' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'c4m_dashboard' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 14,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'c4m_og_status',
-    'label' => 'Status',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 16,
-    ),
-  );
-
   // Exported field_instance: 'node-group-group_access'
   $field_instances['node-group-group_access'] = array(
     'bundle' => 'group',
@@ -854,7 +926,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 27,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -870,6 +942,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 10,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -947,7 +1025,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 31,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -965,6 +1043,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1044,7 +1128,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 26,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -1062,6 +1146,12 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 9,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
