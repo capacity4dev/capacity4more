@@ -43,7 +43,7 @@ trait Activity {
     $steps = array();
     $steps[] = new Step\When("I go to \"$url\"");
     $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
-    $steps[] = new Step\When('I should see "' . $text . '" in the ".row-header a" element');
+    $steps[] = new Step\When('I should see "' . $author . '" in the ".row-header a" element');
 
     return $steps;
   }
