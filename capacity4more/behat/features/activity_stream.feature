@@ -13,11 +13,11 @@ Feature: Test activity stream
 
   @javascript
   Scenario: Check author is displayed by Firstname + Lastname
-    Given a group "Discussion Insert 2" with "Public" access is created with group manager "isaacnewton"
+    Given a group "Discussion Insert 3" with "Public" access is created with group manager "isaacnewton"
     When  I am logged in as user "isaacnewton"
-    And   a "discussion" is created with title "Discussion added 2" in the group "Discussion Insert 2"
+    And   a "discussion" is created with title "Discussion added 2" in the group "Discussion Insert 3"
     And   I am logged in as user "isaacnewton"
-    Then  I should see "Discussion added 2" with author "Isaac Newton" in the activity stream of the group "Discussion Insert 2"
+    Then  I should see "Discussion added 3" with author "Isaac Newton" in the activity stream of the group "Discussion Insert 3"
 
   @javascript
   Scenario: Message is not changing when the same user updates right after creation earlier than 6 hours ago.
