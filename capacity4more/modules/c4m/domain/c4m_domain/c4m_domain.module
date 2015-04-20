@@ -56,3 +56,204 @@ function c4m_domain_validators_info() {
   // Return all data.
   return $data;
 }
+
+/**
+ * Implements hook_entity_info().
+ */
+function c4m_domain_entity_info() {
+  $info = array();
+
+  $info['c4m_domain'] = array(
+    'label' => t('Email Domains'),
+    'base table' => 'c4m_domain',
+    'entity keys' => array(
+      'id' => 'id',
+      'label' => 'name',
+    ),
+    'entity class' => 'C4mDomainEntity',
+    'controller class' => 'EntityAPIController',
+    'access callback' => 'c4m_domain_access_callback',
+    'uri callback' => 'entity_class_uri',
+    'admin ui' => array(
+      'path' => 'admin/c4m/domains',
+      'controller class' => 'EntityDefaultUIController',
+    ),
+    'fieldable' => TRUE,
+    'bundles' => array(
+      'c4m_domain' => array(
+        'label' => t('Domain'),
+        'admin' => array(
+          'path' => 'admin/c4m/domains',
+        ),
+      ),
+    ),
+    'views controller class' => 'EntityDefaultViewsController',
+    'module' => 'c4m_domain',
+    'fieldable' => FALSE,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_domain_menu() {
+  $items = array();
+
+  $items['domain/%'] = array(
+    'title' => 'Domain',
+    'page callback' => 'c4m_domain_view_domain',
+    'page arguments' => array(1),
+    'access arguments' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Access callback for domain entities.
+ */
+function c4m_domain_access_callback($op, $domain = NULL, $account = NULL) {
+  if ($op == 'view' || $op == 'update' || $op == 'create' || $op == 'delete') {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Callback function for displaying an individual domain.
+ */
+function c4m_domain_view_domain($id) {
+  // Lookup the id.
+  $domains = entity_load('c4m_domain', array(intval($id)));
+  if (empty($domains[$id])) {
+    drupal_not_found();
+    exit;
+  }
+
+  // Render output.
+  $domain = $domains[$id];
+  drupal_set_title($domain->name);
+  $output = entity_view('c4m_domain', array($domain));
+
+  return $output;
+}
+
+/**
+ * Form definition for adding / editing a domain.
+ */
+function c4m_domain_form($form, &$form_state, $domain = NULL) {
+  $form = array();
+
+  $form['name'] = array(
+    '#title' => t('Domain name'),
+    '#description' => t('The domain part of the email address.'),
+    '#type' => 'textfield',
+    '#default_value' => isset($domain->name) ? $domain->name : '',
+    '#required' => TRUE,
+    '#maxlength' => 255,
+  );
+
+  $form['description'] = array(
+    '#title' => t('Description'),
+    '#description' => t('Short description explaining what the domain is about.'),
+    '#type' => 'textarea',
+    '#default_value' => isset($domain->description) ? $domain->description : '',
+    '#required' => TRUE,
+  );
+
+  $options = array_keys(c4m_domain_entity_info());
+  $form['validator'] = array(
+    '#title' => t('Validator'),
+    '#description' => t('The validation type to validate if an email address with this domain is valid.'),
+    '#type' => 'select',
+    '#options' => $options,
+    '#default_value' => isset($domain->deadline) ? $domain->deadline : '',
+    '#required' => TRUE,
+  );
+
+  field_attach_form('c4m_domain', $domain, $form, $form_state);
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => isset($domain->id) ? t('Update domain') : t('Save domain'),
+    '#weight' => 50,
+  );
+
+  return $form;
+}
+
+/**
+ * Validation handler for the domain add/edit form.
+ */
+function c4m_domain_form_validate($form, &$form_state) {
+  $test_email = 'test@' . $form_state['values']['name'];
+  if (!valid_email_address($test_email)) {
+    form_set_error('name', t('The domain name is invalid.'));
+  }
+  if (strlen($form_state['values']['description']) > 255) {
+    form_set_error('description', t('The description contains more than 255 characters.'));
+  }
+}
+
+/**
+ * Submit handler for the domain add/edit form.
+ */
+function c4m_domain_form_submit($form, &$form_state) {
+  $domain = entity_ui_form_submit_build_entity($form, $form_state);
+  $domain->save();
+  drupal_set_message(t('The domain: @name has been saved.', array('@name' => $domain->name)));
+  $form_state['redirect'] = 'admin/c4m/domains';
+}
+
+/**
+ * Implements hook_entity_property_info().
+ */
+function c4m_domain_entity_property_info() {
+  $info = array();
+
+  $info['c4m_domain']['properties']['id'] = array(
+    'label' => t('Domain ID'),
+    'description' => t('The ID of the domain.'),
+    'type' => 'integer',
+    'schema field' => 'id',
+  );
+
+  $info['c4m_domain']['properties']['name'] = array(
+    'label' => t('Domain name'),
+    'description' => t('The domain part of the email address.'),
+    'type' => 'text',
+    'schema field' => 'name',
+  );
+  $info['c4m_domain']['properties']['description'] = array(
+    'label' => t('Description'),
+    'description' => t('Short description explaining what the domain is about.'),
+    'type' => 'text',
+    'schema field' => 'description',
+  );
+  $info['c4m_domain']['properties']['validator'] = array(
+    'label' => t('Validator'),
+    'description' => t('The validation type to validate if an email address with this domain is valid.'),
+    'type' => 'text',
+    'schema field' => 'validator',
+  );
+
+  return $info;
+}
+
+/**
+ * C4mDomain entity class extending the Entity class.
+ */
+class C4mDomainEntity extends Entity {
+
+  /**
+   * Change the default URI from default/id to c4m_domain/id.
+   */
+  protected function defaultUri() {
+    return array('path' => 'admin/c4m/domains/manage/' . $this->identifier());
+  }
+
+}
