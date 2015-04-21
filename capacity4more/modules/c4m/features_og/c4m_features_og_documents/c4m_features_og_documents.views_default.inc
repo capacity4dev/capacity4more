@@ -50,13 +50,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['c4m_views_node_add_1']['ui_name'] = 'Add document link';
   $handler->display->display_options['header']['c4m_views_node_add_1']['node_type'] = 'document';
   $handler->display->display_options['header']['c4m_views_node_add_1']['link_text'] = 'Upload a document';
-  /* Header: Add Photo album link */
-  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add Photo album link';
-  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'photoalbum';
-  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add Photo album';
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';
@@ -131,7 +124,7 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['group'] = 1;
   $handler->display->display_options['filters']['search_api_views_fulltext']['exposed'] = TRUE;
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Fulltext search';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Browse';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
