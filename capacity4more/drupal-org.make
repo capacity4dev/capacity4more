@@ -74,6 +74,9 @@ projects[field_group][version] = "1.4"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.x-dev"
 
+projects[file_download_count][subdir] = "contrib"
+projects[file_download_count][version] = "1.0-rc1"
+
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.5"
 
@@ -205,6 +208,9 @@ projects[term_reference_tree][version] = "1.10"
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
 
+projects[save_draft][subdir] = "contrib"
+projects[save_draft][version] = "1.4"
+
 projects[smart_trim][subdir] = "contrib"
 projects[smart_trim][version] = "1.4"
 
@@ -226,7 +232,6 @@ projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/
 
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
-
 
 
 ; Development modules
