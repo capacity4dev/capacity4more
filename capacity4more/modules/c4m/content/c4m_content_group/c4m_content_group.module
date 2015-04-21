@@ -295,17 +295,11 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_menu_alter().
+ * Implements hook_admin_paths().
  *
- * Set Kapablo theme for group creation page.
+ * @see og_ui_admin_paths().
+ * Set the 'node/add/group' path as not admin.
  */
-function c4m_content_group_menu_alter(&$items) {
-  $items['node/add/group']['theme callback'] = 'c4m_content_group_theme_callback';
-}
-
-/**
- * Returns Kapablo theme name.
- */
-function c4m_content_group_theme_callback() {
-  return 'kapablo';
+function c4m_content_group_admin_paths() {
+  return array('node/*/group' => FALSE);
 }
