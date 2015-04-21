@@ -295,7 +295,7 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_custom_theme().
+ * Implements hook_menu_alter().
  *
  * Set Kapablo theme for group creation page.
  */
