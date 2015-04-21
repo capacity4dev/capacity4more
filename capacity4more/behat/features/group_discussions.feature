@@ -38,7 +38,7 @@ Feature: Group Discussions
     And   I press "Save"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"
 
-  @javascript2
+  @javascript
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start editing "discussion" "Some new discussion1" in group "Architecture"
