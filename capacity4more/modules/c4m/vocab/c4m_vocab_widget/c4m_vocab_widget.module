@@ -61,7 +61,7 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $variables = array(
     'vocabulary_label' => $vocabulary_label,
     'vocabulary_machine_name' => $vocabulary_machine_name,
-
+    'required' => $element['#required'],
   );
   $directive = theme('c4m_vocab_widget_taxonomy_widget', $variables);
   $form['directive-' . $vocabulary_machine_name] = array(
@@ -81,7 +81,6 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $instance['widget']['active'] = 1;
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'][] = 'c4m_vocab_widget_validate';
-  $element['#title'] = '';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 

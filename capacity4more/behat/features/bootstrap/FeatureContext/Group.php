@@ -80,6 +80,16 @@ trait Group {
   }
 
   /**
+   * @When /^I visit page "([^"]*)" in the group "([^"]*)"$/
+   */
+  public function iVisitPageInGroup($page, $title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, $page);
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
    * @When /^I visit the group "([^"]*)" detail page "([^"]*)" with status "([^"]*)"$/
    */
   public function iVisitTheGroupDetailPageWithStatus($type, $title, $status) {
@@ -111,12 +121,10 @@ trait Group {
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
-    // Generate URL from title.
-    $url = strtolower(str_replace(' ', '_', trim($title)));
-
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
+
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -138,6 +146,13 @@ trait Group {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the related topic checkbox');
+
+    // This is the required banner
+    $steps[] = new Step\When('I attach the file to the field banner');
+
+    // This is the required message to admin.
+    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+
     $steps[] = new Step\When('I press "Request"');
 
     // Giving time for saving.
@@ -157,6 +172,9 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
+
+    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I should not see "Group access"');
@@ -315,6 +333,26 @@ trait Group {
   }
 
   /**
+   * @Given /^I should not see the "([^"]*)" link on the group menu$/
+   */
+  public function iShouldNotSeeTheLinkOnTheGroupMenu($text) {
+    $page = $this->getSession()->getPage();
+    $locator = '#c4m-og-menu > ul > li > a';
+    $links = $page->findAll('css', $locator);
+    $found = FALSE;
+    foreach ($links as $link) {
+      if ($link->getText() === $text) {
+        $found = TRUE;
+        break;
+      }
+    }
+
+    if ($found) {
+      throw new \Exception("$text link found on group menu.");
+    }
+  }
+
+  /**
    * @When /^I start creating "([^"]*)" "([^"]*)" in group "([^"]*)"$/
    */
   public function iStartCreatingInGroup($bundle, $title, $group_title) {
@@ -358,6 +396,34 @@ trait Group {
     $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
 
     return $steps;
+  }
+
+  /**
+   * @Given /^I enable the group feature "([^"]*)"$/
+   */
+  public function iEnableGroupFeature($feature) {
+    $steps = array();
+    $steps[] = new Step\When('I check the box "edit-variables-c4m-og-c4m-og-features-group-c4m-features-og-' . $feature . '"');
+    return $steps;
+  }
+
+  /**
+   * @Given /^I disable the group feature "([^"]*)"$/
+   */
+  public function iDisableGroupFeature($feature) {
+    $steps = array();
+    $steps[] = new Step\When('I uncheck the box "edit-variables-c4m-og-c4m-og-features-group-c4m-features-og-' . $feature . '"');
+    return $steps;
+  }
+
+  /**
+   * @When /^I manage the features of group "([^"]*)"$/
+   */
+  public function iManageFeaturesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/features');
+
+    return new Given("I go to \"$uri\"");
   }
 
 }
