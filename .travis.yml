@@ -10,6 +10,10 @@ env:
     BEHAT_TAG="javascript"
     CODE_REVIEW=0
     SIMPLETEST=0
+  - INSTALL_PROFILE=1
+    BEHAT_TAG="javascript2"
+    CODE_REVIEW=0
+    SIMPLETEST=0
   - INSTALL_PROFILE=0
     BEHAT_TAG=
     CODE_REVIEW=1
