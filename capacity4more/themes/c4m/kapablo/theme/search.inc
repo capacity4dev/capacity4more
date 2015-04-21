@@ -110,3 +110,10 @@ function kapablo_facetapi_link_active($variables) {
   $variables['options']['html'] = TRUE;
   return theme_link($variables);
 }
+
+/**
+ * Implements theme_tablesort_indicator().
+ */
+function kapablo_tablesort_indicator($variables) {
+  return '';
+}

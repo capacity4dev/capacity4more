@@ -68,7 +68,15 @@
 
 .field-name-c4m-ds-content-footer-stats {
   color: $color-gray;
-  margin-top: 5px;
+  margin-top: 25px;
+
+  .download-link-icon {
+    background-position-x: 15px;
+    border-left: 1px solid $color-gray-light;
+    float: right;
+    margin-left: 5px;
+    padding-left: 50px;
+  }
 }
 
 .field-name-c4m-ds-content-type-icon {

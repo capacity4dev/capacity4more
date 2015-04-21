@@ -55,7 +55,7 @@ function c4m_og_variable_features_option_list($variable, $options = array()) {
 
   $list = array();
   foreach ($features as $feature) {
-    $list[$feature['machine_name']] = $feature['name'] . ' (' . $feature['machine_name'] . ')';
+    $list[$feature['machine_name']] = $feature['name'] . '<span class="description"> (' . $feature['description'] . ')</span>';
   }
   return $list;
 }
