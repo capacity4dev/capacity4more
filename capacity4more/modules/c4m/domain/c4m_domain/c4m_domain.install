@@ -1,0 +1,45 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the C4M Email Domain module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function c4m_domain_schema() {
+  $schema = array();
+
+  $schema['c4m_domain'] = array(
+    'description' => 'The base table for the Email Domains entity',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary key of the Email Domains entity',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'The domain part of the email address.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'description' => array(
+        'description' => 'Short description explaining what the domain is about.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'validator' => array(
+        'description' => 'The validation type to validate if an email address with this domain is valid.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}
