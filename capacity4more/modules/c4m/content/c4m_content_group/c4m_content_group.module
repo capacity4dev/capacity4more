@@ -295,11 +295,11 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_admin_paths().
+ * Implements hook_admin_paths_alter().
  *
  * @see og_ui_admin_paths().
  * Set the 'node/add/group' path as not admin.
  */
-function c4m_content_group_admin_paths() {
-  return array('node/*/group' => FALSE);
+function c4m_content_group_admin_paths_alter(&$paths){
+  $paths['node/*/group'] = FALSE;
 }
