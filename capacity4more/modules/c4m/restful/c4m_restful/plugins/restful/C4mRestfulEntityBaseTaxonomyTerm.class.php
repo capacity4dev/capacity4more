@@ -18,7 +18,9 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
-    return user_access('create group content', $account);
+    $group = c4m_restful_get_group_by_og_vocab_name($entity->vocabulary_machine_name);
+    $gid = $group[0]->gid;
+    return og_user_access('node', $gid, 'edit terms', $account);
   }
 
   /**
