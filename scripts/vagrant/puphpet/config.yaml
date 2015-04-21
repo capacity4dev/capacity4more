@@ -3,9 +3,9 @@ vagrantfile-local:
     vm:
         box: puphpet/ubuntu1404-x64
         box_url: puphpet/ubuntu1404-x64
-        hostname: ''
-        memory: '4096'
-        cpus: '4'
+        hostname: 'capacity4more.eu.vm'
+        memory: '1024'
+        cpus: '1'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.55.101
@@ -15,7 +15,7 @@ vagrantfile-local:
                     guest: '22'
                 vXmyIih6EjNk:
                     host: '5580'
-                    guest: '56'
+                    guest: '80'
                 cYlP2dAOVNPV:
                     host: '5506'
                     guest: '3306'
@@ -30,6 +30,8 @@ vagrantfile-local:
             virtualbox:
                 modifyvm:
                     natdnshostresolver1: on
+                setextradata:
+                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant: 1
             vmware:
                 numvcpus: 1
             parallels:
@@ -49,7 +51,7 @@ vagrantfile-local:
                 group: www-data
                 source: /Volumes/webdev/www
                 target: /var/www
-                sync_type: nfs
+                sync_type: default
                 rsync:
                     args:
                         - '--verbose'
@@ -82,8 +84,8 @@ users_groups:
     groups:
         - staff
     users:
-        - c4m
-        - 'maartensegers:staff'
+        - 'capacity4more:www-user:www-data:vagrant:sudo'
+        - 'capacity4dev:www-user:www-data:vagrant:sudo'
 cron:
     install: '1'
     jobs: {  }
@@ -100,17 +102,17 @@ apache:
         manage_group: false
         sendfile: 0
     modules:
+        - deflate
+        - expires
+        - headers
         - proxy_fcgi
         - rewrite
-        - deflate
-        - headers
-        - expires
     vhosts:
         l1sjifzqubo8:
-            servername: capacity4more.eu.dev
+            servername: capacity4more.eu.vm
             serveraliases:
-                - capacity4more.eu.vm
-            docroot: /var/www/c4m/www
+                - capacity4more.eu.dev
+            docroot: /var/www/capacity4more/www
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -119,7 +121,7 @@ apache:
             directories:
                 y24axfac1c4i:
                     provider: directory
-                    path: /var/www/c4m/www
+                    path: /var/www/capacity4more/www
                     options:
                         - Indexes
                         - FollowSymlinks
@@ -139,8 +141,41 @@ apache:
             ssl_key: ''
             ssl_chain: ''
             ssl_certs_dir: ''
+        jqty86xvwwct:
+            servername: capacity4dev.eu.vm
+            serveraliases:
+                - capacity4dev.eu.dev
+            docroot: /var/www/capacity4dev/platform/http
+            port: '80'
+            setenv:
+                - 'APP_ENV dev'
+                - 'APPLICATION_ENV development'
+            custom_fragment: ''
+            directories:
+                y24axfac1c4i:
+                    provider: directory
+                    path: /var/www/capacity4dev/platform/http
+                    options:
+                        - Indexes
+                        - FollowSymlinks
+                        - MultiViews
+                    allow_override:
+                        - All
+                    require:
+                        - 'all granted'
+                    custom_fragment: ''
+                    files_match:
+                        dxrredvvwwaq:
+                            provider: filesmatch
+                            path: \.php$
+                            sethandler: 'proxy:fcgi://127.0.0.1:9000'
+                            custom_fragment: ''
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
 nginx:
-    install: 0
+    install: '0'
     settings:
         default_vhost: 1
         proxy_buffer_size: 128k
@@ -209,8 +244,8 @@ php:
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
         date.timezone: UTC
-        upload_max_filesize: '32M'
-        post_max_size: '64M'
+        upload_max_filesize: 32M
+        post_max_size: 64M
         memory_limit: '-1'
 hhvm:
     install: '0'
@@ -234,19 +269,19 @@ xdebug:
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
 xhprof:
-    install: '1'
+    install: '0'
 wpcli:
     install: '0'
     version: v0.17.1
 drush:
     install: '1'
-    version: 6.3.0
+    version: 6.6.0
 ruby:
     install: '1'
     versions:
         bTMtyWB04xu5:
-            default: '0'
-            version: ''
+            default: '1'
+            version: 2.1.2
             bundler: '1'
 nodejs:
     install: '1'
@@ -255,7 +290,8 @@ nodejs:
         - bower
 python:
     install: '1'
-    packages: {  }
+    packages:
+        - meld3
     versions: {  }
 mysql:
     install: '1'

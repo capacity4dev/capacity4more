@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Code for the Article content type feature.
+ */
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * 
+ * Add a cancel button to all node forms.
+ */
+function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Check if a cancel button should be added to node forms.
+  $cancel = variable_get('c4m_content_cancel_button', FALSE);
+  if (!$cancel) {
+    return;
+  }
+
+  // Use destination parameter when set.
+  $params = drupal_get_query_parameters();
+  if (empty($params['destination'])) {
+    // Use javascript history.go(-1) when destination is not set.
+    $form['actions']['cancel'] = array(
+      '#type'   => 'button',
+      '#value'  => t('Cancel'),
+      '#attributes' => array('onClick' => 'history.go(-1); return true;'),
+      '#weight' => 14,
+    );
+  }
+  else {
+    $form['actions']['cancel'] = array(
+      '#type'   => 'submit',
+      '#value'  => t('Cancel'),
+      '#submit' => array('c4m_content_cancel_button_callback'),
+      '#limit_validation_errors' => array(),
+      '#weight' => 14,
+    );
+  }
+}
+
+/**
+ * Cancel button callback when a destination parameter was set.
+ */
+function c4m_content_cancel_button_callback($form, &$form_state) {
+  drupal_goto();
+}

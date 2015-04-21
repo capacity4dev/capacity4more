@@ -5,3 +5,11 @@
  */
 
 include_once 'c4m_admin_groups.features.inc';
+
+/**
+ * Implements hook_init().
+ */
+function c4m_admin_groups_init() {
+  $settings['machineName'] = array();
+  drupal_add_js($settings, 'setting');
+}

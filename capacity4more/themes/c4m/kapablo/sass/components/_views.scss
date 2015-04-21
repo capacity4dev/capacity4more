@@ -1,6 +1,6 @@
 .view {
   .views-row {
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: 1px solid $color-gray-light;
     margin-bottom: 15px;
     padding-bottom: 15px;
 
@@ -85,7 +85,9 @@
       a {
         color: $highlight-blue;
         display: block;
+        padding-bottom: 3px;
         padding-left: 10px;
+        padding-top: 3px;
 
         &:hover, &:focus, &:active {
           background-color: inherit;
