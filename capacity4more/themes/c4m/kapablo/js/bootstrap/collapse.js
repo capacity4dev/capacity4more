@@ -64,9 +64,6 @@
 
     var dimension = this.dimension()
 
-      console.log(this);
-      console.log(this.$element);
-
     this.$element
       .removeClass('collapse')
       .addClass('collapsing')[dimension](0)
