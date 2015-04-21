@@ -25,7 +25,7 @@ function theme_c4m_user_member_since(array $field) {
     '#attributes' => array(
       'class' => array('member-since'),
     ),
-    '#value'     => c4m_helper_date_time_ago($field['entity']->created), $field['formatter'],
+    '#value'     => c4m_helper_date_time_ago($field['entity']->created),
   );
   return theme_html_tag($tag);
 }
