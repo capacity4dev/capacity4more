@@ -43,7 +43,7 @@
       </div>
       <div class="col-sm-10">
         <h4>{{serverSide.file.config.file.name}}
-          <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="glyphicon glyphicon-remove"></span></a></h4>
+          <a href="javascript://" ng-click="removeFile()" title="<?php print t('Remove the file.'); ?>"><span class="fa fa-times"></span></a></h4>
         <p>Filetype: {{serverSide.file.config.file.type}} <span class="separator">|</span> Filesize: {{serverSide.file.config.file.size | filesize:1}}</p>
 
         <div>

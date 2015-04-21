@@ -64,7 +64,6 @@ function c4m_document_widget_module_implements_alter(&$implementations, $hook) {
  */
 function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
-
   if (!$entity) {
     return;
   }
@@ -97,6 +96,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     'default_value' => $default_value,
     'field_name' => $field_name,
     'title' => $element['#title'],
+    'required' => $element['#required'],
   );
   $directive = theme('c4m_document_widget_document_widget', $params);
   $form['add_document-' . $field_name] = array(

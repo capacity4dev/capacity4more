@@ -91,13 +91,9 @@ function c4m_field_media_ds_layout_settings_info() {
       'left' => array(
         0 => 'file',
       ),
-      'right' => array(
-        1 => 'c4m_ds_download_link',
-      ),
     ),
     'fields' => array(
       'file' => 'left',
-      'c4m_ds_download_link' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -152,13 +148,9 @@ function c4m_field_media_ds_layout_settings_info() {
       'left' => array(
         0 => 'file',
       ),
-      'right' => array(
-        1 => 'c4m_ds_download_link',
-      ),
     ),
     'fields' => array(
       'file' => 'left',
-      'c4m_ds_download_link' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

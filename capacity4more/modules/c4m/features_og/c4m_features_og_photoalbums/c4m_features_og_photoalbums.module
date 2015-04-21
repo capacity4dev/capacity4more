@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Code for the Group Photoalbums feature.
+ */
+
+/**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_photoalbums_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_photoalbums' => array(
+      'name' => t('Photo Albums'),
+      'description' => t('Photo albums.'),
+      'machine_name' => 'c4m_features_og_photoalbums',
+      'weight' => 1,
+      'default' => TRUE,
+      'group_types' => array('group', 'project'),
+      'content_types' => array('photoalbum'),
+    ),
+  );
+}
