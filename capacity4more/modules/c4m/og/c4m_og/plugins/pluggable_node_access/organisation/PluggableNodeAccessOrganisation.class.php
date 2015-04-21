@@ -47,10 +47,9 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
       // The "realm" name is the plugin name.
       // The "gid" is always 1, as it just indicates the user has the email
       // domain.
-      $realm = 'organisation::' . $organisation->title;
+      $realm = 'organisation::' . $organisation->nid;
       $realms[$realm] = array(1);
     }
-
     return $realms;
   }
 
@@ -82,7 +81,7 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
         );
       }
     }
-
+    
     return $grants;
   }
 
