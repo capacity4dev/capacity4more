@@ -81,7 +81,6 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $instance['widget']['active'] = 1;
   $element = options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
   $element['#element_validate'][] = 'c4m_vocab_widget_validate';
-  $element['#title'] = '';
   $element['#prefix'] = '<div class="ng-hide">';
   $element['#suffix'] = '</div>';
 
