@@ -184,6 +184,10 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
       '#type' => 'submit',
       '#value' => t('Save')
     );
+    $form_state['redirect'] = array($_GET['q'], (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()));
+  }
+
+  if ($menu_item['path'] == 'manage/categories') {
     $form['actions']['new_category'] = array(
       '#type' => 'link',
       '#title' => t('Add new type of category'),
@@ -194,7 +198,6 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
         ),
       ),
     );
-    $form_state['redirect'] = array($_GET['q'], (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()));
   }
 
   return $form;
