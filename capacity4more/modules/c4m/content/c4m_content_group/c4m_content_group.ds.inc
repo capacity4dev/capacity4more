@@ -107,24 +107,6 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'post_date' => array(
-      'weight' => '6',
-      'label' => 'inline',
-      'format' => 'ds_post_date_c4m_long_without_time',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Created on ',
-          'lb-col' => TRUE,
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '5',
       'label' => 'inline',
@@ -143,8 +125,26 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '7',
+      'label' => 'inline',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Created on ',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'post-date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -160,7 +160,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_posts_count' => array(
-      'weight' => '9',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -356,7 +356,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'right' => array(
         4 => 'c4m_ds_group_type',
         5 => 'c4m_user_first_and_last_name',
-        6 => 'post_date',
+        6 => 'c4m_ds_creation_date',
         7 => 'c4m_body',
         8 => 'c4m_ds_group_members_count',
         9 => 'c4m_ds_group_posts_count',
@@ -369,7 +369,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_media' => 'left',
       'c4m_ds_group_type' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'post_date' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_group_members_count' => 'right',
       'c4m_ds_group_posts_count' => 'right',
