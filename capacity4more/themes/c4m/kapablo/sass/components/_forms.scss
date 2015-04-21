@@ -467,6 +467,10 @@ input[type="checkbox"]:not(old) {
   }
 }
 
+.control-label {
+  display: inline-block;
+}
+
 #edit-variables-c4m-og-c4m-og-features-group {
   div.checkbox {
     margin: 1em 0;
