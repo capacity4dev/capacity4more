@@ -7,7 +7,7 @@
 <div class="form-group input-wrapper file-wrapper" id="add-document-form">
   <label class="control-label"><?php print $title; ?></label>
   <?php if ($required): ?>
-    <span class="form-required" title="This field is required.">*</span>
+    <span class="form-required" title="<?php print t('This field is required.'); ?>">*</span>
   <?php endif; ?>
   <div class="form-control drop-box" ng-file-drop="onFileSelect($files, '<?php print $field_name; ?>');"
        ng-file-drag-over-class="file-upload-drag">

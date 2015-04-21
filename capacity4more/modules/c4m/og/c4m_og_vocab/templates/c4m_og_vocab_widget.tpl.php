@@ -7,7 +7,7 @@
 <div class="input-wrapper tags" ng-class="{ 'has-error' : errors.tags }">
   <label class="control-label"><?php print t('Tags') ?></label>
   <?php if ($required): ?>
-    <span class="form-required" title="This field is required.">*</span>
+    <span class="form-required" title="<?php print t('This field is required.'); ?>">*</span>
   <?php endif; ?>
   <input multiple type="hidden" ui-select2="{query: tagsQuery, minimumInputLength: 2}" ng-model="data.tags" class="form-control"/>
 
