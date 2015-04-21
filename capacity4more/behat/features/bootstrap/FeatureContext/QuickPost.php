@@ -34,18 +34,6 @@ trait QuickPost {
   }
 
   /**
-   * @Given /^I fill label with "([^"]*)" in "([^"]*)"$/
-   */
-  public function iFillLabelWith($value, $group) {
-    $steps = array();
-    $steps[] = new Step\When('I visit the dashboard of group "' . $group . '"');
-    $steps[] = new Step\When('I press the "discussions" button');
-    $steps[] = new Step\When('I fill in "label" with "' . $value . '"');
-
-    return $steps;
-  }
-
-  /**
    * @When /^I create a discussion quick post with title "([^"]*)" and body "([^"]*)" in "([^"]*)"$/
    */
   public function iCreateDiscussionQuickPost($title, $body, $group) {

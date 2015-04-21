@@ -8,11 +8,11 @@
       ng-submit="submitForm(data, selectedResource, 'quick_post')"
       xmlns="http://www.w3.org/1999/html">
 
-<div class="form-group text" ng-class="{ 'has-error' : entityForm.label.$invalid && !entityForm.label.$pristine }">
+<div class="form-group text" ng-class="{ 'has-error' : errors.label }">
   <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label"
-         placeholder="<?php print t('Title'); ?>" ng-minlength=3 required>
+         placeholder="<?php print t('Title'); ?>" required>
 
-  <p ng-show="entityForm.label.$invalid && !entityForm.label.$pristine"
+  <p ng-show="errors.label"
      class="help-block"><?php print t('Title is too short.'); ?></p>
 
   <div class="errors">
@@ -36,7 +36,7 @@
       <input type="file" name="document-file" id="document_file" class="hidden-input" ng-file-select="onFileSelect($files)">
     </div>
   </div>
-  <div ng-show="serverSide.file.status == 200">
+  <div ng-if="serverSide.file.status == 200">
     <div class="row" ng-file-drop="onFileSelect($files);" ng-file-drag-over-class="file-change-drag">
       <div class="col-sm-2">
         <span class="icon icon-missing"></span>
@@ -124,7 +124,7 @@
       <p ng-show="errors.document_type" class="help-block"><?php print t('Document type is required.'); ?></p>
     </div>
     <div class="selected-values" ng-show="data.document_type">
-          <span ng-show="value === true" ng-repeat="(key, value) in data.document_type">
+          <span ng-if="value === true" ng-repeat="(key, value) in data.document_type">
             {{ findLabel(document_type, key) }} <i ng-click="removeTaxonomyValue(key, 'document_type')"
                                                    class="fa fa-times"></i>
           </span>
@@ -153,7 +153,7 @@
         <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.topic">
-        <span ng-show="value === true" ng-repeat="(key, value) in data.topic">
+        <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
           {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
         </span>
       </div>
@@ -168,7 +168,7 @@
   </div>
 </div>
 
-<div class="form-group place clearfix btn-group-selectors" ng-show="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+<div class="form-group place clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
   <label><?php print t('Where') ?></label>
 
   <div class="row">
@@ -198,7 +198,7 @@
           </span>
         </div>
         <div class="child col-sm-6" ng-repeat="(childkey, child) in categories[key].children">
-          <span ng-show="data.categories[child.id] === true" >
+          <span ng-if="data.categories[child.id] === true" >
             <i ng-click="removeTaxonomyValue(child.id, 'categories')" class="fa fa-times"></i>
             {{ findLabel(categories, child.id) }}
           </span>
@@ -216,7 +216,7 @@
   </div>
 </div>
 
-<div class="form-group btn-group clearfix btn-group-selectors" ng-if="selectedResource != 'events'"
+<div class="form-group btn-group clearfix btn-group-selectors" ng-show="selectedResource != 'events'"
      ng-class="{ 'has-error' : errors.date }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].date.info.label}}</label>
@@ -231,7 +231,7 @@
         <p ng-show="errors.date" class="help-block"><?php print t('Date is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.date">
-            <span ng-show="value === true" ng-repeat="(key, value) in data.date">
+            <span ng-if="value === true" ng-repeat="(key, value) in data.date">
               {{ findLabel(date, key) }} <i ng-click="removeTaxonomyValue(key, 'date')" class="fa fa-times"></i>
             </span>
       </div>
@@ -259,7 +259,7 @@
       <p ng-show="errors.language" class="help-block"><?php print t('Language is required.'); ?></p>
     </div>
     <div class="selected-values" ng-show="data.language">
-            <span ng-show="value === true" ng-repeat="(key, value) in data.language">
+            <span ng-if="value === true" ng-repeat="(key, value) in data.language">
               {{ findLabel(language, key) }} <i ng-click="removeTaxonomyValue(key, 'language')" class="fa fa-times"></i>
             </span>
     </div>
@@ -287,7 +287,7 @@
         <p ng-show="errors.geo" class="help-block"><?php print t('Regions & Countries are required.'); ?></p>
       </div>
       <div class="selected-values geo-values" ng-show="data.geo">
-        <div class="value row" ng-show="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
+        <div class="value row" ng-if="value === true && geo[key]" ng-repeat="(key, value) in data.geo">
           <div class="parent col-sm-4">
             <span>
               <i ng-click="removeTaxonomyValue(key, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, key) }}
@@ -297,13 +297,13 @@
           <div class="col-sm-8">
             <div class="children row" ng-repeat="(childkey, child) in geo[key].children">
               <div class="col-sm-6" >
-                <span ng-show="data.geo[child.id] === true" >
+                <span ng-if="data.geo[child.id] === true" >
                   <i ng-click="removeTaxonomyValue(child.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, child.id) }}
                   <i class="fa fa-chevron-right " ng-show="termHasChildrenSelected('geo', key, childkey)"></i>
                 </span>
               </div>
               <div class="childChild col-sm-6">
-                <span ng-show="data.geo[childChild.id] === true" ng-repeat="(childChildkey, childChild) in geo[key].children[childkey].children">
+                <span ng-if="data.geo[childChild.id] === true" ng-repeat="(childChildkey, childChild) in geo[key].children[childkey].children">
                   <i ng-click="removeTaxonomyValue(childChild.id, 'geo')" class="fa fa-times"></i> {{ findLabel(geo, childChild.id) }}
                 </span>
               </div>
