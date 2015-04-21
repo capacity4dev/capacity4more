@@ -39,6 +39,7 @@ dependencies[] = entityreference_prepopulate
 dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = field_group
+dependencies[] = file_download_count
 dependencies[] = flag
 ;dependencies[] = inline_entity_form
 dependencies[] = jquery_update
@@ -96,6 +97,7 @@ dependencies[] = c4m_comment_delete
 ;dependencies[] = c4m_comment_edited
 
 ; Content Types
+dependencies[] = c4m_content
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_book
 dependencies[] = c4m_content_discussion
