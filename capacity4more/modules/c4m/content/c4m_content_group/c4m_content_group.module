@@ -293,3 +293,19 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
   // Redirect a user to homepage.
   $form_state['redirect'] = url('', array('absolute' => TRUE));
 }
+
+/**
+ * Implements hook_custom_theme().
+ *
+ * Set Kapablo theme for group creation page.
+ */
+function c4m_content_group_menu_alter(&$items) {
+  $items['node/add/group']['theme callback'] = 'c4m_content_group_theme_callback';
+}
+
+/**
+ * Returns Kapablo theme name.
+ */
+function c4m_content_group_theme_callback() {
+  return 'kapablo';
+}
