@@ -27,14 +27,27 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
       // Not a view operation.
       return array();
     }
-    $organisations = array();
     $realms = array();
+
+    $domain = explode('@', $account->mail);
+
+    $query = db_select('node', 'n');
+
+    $query->join('field_data_c4m_domain', 'd', 'd.entity_id = n.nid');
+    $query
+      ->condition('n.status', 1, '=')
+      ->condition('n.type', 'organisation', '=')
+      ->condition('d.c4m_domain_value', $domain[1]);
+
+    $query->fields('n', array('title','nid'));
+
+    $organisations = $query->execute()->fetchAll();
 
     foreach ($organisations as $organisation) {
       // The "realm" name is the plugin name.
       // The "gid" is always 1, as it just indicates the user has the email
       // domain.
-      $realm = 'organisation::' . $organisation;
+      $realm = 'organisation::' . $organisation->title;
       $realms[$realm] = array(1);
     }
 
