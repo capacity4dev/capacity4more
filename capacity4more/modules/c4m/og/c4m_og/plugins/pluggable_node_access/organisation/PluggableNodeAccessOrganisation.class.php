@@ -39,7 +39,7 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
       ->condition('n.type', 'organisation', '=')
       ->condition('d.c4m_domain_value', $domain[1]);
 
-    $query->fields('n', array('title','nid'));
+    $query->fields('n', array('title', 'nid'));
 
     $organisations = $query->execute()->fetchAll();
 
@@ -81,7 +81,7 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
         );
       }
     }
-    
+
     return $grants;
   }
 
