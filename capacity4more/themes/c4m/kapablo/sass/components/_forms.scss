@@ -94,16 +94,14 @@ input[type="radio"]:not(old) {
 
 input[type="checkbox"]:not(old) {
 
-  &:before {
-    background: $color-beige;
-    color: $highlight-blue;
-    content: '';
-    display: inline-block;
-    font-family: FontAwesome;
-    height: 1em;
-    visibility: visible;
-    width: 1em;
-  }
+  background: $color-beige;
+  color: $highlight-blue;
+  content: '';
+  display: inline-block;
+  font-family: FontAwesome;
+  height: 1em;
+  visibility: visible;
+  width: 1em;
 
   &:hover {
     cursor: pointer;
