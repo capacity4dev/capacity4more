@@ -7,6 +7,15 @@
 include_once 'c4m_features_og_manage.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function c4m_features_og_manage_menu() {
@@ -22,13 +31,17 @@ function c4m_features_og_manage_menu() {
   );
 
   $items['manage/categories'] = array(
-    'page callback' => 'c4m_features_og_manage_get_form',
+    'title' => 'Manage categories',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_overview_form'),
     'access callback' => array('c4m_features_og_manage_categories_access'),
     'file' => 'c4m_manage_categories.inc',
   );
 
   $items['manage/categories/types'] = array(
-    'page callback' => 'c4m_features_og_manage_get_form',
+    'title' => 'Manage categories types',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_overview_form'),
     'access callback' => array('c4m_features_og_manage_categories_access'),
     'file' => 'c4m_manage_categories.inc',
   );
@@ -62,38 +75,11 @@ function c4m_features_og_manage_features_access() {
 }
 
 /**
- * Implements hook_ctools_plugin_directory().
- */
-function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools') {
-    return 'plugins/' . $plugin;
-  }
-}
-
-/**
- * Page callback for manage group categories form.
- */
-function c4m_features_og_manage_get_form() {
-  $group = c4m_og_current_group();
-  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  $form_state = array();
-  $args = array(
-    'c4m_taxonomy_overview_terms | (Callback) c4m_taxonomy_overview_terms();',
-    $vocabulary,
-  );
-  // Remove $form_id from the arguments.
-  array_shift($args);
-  $form_state['build_info']['args'] = $args;
-
-  return drupal_build_form('c4m_taxonomy_overview_terms', $form_state);
-}
-
-/**
  * Implements hook_theme().
  */
 function c4m_features_og_manage_theme() {
   return array(
-    'c4m_taxonomy_overview_terms' => array(
+    'c4m_features_og_manage_categories_overview_form' => array(
       'render element' => 'form',
     ),
   );

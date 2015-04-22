@@ -14,8 +14,9 @@
  * @see taxonomy_overview_terms_submit()
  * @see theme_taxonomy_overview_terms()
  */
-function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
-  $group = og_context();
+function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
+  $group = c4m_og_current_group();
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
 
   $form['#vocabulary'] = $vocabulary;
   $form['#group'] = $group;
@@ -262,7 +263,7 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, &$form
 /**
  * @see taxonomy_overview_terms_submit()
  */
-function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
+function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
   if ($form_state['triggering_element']['#value'] == t('Delete')) {
     // Execute the term deletion.
     if ($form_state['values']['delete'] === TRUE) {
@@ -372,7 +373,7 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
  * @see taxonomy_overview_terms()
  * @ingroup themeable
  */
-function theme_c4m_taxonomy_overview_terms($variables) {
+function theme_c4m_features_og_manage_categories_overview_form($variables) {
   $form = $variables['form'];
 
   $vocabulary = $form['#vocabulary'];
@@ -524,8 +525,8 @@ function theme_c4m_taxonomy_overview_terms($variables) {
       'group' => array(
         '#attributes' => array(
           'ng-model' => 'group',
-          'ng-value' => $form['#group']['gid'],
-          'ng-init' => 'group=' . $form['#group']['gid'],
+          'ng-value' => $form['#group']->nid,
+          'ng-init' => 'group=' . $form['#group']->nid,
         ),
         '#title' => '',
         '#type' => 'hidden',
