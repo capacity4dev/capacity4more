@@ -9,6 +9,26 @@
  */
 class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
   /**
+   * Overrides \RestfulEntityBase::checkEntityAccess().
+   *
+   * Set permissions to create group content based on user's OG permissions and
+   * group status value.
+   */
+  protected function checkEntityAccess($op, $entity_type, $entity) {
+    $account = $this->getAccount();
+    $resource_name = $this->getResourceName();
+    $group_id = $this->request['group'];
+    $group = node_load($group_id);
+    $wrapper = entity_metadata_wrapper('node', $group);
+    $group_status = $wrapper->c4m_status->value();
+    if (!in_array($group_status, array('draft', 'published')) && !user_access('administer site configuration', $account)) {
+      // Not site admins can't create group content in not draft or published groups.
+      return FALSE;
+    }
+    return og_user_access('node', $group_id, "create $resource_name content", $account);
+  }
+
+  /**
    * Overrides ResfulEntityBase::createOrUpdateSubResourceItems().
    *
    * When creating a new tag, Send the group ID to the "tags" resource.
