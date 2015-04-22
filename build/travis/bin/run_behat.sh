@@ -31,9 +31,4 @@ if [ "$BEHAT_TAG" = "javascript" ]; then
   ./bin/behat -p phantomjs --tags=@javascript
 fi
 
-# Run tests for the javascript tag.
-if [ "$BEHAT_TAG" = "javascript2" ]; then
-  ./bin/behat -p phantomjs --tags=@javascript2
-fi
-
 cd $TRAVIS_BUILD_DIR
