@@ -23,17 +23,29 @@ function c4m_features_og_manage_menu() {
 
   $items['manage/categories'] = array(
     'page callback' => 'c4m_features_og_manage_get_form',
-    'access callback' => TRUE,
+    'access callback' => array('c4m_features_og_manage_categories_access'),
     'file' => 'c4m_manage_categories.inc',
   );
 
   $items['manage/categories/types'] = array(
     'page callback' => 'c4m_features_og_manage_get_form',
-    'access callback' => TRUE,
+    'access callback' => array('c4m_features_og_manage_categories_access'),
     'file' => 'c4m_manage_categories.inc',
   );
 
   return $items;
+}
+
+/**
+ * Access callback for manage group categories.
+ */
+function c4m_features_og_manage_categories_access() {
+  // Check if in a group.
+  $gid = c4m_og_current_group_id();
+  if (empty($gid)) {
+    return FALSE;
+  }
+  return og_user_access('node', $gid, 'administer group');
 }
 
 /**
@@ -63,10 +75,6 @@ function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_features_og_manage_get_form() {
   $group = c4m_og_current_group();
-  if (!$group || ($group && !og_user_access('node', $group->nid,'administer group'))) {
-    drupal_access_denied();
-    return;
-  }
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
   $form_state = array();
   $args = array(
