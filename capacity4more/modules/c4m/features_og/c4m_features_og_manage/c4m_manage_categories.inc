@@ -342,7 +342,7 @@ function c4m_features_og_manage_categories_overview_form_submit($form, &$form_st
   // Save all updated terms.
   foreach ($changed_terms as $changed) {
     $term = (object) $changed;
-    // Update term_hierachy and term_data directly since we don't have a
+    // Update term_hierarchy and term_data directly since we don't have a
     // fully populated term object to save.
     db_update('taxonomy_term_hierarchy')
       ->fields(array('parent' => $term->parent))
