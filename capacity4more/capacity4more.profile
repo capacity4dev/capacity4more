@@ -126,11 +126,11 @@ function capacity4more_setup_set_og_permissions() {
 
   $permissions = array();
   foreach ($content_types as $content_type) {
-    $permissions += array(
+    $permissions = array_merge($permissions, array(
       "create $content_type content",
       "update own $content_type content",
       "delete own $content_type content",
-    );
+    ));
   }
 
   $roles = og_roles('node', 'group');
