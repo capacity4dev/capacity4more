@@ -364,6 +364,13 @@ function c4m_features_og_manage_categories_overview_form_submit($form, &$form_st
 }
 
 /**
+ * @TODO: Add docs.
+ */
+function c4m_features_og_manage_categories_overview_form_validate($form, &$form_state) {
+  // Add validate here.
+}
+
+/**
  * Returns HTML for a terms overview form as a sortable list of terms.
  *
  * @param $variables
