@@ -12,60 +12,31 @@ include_once 'theme/preprocess.inc';
 include_once 'theme/search.inc';
 
 /**
- * Overrides theme_status_messages().
+ * Implement hook_preprocess_HOOK()
+ *
+ * Alter standard drupal message to custom message.
  */
-function kapablo_status_messages($variables) {
-
-  foreach (drupal_get_messages($variables['display']) as $type => $messages) {
-    dpm($messages);
-    foreach ($messages as $message) {
-      dpm($message);
-    }
-  }
-  $display = $variables['display'];
-  $output = '';
-
-  $status_heading = array(
-    'status' => t('Status message'),
-    'error' => t('Error message'),
-    'warning' => t('Warning message'),
-    'info' => t('Informative message'),
+function kapablo_preprocess_status_messages(&$variables) {
+  // Messages to change: original message => custom message.
+  $custom_messages = array(
+    "Field Groups must be populated via URL." =>
+      t('You can\'t create content out of group or you don\'t have permissions to create content in the current group!'),
   );
 
-  // Map Drupal message types to their corresponding Bootstrap classes.
-  // @see http://twitter.github.com/bootstrap/components.html#alerts
-  $status_class = array(
-    'status' => 'success',
-    'error' => 'danger',
-    'warning' => 'warning',
-    // Not supported, but in theory a module could send any type of message.
-    // @see drupal_set_message()
-    // @see theme_status_messages()
-    'info' => 'info',
-  );
-
-  foreach (drupal_get_messages($display) as $type => $messages) {
-    //dpm($messages);
-    $class = (isset($status_class[$type])) ? ' alert-' . $status_class[$type] : '';
-    $output .= "<div class=\"alert alert-block$class messages $type\">\n";
-    $output .= "  <a class=\"close\" data-dismiss=\"alert\" href=\"#\">&times;</a>\n";
-
-    if (!empty($status_heading[$type])) {
-      $output .= '<h4 class="element-invisible">' . $status_heading[$type] . "</h4>\n";
-    }
-
-    if (count($messages) > 1) {
-      $output .= " <ul>\n";
-      foreach ($messages as $message) {
-        $output .= '  <li>' . $message . "</li>\n";
+  // If status messages exist check each for match with custom messages.
+  if (isset($_SESSION['messages'])) {
+    // Remove duplicates messages.
+    $_SESSION['messages'] = array_unique($_SESSION['messages']);
+    // Search for message.
+    foreach ($_SESSION['messages'] as $type => $messages) {
+      foreach ($custom_messages as $original_message => $custom_message) {
+        $pos = array_search($original_message, $messages);
+        // If message found delete it and set new.
+        if ($pos !== FALSE) {
+          unset($_SESSION['messages'][$type][$pos]);
+          $_SESSION['messages'][$type][$pos] = $custom_message;
+        }
       }
-      $output .= " </ul>\n";
     }
-    else {
-      $output .= $messages[0];
-    }
-
-    $output .= "</div>\n";
   }
-  return $output;
 }
