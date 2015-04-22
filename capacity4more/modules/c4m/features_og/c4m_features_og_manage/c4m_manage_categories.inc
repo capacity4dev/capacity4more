@@ -15,7 +15,6 @@
  * @see theme_taxonomy_overview_terms()
  */
 function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
-  global $pager_page_array, $pager_total, $pager_total_items;
   $group = og_context();
 
   $form['#vocabulary'] = $vocabulary;
@@ -45,25 +44,12 @@ function c4m_taxonomy_overview_terms($form, &$form_state, $vocabulary) {
       break;
     }
     $delta++;
-    // Count entries before the current page.
-
-    // Do not let a term start the page that is not at the root.
-    if (isset($term->depth) && ($term->depth > 0) && !isset($back_step)) {
-      $back_step = 0;
-      while ($pterm = prev($tree)) {
-        if ($pterm->depth == 0) {
-          prev($tree);
-          continue 2; // Jump back to the start of the root level parent.
-        }
-      }
-    }
-    $back_step = isset($back_step) ? $back_step : 0;
-
 
     // Finally, if we've gotten down this far, we're rendering a term on this page.
     $term_deltas[$term->tid] = isset($term_deltas[$term->tid]) ? $term_deltas[$term->tid] + 1 : 0;
     $key = 'tid:' . $term->tid . ':' . $term_deltas[$term->tid];
 
+    $form['#first_tid'] = $term->tid;
     $current_page[$key] = $term;
   } while ($term = next($tree));
 
@@ -305,6 +291,53 @@ function c4m_taxonomy_overview_terms_submit($form, &$form_state) {
     return;
   }
 
+  // Build a list of all terms that need to be updated on previous pages.
+  $weight = 0;
+  $term = (array) $tree[0];
+  while ($term['tid'] != $form['#first_tid']) {
+    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
+      $term['parent'] = $term['parents'][0];
+      $term['weight'] = $weight;
+      $changed_terms[$term['tid']] = $term;
+    }
+    $weight++;
+    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
+    $term = (array) $tree[$weight];
+  }
+
+  // Renumber the current page weights and assign any new parents.
+  $level_weights = array();
+  foreach ($form_state['values'] as $tid => $values) {
+    if (isset($form[$tid]['#term'])) {
+      $term = $form[$tid]['#term'];
+      // Give terms at the root level a weight in sequence with terms on previous pages.
+      if ($values['parent'] == 0 && $term['weight'] != $weight) {
+        $term['weight'] = $weight;
+        $changed_terms[$term['tid']] = $term;
+      }
+      // Terms not at the root level can safely start from 0 because they're all on this page.
+      elseif ($values['parent'] > 0) {
+        $level_weights[$values['parent']] = isset($level_weights[$values['parent']]) ? $level_weights[$values['parent']] + 1 : 0;
+        if ($level_weights[$values['parent']] != $term['weight']) {
+          $term['weight'] = $level_weights[$values['parent']];
+          $changed_terms[$term['tid']] = $term;
+        }
+      }
+      $hierarchy = $term['parent'] != 0 ? 1 : $hierarchy;
+      $weight++;
+    }
+  }
+
+  // Build a list of all terms that need to be updated on following pages.
+  for ($weight; $weight < count($tree); $weight++) {
+    $term = (array) $tree[$weight];
+    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
+      $term['parent'] = $term['parents'][0];
+      $term['weight'] = $weight;
+      $changed_terms[$term['tid']] = $term;
+    }
+    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
+  }
   // Save all updated terms.
   foreach ($changed_terms as $changed) {
     $term = (object) $changed;
