@@ -134,6 +134,10 @@ angular.module('c4mApp')
         if (field == "tags") {
           return;
         }
+        // Check that title has the right length.
+        if (field == 'label' && values.length < 3) {
+          this[field] = 1;
+        }
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
         if (fieldRequired && (!values || !values.length) && field != "datetime") {

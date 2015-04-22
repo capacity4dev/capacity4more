@@ -71,4 +71,25 @@ trait File {
     }
     $field->attachFile($file_path);
   }
+
+  /**
+   * @When /^I attach the file to the field banner$/
+   */
+  public function iAttachTheFileToTheField() {
+    $query = new \entityFieldQuery();
+    $query->entityCondition('entity_type', 'file')
+      ->propertyCondition('filename', 'banner6.jpg', 'LIKE')
+      ->range(0,1);
+    $result = $query->execute();
+    if (!empty($result['file'])) {
+      $fids = array_keys($result['file']);
+    }
+    else {
+      throw new \Exception("File is not found");
+    }
+    $this->getSession()->executeScript(
+      "jQuery(\"input[name='c4m_banner[und][0][fid]']\").val(\"" . $fids[0] . "\");"
+    );
+  }
+
 }

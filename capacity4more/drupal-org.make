@@ -208,6 +208,9 @@ projects[term_reference_tree][version] = "1.10"
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
 
+projects[save_draft][subdir] = "contrib"
+projects[save_draft][version] = "1.4"
+
 projects[smart_trim][subdir] = "contrib"
 projects[smart_trim][version] = "1.4"
 
@@ -229,7 +232,6 @@ projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/
 
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
-
 
 
 ; Development modules
