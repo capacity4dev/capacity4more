@@ -38,3 +38,22 @@ function c4m_restful_get_og_vocab_by_name($group_type, $gid, $vocab_name) {
     ->execute()
     ->fetchAll();
 }
+
+/**
+ * Gets group ID by the taxonomy vocabulary machine name.
+ *
+ * @param $vocab_machine_name.
+ *  The machine name of the taxonomy vocabulary.
+ *
+ * @return array().
+ *  Returns the group ID.
+ */
+function c4m_restful_get_group_by_og_vocab_name($vocab_machine_name) {
+  $query = db_select('og_vocab_relation', 'ogr');
+  $query->innerJoin('taxonomy_vocabulary', 'tv', 'ogr.vid = tv.vid');
+  return $query->fields('ogr', array('gid'))
+    ->condition('tv.machine_name', $vocab_machine_name)
+    ->range(0, 1)
+    ->execute()
+    ->fetchAll();
+}

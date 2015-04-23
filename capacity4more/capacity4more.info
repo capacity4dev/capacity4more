@@ -97,6 +97,7 @@ dependencies[] = c4m_comment_delete
 ;dependencies[] = c4m_comment_edited
 
 ; Content Types
+dependencies[] = c4m_content
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_book
 dependencies[] = c4m_content_discussion
@@ -164,3 +165,6 @@ dependencies[] = c4m_document_widget
 
 ; Organic Groups
 dependencies[] = c4m_og_purl
+
+; Email Domains
+dependencies[] = c4m_domain

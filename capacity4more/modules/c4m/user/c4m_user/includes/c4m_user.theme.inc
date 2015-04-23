@@ -188,15 +188,15 @@ function theme_c4m_user_first_and_last_name(array $field) {
     );
   }
   else {
-    if (!empty($entity->name)) {
-      $tag['element'] = array(
-        '#tag'       => 'span',
-        '#attributes' => array(
-          'class' => array('user-name', 'anonymous'),
-        ),
-        '#value'     => $entity->name,
-      );
-    }
+    $entity_name = !empty($entity->name) ? $entity->name
+                                         : variable_get('anonymous', t('Anonymous'));
+    $tag['element'] = array(
+      '#tag'       => 'span',
+      '#attributes' => array(
+        'class' => array('user-name', 'anonymous'),
+      ),
+      '#value'     => $entity_name,
+    );
   }
 
   return theme_html_tag($tag);

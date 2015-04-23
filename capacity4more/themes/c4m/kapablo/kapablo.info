@@ -33,9 +33,10 @@ overlay_regions[] = content_bottom
 ;; Scripts
 ;;;;;;;;;;;;;;;;;;;;;
 
-scripts[] = js/kapablo.min.js
-
 scripts[] = js/bootstrap.min.js
+scripts[] = js/dist/modernizr.js
+
+scripts[] = js/kapablo.min.js
 
 ;scripts[] = 'js/bootstrap/affix.js'
 ;scripts[] = 'js/bootstrap/alert.js'
