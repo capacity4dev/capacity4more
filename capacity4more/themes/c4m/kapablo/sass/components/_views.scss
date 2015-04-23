@@ -13,6 +13,7 @@
 .view-header {
   color: $gray-dark;
   margin: 10px 0 25px 0;
+  @include clearfix;
   overflow: visible;
 
   .node-create {
@@ -25,7 +26,6 @@
 
     @media screen and (min-width: $screen-md-min) {
       float: right;
-      margin-top: -51px;
     }
 
     &.node-create-discussion {
