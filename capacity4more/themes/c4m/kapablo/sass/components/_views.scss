@@ -13,6 +13,7 @@
 .view-header {
   color: $gray-dark;
   margin: 10px 0 25px 0;
+  overflow: visible;
 
   .node-create {
     @include input-rounded($highlight-blue, 25px);

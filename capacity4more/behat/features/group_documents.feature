@@ -11,7 +11,6 @@ Feature: Group Documents
      When I visit the documents overview of group "Nobel Prize" in "list" view
      Then I should see the documents overview
       And I should not see the "Upload a document" link above the overview
-      And I should not see the "Add Photo album" link above the overview
 
   @api
   Scenario: Check documents table overview as an anomynous user
@@ -19,7 +18,6 @@ Feature: Group Documents
      When I visit the documents overview of group "Nobel Prize" in "table" view
      Then I should see the documents overview
       And I should not see the "Upload a document" link above the overview
-      And I should not see the "Add Photo album" link above the overview
 
   @api
   Scenario: Check documents list overview as group owner
@@ -27,7 +25,6 @@ Feature: Group Documents
      When I visit the documents overview of group "Nobel Prize" in "list" view
      Then I should see the documents overview
       And I should see the "Upload a document" link above the overview
-      And I should see the "Add Photo album" link above the overview
 
   @api
   Scenario: Check documents table overview as group owner
@@ -35,7 +32,6 @@ Feature: Group Documents
      When I visit the documents overview of group "Nobel Prize" in "table" view
      Then I should see the documents overview
       And I should see the "Upload a document" link above the overview
-      And I should see the "Add Photo album" link above the overview
 
   @api
   Scenario: Check if filters on documents overview are retained when I switch to table view style
