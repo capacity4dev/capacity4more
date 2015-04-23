@@ -294,12 +294,6 @@ angular.module('c4mApp')
               }
             });
           }
-          else {
-            // Use default latitude and longitude of Brussels, Belgium.
-            submitData.location.lat = 50.850339600000000000;
-            submitData.location.lng = 4.351710300000036000;
-            submitData.location.country = 'BE';
-          }
           // Continue submitting form.
           checkForm(submitData, resource, resourceFields, type);
         });
