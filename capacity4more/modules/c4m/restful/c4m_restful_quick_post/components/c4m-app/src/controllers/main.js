@@ -405,12 +405,11 @@ angular.module('c4mApp')
     /**
      * Remove uploaded file.
      */
-    $scope.removeFile = function() {
+    $scope.removeUploadedFile = function() {
       angular.element('#document_file').val('');
       $scope.data.document = null;
       delete $scope.data.fileName;
       delete $scope.serverSide.file;
-
     };
 
     /**
@@ -430,5 +429,6 @@ angular.module('c4mApp')
       $scope.entityForm.$setPristine();
       // Reset all the fields.
       initFormValues();
+      $scope.removeUploadedFile();
     }
   });
