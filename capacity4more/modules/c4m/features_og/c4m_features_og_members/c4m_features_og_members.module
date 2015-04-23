@@ -91,6 +91,9 @@ function c4m_features_og_members_menu() {
 function c4m_features_og_members_ds_fields_info($entity_type) {
   $fields = array();
 
+  // Creation time.
+  $date_formatters = c4m_helper_date_formatters();
+
   $path = drupal_get_path('module', 'c4m_features_og_members');
   // Administrator links field for entity type user (, within a group)
   $fields['user']['c4m_features_og_members_admin_actions'] = array(
@@ -128,9 +131,7 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
     'file' => $path . '/includes/c4m_features_og_members.theme.inc',
     'function' => 'theme_c4m_features_og_members_since',
     'properties' => array(
-      'formatters' => array(
-        'default' => t('Default'),
-      ),
+      'formatters' => $date_formatters,
     ),
   );
 
