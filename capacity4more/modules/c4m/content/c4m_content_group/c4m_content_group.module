@@ -70,6 +70,11 @@ function c4m_content_group_node_insert($node) {
     return;
   }
 
+  // Don't send notifications during migration.
+  if (!empty($node->migrate)) {
+    return;
+  }
+
   // Get all site administrators.
   $admin_role = user_role_load_by_name('administrator');
   $results = db_select('users_roles', 'r')
@@ -102,9 +107,16 @@ function c4m_content_group_node_update($node) {
     return;
   }
 
+  // Don't send notifications during migration.
+  if (!empty($node->migrate)) {
+    return;
+  }
+
   // Status now and before update.
-  $status_new = $node->c4m_og_status[LANGUAGE_NONE][0]['value'];
-  $status_original = (isset($node->original->c4m_og_status[LANGUAGE_NONE][0]['value']))
+  $status_new = isset($node->c4m_og_status)
+    ? $node->c4m_og_status[LANGUAGE_NONE][0]['value']
+    : NULL;
+  $status_original = (isset($node->original->c4m_og_status))
     ? $node->original->c4m_og_status[LANGUAGE_NONE][0]['value']
     : NULL;
 
@@ -254,7 +266,7 @@ function c4m_content_group_preprocess_block(&$variables) {
  *
  * Hide fields for authenticated users and set submit function.
  */
-function c4m_content_group_form_group_node_form_alter(&$form, &$form_state, $form_id) {
+function c4m_content_group_form_group_node_form_alter(&$form, &$form_state) {
   global $user;
   if ($user->uid && !user_access('administer nodes', $user)
     && strpos($form['#action'], 'add')) {
@@ -280,4 +292,14 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
   drupal_set_message(t('The group you requested is pending review by one of the administrators. You will receive an email with the outcome of that review.'));
   // Redirect a user to homepage.
   $form_state['redirect'] = url('', array('absolute' => TRUE));
+}
+
+/**
+ * Implements hook_admin_paths_alter().
+ *
+ * @see og_ui_admin_paths().
+ * Set the 'node/add/group' path as not admin.
+ */
+function c4m_content_group_admin_paths_alter(&$paths){
+  $paths['node/*/group'] = FALSE;
 }

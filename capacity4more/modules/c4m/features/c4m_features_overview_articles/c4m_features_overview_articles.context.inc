@@ -49,7 +49,6 @@ function c4m_features_overview_articles_context_default_contexts() {
     'views' => array(
       'values' => array(
         'c4m_overview_articles' => 'c4m_overview_articles',
-        'c4m_overview_og_members:page' => 'c4m_overview_og_members:page',
       ),
     ),
   );

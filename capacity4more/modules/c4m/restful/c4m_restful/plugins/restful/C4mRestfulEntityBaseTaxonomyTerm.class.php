@@ -18,6 +18,17 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
+    $resource_name = $this->getResourceName();
+    if ($resource_name == 'tags') {
+      $group = c4m_restful_get_group_by_og_vocab_name($entity->vocabulary_machine_name);
+      $gid = $group[0]->gid;
+      return og_user_access('node', $gid, 'edit terms', $account);
+    }
+    elseif ($resource_name == 'categories') {
+      $group = c4m_restful_get_group_by_og_vocab_name($entity->vocabulary_machine_name);
+      $gid = $group[0]->gid;
+      return og_user_access('node', $gid, 'administer group', $account);
+    }
     return user_access('create content', $account);
   }
 

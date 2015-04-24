@@ -1,7 +1,24 @@
 <?php
 /**
  * @file
- * Code for the Document overview feature.
+ * Code for the Group Documents feature.
  */
 
 include_once 'c4m_features_og_documents.features.inc';
+
+/**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_documents_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_documents' => array(
+      'name' => t('Library'),
+      'description' => t('Library overview.'),
+      'machine_name' => 'c4m_features_og_documents',
+      'weight' => 3,
+      'default' => TRUE,
+      'group_types' => array('group', 'project'),
+      'content_types' => array('document'),
+    ),
+  );
+}
