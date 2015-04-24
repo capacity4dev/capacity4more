@@ -133,7 +133,8 @@ trait Group {
       }
       if ($organizations) {
         foreach ($organizations as $organization) {
-          $steps[] = new Step\When('I check the box "' . $organization . '"');
+          $node = $this->loadGroupByTitleAndType($organization, 'organisation');
+          $steps[] = new Step\When('I check the box "edit-restricted-organisations-' . $node->nid . '"');
         }
       }
     }

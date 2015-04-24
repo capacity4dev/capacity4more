@@ -1179,6 +1179,7 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'pluggable_node_access',
     'label' => 'Pluggable node access',
