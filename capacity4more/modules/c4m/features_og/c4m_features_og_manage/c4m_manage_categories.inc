@@ -98,7 +98,7 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
       );
     }
     $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
-    $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'taxonomy/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
+    $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
     $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
   }
 
@@ -125,6 +125,125 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
       ),
     );
   }
+
+  return $form;
+}
+
+/**
+ * Form function for the term edit form.
+ *
+ * @ingroup forms
+ * @see taxonomy_form_term()
+ */
+function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
+  // Validate if the given term is valid.
+  if(!$term = taxonomy_term_load($tid)) {
+    drupal_set_message(t('No valid term was given.'));
+    $form_state['redirect'] = 'manage/categories';
+    drupal_redirect_form($form_state);
+  }
+
+  $group = c4m_og_current_group();
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+
+  // Validate if the given term belongs to the current group.
+  if(!c4m_features_og_manage_validate_term_group($term, $vocabulary)) {
+    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)));
+    $form_state['redirect'] = 'manage/categories';
+    drupal_redirect_form($form_state);
+  }
+
+  $parent = array_keys(taxonomy_get_parents($term->tid));
+  $form['#term'] = (array) $term;
+  $form['#term']['parent'] = $parent;
+  $form['#vocabulary'] = $vocabulary;
+
+  $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
+  $options = array();
+  if (empty($parent)) {
+    $parent = array(0);
+  }
+
+  foreach ($tree as $item) {
+    $options[$item->tid] = str_repeat('-', $item->depth) . $item->name;
+  }
+
+  $title['element'] = array(
+    '#tag' => 'h2',
+    '#attributes' => array(
+      'class' => array('term-edit-title-text'),
+    ),
+    '#value' => t('Manage Group categories'),
+  );
+
+  $description['element'] = array(
+    '#tag' => 'h4',
+    '#attributes' => array(
+      'class' => array('term-edit-description-text'),
+    ),
+    '#value' => t('Change the category term of this Group.'),
+  );
+
+  $form['title'] = array(
+    '#markup' => theme_html_tag($title),
+    '#weight' => -10,
+  );
+
+  $form['description'] = array(
+    '#markup' => theme_html_tag($description),
+    '#weight' => -5,
+  );
+
+  $form['parent'] = array(
+    '#type' => 'radios',
+    '#title' => t('Type of category'),
+    '#options' => $options,
+    '#default_value' => reset($parent),
+    '#required' => TRUE,
+    '#weight' => 0,
+  );
+
+  $form['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Term name'),
+    '#default_value' => $term->name,
+    '#maxlength' => 255,
+    '#required' => TRUE,
+    '#weight' => 5,
+  );
+
+  $form['vocabulary_machine_name'] = array(
+    '#type' => 'value',
+    '#value' => isset($term->vocabulary_machine_name) ? $term->vocabulary_machine_name : $vocabulary->name,
+  );
+
+  $form['vid'] = array(
+    '#type' => 'value',
+    '#value' => $vocabulary->vid,
+  );
+  $form['tid'] = array(
+    '#type' => 'value',
+    '#value' => $term->tid,
+  );
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#weight' => 10,
+  );
+
+  $form['actions']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel'),
+    '#weight' => 15,
+  );
+
+  $form['actions']['delete'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete'),
+    '#weight' => 20,
+  );
 
   return $form;
 }
@@ -488,7 +607,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
         'absolute' => TRUE,
         'query' => drupal_get_destination(),
       );
-      $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('taxonomy/term/' . $parent_id . '/edit', $options));
+      $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('manage/categories/type/' . $parent_id . '/edit', $options));
       unset($options['query']);
       $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
       $options['query']['delete'] = $parent_id;
