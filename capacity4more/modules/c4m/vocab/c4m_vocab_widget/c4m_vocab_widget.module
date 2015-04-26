@@ -166,7 +166,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
     // If the term is array, this vocab is of type "node".
     if(is_array($term)) {
       foreach($term as $id => $label) {
-        $options[$id]['label'] = strip_tags($label);
+        $options[$id]['label'] = htmlspecialchars_decode(check_plain($label));
         $options[$id]['id'] = $id;
       }
     }
@@ -174,7 +174,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
       $parents = $term->parents;
       if ($parents[0] == '0') {
         // This is the parent term.
-        $options[$term->tid]['label'] = strip_tags($term->name);
+        $options[$term->tid]['label'] = htmlspecialchars_decode(check_plain($term->name));
         $options[$term->tid]['id'] = $term->tid;
       }
       else {
@@ -190,14 +190,14 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
           // This is the child term of the main parent term - add it to the
           // children of the main parent term.
           $options[$parents[0]]['children'][] = array(
-            'label' => strip_tags($term->name),
+            'label' => htmlspecialchars_decode(check_plain($term->name)),
             'id' => $term->tid,
           );
         }
         else {
           // This is the child term of the child term - save it in the array.
           $children[$id]['children'][] = array(
-            'label' => strip_tags($term->name),
+            'label' => htmlspecialchars_decode(check_plain($term->name)),
             'id' => $term->tid,
           );
         }
