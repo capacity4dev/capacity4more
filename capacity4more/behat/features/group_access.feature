@@ -11,7 +11,7 @@ Feature: Group access
       And I visit "My content 111" node of type "discussion"
       And I should not see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check private group
     Given a group "My bad hair day new group 2" with "Private" access is created with group manager "turing"
       And a discussion "My content 2" in group "My bad hair day new group 2" is created
@@ -21,7 +21,7 @@ Feature: Group access
       And I visit "My content 2" node of type "discussion"
       And I should see "Access denied"
 
-  @javascript 
+  @javascript
   Scenario: Check restricted group accessed by accepted user
     Given a moderated group "My bad hair day new group 3" with "gravity.com" restriction is created with group manager "turing"
       And a discussion "My content 3" in group "My bad hair day new group 3" is created
@@ -68,31 +68,15 @@ Feature: Group access
     And I should see "The group you requested is pending review by one of the administrators."
 
   @api
-  Scenario: Check redirect to homepage  if no values are provided via URL.
+  Scenario Outline: Check redirect to homepage if no values are provided via URL.
     Given I am logged in as user "isaacnewton"
-    When I visit "node/add/discussion"
+    When I visit "<url>"
     Then I should be on the homepage
 
-  @api
-  Scenario: Check redirect to homepage  if no values are provided via URL.
-    Given I am logged in as user "isaacnewton"
-    When I visit "node/add/document"
-    Then I should be on the homepage
-
-  @api
-  Scenario: Check redirect to homepage  if no values are provided via URL.
-    Given I am logged in as user "isaacnewton"
-    When I visit "node/add/photo"
-    Then I should be on the homepage
-
-  @api
-  Scenario: Check redirect to homepage  if no values are provided via URL.
-    Given I am logged in as user "isaacnewton"
-    When I visit "node/add/task"
-    Then I should be on the homepage
-
-  @api
-  Scenario: Check redirect to homepage  if no values are provided via URL.
-    Given I am logged in as user "isaacnewton"
-    When I visit "node/add/tasklist"
-    Then I should be on the homepage
+  Examples:
+    | url                 |
+    | node/add/discussion |
+    | node/add/document   |
+    | node/add/photo      |
+    | node/add/task       |
+    | node/add/tasklist   |
