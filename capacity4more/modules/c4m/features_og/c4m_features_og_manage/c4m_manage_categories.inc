@@ -27,7 +27,7 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
   // Check for confirmation forms.
   if (isset($parameters['delete'])) {
     // Delete confirmation form.
-    return array_merge($form, c4m_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
+    return array_merge($form, c4m_features_og_manage_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
   }
   if (isset($parameters['reset_alphabetical'])) {
     // Reset alphabetically confirmation form.
@@ -130,122 +130,10 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
 }
 
 /**
- * Form function for the term edit form.
- *
- * @ingroup forms
- * @see taxonomy_form_term()
+ * @TODO: Add docs.
  */
-function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
-  // Validate if the given term is valid.
-  if(!$term = taxonomy_term_load($tid)) {
-    drupal_set_message(t('No valid term was given.'));
-    $form_state['redirect'] = 'manage/categories';
-    drupal_redirect_form($form_state);
-  }
-
-  $group = c4m_og_current_group();
-  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-
-  // Validate if the given term belongs to the current group.
-  if(!c4m_features_og_manage_validate_term_group($term, $vocabulary)) {
-    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)));
-    $form_state['redirect'] = 'manage/categories';
-    drupal_redirect_form($form_state);
-  }
-
-  $parent = array_keys(taxonomy_get_parents($term->tid));
-  $form['#term'] = (array) $term;
-  $form['#term']['parent'] = $parent;
-  $form['#vocabulary'] = $vocabulary;
-
-  $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
-  $options = array();
-  if (empty($parent)) {
-    $parent = array(0);
-  }
-
-  foreach ($tree as $item) {
-    $options[$item->tid] = str_repeat('-', $item->depth) . $item->name;
-  }
-
-  $title['element'] = array(
-    '#tag' => 'h2',
-    '#attributes' => array(
-      'class' => array('term-edit-title-text'),
-    ),
-    '#value' => t('Manage Group categories'),
-  );
-
-  $description['element'] = array(
-    '#tag' => 'h4',
-    '#attributes' => array(
-      'class' => array('term-edit-description-text'),
-    ),
-    '#value' => t('Change the category term of this Group.'),
-  );
-
-  $form['title'] = array(
-    '#markup' => theme_html_tag($title),
-    '#weight' => -10,
-  );
-
-  $form['description'] = array(
-    '#markup' => theme_html_tag($description),
-    '#weight' => -5,
-  );
-
-  $form['parent'] = array(
-    '#type' => 'radios',
-    '#title' => t('Type of category'),
-    '#options' => $options,
-    '#default_value' => reset($parent),
-    '#required' => TRUE,
-    '#weight' => 0,
-  );
-
-  $form['name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Term name'),
-    '#default_value' => $term->name,
-    '#maxlength' => 255,
-    '#required' => TRUE,
-    '#weight' => 5,
-  );
-
-  $form['vocabulary_machine_name'] = array(
-    '#type' => 'value',
-    '#value' => isset($term->vocabulary_machine_name) ? $term->vocabulary_machine_name : $vocabulary->name,
-  );
-
-  $form['vid'] = array(
-    '#type' => 'value',
-    '#value' => $vocabulary->vid,
-  );
-  $form['tid'] = array(
-    '#type' => 'value',
-    '#value' => $term->tid,
-  );
-
-  $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-    '#weight' => 10,
-  );
-
-  $form['actions']['cancel'] = array(
-    '#type' => 'submit',
-    '#value' => t('Cancel'),
-    '#weight' => 15,
-  );
-
-  $form['actions']['delete'] = array(
-    '#type' => 'submit',
-    '#value' => t('Delete'),
-    '#weight' => 20,
-  );
-
-  return $form;
+function c4m_features_og_manage_categories_overview_form_validate($form, &$form_state) {
+  // Add validate here.
 }
 
 /**
@@ -254,7 +142,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
  * @ingroup forms
  * @see taxonomy_term_confirm_delete_submit()
  */
-function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
+function c4m_features_og_manage_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $term = taxonomy_term_load($tid);
   // Always provide entity id in the same form key as in the entity edit form.
   $form['tid'] = array('#type' => 'value', '#value' => $tid);
@@ -283,7 +171,7 @@ function c4m_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
  *
  * @see taxonomy_term_confirm_delete_submit()
  */
-function c4m_taxonomy_term_confirm_delete_submit($form, &$form_state) {
+function c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, &$form_state) {
   taxonomy_term_delete($form_state['values']['tid']);
   taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
   drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
@@ -386,7 +274,7 @@ function c4m_features_og_manage_categories_overview_form_submit($form, &$form_st
   if ($form_state['triggering_element']['#value'] == t('Delete')) {
     // Execute the term deletion.
     if ($form_state['values']['delete'] === TRUE) {
-      c4m_taxonomy_term_confirm_delete_submit($form, $form_state);
+      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
       return;
     }
   }
@@ -483,10 +371,180 @@ function c4m_features_og_manage_categories_overview_form_submit($form, &$form_st
 }
 
 /**
- * @TODO: Add docs.
+ * Form function for the term edit form.
+ *
+ * @ingroup forms
+ * @see taxonomy_form_term()
  */
-function c4m_features_og_manage_categories_overview_form_validate($form, &$form_state) {
-  // Add validate here.
+function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
+  // Validate if the given term is valid.
+  if(!$term = taxonomy_term_load($tid)) {
+    drupal_set_message(t('No valid term was given.'));
+    $form_state['redirect'] = 'manage/categories';
+    drupal_redirect_form($form_state);
+  }
+
+  $group = c4m_og_current_group();
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+
+  // Validate if the given term belongs to the current group.
+  if(!c4m_features_og_manage_validate_term_group($term, $vocabulary)) {
+    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)));
+    $form_state['redirect'] = 'manage/categories';
+    drupal_redirect_form($form_state);
+  }
+
+  // Check for confirmation forms.
+  if (isset($form_state['confirm_delete'])) {
+    return array_merge($form, c4m_features_og_manage_taxonomy_term_confirm_delete($form, $form_state, $term->tid));
+  }
+
+  $parent = array_keys(taxonomy_get_parents($term->tid));
+  $form['#term'] = (array) $term;
+  $form['#term']['parent'] = $parent;
+  $form['#vocabulary'] = $vocabulary;
+  $form_state['term'] = $term;
+
+  $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
+  $options = array();
+  if (empty($parent)) {
+    $parent = array(0);
+  }
+
+  foreach ($tree as $item) {
+    $options[$item->tid] = str_repeat('-', $item->depth) . $item->name;
+  }
+
+  $title['element'] = array(
+    '#tag' => 'h2',
+    '#attributes' => array(
+      'class' => array('term-edit-title-text'),
+    ),
+    '#value' => t('Manage Group categories'),
+  );
+
+  $description['element'] = array(
+    '#tag' => 'h4',
+    '#attributes' => array(
+      'class' => array('term-edit-description-text'),
+    ),
+    '#value' => t('Change the category term of this Group.'),
+  );
+
+  $form['title'] = array(
+    '#markup' => theme_html_tag($title),
+    '#weight' => -10,
+  );
+
+  $form['description'] = array(
+    '#markup' => theme_html_tag($description),
+    '#weight' => -5,
+  );
+
+  $form['parent'] = array(
+    '#type' => 'radios',
+    '#title' => t('Type of category'),
+    '#options' => $options,
+    '#default_value' => reset($parent),
+    '#required' => TRUE,
+    '#weight' => 0,
+  );
+
+  $form['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Term name'),
+    '#default_value' => $term->name,
+    '#maxlength' => 255,
+    '#required' => TRUE,
+    '#weight' => 5,
+  );
+
+  $form['vocabulary_machine_name'] = array(
+    '#type' => 'value',
+    '#value' => isset($term->vocabulary_machine_name) ? $term->vocabulary_machine_name : $vocabulary->name,
+  );
+
+  $form['vid'] = array(
+    '#type' => 'value',
+    '#value' => $vocabulary->vid,
+  );
+  $form['tid'] = array(
+    '#type' => 'value',
+    '#value' => $term->tid,
+  );
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#weight' => 10,
+  );
+
+  $form['actions']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => t('Cancel'),
+    '#weight' => 15,
+  );
+
+  $form['actions']['delete'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete'),
+    '#weight' => 20,
+  );
+
+  return $form;
+}
+
+/**
+ * Validation handler for the custom term form.
+ *
+ * @see c4m_features_og_manage_categories_term_form()
+ */
+function c4m_features_og_manage_categories_term_form_validate($form, &$form_state) {
+  entity_form_field_validate('taxonomy_term', $form, $form_state);
+}
+
+/**
+ * Submit handler to update a term.
+ *
+ * @see c4m_features_og_manage_categories_term_form()
+ */
+function c4m_features_og_manage_categories_term_form_submit($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == t('Delete')) {
+    // Execute the term deletion.
+    if ($form_state['values']['delete'] === TRUE) {
+      return c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+    }
+    // Rebuild the form to confirm term deletion.
+    $form_state['rebuild'] = TRUE;
+    $form_state['confirm_delete'] = TRUE;
+    return;
+  }
+  if ($form_state['triggering_element']['#value'] == t('Cancel')) {
+    return;
+  }
+
+  $term = c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($form, $form_state);
+
+  taxonomy_term_save($term);
+  drupal_set_message(t('Updated term %term.', array('%term' => $term->name)));
+  watchdog('taxonomy', 'Updated term %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'manage/categories/term/' . $term->tid . '/edit'));
+  // Clear the page and block caches to avoid stale data.
+  cache_clear_all();
+}
+
+/**
+ * Updates the form state's term entity by processing this submission's values.
+ */
+function c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($form, &$form_state) {
+  $term = $form_state['term'];
+  entity_form_submit_build_entity('taxonomy_term', $term, $form, $form_state);
+
+  // Convert text_format field into values expected by taxonomy_term_save().
+  $description = $form_state['values']['description'];
+  $term->description = $description['value'];
+  $term->format = $description['format'];
+  return $term;
 }
 
 /**
