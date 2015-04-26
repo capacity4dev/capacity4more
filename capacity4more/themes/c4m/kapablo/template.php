@@ -12,15 +12,14 @@ include_once 'theme/preprocess.inc';
 include_once 'theme/search.inc';
 
 /**
- * Implement hook_preprocess_HOOK()
+ * Implements hook_preprocess_HOOK().
  *
  * Alter standard drupal message to custom message.
  */
 function kapablo_preprocess_status_messages(&$variables) {
   // Messages to change: original message => custom message.
   $custom_messages = array(
-    "Field Groups must be populated via URL." =>
-      t('You can\'t create content out of group or you don\'t have permissions to create content in the current group!'),
+    "Field Groups must be populated via URL." => t("You can't create content out of group or you don't have permissions to create content in the current group!"),
   );
 
   // If status messages exist check each for match with custom messages.
