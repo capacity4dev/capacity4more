@@ -21,7 +21,7 @@ function kapablo_preprocess_status_messages(&$variables) {
   $custom_messages = array(
     "Field Groups must be populated via URL." => t("You can't create content out of group or you don't have permissions to create content in the current group!"),
   );
- 
+
   // If status messages exist check each for match with custom messages.
   if (isset($_SESSION['messages'])) {
     // Remove duplicates messages.
