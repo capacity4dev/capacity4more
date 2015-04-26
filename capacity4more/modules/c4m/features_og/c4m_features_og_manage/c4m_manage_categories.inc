@@ -31,7 +31,7 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
   }
   if (isset($parameters['reset_alphabetical'])) {
     // Reset alphabetically confirmation form.
-    return c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, $form_state, $vocabulary->vid, $parameters['reset_alphabetical']);
+    return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $vocabulary->vid, $parameters['reset_alphabetical']);
   }
 
   $delta = 0;
@@ -131,7 +131,9 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
 }
 
 /**
- * @TODO: Add docs.
+ * Validation handler for the custom terms overview form.
+ *
+ * @see c4m_features_og_manage_categories_overview_form()
  */
 function c4m_features_og_manage_categories_overview_form_validate($form, &$form_state) {
   // Add validate here.
@@ -190,7 +192,7 @@ function c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, &$for
  * @ingroup forms
  * @see taxonomy_vocabulary_confirm_reset_alphabetical()
  */
-function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state, $vid, $tid) {
+function c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, &$form_state, $vid, $tid) {
   $vocabulary = taxonomy_vocabulary_load($vid);
   $form['type'] = array('#type' => 'value', '#value' => 'vocabulary');
   $form['vid'] = array('#type' => 'value', '#value' => $vid);
@@ -232,9 +234,9 @@ function c4m_taxonomy_vocabulary_confirm_reset_alphabetical($form, &$form_state,
 /**
  * Submit handler to reset a specific category's children to alphabetical order after confirmation.
  *
- * @see c4m_taxonomy_vocabulary_confirm_reset_alphabetical()
+ * @see c4m_features_og_manage_categories_overview_confirm_reset_alphabetical()
  */
-function c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, &$form_state) {
+function c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, &$form_state) {
   $params = array(
     ':weight' => 0,
     ':vid' => $form_state['values']['vid'],
@@ -283,7 +285,7 @@ function c4m_features_og_manage_categories_overview_form_submit($form, &$form_st
   if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
     // Execute the term reset alphabetical.
     if ($form_state['values']['reset_alphabetical'] === TRUE) {
-      c4m_taxonomy_vocabulary_confirm_reset_alphabetical_submit($form, $form_state);
+      c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, $form_state);
       return;
     }
   }
