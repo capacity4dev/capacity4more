@@ -53,6 +53,13 @@ function c4m_features_og_manage_menu() {
     'file' => 'c4m_manage_categories.inc',
   );
 
+  $items['manage/categories/type/%/edit'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_type_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
   return $items;
 }
 
@@ -93,18 +100,6 @@ function c4m_features_og_manage_theme() {
       'render element' => 'form',
     ),
   );
-}
-
-/**
- * @TODO: Add docs.
- *
- * @param $term
- * @param $vocabulary
- * @return bool|mixed
- */
-function c4m_features_og_manage_validate_term_group($term, $vocabulary) {
-
-  return _og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid);
 }
 
 /**

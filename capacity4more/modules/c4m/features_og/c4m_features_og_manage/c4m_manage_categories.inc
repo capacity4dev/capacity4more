@@ -98,7 +98,8 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
       );
     }
     $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
-    $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/term/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
+    $edit_path = $menu_item['path'] == 'manage/categories/types' ? 'type' : 'term';
+    $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
     $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
   }
 
@@ -371,6 +372,88 @@ function c4m_features_og_manage_categories_overview_form_submit($form, &$form_st
 }
 
 /**
+ * Form function for the category type edit form.
+ *
+ * To avoid duplicated code, using the term edit form to build this form,
+ * as it's almost the same form, Just unset the parent fields and change the title and description.
+ *
+ * @ingroup forms
+ * @see taxonomy_form_term()
+ */
+function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) {
+  $form = c4m_features_og_manage_categories_term_form($form, $form_state, $tid);
+  unset($form['title']);
+  unset($form['description']);
+  unset($form['parent']);
+
+  $title['element'] = array(
+    '#tag' => 'h2',
+    '#attributes' => array(
+      'class' => array('type-edit-title-text'),
+    ),
+    '#value' => t('Manage types of category'),
+  );
+
+  $description['element'] = array(
+    '#tag' => 'h4',
+    '#attributes' => array(
+      'class' => array('type-edit-description-text'),
+    ),
+    '#value' => t('Change the types of category of this Group.'),
+  );
+
+  $form['title'] = array(
+    '#markup' => theme_html_tag($title),
+    '#weight' => -10,
+  );
+
+  $form['description'] = array(
+    '#markup' => theme_html_tag($description),
+    '#weight' => -5,
+  );
+  return $form;
+}
+
+/**
+ * Validation handler for the custom type form.
+ *
+ * @see c4m_features_og_manage_categories_type_form()
+ */
+function c4m_features_og_manage_categories_type_form_validate($form, &$form_state) {
+  entity_form_field_validate('taxonomy_term', $form, $form_state);
+}
+
+/**
+ * Submit handler to update a type.
+ *
+ * @see c4m_features_og_manage_categories_type_form()
+ */
+function c4m_features_og_manage_categories_type_form_submit($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == t('Delete')) {
+    // Execute the term deletion.
+    if ($form_state['values']['delete'] === TRUE) {
+      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+      return;
+    }
+    // Rebuild the form to confirm term deletion.
+    $form_state['rebuild'] = TRUE;
+    $form_state['confirm_delete'] = TRUE;
+    return;
+  }
+  if ($form_state['triggering_element']['#value'] == t('Cancel')) {
+    return;
+  }
+
+  $term = c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($form, $form_state);
+
+  taxonomy_term_save($term);
+  drupal_set_message(t('Updated category type %term.', array('%term' => $term->name)));
+  watchdog('taxonomy', 'Updated category type %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'manage/categories/type/' . $term->tid . '/edit'));
+  // Clear the page and block caches to avoid stale data.
+  cache_clear_all();
+}
+
+/**
  * Form function for the term edit form.
  *
  * @ingroup forms
@@ -388,7 +471,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
 
   // Validate if the given term belongs to the current group.
-  if(!c4m_features_og_manage_validate_term_group($term, $vocabulary)) {
+  if(!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
     drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)));
     $form_state['redirect'] = 'manage/categories';
     drupal_redirect_form($form_state);
@@ -513,7 +596,10 @@ function c4m_features_og_manage_categories_term_form_submit($form, &$form_state)
   if ($form_state['triggering_element']['#value'] == t('Delete')) {
     // Execute the term deletion.
     if ($form_state['values']['delete'] === TRUE) {
-      return c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+      $group = c4m_og_current_group();
+      $form['#vocabulary'] = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+      return;
     }
     // Rebuild the form to confirm term deletion.
     $form_state['rebuild'] = TRUE;
