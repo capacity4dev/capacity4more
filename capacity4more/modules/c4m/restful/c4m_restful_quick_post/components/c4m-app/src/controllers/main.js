@@ -43,7 +43,7 @@ angular.module('c4mApp')
           if (field == 'resources' || field == 'group' || field == "tags") {
             return;
           }
-          var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
+          var allowedValues = field == "categories" ? $scope.fieldSchema.categories : data.form_element.allowed_values;
 
           if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
