@@ -472,7 +472,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
   $group = c4m_og_current_group();
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
 
-  // Validate if the given term belongs to the current group.
+  // Validate if the given term belongs to the current group (The group vocab).
   if(!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
     drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)));
     $form_state['redirect'] = 'manage/categories';
