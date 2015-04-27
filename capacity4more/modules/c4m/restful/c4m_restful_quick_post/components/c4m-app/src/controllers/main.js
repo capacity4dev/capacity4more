@@ -53,8 +53,8 @@ angular.module('c4mApp')
         });
       });
 
-      // Set "Start a Debate" as default discussion type.
-      $scope.data.discussion_type = 'debate';
+      // Set "Share Information" as default discussion type.
+      $scope.data.discussion_type = 'info';
 
       // Set "Event" as default event type.
       $scope.data.event_type = 'event';
