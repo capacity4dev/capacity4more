@@ -22,7 +22,7 @@
     "ng-ckeditor": "latest",
     "angular-ui-select2": "latest",
     "angular-bootstrap": "latest",
-    "danialfarid-angular-file-upload": "latest",
+    "danialfarid-angular-file-upload": "1.4.0",
     "filesize": "latest",
     "angular-animate": "1.2.28",
     "angular-carousel": "https://github.com/dcjohnston/angular-carousel.git#master",
