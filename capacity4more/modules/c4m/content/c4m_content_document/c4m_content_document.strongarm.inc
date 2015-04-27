@@ -111,7 +111,20 @@ function c4m_content_document_strongarm() {
           'weight' => '12',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'flag_c4m_node_highlight' => array(
+          'full' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'flag_c4m_og_content_highlight' => array(
+          'full' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__document'] = $strongarm;
