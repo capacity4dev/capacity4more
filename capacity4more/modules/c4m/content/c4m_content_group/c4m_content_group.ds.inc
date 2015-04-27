@@ -18,7 +18,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_dashboard';
   $ds_fieldsetting->settings = array(
     'node_link' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -26,24 +26,6 @@ function c4m_content_group_ds_field_settings_info() {
         'wrapper' => '',
         'class' => '',
         'ft' => array(),
-      ),
-    ),
-    'post_date' => array(
-      'weight' => '0',
-      'label' => 'inline',
-      'format' => 'ds_post_date_day',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Group created on ',
-          'lb-col' => TRUE,
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
       ),
     ),
     'c4m_user_picture' => array(
@@ -62,6 +44,24 @@ function c4m_content_group_ds_field_settings_info() {
           'ow' => TRUE,
           'ow-el' => 'span',
           'ow-cl' => 'user-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '1',
+      'label' => 'inline',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Group created on ',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'post-date',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -148,24 +148,6 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'post_date' => array(
-      'weight' => '6',
-      'label' => 'inline',
-      'format' => 'ds_post_date_c4m_long_without_time',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Created on ',
-          'lb-col' => TRUE,
-          'ow' => TRUE,
-          'ow-el' => 'div',
-          'ow-cl' => 'post-date',
-          'ow-def-cl' => FALSE,
-          'ow-at' => '',
-          'ow-def-at' => FALSE,
-        ),
-      ),
-    ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '5',
       'label' => 'inline',
@@ -184,8 +166,26 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '7',
+      'label' => 'inline',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Created on ',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'post-date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -201,7 +201,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_posts_count' => array(
-      'weight' => '9',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -341,9 +341,9 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'post_date',
-        1 => 'c4m_body',
-        2 => 'c4m_user_picture',
+        0 => 'c4m_ds_creation_date',
+        1 => 'c4m_user_picture',
+        2 => 'c4m_body',
         3 => 'node_link',
         4 => 'c4m_access_info',
         5 => 'c4m_user_first_and_last_name',
@@ -357,9 +357,9 @@ function c4m_content_group_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'post_date' => 'ds_content',
-      'c4m_body' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'c4m_user_picture' => 'ds_content',
+      'c4m_body' => 'ds_content',
       'node_link' => 'ds_content',
       'c4m_access_info' => 'ds_content',
       'c4m_user_first_and_last_name' => 'ds_content',
@@ -403,7 +403,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'right' => array(
         4 => 'c4m_ds_group_type',
         5 => 'c4m_user_first_and_last_name',
-        6 => 'post_date',
+        6 => 'c4m_ds_creation_date',
         7 => 'c4m_body',
         8 => 'c4m_ds_group_members_count',
         9 => 'c4m_ds_group_posts_count',
@@ -416,7 +416,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_media' => 'left',
       'c4m_ds_group_type' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'post_date' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_group_members_count' => 'right',
       'c4m_ds_group_posts_count' => 'right',

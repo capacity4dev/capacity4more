@@ -121,12 +121,10 @@ trait Group {
    * @Given /^a group "([^"]*)" with "([^"]*)" access is created with group manager "([^"]*)"$/
    */
   public function aGroupWithAccessIsCreatedWithGroupManager($title, $access, $username, $domains = NULL, $moderated = FALSE, $organizations = array()) {
-    // Generate URL from title.
-    $url = strtolower(str_replace(' ', '_', trim($title)));
-
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/group"');
+
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
     if ($access == 'Restricted') {
@@ -135,7 +133,8 @@ trait Group {
       }
       if ($organizations) {
         foreach ($organizations as $organization) {
-          $steps[] = new Step\When('I check the box "' . $organization . '"');
+          $node = $this->loadGroupByTitleAndType($organization, 'organisation');
+          $steps[] = new Step\When('I check the box "edit-restricted-organisations-' . $node->nid . '"');
         }
       }
     }
@@ -147,6 +146,13 @@ trait Group {
 
     // This is a required tag.
     $steps[] = new Step\When('I check the related topic checkbox');
+
+    // This is the required banner
+    $steps[] = new Step\When('I attach the file to the field banner');
+
+    // This is the required message to admin.
+    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+
     $steps[] = new Step\When('I press "Request"');
 
     // Giving time for saving.
@@ -166,6 +172,9 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I visit "node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select the radio button "' . $access . '"');
+
+    $steps[] = new Step\When('I fill in "edit-field-message-to-site-admin-und-0-value" with "This is default message to admin."');
+
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I should not see "Group access"');

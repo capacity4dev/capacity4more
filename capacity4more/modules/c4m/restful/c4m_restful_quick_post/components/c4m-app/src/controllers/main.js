@@ -294,12 +294,6 @@ angular.module('c4mApp')
               }
             });
           }
-          else {
-            // Use default latitude and longitude of Brussels, Belgium.
-            submitData.location.lat = 50.850339600000000000;
-            submitData.location.lng = 4.351710300000036000;
-            submitData.location.country = 'BE';
-          }
           // Continue submitting form.
           checkForm(submitData, resource, resourceFields, type);
         });
@@ -405,12 +399,11 @@ angular.module('c4mApp')
     /**
      * Remove uploaded file.
      */
-    $scope.removeFile = function() {
+    $scope.removeUploadedFile = function() {
       angular.element('#document_file').val('');
       $scope.data.document = null;
       delete $scope.data.fileName;
       delete $scope.serverSide.file;
-
     };
 
     /**
@@ -430,5 +423,6 @@ angular.module('c4mApp')
       $scope.entityForm.$setPristine();
       // Reset all the fields.
       initFormValues();
+      $scope.removeUploadedFile();
     }
   });

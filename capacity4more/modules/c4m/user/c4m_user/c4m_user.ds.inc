@@ -77,7 +77,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_features_og_members_since' => array(
       'weight' => '6',
       'label' => 'inline',
-      'format' => 'default',
+      'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -137,6 +137,7 @@ function c4m_user_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'lb' => 'Member since',
           'lb-el' => 'span',
+          'lb-col' => TRUE,
           'ow' => TRUE,
           'ow-el' => 'div',
           'ow-cl' => '',
@@ -238,7 +239,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_features_og_members_since' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'j F Y',
     ),
     'c4m_features_og_members_activity_posts' => array(
       'weight' => '3',

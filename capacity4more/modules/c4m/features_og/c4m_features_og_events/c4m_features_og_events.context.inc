@@ -30,19 +30,19 @@ function c4m_features_og_events_context_default_contexts() {
           'module' => 'views',
           'delta' => '3e9a9707eba7963ecaa8b99564d20039',
           'region' => 'content',
-          'weight' => '-10',
+          'weight' => '1',
         ),
         'views-5218f8132a449400191061a0818719a1' => array(
           'module' => 'views',
           'delta' => '5218f8132a449400191061a0818719a1',
           'region' => 'content',
-          'weight' => '-9',
+          'weight' => '2',
         ),
         'views-1616c88372ab872314baee532830c643' => array(
           'module' => 'views',
           'delta' => '1616c88372ab872314baee532830c643',
           'region' => 'content',
-          'weight' => '-8',
+          'weight' => '3',
         ),
         'views-5cece47fc853c63eb27c1cd4604667de' => array(
           'module' => 'views',

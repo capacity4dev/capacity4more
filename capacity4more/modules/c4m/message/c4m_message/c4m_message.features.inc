@@ -61,9 +61,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Article \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Article \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Article \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Article \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -83,9 +83,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @type \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -105,9 +105,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Document \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Document \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Document \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Document \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -127,9 +127,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Event \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Event \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Event \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Event \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -149,9 +149,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Photo \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Photo \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -171,9 +171,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo album \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Photo album \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Photo album \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Photo album \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -193,9 +193,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Wiki page \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Wiki page \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E\\u003Ca href=\\u0022@{message:user:url}\\u0022\\u003E@{message:user:name}\\u003C\\/a\\u003E @operation Wiki page \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Cdiv class=\\u0022row-header\\u0022\\u003E[message:user:url-with-name] @operation Wiki page \\u003Cspan class=\\u0022separator\\u0022\\u003E|\\u003C\\/span\\u003E @date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-group\\u0022\\u003E!group_info\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022row message-content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
