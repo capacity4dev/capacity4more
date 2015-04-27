@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Organisation content type feature.
+ */
+
+include_once 'c4m_content_organisation.features.inc';

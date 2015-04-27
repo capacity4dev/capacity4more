@@ -188,13 +188,13 @@
 }
 
 .quickpost-btn-group-selectors {
-  border-bottom: 1px solid $gray-lighter;
+  border-bottom: 1px solid $color-gray-light;
   margin: 15px 0;
   padding: 0 15px 15px 15px;
 }
 
 #quick-post-fields {
-  border: 1px solid $gray-lighter;
+  border: 1px solid $color-gray-light;
 
   #cke_body {
     @include box-shadow(none);
@@ -206,16 +206,12 @@
     }
   }
 
-  #cke_1_contents {
-    height: 200px !important;
-  }
-
   .btn-group {
     margin-bottom: 0;
   }
 
   .btn-group-discussion_type, .btn-group-event_type {
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: 1px solid $color-gray-light;
 
     .btn-default {
       @extend %svg-icon;
@@ -225,7 +221,7 @@
       background-position: 5px 50%;
       background-repeat: no-repeat;
       background-size: 20px;
-      border-right: 1px solid $gray-lighter;
+      border-right: 1px solid $color-gray-light;
       margin: 0;
 
       &:last-child {

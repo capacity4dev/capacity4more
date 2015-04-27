@@ -303,11 +303,6 @@ function c4m_content_event_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'links' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_field_og_group' => array(
       'weight' => '2',
       'label' => 'inline',
@@ -337,6 +332,11 @@ function c4m_content_event_ds_field_settings_info() {
     ),
     'c4m_ds_content_type_icon' => array(
       'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -623,7 +623,7 @@ function c4m_content_event_ds_layout_settings_info() {
         4 => 'c4m_datetime_end',
         5 => 'c4m_field_location_city_country',
         6 => 'c4m_body',
-        7 => 'links',
+        7 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
@@ -634,7 +634,7 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_datetime_end' => 'right',
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'right',
-      'links' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

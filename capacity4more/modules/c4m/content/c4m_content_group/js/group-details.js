@@ -7,7 +7,7 @@
   function ($) {
     Drupal.behaviors.groupDetails = {
       attach: function(context, settings) {
-        $('fieldset.collapsible', context).once('collapse', function () {
+        $('fieldset.collapsible', context).once('collapseGroupDetails', function () {
           var $fieldset = $(this);
 
           // Prevent default behaviour of collapsible field kicking in.
