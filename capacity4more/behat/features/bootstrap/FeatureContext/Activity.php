@@ -91,4 +91,15 @@ trait Activity {
 
     return $steps;
   }
+
+  /**
+   * @When /^I load more activities$/
+   */
+  public function iLoadMoreActivities() {
+    $steps = array();
+    $steps[] = new Step\When('I click "load-more-button"');
+    $steps[] = new Step\When('I wait');
+
+    return $steps;
+  }
 }

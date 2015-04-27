@@ -102,7 +102,7 @@ function theme_c4m_features_og_members_since($field) {
       'class' => array('member-since'),
     ),
     '#value'     => c4m_helper_date_time_ago($membership->created,
-                      '<none>', 86400, '>', t('today')),
+      $field['formatter']),
   );
   return theme_html_tag($tag);
 }
