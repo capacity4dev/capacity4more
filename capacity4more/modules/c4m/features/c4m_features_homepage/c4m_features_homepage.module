@@ -135,7 +135,7 @@ function c4m_features_homepage_voices_views_carousel() {
       'id' => $wrapper->getIdentifier(),
       'title' => $wrapper->label(),
       'text' => $wrapper->c4m_intro_text->value(),
-      'date' => format_date($wrapper->created->value(), 'custom', 'F d Y'),
+      'date' => c4m_helper_date_time_ago($wrapper->created->value()),
       'image' => file_create_url($banner['uri']),
     );
   }
