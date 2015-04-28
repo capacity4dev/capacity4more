@@ -7,6 +7,9 @@
 <div ng-show="'<?php print $vocabulary_machine_name; ?>' == 'c4m_related_topic'">
   <?php print t('You can select up to 3 Topics and unlimited subtopics within these Topics.') ?>
 </div>
+<div ng-show="'<?php print $vocabulary_machine_name; ?>' == 'c4m_vocab_geo'">
+  <?php print t('You can select up to 3 Regions and unlimited Countries within these Regions.') ?>
+</div>
 <div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>
