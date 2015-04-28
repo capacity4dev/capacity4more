@@ -37,6 +37,11 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
+  $tasks['capacity4more_setup_set_terms_og_permissions'] = array(
+    'display_name' => st('Set terms OG permissions'),
+    'display' => FALSE,
+  );
+
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
     'display_name' => st('Rebuild permissions'),
@@ -102,4 +107,20 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'delete own group content',
   );
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+}
+
+/**
+ * Task callback; Setting terms OG permissions.
+ */
+function capacity4more_setup_set_terms_og_permissions() {
+  $permissions = array(
+    'edit terms',
+    'delete terms',
+  );
+
+  $roles = og_roles('node', 'group');
+  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
+  $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
+  og_role_grant_permissions($admin_rid, $permissions);
 }

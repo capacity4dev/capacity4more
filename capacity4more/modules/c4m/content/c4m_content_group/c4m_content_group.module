@@ -660,3 +660,13 @@ function c4m_content_group_add_grants($rows, &$grants) {
     }
   }
 }
+
+/**
+ * Implements hook_admin_paths_alter().
+ *
+ * @see og_ui_admin_paths().
+ * Set the 'node/add/group' path as not admin.
+ */
+function c4m_content_group_admin_paths_alter(&$paths) {
+  $paths['node/*/group'] = FALSE;
+}

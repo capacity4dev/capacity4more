@@ -36,6 +36,19 @@ trait Activity {
   }
 
   /**
+   * @Then /^I should see "([^"]*)" with author "([^"]*)" in the activity stream of the group "([^"]*)"$/
+   */
+  public function iShouldSeeAuthorFullNameInTheActivityStreamOfTheGroup($text, $author, $group) {
+    $url = strtolower(str_replace(' ', '-', trim($group)));
+    $steps = array();
+    $steps[] = new Step\When("I go to \"$url\"");
+    $steps[] = new Step\When('I should see "' . $text . '" in the "div.message-title" element');
+    $steps[] = new Step\When('I should see "' . $author . '" in the ".row-header a" element');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I should see an updated message for "([^"]*)" in the activity stream of the group "([^"]*)"$/
    */
   public function iShouldSeeAnUpdatedMessageForInTheActivityStreamOfTheGroup($title, $group) {
@@ -75,6 +88,17 @@ trait Activity {
     $steps[] = new Step\When('I should see "' . $title . '" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "posted Information" in the "div.pane-activity-stream" element');
     $steps[] = new Step\When('I should see "updated the Information" in the "div.pane-activity-stream" element');
+
+    return $steps;
+  }
+
+  /**
+   * @When /^I load more activities$/
+   */
+  public function iLoadMoreActivities() {
+    $steps = array();
+    $steps[] = new Step\When('I click "load-more-button"');
+    $steps[] = new Step\When('I wait');
 
     return $steps;
   }
