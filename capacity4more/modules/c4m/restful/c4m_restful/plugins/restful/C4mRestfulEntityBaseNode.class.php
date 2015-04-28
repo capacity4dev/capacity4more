@@ -21,8 +21,13 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     $group = node_load($group_id);
     $wrapper = entity_metadata_wrapper('node', $group);
     $group_status = $wrapper->c4m_og_status->value();
-    if (!in_array($group_status, array('draft', 'published')) && !user_access('administer site configuration', $account)) {
-      // Not site admins can't create group content in not draft or published groups.
+    // Only platform admins can create group content if group status
+    // is NOT within the allowed groups array.
+    $allowed_groups = array(
+      'draft',
+      'published'
+    );
+    if (!in_array($group_status, $allowed_groups) && !user_access('administer site configuration', $account)) {
       return FALSE;
     }
     return og_user_access('node', $group_id, "create $resource_name content", $account);
