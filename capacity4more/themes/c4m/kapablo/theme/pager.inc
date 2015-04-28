@@ -27,10 +27,10 @@
  */
 function kapablo_pager(array $variables) {
   $tags = array(
-    t('First'),
-    t('Previous'),
-    t('Next'),
-    t('Last'),
+    t('FIRST'),
+    '',//t('Previous'),
+    '',//t('Next'),
+    t('LAST'),
   );
 
   $element    = $variables['element'];
@@ -63,6 +63,11 @@ function kapablo_pager(array $variables) {
     $i          = 1;
   }
 
+  $li_first = theme('pager_first', array(
+    'text' => (isset($tags[0]) ? $tags[0] : t('« first')),
+    'element' => $element,
+    'parameters' => $parameters
+  ));
   $li_previous = theme('pager_previous', array(
     'text'       => (isset($tags[1]) ? $tags[1] : t('previous')),
     'element'    => $element,
@@ -75,6 +80,11 @@ function kapablo_pager(array $variables) {
     'interval'   => 1,
     'parameters' => $parameters,
   ));
+  $li_last = theme('pager_last', array(
+    'text' => (isset($tags[3]) ? $tags[3] : t('last »')),
+    'element' => $element,
+    'parameters' => $parameters
+  ));
 
   if ($pager_total[$element] > 1) {
     // When there is more than one page, create the pager list.
@@ -85,6 +95,7 @@ function kapablo_pager(array $variables) {
           'data'  => '…',
         );
       }
+
       // Now generate the actual pager piece.
       for (; $i <= $pager_last && $i <= $pager_max; $i++) {
         if ($i < $pager_current) {
@@ -124,6 +135,7 @@ function kapablo_pager(array $variables) {
       }
     }
 
+
     $list = theme(
       'item_list',
       array(
@@ -134,9 +146,11 @@ function kapablo_pager(array $variables) {
     $output = array(
       '<div class="row">',
       '  <h2 class="element-invisible">' . t('Pages') . '</h2>',
-      '  <div class="col-md-4 pager-previous">' . $li_previous . '</div>',
+      '  <div class="col-md-2 pager-first">' . $li_first . '</div>',
+      '  <div class="col-md-2 pager-previous">' . $li_previous . '</div>',
       '  <div class="col-md-4 pager-content">' . $list . '</div>',
-      '  <div class="col-md-4 pager-next">' . $li_next . '</div>',
+      '  <div class="col-md-2 pager-next">' . $li_next . '</div>',
+      '  <div class="col-md-2 pager-last">' . $li_last . '</div>',
       '</div>',
     );
 
