@@ -107,6 +107,7 @@ angular.module('c4mApp')
      *   The name of the vocab.
      */
     $scope.updateSelectedTerms = function(key, vocab) {
+      console.log (vocab);
       if ($scope.model[vocab][key]) {
         // Checkbox has been checked.
         if (vocab == 'categories') {
@@ -114,7 +115,7 @@ angular.module('c4mApp')
         }
         else {
           // Check up to 3 topics selected.
-          if (vocab == 'c4m_related_topic') {
+          if (vocab == 'c4m_related_topic' || vocab == 'c4m_vocab_geo') {
             var topicCount = 0;
             angular.forEach($scope.model[vocab], function(element, topicKey) {
               if (element === true && $scope.data[vocab][topicKey]) {
