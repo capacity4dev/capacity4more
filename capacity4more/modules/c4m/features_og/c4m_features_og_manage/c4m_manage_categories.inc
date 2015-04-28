@@ -5,7 +5,7 @@
  */
 
 /**
- * Form builder for the taxonomy terms overview.
+ * Form builder for the category management overview.
  *
  * Display a tree of all the terms in a vocabulary, with options to edit
  * each one. The form is made drag and drop by the theme function.
@@ -15,13 +15,7 @@
  * @see theme_taxonomy_overview_terms()
  */
 function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
-  $group = c4m_og_current_group();
-  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-
-  $form['#vocabulary'] = $vocabulary;
-  $form['#group'] = $group;
-  $form['#tree'] = TRUE;
-  $form['#parent_fields'] = FALSE;
+  $form = c4m_feature_og_manage_get_form_info($form);
 
   $parameters = drupal_get_query_parameters();
   // Check for confirmation forms.
@@ -31,122 +25,38 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
   }
   if (isset($parameters['reset_alphabetical'])) {
     // Reset alphabetically confirmation form.
-    return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $vocabulary->vid, $parameters['reset_alphabetical']);
+    return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $form['#vocabulary']->vid, $parameters['reset_alphabetical']);
   }
 
   $delta = 0;
   $term_deltas = array();
-  $menu_item = menu_get_item(current_path());
-  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
-  $term = current($tree);
-  do {
-    // In case this tree is completely empty.
-    if (empty($term)) {
-      break;
-    }
-    $delta++;
+  $tree = taxonomy_get_tree($form['#vocabulary']->vid);
 
-    // Finally, if we've gotten down this far, we're rendering a term on this page.
-    $term_deltas[$term->tid] = isset($term_deltas[$term->tid]) ? $term_deltas[$term->tid] + 1 : 0;
-    $key = 'tid:' . $term->tid . ':' . $term_deltas[$term->tid];
+  $form = c4m_features_og_manage_build_form($form, $tree, 'terms');
 
-    $form['#first_tid'] = $term->tid;
-    $current_page[$key] = $term;
-  } while ($term = next($tree));
+  return $form;
+}
 
-  // If this form was already submitted once, it's probably hit a validation
-  // error. Ensure the form is rebuilt in the same order as the user submitted.
-  if (!empty($form_state['input'])) {
-    $order = array_flip(array_keys($form_state['input'])); // Get the $_POST order.
-    $current_page = array_merge($order, $current_page); // Update our form with the new order.
-    foreach ($current_page as $key => $term) {
-      // Verify this is a term for the current page and set at the current depth.
-      if (is_array($form_state['input'][$key]) && is_numeric($form_state['input'][$key]['tid'])) {
-        $current_page[$key]->depth = $form_state['input'][$key]['depth'];
-      }
-      else {
-        unset($current_page[$key]);
-      }
-    }
+/**
+ * @TODO: Add docs.
+ */
+function c4m_features_og_manage_categories_types_overview_form($form, &$form_state) {
+  $form = c4m_feature_og_manage_get_form_info($form);
+
+  $parameters = drupal_get_query_parameters();
+  // Check for confirmation forms.
+  if (isset($parameters['delete'])) {
+    // Delete confirmation form.
+    return array_merge($form, c4m_features_og_manage_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
+  }
+  if (isset($parameters['reset_alphabetical'])) {
+    // Reset alphabetically confirmation form.
+    return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $form['#vocabulary']->vid, $parameters['reset_alphabetical']);
   }
 
-  // Build the actual form.
-  foreach ($current_page as $key => $term) {
-    // Save the term for the current page so we don't have to load it a second time.
-    $form[$key]['#term'] = (array) $term;
-    if (isset($term->parents)) {
-      $form[$key]['#term']['parent'] = $term->parent = $term->parents[0];
-      unset($form[$key]['#term']['parents'], $term->parents);
-    }
+  $tree = taxonomy_get_tree($form['#vocabulary']->vid, 0, 1);
 
-    $form[$key]['view'] = array('#type' => 'link', '#title' => $term->name, '#href' => "taxonomy/term/$term->tid");
-    if ($vocabulary->hierarchy < 2 && count($tree) > 1) {
-      $form['#parent_fields'] = TRUE;
-      $form[$key]['tid'] = array(
-        '#type' => 'hidden',
-        '#value' => $term->tid
-      );
-      $form[$key]['parent'] = array(
-        '#type' => 'hidden',
-        // Yes, default_value on a hidden. It needs to be changeable by the javascript.
-        '#default_value' => $term->parent,
-      );
-      $form[$key]['depth'] = array(
-        '#type' => 'hidden',
-        // Same as above, the depth is modified by javascript, so it's a default_value.
-        '#default_value' => $term->depth,
-      );
-    }
-    $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
-    $edit_path = $menu_item['path'] == 'manage/categories/types' ? 'type' : 'term';
-    $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
-    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
-    // Adding "Add a term" form under each category type.
-    if ($term->parent == 0) {
-      $form[$key]['add_term_form']['name'] = array(
-        '#title' => t('Term name'),
-        '#title_display' => 'invisible',
-        '#type' => 'textfield',
-        '#name' => 'name-' . $term->tid,
-        '#attributes' => array(
-          'class' => array('label-input'),
-        ),
-      );
-
-      $form[$key]['add_term_form']['actions']['add_term'] = array(
-        '#type' => 'submit',
-        '#value' => t('Add Term'),
-        '#name' => 'add-term-' . $term->tid,
-        '#attributes' => array(
-          'id' => $term->tid,
-        ),
-      );
-    }
-  }
-
-  $form['#empty_text'] = t('No terms available.');
-
-  if ($vocabulary->hierarchy < 2 && count($tree) > 1) {
-    $form['actions'] = array('#type' => 'actions', '#tree' => FALSE);
-    $form['actions']['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Save')
-    );
-    $form_state['redirect'] = array($_GET['q'], (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()));
-  }
-
-  if ($menu_item['path'] == 'manage/categories') {
-    $form['actions']['new_category'] = array(
-      '#type' => 'link',
-      '#title' => t('Add new type of category'),
-      '#href' => 'manage/categories/types',
-      '#attributes' => array(
-        'class' => array(
-          'btn btn-default',
-        ),
-      ),
-    );
-  }
+  $form = c4m_features_og_manage_build_form($form, $tree, 'types');
 
   return $form;
 }
