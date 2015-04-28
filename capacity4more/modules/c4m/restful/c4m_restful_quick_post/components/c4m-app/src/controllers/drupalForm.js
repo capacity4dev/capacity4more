@@ -107,7 +107,6 @@ angular.module('c4mApp')
      *   The name of the vocab.
      */
     $scope.updateSelectedTerms = function(key, vocab) {
-      console.log (vocab);
       if ($scope.model[vocab][key]) {
         // Checkbox has been checked.
         if (vocab == 'categories') {
