@@ -75,10 +75,12 @@ angular.module('c4mApp')
                 }
               });
             }
-            // Don't check if selected more than 3 topics.
-            if (selectedCount > 3) {
-              scope.model[vocab.id] = false;
-              angular.element("#" + scope.type + "_description").addClass('tooMany');
+            // Don't check if selected more than 3 topics or regions.
+            if (scope.type == "topic" || scope.type == "geo") {
+              if (selectedCount > 3) {
+                scope.model[vocab.id] = false;
+                angular.element("#" + scope.type + "_description").addClass('tooMany');
+              }
             }
           });
         };
