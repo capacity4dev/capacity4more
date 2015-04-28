@@ -409,7 +409,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -581,7 +581,7 @@ function c4m_content_document_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
