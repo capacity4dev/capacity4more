@@ -82,33 +82,6 @@ angular.module('c4mApp')
     };
 
     /**
-     * Create a new term.
-     *
-     * @param data
-     *   The data object to POST.
-     * @param resource
-     *   The bundle of the entity.
-     *
-     * @returns {*}
-     *   JSON of the newly created entity.
-     */
-    this.createTerm = function(data, resource) {
-
-      var url = DrupalSettings.getBasePath() + 'api/' + resource;
-
-      return $http({
-        method: 'POST',
-        url: url,
-        data: jQuery.param(data),
-        headers: {
-          "Content-Type": 'application/x-www-form-urlencoded',
-          "X-CSRF-Token": DrupalSettings.getCsrfToken()
-        },
-        withCredentials: true
-      });
-    };
-
-    /**
      * Update the activity stream, and Load more activities.
      *
      * Provides the 'Show more' button.
