@@ -150,7 +150,7 @@ function c4m_features_homepage_voices_views_carousel() {
   // Render "see more" link.
   $link['element'] = array(
     '#tag'        => 'a',
-    '#value'      => t('Read all'),
+    '#value'      => t('See more'),
     '#attributes' => array(
       'href' => url('articles'),
       'class' => 'see-more-link'
