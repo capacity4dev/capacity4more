@@ -233,7 +233,7 @@ function theme_c4m_user_country(array $field) {
   if (empty($country)) {
     return NULL;
   }
-  if ('- choose country or region -' === drupal_strtolower($country)) {
+  if ('- choose country or region -' !== drupal_strtolower($country)) {
     return NULL;
   }
 
