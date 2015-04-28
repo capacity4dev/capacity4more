@@ -62,6 +62,7 @@ dependencies[] = pluggable_node_access
 dependencies[] = reldate
 dependencies[] = restful
 ;dependencies[] = rules
+dependencies[] = save_draft
 dependencies[] = strongarm
 dependencies[] = smart_trim
 dependencies[] = term_reference_tree
