@@ -408,12 +408,10 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
       if ($account->uid == $node->uid) {
         // Group owner.
         $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = array(
-          C4M_GROUP_STATUS_VIEW_REQUESTED,
           C4M_GROUP_STATUS_VIEW_DRAFT,
           C4M_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_GROUP_STATUS_VIEW_ARCHIVED,
           C4M_GROUP_STATUS_VIEW_REJECTED,
-          C4M_GROUP_STATUS_UPDATE_REQUESTED,
           C4M_GROUP_STATUS_UPDATE_DRAFT,
           C4M_GROUP_STATUS_UPDATE_PUBLISHED,
           C4M_GROUP_STATUS_UPDATE_ARCHIVED,
@@ -465,16 +463,6 @@ function c4m_content_group_node_access_records($node) {
   switch ($wrapper->c4m_og_status->value()) {
     case 'requested':
       $realm_grants = array(
-        C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
-          array(
-            'gid' => C4M_GROUP_STATUS_VIEW_REQUESTED,
-            'grant_update' => 0,
-          ),
-          array(
-            'gid' => C4M_GROUP_STATUS_UPDATE_REQUESTED,
-            'grant_update' => 1,
-          ),
-        ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
             'gid' => C4M_GROUP_STATUS_VIEW_REQUESTED,
