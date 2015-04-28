@@ -411,11 +411,9 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
           C4M_GROUP_STATUS_VIEW_DRAFT,
           C4M_GROUP_STATUS_VIEW_PUBLISHED,
           C4M_GROUP_STATUS_VIEW_ARCHIVED,
-          C4M_GROUP_STATUS_VIEW_REJECTED,
           C4M_GROUP_STATUS_UPDATE_DRAFT,
           C4M_GROUP_STATUS_UPDATE_PUBLISHED,
           C4M_GROUP_STATUS_UPDATE_ARCHIVED,
-          C4M_GROUP_STATUS_UPDATE_REJECTED,
         );
         continue;
       }
@@ -579,16 +577,6 @@ function c4m_content_group_node_access_records($node) {
       break;
     case 'rejected':
       $realm_grants = array(
-        C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
-          array(
-            'gid' => C4M_GROUP_STATUS_VIEW_REJECTED,
-            'grant_update' => 0,
-          ),
-          array(
-            'gid' => C4M_GROUP_STATUS_UPDATE_REJECTED,
-            'grant_update' => 1,
-          ),
-        ),
         C4M_NODE_ACCESS_REALM_ALL => array(
           array(
             'gid' => C4M_GROUP_STATUS_VIEW_REJECTED,
