@@ -130,7 +130,7 @@ function _c4m_user_profile_facet_country_alter(&$build, &$settings) {
           drupal_strtolower($allowed_values[drupal_strtoupper($key)])
         ),
       );
-      $build[$key]["#markup"] = t('@country', $options);
+      $build[$key]["#markup"] = format_string('@country', $options);
     }
   }
 }
