@@ -101,6 +101,27 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
     $edit_path = $menu_item['path'] == 'manage/categories/types' ? 'type' : 'term';
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
     $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
+    // Adding "Add a term" form under each category type.
+    if ($term->parent == 0) {
+      $form[$key]['add_term_form']['name'] = array(
+        '#title' => t('Term name'),
+        '#title_display' => 'invisible',
+        '#type' => 'textfield',
+        '#name' => 'name-' . $term->tid,
+        '#attributes' => array(
+          'class' => array('label-input'),
+        ),
+      );
+
+      $form[$key]['add_term_form']['actions']['add_term'] = array(
+        '#type' => 'submit',
+        '#value' => t('Add Term'),
+        '#name' => 'add-term-' . $term->tid,
+        '#attributes' => array(
+          'id' => $term->tid,
+        ),
+      );
+    }
   }
 
   $form['#empty_text'] = t('No terms available.');
@@ -131,12 +152,141 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
 }
 
 /**
- * Validation handler for the custom terms overview form.
- *
- * @see c4m_features_og_manage_categories_overview_form()
+ * @see taxonomy_overview_terms_submit()
  */
-function c4m_features_og_manage_categories_overview_form_validate($form, &$form_state) {
-  // Add validate here.
+function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == t('Delete')) {
+    // Execute the term deletion.
+    if ($form_state['values']['delete'] === TRUE) {
+      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+      return;
+    }
+  }
+
+  if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
+    // Execute the term reset alphabetical.
+    if ($form_state['values']['reset_alphabetical'] === TRUE) {
+      c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, $form_state);
+      return;
+    }
+  }
+
+  if ($form_state['triggering_element']['#value'] == t('Add Term')) {
+    // Execute adding a term.
+    c4m_features_og_manage_categories_overview_add_term_submit($form, $form_state);
+    return;
+  }
+
+  $vocabulary = $form['#vocabulary'];
+  $hierarchy = 0; // Update the current hierarchy type as we go.
+
+  $changed_terms = array();
+
+  $menu_item = menu_get_item(current_path());
+  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
+
+  if (empty($tree)) {
+    return;
+  }
+
+  // Build a list of all terms that need to be updated on previous pages.
+  $weight = 0;
+  $term = (array) $tree[0];
+  while ($term['tid'] != $form['#first_tid']) {
+    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
+      $term['parent'] = $term['parents'][0];
+      $term['weight'] = $weight;
+      $changed_terms[$term['tid']] = $term;
+    }
+    $weight++;
+    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
+    $term = (array) $tree[$weight];
+  }
+
+  // Renumber the current page weights and assign any new parents.
+  $level_weights = array();
+  foreach ($form_state['values'] as $tid => $values) {
+    if (isset($form[$tid]['#term'])) {
+      $term = $form[$tid]['#term'];
+      // Give terms at the root level a weight in sequence with terms on previous pages.
+      if ($values['parent'] == 0 && $term['weight'] != $weight) {
+        $term['weight'] = $weight;
+        $changed_terms[$term['tid']] = $term;
+      }
+      // Terms not at the root level can safely start from 0 because they're all on this page.
+      elseif ($values['parent'] > 0) {
+        $level_weights[$values['parent']] = isset($level_weights[$values['parent']]) ? $level_weights[$values['parent']] + 1 : 0;
+        if ($level_weights[$values['parent']] != $term['weight']) {
+          $term['weight'] = $level_weights[$values['parent']];
+          $changed_terms[$term['tid']] = $term;
+        }
+      }
+      $hierarchy = $term['parent'] != 0 ? 1 : $hierarchy;
+      $weight++;
+    }
+  }
+
+  // Build a list of all terms that need to be updated on following pages.
+  for ($weight; $weight < count($tree); $weight++) {
+    $term = (array) $tree[$weight];
+    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
+      $term['parent'] = $term['parents'][0];
+      $term['weight'] = $weight;
+      $changed_terms[$term['tid']] = $term;
+    }
+    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
+  }
+  // Save all updated terms.
+  foreach ($changed_terms as $changed) {
+    $term = (object) $changed;
+    // Update term_hierarchy and term_data directly since we don't have a
+    // fully populated term object to save.
+    db_update('taxonomy_term_hierarchy')
+      ->fields(array('parent' => $term->parent))
+      ->condition('tid', $term->tid, '=')
+      ->execute();
+
+    db_update('taxonomy_term_data')
+      ->fields(array('weight' => $term->weight))
+      ->condition('tid', $term->tid, '=')
+      ->execute();
+  }
+
+  // Update the vocabulary hierarchy to flat or single hierarchy.
+  if ($vocabulary->hierarchy != $hierarchy) {
+    $vocabulary->hierarchy = $hierarchy;
+    taxonomy_vocabulary_save($vocabulary);
+  }
+  drupal_set_message(t('The configuration options have been saved.'));
+}
+
+/**
+ * Submit handler to instantly create a new term.
+ */
+function c4m_features_og_manage_categories_overview_add_term_submit($form, &$form_state) {
+  $parent_id = $form_state['triggering_element']['#attributes']['id'];
+  $term_name = $form_state['input']['name-' . $parent_id];
+  if (!$term_name) {
+    drupal_set_message(t('Term name is a required field.'), 'error');
+    return FALSE;
+  }
+  $form['#term'] = array(
+    'name' => $term_name,
+    'vid' => $form['#vocabulary']->vid,
+    'vocabulary_machine_name' => $form['#vocabulary']->machine_name,
+    'parent' => array($parent_id),
+  );
+  $form_state['term'] = (object) $form['#term'];
+  $form_state['values'] = $form['#term'];
+
+  entity_form_field_validate('taxonomy_term', $form, $form_state);
+
+  // Save term.
+  $term = c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($form, $form_state);
+  taxonomy_term_save($term);
+
+  drupal_set_message(t('Created new term %term.', array('%term' => $term->name)));
+  watchdog('taxonomy', 'Created new term %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('categories management'), 'manage/categories'));
 }
 
 /**
@@ -271,109 +421,6 @@ function c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_s
 }
 
 /**
- * @see taxonomy_overview_terms_submit()
- */
-function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
-  if ($form_state['triggering_element']['#value'] == t('Delete')) {
-    // Execute the term deletion.
-    if ($form_state['values']['delete'] === TRUE) {
-      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
-      return;
-    }
-  }
-
-  if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
-    // Execute the term reset alphabetical.
-    if ($form_state['values']['reset_alphabetical'] === TRUE) {
-      c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, $form_state);
-      return;
-    }
-  }
-
-  $vocabulary = $form['#vocabulary'];
-  $hierarchy = 0; // Update the current hierarchy type as we go.
-
-  $changed_terms = array();
-
-  $menu_item = menu_get_item(current_path());
-  $tree = $menu_item['path'] == 'manage/categories/types' ? taxonomy_get_tree($vocabulary->vid, 0, 1) : taxonomy_get_tree($vocabulary->vid);
-
-  if (empty($tree)) {
-    return;
-  }
-
-  // Build a list of all terms that need to be updated on previous pages.
-  $weight = 0;
-  $term = (array) $tree[0];
-  while ($term['tid'] != $form['#first_tid']) {
-    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
-      $term['parent'] = $term['parents'][0];
-      $term['weight'] = $weight;
-      $changed_terms[$term['tid']] = $term;
-    }
-    $weight++;
-    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
-    $term = (array) $tree[$weight];
-  }
-
-  // Renumber the current page weights and assign any new parents.
-  $level_weights = array();
-  foreach ($form_state['values'] as $tid => $values) {
-    if (isset($form[$tid]['#term'])) {
-      $term = $form[$tid]['#term'];
-      // Give terms at the root level a weight in sequence with terms on previous pages.
-      if ($values['parent'] == 0 && $term['weight'] != $weight) {
-        $term['weight'] = $weight;
-        $changed_terms[$term['tid']] = $term;
-      }
-      // Terms not at the root level can safely start from 0 because they're all on this page.
-      elseif ($values['parent'] > 0) {
-        $level_weights[$values['parent']] = isset($level_weights[$values['parent']]) ? $level_weights[$values['parent']] + 1 : 0;
-        if ($level_weights[$values['parent']] != $term['weight']) {
-          $term['weight'] = $level_weights[$values['parent']];
-          $changed_terms[$term['tid']] = $term;
-        }
-      }
-      $hierarchy = $term['parent'] != 0 ? 1 : $hierarchy;
-      $weight++;
-    }
-  }
-
-  // Build a list of all terms that need to be updated on following pages.
-  for ($weight; $weight < count($tree); $weight++) {
-    $term = (array) $tree[$weight];
-    if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
-      $term['parent'] = $term['parents'][0];
-      $term['weight'] = $weight;
-      $changed_terms[$term['tid']] = $term;
-    }
-    $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
-  }
-  // Save all updated terms.
-  foreach ($changed_terms as $changed) {
-    $term = (object) $changed;
-    // Update term_hierarchy and term_data directly since we don't have a
-    // fully populated term object to save.
-    db_update('taxonomy_term_hierarchy')
-      ->fields(array('parent' => $term->parent))
-      ->condition('tid', $term->tid, '=')
-      ->execute();
-
-    db_update('taxonomy_term_data')
-      ->fields(array('weight' => $term->weight))
-      ->condition('tid', $term->tid, '=')
-      ->execute();
-  }
-
-  // Update the vocabulary hierarchy to flat or single hierarchy.
-  if ($vocabulary->hierarchy != $hierarchy) {
-    $vocabulary->hierarchy = $hierarchy;
-    taxonomy_vocabulary_save($vocabulary);
-  }
-  drupal_set_message(t('The configuration options have been saved.'));
-}
-
-/**
  * Form function for the category type edit form.
  *
  * To avoid duplicated code, using the term edit form to build this form,
@@ -464,7 +511,7 @@ function c4m_features_og_manage_categories_type_form_submit($form, &$form_state)
 function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
   // Validate if the given term is valid.
   if(!$term = taxonomy_term_load($tid)) {
-    drupal_set_message(t('No valid term was given.'));
+    drupal_set_message(t('term/type ID is not valid.'), 'error');
     $form_state['redirect'] = 'manage/categories';
     drupal_redirect_form($form_state);
   }
@@ -474,7 +521,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
 
   // Validate if the given term belongs to the current group (The group vocab).
   if(!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
-    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)));
+    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
     $form_state['redirect'] = 'manage/categories';
     drupal_redirect_form($form_state);
   }
@@ -628,10 +675,6 @@ function c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($f
   $term = $form_state['term'];
   entity_form_submit_build_entity('taxonomy_term', $term, $form, $form_state);
 
-  // Convert text_format field into values expected by taxonomy_term_save().
-  $description = $form_state['values']['description'];
-  $term->description = $description['value'];
-  $term->format = $description['format'];
   return $term;
 }
 
@@ -663,7 +706,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
       $row = array();
       if (isset($term['#term']['depth']) && $term['#term']['depth'] == 0) {
         if ($menu_item['path'] != 'manage/categories/types') {
-          $parents[] = $term;
+          $parents[$key] = $term;
           continue;
         }
       }
@@ -702,7 +745,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
   $menu_item = menu_get_item(current_path());
   $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
 
-  foreach ($parents as $parent) {
+  foreach ($parents as $parent_key => $parent) {
     $parent_id = $parent['tid']['#value'];
     // Set header for the table.
     $reset_link_options = array(
@@ -770,50 +813,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
     }
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent_id], 'attributes' => array('id' => 'taxonomy-' . $parent_id)));
 
-    // Add term form.
-    $add_term_form = array(
-      '#prefix' => '<div id="add-term" ng-controller="AddTermCtrl">',
-      '#suffix' => '</div>',
-      'name' => array(
-        '#title' => '',
-        '#type' => 'textfield',
-        '#name' => 'name',
-        '#field_suffix' => '<span class="label-error" id="label-error-' . $parent_id . '"></span>',
-        '#attributes' => array(
-          'ng-model' => 'label',
-          'class' => array('label-input'),
-        ),
-      ),
-      'parent' => array(
-        '#attributes' => array(
-          'ng-model' => 'parent',
-          'ng-value' => $parent_id,
-          'ng-init' => 'parent=' . $parent_id,
-        ),
-        '#title' => '',
-        '#type' => 'hidden',
-        '#name' => 'parent',
-      ),
-      'group' => array(
-        '#attributes' => array(
-          'ng-model' => 'group',
-          'ng-value' => $form['#group']->nid,
-          'ng-init' => 'group=' . $form['#group']->nid,
-        ),
-        '#title' => '',
-        '#type' => 'hidden',
-        '#name' => 'group',
-      ),
-      'submit' => array(
-        '#type' => 'button',
-        '#value' => t('Add Term'),
-        '#attributes' => array(
-          'ng-click' => 'addCategoryTerm()',
-        ),
-      ),
-    );
-
-    $output .= drupal_render($add_term_form);
+    $output .= drupal_render_children($form[$parent_key]['add_term_form']);
 
     // Add drag and drop if parent fields are present in the form.
     if ($form['#parent_fields']) {

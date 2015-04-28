@@ -69,30 +69,19 @@
     }
   }
 
-  #add-term {
 
-    .form-item {
-      display: inline-block;
-      width: 60%;
+  .form-item {
+    display: inline-block;
+    width: 60%;
 
-      label {
-        display: none;
-      }
-
-      .label-error {
-        color: $color-red;
-        display: inline;
-      }
-
-      .form-control {
-        @include border-radius(1px);
-      }
+    .label-input {
+      @include border-radius(1px);
     }
+  }
 
-    .form-submit {
-      margin-left: 10px;
-      vertical-align: top;
-    }
+  .form-submit {
+    margin-left: 10px;
+    vertical-align: top;
   }
 }
 
