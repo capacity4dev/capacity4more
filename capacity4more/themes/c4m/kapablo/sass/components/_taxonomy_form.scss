@@ -109,7 +109,8 @@ a.tabledrag-handle {
       display: none;
 
       &#edit-new-category {
-        display: inline;
+        display: inline-block;
+        margin: 2px 0 0 5px;
       }
     }
   }
