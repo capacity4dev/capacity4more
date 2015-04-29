@@ -25,9 +25,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     return FALSE;
   }
 
-  $nids = array_keys($groups['node']);
-
-  foreach ($nids as $nid) {
+  foreach ($groups['node'] as $nid) {
     $my_groups[] = node_load($nid);
   }
 
