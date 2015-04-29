@@ -321,10 +321,6 @@ angular.module('c4mApp')
       // Check for required fields.
       var errors = Request.checkRequired(submitData, resource, resourceFields);
 
-      // Check the type of the submit.
-      // Make node unpublished if requested to create in full form.
-      submitData.status = type == 'full_form' ? 0 : 1;
-
       // Cancel submit and display errors if we have errors.
       if (Object.keys(errors).length && type == 'quick_post') {
         angular.forEach(errors, function(value, field) {
