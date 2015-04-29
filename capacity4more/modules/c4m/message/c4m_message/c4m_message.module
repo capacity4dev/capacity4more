@@ -812,8 +812,7 @@ function c4m_message_load_homepage_activity_stream() {
     // This is an Authenticated user.
 
     if ($filter == 'interests' || $filter == 'groups') {
-      $groups = og_get_groups_by_user();
-      $groups = isset($groups['node']) ? $groups['node'] : array();
+      $groups = c4m_og_get_user_group_nodes_by_bundle('group');
 
       if ($filter == 'interests') {
         $hide_articles = 0;
