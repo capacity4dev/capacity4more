@@ -132,6 +132,7 @@ function c4m_feature_og_manage_get_form_info($form) {
  * @return mixed
  */
 function c4m_features_og_manage_build_form($form, $tree, $items_type) {
+  $form['#page_type'] = $items_type;
   $delta = 0;
   $term_deltas = array();
   $term = current($tree);
@@ -197,7 +198,7 @@ function c4m_features_og_manage_build_form($form, $tree, $items_type) {
     $edit_path = $items_type == 'types' ? 'type' : 'term';
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
     $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
-    // Adding "Add a term" form under each category type.
+    // Adding "Add a term" form under each category type (For terms page).
     if ($term->parent == 0 && $items_type == 'terms') {
       $form[$key]['add_term_form']['name'] = array(
         '#title' => t('Term name'),
@@ -218,6 +219,25 @@ function c4m_features_og_manage_build_form($form, $tree, $items_type) {
         ),
       );
     }
+  }
+
+  // Adding "Add a type" form (For category types page).
+  if ($items_type == 'types') {
+    $form['add_term_form']['name'] = array(
+      '#title' => t('Term name'),
+      '#title_display' => 'invisible',
+      '#type' => 'textfield',
+      '#name' => 'name',
+      '#attributes' => array(
+        'class' => array('label-input'),
+      ),
+    );
+
+    $form['add_term_form']['actions']['add_term'] = array(
+      '#type' => 'submit',
+      '#value' => t('Add Term'),
+      '#name' => 'add-term',
+    );
   }
 
   $form['#empty_text'] = t('No terms available.');

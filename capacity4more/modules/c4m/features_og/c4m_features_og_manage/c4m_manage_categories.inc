@@ -11,8 +11,6 @@
  * each one. The form is made drag and drop by the theme function.
  *
  * @ingroup forms
- * @see taxonomy_overview_terms_submit()
- * @see theme_taxonomy_overview_terms()
  */
 function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
   $form = c4m_feature_og_manage_get_form_info($form);
@@ -28,8 +26,6 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
     return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $form['#vocabulary']->vid, $parameters['reset_alphabetical']);
   }
 
-  $delta = 0;
-  $term_deltas = array();
   $tree = taxonomy_get_tree($form['#vocabulary']->vid);
 
   $form = c4m_features_og_manage_build_form($form, $tree, 'terms');
@@ -38,7 +34,12 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
 }
 
 /**
- * @TODO: Add docs.
+ * Form builder for the category types management overview.
+ *
+ * Display a list of all the 1st level terms in a vocabulary, with options to edit
+ * each one. The form is made drag and drop by the theme function.
+ *
+ * @ingroup forms
  */
 function c4m_features_og_manage_categories_types_overview_form($form, &$form_state) {
   $form = c4m_feature_og_manage_get_form_info($form);
@@ -62,7 +63,8 @@ function c4m_features_og_manage_categories_types_overview_form($form, &$form_sta
 }
 
 /**
- * @see taxonomy_overview_terms_submit()
+ * Submit handler for the category terms management page.
+ * Handles Reordering - Delete - Reset alphabetical - Instant create new term.
  */
 function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
   if ($form_state['triggering_element']['#value'] == t('Delete')) {
@@ -203,7 +205,6 @@ function c4m_features_og_manage_categories_overview_add_term_submit($form, &$for
  * Form builder for the term delete form.
  *
  * @ingroup forms
- * @see taxonomy_term_confirm_delete_submit()
  */
 function c4m_features_og_manage_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
   $term = taxonomy_term_load($tid);
@@ -221,10 +222,7 @@ function c4m_features_og_manage_taxonomy_term_confirm_delete($form, &$form_state
     t('Are you sure you want to delete the term %title?',
       array('%title' => $term->name)),
     'manage/categories/' . $path,
-    '<div class="question">'
-    . t('Are you sure you want to delete the term %title?', array('%title' => $term->name))
-    . '</div>'
-    . t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
+    t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
     t('Delete'),
     t('Cancel'));
 }
@@ -589,6 +587,13 @@ function c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($f
 }
 
 /**
+ * Returns HTML for a category types overview form as a sortable list of terms.
+ */
+function theme_c4m_features_og_manage_categories_types_overview_form($variables) {
+  return theme_c4m_features_og_manage_categories_overview_form($variables);
+}
+
+/**
  * Returns HTML for a terms overview form as a sortable list of terms.
  *
  * @param $variables
@@ -723,7 +728,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
     }
     $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent_id], 'attributes' => array('id' => 'taxonomy-' . $parent_id)));
 
-    $output .= drupal_render_children($form[$parent_key]['add_term_form']);
+    $output .= $form['#page_type'] == 'terms' ? drupal_render_children($form[$parent_key]['add_term_form']) : '';
 
     // Add drag and drop if parent fields are present in the form.
     if ($form['#parent_fields']) {
