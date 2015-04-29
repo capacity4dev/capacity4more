@@ -10,17 +10,8 @@
 function c4m_og_install() {
   _c4m_og_install_context();
   _c4m_og_install_og_variable_realm();
-}
-
-/**
- * Implements hook_update_N().
- *
- * Install/update the OG permissions.
- */
-function c4m_og_update_7001() {
   _c4m_og_install_group_permissions();
 }
-
 
 /**
  * Helper to set the contexts order.
