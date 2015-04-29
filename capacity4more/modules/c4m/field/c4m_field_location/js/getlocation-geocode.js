@@ -22,22 +22,22 @@
               .next('p')
               .html(Drupal.t('Convert your address to a geographical location. Don\'t forget to do this for every change in your address.'));
 
-            $(".form-submit#edit-submit").on('click', function (evt) {
-              // Only geocode if anything significant is entered.
-              if ($("#" + streetfield + key).val() != '' ||
-                $("#" + additionalfield + key).val() != '' ||
-                  // Geocoding based on postal code alone delivers wrong results.
-                  //$("#" + postal_codefield + key).val() != '' ||
-                $("#" + cityfield + key).val() != '' ||
-                $("#" + provincefield + key).val() != '') {
-                  // Pressing the GEOCODE button is not that clear, fallback functionality to trigger these steps via js before submitting the form.
-                  // Prevent immediate form submission.
-                  evt.preventDefault();
-                  geocode.trigger('click');
-
-                  setTimeout(function() { document.getElementById('event-node-form').submit()}, 1000);
-              }
-            });
+            //$(".form-submit#edit-submit").on('click', function (evt) {
+            //  // Only geocode if anything significant is entered.
+            //  if ($("#" + streetfield + key).val() != '' ||
+            //    $("#" + additionalfield + key).val() != '' ||
+            //      // Geocoding based on postal code alone delivers wrong results.
+            //      //$("#" + postal_codefield + key).val() != '' ||
+            //    $("#" + cityfield + key).val() != '' ||
+            //    $("#" + provincefield + key).val() != '') {
+            //      // Pressing the GEOCODE button is not that clear, fallback functionality to trigger these steps via js before submitting the form.
+            //      // Prevent immediate form submission.
+            //      evt.preventDefault();
+            //      geocode.trigger('click');
+            //
+            //      setTimeout(function() { document.getElementById('event-node-form').submit()}, 1000);
+            //  }
+            //});
           }
         });
       }
