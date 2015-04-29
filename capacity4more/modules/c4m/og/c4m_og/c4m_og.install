@@ -12,6 +12,11 @@ function c4m_og_install() {
   _c4m_og_install_og_variable_realm();
 }
 
+/**
+ * Implements hook_update_N().
+ *
+ * Install/update the OG permissions.
+ */
 function c4m_og_update_7001() {
   _c4m_og_install_group_permissions();
 }
@@ -66,9 +71,14 @@ function _c4m_og_install_group_permissions() {
     }
   }
 
+  // Will retrieve roles for group and project.
+  // Needs customization if these two group types ever need different permissions.
   $roles = og_get_user_roles_name();
 
   foreach ($roles as $rid => $name) {
+    // rid 3 = "administrator member" for projects
+    // rid 6 = "administrator member" for groups
+    // We select the same permissions.
     $perms = $permissions[$name];
 
     if (!empty($perms)) {
