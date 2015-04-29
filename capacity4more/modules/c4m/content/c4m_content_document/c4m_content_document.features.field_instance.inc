@@ -88,7 +88,7 @@ function c4m_content_document_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -187,7 +187,7 @@ function c4m_content_document_field_default_field_instances() {
           'file_view_mode' => 'c4m_preview',
         ),
         'type' => 'file_rendered',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'upcoming_event' => array(
         'label' => 'above',

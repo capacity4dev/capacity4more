@@ -204,7 +204,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_creation_date' => array(
       'weight' => '10',
       'label' => 'hidden',
-      'format' => 'j F Y, G:i',
+      'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -229,7 +229,7 @@ function c4m_content_document_ds_field_settings_info() {
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'downloads',
     ),
     'c4m_related_topic' => array(
       'formatter_settings' => array(
@@ -382,13 +382,8 @@ function c4m_content_document_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'links' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -398,7 +393,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '4',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -406,6 +401,11 @@ function c4m_content_document_ds_field_settings_info() {
           'func' => 'theme_ds_field_reset',
         ),
       ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'downloads',
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
@@ -655,7 +655,7 @@ function c4m_content_document_ds_layout_settings_info() {
         3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_document',
-        6 => 'links',
+        6 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
@@ -665,7 +665,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
-      'links' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

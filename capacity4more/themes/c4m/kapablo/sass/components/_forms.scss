@@ -93,18 +93,15 @@ input[type="radio"]:not(old) {
 }
 
 input[type="checkbox"]:not(old) {
-  visibility: hidden;
 
-  &:before {
-    background: $color-beige;
-    color: $highlight-blue;
-    content: '';
-    display: inline-block;
-    font-family: FontAwesome;
-    height: 1em;
-    visibility: visible;
-    width: 1em;
-  }
+  background: $color-beige;
+  color: $highlight-blue;
+  content: '';
+  display: inline-block;
+  font-family: FontAwesome;
+  height: 1em;
+  visibility: visible;
+  width: 1em;
 
   &:hover {
     cursor: pointer;
@@ -468,6 +465,17 @@ input[type="checkbox"]:not(old) {
   .form-radios {
     display: inline-block;
   }
+}
+
+#edit-restricted-organisations {
+
+  .form-item {
+    margin-bottom: 10px;
+  }
+}
+
+.control-label {
+  display: inline-block;
 }
 
 #edit-variables-c4m-og-c4m-og-features-group {

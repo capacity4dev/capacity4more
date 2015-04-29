@@ -8,6 +8,11 @@
   <div class="checkboxes-wrapper">
     <div>
       <button name="<?php print $vocabulary_machine_name ?>" type="button" ng-click="togglePopover('<?php print $vocabulary_machine_name; ?>', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select @name', array('@name' => $vocabulary_label)); ?></button>
+      <?php if ($required): ?>
+        <label class="control-label">
+          <span class="form-required" title="<?php print t('This field is required.'); ?>">*</span>
+        </label>
+      <?php endif; ?>
     </div>
     <div class="selected-values" ng-show="model.<?php print $vocabulary_machine_name; ?>">
       <div class="value row" ng-repeat="(key, value) in data.<?php print $vocabulary_machine_name; ?>">

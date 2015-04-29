@@ -1,6 +1,6 @@
 .view {
   .views-row {
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: 1px solid $color-gray-light;
     margin-bottom: 15px;
     padding-bottom: 15px;
 
@@ -13,6 +13,8 @@
 .view-header {
   color: $gray-dark;
   margin: 10px 0 25px 0;
+  @include clearfix;
+  overflow: visible;
 
   .node-create {
     @include input-rounded($highlight-blue, 25px);
@@ -24,7 +26,6 @@
 
     @media screen and (min-width: $screen-md-min) {
       float: right;
-      margin-top: -51px;
     }
 
     &.node-create-discussion {
@@ -85,7 +86,9 @@
       a {
         color: $highlight-blue;
         display: block;
+        padding-bottom: 3px;
         padding-left: 10px;
+        padding-top: 3px;
 
         &:hover, &:focus, &:active {
           background-color: inherit;

@@ -106,18 +106,18 @@
           @include arrow-image('down', 'gray-darker', 'after');
           padding-right: 35px;
           background-position: 75px 50%;
-          background-size: 1.2em;
+          background-size: 1.2em 1.2em;
           &:hover, &.active-trail {
             @include arrow-image('down', 'gray-dark', 'after');
             padding-right: 35px;
             background-position: 75px 50%;
-            background-size: 1.2em;
+            background-size: 1.2em 1.2em;
           }
         }
         div.dropdown-menu {
           padding-left: 15px;
           padding-right: 15px;
-          background-color: $gray-lighter;
+          background-color: $color-gray-light;
           border-radius: 5px;
           max-width: 370px;
           margin: -2px 0 0 59px;
@@ -125,7 +125,7 @@
             width: 0;
             height: 0;
             border-right: 10px solid transparent;
-            border-bottom: 10px solid $gray-lighter;
+            border-bottom: 10px solid $color-gray-light;
             border-left: 10px solid transparent;
             position: absolute;
             top: 30px;
@@ -154,14 +154,14 @@
                   @include arrow-image('right', 'gray-darker', 'after');
                 }
                 &.active {
-                  background-color: $gray-lighter;
+                  background-color: $color-gray-light;
                   color: $highlight-blue;
                   i.c4m-chevron-right {
                     @include arrow-image('right', 'highlight-blue', 'after');
                   }
                 }
                 &:hover {
-                  background-color: $gray-lighter;
+                  background-color: $color-gray-light;
                   color: $gray-dark;
                   i.c4m-chevron-right {
                     color: inherit;

@@ -6,7 +6,7 @@ Feature: Test quick post
   @javascript
   Scenario: Check Quick post error validation.
     Given I am logged in as user "mariecurie"
-    When  I fill label with "fo" in "Tennis Group"
+    When  I create a discussion quick post with title "Fo" and body "Some text in the body" in "Tennis Group"
     Then  I should see "Title is too short."
 
   @javascript
