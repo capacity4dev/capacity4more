@@ -13,22 +13,11 @@
  * @ingroup forms
  */
 function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
-  $form = c4m_feature_og_manage_get_category_management_form_info($form);
+  $form_info = c4m_feature_og_manage_get_category_management_form_info($form);
 
-  $parameters = drupal_get_query_parameters();
-  // Check for confirmation forms.
-  if (isset($parameters['delete'])) {
-    // Delete confirmation form.
-    return array_merge($form, c4m_features_og_manage_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
-  }
-  if (isset($parameters['reset_alphabetical'])) {
-    // Reset alphabetically confirmation form.
-    return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $form['#vocabulary']->vid, $parameters['reset_alphabetical']);
-  }
+  $tree = taxonomy_get_tree($form_info['#vocabulary']->vid);
 
-  $tree = taxonomy_get_tree($form['#vocabulary']->vid);
-
-  $form = c4m_features_og_manage_build_category_management_form($form, $tree, 'terms');
+  $form = c4m_features_og_manage_build_category_management_form($form_info, $tree, 'terms');
 
   return $form;
 }
@@ -42,22 +31,11 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
  * @ingroup forms
  */
 function c4m_features_og_manage_categories_types_overview_form($form, &$form_state) {
-  $form = c4m_feature_og_manage_get_category_management_form_info($form);
+  $form_info = c4m_feature_og_manage_get_category_management_form_info($form);
 
-  $parameters = drupal_get_query_parameters();
-  // Check for confirmation forms.
-  if (isset($parameters['delete'])) {
-    // Delete confirmation form.
-    return array_merge($form, c4m_features_og_manage_taxonomy_term_confirm_delete($form, $form_state, $parameters['delete']));
-  }
-  if (isset($parameters['reset_alphabetical'])) {
-    // Reset alphabetically confirmation form.
-    return c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, $form_state, $form['#vocabulary']->vid, $parameters['reset_alphabetical']);
-  }
+  $tree = taxonomy_get_tree($form_info['#vocabulary']->vid, 0, 1);
 
-  $tree = taxonomy_get_tree($form['#vocabulary']->vid, 0, 1);
-
-  $form = c4m_features_og_manage_build_category_management_form($form, $tree, 'types');
+  $form = c4m_features_og_manage_build_category_management_form($form_info, $tree, 'terms');
 
   return $form;
 }
@@ -67,13 +45,6 @@ function c4m_features_og_manage_categories_types_overview_form($form, &$form_sta
  * Handles Reordering - Delete - Reset alphabetical - Instant create new category type.
  */
 function c4m_features_og_manage_categories_types_overview_form_submit($form, &$form_state) {
-  if ($form_state['triggering_element']['#value'] == t('Delete')) {
-    // Execute the term deletion.
-    if ($form_state['values']['delete'] === TRUE) {
-      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
-      return;
-    }
-  }
 
   if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
     // Execute the term reset alphabetical.
@@ -100,13 +71,6 @@ function c4m_features_og_manage_categories_types_overview_form_submit($form, &$f
  * Handles Reordering - Delete - Reset alphabetical - Instant create new term.
  */
 function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
-  if ($form_state['triggering_element']['#value'] == t('Delete')) {
-    // Execute the term deletion.
-    if ($form_state['values']['delete'] === TRUE) {
-      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
-      return;
-    }
-  }
 
   if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
     // Execute the term reset alphabetical.
@@ -162,25 +126,12 @@ function c4m_features_og_manage_categories_overview_add_term_submit($form, &$for
  *
  * @ingroup forms
  */
-function c4m_features_og_manage_taxonomy_term_confirm_delete($form, &$form_state, $tid) {
-  $term = taxonomy_term_load($tid);
-  // Always provide entity id in the same form key as in the entity edit form.
-  $form['tid'] = array('#type' => 'value', '#value' => $tid);
-
-  $form['#term'] = $term;
-  $form['type'] = array('#type' => 'value', '#value' => 'term');
-  $form['name'] = array('#type' => 'value', '#value' => $term->name);
-  $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
-  $form['delete'] = array('#type' => 'value', '#value' => TRUE);
-  $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
+function c4m_features_og_manage_categories_term_delete_confirm_form($form, &$form_state, $tid) {
+  $form = c4m_features_og_manage_categories_delete_helper($form, $tid);
   return confirm_form($form,
     t('Are you sure you want to delete the term %title?',
-      array('%title' => $term->name)),
-    'manage/categories/' . $path,
-    t('Deleting a term will delete all its children if there are any. This action cannot be undone.'),
-    t('Delete'),
-    t('Cancel'));
+      array('%title' => $form['#term']->name)),
+    'manage/categories');
 }
 
 /**
@@ -188,14 +139,43 @@ function c4m_features_og_manage_taxonomy_term_confirm_delete($form, &$form_state
  *
  * @see taxonomy_term_confirm_delete_submit()
  */
-function c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, &$form_state) {
+function c4m_features_og_manage_categories_term_delete_confirm_form_submit($form, &$form_state) {
   taxonomy_term_delete($form_state['values']['tid']);
   taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
   drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
   watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
-  $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
-  $form_state['redirect'] = 'manage/categories/' . $path;
+  $form_state['redirect'] = 'manage/categories';
+  cache_clear_all();
+  return;
+}
+
+/**
+ * Form builder for the category type delete form.
+ *
+ * @ingroup forms
+ */
+function c4m_features_og_manage_categories_type_delete_confirm_form($form, &$form_state, $tid) {
+  $form = c4m_features_og_manage_categories_delete_helper($form, $tid);
+  return confirm_form($form,
+    t('Are you sure you want to delete the category type %title?',
+      array('%title' => $form['#term']->name)),
+    'manage/categories/types',
+    t('Deleting a category type will delete all its children if there are any. This action cannot be undone.'),
+    t('Delete'),
+    t('Cancel'));
+}
+
+/**
+ * Submit handler to delete a category type after confirmation.
+ *
+ * @see taxonomy_term_confirm_delete_submit()
+ */
+function c4m_features_og_manage_categories_type_delete_confirm_form_submit($form, &$form_state) {
+  taxonomy_term_delete($form_state['values']['tid']);
+  taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
+  drupal_set_message(t('Deleted category type %name.', array('%name' => $form_state['values']['name'])));
+  watchdog('taxonomy', 'Deleted category type %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
+  $form_state['redirect'] = 'manage/categories/types';
   cache_clear_all();
   return;
 }
@@ -288,11 +268,11 @@ function c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_s
  */
 function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) {
   $form = c4m_features_og_manage_categories_term_form($form, $form_state, $tid);
-  unset($form['title']);
-  unset($form['description']);
+  unset($form['page_title']);
+  unset($form['page_description']);
   unset($form['parent']);
 
-  $title['element'] = array(
+  $page_title['element'] = array(
     '#tag' => 'h2',
     '#attributes' => array(
       'class' => array('type-edit-title-text'),
@@ -300,7 +280,7 @@ function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) 
     '#value' => t('Manage types of category'),
   );
 
-  $description['element'] = array(
+  $page_description['element'] = array(
     '#tag' => 'h4',
     '#attributes' => array(
       'class' => array('type-edit-description-text'),
@@ -308,13 +288,13 @@ function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) 
     '#value' => t('Change the types of category of this Group.'),
   );
 
-  $form['title'] = array(
-    '#markup' => theme_html_tag($title),
+  $form['page_title'] = array(
+    '#markup' => theme_html_tag($page_title),
     '#weight' => -10,
   );
 
-  $form['description'] = array(
-    '#markup' => theme_html_tag($description),
+  $form['page_description'] = array(
+    '#markup' => theme_html_tag($page_description),
     '#weight' => -5,
   );
   return $form;
@@ -338,7 +318,7 @@ function c4m_features_og_manage_categories_type_form_submit($form, &$form_state)
   if ($form_state['triggering_element']['#value'] == t('Delete')) {
     // Execute the term deletion.
     if ($form_state['values']['delete'] === TRUE) {
-      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+      c4m_features_og_manage_categories_term_delete_confirm_form_submit($form, $form_state);
       return;
     }
     // Rebuild the form to confirm term deletion.
@@ -404,7 +384,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
     $options[$item->tid] = str_repeat('-', $item->depth) . $item->name;
   }
 
-  $title['element'] = array(
+  $page_title['element'] = array(
     '#tag' => 'h2',
     '#attributes' => array(
       'class' => array('term-edit-title-text'),
@@ -412,7 +392,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
     '#value' => t('Manage Group categories'),
   );
 
-  $description['element'] = array(
+  $page_description['element'] = array(
     '#tag' => 'h4',
     '#attributes' => array(
       'class' => array('term-edit-description-text'),
@@ -420,13 +400,13 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
     '#value' => t('Change the category term of this Group.'),
   );
 
-  $form['title'] = array(
-    '#markup' => theme_html_tag($title),
+  $form['page_title'] = array(
+    '#markup' => theme_html_tag($page_title),
     '#weight' => -10,
   );
 
-  $form['description'] = array(
-    '#markup' => theme_html_tag($description),
+  $form['page_description'] = array(
+    '#markup' => theme_html_tag($page_description),
     '#weight' => -5,
   );
 
@@ -504,7 +484,7 @@ function c4m_features_og_manage_categories_term_form_submit($form, &$form_state)
     if ($form_state['values']['delete'] === TRUE) {
       $group = c4m_og_current_group();
       $form['#vocabulary'] = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-      c4m_features_og_manage_taxonomy_term_confirm_delete_submit($form, $form_state);
+      c4m_features_og_manage_categories_term_delete_confirm_form_submit($form, $form_state);
       return;
     }
     // Rebuild the form to confirm term deletion.
@@ -665,9 +645,8 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
       );
       $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('manage/categories/type/' . $parent_id . '/edit', $options));
       unset($options['query']);
-      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', $options));
-      $options['query']['delete'] = $parent_id;
-      $category_title .= '|' . l(t('Delete'), url('manage/categories', $options));
+      $category_title .= '|' . l(t('Change order'), url('manage/categories/types' , $options));
+      $category_title .= '|' . l(t('Delete'), url('manage/categories/type/' . $parent_id . '/delete', $options));
 
       $category_title_element['element'] = array(
         '#tag' => 'div',
@@ -747,9 +726,8 @@ function c4m_features_og_manage_categories_overview_update_vocabulary($form, &$f
  * Helper callback, inserts the vocabulary info & group into the form.
  *
  * @param array $form
- *  The form that needs
  * @return array
- *  The prepared form.
+ *  The form
  */
 function c4m_feature_og_manage_get_category_management_form_info($form) {
   $group = c4m_og_current_group();
@@ -770,6 +748,7 @@ function c4m_feature_og_manage_get_category_management_form_info($form) {
  * @param $tree
  * @param $items_type
  * @return array
+ *  The form
  */
 function c4m_features_og_manage_build_category_management_form($form, $tree, $items_type) {
   $form['#page_type'] = $items_type;
@@ -834,10 +813,9 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
         '#default_value' => $term->depth,
       );
     }
-    $path = $items_type == 'types' ? 'types' : '';
     $edit_path = $items_type == 'types' ? 'type' : 'term';
     $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
-    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $path, '#options' => array('query' => array('delete' => $term->tid)));
+    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/delete', '#options' => array('query' => drupal_get_destination()));
     // Adding "Add a term" form under each category type (For terms page).
     if ($term->parent == 0 && $items_type == 'terms') {
       $form[$key]['add_term_form']['name'] = array(
@@ -903,6 +881,30 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
       ),
     );
   }
+
+  return $form;
+}
+
+/**
+ * Helper callback, Gets necessary info for the delete form.
+ * Used by term delete and types delete callbacks.
+ *
+ * @param $form
+ * @param $tid
+ * @return array
+ *  The form,
+ */
+function c4m_features_og_manage_categories_delete_helper($form, $tid) {
+  $form = c4m_feature_og_manage_get_category_management_form_info($form);
+  $term = taxonomy_term_load($tid);
+  // Always provide entity id in the same form key as in the entity edit form.
+  $form['tid'] = array('#type' => 'value', '#value' => $tid);
+
+  $form['#term'] = $term;
+  $form['type'] = array('#type' => 'value', '#value' => 'term');
+  $form['name'] = array('#type' => 'value', '#value' => $term->name);
+  $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
+  $form['delete'] = array('#type' => 'value', '#value' => TRUE);
 
   return $form;
 }
