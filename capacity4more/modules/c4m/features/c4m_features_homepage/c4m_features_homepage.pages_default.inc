@@ -16,10 +16,7 @@ function c4m_features_homepage_default_page_manager_pages() {
   $page->admin_title = 'Homepage';
   $page->admin_description = 'Front page.';
   $page->path = 'node';
-  $page->access = array(
-    'type' => 'none',
-    'settings' => NULL,
-  );
+  $page->access = array();
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(

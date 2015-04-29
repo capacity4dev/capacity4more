@@ -60,12 +60,6 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'image',
         'weight' => 0,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -185,12 +179,6 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 6,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -280,12 +268,6 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 24,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -368,12 +350,6 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 5,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -464,12 +440,6 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 11,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -576,12 +546,6 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 23,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -698,12 +662,6 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 15,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -806,12 +764,6 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 14,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -906,12 +858,6 @@ function c4m_content_article_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 12,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -1010,12 +956,6 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 10,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1105,12 +1045,6 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 13,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',

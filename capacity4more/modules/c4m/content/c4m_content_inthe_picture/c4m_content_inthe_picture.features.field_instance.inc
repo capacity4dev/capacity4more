@@ -17,18 +17,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -107,18 +95,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -207,18 +183,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -318,18 +282,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select the overview page where this in the picture item should be shown.',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'activity_stream' => array(
         'label' => 'above',
         'settings' => array(),
@@ -397,7 +349,6 @@ function c4m_content_inthe_picture_field_default_field_instances() {
   t('Image');
   t('Link');
   t('Overview page');
-  t('Select the overview page where this in the picture item should be shown.');
 
   return $field_instances;
 }

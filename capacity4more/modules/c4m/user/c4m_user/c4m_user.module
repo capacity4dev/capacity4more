@@ -435,13 +435,3 @@ function c4m_user_count_comments($uid) {
 
   return (int) $query->countQuery()->execute()->fetchField();
 }
-
-/**
- * Mark a user for re-indexing.
- *
- * @param int $uid
- *   The User ID of the user that needs to be re-indexed.
- */
-function c4m_user_track_change($uid) {
-  search_api_track_item_change('user', array($uid));
-}

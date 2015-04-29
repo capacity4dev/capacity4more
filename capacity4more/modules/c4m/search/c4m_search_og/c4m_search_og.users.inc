@@ -21,7 +21,7 @@ function c4m_search_og_og_role_track_change($entity_type, $uid) {
     return;
   }
 
-  c4m_user_track_change($uid);
+  c4m_search_users_track_change($uid);
 }
 
 /**
@@ -58,7 +58,7 @@ function c4m_search_og_og_membership_track_change(OgMembership $og_membership) {
     return;
   }
 
-  c4m_user_track_change($og_membership->etid);
+  c4m_search_users_track_change($og_membership->etid);
 }
 
 /**

@@ -42,12 +42,6 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -126,12 +120,6 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 2,
       ),
       'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -227,12 +215,6 @@ function c4m_content_photo_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -295,12 +277,6 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 5,
       ),
       'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -369,12 +345,6 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 3,
       ),
       'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -454,12 +424,6 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 0,
       ),
       'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
