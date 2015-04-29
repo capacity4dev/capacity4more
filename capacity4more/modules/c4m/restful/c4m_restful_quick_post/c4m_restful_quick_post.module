@@ -105,7 +105,7 @@ function c4m_restful_quick_post_form($group_id) {
     $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
     // Clean the categories values from the field Schema (Duplicated values).
     // Order them and assign them to a separate variable.
-    foreach($field_schema['resources'][$resource_name] as $field_name => $values) {
+    foreach ($field_schema['resources'][$resource_name] as $field_name => $values) {
       $fixed_values = array();
       $allowed_values = $field_name == 'categories' ? $values['form_element']['allowed_values']['categories'] : $values['form_element']['allowed_values'];
       if (!empty($allowed_values)) {
