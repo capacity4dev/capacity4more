@@ -164,6 +164,7 @@ trait Group {
     $steps[] = new Step\When('I should be on the homepage');
     $steps[] = new Step\When('I should see "The group you requested is pending review by one of the administrators."');
 
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
     $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     return $steps;
