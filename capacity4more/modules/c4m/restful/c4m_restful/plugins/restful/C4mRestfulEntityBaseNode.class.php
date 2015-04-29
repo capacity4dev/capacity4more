@@ -25,7 +25,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     // is NOT within the allowed groups array.
     $allowed_groups = array(
       'draft',
-      'published'
+      'published',
     );
     if (!in_array($group_status, $allowed_groups) && !user_access('administer site configuration', $account)) {
       return FALSE;
