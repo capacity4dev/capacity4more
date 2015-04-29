@@ -6,6 +6,9 @@
     color: $gray-dark;
     display: block;
     width: 100%;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 

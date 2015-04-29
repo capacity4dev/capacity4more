@@ -27,10 +27,10 @@
  */
 function kapablo_pager(array $variables) {
   $tags = array(
-    t('FIRST'),
-    '',//t('Previous'),
-    '',//t('Next'),
-    t('LAST'),
+    t('First'),
+    t('Previous'),
+    t('Next'),
+    t('Last'),
   );
 
   $element    = $variables['element'];
