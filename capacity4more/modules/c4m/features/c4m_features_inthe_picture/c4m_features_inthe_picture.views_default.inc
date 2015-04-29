@@ -114,7 +114,7 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (c4m_overview_page) */
+  /* Filter criterion: Content: Overview page (c4m_overview_page) */
   $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
   $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
   $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
@@ -140,7 +140,7 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (c4m_overview_page) */
+  /* Filter criterion: Content: Overview page (c4m_overview_page) */
   $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
   $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
   $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
@@ -166,7 +166,7 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (c4m_overview_page) */
+  /* Filter criterion: Content: Overview page (c4m_overview_page) */
   $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
   $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
   $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
@@ -192,7 +192,7 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (c4m_overview_page) */
+  /* Filter criterion: Content: Overview page (c4m_overview_page) */
   $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
   $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
   $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
@@ -218,7 +218,7 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (c4m_overview_page) */
+  /* Filter criterion: Content: Overview page (c4m_overview_page) */
   $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
   $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
   $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
@@ -244,7 +244,7 @@ function c4m_features_inthe_picture_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'inthe_picture' => 'inthe_picture',
   );
-  /* Filter criterion: Content: Page (c4m_overview_page) */
+  /* Filter criterion: Content: Overview page (c4m_overview_page) */
   $handler->display->display_options['filters']['c4m_overview_page_value']['id'] = 'c4m_overview_page_value';
   $handler->display->display_options['filters']['c4m_overview_page_value']['table'] = 'field_data_c4m_overview_page';
   $handler->display->display_options['filters']['c4m_overview_page_value']['field'] = 'c4m_overview_page_value';
