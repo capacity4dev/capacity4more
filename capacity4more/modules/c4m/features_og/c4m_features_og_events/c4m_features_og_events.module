@@ -119,7 +119,7 @@ function c4m_features_og_events_search_api_views_query_alter(view &$view, Search
     // The first page display, this is merely to have the exposed form.
     // We save the fulltext search terms in a static variable.
     // We know this view is executed first.
-    $keys = $query->getKeys();
+    $keys = $query->getOriginalKeys();
   }
   else {
     // We manually put the search term of the exposed form of the Views
