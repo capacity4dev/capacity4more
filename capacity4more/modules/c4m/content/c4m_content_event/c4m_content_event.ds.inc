@@ -314,7 +314,7 @@ function c4m_content_event_ds_field_settings_info() {
           'lb-el' => 'span',
           'lb-col' => TRUE,
           'ow' => TRUE,
-          'ow-el' => 'span',
+          'ow-el' => 'div',
           'ow-cl' => 'group',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
