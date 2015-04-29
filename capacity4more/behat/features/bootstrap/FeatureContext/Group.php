@@ -215,56 +215,6 @@ trait Group {
   }
 
   /**
-   * @Given /^I check the related topics checkbox "([^"]*)"$/
-   */
-  public function iCheckRelatedGroupTopics($topics) {
-    // Open popup to select Group topics
-    $page = $this->getSession()->getPage();
-    $button_group_topics = $page->find('xpath', '//button[@name="c4m_related_topic"]');
-    $button_group_topics->click();
-
-    // Separate topics.
-    $topics = explode(',', $topics);
-    $topics = array_map('trim', $topics);
-
-    $steps = [];
-    if (count($topics)) {
-      foreach ($topics as $topic) {
-        // Steps
-        $steps[] = new Step\When('I check the box ' . $topic);
-
-        // xpath
-        $checkbox = $page->find('xpath', '//input[@title="' . $topic . '"]');
-        $checkbox->click();
-
-        // JS
-        $javascript = "
-          var target = jQuery('input[type=checkbox][title=\"" . $topic . "\"]').data('target');
-          jQuery('input[type=checkbox][value=' + target + ']').prop(\"checked\", true);
-        ";
-        $this->getSession()->executeScript($javascript);
-      }
-    }
-
-    $this->getSession()->wait(
-//      10000,
-//      "true"
-    );
-
-    return $steps;
-  }
-
-  /**
-   * @Given /^I wait for the "([^"]*)" checkbox should not be checked$/
-   */
-  public function iWaitForTheCheckboxShouldNotBeChecked($topic) {
-    $this->getSession()->wait(
-      10000,
-      "true"
-    );
-  }
-
-  /**
    * @Given /^I should see the Group Details$/
    */
   public function iShouldSeeTheGroupDetails() {
