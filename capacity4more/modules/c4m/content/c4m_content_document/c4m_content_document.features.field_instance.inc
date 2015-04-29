@@ -203,7 +203,7 @@ function c4m_content_document_field_default_field_instances() {
     'settings' => array(
       'description_field' => 0,
       'file_directory' => 'documents',
-      'file_extensions' => 'txt pdf doc docx xls xlsx png bmp jpg jpeg',
+      'file_extensions' => 'txt pdf doc docx xls xlsx png bmp jpg jpeg pps ppt pptx odt ods odp odf gif pdt pdtx vsd zip',
       'max_filesize' => '',
       'user_register_form' => FALSE,
     ),
