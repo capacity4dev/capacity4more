@@ -35,7 +35,7 @@ function c4m_features_og_manage_categories_types_overview_form($form, &$form_sta
 
   $tree = taxonomy_get_tree($form_info['#vocabulary']->vid, 0, 1);
 
-  $form = c4m_features_og_manage_build_category_management_form($form_info, $tree, 'terms');
+  $form = c4m_features_og_manage_build_category_management_form($form_info, $tree, 'types');
 
   return $form;
 }
