@@ -35,7 +35,12 @@ function theme_c4m_field_og_group(array $field) {
   // Get group node.
   $groups = og_get_entity_groups('node', $entity);
   $group_nid = array_pop($groups['node']);
+  $group = node_load($group_nid);
 
-  // Return a link to the group.
-  return l($entity->title, 'node/' . $group_nid);
+  $uri_info = entity_uri('node', $group);
+
+  c4m_og_purl_alter_uri_info_purl_dashboard($uri_info);
+
+  // Return a link to the group dashboard.
+  return l($group->title, $uri_info['path'], $uri_info['options']);
 }
