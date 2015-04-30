@@ -66,7 +66,7 @@ function kapablo_pager(array $variables) {
   $li_first = theme('pager_first', array(
     'text' => (isset($tags[0]) ? $tags[0] : t('« first')),
     'element' => $element,
-    'parameters' => $parameters
+    'parameters' => $parameters,
   ));
   $li_previous = theme('pager_previous', array(
     'text'       => (isset($tags[1]) ? $tags[1] : t('previous')),
@@ -83,7 +83,7 @@ function kapablo_pager(array $variables) {
   $li_last = theme('pager_last', array(
     'text' => (isset($tags[3]) ? $tags[3] : t('last »')),
     'element' => $element,
-    'parameters' => $parameters
+    'parameters' => $parameters,
   ));
 
   if ($pager_total[$element] > 1) {
@@ -134,7 +134,6 @@ function kapablo_pager(array $variables) {
         );
       }
     }
-
 
     $list = theme(
       'item_list',
