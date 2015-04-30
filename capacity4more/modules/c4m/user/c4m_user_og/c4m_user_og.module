@@ -261,3 +261,13 @@ function c4m_user_og_get_groups($account = NULL, $bundle = 'group', $status = NO
   $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
   return $group_nodes;
 }
+
+/**
+ * Implements hook_views_pre_render()
+ * @param $view
+ */
+function c4m_user_og_views_pre_render(&$view) {
+  if ($view->name == 'c4m_overview_og_members' && in_array($view->current_display, array('page', 'page_1'))) {
+    drupal_set_breadcrumb(array());
+  }
+}
