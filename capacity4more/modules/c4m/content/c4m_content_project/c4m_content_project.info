@@ -63,4 +63,3 @@ features[variable][] = menu_parent_project
 features[variable][] = node_options_project
 features[variable][] = node_preview_project
 features[variable][] = node_submitted_project
-mtime = 1417012544

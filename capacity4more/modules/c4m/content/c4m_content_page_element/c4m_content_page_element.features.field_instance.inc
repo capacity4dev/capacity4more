@@ -17,6 +17,12 @@ function c4m_content_page_element_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -30,6 +36,18 @@ function c4m_content_page_element_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -37,6 +55,12 @@ function c4m_content_page_element_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -74,6 +98,12 @@ function c4m_content_page_element_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -86,6 +116,18 @@ function c4m_content_page_element_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 1,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -93,6 +135,12 @@ function c4m_content_page_element_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -126,6 +174,12 @@ function c4m_content_page_element_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -138,6 +192,18 @@ function c4m_content_page_element_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 2,
       ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -145,6 +211,12 @@ function c4m_content_page_element_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
