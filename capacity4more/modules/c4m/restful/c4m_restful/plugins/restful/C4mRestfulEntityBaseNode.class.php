@@ -18,8 +18,7 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
     $account = $this->getAccount();
     $resource_name = $this->getResourceName();
     $group_id = $this->request['group'];
-    $group = node_load($group_id);
-    $wrapper = entity_metadata_wrapper('node', $group);
+    $wrapper = entity_metadata_wrapper('node', $group_id);
     $group_status = $wrapper->c4m_og_status->value();
     // Only platform admins can create group content if group status
     // is NOT within the allowed groups array.
