@@ -50,12 +50,6 @@ function c4m_features_og_discussions_views_default_views() {
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
   $handler->display->display_options['header']['result']['content'] = '@total in total';
-  /* Header: Sort results */
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
-  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
