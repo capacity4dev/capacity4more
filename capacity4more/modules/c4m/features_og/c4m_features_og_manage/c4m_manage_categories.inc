@@ -46,14 +46,6 @@ function c4m_features_og_manage_categories_types_overview_form($form, &$form_sta
  */
 function c4m_features_og_manage_categories_types_overview_form_submit($form, &$form_state) {
 
-  if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
-    // Execute the term reset alphabetical.
-    if ($form_state['values']['reset_alphabetical'] === TRUE) {
-      c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, $form_state);
-      return;
-    }
-  }
-
   if ($form_state['triggering_element']['#value'] == t('Add Term')) {
     // Execute adding a term.
     c4m_features_og_manage_categories_overview_add_term_submit($form, $form_state);
@@ -71,14 +63,6 @@ function c4m_features_og_manage_categories_types_overview_form_submit($form, &$f
  * Handles Reordering - Delete - Reset alphabetical - Instant create new term.
  */
 function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
-
-  if ($form_state['triggering_element']['#value'] == t('Reset to alphabetical')) {
-    // Execute the term reset alphabetical.
-    if ($form_state['values']['reset_alphabetical'] === TRUE) {
-      c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, $form_state);
-      return;
-    }
-  }
 
   if ($form_state['triggering_element']['#value'] == t('Add Term')) {
     // Execute adding a term.
@@ -128,10 +112,20 @@ function c4m_features_og_manage_categories_overview_add_term_submit($form, &$for
  */
 function c4m_features_og_manage_categories_term_delete_confirm_form($form, &$form_state, $tid) {
   $form = c4m_features_og_manage_categories_delete_helper($form, $tid);
+  $form_state['redirect'] = $form['#destination'];
+  // Validate if the given id belongs to a Taxonomy-term.
+  if (!$form) {
+    drupal_redirect_form($form_state);
+  }
+  // Validate if the given term belongs to the current group (The group vocab).
+  if(!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
+    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $form['#term']->name)), 'error');
+    drupal_redirect_form($form_state);
+  }
   return confirm_form($form,
-    t('Are you sure you want to delete the term %title?',
-      array('%title' => $form['#term']->name)),
-    'manage/categories');
+    t('Are you sure you want to delete the term %name?',
+      array('%name' => $form['#term']->name)),
+    $form['#destination']);
 }
 
 /**
@@ -144,7 +138,7 @@ function c4m_features_og_manage_categories_term_delete_confirm_form_submit($form
   taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
   drupal_set_message(t('Deleted term %name.', array('%name' => $form_state['values']['name'])));
   watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
-  $form_state['redirect'] = 'manage/categories';
+  $form_state['redirect'] = $form['#destination'];
   cache_clear_all();
   return;
 }
@@ -156,10 +150,20 @@ function c4m_features_og_manage_categories_term_delete_confirm_form_submit($form
  */
 function c4m_features_og_manage_categories_type_delete_confirm_form($form, &$form_state, $tid) {
   $form = c4m_features_og_manage_categories_delete_helper($form, $tid);
+  $form_state['redirect'] = $form['#destination'];
+  // Validate if the given id belongs to a Taxonomy-term.
+  if (!$form) {
+    drupal_redirect_form($form_state);
+  }
+  // Validate if the given term belongs to the current group (The group vocab).
+  if(!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
+    drupal_set_message(t('The category type "%name" does not belong to the current group.', array('%name' => $form['#term']->name)), 'error');
+    drupal_redirect_form($form_state);
+  }
   return confirm_form($form,
     t('Are you sure you want to delete the category type %title?',
       array('%title' => $form['#term']->name)),
-    'manage/categories/types',
+    $form['#destination'],
     t('Deleting a category type will delete all its children if there are any. This action cannot be undone.'),
     t('Delete'),
     t('Cancel'));
@@ -175,86 +179,107 @@ function c4m_features_og_manage_categories_type_delete_confirm_form_submit($form
   taxonomy_check_vocabulary_hierarchy($form['#vocabulary'], $form_state['values']);
   drupal_set_message(t('Deleted category type %name.', array('%name' => $form_state['values']['name'])));
   watchdog('taxonomy', 'Deleted category type %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
-  $form_state['redirect'] = 'manage/categories/types';
+  $form_state['redirect'] = $form['#destination'];
   cache_clear_all();
   return;
 }
 
 /**
- * Form builder to confirm resetting a terms under a specific category to alphabetical order.
+ * Form builder to confirm resetting a terms (2nd level) under a specific category type to alphabetical order.
  *
  * @ingroup forms
- * @see taxonomy_vocabulary_confirm_reset_alphabetical()
  */
-function c4m_features_og_manage_categories_overview_confirm_reset_alphabetical($form, &$form_state, $vid, $tid) {
-  $vocabulary = taxonomy_vocabulary_load($vid);
+function c4m_features_og_manage_categories_term_order_confirm_form($form, &$form_state, $tid) {
+  $term = taxonomy_term_load($tid);
+  $vocabulary = taxonomy_vocabulary_load($term->vid);
   $form['type'] = array('#type' => 'value', '#value' => 'vocabulary');
-  $form['vid'] = array('#type' => 'value', '#value' => $vid);
+  $form['vid'] = array('#type' => 'value', '#value' => $vocabulary->vid);
   $form['machine_name'] = array('#type' => 'value', '#value' => $vocabulary->machine_name);
   $form['reset_alphabetical'] = array('#type' => 'value', '#value' => TRUE);
-  $path = $tid ? $vocabulary->machine_name : 'types';
 
-  if ($tid) {
-    $term = taxonomy_term_load($tid);
-    $form['parent_tid'] = array('#type' => 'value', '#value' => $tid);
-    $form['name'] = array('#type' => 'value', '#value' => $term->name);
+  $form['parent_tid'] = array('#type' => 'value', '#value' => $tid);
+  $form['name'] = array('#type' => 'value', '#value' => $vocabulary->name);
 
-    return confirm_form($form,
-      t('Are you sure you want to reset the children of the term %title to alphabetical order?',
-        array('%title' => $term->name)),
-      'manage/categories/' . $path,
-      t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
-        array('%title' => $term->name)),
-      t('Reset to alphabetical'),
-      t('Cancel'));
-  }
-  else {
-    return confirm_form($form,
-      t('Are you sure you want to reset the Categories to alphabetical order?'),
-      'manage/categories/' . $path,
-      t('Resetting the the Categories will discard all custom ordering and sort items alphabetically.'),
-      t('Reset to alphabetical'),
-      t('Cancel'));
-  }
+  return confirm_form($form,
+    t('Are you sure you want to reset the children of the term %title to alphabetical order?',
+      array('%title' => $term->name)),
+    'manage/categories/',
+    t('Resetting the children of the term %title will discard all custom ordering and sort items alphabetically.',
+      array('%title' => $term->name)),
+    t('Reset to alphabetical'),
+    t('Cancel'));
 }
 
 /**
  * Submit handler to reset a specific category's children to alphabetical order after confirmation.
  *
- * @see c4m_features_og_manage_categories_overview_confirm_reset_alphabetical()
+ * @see c4m_features_og_manage_categories_term_order_confirm_form()
  */
-function c4m_features_og_manage_categories_overview_confirm_reset_alphabetical_submit($form, &$form_state) {
+function c4m_features_og_manage_categories_term_order_confirm_form_submit($form, &$form_state) {
   $params = array(
     ':weight' => 0,
     ':vid' => $form_state['values']['vid'],
+    ':parent_tid' => $form_state['values']['parent_tid'],
   );
-  $condition = '';
-  if (isset($form_state['values']['parent_tid'])) {
-    $params[':parent_tid'] = $form_state['values']['parent_tid'];
-    $condition = ' AND h.parent = :parent_tid';
-  }
 
   db_query(
     'UPDATE {taxonomy_term_data} AS d ' .
     'JOIN {taxonomy_term_hierarchy} AS h ' .
     'ON d.tid = h.tid ' .
     'SET d.weight = :weight ' .
-    'WHERE d.vid = :vid' .
-    $condition,
+    'WHERE d.vid = :vid ' .
+    'AND h.parent = :parent_tid',
     $params
   );
-  $menu_item = menu_get_item(current_path());
-  $path = $menu_item['path'] == 'manage/categories/types' ? 'types' : '';
 
-  if (isset($form_state['values']['name'])) {
-    drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
-    watchdog('taxonomy', 'Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
-  }
-  else {
-    drupal_set_message(t('Reset Categories to alphabetical order.'));
-    watchdog('taxonomy', 'Reset Categories to alphabetical order.', WATCHDOG_NOTICE);
-  }
-  $form_state['redirect'] = 'manage/categories/' . $path;
+  drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
+  watchdog('taxonomy', 'Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
+  $form_state['redirect'] = 'manage/categories';
+}
+
+/**
+ * Form builder to confirm resetting category types (1st level) to alphabetical order.
+ *
+ * @ingroup forms
+ */
+function c4m_features_og_manage_categories_type_order_confirm_form($form, &$form_state, $vid) {
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  $form['type'] = array('#type' => 'value', '#value' => 'vocabulary');
+  $form['vid'] = array('#type' => 'value', '#value' => $vid);
+  $form['machine_name'] = array('#type' => 'value', '#value' => $vocabulary->machine_name);
+  $form['reset_alphabetical'] = array('#type' => 'value', '#value' => TRUE);
+
+  return confirm_form($form,
+    t('Are you sure you want to reset the Categories to alphabetical order?'),
+    'manage/categories/types',
+    t('Resetting the the Categories will discard all custom ordering and sort items alphabetically.'),
+    t('Reset to alphabetical'),
+    t('Cancel'));
+}
+
+/**
+ * Submit handler to reset the vocabulary's category types to alphabetical order after confirmation.
+ *
+ * @see c4m_features_og_manage_categories_type_order_confirm_form()
+ */
+function c4m_features_og_manage_categories_type_order_confirm_form_submit($form, &$form_state) {
+  $params = array(
+    ':weight' => 0,
+    ':vid' => $form_state['values']['vid'],
+  );
+
+  db_query(
+    'UPDATE {taxonomy_term_data} AS d ' .
+    'JOIN {taxonomy_term_hierarchy} AS h ' .
+    'ON d.tid = h.tid ' .
+    'SET d.weight = :weight ' .
+    'WHERE d.vid = :vid',
+    $params
+  );
+
+  drupal_set_message(t('Reset Categories to alphabetical order.'));
+  watchdog('taxonomy', 'Reset Categories to alphabetical order.', WATCHDOG_NOTICE);
+  $form_state['redirect'] = 'manage/categories/types';
 }
 
 /**
@@ -348,7 +373,7 @@ function c4m_features_og_manage_categories_type_form_submit($form, &$form_state)
 function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
   // Validate if the given term is valid.
   if(!$term = taxonomy_term_load($tid)) {
-    drupal_set_message(t('term/type ID is not valid.'), 'error');
+    drupal_set_message(t('Term/Type ID is not valid.'), 'error');
     $form_state['redirect'] = 'manage/categories';
     drupal_redirect_form($form_state);
   }
@@ -590,20 +615,13 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
   $output .= '<strong>' . t('Do not forget to save after reordering and/or moving terms.') . '</strong>';
   $output .= '</div>';
 
-  $path = $form['#page_type'] == 'types' ? 'types' : '';
-
   foreach ($parents as $parent_key => $parent) {
     $parent_id = $parent['tid']['#value'];
+    $reset_path = $form['#page_type'] == 'types' ? 'type/' . $vocabulary->vid : 'term/' . $parent_id;
     // Set header for the table.
-    $reset_link_options = array(
-      'absolute' => TRUE,
-      'query' => array(
-        'reset_alphabetical' => $parent_id
-      ),
-    );
     $header = array(
       array(
-        'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $path, $reset_link_options)),
+        'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $reset_path . '/term-order', array('absolute' => TRUE))),
         'class' => array('category-name-column')
       ),
       t('Operations')
@@ -644,8 +662,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
         'query' => drupal_get_destination(),
       );
       $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('manage/categories/type/' . $parent_id . '/edit', $options));
-      unset($options['query']);
-      $category_title .= '|' . l(t('Change order'), url('manage/categories/types' , $options));
+      $category_title .= '|' . l(t('Change order'), url('manage/categories/types' ,array('absolute' => TRUE)));
       $category_title .= '|' . l(t('Delete'), url('manage/categories/type/' . $parent_id . '/delete', $options));
 
       $category_title_element['element'] = array(
@@ -682,7 +699,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
 }
 
 /**
- * Helper callback, Saves the order of the terms (Terms and category types) in the vocabulary.
+ * Helper callback; Saves the order of the terms (Terms and category types) in the vocabulary.
  *
  * @param $form
  * @param $form_state
@@ -723,7 +740,7 @@ function c4m_features_og_manage_categories_overview_update_vocabulary($form, &$f
 }
 
 /**
- * Helper callback, inserts the vocabulary info & group into the form.
+ * Helper callback; inserts the vocabulary info & group into the form.
  *
  * @param array $form
  * @return array
@@ -742,7 +759,7 @@ function c4m_feature_og_manage_get_category_management_form_info($form) {
 }
 
 /**
- * Helper callback, Builds the actual form for category types/ terms overview.
+ * Helper callback; Builds the actual form for category types/ terms overview.
  *
  * @param $form
  * @param $tree
@@ -873,7 +890,7 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     $form['actions']['new_category'] = array(
       '#type' => 'link',
       '#title' => t('Add new type of category'),
-      '#href' => 'manage/categories/types',
+      '#href' => 'manage/categories/types/add',
       '#attributes' => array(
         'class' => array(
           'btn btn-default',
@@ -886,7 +903,7 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
 }
 
 /**
- * Helper callback, Gets necessary info for the delete form.
+ * Helper callback; Gets necessary info for the delete form.
  * Used by term delete and types delete callbacks.
  *
  * @param $form
@@ -896,7 +913,17 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
  */
 function c4m_features_og_manage_categories_delete_helper($form, $tid) {
   $form = c4m_feature_og_manage_get_category_management_form_info($form);
-  $term = taxonomy_term_load($tid);
+  // Set the form redirect destination.
+  // Default destination is "Categories management overview.
+  $form['#destination'] = 'manage/categories';
+  $params = drupal_get_query_parameters();
+  if (isset($params['destination'])) {
+    $form['#destination'] = $params['destination'];
+  }
+  if(!$term = taxonomy_term_load($tid)) {
+    drupal_set_message(t('Term/Type ID is not valid.'), 'error');
+    return FALSE;
+  }
   // Always provide entity id in the same form key as in the entity edit form.
   $form['tid'] = array('#type' => 'value', '#value' => $tid);
 
