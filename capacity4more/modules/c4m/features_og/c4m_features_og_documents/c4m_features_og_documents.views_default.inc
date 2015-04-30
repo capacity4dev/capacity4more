@@ -57,6 +57,12 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
   $handler->display->display_options['header']['result']['content'] = '@total items';
+  /* Header: Sort results */
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
+  $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
   /* Header: Add list view */
   $handler->display->display_options['header']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
   $handler->display->display_options['header']['c4m_views_switch_page']['table'] = 'views';
