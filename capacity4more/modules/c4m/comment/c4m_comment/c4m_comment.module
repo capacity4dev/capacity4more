@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Comment feature.
  */
+
+include_once 'c4m_comment.features.inc';
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
