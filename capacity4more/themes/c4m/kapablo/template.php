@@ -12,7 +12,7 @@ include_once 'theme/preprocess.inc';
 include_once 'theme/search.inc';
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Implements hook_preprocess_status_messages().
  *
  * Alter standard drupal message to custom message.
  */
