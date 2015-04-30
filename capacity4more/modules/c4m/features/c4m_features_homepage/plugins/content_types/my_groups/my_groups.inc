@@ -25,9 +25,9 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     return FALSE;
   }
 
-  foreach ($groups['node'] as $nid) {
-    $my_groups[] = node_load($nid);
-  }
+  $nids = array_values($groups['node']);
+
+  $my_groups = node_load_multiple($nids);
 
   usort($my_groups, 'c4m_sort_object_by_title');
 
