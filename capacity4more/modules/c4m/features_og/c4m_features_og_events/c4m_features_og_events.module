@@ -80,7 +80,8 @@ function c4m_features_og_events_search_api_sorts_alter(&$block, $view) {
         unset($block['content']['#items'][$key]);
       }
     }
-  } else {
+  }
+  else {
     // Remove 'Start date' sort if this is not an events overview.
     if (!in_array($view->name, array('c4m_overview_events',
       'c4m_overview_events_landing'))) {
