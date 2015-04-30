@@ -835,7 +835,9 @@ function c4m_message_load_homepage_activity_stream() {
           $query->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
         }
         $result = $query->execute();
-        $groups += !empty($result['node']) ? array_keys($result['node']) : array();
+        if (!empty($result['node'])) {
+          $groups = array_merge($groups, array_keys($result['node']));
+        }
       }
     }
   }
