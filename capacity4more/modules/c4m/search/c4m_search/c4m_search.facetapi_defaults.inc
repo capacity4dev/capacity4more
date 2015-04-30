@@ -652,6 +652,35 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_users::c4m_og_membership_type';
+  $facet->searcher = 'search_api@c4m_search_users';
+  $facet->realm = '';
+  $facet->facet = 'c4m_og_membership_type';
+  $facet->enabled = FALSE;
+  $facet->settings = array(
+    'operator' => 'and',
+    'hard_limit' => '-1',
+    'dependencies' => array(
+      'facets' => array(),
+      'force_deactivation' => TRUE,
+      'regex' => FALSE,
+      'roles' => array(),
+    ),
+    'facet_mincount' => '1',
+    'facet_missing' => '0',
+    'flatten' => 0,
+    'individual_parent' => 0,
+    'query_type' => 'term',
+    'limit_active_items' => 0,
+    'default_true' => '1',
+    'facet_search_ids' => array(),
+    'exclude' => 0,
+  );
+  $export['search_api@c4m_search_users::c4m_og_membership_type'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_users:block:c4m_country';
   $facet->searcher = 'search_api@c4m_search_users';
   $facet->realm = 'block';
@@ -834,23 +863,23 @@ function c4m_search_facetapi_default_facet_settings() {
       'indexed' => 0,
     ),
     'sort_weight' => array(
-      'display' => '-48',
       'active' => '-50',
       'count' => '-49',
+      'display' => '-48',
       'natural' => '-47',
       'indexed' => '-46',
     ),
     'sort_order' => array(
-      'display' => '4',
       'active' => '3',
       'count' => '3',
+      'display' => '4',
       'natural' => '4',
       'indexed' => '4',
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
     'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '20',
+    'soft_limit' => '0',
     'nofollow' => 1,
     'show_expanded' => 0,
     'exclude' => '',
