@@ -17,6 +17,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -31,6 +37,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 2,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -85,6 +97,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -101,6 +119,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 4,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -158,6 +182,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -174,6 +204,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 3,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -234,6 +270,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -248,6 +290,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 1,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -295,6 +343,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -309,6 +363,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 6,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -356,6 +416,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -370,6 +436,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 7,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -418,6 +490,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -432,6 +510,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 0,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -516,6 +600,12 @@ function c4m_content_tasklist_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -532,6 +622,12 @@ function c4m_content_tasklist_field_default_field_instances() {
         'weight' => 5,
       ),
       'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
