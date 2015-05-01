@@ -314,7 +314,7 @@ function c4m_content_event_ds_field_settings_info() {
           'lb-el' => 'span',
           'lb-col' => TRUE,
           'ow' => TRUE,
-          'ow-el' => 'span',
+          'ow-el' => 'div',
           'ow-cl' => 'group',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
@@ -327,7 +327,15 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'in @city (@country)',
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => '',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
       ),
     ),
     'c4m_ds_content_type_icon' => array(
