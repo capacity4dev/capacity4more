@@ -44,6 +44,13 @@ function c4m_features_og_manage_menu() {
     'file' => 'c4m_manage_categories.inc',
   );
 
+  $items['manage/categories/type/add'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_type_add_form'),
+    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
   $items['manage/categories/term/%/edit'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_manage_categories_term_form', 3),

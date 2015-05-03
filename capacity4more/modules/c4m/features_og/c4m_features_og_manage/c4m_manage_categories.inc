@@ -286,7 +286,104 @@ function c4m_features_og_manage_categories_type_order_confirm_form_submit($form,
 }
 
 /**
- * Form function for the category type edit form.
+ * Form builder function for the category type add form.
+ *
+ * To avoid duplicated code, using the term edit form to build this form,
+ * then adding some changes to suit the add form.
+ * @ingroup forms
+ */
+function c4m_features_og_manage_categories_type_add_form($form, &$form_state, $edit = array()) {
+  // Return destination.
+  $params = drupal_get_query_parameters();
+  $form['#destination'] = isset($params['destination']) ? $params['destination'] : '';
+
+  // Add vocabulary and group info to form.
+  $form = c4m_feature_og_manage_get_category_management_form_info($form);
+  $vocabulary = $form['#vocabulary'];
+
+  $term = is_object($edit) ? $edit : (object) $edit;
+  $defaults = array(
+    'name' => '',
+    'description' => '',
+    'format' => NULL,
+    'vocabulary_machine_name' => isset($vocabulary) ? $vocabulary->machine_name : NULL,
+    'tid' => NULL,
+    'weight' => 0,
+  );
+  foreach ($defaults as $key => $value) {
+    if (!isset($term->$key)) {
+      $term->$key = $value;
+    }
+  }
+  $form_state['term'] = $term;
+
+  $form = c4m_features_og_manage_categories_edit_form_build($form, $form_state, $term, $vocabulary);
+  // No need for parents field, This is a parent.
+  unset($form['parent']);
+  // No need for a delete button, this is a new type.
+  unset($form['actions']['delete']);
+  // Change name field label.
+  $form['name']['#title'] = t('Type name');
+
+  $page_title['element'] = array(
+    '#tag' => 'h2',
+    '#attributes' => array(
+      'class' => array('type-edit-title-text'),
+    ),
+    '#value' => t('Add a new type of category'),
+  );
+
+  $page_description['element'] = array(
+    '#tag' => 'h4',
+    '#attributes' => array(
+      'class' => array('type-edit-description-text'),
+    ),
+    '#value' => t('Change the types of category of this Group.'),
+  );
+
+  $form['page_title'] = array(
+    '#markup' => theme_html_tag($page_title),
+    '#weight' => -10,
+  );
+
+  $form['page_description'] = array(
+    '#markup' => theme_html_tag($page_description),
+    '#weight' => -5,
+  );
+
+  return $form;
+}
+
+/**
+ * Validation handler for the custom type adding form.
+ *
+ * @see c4m_features_og_manage_categories_type_add_form()
+ */
+function c4m_features_og_manage_categories_type_add_form_validate($form, &$form_state) {
+  entity_form_field_validate('taxonomy_term', $form, $form_state);
+}
+
+/**
+ * Submit handler to create a new type.
+ *
+ * @see c4m_features_og_manage_categories_type_add_form()
+ */
+function c4m_features_og_manage_categories_type_add_form_submit($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == t('Cancel')) {
+    return;
+  }
+
+  $term = c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($form, $form_state);
+
+  taxonomy_term_save($term);
+  drupal_set_message(t('Created new category type %term.', array('%term' => $term->name)));
+  watchdog('taxonomy', 'Created new category type %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'taxonomy/term/' . $term->tid . '/edit'));
+  // Clear the page and block caches to avoid stale data.
+  cache_clear_all();
+}
+
+/**
+ * Form builder function for the category type edit form.
  *
  * To avoid duplicated code, using the term edit form to build this form,
  * as it's almost the same form, Just unset the parent fields and change the title and description.
@@ -295,6 +392,7 @@ function c4m_features_og_manage_categories_type_order_confirm_form_submit($form,
  * @see taxonomy_form_term()
  */
 function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) {
+  // Return destination.
   $params = drupal_get_query_parameters();
   $form['#destination'] = $params['destination'];
 
@@ -348,6 +446,7 @@ function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) 
     '#markup' => theme_html_tag($page_description),
     '#weight' => -5,
   );
+
   return $form;
 }
 
@@ -385,7 +484,7 @@ function c4m_features_og_manage_categories_type_form_submit($form, &$form_state)
 
   taxonomy_term_save($term);
   drupal_set_message(t('Updated category type %term.', array('%term' => $term->name)));
-  watchdog('taxonomy', 'Updated category type %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'manage/categories/type/' . $term->tid . '/edit'));
+  watchdog('taxonomy', 'Updated category type %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'taxonomy/term/' . $term->tid . '/edit'));
   // Clear the page and block caches to avoid stale data.
   cache_clear_all();
 }
@@ -486,7 +585,7 @@ function c4m_features_og_manage_categories_term_form_submit($form, &$form_state)
 
   taxonomy_term_save($term);
   drupal_set_message(t('Updated term %term.', array('%term' => $term->name)));
-  watchdog('taxonomy', 'Updated term %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'manage/categories/term/' . $term->tid . '/edit'));
+  watchdog('taxonomy', 'Updated term %term.', array('%term' => $term->name), WATCHDOG_NOTICE, l(t('edit'), 'taxonomy/term/' . $term->tid . '/edit'));
   // Clear the page and block caches to avoid stale data.
   cache_clear_all();
 }
@@ -843,7 +942,8 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     $form['actions']['new_category'] = array(
       '#type' => 'link',
       '#title' => t('Add new type of category'),
-      '#href' => 'manage/categories/types/add',
+      '#href' => 'manage/categories/type/add',
+      '#options' => array('query' => drupal_get_destination()),
       '#attributes' => array(
         'class' => array(
           'btn btn-default',
