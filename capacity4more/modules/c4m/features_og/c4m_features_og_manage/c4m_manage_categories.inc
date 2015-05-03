@@ -118,7 +118,7 @@ function c4m_features_og_manage_categories_term_delete_confirm_form($form, &$for
     drupal_redirect_form($form_state);
   }
   // Validate if the given term belongs to the current group (The group vocab).
-  if(!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
+  if (!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
     drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $form['#term']->name)), 'error');
     drupal_redirect_form($form_state);
   }
@@ -159,7 +159,7 @@ function c4m_features_og_manage_categories_type_delete_confirm_form($form, &$for
     drupal_redirect_form($form_state);
   }
   // Validate if the given term belongs to the current group (The group vocab).
-  if(!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
+  if (!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
     drupal_set_message(t('The category type "%name" does not belong to the current group.', array('%name' => $form['#term']->name)), 'error');
     drupal_redirect_form($form_state);
   }
@@ -299,7 +299,7 @@ function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) 
   $form['#destination'] = $params['destination'];
 
   // Validate if the given term is valid.
-  if(!$term = taxonomy_term_load($tid)) {
+  if (!$term = taxonomy_term_load($tid)) {
     drupal_set_message(t('Type ID is not valid.'), 'error');
     $form_state['redirect'] = $form['#destination'];
     drupal_redirect_form($form_state);
@@ -308,7 +308,7 @@ function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) 
   $group = c4m_og_current_group();
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
   // Validate if the given category type belongs to the current group (The group vocab).
-  if(!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
+  if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
     drupal_set_message(t('The category type "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
     $form_state['redirect'] = $form['#destination'];
     drupal_redirect_form($form_state);
@@ -401,7 +401,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
   $form['#destination'] = $params['destination'];
 
   // Validate if the given term is valid.
-  if(!$term = taxonomy_term_load($tid)) {
+  if (!$term = taxonomy_term_load($tid)) {
     drupal_set_message(t('Term ID is not valid.'), 'error');
     $form_state['redirect'] = $form['#destination'];
     drupal_redirect_form($form_state);
@@ -410,7 +410,7 @@ function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) 
   $group = c4m_og_current_group();
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
   // Validate if the given term belongs to the current group (The group vocab).
-  if(!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
+  if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
     drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
     $form_state['redirect'] = $form['#destination'];
     drupal_redirect_form($form_state);
@@ -589,7 +589,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
     );
     // Add necessary classes to rows.
     $row_position = 0;
-    if(!empty($rows[$parent_id])) {
+    if (!empty($rows[$parent_id])) {
       foreach ($rows[$parent_id] as $key => $row) {
         $rows[$parent_id][$key]['class'] = array();
         if (isset($form['#parent_fields'])) {
@@ -871,7 +871,7 @@ function c4m_features_og_manage_categories_delete_helper($form, $tid) {
   if (isset($params['destination'])) {
     $form['#destination'] = $params['destination'];
   }
-  if(!$term = taxonomy_term_load($tid)) {
+  if (!$term = taxonomy_term_load($tid)) {
     drupal_set_message(t('Term/Type ID is not valid.'), 'error');
     return FALSE;
   }
