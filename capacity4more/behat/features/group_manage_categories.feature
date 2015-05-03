@@ -75,3 +75,19 @@ Feature: Group manage Categories
     And   I press "Reset to alphabetical"
     Then  I should see "Organization" under "Locations"
     And   I should see "Prizes" under "Organization"
+
+  @javascript
+  Scenario: Check I can change name of a category as group administrator.
+    Given I am logged in as user "isaacnewton"
+    And I manage the categories of group "TENNIS GROUP"
+    And I should see the category "Australian Open" under the type "Masters Tournaments"
+    When I rename the category "Australian Open" to "Australian Open New" under the type "Masters Tournaments"
+    Then I should see the category "Australian Open New" under the type "Masters Tournaments"
+
+  @javascript
+  Scenario: Check I can change type of category for the category.
+    Given I am logged in as user "isaacnewton"
+    And I manage the categories of group "TENNIS GROUP"
+    And I should see the category "Roland Garros" under the type "Masters Tournaments"
+    When I change the type of category to "World Ligas" for the category "Roland Garros"
+    Then I should see the category "Roland Garros" under the type "World Ligas"

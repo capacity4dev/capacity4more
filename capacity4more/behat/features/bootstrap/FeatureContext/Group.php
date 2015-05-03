@@ -90,6 +90,64 @@ trait Group {
   }
 
   /**
+   * @When /^I rename the category "([^"]*)" to "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iRenameTheCategoryToUnderTheType($oldCategoryName, $newCategoryName, $categoryType) {
+    // Open edit window for the category.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//a[text()="' . $oldCategoryName . '"]/following::a[text()="Edit"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The edit link for the category ' . $oldCategoryName . ' not found');
+    }
+    $editLink->click();
+
+    // Change name of the category.
+    $termName = $page->find('xpath', '//*[@id="edit-name"]');
+    if (null === $termName) {
+      throw new \Exception('The "Term name" input not found');
+    }
+    $termName->setValue($newCategoryName);
+
+    // Click "Save" button.
+    $this->pressButton("Save");
+  }
+
+  /**
+   * @Then /^I should see the category "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iShouldSeeTheCategoryUnderTheType($categoryName, $typeName) {
+    // Find the category in specific type.
+    $page = $this->getSession()->getPage();
+    $category = $page->find('xpath', '//h3[text()="' . $typeName . '"]/following::a[text()="' . $categoryName . '"]');
+    if (null === $category) {
+      throw new \Exception('The category ' . $categoryName . ' not exist in the type ' . $typeName);
+    }
+  }
+
+  /**
+   * @When /^I change the type of category to "([^"]*)" for the category "([^"]*)"$/
+   */
+  public function iChangeTheTypeOfCategoryToForTheCategory($typeName, $categoryName) {
+    // Open edit window for the category.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//a[text()="' . $categoryName . '"]/following::a[text()="Edit"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The edit link for the category ' . $categoryName . ' not found');
+    }
+    $editLink->click();
+
+    // Change type of category to new type by change radio button.
+    $radioType = $page->find('xpath', '//label[contains(.,"' . $typeName . '")]/input');
+    if (null === $radioType) {
+      throw new \Exception('The radio button with text ' . $typeName . ' not found');
+    }
+    $radioType->click();
+
+    // Click "Save" button.
+    $this->pressButton("Save");
+  }
+
+  /**
    * @When /^I visit the group "([^"]*)" detail page "([^"]*)" with status "([^"]*)"$/
    */
   public function iVisitTheGroupDetailPageWithStatus($type, $title, $status) {
