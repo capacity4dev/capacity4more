@@ -437,19 +437,18 @@ trait Group {
   }
 
   /**
-   * @When /^I manage the category types of group "([^"]*)"$/
+   * @When /^I manage the categories types of group "([^"]*)"$/
    */
-  public function iManageTheCategoryTypesOfGroup($title) {
+  public function iManageTheCategoriesTypesOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, 'manage/categories/types');
-
     return new Given("I go to \"$uri\"");
   }
 
   /**
-   * @Given /^I move subcategory "([^"]*)" under "([^"]*)"$/
+   * @Given /^I move category "([^"]*)" under "([^"]*)"$/
    */
-  public function iMoveSubcategoryUnder($category1, $category2) {
+  public function iMoveCategoryUnder($category1, $category2) {
     $javascript = '
     var category1 = jQuery("tr.draggable").has("a:contains(\'' . $category1 . '\')");
     var category2 = jQuery("tr.draggable").has("a:contains(\'' . $category2 . '\')");
@@ -462,12 +461,10 @@ trait Group {
    * @Then /^I should see "([^"]*)" under "([^"]*)"$/
    */
   public function iShouldSeeUnder($category1, $category2) {
-    // //tr[descendant::a[contains(text(),'Horror')]]/following-sibling::tr
-
     $page = $this->getSession()->getPage();
-    $el1 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category1 . '\')]]/following-sibling::tr');
-    $el2 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category2 . '\')]]');
-    if ($el1 != $el2) {
+    $el1 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category2 . '\')]]/following-sibling::tr[1]');
+    $el2 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category1 . '\')]]');
+    if ($el1->getText() != $el2->getText()) {
       throw new \Exception("order is wrong");
     }
   }
@@ -513,4 +510,12 @@ trait Group {
     return $steps;
   }
 
+  /**
+   * @Given /^I reset order to alphabetical$/
+   */
+  public function iResetOrderToAlphabetical() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
+    $el->click();
+  }
 }
