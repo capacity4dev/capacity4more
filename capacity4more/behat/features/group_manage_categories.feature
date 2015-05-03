@@ -37,3 +37,10 @@ Feature: Group manage Categories
     And   I create a new term "Albert Einstein" under "Winners" with quick form
     Then  I should see "Created new term Albert Einstein."
 
+  @javascript
+  Scenario: Check I can create a category type in edit form.
+    Given I am logged in as user "galileo"
+    When  I manage the categories of group "Nobel Prize"
+    And   I create a new category type "Losers" with edit form
+    Then  I should see "Created new category type Losers."
+

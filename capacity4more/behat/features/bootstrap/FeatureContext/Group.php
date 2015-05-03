@@ -493,10 +493,22 @@ trait Group {
   /**
    * @Then /^I create a new category type "([^"]*)" with quick form$/
    */
-  public function iCreateCategoryType($type_name) {
+  public function iCreateCategoryTypeInQuickForm($type_name) {
     $steps = array();
     $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
     $steps[] = new Step\When('I press "add-term"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I create a new category type "([^"]*)" with edit form$/
+   */
+  public function iCreateCategoryType($type_name) {
+    $steps = array();
+    $steps[] = new Step\When('I click "edit-new-category"');
+    $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
+    $steps[] = new Step\When('I press "Save"');
 
     return $steps;
   }
