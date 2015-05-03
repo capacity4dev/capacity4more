@@ -442,6 +442,7 @@ trait Group {
   public function iManageTheCategoriesTypesOfGroup($title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
     $uri = $this->createUriWithGroupContext($group, 'manage/categories/types');
+
     return new Given("I go to \"$uri\"");
   }
 
