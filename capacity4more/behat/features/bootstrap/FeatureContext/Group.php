@@ -426,4 +426,40 @@ trait Group {
     return new Given("I go to \"$uri\"");
   }
 
+  /**
+   * @When /^I manage the categories of group "([^"]*)"$/
+   */
+  public function iManageTheCategoriesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/categories');
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @Given /^I move subcategory "([^"]*)" under "([^"]*)"$/
+   */
+  public function iMoveSubcategoryUnder($category1, $category2) {
+    $javascript = '
+    var category1 = jQuery("tr.draggable").has("a:contains(\'' . $category1 . '\')");
+    var category2 = jQuery("tr.draggable").has("a:contains(\'' . $category2 . '\')");
+    category1.insertAfter(category2);
+    ';
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" under "([^"]*)"$/
+   */
+  public function iShouldSeeUnder($category1, $category2) {
+    // //tr[descendant::a[contains(text(),'Horror')]]/following-sibling::tr
+
+    $page = $this->getSession()->getPage();
+    $el1 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category1 . '\')]]/following-sibling::tr');
+    $el2 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category2 . '\')]]');
+    if ($el1 != $el2) {
+      throw new \Exception("order is wrong");
+    }
+  }
+
 }
