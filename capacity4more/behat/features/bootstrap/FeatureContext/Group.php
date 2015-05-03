@@ -452,12 +452,10 @@ trait Group {
    * @Then /^I should see "([^"]*)" under "([^"]*)"$/
    */
   public function iShouldSeeUnder($category1, $category2) {
-    // //tr[descendant::a[contains(text(),'Horror')]]/following-sibling::tr
-
     $page = $this->getSession()->getPage();
-    $el1 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category1 . '\')]]/following-sibling::tr');
-    $el2 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category2 . '\')]]');
-    if ($el1 != $el2) {
+    $el1 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category2 . '\')]]/following-sibling::tr[1]');
+    $el2 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category1 . '\')]]');
+    if ($el1->getText() != $el2->getText()) {
       throw new \Exception("order is wrong");
     }
   }
