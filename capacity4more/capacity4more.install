@@ -447,7 +447,7 @@ function _capacity4more_install_set_default_date_formats() {
     'month_within' => 'H:i D j M',
   );
 
-  foreach ($formats AS $type => $format) {
+  foreach ($formats as $type => $format) {
     variable_set('date_format_' . $type, $format);
   }
 

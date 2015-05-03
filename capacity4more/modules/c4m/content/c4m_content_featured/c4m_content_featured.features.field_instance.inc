@@ -17,6 +17,12 @@ function c4m_content_featured_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -37,6 +43,12 @@ function c4m_content_featured_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'library' => array(
@@ -89,6 +101,12 @@ function c4m_content_featured_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -107,6 +125,12 @@ function c4m_content_featured_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_url',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'library' => array(
@@ -171,6 +195,12 @@ function c4m_content_featured_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
@@ -195,6 +225,12 @@ function c4m_content_featured_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'library' => array(
