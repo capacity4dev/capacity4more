@@ -117,11 +117,6 @@ function c4m_features_og_manage_categories_term_delete_confirm_form($form, &$for
   if (!$form) {
     drupal_redirect_form($form_state);
   }
-  // Validate if the given term belongs to the current group (The group vocab).
-  if (!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
-    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $form['#term']->name)), 'error');
-    drupal_redirect_form($form_state);
-  }
   return confirm_form($form,
     t('Are you sure you want to delete the term %name?',
       array('%name' => $form['#term']->name)),
@@ -156,11 +151,6 @@ function c4m_features_og_manage_categories_type_delete_confirm_form($form, &$for
   $form_state['redirect'] = $form['#destination'];
   // Validate if the given id belongs to a Taxonomy-term.
   if (!$form) {
-    drupal_redirect_form($form_state);
-  }
-  // Validate if the given term belongs to the current group (The group vocab).
-  if (!_og_vocab_term_exists_in_vocab($form['#term']->name, $form['#vocabulary']->vid)) {
-    drupal_set_message(t('The category type "%name" does not belong to the current group.', array('%name' => $form['#term']->name)), 'error');
     drupal_redirect_form($form_state);
   }
   return confirm_form($form,
@@ -395,22 +385,9 @@ function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) 
   // Return destination.
   $params = drupal_get_query_parameters();
   $form['#destination'] = $params['destination'];
-
-  // Validate if the given term is valid.
-  if (!$term = taxonomy_term_load($tid)) {
-    drupal_set_message(t('Type ID is not valid.'), 'error');
-    $form_state['redirect'] = $form['#destination'];
-    drupal_redirect_form($form_state);
-  }
-
+  $term = taxonomy_term_load($tid);
   $group = c4m_og_current_group();
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  // Validate if the given category type belongs to the current group (The group vocab).
-  if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
-    drupal_set_message(t('The category type "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
-    $form_state['redirect'] = $form['#destination'];
-    drupal_redirect_form($form_state);
-  }
 
   // Check for confirmation forms.
   if (isset($form_state['confirm_delete'])) {
@@ -498,22 +475,9 @@ function c4m_features_og_manage_categories_type_form_submit($form, &$form_state)
 function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
   $params = drupal_get_query_parameters();
   $form['#destination'] = $params['destination'];
-
-  // Validate if the given term is valid.
-  if (!$term = taxonomy_term_load($tid)) {
-    drupal_set_message(t('Term ID is not valid.'), 'error');
-    $form_state['redirect'] = $form['#destination'];
-    drupal_redirect_form($form_state);
-  }
-
+  $term = taxonomy_term_load($tid);
   $group = c4m_og_current_group();
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  // Validate if the given term belongs to the current group (The group vocab).
-  if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
-    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
-    $form_state['redirect'] = $form['#destination'];
-    drupal_redirect_form($form_state);
-  }
 
   // Check for confirmation forms.
   if (isset($form_state['confirm_delete'])) {

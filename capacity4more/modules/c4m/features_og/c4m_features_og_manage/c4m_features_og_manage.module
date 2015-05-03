@@ -54,35 +54,40 @@ function c4m_features_og_manage_menu() {
   $items['manage/categories/term/%/edit'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_manage_categories_term_form', 3),
-    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
   );
 
   $items['manage/categories/type/%/edit'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_manage_categories_type_form', 3),
-    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
   );
 
   $items['manage/categories/term/%/delete'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_manage_categories_term_delete_confirm_form', 3),
-    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
   );
 
   $items['manage/categories/type/%/delete'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_manage_categories_type_delete_confirm_form', 3),
-    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
   );
 
   $items['manage/categories/term/%/term-order'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_og_manage_categories_term_order_confirm_form', 3),
-    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
   );
 
@@ -105,7 +110,40 @@ function c4m_features_og_manage_categories_access() {
   if (empty($gid)) {
     return FALSE;
   }
+
   return og_user_access('node', $gid, 'administer group');
+}
+
+/**
+ * Access callback for manage group categories edit/delete/reorder term forms.
+ *
+ * @param int $tid
+ *  The taxonomy term ID.
+ *
+ * @return bool
+ *  user's access to the current group.
+ */
+function c4m_features_og_manage_categories_terms_access($tid) {
+  // Check if in a group.
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return FALSE;
+  }
+
+  // Validate if the given term is valid.
+  if (!$term = taxonomy_term_load($tid)) {
+    drupal_set_message(t('Type/Term ID is not valid.'), 'error');
+    return FALSE;
+  }
+
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+  // Validate if the given category type belongs to the current group (The group vocab).
+  if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
+    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
+    return FALSE;
+  }
+
+  return og_user_access('node', $group->nid, 'administer group');
 }
 
 /**
