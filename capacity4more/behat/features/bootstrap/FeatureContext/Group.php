@@ -437,6 +437,16 @@ trait Group {
   }
 
   /**
+   * @When /^I manage the category types of group "([^"]*)"$/
+   */
+  public function iManageTheCategoryTypesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/categories/types');
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
    * @Given /^I move subcategory "([^"]*)" under "([^"]*)"$/
    */
   public function iMoveSubcategoryUnder($category1, $category2) {
@@ -465,7 +475,7 @@ trait Group {
   /**
    * @Then /^I create a new term "([^"]*)" under "([^"]*)" with quick form$/
    */
-  public function iCreateTermUnder($term_name, $parent_term_name) {
+  public function iCreateNewTerm($term_name, $parent_term_name) {
     // Get parent term ID.
     $parent = taxonomy_get_term_by_name($parent_term_name);
     if (empty($parent)) {
@@ -476,6 +486,17 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I fill in "name-' . $parent_id . '" with "' . $term_name . '"');
     $steps[] = new Step\When('I press "'. $parent_id .'"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I create a new category type "([^"]*)" with quick form$/
+   */
+  public function iCreateCategoryType($type_name) {
+    $steps = array();
+    $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
+    $steps[] = new Step\When('I press "add-term"');
 
     return $steps;
   }
