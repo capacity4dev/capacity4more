@@ -23,3 +23,11 @@ Feature: Group manage Categories
     And   I press "Save"
     Then  I should see "Drama" under "Romance"
 
+
+  @javascript
+  Scenario: Check I can create a new term in the quick form.
+    Given I am logged in as user "galileo"
+    When  I manage the categories of group "Nobel Prize"
+    And   I create a new term "London, England" under "Locations" with quick form
+    Then  I should see "Created new term London, England."
+
