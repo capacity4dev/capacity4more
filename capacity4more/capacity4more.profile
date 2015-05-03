@@ -39,6 +39,7 @@ function capacity4more_install_tasks() {
 
   $tasks['capacity4more_setup_set_og_permissions'] = array(
     'display_name' => st('Set OG permissions'),
+    'display' => FALSE,
   );
 
   $tasks['capacity4more_setup_set_terms_og_permissions'] = array(
