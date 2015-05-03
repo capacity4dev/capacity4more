@@ -437,9 +437,19 @@ trait Group {
   }
 
   /**
-   * @Given /^I move subcategory "([^"]*)" under "([^"]*)"$/
+   * @When /^I manage the categories types of group "([^"]*)"$/
    */
-  public function iMoveSubcategoryUnder($category1, $category2) {
+  public function iManageTheCategoriesTypesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/categories/types');
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @Given /^I move category "([^"]*)" under "([^"]*)"$/
+   */
+  public function iMoveCategoryUnder($category1, $category2) {
     $javascript = '
     var category1 = jQuery("tr.draggable").has("a:contains(\'' . $category1 . '\')");
     var category2 = jQuery("tr.draggable").has("a:contains(\'' . $category2 . '\')");
@@ -460,4 +470,12 @@ trait Group {
     }
   }
 
+  /**
+   * @Given /^I reset order to alphabetical$/
+   */
+  public function iResetOrderToAlphabetical() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
+    $el->click();
+  }
 }
