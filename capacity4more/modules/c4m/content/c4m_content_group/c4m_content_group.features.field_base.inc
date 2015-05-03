@@ -132,7 +132,7 @@ function c4m_content_group_field_default_field_bases() {
   // Exported field_base: 'pluggable_node_access'
   $field_bases['pluggable_node_access'] = array(
     'active' => 1,
-    'cardinality' => 1,
+    'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'pluggable_node_access',

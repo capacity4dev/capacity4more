@@ -152,7 +152,7 @@ function c4m_content_discussion_ds_field_settings_info() {
     'c4m_ds_creation_date' => array(
       'weight' => '12',
       'label' => 'hidden',
-      'format' => 'j F Y, G:i',
+      'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',

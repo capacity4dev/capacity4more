@@ -6,11 +6,19 @@
 }
 .view-c4m-overview-events-landing, .view-c4m-overview-og-events-landing {
   position: relative;
-  .view-header {
-    position: absolute;
-    right: 0px;
-    top: -50px;
+
+  &.view-display-id-block_2 {
+    .view-header {
+      position: absolute;
+      right: 0px;
+      top: -50px;
+    }
   }
+
+  .view-header {
+    margin: 0;
+  }
+
   a.link-to-view {
     float: right;
     span {
@@ -22,6 +30,14 @@
   li {
     a {
       color: #999999;
+    }
+  }
+}
+
+.node-event {
+  &.view-mode-teaser {
+    .date {
+      margin-right: 5px;
     }
   }
 }

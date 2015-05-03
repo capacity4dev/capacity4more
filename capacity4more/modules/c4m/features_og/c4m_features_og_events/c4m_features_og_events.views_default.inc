@@ -32,6 +32,9 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
@@ -113,6 +116,12 @@ function c4m_features_og_events_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Upcoming events';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -305,6 +314,23 @@ function c4m_features_og_events_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Number of items */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
+  $handler->display->display_options['header']['result']['empty'] = TRUE;
+  $handler->display->display_options['header']['result']['content'] = '@total in total';
+  /* Header: Add event link */
+  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
+  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
+  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add event link';
+  $handler->display->display_options['header']['c4m_views_node_add']['label'] = 'Add an event';
+  $handler->display->display_options['header']['c4m_views_node_add']['empty'] = TRUE;
+  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
+  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an event';
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Global: Add view pages links */
   $handler->display->display_options['footer']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
@@ -336,14 +362,6 @@ function c4m_features_og_events_views_default_views() {
   $handler->display->display_options['header']['result']['ui_name'] = 'Number of items';
   $handler->display->display_options['header']['result']['empty'] = TRUE;
   $handler->display->display_options['header']['result']['content'] = '@total in total';
-  /* Header: Add event link */
-  $handler->display->display_options['header']['c4m_views_node_add']['id'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_node_add']['field'] = 'c4m_views_node_add';
-  $handler->display->display_options['header']['c4m_views_node_add']['ui_name'] = 'Add event link';
-  $handler->display->display_options['header']['c4m_views_node_add']['label'] = 'Add an event';
-  $handler->display->display_options['header']['c4m_views_node_add']['node_type'] = 'event';
-  $handler->display->display_options['header']['c4m_views_node_add']['link_text'] = 'Add an event';
   $handler->display->display_options['defaults']['footer'] = FALSE;
   /* Footer: Link to group upcoming events page */
   $handler->display->display_options['footer']['c4m_views_custom_link']['id'] = 'c4m_views_custom_link';

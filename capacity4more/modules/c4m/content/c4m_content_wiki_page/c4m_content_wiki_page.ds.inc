@@ -168,7 +168,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
     'c4m_ds_creation_date' => array(
       'weight' => '5',
       'label' => 'hidden',
-      'format' => 'j F Y, G:i',
+      'format' => 'j F Y',
     ),
     'c4m_content_wiki_page_navigation' => array(
       'weight' => '0',

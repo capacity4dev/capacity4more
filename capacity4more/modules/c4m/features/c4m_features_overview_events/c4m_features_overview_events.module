@@ -43,27 +43,27 @@ function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$
  * sorts and give ours a new name.
  */
 function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
-  // Change default sort into 'Sort by Start Date' for events overviews.
-  if (FALSE === strpos(current_path(), 'events', 0)) {
-    return;
-  }
-  // Remove 'Start date' sort if this is not an events overview.
-  if (!in_array($view->name, array('c4m_overview_events',
+  if (in_array($view->name, array('c4m_overview_events',
     'c4m_overview_events_landing'))) {
     foreach ($block['content']['#items'] as $key => $item) {
-      if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $item['#name']) {
+      // Remove all sorts but start date and relevance.
+      if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE !== $item['#name']
+        && C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE !== $item['#name']
+      ) {
         unset($block['content']['#items'][$key]);
-        break;
       }
     }
-    return;
   }
-
-  foreach ($block['content']['#items'] as $key => $item) {
-    // Remove all sorts but start date and relevance.
-    if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE !== $item['#name']
-        && C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE !== $item['#name']) {
-      unset($block['content']['#items'][$key]);
+  else {
+    // Remove 'Start date' sort if this is not an events overview.
+    if (!in_array($view->name, array('c4m_overview_og_events',
+      'c4m_overview_og_events_landing'))) {
+      foreach ($block['content']['#items'] as $key => $item) {
+        if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $item['#name']) {
+          unset($block['content']['#items'][$key]);
+          break;
+        }
+      }
     }
   }
 }
@@ -87,7 +87,7 @@ function c4m_features_overview_events_search_api_views_query_alter(view &$view, 
     // The first page display, this is merely to have the exposed form.
     // We save the fulltext search terms in a static variable.
     // We know this view is executed first.
-    $keys = $query->getKeys();
+    $keys = $query->getOriginalKeys();
   }
   else {
     // We manually put the search term of the exposed form of the Views

@@ -32,7 +32,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 30,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -148,7 +148,7 @@ function c4m_content_group_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
@@ -243,7 +243,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 32,
       ),
       'c4m_teaser_list' => array(
         'label' => 'hidden',
@@ -459,7 +459,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 25,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -751,7 +751,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 28,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -818,7 +818,7 @@ function c4m_content_group_field_default_field_instances() {
     'bundle' => 'group',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Please provide a rief description of the objectives and the scope of the group.',
+    'description' => 'Please provide a brief description of the objectives and scope of this group.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -836,7 +836,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 29,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -929,7 +929,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 27,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -1028,7 +1028,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 31,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -1131,7 +1131,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 26,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -1179,6 +1179,7 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'pluggable_node_access',
     'label' => 'Pluggable node access',
@@ -1216,7 +1217,7 @@ function c4m_content_group_field_default_field_instances() {
   t('How should membership requests be handled in this Group ?');
   t('Membership requests');
   t('Message to the site administrator');
-  t('Please provide a rief description of the objectives and the scope of the group.');
+  t('Please provide a brief description of the objectives and scope of this group.');
   t('Pluggable node access');
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');

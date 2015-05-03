@@ -291,7 +291,7 @@ input[type="checkbox"]:not(old) {
   .field-name-c4m-event-type {
     .event-type-button {
       @extend %svg-icon;
-      padding-left: 25px;
+      padding-left: 35px;
 
       &.event-type-event {
         @include link-icon-png-fallback('icons', 'event-qp-event');
@@ -464,6 +464,13 @@ input[type="checkbox"]:not(old) {
   .form-type-radio,
   .form-radios {
     display: inline-block;
+  }
+}
+
+#edit-restricted-organisations {
+
+  .form-item {
+    margin-bottom: 10px;
   }
 }
 

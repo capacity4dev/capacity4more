@@ -39,6 +39,10 @@ function capacity4more_install_tasks() {
 
   $tasks['capacity4more_setup_set_og_permissions'] = array(
     'display_name' => st('Set OG permissions'),
+  );
+
+  $tasks['capacity4more_setup_set_terms_og_permissions'] = array(
+    'display_name' => st('Set terms OG permissions'),
     'display' => FALSE,
   );
 
@@ -136,4 +140,20 @@ function capacity4more_setup_set_og_permissions() {
   $roles = og_roles('node', 'group');
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
+}
+
+/**
+ * Task callback; Setting terms OG permissions.
+ */
+function capacity4more_setup_set_terms_og_permissions() {
+  $permissions = array(
+    'edit terms',
+    'delete terms',
+  );
+
+  $roles = og_roles('node', 'group');
+  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
+  $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
+  og_role_grant_permissions($admin_rid, $permissions);
 }
