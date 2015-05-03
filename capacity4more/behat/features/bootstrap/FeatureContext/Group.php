@@ -73,7 +73,7 @@ trait Group {
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $options = array_merge($options, array('purl' => $purl));
+    $options = array_merge($options, array('purl' => $purl, 'absolute' => TRUE));
     $uri = ltrim(url($path, $options), '/');
 
     return $uri;
@@ -468,6 +468,47 @@ trait Group {
     if ($el1->getText() != $el2->getText()) {
       throw new \Exception("order is wrong");
     }
+  }
+
+  /**
+   * @Then /^I create a new term "([^"]*)" under "([^"]*)" with quick form$/
+   */
+  public function iCreateNewTerm($term_name, $parent_term_name) {
+    // Get parent term ID.
+    $parent = taxonomy_get_term_by_name($parent_term_name);
+    if (empty($parent)) {
+      throw new \Exception("$parent_term_name is not a taxonomy term.");
+    }
+    $parent_id = key($parent);
+
+    $steps = array();
+    $steps[] = new Step\When('I fill in "name-' . $parent_id . '" with "' . $term_name . '"');
+    $steps[] = new Step\When('I press "'. $parent_id .'"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I create a new category type "([^"]*)" with quick form$/
+   */
+  public function iCreateCategoryTypeInQuickForm($type_name) {
+    $steps = array();
+    $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
+    $steps[] = new Step\When('I press "add-term"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I create a new category type "([^"]*)" with edit form$/
+   */
+  public function iCreateCategoryType($type_name) {
+    $steps = array();
+    $steps[] = new Step\When('I click "edit-new-category"');
+    $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
+    $steps[] = new Step\When('I press "Save"');
+
+    return $steps;
   }
 
   /**
