@@ -22,7 +22,7 @@ function c4m_comment_form_node_form_alter(&$form, $form_state) {
 /**
 * Implements hook_entity_info_alter().
 */
-function c4m_comment_entity_info_alter(&$entity_info) {
+function c4m_comment_entity_info_altr(&$entity_info) {
   $entity_info['comment']['view modes']['activity_stream'] = array(
     'label' => t('Activity stream'),
     'custom settings' => TRUE,
