@@ -172,6 +172,10 @@
   color: $color-blue;
   display: inline-block;
 
+  .field-label{
+    color: $color-gray-dark;
+  }
+
   & + .field-name-post-date {
     color: $color-blue;
     display: inline-block;

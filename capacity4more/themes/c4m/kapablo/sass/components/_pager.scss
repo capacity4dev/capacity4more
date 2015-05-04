@@ -3,7 +3,7 @@
   font-size: 1.5em;
 
   a {
-    color: $gray-dark;
+    color: $color-gray-dark;
     display: block;
     width: 100%;
     text-indent: 100%;
@@ -40,7 +40,7 @@
     .pager-item {
       a {
         @extend %circle-button-30;
-        background: $gray-dark;
+        background: $color-gray-dark;
         color: $color-white;
       }
     }

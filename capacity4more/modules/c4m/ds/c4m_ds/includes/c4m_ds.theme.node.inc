@@ -225,8 +225,9 @@ function theme_c4m_ds_group_access_info($field) {
 
   $group_access   = c4m_og_get_access_type($field['entity']);
   $tag['element'] = array(
-    '#tag'   => 'h4',
+    '#tag'   => 'h5',
     '#value' => $group_access['title'],
+    '#class' => array('col-md-6'),
   );
 
   return theme_html_tag($tag);
@@ -378,9 +379,34 @@ function theme_c4m_ds_group_role_members($field) {
   $members = c4m_og_get_users_by_roles($entity->nid, array($field['formatter']));
 
   foreach ($members as $member) {
-    $user = user_load($member->uid);
-    $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
+    // Don't list the group owner twice.
+    if ($entity->uid !== $member->uid) {
+      $user = user_load($member->uid);
+      $output .= ', ' . l(c4m_user_name($user), 'user/' . $member->uid);
+    }
   }
 
   return ltrim($output, ', ');
+}
+
+/**
+ * DS function field.
+ *
+ * Render administration link.
+ *
+ * @param $field
+ *
+ * @return string
+ */
+function theme_c4m_ds_group_administer_link($field) {
+  global $user;
+
+  $entity = $field['entity'];
+
+  if (og_user_access('node', $entity->nid, 'administer group', $user)) {
+    return l(
+      '<i class="fa fa-cog"></i> ' . t('Manage this @group_type', array('@group_type' => $entity->type)),
+      'manage',
+      array('html' => TRUE));
+  }
 }
