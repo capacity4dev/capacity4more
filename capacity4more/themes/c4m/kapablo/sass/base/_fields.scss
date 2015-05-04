@@ -31,6 +31,12 @@
   color: $color-blue;
 }
 
+.organiser, .group {
+  .label-inline {
+    margin-right: 5px;
+  }
+}
+
 .date {
   .label-inline {
     margin-right: 5px;
