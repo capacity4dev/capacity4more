@@ -30,6 +30,9 @@ function c4m_content_document_c4m_og_vocab_info_content() {
  * Add our own submit handler as the last one.
  */
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
+  // Hide field Add to library from user.
+  $form['c4m_document_add_to_library']['#access'] = FALSE;
+  
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
     $form['actions']['submit']['#submit'][] = 'c4m_content_document_form_document_node_form_submit';
