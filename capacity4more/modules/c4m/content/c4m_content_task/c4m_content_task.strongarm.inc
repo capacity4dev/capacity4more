@@ -135,7 +135,7 @@ function c4m_content_task_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_task';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['node_preview_task'] = $strongarm;
 
   $strongarm = new stdClass();
