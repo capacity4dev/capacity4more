@@ -72,7 +72,6 @@ Feature: Group manage Categories
     Then I should see the category "Roland Garros" under the type "World Ligas"
 
   @javascript
-<<<<<<< HEAD
   Scenario: Check I can rename category type as group administrator.
     Given I am logged in as user "isaacnewton"
     And I manage the categories of group "TENNIS GROUP"
