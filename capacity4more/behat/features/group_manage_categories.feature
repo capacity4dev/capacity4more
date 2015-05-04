@@ -92,10 +92,18 @@ Feature: Group manage Categories
     When I change the type of category to "World Ligas" for the category "Roland Garros"
     Then I should see the category "Roland Garros" under the type "World Ligas"
 
-  @javascript @test
+  @javascript
   Scenario: Check I can rename category type as group administrator.
     Given I am logged in as user "isaacnewton"
     And I manage the categories of group "TENNIS GROUP"
     And I should see the category type "Masters Tournaments"
     When I change the category type from "Masters Tournaments" to "Masters Tournaments New"
     Then I should see the category type "Masters Tournaments New"
+
+  @javascript
+  Scenario: Check I can delete category as group administrator.
+    Given I am logged in as user "isaacnewton"
+    And I manage the categories of group "TENNIS GROUP"
+    And I should see the category "ATP" under the type "World Ligas"
+    When I delete category "ATP" under the type "World Ligas"
+    Then I should not see the category "ATP" under the type "World Ligas"

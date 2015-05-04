@@ -177,6 +177,33 @@ trait Group {
     $this->pressButton("Save");
   }
 
+  /**
+   * @When /^I delete category "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iDeleteCategoryUnderTheType($category, $categoryType) {
+    // Open delete window for the category.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="' . $category . '"]/following::a[text()="Delete"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The delete link for the category ' . $category . ' not found');
+    }
+    $editLink->click();
+
+    // Click "Delete" button.
+    $this->pressButton("Delete");
+  }
+
+  /**
+   * @Then /^I should not see the category "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iShouldNotSeeTheCategoryUnderTheType($category, $categoryType) {
+    // Find the category in specific type.
+    $page = $this->getSession()->getPage();
+    $category = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="' . $category . '"]');
+    if (null !== $category) {
+      throw new \Exception('The category ' . $category . ' exist in the type ' . $categoryType);
+    }
+  }
 
   /**
    * @When /^I visit the group "([^"]*)" detail page "([^"]*)" with status "([^"]*)"$/
