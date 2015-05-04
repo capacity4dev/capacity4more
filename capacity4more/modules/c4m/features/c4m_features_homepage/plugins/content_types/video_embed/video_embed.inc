@@ -48,6 +48,10 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
     'title' => '',
   );
 
+  // This js will enable communication with YouTube's API.
+  $path = drupal_get_path('module', 'c4m_features_homepage_intro');
+  drupal_add_js($path . '/js/video_overlay.js');
+
   $variables = array(
     'video_thumbnail' => theme('image', $video_thumb),
     'video_title' => $video_title,
@@ -56,7 +60,7 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   );
 
   $block = new stdClass();
-  $block->module = 'c4m_restful_quick_post';
+  $block->module = 'c4m_features_homepage';
   $block->title = '';
   $block->content = theme('video_embed' , $variables);
   return $block;

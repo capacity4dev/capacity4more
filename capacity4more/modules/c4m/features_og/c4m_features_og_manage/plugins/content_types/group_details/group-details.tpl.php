@@ -80,7 +80,7 @@
           <div class="col-md-3"><?php print $feature['name']; ?></div>
           <div class="col-md-9"><?php print empty($details['features_enabled'][$feature['machine_name']]) ? t('Disabled') : '<strong>' . t('Enabled') . '</strong>'; ?></div>
         </div>
-      <? endforeach; ?>
+      <?php endforeach; ?>
     </div>
   </div>
 </div>
