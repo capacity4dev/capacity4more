@@ -85,7 +85,7 @@ Feature: Group manage Categories
     Then I should see the category "Australian Open New" under the type "Masters Tournaments"
 
   @javascript
-  Scenario: Check I can change type of category for the category.
+  Scenario: Check I can change type of category for the category as group administrator.
     Given I am logged in as user "isaacnewton"
     And I manage the categories of group "TENNIS GROUP"
     And I should see the category "Roland Garros" under the type "Masters Tournaments"
