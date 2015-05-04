@@ -26,7 +26,7 @@ function theme_c4m_field_og_group(array $field) {
     return;
   }
 
-  // Only show this field for group nodes.
+  // Only show this field for group node types.
   $entity = $field['entity'];
   if (!og_is_group_content_type('node', $entity->type)) {
     return;
@@ -34,6 +34,12 @@ function theme_c4m_field_og_group(array $field) {
 
   // Get group node.
   $groups = og_get_entity_groups('node', $entity);
+
+  // Only show this field for group nodes.
+  if (!isset($groups['node'])) {
+    return;
+  }
+
   $group_nid = array_pop($groups['node']);
 
   // Return a link to the group.
