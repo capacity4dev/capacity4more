@@ -155,6 +155,13 @@ trait Group {
   }
 
   /**
+   * @Given /^I should not see the category type "([^"]*)"$/
+   */
+  public function iShouldNotSeeTheCategoryType($categoryType) {
+    return !$this->assertPageContainsText($categoryType);
+  }
+
+  /**
    * @When /^I change the category type from "([^"]*)" to "([^"]*)"$/
    */
   public function iChangeTheCategoryTypeFromTo($oldCategoryType, $newCategoryType) {
@@ -203,6 +210,22 @@ trait Group {
     if (null !== $category) {
       throw new \Exception('The category ' . $category . ' exist in the type ' . $categoryType);
     }
+  }
+
+  /**
+   * @When /^I delete all categories for category type "([^"]*)"$/
+   */
+  public function iDeleteAllCategoriesForCategoryType($categoryType) {
+    // Open delete window for category type.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="Delete"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The delete link for the category type ' . $categoryType . ' not found');
+    }
+    $editLink->click();
+
+    // Click "Delete" button.
+    $this->pressButton("Delete");
   }
 
   /**
