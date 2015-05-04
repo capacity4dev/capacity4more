@@ -148,6 +148,37 @@ trait Group {
   }
 
   /**
+   * @Given /^I should see the category type "([^"]*)"$/
+   */
+  public function iShouldSeeTheCategoryType($categoryType) {
+    return $this->assertPageContainsText($categoryType);
+  }
+
+  /**
+   * @When /^I change the category type from "([^"]*)" to "([^"]*)"$/
+   */
+  public function iChangeTheCategoryTypeFromTo($oldCategoryType, $newCategoryType) {
+    // Open edit window for the category type.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//h3[text()="' . $oldCategoryType . '"]/following::a[text()="Edit"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The edit link for the category ' . $oldCategoryType . ' not found');
+    }
+    $editLink->click();
+
+    // Change name of category type.
+    $termName = $page->find('xpath', '//*[@id="edit-name"]');
+    if (null === $termName) {
+      throw new \Exception('The "Term name" input not found');
+    }
+    $termName->setValue($newCategoryType);
+
+    // Click "Save" button.
+    $this->pressButton("Save");
+  }
+
+
+  /**
    * @When /^I visit the group "([^"]*)" detail page "([^"]*)" with status "([^"]*)"$/
    */
   public function iVisitTheGroupDetailPageWithStatus($type, $title, $status) {
