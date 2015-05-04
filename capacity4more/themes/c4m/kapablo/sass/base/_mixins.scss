@@ -13,7 +13,7 @@
   &:hover {
     background-color: inherit;
     background-image: $full-png-hover;
-    color: $gray-dark;
+    color: $color-gray-dark;
   }
 
 //  html.inlinesvg & {
@@ -25,7 +25,7 @@
 
   &.active-trail, &.active, &.hover {
     background-image: $full-png-hover;
-    color: $gray-dark;
+    color: $color-gray-dark;
 
 //    html.inlinesvg & {
 //      background-image: $full-svg-hover;

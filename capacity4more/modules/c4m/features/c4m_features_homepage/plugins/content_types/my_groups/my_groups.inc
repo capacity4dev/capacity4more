@@ -25,13 +25,11 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     return FALSE;
   }
 
-  // Load node for each group and add the first 2 letters of the group title as a key.
-  foreach (node_load_multiple($groups['node']) as $node) {
-    $my_groups[strtolower(substr($node->title, 0, 2))] = $node;
-  }
+  $nids = array_values($groups['node']);
 
-  // Sort my groups by key, which will sort them alphabetically (Keys are first 2 letters of each group's title).
-  ksort($my_groups, SORT_STRING);
+  $my_groups = node_load_multiple($nids);
+
+  usort($my_groups, 'c4m_sort_object_by_title');
 
   // Render node views for each group,
   // First 3 groups are displayed (first_groups), the rest are hidden and only shown when user clicks on "Show all" (extra_groups).

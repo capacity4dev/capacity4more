@@ -33,3 +33,11 @@
     }
   }
 }
+
+.node-event {
+  &.view-mode-teaser {
+    .date {
+      margin-right: 5px;
+    }
+  }
+}

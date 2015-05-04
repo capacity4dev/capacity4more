@@ -33,7 +33,7 @@
 
     &:not(.collapsed):not(.collapsing):not(.in) {
       .og-menu-link > a {
-        border-right: 1px solid $gray-dark;
+        border-right: 1px solid $color-gray-dark;
         &:focus, &:hover {
           background-color: white;
         }
@@ -97,7 +97,7 @@
       &.wiki > a {
         background-color: white;
         &:hover, &.active, &.active-trail {
-          color: $gray-dark;
+          color: $color-gray-dark;
           background-color: transparent;
         }
       }
@@ -162,7 +162,7 @@
                 }
                 &:hover {
                   background-color: $color-gray-light;
-                  color: $gray-dark;
+                  color: $color-gray-dark;
                   i.c4m-chevron-right {
                     color: inherit;
                     @include arrow-image('right', 'gray-dark', 'after');

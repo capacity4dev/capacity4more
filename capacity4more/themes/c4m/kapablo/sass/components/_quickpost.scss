@@ -153,11 +153,11 @@
 
     .label-wrapper {
       border: 0;
-      color: $gray-dark;
+      color: $color-gray-dark;
     }
 
     label {
-      color: $gray-dark;
+      color: $color-gray-dark;
       display: block;
       font-size: 115%;
       font-weight: normal;
@@ -249,7 +249,7 @@
 
 .selected-values {
   span {
-    color: $gray-dark;
+    color: $color-gray-dark;
     margin: 10px 10px 0 0 !important;
   }
 }
@@ -270,7 +270,7 @@
   margin: 15px 8px 15px 15px;
 
   button {
-    @include input-rounded($gray-dark);
+    @include input-rounded($color-gray-dark);
   }
 }
 
@@ -279,7 +279,7 @@
   margin: 15px 8px 15px 7px;
 
   a {
-    color: $gray-dark;
+    color: $color-gray-dark;
   }
 }
 
@@ -290,10 +290,10 @@
 }
 
 .qp-timeselector {
-  color: $gray-dark;
+  color: $color-gray-dark;
 
   table tr td, input {
-    color: $gray-dark;
+    color: $color-gray-dark;
   }
 }
 

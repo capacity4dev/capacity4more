@@ -1,6 +1,8 @@
 <?php
 /**
  * @file
+ * Install, update and uninstall functions.
+ *
  * Install, update and uninstall functions for the
  * capacity4more installation profile.
  */
@@ -9,25 +11,26 @@
  * Implements hook_install().
  */
 function capacity4more_install() {
-  // Fixes problems when the CSV files used for importing have been created
-  // on a Mac, by forcing PHP to detect the appropriate line endings.
+  /*
+   * Fixes problems when the CSV files used for importing have been created
+   * on a Mac, by forcing PHP to detect the appropriate line endings.
+   */
   ini_set('auto_detect_line_endings', TRUE);
 
-  // TEXT FORMATS
+  // TEXT FORMATS.
   $filtered_html_format = _capacity4more_install_get_filtered_html_format();
   filter_format_save($filtered_html_format);
   $full_html_format = _capacity4more_install_get_full_html_format();
   filter_format_save($full_html_format);
 
-
-  // ROLES & PERMISSIONS
+  // ROLES & PERMISSIONS.
   _capacity4more_install_save_default_permissions($filtered_html_format);
 
-  // MENU
+  // MENU.
   _capacity4more_install_save_default_menu();
   menu_rebuild();
 
-  // THEMES
+  // THEMES.
   $theme_default = variable_get('theme_default', 'bootstrap');
 
   $theme_admin = 'seven';
@@ -39,10 +42,10 @@ function capacity4more_install() {
   $theme_capacity4more = 'kapablo';
   _capacity4more_install_save_theme($theme_capacity4more, 1);
   variable_set('theme_default', $theme_capacity4more);
-  // Disable Bartik
+  // Disable Bartik.
   _capacity4more_install_save_theme($theme_default, 0);
 
-  // BLOCKS
+  // BLOCKS.
   $admin_blocks = _capacity4more_install_get_admin_theme_blocks($theme_admin);
   _capacity4more_install_save_theme_blocks($admin_blocks);
 
@@ -51,7 +54,7 @@ function capacity4more_install() {
 
   _capacity4more_install_set_default_date_formats();
 
-  // DATE & DATE FORMAT
+  // DATE & DATE FORMAT.
   date_default_timezone_set('Europe/Brussels');
   variable_set('date_default_timezone', 'Europe/Brussels');
   variable_set('date_first_day', 1);
@@ -61,17 +64,12 @@ function capacity4more_install() {
   variable_set('c4m_quick_post_debug', 0);
 }
 
-
-
-
 /******************************************************************************
  * TEXT FORMATS (Default filters)
  ******************************************************************************/
 
 /**
  * Get the filtered_html format.
- *
- * @param void
  *
  * @return stdCLass
  */
@@ -111,8 +109,6 @@ function _capacity4more_install_get_filtered_html_format() {
 /**
  * Get the full_html format.
  *
- * @param void
- *
  * @return stdCLass
  */
 function _capacity4more_install_get_full_html_format() {
@@ -143,8 +139,6 @@ function _capacity4more_install_get_full_html_format() {
   return $full_html_format;
 }
 
-
-
 /******************************************************************************
  * ROLES & PERMISSIONS
  ******************************************************************************/
@@ -153,8 +147,6 @@ function _capacity4more_install_get_full_html_format() {
  * Save the default permissions.
  *
  * @param stdClass $filtered_html_format
- *
- * @return void
  */
 function _capacity4more_install_save_default_permissions($filtered_html_format) {
   // Only admins can create new members.
@@ -219,18 +211,12 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     ->execute();
 }
 
-
-
 /******************************************************************************
  * MENU
  ******************************************************************************/
 
 /**
  * Set the default minimum menu items.
- *
- * @param void
- *
- * @return void
  */
 function _capacity4more_install_save_default_menu() {
   // Create a Home link in the main menu.
@@ -243,8 +229,6 @@ function _capacity4more_install_save_default_menu() {
   menu_link_save($item);
 }
 
-
-
 /******************************************************************************
  * THEMES
  ******************************************************************************/
@@ -256,18 +240,14 @@ function _capacity4more_install_save_default_menu() {
  *   The theme name.
  * @param $status
  *   The status of the theme.
- *
- * @return void
  */
 function _capacity4more_install_save_theme($name, $status) {
   db_update('system')
-    ->fields(array('status' => (int)$status))
+    ->fields(array('status' => (int) $status))
     ->condition('type', 'theme')
     ->condition('name', $name)
     ->execute();
 }
-
-
 
 /******************************************************************************
  * BLOCKS
@@ -277,8 +257,6 @@ function _capacity4more_install_save_theme($name, $status) {
  * Add an array of blocks to the given theme.
  *
  * @param array $blocks
- *
- * @return void
  */
 function _capacity4more_install_save_theme_blocks($blocks) {
   $query = db_insert('block')->fields(array(
@@ -429,8 +407,6 @@ function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
 /**
  * Set the default time formats
  *
- * @param void
- *
  * @return array
  */
 function _capacity4more_install_set_default_date_formats() {
@@ -447,7 +423,7 @@ function _capacity4more_install_set_default_date_formats() {
     'month_within' => 'H:i D j M',
   );
 
-  foreach ($formats AS $type => $format) {
+  foreach ($formats as $type => $format) {
     variable_set('date_format_' . $type, $format);
   }
 
@@ -457,16 +433,6 @@ function _capacity4more_install_set_default_date_formats() {
   );
 }
 
-
-
-
 /******************************************************************************
  * UPDATES GO HERE
  ******************************************************************************/
-
-
-
-
-
-
-
