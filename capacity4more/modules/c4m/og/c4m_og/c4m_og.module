@@ -586,6 +586,9 @@ function c4m_og_feature_uninstall($feature) {
 function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
   $groups = og_get_groups_by_user($account, 'node');
 
+  if (!$groups) {
+    return $groups;
+  }
   if (!$bundle) {
     return $groups;
   }
