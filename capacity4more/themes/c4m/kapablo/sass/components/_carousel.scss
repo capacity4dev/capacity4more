@@ -30,6 +30,11 @@ ul[rn-carousel] {
     height: 100%;
     background-position: center center;
 
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+
     .intro-text {
       position: absolute;
       bottom: 0;
