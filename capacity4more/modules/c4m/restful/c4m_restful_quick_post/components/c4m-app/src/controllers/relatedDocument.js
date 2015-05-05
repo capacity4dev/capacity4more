@@ -10,8 +10,6 @@ angular.module('c4mApp')
 
     $scope.data.relatedDocuments = [];
 
-    $scope.basePath = DrupalSettings.getBasePath();
-
     $scope.model = {};
 
     // Need to get current field name.
