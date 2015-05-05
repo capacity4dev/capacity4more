@@ -241,12 +241,26 @@ function c4m_search_views_data_alter(&$data) {
 }
 
 /**
- * Implements hook_views_pre_render()
- * @param $view
+ * Implements hook_facetapi_url_processors().
  */
-function c4m_search_views_pre_render(&$view) {
-  // Disable breadcrumb on all search api views
-  if (isset($view->base_table) && in_array($view->base_table, array('search_api_index_c4m_search_nodes', 'search_api_index_c4m_search_users'))) {
-    drupal_set_breadcrumb(array());
+function c4m_search_facetapi_url_processors() {
+  return array(
+    'c4m_processor' => array(
+      'handler' => array(
+        'label' => t('C4M URL processor'),
+        'class' => 'FacetapiUrlProcessorC4m',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_facetapi_searcher_info_alter()
+ */
+function c4m_search_facetapi_searcher_info_alter(array &$searcher_info) {
+  foreach ($searcher_info as $key => $value) {
+    if($value['url processor'] == 'standard'){
+      $searcher_info[$key]['url processor'] = 'c4m_processor';
+    }
   }
 }
