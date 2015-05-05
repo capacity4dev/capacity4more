@@ -156,5 +156,6 @@ function capacity4more_setup_set_terms_og_permissions() {
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
+  $permissions[] = 'manage variables';
   og_role_grant_permissions($admin_rid, $permissions);
 }
