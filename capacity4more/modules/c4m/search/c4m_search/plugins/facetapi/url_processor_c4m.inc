@@ -14,7 +14,8 @@ class FacetapiUrlProcessorC4m extends FacetapiUrlProcessorStandard {
    * Implements FacetapiUrlProcessorC4m::setBreadcrumb().
    */
   public function setBreadcrumb() {
-    // Reset the breadcrumb
+    // Reset the breadcrumb.
     drupal_set_breadcrumb(array());
   }
+
 }
