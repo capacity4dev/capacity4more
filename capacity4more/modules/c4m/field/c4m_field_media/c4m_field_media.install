@@ -6,6 +6,24 @@
 */
 
 /**
+ * Implements hook_install()
+ */
+function c4m_field_media_install() {
+  $doc_filetype = file_type_load('document');
+
+  if (isset($doc_filetype->mimetypes)) {
+    $extra_doc_mimetypes = array('application/zip', 'application/vnd.oasis.opendocument.formula');
+    foreach ($extra_doc_mimetypes as $mimetype) {
+      if (!in_array($mimetype, $doc_filetype->mimetypes)) {
+        $doc_filetype->mimetypes[] = $mimetype;
+      }
+    }
+
+    file_type_save($doc_filetype);
+  }
+}
+
+/**
 * Implements hook_enable().
 */
 function c4m_field_media_enable() {
