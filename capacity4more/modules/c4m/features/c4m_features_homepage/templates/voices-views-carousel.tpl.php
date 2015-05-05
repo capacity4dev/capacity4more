@@ -5,7 +5,7 @@
     <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-loop rn-carousel-controls class="carousel">
       <li ng-repeat="slide in carouselImages track by slide.id" ng-class="'id-' + slide.id">
         <div ng-style="{'background-image': 'url(' + slide.image + ')'}"  class="bgimage">
-          <a href="<?php print url('articles') ?>">
+          <a href="{{ slide.alias }}">
             <div class="intro-text">
               <span class="title">
                 {{ slide.title }}

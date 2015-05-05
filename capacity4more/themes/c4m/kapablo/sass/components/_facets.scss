@@ -30,7 +30,7 @@
 .block-facetapi {
   li {
     a {
-      color: $gray-dark;
+      color: $color-gray-dark;
     }
     &.expanded a.facetapi-active {
       @include arrow-image('down', 'highlight-blue', 'before');
