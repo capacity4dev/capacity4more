@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Comment feature.
  */
+
+include_once 'c4m_comment.features.inc';
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
@@ -17,4 +19,14 @@ function c4m_comment_form_node_form_alter(&$form, $form_state) {
 
   // If the user has access to the node form, he can also change the comment settings for this content entry.
   $form['comment_settings']['#access'] = TRUE;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function c4m_comment_entity_info_alter(&$entity_info) {
+  $entity_info['comment']['view modes']['activity_stream'] = array(
+    'label' => t('Activity stream'),
+    'custom settings' => TRUE,
+  );
 }
