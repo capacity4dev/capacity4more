@@ -152,6 +152,7 @@ projects[og_variables][version] = "1.0-beta2"
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
+projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
