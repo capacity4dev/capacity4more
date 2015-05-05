@@ -164,7 +164,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
   $children = array();
   foreach($terms as $term) {
     // If the term is array, this vocab is of type "node".
-    if(is_array($term)) {
+    if (is_array($term)) {
       foreach($term as $id => $label) {
         $options[$id]['label'] = htmlspecialchars_decode(filter_xss($label));
         $options[$id]['id'] = $id;
