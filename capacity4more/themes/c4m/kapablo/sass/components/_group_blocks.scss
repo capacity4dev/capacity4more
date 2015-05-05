@@ -1,6 +1,6 @@
 .view-mode-c4m_dashboard {
   .post-date {
-    color: $gray-dark;
+    color: $color-gray-dark;
     margin-bottom: 10px;
   }
 
@@ -11,8 +11,12 @@
     }
   }
 
-  .field-name-c4m-ds-group-access-info {
-    h4 {
+  .c4m-access-info {
+    border-bottom: 1px dashed $color-gray;
+    border-top: 1px dotted $color-blue-light;
+    margin-top: 10px;
+    padding: 10px 0;
+    h5 {
       background-repeat: no-repeat;
       background-position: 0 0;
       background-size: 1em;
@@ -21,23 +25,30 @@
       text-transform: uppercase;
     }
 
-    &.group-public {
-      h4 {
+    .group-public {
+      h5 {
         background-image: image-url('group-icons/public.png');
         color: $public;
       }
     }
-    &.group-private {
-      h4 {
+    .group-private {
+      h5 {
         background-image: image-url('group-icons/private.png');
         color: $private;
       }
     }
-    &.group-restricted {
-      h4 {
+    .group-restricted {
+      h5 {
         background-image: image-url('group-icons/restricted.png');
         color: $restricted;
       }
+    }
+
+    a {
+      display: inline-block;
+      line-height: 1.1;
+      margin: 10px 0;
+      text-align: right;
     }
   }
 
@@ -52,11 +63,11 @@
 
       background: none;
       border-radius: 0;
-      color: $gray-dark;
+      color: $color-gray-dark;
       padding: 0;
       border: 0;
       display: inline-block;
-      margin: 0;
+      margin: 10px 0;
       text-transform: capitalize;
       width: auto;
 
@@ -67,10 +78,20 @@
           @include read-more-icon('up', 'gray-dark');
         }
       }
+
+      
+    }
+    
+    .field-name-c4m-ds-group-role-members {
+      clear: left;
     }
 
     .panel-body {
       padding: 0;
+
+      > div {
+        margin-bottom: 15px;
+      }
     }
     .field-name-c4m-user-picture {
       float: left;

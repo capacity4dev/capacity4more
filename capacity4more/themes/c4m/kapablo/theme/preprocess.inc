@@ -98,8 +98,6 @@ function kapablo_preprocess_field(&$variables, $hook) {
       }
       break;
   }
-
-  $variables['classes_array'][] = 'test';
 }
 
 /**

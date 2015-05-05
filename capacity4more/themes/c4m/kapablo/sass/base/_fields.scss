@@ -13,6 +13,7 @@
 
 .field-name-c4m-body {
   color: $color-gray;
+  overflow: auto;
 }
 
 .user-name {
@@ -29,6 +30,12 @@
 
 .post-date {
   color: $color-blue;
+}
+
+.organiser, .group {
+  .label-inline {
+    margin-right: 5px;
+  }
 }
 
 .date {
@@ -164,6 +171,10 @@
 .field-name-c4m-user-first-and-last-name {
   color: $color-blue;
   display: inline-block;
+
+  .field-label{
+    color: $color-gray-dark;
+  }
 
   & + .field-name-post-date {
     color: $color-blue;
