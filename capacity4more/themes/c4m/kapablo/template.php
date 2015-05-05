@@ -22,19 +22,14 @@ function kapablo_preprocess_status_messages(&$variables) {
     "Field Groups must be populated via URL." => t("You can't create content out of group or you don't have permissions to create content in the current group!"),
   );
 
-  // If status messages exist check each for match with custom messages.
-  if (isset($_SESSION['messages'])) {
-    // Remove duplicates messages.
-    $_SESSION['messages'] = array_unique($_SESSION['messages']);
-    // Search for message.
-    foreach ($_SESSION['messages'] as $type => $messages) {
-      foreach ($custom_messages as $original_message => $custom_message) {
-        $pos = array_search($original_message, $messages);
-        // If message found delete it and set new.
-        if ($pos !== FALSE) {
-          unset($_SESSION['messages'][$type][$pos]);
-          $_SESSION['messages'][$type][$pos] = $custom_message;
-        }
+  $set_messages = drupal_get_messages($variables['display'], FALSE);
+
+  foreach ($set_messages as $type => $messages) {
+    foreach ($custom_messages as $original_message => $custom_message) {
+      $pos = array_search($original_message, $messages);
+      if ($pos !== FALSE) {
+        unset($_SESSION['messages'][$type][$pos]);
+        $_SESSION['messages'][$type][$pos] = $custom_message;
       }
     }
   }
