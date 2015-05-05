@@ -326,7 +326,7 @@ angular.module('c4mApp')
       submitData.status = type == 'full_form' ? 0 : 1;
 
       // Cancel submit and display errors if we have errors.
-      if (Object.keys(errors).length && type == 'quick_post') {
+      if (Object.keys(errors).length) {
         angular.forEach(errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);

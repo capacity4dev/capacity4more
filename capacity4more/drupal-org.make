@@ -117,7 +117,7 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.x-dev"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.9"
+projects[message][version] = "1.10"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
