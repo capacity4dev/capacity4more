@@ -6,7 +6,7 @@
 */
 
 /**
- * Implements hook_install()
+ * Implements hook_install().
  */
 function c4m_field_media_install() {
   $doc_filetype = file_type_load('document');
