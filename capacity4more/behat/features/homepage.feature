@@ -79,11 +79,11 @@ Feature: Test homepage content and blocks
     Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
     And   I should see only "2" events
 
-  @api
+  @api @test
   Scenario: Check featured block is displayed correctly.
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should see "Featured block"
+    Then  I should see an ".pane-featured-block" element
 
   @api
   Scenario: Logged in, non member user should see the suggested groups video.
