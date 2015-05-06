@@ -218,9 +218,9 @@ body {
   }
 
   .as-document-ods,
+  .as-document-odf,
   .as-document-xls,
-  .as-document-xlsx,
-  {
+  .as-document-xlsx {
     @include image-icon-png-fallback('icons', 'document-excel');
   }
 
