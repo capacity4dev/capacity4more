@@ -87,7 +87,7 @@ Feature: Group manage Categories
     When I delete category "ATP" under the type "World Ligas"
     Then I should not see the category "ATP" under the type "World Ligas"
 
-  @javascript @test
+  @javascript
   Scenario: Check I can delete category type with all children as group administrator.
     Given I am logged in as user "isaacnewton"
     And I manage the categories of group "TENNIS GROUP"
