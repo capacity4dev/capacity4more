@@ -7,7 +7,7 @@
 /**
  * Implements hook_field_default_field_bases().
  */
-function c4m_content_tasklist_field_default_field_bases() {
+function c4m_comment_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'comment_body'
