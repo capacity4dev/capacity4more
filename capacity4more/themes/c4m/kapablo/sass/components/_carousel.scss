@@ -32,7 +32,9 @@ ul[rn-carousel] {
 
     a {
       color: white;
-      text-decoration: underline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     .intro-text {
