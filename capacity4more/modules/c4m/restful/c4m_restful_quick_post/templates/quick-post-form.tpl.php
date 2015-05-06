@@ -24,6 +24,9 @@
 
 <?php if (count($show_resources) > 1): ?>
   <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+  <div id="form-spinner" ng-if="resourceSpinner">
+    <i class="fa fa-refresh fa-spin fa-2x"></i>
+  </div>
 <?php endif; ?>
 
 <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"

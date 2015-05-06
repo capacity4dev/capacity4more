@@ -15,6 +15,7 @@ angular.module('c4mApp')
 
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
+    $scope.resourceSpinner = false;
 
     if ($scope.resources) {
         // Setting empty default resource.
@@ -111,6 +112,7 @@ angular.module('c4mApp')
         $scope.selectedResource = '';
         return false;
       }
+      $scope.resourceSpinner = true;
       // Update Bundle,
       // Update the fields information for this resource.
       DrupalSettings.getFieldSchema(resource)
@@ -119,6 +121,7 @@ angular.module('c4mApp')
           $scope.data.entity = data.c4m.data.entity;
           initFormValues(resource);
           $scope.selectedResource = resource;
+          $scope.resourceSpinner = false;
         });
     };
 
