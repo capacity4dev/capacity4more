@@ -15,7 +15,7 @@
  * @description Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('QuickPostService', function($rootScope, $http) {
+  .service('QuickPostService', function($rootScope, $http, DrupalSettings) {
     var self = this;
 
     /**
@@ -133,7 +133,7 @@ angular.module('c4mApp')
      */
     this.tagsQuery = function (query, scope) {
       var group = {id: scope.data.group};
-      var url = scope.basePath + 'api/tags';
+      var url = DrupalSettings.getBasePath() + 'api/tags';
       var terms = {results: []};
 
       var lowerCaseTerm = query.term.toLowerCase();
