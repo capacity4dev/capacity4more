@@ -14,6 +14,23 @@ function c4m_restful_quick_post_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_restful_quick_post_menu() {
+  $items = array();
+
+  $items['quick-post/%/field-schema'] = array(
+    'page callback' => 'c4m_restful_quick_post_get_form_fields',
+    'page arguments' => array(1),
+    'access callback' => array('c4m_restful_quick_post_get_form_fields_access'),
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_theme().
  */
 function c4m_restful_quick_post_theme() {
@@ -29,7 +46,91 @@ function c4m_restful_quick_post_theme() {
 }
 
 /**
+ * @TODO: Add docs.
+ *
+ * @param $resource_name
+ * @return bool
+ */
+function c4m_restful_quick_post_get_form_fields_access($resource_name) {
+  $resources = array(
+    'discussions' => array(
+      'bundle' => 'discussion',
+    ),
+    'documents' => array(
+      'bundle' => 'document',
+    ),
+    'events' => array(
+      'bundle' => 'event',
+    ),
+  );
+
+  // Check if in a group.
+  $gid = c4m_og_current_group_id();
+  if (empty($gid)) {
+    return FALSE;
+  }
+
+  return og_user_access('node', $gid, 'create ' . $resources[$resource_name]['bundle'] . ' content');
+}
+
+/**
+ * @TODO: Add docs.
+ *
+ * @param $resource_name
+ * @param $group_id
+ * @return mixed
+ */
+function c4m_restful_quick_post_get_form_fields($resource_name) {
+  // Get current group.
+  $group_id = c4m_og_current_group_id();
+  // Get fields.
+  $field_schema = array();
+  $public_fields = array();
+  $handler = restful_get_restful_handler($resource_name);
+  // Send the fields to the app as separate objects by resource
+  // (for validation on submit.)
+  $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
+  $public_fields += $handler->getPublicFields();
+
+  // Gathering all the fields to pass to the angular-app.
+  $entity_fields = array();
+  $skipped_fields = array(
+    'id',
+    'self',
+  );
+
+  foreach ($public_fields as $public_field_name => $value) {
+    // Skipped fields.
+    if (in_array($public_field_name, $skipped_fields)) {
+      continue;
+    }
+    // Set all fields values to NULL.
+    $entity_fields[$public_field_name] = NULL;
+
+    // Set the current Group.
+    if ($public_field_name == 'group') {
+      $entity_fields[$public_field_name] = $group_id;
+    }
+  }
+
+  // Pass quick post form info via Drupal.settings.
+  $settings['c4m'] = array(
+    'field_schema' => $field_schema,
+    'data' => array(
+      'entity' => $entity_fields,
+    ),
+  );
+
+  drupal_json_output($settings);
+  drupal_exit();
+}
+
+/**
  * Page callback; Load the AngularJs form.
+ *
+ * Loads the AngularJs form without the resources fields
+ * information, Also loads the activity stream of the current group.
+ * Displays the entity-types that are activated in the group features.
  *
  * @param int $group_id
  *   The node ID of the current group.
@@ -68,13 +169,15 @@ function c4m_restful_quick_post_form($group_id) {
     'activities' => $activities,
     'data' => array(
       'request' => $request,
+      'entity' => array(
+        'group' => $group_id,
+      ),
     ),
   );
 
   // Don't load the quick post form or it's components for anonymous user.
   if (!user_is_logged_in()) {
     // Add group id to the settings for the app.
-    $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;
   }
@@ -99,54 +202,23 @@ function c4m_restful_quick_post_form($group_id) {
   $show_resources = $resources;
 
   // Get fields.
-  $field_schema = array();
-  $public_fields = array();
   foreach ($resource_names as $resource_name) {
     if (!in_array(strtolower($show_resources[$resource_name]['bundle']), $group_enabled_content_types)) {
       unset($show_resources[$resource_name]);
       continue;
     }
-    $handler = restful_get_restful_handler($resource_name);
-    // Send the fields to the app as separate objects by resource
-    // (for validation on submit.)
-    $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
-    $public_fields += $handler->getPublicFields();
   }
 
   // If all resources are turned off, disable the QP form.
   if(empty($show_resources)) {
-    $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;
-  }
-
-  // Gathering all the fields to pass to the angular-app.
-  $entity_fields = array();
-  $skipped_fields = array(
-    'id',
-    'self',
-  );
-
-  foreach ($public_fields as $public_field_name => $value) {
-    // Skipped fields.
-    if (in_array($public_field_name, $skipped_fields)) {
-      continue;
-    }
-    // Set all fields values to NULL.
-    $entity_fields[$public_field_name] = NULL;
-
-    // Set the current Group.
-    if ($public_field_name == 'group') {
-      $entity_fields[$public_field_name] = $group_id;
-    }
   }
 
   // Pass quick post form info via Drupal.settings.
   $settings['c4m'] += array(
     'resources' => $show_resources,
-    'field_schema' => $field_schema,
   );
-  $settings['c4m']['data']['entity'] = $entity_fields;
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
