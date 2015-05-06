@@ -46,10 +46,16 @@ function c4m_restful_quick_post_theme() {
 }
 
 /**
- * @TODO: Add docs.
+ * Access callback; access to create entity inside a group.
+ *
+ * Checks if the user is in a group and checks
+ * permissions to create an entity in this group with OG permissions.
  *
  * @param $resource_name
+ *  The name of the resource.
+
  * @return bool
+ *  Access.
  */
 function c4m_restful_quick_post_get_form_fields_access($resource_name) {
   $resources = array(
@@ -74,11 +80,16 @@ function c4m_restful_quick_post_get_form_fields_access($resource_name) {
 }
 
 /**
- * @TODO: Add docs.
+ * Page callback; Load the AngularJs fields info.
+ *
+ * Loads the information of the fields according to the
+ * resource name sent from angular.
  *
  * @param $resource_name
- * @param $group_id
+ *  The name of the resource.
+ *
  * @return mixed
+ *  The JSON with the fields information.
  */
 function c4m_restful_quick_post_get_form_fields($resource_name) {
   // Get current group.
