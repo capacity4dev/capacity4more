@@ -38,6 +38,9 @@ function c4m_restful_quick_post_theme() {
  *   A rendered form of the Quick Post.
  */
 function c4m_restful_quick_post_form($group_id) {
+  // Load the active features in the current group.
+  $group_enabled_content_types = c4m_og_feature_enabled_content_types();
+
   // Load the activity stream.
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
   $request = array(
@@ -99,11 +102,22 @@ function c4m_restful_quick_post_form($group_id) {
   $field_schema = array();
   $public_fields = array();
   foreach ($resource_names as $resource_name) {
+    if (!in_array(strtolower($show_resources[$resource_name]['bundle']), $group_enabled_content_types)) {
+      unset($show_resources[$resource_name]);
+      continue;
+    }
     $handler = restful_get_restful_handler($resource_name);
     // Send the fields to the app as separate objects by resource
     // (for validation on submit.)
     $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
     $public_fields += $handler->getPublicFields();
+  }
+
+  // If all resources are turned off, disable the QP form.
+  if(empty($show_resources)) {
+    $settings['c4m']['data']['entity']['group'] = $group_id;
+    drupal_add_js($settings, 'setting');
+    return FALSE;
   }
 
   // Gathering all the fields to pass to the angular-app.
