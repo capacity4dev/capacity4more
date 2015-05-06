@@ -2,6 +2,6 @@ name = Vocabulary widget
 description = Provides vocabulary's widget.
 core = 7.x
 package = capacity4more - Vocabulary
-dependencies[] = taxonomy
 dependencies[] = features
+dependencies[] = taxonomy
 features[features_api][] = api:2

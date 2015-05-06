@@ -7,6 +7,12 @@ body.front {
     background: transparent url('../images/header/homepage-user.png') no-repeat top center;
     height: 115px;
   }
+  .modal {
+
+    .modal-backdrop {
+      z-index: 0;
+    }
+  }
 }
 body.front.not-logged-in {
   #header-content-wrapper {

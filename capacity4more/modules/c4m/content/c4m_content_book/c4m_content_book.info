@@ -26,4 +26,3 @@ features[variable][] = menu_parent_book
 features[variable][] = node_options_book
 features[variable][] = node_preview_book
 features[variable][] = node_submitted_book
-mtime = 1417012469
