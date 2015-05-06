@@ -57,12 +57,26 @@ body.front.not-logged-in {
 // Featured block on the bottom of the page.
 .pane-featured-block {
 
+  a {
+    display: block;
+    max-width: 300px;
+    position: relative;
+  }
+
   .row {
     max-width: 960px;
     margin: 0 auto;
 
-    .col-sm-4 {
-      padding: 0 10px;
+    @media (min-width: $screen-sm) {
+      .col-sm-4 {
+        padding: 0 10px;
+      }
+    }
+
+    @media (max-width: $screen-sm) {
+      .col-sm-4 {
+        padding: 0 10px 20px 10px;
+      }
     }
   }
 
@@ -70,8 +84,8 @@ body.front.not-logged-in {
     color: white;
     position: absolute;
     bottom: 0px;
-    left: 9px;
-    right: 9px;
+    left: 0px;
+    right: 0px;
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
