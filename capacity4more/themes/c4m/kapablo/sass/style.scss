@@ -4,6 +4,8 @@
 // Import Bootstrap Compass integration
 @import "bootstrap-compass";
 
+@import "base/settings";
+
 // Import custom Bootstrap variables
 @import "bootstrap-variables";
 
@@ -20,7 +22,6 @@
 @import "base/glyphawesome";
 
 // Common utility classes to extend or settings.
-@import "base/settings";
 @import "base/mixins";
 @import "base/common";
 @import "base/node";
@@ -56,6 +57,7 @@
 @import "components/members";
 @import "components/people";
 @import "components/search";
+@import "components/taxonomy_form";
 @import "components/article";
 
 // Components - Content types

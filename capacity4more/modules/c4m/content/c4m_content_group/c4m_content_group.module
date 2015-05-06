@@ -26,7 +26,7 @@ include_once 'c4m_content_group.features.inc';
  *
  * @return array
  */
-function c4m_content_group_c4m_og_vocab_info_groups() {
+function c4m_content_c4m_og_vocab_info_groups() {
   return array(
     'group' => array(
       'c4m_vocab_category',

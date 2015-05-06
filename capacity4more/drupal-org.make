@@ -117,7 +117,7 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.x-dev"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.9"
+projects[message][version] = "1.10"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
@@ -152,6 +152,7 @@ projects[og_variables][version] = "1.0-beta2"
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
+projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"

@@ -886,6 +886,7 @@ function c4m_message_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'message',
     'field_name' => 'field_node',
     'label' => 'Node',
