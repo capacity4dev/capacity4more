@@ -273,7 +273,7 @@ function c4m_search_facetapi_searcher_info_alter(array &$searcher_info) {
 function c4m_search_search_api_sorts_alter(&$block, $view) {
   $params = drupal_get_query_parameters();
 
-  if (empty($params['search_api_views_fulltext'])) {
+  if (empty($params['text'])) {
     foreach ($block['content']['#items'] as $key => $item) {
       if (isset($item['#options']['query']['sort'])
         && $item['#options']['query']['sort'] === 'search_api_relevance') {
@@ -292,7 +292,7 @@ function c4m_search_search_api_sorts_alter(&$block, $view) {
 function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
   $params = drupal_get_query_parameters();
 
-  if (empty($params['sort']) && !empty($params['search_api_views_fulltext'])) {
+  if (empty($params['sort']) && !empty($params['text'])) {
     foreach ($search_sorts as $search_sort) {
       if ($search_sort->field === 'search_api_relevance') {
         $search_sort->default_order = 'desc';
