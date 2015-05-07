@@ -13,11 +13,13 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
    *
    * @var array
    */
-  public $dependencies = array(
-    'C4mDemoContentCreateUsers',
-    'C4mDemoContentCreateTopics',
-    'C4mDemoContentCreateRegionNodes',
-  );
+  public $dependencies
+    = array(
+      'C4mDemoContentCreateUsers',
+      'C4mDemoContentCreateTopics',
+      'C4mDemoContentCreateRegionNodes',
+      'C4mDemoContentCreateOrganisations',
+    );
 
   /**
    * Configure the migration class during creation.
@@ -115,6 +117,84 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     );
 
     return TRUE;
+  }
+
+  /**
+   * Helper to create a pluggable node access record based on the og_spaces_type
+   * value.
+   *
+   * @param stdClass $row
+   *
+   * @param stdClass $entity
+   */
+  public function savePluggableNodeAccess(&$group, $row) {
+    $row->_pluggable_node_access = NULL;
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateOrganisations',
+      explode('|', $row->restricted_organisations),
+      NULL,
+      $this
+    );
+    $organisation_ids_destid1 = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $organisation_ids = array();
+    if (sizeof($organisation_ids_destid1) > 1
+      && empty($organisation_ids_destid1['destid1'])
+    ) {
+      foreach ($organisation_ids_destid1 as $destid) {
+        $organisation_ids[] = $destid['destid1'];
+      }
+    }
+    elseif (!empty($organisation_ids_destid1['destid1'])) {
+      $organisation_ids[] = $organisation_ids_destid1['destid1'];
+    }
+
+
+    if (!isset($organisation_ids)) {
+      return;
+    }
+
+    // Create the pluggable node access record.
+    $pluggable_node_access = c4m_og_save_pluggable_node_access_restricted(
+      $group,
+      $organisation_ids
+    );
+
+    if ($pluggable_node_access) {
+      $group->group_access = array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'value' => 1
+          )
+        )
+      );
+
+      $group->pluggable_node_access = array(LANGUAGE_NONE => array());
+      foreach ($pluggable_node_access as $na) {
+        $group->pluggable_node_access[LANGUAGE_NONE][] = array(
+          'target_id' => $na->id
+        );
+      }
+
+      $group->revision = FALSE;
+
+      entity_save('node', $group);
+    }
+  }
+
+  /**
+   * {inheritDoc}
+   */
+  public function postImport() {
+    parent::postImport();
+    watchdog(
+      'c4d Demo content', t('Node access rebuild + OG Restricted info reset')
+    );
+    node_access_rebuild(TRUE);
+    c4m_og_reset_restricted_info();
   }
 
 }

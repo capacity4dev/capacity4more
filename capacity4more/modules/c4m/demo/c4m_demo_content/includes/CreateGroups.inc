@@ -19,22 +19,24 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    *
    * @var array
    */
-  public $csvColumns = array(
-    array('id', 'ID'),
-    array('uid', 'UID'),
-    array('title', 'Title'),
-    array('purl', 'PURL'),
-    array('image', 'Image'),
-    array('banner', 'Banner'),
-    array('body', 'Body'),
-    array('topics', 'Topics'),
-    array('geo', 'Geo'),
-    array('groups', 'Groups'),
-    array('projects', 'Projects'),
-    array('membership_open_request', 'Membership_Request'),
-    array('group_access', 'Access'),
-    array('group_status', 'Status'),
-  );
+  public $csvColumns
+    = array(
+      array('id', 'ID'),
+      array('uid', 'UID'),
+      array('title', 'Title'),
+      array('purl', 'PURL'),
+      array('image', 'Image'),
+      array('banner', 'Banner'),
+      array('body', 'Body'),
+      array('topics', 'Topics'),
+      array('geo', 'Geo'),
+      array('groups', 'Groups'),
+      array('projects', 'Projects'),
+      array('membership_open_request', 'Membership_Request'),
+      array('group_access', 'Access'),
+      array('restricted_organisations', 'Organisations'),
+      array('group_status', 'Status'),
+    );
 
   /**
    * {@inheritdoc}
@@ -59,10 +61,14 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
+    if ($row->group_access == 1 && $row->restricted_organisations) {
+      $this->savePluggableNodeAccess($entity, $row);
+    }
+
     $modifier = array(
       'provider' => 'og_purl|node',
-      'value' => $row->purl,
-      'id' => $entity->nid,
+      'value'    => $row->purl,
+      'id'       => $entity->nid,
     );
     purl_save($modifier);
   }
@@ -72,7 +78,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    *
    * @param Migration $migration
    *   The migration that is being done to create this stub.
-   * @param array $source_id
+   * @param array     $source_id
    *   Array of strings with the source id(s).
    *
    * @return array|bool
