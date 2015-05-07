@@ -48,5 +48,22 @@ function c4m_field_media_image_default_styles() {
     ),
   );
 
+  // Exported image style: small.
+  $styles['small'] = array(
+    'name' => 'small',
+    'label' => 'Small (220x165)',
+    'effects' => array(
+      array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 220,
+          'height' => 165,
+        ),
+        'weight' => 0,
+      ),
+    ),
+    'storage' => IMAGE_STORAGE_NORMAL,
+  );
+
   return $styles;
 }
