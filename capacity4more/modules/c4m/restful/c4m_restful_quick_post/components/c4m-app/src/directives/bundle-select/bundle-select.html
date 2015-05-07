@@ -13,7 +13,7 @@
         More options
       </button>
       <ul class="dropdown-menu" role="more-menu" aria-labelledby="more-content-options">
-        <li role="presentation"><a role="more-menuitem" tabindex="-1" href="node/add/{{key}}" ng-if="!value.quick_post" ng-repeat="(key, value) in items">{{ value.description }}</a></li>
+        <li role="presentation"><a role="more-menuitem" tabindex="-1" href="{{purl}}/node/add/{{key}}" ng-if="!value.quick_post" ng-repeat="(key, value) in items">{{ value.description }}</a></li>
       </ul>
     </div>
   </div>
