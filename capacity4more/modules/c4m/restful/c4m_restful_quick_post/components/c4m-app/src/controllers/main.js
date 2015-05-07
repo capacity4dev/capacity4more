@@ -101,7 +101,7 @@ angular.module('c4mApp')
     $scope.updateResource = function(resource, event) {
       // When clicking on the "label" input
       // and the resource is already selected, Do nothing.
-      if(angular.isDefined(event) && $scope.selectedResource) {
+      if (angular.isDefined(event) && $scope.selectedResource) {
         return false;
       }
       // Empty fields info.

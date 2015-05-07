@@ -186,13 +186,6 @@ function c4m_restful_quick_post_form($group_id) {
     ),
   );
 
-  // Don't load the quick post form or it's components for anonymous user.
-  if (!user_is_logged_in()) {
-    // Add group id to the settings for the app.
-    drupal_add_js($settings, 'setting');
-    return FALSE;
-  }
-
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
@@ -207,6 +200,15 @@ function c4m_restful_quick_post_form($group_id) {
       'description' => t('Event'),
     ),
   );
+
+  // Don't load the quick post form or it's components for anonymous user
+  // or user without permissions to post in current group.
+  $first_resource = reset($resources);
+  if (!user_is_logged_in() || !og_user_access('node', $group_id, 'create ' . strtolower($first_resource['bundle']) . ' content')) {
+    // Add group id to the settings for the app.
+    drupal_add_js($settings, 'setting');
+    return FALSE;
+  }
 
   $resource_names = array_keys($resources);
 

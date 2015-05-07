@@ -23,3 +23,10 @@
       -ms-transform: scale($horiz, $vert);
           transform: scale($horiz, $vert);
 }
+
+@mixin animation($animation) {
+          animation: #{$animation};
+     -moz-animation: #{$animation};
+       -o-animation: #{$animation};
+  -webkit-animation: #{$animation};
+}
