@@ -290,7 +290,6 @@ function c4m_search_search_api_sorts_alter(&$block, $view) {
  * without a manual sort being selected.
  */
 function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
-  dsm('c4m_search_search_api_sorts_get_default_sort_alter');
   $params = drupal_get_query_parameters();
 
   if (empty($params['sort']) && !empty($params['search_api_views_fulltext'])) {
