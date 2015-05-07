@@ -554,3 +554,36 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }
+
+/**
+ * Implements hook_node_access().
+ *
+ * Restrict access to create a content without a group context.
+ * Restrict access if a type is not a group content type.
+ *
+ */
+function c4m_og_node_access($node, $op, $account) {
+  $type = is_string($node) ? $node : $node->type;
+
+  // Check that entity creating within a group context.
+  $context = og_context();
+  if (!$context) {
+//    TODO: update a system.
+//    return NODE_ACCESS_DENY;
+  }
+
+  // Work only with entities that are a group content.
+  // TODO: og_get_all_group_content_bundle() also return "photo" and "wiki_page"
+  // TODO: types that not exists in c4m_og_feature_enabled_content_types()
+  // TODO: therefore it will be always blocked.
+  $group_entities = og_get_all_group_content_bundle();
+  if (!array_key_exists($type, $group_entities['node'])) {
+    return NODE_ACCESS_IGNORE;
+  }
+
+  // Allow create content type only allowed by group settings.
+  $features = c4m_og_feature_enabled_content_types();
+  if (!in_array($type, $features)) {
+    return NODE_ACCESS_DENY;
+  }
+}
