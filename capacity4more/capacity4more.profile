@@ -47,6 +47,11 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
+  $tasks['capacity4more_setup_set_menu_purl'] = array(
+    'display_name' => st('Set menu purl modifiers (main menu)'),
+    'display' => FALSE,
+  );
+
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
     'display_name' => st('Rebuild permissions'),
@@ -144,6 +149,17 @@ function capacity4more_setup_set_og_permissions() {
 }
 
 /**
+ * Task callback; Setting purl modifiers for main menu.
+ */
+function capacity4more_setup_set_menu_purl() {
+  $menus = array('main-menu', 'user-menu');
+
+  foreach($menus as $menu) {
+    _capacity4more_setup_set_menu_purl($menu);
+  }
+}
+
+/**
  * Task callback; Setting terms OG permissions.
  */
 function capacity4more_setup_set_terms_og_permissions() {
@@ -157,4 +173,36 @@ function capacity4more_setup_set_terms_og_permissions() {
   $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
   og_role_grant_permissions($admin_rid, $permissions);
+}
+
+/**
+ * Helper function to set purl options (disable purl behavior) for a given menu.
+ */
+function _capacity4more_setup_set_menu_purl($menu_name) {
+  variable_set('purl_menu_behavior_' . $menu_name, 'disabled');
+
+  // Via command line, menu_tree_all_data does NOT return all items for some reason.
+  // https://api.drupal.org/comment/59255#comment-59255
+//  $tree = menu_tree_all_data($menu_name);
+//
+//  foreach($tree as $id => $leaf) {
+//    $link = $leaf['link'];
+//
+//    var_dump($link);
+//    $link['options']['purl'] = array('disabled' => 1);
+//    menu_link_save($link);
+//  }
+//  menu_cache_clear($menu_name);
+
+  $results = db_select('menu_links', 'ml')
+    ->fields('ml', array('mlid'))
+    ->condition('ml.menu_name', $menu_name, '=')
+    ->execute();
+
+  foreach ($results as $menu_link) {
+    $link = menu_link_load($menu_link->mlid);
+    $link['options']['purl'] = array('disabled' => 1);
+    menu_link_save($link);
+    menu_cache_clear($menu_name);
+  }
 }
