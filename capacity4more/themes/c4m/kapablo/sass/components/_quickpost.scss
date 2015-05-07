@@ -121,6 +121,10 @@
     margin-bottom: 20px;
   }
 
+  #more-content-options {
+    margin-top: 10px;
+  }
+
   button {
     &.bundle-select, &.btn-default {
       @extend .reset-button;
