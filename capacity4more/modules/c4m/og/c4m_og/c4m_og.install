@@ -12,7 +12,6 @@ function c4m_og_install() {
   _c4m_og_install_og_variable_realm();
 }
 
-
 /**
  * Helper to set the contexts order.
  */

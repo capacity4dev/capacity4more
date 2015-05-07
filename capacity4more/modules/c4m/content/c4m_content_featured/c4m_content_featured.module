@@ -32,6 +32,7 @@ function c4m_content_featured_render_featured_blocks() {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'featured')
     ->propertyCondition('status', NODE_PUBLISHED);
+
   if ($user->uid) {
     // For Authenticated user every time get random nodes.
     $query->addTag('random');
@@ -53,7 +54,7 @@ function c4m_content_featured_render_featured_blocks() {
     }
   }
 
-  $featured = '<div class"row">' . $featured . '</div>';
+  $featured = '<div class="row">' . $featured . '</div>';
   return $featured;
 }
 

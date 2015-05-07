@@ -37,8 +37,7 @@ angular.module('c4mApp')
         };
         // Updating the popover position && No more than 3 regions can be
         // selected.
-        // TODO: Stop user from selecting more values.
-        scope.updateSelectedTerms = function() {
+        scope.updateSelectedTerms = function(key, vocab) {
           // Update the position of the popover.
           if (scope.updatePopoverPosition) {
             scope.updatePopoverPosition(scope.type);
@@ -78,17 +77,14 @@ angular.module('c4mApp')
                 }
               });
             }
-          });
-
-          if (selectedCount > 3) {
-            angular.element("#" + scope.type + "_description").addClass('tooMany');
-            if (scope.popup) {
-              scope.popup = 0;
+            // Don't check if selected more than 3 topics or regions.
+            if (scope.type == "topic" || scope.type == "geo") {
+              if (selectedCount > 3) {
+                scope.model[vocab.id] = false;
+                angular.element("#" + scope.type + "_description").addClass('tooMany');
+              }
             }
-          }
-          else {
-            angular.element("#" + scope.type + "_description").removeClass('tooMany');
-          }
+          });
         };
       }
     };
