@@ -27,8 +27,9 @@ function _c4m_features_overview_events_block_event_views_links() {
   );
 
   foreach ($pages as $key => $page) {
+    $attributes = array('attributes' => array('class' => $key));
     $items[] = array(
-      'data' => l($page['text'], 'events/' . $key),
+      'data' => l($page['text'], 'events/' . $key, $attributes),
       'class' => array('leaf'),
     );
   }
