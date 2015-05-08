@@ -64,7 +64,7 @@ function c4m_domain_entity_info() {
   $info = array();
 
   $info['c4m_domain'] = array(
-    'label' => t('Email Domains'),
+    'label' => t('Email Domain'),
     'base table' => 'c4m_domain',
     'entity keys' => array(
       'id' => 'id',
@@ -175,6 +175,14 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#required' => TRUE,
   );
 
+  $form['whitelist'] = array(
+    '#title' => t('Whitelist'),
+    '#description' => t('List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.'),
+    '#type' => 'textarea',
+    '#default_value' => isset($domain->whitelist) ? $domain->whitelist : '',
+    '#required' => TRUE,
+  );
+
   field_attach_form('c4m_domain', $domain, $form, $form_state);
 
   $form['submit'] = array(
@@ -190,12 +198,31 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
  * Validation handler for the domain add/edit form.
  */
 function c4m_domain_form_validate($form, &$form_state) {
+  // Validate domain.
   $test_email = 'test@' . $form_state['values']['name'];
   if (!valid_email_address($test_email)) {
     form_set_error('name', t('The domain name is invalid.'));
   }
+
+  // Validate description.
   if (strlen($form_state['values']['description']) > 255) {
     form_set_error('description', t('The description contains more than 255 characters.'));
+  }
+
+  // Validate whitelist.
+  $whitelist = preg_split('/\r\n|[\r\n]/', $form_state['values']['whitelist']);
+  foreach ($whitelist as $key => $email) {
+    if (valid_email_address($email)) {
+      unset($whitelist[$key]);
+    }
+  }
+  if (count($whitelist)) {
+    $error_message = format_plural(count($whitelist),
+      'The whitelist contains an invalid email address: %email.',
+      'The whitelist contains invalid email addresses: %email.',
+      array('%email' => implode(', ', $whitelist))
+    );
+    form_set_error('whitelist', $error_message);
   }
 }
 
@@ -239,6 +266,12 @@ function c4m_domain_entity_property_info() {
     'description' => t('The validation type to validate if an email address with this domain is valid.'),
     'type' => 'text',
     'schema field' => 'validator',
+  );
+  $info['c4m_domain']['properties']['whitelist'] = array(
+    'label' => t('Whitelist'),
+    'description' => t('List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.'),
+    'type' => 'serial',
+    'schema field' => 'whitelist',
   );
 
   return $info;

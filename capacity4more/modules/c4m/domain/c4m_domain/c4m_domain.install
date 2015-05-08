@@ -23,22 +23,28 @@ function c4m_domain_schema() {
         'description' => 'The domain part of the email address.',
         'type' => 'varchar',
         'length' => 255,
-        'not null' => FALSE,
+        'not null' => TRUE,
       ),
       'description' => array(
         'description' => 'Short description explaining what the domain is about.',
         'type' => 'varchar',
         'length' => 255,
-        'not null' => FALSE,
+        'not null' => TRUE,
       ),
       'validator' => array(
         'description' => 'The validation type to validate if an email address with this domain is valid.',
         'type' => 'varchar',
         'length' => 255,
+        'not null' => TRUE,
+      ),
+      'whitelist' => array(
+        'description' => 'List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.',
+        'type' => 'serialize',
         'not null' => FALSE,
       ),
     ),
     'primary key' => array('id'),
+    'unique keys' => array('name'),
   );
 
   return $schema;
