@@ -25,29 +25,29 @@ function c4m_features_og_group_dashboard_views_api($module = NULL, $api = NULL) 
  */
 function c4m_features_og_group_dashboard_flag_default_flags() {
   $flags = array();
-  // Exported flag: "Highlight".
+  // Exported flag: "Promote".
   $flags['c4m_og_content_highlight'] = array(
     'entity_type' => 'node',
-    'title' => 'Highlight',
-    'global' => 1,
+    'title' => 'Promote',
+    'global' => 0,
     'types' => array(
       0 => 'discussion',
       1 => 'document',
       2 => 'event',
       3 => 'wiki_page',
     ),
-    'flag_short' => 'Flag this item',
+    'flag_short' => 'Promote',
     'flag_long' => '',
     'flag_message' => '',
-    'unflag_short' => 'Unflag this item',
+    'unflag_short' => 'Demote',
     'unflag_long' => '',
     'unflag_message' => '',
     'unflag_denied_text' => '',
     'link_type' => 'confirm',
     'weight' => 0,
     'show_in_links' => array(
-      'full' => 'full',
       'teaser' => 'teaser',
+      'full' => 0,
       'rss' => 0,
       'print' => 0,
       'featured_block' => 0,
@@ -70,11 +70,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'i18n' => 0,
     'flag_confirmation' => 'Are you sure you want to flag this content?',
     'unflag_confirmation' => 'Are you sure you want to unflag this content?',
-    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   return $flags;
 
