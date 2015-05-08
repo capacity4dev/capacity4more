@@ -108,8 +108,6 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     return TRUE;
   }
 
-
-
   /**
    * Actions after the data is saved in the database.
    *
