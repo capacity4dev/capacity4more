@@ -98,9 +98,6 @@ function c4m_content_article_strongarm() {
       'c4m_dashboard' => array(
         'custom_settings' => FALSE,
       ),
-      'c4m_teaser_list' => array(
-        'custom_settings' => TRUE,
-      ),
       'c4m_teaser_table' => array(
         'custom_settings' => FALSE,
       ),
