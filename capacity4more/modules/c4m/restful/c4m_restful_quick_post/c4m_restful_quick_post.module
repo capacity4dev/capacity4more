@@ -60,6 +60,7 @@ function c4m_restful_quick_post_form($group_id) {
   // Global settings for the AngularJs app.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
+    'purlPath' => url('', array('absolute' => TRUE)),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
     'activities' => $activities,
     'data' => array(
@@ -226,7 +227,18 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   $app_path = $bower_path . '/c4m-app/dist';
   drupal_add_js($app_path . '/c4m-app.js');
 
-  $settings['c4m'] = array();
+  // URL options.
+  $options = array(
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  $settings['c4m'] = array(
+    'basePath' => url('', $options),
+    'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
+  );
   drupal_add_js($settings, 'setting');
 }
 

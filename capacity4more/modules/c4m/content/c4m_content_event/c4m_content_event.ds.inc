@@ -10,6 +10,34 @@
 function c4m_content_event_ds_field_settings_info() {
   $export = array();
 
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_event|activity_stream';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_event';
+  $ds_layout->view_mode = 'activity_stream';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['comment|comment_node_event|activity_stream'] = $ds_layout;
+
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'comment|comment_node_event|default';
@@ -314,7 +342,7 @@ function c4m_content_event_ds_field_settings_info() {
           'lb-el' => 'span',
           'lb-col' => TRUE,
           'ow' => TRUE,
-          'ow-el' => 'span',
+          'ow-el' => 'div',
           'ow-cl' => 'group',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
@@ -327,7 +355,15 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'in @city (@country)',
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'span',
+          'ow-cl' => '',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
       ),
     ),
     'c4m_ds_content_type_icon' => array(
@@ -421,6 +457,34 @@ function c4m_content_event_ds_field_settings_info() {
  */
 function c4m_content_event_ds_layout_settings_info() {
   $export = array();
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_event|activity_stream';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_event';
+  $ds_layout->view_mode = 'activity_stream';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['comment|comment_node_event|activity_stream'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;

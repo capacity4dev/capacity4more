@@ -91,11 +91,32 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator_id'] = 'search_api_views_fulltext_op';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['label'] = 'Fulltext search';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['operator'] = 'search_api_views_fulltext_op';
-  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'search_api_views_fulltext';
+  $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['identifier'] = 'text';
   $handler->display->display_options['filters']['search_api_views_fulltext']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
     3 => 0,
+  );
+  /* Filter criterion: Indexed User: Is deleted */
+  $handler->display->display_options['filters']['c4m_is_deleted']['id'] = 'c4m_is_deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['filters']['c4m_is_deleted']['field'] = 'c4m_is_deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted']['value'] = array(
+    0 => '0',
+  );
+  /* Filter criterion: Indexed User: Is spammer */
+  $handler->display->display_options['filters']['c4m_is_spammer']['id'] = 'c4m_is_spammer';
+  $handler->display->display_options['filters']['c4m_is_spammer']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['filters']['c4m_is_spammer']['field'] = 'c4m_is_spammer';
+  $handler->display->display_options['filters']['c4m_is_spammer']['value'] = array(
+    0 => '0',
+  );
+  /* Filter criterion: Indexed User: Status */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = array(
+    1 => '1',
   );
 
   /* Display: Page */
@@ -105,7 +126,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'members';
   $handler->display->display_options['menu']['type'] = 'normal';
@@ -153,7 +174,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;

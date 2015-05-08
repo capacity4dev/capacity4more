@@ -26,8 +26,6 @@ angular.module('c4mApp')
 
     $scope = QuickPostService.setDefaults($scope);
 
-    $scope.basePath = DrupalSettings.getBasePath();
-
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
      *
@@ -328,7 +326,7 @@ angular.module('c4mApp')
       submitData.status = type == 'full_form' ? 0 : 1;
 
       // Cancel submit and display errors if we have errors.
-      if (Object.keys(errors).length && type == 'quick_post') {
+      if (Object.keys(errors).length) {
         angular.forEach(errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);
@@ -347,7 +345,7 @@ angular.module('c4mApp')
           // If requested to create in full form, Redirect user to the edit page.
           if (type == 'full_form') {
             var entityID = data.data[0].id;
-            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
+            $window.location = DrupalSettings.getPurlPath() + "/node/" + entityID + "/edit";
           }
           else {
             $scope.serverSide.data = data;

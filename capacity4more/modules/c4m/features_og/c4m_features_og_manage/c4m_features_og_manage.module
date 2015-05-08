@@ -7,6 +7,15 @@
 include_once 'c4m_features_og_manage.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function c4m_features_og_manage_menu() {
@@ -21,7 +30,120 @@ function c4m_features_og_manage_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['manage/categories'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_overview_form'),
+    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/types'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_types_overview_form'),
+    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/type/add'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_type_add_form'),
+    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/term/%/edit'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_term_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/type/%/edit'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_type_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/term/%/delete'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_term_delete_confirm_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/type/%/delete'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_type_delete_confirm_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/term/%/term-order'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_term_order_confirm_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_terms_access'),
+    'access arguments' => array(3),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
+  $items['manage/categories/type/%/term-order'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_og_manage_categories_type_order_confirm_form', 3),
+    'access callback' => array('c4m_features_og_manage_categories_access'),
+    'file' => 'c4m_manage_categories.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Access callback for manage group categories.
+ */
+function c4m_features_og_manage_categories_access() {
+  // Check if in a group.
+  $gid = c4m_og_current_group_id();
+  if (empty($gid)) {
+    return FALSE;
+  }
+
+  return og_user_access('node', $gid, 'administer group');
+}
+
+/**
+ * Access callback for manage group categories edit/delete/reorder term forms.
+ *
+ * @param int $tid
+ *  The taxonomy term ID.
+ *
+ * @return bool
+ *  user's access to the current group.
+ */
+function c4m_features_og_manage_categories_terms_access($tid) {
+  // Check if in a group.
+  $group = c4m_og_current_group();
+  if (empty($group)) {
+    return FALSE;
+  }
+
+  // Validate if the given term is valid.
+  if (!$term = taxonomy_term_load($tid)) {
+    drupal_set_message(t('Type/Term ID is not valid.'), 'error');
+    return FALSE;
+  }
+
+  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+  // Validate if the given category type belongs to the current group (The group vocab).
+  if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
+    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
+    return FALSE;
+  }
+
+  return og_user_access('node', $group->nid, 'administer group');
 }
 
 /**
@@ -38,12 +160,20 @@ function c4m_features_og_manage_features_access() {
 }
 
 /**
- * Implements hook_ctools_plugin_directory().
+ * Implements hook_theme().
  */
-function c4m_features_og_manage_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools') {
-    return 'plugins/' . $plugin;
-  }
+function c4m_features_og_manage_theme() {
+  return array(
+    'c4m_features_og_manage_categories_overview_form' => array(
+      'render element' => 'form',
+    ),
+    'c4m_features_og_manage_categories_types_overview_form' => array(
+      'render element' => 'form',
+    ),
+    'c4m_features_og_manage_categories_term_form' => array(
+      'render element' => 'form',
+    ),
+  );
 }
 
 /**
@@ -194,7 +324,7 @@ function c4m_features_og_manage_group_details() {
   
   // Get categories and terms count for current group.
   $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
-  $details['taxonomy_manage_link'] = l(t('Edit'), url('group/node/' . $group->nid . '/admin/taxonomy/' . $og_vocab[0]->machine_name, array('absolute' => TRUE)));
+  $details['taxonomy_manage_link'] = l(t('Edit'), url('manage/categories', array('absolute' => TRUE)));
   $categories = taxonomy_get_tree($og_vocab[0]->vid);
   $categories_count = 0;
   $terms_count = 0;
@@ -289,7 +419,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
  * Alter variable manage form layout.
  */
 function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$form, &$form_state, $form_id) {
-  // Don't use vertival tabs.
+  // Don't use vertical tabs.
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t('Enable or disable features for this group.');
@@ -320,5 +450,18 @@ function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state)
   foreach($form_elements as $element => $id) {
     $form[$element]['#prefix'] = "<div id='$id'>";
     $form[$element]['#suffix'] = '</div>';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Prevent access to the "description" and "relations" fields for non platform-administrators.
+ */
+function c4m_features_og_manage_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  global $user;
+  if (!in_array('administrator', $user->roles)) {
+    $form['description']['#access'] = FALSE;
+    $form['relations']['#access'] = FALSE;
   }
 }

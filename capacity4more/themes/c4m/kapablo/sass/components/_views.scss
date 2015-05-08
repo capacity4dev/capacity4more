@@ -11,7 +11,7 @@
 }
 
 .view-header {
-  color: $gray-dark;
+  color: $color-gray-dark;
   margin: 10px 0 25px 0;
   @include clearfix;
   overflow: visible;
@@ -116,9 +116,9 @@
   clear: both;
 }
 
-#edit-search-api-views-fulltext-wrapper {
+#edit-text-wrapper {
   label {
-    color: $gray-dark;
+    color: $color-gray-dark;
     font-size: 30px;
     font-weight: lighter;
     text-transform: uppercase;
@@ -133,7 +133,7 @@
 
 li {
   h3 {
-    color: $gray-dark;
+    color: $color-gray-dark;
     font-size: 1em;
     text-transform: uppercase;
   }

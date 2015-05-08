@@ -10,6 +10,56 @@
 function c4m_content_article_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'comment-comment_node_article-comment_body'
+  $field_instances['comment-comment_node_article-comment_body'] = array(
+    'bundle' => 'comment_node_article',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => 0,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 300,
+          'trim_options' => array(
+            'text' => 0,
+          ),
+          'trim_suffix' => '...',
+          'trim_type' => 'chars',
+        ),
+        'type' => 'smart_trim_format',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'comment',
+    'field_name' => 'comment_body',
+    'label' => 'Comment',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'node-article-c4m_banner'
   $field_instances['node-article-c4m_banner'] = array(
     'bundle' => 'article',
@@ -58,6 +108,12 @@ function c4m_content_article_field_default_field_instances() {
           'image_style' => 'banner',
         ),
         'type' => 'image',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'library' => array(
@@ -179,6 +235,12 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 6,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -268,6 +330,12 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 24,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -350,6 +418,12 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 5,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -440,6 +514,12 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 11,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -546,6 +626,12 @@ function c4m_content_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 23,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -662,6 +748,12 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 15,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -764,6 +856,12 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 14,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -858,6 +956,12 @@ function c4m_content_article_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 12,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'library' => array(
         'label' => 'above',
@@ -956,6 +1060,12 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'entityreference_entity_view',
         'weight' => 10,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1046,6 +1156,12 @@ function c4m_content_article_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 13,
       ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'library' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1087,6 +1203,7 @@ function c4m_content_article_field_default_field_instances() {
   t('Banner');
   t('Body');
   t('Check this box if the content of this article contains video. An overlay will be added to listings to indicate this video content.');
+  t('Comment');
   t('Content of the Article (HTML).');
   t('Contributors');
   t('Enter group(s) that are related to this article.');

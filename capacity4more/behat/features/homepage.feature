@@ -25,7 +25,7 @@ Feature: Test homepage content and blocks
   Scenario: Logged in user should see group owner in "My Groups" block.
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
-    And   I should see "Charles Darwin" in the "span.owner" element
+    Then  I should see an "span.owner" element
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -83,7 +83,7 @@ Feature: Test homepage content and blocks
   Scenario: Check featured block is displayed correctly.
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should see "Featured block"
+    Then  I should see an ".pane-featured-block" element
 
   @api
   Scenario: Logged in, non member user should see the suggested groups video.

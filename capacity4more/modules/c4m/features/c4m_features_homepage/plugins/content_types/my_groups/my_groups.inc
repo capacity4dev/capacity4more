@@ -14,24 +14,25 @@ $plugin = array(
  * Render callback.
  */
 function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $args, $context) {
+  global $user;
+
+  $account = user_load($user->uid);
   $my_groups = array();
   $first_groups = '';
   $extra_groups = '';
 
   // Get All user's groups (We get them sorted by id).
-  $groups = og_get_groups_by_user();
+  $groups = og_get_groups_by_user($account, NULL, TRUE);
 
   if (empty($groups['node'])) {
     return FALSE;
   }
 
-  // Load node for each group and add the first 2 letters of the group title as a key.
-  foreach (node_load_multiple($groups['node']) as $node) {
-    $my_groups[strtolower(substr($node->title, 0, 2))] = $node;
-  }
+  $nids = array_values($groups['node']);
 
-  // Sort my groups by key, which will sort them alphabetically (Keys are first 2 letters of each group's title).
-  ksort($my_groups, SORT_STRING);
+  $my_groups = node_load_multiple($nids);
+
+  usort($my_groups, 'c4m_sort_object_by_title');
 
   // Render node views for each group,
   // First 3 groups are displayed (first_groups), the rest are hidden and only shown when user clicks on "Show all" (extra_groups).
