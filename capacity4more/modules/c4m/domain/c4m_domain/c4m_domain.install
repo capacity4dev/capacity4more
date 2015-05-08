@@ -38,13 +38,17 @@ function c4m_domain_schema() {
         'not null' => TRUE,
       ),
       'whitelist' => array(
-        'description' => 'List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.',
-        'type' => 'serialize',
+        'description' => 'Email addresses that are valid without validating them trough the validator.',
+        'type' => 'text',
+        'length' => 4096,
+        'serialize' => TRUE,
         'not null' => FALSE,
       ),
     ),
     'primary key' => array('id'),
-    'unique keys' => array('name'),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
   );
 
   return $schema;

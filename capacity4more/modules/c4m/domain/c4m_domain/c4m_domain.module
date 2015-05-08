@@ -181,6 +181,7 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#type' => 'textarea',
     '#default_value' => isset($domain->whitelist) ? $domain->whitelist : '',
     '#required' => TRUE,
+    '#maxlength' => 4096,
   );
 
   field_attach_form('c4m_domain', $domain, $form, $form_state);
@@ -210,6 +211,9 @@ function c4m_domain_form_validate($form, &$form_state) {
   }
 
   // Validate whitelist.
+  if (strlen($form_state['values']['whitelist']) > 4096) {
+    form_set_error('description', t('The whitelist contains more than 4096 characters.'));
+  }
   $whitelist = preg_split('/\r\n|[\r\n]/', $form_state['values']['whitelist']);
   foreach ($whitelist as $key => $email) {
     if (valid_email_address($email)) {
