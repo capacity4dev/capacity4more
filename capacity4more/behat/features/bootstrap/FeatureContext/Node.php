@@ -206,4 +206,33 @@ trait Node {
     $node->title = $new_title;
     node_save($node);
   }
+
+  /**
+   * @Given /^A node from type "([^"]*)" is created with author "([^"]*)"$/
+   */
+  public function aNodeWithTypeIsCreatedWithAuthor($type, $username) {
+    $steps = array();
+    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
+    $steps[] = new Step\When('I visit "node/add/"' . $type .'"');
+
+    $steps[] = new Step\When('I fill in "title" with "A new article"');
+
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
+
+    // This is a required tag.
+    $steps[] = new Step\When('I check the related topic checkbox');
+
+    $steps[] = new Step\When('I press "Publish"');
+
+    // Giving time for saving.
+    $steps[] = new Step\When('I wait');
+
+    // Check there was no error.
+    $steps[] = new Step\When('I should not see "There was an error"');
+
+    // Success.
+    $steps[] = new Step\When('I should see "Article A new article title has been created."');
+    return $steps;
+  }
+
 }
