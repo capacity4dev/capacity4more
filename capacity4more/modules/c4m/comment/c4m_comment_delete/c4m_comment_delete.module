@@ -1,12 +1,14 @@
 <?php
 /**
  * @file
- * Module that gives control over comment deletions. Delete all children, move them up one level or just replace the
- * comment body text to indicate a comment was removed.
+ * Module that gives control over comment deletions.
+ *
+ * Delete all children, move them up one level or just replace the comment body
+ * text to indicate a comment was removed.
  */
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function c4m_comment_delete_menu() {
   $items['admin/config/content/c4m_comment_delete'] = array(
@@ -22,7 +24,7 @@ function c4m_comment_delete_menu() {
 }
 
 /**
- * Implementation of hook_menu_alter().
+ * Implements hook_menu_alter().
  */
 function c4m_comment_delete_menu_alter(&$items) {
   $items['comment/%/delete']['page callback']    = 'drupal_get_form';
@@ -33,7 +35,7 @@ function c4m_comment_delete_menu_alter(&$items) {
 }
 
 /**
- * Implementation of hook_permission().
+ * Implements hook_permission().
  */
 function c4m_comment_delete_permission() {
   return array(
@@ -45,7 +47,7 @@ function c4m_comment_delete_permission() {
       'title' => t('Delete Own Comments at Anytime'),
     ),
     'delete any comment'             => array(
-      'title' => t('Delete Any Comments')
+      'title' => t('Delete Any Comments'),
     ),
     'delete any comments at anytime' => array(
       'title' => t('Delete Any Comment anytime'),
@@ -118,7 +120,7 @@ function c4m_comment_delete_reply_actions() {
   if (user_access('move all replies up')) {
     $actions[1] = t('Move all replies up one level');
   }
-  $actions[2] = t('Delete only the comment, or it\'s text and the subject if it has replies');
+  $actions[2] = t("Delete only the comment, or it's text and the subject if it has replies");
 
   return $actions;
 }
@@ -136,8 +138,9 @@ function c4m_comment_delete_form($form, &$form_state, $cid) {
       '#value' => $cid,
     );
 
-    // Allow permissible users to determine how replies of this comment should be handled when
-    // it is deleted. Users without permissions to change this will use the default setting.
+    // Allow permissible users to determine how replies of this comment should
+    // be handled when it is deleted.
+    // Users without permissions to change this will use the default setting.
     if ($actions = c4m_comment_delete_reply_actions()) {
       $form['replies'] = array(
         '#type'          => 'select',
@@ -174,7 +177,7 @@ function c4m_comment_delete_form($form, &$form_state, $cid) {
  * Delete the comment and manage the replies using the appropriate action.
  */
 function c4m_comment_delete_form_submit($form, &$form_state) {
-  include_once(drupal_get_path('module', 'comment') . '/comment.admin.inc');
+  module_load_include('inc', 'comment', 'comment.admin');
   $cid     = $form_state['values']['cid'];
   $comment = comment_load($cid);
 
@@ -193,22 +196,27 @@ function c4m_comment_delete_form_submit($form, &$form_state) {
     drupal_set_message(t("The comment has been deleted and it's replies have been moved up one level."));
   }
 
-  // Delete only this comment, or replace the subject/body of replies with a notice.
+  // Delete only this comment, or replace the subject/body of replies with a
+  // notice.
   elseif ($form_state['values']['replies'] == 2) {
     if (c4m_comment_delete_num_replies($cid)) {
       db_update('comment')
-      ->fields(array(
-        'subject' => '',
-      ))
-      ->condition('cid', $cid)
-      ->execute();
+        ->fields(
+          array(
+            'subject' => '',
+          )
+        )
+        ->condition('cid', $cid)
+        ->execute();
 
       db_update('field_data_comment_body')
-      ->fields(array(
-        'comment_body_value' => t('This comment has been deleted by the author or an administrator.'),
-      ))
-      ->condition('entity_id', $cid)
-      ->execute();
+        ->fields(
+          array(
+            'comment_body_value' => t('This comment has been deleted by the author or an administrator.'),
+          )
+        )
+        ->condition('entity_id', $cid)
+        ->execute();
 
       drupal_set_message(t('The comment subject/body has been deleted, all replies will remain.'));
     }

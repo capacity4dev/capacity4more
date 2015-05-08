@@ -1,16 +1,11 @@
 <?php
 /**
  * @file
- * Append a note on who edited given comment the last time, in order to show to other users when the author changed
- * his or her comment.
+ * Append notes to comments to inform who has edited a comment.
  */
 
 /**
  * Implements hook_comment_update().
- *
- * @param $comment
- *
- * @return void
  */
 function c4m_comment_edited_comment_update($comment) {
   global $user;
@@ -22,9 +17,9 @@ function c4m_comment_edited_comment_update($comment) {
     return;
   }
 
-  $data            = new stdClass;
-  $data->cid       = $comment->cid;
-  $data->uid       = $user->uid;
+  $data = new stdClass();
+  $data->cid = $comment->cid;
+  $data->uid = $user->uid;
   $data->timestamp = time();
 
   // If there is another message of this comment then just update that.
@@ -41,14 +36,17 @@ function c4m_comment_edited_comment_update($comment) {
 
 /**
  * Implements hook_comment_delete().
- *
- * @param $comment
  */
 function c4m_comment_edited_comment_delete($comment) {
-  // Delete message from the comment_edited table
-  // $comment is object
-  db_query('DELETE FROM {c4m_comment_edited_data} WHERE cid = :cid', array(':cid' => $comment->cid));
-  db_query('DELETE FROM {c4m_comment_edited_comments} WHERE cid = :cid', array(':cid' => $comment->cid));
+  // Delete message from the comment_edited table.
+  db_query(
+    'DELETE FROM {c4m_comment_edited_data} WHERE cid = :cid',
+    array(':cid' => $comment->cid)
+  );
+  db_query(
+    'DELETE FROM {c4m_comment_edited_comments} WHERE cid = :cid',
+    array(':cid' => $comment->cid)
+  );
 }
 
 /**
@@ -70,7 +68,7 @@ function c4m_comment_edited_preprocess_comment(&$variables) {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function c4m_comment_edited_theme() {
   return array(
@@ -81,12 +79,13 @@ function c4m_comment_edited_theme() {
 }
 
 /**
- * Return the display message for the last edited by... text
+ * Return the display message for the last edited by... text.
  *
  * @param int $cid
  *   Comment id.
  *
  * @return string
+ *   The message.
  */
 function c4m_comment_edited_get_message($cid) {
   $data = db_query('SELECT uid, timestamp FROM {c4m_comment_edited_data} WHERE cid = :cid', array(':cid' => $cid))->fetchAssoc();
@@ -110,7 +109,7 @@ function c4m_comment_edited_get_message($cid) {
  * @return string
  *   Themed output.
  */
-function theme_c4m_comment_edited_messages($variables) {
+function theme_c4m_comment_edited_messages(array $variables) {
   $message = $variables['message'];
   $output  = '';
 
