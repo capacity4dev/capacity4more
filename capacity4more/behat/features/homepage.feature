@@ -83,7 +83,7 @@ Feature: Test homepage content and blocks
   Scenario: Check featured block is displayed correctly.
     Given I am an anonymous user
     When  I visit the site homepage
-    Then  I should see "Featured block"
+    Then  I should see an ".pane-featured-block" element
 
   @api
   Scenario: Logged in, non member user should see the suggested groups video.
