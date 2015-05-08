@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Install & Update hooks.
  */
 
 /**
