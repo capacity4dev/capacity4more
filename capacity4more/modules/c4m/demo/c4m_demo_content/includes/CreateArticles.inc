@@ -186,4 +186,5 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $message->timestamp = $row->changed;
     message_save($message);
   }
+
 }
