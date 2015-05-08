@@ -72,11 +72,11 @@ function capacity4more_setup_rebuild_permissions() {
  */
 function capacity4more_setup_set_variables(&$install_state) {
   $variables = array(
-    // Homepage
+    // Homepage.
     'weight_frontpage' => '0',
     'site_frontpage' => 'node',
 
-    // Theme
+    // Theme.
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 0,
@@ -85,7 +85,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
 
-    // RESTful
+    // RESTful.
     'restful_file_upload' => TRUE,
 
     // Enable counting views of the entity.

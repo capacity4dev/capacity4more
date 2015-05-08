@@ -71,7 +71,8 @@ function capacity4more_install() {
 /**
  * Get the filtered_html format.
  *
- * @return stdCLass
+ * @return object
+ *   The filtered format configuration.
  */
 function _capacity4more_install_get_filtered_html_format() {
   $filtered_html_format = array(
@@ -109,7 +110,8 @@ function _capacity4more_install_get_filtered_html_format() {
 /**
  * Get the full_html format.
  *
- * @return stdCLass
+ * @return object
+ *   The full format configuration.
  */
 function _capacity4more_install_get_full_html_format() {
   $full_html_format = array(
@@ -146,7 +148,8 @@ function _capacity4more_install_get_full_html_format() {
 /**
  * Save the default permissions.
  *
- * @param stdClass $filtered_html_format
+ * @param object $filtered_html_format
+ *   The filtered format configuration.
  */
 function _capacity4more_install_save_default_permissions($filtered_html_format) {
   // Only admins can create new members.
@@ -161,7 +164,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
       'access comments',
       'access user profiles',
       'create messages',
-      $filtered_html_permission
+      $filtered_html_permission,
     )
   );
   user_role_grant_permissions(
@@ -172,7 +175,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
       'post comments',
       'skip comment approval',
       'access user profiles',
-      $filtered_html_permission
+      $filtered_html_permission,
     )
   );
 
@@ -189,7 +192,8 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
   );
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
-  // Create a default role for site administrators, with all available permissions assigned.
+  // Create a default role for site administrators, with all available
+  // permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';
   $admin_role->weight = 2;
@@ -234,8 +238,8 @@ function _capacity4more_install_save_default_menu() {
  *
  * @param string $name
  *   The theme name.
- * @param $status
- *   The status of the theme.
+ * @param int $status
+ *   The disabled (0) or enabled (1) status of the theme.
  */
 function _capacity4more_install_save_theme($name, $status) {
   db_update('system')
@@ -253,9 +257,11 @@ function _capacity4more_install_save_theme($name, $status) {
  * Add an array of blocks to the given theme.
  *
  * @param array $blocks
+ *   The block definitions.
  */
-function _capacity4more_install_save_theme_blocks($blocks) {
-  $query = db_insert('block')->fields(array(
+function _capacity4more_install_save_theme_blocks(array $blocks) {
+  $query = db_insert('block')->fields(
+    array(
       'module',
       'delta',
       'theme',
@@ -263,8 +269,9 @@ function _capacity4more_install_save_theme_blocks($blocks) {
       'weight',
       'region',
       'pages',
-      'cache'
-    ));
+      'cache',
+    )
+  );
 
   foreach ($blocks as $block) {
     $query->values($block);
@@ -273,12 +280,13 @@ function _capacity4more_install_save_theme_blocks($blocks) {
 }
 
 /**
- * Get the default theme blocks
+ * Get the default theme blocks.
  *
  * @param string $theme
  *   The name of the theme.
  *
  * @return array
+ *   The definitions of the blocks that should be used in the default theme.
  */
 function _capacity4more_install_get_default_theme_blocks($theme) {
   // Only content & help blocks.
@@ -310,26 +318,16 @@ function _capacity4more_install_get_default_theme_blocks($theme) {
 }
 
 /**
- * Get the default theme blocks
+ * Get the default theme blocks.
  *
  * @param string $theme
  *   The name of the theme.
  *
  * @return array
+ *   The definitions of the blocks that should be used in the admin theme.
  */
 function _capacity4more_install_get_admin_theme_blocks($theme) {
   $blocks = array(
-    // Only if the dashboard module is in use...
-    /*array(
-      'module' => 'node',
-      'delta' => 'recent',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 10,
-      'region' => 'dashboard_main',
-      'pages' => '',
-      'cache' => -1,
-    ),*/
     array(
       'module' => 'system',
       'delta' => 'main',
@@ -366,12 +364,14 @@ function _capacity4more_install_get_admin_theme_blocks($theme) {
 }
 
 /**
- * Get the capacity4more theme blocks
+ * Get the capacity4more theme blocks.
  *
  * @param string $theme
  *   The name of the theme.
  *
  * @return array
+ *   The definitions of the blocks that should be enabled for the capacity4more
+ *   theme.
  */
 function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
   $blocks = array(
@@ -401,9 +401,10 @@ function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
 }
 
 /**
- * Set the default time formats
+ * Set the default time formats.
  *
  * @return array
+ *   Result of setting the formats.
  */
 function _capacity4more_install_set_default_date_formats() {
   $formats = array(
@@ -425,7 +426,7 @@ function _capacity4more_install_set_default_date_formats() {
 
   return array(
     'success' => TRUE,
-    'query' => st('Default date formats are set.')
+    'query' => st('Default date formats are set.'),
   );
 }
 
