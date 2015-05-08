@@ -181,49 +181,6 @@ function c4m_features_og_events_block_view($delta = '') {
 }
 
 /**
- * Implements hook_block_view_alter().
- *
- * @param $data
- * @param $block
- */
-function c4m_features_og_events_block_view_alter(&$data, $block) {
-  if ('calendar' === current_path()) {
-    // Override blocks on the events landing page.
-    module_load_include('inc', 'c4m_features_og_events', 'includes/c4m_features_og_events.block');
-    return _c4m_features_og_events_landing_block_view_alter($data, $block);
-  }
-}
-
-/**
- * Implements hook_facet_items_alter()
- *
- * @param $build
- * @param $settings
- */
-function c4m_features_og_events_facet_items_alter(&$build, &$settings) {
-  if ($settings->facet == "c4m_datetime_end:value2") {
-    foreach($build as $key => $item) {
-      // Change the path of the link to the corresponding Views pages.
-      // upcoming events: ./upcoming
-      // past events: ./past
-      $build[$key]['#path'] .= '/' . $key;
-      $build[$key]['#class'][] = $key . '-events';
-      // Remove the filter on this range, because it's superfluous.
-      foreach ($build[$key]['#query']['f'] as $i => $facet) {
-        $range_facet = 'c4m_datetime_end%3Avalue2:' . $key;
-        if ($range_facet === $facet) {
-          unset($build[$key]['#query']['f'][$i]);
-        }
-      }
-      // If there are no more facet query parameters, remove them entirely.
-      if (empty($build[$key]['#query']['f'])) {
-        unset($build[$key]['#query']['f']);
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_entity_info_alter().
  *
  * Add "Upcoming event" view mode.
