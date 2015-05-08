@@ -29,7 +29,7 @@ source $TRAVIS_BUILD_DIR/scripts/helper-colors.sh
 ##
 code_review () {
   echo "${LWHITE}$1${RESTORE}"
-  phpcs --standard=Drupal -p --colors --ignore=$2 $1
+  phpcs --standard=Drupal -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css,info,txt --ignore=$2 $1
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
