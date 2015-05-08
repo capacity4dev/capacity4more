@@ -4,6 +4,9 @@
  * Template to render the Vocabulary widget.
  */
 ?>
+<div ng-show="data.field_info.<?php print $vocabulary_machine_name ?>.description">
+  {{data.field_info.<?php print $vocabulary_machine_name ?>.description}}
+</div>
 <div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>

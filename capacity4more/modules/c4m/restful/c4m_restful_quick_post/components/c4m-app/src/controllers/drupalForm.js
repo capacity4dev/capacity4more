@@ -113,6 +113,22 @@ angular.module('c4mApp')
           angular.element('input[type=checkbox][value="' + key + '"]').prop("checked", true);
         }
         else {
+          // Check up to 3 topics selected.
+          if (vocab == 'c4m_related_topic' || vocab == 'c4m_vocab_geo') {
+            var topicCount = 0;
+            angular.forEach($scope.model[vocab], function(element, topicKey) {
+              if (element === true && $scope.data[vocab][topicKey]) {
+                // Term is selected and it's term of the first level.
+                topicCount++;
+              }
+              // Don't check if selected more than 3 topics.
+              if (topicCount > 3) {
+                $scope.model[vocab][key] = false;
+                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+                return;
+              }
+            });
+          }
           angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", true);
         }
       }
