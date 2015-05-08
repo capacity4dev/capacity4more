@@ -635,6 +635,7 @@ function c4m_content_event_ds_layout_settings_info() {
         5 => 'c4m_field_location_city_country',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
@@ -646,6 +647,7 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'flag_c4m_og_content_highlight' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

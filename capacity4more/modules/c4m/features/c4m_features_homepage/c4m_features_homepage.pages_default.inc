@@ -109,29 +109,13 @@ function c4m_features_homepage_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-bdb9f6a5-a5ce-4384-a76d-7278234b792d';
+    $pane->pid = 'new-55eef8fd-b355-4edf-8e80-38602fa55248';
     $pane->panel = 'left';
-    $pane->type = 'views';
-    $pane->subtype = 'og_dashboard';
+    $pane->type = 'block';
+    $pane->subtype = 'c4m_features_og_group_dashboard-og_dashboard_promoted_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 0,
-      'nodes_per_page' => '1',
-      'pager_id' => '0',
-      'offset' => '0',
-      'more_link' => 0,
-      'feed_icons' => 0,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => '',
-      'display' => 'og_dashboard_highlighted_block',
-      'context' => array(
-        0 => '',
-        1 => '',
-      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -143,9 +127,9 @@ function c4m_features_homepage_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = 'bdb9f6a5-a5ce-4384-a76d-7278234b792d';
-    $display->content['new-bdb9f6a5-a5ce-4384-a76d-7278234b792d'] = $pane;
-    $display->panels['left'][0] = 'new-bdb9f6a5-a5ce-4384-a76d-7278234b792d';
+    $pane->uuid = '55eef8fd-b355-4edf-8e80-38602fa55248';
+    $display->content['new-55eef8fd-b355-4edf-8e80-38602fa55248'] = $pane;
+    $display->panels['left'][0] = 'new-55eef8fd-b355-4edf-8e80-38602fa55248';
     $pane = new stdClass();
     $pane->pid = 'new-21c7eb12-4e76-40b8-9db8-0d52ad35523a';
     $pane->panel = 'left';

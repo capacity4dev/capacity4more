@@ -246,7 +246,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 0,
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -332,7 +332,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
+        'weight' => 13,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -412,7 +412,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 15,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -493,7 +493,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 3,
+        'weight' => 14,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -693,7 +693,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 1,
+        'weight' => 12,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

@@ -323,7 +323,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -333,7 +333,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '4',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -348,7 +348,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '6',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -553,6 +553,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
         3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_ds_content_footer_stats',
+        6 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
@@ -562,6 +563,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'flag_c4m_og_content_highlight' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

@@ -28,6 +28,7 @@ function c4m_content_wiki_page_field_group_info() {
       2 => 'c4m_vocab_geo',
       3 => 'c4m_vocab_language',
       4 => 'og_vocabulary',
+      5 => 'flag_c4m_og_content_highlight',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

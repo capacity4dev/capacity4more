@@ -123,6 +123,10 @@ function c4m_content_document_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'teaser' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),

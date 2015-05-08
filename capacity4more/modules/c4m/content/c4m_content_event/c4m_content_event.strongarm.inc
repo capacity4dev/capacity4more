@@ -129,6 +129,10 @@ function c4m_content_event_strongarm() {
             'weight' => '9',
             'visible' => TRUE,
           ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),
