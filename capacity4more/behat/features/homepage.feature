@@ -104,7 +104,7 @@ Feature: Test homepage content and blocks
 
   @javascript
   Scenario: Anonymous user can see article activities and doesn't see filter.
-    Given A node from type "article" is created with author "admin"
+    Given A node from type "article" is created with author "admin" and title "Example article"
     And   I am an anonymous user
     When  I visit the site homepage
     Then  I should wait not to see "Filter by"

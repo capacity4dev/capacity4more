@@ -208,19 +208,16 @@ trait Node {
   }
 
   /**
-   * @Given /^A node from type "([^"]*)" is created with author "([^"]*)"$/
+   * @Given /^A node from type "([^"]*)" is created with author "([^"]*)" and title "([^"]*)"$/
    */
-  public function aNodeWithTypeIsCreatedWithAuthor($type, $username) {
+  public function aNodeWithTypeIsCreatedWithAuthor($type, $username, $title) {
     $steps = array();
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     $steps[] = new Step\When('I visit "node/add/"' . $type .'"');
 
-    $steps[] = new Step\When('I fill in "title" with "A new article"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title .'"');
 
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
-
-    // This is a required tag.
-    $steps[] = new Step\When('I check the related topic checkbox');
 
     $steps[] = new Step\When('I press "Publish"');
 
@@ -231,7 +228,7 @@ trait Node {
     $steps[] = new Step\When('I should not see "There was an error"');
 
     // Success.
-    $steps[] = new Step\When('I should see "Article A new article title has been created."');
+    $steps[] = new Step\When('I should see "' . $title . ' has been created."');
     return $steps;
   }
 
