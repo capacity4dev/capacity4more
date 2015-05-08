@@ -423,7 +423,7 @@ function c4m_message_format_operation(Message $message) {
     case 'c4m_insert__node__wiki_page':
       return $operation == 'insert' ? t('created a new') : t('updated the');
     case 'c4m_insert__node__article':
-      return $operation == 'insert' ? t('posted an') : t('updated the');
+      return $operation == 'insert' ? t('posted an') : '';
   }
 }
 

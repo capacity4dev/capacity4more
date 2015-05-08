@@ -28,8 +28,9 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
+  $account = user_load($user->uid);
 
-  $user_wrapper = entity_metadata_wrapper('user', $user->uid);
+  $user_wrapper = entity_metadata_wrapper('user', $account->uid);
   $interests = $user_wrapper->c4m_related_topic->raw();
 
   $filter = !empty($_GET['filter']) ? $_GET['filter'] : NULL;
@@ -38,7 +39,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
     return;
   }
 
-  $user_groups = og_get_groups_by_user();
+  $user_groups = og_get_groups_by_user($account, NULL, TRUE);
   $groups = '';
 
   $query = new EntityFieldQuery();
