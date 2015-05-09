@@ -27,7 +27,7 @@ trait Article {
     $steps[] = new Step\When('I press "c4m_related_topic"');
     $steps[] = new Step\When('I check the box "Fire"');
     $steps[] = new Step\When('I press "Publish"');
-    $steps[] = new Step\When('I should see "has been created."');
+    $steps[] = new Step\When('I should not see "There was an error"');
     return $steps;
   }
 }
