@@ -89,18 +89,21 @@ class C4mSearchWidgetLinksContentTypes extends FacetapiWidgetLinks {
       }
     }
 
-    $items = array(
-      'global' => array(
+    $list = array();
+    if (!empty($items['global'])) {
+      $list['global'] = array(
         'data' => t('Outside groups & projects'),
         'children' => $items['global'],
-      ),
-      'group' => array(
+      );
+    }
+    if (!empty($items['group'])) {
+      $list['group'] = array(
         'data' => t('Inside groups & projects'),
         'children' => $items['group'],
-      ),
-    );
+      );
+    }
 
-    return $items;
+    return $list;
   }
 
 }
