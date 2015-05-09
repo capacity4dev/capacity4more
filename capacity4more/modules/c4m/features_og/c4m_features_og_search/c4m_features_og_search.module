@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Group Search feature.
+ */
+
+include_once 'c4m_features_og_search.features.inc';
