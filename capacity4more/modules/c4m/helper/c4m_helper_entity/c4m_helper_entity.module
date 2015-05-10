@@ -26,3 +26,17 @@ function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node')
 
   return $variables['label'];
 }
+
+/**
+ * Helper function to sort objects on their title.
+ *
+ * @usage usort($array_entitiy_objects, 'c4m_sort_object_by_title');
+ *
+ * @param $a
+ * @param $b
+ *
+ * @return int
+ */
+function c4m_sort_object_by_title($a, $b) {
+  return strcasecmp($a->title, $b->title);
+}

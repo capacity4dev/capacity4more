@@ -300,6 +300,12 @@ trait Group {
     // Check there was no error.
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
+    $steps[] = new Step\When('I should be on the homepage');
+    $steps[] = new Step\When('I should see "The group you requested is pending review by one of the administrators."');
+
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
+    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     return $steps;
   }
 
@@ -534,6 +540,44 @@ trait Group {
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
     $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
 
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should not be allowed to edit a group "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToEditAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/edit"'),
+      new Step\Then('I should get a "403" HTTP response'),
+    );
+  }
+
+  /**
+   * @Then /^I should be allowed to edit a group "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToEditAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/edit"'),
+      new Step\Then('I should get a "200" HTTP response'),
+    );
+  }
+
+
+  /**
+   * @Given /^The group "([^"]*)" status is changed by admin to "([^"]*)"$/
+   */
+  public function theGroupStatusIsChangedByAdminTo($group_title, $status) {
+    $steps = array();
+
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $steps[] = new Step\When('I am logged in as user "admin"');
+    $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I wait');
     return $steps;
   }
 

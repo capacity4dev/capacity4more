@@ -22,7 +22,7 @@
         <div class="col-md-9"><?php print $details['topics'] ?></div>
       </div>
       <div class="row">
-        <div class="col-md-3"><?php print t('Group regions & countires') ?></div>
+        <div class="col-md-3"><?php print t('Group regions & countries') ?></div>
         <div class="col-md-9"><?php print $details['locations'] ?></div>
       </div>
     </div>
