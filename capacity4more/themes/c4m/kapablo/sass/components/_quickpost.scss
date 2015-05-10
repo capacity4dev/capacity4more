@@ -248,8 +248,17 @@
     }
   }
 
-  .btn-group-event_type .btn-default {
-    padding-left: 0;
+  .btn-group-event_type {
+    .btn-default {
+      padding-left: 0;
+    }
+  }
+
+  .btn-group-discussion_type {
+
+    .btn-default {
+      padding-left: 25px;
+    }
   }
 }
 

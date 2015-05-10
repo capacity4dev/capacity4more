@@ -97,11 +97,35 @@ function c4m_restful_quick_post_get_form_fields($resource_name) {
   // Get fields.
   $field_schema = array();
   $public_fields = array();
+  $categories = array();
   $handler = restful_get_restful_handler($resource_name);
   // Send the fields to the app as separate objects by resource
   // (for validation on submit.)
   $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
   $public_fields += $handler->getPublicFields();
+
+  // Clean the categories values from the field Schema (Duplicated values).
+  // Order them and assign them to a separate variable.
+  foreach ($field_schema['resources'][$resource_name] as $field_name => $values) {
+    $fixed_values = array();
+    $allowed_values = $field_name == 'categories' ? $values['form_element']['allowed_values']['categories'] : $values['form_element']['allowed_values'];
+    if (!empty($allowed_values)) {
+      foreach ($allowed_values as $id => $label) {
+        $fixed_values[] = array(
+          'id' => $id,
+          'label' => $label,
+        );
+      }
+    }
+    if ($field_name == 'categories') {
+      $categories = $fixed_values;
+      unset($field_schema['resources'][$resource_name][$field_name]['form_element']['allowed_values']);
+    }
+    else {
+      $field_schema['resources'][$resource_name][$field_name]['form_element']['allowed_values'] = $fixed_values;
+    }
+  }
+  $field_schema['categories'] = $categories;
 
   // Gathering all the fields to pass to the angular-app.
   $entity_fields = array();
@@ -214,7 +238,7 @@ function c4m_restful_quick_post_form($group_id) {
 
   $show_resources = $resources;
 
-  // Get fields.
+  // Remove content types that are disabled in group's features.
   foreach ($resource_names as $resource_name) {
     if (!in_array(strtolower($show_resources[$resource_name]['bundle']), $group_enabled_content_types)) {
       unset($show_resources[$resource_name]);
