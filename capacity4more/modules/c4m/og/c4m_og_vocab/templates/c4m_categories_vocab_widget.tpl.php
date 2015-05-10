@@ -46,7 +46,7 @@
                 </label>
               </li>
             </ul>
-            <label ng-click="updateSelected(item);" class="parent-select">
+            <label ng-show="{{item.children.length}}" ng-click="updateSelected(item);" class="parent-select">
               {{item.label}}
             </label>
           </li>
