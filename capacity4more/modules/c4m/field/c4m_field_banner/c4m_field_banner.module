@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Banner field feature.
  */
+
+include_once 'c4m_field_banner.features.inc';
