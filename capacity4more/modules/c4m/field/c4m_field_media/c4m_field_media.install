@@ -72,6 +72,8 @@ function _c4m_field_media_install_image_styles() {
       'height' => 465,
     ),
   );
+
+  // Override the image image styles names, width and height.
   foreach ($image_styles as $image_style_name => $effects) {
     $image_style = image_style_load($image_style_name);
     $key = key($image_style['effects']);
