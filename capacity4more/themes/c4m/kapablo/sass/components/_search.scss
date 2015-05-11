@@ -1,7 +1,10 @@
 #c4m-search-form {
   margin-top: 1em;
-  .form-item {
-    width: 33%;
+  .form-item-search-page {
+    width: 25%;
+  }
+  #edit-search-page {
+    max-width: 100%;
   }
 }
 .block-c4m-search-filter form {

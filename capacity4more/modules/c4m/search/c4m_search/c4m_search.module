@@ -355,7 +355,12 @@ function c4m_search_forms($form_id, $args) {
 function c4m_search_form($form, &$form_state) {
   $form = array();
   $form['#attributes']['class'][] = 'search-form';
-  $form['basic'] = array('#type' => 'container', '#attributes' => array('class' => array('container-inline')));
+  $form['basic'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('container-inline'),
+    ),
+  );
 
   // Show available search pages selector if more than one are available.
   $search_pages = c4m_search_info();
