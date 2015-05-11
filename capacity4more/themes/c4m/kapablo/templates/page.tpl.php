@@ -122,11 +122,9 @@
     </div>
   </div><!-- /header-content-wrapper -->
 
-  <div id="navbar">
-    <div class="container">
-
-      <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-
+  <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+    <div id="navbar">
+      <div class="container">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -147,9 +145,9 @@
             <?php endif; ?>
           </nav>
         </div>
-      <?php endif; ?>
+      </div>
     </div>
-  </div>
+  <?php endif; ?>
 </header>
 
 <div class="main-container container">
