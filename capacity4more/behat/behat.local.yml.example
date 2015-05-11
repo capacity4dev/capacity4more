@@ -4,6 +4,7 @@ default:
       debug:
         dump_html: true
         dump_screenshot: true
+        dump_path: 'features/dump'
 
   extensions:
     Behat\MinkExtension\Extension:
