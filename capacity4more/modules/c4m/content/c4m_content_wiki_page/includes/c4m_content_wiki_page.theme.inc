@@ -52,3 +52,32 @@ function theme_c4m_content_wiki_page_navigation(array $field) {
 
   return $markup;
 }
+
+/**
+ * DS function field.
+ *
+ * Render WIKI Page sidebar collapse button.
+ *
+ * @param array $field
+ *   Field info.
+ *
+ * @return string
+ *   The rendered version of the field.
+ */
+function theme_c4m_content_wiki_page_collapse(array $field) {
+  $element['collapse_button'] = array(
+    '#type' => 'button',
+    '#value' => '<i class="fa fa-chevron-circle-left"></i>',
+    '#attributes' => array(
+      'class' => array(
+        'btn btn-default',
+      ),
+      'id' => 'collapse-sidebar',
+    ),
+  );
+
+  // Return the rendered output.
+  $markup = drupal_render($element);
+
+  return $markup;
+}
