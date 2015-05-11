@@ -27,6 +27,17 @@ function kapablo_css_alter(&$css) {
     'browsers'   => array('!IE' => TRUE, 'IE' => 'gte IE 9'),
     'weight'     => 5,
   );
+
+  $css['fontAwesome'] = array(
+    'data'       => '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
+    'type'       => 'file',
+    'every_page' => TRUE,
+    'media'      => 'all',
+    'preprocess' => FALSE,
+    'group'      => CSS_THEME,
+    'browsers'   => array('!IE' => TRUE, 'IE' => 'gte IE 9'),
+    'weight'     => 6,
+  );
   //  // @TODO: Add print, IE7, IE8 specific CSS files.
   //  // Add print stylesheet.
   //  $print = $theme_path . '/css/print.css';
