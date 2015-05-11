@@ -93,67 +93,6 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
 }
 
 /**
- * Implements hook_theme().
- */
-function c4m_features_og_group_dashboard_theme() {
-
-  return array(
-    'c4m_flagged_content_block' => array(
-      'variables' => array(
-        'header'          => NULL,
-        'flag'            => NULL,
-        'flagged_content' => array(),
-        'display_mode'    => 'teaser',
-      ),
-      'file' => 'includes/c4m_features_og_group_dashboard.theme.file.inc',
-    ),
-  );
-}
-
-/**
- * Implements hook_block_info()
- * @return mixed
- */
-function c4m_features_og_group_dashboard_block_info() {
-  $blocks['og_dashboard_promoted_block'] = array(
-    'info' => t('OG Promoted block'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-  );
-
-  return $blocks;
-}
-
-/**
- * Implements hook_block_view()
- * @param string $delta
- * @return array
- */
-function c4m_features_og_group_dashboard_block_view($delta = '') {
-  $block = array();
-
-  switch ($delta) {
-    case 'og_dashboard_promoted_block':
-      $group = c4m_og_current_group();
-      $flag = flag_get_flag('c4m_og_content_highlight');
-
-      if (isset($group->nid) && isset($flag->fid)) {
-        $flagged_og_content = c4m_features_og_group_dashboard_get_flagged_group_content($group->nid, $flag->fid, 1);
-        $promoted_block = array(
-          '#theme'            => 'c4m_flagged_content_block',
-          '#header'           => 'Pinned by %username',
-          '#flag'             => $flag,
-          '#flagged_content'  => $flagged_og_content,
-          '#display_mode'     => 'teaser',
-        );
-        $block['content'] = render($promoted_block);
-      }
-      break;
-  }
-
-  return $block;
-}
-
-/**
  * Implements hook_form_alter()
  * @param $form
  * @param $form_state

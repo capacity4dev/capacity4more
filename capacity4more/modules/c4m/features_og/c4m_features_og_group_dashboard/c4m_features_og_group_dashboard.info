@@ -19,4 +19,3 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[flag][] = c4m_og_content_highlight
 features_exclude[dependencies][flag] = flag
-files[] = views/handlers/c4m_views_handler_area_flag_created_by.inc
