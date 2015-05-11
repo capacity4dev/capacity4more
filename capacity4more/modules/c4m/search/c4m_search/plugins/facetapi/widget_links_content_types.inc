@@ -89,6 +89,12 @@ class C4mSearchWidgetLinksContentTypes extends FacetapiWidgetLinks {
       }
     }
 
+    // Within groups, only show content types.
+    if (c4m_og_current_group_id()) {
+      return $items['group'];
+    }
+
+    // In global scope, indicate group & global content.
     $list = array();
     if (!empty($items['global'])) {
       $list['global'] = array(

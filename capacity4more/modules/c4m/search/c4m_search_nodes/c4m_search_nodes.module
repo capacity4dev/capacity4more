@@ -13,7 +13,7 @@ include_once 'c4m_search_nodes.features.inc';
 function c4m_search_nodes_c4m_search_page_info() {
   return array(
     'c4m_search_nodes' => array(
-      'name' => t('Search Site'),
+      'name' => t('Site'),
       'description' => t('Search in all the site.'),
       'machine_name' => 'c4m_search_nodes',
       'path' => 'search',
