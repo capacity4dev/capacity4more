@@ -300,8 +300,14 @@ function c4m_restful_quick_post_needs_app() {
   $item = menu_get_item();
   $path = $item['path'];
 
+  $allowed_paths = array(
+    'node/%/edit',
+    'node/%',
+    'comment/reply/%',
+
+  );
   // If we are on a group edit form, the app should be loaded.
-  if ($path === 'node/%/edit') {
+  if (in_array($path, $allowed_paths)) {
     return TRUE;
   }
 

@@ -67,7 +67,8 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   if (!$entity) {
     return;
   }
-  $entity_type = $entity->type;
+
+  $entity_type = empty($entity->type) ? $element['#entity_type'] : $entity->type;
 
   // Add autocomplete widget, that will be hidden.
   $instance['widget']['type'] = 'entityreference_autocomplete_tags';
@@ -122,6 +123,19 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     'absolute' => TRUE,
   );
 
+  $form_id = $form_state['build_info']['form_id'];
+  dpm($form_id);
+  $comment_form_ids = array(
+    'comment_node_discussion_form',
+    'comment_node_document_form',
+    'comment_node_event_form',
+    'comment_node_wiki_page_form',
+  );
+
+  if (in_array($form_id, $comment_form_ids)) {
+    $form_id = 'comment-from';
+  }
+    //comment_node_discussion_form
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
@@ -131,7 +145,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
         $field_name => $default_values[1],
       ),
       // The form id in HTML is with dashes, not underscores.
-      'formId' => drupal_clean_css_identifier($form_state['build_info']['form_id']),
+      'formId' => drupal_clean_css_identifier($form_id),
     )
   );
 
