@@ -788,6 +788,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Date');
   t('Documents');
   t('Groups');
@@ -795,7 +796,6 @@ function c4m_content_wiki_page_field_default_field_instances() {
   t('OG vocabulary');
   t('Regions & Countries');
   t('Topics');
-  t('Comment');
 
   return $field_instances;
 }
