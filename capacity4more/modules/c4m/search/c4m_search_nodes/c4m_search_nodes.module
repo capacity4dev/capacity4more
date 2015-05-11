@@ -16,3 +16,16 @@ include_once 'c4m_search_nodes.features.inc';
 function c4m_search_nodes_track_change($nid) {
   search_api_track_item_change('node', array($nid));
 }
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Set search page title to "Search <site-name>".
+ */
+function c4m_search_nodes_views_pre_render(&$view) {
+  if ($view->name === 'c4m_search_nodes') {
+    $site_name = variable_get('site_name');
+    $title = t('Search @site-name', array('@site-name' => $site_name));
+    $view->build_info['title'] = $title;
+  }
+}

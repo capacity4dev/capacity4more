@@ -62,7 +62,7 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['filters']['c4m_page_value']['table'] = 'field_data_c4m_page';
   $handler->display->display_options['filters']['c4m_page_value']['field'] = 'c4m_page_value';
   $handler->display->display_options['filters']['c4m_page_value']['value'] = 'homepage';
-  /* Filter criterion: Content: Position (field_position) */
+  /* Filter criterion: Content: Position (c4m_position) */
   $handler->display->display_options['filters']['c4m_position_value']['id'] = 'c4m_position_value';
   $handler->display->display_options['filters']['c4m_position_value']['table'] = 'field_data_c4m_position';
   $handler->display->display_options['filters']['c4m_position_value']['field'] = 'c4m_position_value';

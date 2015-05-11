@@ -10,5 +10,5 @@ group_8,user_8,"Requested group",requested,geology.jpg,,"Some description",topic
 group_9,user_8,"Rejected group",rejected,geology.jpg,,"Some description",topic_earth|topic_wind|topic_fire|topic_water,Sweden|Worldwide,,,0,0,rejected
 group_10,user_8,"Draft group",draft,geology.jpg,,"Some description",topic_earth|topic_wind|topic_fire|topic_water,Sweden|Worldwide,,,0,0,draft
 group_11,user_8,"Published group",published,geology.jpg,,"Some description",topic_earth|topic_wind|topic_fire|topic_water,Sweden|Worldwide,,,0,0,published
-group_12,user_8,"Archived group",archivede,geology.jpg,,"Some description",topic_earth|topic_wind|topic_fire|topic_water,Sweden|Worldwide,,,0,0,archived
+group_12,user_8,"Archived group",archived,geology.jpg,,"Some description",topic_earth|topic_wind|topic_fire|topic_water,Sweden|Worldwide,,,0,0,archived
 group_13,user_8,"Deleted group",deleted,nobelprize.jpg,,"Some description",topic_earth|topic_wind|topic_fire|topic_water,Sweden|Worldwide,,,0,0,deleted

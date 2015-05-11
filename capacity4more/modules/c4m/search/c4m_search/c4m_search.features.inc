@@ -230,6 +230,7 @@ function c4m_search_default_search_api_index() {
         "mail" : { "type" : "text" },
         "name" : { "type" : "text" },
         "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "search_api_aggregation_1" : { "type" : "text" },
         "search_api_language" : { "type" : "string" },
         "status" : { "type" : "integer" },
         "uid" : { "type" : "integer" }
@@ -240,10 +241,31 @@ function c4m_search_default_search_api_index() {
           "weight" : "-10",
           "settings" : { "default" : "1", "roles" : [] }
         },
+        "search_api_attachments_alter_settings" : {
+          "status" : 0,
+          "weight" : "0",
+          "settings" : {
+            "excluded_extensions" : "aif art avi bmp gif ico mov oga ogv png psd ra ram rgb flv",
+            "number_indexed" : "0",
+            "max_file_size" : "0",
+            "excluded_private" : 1
+          }
+        },
         "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
-        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] }
+        "search_api_alter_add_aggregation" : {
+          "status" : 1,
+          "weight" : "0",
+          "settings" : { "fields" : { "search_api_aggregation_1" : {
+                "name" : "c4m_user_fullname",
+                "type" : "fulltext",
+                "fields" : [ "c4m_first_name", "c4m_last_name" ],
+                "description" : "A Fulltext aggregation of the following fields: First Name, Last Name."
+              }
+            }
+          }
+        },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } }
       },
       "processors" : {
         "search_api_case_ignore" : {
@@ -252,14 +274,14 @@ function c4m_search_default_search_api_index() {
           "settings" : { "fields" : {
               "name" : true,
               "mail" : true,
-              "c4m_related_topic" : true,
-              "c4m_related_topic_expertise" : true,
-              "c4m_vocab_geo" : true,
               "c4m_country" : true,
               "c4m_first_name" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true
+              "c4m_organisation_type" : true,
+              "c4m_related_topic" : true,
+              "c4m_related_topic_expertise" : true,
+              "c4m_vocab_geo" : true
             }
           }
         },
@@ -297,14 +319,7 @@ function c4m_search_default_search_api_index() {
           "status" : 1,
           "weight" : "20",
           "settings" : {
-            "fields" : {
-              "name" : true,
-              "mail" : true,
-              "c4m_first_name" : true,
-              "c4m_last_name" : true,
-              "c4m_organisation" : true,
-              "c4m_organisation_type" : true
-            },
+            "fields" : { "name" : true, "mail" : true, "c4m_organisation" : true },
             "spaces" : "[^[:alnum:]]",
             "ignorable" : "[\\u0027]"
           }
@@ -414,6 +429,19 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Number of views" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__search_api_relevance'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "search_api_relevance",
+    "name" : "Relevance",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__search_api_relevance",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "search_api_relevance" },
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{

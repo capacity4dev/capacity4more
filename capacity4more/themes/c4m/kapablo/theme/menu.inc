@@ -68,6 +68,7 @@ function kapablo_menu_link__c4m_og_menu(array $variables) {
       $element['#localized_options']['attributes']['data-target'] = '#';
       $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
       $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
+      $element['#localized_options']['attributes']['data-disabled'] = 'true';
     }
   }
 

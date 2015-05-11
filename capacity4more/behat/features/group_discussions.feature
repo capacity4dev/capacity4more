@@ -30,12 +30,12 @@ Feature: Group Discussions
     When I visit the group "discussion" detail page "Nobel Foundation"
     Then I should see the discussion detail page
 
-  @javascript 
+  @javascript
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start creating "discussion" "Some new discussion1" in group "Architecture"
     And   I should not see an "edit-og-group-ref-und-0-default" element
-    And   I press "Save"
+    And   I press "Publish"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"
 
   @javascript
@@ -43,3 +43,11 @@ Feature: Group Discussions
     Given I am logged in as user "mariecurie"
     When  I start editing "discussion" "Some new discussion1" in group "Architecture"
     Then  I should not see an "edit-og-group-ref-und-0-default" element
+
+  @javascript
+  Scenario: Check edit own discussion of member group.
+    Given I am logged in as user "galileo"
+    When  a discussion "Some new discussion3" in group "Tennis Group" is created
+    And   I start editing "discussion" "Some new discussion3" in group "Tennis Group"
+    Then  I should see "Edit discussion"
+    And   I should see "Some new discussion3"
