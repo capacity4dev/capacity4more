@@ -28,7 +28,7 @@ function _c4m_features_og_events_block_event_views_links() {
   );
 
   foreach ($pages as $key => $page) {
-    $attributes = array('attributes' => array('class' => $key));
+    $attributes = array('attributes' => array('class' => array($key . '-events')));
     $items[] = array(
       'data' => l($page['text'], 'calendar/' . $key, $attributes),
       'class' => array('leaf'),
