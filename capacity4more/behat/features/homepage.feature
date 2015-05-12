@@ -138,7 +138,7 @@ Feature: Test homepage content and blocks
     And   I should not see "My groups" in the "div.pane-filter" element
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I load more activities
-    And   I should see "posted an Article" in the "div.activity-stream" element
+    And   I should see "posted" in the "div.activity-stream" element
 
   @javascript
   Scenario: Logged in, non member user should see only activities from groups of
