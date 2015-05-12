@@ -73,6 +73,23 @@ trait File {
   }
 
   /**
+   * @Given /^I upload the file "([^"]*)" in the field with id "([^"]*)"$/
+   */
+  public function iUploadTheFileInTheFieldWithId($file, $fieldid) {
+    // Attaching file is working only if input is visible.
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInputXpath = './/div[contains(@id, "' . $fieldid . '")]//input[contains(@type, "file")]';
+    
+    $fields = $this->getSession()->getDriver()->find($fileInputXpath);
+    $field = count($fields) > 0 ? $fields[0] : NULL;
+    if (null === $field) {
+      throw new \Exception("File input is not found");
+    }
+    $field->attachFile($file_path);
+  }
+
+  /**
    * @When /^I attach the file to the field banner$/
    */
   public function iAttachTheFileToTheField() {

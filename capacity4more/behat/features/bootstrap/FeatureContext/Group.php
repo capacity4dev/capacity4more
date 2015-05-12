@@ -370,6 +370,7 @@ trait Group {
     $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I upload the file "doc1.doc" in the field with id "edit-c4m-document-und-0-ajax-wrapper"');
 
     return $steps;
   }
