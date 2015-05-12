@@ -124,7 +124,6 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   );
 
   $form_id = $form_state['build_info']['form_id'];
-  dpm($form_id);
   $comment_form_ids = array(
     'comment_node_discussion_form',
     'comment_node_document_form',
@@ -133,7 +132,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   );
 
   if (in_array($form_id, $comment_form_ids)) {
-    $form_id = 'comment-from';
+    $form_id = 'comment-form';
   }
     //comment_node_discussion_form
   $settings['c4m'] = array(

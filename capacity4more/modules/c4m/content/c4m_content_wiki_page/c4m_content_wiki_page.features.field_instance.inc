@@ -10,6 +10,57 @@
 function c4m_content_wiki_page_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'comment-comment_node_wiki_page-c4m_related_document'
+  $field_instances['comment-comment_node_wiki_page-c4m_related_document'] = array(
+    'bundle' => 'comment_node_wiki_page',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => 1,
+          'view_mode' => 'teaser',
+        ),
+        'type' => 'entityreference_entity_view',
+        'weight' => 5,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'comment',
+    'field_name' => 'c4m_related_document',
+    'label' => 'Documents',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_document_widget',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'c4m_add_document',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'comment-comment_node_wiki_page-comment_body'
   $field_instances['comment-comment_node_wiki_page-comment_body'] = array(
     'bundle' => 'comment_node_wiki_page',
@@ -39,7 +90,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'comment',
@@ -788,6 +839,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Date');
   t('Documents');
   t('Groups');
@@ -795,7 +847,6 @@ function c4m_content_wiki_page_field_default_field_instances() {
   t('OG vocabulary');
   t('Regions & Countries');
   t('Topics');
-  t('Comment');
 
   return $field_instances;
 }
