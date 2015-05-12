@@ -2,29 +2,29 @@ body {
 
   &.og-context {
 
+    .panel-panel.left {
+
+      > div {
+
+        &:first-child {
+
+          .first {
+            margin-top: 0;
+
+            .row {
+              border-top: 0;
+              margin-top: 0;
+              padding-top: 0;
+            }
+          }
+        }
+      }
+    }
+
     .activity-stream {
 
       .message-group {
         display: none;
-      }
-    }
-  }
-
-  &.not-logged-in {
-
-    .activity-stream {
-
-      .activities {
-
-        &.first {
-          margin-top: 0;
-
-          .row {
-            border-top: 0;
-            margin-top: 0;
-            padding-top: 0;
-          }
-        }
       }
     }
   }

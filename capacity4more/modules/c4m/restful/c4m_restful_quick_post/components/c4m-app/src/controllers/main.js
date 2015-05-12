@@ -41,7 +41,7 @@ angular.module('c4mApp')
           if (field == 'resources' || field == 'group' || field == "tags") {
             return;
           }
-          var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
+          var allowedValues = field == "categories" ? $scope.fieldSchema.categories : data.form_element.allowed_values;
 
           if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
@@ -51,8 +51,8 @@ angular.module('c4mApp')
         });
       });
 
-      // Set "Start a Debate" as default discussion type.
-      $scope.data.discussion_type = 'debate';
+      // Set "Share Information" as default discussion type.
+      $scope.data.discussion_type = 'info';
 
       // Set "Event" as default event type.
       $scope.data.event_type = 'event';
@@ -81,7 +81,7 @@ angular.module('c4mApp')
 
     // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
-      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource);
+      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource, $scope.resources);
     };
 
     // Getting matching tags.

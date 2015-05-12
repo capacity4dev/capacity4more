@@ -340,7 +340,6 @@ function c4m_content_event_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'lb' => 'Group',
           'lb-el' => 'span',
-          'lb-col' => TRUE,
           'ow' => TRUE,
           'ow-el' => 'div',
           'ow-cl' => 'group',

@@ -1,28 +1,28 @@
 <?php
 /**
  * @file
- * c4m_search_nodes.views_default.inc
+ * c4m_features_og_search.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function c4m_search_nodes_views_default_views() {
+function c4m_features_og_search_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'c4m_search_nodes';
+  $view->name = 'c4m_search_og';
   $view->description = 'Global search page to search trough all content (nodes).';
   $view->tag = 'Search';
   $view->base_table = 'search_api_index_c4m_search_nodes';
-  $view->human_name = 'Search Content';
+  $view->human_name = 'Search Group';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Search Content';
+  $handler->display->display_options['title'] = 'Search in this group';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -51,6 +51,16 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  /* Contextual filter: Only nodes in current OG Context */
+  $handler->display->display_options['arguments']['og_group_ref']['id'] = 'og_group_ref';
+  $handler->display->display_options['arguments']['og_group_ref']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['arguments']['og_group_ref']['field'] = 'og_group_ref';
+  $handler->display->display_options['arguments']['og_group_ref']['ui_name'] = 'Only nodes in current OG Context';
+  $handler->display->display_options['arguments']['og_group_ref']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['og_group_ref']['default_argument_type'] = 'og_context';
+  $handler->display->display_options['arguments']['og_group_ref']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_group_ref']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['og_group_ref']['not'] = 0;
   /* Filter criterion: Search form */
   $handler->display->display_options['filters']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['filters']['search_api_views_fulltext']['table'] = 'search_api_index_c4m_search_nodes';
@@ -74,19 +84,16 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = array(
     1 => '1',
   );
-  /* Filter criterion: Only Group and Global content types */
+  /* Filter criterion: Only Group content types */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Group and Global content types';
+  $handler->display->display_options['filters']['type']['ui_name'] = 'Only Group content types';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'article' => 'article',
     'discussion' => 'discussion',
     'document' => 'document',
     'event' => 'event',
-    'group' => 'group',
     'photoalbum' => 'photoalbum',
-    'project' => 'project',
     'task' => 'task',
     'tasklist' => 'tasklist',
     'topic' => 'topic',
@@ -96,8 +103,8 @@ function c4m_search_nodes_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'search';
-  $export['c4m_search_nodes'] = $view;
+  $handler->display->display_options['path'] = 'searchgroup';
+  $export['c4m_search_og'] = $view;
 
   return $export;
 }
