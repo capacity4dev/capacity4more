@@ -108,7 +108,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should wait not to see "Filter by"
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
-    And   I should see "posted an Article" in the "div.activity-stream" element
+    And   I should see "posted" in the "div.activity-stream" element
 
   @javascript
   Scenario: Logged in user can see article activities and filter.
@@ -118,7 +118,7 @@ Feature: Test homepage content and blocks
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "My groups" in the "div.pane-filter" element
     And   I load more activities
-    And   I should see "posted an Article" in the "div.activity-stream" element
+    And   I should see "posted" in the "div.activity-stream" element
 
   @javascript
   Scenario: Logged in user can't see article activities when My Groups filter is chosen.
@@ -127,7 +127,7 @@ Feature: Test homepage content and blocks
     And   I select the radio button "My groups" with the id "edit-homepage-filter-groups"
     Then  I should wait not to see "Nobel Prize" in the "div.activity-stream" element
     And   I should not see "Football Talk" in the "div.activity-stream" element
-    And   I should not see "posted an Article" in the "div.activity-stream" element
+    And   I should not see "posted" in the "div.activity-stream" element
 
   @javascript
   Scenario: Logged in, non member user can't see My group filter and restricted
@@ -148,9 +148,10 @@ Feature: Test homepage content and blocks
     And   I select the radio button "My interests" with the id "edit-homepage-filter-interests"
     Then  I should wait not to see "Lusail City" in the "div.activity-stream" element
     And   I load more activities
-    And   I should see "posted an Article" in the "div.activity-stream" element
+    And   I should see "posted" in the "div.activity-stream" element
 
   @javascript
   Scenario: Change one group access back to public.
     Given I am logged in as user "admin"
     Then  I change access of group "Nobel prize" to "Public"
+
