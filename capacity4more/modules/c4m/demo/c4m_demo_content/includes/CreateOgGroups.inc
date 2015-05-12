@@ -122,10 +122,10 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   /**
    * Helper to create a pluggable node access record based on og_spaces_type.
    *
+   * @param object $group
+   *    Entity object (formed by Drupal).
    * @param object $row
    *    Row object.
-   * @param object $entity
-   *    Entity object (formed by Drupal).
    */
   public function savePluggableNodeAccess(&$group, $row) {
     $row->_pluggable_node_access = NULL;
@@ -151,7 +151,6 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     elseif (!empty($organisation_ids_destid1['destid1'])) {
       $organisation_ids[] = $organisation_ids_destid1['destid1'];
     }
-
 
     if (!isset($organisation_ids)) {
       return;
