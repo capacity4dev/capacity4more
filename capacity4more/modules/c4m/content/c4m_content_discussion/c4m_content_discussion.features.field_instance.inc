@@ -153,7 +153,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 21,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -659,7 +659,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 20,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

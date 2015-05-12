@@ -125,7 +125,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -148,7 +148,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -311,28 +311,30 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'left' => array(
         0 => 'c4m_content_wiki_page_navigation',
         1 => 'group_pages',
-        2 => 'group_details',
-        10 => 'flag_c4m_og_content_highlight',
-        12 => 'c4m_related_topic',
-        13 => 'og_vocabulary',
-        14 => 'c4m_vocab_date',
-        15 => 'c4m_vocab_language',
-        16 => 'c4m_vocab_geo',
+        2 => 'group_options',
+        3 => 'group_details',
+        11 => 'flag_c4m_og_content_highlight',
+        13 => 'c4m_related_topic',
+        14 => 'og_vocabulary',
+        15 => 'c4m_vocab_date',
+        16 => 'c4m_vocab_language',
+        17 => 'c4m_vocab_geo',
       ),
       'right' => array(
-        3 => 'title',
-        4 => 'c4m_user_first_and_last_name',
-        5 => 'c4m_ds_creation_date',
-        6 => 'links',
-        7 => 'c4m_body',
-        8 => 'c4m_related_document',
-        9 => 'book_navigation',
-        11 => 'comments',
+        4 => 'title',
+        5 => 'c4m_user_first_and_last_name',
+        6 => 'c4m_ds_creation_date',
+        7 => 'links',
+        8 => 'c4m_body',
+        9 => 'c4m_related_document',
+        10 => 'book_navigation',
+        12 => 'comments',
       ),
     ),
     'fields' => array(
       'c4m_content_wiki_page_navigation' => 'left',
       'group_pages' => 'left',
+      'group_options' => 'left',
       'group_details' => 'left',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',

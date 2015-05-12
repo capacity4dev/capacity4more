@@ -165,7 +165,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Location',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_location',
       1 => 'c4m_field_location_city_country',
