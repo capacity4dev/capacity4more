@@ -123,6 +123,13 @@ function c4m_search_block_view_alter(&$data, $block) {
  */
 function c4m_search_facetapi_widgets() {
   return array(
+    'c4m_search_links_content_type' => array(
+      'handler' => array(
+        'label' => t('Content Type'),
+        'class' => 'C4mSearchWidgetLinksContentTypes',
+        'query types' => array('term'),
+      ),
+    ),
     'c4m_search_links_grouped' => array(
       'handler' => array(
         'label' => t('Links Grouped'),
@@ -298,6 +305,22 @@ function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $sea
         $search_sort->default_order = 'desc';
         $default_sort = $search_sort;
         break;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_facet_items_alter().
+ */
+function c4m_search_facet_items_alter(&$build, &$settings) {
+  if ($settings->facet == 'type') {
+    foreach ($build as $key => $item) {
+      if (og_is_group_content_type('node', $item['#indexed_value'])) {
+        $build[$key]['#class'][] = 'group';
+      }
+      else {
+        $build[$key]['#class'][] = 'global';
       }
     }
   }
