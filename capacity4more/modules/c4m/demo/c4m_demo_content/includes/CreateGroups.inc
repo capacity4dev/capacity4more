@@ -78,7 +78,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    *
    * @param Migration $migration
    *   The migration that is being done to create this stub.
-   * @param array     $source_id
+   * @param array $source_id
    *   Array of strings with the source id(s).
    *
    * @return array|bool

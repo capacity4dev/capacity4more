@@ -120,12 +120,12 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   }
 
   /**
-   * Helper to create a pluggable node access record based on the og_spaces_type
-   * value.
+   * Helper to create a pluggable node access record based on og_spaces_type.
    *
-   * @param stdClass $row
-   *
-   * @param stdClass $entity
+   * @param object $row
+   *    Row object.
+   * @param object $entity
+   *    Entity object (formed by Drupal).
    */
   public function savePluggableNodeAccess(&$group, $row) {
     $row->_pluggable_node_access = NULL;
@@ -141,7 +141,7 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     );
 
     $organisation_ids = array();
-    if (sizeof($organisation_ids_destid1) > 1
+    if (count($organisation_ids_destid1) > 1
       && empty($organisation_ids_destid1['destid1'])
     ) {
       foreach ($organisation_ids_destid1 as $destid) {
@@ -167,15 +167,15 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
       $group->group_access = array(
         LANGUAGE_NONE => array(
           0 => array(
-            'value' => 1
-          )
-        )
+            'value' => 1,
+          ),
+        ),
       );
 
       $group->pluggable_node_access = array(LANGUAGE_NONE => array());
       foreach ($pluggable_node_access as $na) {
         $group->pluggable_node_access[LANGUAGE_NONE][] = array(
-          'target_id' => $na->id
+          'target_id' => $na->id,
         );
       }
 
@@ -186,14 +186,16 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   }
 
   /**
-   * {inheritDoc}
+   * {@inheritdoc}
    */
   public function postImport() {
     parent::postImport();
     watchdog(
-      'c4d Demo content', t('Node access rebuild + OG Restricted info reset')
+      'c4d Demo content',
+      'Node access rebuild + OG Restricted info reset'
     );
-    node_access_rebuild(FALSE);
+
+    node_access_rebuild();
     c4m_og_reset_restricted_info();
   }
 
