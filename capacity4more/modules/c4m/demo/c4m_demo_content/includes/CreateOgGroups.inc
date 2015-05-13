@@ -16,7 +16,6 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
     'C4mDemoContentCreateTopics',
-    'C4mDemoContentCreateRegionNodes',
   );
 
   /**
