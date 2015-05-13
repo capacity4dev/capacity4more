@@ -121,13 +121,13 @@ angular.module('c4mApp')
                 // Term is selected and it's term of the first level.
                 topicCount++;
               }
-              // Don't check if selected more than 3 topics.
-              if (topicCount > 3) {
-                $scope.model[vocab][key] = false;
-                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
-                return;
-              }
             });
+            // Don't check if selected more than 3 topics.
+            if (topicCount > 3) {
+              $scope.model[vocab][key] = false;
+              angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+              return;
+            }
           }
           angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", true);
         }
