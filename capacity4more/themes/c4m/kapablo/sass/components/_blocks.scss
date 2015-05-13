@@ -17,3 +17,14 @@
     }
   }
 }
+
+.pane-c4m-features-homepage-global-statistics-summary {
+  .statistics-list {
+    @include clearfix;
+    li.statistics-item {
+      float: left;
+      padding: 5px 20px;
+      color: $color-blue-light;
+    }
+  }
+}

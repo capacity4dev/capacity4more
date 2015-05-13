@@ -40,3 +40,40 @@ function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node')
 function c4m_sort_object_by_title($a, $b) {
   return strcasecmp($a->title, $b->title);
 }
+
+/**
+ * Helper function to get the count per entity type and bundle.
+ * @param $entity_type
+ * @param array $bundles
+ * @param null $published
+ * @param null $group_id
+ * @return null
+ */
+function c4m_helper_entity_get_number_of_entities($entity_type, $bundles = array(), $published = NULL, $group_id = NULL) {
+  $amount = NULL;
+
+  if ($entity_type) {
+    if ($group_id) {
+
+    } else {
+      switch ($entity_type) {
+        case 'user':
+          $query = db_select('users', 'u')->fields('u')->condition('login', 0, '<>')->execute();
+          $amount = $query->rowCount();
+          break;
+        case 'node':
+          if (!empty($bundles)) {
+            $query = db_select('node', 'n')->fields('n')->condition('type', $bundles, 'IN');
+            if (!is_null($published)) {
+              $query->condition('status', $published, '=');
+            }
+            $query  = $query->execute();
+            $amount = $query->rowCount();
+          }
+          break;
+      }
+    }
+  }
+
+  return $amount;
+}

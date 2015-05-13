@@ -15,6 +15,75 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
   }
 }
 
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_homepage_block_info() {
+  $blocks['global_statistics_summary'] = array(
+    'info' => t('Global website statistics'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_homepage_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'global_statistics_summary':
+      $block['subject'] = t('Global website statistics');
+      $statistics = c4m_features_homepage_get_website_statistics();
+      $stats_summary =  array(
+        '#theme'  => 'c4m_website_statistics_summary',
+        '#data'   => $statistics,
+      );
+      $block['content'] = render($stats_summary);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Get global are per group website statistics data.
+ * @param null $group
+ * @return array|null
+ */
+function c4m_features_homepage_get_website_statistics($group = NULL) {
+  $data = NULL;
+
+  if ($group) {
+    // Fetch group based website statistics.
+
+  } else {
+    // Fetch global website statistics.
+    $data = array();
+
+    // Get all users.
+    $data['users']['title']    = t('Members');
+    $data['users']['count']    = c4m_helper_entity_get_number_of_entities('user');
+    // Get all posts.
+    $data['posts']['title']    = t('Posts');
+    $bundles                   = array('discussion', 'document', 'event', 'task', 'wiki_page');
+    $data['posts']['count']    = c4m_helper_entity_get_number_of_entities('node', $bundles);
+    // Get all groups.
+    $data['groups']['title']   = t('Groups');
+    $bundles                   = array('group');
+    $data['groups']['count']   = c4m_helper_entity_get_number_of_entities('node', $bundles, TRUE);
+    // Get all projects.
+    $data['projects']['title'] = t('Projects');
+    $bundles                   = array('project');
+    $data['projects']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
+    // Get all V&V.
+    $data['articles']['title'] = t('Voices & Views');
+    $bundles                   = array('article');
+    $data['articles']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
+  }
+
+  return $data;
+}
 
 /**
  * Renders 3 suggested group for the user.
@@ -95,6 +164,14 @@ function c4m_features_homepage_theme() {
     'variables' => array(
       'link' => NULL,
     ),
+  );
+
+  $theme['c4m_website_statistics_summary'] = array(
+    'variables' => array(
+      'data' => NULL,
+    ),
+    'file'  => 'c4m_features_homepage.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_features_homepage') . '/includes',
   );
 
   return $theme;
