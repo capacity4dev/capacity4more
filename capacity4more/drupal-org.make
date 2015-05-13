@@ -52,6 +52,7 @@ projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
+projects[entityreference][patch][] = "https://www.drupal.org/files/entityreference-decode_option_labels-1665818-32_0.patch"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
