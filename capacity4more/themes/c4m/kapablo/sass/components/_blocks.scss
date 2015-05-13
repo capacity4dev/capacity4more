@@ -17,3 +17,18 @@
     }
   }
 }
+
+.group-options {
+  a.flag {
+    padding: 10px 10px 10px 40px;
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+  }
+
+  .flag-outer-c4m-og-content-highlight {
+    a.flag {
+      @include image-icon-png-fallback('icons', 'pin');
+    }
+  }
+}
