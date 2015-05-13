@@ -34,7 +34,6 @@ function c4m_features_homepage_block_view($delta = '') {
 
   switch ($delta) {
     case 'global_statistics_summary':
-      $block['subject'] = t('Global website statistics');
       $statistics = c4m_features_homepage_get_website_statistics();
       $stats_summary =  array(
         '#theme'  => 'c4m_website_statistics_summary',

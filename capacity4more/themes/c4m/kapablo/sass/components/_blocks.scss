@@ -23,8 +23,28 @@
     @include clearfix;
     li.statistics-item {
       float: left;
-      padding: 5px 20px;
+      width: 20%;
+      padding: 5px 20px 5px 40px;
       color: $color-blue-light;
+      background-size: 30px;
+      background-repeat: no-repeat;
+      background-position: 0 50%;
+
+      &.stats-users {
+        @include image-icon-png-fallback('icons', 'missing_icon');
+      }
+      &.stats-posts {
+        @include image-icon-png-fallback('icons', 'missing_icon');
+      }
+      &.stats-groups {
+        @include image-icon-png-fallback('icons', 'missing_icon');
+      }
+      &.stats-projects {
+        @include image-icon-png-fallback('icons', 'missing_icon');
+      }
+      &.stats-articles {
+        @include image-icon-png-fallback('icons', 'missing_icon');
+      }
     }
   }
 }
