@@ -1,7 +1,10 @@
+<div ng-show="!itemsLength">
+  No categories have been defined yet.
+</div>
 <form action="#" class="search">
-  <input ng-model="searchTerm" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
+  <input ng-model="searchTerm" ng-show="itemsLength" ng-change="updateSearch()" class="form-control" type="text" placeholder="Search"/>
 </form>
-<ul>
+<ul ng-show="itemsLength">
   <li class="checkbox table-display" ng-repeat="item in filteredTerms">
     <ul ng-show="item.selected == true" class="indent">
       <li ng-repeat="child in item.children">
