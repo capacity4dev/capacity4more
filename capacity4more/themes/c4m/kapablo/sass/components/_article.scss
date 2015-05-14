@@ -7,6 +7,41 @@
       font-weight: bold;
       margin-bottom: 20px;
     }
+    .article-contributors {
+
+      div.user-profile {
+        margin-bottom: 20px;
+
+        .content-col {
+          margin: 0 0 0 60px;
+        }
+      }
+    }
+    .field-name-c4m-link-multiple {
+
+      .field-item {
+        margin-bottom: 20px;
+
+        a,
+        span {
+
+          &:before {
+            content: attr(data-initials);
+            @include border-radius(50%);
+            height: 60px;
+            margin: 0 20px 0 auto;
+            width: 60px;
+            color: $color-white;
+            display: inline-block;
+            font-size: 25px;
+            font-weight: lighter;
+            line-height: 60px;
+            text-align: center;
+            background-color: $ava-beige;
+          }
+        }
+      }
+    }
     .group-right {
       h3.label-above {
         margin-top: 20px;
