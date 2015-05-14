@@ -60,6 +60,10 @@ angular.module('c4mApp')
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
 
+    // Check if there's categories in the current group,
+    // to display an empty categories message.
+    $scope.categoriesLength = Object.keys($scope.filteredTerms.categories).length ? true : false;
+
     // Update the shown texonomies upon searching.
     $scope.updateSearch = function(vocab) {
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerms[vocab]);

@@ -34,10 +34,13 @@
     <div class="popover right hidden-checkboxes" ng-hide="popups.<?php print $vocabulary_machine_name; ?> != 1">
       <div class="arrow"></div>
       <div class="popover-content">
+        <div ng-show="!categoriesLength">
+          <?php print t('No categories have been defined yet.') ?>
+        </div>
         <form action="#" class="search">
-          <input ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>" ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')" class="form-control" type="text" placeholder="Search"/>
+          <input ng-show="categoriesLength" ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>" ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')" class="form-control" type="text" placeholder="Search"/>
         </form>
-        <ul>
+        <ul ng-show="categoriesLength">
           <li class="checkbox table-display" ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
             <ul ng-show="item.selected == true" class="indent">
               <li ng-repeat="child in item.children">
