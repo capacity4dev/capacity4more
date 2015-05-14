@@ -20,8 +20,6 @@ function c4m_field_media_install() {
     }
 
     file_type_save($doc_filetype);
-    // override the existing image styles.
-    _c4m_field_media_install_image_styles();
   }
 }
 
@@ -52,34 +50,4 @@ function c4m_field_media_permissions() {
 
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID,
     $authenticated_permissions);
-}
-
-/**
- * Helper function; Override the existing image styles.
- */
-function _c4m_field_media_install_image_styles() {
-  $image_styles = array(
-    'thumbnail' => array(
-      'width' => 60,
-      'height' => 60,
-    ),
-    'medium' => array(
-      'width' => 300,
-      'height' => 225,
-    ),
-    'large' => array(
-      'width' => 620,
-      'height' => 465,
-    ),
-  );
-
-  // Override the image image styles names, width and height.
-  foreach ($image_styles as $image_style_name => $effects) {
-    $image_style = image_style_load($image_style_name);
-    $key = key($image_style['effects']);
-    $image_style['label'] = ucfirst($image_style_name) . ' (' . $effects['width'] . 'x' . $effects['height'] . ')';
-    $image_style['effects'][$key]['data']['width'] = $effects['width'];
-    $image_style['effects'][$key]['data']['height'] = $effects['height'];
-    image_default_style_save($image_style);
-  }
 }
