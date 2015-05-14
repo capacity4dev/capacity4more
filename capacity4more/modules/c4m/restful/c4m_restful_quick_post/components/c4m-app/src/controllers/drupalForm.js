@@ -62,7 +62,7 @@ angular.module('c4mApp')
 
     // Check if there's categories in the current group,
     // to display an empty categories message.
-    $scope.categoriesLength = Object.keys($scope.filteredTerms.categories).length ? true : false;
+    $scope.categoriesLength = angular.isDefined($scope.filteredTerms.categories) && Object.keys($scope.filteredTerms.categories).length ? true : false;
 
     // Update the shown texonomies upon searching.
     $scope.updateSearch = function(vocab) {
