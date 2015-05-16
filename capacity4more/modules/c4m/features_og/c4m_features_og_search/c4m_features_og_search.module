@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Code for the Group Search feature.
+ */
+
+include_once 'c4m_features_og_search.features.inc';
+
+/**
+ * Implements hook_c4m_search_page_info().
+ */
+function c4m_features_og_search_c4m_search_page_info() {
+  return array(
+    'c4m_features_og_search' => array(
+      'name' => t('Group'),
+      'description' => t('Search in this group.'),
+      'machine_name' => 'c4m_features_og_search',
+      'path' => 'searchgroup',
+      'weight' => -1,
+      'default' => TRUE,
+      'access' => 'c4m_og_access',
+      'purl' => TRUE,
+      'group' => t('Search in this group'),
+    ),
+  );
+}

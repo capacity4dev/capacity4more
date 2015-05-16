@@ -73,7 +73,7 @@ trait Group {
       'provider' => "og_purl|node",
       'id' => $group->nid,
     );
-    $options = array_merge($options, array('purl' => $purl));
+    $options = array_merge($options, array('purl' => $purl, 'absolute' => TRUE));
     $uri = ltrim(url($path, $options), '/');
 
     return $uri;
@@ -87,6 +87,145 @@ trait Group {
     $uri = $this->createUriWithGroupContext($group, $page);
 
     return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @When /^I rename the category "([^"]*)" to "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iRenameTheCategoryToUnderTheType($oldCategoryName, $newCategoryName, $categoryType) {
+    // Open edit window for the category.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//a[text()="' . $oldCategoryName . '"]/following::a[text()="Edit"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The edit link for the category ' . $oldCategoryName . ' not found');
+    }
+    $editLink->click();
+
+    // Change name of the category.
+    $termName = $page->find('xpath', '//*[@id="edit-name"]');
+    if (null === $termName) {
+      throw new \Exception('The "Term name" input not found');
+    }
+    $termName->setValue($newCategoryName);
+
+    // Click "Save" button.
+    $this->pressButton("Save");
+  }
+
+  /**
+   * @Then /^I should see the category "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iShouldSeeTheCategoryUnderTheType($categoryName, $typeName) {
+    // Find the category in specific type.
+    $page = $this->getSession()->getPage();
+    $category = $page->find('xpath', '//h3[text()="' . $typeName . '"]/following::a[text()="' . $categoryName . '"]');
+    if (null === $category) {
+      throw new \Exception('The category ' . $categoryName . ' not exist in the type ' . $typeName);
+    }
+  }
+
+  /**
+   * @When /^I change the type of category to "([^"]*)" for the category "([^"]*)"$/
+   */
+  public function iChangeTheTypeOfCategoryToForTheCategory($typeName, $categoryName) {
+    // Open edit window for the category.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//a[text()="' . $categoryName . '"]/following::a[text()="Edit"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The edit link for the category ' . $categoryName . ' not found');
+    }
+    $editLink->click();
+
+    // Change type of category to new type by change radio button.
+    $radioType = $page->find('xpath', '//label[contains(.,"' . $typeName . '")]/input');
+    if (null === $radioType) {
+      throw new \Exception('The radio button with text ' . $typeName . ' not found');
+    }
+    $radioType->click();
+
+    // Click "Save" button.
+    $this->pressButton("Save");
+  }
+
+  /**
+   * @Given /^I should see the category type "([^"]*)"$/
+   */
+  public function iShouldSeeTheCategoryType($categoryType) {
+    return $this->assertPageContainsText($categoryType);
+  }
+
+  /**
+   * @Given /^I should not see the category type "([^"]*)"$/
+   */
+  public function iShouldNotSeeTheCategoryType($categoryType) {
+    return !$this->assertPageContainsText($categoryType);
+  }
+
+  /**
+   * @When /^I change the category type from "([^"]*)" to "([^"]*)"$/
+   */
+  public function iChangeTheCategoryTypeFromTo($oldCategoryType, $newCategoryType) {
+    // Open edit window for the category type.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//h3[text()="' . $oldCategoryType . '"]/following::a[text()="Edit"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The edit link for the category ' . $oldCategoryType . ' not found');
+    }
+    $editLink->click();
+
+    // Change name of category type.
+    $termName = $page->find('xpath', '//*[@id="edit-name"]');
+    if (null === $termName) {
+      throw new \Exception('The "Term name" input not found');
+    }
+    $termName->setValue($newCategoryType);
+
+    // Click "Save" button.
+    $this->pressButton("Save");
+  }
+
+  /**
+   * @When /^I delete category "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iDeleteCategoryUnderTheType($category, $categoryType) {
+    // Open delete window for the category.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="' . $category . '"]/following::a[text()="Delete"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The delete link for the category ' . $category . ' not found');
+    }
+    $editLink->click();
+
+    // Click "Delete" button.
+    $this->pressButton("Delete");
+  }
+
+  /**
+   * @Then /^I should not see the category "([^"]*)" under the type "([^"]*)"$/
+   */
+  public function iShouldNotSeeTheCategoryUnderTheType($category, $categoryType) {
+    // Find the category in specific type.
+    $page = $this->getSession()->getPage();
+    $category = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="' . $category . '"]');
+    if (null !== $category) {
+      throw new \Exception('The category ' . $category . ' exist in the type ' . $categoryType);
+    }
+  }
+
+  /**
+   * @When /^I delete all categories for category type "([^"]*)"$/
+   */
+  public function iDeleteAllCategoriesForCategoryType($categoryType) {
+    // Open delete window for category type.
+    $page = $this->getSession()->getPage();
+    $editLink = $page->find('xpath', '//h3[text()="' . $categoryType . '"]/following::a[text()="Delete"][1]');
+    if (null === $editLink) {
+      throw new \Exception('The delete link for the category type ' . $categoryType . ' not found');
+    }
+    $editLink->click();
+
+    // Click "Delete" button.
+    $this->pressButton("Delete");
   }
 
   /**
@@ -161,6 +300,12 @@ trait Group {
     // Check there was no error.
     $steps[] = new Step\When('I should not see "Group access"');
     $steps[] = new Step\When('I should not see "There was an error"');
+    $steps[] = new Step\When('I should be on the homepage');
+    $steps[] = new Step\When('I should see "The group you requested is pending review by one of the administrators."');
+
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
+    $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     return $steps;
   }
 
@@ -399,6 +544,44 @@ trait Group {
   }
 
   /**
+   * @Then /^I should not be allowed to edit a group "([^"]*)"$/
+   */
+  public function iShouldNotBeAllowedToEditAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/edit"'),
+      new Step\Then('I should get a "403" HTTP response'),
+    );
+  }
+
+  /**
+   * @Then /^I should be allowed to edit a group "([^"]*)"$/
+   */
+  public function iShouldBeAllowedToEditAGroup($group_title) {
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    return array(
+      new Step\When('I go to "/node/' . $group->nid . '/edit"'),
+      new Step\Then('I should get a "200" HTTP response'),
+    );
+  }
+
+
+  /**
+   * @Given /^The group "([^"]*)" status is changed by admin to "([^"]*)"$/
+   */
+  public function theGroupStatusIsChangedByAdminTo($group_title, $status) {
+    $steps = array();
+
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $steps[] = new Step\When('I am logged in as user "admin"');
+    $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
+    $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I wait');
+    return $steps;
+  }
+
+  /**
    * @Given /^I enable the group feature "([^"]*)"$/
    */
   public function iEnableGroupFeature($feature) {
@@ -426,4 +609,97 @@ trait Group {
     return new Given("I go to \"$uri\"");
   }
 
+  /**
+   * @When /^I manage the categories of group "([^"]*)"$/
+   */
+  public function iManageTheCategoriesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/categories');
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @When /^I manage the categories types of group "([^"]*)"$/
+   */
+  public function iManageTheCategoriesTypesOfGroup($title) {
+    $group = $this->loadGroupByTitleAndType($title, 'group');
+    $uri = $this->createUriWithGroupContext($group, 'manage/categories/types');
+
+    return new Given("I go to \"$uri\"");
+  }
+
+  /**
+   * @Given /^I move category "([^"]*)" under "([^"]*)"$/
+   */
+  public function iMoveCategoryUnder($category1, $category2) {
+    $javascript = '
+    var category1 = jQuery("tr.draggable").has("a:contains(\'' . $category1 . '\')");
+    var category2 = jQuery("tr.draggable").has("a:contains(\'' . $category2 . '\')");
+    category1.insertAfter(category2);
+    ';
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
+   * @Then /^I should see "([^"]*)" under "([^"]*)"$/
+   */
+  public function iShouldSeeUnder($category1, $category2) {
+    $page = $this->getSession()->getPage();
+    $el1 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category2 . '\')]]/following-sibling::tr[1]');
+    $el2 = $page->find('xpath', '//tr[descendant::a[contains(text(),\'' . $category1 . '\')]]');
+    if ($el1->getText() != $el2->getText()) {
+      throw new \Exception("order is wrong");
+    }
+  }
+
+  /**
+   * @Then /^I create a new term "([^"]*)" under "([^"]*)" with quick form$/
+   */
+  public function iCreateNewTerm($term_name, $parent_term_name) {
+    // Get parent term ID.
+    $parent = taxonomy_get_term_by_name($parent_term_name);
+    if (empty($parent)) {
+      throw new \Exception("$parent_term_name is not a taxonomy term.");
+    }
+    $parent_id = key($parent);
+
+    $steps = array();
+    $steps[] = new Step\When('I fill in "name-' . $parent_id . '" with "' . $term_name . '"');
+    $steps[] = new Step\When('I press "'. $parent_id .'"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I create a new category type "([^"]*)" with quick form$/
+   */
+  public function iCreateCategoryTypeInQuickForm($type_name) {
+    $steps = array();
+    $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
+    $steps[] = new Step\When('I press "add-term"');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I create a new category type "([^"]*)" with edit form$/
+   */
+  public function iCreateCategoryType($type_name) {
+    $steps = array();
+    $steps[] = new Step\When('I click "edit-new-category"');
+    $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
+    $steps[] = new Step\When('I press "Save"');
+
+    return $steps;
+  }
+
+  /**
+   * @Given /^I reset order to alphabetical$/
+   */
+  public function iResetOrderToAlphabetical() {
+    $page = $this->getSession()->getPage();
+    $el = $page->find('xpath', '//a[contains(text(),\'Order items alphabetically\') and not(ancestor::*[contains(@style,\'visibility: hidden\')])]');
+    $el->click();
+  }
 }

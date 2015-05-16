@@ -80,25 +80,25 @@ angular.module('c4mApp')
         var midParent = 0;
 
         scope[field] = {};
-        angular.forEach(scope.referenceValues[field], function (label, id) {
+        angular.forEach(scope.referenceValues[field], function (fieldValue) {
 
-          if (label.indexOf('-') == -1 && label.indexOf('--') == -1) {
+          if (fieldValue.label.indexOf('-') == -1 && fieldValue.label.indexOf('--') == -1) {
             // This is parent term - 1 level.
-            parent = id;
-            scope[field][id] = {
-              id: id,
-              label: label,
+            parent = fieldValue.id;
+            scope[field][fieldValue.id] = {
+              id: fieldValue.id,
+              label: fieldValue.label,
               children: []
             };
           }
           else {
-            if (label.indexOf('--') == -1) {
+            if (fieldValue.label.indexOf('--') == -1) {
               // This is child term of 2 level.
               if (parent > 0) {
-                midParent = id;
+                midParent = fieldValue.id;
                 scope[field][parent]['children'].push({
-                  id: id,
-                  label: label.replace('-',''),
+                  id: fieldValue.id,
+                  label: fieldValue.label.replace('-',''),
                   children: []
                 });
               }
@@ -109,8 +109,8 @@ angular.module('c4mApp')
                 angular.forEach(scope[field][parent]['children'], function(value, key) {
                   if (value.id == midParent) {
                     scope[field][parent]['children'][key]['children'].push({
-                      id: id,
-                      label: label.replace('--','')
+                      id: fieldValue.id,
+                      label: fieldValue.label.replace('--','')
                     });
                   }
                 });
@@ -126,9 +126,10 @@ angular.module('c4mApp')
     /**
      * Display the fields upon clicking on the label field.
      */
-    this.showFields = function (selectedResource) {
+    this.showFields = function (selectedResource, resources) {
+      // Show the first resource available if user didn't select a specific resource.
       if (!selectedResource) {
-        return 'discussions';
+        return Object.keys(resources)[0];
       }
       return selectedResource;
     };

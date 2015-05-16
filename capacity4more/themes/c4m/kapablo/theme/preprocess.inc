@@ -77,6 +77,9 @@ function kapablo_preprocess_page(&$variables) {
   else {
     $variables['content_column_class_kapablo'] = ' class="col-md-12"';
   }
+
+  // Add search form.
+  $variables['search_form'] = drupal_get_form('c4m_search_form');
 }
 
 /**
@@ -98,8 +101,6 @@ function kapablo_preprocess_field(&$variables, $hook) {
       }
       break;
   }
-
-  $variables['classes_array'][] = 'test';
 }
 
 /**

@@ -94,7 +94,7 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-sm-12 col-md-6 header-logo">
+        <div class="col-sm-12 col-md-8 header-logo">
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
               <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
@@ -102,8 +102,9 @@
           <?php endif; ?>
         </div>
 
-        <div class="col-sm-12 col-md-6 header-search">
+        <div class="col-sm-12 col-md-4 header-search">
           <!-- SEARCH-->
+          <?php print render($search_form); ?>
         </div>
 
       </div>

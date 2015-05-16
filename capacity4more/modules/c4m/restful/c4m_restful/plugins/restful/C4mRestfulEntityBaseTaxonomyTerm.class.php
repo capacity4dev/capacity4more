@@ -33,6 +33,22 @@ class C4mRestfulEntityBaseTaxonomyTerm extends \RestfulEntityBaseTaxonomyTerm {
   }
 
   /**
+   * Overrides \RestfulEntityBaseTaxonomyTerm::checkPropertyAccess().
+   *
+   * Allow user to set the parent term for the unsaved term, even if the user
+   * doesn't have access to update existing terms, as required by the entity
+   * metadata wrapper's access check.
+   */
+  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property, EntityMetadataWrapper $wrapper) {
+    $info = $property->info();
+    $term = $wrapper->value();
+    if (!empty($info['name']) && $info['name'] == 'parent' && empty($term->tid) && $op == 'edit') {
+      return TRUE;
+    }
+    return parent::checkPropertyAccess($op, $public_field_name, $property, $wrapper);
+  }
+
+  /**
    * {@inheritdoc}
    *
    * Change the bundle on the fly, based on a parameter send in the request.
