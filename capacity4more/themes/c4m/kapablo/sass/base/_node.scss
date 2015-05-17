@@ -27,10 +27,80 @@
 
     #collapse-sidebar {
       width: 100%;
-      text-align: right;
+      text-align: left;
       margin: 10px 0;
-      font-size: 24px;
-      background-color: $gray-light;
+      font-size: 32px;
+      background-color: transparent;
+      border-color: transparent;
+      color: $highlight-blue;
+    }
+
+    fieldset {
+      margin-bottom: 35px;
+
+      &.collapsible {
+
+        .panel-heading {
+          margin-bottom: 0;
+
+          .panel-title {
+            width: 100%;
+            color: $highlight-blue;
+            border-bottom: 2px dashed $highlight-blue;
+            padding: 6px 0;
+            font-size: $font-size-h3;
+            text-decoration: none;
+
+            &:hover,
+            &:active {
+              text-decoration: none;
+            }
+          }
+        }
+
+        .panel-collapse {
+
+          .panel-body {
+            padding: 0 15px;
+
+            .field {
+              margin-bottom: 7px;
+
+              .field-label {
+                color: $color-gray;
+              }
+
+              .field-items {
+
+                a {
+                  color: $highlight-blue;
+                }
+
+                .field-item {
+
+                  ul {
+
+                    li {
+                      padding: 10px 0;
+                      border-bottom: 1px solid $color-light-gray;
+
+                      &.last {
+                        border-bottom: 0 none;
+                      }
+
+                      .toggle {
+                        float: right;
+                        width: 1em;
+                        height: 1em;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
