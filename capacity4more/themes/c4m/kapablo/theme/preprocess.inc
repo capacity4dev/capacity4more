@@ -104,7 +104,8 @@ function kapablo_preprocess_field(&$variables, $hook) {
     // Create an attribute to the link field.
     // This field will contain the initials of the title.
     // Using this initials in the css to create a ::before element
-    // The ::before element is used to create a circle with the user's initials in it.
+    // The ::before element is used to create
+    // a circle with the user's initials in it.
     case 'c4m_link_multiple':
       foreach ($element['#items'] as $key => $item) {
         // Get initials of the user name.
