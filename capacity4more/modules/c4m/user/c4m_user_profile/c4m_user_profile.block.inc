@@ -34,7 +34,7 @@ function _c4m_user_profile_block_user_welcome() {
   global $user;
 
   // @TODO: submenu, theming function, real name...
-  $block['content'] = t('Hello @user', array('@user' => $user->name));
+  $block['content'] = t('Hello @user', array('@user' => c4m_user_name($user)));
 
   return $block;
 }
