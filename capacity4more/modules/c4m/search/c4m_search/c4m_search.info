@@ -5,7 +5,6 @@ package = capacity4more - Search
 version = 7.x-1.x-dev
 project = c4m_search
 dependencies[] = ctools
-dependencies[] = date_facets
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = facetapi_bonus
