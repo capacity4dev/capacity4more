@@ -414,6 +414,33 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   }
 
   /**
+   * Helper method to combine a domain icon state and domain values for a "domain" field.
+   *
+   * @param object $entity
+   *   The entity object AFTER it has been saved (nid available).
+   * @param object $row
+   *   The source row we are processing.
+   * @param string $domainfield
+   *   Name of the field holding the domain data.
+   */
+  public function extractDomain($entity, $row, $domainfield) {
+    $domains = explode(',', $row->$domainfield);
+    if (count($domains) <= 1) {
+      return FALSE;
+    }
+
+    foreach ($domains as $domain) {
+      $domain_data = explode('|', $domain);
+      if (count($domain_data) > 1) {
+        $entity->field_c4m_domain[LANGUAGE_NONE][] = array(
+          'icon' => $domain_data[0],
+          'domain' => $domain_data[1],
+        );
+      }
+    }
+  }
+
+  /**
    * Map terms to the existing terms in the database for a specified taxonomy.
    *
    * @param string $sourcefield
