@@ -1,5 +1,10 @@
 .node-type-article {
   .view-mode-full {
+    .region-content {
+      img {
+        max-width: 100%;
+      }
+    }
     .field-name-c4m-banner {
       margin-bottom: 20px;
     }
