@@ -27,17 +27,15 @@ angular.module('c4mApp')
         updatePopoverPosition: '='
       },
       link: function postLink(scope) {
-
-        // Check if there's categories in the current group,
-        // to display an empty categories message.
-        scope.itemsLength = Object.keys(scope.items).length ? true : false;
-
         angular.forEach(scope.items, function(item, id) {
           item.selected = false;
         });
         // Set the filtered items to include all items at load.
         scope.$watch('items', function(items) {
           scope.filteredTerms = items;
+          // Check if there's categories in the current group,
+          // to display an empty categories message.
+          scope.itemsLength = angular.isDefined(items) && Object.keys(items).length ? true : false;
         });
         // Filtering the items according to the value of the searchTerm input.
         scope.updateSearch = function() {
