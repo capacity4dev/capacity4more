@@ -168,6 +168,7 @@ function theme_c4m_user_first_and_last_name(array $field) {
     return;
   }
 
+  $output = '';
   $tag = array();
   $entity = $field['entity'];
 
@@ -175,16 +176,29 @@ function theme_c4m_user_first_and_last_name(array $field) {
     $user = user_load($entity->uid);
     $name = c4m_user_name($user);
 
-    if ('linked_user' == $field['formatter']) {
+    if (in_array($field['formatter'], array('linked_user' , 'linked_user_with_icon'))) {
       $name = l($name, 'user/' . $user->uid);
     }
+
+    // Add organisation icon.
+    if (in_array($field['formatter'], array('user_with_icon', 'linked_user_with_icon'))) {
+      if (module_exists('c4m_content_organisation')) {
+        $user_mail = $field['entity']->mail;
+        $icon = c4m_content_organisation_domain_icon($user_mail);
+        if ($icon) {
+          $output .= render($icon);
+        }
+      }
+    }
+
+    $output .= $name;
 
     $tag['element'] = array(
       '#tag'       => 'span',
       '#attributes' => array(
         'class' => array('user-name'),
       ),
-      '#value'     => $name,
+      '#value'     => $output,
     );
   }
   else {
