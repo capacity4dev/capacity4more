@@ -61,22 +61,22 @@ function c4m_features_homepage_get_website_statistics($group = NULL) {
     $data = array();
 
     // Get all users.
-    $data['users']['title']    = t('Members');
+    $data['users']['title']    = array('Member', 'Members');
     $data['users']['count']    = c4m_helper_entity_get_number_of_entities('user');
     // Get all posts.
-    $data['posts']['title']    = t('Posts');
+    $data['posts']['title']    = array('Post', 'Posts');
     $bundles                   = array('discussion', 'document', 'event', 'task', 'wiki_page');
     $data['posts']['count']    = c4m_helper_entity_get_number_of_entities('node', $bundles);
     // Get all groups.
-    $data['groups']['title']   = t('Groups');
+    $data['groups']['title']   = array('Group', 'Groups');
     $bundles                   = array('group');
     $data['groups']['count']   = c4m_helper_entity_get_number_of_entities('node', $bundles, TRUE);
     // Get all projects.
-    $data['projects']['title'] = t('Projects');
+    $data['projects']['title'] = array('Project', 'Projects');
     $bundles                   = array('project');
     $data['projects']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
     // Get all V&V.
-    $data['articles']['title'] = t('Voices & Views');
+    $data['articles']['title'] = array('Voice & View', 'Voices & Views');
     $bundles                   = array('article');
     $data['articles']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
   }

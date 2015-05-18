@@ -21,6 +21,9 @@
 .pane-c4m-features-homepage-global-statistics-summary {
   .statistics-list {
     @include clearfix;
+    background-color: $color-blue-ultra-light;
+    padding: 10px 20px;
+
     li.statistics-item {
       float: left;
       width: 20%;
@@ -31,19 +34,19 @@
       background-position: 0 50%;
 
       &.stats-users {
-        @include image-icon-png-fallback('icons', 'missing_icon');
+        @include image-icon-png-fallback('icons', 'members-icon');
       }
       &.stats-posts {
-        @include image-icon-png-fallback('icons', 'missing_icon');
+        @include image-icon-png-fallback('icons', 'posts-icon');
       }
       &.stats-groups {
-        @include image-icon-png-fallback('icons', 'missing_icon');
+        @include image-icon-png-fallback('icons', 'groups-icon');
       }
       &.stats-projects {
-        @include image-icon-png-fallback('icons', 'missing_icon');
+        @include image-icon-png-fallback('icons', 'projects-icon');
       }
       &.stats-articles {
-        @include image-icon-png-fallback('icons', 'missing_icon');
+        @include image-icon-png-fallback('icons', 'articles-icon');
       }
     }
   }

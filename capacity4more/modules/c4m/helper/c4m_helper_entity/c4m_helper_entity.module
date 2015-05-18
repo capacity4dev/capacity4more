@@ -47,10 +47,10 @@ function c4m_sort_object_by_title($a, $b) {
  * @param array $bundles
  * @param null $published
  * @param null $group_id
- * @return null
+ * @return int
  */
 function c4m_helper_entity_get_number_of_entities($entity_type, $bundles = array(), $published = NULL, $group_id = NULL) {
-  $amount = NULL;
+  $amount = 0;
 
   if ($entity_type) {
     if ($group_id) {

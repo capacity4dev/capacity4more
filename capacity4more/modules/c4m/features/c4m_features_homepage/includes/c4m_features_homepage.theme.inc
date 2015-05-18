@@ -7,13 +7,12 @@
  */
 function theme_c4m_website_statistics_summary($variables) {
   $output = '';
-
   if ($statistics = $variables['data']) {
     foreach ($statistics as $key => $stat) {
       if ($stat) {
+        $text = format_plural($stat['count'], $stat['title'][0], $stat['title'][1]);
         $list[$key] = array(
-          'data'        => (isset($stat['count']) ? $stat['count'] . ' ' : '') .
-                            (isset($stat['title']) ? $stat['title'] : ''),
+          'data'        => $stat['count'] . ' ' . $text,
           'class' => array('statistics-item', 'stats-' . $key),
         );
       }
