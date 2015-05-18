@@ -180,7 +180,7 @@ function c4m_content_organisation_domain_icon($email) {
         $icon = field_view_value('node', $organisation, 'c4m_icon', $icons[0], array(
           'type' => 'image',
           'settings' => array(
-            'image_style' => 'thumbnail',
+            'image_style' => 'icon_small',
           ),
         ));
 

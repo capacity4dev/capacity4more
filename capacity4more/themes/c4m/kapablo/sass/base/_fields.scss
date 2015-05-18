@@ -150,6 +150,7 @@
 .user-name {
   display: inline-block;
   line-height: 0.8em;
+  @include clearfix;
 
   & + .creation-date {
     display: inline-block;
@@ -157,6 +158,15 @@
     margin-left: 10px;
     padding-left: 10px;
     line-height: 0.8em;
+  }
+
+  &.icon {
+    line-height: 30px;
+    .organisation-icon {
+      float: left;
+      margin-right: 10px;
+      height: auto;
+    }
   }
 }
 
