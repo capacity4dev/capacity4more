@@ -48,7 +48,7 @@
             color: $highlight-blue;
             border-bottom: 2px dashed $highlight-blue;
             padding: 6px 0;
-            font-size: $font-size-h3;
+            font-size: $font-size-h4;
             text-decoration: none;
 
             &:hover,
@@ -99,6 +99,10 @@
               }
             }
           }
+        }
+
+        &.collapsed {
+          height: 3em;
         }
       }
     }
