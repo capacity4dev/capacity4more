@@ -123,6 +123,13 @@ function c4m_search_block_view_alter(&$data, $block) {
  */
 function c4m_search_facetapi_widgets() {
   return array(
+    'c4m_search_links_content_type' => array(
+      'handler' => array(
+        'label' => t('Content Type'),
+        'class' => 'C4mSearchWidgetLinksContentTypes',
+        'query types' => array('term'),
+      ),
+    ),
     'c4m_search_links_grouped' => array(
       'handler' => array(
         'label' => t('Links Grouped'),
@@ -298,6 +305,150 @@ function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $sea
         $search_sort->default_order = 'desc';
         $default_sort = $search_sort;
         break;
+      }
+    }
+  }
+}
+
+/**
+ * Load all search pages info from implemented hook_c4m_search_page_info hooks.
+ *
+ * @param string $page
+ *   Optional, only return data for a given search page.
+ *
+ * @return array
+ *   Configuration as collected through the implemented
+ *   hook_c4m_search_page_info hooks.
+ */
+function c4m_search_info($page = NULL) {
+  $cache_key = 'c4m_search:page_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'c4m_search_page_info';
+      $data = module_invoke_all($hook);
+      uasort($data, 'drupal_sort_weight');
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Only return data for a given search page.
+  if (isset($data[$page])) {
+    return $data[$page];
+  }
+
+  // Return all data.
+  return $data;
+}
+
+/**
+ * Implements hook_forms().
+ */
+function c4m_search_forms($form_id, $args) {
+  $forms['c4m_search_form'] = array(
+    'callback' => 'c4m_search_form',
+  );
+  return $forms;
+}
+
+/**
+ * Create search form.
+ */
+function c4m_search_form($form, &$form_state) {
+  $form = array();
+  $form['#attributes']['class'][] = 'search-form';
+  $form['basic'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('container-inline'),
+    ),
+  );
+
+  // Show available search pages selector if more than one are available.
+  $search_pages = c4m_search_info();
+  if (count($search_pages) > 1) {
+    $options = array();
+    foreach ($search_pages as $search_page) {
+      // Check access.
+      if (empty($search_page['access']) || $search_page['access']()) {
+        if (empty($search_page['group'])) {
+          $options[$search_page['machine_name']] = $search_page['name'];
+        }
+        else {
+          $options[$search_page['group']][$search_page['machine_name']] = $search_page['name'];
+        }
+      }
+    }
+    $form['basic']['search_page'] = array(
+      '#type' => 'select',
+      '#title' => 'Customize your search',
+      '#title_display' => 'invisible',
+      '#options' => $options,
+      '#default_value' => key($options),
+      '#weight' => 0,
+      '#attached' => array(
+        'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
+      ),
+    );
+  }
+
+  // Search input.
+  $form['basic']['keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search'),
+    '#title_display' => 'invisible',
+    '#default_value' => '',
+    '#size' => 15,
+    '#maxlength' => 255,
+    '#attributes' => array(
+      'title' => t('Enter the terms you wish to search for.'),
+    ),
+  );
+
+  // Submit button.
+  $form['basic']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search'),
+  );
+
+  return $form;
+}
+
+/**
+ * Search form submit handler.
+ *
+ * Redirects to the selected search page.
+ */
+function c4m_search_form_submit($form, &$form_state) {
+  $search_page = c4m_search_info($form_state['values']['search_page']);
+  $options = array(
+    'query' => array(
+      'text' => $form_state['values']['keys'],
+    ),
+    'purl' => array(
+      'disabled' => !$search_page['purl'],
+    ),
+    'absolute' => TRUE,
+  );
+  $form_state['redirect'] = url($search_page['path'], $options);
+}
+
+/**
+ * Implements hook_facet_items_alter().
+ */
+function c4m_search_facet_items_alter(&$build, &$settings) {
+  if ($settings->facet == 'type') {
+    foreach ($build as $key => $item) {
+      if (og_is_group_content_type('node', $item['#indexed_value'])) {
+        $build[$key]['#class'][] = 'group';
+      }
+      else {
+        $build[$key]['#class'][] = 'global';
       }
     }
   }

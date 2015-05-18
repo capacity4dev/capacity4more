@@ -48,11 +48,11 @@ function c4m_features_og_events_context_default_contexts() {
           'module' => 'views',
           'delta' => '5cece47fc853c63eb27c1cd4604667de',
           'region' => 'sidebar_first',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
-        'facetapi-U2RdpobygmZU7ZqgOAKBurq0NTgFuZ10' => array(
-          'module' => 'facetapi',
-          'delta' => 'U2RdpobygmZU7ZqgOAKBurq0NTgFuZ10',
+        'c4m_features_og_events-event_views_links' => array(
+          'module' => 'c4m_features_og_events',
+          'delta' => 'event_views_links',
           'region' => 'sidebar_first',
           'weight' => '-8',
         ),

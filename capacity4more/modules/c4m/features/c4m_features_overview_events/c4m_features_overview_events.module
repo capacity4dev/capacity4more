@@ -69,38 +69,6 @@ function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
 }
 
 /**
- * Implements hook_search_api_views_query_alter().
- *
- * We need to alter the search query for the events landing page.
- * The first Views display is only there to have an exposed fulltext search
- * form.
- * We retrieve the search terms from it and manually put it in the search
- * query for the block displays (upcoming and past).
- */
-function c4m_features_overview_events_search_api_views_query_alter(view &$view, SearchApiViewsQuery &$query) {
-  if ('c4m_overview_events_landing' != $view->name) {
-    return;
-  }
-  $keys = &drupal_static(__FUNCTION__);
-
-  if ('page' === $view->current_display) {
-    // The first page display, this is merely to have the exposed form.
-    // We save the fulltext search terms in a static variable.
-    // We know this view is executed first.
-    $keys = $query->getOriginalKeys();
-  }
-  else {
-    // We manually put the search term of the exposed form of the Views
-    // page display into the block displays. (Upcoming and past blocks.)
-    // Otherwise a search query with terms would visually seem to have no
-    // effect.
-    // We also put it in the third block which overrides the facet links and
-    // makes sure we have the correct facet link counts.
-    $query->keys($keys);
-  }
-}
-
-/**
  * Implements hook_views_pre_render().
  * 
  * On the events landing page, we need ...
@@ -145,17 +113,6 @@ function c4m_features_overview_events_block_view($delta = '') {
   }
 
   return $callback();
-}
-
-/**
- * Implements hook_block_view_alter().
- */
-function c4m_features_overview_events_block_view_alter(&$data, $block) {
-  if ('events' === current_path()) {
-    // Override blocks on the events landing page.
-    module_load_include('inc', 'c4m_features_overview_events', 'includes/c4m_features_overview_events.block');
-    return _c4m_features_overview_events_landing_block_view_alter($data, $block);
-  }
 }
 
 /**
