@@ -101,14 +101,14 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
   $purl = url('', array('absolute' => TRUE));
 
   $options = array(
-    'attributes' => array (
+    'attributes' => array(
       'class' => 'add-more',
     ),
   );
 
-  $links = array (
-    l(t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page,  $options),
-    l(t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page,  $options),
+  $links = array(
+    l(t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page, $options),
+    l(t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options),
   );
 
   $markup = theme('item_list', array('items' => $links, 'attributes' => array('class' => 'add-links')));
