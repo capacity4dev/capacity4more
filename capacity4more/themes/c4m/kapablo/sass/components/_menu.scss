@@ -186,12 +186,6 @@
         padding-right: 35px;
         background-position: 75px 50%;
         background-size: 1.2em 1.2em;
-//        &:hover, &.active-trail {
-////          @include arrow-image('down', 'gray-dark', 'after');
-//          padding-right: 35px;
-//          background-position: 75px 50%;
-//          background-size: 1.2em 1.2em;
-//        }
 
         @media screen and (max-width: $screen-sm-max) {
           background-size: 15px;
