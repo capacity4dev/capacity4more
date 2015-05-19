@@ -12,11 +12,16 @@ function theme_c4m_website_statistics_summary($variables) {
     $class = 'even';
     foreach ($statistics as $key => $stat) {
       if ($stat) {
-        $class = $flip [$class];
-        $text = format_plural($stat['count'], $stat['title'][0], $stat['title'][1]);
+        $class = $flip[$class];
+        // Format single/plural text.
+        $text = format_plural($stat['count'], $stat['title']['singular'], $stat['title']['plural']);
+        // Add css classes defined in hook.
+        $stat_classes = isset($stat['attributes']['class']) ? $stat['attributes']['class']
+                                                            : array();
+        // Create a list item
         $list[$key] = array(
           'data'        => $stat['count'] . ' ' . $text,
-          'class' => array('statistics-item', 'stats-' . $key, $class),
+          'class' => array('statistics-item', 'stats-' . $key, $class, implode(',', $stat_classes)),
         );
       }
     }

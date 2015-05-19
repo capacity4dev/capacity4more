@@ -43,29 +43,33 @@ function c4m_sort_object_by_title($a, $b) {
 
 /**
  * Helper function to get the count per entity type and bundle.
- * @param $entity_type
- * @param array $bundles
- * @param null $published
- * @param null $group_id
+ * @param array $variables
  * @return int
  */
-function c4m_helper_entity_get_number_of_entities($entity_type, $bundles = array(), $published = NULL, $og_id = NULL) {
+function c4m_helper_entity_get_number_of_entities($variables) {
   $amount = 0;
+
+  $entity_type  = $variables['entity_type'];
+  $bundles      = $variables['bundles'];
+  $state        = $variables['state'];
+  $og_id        = $variables['og_id'];
 
   if ($entity_type) {
     switch ($entity_type) {
       case 'user':
         $query = db_select('users', 'u');
         $query->fields('u');
-        $query->condition('u.login', 0, '<>');
+        if ($state) {
+          $query->condition('u.login', 0, '<>');
+        }
         break;
       case 'node':
         if (!empty($bundles)) {
           $query = db_select('node', 'n');
           $query->fields('n');
           $query->condition('n.type', $bundles, 'IN');
-          if (!is_null($published)) {
-            $query->condition('n.status', $published, '=');
+          if (!is_null($state)) {
+            $query->condition('n.status', $state, '=');
           }
         }
         break;
@@ -87,15 +91,20 @@ function c4m_helper_entity_get_number_of_entities($entity_type, $bundles = array
           break;
         case 'comment':
           $query->join('og_membership', 'og', 'n.nid = og.etid');
+          // Exclude the comments on disabled group content features.
+          $disabled_types = c4m_og_feature_disabled_content_types();
+          if (!empty($disabled_types)) {
+            $query->condition('n.type', $disabled_types, 'NOT IN');
+          }
           break;
         default:
           return $amount;
           break;
       }
-
       $query->condition('og.gid', $og_id, '=');
     }
 
+    $query  = $query->addTag('node_access');
     $query  = $query->execute();
     $amount = $query->rowCount();
   }

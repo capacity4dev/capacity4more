@@ -70,7 +70,7 @@ function c4m_content_block_view($delta = '') {
 
   switch ($delta) {
     case 'global_statistics_summary':
-      $statistics = c4m_content_get_website_statistics();
+      $statistics = c4m_content_get_website_statistics('global');
       $stats_summary =  array(
         '#theme'  => 'c4m_website_statistics_summary',
         '#data'   => $statistics,
@@ -78,85 +78,64 @@ function c4m_content_block_view($delta = '') {
       $block['content'] = render($stats_summary);
       break;
     case 'group_statistics_summary':
-      $group = og_context();
-      if (isset($group['gid']) && $gid = $group['gid']) {
-        $statistics = c4m_content_get_website_statistics($gid);
-        $stats_summary =  array(
-          '#theme'  => 'c4m_website_statistics_summary',
-          '#data'   => $statistics,
-        );
-        $block['content'] = render($stats_summary);
-      }
+      $statistics = c4m_content_get_website_statistics('group');
+      $stats_summary =  array(
+        '#theme'  => 'c4m_website_statistics_summary',
+        '#data'   => $statistics,
+      );
+      $block['content'] = render($stats_summary);
       break;
   }
   return $block;
 }
 
 /**
- * Get global are per group website statistics data.
- * @param null $group
- * @return array|null
+ * Get global or per group website statistics data.
+ * @param string $scope
+ * @return array
  */
-function c4m_content_get_website_statistics($gid = NULL) {
-  $data = array();
+function c4m_content_get_website_statistics($scope = 'global') {
+  $data =array();
 
-  // Get all/group users.
-  $data['users']['title']    = array('Member', 'Members');
-  $data['users']['count']    = c4m_helper_entity_get_number_of_entities('user', NULL, NULL, $gid);
+  $hook = 'c4m_content_statistics';
+  $stat_lists = module_invoke_all($hook);
+  uasort($stat_lists, 'drupal_sort_weight');
 
-  if ($gid) {
-    // Fetch group based website statistics.
+  foreach ($stat_lists as $key => $list) {
+    // Skip loop when the scopes doesn't match.
+    if ($list['scope'] !== $scope) {
+      continue;
+    }
 
-    // Get group wiki pages.
-    $data['wiki-pages']['title']     = array('Page', 'Pages');
-    $bundles                        = array('wiki_page');
-    $data['wiki-pages']['count']     = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
-    // Get group documents.
-    $data['documents']['title']     = array('Document', 'Documents');
-    $bundles                        = array('document');
-    $data['documents']['count']     = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
-    // Get group task lists.
-    $data['task-lists']['title']    = array('Task list', 'Task lists');
-    $bundles                        = array('tasklist');
-    $data['task-lists']['count']    = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
-    // Get group comments.
-    $data['comments']['title']      = array('Comment', 'Comments');
-    $data['comments']['count']      = c4m_helper_entity_get_number_of_entities('comment', $bundles, NULL, $gid);
-    // Get group discussions.
-    $data['discussions']['title']   = array('Discussion', 'Discussions');
-    $bundles                        = array('discussion');
-    $data['discussions']['count']   = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
-    // Get group events.
-    $data['events']['title']        = array('Event', 'Events');
-    $bundles                        = array('event');
-    $data['events']['count']        = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
-    // Get group tasks.
-    $data['tasks']['title']         = array('Task', 'Tasks');
-    $bundles                        = array('task');
-    $data['tasks']['count']         = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+    // Skip loop when og feature isn't enabled
+    if ($scope === 'group') {
+      if (isset($list['feature_name'])
+        && !is_null($list['feature_name'])
+        && !c4m_og_feature_enabled($list['feature_name'])) {
+        continue;
+      }
+    }
 
-  } else {
-    // Fetch global specific statistics.
+    $type = isset($list['aggregate']['type']) ? $list['aggregate']['type']
+                                              : $list['type'];
+    $arguments = array(
+      'entity_type' => $list['entity_type'],
+      'bundles'     => $list['bundles'],
+      'state'       => $list['state'],
+      'og_id'       => $list['og_id'],
+    );
 
-    // Get all posts.
-    $data['posts']['title']    = array('Post', 'Posts');
-    $bundles                   = array('discussion', 'document', 'event', 'task', 'wiki_page');
-    $data['posts']['count']    = c4m_helper_entity_get_number_of_entities('node', $bundles);
-    // Get all groups.
-    $data['groups']['title']   = array('Group', 'Groups');
-    $bundles                   = array('group');
-    $data['groups']['count']   = c4m_helper_entity_get_number_of_entities('node', $bundles);
-    // Get all projects.
-    $data['projects']['title'] = array('Project', 'Projects');
-    $bundles                   = array('project');
-    $data['projects']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
-    // Get all V&V.
-    $data['articles']['title'] = array('Voice & View', 'Voices & Views');
-    $bundles                   = array('article');
-    $data['articles']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
+    $count = isset($data[$type]['count']) ? $data[$type]['count'] : 0;
+
+    $data[$type] = array(
+      'title'       => array(
+        'singular' => $list['singular'],
+        'plural' => $list['plural'],
+      ),
+      'count'       => $count + c4m_helper_entity_get_number_of_entities($arguments),
+      'attributes'  => $list['attributes'],
+    );
   }
-
-
   return $data;
 }
 

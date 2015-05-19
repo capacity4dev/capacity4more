@@ -33,19 +33,19 @@
       background-repeat: no-repeat;
       background-position: 0 50%;
 
-      &.stats-users {
+      &.users {
         @include image-icon-png-fallback('icons', 'members-icon');
       }
-      &.stats-posts {
+      &.posts {
         @include image-icon-png-fallback('icons', 'posts-icon');
       }
-      &.stats-groups {
+      &.groups {
         @include image-icon-png-fallback('icons', 'groups-icon');
       }
-      &.stats-projects {
+      &.projects {
         @include image-icon-png-fallback('icons', 'projects-icon');
       }
-      &.stats-articles {
+      &.articles {
         @include image-icon-png-fallback('icons', 'articles-icon');
       }
     }
@@ -64,28 +64,28 @@
       background-repeat: no-repeat;
       background-position: 0 50%;
 
-      &.stats-users{
+      &.og-users{
         @include image-icon-png-fallback('icons', 'library-icon');
       }
-      &.stats-wiki-pages {
+      &.og-wiki-pages {
         @include image-icon-png-fallback('icons', 'library-icon');
       }
-      &.stats-documents {
+      &.og-documents {
         @include image-icon-png-fallback('icons', 'library-icon');
       }
-      &.stats-task-lists {
+      &.og-tasklists {
         @include image-icon-png-fallback('icons', 'tasks-icon');
       }
-      &.stats-tasks {
+      &.og-tasks {
         @include image-icon-png-fallback('icons', 'tasks-icon');
       }
-      &.stats-comments {
+      &.og-comments {
         @include image-icon-png-fallback('icons', 'library-icon');
       }
-      &.stats-discussions {
+      &.og-discussions {
         @include image-icon-png-fallback('icons', 'discussion-icon');
       }
-      &.stats-events {
+      &.og-events {
         @include image-icon-png-fallback('icons', 'event-icon');
       }
     }
