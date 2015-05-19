@@ -45,3 +45,132 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
 function c4m_content_cancel_button_callback($form, &$form_state) {
   drupal_goto();
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_content_block_info() {
+  $blocks['global_statistics_summary'] = array(
+    'info' => t('Global website statistics'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['group_statistics_summary'] = array(
+    'info' => t('Group statistics'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'global_statistics_summary':
+      $statistics = c4m_content_get_website_statistics();
+      $stats_summary =  array(
+        '#theme'  => 'c4m_website_statistics_summary',
+        '#data'   => $statistics,
+      );
+      $block['content'] = render($stats_summary);
+      break;
+    case 'group_statistics_summary':
+      $group = og_context();
+      if (isset($group['gid']) && $gid = $group['gid']) {
+        $statistics = c4m_content_get_website_statistics($gid);
+        $stats_summary =  array(
+          '#theme'  => 'c4m_website_statistics_summary',
+          '#data'   => $statistics,
+        );
+        $block['content'] = render($stats_summary);
+      }
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Get global are per group website statistics data.
+ * @param null $group
+ * @return array|null
+ */
+function c4m_content_get_website_statistics($gid = NULL) {
+  $data = array();
+
+  // Get all/group users.
+  $data['users']['title']    = array('Member', 'Members');
+  $data['users']['count']    = c4m_helper_entity_get_number_of_entities('user', NULL, NULL, $gid);
+
+  if ($gid) {
+    // Fetch group based website statistics.
+
+    // Get group wiki pages.
+    $data['wiki-pages']['title']     = array('Page', 'Pages');
+    $bundles                        = array('wiki_page');
+    $data['wiki-pages']['count']     = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+    // Get group documents.
+    $data['documents']['title']     = array('Document', 'Documents');
+    $bundles                        = array('document');
+    $data['documents']['count']     = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+    // Get group task lists.
+    $data['task-lists']['title']    = array('Task list', 'Task lists');
+    $bundles                        = array('tasklist');
+    $data['task-lists']['count']    = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+    // Get group comments.
+    $data['comments']['title']      = array('Comment', 'Comments');
+    $data['comments']['count']      = c4m_helper_entity_get_number_of_entities('comment', $bundles, NULL, $gid);
+    // Get group discussions.
+    $data['discussions']['title']   = array('Discussion', 'Discussions');
+    $bundles                        = array('discussion');
+    $data['discussions']['count']   = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+    // Get group events.
+    $data['events']['title']        = array('Event', 'Events');
+    $bundles                        = array('event');
+    $data['events']['count']        = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+    // Get group tasks.
+    $data['tasks']['title']         = array('Task', 'Tasks');
+    $bundles                        = array('task');
+    $data['tasks']['count']         = c4m_helper_entity_get_number_of_entities('node', $bundles, NULL, $gid);
+
+  } else {
+    // Fetch global specific statistics.
+
+    // Get all posts.
+    $data['posts']['title']    = array('Post', 'Posts');
+    $bundles                   = array('discussion', 'document', 'event', 'task', 'wiki_page');
+    $data['posts']['count']    = c4m_helper_entity_get_number_of_entities('node', $bundles);
+    // Get all groups.
+    $data['groups']['title']   = array('Group', 'Groups');
+    $bundles                   = array('group');
+    $data['groups']['count']   = c4m_helper_entity_get_number_of_entities('node', $bundles);
+    // Get all projects.
+    $data['projects']['title'] = array('Project', 'Projects');
+    $bundles                   = array('project');
+    $data['projects']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
+    // Get all V&V.
+    $data['articles']['title'] = array('Voice & View', 'Voices & Views');
+    $bundles                   = array('article');
+    $data['articles']['count'] = c4m_helper_entity_get_number_of_entities('node', $bundles);
+  }
+
+
+  return $data;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_theme() {
+  $theme['c4m_website_statistics_summary'] = array(
+    'variables' => array(
+      'data' => NULL,
+    ),
+    'file'  => 'c4m_content.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_content') . '/includes',
+  );
+
+  return $theme;
+}

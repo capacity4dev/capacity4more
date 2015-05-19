@@ -49,30 +49,55 @@ function c4m_sort_object_by_title($a, $b) {
  * @param null $group_id
  * @return int
  */
-function c4m_helper_entity_get_number_of_entities($entity_type, $bundles = array(), $published = NULL, $group_id = NULL) {
+function c4m_helper_entity_get_number_of_entities($entity_type, $bundles = array(), $published = NULL, $og_id = NULL) {
   $amount = 0;
 
   if ($entity_type) {
-    if ($group_id) {
+    switch ($entity_type) {
+      case 'user':
+        $query = db_select('users', 'u');
+        $query->fields('u');
+        $query->condition('u.login', 0, '<>');
+        break;
+      case 'node':
+        if (!empty($bundles)) {
+          $query = db_select('node', 'n');
+          $query->fields('n');
+          $query->condition('n.type', $bundles, 'IN');
+          if (!is_null($published)) {
+            $query->condition('n.status', $published, '=');
+          }
+        }
+        break;
+      case 'comment':
+        $query = db_select('comment', 'c');
+        $query->fields('c');
+        $query->join('node', 'n', 'c.nid = n.nid');
+        break;
+    }
 
-    } else {
+    // Add group condition if given.
+    if ($og_id) {
       switch ($entity_type) {
         case 'user':
-          $query = db_select('users', 'u')->fields('u')->condition('login', 0, '<>')->execute();
-          $amount = $query->rowCount();
+          $query->join('og_membership', 'og', 'u.uid = og.etid');
           break;
         case 'node':
-          if (!empty($bundles)) {
-            $query = db_select('node', 'n')->fields('n')->condition('type', $bundles, 'IN');
-            if (!is_null($published)) {
-              $query->condition('status', $published, '=');
-            }
-            $query  = $query->execute();
-            $amount = $query->rowCount();
-          }
+          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          break;
+        case 'comment':
+          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          break;
+        default:
+          return $amount;
           break;
       }
+
+      $query->condition('og.gid', $og_id, '=');
     }
+
+    $query  = $query->execute();
+    $amount = $query->rowCount();
   }
 
   return $amount;

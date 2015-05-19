@@ -18,7 +18,7 @@
   }
 }
 
-.pane-c4m-features-homepage-global-statistics-summary {
+.pane-c4m-content-global-statistics-summary {
   .statistics-list {
     @include clearfix;
     background-color: $color-blue-ultra-light;
@@ -47,6 +47,46 @@
       }
       &.stats-articles {
         @include image-icon-png-fallback('icons', 'articles-icon');
+      }
+    }
+  }
+}
+
+.pane-c4m-content-group-statistics-summary {
+  .statistics-list {
+    @include clearfix;
+
+    li.statistics-item {
+      float: left;
+      width: 50%;
+      padding: 3px 20px 3px 30px;
+      background-size: 26px;
+      background-repeat: no-repeat;
+      background-position: 0 50%;
+
+      &.stats-users{
+        @include image-icon-png-fallback('icons', 'library-icon');
+      }
+      &.stats-wiki-pages {
+        @include image-icon-png-fallback('icons', 'library-icon');
+      }
+      &.stats-documents {
+        @include image-icon-png-fallback('icons', 'library-icon');
+      }
+      &.stats-task-lists {
+        @include image-icon-png-fallback('icons', 'tasks-icon');
+      }
+      &.stats-tasks {
+        @include image-icon-png-fallback('icons', 'tasks-icon');
+      }
+      &.stats-comments {
+        @include image-icon-png-fallback('icons', 'library-icon');
+      }
+      &.stats-discussions {
+        @include image-icon-png-fallback('icons', 'discussion-icon');
+      }
+      &.stats-events {
+        @include image-icon-png-fallback('icons', 'event-icon');
       }
     }
   }

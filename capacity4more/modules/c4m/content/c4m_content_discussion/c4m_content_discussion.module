@@ -34,3 +34,8 @@ function c4m_content_discussion_entity_type_label_alter(&$variables) {
   }
   $variables['label'] .= ' ' . ('posted by');
 }
+
+function c4m_content_discussion_c4m_content_statistics() {
+  return array()
+}
+

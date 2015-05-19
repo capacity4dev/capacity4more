@@ -8,12 +8,15 @@
 function theme_c4m_website_statistics_summary($variables) {
   $output = '';
   if ($statistics = $variables['data']) {
+    $flip = array('even' => 'odd', 'odd' => 'even');
+    $class = 'even';
     foreach ($statistics as $key => $stat) {
       if ($stat) {
+        $class = $flip [$class];
         $text = format_plural($stat['count'], $stat['title'][0], $stat['title'][1]);
         $list[$key] = array(
           'data'        => $stat['count'] . ' ' . $text,
-          'class' => array('statistics-item', 'stats-' . $key),
+          'class' => array('statistics-item', 'stats-' . $key, $class),
         );
       }
     }
