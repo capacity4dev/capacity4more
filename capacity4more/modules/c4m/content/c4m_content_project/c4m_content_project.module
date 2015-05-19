@@ -19,3 +19,26 @@ function c4m_content_project_c4m_og_vocab_info_groups() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_content_project_c4m_content_statistics() {
+  return array(
+    'c4m_projects' => array(
+      'type'        => 'project',
+      'entity_type' => 'node',
+      'bundles'     => array('project'),
+      'singular'    => 'Project',
+      'plural'      => 'Projects',
+      'state'       => 1,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(),
+      'weight'      => 3,
+      'attributes'  => array(
+        'class' => array('projects'),
+      )
+    ),
+  );
+}

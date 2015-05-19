@@ -95,3 +95,47 @@ function c4m_content_document_entity_type_label_alter(&$variables) {
   }
   $variables['label'] .= ' ' . ('uploaded by');
 }
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_content_document_c4m_content_statistics() {
+  $group = og_context();
+  $og_id = $group['gid'];
+
+  return array(
+    'c4m_documents' => array(
+      'type'        => 'document',
+      'entity_type' => 'node',
+      'bundles'     => array('document'),
+      'singular'    => 'Post',
+      'plural'      => 'Posts',
+      'state'       => NULL,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(
+        'type' => 'posts',
+      ),
+      'weight'      => 1,
+      'attributes'  => array(
+        'class' => array('posts'),
+      )
+    ),
+    'c4m_og_documents' => array(
+      'type'          => 'document',
+      'entity_type'   => 'node',
+      'bundles'       => array('document'),
+      'singular'      => 'Document',
+      'plural'        => 'Documents',
+      'state'         => NULL,
+      'scope'         => 'group',
+      'og_id'         => $og_id,
+      'aggregate'     => array(),
+      'weight'        => 2,
+      'feature_name'  => 'c4m_features_og_documents',
+      'attributes'    => array(
+        'class' => array('og-documents'),
+      )
+    ),
+  );
+}

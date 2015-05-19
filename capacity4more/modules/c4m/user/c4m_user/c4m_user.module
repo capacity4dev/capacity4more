@@ -445,3 +445,26 @@ function c4m_user_count_comments($uid) {
 function c4m_user_track_change($uid) {
   search_api_track_item_change('user', array($uid));
 }
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_user_c4m_content_statistics() {
+  return array(
+    'c4m_user' => array(
+      'type'        => 'user',
+      'entity_type' => 'user',
+      'bundles'     => NULL,
+      'singular'    => 'Member',
+      'plural'      => 'Members',
+      'state'       => 1,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(),
+      'weight'      => 0,
+      'attributes'  => array(
+        'class' => array('users'),
+      )
+    ),
+  );
+}

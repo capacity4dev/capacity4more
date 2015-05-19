@@ -340,3 +340,47 @@ function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $
     }
   }
 }
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_content_wiki_page_c4m_content_statistics() {
+  $group = og_context();
+  $og_id = $group['gid'];
+
+  return array(
+    'c4m_wiki_pages' => array(
+      'type'        => 'wiki_page',
+      'entity_type' => 'node',
+      'bundles'     => array('wiki_page'),
+      'singular'    => 'Post',
+      'plural'      => 'Posts',
+      'state'       => NULL,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(
+        'type' => 'posts'
+      ),
+      'weight'      => 1,
+      'attributes'  => array(
+        'class' => array('posts'),
+      )
+    ),
+    'c4m_og_wiki_pages' => array(
+      'type'          => 'wiki_page',
+      'entity_type'   => 'node',
+      'bundles'       => array('wiki_page'),
+      'singular'      => 'Page',
+      'plural'        => 'Pages',
+      'state'         => NULL,
+      'scope'         => 'group',
+      'og_id'         => $og_id,
+      'aggregate'     => array(),
+      'weight'        => 0,
+      'feature_name'  => 'c4m_features_og_wiki',
+      'attributes'    => array(
+        'class' => array('og-wiki-pages'),
+      )
+    ),
+  );
+}

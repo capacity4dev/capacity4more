@@ -59,3 +59,40 @@ function c4m_content_event_ds_fields_info($entity_type) {
 
   return $fields;
 }
+function c4m_content_event_c4m_content_statistics() {
+  return array(
+    'c4m_events' => array(
+      'type'        => 'event',
+      'entity_type' => 'node',
+      'bundles'     => array('event'),
+      'singular'    => 'Post',
+      'plural'      => 'Posts',
+      'state'       => NULL,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(
+        'type' => 'posts',
+      ),
+      'weight'      => 1,
+      'attributes'  => array(
+        'class' => array('posts'),
+      )
+    ),
+    'c4m_og_events' => array(
+      'type'          => 'event',
+      'entity_type'   => 'node',
+      'bundles'       => array('event'),
+      'singular'      => 'Event',
+      'plural'        => 'Events',
+      'state'         => NULL,
+      'scope'         => 'group',
+      'og_id'         => 37,
+      'aggregate'     => NULL,
+      'weight'        => 3,
+      'feature_name'  => 'c4m_features_og_events',
+      'attributes'    => array(
+        'class' => array('og-events'),
+      )
+    ),
+  );
+}

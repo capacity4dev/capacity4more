@@ -261,3 +261,30 @@ function c4m_user_og_get_groups($account = NULL, $bundle = 'group', $status = NO
   $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
   return $group_nodes;
 }
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_user_og_c4m_content_statistics() {
+  $group = og_context();
+  $og_id = $group['gid'];
+
+  return array(
+    'c4m_og_user' => array(
+      'type'          => 'user',
+      'entity_type'   => 'user',
+      'bundles'       => array(),
+      'singular'      => 'Member',
+      'plural'        => 'Members',
+      'state'         => NULL,
+      'scope'         => 'group',
+      'og_id'         => $og_id,
+      'aggregate'     => array(),
+      'weight'        => 7,
+      'feature_name'  => 'c4m_features_og_members',
+      'attributes'    => array(
+        'class' => array('og-users'),
+      )
+    ),
+  );
+}

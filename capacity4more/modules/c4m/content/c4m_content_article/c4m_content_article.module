@@ -5,3 +5,26 @@
  */
 
 include_once 'c4m_content_article.features.inc';
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_content_article_c4m_content_statistics() {
+  return array(
+    'c4m_articles' => array(
+      'type'        => 'article',
+      'entity_type' => 'node',
+      'bundles'     => array('article'),
+      'singular'    => 'Article',
+      'plural'      => 'Articles',
+      'state'       => NULL,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(),
+      'weight'      => 4,
+      'attributes'  => array(
+        'class' => array('articles'),
+      )
+    ),
+  );
+}

@@ -646,3 +646,26 @@ function c4m_content_group_add_grants($rows, &$grants) {
 function c4m_content_group_admin_paths_alter(&$paths) {
   $paths['node/*/group'] = FALSE;
 }
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_content_group_c4m_content_statistics() {
+  return array(
+    'c4m_groups' => array(
+      'type'        => 'group',
+      'entity_type' => 'node',
+      'bundles'     => array('group'),
+      'singular'    => 'Group',
+      'plural'      => 'Groups',
+      'state'       => NULL,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(),
+      'weight'      => 2,
+      'attributes'  => array(
+        'class' => array('groups'),
+      )
+    ),
+  );
+}

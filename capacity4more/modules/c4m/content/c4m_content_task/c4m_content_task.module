@@ -5,3 +5,30 @@
  */
 
 include_once 'c4m_content_task.features.inc';
+
+/**
+ * Implements hook_c4m_content_statistics()
+ */
+function c4m_content_task_c4m_content_statistics() {
+  $group = og_context();
+  $og_id = $group['gid'];
+
+  return array(
+    'c4m_og_task' => array(
+      'type'          => 'Task',
+      'entity_type'   => 'node',
+      'bundles'       => array('task'),
+      'singular'      => 'Task',
+      'plural'        => 'Tasks',
+      'state'         => NULL,
+      'scope'         => 'group',
+      'og_id'         => $og_id,
+      'aggregate'     => array(),
+      'weight'        => 5,
+      'feature_name'  => 'c4m_features_og_tasklists',
+      'attributes'    => array(
+        'class' => array('og-tasks'),
+      )
+    ),
+  );
+}
