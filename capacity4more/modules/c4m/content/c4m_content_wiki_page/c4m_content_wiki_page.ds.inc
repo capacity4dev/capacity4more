@@ -152,7 +152,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '2',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -160,22 +160,22 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       ),
     ),
     'links' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'comments' => array(
-      'weight' => '10',
+      'weight' => '11',
       'label' => 'above',
       'format' => 'default',
     ),
     'book_navigation' => array(
-      'weight' => '9',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '5',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -193,7 +193,7 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'j F Y',
     ),
@@ -209,6 +209,11 @@ function c4m_content_wiki_page_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(),
       ),
+    ),
+    'c4m_content_wiki_page_add_links' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
     'c4m_related_document' => array(
       'formatter_settings' => array(
@@ -373,38 +378,40 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'regions' => array(
       'left' => array(
         0 => 'c4m_content_wiki_page_collapse',
-        1 => 'group_pages',
-        2 => 'c4m_content_wiki_page_navigation',
-        3 => 'c4m_related_topic',
-        4 => 'group_details',
-        5 => 'og_vocabulary',
-        7 => 'c4m_vocab_date',
-        9 => 'c4m_vocab_language',
-        10 => 'c4m_vocab_geo',
+        1 => 'c4m_content_wiki_page_navigation',
+        2 => 'c4m_related_topic',
+        3 => 'og_vocabulary',
+        4 => 'group_pages',
+        5 => 'c4m_content_wiki_page_add_links',
+        6 => 'c4m_vocab_date',
+        7 => 'c4m_vocab_language',
+        8 => 'group_details',
+        9 => 'c4m_vocab_geo',
       ),
       'right' => array(
-        6 => 'title',
-        8 => 'c4m_user_first_and_last_name',
-        11 => 'c4m_ds_creation_date',
-        12 => 'links',
-        13 => 'c4m_body',
-        14 => 'c4m_related_document',
-        15 => 'book_navigation',
-        16 => 'comments',
+        10 => 'title',
+        11 => 'c4m_user_first_and_last_name',
+        12 => 'c4m_ds_creation_date',
+        13 => 'links',
+        14 => 'c4m_body',
+        15 => 'c4m_related_document',
+        16 => 'book_navigation',
+        17 => 'comments',
       ),
     ),
     'fields' => array(
       'c4m_content_wiki_page_collapse' => 'left',
-      'group_pages' => 'left',
       'c4m_content_wiki_page_navigation' => 'left',
       'c4m_related_topic' => 'left',
-      'group_details' => 'left',
       'og_vocabulary' => 'left',
-      'title' => 'right',
+      'group_pages' => 'left',
+      'c4m_content_wiki_page_add_links' => 'left',
       'c4m_vocab_date' => 'left',
-      'c4m_user_first_and_last_name' => 'right',
       'c4m_vocab_language' => 'left',
+      'group_details' => 'left',
       'c4m_vocab_geo' => 'left',
+      'title' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
       'links' => 'right',
       'c4m_body' => 'right',
