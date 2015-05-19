@@ -76,6 +76,17 @@
                   color: $highlight-blue;
                 }
 
+
+                .add-more {
+                  color: $color-gray;
+                  font-size: 13px;
+
+                  &:before {
+                    content: "+";
+                    margin-right: 6px;
+                  }
+                }
+
                 .field-item {
 
                   ul {
@@ -84,14 +95,18 @@
                       padding: 10px 0;
                       border-bottom: 1px solid $color-light-gray;
 
-                      &.last {
-                        border-bottom: 0 none;
-                      }
-
                       .toggle {
                         float: right;
                         width: 1em;
                         height: 1em;
+                      }
+                    }
+
+                    &.add-links {
+                      li {
+                        border-bottom: 0 none;
+                        padding-top: 0;
+                        padding-bottom: 5px;
                       }
                     }
                   }
