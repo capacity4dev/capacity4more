@@ -95,6 +95,10 @@
                       padding: 10px 0;
                       border-bottom: 1px solid $color-light-gray;
 
+                      &.last {
+                        border-bottom: 0 none;
+                      }
+
                       .toggle {
                         float: right;
                         width: 1em;
@@ -103,6 +107,8 @@
                     }
 
                     &.add-links {
+                      border-top: 1px solid $color-light-gray;
+
                       li {
                         border-bottom: 0 none;
                         padding-top: 0;
