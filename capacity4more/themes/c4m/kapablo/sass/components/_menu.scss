@@ -1,5 +1,7 @@
-.nav li a {
+.nav > li > a {
   border: 0;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 // Make sure menu links set active (active-trail) by context react as menu
@@ -102,7 +104,7 @@
         content: '|';
         font-weight: bold;
         margin: 0 10px;
-        @media screen and (min-width: $screen-lg-min) {
+        @media screen and (min-width: $screen-md-min) {
           margin: 0 15px;
         }
         @media screen and (min-width: $screen-lg-min) {
@@ -112,6 +114,14 @@
       > a {
         display: inline-block;
         padding: 0;
+        font-size: 85%;
+
+        @media screen and (min-width: $screen-md-min) {
+          font-size: 95%;
+        }
+        @media screen and (min-width: $screen-lg-min) {
+          font-size: 100%;
+        }
       }
     }
   }
