@@ -62,6 +62,9 @@ function capacity4more_install() {
 
   // Quick post debug, Disabled by default.
   variable_set('c4m_quick_post_debug', 0);
+
+  // Path aliases
+  variable_set('pathauto_update_action', '1');
 }
 
 /******************************************************************************
