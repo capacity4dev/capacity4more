@@ -43,7 +43,7 @@ function c4m_comment_c4m_content_statistics() {
       'bundles'     => array(),
       'singular'    => 'Post',
       'plural'      => 'Posts',
-      'state'       => NULL,
+      'state'       => 1,
       'scope'       => 'global',
       'og_id'       => NULL,
       'aggregate'   => array(
@@ -60,7 +60,7 @@ function c4m_comment_c4m_content_statistics() {
       'bundles'     => array(),
       'singular'    => 'Comment',
       'plural'      => 'Comments',
-      'state'       => NULL,
+      'state'       => 1,
       'scope'       => 'group',
       'og_id'       => $og_id,
       'aggregate'   => array(),

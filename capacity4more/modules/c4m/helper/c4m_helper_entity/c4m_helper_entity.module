@@ -78,6 +78,9 @@ function c4m_helper_entity_get_number_of_entities($variables) {
         $query = db_select('comment', 'c');
         $query->fields('c');
         $query->join('node', 'n', 'c.nid = n.nid');
+        if (!is_null($state)) {
+          $query->condition('n.status', $state, '=');
+        }
         break;
     }
 
@@ -106,9 +109,13 @@ function c4m_helper_entity_get_number_of_entities($variables) {
     }
 
     // Add condition on c4m status.
-    if(!empty($c4m_status) && $entity_type == 'node') {
-      $query->join('field_data_c4m_og_status', 'st', 'n.nid = st.entity_id');
-      $query->condition('st.c4m_og_status_value', $c4m_status, 'IN');
+    if(!empty($c4m_status)) {
+      if ($entity_type == 'node') {
+        $query->join('field_data_c4m_og_status', 'st', 'n.nid = st.entity_id');
+        $query->condition('st.c4m_og_status_value', $c4m_status, 'IN');
+      } elseif ($entity_type == 'user' && $og_id) {
+        $query->condition('og.state', $c4m_status, 'IN');
+      }
     }
 
     $query  = $query->addTag('node_access');

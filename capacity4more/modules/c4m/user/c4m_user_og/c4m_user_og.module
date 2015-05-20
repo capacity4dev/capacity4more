@@ -277,6 +277,7 @@ function c4m_user_og_c4m_content_statistics() {
       'singular'      => 'Member',
       'plural'        => 'Members',
       'state'         => 1,
+      'c4m_status'    => array(1),
       'scope'         => 'group',
       'og_id'         => $og_id,
       'aggregate'     => array(),
