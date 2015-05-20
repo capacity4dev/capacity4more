@@ -182,7 +182,15 @@ li {
   .view-header {
     border-bottom: 1px solid #DADDC9;
     padding: 0 10px 0 30px;
+    line-height: 30px;
     margin: 0;
+    @include image-icon-png-fallback('icons', 'pin');
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    background-size: 24px;
+    p {
+      margin: 0;
+    }
   }
   .view-content {
     .views-row {
@@ -190,6 +198,19 @@ li {
       margin: 0px;
       .node {
         border-top: 1px solid #E9EBDE;
+
+        a.flag {
+          padding: 10px 10px 10px 30px;
+          background-size: 24px;
+          background-repeat: no-repeat;
+          background-position: 0 50%;
+        }
+
+        .flag-outer-c4m-og-content-highlight {
+          a.flag {
+            @include image-icon-png-fallback('icons', 'pin');
+          }
+        }
       }
     }
   }
