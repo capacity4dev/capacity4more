@@ -187,12 +187,9 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
    */
   public function postImport() {
     parent::postImport();
-    watchdog(
-      'c4d Demo content',
-      'Node access rebuild + OG Restricted info reset'
-    );
 
     node_access_rebuild();
+
     c4m_og_reset_restricted_info();
   }
 
