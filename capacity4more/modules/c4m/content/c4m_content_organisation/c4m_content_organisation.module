@@ -116,7 +116,7 @@ function c4m_content_organisation_field_formatter_view($entity_type, $entity, $f
     case 'c4m_domain_default' :
       foreach ($items as $delta => $item) {
         if (isset($item['domain'])) {
-          $element[$delta]['#markup'] = '<div class="c4m_domain">' . $item['domain'] . '</div>';
+          $element[$delta]['#markup'] = $item['domain'];
         }
       }
       break;

@@ -425,7 +425,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
    */
   public function extractDomain($entity, $row, $domainfield) {
     $domains = explode(',', $row->$domainfield);
-    if (count($domains) <= 1) {
+    if (count($domains) < 1) {
       return FALSE;
     }
 
