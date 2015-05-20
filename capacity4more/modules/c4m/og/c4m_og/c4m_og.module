@@ -643,7 +643,7 @@ function c4m_og_node_access($node, $op, $account) {
     }
   }
 
-  if ($group_id && !og_user_access('node', $group_id, "create " . $node_type . " content")) {
+  if ($op == 'create' && $group_id && !og_user_access('node', $group_id, "create " . $node_type . " content")) {
     // User has access to group but doesn't have permissions to create content
     // in this group, probably he is not member of this group.
     return NODE_ACCESS_DENY;
