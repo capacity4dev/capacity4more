@@ -89,11 +89,12 @@ function c4m_admin_organisations_views_default_views() {
     'image_link' => '',
   );
   /* Field: Content: Domain */
-  $handler->display->display_options['fields']['c4m_domain']['id'] = 'c4m_domain';
-  $handler->display->display_options['fields']['c4m_domain']['table'] = 'field_data_c4m_domain';
-  $handler->display->display_options['fields']['c4m_domain']['field'] = 'c4m_domain';
-  $handler->display->display_options['fields']['c4m_domain']['label'] = 'Domains';
-  $handler->display->display_options['fields']['c4m_domain']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_c4m_domain']['id'] = 'field_c4m_domain';
+  $handler->display->display_options['fields']['field_c4m_domain']['table'] = 'field_data_field_c4m_domain';
+  $handler->display->display_options['fields']['field_c4m_domain']['field'] = 'field_c4m_domain';
+  $handler->display->display_options['fields']['field_c4m_domain']['label'] = 'Domains';
+  $handler->display->display_options['fields']['field_c4m_domain']['click_sort_column'] = 'domain';
+  $handler->display->display_options['fields']['field_c4m_domain']['delta_offset'] = '0';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
