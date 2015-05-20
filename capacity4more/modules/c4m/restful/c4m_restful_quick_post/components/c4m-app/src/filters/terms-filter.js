@@ -39,28 +39,32 @@ angular.module('c4mApp')
                 filtered[id]['children'][childId] = {
                   id: child.id,
                   label: child.label,
-                  children: child.children
                 };
+                if (child.children) {
+                  filtered[id]['children'][childId]['children'] = child.children;
+                }
               }
               else {
-                angular.forEach(child.children, function(childChild) {
-                  if (childChild.label.toLowerCase().indexOf(searchText) >= 0) {
-                    filtered[id] = {
-                      id: id,
-                      label: item.label,
-                      children: []
-                    };
-                    filtered[id]['children'][childId] = {
-                      id: child.id,
-                      label: child.label,
-                      children: []
-                    };
-                    filtered[id]['children'][childId]['children'].push({
-                      id: childChild.id,
-                      label: childChild.label
-                    });
-                  }
-                });
+                if (child.children) {
+                  angular.forEach(child.children, function(childChild) {
+                    if (childChild.label.toLowerCase().indexOf(searchText) >= 0) {
+                      filtered[id] = {
+                        id: id,
+                        label: item.label,
+                        children: []
+                      };
+                      filtered[id]['children'][childId] = {
+                        id: child.id,
+                        label: child.label,
+                        children: []
+                      };
+                      filtered[id]['children'][childId]['children'].push({
+                        id: childChild.id,
+                        label: childChild.label
+                      });
+                    }
+                  });
+                }
               }
             });
           }
