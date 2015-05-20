@@ -640,7 +640,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
   $output .= '</div>';
 
   foreach ($parents as $parent_key => $parent) {
-    $parent_id = isset($parent['tid']['#value']) ? $parent['tid']['#value'] : 0;
+    $parent_id = isset($parent['#term']['tid']) ? $parent['#term']['tid'] : 0;
     $reset_path = $form['#page_type'] == 'types' ? 'type/' . $vocabulary->vid : 'term/' . $parent_id;
     // Set header for the table.
     $header = array(
