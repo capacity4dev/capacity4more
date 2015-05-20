@@ -613,37 +613,34 @@ function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) 
 /**
  * Implements hook_node_access().
  *
- * Deny access to add a content item if
+ * Deny access to add/edit/view/delete a content item if
  * - the content type is one of the group content types.
  * - the group content type is not available because the related feature is not
  * enabled.
  */
 function c4m_og_node_access($node, $op, $account) {
-  $type = is_string($node) ? $node : $node->type;
+  $node_type = is_string($node) ? $node : $node->type;
 
-  // Check that entity creating within a group context.
-  $group_id = c4m_og_current_group_id();
-  // Our goal is only operation 'create'.
-  if (!$group_id && $op == 'create') {
-    return NODE_ACCESS_DENY;
-  }
-
-  // Deny access to all operations if the content type is a group content type.
-//  if ($op == 'create' && $type == 'group') {
-//    return NODE_ACCESS_DENY;
-//  }
-
-  // Work only with content that are a group content type.
-  $group_entities = og_get_all_group_content_bundle();
-  if (!array_key_exists($type, $group_entities['node'])) {
+  if (og_is_group_type('node', $node_type)) {
+    // This is group.
     return NODE_ACCESS_IGNORE;
   }
+  // Check that entity creating within a group context.
+  $group_id = c4m_og_current_group_id();
 
-  // TODO: Content type 'photo' not exist in feature_enabled_content_types
-  // TODO: therefore it will be always blocked.
-  // Allow create content type only allowed by group settings.
-  $features = c4m_og_feature_enabled_content_types();
-  if (!in_array($type, $features)) {
+  // User can't view/add/edut/delete group content out of group.
+  if (!$group_id && og_is_group_content_type('node', $node_type)) {
     return NODE_ACCESS_DENY;
   }
+
+  // TODO: Content type 'photo' does not exist in feature_enabled_content_types
+  // TODO: therefore it will be always blocked.
+
+  // Allow create content type only allowed by group settings.
+  $features = c4m_og_feature_enabled_content_types();
+  if (!in_array($node_type, $features)) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
 }
