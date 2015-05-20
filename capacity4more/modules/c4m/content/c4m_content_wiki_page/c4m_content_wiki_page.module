@@ -342,7 +342,7 @@ function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $
 }
 
 /**
- * Implements hook_c4m_content_statistics()
+ * Implements hook_c4m_content_statistics().
  */
 function c4m_content_wiki_page_c4m_content_statistics() {
   $group = og_context();
@@ -355,7 +355,7 @@ function c4m_content_wiki_page_c4m_content_statistics() {
       'bundles'     => array('wiki_page'),
       'singular'    => 'Post',
       'plural'      => 'Posts',
-      'state'       => NULL,
+      'state'       => 1,
       'scope'       => 'global',
       'og_id'       => NULL,
       'aggregate'   => array(
@@ -372,7 +372,7 @@ function c4m_content_wiki_page_c4m_content_statistics() {
       'bundles'       => array('wiki_page'),
       'singular'      => 'Page',
       'plural'        => 'Pages',
-      'state'         => NULL,
+      'state'         => 1,
       'scope'         => 'group',
       'og_id'         => $og_id,
       'aggregate'     => array(),

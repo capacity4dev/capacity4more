@@ -123,6 +123,7 @@ function c4m_content_get_website_statistics($scope = 'global') {
       'bundles'     => $list['bundles'],
       'state'       => $list['state'],
       'og_id'       => $list['og_id'],
+      'c4m_status'  => isset($list['c4m_status']) ? $list['c4m_status'] : NULL,
     );
 
     $count = isset($data[$type]['count']) ? $data[$type]['count'] : 0;

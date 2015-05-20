@@ -447,7 +447,7 @@ function c4m_user_track_change($uid) {
 }
 
 /**
- * Implements hook_c4m_content_statistics()
+ * Implements hook_c4m_content_statistics().
  */
 function c4m_user_c4m_content_statistics() {
   return array(

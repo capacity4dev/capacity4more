@@ -9,7 +9,6 @@
  * @{
  */
 
-
 /**
  * Define the available content statistics.
  *
@@ -25,6 +24,7 @@
  *   - singular : The singular name of the statistic type.
  *   - plural : The plural name of the statistic type.
  *   - state : The status of the entity as integer (published, unpublished, ...).
+ *   - c4m_status : The C4M status of the entity (published, requested, draft, ...).
  *   - scope : Sets the list as global/group statistics info.
  *   - og_id : The group id.
  *   - aggregate : Array containing type.
@@ -42,6 +42,7 @@ function hook_c4m_content_statistics() {
       'singular'    => 'Post',
       'plural'      => 'Posts',
       'state'       => NULL,
+      'c4m_status'  => NULL,
       'scope'       => 'global',
       'og_id'       => NULL,
       'aggregate'   => array(
@@ -59,6 +60,7 @@ function hook_c4m_content_statistics() {
       'singular'      => 'Discussion',
       'plural'        => 'Discussions',
       'state'         => NULL,
+      'c4m_status'    => array('published', 'archived'),
       'scope'         => 'group',
       'og_id'         => 37,
       'aggregate'     => array(),

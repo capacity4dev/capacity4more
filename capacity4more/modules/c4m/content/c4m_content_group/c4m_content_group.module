@@ -648,7 +648,7 @@ function c4m_content_group_admin_paths_alter(&$paths) {
 }
 
 /**
- * Implements hook_c4m_content_statistics()
+ * Implements hook_c4m_content_statistics().
  */
 function c4m_content_group_c4m_content_statistics() {
   return array(
@@ -659,6 +659,7 @@ function c4m_content_group_c4m_content_statistics() {
       'singular'    => 'Group',
       'plural'      => 'Groups',
       'state'       => NULL,
+      'c4m_status'  => array('published', 'archived'),
       'scope'       => 'global',
       'og_id'       => NULL,
       'aggregate'   => array(),

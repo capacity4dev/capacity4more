@@ -18,7 +18,7 @@ function theme_c4m_website_statistics_summary($variables) {
         // Add css classes defined in hook.
         $stat_classes = isset($stat['attributes']['class']) ? $stat['attributes']['class']
                                                             : array();
-        // Create a list item
+        // Create a list item.
         $list[$key] = array(
           'data'        => $stat['count'] . ' ' . $text,
           'class' => array('statistics-item', 'stats-' . $key, $class, implode(',', $stat_classes)),

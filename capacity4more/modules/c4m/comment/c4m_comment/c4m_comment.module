@@ -30,13 +30,30 @@ function c4m_comment_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Implements hook_c4m_content_statistics()
+ * Implements hook_c4m_content_statistics().
  */
 function c4m_comment_c4m_content_statistics() {
   $group = og_context();
   $og_id = $group['gid'];
 
   return array(
+    'c4m_comment' => array(
+      'type'        => 'comment',
+      'entity_type' => 'comment',
+      'bundles'     => array(),
+      'singular'    => 'Post',
+      'plural'      => 'Posts',
+      'state'       => NULL,
+      'scope'       => 'global',
+      'og_id'       => NULL,
+      'aggregate'   => array(
+        'type' => 'posts'
+      ),
+      'weight'      => 1,
+      'attributes'  => array(
+        'class' => array('posts'),
+      )
+    ),
     'c4m_og_comment' => array(
       'type'        => 'comment',
       'entity_type' => 'comment',

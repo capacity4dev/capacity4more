@@ -59,6 +59,10 @@ function c4m_content_event_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
+/**
+ * Implements hook_c4m_content_statistics().
+ */
 function c4m_content_event_c4m_content_statistics() {
   return array(
     'c4m_events' => array(
@@ -67,7 +71,7 @@ function c4m_content_event_c4m_content_statistics() {
       'bundles'     => array('event'),
       'singular'    => 'Post',
       'plural'      => 'Posts',
-      'state'       => NULL,
+      'state'       => 1,
       'scope'       => 'global',
       'og_id'       => NULL,
       'aggregate'   => array(
@@ -84,7 +88,7 @@ function c4m_content_event_c4m_content_statistics() {
       'bundles'       => array('event'),
       'singular'      => 'Event',
       'plural'        => 'Events',
-      'state'         => NULL,
+      'state'         => 1,
       'scope'         => 'group',
       'og_id'         => 37,
       'aggregate'     => NULL,

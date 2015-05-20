@@ -21,7 +21,9 @@ function c4m_content_project_c4m_og_vocab_info_groups() {
 }
 
 /**
- * Implements hook_c4m_content_statistics()
+ * Implements hook_c4m_content_statistics().
+ *
+ * @todo add c4m_status when it's available in the project content type
  */
 function c4m_content_project_c4m_content_statistics() {
   return array(
