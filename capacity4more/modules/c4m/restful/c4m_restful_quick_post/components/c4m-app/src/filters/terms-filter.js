@@ -29,16 +29,37 @@ angular.module('c4mApp')
             };
           }
           else {
-            angular.forEach(item.children, function(child) {
+            angular.forEach(item.children, function(child, childId) {
               if (child.label.toLowerCase().indexOf(searchText) >= 0) {
                 filtered[id] = {
                   id: id,
                   label: item.label,
                   children: []
                 };
-                filtered[id]['children'].push({
+                filtered[id]['children'][childId] = {
                   id: child.id,
-                  label: child.label
+                  label: child.label,
+                  children: child.children
+                };
+              }
+              else {
+                angular.forEach(child.children, function(childChild) {
+                  if (childChild.label.toLowerCase().indexOf(searchText) >= 0) {
+                    filtered[id] = {
+                      id: id,
+                      label: item.label,
+                      children: []
+                    };
+                    filtered[id]['children'][childId] = {
+                      id: child.id,
+                      label: child.label,
+                      children: []
+                    };
+                    filtered[id]['children'][childId]['children'].push({
+                      id: childChild.id,
+                      label: childChild.label
+                    });
+                  }
                 });
               }
             });
