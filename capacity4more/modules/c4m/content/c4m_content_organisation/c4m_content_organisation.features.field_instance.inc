@@ -186,8 +186,8 @@ function c4m_content_organisation_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-organisation-field_c4m_domain'
-  $field_instances['node-organisation-field_c4m_domain'] = array(
+  // Exported field_instance: 'node-organisation-c4m_domain'
+  $field_instances['node-organisation-c4m_domain'] = array(
     'bundle' => 'organisation',
     'default_value' => NULL,
     'deleted' => 0,
@@ -245,7 +245,7 @@ function c4m_content_organisation_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_c4m_domain',
+    'field_name' => 'c4m_domain',
     'label' => 'Domain',
     'required' => 0,
     'settings' => array(

@@ -40,13 +40,13 @@ function c4m_content_organisation_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_c4m_domain'
-  $field_bases['field_c4m_domain'] = array(
+  // Exported field_base: 'c4m_domain'
+  $field_bases['c4m_domain'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_c4m_domain',
+    'field_name' => 'c4m_domain',
     'foreign keys' => array(
       'format' => array(
         'columns' => array(

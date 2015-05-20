@@ -167,10 +167,10 @@ function c4m_content_organisation_domain_icon($email) {
   $domain = explode('@', $email);
   if (isset($domain[1]) && $domain = $domain[1]) {
     $results = db_select('node', 'n');
-    $results->join('field_data_field_c4m_domain', 'd', 'n.nid = d.entity_id');
+    $results->join('field_data_c4m_domain', 'd', 'n.nid = d.entity_id');
     $results->fields('n', array('nid'));
-    $results->condition('d.field_c4m_domain_domain', $domain, '=');
-    $results->condition('d.field_c4m_domain_icon', 1, '=');
+    $results->condition('d.c4m_domain_domain', $domain, '=');
+    $results->condition('d.c4m_domain_icon', 1, '=');
 
     $nid = $results->execute()->fetchField();
     if ($nid) {
