@@ -161,7 +161,7 @@ function c4m_content_organisation_ds_fields_info_alter(&$fields, $entity_type) {
  * Get organisation icon,
  * where it matches the given domain.
  * @param $email
- * @return int
+ * @return array
  */
 function c4m_content_organisation_domain_icon($email) {
   $domain = explode('@', $email);
