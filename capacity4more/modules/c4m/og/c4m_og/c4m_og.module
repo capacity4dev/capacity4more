@@ -633,6 +633,16 @@ function c4m_og_node_access($node, $op, $account) {
     return NODE_ACCESS_DENY;
   }
 
+  if ($op != 'create' && is_object($node)) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $node_group = $wrapper->{OG_AUDIENCE_FIELD}->value();
+    if ($node_group->nid != $group_id) {
+      // User is trying to view/edit/delete content of one group while user is
+      // inside other group.
+      return NODE_ACCESS_DENY;
+    }
+  }
+
   if ($group_id && !og_user_access('node', $group_id, "create " . $node_type . " content")) {
     // User has access to group but doesn't have permissions to create content
     // in this group, probably he is not member of this group.
