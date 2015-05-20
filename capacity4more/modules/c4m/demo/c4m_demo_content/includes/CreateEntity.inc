@@ -432,7 +432,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     foreach ($domains as $domain) {
       $domain_data = explode('|', $domain);
       if (count($domain_data) > 1) {
-        $entity->field_c4m_domain[LANGUAGE_NONE][] = array(
+        $entity->c4m_domain[LANGUAGE_NONE][] = array(
           'icon' => $domain_data[0],
           'domain' => $domain_data[1],
         );
