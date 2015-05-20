@@ -633,6 +633,11 @@ function c4m_og_node_access($node, $op, $account) {
     return NODE_ACCESS_DENY;
   }
 
+  if ($group_id && !og_user_access('node', $group_id, "create " . $node_type . " content")) {
+    // User has access to group but doesn't have permissions to create content
+    // in this group, probably he is not member of this group.
+    return NODE_ACCESS_DENY;
+  }
   // TODO: Content type 'photo' does not exist in feature_enabled_content_types
   // TODO: therefore it will be always blocked.
 

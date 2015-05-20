@@ -64,20 +64,10 @@ trait Discussion {
   public function aDiscussionInGroupIsCreated($title, $group_title) {
     $steps = array();
 
-    // Get the PURL out of the group title.
-    $group_id= db_select('node', 'n')
-      ->fields('n', array('nid'))
-      ->condition('title', $group_title, '=')
-      ->execute()
-      ->fetchField();
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
 
-    $purl = db_select('purl', 'p')
-      ->fields('p', array('value'))
-      ->condition('id', $group_id, '=')
-      ->execute()
-      ->fetchField();
-
-    $steps[] = new Step\When('I visit "' . $purl . '/node/add/discussion"');
+    $steps[] = new Step\When('I visit "' . $uri . '/node/add/discussion"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
     $steps[] = new Step\When('I press "Save"');
