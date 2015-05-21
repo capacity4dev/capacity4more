@@ -298,7 +298,7 @@ function symlink_externals {
   echo -e "${LBLUE}> Symlinking external directories & files${RESTORE}"
   if [ ${#SYMLINKS[@]} -eq 0 ]; then
     echo "No directories or files to symlink."
-    return 1
+    return 0
   fi
 
   # Loop trough the symlinks configuration.
@@ -344,7 +344,7 @@ function symlink_externals {
 ##
 function run_post_script {
   if [ ! "$1" ]; then
-    return 1
+    return 0
   fi
 
   # Define post script name.
@@ -353,7 +353,7 @@ function run_post_script {
   # Check if the function is declared.
   declare -Ff "$POST_FUNCT_NAME" >/dev/null;
   if [ $? -eq 1 ]; then
-    return 1
+    return 0
   fi
 
   # Run the post script.
