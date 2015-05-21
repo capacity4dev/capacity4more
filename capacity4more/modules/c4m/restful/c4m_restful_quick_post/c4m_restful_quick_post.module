@@ -300,7 +300,7 @@ function c4m_restful_quick_post_needs_app() {
   $item = menu_get_item();
   $path = $item['path'];
   foreach(menu_tree('main-menu') as $menu_item) {
-    if ($menu_item['#title'] == $item['title']) {
+    if (!empty($menu_item['#title']) && $menu_item['#title'] == $item['title']) {
       return TRUE;
     }
   }
