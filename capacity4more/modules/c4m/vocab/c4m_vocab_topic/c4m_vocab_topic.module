@@ -3,3 +3,57 @@
  * @file
  * Drupal needs this blank file.
  */
+
+/**
+ * Add mapping between old topic (name) and new topic name and tid.
+ *
+ * @param array $mapping
+ *
+ * @return bool
+ * @throws \Exception
+ * @throws \InvalidMergeQueryException
+ */
+function c4m_vocab_topic_add_mapping(array $mapping) {
+  if (empty($mapping['tid'])) {
+    return FALSE;
+  }
+
+  db_merge('c4m_topic_mapping')
+    ->key(array('tid' => $mapping['tid']))
+    ->fields(
+      array(
+        'source' => $mapping['source'],
+        'destination' => $mapping['destination'],
+      )
+    )
+    ->execute();
+
+  drupal_static_reset('c4m_vocab_topic_mapping');
+
+  return TRUE;
+}
+
+/**
+ * @param $name
+ *
+ * @return array
+ */
+function c4m_vocab_topic_get_mapping_by_source($name) {
+  $mapping = &drupal_static('c4m_vocab_topic_mapping');
+
+  if (!is_array($mapping)) {
+    $mapping = array();
+  }
+
+  if (!empty($mapping[$name])) {
+    return $mapping[$name];
+  }
+
+  $results = db_select('c4m_topic_mapping', 't')->fields('t')->condition(
+    't.source', $name
+  )->execute()->fetchAll();
+
+  $mapping[$name] = $results;
+
+  return $results;
+}

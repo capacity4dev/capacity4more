@@ -44,3 +44,40 @@ function _c4m_vocab_topic_install_vocabulary() {
 
   return $vocabulary;
 }
+
+/**
+ * Implements hook_schema().
+ */
+function c4m_vocab_topic_schema() {
+  $schema = array();
+
+  $schema['c4m_topic_mapping'] = array(
+    'description' => 'The base table for the Email Domains entity',
+    'fields' => array(
+      'source' => array(
+        'description' => 'The source (name) of the mapping.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'destination' => array(
+        'description' => 'The destination (name) of the mapping.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'tid' => array(
+        'description' => 'The destination TID of the mapping if it is known.',
+        'type' => 'int',
+        'length' => 10,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('tid'),
+    'unique keys' => array(
+      'destination' => array('destination'),
+    ),
+  );
+
+  return $schema;
+}
