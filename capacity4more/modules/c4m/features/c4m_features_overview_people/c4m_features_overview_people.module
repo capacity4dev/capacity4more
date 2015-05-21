@@ -61,10 +61,9 @@ function c4m_features_overview_people_c4m_search_page_info() {
       'description' => t('Search people.'),
       'machine_name' => 'c4m_features_overview_people',
       'path' => 'people',
-      'weight' => 4,
+      'weight' => 5,
       'default' => FALSE,
-      'purl' => FALSE,
-      'group' => t('Search in all site content'),
+      'type' => 'global',
     ),
   );
 }

@@ -371,16 +371,23 @@ function c4m_search_form($form, &$form_state) {
 
   // Show available search pages selector if more than one are available.
   $search_pages = c4m_search_info();
+  if (c4m_og_current_group()) {
+    $default_value = 'c4m_features_og_search';
+  }
+  else {
+    $default_value = 'c4m_search_nodes';
+  }
+
   if (count($search_pages) > 1) {
     $options = array();
     foreach ($search_pages as $search_page) {
       // Check access.
       if (empty($search_page['access']) || $search_page['access']()) {
-        if (empty($search_page['group'])) {
-          $options[$search_page['machine_name']] = $search_page['name'];
-        }
-        else {
-          $options[$search_page['group']][$search_page['machine_name']] = $search_page['name'];
+        $options[$search_page['machine_name']] = $search_page['name'];
+        $current_path = current_path();
+        // Set default path.
+        if ($current_path === $search_page['path']) {
+          $default_value = $search_page['machine_name'];
         }
       }
     }
@@ -389,7 +396,7 @@ function c4m_search_form($form, &$form_state) {
       '#title' => 'Customize your search',
       '#title_display' => 'invisible',
       '#options' => $options,
-      '#default_value' => key($options),
+      '#default_value' => $default_value,
       '#weight' => 0,
       '#attached' => array(
         'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
@@ -409,7 +416,16 @@ function c4m_search_form($form, &$form_state) {
       'title' => t('Enter the terms you wish to search for.'),
     ),
   );
-
+/**/
+  // @todo: Get the proper ID for the current search.
+  $autocomplete_id = 'search_api_views_c4m_search_nodes';
+//  $autocomplete_id = 'search_api_views_c4m_overview_articles';
+  $autocomplete_id = 'search_api_views_c4m_search_og';
+  $search = search_api_autocomplete_search_load($autocomplete_id);
+  if ($search && $search->enabled) {
+    $search->alterElement($form['basic']['keys']);
+  }
+/**/
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
@@ -432,7 +448,7 @@ function c4m_search_form_submit($form, &$form_state) {
       'text' => $form_state['values']['keys'],
     ),
     'purl' => array(
-      'disabled' => !$search_page['purl'],
+      'disabled' => ($search_page['type'] === 'global'),
     ),
     'absolute' => TRUE,
   );

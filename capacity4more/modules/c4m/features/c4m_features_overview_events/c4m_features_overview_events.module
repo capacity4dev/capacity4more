@@ -10,6 +10,23 @@ define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE', 'Sort by Start Date');
 define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE', 'Relevance');
 
 /**
+ * Implements hook_c4m_search_page_info().
+ */
+function c4m_features_overview_events_c4m_search_page_info() {
+  return array(
+    'c4m_features_overview_events' => array(
+      'name' => t('Events'),
+      'description' => t('Search events.'),
+      'machine_name' => 'c4m_features_overview_events',
+      'path' => 'events',
+      'weight' => 4,
+      'default' => FALSE,
+      'type' => 'global',
+    ),
+  );
+}
+
+/**
  * Implements hook_search_api_sorts_get_default_sort_alter().
  *
  * Courtesy of https://www.drupal.org/node/1894502.
