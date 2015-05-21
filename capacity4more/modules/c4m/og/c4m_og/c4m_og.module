@@ -224,9 +224,9 @@ function c4m_og_views_api() {
  */
 function c4m_og_access($feature = NULL, $account = NULL) {
   if (!og_context_is_init()) {
-    // OG context is now running, so we can't call og_context() ourselves yet.
-    // In this case return true. If user doesn't have access - FALSE will be
-    // returned after og_context() will finish.
+    // OG context was already executed, so we can't call og_context() ourselves yet.
+    // In this case return true. If user doesn't have access - FALSE value will
+    // be returned after og_context() will finish.
     return TRUE;
   }
   // Check if the user has access to the group context.
