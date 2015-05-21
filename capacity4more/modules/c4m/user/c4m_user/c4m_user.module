@@ -447,9 +447,9 @@ function c4m_user_track_change($uid) {
 }
 
 /**
- * Implements hook_c4m_content_statistics().
+ * Implements hook_c4m_content_statistics_info().
  */
-function c4m_user_c4m_content_statistics() {
+function c4m_user_c4m_content_statistics_info() {
   return array(
     'c4m_user' => array(
       'type'        => 'user',
@@ -459,7 +459,6 @@ function c4m_user_c4m_content_statistics() {
       'plural'      => 'Members',
       'state'       => 1,
       'scope'       => 'global',
-      'og_id'       => NULL,
       'aggregate'   => array(),
       'weight'      => 0,
       'attributes'  => array(

@@ -358,6 +358,28 @@ function c4m_features_homepage_default_page_manager_pages() {
     $display->content['new-e15ee274-a647-4920-85c1-4bb1286686f2'] = $pane;
     $display->panels['bottom'][0] = 'new-e15ee274-a647-4920-85c1-4bb1286686f2';
     $pane = new stdClass();
+    $pane->pid = 'new-0611c655-1657-489e-a844-c6648460af7c';
+    $pane->panel = 'bottom';
+    $pane->type = 'block';
+    $pane->subtype = 'c4m_content-global_statistics_summary';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '0611c655-1657-489e-a844-c6648460af7c';
+    $display->content['new-0611c655-1657-489e-a844-c6648460af7c'] = $pane;
+    $display->panels['bottom'][1] = 'new-0611c655-1657-489e-a844-c6648460af7c';
+    $pane = new stdClass();
     $pane->pid = 'new-b3476758-2767-4be2-b3ad-84697ac801c3';
     $pane->panel = 'left';
     $pane->type = 'activity_stream';

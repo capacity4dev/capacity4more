@@ -36,12 +36,9 @@ function c4m_content_discussion_entity_type_label_alter(&$variables) {
 }
 
 /**
- * Implements hook_c4m_content_statistics().
+ * Implements hook_c4m_content_statistics_info().
  */
-function c4m_content_discussion_c4m_content_statistics() {
-  $group = og_context();
-  $og_id = $group['gid'];
-
+function c4m_content_discussion_c4m_content_statistics_info() {
   return array(
     'c4m_discussions' => array(
       'type'        => 'discussion',
@@ -51,7 +48,6 @@ function c4m_content_discussion_c4m_content_statistics() {
       'plural'      => 'Posts',
       'state'       => 1,
       'scope'       => 'global',
-      'og_id'       => NULL,
       'aggregate'   => array(
         'type' => 'posts'
       ),
@@ -68,7 +64,6 @@ function c4m_content_discussion_c4m_content_statistics() {
       'plural'        => 'Discussions',
       'state'         => 1,
       'scope'         => 'group',
-      'og_id'         => $og_id,
       'aggregate'     => array(),
       'weight'        => 1,
       'feature_name'  => 'c4m_features_og_discussions',

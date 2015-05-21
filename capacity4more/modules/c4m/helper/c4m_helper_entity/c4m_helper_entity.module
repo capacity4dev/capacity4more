@@ -73,6 +73,7 @@ function c4m_helper_entity_get_number_of_entities($variables) {
             $query->condition('n.status', $state, '=');
           }
         }
+        $query  = $query->addTag('node_access');
         break;
       case 'comment':
         $query = db_select('comment', 'c');
@@ -81,6 +82,7 @@ function c4m_helper_entity_get_number_of_entities($variables) {
         if (!is_null($state)) {
           $query->condition('n.status', $state, '=');
         }
+        $query  = $query->addTag('node_access');
         break;
     }
 
@@ -118,7 +120,6 @@ function c4m_helper_entity_get_number_of_entities($variables) {
       }
     }
 
-    $query  = $query->addTag('node_access');
     $query  = $query->execute();
     $amount = $query->rowCount();
   }

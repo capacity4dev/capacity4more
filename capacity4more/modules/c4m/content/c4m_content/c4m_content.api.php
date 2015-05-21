@@ -12,8 +12,8 @@
 /**
  * Define the available content statistics.
  *
- * You need to implement the hook_c4m_content_statistics() hook to define
- * what search pages should be made available.
+ * You need to implement the hook_c4m_content_statistics_info() hook to define
+ * what statistics should be made available.
  *
  * @return array
  *   An array of statistic lists and their settings.
@@ -26,14 +26,13 @@
  *   - state : The status of the entity as integer (published, unpublished, ...).
  *   - c4m_status : The C4M status of the entity (published, requested, draft, ...).
  *   - scope : Sets the list as global/group statistics info.
- *   - og_id : The group id.
  *   - aggregate : Array containing type.
  *   - aggregate type : The identifier to group lists, belonging to this type, together.
  *   - weight : The weight used to sort the lists.
  *   - feature_name : The name of the group feature.
  *   - attributes : Standard attributes array to use in theme function (class, id, ...).
  */
-function hook_c4m_content_statistics() {
+function hook_c4m_content_statistics_info() {
   return array(
     'c4m_discussions' => array(
       'type'        => 'discussion',
@@ -44,7 +43,6 @@ function hook_c4m_content_statistics() {
       'state'       => NULL,
       'c4m_status'  => NULL,
       'scope'       => 'global',
-      'og_id'       => NULL,
       'aggregate'   => array(
         'type' => 'posts',
       ),
@@ -62,7 +60,6 @@ function hook_c4m_content_statistics() {
       'state'         => NULL,
       'c4m_status'    => array('published', 'archived'),
       'scope'         => 'group',
-      'og_id'         => 37,
       'aggregate'     => array(),
       'weight'        => 1,
       'feature_name'  => 'c4m_features_og_discussions',
