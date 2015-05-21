@@ -15,6 +15,9 @@ env:
     CODE_REVIEW=1
     SIMPLETEST=0
 
+matrix:
+  fast_finish: true
+
 php:
   - 5.5
 
