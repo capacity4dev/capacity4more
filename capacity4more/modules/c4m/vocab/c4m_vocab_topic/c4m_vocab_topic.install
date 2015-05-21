@@ -34,6 +34,7 @@ function _c4m_vocab_topic_install_vocabulary() {
     'name'         => st('Topic'),
     'description'  => st('Topics and Sub-Topics'),
     'machine_name' => 'c4m_vocab_topic',
+    'hierarchy'    => 1,
   );
   taxonomy_vocabulary_save($vocabulary);
 
