@@ -11,10 +11,10 @@ include_once 'c4m_features_og_search.features.inc';
  */
 function c4m_features_og_search_c4m_search_page_info() {
   return array(
-    'c4m_features_og_search' => array(
+    'search_api_views_c4m_search_og' => array(
       'name' => t('Inside this group'),
       'description' => t('Search in this group.'),
-      'machine_name' => 'c4m_features_og_search',
+      'machine_name' => 'search_api_views_c4m_search_og',
       'path' => 'searchgroup',
       'weight' => -1,
       'default' => TRUE,

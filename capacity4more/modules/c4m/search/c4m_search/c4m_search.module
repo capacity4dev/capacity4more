@@ -372,10 +372,10 @@ function c4m_search_form($form, &$form_state) {
   // Show available search pages selector if more than one are available.
   $search_pages = c4m_search_info();
   if (c4m_og_current_group()) {
-    $default_value = 'c4m_features_og_search';
+    $default_value = 'search_api_views_c4m_search_og';
   }
   else {
-    $default_value = 'c4m_search_nodes';
+    $default_value = 'search_api_views_c4m_search_nodes';
   }
 
   if (count($search_pages) > 1) {
@@ -416,16 +416,13 @@ function c4m_search_form($form, &$form_state) {
       'title' => t('Enter the terms you wish to search for.'),
     ),
   );
-/**/
-  // @todo: Get the proper ID for the current search.
-  $autocomplete_id = 'search_api_views_c4m_search_nodes';
-//  $autocomplete_id = 'search_api_views_c4m_overview_articles';
-  $autocomplete_id = 'search_api_views_c4m_search_og';
-  $search = search_api_autocomplete_search_load($autocomplete_id);
+
+  // Get the proper ID for the current search.
+  $search = search_api_autocomplete_search_load($default_value);
   if ($search && $search->enabled) {
     $search->alterElement($form['basic']['keys']);
   }
-/**/
+
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',

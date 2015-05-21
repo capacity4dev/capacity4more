@@ -14,10 +14,10 @@ define('C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE', 'Relevance');
  */
 function c4m_features_overview_events_c4m_search_page_info() {
   return array(
-    'c4m_features_overview_events' => array(
+    'search_api_views_c4m_overview_events' => array(
       'name' => t('Events'),
       'description' => t('Search events.'),
-      'machine_name' => 'c4m_features_overview_events',
+      'machine_name' => 'search_api_views_c4m_overview_events',
       'path' => 'events',
       'weight' => 4,
       'default' => FALSE,

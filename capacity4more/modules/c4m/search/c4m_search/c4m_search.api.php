@@ -31,10 +31,10 @@
  */
 function hook_c4m_search_page_info() {
   return array(
-    'c4m_search_nodes' => array(
+    'search_api_views_c4m_search_nodes' => array(
       'name' => t('All @site-name', array('@site-name' => $site_name)),
       'description' => t('Search in all the site content.'),
-      'machine_name' => 'c4m_search_nodes',
+      'machine_name' => 'search_api_views_c4m_search_nodes',
       'path' => 'search',
       'weight' => 0,
       'default' => TRUE,
