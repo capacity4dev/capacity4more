@@ -46,27 +46,6 @@ function kapablo_preprocess_message(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_node().
- */
-function kapablo_preprocess_node(&$variables) {
-  $node = $variables['node'];
-  $view_mode = $variables['view_mode'];
-
-  // Set up template suggestions for non-standard view modes
-  if ($view_mode == 'teaser' && $node->type == 'inthe_picture') {
-    $variables['theme_hook_suggestions'][] = 'node__' . $node->type . '__' . $view_mode;
-
-    $wrapper = entity_metadata_wrapper('node', $node->nid);
-    $banner = $wrapper->c4m_media->value();
-    $link = $wrapper->c4m_link->value();
-    $body = $wrapper->c4m_body->value();
-    $variables['file_uri'] = file_create_url($banner['uri']);
-    $variables['link'] = $link['url'];
-    $variables['text'] = $body['safe_value'];
-  }
-}
-
-/**
  * Implements theme_preprocess_block().
  */
 function kapablo_preprocess_block(&$variables) {
@@ -237,4 +216,32 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
   }
 
   return $replace;
+}
+
+function kapablo_preprocess_views_view(&$vars) {
+  if ($vars['name'] != 'c4m_overview_inthe_picture_blocks') {
+    return;
+  }
+
+  $items = $vars['view']->result;
+  $carousels = array();
+  foreach ($items as $node) {
+    $wrapper = entity_metadata_wrapper('node', $node->nid);
+    $banner = $wrapper->c4m_media->value();
+    $link = $wrapper->c4m_link->value();
+    $body = $wrapper->c4m_body->value();
+    $carousels[] = array(
+      'id' => $wrapper->getIdentifier(),
+      'title' => $wrapper->c4m_heading->value(),
+      'text' => $body['value'],
+      'image' => file_create_url($banner['uri']),
+      'alias' => $link['url'],
+    );
+  }
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'carousels' => $carousels,
+  );
+  drupal_add_js($settings, 'setting');
 }
