@@ -46,6 +46,27 @@ function kapablo_preprocess_message(&$variables) {
 }
 
 /**
+ * Implements theme_preprocess_node().
+ */
+function kapablo_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  $view_mode = $variables['view_mode'];
+
+  // Set up template suggestions for non-standard view modes
+  if ($view_mode == 'teaser' && $node->type == 'inthe_picture') {
+    $variables['theme_hook_suggestions'][] = 'node__' . $node->type . '__' . $view_mode;
+
+    $wrapper = entity_metadata_wrapper('node', $node->nid);
+    $banner = $wrapper->c4m_media->value();
+    $link = $wrapper->c4m_link->value();
+    $body = $wrapper->c4m_body->value();
+    $variables['file_uri'] = file_create_url($banner['uri']);
+    $variables['link'] = $link['url'];
+    $variables['text'] = $body['safe_value'];
+  }
+}
+
+/**
  * Implements theme_preprocess_block().
  */
 function kapablo_preprocess_block(&$variables) {
