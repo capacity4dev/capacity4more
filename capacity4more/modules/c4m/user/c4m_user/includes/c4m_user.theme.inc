@@ -177,7 +177,7 @@ function theme_c4m_user_first_and_last_name(array $field) {
     $name     = c4m_user_name($user);
     $classes  = array();
 
-    if (in_array($field['formatter'], array('linked_user' , 'linked_user_with_icon'))) {
+    if (in_array($field['formatter'], array('linked_user', 'linked_user_with_icon'))) {
       $name = l($name, 'user/' . $user->uid);
     }
 
