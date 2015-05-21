@@ -6,10 +6,10 @@ env:
     BEHAT_TAG="api"
     CODE_REVIEW=0
     SIMPLETEST=1
-  #- INSTALL_PROFILE=1
-  #  BEHAT_TAG="javascript"
-  #  CODE_REVIEW=0
-  #  SIMPLETEST=0
+  - INSTALL_PROFILE=1
+    BEHAT_TAG="javascript"
+    CODE_REVIEW=0
+    SIMPLETEST=0
   - INSTALL_PROFILE=0
     BEHAT_TAG=
     CODE_REVIEW=1
@@ -72,20 +72,20 @@ before_script:
   - $TRAVIS_BUILD_DIR/build/travis/bin/install_drupal.sh
 
   # Index content in Solr.
-  #- $TRAVIS_BUILD_DIR/build/travis/bin/index_drupal.sh
+  - $TRAVIS_BUILD_DIR/build/travis/bin/index_drupal.sh
 
 
 script:
   - date
 
   # Run behat tests, different run based on the environment setting.
-  #- $TRAVIS_BUILD_DIR/build/travis/bin/run_behat.sh
+  - $TRAVIS_BUILD_DIR/build/travis/bin/run_behat.sh
 
   # Run WebTests
-  #- $TRAVIS_BUILD_DIR/build/travis/bin/run_simpletest.sh
+  - $TRAVIS_BUILD_DIR/build/travis/bin/run_simpletest.sh
 
   # Run Code Style validation.
-  #- $TRAVIS_BUILD_DIR/build/travis/bin/run_coder.sh
+  - $TRAVIS_BUILD_DIR/build/travis/bin/run_coder.sh
 
 
 after_script:
