@@ -73,6 +73,9 @@ function c4m_content_topic_strongarm() {
         'path' => array(
           'weight' => '3',
         ),
+        'locations' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(),
     ),
@@ -99,7 +102,6 @@ function c4m_content_topic_strongarm() {
   $strongarm->name = 'node_options_topic';
   $strongarm->value = array(
     0 => 'status',
-    1 => 'revision',
   );
   $export['node_options_topic'] = $strongarm;
 

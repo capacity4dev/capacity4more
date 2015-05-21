@@ -5,4 +5,6 @@ package = capacity4more - Vocabulary
 dependencies[] = features
 dependencies[] = taxonomy
 features[features_api][] = api:2
-;features[field_base][] = c4m_vocab_document_type
+features[field_base][] = c4m_vocab_topic
+features[field_base][] = c4m_vocab_topic_expertise
+features[taxonomy][] = c4m_vocab_topic
