@@ -1,5 +1,10 @@
 language: php
 
+branches:
+  only:
+    - master
+    - develop
+
 env:
   # Create a build job per BEHAT feature TAG
   - INSTALL_PROFILE=1
