@@ -46,12 +46,12 @@ function hook_c4m_content_statistics() {
       'scope'       => 'global',
       'og_id'       => NULL,
       'aggregate'   => array(
-        'type' => 'posts'
+        'type' => 'posts',
       ),
       'weight'      => 1,
       'attributes'  => array(
         'class' => array('posts'),
-      )
+      ),
     ),
     'c4m_og_discussions' => array(
       'type'          => 'discussion',
@@ -68,7 +68,7 @@ function hook_c4m_content_statistics() {
       'feature_name'  => 'c4m_features_og_discussions',
       'attributes'    => array(
         'class' => array('og-discussions'),
-      )
+      ),
     ),
   );
 }

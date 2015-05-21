@@ -6,7 +6,9 @@
 
 /**
  * Theme function for website statistics summary block.
+ *
  * @param $variables
+ *
  * @return string
  */
 function theme_c4m_website_statistics_summary($variables) {
@@ -27,10 +29,7 @@ function theme_c4m_website_statistics_summary($variables) {
         // Create a list item.
         $list[$key] = array(
           'data'        => $stat['count'] . ' ' . $text,
-          'class' => array('statistics-item',
-                            'stats-' . $key,
-                            $class,
-                            implode(',', $stat_classes)),
+          'class' => array('statistics-item', 'stats-' . $key, $class, implode(',', $stat_classes)),
         );
       }
     }
