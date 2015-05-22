@@ -19,9 +19,10 @@ function c4m_vocab_topic_add_mapping(array $mapping) {
   }
 
   db_merge('c4m_topic_mapping')
-    ->key(array('tid' => $mapping['tid']))
+    ->key(array('destination' => $mapping['destination']))
     ->fields(
       array(
+        'tid' => $mapping['tid'],
         'source' => $mapping['source'],
         'destination' => $mapping['destination'],
       )
