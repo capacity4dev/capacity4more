@@ -1046,7 +1046,7 @@ function c4m_content_article_field_default_field_instances() {
     'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Select one or more categories that apply',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -1113,19 +1113,9 @@ function c4m_content_article_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
+      'active' => 0,
       'module' => 'c4m_vocab_widget',
-      'settings' => array(
-        'cascading_selection' => 0,
-        'filter_view' => '',
-        'leaves_only' => 0,
-        'max_depth' => '',
-        'parent_term_id' => '',
-        'select_parents' => 0,
-        'start_minimized' => 0,
-        'token_display' => '',
-        'track_list' => 0,
-      ),
+      'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
       'weight' => 14,
     ),
@@ -1150,6 +1140,7 @@ function c4m_content_article_field_default_field_instances() {
   t('Regions & Countries');
   t('Related Articles');
   t('Related Groups');
+  t('Select one or more categories that apply');
   t('Select related articles.');
   t('Topics');
 
