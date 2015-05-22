@@ -1,5 +1,10 @@
 language: php
 
+branches:
+  only:
+    - master
+    - develop
+
 env:
   # Create a build job per BEHAT feature TAG
   - INSTALL_PROFILE=1
@@ -14,6 +19,9 @@ env:
     BEHAT_TAG=
     CODE_REVIEW=1
     SIMPLETEST=0
+
+matrix:
+  fast_finish: true
 
 php:
   - 5.5

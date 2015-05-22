@@ -298,7 +298,7 @@ function symlink_externals {
   echo -e "${LBLUE}> Symlinking external directories & files${RESTORE}"
   if [ ${#SYMLINKS[@]} -eq 0 ]; then
     echo "No directories or files to symlink."
-    return 1
+    return 0
   fi
 
   # Loop trough the symlinks configuration.
@@ -337,6 +337,17 @@ function symlink_externals {
 }
 
 ##
+# Helper to define if a function exists
+#
+# @see http://stackoverflow.com/questions/85880/determine-if-a-function-exists-in-bash
+##
+function fn_exists() {
+  # appended double quote is an ugly trick to make sure we do get a string.
+  # If $1 is not a known command, type does not output anything.
+  [ `type -t $1`"" == 'function' ]
+}
+
+##
 # Check if there is a post script and run it.
 #
 # @param string $1
@@ -344,16 +355,15 @@ function symlink_externals {
 ##
 function run_post_script {
   if [ ! "$1" ]; then
-    return 1
+    return 0
   fi
 
   # Define post script name.
   POST_FUNCT_NAME="post_$1"
 
   # Check if the function is declared.
-  declare -Ff "$POST_FUNCT_NAME" >/dev/null;
-  if [ $? -eq 1 ]; then
-    return 1
+  if ! fn_exists $POST_FUNCT_NAME; then
+    return 0
   fi
 
   # Run the post script.
