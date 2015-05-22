@@ -4,10 +4,9 @@
  * Code for the Article content type feature.
  */
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
- * 
+ *
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
@@ -65,9 +64,9 @@ function c4m_content_block_view($delta = '') {
 
   switch ($delta) {
     case 'global_statistics_summary':
-      $stats_summary =  array(
-        '#theme'  => 'c4m_website_statistics_summary',
-        '#data'   => c4m_content_get_global_statistics(),
+      $stats_summary = array(
+        '#theme' => 'c4m_website_statistics_summary',
+        '#data' => c4m_content_get_global_statistics(),
       );
       $block['content'] = render($stats_summary);
       break;
@@ -81,8 +80,8 @@ function c4m_content_block_view($delta = '') {
  * @param string $context
  *   The context to load the info for.
  *   Supported contexts:
- *   - global
- *   - group
+ *   - global.
+ *   - group.
  *
  * @return array
  *   Configuration as collected through the implemented
@@ -169,7 +168,7 @@ function c4m_content_get_group_statistics() {
  * @return array
  *   The collected data.
  */
-function _c4m_content_statistics_collect_data($list) {
+function _c4m_content_statistics_collect_data(array $list) {
   $data = array();
 
   foreach ($list as $key => $info) {
@@ -177,18 +176,25 @@ function _c4m_content_statistics_collect_data($list) {
       ? $info['aggregate']['type']
       : $info['type'];
 
+    $og_id = isset($info['og_id'])
+      ? $info['og_id']
+      : NULL;
+    $status = isset($info['c4m_status'])
+      ? $info['c4m_status']
+      : NULL;
+
     $arguments = array(
       'entity_type' => $info['entity_type'],
       'bundles' => $info['bundles'],
       'state' => $info['state'],
-      'og_id' => isset($info['og_id'])
-        ? $info['og_id']
-        : NULL,
-      'c4m_status'  => isset($info['c4m_status'])
-        ? $info['c4m_status']
-        : NULL,
+      'og_id' => $og_id,
+      'c4m_status' => $status,
     );
     $count = c4m_helper_entity_get_number_of_entities($arguments);
+
+    $link = isset($info['link'])
+      ? $info['link']
+      : FALSE;
 
     if (!isset($data[$type])) {
       $data[$type] = array(
@@ -198,9 +204,7 @@ function _c4m_content_statistics_collect_data($list) {
         ),
         'count' => 0,
         'attributes' => $info['attributes'],
-        'link' => isset($info['link'])
-          ? $info['link']
-          : FALSE,
+        'link' => $link,
       );
     }
 

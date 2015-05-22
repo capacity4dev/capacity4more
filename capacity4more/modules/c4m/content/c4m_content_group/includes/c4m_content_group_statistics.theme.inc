@@ -13,9 +13,9 @@ function c4m_content_group_statistics($field) {
     return;
   }
 
-  $statistics =  array(
-    '#theme'  => 'c4m_website_statistics_summary',
-    '#data'   => $data,
+  $statistics = array(
+    '#theme' => 'c4m_website_statistics_summary',
+    '#data' => $data,
   );
   return render($statistics);
 }

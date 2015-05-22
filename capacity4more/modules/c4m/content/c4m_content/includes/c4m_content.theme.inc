@@ -10,7 +10,7 @@
  * @param array $variables
  *   Template variables.
  *
- * @return string
+ * @return mixed
  *   Rendered output.
  */
 function theme_c4m_website_statistics_summary(array $variables) {
@@ -57,7 +57,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
         'statistics-item',
         'stats-' . $key,
         $class,
-        implode(',', $stat_classes)
+        implode(',', $stat_classes),
       ),
     );
   }
