@@ -52,7 +52,8 @@
   }
 }
 
-.pane-c4m-content-group-statistics-summary {
+.pane-c4m-content-group-statistics-summary,
+.field-name-c4m-content-group-statistics {
   .statistics-list {
     @include clearfix;
 

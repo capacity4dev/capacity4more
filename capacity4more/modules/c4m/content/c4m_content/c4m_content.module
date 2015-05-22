@@ -54,11 +54,6 @@ function c4m_content_block_info() {
     'info' => t('Global website statistics'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
-
-  $blocks['group_statistics_summary'] = array(
-    'info' => t('Group statistics'),
-    'cache' => DRUPAL_CACHE_PER_PAGE,
-  );
   return $blocks;
 }
 
@@ -73,14 +68,6 @@ function c4m_content_block_view($delta = '') {
       $stats_summary =  array(
         '#theme'  => 'c4m_website_statistics_summary',
         '#data'   => c4m_content_get_global_statistics(),
-      );
-      $block['content'] = render($stats_summary);
-      break;
-
-    case 'group_statistics_summary':
-      $stats_summary =  array(
-        '#theme'  => 'c4m_website_statistics_summary',
-        '#data'   => c4m_content_get_group_statistics(),
       );
       $block['content'] = render($stats_summary);
       break;

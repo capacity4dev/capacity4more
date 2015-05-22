@@ -670,3 +670,23 @@ function c4m_content_group_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_group_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_group');
+
+  $fields['node']['c4m_content_group_statistics'] = array(
+    'title'      => t('Group statistics'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    // Only for group nodes.
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_content_group_statistics.theme.inc',
+    'function'   => 'c4m_content_group_statistics',
+  );
+
+  return $fields;
+}
