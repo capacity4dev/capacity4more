@@ -48,6 +48,12 @@
  *       The name of the group feature.
  *   - attributes:
  *       Standard attributes array to use in theme function (class, id, ...).
+ *   - link:
+ *       Should the item be showed as a link? This array contains the parameters
+ *       needed for the l() function. The plural parameters will be used as the
+ *       link label.
+ *       - path : path to use in the link.
+ *       - options : array of supported link options. See l().
  */
 function hook_c4m_content_statistics_info() {
   return array(
@@ -83,6 +89,9 @@ function hook_c4m_content_statistics_info() {
         'feature_name'  => 'c4m_features_og_discussions',
         'attributes'    => array(
           'class' => array('og-discussions'),
+        ),
+        'link'          => array(
+          'path' => 'discussions',
         ),
       ),
     ),

@@ -283,6 +283,9 @@ function c4m_user_og_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('og-users'),
         ),
+        'link' => array(
+          'path' => 'members',
+        ),
       ),
     ),
   );

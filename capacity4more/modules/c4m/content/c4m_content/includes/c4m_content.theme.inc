@@ -27,11 +27,20 @@ function theme_c4m_website_statistics_summary(array $variables) {
       $class = $flip[$class];
 
       // Format single/plural text.
-      $text = format_plural(
+      $text = $stat['count'] . ' ' . format_plural(
         $stat['count'],
         $stat['title']['singular'],
         $stat['title']['plural']
       );
+
+      // Show as link?
+      if (!empty($stat['link']['path'])) {
+        $options = isset($stat['link']['options'])
+          ? $stat['link']['options']
+          : array();
+
+        $text = l($text, $stat['link']['path'], $options);
+      }
 
       // Add css classes defined in hook.
       $stat_classes = isset($stat['attributes']['class'])
@@ -40,7 +49,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
 
       // Create a list item.
       $list[$key] = array(
-        'data'        => $stat['count'] . ' ' . $text,
+        'data' => $text,
         'class' => array(
           'statistics-item',
           'stats-' . $key,

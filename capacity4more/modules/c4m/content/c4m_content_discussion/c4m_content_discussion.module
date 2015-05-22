@@ -71,6 +71,9 @@ function c4m_content_discussion_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('og-discussions'),
         ),
+        'link'          => array(
+          'path' => 'discussions',
+        ),
       ),
     ),
   );

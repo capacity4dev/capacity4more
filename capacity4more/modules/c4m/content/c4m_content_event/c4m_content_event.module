@@ -96,6 +96,9 @@ function c4m_content_event_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('og-events'),
         ),
+        'link'          => array(
+          'path' => 'calendar',
+        ),
       ),
     ),
   );

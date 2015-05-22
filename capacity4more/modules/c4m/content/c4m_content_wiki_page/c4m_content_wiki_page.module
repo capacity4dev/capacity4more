@@ -377,6 +377,9 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('og-wiki-pages'),
         ),
+        'link' => array(
+          'path' => 'wiki',
+        ),
       ),
     ),
   );

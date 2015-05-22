@@ -132,6 +132,9 @@ function c4m_content_document_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('og-documents'),
         ),
+        'link'          => array(
+          'path' => 'documents',
+        ),
       ),
     ),
   );

@@ -157,8 +157,11 @@ function c4m_content_get_group_statistics() {
   // Filter the list & limit to only content types that are enabled for the
   // given group.
   foreach ($list as $key => $info) {
-    if (!c4m_og_feature_is_content_type_enabled($info['type'])) {
-      unset($info['type']);
+
+    if ($info['entity_type'] === 'node'
+      && !c4m_og_feature_is_content_type_enabled($info['type'])
+    ) {
+      unset($list[$key]);
       continue;
     }
 
@@ -206,6 +209,9 @@ function _c4m_content_statistics_collect_data($list) {
       ),
       'count' => c4m_helper_entity_get_number_of_entities($arguments),
       'attributes' => $info['attributes'],
+      'link' => isset($info['link'])
+        ? $info['link']
+        : FALSE,
     );
   }
 
