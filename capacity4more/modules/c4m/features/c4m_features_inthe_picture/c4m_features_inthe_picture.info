@@ -3,7 +3,6 @@ description = Adds "In the Picture" blocks above the global overview pages.
 core = 7.x
 package = capacity4more - Features
 version = 7.x-1.0
-project = c4m_features_inthe_picture
 dependencies[] = c4m_content_inthe_picture
 dependencies[] = ctools
 dependencies[] = ds

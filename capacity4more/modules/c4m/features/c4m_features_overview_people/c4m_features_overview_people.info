@@ -3,7 +3,6 @@ description = Basic overview of all users on the platform
 core = 7.x
 package = capacity4more - Features
 version = 7.x-1.x-dev
-project = c4m_features_overview_people
 dependencies[] = context
 dependencies[] = entity
 dependencies[] = facetapi
