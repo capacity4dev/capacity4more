@@ -66,12 +66,12 @@ function c4m_content_event_ds_fields_info($entity_type) {
 function c4m_content_event_c4m_content_statistics_info() {
   return array(
     'global' => array(
-      'c4m_events' => array(
+      'c4m_events_posts' => array(
         'type'        => 'event',
         'entity_type' => 'node',
         'bundles'     => array('event'),
-        'singular'    => 'Post',
-        'plural'      => 'Posts',
+        'singular'    => 'Event',
+        'plural'      => 'Events',
         'state'       => 1,
         'aggregate'   => array(
           'type' => 'posts',
@@ -79,6 +79,25 @@ function c4m_content_event_c4m_content_statistics_info() {
         'weight'      => 1,
         'attributes'  => array(
           'class' => array('posts'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+        ),
+      ),
+      'c4m_events' => array(
+        'type'        => 'event',
+        'entity_type' => 'node',
+        'bundles'     => array('event'),
+        'singular'    => 'Event',
+        'plural'      => 'Events',
+        'state'       => 1,
+        'aggregate'   => NULL,
+        'weight'      => 4,
+        'attributes'  => array(
+          'class' => array('events'),
+        ),
+        'link'          => array(
+          'path' => 'events',
         ),
       ),
     ),

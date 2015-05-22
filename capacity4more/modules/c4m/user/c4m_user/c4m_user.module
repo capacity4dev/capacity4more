@@ -460,9 +460,12 @@ function c4m_user_c4m_content_statistics_info() {
         'plural'      => 'Members',
         'state'       => 1,
         'aggregate'   => array(),
-        'weight'      => 0,
+        'weight'      => 5,
         'attributes'  => array(
           'class' => array('users'),
+        ),
+        'link' => array(
+          'path' => 'people',
         ),
       ),
     ),

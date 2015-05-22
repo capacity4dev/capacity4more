@@ -26,7 +26,7 @@
 
     li.statistics-item {
       float: left;
-      width: 20%;
+      width: 16.5%;
       padding: 5px 20px 5px 40px;
       color: $color-blue-light;
       background-size: 30px;
@@ -48,11 +48,13 @@
       &.articles {
         @include image-icon-png-fallback('icons', 'articles-icon');
       }
+      &.events {
+        @include image-icon-png-fallback('icons', 'events-icon');
+      }
     }
   }
 }
 
-.pane-c4m-content-group-statistics-summary,
 .field-name-c4m-content-group-statistics {
   .statistics-list {
     @include clearfix;
@@ -66,10 +68,10 @@
       background-position: 0 50%;
 
       &.og-users{
-        @include image-icon-png-fallback('icons', 'library-icon');
+        @include image-icon-png-fallback('icons', 'members-icon');
       }
       &.og-wiki-pages {
-        @include image-icon-png-fallback('icons', 'library-icon');
+        @include image-icon-png-fallback('icons', 'wiki-page-icon');
       }
       &.og-documents {
         @include image-icon-png-fallback('icons', 'library-icon');
@@ -81,7 +83,7 @@
         @include image-icon-png-fallback('icons', 'tasks-icon');
       }
       &.og-comments {
-        @include image-icon-png-fallback('icons', 'library-icon');
+        @include image-icon-png-fallback('icons', 'comment-icon');
       }
       &.og-discussions {
         @include image-icon-png-fallback('icons', 'discussion-icon');

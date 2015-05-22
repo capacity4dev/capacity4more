@@ -26,6 +26,9 @@ function c4m_content_task_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('posts'),
         ),
+        'link'          => array(
+          'path' => 'search',
+        ),
       ),
     ),
     'group' => array(

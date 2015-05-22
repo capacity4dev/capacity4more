@@ -662,9 +662,12 @@ function c4m_content_group_c4m_content_statistics_info() {
         'state'       => NULL,
         'c4m_status'  => array('published', 'archived'),
         'aggregate'   => array(),
-        'weight'      => 2,
+        'weight'      => -4,
         'attributes'  => array(
           'class' => array('groups'),
+        ),
+        'link' => array(
+          'path' => 'groups',
         ),
       ),
     ),

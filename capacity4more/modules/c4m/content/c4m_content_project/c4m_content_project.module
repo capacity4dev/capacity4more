@@ -36,9 +36,12 @@ function c4m_content_project_c4m_content_statistics_info() {
         'plural'      => 'Projects',
         'state'       => 1,
         'aggregate'   => array(),
-        'weight'      => 3,
+        'weight'      => -3,
         'attributes'  => array(
           'class' => array('projects'),
+        ),
+        'link' => array(
+          'path' => 'projects',
         ),
       ),
     ),
