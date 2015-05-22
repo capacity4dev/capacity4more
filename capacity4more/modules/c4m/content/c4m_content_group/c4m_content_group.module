@@ -652,20 +652,21 @@ function c4m_content_group_admin_paths_alter(&$paths) {
  */
 function c4m_content_group_c4m_content_statistics_info() {
   return array(
-    'c4m_groups' => array(
-      'type'        => 'group',
-      'entity_type' => 'node',
-      'bundles'     => array('group'),
-      'singular'    => 'Group',
-      'plural'      => 'Groups',
-      'state'       => NULL,
-      'c4m_status'  => array('published', 'archived'),
-      'scope'       => 'global',
-      'aggregate'   => array(),
-      'weight'      => 2,
-      'attributes'  => array(
-        'class' => array('groups'),
-      )
+    'global' => array(
+      'c4m_groups' => array(
+        'type'        => 'group',
+        'entity_type' => 'node',
+        'bundles'     => array('group'),
+        'singular'    => 'Group',
+        'plural'      => 'Groups',
+        'state'       => NULL,
+        'c4m_status'  => array('published', 'archived'),
+        'aggregate'   => array(),
+        'weight'      => 2,
+        'attributes'  => array(
+          'class' => array('groups'),
+        ),
+      ),
     ),
   );
 }

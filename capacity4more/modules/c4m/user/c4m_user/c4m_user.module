@@ -451,19 +451,20 @@ function c4m_user_track_change($uid) {
  */
 function c4m_user_c4m_content_statistics_info() {
   return array(
-    'c4m_user' => array(
-      'type'        => 'user',
-      'entity_type' => 'user',
-      'bundles'     => NULL,
-      'singular'    => 'Member',
-      'plural'      => 'Members',
-      'state'       => 1,
-      'scope'       => 'global',
-      'aggregate'   => array(),
-      'weight'      => 0,
-      'attributes'  => array(
-        'class' => array('users'),
-      )
+    'global' => array(
+      'c4m_user' => array(
+        'type'        => 'user',
+        'entity_type' => 'user',
+        'bundles'     => NULL,
+        'singular'    => 'Member',
+        'plural'      => 'Members',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 0,
+        'attributes'  => array(
+          'class' => array('users'),
+        ),
+      ),
     ),
   );
 }

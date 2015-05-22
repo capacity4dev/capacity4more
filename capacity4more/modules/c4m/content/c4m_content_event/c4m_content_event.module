@@ -65,36 +65,38 @@ function c4m_content_event_ds_fields_info($entity_type) {
  */
 function c4m_content_event_c4m_content_statistics_info() {
   return array(
-    'c4m_events' => array(
-      'type'        => 'event',
-      'entity_type' => 'node',
-      'bundles'     => array('event'),
-      'singular'    => 'Post',
-      'plural'      => 'Posts',
-      'state'       => 1,
-      'scope'       => 'global',
-      'aggregate'   => array(
-        'type' => 'posts',
+    'global' => array(
+      'c4m_events' => array(
+        'type'        => 'event',
+        'entity_type' => 'node',
+        'bundles'     => array('event'),
+        'singular'    => 'Post',
+        'plural'      => 'Posts',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts',
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
       ),
-      'weight'      => 1,
-      'attributes'  => array(
-        'class' => array('posts'),
-      )
     ),
-    'c4m_og_events' => array(
-      'type'          => 'event',
-      'entity_type'   => 'node',
-      'bundles'       => array('event'),
-      'singular'      => 'Event',
-      'plural'        => 'Events',
-      'state'         => 1,
-      'scope'         => 'group',
-      'aggregate'     => NULL,
-      'weight'        => 3,
-      'feature_name'  => 'c4m_features_og_events',
-      'attributes'    => array(
-        'class' => array('og-events'),
-      )
+    'group' => array(
+      'c4m_og_events' => array(
+        'type'          => 'event',
+        'entity_type'   => 'node',
+        'bundles'       => array('event'),
+        'singular'      => 'Event',
+        'plural'        => 'Events',
+        'state'         => 1,
+        'aggregate'     => NULL,
+        'weight'        => 3,
+        'feature_name'  => 'c4m_features_og_events',
+        'attributes'    => array(
+          'class' => array('og-events'),
+        ),
+      ),
     ),
   );
 }
