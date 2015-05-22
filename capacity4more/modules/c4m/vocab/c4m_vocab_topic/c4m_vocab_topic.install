@@ -26,7 +26,7 @@ function c4m_vocab_topic_uninstall() {
 /**
  * Create Document type vocabulary.
  *
- * @return stdClass
+ * @return object
  *   The Document types vocabulary.
  */
 function _c4m_vocab_topic_install_vocabulary() {

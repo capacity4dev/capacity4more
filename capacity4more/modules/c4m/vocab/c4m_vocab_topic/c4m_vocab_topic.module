@@ -8,8 +8,11 @@
  * Add mapping between old topic (name) and new topic name and tid.
  *
  * @param array $mapping
+ *   Containing the tid, source and destination to store.
  *
  * @return bool
+ *   TRUE or FALSE.
+ *
  * @throws \Exception
  * @throws \InvalidMergeQueryException
  */
@@ -35,7 +38,8 @@ function c4m_vocab_topic_add_mapping(array $mapping) {
 }
 
 /**
- * @param $name
+ * @param string $name
+ *   Destination title (to be mapped).
  *
  * @return array
  */
