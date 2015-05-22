@@ -19,6 +19,7 @@ require __DIR__ . '/FeatureContext/Field.php';
 require __DIR__ . '/FeatureContext/File.php';
 require __DIR__ . '/FeatureContext/Group.php';
 require __DIR__ . '/FeatureContext/GroupDashboard.php';
+require __DIR__ . '/FeatureContext/GroupManagement.php';
 require __DIR__ . '/FeatureContext/Highlights.php';
 require __DIR__ . '/FeatureContext/Homepage.php';
 require __DIR__ . '/FeatureContext/MainMenu.php';
@@ -57,6 +58,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\File;
   use FeatureContext\Group;
   use FeatureContext\GroupDashboard;
+  use FeatureContext\GroupManagement;
   use FeatureContext\Highlights;
   use FeatureContext\Homepage;
   use FeatureContext\MainMenu;

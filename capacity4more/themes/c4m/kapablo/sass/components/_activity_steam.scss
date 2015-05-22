@@ -2,29 +2,29 @@ body {
 
   &.og-context {
 
+    .panel-panel.left {
+
+      > div {
+
+        &:first-child {
+
+          .first {
+            margin-top: 0;
+
+            .row {
+              border-top: 0;
+              margin-top: 0;
+              padding-top: 0;
+            }
+          }
+        }
+      }
+    }
+
     .activity-stream {
 
       .message-group {
         display: none;
-      }
-    }
-  }
-
-  &.not-logged-in {
-
-    .activity-stream {
-
-      .activities {
-
-        &.first {
-          margin-top: 0;
-
-          .row {
-            border-top: 0;
-            margin-top: 0;
-            padding-top: 0;
-          }
-        }
       }
     }
   }
@@ -206,18 +206,21 @@ body {
   }
 
   .as-document-ppt,
-  .as-document-pptx {
+  .as-document-pptx,
+  .as-document-pps,
+  .as-document-odp {
     @include image-icon-png-fallback('icons', 'document-powerpoint');
   }
 
-  .as-document-word {
+  .as-document-word,
+  .as-document-odt {
     @include image-icon-png-fallback('icons', 'document-word');
   }
 
   .as-document-ods,
+  .as-document-odf,
   .as-document-xls,
-  .as-document-xlsx,
-  {
+  .as-document-xlsx {
     @include image-icon-png-fallback('icons', 'document-excel');
   }
 

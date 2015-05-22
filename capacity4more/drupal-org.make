@@ -3,7 +3,7 @@ api = 2
 
 ; Modules
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.3"
+projects[admin_views][version] = "1.4"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
@@ -12,7 +12,7 @@ projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.5"
+projects[context][version] = "3.6"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "1.x-dev"
@@ -27,7 +27,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.5"
+projects[ctools][version] = "1.7"
 
 projects[currency][subdir] = "contrib"
 projects[currency][version] = "2.4"
@@ -35,26 +35,23 @@ projects[currency][version] = "2.4"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
-projects[date_facets][subdir] = "contrib"
-projects[date_facets][version] = "1.x-dev"
-
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.7"
+projects[ds][version] = "2.10"
 
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 ; Patches for RESTful
-projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
-projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-node-create-3.patch"
+projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
+projects[entityreference][patch][] = "https://www.drupal.org/files/entityreference-decode_option_labels-1665818-32_0.patch"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -66,7 +63,7 @@ projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.1"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.3"
+projects[features][version] = "2.5"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
@@ -78,7 +75,7 @@ projects[file_download_count][subdir] = "contrib"
 projects[file_download_count][version] = "1.0-rc1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.5"
+projects[flag][version] = "3.6"
 
 projects[getlocations][subdir] = "contrib"
 projects[getlocations][version] = "1.15"
@@ -117,31 +114,29 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.x-dev"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.9"
+projects[message][version] = "1.10"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
 
 projects[mimemail][version] = "1.0-beta3"
 projects[mimemail][subdir] = "contrib"
-; ? projects[mimemail][patch][] = "http://drupal.org/files/rules-1585546-1-moving_rules_actions.patch"
-; ? projects[mimemail][patch][] = "http://drupal.org/files/compress_install_missing_value.patch"
 
 projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "2.0-alpha2"
+projects[module_filter][version] = "2.0"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
-; projects[og][version] = "2.x-dev"
-projects[og][subdir] = "contrib"
 projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
 projects[og][download][branch] = og_context_check_access
 projects[og][type] = "module"
+projects[og][subdir] = "contrib"
+projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
@@ -152,9 +147,10 @@ projects[og_variables][version] = "1.0-beta2"
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
+projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.4"
+projects[panels][version] = "3.5"
 
 projects[panels_bootstrap_layouts][subdir] = "contrib"
 projects[panels_bootstrap_layouts][version] = "3.0"
@@ -169,12 +165,13 @@ projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.6"
+projects[plupload][version] = "1.7"
 
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
-projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
+projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
+projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
@@ -192,7 +189,7 @@ projects[rules][version] = "2.6"
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.14"
 projects[search_api_attachments][subdir] = "contrib"
-projects[search_api_attachments][version] = "1.x-dev"
+projects[search_api_attachments][version] = "1.6"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_sorts][subdir] = "contrib"
@@ -206,13 +203,13 @@ projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[save_draft][subdir] = "contrib"
 projects[save_draft][version] = "1.4"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = "1.4"
+projects[smart_trim][version] = "1.5"
 
 projects[summary_settings][subdir] = "contrib"
 projects[summary_settings][version] = "1.x-dev"
@@ -224,7 +221,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.8"
+projects[views][version] = "3.11"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"

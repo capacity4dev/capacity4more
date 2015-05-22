@@ -87,11 +87,15 @@ function c4m_og_get_group_type_name($node = NULL) {
  * Implements hook_form_alter().
  */
 function c4m_og_form_alter(&$form, $form_state) {
-  if (empty($form['#node_edit_form']) || !og_is_group_type('node', $form['#node']->type)) {
+  if (empty($form['#node_edit_form'])
+    || !og_is_group_type(
+      'node', $form['#node']->type
+    )
+  ) {
     return;
   }
-  $form['og_purl']['purl']['value']['#title']        = t('Group path');
-  $form['og_purl']['purl']['value']['#type']         = 'machine_name';
+  $form['og_purl']['purl']['value']['#title'] = t('Group path');
+  $form['og_purl']['purl']['value']['#type'] = 'machine_name';
   $form['og_purl']['purl']['value']['#machine_name'] = array(
     'source'          => array('title'),
     'label'           => t('Group path'),
@@ -125,9 +129,9 @@ function c4m_og_purl_exists($value) {
 function c4m_og_get_group_bundles() {
   $roles = array();
   $result = db_select('og_role', 'ogr')
-            ->fields('ogr', array('group_bundle', 'rid', 'name'))
-            ->execute()
-            ->fetchAll();
+    ->fields('ogr', array('group_bundle', 'rid', 'name'))
+    ->execute()
+    ->fetchAll();
   foreach ($result as $row) {
     $roles[$row->group_bundle][$row->rid] = $row->name;
   }
@@ -140,6 +144,7 @@ function c4m_og_get_group_bundles() {
  *
  * @param $rid
  *   The role ID.
+ *
  * @return array
  *    Array of OG permissions
  */
@@ -163,6 +168,7 @@ function c4m_og_get_permissions_by_role($rid, $module = 'c4m_og') {
  *
  * @param $perm
  *   The permission.
+ *
  * @return array
  *    Array of role ids.
  */
@@ -193,10 +199,10 @@ function c4m_og_get_users_by_roles($gid, $rids = array()) {
   $query = db_select('og_users_roles', 'og_users_roles');
 
   return $query->fields('og_users_roles', array('uid'))
-               ->condition('gid', $gid)
-               ->condition('rid', $rids, 'IN')
-               ->execute()
-               ->fetchAll();
+    ->condition('gid', $gid)
+    ->condition('rid', $rids, 'IN')
+    ->execute()
+    ->fetchAll();
 }
 
 /**
@@ -216,7 +222,7 @@ function c4m_og_views_api() {
  *
  * @return bool
  */
-function c4m_og_access($feature, $account = NULL) {
+function c4m_og_access($feature = NULL, $account = NULL) {
   // Check if the user has access to the group context.
   $og_context = og_context();
   if (!$og_context) {
@@ -224,7 +230,7 @@ function c4m_og_access($feature, $account = NULL) {
   }
 
   // Check if the feature is enabled.
-  if (c4m_og_feature_enabled($feature)) {
+  if (empty($feature) || c4m_og_feature_enabled($feature)) {
     return TRUE;
   }
 
@@ -239,9 +245,9 @@ function c4m_og_access($feature, $account = NULL) {
 function c4m_og_og_permission() {
   return array(
     'view unpublished group content' => array(
-      'title' => t('View unpublished group content'),
-      'description' => t("Allow user to view unpublished content of a group."),
-      'roles' => array(OG_AUTHENTICATED_ROLE),
+      'title'        => t('View unpublished group content'),
+      'description'  => t("Allow user to view unpublished content of a group."),
+      'roles'        => array(OG_AUTHENTICATED_ROLE),
       'default role' => array(OG_ANONYMOUS_ROLE, OG_ADMINISTRATOR_ROLE),
     ),
   );
@@ -259,6 +265,7 @@ function c4m_og_og_permission() {
  *
  * @param $perm
  * @param $gids
+ *
  * @return array
  */
 function c4m_og_user_has_permission_in($uid, $perm, &$gids) {
@@ -266,9 +273,11 @@ function c4m_og_user_has_permission_in($uid, $perm, &$gids) {
     $roles = og_get_user_roles('node', $gid, $uid);
     $rids = array_keys($roles);
     $perms_for_gid = array();
-    foreach($rids as $rid) {
-      $perms_for_gid = array_merge($perms_for_gid,
-        c4m_og_get_permissions_by_role($rid));
+    foreach ($rids as $rid) {
+      $perms_for_gid = array_merge(
+        $perms_for_gid,
+        c4m_og_get_permissions_by_role($rid)
+      );
     }
     if (!in_array($perm, $perms_for_gid)) {
       unset($gids[$gid]);
@@ -319,8 +328,7 @@ function c4m_og_node_grants($account, $op) {
 function c4m_og_node_access_records_alter(&$grants, $node) {
   // Allow group members with the right permission to view unpublished group
   // content nodes.
-  if (empty($node->status) &&
-      og_is_group_content_type('node', $node->type)) {
+  if (empty($node->status) && og_is_group_content_type('node', $node->type)) {
     // Node is unpublished, so og_access will not deliver grants, nor will node
     // (module).
 
@@ -334,12 +342,12 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
       foreach ($values as $gid) {
         $list_gids[$group_type][] = $gid;
         $grants[] = array(
-          'realm' => C4M_OG_ACCESS_REALM . ':' . $perm,
-          'gid' => $gid,
-          'grant_view' => 1,
+          'realm'        => C4M_OG_ACCESS_REALM . ':' . $perm,
+          'gid'          => $gid,
+          'grant_view'   => 1,
           'grant_update' => 0,
           'grant_delete' => 0,
-          'priority' => 0,
+          'priority'     => 0,
         );
       }
     }
@@ -365,6 +373,7 @@ function c4m_og_get_members_count($group, $state = OG_STATE_ACTIVE) {
     ->propertyCondition('gid', $group->nid)
     // Get only the active members.
     ->propertyCondition('state', $state)
+    ->propertyCondition('entity_type', 'user')
     ->count()
     ->execute();
 
@@ -396,9 +405,9 @@ function c4m_og_get_posts_count($group) {
  */
 function c4m_og_entity_property_info_alter(&$info) {
   $info['node']['properties']['c4m_og_group_type'] = array(
-    'type' => 'text',
-    'label' => t('Group type'),
-    'sanitized' => TRUE,
+    'type'            => 'text',
+    'label'           => t('Group type'),
+    'sanitized'       => TRUE,
     'getter callback' => '_c4m_og_group_type_getter_callback',
   );
 }
@@ -407,6 +416,7 @@ function c4m_og_entity_property_info_alter(&$info) {
  * Getter callback for created_week_day property.
  *
  * @param $item
+ *
  * @return string
  */
 function _c4m_og_group_type_getter_callback($item) {
@@ -451,7 +461,7 @@ function c4m_og_get_gid_from_entity($entity) {
  *   hook_c4m_og_feature_info hooks.
  */
 function c4m_og_feature_info($feature = NULL) {
-  $cache_key  = 'c4m_og:feature_info';
+  $cache_key = 'c4m_og:feature_info';
   $data = &drupal_static($cache_key);
 
   // Retrieve from Cache if not loaded before.
@@ -544,7 +554,7 @@ function c4m_og_feature_enabled_content_types() {
  *
  * @param string $feature
  *   The feature to install.
- * @param bool $enabled
+ * @param bool   $enabled
  *   Optional, if the feature should be enabled by default (default = TRUE).
  */
 function c4m_og_feature_install($feature, $enabled = TRUE) {
@@ -568,4 +578,34 @@ function c4m_og_feature_uninstall($feature) {
   $settings = variable_get('c4m_og_features_group');
   unset($settings[$feature]);
   variable_set('c4m_og_features_group', $settings);
+}
+
+/**
+ * Get the group IDs of all the group nodes of specific node type a user is an
+ * approved member of.
+ *
+ * @param $bundle
+ *  (optional) The group node type.
+ * @param $account
+ * (optional) The user object to fetch group memberships for. Defaults to the
+ *   acting user.
+ *
+ * @return array()
+ *  Returns array of group nodes IDs of specific node type.
+ */
+function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+  $groups = og_get_groups_by_user($account, 'node');
+
+  if (!$groups || !$bundle) {
+    return $groups;
+  }
+
+  foreach ($groups as $key => $gid) {
+    $wrapper = entity_metadata_wrapper('node', $gid);
+    $node_type = $wrapper->getBundle();
+    if ($node_type != $bundle) {
+      unset($groups[$key]);
+    }
+  }
+  return $groups;
 }
