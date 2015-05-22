@@ -98,9 +98,6 @@ function c4m_content_article_strongarm() {
       'c4m_dashboard' => array(
         'custom_settings' => FALSE,
       ),
-      'c4m_teaser_list' => array(
-        'custom_settings' => TRUE,
-      ),
       'c4m_teaser_table' => array(
         'custom_settings' => FALSE,
       ),
@@ -153,7 +150,7 @@ function c4m_content_article_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_article';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['node_preview_article'] = $strongarm;
 
   $strongarm = new stdClass();

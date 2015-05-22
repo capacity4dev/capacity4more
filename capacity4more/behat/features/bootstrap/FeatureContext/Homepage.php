@@ -74,7 +74,7 @@ trait Homepage {
    */
   public function iShouldSeeFunctioningCarousel() {
     $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
-    $steps[] = new Step\When('I should see "Read all"');
+    $steps[] = new Step\When('I should see "See more"');
     $steps[] = new Step\When('I should see an "#carousel1" element');
     $steps[] = new Step\When('I should see an "div.intro-text" element');
 

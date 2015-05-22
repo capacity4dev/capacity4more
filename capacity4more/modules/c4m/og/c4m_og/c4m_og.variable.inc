@@ -29,7 +29,7 @@ function c4m_og_variable_group_info() {
   $groups['c4m_og'] = array(
     'title' => t('C4M Organic Groups'),
     'description' => t('Variables for organic groups.'),
-    'access' => 'administer site configuration',
+    'access' => 'create group content',
     'path' => array('admin/config/system/variable/c4m_og'),
   );
   return $groups;

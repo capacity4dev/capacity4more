@@ -31,6 +31,11 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
 
   // Get taxonomy vocabulary and send it to the app.
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['field_name']);
+
+  // Send field info
+  $field_info = field_info_instance('node', $field['field_name'], $entity_type);
+  $settings['c4m']['data']['vocabularies']['field_info'][$field['field_name']] = $field_info;
+
   // If $vocabulary is empty, it mean this field is not taxonomy term, It's a node.
   if ($vocabulary) {
     $vocabulary_label = $vocabulary->name;
@@ -166,9 +171,9 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
   $children = array();
   foreach($terms as $term) {
     // If the term is array, this vocab is of type "node".
-    if(is_array($term)) {
+    if (is_array($term)) {
       foreach($term as $id => $label) {
-        $options[$id]['label'] = check_plain($label);
+        $options[$id]['label'] = htmlspecialchars_decode(filter_xss($label));
         $options[$id]['id'] = $id;
       }
     }
@@ -176,7 +181,7 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
       $parents = $term->parents;
       if ($parents[0] == '0') {
         // This is the parent term.
-        $options[$term->tid]['label'] = check_plain($term->name);
+        $options[$term->tid]['label'] = htmlspecialchars_decode(filter_xss($term->name));
         $options[$term->tid]['id'] = $term->tid;
       }
       else {
@@ -192,14 +197,14 @@ function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
           // This is the child term of the main parent term - add it to the
           // children of the main parent term.
           $options[$parents[0]]['children'][] = array(
-            'label' => check_plain($term->name),
+            'label' => htmlspecialchars_decode(filter_xss($term->name)),
             'id' => $term->tid,
           );
         }
         else {
           // This is the child term of the child term - save it in the array.
           $children[$id]['children'][] = array(
-            'label' => check_plain($term->name),
+            'label' => htmlspecialchars_decode(filter_xss($term->name)),
             'id' => $term->tid,
           );
         }

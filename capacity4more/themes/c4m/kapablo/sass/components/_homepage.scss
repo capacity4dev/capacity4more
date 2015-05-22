@@ -7,6 +7,12 @@ body.front {
     background: transparent url('../images/header/homepage-user.png') no-repeat top center;
     height: 115px;
   }
+  .modal {
+
+    .modal-backdrop {
+      z-index: 0;
+    }
+  }
 }
 body.front.not-logged-in {
   #header-content-wrapper {
@@ -57,49 +63,49 @@ body.front.not-logged-in {
 // Featured block on the bottom of the page.
 .pane-featured-block {
 
-  .col-sm-4 {
-    padding-left: 4px;
-    padding-right: 4px;
+  a {
+    display: block;
+    max-width: 300px;
+    position: relative;
+  }
 
-    .caption {
-      color: white;
-      position: absolute;
-      bottom: 0px;
-      left: 4px;
-      right: 4px;
-      padding: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.5);
-      margin: 8px;
+  .row {
+    max-width: 960px;
+    margin: 0 auto;
+
+    @media (min-width: $screen-sm) {
+      .col-sm-4 {
+        padding: 0 10px;
+      }
+    }
+
+    @media (max-width: $screen-sm) {
+      .col-sm-4 {
+        padding: 0 10px 20px 10px;
+      }
     }
   }
 
-  .col-sm-4:first-of-type {
-    padding-left: 0px;
-
-    .caption {
-      left: 0px;
-    }
-  }
-
-  .col-sm-4:last-of-type {
-    padding-right: 0px;
-
-    .caption {
-      right: 0px;
-    }
+  .caption {
+    color: white;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 8px;
   }
 
   .field-item {
     overflow: hidden;
 
     img {
-      height: 300px;
-      width: auto;
+      height: auto;
+      width: 100%;
       max-width: none;
-      left: 50%;
-      transform: translate(-50%, 0);
       position: relative;
     }
   }
@@ -109,7 +115,9 @@ body.front.not-logged-in {
     font-size: 14px;
     font-weight: normal;
   }
+
   margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .see-more-link {

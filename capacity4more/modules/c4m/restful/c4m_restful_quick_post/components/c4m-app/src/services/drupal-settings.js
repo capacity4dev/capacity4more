@@ -30,6 +30,13 @@ angular.module('c4mApp')
     };
 
     /**
+     * Get the base path of the Group.
+     */
+    this.getPurlPath = function() {
+      return (angular.isDefined(self.settings.c4m.purlPath)) ? self.settings.c4m.purlPath : undefined;
+    };
+
+    /**
      * Get the resources of the quick post.
      */
     this.getResources = function() {
