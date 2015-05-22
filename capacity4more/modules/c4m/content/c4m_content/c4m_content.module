@@ -188,18 +188,23 @@ function _c4m_content_statistics_collect_data($list) {
         ? $info['c4m_status']
         : NULL,
     );
+    $count = c4m_helper_entity_get_number_of_entities($arguments);
 
-    $data[$type] = array(
-      'title' => array(
-        'singular' => $info['singular'],
-        'plural' => $info['plural'],
-      ),
-      'count' => c4m_helper_entity_get_number_of_entities($arguments),
-      'attributes' => $info['attributes'],
-      'link' => isset($info['link'])
-        ? $info['link']
-        : FALSE,
-    );
+    if (!isset($data[$type])) {
+      $data[$type] = array(
+        'title' => array(
+          'singular' => $info['singular'],
+          'plural' => $info['plural'],
+        ),
+        'count' => 0,
+        'attributes' => $info['attributes'],
+        'link' => isset($info['link'])
+          ? $info['link']
+          : FALSE,
+      );
+    }
+
+    $data[$type]['count'] += $count;
   }
 
   return $data;
