@@ -31,7 +31,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $account = user_load($user->uid);
 
   $user_wrapper = entity_metadata_wrapper('user', $account->uid);
-  $interests = $user_wrapper->c4m_related_topic->raw();
+  $interests = $user_wrapper->c4m_vocab_topic->raw();
 
   $filter = !empty($_GET['filter']) ? $_GET['filter'] : NULL;
 
