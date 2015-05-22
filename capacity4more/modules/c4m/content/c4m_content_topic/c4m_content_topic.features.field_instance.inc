@@ -248,18 +248,18 @@ function c4m_content_topic_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_vocab_topic_mapping',
     'label' => 'Topic',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
+      'active' => 1,
       'module' => 'term_reference_tree',
       'settings' => array(
         'cascading_selection' => 0,
         'filter_view' => '',
         'leaves_only' => 0,
-        'max_depth' => '',
+        'max_depth' => 1,
         'parent_term_id' => '',
         'select_parents' => 0,
         'start_minimized' => 0,
