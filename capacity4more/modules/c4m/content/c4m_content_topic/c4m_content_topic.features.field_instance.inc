@@ -187,8 +187,8 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_vocab_topic'
-  $field_instances['node-topic-c4m_vocab_topic'] = array(
+  // Exported field_instance: 'node-topic-c4m_vocab_topic_mapping'
+  $field_instances['node-topic-c4m_vocab_topic_mapping'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
     'deleted' => 0,
@@ -246,7 +246,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_vocab_topic',
+    'field_name' => 'c4m_vocab_topic_mapping',
     'label' => 'Topic',
     'required' => 0,
     'settings' => array(
