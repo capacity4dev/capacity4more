@@ -28,6 +28,10 @@ angular.module('c4mApp')
       },
       link: function postLink(scope) {
 
+        // Check if there's categories in the current group,
+        // to display an empty categories message.
+        scope.itemsLength = Object.keys(scope.items).length ? true : false;
+
         angular.forEach(scope.items, function(item, id) {
           item.selected = false;
         });
