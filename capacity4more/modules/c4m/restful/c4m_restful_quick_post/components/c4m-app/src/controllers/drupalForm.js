@@ -60,6 +60,10 @@ angular.module('c4mApp')
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
 
+    // Check if there's categories in the current group,
+    // to display an empty categories message.
+    $scope.categoriesLength = angular.isDefined($scope.filteredTerms.categories) && Object.keys($scope.filteredTerms.categories).length ? true : false;
+
     // Update the shown texonomies upon searching.
     $scope.updateSearch = function(vocab) {
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerms[vocab]);
@@ -121,13 +125,13 @@ angular.module('c4mApp')
                 // Term is selected and it's term of the first level.
                 topicCount++;
               }
-              // Don't check if selected more than 3 topics.
-              if (topicCount > 3) {
-                $scope.model[vocab][key] = false;
-                angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
-                return;
-              }
             });
+            // Don't check if selected more than 3 topics.
+            if (topicCount > 3) {
+              $scope.model[vocab][key] = false;
+              angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", false);
+              return;
+            }
           }
           angular.element('input[type=checkbox][name="' + vocab + '[und][' + key + ']"]').prop("checked", true);
         }
