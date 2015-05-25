@@ -47,6 +47,11 @@ function capacity4more_install_tasks() {
     'display' => FALSE,
   );
 
+  $tasks['capacity4more_setup_set_menu_purl'] = array(
+    'display_name' => st('Set menu purl modifiers (main menu)'),
+    'display' => FALSE,
+  );
+
   // Run this as the last task!
   $tasks['capacity4more_setup_rebuild_permissions'] = array(
     'display_name' => st('Rebuild permissions'),
@@ -144,6 +149,17 @@ function capacity4more_setup_set_og_permissions() {
 }
 
 /**
+ * Task callback; Setting purl modifiers for main menu.
+ */
+function capacity4more_setup_set_menu_purl() {
+  $menus = array('main-menu', 'user-menu');
+
+  foreach($menus as $menu) {
+    variable_set('purl_menu_behavior_' . $menu, 'disabled');
+  }
+}
+
+/**
  * Task callback; Setting terms OG permissions.
  */
 function capacity4more_setup_set_terms_og_permissions() {
@@ -156,5 +172,7 @@ function capacity4more_setup_set_terms_og_permissions() {
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
+  $permissions[] = 'manage variables';
   og_role_grant_permissions($admin_rid, $permissions);
 }
+
