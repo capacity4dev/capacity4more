@@ -35,9 +35,6 @@ projects[currency][version] = "2.4"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
-projects[date_facets][subdir] = "contrib"
-projects[date_facets][version] = "1.x-dev"
-
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
@@ -55,6 +52,7 @@ projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
+projects[entityreference][patch][] = "https://www.drupal.org/files/entityreference-decode_option_labels-1665818-32_0.patch"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -136,12 +134,12 @@ projects[module_filter][version] = "2.0-alpha2"
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
-; projects[og][version] = "2.x-dev"
-projects[og][subdir] = "contrib"
 projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
 projects[og][download][branch] = og_context_check_access
 projects[og][type] = "module"
+projects[og][subdir] = "contrib"
+projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
@@ -174,8 +172,9 @@ projects[plupload][version] = "1.6"
 
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
-projects[purl][patch][] = https://drupal.org/files/purl-1693984-10.patch
+projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
+projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"

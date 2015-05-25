@@ -6,3 +6,21 @@
 
 include_once 'c4m_field_media.features.inc';
 
+/**
+ * Implements hook_image_styles_alter().
+ *
+ * Override the default image presets.
+ */
+function c4m_field_media_image_styles_alter(&$styles) {
+  $styles['thumbnail']['label'] = t('Thumbnail (60x60)');
+  $styles['thumbnail']['effects'][0]['data']['width'] = 60;
+  $styles['thumbnail']['effects'][0]['data']['height'] = 60;
+
+  $styles['medium']['label'] = t('Medium (300x225)');
+  $styles['medium']['effects'][0]['data']['width'] = 300;
+  $styles['medium']['effects'][0]['data']['height'] = 225;
+
+  $styles['large']['label'] = t('Large (620x465)');
+  $styles['large']['effects'][0]['data']['width'] = 620;
+  $styles['large']['effects'][0]['data']['height'] = 465;
+}
