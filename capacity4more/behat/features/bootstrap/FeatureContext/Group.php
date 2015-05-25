@@ -498,9 +498,9 @@ trait Group {
   }
 
   /**
-   * @When /^I start creating "([^"]*)" "([^"]*)" in group "([^"]*)"$/
+   * @When /^I start creating "([^"]*)" "([^"]*)" in group "([^"]*)" (with|without) file field "([^"]*)"$/
    */
-  public function iStartCreatingInGroup($bundle, $title, $group_title) {
+  public function iStartCreatingInGroup($bundle, $title, $group_title, $condition, $file_field) {
     $steps = array();
 
     $group = $this->loadGroupByTitleAndType($group_title, 'group');
@@ -509,7 +509,9 @@ trait Group {
     $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
-    $steps[] = new Step\When('I upload the file "doc1.doc" in the field with id "edit-c4m-document-und-0-ajax-wrapper"');
+    if ($condition == 'with') {
+      $steps[] = new Step\When('I upload the file "doc1.doc" in the field with id "' . $file_field . '"');
+    }
 
     return $steps;
   }
