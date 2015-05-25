@@ -126,6 +126,16 @@ function kapablo_preprocess_field(&$variables, $hook) {
         }
       }
       break;
+
+    // Group status field,
+    // Do NOT display when the status is not "Published".
+    case 'c4m_og_status':
+      if (reset($variables['items'])['#markup'] == 'Published') {
+        unset($variables['items'][0]);
+        // Remove the class.
+        unset($variables['ds-config']['fis-cl']);
+      }
+      break;
   }
 }
 
