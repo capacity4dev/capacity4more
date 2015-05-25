@@ -640,7 +640,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
   $output .= '</div>';
 
   foreach ($parents as $parent_key => $parent) {
-    $parent_id = $parent['tid']['#value'];
+    $parent_id = isset($parent['#term']['tid']) ? $parent['#term']['tid'] : 0;
     $reset_path = $form['#page_type'] == 'types' ? 'type/' . $vocabulary->vid : 'term/' . $parent_id;
     // Set header for the table.
     $header = array(
@@ -787,6 +787,7 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
   $form['#page_type'] = $items_type;
   $delta = 0;
   $term_deltas = array();
+  $current_page = array();
   $term = current($tree);
   do {
     // In case this tree is completely empty.
@@ -902,8 +903,11 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     $form_state['redirect'] = array($_GET['q'], (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()));
   }
 
+  // Adding "Add new type of category" button.
+  // If there's no terms in current group,
+  // The button won't be displayed if it's in the actions array.
   if ($items_type == 'terms') {
-    $form['actions']['new_category'] = array(
+    $new_category = array(
       '#type' => 'link',
       '#title' => t('Add new type of category'),
       '#href' => 'manage/categories/type/add',
@@ -914,6 +918,12 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
         ),
       ),
     );
+    if (empty($current_page)) {
+      $form['new_category'] = $new_category;
+    }
+    else {
+      $form['actions']['new_category'] = $new_category;
+    }
   }
 
   return $form;
