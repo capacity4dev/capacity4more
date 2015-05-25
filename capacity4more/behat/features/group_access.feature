@@ -59,3 +59,24 @@ Feature: Group access
     And I should not see an ".field-name-c4m-related-group" element
     And I should not see an ".field-name-c4m-og-status" element
     And I should not see an ".tabbable.tabs-left.vertical-tabs" element
+
+  @javascript
+  Scenario: Check redirect and successful message for an authorized user after create a new group.
+    Given I am logged in as user "isaacnewton"
+    When a group "New group" with "Public" access is created with group manager "isaacnewton"
+    Then I should be on the homepage
+    And I should see "The group you requested is pending review by one of the administrators."
+
+  @api
+  Scenario Outline: Check redirect to homepage if no values are provided via URL.
+    Given I am logged in as user "isaacnewton"
+    When I visit "<url>"
+    Then I should be on the homepage
+
+  Examples:
+    | url                 |
+    | node/add/discussion |
+    | node/add/document   |
+    | node/add/photo      |
+    | node/add/task       |
+    | node/add/tasklist   |
