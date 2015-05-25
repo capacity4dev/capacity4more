@@ -11,6 +11,10 @@
 ################################################################################
 
 
+# Exit if we encounter a problem
+set -e
+
+
 # Define the root of the GIT repository.
 cd ${0%/*}
 ROOT=$(git rev-parse --show-toplevel)

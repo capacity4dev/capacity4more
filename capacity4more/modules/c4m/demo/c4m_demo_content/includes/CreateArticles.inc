@@ -107,4 +107,83 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     return TRUE;
   }
 
+  /**
+   * Actions after the data is saved in the database.
+   *
+   * @param object $entity
+   *   The entity that is saved into the platform.
+   * @param object $row
+   *   The data row we are importing.
+   */
+  public function complete($entity, $row) {
+    // Make sure the messages have the proper timestamp.
+    $this->messageInsertSave($entity, $row);
+    // Make sure the update message also exists.
+    $this->messageUpdateSave($entity, $row);
+  }
+
+  /**
+   * Reset the $message->timestamp of any related insert message (if any).
+   *
+   * @param object $node
+   *   Node object we want to set the message timestamp for.
+   * @param object $row
+   *   The source data of the migrated entity.
+   */
+  public function messageInsertSave($node, $row) {
+    if (!module_exists('c4m_message')) {
+      return;
+    }
+
+    // Load the message(s).
+    $message_type = 'c4m_insert__node__' . $node->type;
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->propertyCondition('type', $message_type)
+      ->fieldCondition('field_node', 'target_id', $node->nid)
+      ->execute();
+
+    if (empty($result['message'])) {
+      return;
+    }
+
+    // Update the timestamp.
+    $message_ids = array_keys($result['message']);
+    foreach ($message_ids as $message_id) {
+      $message = message_load($message_id);
+      if (!$message) {
+        continue;
+      }
+
+      $message->timestamp = $row->created;
+      message_save($message);
+    }
+  }
+
+  /**
+   * Create optional update messages.
+   *
+   * @param object $node
+   *   Node object we want to set the message timestamp for.
+   * @param object $row
+   *   The source data of the migrated entity.
+   */
+  public function messageUpdateSave($node, $row) {
+    if (!module_exists('c4m_message')) {
+      return;
+    }
+
+    if ($row->changed <= $row->created) {
+      return;
+    }
+
+    $account = user_load($node->uid);
+
+    $message = c4m_message__update__node($node, $account);
+
+    $message->timestamp = $row->changed;
+    message_save($message);
+  }
+
 }
