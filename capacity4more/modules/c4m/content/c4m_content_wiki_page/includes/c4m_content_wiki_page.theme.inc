@@ -106,6 +106,7 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
     ),
   );
 
+  // Links to add new book pages.
   $links = array(
     l(t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page, $options),
     l(t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options),
