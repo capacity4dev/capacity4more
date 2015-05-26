@@ -75,23 +75,56 @@
 
     Drupal.behaviors.headerResize = {
       attach: function (context, settings) {
-        // Make the non logged in header responsive
-        var imgWidth  = 954,  // Set the width/height of the background image manually
-            imgHeight = 298,
-            imgRatio  = imgHeight/imgWidth;
+        var header = $('.header-content');
 
         $(window).load(function() {
+          // Make the non logged in header responsive
+          var headerImage = loadBackgroundImage(header);
+          if (!headerImage) {
+            return;
+          }
+
+          var imgWidth    = headerImage.width,  // Set the width/height of the background image manually
+              imgHeight   = headerImage.height,
+              imgRatio    = imgHeight/imgWidth;
+
           $(window).resize(function() {
-            var header          = $('.header-content'),
-                headerWidth    = $(header).outerWidth();
+            var headerWidth    = $(header).outerWidth();
             if (headerWidth > imgWidth) {
               headerWidth = imgWidth;
             }
             var responsiveHeight  = headerWidth*imgRatio;
             $('.block-c4m-features-homepage-intro .button-wrapper .btn').height(responsiveHeight);
+            $(header).outerHeight(responsiveHeight);
           }).resize();
         });
       }
     };
+
+    /**
+     * Load background image
+     *
+     * @param $element
+     * @returns {boolean}
+     */
+    function loadBackgroundImage($element) {
+      var image_url = $element.css('background-image'),
+          image = false;
+
+      if (!image_url) {
+        return false;
+      }
+
+      // Remove url() or in case of Chrome url("")
+      image_url = image_url.match(/^url\("?(.+?)"?\)$/);
+
+      if (image_url[1]) {
+        image_url = image_url[1];
+        image = new Image();
+        image.src = image_url;
+      }
+
+      return image;
+    }
   }
 )(jQuery);

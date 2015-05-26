@@ -2,10 +2,12 @@
 body.front {
   #header-content-wrapper {
     background: transparent url('../images/header/background-green-white.png') repeat-x top left;
+    background-size: contain;
   }
   .header-content {
     background: transparent url('../images/header/homepage-user.png') no-repeat top center;
     height: 115px;
+    background-size: contain;
   }
   .modal {
 
