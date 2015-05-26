@@ -64,7 +64,7 @@ class C4mDemoContentCreateTopicTerms
         array(
           'tid'         => $term->tid,
           'source'      => $row->mapping,
-          'destination' => $row->title,
+          'destination' => $row->name,
         )
       );
     }
