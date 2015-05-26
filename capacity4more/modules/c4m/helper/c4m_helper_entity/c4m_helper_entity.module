@@ -61,7 +61,7 @@ function c4m_helper_entity_get_number_of_entities($variables) {
         $query = db_select('users', 'u');
         $query->fields('u');
         if ($state) {
-          $query->condition('u.login', 0, '<>');
+          $query->condition('u.status', $state, '=');
         }
         break;
       case 'node':
