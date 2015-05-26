@@ -2147,11 +2147,11 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'upcoming_event' => array(
         'label' => 'inline',
-        'module' => 'entityreference',
+        'module' => 'c4m_og_purl',
         'settings' => array(
-          'link' => 1,
+          'link' => 'purl_og_dashboard',
         ),
-        'type' => 'entityreference_label',
+        'type' => 'c4m_og_purl_entityreference_link',
         'weight' => 3,
       ),
     ),
