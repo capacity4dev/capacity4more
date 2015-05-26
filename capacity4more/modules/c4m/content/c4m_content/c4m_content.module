@@ -100,9 +100,9 @@ function c4m_content_statistics_info($context) {
       $data = module_invoke_all('c4m_content_statistics_info');
 
       // Sort the contexts.
-      foreach ($data as $context => $info) {
+      foreach ($data as $key => $info) {
         uasort($info, 'drupal_sort_weight');
-        $data[$context] = $info;
+        $data[$key] = $info;
       }
 
       // Save in cache.
