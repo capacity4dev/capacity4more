@@ -218,6 +218,14 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
   return $replace;
 }
 
+/**
+ * Implements hook_preprocess_views_view().
+ *
+ * Set  parameters for the custom template of the
+ * c4m_overview_inthe_picture_blocks view.
+ *
+ * @see views-view--c4m-overview-inthe-picture-blocks--block.tpl.php
+ */
 function kapablo_preprocess_views_view(&$vars) {
   if ($vars['name'] != 'c4m_overview_inthe_picture_blocks') {
     return;
