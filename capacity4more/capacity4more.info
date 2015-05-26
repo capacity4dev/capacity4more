@@ -87,6 +87,7 @@ dependencies[] = c4m_helper_entity
 ; Vocabularies
 dependencies[] = c4m_vocab_category
 dependencies[] = c4m_vocab_tag
+dependencies[] = c4m_vocab_topic
 
 ; Users
 dependencies[] = c4m_user

@@ -31,6 +31,7 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
    */
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
+    'C4mDemoContentCreateTopicTerms',
   );
 
   /**

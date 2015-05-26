@@ -366,7 +366,7 @@ trait Group {
    */
   public function iCheckRelatedTopic() {
     $steps = array();
-    $steps[] = new Step\When('I press "c4m_related_topic"');
+    $steps[] = new Step\When('I press "c4m_vocab_topic"');
     $steps[] = new Step\When('I check the box "Fire"');
 
     $javascript = "

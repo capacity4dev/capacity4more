@@ -270,6 +270,8 @@ class C4mDemoContentCreateUsers extends Migration {
         return $tids;
       }
     }
+
+    return array();
   }
 
   /**
