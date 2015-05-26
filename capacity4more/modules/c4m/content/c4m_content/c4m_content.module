@@ -142,7 +142,7 @@ function c4m_content_get_group_statistics() {
 
   // Filter the list & limit to only content types that are enabled for the
   // given group.
-  foreach ($list as $key => $info) {
+  foreach ($list as $key => &$info) {
 
     if ($info['entity_type'] === 'node'
       && !c4m_og_feature_is_content_type_enabled($info['type'])
