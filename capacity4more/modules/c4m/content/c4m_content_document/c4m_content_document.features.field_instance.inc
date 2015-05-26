@@ -250,7 +250,7 @@ function c4m_content_document_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_document',
     'label' => 'Document',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'description_field' => 0,
       'file_directory' => 'documents',
