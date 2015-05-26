@@ -14,6 +14,8 @@
 .field-name-c4m-body {
   color: $color-gray;
   overflow: auto;
+  padding-bottom: 30px;
+  border-bottom: 2px dashed $color-gray;
 }
 
 .user-name {
@@ -115,9 +117,34 @@
   .field-label {
     color: $highlight-blue;
     font-size: $font-size-h2;
-    //    font-weight: lighter;
+    font-weight: lighter;
     margin-bottom: 25px;
     text-transform: uppercase;
+  }
+
+  .node-document {
+    padding: 18px 0;
+    border-bottom: 1px solid $color-gray-light;
+
+    .field-name-title {
+
+      h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        a {
+          color: $color-gray;
+        }
+      }
+    }
+
+    .document-type {
+      margin-right: 10px;
+    }
+
+    .document-size {
+      margin-left: 10px;
+    }
   }
 }
 

@@ -10,14 +10,13 @@
 function c4m_content_document_ds_field_settings_info() {
   $export = array();
 
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
-  $ds_layout->id = 'comment|comment_node_document|activity_stream';
-  $ds_layout->entity_type = 'comment';
-  $ds_layout->bundle = 'comment_node_document';
-  $ds_layout->view_mode = 'activity_stream';
-  $ds_layout->layout = 'ds_1col';
-  $ds_layout->settings = array(
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_document|activity_stream';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_document';
+  $ds_fieldsetting->view_mode = 'activity_stream';
+  $ds_fieldsetting->settings = array(
     'regions' => array(
       'ds_content' => array(
         0 => 'comment_body',
@@ -36,7 +35,7 @@ function c4m_content_document_ds_field_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
   );
-  $export['comment|comment_node_document|activity_stream'] = $ds_layout;
+  $export['comment|comment_node_document|activity_stream'] = $ds_fieldsetting;
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
@@ -405,38 +404,23 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
       'formatter_settings' => array(
         'link' => 'purl_auto',
-        'wrapper' => 'h2',
+        'wrapper' => 'h3',
         'class' => '',
         'ft' => array(),
       ),
     ),
-    'c4m_user_first_and_last_name' => array(
+    'submitted_by' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'linked_user',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
-    ),
-    'c4m_ds_creation_date' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'j F Y',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
-    ),
-    'c4m_ds_content_footer_stats' => array(
-      'weight' => '6',
-      'label' => 'hidden',
-      'format' => 'downloads',
+      'format' => 'ds_post_date_c4m_long_with_time',
     ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_content_document_type_size' => array(
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -707,21 +691,15 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_user_first_and_last_name',
-        3 => 'c4m_ds_creation_date',
-        4 => 'c4m_body',
-        5 => 'c4m_document',
-        6 => 'c4m_ds_content_footer_stats',
+        2 => 'submitted_by',
+        3 => 'c4m_content_document_type_size',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
-      'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_creation_date' => 'right',
-      'c4m_body' => 'right',
-      'c4m_document' => 'right',
-      'c4m_ds_content_footer_stats' => 'right',
+      'submitted_by' => 'right',
+      'c4m_content_document_type_size' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

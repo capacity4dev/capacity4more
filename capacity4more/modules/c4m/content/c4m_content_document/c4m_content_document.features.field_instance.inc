@@ -25,9 +25,11 @@ function c4m_content_document_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'full',
           'trim_length' => 300,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 0,
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -75,9 +77,11 @@ function c4m_content_document_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'trim',
           'trim_length' => 200,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 'text',
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -133,12 +137,9 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 4,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -232,12 +233,9 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'file_entity',
-        'settings' => array(
-          'file_view_mode' => 'c4m_preview',
-        ),
-        'type' => 'file_rendered',
-        'weight' => 5,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -340,7 +338,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 22,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -434,7 +432,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 25,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -525,7 +523,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 26,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -611,7 +609,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 19,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -697,7 +695,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 28,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -783,7 +781,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 27,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -868,7 +866,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 24,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -994,7 +992,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 23,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -1021,11 +1019,11 @@ function c4m_content_document_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Add to library');
+  t('Comment');
   t('Date');
   t('Description');
   t('Document');
   t('Groups');
-  t('Comment');
   t('Language');
   t('Metadata');
   t('Regions & Countries');
