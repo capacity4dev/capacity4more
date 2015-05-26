@@ -554,4 +554,3 @@ function c4m_og_og_user_access_alter(&$perm, $context) {
 
   $perm['subscribe without approval'] = $wrapper->field_membership_open_request->value();
 }
-
