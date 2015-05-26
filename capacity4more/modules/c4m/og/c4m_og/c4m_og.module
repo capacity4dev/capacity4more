@@ -621,8 +621,8 @@ function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) 
 function c4m_og_node_access($node, $op, $account) {
   $node_type = is_string($node) ? $node : $node->type;
 
-  if (og_is_group_type('node', $node_type)) {
-    // This is group.
+  if (og_is_group_type('node', $node_type) || !og_is_group_content_type('node', $node_type)) {
+    // This is group or side wide content.
     return NODE_ACCESS_IGNORE;
   }
   // Check that entity creating within a group context.
@@ -634,6 +634,7 @@ function c4m_og_node_access($node, $op, $account) {
   }
 
   if ($op != 'create' && is_object($node)) {
+    $node = node_load($node->nid);
     $wrapper = entity_metadata_wrapper('node', $node);
     $node_group = $wrapper->{OG_AUDIENCE_FIELD}->value();
     if ($node_group->nid != $group_id) {
