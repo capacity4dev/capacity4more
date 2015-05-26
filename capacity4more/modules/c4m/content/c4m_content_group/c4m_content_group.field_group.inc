@@ -78,11 +78,11 @@ function c4m_content_group_field_group_info() {
     'label' => 'More details',
     'weight' => '6',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
-      2 => 'c4m_user_picture',
-      3 => 'c4m_user_first_and_last_name',
-      4 => 'c4m_ds_group_role_members',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_user_picture',
+      2 => 'c4m_user_first_and_last_name',
+      3 => 'c4m_ds_group_role_members',
+      4 => 'c4m_vocab_topic',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
