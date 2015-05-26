@@ -477,8 +477,10 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
 
 /**
  * Format the string with the amount of posts and comments a user has posted.
+ *
  * @param array $count_posts
  * @param array $count_comments
+ *
  * @return null|string
  */
 function c4m_ds_user_activity_summary_helper($count_posts = array(), $count_comments = array()) {
@@ -487,13 +489,15 @@ function c4m_ds_user_activity_summary_helper($count_posts = array(), $count_comm
   if ($count_posts > 0 && $count_comments > 0) {
     $output = t('Posted !posts and !comments', array(
       '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-      '!comments' => format_plural($count_comments, '1 Comment', '@count Comments')
+      '!comments' => format_plural($count_comments, '1 Comment', '@count Comments'),
     ));
-  } elseif ($count_posts > 0) {
+  }
+  elseif ($count_posts > 0) {
     $output = t('Posted !posts', array(
       '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
     ));
-  } elseif ($count_comments > 0) {
+  }
+  elseif ($count_comments > 0) {
     $output = t('Posted !comments', array(
       '!comments' => format_plural($count_comments, '1 Comment', '@count Comments')
     ));
