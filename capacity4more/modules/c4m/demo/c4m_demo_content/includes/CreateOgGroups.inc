@@ -171,10 +171,6 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
     }
   }
 
-  public function prepare($node, $row) {
-    dsm($node);
-  }
-
   /**
    * {@inheritdoc}
    */

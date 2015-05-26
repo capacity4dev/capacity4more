@@ -14,7 +14,9 @@
  *   TRUE or FALSE.
  *
  * @throws \Exception
+ *   General Exception.
  * @throws \InvalidMergeQueryException
+ *   Invalid Merge Query Exception.
  */
 function c4m_vocab_topic_add_mapping(array $mapping) {
   if (empty($mapping['tid'])) {
@@ -38,10 +40,13 @@ function c4m_vocab_topic_add_mapping(array $mapping) {
 }
 
 /**
+ * Retrieve the mapping with the new terms based on the name.
+ *
  * @param string $name
  *   Destination title (to be mapped).
  *
  * @return array
+ *   Array with the mapping (if found).
  */
 function c4m_vocab_topic_get_mapping_by_source($name) {
   $mapping = &drupal_static('c4m_vocab_topic_mapping');
