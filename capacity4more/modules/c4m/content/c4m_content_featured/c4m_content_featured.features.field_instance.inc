@@ -40,7 +40,7 @@ function c4m_content_featured_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(
-          'trim_length' => 600,
+          'trim_length' => 200,
         ),
         'type' => 'text_summary_or_trimmed',
         'weight' => 0,
@@ -222,7 +222,7 @@ function c4m_content_featured_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'image_style' => 'c4m_image_medium',
         ),
         'type' => 'image',
         'weight' => 0,

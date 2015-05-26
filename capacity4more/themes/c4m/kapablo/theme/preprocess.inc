@@ -77,6 +77,9 @@ function kapablo_preprocess_page(&$variables) {
   else {
     $variables['content_column_class_kapablo'] = ' class="col-md-12"';
   }
+
+  // Add search form.
+  $variables['search_form'] = drupal_get_form('c4m_search_form');
 }
 
 /**
@@ -95,6 +98,32 @@ function kapablo_preprocess_field(&$variables, $hook) {
       if (!empty($group_access['type'])) {
         $variables['classes_array'][] = 'group-' .
           drupal_html_class($group_access['type']);
+      }
+      break;
+
+    // Create an attribute to the link field.
+    // This field will contain the initials of the title.
+    // Using this initials in the css to create a ::before element
+    // The ::before element is used to create
+    // a circle with the user's initials in it.
+    case 'c4m_link_multiple':
+      foreach ($element['#items'] as $key => $item) {
+        // Get initials of the user name.
+        $title_array = preg_split("/\s+/", $item['title']);
+        $initials = "";
+        foreach ($title_array as $w) {
+          $initials .= $w[0];
+        }
+
+        // Set initials in an attribute to the 'a' tag to use in css.
+        $variables['items'][$key]['#element']['attributes']['data-initials'] = $initials;
+
+        // Add html if there's no link.
+        if (!$variables['items'][$key]['#element']['url']) {
+          $title = $item['title'];
+          $variables['items'][$key]['#element']['title'] = "<span data-initials='$initials'>$title</span>";
+          $variables['items'][$key]['#element']['html'] = TRUE;
+        }
       }
       break;
   }

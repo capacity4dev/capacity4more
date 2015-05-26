@@ -5,19 +5,19 @@
     <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-loop rn-carousel-controls class="carousel">
       <li ng-repeat="slide in carouselImages track by slide.id" ng-class="'id-' + slide.id">
         <div ng-style="{'background-image': 'url(' + slide.image + ')'}"  class="bgimage">
-          <a href="{{ slide.alias }}">
-            <div class="intro-text">
+          <div class="intro-text">
+            <a href="{{ slide.alias }}">
               <span class="title">
                 {{ slide.title }}
               </span>
-              <span class="date">
-                {{ slide.date }}
-              </span>
-              <span class="text">
-                {{ slide.text }}
-              </span>
-            </div>
-          </a>
+            </a>
+            <span class="date">
+              {{ slide.date }}
+            </span>
+            <span class="text">
+              {{ slide.text }}
+            </span>
+          </div>
         </div>
       </li>
     </ul>

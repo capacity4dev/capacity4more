@@ -26,8 +26,6 @@ angular.module('c4mApp')
 
     $scope = QuickPostService.setDefaults($scope);
 
-    $scope.basePath = DrupalSettings.getBasePath();
-
     /**
      * Prepares the referenced "data" to be objects and normal field to be empty.
      *
@@ -43,7 +41,7 @@ angular.module('c4mApp')
           if (field == 'resources' || field == 'group' || field == "tags") {
             return;
           }
-          var allowedValues = field == "categories" ? data.form_element.allowed_values.categories : data.form_element.allowed_values;
+          var allowedValues = field == "categories" ? $scope.fieldSchema.categories : data.form_element.allowed_values;
 
           if (angular.isObject(allowedValues)) {
             $scope.referenceValues[field] = allowedValues;
@@ -53,8 +51,8 @@ angular.module('c4mApp')
         });
       });
 
-      // Set "Start a Debate" as default discussion type.
-      $scope.data.discussion_type = 'debate';
+      // Set "Share Information" as default discussion type.
+      $scope.data.discussion_type = 'info';
 
       // Set "Event" as default event type.
       $scope.data.event_type = 'event';
@@ -83,7 +81,7 @@ angular.module('c4mApp')
 
     // Displaying the fields upon clicking on the label field.
     $scope.showFields = function() {
-      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource);
+      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource, $scope.resources);
     };
 
     // Getting matching tags.
@@ -328,7 +326,7 @@ angular.module('c4mApp')
       submitData.status = type == 'full_form' ? 0 : 1;
 
       // Cancel submit and display errors if we have errors.
-      if (Object.keys(errors).length && type == 'quick_post') {
+      if (Object.keys(errors).length) {
         angular.forEach(errors, function(value, field) {
           this[field] = value;
         }, $scope.errors);
@@ -347,7 +345,7 @@ angular.module('c4mApp')
           // If requested to create in full form, Redirect user to the edit page.
           if (type == 'full_form') {
             var entityID = data.data[0].id;
-            $window.location = DrupalSettings.getBasePath() + "node/" + entityID + "/edit";
+            $window.location = DrupalSettings.getPurlPath() + "/node/" + entityID + "/edit";
           }
           else {
             $scope.serverSide.data = data;

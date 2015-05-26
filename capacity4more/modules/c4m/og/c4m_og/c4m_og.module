@@ -222,7 +222,7 @@ function c4m_og_views_api() {
  *
  * @return bool
  */
-function c4m_og_access($feature, $account = NULL) {
+function c4m_og_access($feature = NULL, $account = NULL) {
   // Check if the user has access to the group context.
   $og_context = og_context();
   if (!$og_context) {
@@ -230,7 +230,7 @@ function c4m_og_access($feature, $account = NULL) {
   }
 
   // Check if the feature is enabled.
-  if (c4m_og_feature_enabled($feature)) {
+  if (empty($feature) || c4m_og_feature_enabled($feature)) {
     return TRUE;
   }
 
@@ -578,4 +578,34 @@ function c4m_og_feature_uninstall($feature) {
   $settings = variable_get('c4m_og_features_group');
   unset($settings[$feature]);
   variable_set('c4m_og_features_group', $settings);
+}
+
+/**
+ * Get the group IDs of all the group nodes of specific node type a user is an
+ * approved member of.
+ *
+ * @param $bundle
+ *  (optional) The group node type.
+ * @param $account
+ * (optional) The user object to fetch group memberships for. Defaults to the
+ *   acting user.
+ *
+ * @return array()
+ *  Returns array of group nodes IDs of specific node type.
+ */
+function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+  $groups = og_get_groups_by_user($account, 'node');
+
+  if (!$groups || !$bundle) {
+    return $groups;
+  }
+
+  foreach ($groups as $key => $gid) {
+    $wrapper = entity_metadata_wrapper('node', $gid);
+    $node_type = $wrapper->getBundle();
+    if ($node_type != $bundle) {
+      unset($groups[$key]);
+    }
+  }
+  return $groups;
 }
