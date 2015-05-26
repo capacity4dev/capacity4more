@@ -8,7 +8,7 @@ group_6,user_1,Architecture,architecture,architecture.jpg,,"Architecture (Latin 
 group_7,user_8,"Nobel Prize",nobelprize,nobelprize.jpg,nobel-prize-eu.jpg,"The Nobel Prize (Swedish pronunciation: [noˈbɛl], Swedish definite form, singular: Nobelpriset; Norwegian: Nobelprisen) is a set of annual international awards bestowed in a number of categories by Swedish and Norwegian committees in recognition of cultural and/or scientific advances. The will of the Swedish inventor Alfred Nobel established the prizes in 1895.",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,published
 group_8,user_8,"Requested group",requested,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,requested
 group_9,user_8,"Rejected group",rejected,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,rejected
-group_10,user_8,"Draft group",draft,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,draft
+group_10,user_8,"Draft group",draft,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water|t_erosion|t_gas,Sweden|Worldwide,,,0,0,,draft
 group_11,user_8,"Published group",published,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,published
 group_12,user_8,"Archived group",archived,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,archived
 group_13,user_8,"Deleted group",deleted,nobelprize.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,deleted
