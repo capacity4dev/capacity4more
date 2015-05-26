@@ -71,10 +71,10 @@ function c4m_content_topic_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '4',
+          'weight' => '5',
         ),
         'locations' => array(
-          'weight' => '5',
+          'weight' => '6',
         ),
       ),
       'display' => array(),

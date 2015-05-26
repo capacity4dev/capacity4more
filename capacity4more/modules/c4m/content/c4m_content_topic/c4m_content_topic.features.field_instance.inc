@@ -85,7 +85,7 @@ function c4m_content_topic_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
@@ -93,7 +93,7 @@ function c4m_content_topic_field_default_field_instances() {
   $field_instances['node-topic-c4m_media'] = array(
     'bundle' => 'topic',
     'deleted' => 0,
-    'description' => 'The image is used on the topics overview and topic detail pages.',
+    'description' => 'The image is used on the topics overview pages.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -148,9 +148,10 @@ function c4m_content_topic_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_media',
-    'label' => 'Image',
+    'label' => 'List Image',
     'required' => 1,
     'settings' => array(
       'alt_field' => 0,
@@ -178,12 +179,97 @@ function c4m_content_topic_field_default_field_instances() {
         ),
         'browser_plugins' => array(
           'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_2' => 0,
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'upload' => 'upload',
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 2,
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'node-topic-c4m_vocab_theme'
+  $field_instances['node-topic-c4m_vocab_theme'] = array(
+    'bundle' => 'topic',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'The theme related to this topic.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 2,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_theme',
+    'label' => 'Theme',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'term_reference_tree',
+      'settings' => array(
+        'cascading_selection' => 0,
+        'filter_view' => '',
+        'leaves_only' => 0,
+        'max_depth' => 1,
+        'parent_term_id' => '',
+        'select_parents' => 0,
+        'start_minimized' => 0,
+        'token_display' => '',
+        'track_list' => 0,
+      ),
+      'type' => 'term_reference_tree',
+      'weight' => 1,
     ),
   );
 
@@ -192,7 +278,7 @@ function c4m_content_topic_field_default_field_instances() {
     'bundle' => 'topic',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'The topic related to this topic.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -267,15 +353,18 @@ function c4m_content_topic_field_default_field_instances() {
         'track_list' => 0,
       ),
       'type' => 'term_reference_tree',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('Description');
-  t('Image');
-  t('The image is used on the topics overview and topic detail pages.');
+  t('List Image');
+  t('The image is used on the topics overview pages.');
+  t('The theme related to this topic.');
+  t('The topic related to this topic.');
+  t('Theme');
   t('Topic');
 
   return $field_instances;
