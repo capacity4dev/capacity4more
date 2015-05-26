@@ -72,5 +72,26 @@
         });
       }
     };
+
+    Drupal.behaviors.headerResize = {
+      attach: function (context, settings) {
+        // Make the non logged in header responsive
+        var imgWidth  = 954,  // Set the width/height of the background image manually
+            imgHeight = 298,
+            imgRatio  = imgHeight/imgWidth;
+
+        $(window).load(function() {
+          $(window).resize(function() {
+            var header          = $('.header-content'),
+                headerWidth    = $(header).outerWidth();
+            if (headerWidth > imgWidth) {
+              headerWidth = imgWidth;
+            }
+            var responsiveHeight  = headerWidth*imgRatio;
+            $('.block-c4m-features-homepage-intro .button-wrapper .btn').height(responsiveHeight);
+          }).resize();
+        });
+      }
+    };
   }
 )(jQuery);

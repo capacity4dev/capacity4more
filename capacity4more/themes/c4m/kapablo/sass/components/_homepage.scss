@@ -20,7 +20,9 @@ body.front.not-logged-in {
   }
   .header-content {
     background: transparent url('../images/header/homepage-anonymous.png') no-repeat top center;
-    height: 298px;
+    max-height: 298px;
+    height: auto;
+    background-size: contain;
   }
 }
 
@@ -34,6 +36,7 @@ body.front.not-logged-in {
     background-color: transparent;
     border: none;
     color: transparent;
+    max-height: 298px;
     height: 298px;
     outline: 0;
     width: 400px;
