@@ -80,7 +80,7 @@ trait Group {
   }
 
   /**
-   * @When /^I visit page "([^"]*)" in the group "([^"]*)"$/
+   * @When /^I visit the page "([^"]*)" in the group "([^"]*)"$/
    */
   public function iVisitPageInGroup($page, $title) {
     $group = $this->loadGroupByTitleAndType($title, 'group');
