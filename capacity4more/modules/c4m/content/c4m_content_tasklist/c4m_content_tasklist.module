@@ -63,6 +63,9 @@ function c4m_content_tasklist_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('og-tasklists'),
         ),
+        'link' => array(
+          'path' => 'tasklists',
+        ),
       ),
     ),
   );
