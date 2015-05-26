@@ -7,8 +7,7 @@
 /**
  * Class C4mDemoContentCreateTopicTerms.
  */
-class C4mDemoContentCreateTopicTerms
-  extends C4mDemoContentCreateEntity {
+class C4mDemoContentCreateTopicTerms extends C4mDemoContentCreateEntity {
   public $bundle = 'c4m_vocab_topic';
 
   /**
@@ -56,7 +55,9 @@ class C4mDemoContentCreateTopicTerms
    * Complete callback.
    *
    * @param object $term
+   *   Drupal Term object.
    * @param object $row
+   *   Source row object.
    */
   public function complete($term, $row) {
     if ($term->tid && $row->mapping) {
