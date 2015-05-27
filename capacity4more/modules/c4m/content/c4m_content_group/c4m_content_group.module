@@ -646,3 +646,50 @@ function c4m_content_group_add_grants($rows, &$grants) {
 function c4m_content_group_admin_paths_alter(&$paths) {
   $paths['node/*/group'] = FALSE;
 }
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_group_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_groups' => array(
+        'type'        => 'group',
+        'entity_type' => 'node',
+        'bundles'     => array('group'),
+        'singular'    => 'Group',
+        'plural'      => 'Groups',
+        'state'       => NULL,
+        'c4m_status'  => array('published', 'archived'),
+        'aggregate'   => array(),
+        'weight'      => -4,
+        'attributes'  => array(
+          'class' => array('groups'),
+        ),
+        'link' => array(
+          'path' => 'groups',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_group_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_group');
+
+  $fields['node']['c4m_content_group_statistics'] = array(
+    'title'      => t('Group statistics'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    // Only for group nodes.
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_content_group_statistics.theme.inc',
+    'function'   => 'c4m_content_group_statistics',
+  );
+
+  return $fields;
+}
