@@ -24,7 +24,7 @@ function c4m_field_media_file_default_displays() {
   $file_display->weight = 0;
   $file_display->status = TRUE;
   $file_display->settings = array(
-    'image_style' => 'small',
+    'image_style' => 'medium',
     'image_link' => '',
   );
   $export['image__c4m_preview__file_field_image'] = $file_display;
