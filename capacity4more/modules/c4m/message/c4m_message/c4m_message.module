@@ -836,6 +836,7 @@ function c4m_message_load_homepage_activity_stream() {
         if (!empty($interests)) {
           $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
         }
+
         $result = $query->execute();
 
         if (!empty($result['node'])) {

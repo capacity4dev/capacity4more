@@ -69,8 +69,14 @@ class C4mDemoContentCreateUsers extends Migration {
     $this->addFieldMapping('status')
          ->defaultValue(TRUE);
 
-    $this->addFieldMapping('c4m_related_topic', 'topics_interest_list');
-    $this->addFieldMapping('c4m_related_topic_expertise', 'topics_expertise_list');
+    $this->addFieldMapping('c4m_vocab_topic', 'topics_interest')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
+    $this->addFieldMapping('c4m_vocab_topic_expertise', 'topics_expertise')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
       ->arguments(array('source_type' => 'tid'));
