@@ -73,6 +73,7 @@ class C4mDemoContentCreateUsers extends Migration {
       ->sourceMigration('C4mDemoContentCreateTopicTerms')
       ->arguments(array('source_type' => 'tid'))
       ->separator('|');
+
     $this->addFieldMapping('c4m_vocab_topic_expertise', 'topics_expertise')
       ->sourceMigration('C4mDemoContentCreateTopicTerms')
       ->arguments(array('source_type' => 'tid'))
@@ -119,27 +120,6 @@ class C4mDemoContentCreateUsers extends Migration {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
-    $unfiltered_ids = $this->handleSourceMigration(
-                           'C4mDemoContentCreateTopics',
-                             explode('|', $row->topics_interest),
-                             NULL,
-                             $this
-    );
-
-    $row->topics_interest_list = $this->filterDestid2FromEntityReference(
-                                      $unfiltered_ids
-    );
-
-    $unfiltered_ids = $this->handleSourceMigration(
-                           'C4mDemoContentCreateTopics',
-                             explode('|', $row->topics_expertise),
-                             NULL,
-                             $this
-    );
-
-    $row->topics_expertise_list = $this->filterDestid2FromEntityReference(
-                                       $unfiltered_ids
-    );
 
     $unfiltered_ids = $this->handleSourceMigration(
                            'C4mDemoContentCreateGroups',

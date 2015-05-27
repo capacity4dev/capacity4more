@@ -87,7 +87,12 @@ class C4mDemoContentCreateTopicTerms extends C4mDemoContentCreateEntity {
     $term = new stdClass();
     $term->name = t('Stub for @id', array('@id' => $source_id[0]));
     $term->vocabulary_machine_name = 'c4m_vocab_topic';
+
+    $voc = taxonomy_vocabulary_machine_name_load('c4m_vocab_topic');
+    $term->vid = $voc->vid;
+
     taxonomy_term_save($term);
+
     if (isset($term->tid)) {
       return array($term->tid);
     }
