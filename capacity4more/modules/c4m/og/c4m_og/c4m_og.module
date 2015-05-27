@@ -530,6 +530,24 @@ function c4m_og_feature_enabled_features() {
 }
 
 /**
+ * Get a list of enabled features for the active group.
+ *
+ * @return array
+ *   An array with the features that are enabled for the active group.
+ */
+function c4m_og_feature_disabled_features() {
+  $features = variable_get('c4m_og_features_group');
+
+  foreach ($features as $feature => $status) {
+    if ($status) {
+      unset($features[$feature]);
+    }
+  }
+
+  return array_keys($features);
+}
+
+/**
  * Get a list of enabled content types for the active group.
  *
  * @return array
@@ -540,6 +558,40 @@ function c4m_og_feature_enabled_content_types() {
 
   $feature_info = c4m_og_feature_info();
   $features = c4m_og_feature_enabled_features();
+
+  foreach ($features as $feature) {
+    $group_content_types = $feature_info[$feature]['content_types'];
+    $content_types = array_merge($content_types, $group_content_types);
+  }
+
+  return $content_types;
+}
+
+/**
+ * Check if a given content type is enabled within the current group context.
+ *
+ * @param string $type
+ *   The node type.
+ *
+ * @return bool
+ *   Enabled?
+ */
+function c4m_og_feature_is_content_type_enabled($type) {
+  $enabled_types = c4m_og_feature_enabled_content_types();
+  return in_array($type, $enabled_types);
+}
+
+/**
+ * Get a list of disabled content types for the active group.
+ *
+ * @return array
+ *   An array with the content types that are disabled for the active group.
+ */
+function c4m_og_feature_disabled_content_types() {
+  $content_types = array();
+
+  $feature_info = c4m_og_feature_info();
+  $features = c4m_og_feature_disabled_features();
 
   foreach ($features as $feature) {
     $group_content_types = $feature_info[$feature]['content_types'];
