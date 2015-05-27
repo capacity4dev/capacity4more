@@ -23,3 +23,50 @@ function c4m_content_tasklist_c4m_og_vocab_info_content() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_tasklist_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_tasklists' => array(
+        'type'          => 'tasklist',
+        'entity_type'   => 'node',
+        'bundles'       => array('tasklist'),
+        'singular'      => 'Post',
+        'plural'        => 'Posts',
+        'state'         => 1,
+        'aggregate'     => array(
+          'type' => 'posts',
+        ),
+        'weight'        => 1,
+        'attributes'    => array(
+          'class' => array('posts'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_tasklists' => array(
+        'type'          => 'tasklist',
+        'entity_type'   => 'node',
+        'bundles'       => array('tasklist'),
+        'singular'      => 'Task list',
+        'plural'        => 'Task lists',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 4,
+        'feature_name'  => 'c4m_features_og_tasklists',
+        'attributes'    => array(
+          'class' => array('og-tasklists'),
+        ),
+        'link' => array(
+          'path' => 'tasklists',
+        ),
+      ),
+    ),
+  );
+}

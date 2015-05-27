@@ -73,6 +73,22 @@ trait File {
   }
 
   /**
+   * @Given /^I upload the file "([^"]*)" in the field with id "([^"]*)"$/
+   */
+  public function iUploadTheFileInTheFieldWithId($file, $fieldid) {
+    $file_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$file;
+
+    $fileInput = '#' . $fieldid;
+    $fields = $this->getSession()->getPage()->find('css', $fileInput);
+    foreach($fields as $field) {
+      if (null === $field) {
+        throw new \Exception("File input is not found");
+      }
+      $field->attachFile($file_path);
+    }
+  }
+
+  /**
    * @When /^I attach the file to the field banner$/
    */
   public function iAttachTheFileToTheField() {
