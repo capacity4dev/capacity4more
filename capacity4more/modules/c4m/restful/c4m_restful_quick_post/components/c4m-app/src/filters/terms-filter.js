@@ -63,14 +63,14 @@ angular.module('c4mApp')
                       parentTerm = true;
                     }
                     if (!childTerm) {
-                      filtered[id].children[childId] = {
+                      filtered[id].children.push({
                         id: child.id,
                         label: child.label,
                         children: []
-                      };
+                      });
                       childTerm = true;
                     }
-                    filtered[id].children[childId].children.push({
+                    filtered[id].children[filtered[id].children.length - 1].children.push({
                       id: childChild.id,
                       label: childChild.label
                     });
