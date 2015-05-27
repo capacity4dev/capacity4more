@@ -73,7 +73,7 @@ class C4mDemoContentCreateTopicTerms extends C4mDemoContentCreateEntity {
 
 
   /**
-   * Create stub Topic Terms (when creating users), who will be replaced afterwards.
+   * Create stub terms (when creating users), who will be replaced afterwards.
    *
    * @param Migration $migration
    *   The migration that is being done to create this stub.
