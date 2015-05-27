@@ -7,7 +7,8 @@
 /**
  * Class C4mDemoContentCreateOrganisations.
  */
-class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateOgContent {
+class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateEntity {
+  public $entityType = 'node';
   public $bundle = 'organisation';
 
   /**
