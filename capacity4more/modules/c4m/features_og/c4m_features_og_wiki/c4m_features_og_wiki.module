@@ -53,6 +53,15 @@ function c4m_features_og_wiki_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function c4m_features_og_wiki_menu_alter(&$items) {
+  // Unset the book outline tab,
+  // because we have are own rearrange integration.
+  unset($items['node/%node/outline']);
+}
+
+/**
  * Access callback for the wiki rearrange menu item.
  *
  * @param array $options
