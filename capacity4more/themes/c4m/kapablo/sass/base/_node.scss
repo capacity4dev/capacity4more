@@ -129,11 +129,11 @@
                 .term-tree-list {
 
                   a {
-                    @include arrow-image('down', 'highlight-blue', 'before');
+                    @include arrow-image('down', 'blue', 'before');
                   }
 
                   a:only-child {
-                    @include arrow-image('right', 'highlight-blue', 'before');
+                    background: none;
                   }
 
                   ul {
