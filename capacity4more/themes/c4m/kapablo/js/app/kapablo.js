@@ -78,15 +78,16 @@
         var header = $('.header-content');
 
         $(window).load(function() {
-          // Make the non logged in header responsive
+          // Make the non logged in header responsive.
           var headerImage = loadBackgroundImage(header);
           if (!headerImage) {
             return;
           }
 
-          var imgWidth    = headerImage.width,  // Set the width/height of the background image manually
-              imgHeight   = headerImage.height,
-              imgRatio    = imgHeight/imgWidth;
+          // Set the width/height of the background image manually.
+          var imgWidth    = headerImage.width;
+          var imgHeight   = headerImage.height;
+          var imgRatio    = imgHeight/imgWidth;
 
           $(window).resize(function() {
             var headerWidth    = $(header).outerWidth();
@@ -102,9 +103,10 @@
     };
 
     /**
-     * Load background image
+     * Load background image.
      *
      * @param $element
+     *
      * @returns {boolean}
      */
     function loadBackgroundImage($element) {
@@ -115,7 +117,7 @@
         return false;
       }
 
-      // Remove url() or in case of Chrome url("")
+      // Remove url() or in case of Chrome url("").
       image_url = image_url.match(/^url\("?(.+?)"?\)$/);
 
       if (image_url[1]) {
