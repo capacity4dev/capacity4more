@@ -230,6 +230,8 @@ projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
 
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
 
 ; Development modules
 ; Modules

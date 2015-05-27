@@ -71,6 +71,8 @@ dependencies[] = token
 dependencies[] = views
 dependencies[] = views_content
 dependencies[] = views_bulk_operations
+dependencies[] = draggableviews
+dependencies[] = draggableviews_books
 
 
 ; capacity4more ---------------------------------------------------------------
