@@ -76,7 +76,7 @@ function _c4m_user_profile_block_user_welcome() {
     '#value'      => $full_name_picture . $menu,
     '#attributes' => array(
       'class' => array('userbar-userprofile', 'dropdown'),
-    )
+    ),
   );
 
   $block['content'] = render($output);
@@ -106,9 +106,11 @@ function _c4m_user_profile_block_user_notifications() {
 }
 
 /**
- * Helper function to render user profile
+ * Helper function to render user profile.
+ *
  * @param $theme_function
  * @param $user
+ *
  * @return string
  */
 function c4m_user_profile_render_user_profile($theme_function, $user) {

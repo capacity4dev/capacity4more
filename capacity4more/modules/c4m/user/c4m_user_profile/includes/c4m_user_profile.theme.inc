@@ -6,7 +6,9 @@
 
 /**
  * Theme function for user fullname with profile picture.
+ *
  * @param $variables
+ *
  * @return string
  */
 function theme_c4m_user_profile_picture_fullname($variables) {
@@ -23,14 +25,15 @@ function theme_c4m_user_profile_picture_fullname($variables) {
   if (empty($picture)) {
     // If there is no image, we render initials.
     $picture = c4m_user_initials_themed($user, FALSE);
-  } else {
+  }
+  else {
     $picture = array(
       '#theme'      => 'image_style',
       '#style_name' => 'media_thumbnail',
       '#path'       => $picture['uri'],
       '#attributes' => array(
         'class' => array('profile-picture'),
-      )
+      ),
     );
     $picture = render($picture);
   }
@@ -59,7 +62,9 @@ function theme_c4m_user_profile_picture_fullname($variables) {
 
 /**
  * Theme function for user profile menu.
+ *
  * @param $variables
+ *
  * @return string
  */
 function theme_c4m_user_profile_menu($variables) {
