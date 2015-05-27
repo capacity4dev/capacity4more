@@ -28,6 +28,9 @@ function c4m_content_group_field_default_field_bases() {
       'handler' => 'og_c4m',
       'handler_settings' => array(
         'behaviors' => array(
+          'og_behavior' => array(
+            'status' => TRUE,
+          ),
           'views-select-list' => array(
             'status' => 0,
           ),
