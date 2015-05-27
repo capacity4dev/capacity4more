@@ -47,7 +47,7 @@ trait Node {
       $uri = $this->createUriWithGroupContext($group, '<front>') . '/';
     }
     // Use Drupal Context 'I am at'.
-    return new Given("I go to " . $uri . "\"node/$nid\"");
+    return new Given("I go to \"" . $uri . "node/$nid\"");
   }
 
   /**
