@@ -71,20 +71,20 @@ function theme_c4m_content_document_type_size(array $field) {
   $tags = array(
     'type' => array(
       'element' => array(
-        '#tag'       => 'span',
+        '#tag' => 'span',
         '#attributes' => array(
           'class' => array('document-type'),
         ),
-        '#value'     => t('File type: ') . $document['type'],
+        '#value' => t('File type: @type', array('@type' => $document['type'])),
       ),
     ),
     'size' => array(
       'element' => array(
-        '#tag'       => 'span',
+        '#tag' => 'span',
         '#attributes' => array(
           'class' => array('document-size'),
         ),
-        '#value'     => t('Size: ') . format_size($document['filesize']),
+        '#value' => t('Size: @size', array('@size' => format_size($document['filesize']))),
       ),
     ),
   );
