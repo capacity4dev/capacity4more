@@ -69,12 +69,17 @@ trait Node {
   }
 
   /**
-   * @Then /^I should be allowed to create a "([^"]*)"$/
+   * @Then /^I should be allowed to create a "([^"]*)" in the group "([^"]*)"$/
    */
-  public function iShouldBeAllowedToCreateA($type) {
+  public function iShouldBeAllowedToCreateInGroup($type, $group) {
 
+    print_r($group);
+    $group = $this->loadGroupByTitleAndType($group, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+    print_r($uri);
+    print_r($group->title);
     return array(
-      new Step\When('I go to "node/add/'.$type.'"'),
+      new Step\When('I visit "' . $uri . '/node/add/' . $type . '"'),
       new Step\Then('I should not see "Access denied"'),
     );
   }
