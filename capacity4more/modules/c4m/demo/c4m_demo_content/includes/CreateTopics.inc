@@ -26,9 +26,9 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
       array('image', 'Image'),
       array('body', 'Body'),
       array('groups', 'Groups'),
-      //      array('projects', 'Projects'),
-      //      array('articles', 'Articles'),
-      //      array('uid', 'UID'),
+            array('projects', 'Projects'),
+//            array('articles', 'Articles'),
+//            array('uid', 'UID'),
     );
 
   /**
@@ -75,6 +75,8 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
     $this->addFieldMapping('c4m_related_group_unlimited', 'groups_list');
+
+    $this->addFieldMapping('c4m_related_projects_unlimited', 'projects_list');
 //
 //    $this->addFieldMapping('uid', 'uid')
 //      ->sourceMigration('C4mDemoContentCreateUsers');
@@ -95,6 +97,16 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
       $this
     );
     $row->groups_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateProjects',
+      explode('|', $row->projects),
+      NULL,
+      $this
+    );
+    $row->projects_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
   }
