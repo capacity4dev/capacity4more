@@ -25,7 +25,7 @@ function c4m_content_group_field_default_field_bases() {
     'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
-      'handler' => 'og_c4m',
+      'handler' => 'c4m_selection',
       'handler_settings' => array(
         'behaviors' => array(
           'og_behavior' => array(
