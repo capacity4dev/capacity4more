@@ -414,8 +414,9 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   }
 
   /**
-   * Helper method to combine a domain icon state,
-   * and domain values for a "domain" field.
+   * Helper method for the organisation domain field.
+   *
+   * Combine a domain icon state and domain values for a "domain" field.
    *
    * @param object $entity
    *   The entity object AFTER it has been saved (nid available).
