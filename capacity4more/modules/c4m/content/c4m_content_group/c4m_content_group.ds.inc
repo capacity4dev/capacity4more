@@ -34,7 +34,7 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'linked_c4m_user_author_thumb_image',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'above',
       'format' => 'user',
       'formatter_settings' => array(
@@ -104,6 +104,11 @@ function c4m_content_group_ds_field_settings_info() {
           'fis-def-at' => FALSE,
         ),
       ),
+    ),
+    'c4m_content_group_statistics' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
     'c4m_related_topic' => array(
       'formatter_settings' => array(
@@ -375,6 +380,7 @@ function c4m_content_group_ds_layout_settings_info() {
         10 => 'c4m_extra_info',
         11 => 'c4m_ds_group_access_info',
         12 => 'c4m_ds_group_administer_link',
+        13 => 'c4m_content_group_statistics',
       ),
     ),
     'fields' => array(
@@ -388,6 +394,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'group_details' => 'ds_content',
       'c4m_related_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
+      'c4m_content_group_statistics' => 'ds_content',
       'c4m_extra_info' => 'ds_content',
       'c4m_ds_group_access_info' => 'ds_content',
       'c4m_ds_group_administer_link' => 'ds_content',
