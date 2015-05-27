@@ -186,8 +186,6 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     'view own files',
     'access media browser',
     'access overlay',
-    'access draggable views',
-
   );
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 

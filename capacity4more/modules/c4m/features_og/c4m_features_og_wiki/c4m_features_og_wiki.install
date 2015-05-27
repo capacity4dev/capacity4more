@@ -10,6 +10,12 @@
 function c4m_features_og_wiki_install() {
   // Install this feature.
   c4m_og_feature_install('c4m_features_og_wiki');
+
+  // Enable default permissions for authenticated users.
+  $permissions = array(
+    'access draggableviews',
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 
 /**
