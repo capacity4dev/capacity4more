@@ -71,4 +71,29 @@ class C4mDemoContentCreateTopicTerms extends C4mDemoContentCreateEntity {
     }
   }
 
+
+  /**
+   * Create stub Topic Terms (when creating users), who will be replaced afterwards.
+   *
+   * @param Migration $migration
+   *   The migration that is being done to create this stub.
+   * @param array $source_id
+   *   Array of strings with the source id(s).
+   *
+   * @return array|bool
+   *   Array with topic node id if term created, else FALSE.
+   */
+  public function createStub(Migration $migration, array $source_id) {
+    $term = new stdClass();
+    $term->name = t('Stub for @id', array('@id' => $source_id[0]));
+    $term->vocabulary_machine_name = 'c4m_vocab_topic';
+    taxonomy_term_save($term);
+    if (isset($term->tid)) {
+      return array($term->tid);
+    }
+    else {
+      return FALSE;
+    }
+  }
+
 }

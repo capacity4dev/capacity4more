@@ -40,7 +40,7 @@ function _c4m_vocab_topic_install_vocabulary() {
 
   variable_set(
     'pathauto_taxonomy_term_c4m_vocab_topic_pattern',
-    'topic/[term:name]'
+    'topic/term/[term:name]'
   );
 
   return $vocabulary;
