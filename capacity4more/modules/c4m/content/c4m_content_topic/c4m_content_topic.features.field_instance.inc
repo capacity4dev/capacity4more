@@ -371,8 +371,8 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_related_group'
-  $field_instances['node-topic-c4m_related_group'] = array(
+  // Exported field_instance: 'node-topic-c4m_related_group_unlimited'
+  $field_instances['node-topic-c4m_related_group_unlimited'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -433,7 +433,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_related_group',
+    'field_name' => 'c4m_related_group_unlimited',
     'label' => 'Related Groups',
     'required' => 0,
     'settings' => array(
@@ -453,8 +453,8 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_related_projects'
-  $field_instances['node-topic-c4m_related_projects'] = array(
+  // Exported field_instance: 'node-topic-c4m_related_projects_unlimited'
+  $field_instances['node-topic-c4m_related_projects_unlimited'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -515,7 +515,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_related_projects',
+    'field_name' => 'c4m_related_projects_unlimited',
     'label' => 'Related Projects',
     'required' => 0,
     'settings' => array(
