@@ -1109,6 +1109,7 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_projects',
     'label' => 'Related Projects',
@@ -1279,7 +1280,7 @@ function c4m_content_project_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 15,
+      'weight' => 14,
     ),
   );
 

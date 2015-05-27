@@ -101,9 +101,6 @@ function c4m_content_project_strongarm() {
         'path' => array(
           'weight' => '10',
         ),
-        'locations' => array(
-          'weight' => '30',
-        ),
       ),
       'display' => array(),
     ),
@@ -128,7 +125,9 @@ function c4m_content_project_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_project';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => 'revision',
+  );
   $export['node_options_project'] = $strongarm;
 
   $strongarm = new stdClass();
