@@ -1,3 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Display "In the picture" carousel on overview pages.
+ *
+ * When there's only one picture,
+ * We display the picture without the carousel to avoid motion.
+ */
+?>
+
 <div class="row carousel" ng-controller="CarouselCtrl">
   <div class="col-md-12" ng-if="carouselImages.length > 1">
     <ul rn-carousel rn-carousel-index="carouselIndex" rn-carousel-loop rn-carousel-controls class="carousel">
