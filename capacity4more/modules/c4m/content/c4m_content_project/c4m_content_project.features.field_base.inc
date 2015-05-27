@@ -175,7 +175,7 @@ function c4m_content_project_field_default_field_bases() {
   // Exported field_base: 'c4m_related_projects_unlimited'
   $field_bases['c4m_related_projects_unlimited'] = array(
     'active' => 1,
-    'cardinality' => 3,
+    'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_related_projects_unlimited',
@@ -195,13 +195,14 @@ function c4m_content_project_field_default_field_bases() {
     'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
-      'handler' => 'base',
+      'handler' => 'c4m_selection',
       'handler_settings' => array(
         'behaviors' => array(
           'views-select-list' => array(
             'status' => 0,
           ),
         ),
+        'membership_type' => 'og_membership_type_default',
         'sort' => array(
           'direction' => 'ASC',
           'property' => 'title',
