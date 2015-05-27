@@ -4,6 +4,21 @@
  * Code for the Group content type feature.
  */
 
+define('C4M_NODE_ACCESS_REALM', 'c4m_group_status');
+define('C4M_NODE_ACCESS_REALM_ALL', 'c4m_group_status_admin');
+define('C4M_GROUP_STATUS_VIEW_REQUESTED', 0);
+define('C4M_GROUP_STATUS_VIEW_DRAFT', 1);
+define('C4M_GROUP_STATUS_VIEW_PUBLISHED', 2);
+define('C4M_GROUP_STATUS_VIEW_ARCHIVED', 3);
+define('C4M_GROUP_STATUS_VIEW_REJECTED', 4);
+define('C4M_GROUP_STATUS_VIEW_DELETED', 5);
+define('C4M_GROUP_STATUS_UPDATE_REQUESTED', 6);
+define('C4M_GROUP_STATUS_UPDATE_DRAFT', 7);
+define('C4M_GROUP_STATUS_UPDATE_PUBLISHED', 8);
+define('C4M_GROUP_STATUS_UPDATE_ARCHIVED', 9);
+define('C4M_GROUP_STATUS_UPDATE_REJECTED', 10);
+define('C4M_GROUP_STATUS_UPDATE_DELETED', 11);
+
 include_once 'c4m_content_group.features.inc';
 
 /**
@@ -107,8 +122,9 @@ function c4m_content_group_node_update($node) {
     return;
   }
 
+  // Do not send notifications if it's not a group.
   // Don't send notifications during migration.
-  if (!empty($node->migrate)) {
+  if ($node->type != 'group' || !empty($node->migrate)) {
     return;
   }
 
@@ -295,11 +311,385 @@ function c4m_content_group_submit_redirect(&$form, &$form_state) {
 }
 
 /**
+ * Implements hook_og_user_access_alter().
+ *
+ * Set permissions to users based on OG role and group status.
+ */
+function c4m_content_group_og_user_access_alter(&$perm, $context) {
+  $account = $context['account'];
+  $group = $context['group'];
+
+  if ($group->type != 'group' || !$account->uid) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $group);
+  $status = $wrapper->c4m_og_status->value();
+
+  $site_admin = user_access('administer site configuration', $account);
+  $group_owner = $account->uid == $group->uid;
+  $group_admin = !empty($perm['administer group']) ? $perm['administer group'] : FALSE;
+
+  if ($site_admin || $group_owner || $group_admin) {
+    // Site admin/group owner/group admin can invite/approve group members only
+    // for Draft and Published groups.
+    $allowed_values = array('draft', 'published');
+    if (!in_array($status, $allowed_values)) {
+      $perm['add user'] = FALSE;
+      $perm['approve and deny subscription'] = FALSE;
+    }
+  }
+  else {
+    // Not site admin/group owner/group admin can't invite/approve group members.
+    $perm['add user'] = FALSE;
+    $perm['approve and deny subscription'] = FALSE;
+  }
+
+  if (!og_is_member('node', $group->nid, 'user', $account) && $status != 'published') {
+    // Users that are not members can ask membership only for published groups.
+    $perm['subscribe'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_node_grants().
+ *
+ * Set user permissions based on his OG role.
+ */
+function c4m_content_group_node_grants($account = NULL, $op = 'view') {
+  $grants = array();
+  if (empty($account)) {
+    global $user;
+    $account = user_load($user->uid);
+  }
+
+  $nodes = og_get_entity_groups();
+
+  $grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
+    C4M_GROUP_STATUS_VIEW_PUBLISHED,
+    C4M_GROUP_STATUS_VIEW_ARCHIVED,
+  );
+
+  if (!$account->uid || empty($nodes)) {
+    // Anonymous user or user that is not a member of any group.
+    $anonymous_grant_ids = array(
+      C4M_GROUP_STATUS_VIEW_PUBLISHED,
+      C4M_GROUP_STATUS_VIEW_ARCHIVED,
+    );
+
+    $grants[C4M_NODE_ACCESS_REALM . '_anon'] = $op == 'view' ? $anonymous_grant_ids : array();
+    return $grants;
+  }
+
+  if (user_access('administer site configuration', $account)) {
+    // Site admin.
+    $grants[C4M_NODE_ACCESS_REALM_ALL] = array(
+      C4M_GROUP_STATUS_VIEW_REQUESTED,
+      C4M_GROUP_STATUS_VIEW_DRAFT,
+      C4M_GROUP_STATUS_VIEW_PUBLISHED,
+      C4M_GROUP_STATUS_VIEW_ARCHIVED,
+      C4M_GROUP_STATUS_VIEW_REJECTED,
+      C4M_GROUP_STATUS_VIEW_DELETED,
+      C4M_GROUP_STATUS_UPDATE_REQUESTED,
+      C4M_GROUP_STATUS_UPDATE_DRAFT,
+      C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+      C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+      C4M_GROUP_STATUS_UPDATE_REJECTED,
+      C4M_GROUP_STATUS_UPDATE_DELETED,
+    );
+    return $grants;
+  }
+
+  // Go through all user's group he is owner, admin or member of.
+  foreach (og_get_entity_groups() as $group_type => $gids) {
+    foreach ($gids as $gid) {
+      $node = node_load($gid);
+
+      if ($account->uid == $node->uid) {
+        // Group owner.
+        $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = array(
+          C4M_GROUP_STATUS_VIEW_DRAFT,
+          C4M_GROUP_STATUS_VIEW_PUBLISHED,
+          C4M_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_GROUP_STATUS_UPDATE_DRAFT,
+          C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+          C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+        );
+        continue;
+      }
+      // Group admin or group member.
+      else if (og_user_access('node', $gid, 'administer group', $account)) {
+        // Group admin.
+        $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = array(
+          C4M_GROUP_STATUS_VIEW_PUBLISHED,
+          C4M_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_GROUP_STATUS_VIEW_DRAFT,
+          C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+          C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+          C4M_GROUP_STATUS_UPDATE_DRAFT,
+        );
+        continue;
+      }
+      else {
+        $member_grant_ids = array(
+          C4M_GROUP_STATUS_VIEW_PUBLISHED,
+          C4M_GROUP_STATUS_VIEW_ARCHIVED,
+          C4M_GROUP_STATUS_VIEW_DRAFT,
+        );
+        $grants[C4M_NODE_ACCESS_REALM . '_' . $gid] = $op == 'view' ? $member_grant_ids : array();
+        continue;
+      }
+    }
+  }
+  return $grants;
+}
+
+/**
+ * Implements hook_node_access_records().
+ *
+ * Add grunts based on group status field.
+ */
+function c4m_content_group_node_access_records($node) {
+  if ($node->type != 'group') {
+    // Node is not a group.
+    return;
+  }
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $grants = array();
+  $realm_grants = array();
+
+  switch ($wrapper->c4m_og_status->value()) {
+    case 'requested':
+      $realm_grants = array(
+        C4M_NODE_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_REQUESTED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_REQUESTED,
+            'grant_update' => 1,
+          ),
+        ),
+      );
+      break;
+    case 'draft':
+      $realm_grants = array(
+        C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_DRAFT,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_DRAFT,
+            'grant_update' => 1,
+          ),
+        ),
+        C4M_NODE_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_DRAFT,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_DRAFT,
+            'grant_update' => 1,
+          ),
+        ),
+      );
+      break;
+    case 'published':
+      $realm_grants = array(
+        C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+            'grant_update' => 1,
+          ),
+        ),
+        C4M_NODE_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_PUBLISHED,
+            'grant_update' => 1,
+          ),
+        ),
+      );
+      if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
+        // Only for public groups.
+        $realm_grants[C4M_NODE_ACCESS_REALM . '_anon'] = array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
+            'grant_update' => 0,
+          ),
+        );
+        $realm_grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_PUBLISHED,
+            'grant_update' => 0,
+          ),
+        );
+      }
+      break;
+    case 'archived':
+      $realm_grants = array(
+        C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+            'grant_update' => 1,
+          ),
+        ),
+        C4M_NODE_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_ARCHIVED,
+            'grant_update' => 1,
+          ),
+        ),
+      );
+      if (!$wrapper->{OG_ACCESS_FIELD}->value()) {
+        // Only for public groups.
+        $realm_grants[C4M_NODE_ACCESS_REALM . '_anon'] = array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
+            'grant_update' => 0,
+          ),
+        );
+        $realm_grants[C4M_NODE_ACCESS_REALM . '_not_member'] = array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_ARCHIVED,
+            'grant_update' => 0,
+          ),
+        );
+      }
+      break;
+    case 'rejected':
+      $realm_grants = array(
+        C4M_NODE_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_REJECTED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_REJECTED,
+            'grant_update' => 1,
+          ),
+        ),
+      );
+      break;
+    case 'deleted':
+      $realm_grants = array(
+        C4M_NODE_ACCESS_REALM . '_' . $node->nid => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_DELETED,
+            'grant_update' => 0,
+          ),
+        ),
+        C4M_NODE_ACCESS_REALM_ALL => array(
+          array(
+            'gid' => C4M_GROUP_STATUS_VIEW_DELETED,
+            'grant_update' => 0,
+          ),
+          array(
+            'gid' => C4M_GROUP_STATUS_UPDATE_DELETED,
+            'grant_update' => 1,
+          ),
+        ),
+      );
+      break;
+  }
+  c4m_content_group_add_grants($realm_grants, $grants);
+  return $grants;
+}
+
+/**
+ * Add new grants to the grunts list.
+ *
+ * @param $rows
+ *  List of realms and related to it grunt ids and permissions.
+ * @param $grants
+ *  List of grants.
+ */
+function c4m_content_group_add_grants($rows, &$grants) {
+  foreach ($rows as $realm => $row) {
+    foreach ($row as $grant) {
+      $grants[] = array(
+        'realm' => $realm,
+        'gid' => $grant['gid'],
+        'grant_view' => 1,
+        'grant_update' => $grant['grant_update'],
+        'grant_delete' => 0,
+        'priority' => 0,
+      );
+    }
+  }
+}
+
+/**
  * Implements hook_admin_paths_alter().
  *
  * @see og_ui_admin_paths().
  * Set the 'node/add/group' path as not admin.
  */
-function c4m_content_group_admin_paths_alter(&$paths){
+function c4m_content_group_admin_paths_alter(&$paths) {
   $paths['node/*/group'] = FALSE;
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_group_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_groups' => array(
+        'type'        => 'group',
+        'entity_type' => 'node',
+        'bundles'     => array('group'),
+        'singular'    => 'Group',
+        'plural'      => 'Groups',
+        'state'       => NULL,
+        'c4m_status'  => array('published', 'archived'),
+        'aggregate'   => array(),
+        'weight'      => -4,
+        'attributes'  => array(
+          'class' => array('groups'),
+        ),
+        'link' => array(
+          'path' => 'groups',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_group_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_group');
+
+  $fields['node']['c4m_content_group_statistics'] = array(
+    'title'      => t('Group statistics'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    // Only for group nodes.
+    'ui_limit'   => array('group|*'),
+    'file'       => $path . '/includes/c4m_content_group_statistics.theme.inc',
+    'function'   => 'c4m_content_group_statistics',
+  );
+
+  return $fields;
 }

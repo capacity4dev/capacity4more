@@ -344,7 +344,7 @@ function c4m_content_group_field_default_field_instances() {
     'bundle' => 'group',
     'default_value' => array(
       0 => array(
-        'value' => 'Requested',
+        'value' => 'requested',
       ),
     ),
     'deleted' => 0,
@@ -507,6 +507,7 @@ function c4m_content_group_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_group',
     'label' => 'Subgroup of',
@@ -522,11 +523,7 @@ function c4m_content_group_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
-      ),
+      'settings' => array(),
       'type' => 'options_select',
       'weight' => 8,
     ),
@@ -559,7 +556,7 @@ function c4m_content_group_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 5,
+        'weight' => 3,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -652,7 +649,7 @@ function c4m_content_group_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 6,
+        'weight' => 4,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
