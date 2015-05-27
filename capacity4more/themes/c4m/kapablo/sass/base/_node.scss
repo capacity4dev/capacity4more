@@ -106,6 +106,51 @@
         }
       }
     }
+    fieldset.group-details {
+
+      .panel-collapse {
+
+        .panel-body {
+
+          .field {
+
+            .field-label {
+              color: $color-brown;
+            }
+
+            .field-items {
+
+              a {
+                color: $color-blue;
+              }
+
+              .field-item {
+
+                .term-tree-list {
+
+                  a {
+                    @include arrow-image('down', 'highlight-blue', 'before');
+                  }
+
+                  a:only-child {
+                    @include arrow-image('right', 'highlight-blue', 'before');
+                  }
+
+                  ul {
+
+                    li.selected {
+                      font-weight: normal;
+                      padding: 10px 0;
+                      border-bottom: 0 none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
