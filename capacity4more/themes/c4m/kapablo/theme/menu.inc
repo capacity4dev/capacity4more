@@ -11,7 +11,7 @@
  * (default bootstrap).
  */
 function kapablo_menu_tree__c4m_og_menu(array $variables) {
-  return '<ul class="menu nav navbar-nav" role="tablist">' . $variables['tree'] . '</ul>';
+  return '<ul class="menu nav navbar-nav og-menu" role="tablist">' . $variables['tree'] . '</ul>';
 }
 
 /**
