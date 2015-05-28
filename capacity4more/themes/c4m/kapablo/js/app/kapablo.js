@@ -87,14 +87,14 @@
           // Set the width/height of the background image manually.
           var imgWidth    = headerImage.width;
           var imgHeight   = headerImage.height;
-          var imgRatio    = imgHeight/imgWidth;
+          var imgRatio    = imgHeight / imgWidth;
 
           $(window).resize(function() {
             var headerWidth    = $(header).outerWidth();
             if (headerWidth > imgWidth) {
               headerWidth = imgWidth;
             }
-            var responsiveHeight  = headerWidth*imgRatio;
+            var responsiveHeight  = headerWidth * imgRatio;
             $('.block-c4m-features-homepage-intro .button-wrapper .btn').height(responsiveHeight);
             $(header).outerHeight(responsiveHeight);
           }).resize();
