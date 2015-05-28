@@ -377,7 +377,7 @@ function c4m_content_document_field_default_field_instances() {
     'bundle' => 'document',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
+    'description' => '',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -720,7 +720,7 @@ function c4m_content_document_field_default_field_instances() {
   $field_instances['node-document-c4m_vocab_topic'] = array(
     'bundle' => 'document',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -1025,6 +1025,7 @@ function c4m_content_document_field_default_field_instances() {
   t('Topics');
   t('Type of Document');
   t('You can select up to 3 Regions and unlimited Countries within these Regions.');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

@@ -1288,7 +1288,7 @@ function c4m_content_project_field_default_field_instances() {
   $field_instances['node-project-c4m_vocab_topic'] = array(
     'bundle' => 'project',
     'deleted' => 0,
-    'description' => 'Select one or more categories that apply',
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -1457,11 +1457,11 @@ function c4m_content_project_field_default_field_instances() {
   t('Partners');
   t('Regions & Countries');
   t('Related Projects');
-  t('Select one or more categories that apply');
   t('Source of funding');
   t('Start + End date of the Project.');
   t('Topics');
   t('Total budget');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

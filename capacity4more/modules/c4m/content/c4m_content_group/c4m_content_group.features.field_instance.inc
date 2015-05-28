@@ -629,7 +629,7 @@ function c4m_content_group_field_default_field_instances() {
   $field_instances['node-group-c4m_vocab_topic'] = array(
     'bundle' => 'group',
     'deleted' => 0,
-    'description' => 'Select one or more categories that apply',
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -697,7 +697,7 @@ function c4m_content_group_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_vocab_topic',
-    'label' => 'Group topics',
+    'label' => 'Group Topics',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1198,8 +1198,8 @@ function c4m_content_group_field_default_field_instances() {
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
   t('Determine if this is an OG group.');
   t('Group');
+  t('Group Topics');
   t('Group description');
-  t('Group topics');
   t('Group visibility');
   t('How should membership requests be handled in this Group ?');
   t('Membership requests');
@@ -1209,12 +1209,12 @@ function c4m_content_group_field_default_field_instances() {
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');
   t('Select an image, photo that will be displayed in the header of the group page');
-  t('Select one or more categories that apply');
   t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
   t('Status');
   t('Subgroup of');
   t('The image, photo or logo, is used in the group overview page.');
   t('Thumbnail Image');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

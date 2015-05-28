@@ -1050,7 +1050,7 @@ function c4m_content_article_field_default_field_instances() {
     'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select one or more categories that apply',
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -1144,9 +1144,9 @@ function c4m_content_article_field_default_field_instances() {
   t('Regions & Countries');
   t('Related Articles');
   t('Related Groups');
-  t('Select one or more categories that apply');
   t('Select related articles.');
   t('Topics');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

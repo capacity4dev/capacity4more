@@ -590,7 +590,7 @@ function c4m_content_discussion_field_default_field_instances() {
   $field_instances['node-discussion-c4m_vocab_topic'] = array(
     'bundle' => 'discussion',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -877,6 +877,7 @@ function c4m_content_discussion_field_default_field_instances() {
   t('Topics');
   t('Type of Discussion');
   t('You can select up to 3 Regions and unlimited Countries within these Regions.');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }
