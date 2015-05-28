@@ -36,7 +36,7 @@
     }
 
     fieldset {
-      margin-bottom: 35px;
+      margin-bottom: 10px;
 
       &.collapsible {
 
@@ -45,11 +45,11 @@
 
           .panel-title {
             width: 100%;
-            color: $highlight-blue;
-            border-bottom: 2px dashed $highlight-blue;
-            padding: 6px 0;
-            font-size: $font-size-h4;
+            color: $color-gray;
+            padding: 3px 0;
+            font-size: 16px;
             text-decoration: none;
+            text-transform: uppercase;
 
             &:hover,
             &:active {
@@ -73,7 +73,7 @@
               .field-items {
 
                 a {
-                  color: $highlight-blue;
+                  color: $ava-blue;
                 }
 
                 .field-item {
@@ -81,17 +81,17 @@
                   ul {
 
                     li {
-                      padding: 10px 0;
-                      border-bottom: 1px solid $color-light-gray;
+                      padding: 3px 0;
 
                       &.last {
                         border-bottom: 0 none;
                       }
 
                       .toggle {
-                        float: right;
+                        float: left;
                         width: 1em;
                         height: 1em;
+                        margin-top: 2px;
                       }
                     }
                   }
@@ -102,7 +102,7 @@
         }
 
         &.collapsed {
-          height: 3em;
+          height: auto;
         }
       }
     }
