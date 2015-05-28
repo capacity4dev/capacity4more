@@ -131,7 +131,7 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['path'] = 'members';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Members';
-  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['weight'] = '15';
   $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
