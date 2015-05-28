@@ -14,8 +14,6 @@
 .field-name-c4m-body {
   color: $color-gray;
   overflow: auto;
-  padding-bottom: 30px;
-  border-bottom: 2px dashed $color-gray;
 }
 
 .user-name {
@@ -111,15 +109,24 @@
   margin-bottom: 10px;
 }
 
-.field-name-c4m-related-document {
-  margin-top: 50px;
+.field-name-c4m-related-document,
+.group-node-documents {
+  margin-top: 30px;
+
+  .label-above {
+    font-size: $font-size-h4;
+    margin-top: 15px;
+  }
 
   .field-label {
-    color: $highlight-blue;
-    font-size: $font-size-h2;
-    font-weight: lighter;
-    margin-bottom: 25px;
-    text-transform: uppercase;
+
+    .label-above {
+      color: $highlight-blue;
+      font-size: $font-size-h2;
+      font-weight: lighter;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+    }
   }
 
   .node-document {
