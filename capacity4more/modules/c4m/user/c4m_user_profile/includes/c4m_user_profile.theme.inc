@@ -51,7 +51,7 @@ function theme_c4m_user_profile_picture_fullname($variables) {
   );
   $profile = render($profile);
 
-  // Wrap this content in a link (additionally).
+  // Wrap this content in a link (if set).
   if (!empty($variables['link'])) {
     $options = isset($variables['link']['options'])
                   ? $variables['link']['options'] : array();
