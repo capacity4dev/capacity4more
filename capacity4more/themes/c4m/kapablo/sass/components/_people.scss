@@ -49,7 +49,6 @@
       float: left;
     }
     .field-name-c4m-organisation {
-      display: inline-block;
       width: 100%;
     }
     .country {
@@ -57,7 +56,6 @@
     }
 
     .expertises {
-      display: inline-block;
       .expertise {
         &:after {
           content: ", ";
