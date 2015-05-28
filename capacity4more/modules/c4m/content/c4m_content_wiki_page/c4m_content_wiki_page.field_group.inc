@@ -23,7 +23,7 @@ function c4m_content_wiki_page_field_group_info() {
     'label' => 'Details',
     'weight' => '1',
     'children' => array(
-      0 => 'c4m_related_topic',
+      0 => 'c4m_vocab_topic',
       1 => 'c4m_vocab_date',
       2 => 'c4m_vocab_geo',
       3 => 'c4m_vocab_language',
