@@ -12,6 +12,6 @@ group_10,user_8,"Draft group",draft,geology.jpg,,"Some description",t_earth|t_wi
 group_11,user_8,"Published group",published,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,published
 group_12,user_8,"Archived group",archived,geology.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,archived
 group_13,user_8,"Deleted group",deleted,nobelprize.jpg,,"Some description",t_earth|t_wind|t_fire|t_water,Sweden|Worldwide,,,0,0,,deleted
-group_14,user_2,"Restricted group with partner access",restrictedparnters,,,"Restricted, only partners have access",,Israel|Belgium,,,1,1,organisation_3|organisation_4,published
-group_15,user_1,"Restricted group with EC/EEAS",eceeas,,,"Restricted, only EC/EEAS has access",,Europe,,,1,1,organisation_1,published
-group_16,user_1,"Restricted group with EU",eu,,,"Restricted, only EU has access",,Europe,,,1,1,organisation_1|organisation_2,published
+group_14,user_2,"Restricted group with partner access",restrictedparnters,,,"Restricted, only partners have access",t_earth,Israel|Belgium,,,1,1,organisation_3|organisation_4,published
+group_15,user_1,"Restricted group with EC/EEAS",eceeas,,,"Restricted, only EC/EEAS has access",t_earth,Europe,,,1,1,organisation_1,published
+group_16,user_1,"Restricted group with EU",eu,,,"Restricted, only EU has access",t_earth,Europe,,,1,1,organisation_1|organisation_2,published
