@@ -171,7 +171,7 @@ function c4m_features_overview_events_search_api_query_alter(SearchApiQueryInter
 
       // Filter on interests.
       foreach ($interests as $interest) {
-        $filter->condition('c4m_related_topic', $interest);
+        $filter->condition('c4m_vocab_topic', $interest);
       }
 
       // Filter on geographic regions.

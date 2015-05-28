@@ -846,8 +846,6 @@ function c4m_message_load_homepage_activity_stream() {
     }
   }
 
-
-
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
