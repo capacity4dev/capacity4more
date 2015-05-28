@@ -39,6 +39,7 @@ function c4m_features_og_wiki_views_default_views() {
   $handler->display->display_options['fields']['draggableviews']['hide_alter_empty'] = FALSE;
   $handler->display->display_options['fields']['draggableviews']['draggableviews']['handler'] = 'draggableviews_handler_book';
   $handler->display->display_options['fields']['draggableviews']['draggableviews']['hierarchy_handler'] = 'draggableviews_hierarchy_handler_book';
+  $handler->display->display_options['fields']['draggableviews']['draggableviews']['element_type'] = 'textfield';
   $handler->display->display_options['fields']['draggableviews']['draggableviews']['ajax'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -60,7 +61,7 @@ function c4m_features_og_wiki_views_default_views() {
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
   $handler->display->display_options['sorts']['weight']['table'] = 'draggableviews_structure';
   $handler->display->display_options['sorts']['weight']['field'] = 'weight';
-  $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'book:page';
+  $handler->display->display_options['sorts']['weight']['draggableviews_setting_view'] = 'c4m_wiki:wiki_rearrange_page';
   $handler->display->display_options['sorts']['weight']['draggableviews_setting_new_items_bottom_list'] = 1;
   /* Contextual filter: Content: Groups (og_group_ref) */
   $handler->display->display_options['arguments']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
