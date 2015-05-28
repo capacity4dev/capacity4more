@@ -8,4 +8,3 @@ features[features_api][] = api:2
 features[field_base][] = c4m_vocab_topic
 features[field_base][] = c4m_vocab_topic_expertise
 features[field_base][] = c4m_vocab_topic_mapping
-features[taxonomy][] = c4m_vocab_topic

@@ -263,7 +263,7 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -607,7 +607,7 @@ function c4m_content_event_ds_layout_settings_info() {
         14 => 'c4m_link',
         15 => 'c4m_facebook',
         16 => 'c4m_twitter',
-        17 => 'c4m_related_topic',
+        17 => 'c4m_vocab_topic',
         18 => 'og_vocabulary',
         20 => 'c4m_vocab_language',
         21 => 'c4m_vocab_geo',
@@ -643,7 +643,7 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_link' => 'right',
       'c4m_facebook' => 'right',
       'c4m_twitter' => 'right',
-      'c4m_related_topic' => 'right',
+      'c4m_vocab_topic' => 'right',
       'og_vocabulary' => 'right',
       'c4m_document_agenda' => 'left',
       'c4m_vocab_language' => 'right',

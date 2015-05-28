@@ -89,7 +89,7 @@ function c4m_content_article_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -322,7 +322,7 @@ function c4m_content_article_ds_layout_settings_info() {
         8 => 'group_node_meta',
         9 => 'c4m_related_user',
         10 => 'c4m_link_multiple',
-        11 => 'c4m_related_topic',
+        11 => 'c4m_vocab_topic',
         12 => 'c4m_vocab_geo',
         13 => 'c4m_related_group',
         14 => 'c4m_related_articles',
@@ -340,7 +340,7 @@ function c4m_content_article_ds_layout_settings_info() {
       'group_node_meta' => 'right',
       'c4m_related_user' => 'right',
       'c4m_link_multiple' => 'right',
-      'c4m_related_topic' => 'right',
+      'c4m_vocab_topic' => 'right',
       'c4m_vocab_geo' => 'right',
       'c4m_related_group' => 'right',
       'c4m_related_articles' => 'right',

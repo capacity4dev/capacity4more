@@ -212,7 +212,7 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -532,7 +532,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
         7 => 'c4m_user_picture',
         8 => 'group_node_details',
         9 => 'c4m_ds_type_posted_by',
-        10 => 'c4m_related_topic',
+        10 => 'c4m_vocab_topic',
         11 => 'og_vocabulary',
         12 => 'c4m_user_first_and_last_name',
         13 => 'c4m_vocab_date',
@@ -552,7 +552,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_user_picture' => 'right',
       'group_node_details' => 'right',
       'c4m_ds_type_posted_by' => 'right',
-      'c4m_related_topic' => 'right',
+      'c4m_vocab_topic' => 'right',
       'og_vocabulary' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_vocab_date' => 'right',

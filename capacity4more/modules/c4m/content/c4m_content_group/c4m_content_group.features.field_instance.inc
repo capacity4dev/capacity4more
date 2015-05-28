@@ -699,7 +699,7 @@ function c4m_content_group_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_vocab_topic',
-    'label' => 'Group Topics',
+    'label' => 'Topics',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1200,7 +1200,7 @@ function c4m_content_group_field_default_field_instances() {
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
   t('Determine if this is an OG group.');
   t('Group');
-  t('Group Topics');
+  t('Topics');
   t('Group description');
   t('Group visibility');
   t('How should membership requests be handled in this Group ?');

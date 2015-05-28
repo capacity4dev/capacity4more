@@ -364,7 +364,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_related_topic',
+        0 => 'c4m_vocab_topic',
         1 => 'group_pages',
         2 => 'c4m_content_wiki_page_navigation',
         3 => 'group_details',
@@ -385,7 +385,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'c4m_related_topic' => 'left',
+      'c4m_vocab_topic' => 'left',
       'group_pages' => 'left',
       'c4m_content_wiki_page_navigation' => 'left',
       'group_details' => 'left',

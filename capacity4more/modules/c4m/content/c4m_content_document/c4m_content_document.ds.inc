@@ -258,7 +258,7 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'downloads',
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -643,7 +643,7 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         6 => 'c4m_vocab_document_type',
-        7 => 'c4m_related_topic',
+        7 => 'c4m_vocab_topic',
         8 => 'group_node_meta',
         9 => 'c4m_user_picture',
         10 => 'og_vocabulary',
@@ -664,7 +664,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_document' => 'left',
       'comments' => 'left',
       'c4m_vocab_document_type' => 'right',
-      'c4m_related_topic' => 'right',
+      'c4m_vocab_topic' => 'right',
       'group_node_meta' => 'right',
       'c4m_user_picture' => 'right',
       'og_vocabulary' => 'right',

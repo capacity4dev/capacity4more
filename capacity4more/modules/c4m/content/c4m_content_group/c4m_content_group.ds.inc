@@ -110,7 +110,7 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'lb' => 'Topic(s)',
@@ -375,7 +375,7 @@ function c4m_content_group_ds_layout_settings_info() {
         5 => 'c4m_user_first_and_last_name',
         6 => 'node_link',
         7 => 'group_details',
-        8 => 'c4m_related_topic',
+        8 => 'c4m_vocab_topic',
         9 => 'c4m_vocab_geo',
         10 => 'c4m_extra_info',
         11 => 'c4m_ds_group_access_info',
@@ -392,7 +392,7 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_user_first_and_last_name' => 'ds_content',
       'node_link' => 'ds_content',
       'group_details' => 'ds_content',
-      'c4m_related_topic' => 'ds_content',
+      'c4m_vocab_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
       'c4m_extra_info' => 'ds_content',
