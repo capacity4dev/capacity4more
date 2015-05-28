@@ -5,11 +5,13 @@
  */
 
 /**
- * Theme function for user fullname with profile picture.
+ * Theme function for user full name with profile picture.
  *
- * @param $variables
+ * @param array $variables
+ *    Array with theme variables.
  *
  * @return string
+ *  The rendered output.
  */
 function theme_c4m_user_profile_picture_fullname($variables) {
   $output = '';
@@ -63,9 +65,11 @@ function theme_c4m_user_profile_picture_fullname($variables) {
 /**
  * Theme function for user profile menu.
  *
- * @param $variables
+ * @param array $variables
+ *    Array with theme variables.
  *
  * @return string
+ *    The rendered output.
  */
 function theme_c4m_user_profile_menu($variables) {
   $output = '';

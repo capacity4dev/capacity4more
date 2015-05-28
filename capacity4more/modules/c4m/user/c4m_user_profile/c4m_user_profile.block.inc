@@ -108,10 +108,13 @@ function _c4m_user_profile_block_user_notifications() {
 /**
  * Helper function to render user profile.
  *
- * @param $theme_function
- * @param $user
+ * @param string $theme_function
+ *    Name of the theme function to be used.
+ * @param object $user
+ *    User object.
  *
  * @return string
+ *    The rendered output.
  */
 function c4m_user_profile_render_user_profile($theme_function, $user) {
   switch ($theme_function) {
