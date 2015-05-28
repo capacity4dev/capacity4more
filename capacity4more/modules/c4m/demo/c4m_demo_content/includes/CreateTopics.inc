@@ -84,6 +84,9 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
       ->sourceMigration('C4mDemoContentCreateUsers');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function prepareRow($row) {
     parent::prepareRow($row);
 
