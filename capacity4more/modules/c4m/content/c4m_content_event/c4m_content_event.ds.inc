@@ -10,14 +10,13 @@
 function c4m_content_event_ds_field_settings_info() {
   $export = array();
 
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
-  $ds_layout->id = 'comment|comment_node_event|activity_stream';
-  $ds_layout->entity_type = 'comment';
-  $ds_layout->bundle = 'comment_node_event';
-  $ds_layout->view_mode = 'activity_stream';
-  $ds_layout->layout = 'ds_1col';
-  $ds_layout->settings = array(
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_event|activity_stream';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_event';
+  $ds_fieldsetting->view_mode = 'activity_stream';
+  $ds_fieldsetting->settings = array(
     'regions' => array(
       'ds_content' => array(
         0 => 'comment_body',
@@ -36,7 +35,7 @@ function c4m_content_event_ds_field_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
   );
-  $export['comment|comment_node_event|activity_stream'] = $ds_layout;
+  $export['comment|comment_node_event|activity_stream'] = $ds_fieldsetting;
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
@@ -600,8 +599,8 @@ function c4m_content_event_ds_layout_settings_info() {
       'right' => array(
         0 => 'c4m_field_location_city_country',
         3 => 'c4m_location',
-        5 => 'c4m_content_event_link_to_gmap',
-        6 => 'c4m_organised_by',
+        5 => 'c4m_organised_by',
+        6 => 'c4m_content_event_link_to_gmap',
         11 => 'group_organiser',
         12 => 'group_location',
         13 => 'group_details',
@@ -610,8 +609,8 @@ function c4m_content_event_ds_layout_settings_info() {
         16 => 'c4m_twitter',
         17 => 'c4m_related_topic',
         18 => 'og_vocabulary',
-        20 => 'c4m_vocab_language',
-        21 => 'c4m_vocab_geo',
+        19 => 'c4m_vocab_language',
+        22 => 'c4m_vocab_geo',
       ),
       'left' => array(
         1 => 'c4m_ds_content_type_icon',
@@ -621,8 +620,8 @@ function c4m_content_event_ds_layout_settings_info() {
         8 => 'c4m_body',
         9 => 'group_documents',
         10 => 'comments',
-        19 => 'c4m_document_agenda',
-        22 => 'c4m_document_presentation',
+        20 => 'c4m_document_agenda',
+        21 => 'c4m_document_presentation',
         23 => 'c4m_related_document',
       ),
     ),
@@ -632,8 +631,8 @@ function c4m_content_event_ds_layout_settings_info() {
       'title' => 'left',
       'c4m_location' => 'right',
       'links' => 'left',
-      'c4m_content_event_link_to_gmap' => 'right',
       'c4m_organised_by' => 'right',
+      'c4m_content_event_link_to_gmap' => 'right',
       'c4m_datetime_end' => 'left',
       'c4m_body' => 'left',
       'group_documents' => 'left',
@@ -646,14 +645,15 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_twitter' => 'right',
       'c4m_related_topic' => 'right',
       'og_vocabulary' => 'right',
-      'c4m_document_agenda' => 'left',
       'c4m_vocab_language' => 'right',
-      'c4m_vocab_geo' => 'right',
+      'c4m_document_agenda' => 'left',
       'c4m_document_presentation' => 'left',
+      'c4m_vocab_geo' => 'right',
       'c4m_related_document' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
     ),
