@@ -1,4 +1,5 @@
 <div class="button-wrapper">
+  <?php print render($image); ?>
   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#c4mVideoModal">
     <?php print $video_title ?>
   </button>

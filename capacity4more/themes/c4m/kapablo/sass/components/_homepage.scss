@@ -21,10 +21,8 @@ body.front.not-logged-in {
     background: transparent url('../images/header/background-green.png') repeat-x top left;
   }
   .header-content {
-    background: transparent url('../images/header/homepage-anonymous.png') no-repeat top center;
-    max-height: 298px;
+    background: transparent;
     height: auto;
-    background-size: contain;
   }
 }
 
@@ -33,15 +31,17 @@ body.front.not-logged-in {
 #block-c4m-features-homepage-intro-video {
   .button-wrapper {
     text-align: center;
+    position: relative;
   }
   .btn {
+    position: absolute;
+    top: 70%;
+    left: 30%;
+    height: 20%;
+    width: 41%;
     background-color: transparent;
     border: none;
     color: transparent;
-    max-height: 298px;
-    height: 298px;
-    outline: 0;
-    width: 400px;
   }
 }
 

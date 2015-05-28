@@ -112,6 +112,12 @@ function c4m_features_homepage_intro_theme() {
  * @param array $vars
  */
 function template_preprocess_c4m_features_homepage_intro_video(&$vars) {
+  // Image.
+  $vars['image'] = array(
+    '#theme'    => 'image',
+    '#path'     => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-anonymous.png',
+  );
+
   // Video title fallback.
   if (empty($vars['video_title'])) {
     $vars['video_title'] = t('Watch what is capacity4dev');
