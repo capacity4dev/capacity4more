@@ -94,7 +94,7 @@
     <div class="container">
       <div class="row">
 
-        <div class="col-sm-12 col-md-6 header-logo">
+        <div class="col-sm-12 col-md-8 header-logo">
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
               <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
@@ -102,8 +102,9 @@
           <?php endif; ?>
         </div>
 
-        <div class="col-sm-12 col-md-6 header-search">
+        <div class="col-sm-12 col-md-4 header-search">
           <!-- SEARCH-->
+          <?php print render($search_form); ?>
         </div>
 
       </div>
@@ -122,11 +123,9 @@
     </div>
   </div><!-- /header-content-wrapper -->
 
-  <div id="navbar">
-    <div class="container">
-
-      <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-
+  <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+    <div id="navbar">
+      <div class="container">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -134,7 +133,6 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-
 
         <div class="navbar-collapse collapse">
           <nav role="navigation">
@@ -149,9 +147,9 @@
             <?php endif; ?>
           </nav>
         </div>
-      <?php endif; ?>
+      </div>
     </div>
-  </div>
+  <?php endif; ?>
 </header>
 
 <div class="main-container container">

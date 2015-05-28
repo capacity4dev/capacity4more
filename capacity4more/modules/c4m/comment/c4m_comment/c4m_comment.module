@@ -29,3 +29,43 @@ function c4m_comment_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
   );
 }
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_comment_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_comment' => array(
+        'type'        => 'comment',
+        'entity_type' => 'comment',
+        'bundles'     => array(),
+        'singular'    => 'Post',
+        'plural'      => 'Posts',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts'
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_comment' => array(
+        'type'        => 'comment',
+        'entity_type' => 'comment',
+        'bundles'     => array(),
+        'singular'    => 'Comment',
+        'plural'      => 'Comments',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 6,
+        'attributes'  => array(
+          'class' => array('og-comments'),
+        ),
+      ),
+    ),
+  );
+}
