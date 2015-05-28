@@ -23,7 +23,7 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     '4Erg9yLvJMABad12YSuX81wXLf2eoV17' => t('Language'),
     'lcuW9WS3uMIsaaA0uZQgyEVGKcC2RDWB' => t('OG Vocab'),
     'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => t('Regions & Countries'),
-    'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => t('Topics'),
+    'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => t('Topics'),
     'QgJEmEcjJBhqSVzHPi5bPE2bqBu7Y67h' => t('Topics of Interest'),
     // Content type.
     'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => t('Type'),
