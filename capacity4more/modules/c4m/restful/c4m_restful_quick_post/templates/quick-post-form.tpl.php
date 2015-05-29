@@ -139,11 +139,20 @@
   </div>
 </div>
 
+<div class="form-group place clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+  <label><?php print t('Where') ?></label>
+
+  <div class="row">
+    <location data="data" class="col-xs-12"></location>
+  </div>
+  <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
+</div>
+
 <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
-    <span id="topic_description"
-          class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
+  <span id="topic_description"
+        class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
   </div>
   <div class="checkboxes-wrapper">
     <div class="checkboxes-wrapper">
@@ -153,9 +162,9 @@
         <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.topic">
-        <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
-          {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
-        </span>
+      <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
+        {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+      </span>
       </div>
       <!-- Hidden topic checkboxes.-->
       <div class="popover right hidden-checkboxes" ng-show="popups.topic">
@@ -166,15 +175,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="form-group place clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
-  <label><?php print t('Where') ?></label>
-
-  <div class="row">
-    <location data="data" class="col-xs-12"></location>
-  </div>
-  <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
 
 <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">
