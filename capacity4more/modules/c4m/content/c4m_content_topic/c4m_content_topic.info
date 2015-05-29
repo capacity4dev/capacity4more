@@ -19,7 +19,6 @@ dependencies[] = term_reference_tree
 dependencies[] = text
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
-features[field_base][] = c4m_related_topic
 features[field_instance][] = node-topic-c4m_banner
 features[field_instance][] = node-topic-c4m_body
 features[field_instance][] = node-topic-c4m_media

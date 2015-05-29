@@ -93,6 +93,11 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_content_group_statistics' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_og_status' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -105,22 +110,17 @@ function c4m_content_group_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_content_group_statistics' => array(
-      'weight' => '5',
-      'label' => 'hidden',
-      'format' => 'default',
+    'c4m_vocab_geo' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Region(s)',
+        ),
+      ),
     ),
     'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'lb' => 'Topic(s)',
-        ),
-      ),
-    ),
-    'c4m_vocab_geo' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'lb' => 'Region(s)',
         ),
       ),
     ),
@@ -370,30 +370,30 @@ function c4m_content_group_ds_layout_settings_info() {
         0 => 'c4m_ds_creation_date',
         1 => 'c4m_og_status',
         2 => 'c4m_user_picture',
-        3 => 'c4m_body',
-        4 => 'c4m_access_info',
-        5 => 'c4m_user_first_and_last_name',
-        6 => 'node_link',
-        7 => 'group_details',
-        8 => 'c4m_vocab_topic',
-        9 => 'c4m_vocab_geo',
-        10 => 'c4m_extra_info',
-        11 => 'c4m_ds_group_access_info',
-        12 => 'c4m_ds_group_administer_link',
-        13 => 'c4m_content_group_statistics',
+        3 => 'c4m_user_first_and_last_name',
+        4 => 'c4m_body',
+        5 => 'c4m_access_info',
+        6 => 'c4m_vocab_topic',
+        7 => 'node_link',
+        8 => 'c4m_vocab_geo',
+        9 => 'group_details',
+        10 => 'c4m_content_group_statistics',
+        11 => 'c4m_extra_info',
+        12 => 'c4m_ds_group_access_info',
+        13 => 'c4m_ds_group_administer_link',
       ),
     ),
     'fields' => array(
       'c4m_ds_creation_date' => 'ds_content',
       'c4m_og_status' => 'ds_content',
       'c4m_user_picture' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_access_info' => 'ds_content',
-      'c4m_user_first_and_last_name' => 'ds_content',
-      'node_link' => 'ds_content',
-      'group_details' => 'ds_content',
       'c4m_vocab_topic' => 'ds_content',
+      'node_link' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
+      'group_details' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
       'c4m_extra_info' => 'ds_content',
       'c4m_ds_group_access_info' => 'ds_content',

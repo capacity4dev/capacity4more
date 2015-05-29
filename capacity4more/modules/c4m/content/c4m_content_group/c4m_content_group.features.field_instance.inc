@@ -648,9 +648,10 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'c4m_dashboard' => array(
         'label' => 'above',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 3,
       ),
       'c4m_teaser_list' => array(
         'label' => 'above',
@@ -1200,7 +1201,6 @@ function c4m_content_group_field_default_field_instances() {
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
   t('Determine if this is an OG group.');
   t('Group');
-  t('Topics');
   t('Group description');
   t('Group visibility');
   t('How should membership requests be handled in this Group ?');
@@ -1216,6 +1216,7 @@ function c4m_content_group_field_default_field_instances() {
   t('Subgroup of');
   t('The image, photo or logo, is used in the group overview page.');
   t('Thumbnail Image');
+  t('Topics');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
