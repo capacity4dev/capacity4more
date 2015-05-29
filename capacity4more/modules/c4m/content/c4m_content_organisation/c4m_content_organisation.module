@@ -16,8 +16,68 @@ function c4m_content_organisation_field_info() {
       'description' => t('Define the domain name and optional if it should be used to brand the users.'),
       'default_widget' => 'c4m_domain_field',
       'default_formatter' => 'c4m_domain_default',
+
+      'property_type' => 'field_c4m_domain',
+      'property_callbacks' => array('c4m_content_organisation_domain_field_property_info_callback'),
     ),
   );
+}
+
+/**
+ * Additional callback to adapt the property info of domain fields.
+ *
+ * @see entity_metadata_field_entity_property_info()
+ */
+function c4m_content_organisation_domain_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+
+  // Auto-create the field item as soon as a property is set.
+  $property['auto creation'] = 'c4m_content_organisation_domain_field_create';
+
+  $property['property info'] = c4m_content_organisation_domain_field_property_info();
+  $property['property info']['icon']['required'] = FALSE;
+  $property['property info']['domain']['required'] = TRUE;
+
+  unset($property['query callback']);
+}
+
+/**
+ * Callback for creating a new, empty domain field item.
+ *
+ * @return array
+ *
+ * @see c4m_content_organisation_domain_field_property_info_callback()
+ */
+function c4m_content_organisation_domain_field_create() {
+  return array(
+    'icon' => NULL,
+    'domain' => NULL
+  );
+}
+
+/**
+ * Defines info for the properties of the link-field item data structure.
+ *
+ * @return array
+ *
+ * @see c4m_content_organisation_domain_field_property_info_callback()
+ */
+function c4m_content_organisation_domain_field_property_info() {
+  $properties['icon'] = array(
+    'type' => 'int',
+    'label' => t('Should the domain be used to add an icon to the user profile.'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $properties['domain'] = array(
+    'type' => 'text',
+    'label' => t('The domain part of an email address.'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+
+  return $properties;
 }
 
 /**
