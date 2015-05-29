@@ -218,12 +218,15 @@ function c4m_content_organisation_ds_fields_info_alter(&$fields, $entity_type) {
 }
 
 /**
- * Get organisation icon,
- * where it matches the given domain.
- * @param $email
- * @return array
+ * Get the organisation by a given email address.
+ *
+ * @param string $email
+ *   The email address we want the organisation for.
+ *
+ * @return mixed
+ *   Organisation node (if any).
  */
-function c4m_content_organisation_domain_icon($email) {
+function c4m_content_organisation_get_organisation_by_email($email) {
   $domain = explode('@', $email);
   if (isset($domain[1]) && $domain = $domain[1]) {
     $results = db_select('node', 'n');
@@ -233,19 +236,56 @@ function c4m_content_organisation_domain_icon($email) {
     $results->condition('d.c4m_domain_icon', 1, '=');
 
     $nid = $results->execute()->fetchField();
-    if ($nid) {
-      $organisation = node_load($nid);
-      $icons = field_get_items('node', $organisation, 'c4m_icon');
-      if (!empty($icons)) {
-        $icon = field_view_value('node', $organisation, 'c4m_icon', $icons[0], array(
-          'type' => 'image',
-          'settings' => array(
-            'image_style' => 'icon_small',
-          ),
-        ));
-
-        return $icon;
-      }
+    if (!$nid) {
+      return NULL;
     }
+
+    $organisation = node_load($nid);
+    return $organisation;
   }
+}
+
+/**
+ * Get icon for the given organisation entity.
+ *
+ * @param object $organisation
+ *   The organisation node we want to get the icon for.
+ *
+ * @return array
+ *   Render array for the icon.
+ */
+function c4m_content_organisation_get_icon($organisation) {
+  $icons = field_get_items('node', $organisation, 'c4m_icon');
+
+  if (empty($icons)) {
+    return array();
+  }
+
+  $icon = field_view_value('node', $organisation, 'c4m_icon', $icons[0], array(
+    'type' => 'image',
+    'settings' => array(
+      'image_style' => 'icon_small',
+    ),
+  ));
+
+  return $icon;
+}
+
+/**
+ * Get organisation icon,
+ * where it matches the given domain.
+ *
+ * @param string $email
+ *   The email address we want the icon for (if any).
+ *
+ * @return array
+ *   Render array for the icon.
+ */
+function c4m_content_organisation_get_icon_by_email($email) {
+  $organisation = c4m_content_organisation_get_organisation_by_email($email);
+  if (!$organisation) {
+    return array();
+  }
+
+  return c4m_content_organisation_get_icon($organisation);
 }
