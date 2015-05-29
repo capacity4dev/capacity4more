@@ -24,21 +24,7 @@ function _c4m_search_install_permissions() {
   foreach ($roles as $role) {
     user_role_grant_permissions(
       $role->rid,
-      array(
-        'use search_api_sorts',
-        'use search_api_autocomplete for search_api_views_c4m_search_nodes',
-        'use search_api_autocomplete for search_api_views_c4m_overview_og_discussions',
-        'use search_api_autocomplete for search_api_views_c4m_overview_og_documents',
-        'use search_api_autocomplete for search_api_views_c4m_overview_og_events',
-        'use search_api_autocomplete for search_api_views_c4m_overview_og_events_landing',
-        'use search_api_autocomplete for search_api_views_c4m_search_og',
-        'use search_api_autocomplete for search_api_views_c4m_overview_articles',
-        'use search_api_autocomplete for search_api_views_c4m_overview_events',
-        'use search_api_autocomplete for search_api_views_c4m_overview_events_landing',
-        'use search_api_autocomplete for search_api_views_c4m_overview_groups',
-        'use search_api_autocomplete for search_api_views_c4m_overview_people',
-        'use search_api_autocomplete for search_api_views_c4m_overview_og_members',
-      )
+      array('use search_api_sorts')
     );
   }
 }
