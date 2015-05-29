@@ -10,7 +10,7 @@
 function c4m_content_feed_rss() {
   global $language;
 
-  // load feed
+  // Load feed.
   $feed = _c4m_content_feed_load(arg(0) . '/' . arg(1));
   $feed = entity_metadata_wrapper('node', $feed);
 
@@ -172,9 +172,9 @@ function c4m_content_feed_format_rss_image($file) {
  * Convert all relative links contained in the src and href elements within
  * a feed item's description to absolute links.
  *
- * @param $link
+ * @param string $link
  *   This is the link to the item.
- * @param $description
+ * @param string $description
  *   The description.
  *
  * @return mixed
