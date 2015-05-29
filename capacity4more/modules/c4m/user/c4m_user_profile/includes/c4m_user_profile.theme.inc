@@ -11,9 +11,9 @@
  *    Array with theme variables.
  *
  * @return string
- *  The rendered output.
+ *    The rendered output.
  */
-function theme_c4m_user_profile_picture_fullname($variables) {
+function theme_c4m_user_profile_picture_fullname(array $variables) {
   $output = '';
   if (empty($variables['user'])) {
     return $output;
@@ -71,7 +71,7 @@ function theme_c4m_user_profile_picture_fullname($variables) {
  * @return string
  *    The rendered output.
  */
-function theme_c4m_user_profile_menu($variables) {
+function theme_c4m_user_profile_menu(array $variables) {
   $output = '';
   if (empty($variables['menu_items'])) {
     return $output;
