@@ -47,4 +47,3 @@ function c4m_search_nodes_views_pre_render(&$view) {
     $view->build_info['title'] = $title;
   }
 }
-
