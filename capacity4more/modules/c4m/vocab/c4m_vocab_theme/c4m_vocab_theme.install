@@ -45,4 +45,3 @@ function _c4m_vocab_theme_install_vocabulary() {
 
   return $vocabulary;
 }
-

@@ -15,6 +15,7 @@
  *
  * @throws \Exception
  *   General Exception.
+ * 
  * @throws \InvalidMergeQueryException
  *   Invalid Merge Query Exception.
  */
