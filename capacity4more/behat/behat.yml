@@ -3,7 +3,7 @@ default:
     parameters:
       drupal_users:
         admin:
-          'admin'
+          'drupal'
         mariecurie:
           'drupal'
         isaacnewton:
