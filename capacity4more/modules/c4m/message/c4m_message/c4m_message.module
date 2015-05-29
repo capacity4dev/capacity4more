@@ -186,6 +186,18 @@ function c4m_message_format_date_for_message(Message $message) {
   return c4m_helper_date_time_ago($message->timestamp, $format);
 }
 
+/**
+ * Get group info for activity stream.
+ *
+ * @param \Message $message
+ *    The message object.
+ *
+ * @return string
+ *    The group info.
+ *
+ * @throws \EntityMetadataWrapperException
+ *    Throws EntityMetadataWrapperException error.
+ */
 function c4m_messages_group_info(Message $message) {
   $group_info = '';
   // Add group info for activity stream on the homepage,
@@ -414,14 +426,19 @@ function c4m_message_format_operation(Message $message) {
   switch ($message->type) {
     case 'c4m_insert__node__event':
       return $operation == 'insert' ? t('added a new') : t('updated the');
+
     case 'c4m_insert__node__document':
       return $operation == 'insert' ? t('uploaded a new') : t('updated the');
+
     case 'c4m_insert__node__photo':
       return $operation == 'insert' ? t('added a new') : t('updated the');
+
     case 'c4m_insert__node__photoalbum':
       return $operation == 'insert' ? t('created a new') : t('updated the');
+
     case 'c4m_insert__node__wiki_page':
       return $operation == 'insert' ? t('created a new') : t('updated the');
+
     case 'c4m_insert__node__article':
       return $operation == 'insert' ? t('posted an') : '';
   }
@@ -457,16 +474,22 @@ function c4m_message_format_comment(Message $message) {
     switch ($node_type) {
       case 'document':
         return t('Document');
+
       case 'event':
         return t('Event');
+
       case 'wiki_page':
         return t('Wiki page');
+
       case 'photoalbum':
         return t('Photo album');
+
       case 'photo':
         return t('Photo');
+
       case 'task':
         return t('Task');
+
       case 'article':
         return t('Article');
     }
@@ -504,8 +527,10 @@ function c4m_message_format_rendered_node(Message $message) {
  * Return the body of the comment.
  *
  * @param Message $message
+ *    The message object.
  *
  * @return string
+ *    Rendered comment.
  */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -516,7 +541,7 @@ function c4m_message_format_rendered_comment(Message $message) {
 /**
  * Create a comment message.
  *
- * @param $comment
+ * @param object $comment
  *   The comment object.
  *
  * @return Message
@@ -536,7 +561,7 @@ function c4m_message__insert__comment($comment) {
 /**
  * Updating a comment message.
  *
- * @param $comment
+ * @param object $comment
  *   The comment object.
  *
  * @return Message
@@ -556,7 +581,6 @@ function c4m_message__update__comment($comment) {
     ->propertyOrderBy('timestamp', 'desc')
     ->range(0, 1)
     ->execute();
-
 
   $message = NULL;
   if (!empty($result['message'])) {
@@ -579,7 +603,7 @@ function c4m_message__update__comment($comment) {
 /**
  * Create a node message.
  *
- * @param $node
+ * @param object $node
  *   The node object.
  *
  * @return Message
@@ -642,7 +666,7 @@ function c4m_message__update__node($node, $account = NULL) {
       else {
         // When an existing item is updated within 6 hours after the initial
         // insert by the SAME user.
-        return;
+        return FALSE;
       }
     }
     else {
@@ -673,9 +697,9 @@ function c4m_message__update__node($node, $account = NULL) {
  *
  * @param Message $message
  *    The message entity.
- * @param         $entity_type
+ * @param string $entity_type
  *    The entity type.
- * @param         $entity
+ * @param object $entity
  *    The Entity for we create/update message.
  */
 function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
@@ -788,14 +812,17 @@ function c4m_message_preprocess_node__event(&$variables) {
   $start_date = format_date($start, 'custom', 'd/m/Y');
   $end_date = format_date($end, 'custom', 'd/m/Y');
 
-  $start_date_time = format_date($start ,'custom', 'd/m/Y H:i');
-  $end_date_time = $start_date == $end_date ? format_date($end ,'custom', 'H:i') : format_date($end ,'custom', 'd/m/Y H:i');
+  $start_date_time = format_date($start, 'custom', 'd/m/Y H:i');
+  $end_date_time = $start_date == $end_date
+                  ? format_date($end, 'custom', 'H:i')
+                  : format_date($end, 'custom', 'd/m/Y H:i');
 
   $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
 }
 
 /**
  * Adds the activity stream to the AngularJs app.
+ *
  * Depending on if the user is logged in or not,
  * The activity stream is loaded from the user's groups,
  * Or from all the public groups if user is anonymous.
@@ -803,7 +830,7 @@ function c4m_message_preprocess_node__event(&$variables) {
 function c4m_message_load_homepage_activity_stream() {
   global $user;
 
-// Get filter value.
+  // Get filter value.
   $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
   $groups = array();
   $interests = array();
@@ -811,7 +838,6 @@ function c4m_message_load_homepage_activity_stream() {
 
   if ($user->uid) {
     // This is an Authenticated user.
-
     if ($filter == 'interests' || $filter == 'groups') {
       $groups = c4m_og_get_user_group_nodes_by_bundle('group');
       $groups = $groups ? $groups : array();
@@ -823,7 +849,7 @@ function c4m_message_load_homepage_activity_stream() {
         $interests = $user_wrapper->c4m_related_topic->raw();
 
         // Get groups that have topics from user's interests
-        // but user is not member of these groups (we already have this list)
+        // but user is not member of these groups (we already have this list).
         $query = new EntityFieldQuery();
 
         $query
@@ -844,14 +870,12 @@ function c4m_message_load_homepage_activity_stream() {
     }
   }
 
-
-
   $activity_stream_handler = restful_get_restful_handler('activity_stream');
 
   $request = array(
     'group' => $groups,
     'topics' => $interests,
-    'html' => true,
+    'html' => TRUE,
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
     'homepage' => 1,
@@ -882,11 +906,12 @@ function c4m_message_load_homepage_activity_stream() {
 }
 
 /**
- * Implementation of hook_query_TAG_alter().
+ * Implements hook_query_TAG_alter().
  *
  * Changes the join of the group field to "LEFT" join,
  * So it's possible to get messages without this field,
- * Also changes the condition from AND to OR. (field group has those values OR is null).
+ * Also changes the condition from AND to OR.
+ * (field group has those values OR is null).
  */
 function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
   $tables = &$query->getTables();
@@ -895,9 +920,9 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
   $tables['field_data_field_group_node1']['join type'] = 'LEFT';
   $values = $conditions[1]['value'];
   $or = db_or()
-    ->condition('field_group_node_target_id',  $values, 'IN')
+    ->condition('field_group_node_target_id', $values, 'IN')
     ->isNull('field_group_node_target_id');
-   $query->condition($or);
+  $query->condition($or);
 
   foreach ($conditions as $key => $condition) {
     if (isset($condition['field']) && !is_object($condition['field']) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
@@ -906,6 +931,12 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
   }
 }
 
+/**
+ * Alter field access for activity stream entities.
+ *
+ * @param \SelectQuery $query
+ *    The query to be altered.
+ */
 function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery &$query) {
   $query->addMetaData('base_table', 'field_data_field_group_node');
 
@@ -938,7 +969,6 @@ function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery
   // Find all instances of the base table being joined -- could appear
   // more than once in the query, and could be aliased. Join each one to
   // the node_access table.
-
   $grants = node_access_grants($op, $account);
 
   $node_conditions = db_and();
