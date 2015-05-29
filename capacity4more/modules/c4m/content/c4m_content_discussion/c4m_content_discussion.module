@@ -47,7 +47,7 @@ function c4m_content_discussion_c4m_content_statistics_info() {
         'plural'      => 'Posts',
         'state'       => 1,
         'aggregate'   => array(
-          'type' => 'posts'
+          'type' => 'posts',
         ),
         'weight'      => 1,
         'attributes'  => array(
