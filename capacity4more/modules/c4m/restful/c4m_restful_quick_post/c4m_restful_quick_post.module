@@ -137,7 +137,7 @@ function c4m_restful_quick_post_form($group_id) {
   $field_schema['categories'] = $categories;
 
   // If all resources are turned off, disable the QP form.
-  if(empty($show_resources)) {
+  if (empty($show_resources)) {
     $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;
