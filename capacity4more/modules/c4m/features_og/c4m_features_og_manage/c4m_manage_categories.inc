@@ -1037,4 +1037,3 @@ function c4m_features_og_manage_categories_edit_form_build($form, &$form_state, 
 
   return $form;
 }
-
