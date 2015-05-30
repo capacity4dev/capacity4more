@@ -22,7 +22,7 @@ function c4m_features_overview_feeds_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Overview - Feeds';
+  $handler->display->display_options['title'] = 'Feeds';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';

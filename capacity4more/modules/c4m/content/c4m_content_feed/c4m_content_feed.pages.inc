@@ -18,7 +18,7 @@ function c4m_content_feed_rss() {
     'version'     => '2.0',
     'title'       => $feed->title->value(),
     'link'        => $feed->url->value() . '/rss',
-    'description' => $feed->c4m_body->value->value(),
+    'description' => trim($feed->c4m_body->value->value()),
     'language'    => substr($language->language, 0, 2),
   );
 

@@ -47,9 +47,9 @@ class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_body', 'body')
       ->arguments(array('format' => 'full_html'));
 
-    $this->addFieldMapping('c4m_related_topic', 'topics_list');
-    $this->addFieldMapping('c4m_related_articles', 'articles_list');
-    $this->addFieldMapping('c4m_related_group', 'groups_list');
+    $this->addFieldMapping('c4m_related_topic', 'topics');
+    $this->addFieldMapping('c4m_related_articles', 'articles');
+    $this->addFieldMapping('c4m_related_group', 'groups');
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
@@ -67,7 +67,7 @@ class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
   public function prepareRow($row) {
     parent::prepareRow($row);
 
-    $row->topics_list = $this->filterDestid2FromEntityReference(
+    $row->topics = $this->filterDestid2FromEntityReference(
       $this->handleSourceMigration(
         'C4mDemoContentCreateTopics',
         explode('|', $row->topics),
@@ -75,7 +75,7 @@ class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
         $this
       )
     );
-    $row->articles_list = $this->filterDestid2FromEntityReference(
+    $row->articles = $this->filterDestid2FromEntityReference(
       $this->handleSourceMigration(
         'C4mDemoContentCreateArticles',
         explode('|', $row->articles),
@@ -83,7 +83,7 @@ class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
         $this
       )
     );
-    $row->groups_list = $this->filterDestid2FromEntityReference(
+    $row->groups = $this->filterDestid2FromEntityReference(
       $this->handleSourceMigration(
         'C4mDemoContentCreateGroups',
         explode('|', $row->groups),
