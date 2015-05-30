@@ -1,4 +1,4 @@
-ID,Title,Body,Topics,Articles,Groups,User
+ID,Title,Body,Topics,Articles,Groups,UID
 feed_1,"Science feed","<p>Everything about science</p>",topic_1|topic_2,article_1|article_2,group_1|group_2,user_1
 feed_2,"Astronomy feed","<p>For the first time this year astronomers caught neutrinos originating in distant galaxies</p>",topic_3|topic_4,article_2|article_3,group_2|group_3,user_2
 feed_3,"Capacity4More RSS feed","<p>Offshore wind power refers to the construction of wind farms in bodies of water to generate electricity from wind.</p>",topic_4,article_4,group_3|group_4,user_3
