@@ -97,6 +97,7 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
   $book = $field['entity']->book;
   $current_page = $book['mlid'];
   $parent_page = $book['plid'];
+  $depth = $book['depth'];
 
   $purl = url('', array('absolute' => TRUE));
 
@@ -109,7 +110,7 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
   // Links to add new book pages.
   $links = array(
     l(t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page, $options),
-    l(t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options),
+    $depth <= 5 ? l(t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options) : '',
   );
 
   $markup = theme('item_list', array('items' => $links, 'attributes' => array('class' => 'add-links')));
