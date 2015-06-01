@@ -1,0 +1,41 @@
+.node-topic {
+  &.view-mode-full {
+    .group-header {
+      @media screen and (min-width: $screen-sm-min) {
+        background-color: $color-gray-light;
+        border: 0;
+        padding: 25px;
+        margin: 25px 0;
+      }
+    }
+  }
+
+  .group-c4m-header-meta {
+    border: 1px solid $color-gray;
+
+    @media screen and (min-width: $screen-sm-min) {
+      background-color: $color-white;
+      margin: -15px;
+      padding: 15px;
+      position: relative;
+
+      z-index: 2;
+
+      p:last-child {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+  .field-name-c4m-banner {
+    @media screen and (min-width: $screen-sm-min) {
+      position: relative;
+      z-index: 1;
+
+      img {
+        margin: 0 auto;
+      }
+    }
+  }
+}
