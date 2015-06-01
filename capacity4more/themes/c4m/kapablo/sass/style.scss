@@ -15,9 +15,7 @@
 @import "compass/css3";
 @import "compass/utilities";
 
-// We don't have control over all rendered code. Bootstrap adds some icon-code
-// but asumes glyphicons are available. We map them to font-awesome icons.
-@import "base/glyphawesome";
+@import "fontawesome/font-awesome";
 
 // Common utility classes to extend or settings.
 @import "base/mixins";
