@@ -40,7 +40,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -163,7 +163,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -221,7 +221,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -279,7 +279,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
     ),
   );
   $export['user|user|c4m_user_teaser_table_global'] = $ds_fieldsetting;
