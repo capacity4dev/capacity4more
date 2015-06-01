@@ -37,7 +37,7 @@ body {
       font-size: 16px;
     }
 
-    .activities {
+//    .activities {
       @include transition(1.5s);
       margin-top: 20px;
 
@@ -91,7 +91,7 @@ body {
           padding-left: 15px;
         }
       }
-    }
+//    }
 
     .show-more-wrapper {
       width: 100%;
