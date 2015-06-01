@@ -44,6 +44,16 @@ function c4m_content_topic_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'banner',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -142,6 +152,13 @@ function c4m_content_topic_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -209,12 +226,8 @@ function c4m_content_topic_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'featured_block' => array(
@@ -222,6 +235,12 @@ function c4m_content_topic_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -324,6 +343,15 @@ function c4m_content_topic_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -409,6 +437,15 @@ function c4m_content_topic_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -496,6 +533,15 @@ function c4m_content_topic_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 5,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -579,6 +625,12 @@ function c4m_content_topic_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -608,7 +660,7 @@ function c4m_content_topic_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'c4m_vocab_theme',
     'label' => 'Theme',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -662,6 +714,12 @@ function c4m_content_topic_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
