@@ -400,10 +400,10 @@ function c4m_document_widget_check_file_access($file_id) {
 function c4m_document_widget_add_document_file($file_id) {
   $file = file_load($file_id);
   // Get file view.
-  $file_view = file_view($file);
+  $file_view = file_view($file, 'c4m_preview');
   $variables = array(
     'file_id' => $file_id,
-    'file' => drupal_render($file_view, 'teaser'),
+    'file' => drupal_render($file_view),
   );
 
   // Get group context or use the default one.

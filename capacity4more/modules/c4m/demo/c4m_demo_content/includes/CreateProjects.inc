@@ -49,13 +49,6 @@ class C4mDemoContentCreateProjects extends C4mDemoContentCreateOgGroups {
   public function __construct() {
     parent::__construct();
 
-    $this->addFieldMapping('c4m_banner', 'banner')
-      ->separator(';');
-    $this->addFieldMapping('c4m_banner:file_replace')
-      ->defaultValue(FILE_EXISTS_REPLACE);
-    $this->addFieldMapping('c4m_banner:source_dir')
-      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
-
     $this->addFieldMapping('c4m_source_of_funding', 'funding')
       ->separator(';');
 
