@@ -42,6 +42,11 @@ function c4m_content_feed_rss() {
 function c4m_content_feed_topics_format_rss($topics) {
   $items = array();
   foreach ($topics->getIterator() as $item) {
+    // Skip unpublished content.
+    if ($item->status->value() !== NODE_PUBLISHED) {
+      continue;
+    }
+
     $item_title = $item->title->value();
     $item_link = $item->url->value();
     $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
@@ -67,6 +72,11 @@ function c4m_content_feed_topics_format_rss($topics) {
 function c4m_content_feed_articles_format_rss($articles) {
   $items = array();
   foreach ($articles->getIterator() as $item) {
+    // Skip unpublished content.
+    if ($item->status->value() !== NODE_PUBLISHED) {
+      continue;
+    }
+
     $item_title = $item->title->value();
     $item_link = $item->url->value();
     $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
@@ -96,6 +106,11 @@ function c4m_content_feed_articles_format_rss($articles) {
 function c4m_content_feed_groups_format_rss($groups) {
   $items = array();
   foreach ($groups->getIterator() as $item) {
+    // Skip unpublished content.
+    if ($item->status->value() !== NODE_PUBLISHED) {
+      continue;
+    }
+
     $item_title = $item->title->value();
     $item_link = $item->url->value();
     $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
