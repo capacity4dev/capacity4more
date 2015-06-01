@@ -33,7 +33,6 @@ files[] = includes/CreatePhotoalbums.inc
 files[] = includes/CreatePhotoComments.inc
 files[] = includes/CreatePhotos.inc
 files[] = includes/CreateProjects.inc
-files[] = includes/CreateRegionNodes.inc
 files[] = includes/CreateRegionTerms.inc
 files[] = includes/CreateTags.inc
 files[] = includes/CreateTasklists.inc

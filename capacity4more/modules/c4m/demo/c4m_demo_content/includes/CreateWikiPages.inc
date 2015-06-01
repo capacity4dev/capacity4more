@@ -43,7 +43,6 @@ class C4mDemoContentCreateWikiPages extends C4mDemoContentCreateOgContent {
     $this->dependencies[] = 'C4mDemoContentCreateDocuments';
     $this->dependencies[] = 'C4mDemoContentCreateGroups';
     $this->dependencies[] = 'C4mDemoContentCreateProjects';
-    $this->addFieldMapping('status', 'status');
     $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_related_document', 'documents');

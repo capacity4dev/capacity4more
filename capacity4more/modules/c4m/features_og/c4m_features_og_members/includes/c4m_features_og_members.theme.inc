@@ -136,10 +136,9 @@ function theme_c4m_features_og_members_activity_summary($field) {
   // Count published comments of user in this group.
   $count_comments = c4m_user_og_count_comments_in_group($user->uid, $group->nid);
 
-  return t('Posted !posts and !comments', array(
-    '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
-    '!comments' => format_plural($count_comments, '1 Comment', '@count Comments')
-  ));
+  // Format the string to show the number of posts/comments
+  $output = c4m_ds_user_activity_summary_helper($count_posts, $count_comments);
+  return $output;
 }
 
 /**
