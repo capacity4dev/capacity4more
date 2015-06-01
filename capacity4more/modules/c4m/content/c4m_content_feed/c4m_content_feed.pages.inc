@@ -50,6 +50,7 @@ function c4m_content_feed_topics_format_rss($topics) {
     $item_title = $item->title->value();
     $item_link = $item->url->value();
     $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
+    $item_file = isset($item->c4m_media) ? $item->c4m_media->value() : FALSE;
 
     $args = array(
       'category'  => t('Topic'),
@@ -57,8 +58,8 @@ function c4m_content_feed_topics_format_rss($topics) {
     );
     $args[] = c4m_content_feed_format_rss_guid($item);
 
-    foreach ($item->c4m_media->getIterator() as $image) {
-      $args[] = c4m_content_feed_format_rss_image($image);
+    if ($item_file) {
+      $args[] = c4m_content_feed_format_rss_image($item_file);
     }
 
     $items[] = format_rss_item($item_title, $item_link, $item_body, $args);
@@ -80,6 +81,7 @@ function c4m_content_feed_articles_format_rss($articles) {
     $item_title = $item->title->value();
     $item_link = $item->url->value();
     $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
+    $item_file = isset($item->c4m_media) ? $item->c4m_media->value() : FALSE;
 
     $args = array(
       'category'       => t('Voices & views'),
@@ -91,8 +93,8 @@ function c4m_content_feed_articles_format_rss($articles) {
     );
     $args[] = c4m_content_feed_format_rss_guid($item);
 
-    foreach ($item->c4m_media->getIterator() as $image) {
-      $args[] = c4m_content_feed_format_rss_image($image);
+    if ($item_file) {
+      $args[] = c4m_content_feed_format_rss_image($item_file);
     }
 
     $items[] = format_rss_item($item_title, $item_link, $item_body, $args);
@@ -114,6 +116,7 @@ function c4m_content_feed_groups_format_rss($groups) {
     $item_title = $item->title->value();
     $item_link = $item->url->value();
     $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
+    $item_file = isset($item->c4m_media) ? $item->c4m_media->value() : FALSE;
 
     $args = array(
       'category' => t('Group'),
@@ -123,8 +126,8 @@ function c4m_content_feed_groups_format_rss($groups) {
     );
     $args[] = c4m_content_feed_format_rss_guid($item);
 
-    foreach ($item->c4m_media->getIterator() as $image) {
-      $args[] = c4m_content_feed_format_rss_image($image);
+    if ($item_file) {
+      $args[] = c4m_content_feed_format_rss_image($item_file);
     }
 
     $items[] = format_rss_item($item_title, $item_link, $item_body, $args);
@@ -174,9 +177,9 @@ function c4m_content_feed_format_rss_image($file) {
   return array(
     'key' => 'enclosure',
     'attributes' => array(
-      'url'    => $file->url->value(),
-      'length' => $file->size->value(),
-      'type'   => $file->mime->value(),
+      'url'    => file_create_url($file['uri']),
+      'length' => $file['filesize'],
+      'type'   => $file['filemime'],
     ),
   );
 }
