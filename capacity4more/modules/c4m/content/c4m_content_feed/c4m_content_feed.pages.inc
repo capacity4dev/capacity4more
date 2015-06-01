@@ -43,7 +43,7 @@ function c4m_content_feed_topics_format_rss($topics) {
   $items = array();
   foreach ($topics->getIterator() as $item) {
     // Skip unpublished content.
-    if ($item->status->value() !== NODE_PUBLISHED) {
+    if ($item->status->value() != NODE_PUBLISHED) {
       continue;
     }
 
@@ -73,7 +73,7 @@ function c4m_content_feed_articles_format_rss($articles) {
   $items = array();
   foreach ($articles->getIterator() as $item) {
     // Skip unpublished content.
-    if ($item->status->value() !== NODE_PUBLISHED) {
+    if ($item->status->value() != NODE_PUBLISHED) {
       continue;
     }
 
@@ -107,7 +107,7 @@ function c4m_content_feed_groups_format_rss($groups) {
   $items = array();
   foreach ($groups->getIterator() as $item) {
     // Skip unpublished content.
-    if ($item->status->value() !== NODE_PUBLISHED) {
+    if ($item->status->value() != NODE_PUBLISHED) {
       continue;
     }
 
