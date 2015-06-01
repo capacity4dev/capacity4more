@@ -49,4 +49,3 @@ Feature: Feeds
     When  I click "/rss"
     Then  I should have access to the page
     And   I should see in the header "Content-Type":"application/rss+xml; charset=utf-8"
-    And   I should see "This is the description of the feed."
