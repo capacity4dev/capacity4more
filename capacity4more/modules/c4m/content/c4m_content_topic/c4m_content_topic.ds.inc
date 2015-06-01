@@ -17,11 +17,6 @@ function c4m_content_topic_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'topic';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'activity_stream' => array(
-      'weight' => '3',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'activity_stream_by_topic' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -87,10 +82,9 @@ function c4m_content_topic_ds_layout_settings_info() {
         2 => 'activity_stream_by_topic',
       ),
       'right' => array(
-        5 => 'activity_stream',
-        6 => 'c4m_related_group_unlimited',
-        7 => 'c4m_related_projects_unlimited',
-        8 => 'c4m_related_articles',
+        5 => 'c4m_related_group_unlimited',
+        6 => 'c4m_related_projects_unlimited',
+        7 => 'c4m_related_articles',
       ),
     ),
     'fields' => array(
@@ -99,7 +93,6 @@ function c4m_content_topic_ds_layout_settings_info() {
       'activity_stream_by_topic' => 'left',
       'title' => 'header',
       'c4m_body' => 'header',
-      'activity_stream' => 'right',
       'c4m_related_group_unlimited' => 'right',
       'c4m_related_projects_unlimited' => 'right',
       'c4m_related_articles' => 'right',
