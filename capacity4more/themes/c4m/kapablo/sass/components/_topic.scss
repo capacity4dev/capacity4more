@@ -38,4 +38,19 @@
       }
     }
   }
+
+  .block-title {
+    margin-top: 0;
+  }
+
+  .group-right {
+    .panel-pane {
+      margin-bottom: 25px;
+
+      h3 {
+        color: $color-gray;
+        font-weight: lighter;
+      }
+    }
+  }
 }
