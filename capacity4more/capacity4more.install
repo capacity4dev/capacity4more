@@ -23,6 +23,8 @@ function capacity4more_install() {
   $full_html_format = _capacity4more_install_get_full_html_format();
   filter_format_save($full_html_format);
 
+  // CKEDITOR PROFILES.
+
   // ROLES & PERMISSIONS.
   _capacity4more_install_save_default_permissions($filtered_html_format);
 
@@ -137,6 +139,84 @@ function _capacity4more_install_get_full_html_format() {
   $full_html_format = (object) $full_html_format;
 
   return $full_html_format;
+}
+
+/******************************************************************************
+ * CKEDITOR PROFILES (Default profiles)
+ ******************************************************************************/
+
+/**
+ * Set the default C4m ckeditor profiles.
+ */
+function _capacity4more_install_set_ckeditor_profiles() {
+  // C4M Simple ckeditor profile
+  //db_insert('ckeditor_input_format')->fields(array("name" => "C4M Simple", "format" => 'plain_text'))->execute();
+  // C4M Default ckeditor profile
+  //db_insert('ckeditor_input_format')->fields(array("name" => "C4M Default", "format" => 'filtered_text'))->execute();
+  // C4M Advanced ckeditor profile
+  db_insert('ckeditor_input_format')->fields(array("name" => "C4M Advanced", "format" => 'filtered_html'))->execute();
+
+  //insert settings for default role
+  $arr = array();
+  $arr['filebrowser'] = 'none';
+  $arr['quickupload'] = 'f';
+
+  //security
+  $arr['ss'] = "2";
+  $arr['filters']['filter_html'] = 1;
+
+  //appearance
+  $arr['default'] = "t";
+  $arr['show_toggle'] = "t";
+  $arr['popup'] = variable_get('ckeditor_popup', 0) ? "t" : "f";
+  // <!--break--> does not work in Filtered HTML, so DrupalBreak does not make sense here
+  // https://drupal.org/node/881006
+  $arr['toolbar'] = "
+[
+    ['Source'],
+    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
+    ['Undo','Redo','Find','Replace','-','SelectAll'],
+    ['Image','Media','Flash','Table','HorizontalRule','Smiley','SpecialChar'],
+    ['Maximize', 'ShowBlocks'],
+    '/',
+    ['Format'],
+    ['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','RemoveFormat'],
+    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl'],
+    ['Link','Unlink','Anchor','Linkit']
+]
+    ";
+  $arr['expand'] = variable_get('ckeditor_toolbar_start_expanded', 1) ? "t" : "f";
+  $arr['width'] = variable_get("ckeditor_width", "100%");
+  $arr['lang'] = "en";
+  $arr['auto_lang'] = "t";
+  $arr['language_direction'] = "default";
+
+  //output
+  $arr['enter_mode'] = "p";
+  $arr['shift_enter_mode'] = "br";
+  $arr['font_format'] = 'p;div;pre;address;h1;h2;h3;h4;h5;h6';
+  $arr['format_source'] = "t";
+  $arr['format_output'] = "t";
+  $arr['custom_formatting'] = "f";
+  $arr['formatting']['custom_formatting_options'] = array('indent' => 'indent', 'breakBeforeOpen' => 'breakBeforeOpen', 'breakAfterOpen' => 'breakAfterOpen', 'breakAfterClose' => 'breakAfterClose');
+
+  //css
+  $arr['css_mode'] = "none";
+  $arr['css_path'] = variable_get("ckeditor_stylesheet", "");
+
+  //upload
+  //get permissions here like in _update_role_permissions
+  $arr['filebrowser'] = "none";
+  $arr['user_choose'] = "f";
+  $arr['ckeditor_load_method'] = "ckeditor.js";
+  $arr['ckeditor_load_time_out'] = 0;
+  $arr['scayt_autoStartup'] = "f";
+
+  //advanced options
+  $arr['html_entities'] = "f";
+
+  db_insert('ckeditor_settings')->fields(array("name" => "C4M Advanced", "settings" => serialize($arr)))->execute();
 }
 
 /******************************************************************************
