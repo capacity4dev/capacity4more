@@ -32,4 +32,3 @@ features_exclude[variable][comment_form_location_organisation] = comment_form_lo
 features_exclude[variable][comment_organisation] = comment_organisation
 features_exclude[variable][comment_preview_organisation] = comment_preview_organisation
 features_exclude[variable][comment_subject_field_organisation] = comment_subject_field_organisation
-required = 1
