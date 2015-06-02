@@ -57,6 +57,40 @@ function c4m_content_topic_views_pre_render(&$view) {
 
       $view->display_handler->set_option('link_url', url('search', $options));
       break;
+
+    case 'c4m_related_events':
+      $term = c4m_content_topic_get_term_from_node();
+      if (!empty($term)) {
+        $view->display_handler->set_option('link_display', 'custom_url');
+        $options = array(
+          'query' => array(
+            'f' => array('c4m_vocab_topic:' . $term->tid),
+          ),
+        );
+      }
+      else {
+        $options = array();
+      }
+
+      $view->display_handler->set_option('link_url', url('events/upcoming', $options));
+      break;
+
+    case 'c4m_expert_users':
+      $term = c4m_content_topic_get_term_from_node();
+      if (!empty($term)) {
+        $view->display_handler->set_option('link_display', 'custom_url');
+        $options = array(
+          'query' => array(
+            'f' => array('c4m_vocab_topic_expertise:' . $term->tid),
+          ),
+        );
+      }
+      else {
+        $options = array();
+      }
+
+      $view->display_handler->set_option('link_url', url('people', $options));
+      break;
   }
 }
 

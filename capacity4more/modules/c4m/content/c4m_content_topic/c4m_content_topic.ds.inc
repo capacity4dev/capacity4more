@@ -17,6 +17,11 @@ function c4m_content_topic_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'topic';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'expert_users_by_topic' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'related_articles_by_topic' => array(
       'weight' => '6',
       'label' => 'hidden',
@@ -73,6 +78,21 @@ function c4m_content_topic_ds_custom_fields_info() {
     'block_render' => '2',
   );
   $export['activity_stream_by_topic'] = $ds_field;
+
+  $ds_field = new stdClass();
+  $ds_field->api_version = 1;
+  $ds_field->field = 'expert_users_by_topic';
+  $ds_field->label = 'Expert Users by Topic';
+  $ds_field->field_type = 6;
+  $ds_field->entities = array(
+    'node' => 'node',
+  );
+  $ds_field->ui_limit = 'topic|full';
+  $ds_field->properties = array(
+    'block' => 'views|c4m_expert_users-block',
+    'block_render' => '2',
+  );
+  $export['expert_users_by_topic'] = $ds_field;
 
   $ds_field = new stdClass();
   $ds_field->api_version = 1;
@@ -156,16 +176,17 @@ function c4m_content_topic_ds_layout_settings_info() {
         0 => 'c4m_banner',
         1 => 'c4m_header_meta',
         2 => 'title',
-        4 => 'c4m_body',
+        5 => 'c4m_body',
       ),
       'left' => array(
         3 => 'activity_stream_by_topic',
       ),
       'right' => array(
-        5 => 'related_events_by_topic',
+        4 => 'related_events_by_topic',
         6 => 'related_groups_by_topic',
         7 => 'related_projects_by_topic',
         8 => 'related_articles_by_topic',
+        9 => 'expert_users_by_topic',
       ),
     ),
     'fields' => array(
@@ -173,11 +194,12 @@ function c4m_content_topic_ds_layout_settings_info() {
       'c4m_header_meta' => 'header',
       'title' => 'header',
       'activity_stream_by_topic' => 'left',
-      'c4m_body' => 'header',
       'related_events_by_topic' => 'right',
+      'c4m_body' => 'header',
       'related_groups_by_topic' => 'right',
       'related_projects_by_topic' => 'right',
       'related_articles_by_topic' => 'right',
+      'expert_users_by_topic' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
