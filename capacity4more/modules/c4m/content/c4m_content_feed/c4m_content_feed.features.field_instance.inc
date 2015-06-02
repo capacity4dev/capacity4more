@@ -372,7 +372,7 @@ function c4m_content_feed_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'upcoming_event' => array(
         'label' => 'above',
