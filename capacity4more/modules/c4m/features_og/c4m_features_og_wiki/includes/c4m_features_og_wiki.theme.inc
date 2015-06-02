@@ -40,4 +40,3 @@ function theme_c4m_features_og_wiki_wiki($variables) {
     return $output;
   }
 }
-
