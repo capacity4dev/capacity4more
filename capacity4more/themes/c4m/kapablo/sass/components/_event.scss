@@ -40,22 +40,4 @@
       margin-right: 5px;
     }
   }
-
-  &.view-mode-c4m_related {
-    .content-col {
-      float: left;
-      margin: 0;
-    }
-    .field-name-title h3 {
-      margin: 0;
-      a {
-        color: $color-black;
-        text-transform: none;
-      }
-    }
-
-    .field {
-      margin: 0;
-    }
-  }
 }

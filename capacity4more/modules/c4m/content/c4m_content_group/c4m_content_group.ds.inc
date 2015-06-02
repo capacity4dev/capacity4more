@@ -147,15 +147,14 @@ function c4m_content_group_ds_field_settings_info() {
     ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '2',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'lb' => 'Owned by',
-          'lb-col' => TRUE,
-          'prefix' => '<span class="owner">',
-          'suffix' => '</span>',
+          'prefix' => '<div class="owner">',
+          'suffix' => '</div>',
         ),
       ),
     ),
