@@ -97,6 +97,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'text_summary_or_trimmed',
         'weight' => 1,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -184,6 +190,19 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 28,
+      ),
+      'c4m_related' => array(
+        'label' => 'hidden',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'c4m_long_without_time',
+          'fromto' => 'value',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
@@ -303,6 +322,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 27,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -396,6 +421,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 29,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
       ),
       'default' => array(
         'label' => 'above',
@@ -494,6 +525,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 30,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'list',
@@ -572,6 +609,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 32,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
       ),
       'default' => array(
         'label' => 'above',
@@ -672,6 +715,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 31,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 20,
       ),
       'default' => array(
         'label' => 'above',
@@ -1026,6 +1075,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 26,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'default' => array(
         'label' => 'above',
@@ -1531,6 +1586,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 25,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -1615,6 +1676,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 20,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
       ),
       'default' => array(
         'label' => 'above',
@@ -1708,6 +1775,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 18,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 33,
       ),
       'default' => array(
         'label' => 'above',
@@ -1809,6 +1882,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 21,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 32,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1889,6 +1968,12 @@ function c4m_content_event_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 22,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1967,6 +2052,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'default' => array(
         'label' => 'above',
@@ -2048,6 +2139,15 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 24,
+      ),
+      'c4m_related' => array(
+        'label' => 'inline',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_og_dashboard',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 3,
       ),
       'default' => array(
         'label' => 'above',
@@ -2166,6 +2266,12 @@ function c4m_content_event_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 23,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
       ),
       'default' => array(
         'label' => 'above',
