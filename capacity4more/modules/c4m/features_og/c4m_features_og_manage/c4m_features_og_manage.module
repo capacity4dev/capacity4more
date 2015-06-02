@@ -228,7 +228,7 @@ function c4m_features_og_manage_group_details() {
           'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
         )
       );
-      $topic_list['items'][] = l($topic->title, url('search' , $options));
+      $topic_list['items'][] = l($topic->name, url('search' , $options));
     }
 
     $details['topics'] = theme_item_list($topic_list);
