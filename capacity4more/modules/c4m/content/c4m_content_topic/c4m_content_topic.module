@@ -28,17 +28,19 @@ function c4m_content_topic_views_pre_render(&$view) {
         case 'block':
           $link = 'groups';
           break;
+
         case 'block_1':
           $link = 'projects';
           break;
+
         case 'block_2':
           $link = 'articles';
           break;
       }
 
       $view->display_handler->set_option('link_url', url($link, $options));
-
       break;
+
     case 'c4m_related_content':
       $term = c4m_content_topic_get_term_from_node();
       if (!empty($term)) {
@@ -54,7 +56,6 @@ function c4m_content_topic_views_pre_render(&$view) {
       }
 
       $view->display_handler->set_option('link_url', url('search', $options));
-
       break;
   }
 }
@@ -62,9 +63,11 @@ function c4m_content_topic_views_pre_render(&$view) {
 /**
  * Helper function to retrieve mapped taxonomy term.
  *
- * @param null $nid
+ * @param null|int $nid
+ *   Node ID (or NULL if we get node from the context).
  *
- * @return mixed
+ * @return object|null
+ *   Term object if found, otherwise NULL.
  */
 function c4m_content_topic_get_term_from_node($nid = NULL) {
   if ($nid == NULL) {
