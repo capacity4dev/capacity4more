@@ -10,32 +10,52 @@ include_once 'c4m_content_topic.features.inc';
  * Implements hook_views_pre_render().
  */
 function c4m_content_topic_views_pre_render(&$view) {
-  if ($view->name == 'c4m_related_nodes') {
-    $term = c4m_content_topic_get_term_from_node();
-    if (!empty($term)) {
-      $view->display_handler->set_option('link_display', 'custom_url');
-      $options   = array(
-        'query' => array(
-          'f'  => array('c4m_vocab_topic:' . $term->tid),
-        ),
-      );
-    }
-    else {
-      $options = array();
-    }
-    switch($view->current_display) {
-      case 'block':
-        $link = 'groups';
-        break;
-      case 'block_1':
-        $link = 'projects';
-        break;
-      case 'block_2':
-        $link = 'articles';
-        break;
-    }
+  switch ($view->name) {
+    case 'c4m_related_nodes':
+      $term = c4m_content_topic_get_term_from_node();
+      if (!empty($term)) {
+        $view->display_handler->set_option('link_display', 'custom_url');
+        $options = array(
+          'query' => array(
+            'f' => array('c4m_vocab_topic:' . $term->tid),
+          ),
+        );
+      }
+      else {
+        $options = array();
+      }
+      switch ($view->current_display) {
+        case 'block':
+          $link = 'groups';
+          break;
+        case 'block_1':
+          $link = 'projects';
+          break;
+        case 'block_2':
+          $link = 'articles';
+          break;
+      }
 
-    $view->display_handler->set_option('link_url', url($link, $options));
+      $view->display_handler->set_option('link_url', url($link, $options));
+
+      break;
+    case 'c4m_related_content':
+      $term = c4m_content_topic_get_term_from_node();
+      if (!empty($term)) {
+        $view->display_handler->set_option('link_display', 'custom_url');
+        $options = array(
+          'query' => array(
+            'f' => array('c4m_vocab_topic:' . $term->tid),
+          ),
+        );
+      }
+      else {
+        $options = array();
+      }
+
+      $view->display_handler->set_option('link_url', url('search', $options));
+
+      break;
   }
 }
 
