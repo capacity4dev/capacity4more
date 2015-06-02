@@ -559,9 +559,13 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'c4m_user_author_thumb_image',
+        ),
+        'type' => 'image',
         'weight' => 20,
       ),
       'default' => array(

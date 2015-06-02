@@ -53,6 +53,15 @@ function c4m_content_project_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<div class="round-bg">',
+          'suffix' => '</div>',
+        ),
+      ),
+    ),
   );
   $export['node|project|c4m_related'] = $ds_fieldsetting;
 
@@ -79,11 +88,15 @@ function c4m_content_project_ds_layout_settings_info() {
         1 => 'c4m_user_first_and_last_name',
         2 => 'c4m_ds_group_members_count',
       ),
+      'left' => array(
+        3 => 'c4m_media',
+      ),
     ),
     'fields' => array(
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
+      'c4m_media' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
