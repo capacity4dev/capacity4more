@@ -146,6 +146,43 @@ function c4m_content_event_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|event|c4m_related';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'event';
+  $ds_fieldsetting->view_mode = 'c4m_related';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'og_group_ref' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Group',
+          'lb-el' => 'span',
+          'prefix' => '<span class="group-ref">',
+          'suffix' => '</span>',
+        ),
+      ),
+    ),
+  );
+  $export['node|event|c4m_related'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|event|full';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'event';
@@ -586,6 +623,43 @@ function c4m_content_event_ds_layout_settings_info() {
     'layout_link_custom' => '',
   );
   $export['node|event|activity_group'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|event|c4m_related';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'event';
+  $ds_layout->view_mode = 'c4m_related';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_ds_content_type_icon',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_datetime_end',
+        3 => 'og_group_ref',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_content_type_icon' => 'left',
+      'title' => 'right',
+      'c4m_datetime_end' => 'right',
+      'og_group_ref' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|event|c4m_related'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
