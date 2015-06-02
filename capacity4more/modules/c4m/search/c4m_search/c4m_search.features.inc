@@ -162,7 +162,7 @@ function c4m_search_default_search_api_index() {
       "fields" : {
         "attachments_c4m_document" : { "type" : "text" },
         "author" : { "type" : "integer", "entity_type" : "user" },
-        "body:value" : { "type" : "text" },
+        "c4m_body:value" : { "type" : "text" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_date" : { "type" : "date" },

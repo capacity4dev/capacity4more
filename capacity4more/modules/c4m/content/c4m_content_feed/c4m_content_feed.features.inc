@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * c4m_content_topic.features.inc
+ * c4m_content_feed.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function c4m_content_topic_ctools_plugin_api($module = NULL, $api = NULL) {
+function c4m_content_feed_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "ds" && $api == "ds") {
     return array("version" => "1");
   }
@@ -19,12 +19,12 @@ function c4m_content_topic_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_node_info().
  */
-function c4m_content_topic_node_info() {
+function c4m_content_feed_node_info() {
   $items = array(
-    'topic' => array(
-      'name' => t('Topic'),
+    'feed' => array(
+      'name' => t('Feed'),
       'base' => 'node_content',
-      'description' => t('Add a topic so content can relates itself to it. Topics are used to link related content. They are also used so that users can indicate their interests and their expertise.'),
+      'description' => t('Create feeds for other websites.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

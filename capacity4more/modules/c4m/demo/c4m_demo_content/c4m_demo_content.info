@@ -41,3 +41,4 @@ files[] = includes/CreateTasks.inc
 files[] = includes/CreateTopics.inc
 files[] = includes/CreateUsers.inc
 files[] = includes/CreateVocabularyTerms.inc
+files[] = includes/CreateFeeds.inc
