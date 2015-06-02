@@ -26,41 +26,47 @@ function c4m_search_nodes_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_search_filter-search_filter' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_search_nodes-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_search_nodes-page',
           'region' => 'sidebar_first',
-          'weight' => '-10',
+          'weight' => '0',
         ),
         'facetapi-QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => array(
           'module' => 'facetapi',
           'delta' => 'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS',
           'region' => 'sidebar_first',
-          'weight' => '-9',
+          'weight' => '1',
         ),
-        'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
+        'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
           'module' => 'facetapi',
-          'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
+          'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
           'region' => 'sidebar_first',
-          'weight' => '-8',
+          'weight' => '2',
         ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
           'delta' => 'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '3',
         ),
         'facetapi-4Erg9yLvJMABad12YSuX81wXLf2eoV17' => array(
           'module' => 'facetapi',
           'delta' => '4Erg9yLvJMABad12YSuX81wXLf2eoV17',
           'region' => 'sidebar_first',
-          'weight' => '-6',
+          'weight' => '4',
         ),
         'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',
           'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
           'region' => 'sidebar_first',
-          'weight' => '-5',
+          'weight' => '5',
         ),
       ),
     ),

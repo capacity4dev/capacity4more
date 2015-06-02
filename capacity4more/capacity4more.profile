@@ -175,4 +175,3 @@ function capacity4more_setup_set_terms_og_permissions() {
   $permissions[] = 'manage variables';
   og_role_grant_permissions($admin_rid, $permissions);
 }
-

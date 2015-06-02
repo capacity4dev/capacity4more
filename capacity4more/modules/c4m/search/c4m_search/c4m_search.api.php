@@ -27,21 +27,19 @@
  *   - weight : The weight used to sort the search page in dropdown.
  *   - default : The default search page in dropdown.
  *   - access : Optional access callback to show search page in dropdown.
- *   - purl : Indicates if the path should be rendered inside a group.
- *   - group : Optional group that the search page belongs to.
+ *   - type : Indicates if the search page is 'global' or in 'group'.
  */
 function hook_c4m_search_page_info() {
   return array(
-    'c4m_search_nodes' => array(
-      'name' => t('Search Site'),
+    'search_api_views_c4m_search_nodes' => array(
+      'name' => t('All @site-name', array('@site-name' => $site_name)),
       'description' => t('Search in all the site content.'),
-      'machine_name' => 'c4m_search_nodes',
+      'machine_name' => 'search_api_views_c4m_search_nodes',
       'path' => 'search',
       'weight' => 0,
       'default' => TRUE,
       'access' => NULL,
-      'purl' => FALSE,
-      'group' => t('Search in all site content'),
+      'type' => 'global',
     ),
   );
 }
