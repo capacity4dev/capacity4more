@@ -18,10 +18,15 @@
     margin: 18px 18px 0 0;
   }
 }
-ul[rn-carousel] {
+ul[rn-carousel],
+.no-carousel {
   width: 100%;
   height: 313px;
   margin: 0 auto;
+
+  li.one-slide {
+    height: 100%;
+  }
 
   .bgimage {
     text-align: right;

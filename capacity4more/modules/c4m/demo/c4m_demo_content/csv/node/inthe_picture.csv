@@ -1,6 +1,6 @@
-ID,Title,Description,Image,Link,Page,UID
-picture_1,"Voices & Views","A picture for the Voices & Views overview page",banner1.jpg,http://www.nobelprize.org/,"Voices & Views",user_4
-picture_2,Groups,"A picture for the Groups overview page",banner2.jpg,http://www.nobelprize.org/,Groups,user_1
-picture_3,Projects,"A picture for the Projects overview page",banner3.jpg,http://www.nobelprize.org/,Projects,user_4
-picture_4,Events,"A picture for the Events overview page",banner4.jpg,http://www.nobelprize.org/,Events,user_3
-picture_5,People,"A picture for the People overview page",banner5.jpg,http://www.nobelprize.org/,People,user_1
+ID,Title,Heading,Description,Image,Link,Page,UID
+picture_1,"Voices & Views","Voices & Views","A picture for the Voices & Views overview page",banner1.jpg,http://www.nobelprize.org/,"Voices & Views",user_4
+picture_2,Groups,Groups,"A picture for the Groups overview page",banner2.jpg,http://www.nobelprize.org/,Groups,user_1
+picture_3,Projects,Projects,"A picture for the Projects overview page",banner3.jpg,http://www.nobelprize.org/,Projects,user_4
+picture_4,Events,Events,"A picture for the Events overview page",banner4.jpg,http://www.nobelprize.org/,Events,user_3
+picture_5,People,People,"A picture for the People overview page",banner5.jpg,http://www.nobelprize.org/,People,user_1
