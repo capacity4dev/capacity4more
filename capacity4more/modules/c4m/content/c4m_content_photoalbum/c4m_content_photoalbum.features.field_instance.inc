@@ -63,7 +63,11 @@ function c4m_content_photoalbum_field_default_field_instances() {
   // Exported field_instance: 'node-photoalbum-c4m_body'
   $field_instances['node-photoalbum-c4m_body'] = array(
     'bundle' => 'photoalbum',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'format' => 'filtered_html',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(

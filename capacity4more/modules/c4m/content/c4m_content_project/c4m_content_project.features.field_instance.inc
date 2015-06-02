@@ -111,7 +111,11 @@ function c4m_content_project_field_default_field_instances() {
   // Exported field_instance: 'node-project-c4m_body'
   $field_instances['node-project-c4m_body'] = array(
     'bundle' => 'project',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'format' => 'filtered_html',
+      ),
+    ),
     'deleted' => 0,
     'description' => 'Description about the Project.',
     'display' => array(

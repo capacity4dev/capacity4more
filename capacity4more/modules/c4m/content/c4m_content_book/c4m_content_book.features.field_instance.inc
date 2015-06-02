@@ -13,7 +13,11 @@ function c4m_content_book_field_default_field_instances() {
   // Exported field_instance: 'node-book-c4m_body'
   $field_instances['node-book-c4m_body'] = array(
     'bundle' => 'book',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'format' => 'filtered_html',
+      ),
+    ),
     'deleted' => 0,
     'description' => 'Content of the Book page.',
     'display' => array(

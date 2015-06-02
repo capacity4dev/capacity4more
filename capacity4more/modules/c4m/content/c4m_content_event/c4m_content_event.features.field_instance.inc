@@ -63,7 +63,11 @@ function c4m_content_event_field_default_field_instances() {
   // Exported field_instance: 'node-event-c4m_body'
   $field_instances['node-event-c4m_body'] = array(
     'bundle' => 'event',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'format' => 'filtered_html',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
