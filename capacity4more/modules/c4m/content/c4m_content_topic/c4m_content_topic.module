@@ -5,3 +5,63 @@
  */
 
 include_once 'c4m_content_topic.features.inc';
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function c4m_content_topic_views_pre_render(&$view) {
+  switch ($view->name) {
+    case 'c4m_related_nodes':
+      $term = c4m_content_topic_get_term_from_node();
+      if (!empty($term)) {
+        $view->display_handler->set_option('link_display', 'custom_url');
+        $options = array(
+          'query' => array(
+            'f' => array('c4m_vocab_topic:' . $term->tid),
+          ),
+        );
+      }
+      else {
+        $options = array();
+      }
+      switch ($view->current_display) {
+        case 'block':
+          $link = 'groups';
+          break;
+
+        case 'block_1':
+          $link = 'projects';
+          break;
+
+        case 'block_2':
+          $link = 'articles';
+          break;
+      }
+
+      $view->display_handler->set_option('link_url', url($link, $options));
+      break;
+  }
+}
+
+/**
+ * Helper function to retrieve mapped taxonomy term.
+ *
+ * @param null|int $nid
+ *   Node ID (or NULL if we get node from the context).
+ *
+ * @return object|null
+ *   Term object if found, otherwise NULL.
+ */
+function c4m_content_topic_get_term_from_node($nid = NULL) {
+  if ($nid == NULL) {
+    $node = menu_get_object('node');
+  }
+  else {
+    $node = node_load($nid);
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  return (!empty($wrapper->c4m_vocab_topic_mapping))
+    ? $wrapper->c4m_vocab_topic_mapping->value() : NULL;
+}
