@@ -56,6 +56,12 @@ trait Field {
       case 'Topics':
         $locator = '.region-content .field-name-c4m-vocab-topic';
         break;
+      case 'Articles':
+        $locator = '.region-content .field-name-c4m-related-articles';
+        break;
+      case 'Groups':
+        $locator = '.region-content .field-name-c4m-related-group';
+        break;
     }
 
     if (!empty($locator)) {
