@@ -41,6 +41,10 @@ div.label-inline {
   font-weight: bold;
 }
 
+.align-center {
+  text-align: center;
+}
+
 .round-bg {
   img {
     @include border-radius(50%);

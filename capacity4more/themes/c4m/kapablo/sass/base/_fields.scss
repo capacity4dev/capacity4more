@@ -134,6 +134,7 @@
 .field-name-c4m-user-picture {
   img {
     border-radius: 50%;
+    max-width: inherit;
   }
 }
 
@@ -141,7 +142,6 @@
   .group-right {
     .field-name-c4m-user-picture {
       float: left;
-      margin-right: 15px;
     }
   }
 }
