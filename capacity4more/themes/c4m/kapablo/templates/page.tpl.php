@@ -80,11 +80,11 @@
 <header id="page-header" role="banner">
 
   <!--  USER BAR -->
-  <?php if (!empty($page['user_region'])): ?>
+  <?php if (!empty($page['user_bar'])): ?>
     <section id="user-bar">
       <div class="container">
         <div class="row">
-          <?php print render($page['user_region']); ?>
+          <?php print render($page['user_bar']); ?>
         </div>
       </div>
     </section>
