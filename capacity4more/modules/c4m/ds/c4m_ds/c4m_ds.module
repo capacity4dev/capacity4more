@@ -300,7 +300,7 @@ function c4m_ds_ds_fields_info($entity_type) {
   $fields['node']['c4m_ds_group_members_count'] = array(
     'title'      => t('Group members count'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('group|*'),
+    'ui_limit'   => array('group|*', 'project|*'),
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_group_members_count',
     'properties' => array(
