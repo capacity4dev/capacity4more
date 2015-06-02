@@ -69,6 +69,7 @@ dependencies[] = term_reference_tree
 dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
+dependencies[] = views_date
 dependencies[] = views_content
 dependencies[] = views_bulk_operations
 

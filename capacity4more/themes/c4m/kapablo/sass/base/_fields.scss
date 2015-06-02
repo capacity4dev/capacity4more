@@ -49,7 +49,6 @@
   padding-bottom: 10px;
   .label-inline , .user-name, .creation-date {
     float: left;
-    line-height: 0.8em;
   }
   .user-name {
     margin: 0px 5px;
@@ -149,8 +148,6 @@
 
 .user-name {
   display: inline-block;
-  line-height: 0.8em;
-  @include clearfix;
 
   & + .creation-date {
     display: inline-block;
