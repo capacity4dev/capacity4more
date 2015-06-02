@@ -16,6 +16,7 @@ dependencies[] = features
 dependencies[] = field_group
 dependencies[] = image
 dependencies[] = media
+dependencies[] = smart_trim
 dependencies[] = strongarm
 dependencies[] = term_reference_tree
 dependencies[] = text

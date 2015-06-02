@@ -23,9 +23,11 @@ function c4m_content_topic_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Experts';
+  $handler->display->display_options['css_class'] = 'row';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Show more';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'access user profiles';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -35,6 +37,9 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'col-sm-4';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_picture';
   /* Relationship: User: Topics of Expertise (c4m_vocab_topic_expertise) */
@@ -79,6 +84,7 @@ function c4m_content_topic_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['link_url'] = 'people?f[0]=c4m_vocab_topic_expertise:!1';
   $export['c4m_expert_users'] = $view;
 
   $view = new view();
@@ -98,6 +104,7 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Show more';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -151,6 +158,7 @@ function c4m_content_topic_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['link_url'] = 'search?f[0]=c4m_vocab_topic:!1';
   $export['c4m_related_content'] = $view;
 
   $view = new view();
@@ -169,6 +177,7 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Show more';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -177,7 +186,7 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'upcoming_event';
+  $handler->display->display_options['row_options']['view_mode'] = 'c4m_related';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -229,6 +238,7 @@ function c4m_content_topic_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['link_url'] = 'events/upcoming?f[0]=c4m_vocab_topic:!1';
   $export['c4m_related_events'] = $view;
 
   $view = new view();
@@ -245,8 +255,9 @@ function c4m_content_topic_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Related Groups';
   $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Show more';
+  $handler->display->display_options['use_more_always'] = TRUE;
+  $handler->display->display_options['use_more_text'] = 'Show all';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -254,7 +265,7 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  $handler->display->display_options['row_options']['view_mode'] = 'c4m_related';
   /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_c4m_related_group_unlimited_node']['id'] = 'reverse_c4m_related_group_unlimited_node';
   $handler->display->display_options['relationships']['reverse_c4m_related_group_unlimited_node']['table'] = 'node';
@@ -292,6 +303,7 @@ function c4m_content_topic_views_default_views() {
 
   /* Display: Groups */
   $handler = $view->new_display('block', 'Groups', 'block');
+  $handler->display->display_options['link_url'] = 'groups?f[0]=c4m_vocab_topic:!1';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -321,6 +333,9 @@ function c4m_content_topic_views_default_views() {
   $handler = $view->new_display('block', 'Projects', 'block_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Related Projects';
+  $handler->display->display_options['defaults']['link_display'] = FALSE;
+  $handler->display->display_options['link_display'] = 'custom_url';
+  $handler->display->display_options['link_url'] = 'projects?f[0]=c4m_vocab_topic:!1';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_c4m_related_projects_unlimited_node']['id'] = 'reverse_c4m_related_projects_unlimited_node';
@@ -359,6 +374,9 @@ function c4m_content_topic_views_default_views() {
   $handler = $view->new_display('block', 'Articles', 'block_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Related Articles';
+  $handler->display->display_options['defaults']['link_display'] = FALSE;
+  $handler->display->display_options['link_display'] = 'custom_url';
+  $handler->display->display_options['link_url'] = 'articles?f[0]=c4m_vocab_topic:!1';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_c4m_related_articles_node']['id'] = 'reverse_c4m_related_articles_node';
