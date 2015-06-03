@@ -20,7 +20,6 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateUsers',
     'C4mDemoContentCreateThemes',
     'C4mDemoContentCreateTopicTerms',
-    'C4mDemoContentCreateTopics',
     'C4mDemoContentCreateGroups',
     'C4mDemoContentCreateInThePicture',
     'C4mDemoContentCreateBanners',
@@ -48,6 +47,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateWikiPages',
     'C4mDemoContentCreateWikiPageComments',
     'C4mDemoContentCreateFeeds',
+    'C4mDemoContentCreateTopics',
   );
 
   $group_name = 'c4m_demo_content';
