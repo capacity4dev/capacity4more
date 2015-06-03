@@ -23,7 +23,6 @@ function c4m_features_overview_topics_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Topics';
-  $handler->display->display_options['css_class'] = 'row';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -52,6 +51,7 @@ function c4m_features_overview_topics_views_default_views() {
   $handler->display->display_options['fields']['c4m_vocab_theme']['field'] = 'c4m_vocab_theme';
   $handler->display->display_options['fields']['c4m_vocab_theme']['label'] = '';
   $handler->display->display_options['fields']['c4m_vocab_theme']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['c4m_vocab_theme']['element_class'] = 'col-sm-12';
   $handler->display->display_options['fields']['c4m_vocab_theme']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_vocab_theme']['link_to_entity'] = 0;
   $handler->display->display_options['fields']['c4m_vocab_theme']['view_mode'] = 'full';
