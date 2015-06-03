@@ -170,3 +170,6 @@ dependencies[] = c4m_og_purl
 
 ; Email Domains
 dependencies[] = c4m_domain
+
+; Content Authoring
+dependencies[] = c4m_wysiwyg
