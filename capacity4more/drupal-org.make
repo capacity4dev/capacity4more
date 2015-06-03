@@ -269,6 +269,10 @@ libraries[select2][type] = "libraries"
 libraries[select2][download][type] = "file"
 libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
 
+libraries[font_awesome][type] = "libraries"
+libraries[font_awesome][download][type] = "file"
+libraries[font_awesome][download][url] = "https://github.com/FortAwesome/Font-Awesome/archive/v4.3.0.tar.gz"
+
 ; Themes
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.x-dev"
