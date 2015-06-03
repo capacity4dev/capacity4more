@@ -60,3 +60,43 @@
     }
   }
 }
+
+.page-topics {
+  .page-header {
+    color: $color-brown;
+    text-align: center;
+  }
+
+  .view-header {
+    font-size: 0.9em;
+    margin: 20px auto;
+    width: 90%;
+  }
+
+  .view-content {
+    h3 {
+      clear: both;
+      color: $color-brown;
+      font-weight: lighter;
+      text-transform: uppercase;
+    }
+  }
+
+  .views-row {
+    border: 0;
+    padding-bottom: 0;
+  }
+
+  .views-field {
+    text-align: center;
+
+    &.views-field-title {
+      margin-top: 10px;
+    }
+
+    a {
+      color: $color-blue-dark;
+      font-size: 1.1em;
+    }
+  }
+}
