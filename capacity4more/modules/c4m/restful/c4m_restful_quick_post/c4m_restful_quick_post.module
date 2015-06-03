@@ -414,8 +414,15 @@ function c4m_restful_quick_post_needs_app() {
     }
   }
 
+  $allowed_paths = array(
+    'node/%/edit',
+    'node/%',
+    'comment/reply/%',
+    'comment/%/edit',
+
+  );
   // If we are on a group edit form, the app should be loaded.
-  if ($path === 'node/%/edit') {
+  if (in_array($path, $allowed_paths)) {
     return TRUE;
   }
   // If we are on a node creation form, the app should be loaded.
