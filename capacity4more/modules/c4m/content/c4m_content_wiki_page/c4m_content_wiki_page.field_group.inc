@@ -21,7 +21,7 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '1',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_related_topic',
       1 => 'c4m_vocab_date',
@@ -51,9 +51,10 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group pages',
-    'weight' => '0',
+    'weight' => '1',
     'children' => array(
       0 => 'c4m_content_wiki_page_navigation',
+      1 => 'c4m_content_wiki_page_add_links',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
