@@ -26,6 +26,12 @@ function c4m_features_og_search_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_search_filter-search_filter_interests' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter_interests',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_search_og-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_search_og-page',
@@ -43,6 +49,12 @@ function c4m_features_og_search_context_default_contexts() {
           'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
           'region' => 'sidebar_first',
           'weight' => '2',
+        ),
+        'facetapi-ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => array(
+          'module' => 'facetapi',
+          'delta' => 'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3',
+          'region' => 'sidebar_first',
+          'weight' => '3',
         ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
@@ -67,12 +79,6 @@ function c4m_features_og_search_context_default_contexts() {
           'delta' => 'w6asLvBjgGIFWmRHVJbMQJLQjE6uslPx',
           'region' => 'sidebar_first',
           'weight' => '7',
-        ),
-        'facetapi-ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3' => array(
-          'module' => 'facetapi',
-          'delta' => 'ZOrDSi3aBn5Scpx14PeuQryeYEcBDDJ3',
-          'region' => 'sidebar_first',
-          'weight' => '3',
         ),
       ),
     ),

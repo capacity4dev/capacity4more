@@ -164,23 +164,39 @@ function theme_c4m_user_first_and_last_name(array $field) {
     return;
   }
 
+  $output = '';
   $tag = array();
   $entity = $field['entity'];
 
   if ($entity->uid != 0) {
-    $user = user_load($entity->uid);
-    $name = c4m_user_name($user);
+    $user     = user_load($entity->uid);
+    $name     = c4m_user_name($user);
+    $classes  = array();
 
-    if ('linked_user' == $field['formatter']) {
+    if (in_array($field['formatter'], array('linked_user', 'linked_user_with_icon'))) {
       $name = l($name, 'user/' . $user->uid);
+    }
+
+    $output .= $name;
+
+    // Add organisation icon.
+    if (in_array($field['formatter'], array('user_with_icon', 'linked_user_with_icon'))) {
+      if (module_exists('c4m_content_organisation')) {
+        $user_mail = $field['entity']->mail;
+        $icon = c4m_content_organisation_get_icon_by_email($user_mail);
+        if ($icon) {
+          $classes[] = 'icon';
+          $output .= '<div class="organisation-icon">' . render($icon) . '</div>';
+        }
+      }
     }
 
     $tag['element'] = array(
       '#tag'       => 'span',
       '#attributes' => array(
-        'class' => array('user-name'),
+        'class' => array('user-name', implode(',', $classes)),
       ),
-      '#value'     => $name,
+      '#value'     => $output,
     );
   }
   else {
