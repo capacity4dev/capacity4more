@@ -183,6 +183,7 @@ function c4m_search_default_search_api_index() {
         "c4m_vocab_document_type" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_language" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "c4m_vocab_theme" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "changed" : { "type" : "date" },
         "comment_count" : { "type" : "integer" },
