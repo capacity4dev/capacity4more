@@ -45,8 +45,9 @@ projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.5"
 ; Patches for RESTful
+projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
 projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
 
 projects[entityreference][subdir] = "contrib"
@@ -84,7 +85,7 @@ projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.x-dev"
+projects[jquery_update][version] = "3.0-alpha1"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -190,6 +191,9 @@ projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.14"
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.6"
+projects[search_api_autocomplete][subdir] = "contrib"
+projects[search_api_autocomplete][version] = "1.x-dev"
+projects[search_api_autocomplete][patch][] = "https://www.drupal.org/files/issues/search_api_autocomplete-JS-error-on-click-or-key-pressed-2473737-5.patch"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_sorts][subdir] = "contrib"
@@ -265,6 +269,10 @@ libraries[getlocations_markers][destination] = "libraries"
 libraries[select2][type] = "libraries"
 libraries[select2][download][type] = "file"
 libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
+
+libraries[font_awesome][type] = "libraries"
+libraries[font_awesome][download][type] = "file"
+libraries[font_awesome][download][url] = "https://github.com/FortAwesome/Font-Awesome/archive/v4.3.0.tar.gz"
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"
