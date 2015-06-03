@@ -64,7 +64,7 @@ function capacity4more_install() {
   variable_set('c4m_quick_post_debug', 0);
 
   // Path aliases.
-  variable_set('pathauto_update_action', '1');
+  variable_set('pathauto_update_action', '2');
 }
 
 /******************************************************************************
