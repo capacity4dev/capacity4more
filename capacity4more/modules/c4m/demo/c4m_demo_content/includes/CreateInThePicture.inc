@@ -18,6 +18,7 @@ class C4mDemoContentCreateInThePicture extends C4mDemoContentCreateOgContent {
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
+    array('heading', 'Heading'),
     array('body', 'Description'),
     array('image', 'Image'),
     array('link', 'Link'),
@@ -41,6 +42,7 @@ class C4mDemoContentCreateInThePicture extends C4mDemoContentCreateOgContent {
     parent::__construct();
 
     $this->addFieldMapping('c4m_body', 'body');
+    $this->addFieldMapping('c4m_heading', 'heading');
 
     $this->addFieldMapping('c4m_media', 'image');
     $this->addFieldMapping('c4m_media:file_replace')

@@ -148,10 +148,13 @@ function theme_c4m_ds_type_posted_by($field) {
 function theme_c4m_ds_content_footer_stats(array $field) {
   $entity = $field['entity'];
 
-  $items['comments'] = theme(
-    'c4m_ds_entity_comments_count',
-    array('count' => $entity->comment_count)
-  );
+  // Only show comments if comments are enabled.
+  if ($entity->comment == COMMENT_NODE_OPEN) {
+    $items['comments'] = theme(
+      'c4m_ds_entity_comments_count',
+      array('count' => $entity->comment_count)
+    );
+  }
 
   $statistic = statistics_get($entity->nid);
   if (empty($statistic['totalcount'])) {
