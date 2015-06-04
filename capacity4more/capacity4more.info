@@ -72,6 +72,7 @@ dependencies[] = token
 dependencies[] = views
 dependencies[] = views_content
 dependencies[] = views_bulk_operations
+dependencies[] = wysiwyg_filter
 
 
 ; capacity4more ---------------------------------------------------------------
@@ -172,4 +173,4 @@ dependencies[] = c4m_og_purl
 dependencies[] = c4m_domain
 
 ; Content Authoring
-dependencies[] = c4m_wysiwyg
+;dependencies[] = c4m_wysiwyg
