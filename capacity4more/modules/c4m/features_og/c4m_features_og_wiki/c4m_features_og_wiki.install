@@ -16,6 +16,11 @@ function c4m_features_og_wiki_install() {
     'access draggableviews',
   );
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
+
+  // Disable default book view.
+  $views_status = variable_get('views_defaults', array());
+  $views_status['book'] = TRUE;
+  variable_set('views_defaults', $views_status);
 }
 
 /**
