@@ -70,6 +70,7 @@ dependencies[] = term_reference_tree
 dependencies[] = transliteration
 dependencies[] = token
 dependencies[] = views
+dependencies[] = date_views
 dependencies[] = views_content
 dependencies[] = views_bulk_operations
 dependencies[] = wysiwyg_filter
@@ -89,6 +90,8 @@ dependencies[] = c4m_helper_entity
 ; Vocabularies
 dependencies[] = c4m_vocab_category
 dependencies[] = c4m_vocab_tag
+dependencies[] = c4m_vocab_topic
+dependencies[] = c4m_vocab_theme
 
 ; Users
 dependencies[] = c4m_user

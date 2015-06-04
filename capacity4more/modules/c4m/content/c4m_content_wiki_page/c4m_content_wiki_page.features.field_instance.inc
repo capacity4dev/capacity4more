@@ -330,104 +330,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'c4m_add_document',
-      'weight' => 3,
-    ),
-  );
-
-  // Exported field_instance: 'node-wiki_page-c4m_related_topic'
-  $field_instances['node-wiki_page-c4m_related_topic'] = array(
-    'bundle' => 'wiki_page',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 18,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 15,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 7,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => 1,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 0,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic',
-    'label' => 'Topics',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'c4m_vocab_widget',
-      'settings' => array(),
-      'type' => 'c4m_taxonomy_reference',
-      'weight' => 4,
+      'weight' => 2,
     ),
   );
 
@@ -690,6 +593,91 @@ function c4m_content_wiki_page_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-wiki_page-c4m_vocab_topic'
+  $field_instances['node-wiki_page-c4m_vocab_topic'] = array(
+    'bundle' => 'wiki_page',
+    'deleted' => 0,
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 9,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_topic',
+    'label' => 'Topics',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_vocab_widget',
+      'settings' => array(),
+      'type' => 'c4m_taxonomy_reference',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-wiki_page-og_group_ref'
   $field_instances['node-wiki_page-og_group_ref'] = array(
     'bundle' => 'wiki_page',
@@ -912,6 +900,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
   t('OG vocabulary');
   t('Regions & Countries');
   t('Topics');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

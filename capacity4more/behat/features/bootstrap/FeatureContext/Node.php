@@ -87,6 +87,21 @@ trait Node {
   }
 
   /**
+   * @Given /^a "([^"]*)" is created with title "([^"]*)" and topic "([^"]*)" in the group "([^"]*)"$/
+   */
+  public function aNodeIsCreatedWithTitleAndTopicInTheGroup($type, $title, $topic, $group) {
+    $steps = array();
+    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
+    $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
+    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
+    $steps[] = new Step\When('I check the related topic checkbox with "' . $topic . '"');
+    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I should see "has been created."');
+    return $steps;
+  }
+
+  /**
    * @Given /^I update a "([^"]*)" with title "([^"]*)" with new title "([^"]*)"$/
    */
   public function iUpdateAWithTitleInTheGroupWithNewTitle($type, $title, $new_title) {

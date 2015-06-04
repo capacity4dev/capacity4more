@@ -26,6 +26,7 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
     array('tags', 'Tags'),
     array('group_map', 'Group'),
     array('group_type', 'Group Type'),
+    array('topics', 'Topics'),
     array('date', 'Date'),
     array('lang', 'Language'),
     array('uid', 'UID'),
@@ -59,6 +60,11 @@ class C4mDemoContentCreateTasklists extends C4mDemoContentCreateOgContent {
          ->sourceMigration('C4mDemoContentCreateTags')
          ->arguments(array('source_type' => 'tid'))
          ->separator('|');
+
+    $this->addFieldMapping('c4m_vocab_topic', 'topics')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_date', 'date_entries')
          ->arguments(array('source_type' => 'tid'));

@@ -10,6 +10,57 @@
 function c4m_content_event_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'comment-comment_node_event-c4m_related_document'
+  $field_instances['comment-comment_node_event-c4m_related_document'] = array(
+    'bundle' => 'comment_node_event',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_stream' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => 1,
+          'view_mode' => 'teaser',
+        ),
+        'type' => 'entityreference_entity_view',
+        'weight' => 5,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'comment',
+    'field_name' => 'c4m_related_document',
+    'label' => 'Documents',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_document_widget',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'c4m_add_document',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'comment-comment_node_event-comment_body'
   $field_instances['comment-comment_node_event-comment_body'] = array(
     'bundle' => 'comment_node_event',
@@ -41,7 +92,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -133,7 +184,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 18,
       ),
       'default' => array(
         'label' => 'above',
@@ -256,10 +307,17 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 28,
       ),
       'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'c4m_long_without_time',
+          'fromto' => 'value',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
@@ -383,7 +441,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 24,
       ),
       'default' => array(
         'label' => 'above',
@@ -483,7 +541,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 25,
       ),
       'default' => array(
         'label' => 'above',
@@ -586,7 +644,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 23,
       ),
       'default' => array(
         'label' => 'above',
@@ -671,7 +729,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
       ),
       'default' => array(
         'label' => 'above',
@@ -777,7 +835,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
       ),
       'default' => array(
         'label' => 'above',
@@ -1137,7 +1195,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 21,
       ),
       'default' => array(
         'label' => 'above',
@@ -1647,7 +1705,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 27,
       ),
       'default' => array(
         'label' => 'above',
@@ -1738,7 +1796,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 30,
       ),
       'default' => array(
         'label' => 'above',
@@ -1814,103 +1872,6 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_related_topic'
-  $field_instances['node-event-c4m_related_topic'] = array(
-    'bundle' => 'event',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
-    'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 19,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 19,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 14,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => 1,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 14,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 32,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 30,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic',
-    'label' => 'Topics',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'c4m_vocab_widget',
-      'settings' => array(),
-      'type' => 'c4m_taxonomy_reference',
-      'weight' => 11,
-    ),
-  );
-
   // Exported field_instance: 'node-event-c4m_twitter'
   $field_instances['node-event-c4m_twitter'] = array(
     'bundle' => 'event',
@@ -1934,7 +1895,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 33,
       ),
       'default' => array(
         'label' => 'above',
@@ -2040,7 +2001,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 32,
       ),
       'default' => array(
         'label' => 'above',
@@ -2099,7 +2060,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 14,
+      'weight' => 15,
     ),
   );
 
@@ -2126,7 +2087,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 31,
       ),
       'default' => array(
         'label' => 'above',
@@ -2185,7 +2146,92 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 13,
+      'weight' => 14,
+    ),
+  );
+
+  // Exported field_instance: 'node-event-c4m_vocab_topic'
+  $field_instances['node-event-c4m_vocab_topic'] = array(
+    'bundle' => 'event',
+    'deleted' => 0,
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 18,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_topic',
+    'label' => 'Topics',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_vocab_widget',
+      'settings' => array(),
+      'type' => 'c4m_taxonomy_reference',
+      'weight' => 12,
     ),
   );
 
@@ -2210,10 +2256,13 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 24,
       ),
       'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'inline',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_og_dashboard',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 3,
       ),
       'default' => array(
         'label' => 'above',
@@ -2337,7 +2386,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 29,
       ),
       'default' => array(
         'label' => 'above',
@@ -2399,7 +2448,7 @@ function c4m_content_event_field_default_field_instances() {
       'module' => 'c4m_og_vocab',
       'settings' => array(),
       'type' => 'og_vocab_complex',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -2411,6 +2460,7 @@ function c4m_content_event_field_default_field_instances() {
   t('Comment');
   t('Date');
   t('Description');
+  t('Documents');
   t('Event website');
   t('Facebook page');
   t('Groups');

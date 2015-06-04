@@ -1,0 +1,19 @@
+ID,Parent,Name,Description,Mapping
+t_earth,,Earth,,Earth
+t_planet,Earth,Planet,,
+t_soil,Earth,Soil,,
+t_water,,Water,,Water
+t_freshwater,Water,Fresh water,,
+t_seawater,Water,Sea water,,
+t_fire,,Fire,,Fire
+t_protection,Fire,Protection,,
+t_prevention,Fire,Prevention,,
+t_wind,,Wind,,Wind
+t_erosion,Wind,Erosion,,
+t_climate,Wind,Climate,,
+t_electricity,,Electricity,,Electricity
+t_generation,Electricity,Generation,,
+t_transmission,Electricity,Transmission,,
+t_gas,,Gas,,Gas
+t_source,Gas,Source,,
+t_transport,Gas,Transport,,

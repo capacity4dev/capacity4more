@@ -36,7 +36,8 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
    */
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
-    'C4mDemoContentCreateTopics',
+    'C4mDemoContentCreateGroups',
+    'C4mDemoContentCreateProjects',
   );
 
   /**
@@ -57,7 +58,10 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_has_video', 'video');
 
-    $this->addFieldMapping('c4m_related_topic', 'topics_list');
+    $this->addFieldMapping('c4m_vocab_topic', 'topics')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
       ->arguments(array('source_type' => 'tid'));
@@ -85,20 +89,6 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
-    $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateTopics',
-      explode('|', $row->topics),
-      NULL,
-      $this
-    );
-
-    // By default $unfiltered_ids is an array of arrays, containing the
-    // destid1 => destination_nid, but destid2 => NULL.
-    // This NULL value is counted however and added to the query, resulting
-    // in errors. Therefore we need to filter it out.
-    $row->topics_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
 
     $row->geo_entries = $this->mapTaxonomyVocabWithParent(
       $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
