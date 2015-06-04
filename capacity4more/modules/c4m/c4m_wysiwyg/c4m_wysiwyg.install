@@ -70,18 +70,15 @@ function c4m_wysiwyg_update_wysiwyg_filter($format) {
  * Set the default C4m ckeditor profiles.
  */
 function c4m_wysiwyg_set_ckeditor_profiles() {
+  // Some functions are needed from this file.
+  module_load_include('inc', 'ckeditor', 'includes/ckeditor.admin');
+
   // C4m ckeditor profiles.
   $c4m_profiles = array(
     'c4m_simple'    => 'filtered_html',
     'c4m_default'   => 'default_html',
     'c4m_advanced'  => 'full_html',
   );
-
-  // Delete existing c4m profiles.
-  module_load_include('inc', 'ckeditor', 'includes/ckeditor.admin');
-  foreach ($c4m_profiles as $name => $c4m_profile) {
-    ckeditor_profile_delete($name);
-  }
 
   // Get current profiles.
   $profiles = ckeditor_profile_load('', TRUE);
