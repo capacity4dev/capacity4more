@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Code for the Wysiwyg module.
+ */
+
+/**
+ * Implements hook_ckeditor_plugin().
+ */
+function c4m_wysiwyg_ckeditor_plugin() {
+  $module_path = drupal_get_path('module', 'c4m_wysiwyg');
+  $plugins = array();
+
+  $plugins['colordialog'] = array(
+    'name' => 'colordialog',
+    'desc' => t('CKEditor: Colordialog plugin'),
+    'path' => $module_path . '/ckeditor-plugins/colordialog/',
+    'default' => 't',
+  );
+
+  return $plugins;
+}
