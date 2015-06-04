@@ -84,11 +84,11 @@ function _capacity4more_install_get_default_html_format() {
     'filters' => array(
       // URL filter.
       'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
+        'weight'    => 0,
+        'status'    => 1,
       ),
-      // HTML filter.
-      'filter_html' => array(
+      // Wysiwyg filter.
+      'wysiwyg' => array(
         'weight' => 1,
         'status' => 1,
       ),
