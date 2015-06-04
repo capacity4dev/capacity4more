@@ -229,6 +229,7 @@ projects[variable][version] = "2.5"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.11"
+projects[views][patch][] = "https://www.drupal.org/files/issues/views-more-links-with-query-params-2210663-1.patch"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"

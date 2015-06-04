@@ -177,7 +177,7 @@ function c4m_features_overview_events_search_api_query_alter(SearchApiQueryInter
       $user_wrapper = entity_metadata_wrapper('user', $user->uid);
 
       // Get interests & regions.
-      $interests = $user_wrapper->c4m_related_topic->raw();
+      $interests = $user_wrapper->c4m_vocab_topic->raw();
       $regions = $user_wrapper->c4m_vocab_geo->raw();
       if (empty($interests) && empty($regions)) {
         return;
@@ -188,7 +188,7 @@ function c4m_features_overview_events_search_api_query_alter(SearchApiQueryInter
 
       // Filter on interests.
       foreach ($interests as $interest) {
-        $filter->condition('c4m_related_topic', $interest);
+        $filter->condition('c4m_vocab_topic', $interest);
       }
 
       // Filter on geographic regions.

@@ -78,11 +78,12 @@ function c4m_content_group_field_group_info() {
     'label' => 'More details',
     'weight' => '5',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_topic',
       2 => 'c4m_user_picture',
       3 => 'c4m_user_first_and_last_name',
-      4 => 'c4m_content_group_statistics',
+      4 => 'c4m_ds_group_role_members_group',
+      5 => 'c4m_content_group_statistics',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

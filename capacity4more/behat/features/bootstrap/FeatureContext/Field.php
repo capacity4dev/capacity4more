@@ -54,7 +54,7 @@ trait Field {
         $locator = '.main-container .field-name-title';
         break;
       case 'Topics':
-        $locator = '.region-content .field-name-c4m-related-topic';
+        $locator = '.region-content .field-name-c4m-vocab-topic';
         break;
       case 'Articles':
         $locator = '.region-content .field-name-c4m-related-articles';

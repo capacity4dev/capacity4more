@@ -1,0 +1,10 @@
+name = Topic vocabulary
+description = Provides the Topic vocabulary.
+core = 7.x
+package = capacity4more - Vocabulary
+dependencies[] = features
+dependencies[] = taxonomy
+features[features_api][] = api:2
+features[field_base][] = c4m_vocab_topic
+features[field_base][] = c4m_vocab_topic_expertise
+features[field_base][] = c4m_vocab_topic_mapping

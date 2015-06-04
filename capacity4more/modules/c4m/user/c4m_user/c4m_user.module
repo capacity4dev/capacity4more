@@ -356,6 +356,17 @@ function c4m_user_theme() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function c4m_user_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'c4m_user'),
+    'template path' => drupal_get_path('module', 'c4m_user') . DIRECTORY_SEPARATOR . 'templates',
+  );
+}
+
+/**
  *  Implements hook_theme_registry_alter().
  */
 function c4m_user_theme_registry_alter(&$theme_registry) {
