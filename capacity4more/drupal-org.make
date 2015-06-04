@@ -236,6 +236,9 @@ projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
 
+projects[wysiwyg_filter][subdir] = "contrib"
+projects[wysiwyg_filter][version] = "1.x-dev"
+
 
 ; Development modules
 ; Modules
