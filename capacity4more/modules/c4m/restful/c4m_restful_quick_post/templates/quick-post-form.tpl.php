@@ -9,7 +9,7 @@
       xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
-  <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label"
+  <input id="label" class="form-control" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
          placeholder="<?php print t('Title'); ?>" required>
 
   <p ng-show="errors.label"
@@ -24,6 +24,9 @@
 
 <?php if (count($show_resources) > 1): ?>
   <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+  <div id="form-spinner" ng-if="resourceSpinner">
+    <i class="fa fa-refresh fa-spin fa-2x"></i>
+  </div>
 <?php endif; ?>
 
 <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
