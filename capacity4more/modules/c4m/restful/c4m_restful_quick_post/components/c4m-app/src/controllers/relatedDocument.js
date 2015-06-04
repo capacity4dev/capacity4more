@@ -61,33 +61,32 @@ angular.module('c4mApp')
           submitData.group = DrupalSettings.getData('groupID');
           submitData.add_to_library = addToLibrary ? 1 : 0;
 
+          EntityResource.createEntity(submitData, 'documents', resourceFields)
+            .success(function (data, status) {
+              var nid = data.data[0].id;
 
-        EntityResource.createEntity(submitData, 'documents', resourceFields)
-          .success(function (data, status) {
-            var nid = data.data[0].id;
+              var item = '(' + nid + ')';
 
-            var item = '(' + nid + ')';
+              // Add the value we get in the hidden inputs in the parent page.
+              var value = jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val();
+              var nids = jQuery('#input-' + $scope.fieldName, parent.window.document).val();
+              if (value.indexOf(item) == -1) {
+                value = value ? value + ', ' + item : item;
+                nids = nids ? nids + ',' + nid : nid;
+              }
 
-            // Add the value we get in the hidden inputs in the parent page.
-            var value = jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val();
-            var nids = jQuery('#input-' + $scope.fieldName, parent.window.document).val();
-            if (value.indexOf(item) == -1) {
-              value = value ? value + ', ' + item : item;
-              nids = nids ? nids + ',' + nid : nid;
-            }
+              jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(value);
+              jQuery('#input-' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
 
-            jQuery('#edit-' + $scope.fieldName + '-und', parent.window.document).val(value);
-            jQuery('#input-' + $scope.fieldName, parent.window.document).val(nids).trigger('click');
-
-            if (!addToLibrary) {
-              // Save document and go to the parent page.
-              parent.Drupal.overlay.close();
-            }
-            else {
-              // Save document and go to its edit page to add more data.
-              parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-node/' + nid + '/edit' + '?render=overlay');
-            }
-          });
+              if (!addToLibrary) {
+                // Save document and go to the parent page.
+                parent.Drupal.overlay.close();
+              }
+              else {
+                // Save document and go to its edit page to add more data.
+                parent.Drupal.overlay.open(DrupalSettings.getData('purl') + '/overlay-node/' + nid + '/edit' + '?render=overlay');
+              }
+            });
         });
     };
 
