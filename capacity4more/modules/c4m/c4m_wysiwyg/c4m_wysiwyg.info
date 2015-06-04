@@ -1,7 +1,6 @@
-name = Wysiwyg functionality
+name = C4m Wysiwyg
 description = This module provides wysiwyg functionality.
 core = 7.x
 package = capacity4more - Content
 version = 7.x-1.x
 dependencies[] = ckeditor
-dependencies[] = wysiwyg_filter

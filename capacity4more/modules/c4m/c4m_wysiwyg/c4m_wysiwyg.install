@@ -8,8 +8,62 @@
  * Implements hook_install().
  */
 function c4m_wysiwyg_install() {
-  // Ckeditor profiles.
+  // Update the text formats.
+  c4m_wysiwyg_update_text_formats();
+
+  // Add ckeditor profiles.
   c4m_wysiwyg_set_ckeditor_profiles();
+}
+
+/**
+ * Update the available text formats.
+ */
+function c4m_wysiwyg_update_text_formats() {
+  $formats = filter_formats();
+  drupal_set_message('Formats: ' . count($formats));
+  foreach ($formats as $key => $format) {
+    $format = filter_format_load($key);
+
+    // Get the filters used by this format.
+    if (empty($format->filters)) {
+      $filters = filter_list_format($format->format);
+      $format->filters = array();
+      foreach ($filters as $name => $filter) {
+        foreach ($filter as $k => $v) {
+          $format->filters[$name][$k] = $v;
+        }
+      }
+    }
+
+    c4m_wysiwyg_update_wysiwyg_filter($format);
+  }
+}
+
+/**
+ * Update the wysiwyg filter settings.
+ *
+ * @param object $format
+ *    The text format.
+ */
+function c4m_wysiwyg_update_wysiwyg_filter($format) {
+  if (!isset($format->filters['wysiwyg']) ||
+    $format->filters['wysiwyg']['status'] == 0) {
+    return;
+  }
+
+  $wysiwyg_settings = &$format->filters['wysiwyg']['settings'];
+  switch ($format->format) {
+    case 'default_html':
+      $wysiwyg_settings = c4m_wysiwyg_default_html_wysiwyg_filter($wysiwyg_settings);
+      break;
+
+    case 'filtered_html':
+      $wysiwyg_settings = c4m_wysiwyg_default_html_wysiwyg_filter($wysiwyg_settings);
+      break;
+  }
+
+  // Save the format.
+  filter_format_save($format);
 }
 
 /**
@@ -156,4 +210,65 @@ function c4m_wysiwyg_ckeditor_save_profile($profile_name, $text_format) {
   $arr['html_entities'] = "f";
 
   db_insert('ckeditor_settings')->fields(array("name" => $profile_name, "settings" => serialize($arr)))->execute();
+}
+
+/**
+ * Get the wysiwyf filter settings for the default_html format.
+ *
+ * @param array $settings
+ *    The wysiwyg filter settings.
+ *
+ * @return array
+ *    The new settings array.
+ */
+function c4m_wysiwyg_default_html_wysiwyg_filter(array $settings) {
+  $settings['valid_elements']
+    = <<<EOT
+@[class|style|title],
+a[href|target<_blank|title|rel|name],
+em/i, strong/b, strike/s, sub, sup,
+img[width|height|alt|title|src],
+p[align<center?justify?left?right],
+div[align<center?justify?left?right],
+br,address, hr, blockquote, pre, cite, code, span,
+h1,h2,h3,h4,h5,h6,
+ul,ol,li,dl,dt,dd,
+table[width|cellpadding|cellspacing|border|summary|align<center?left?right],
+colgroup,col,
+tr[align|valign|rowspan],
+td[align|valign|width|colspan],
+th[align|valign|width],tbody,thead,tfoot
+EOT;
+  $settings['nofollow_domains'] = array();
+  $settings['style_color']      = array(
+    'background-color' => 'background-color',
+  );
+  $settings['style_text']      = array(
+    'text-align'      => 'text-align',
+    'text-decoration' => 'text-decoration',
+    'text-indent'     => 'text-indent',
+    'text-transform'  => 'text-transform',
+  );
+  $settings['style_box'] = array(
+    'margin'  => 'margin',
+    'padding' => 'padding',
+  );
+  $settings['style_border-1'] = array(
+    'border'  => 'border',
+  );
+  $settings['style_border-2'] = array(
+    'border-color'  => 'border-color',
+    'border-style'  => 'border-style',
+  );
+  $settings['style_dimension'] = array(
+    'height'  => 'height',
+    'width'   => 'width',
+  );
+  $settings['style_table'] = array(
+    'border-collapse'   => 'border-collapse',
+    'border-spacing'    => 'border-spacing',
+  );
+  $settings['rule_valid_classes'] = array('align-right', 'align-left');
+
+  return $settings;
 }
