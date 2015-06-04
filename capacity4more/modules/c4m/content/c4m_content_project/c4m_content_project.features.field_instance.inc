@@ -28,6 +28,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -111,11 +117,7 @@ function c4m_content_project_field_default_field_instances() {
   // Exported field_instance: 'node-project-c4m_body'
   $field_instances['node-project-c4m_body'] = array(
     'bundle' => 'project',
-    'default_value' => array(
-      0 => array(
-        'format' => 'filtered_html',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => 'Description about the Project.',
     'display' => array(
@@ -126,6 +128,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -169,12 +177,44 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
     'label' => 'Description',
     'required' => 1,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 0,
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 1,
+        'default_order_toggle' => 1,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => -50,
+            ),
+            'filtered_html' => array(
+              'weight' => -48,
+            ),
+            'full_html' => array(
+              'weight' => -49,
+            ),
+            'mail' => array(
+              'weight' => -46,
+            ),
+            'plain_text' => array(
+              'weight' => -47,
+            ),
+          ),
+        ),
+      ),
       'display_summary' => 0,
+      'summary_display' => 'default',
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
@@ -205,6 +245,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -286,6 +332,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -356,6 +408,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -451,6 +509,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -521,6 +585,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -620,6 +690,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -996,6 +1072,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -1068,6 +1150,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1158,6 +1246,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -1233,6 +1327,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1314,6 +1414,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1386,6 +1492,12 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

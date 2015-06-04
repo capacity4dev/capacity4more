@@ -25,9 +25,11 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'full',
           'trim_length' => 300,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 0,
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -42,15 +44,47 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'comment',
     'field_name' => 'comment_body',
     'label' => 'Comment',
-    'required' => TRUE,
+    'required' => 1,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 0,
+          'mail' => 0,
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 1,
+        'default_order_toggle' => 1,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => -50,
+            ),
+            'filtered_html' => array(
+              'weight' => -49,
+            ),
+            'full_html' => array(
+              'weight' => -47,
+            ),
+            'mail' => array(
+              'weight' => -46,
+            ),
+            'plain_text' => array(
+              'weight' => -48,
+            ),
+          ),
+        ),
+      ),
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'rows' => 5,
@@ -63,11 +97,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
   // Exported field_instance: 'node-photoalbum-c4m_body'
   $field_instances['node-photoalbum-c4m_body'] = array(
     'bundle' => 'photoalbum',
-    'default_value' => array(
-      0 => array(
-        'format' => 'filtered_html',
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -79,9 +109,11 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'more_text' => 'Read more',
           'summary_handler' => 'trim',
           'trim_length' => 200,
+          'trim_link' => FALSE,
           'trim_options' => array(
             'text' => 'text',
           ),
+          'trim_preserve_tags' => '',
           'trim_suffix' => '...',
           'trim_type' => 'chars',
         ),
@@ -96,6 +128,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         ),
         'type' => 'text_summary_or_trimmed',
         'weight' => 1,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
@@ -141,12 +179,44 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
     'label' => 'Description',
     'required' => 1,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 0,
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 1,
+        'default_order_toggle' => 1,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => -50,
+            ),
+            'filtered_html' => array(
+              'weight' => -48,
+            ),
+            'full_html' => array(
+              'weight' => -49,
+            ),
+            'mail' => array(
+              'weight' => -46,
+            ),
+            'plain_text' => array(
+              'weight' => -47,
+            ),
+          ),
+        ),
+      ),
       'display_summary' => 0,
+      'summary_display' => 'default',
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
@@ -181,6 +251,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 21,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
@@ -255,6 +331,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 20,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -328,6 +410,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 19,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
@@ -445,6 +533,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 18,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'og_vocab',
@@ -511,12 +605,12 @@ function c4m_content_photoalbum_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Comment');
   t('Date');
   t('Description');
   t('Groups');
   t('Language');
   t('Metadata');
-  t('Comment');
 
   return $field_instances;
 }
