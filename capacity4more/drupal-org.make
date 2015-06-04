@@ -45,8 +45,9 @@ projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.5"
 ; Patches for RESTful
+projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
 projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
 
 projects[entityreference][subdir] = "contrib"
@@ -269,6 +270,10 @@ libraries[getlocations_markers][destination] = "libraries"
 libraries[select2][type] = "libraries"
 libraries[select2][download][type] = "file"
 libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
+
+libraries[font_awesome][type] = "libraries"
+libraries[font_awesome][download][type] = "file"
+libraries[font_awesome][download][url] = "https://github.com/FortAwesome/Font-Awesome/archive/v4.3.0.tar.gz"
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"
