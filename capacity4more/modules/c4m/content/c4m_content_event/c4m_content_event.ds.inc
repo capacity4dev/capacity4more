@@ -170,7 +170,7 @@ function c4m_content_event_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_related';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(

@@ -133,6 +133,10 @@ function c4m_content_event_strongarm() {
             'weight' => '8',
             'visible' => TRUE,
           ),
+          'c4m_related' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

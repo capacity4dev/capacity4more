@@ -54,8 +54,8 @@ function c4m_content_event_field_group_info() {
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_language',
-      2 => 'og_vocabulary',
-      3 => 'c4m_vocab_topic',
+      2 => 'c4m_vocab_topic',
+      3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
