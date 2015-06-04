@@ -115,7 +115,7 @@ function template_preprocess_c4m_features_homepage_intro_video(&$vars) {
   // Image.
   $vars['image'] = array(
     '#theme'    => 'image',
-    '#path'     => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-anonymous.png',
+    '#path'     => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-fullheader.png',
   );
 
   // Video title fallback.
