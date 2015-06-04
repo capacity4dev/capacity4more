@@ -120,13 +120,13 @@ function c4m_content_group_strongarm() {
           'weight' => '0',
         ),
         'og_purl' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
         'path' => array(
-          'weight' => '12',
+          'weight' => '13',
         ),
         'locations' => array(
-          'weight' => '10',
+          'weight' => '11',
         ),
       ),
       'display' => array(),
