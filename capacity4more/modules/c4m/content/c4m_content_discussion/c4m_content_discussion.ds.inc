@@ -77,6 +77,24 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_related_document' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Documents',
+          'lb-col' => TRUE,
+          'lbw' => 1,
+          'lbw-el' => 'div',
+          'lbw-cl' => 'field-label',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'field-name-c4m-related-document',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
   );
   $export['comment|comment_node_discussion|default'] = $ds_fieldsetting;
 
@@ -212,7 +230,7 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -419,19 +437,21 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'right' => array(
         0 => 'c4m_user_first_and_last_name',
         1 => 'post_date',
-        3 => 'comment_body',
+        2 => 'comment_body',
+        3 => 'c4m_related_document',
         4 => 'links',
       ),
       'left' => array(
-        2 => 'c4m_user_picture',
+        5 => 'c4m_user_picture',
       ),
     ),
     'fields' => array(
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
-      'c4m_user_picture' => 'left',
       'comment_body' => 'right',
+      'c4m_related_document' => 'right',
       'links' => 'right',
+      'c4m_user_picture' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -532,7 +552,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
         7 => 'c4m_user_picture',
         8 => 'group_node_details',
         9 => 'c4m_ds_type_posted_by',
-        10 => 'c4m_related_topic',
+        10 => 'c4m_vocab_topic',
         11 => 'og_vocabulary',
         12 => 'c4m_user_first_and_last_name',
         13 => 'c4m_vocab_date',
@@ -552,7 +572,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_user_picture' => 'right',
       'group_node_details' => 'right',
       'c4m_ds_type_posted_by' => 'right',
-      'c4m_related_topic' => 'right',
+      'c4m_vocab_topic' => 'right',
       'og_vocabulary' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_vocab_date' => 'right',

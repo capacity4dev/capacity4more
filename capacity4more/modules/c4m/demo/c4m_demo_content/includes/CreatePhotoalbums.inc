@@ -26,7 +26,8 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
     array('date', 'Date'),
     array('lang', 'Language'),
     array('uid', 'UID'),
-    array('promote', 'promote'),
+    array('topics', 'Topics'),
+    array('promote', 'Promote'),
   );
 
   /**
@@ -53,6 +54,11 @@ class C4mDemoContentCreatePhotoalbums extends C4mDemoContentCreateOgContent {
 
     $this->addFieldMapping('c4m_vocab_language', 'lang_entries')
          ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_vocab_topic', 'topics')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
   }
 
   /**

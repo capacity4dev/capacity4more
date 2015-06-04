@@ -140,7 +140,7 @@ angular.module('c4mApp')
         }
         // Check required fields for validations, except for datetime field because we checked it earlier.
         var fieldRequired = resourceFields[field].data.required;
-        if (fieldRequired && (!values || !values.length) && field != "datetime") {
+        if (fieldRequired && (!values) && field != "datetime") {
           this[field] = 1;
         }
       }, errors);

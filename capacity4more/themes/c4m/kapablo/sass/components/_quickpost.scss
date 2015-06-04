@@ -7,6 +7,12 @@
     font-weight: bold;
   }
 
+  #form-spinner {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
   .input-wrapper {
     margin-bottom: 20px;
   }
@@ -113,6 +119,10 @@
 
   .group-resources {
     margin-bottom: 20px;
+  }
+
+  #more-content-options {
+    margin-top: 10px;
   }
 
   button {

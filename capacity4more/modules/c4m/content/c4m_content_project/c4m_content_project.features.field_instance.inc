@@ -28,6 +28,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 33,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -127,6 +133,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -206,6 +218,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -282,6 +300,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -356,6 +380,12 @@ function c4m_content_project_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'default' => array(
         'label' => 'above',
@@ -447,6 +477,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -521,6 +557,16 @@ function c4m_content_project_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'c4m_user_author_thumb_image',
+        ),
+        'type' => 'image',
+        'weight' => 20,
       ),
       'default' => array(
         'label' => 'above',
@@ -620,6 +666,12 @@ function c4m_content_project_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
       ),
       'default' => array(
         'label' => 'above',
@@ -992,6 +1044,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -1069,6 +1127,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -1109,6 +1173,7 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_projects',
     'label' => 'Related Projects',
@@ -1134,87 +1199,6 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_related_topic'
-  $field_instances['node-project-c4m_related_topic'] = array(
-    'bundle' => 'project',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 10,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic',
-    'label' => 'Topics',
-    'required' => 1,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'c4m_vocab_widget',
-      'settings' => array(),
-      'type' => 'c4m_taxonomy_reference',
-      'weight' => 13,
-    ),
-  );
-
   // Exported field_instance: 'node-project-c4m_source_of_funding'
   $field_instances['node-project-c4m_source_of_funding'] = array(
     'bundle' => 'project',
@@ -1233,6 +1217,12 @@ function c4m_content_project_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 32,
       ),
       'default' => array(
         'label' => 'above',
@@ -1310,6 +1300,12 @@ function c4m_content_project_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1364,6 +1360,85 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-c4m_vocab_topic'
+  $field_instances['node-project-c4m_vocab_topic'] = array(
+    'bundle' => 'project',
+    'deleted' => 0,
+    'description' => 'You can select up to 3 Topics and unlimited subtopics within these Topics.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 16,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_topic',
+    'label' => 'Topics',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_vocab_widget',
+      'settings' => array(),
+      'type' => 'c4m_taxonomy_reference',
+      'weight' => 14,
+    ),
+  );
+
   // Exported field_instance: 'node-project-group_group'
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
@@ -1386,6 +1461,12 @@ function c4m_content_project_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 27,
       ),
       'default' => array(
         'label' => 'above',
@@ -1468,6 +1549,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Start + End date of the Project.');
   t('Topics');
   t('Total budget');
+  t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;
 }

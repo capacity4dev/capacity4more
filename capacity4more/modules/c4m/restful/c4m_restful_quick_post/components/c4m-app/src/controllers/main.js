@@ -15,6 +15,7 @@ angular.module('c4mApp')
 
     // Getting the resources information.
     $scope.resources = DrupalSettings.getResources();
+    $scope.resourceSpinner = false;
 
     if ($scope.resources) {
         // Setting empty default resource.
@@ -22,7 +23,7 @@ angular.module('c4mApp')
     }
 
     // Getting the fields information.
-    $scope.fieldSchema = DrupalSettings.getFieldSchema();
+    $scope.fieldSchema = {};
 
     $scope = QuickPostService.setDefaults($scope);
 
@@ -31,27 +32,30 @@ angular.module('c4mApp')
      *
      * Responsible for toggling the visibility of the taxonomy-terms checkboxes.
      * Set "popups" to 0, as to hide all of the pop-overs on load.
+     *
+     * @param resource_name
+     *   The name of the resource.
      */
-    function initFormValues() {
+    function initFormValues(resource_name) {
       $scope.popups = {};
 
-      angular.forEach($scope.resources, function (info, resource_name) {
-        angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
-          // Don't change the group field Or resource object.
-          if (field == 'resources' || field == 'group' || field == "tags") {
-            return;
-          }
-          var allowedValues = field == "categories" ? $scope.fieldSchema.categories : data.form_element.allowed_values;
+      angular.forEach($scope.fieldSchema.resources[resource_name], function (data, field) {
+        // Don't change the group field Or resource object.
+        if (field == 'resources' || field == 'group' || field == "tags") {
+          return;
+        }
+        var allowedValues = field == "categories" ? $scope.fieldSchema.categories : data.form_element.allowed_values;
 
-          if (angular.isObject(allowedValues)) {
-            $scope.referenceValues[field] = allowedValues;
-            $scope.popups[field] = 0;
-            $scope.data[field] = {};
-          }
-        });
+        if (angular.isObject(allowedValues)) {
+          $scope.referenceValues[field] = allowedValues;
+          $scope.popups[field] = 0;
+          $scope.data[field] = {};
+        }
       });
 
-      // Set "Share Information" as default discussion type.
+      $scope = QuickPostService.formatTermFieldsAsTree($scope);
+
+      // Set "Start a Debate" as default discussion type.
       $scope.data.discussion_type = 'info';
 
       // Set "Event" as default event type.
@@ -74,17 +78,12 @@ angular.module('c4mApp')
       $scope.data.location.location_name = '';
     }
 
-    // Preparing the data for the form.
-    initFormValues();
-
-    $scope = QuickPostService.formatTermFieldsAsTree($scope);
-
-    // Displaying the fields upon clicking on the label field.
-    $scope.showFields = function() {
-      $scope.selectedResource = QuickPostService.showFields($scope.selectedResource, $scope.resources);
-    };
-
-    // Getting matching tags.
+    /**
+     * Getting matching tags.
+     *
+     * @param query
+     *  The query input by the user.
+     */
     $scope.tagsQuery = function (query) {
       QuickPostService.tagsQuery(query, $scope);
     };
@@ -96,10 +95,34 @@ angular.module('c4mApp')
      *
      * @param resource
      *  The resource name.
+     *  @param event
+     *    The event where the function was called.
      */
-    $scope.updateResource = function(resource) {
-      // Update Bundle.
-      $scope.selectedResource = $scope.selectedResource == resource ? '' : resource;
+    $scope.updateResource = function(resource, event) {
+      // When clicking on the "label" input
+      // and the resource is already selected, Do nothing.
+      if (angular.isDefined(event) && $scope.selectedResource) {
+        return false;
+      }
+      // Empty fields info.
+      $scope.fieldSchema = {};
+      $scope.referenceValues = {};
+      // If resource is selected, Close form.
+      if ($scope.selectedResource == resource) {
+        $scope.selectedResource = '';
+        return false;
+      }
+      $scope.resourceSpinner = true;
+      // Update Bundle,
+      // Update the fields information for this resource.
+      DrupalSettings.getFieldSchema(resource)
+        .success(function (data) {
+          $scope.fieldSchema = data.c4m.field_schema;
+          $scope.data.entity = data.c4m.data.entity;
+          initFormValues(resource);
+          $scope.selectedResource = resource;
+          $scope.resourceSpinner = false;
+        });
     };
 
     /**
@@ -421,6 +444,10 @@ angular.module('c4mApp')
       $scope.entityForm.$setPristine();
       // Reset all the fields.
       initFormValues();
+      // Empty fields info.
+      $scope.fieldSchema = {};
+      $scope.referenceValues = {};
+      // Remove file.
       $scope.removeUploadedFile();
     }
   });

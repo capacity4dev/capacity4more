@@ -1,0 +1,57 @@
+<?php
+/**
+ * @file
+ * Code for the Feed content type feature.
+ */
+
+include_once 'c4m_content_feed.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_feed_menu() {
+  $items = array();
+  $items['feed/%/rss'] = array(
+    'title' => 'RSS',
+    'description' => 'RSS feed',
+    'page callback' => 'c4m_content_feed_rss',
+    'access callback' => 'c4m_content_feed_access',
+    'file' => 'c4m_content_feed.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Access check for the copy to group page.
+ *
+ * @return bool
+ *   If no feed is found, FALSE is returned.
+ */
+function c4m_content_feed_access() {
+  $node = _c4m_content_feed_load(arg(0) . '/' . arg(1));
+  if ($node) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Helper to load a feed from a url alias.
+ *
+ * @param string $alias
+ *   The url alias.
+ *
+ * @return mixed
+ *   The Drupal feed Node, if found.
+ */
+function _c4m_content_feed_load($alias) {
+  $path = drupal_lookup_path('source', $alias);
+  if ($path) {
+    $node = menu_get_object('node', 1, $path);
+    if (isset($node->type) && $node->type == 'feed') {
+      return $node;
+    }
+  }
+  return FALSE;
+}

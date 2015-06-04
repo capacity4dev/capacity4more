@@ -115,6 +115,8 @@ function capacity4more_setup_set_permissions(&$install_state) {
     'create group content',
     'edit own group content',
     'delete own group content',
+    'create new books',
+    'add content to books',
   );
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
@@ -175,4 +177,3 @@ function capacity4more_setup_set_terms_og_permissions() {
   $permissions[] = 'manage variables';
   og_role_grant_permissions($admin_rid, $permissions);
 }
-
