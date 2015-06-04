@@ -1,0 +1,159 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the wysiwyg module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_wysiwyg_install() {
+  // Ckeditor profiles.
+  c4m_wysiwyg_set_ckeditor_profiles();
+}
+
+/**
+ * Set the default C4m ckeditor profiles.
+ */
+function c4m_wysiwyg_set_ckeditor_profiles() {
+  // C4m ckeditor profiles.
+  $c4m_profiles = array(
+    'c4m_simple'    => 'filtered_html',
+    'c4m_default'   => 'default_html',
+    'c4m_advanced'  => 'full_html',
+  );
+
+  // Delete existing c4m profiles.
+  module_load_include('inc', 'ckeditor', 'includes/ckeditor.admin');
+  foreach ($c4m_profiles as $name => $c4m_profile) {
+    ckeditor_profile_delete($name);
+  }
+
+  // Get current profiles.
+  $profiles = ckeditor_profile_load('', TRUE);
+  $profile_names = array_keys($profiles);
+
+  // Add c4m profiles.
+  foreach ($c4m_profiles as $name => $c4m_profile) {
+    if (!in_array($name, $profile_names)) {
+      c4m_wysiwyg_ckeditor_save_profile($name, $c4m_profile);
+    }
+  }
+
+  // Unset the default installed ckeditor profiles.
+  $default_profiles = array('Advanced', 'Full');
+  foreach ($default_profiles as $profile_name) {
+    if (isset($profiles[$profile_name])) {
+      $default_profile = $profiles[$profile_name];
+      ckeditor_profile_delete($profile_name);
+      unset($default_profile->settings['filters']);
+      db_insert('ckeditor_settings')
+        ->fields(array(
+          "name" => $profile_name,
+          "settings" => serialize($default_profile->settings),
+        ))
+        ->execute();
+    }
+  }
+
+}
+
+/**
+ * Build and save the ckeditor profile with settings.
+ *
+ * @param string $profile_name
+ *    The ckeditor machine name.
+ * @param string $text_format
+ *    The text format to use in the ckeditor profile.
+ */
+function c4m_wysiwyg_ckeditor_save_profile($profile_name, $text_format) {
+  if (empty($profile_name) || empty($text_format)) {
+    return;
+  }
+
+  db_insert('ckeditor_input_format')->fields(array("name" => $profile_name, "format" => $text_format))->execute();
+
+  // Insert settings for default role.
+  $arr = array();
+  $arr['filebrowser'] = 'none';
+  $arr['quickupload'] = 'f';
+
+  // Security.
+  $arr['ss'] = "2";
+  $arr['filters']['filter_html'] = 1;
+
+  // Appearance.
+  $arr['default'] = "t";
+  $arr['show_toggle'] = "t";
+  $arr['popup'] = variable_get('ckeditor_popup', 0) ? "t" : "f";
+
+  // Set profile specific settings.
+  switch ($profile_name) {
+    case 'c4m_simple':
+      $arr['toolbar'] = "
+        [
+          ['Bold','Italic','Strike','-','BulletedList','NumberedList','-','Outdent','Indent'],
+          ['Link','Unlink','Anchor','Linkit','-','BidiLtr','BidiRtl','-','Superscript','Subscript'],
+          ['CreateDiv','SpecialChar','Format','DrupalBreak','-','Image','Media','-','Maximize'],
+        ]
+      ";
+      break;
+
+    case 'c4m_default':
+      $arr['toolbar'] = "
+        [
+          ['Bold','Italic','Strike','-','BulletedList','NumberedList','-','Outdent','Indent'],
+          ['Link','Unlink','Anchor','Linkit','-','BidiLtr','BidiRtl','-','Superscript','Subscript'],
+          ['CreateDiv','SpecialChar','Format','DrupalBreak','-','Image','Media','-','Maximize'],
+        ]
+      ";
+      break;
+
+    case 'c4m_advanced':
+      $arr['toolbar'] = "
+        [
+          ['Bold','Italic','Strike','-','BulletedList','NumberedList','-','Outdent','Indent'],
+          ['Link','Unlink','Anchor','Linkit','-','BidiLtr','BidiRtl','-','Superscript','Subscript'],
+          ['CreateDiv','SpecialChar','Format','DrupalBreak','-','Image','Media','-','Maximize'],
+        ]
+      ";
+      break;
+  }
+
+  $arr['expand'] = variable_get('ckeditor_toolbar_start_expanded', 1) ? "t" : "f";
+  $arr['width'] = variable_get("ckeditor_width", "100%");
+  $arr['lang'] = "en";
+  $arr['auto_lang'] = "t";
+  $arr['language_direction'] = "default";
+
+  // Output.
+  $arr['enter_mode'] = "p";
+  $arr['shift_enter_mode'] = "br";
+  $arr['font_format'] = 'p;div;pre;address;h1;h2;h3;h4;h5;h6';
+  $arr['format_source'] = "t";
+  $arr['format_output'] = "t";
+  $arr['custom_formatting'] = "f";
+  $arr['formatting']['custom_formatting_options'] = array(
+    'indent' => 'indent',
+    'breakBeforeOpen' => 'breakBeforeOpen',
+    'breakAfterOpen' => 'breakAfterOpen',
+    'breakAfterClose' => 'breakAfterClose',
+  );
+
+  // Css.
+  $arr['css_mode'] = "none";
+  $arr['css_path'] = variable_get("ckeditor_stylesheet", "");
+
+  // Upload.
+  // Get permissions here like in _update_role_permissions.
+  $arr['filebrowser'] = "none";
+  $arr['user_choose'] = "f";
+  $arr['ckeditor_load_method'] = "ckeditor.js";
+  $arr['ckeditor_load_time_out'] = 0;
+  $arr['scayt_autoStartup'] = "f";
+
+  // Advanced options.
+  $arr['html_entities'] = "f";
+
+  db_insert('ckeditor_settings')->fields(array("name" => $profile_name, "settings" => serialize($arr)))->execute();
+}
