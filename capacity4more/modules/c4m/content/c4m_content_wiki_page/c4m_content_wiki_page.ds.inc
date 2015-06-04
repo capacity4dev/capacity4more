@@ -399,7 +399,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'left' => array(
         0 => 'c4m_content_wiki_page_collapse',
         1 => 'c4m_content_wiki_page_navigation',
-        2 => 'c4m_related_topic',
+        2 => 'c4m_vocab_topic',
         3 => 'og_vocabulary',
         4 => 'group_pages',
         5 => 'c4m_content_wiki_page_add_links',
@@ -422,7 +422,7 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'fields' => array(
       'c4m_content_wiki_page_collapse' => 'left',
       'c4m_content_wiki_page_navigation' => 'left',
-      'c4m_related_topic' => 'left',
+      'c4m_vocab_topic' => 'left',
       'og_vocabulary' => 'left',
       'group_pages' => 'left',
       'c4m_content_wiki_page_add_links' => 'left',

@@ -28,11 +28,10 @@ Feature: Feeds
   Scenario: As an administrator I should be able to create a feed.
     Given I am logged in as user "mariecurie"
     When  I visit "/node/add/feed"
-    When  I fill in "Title" with "An RSS feed"
-    When  I fill in "Description" with "This is the description of the feed."
-    When  I fill in "edit-c4m-related-topic-und-0-target-id" with "Water"
-    When  I fill in "edit-c4m-related-articles-und-0-target-id" with "Electricity for Water"
-    When  I fill in "edit-c4m-related-group-und-0-target-id" with "Nobel Prize"
+    And   I fill in "Title" with "An RSS feed"
+    And   I fill in "Description" with "This is the description of the feed."
+    And   I fill in "edit-c4m-related-articles-und-0-target-id" with "Electricity for Water"
+    And   I fill in "edit-c4m-related-group-und-0-target-id" with "Nobel Prize"
     And   I press "Publish"
     Then  I should see "Feed An RSS feed has been created"
 
