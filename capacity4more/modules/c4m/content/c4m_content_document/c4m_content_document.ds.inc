@@ -10,14 +10,13 @@
 function c4m_content_document_ds_field_settings_info() {
   $export = array();
 
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
-  $ds_layout->id = 'comment|comment_node_document|activity_stream';
-  $ds_layout->entity_type = 'comment';
-  $ds_layout->bundle = 'comment_node_document';
-  $ds_layout->view_mode = 'activity_stream';
-  $ds_layout->layout = 'ds_1col';
-  $ds_layout->settings = array(
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_document|activity_stream';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_document';
+  $ds_fieldsetting->view_mode = 'activity_stream';
+  $ds_fieldsetting->settings = array(
     'regions' => array(
       'ds_content' => array(
         0 => 'comment_body',
@@ -36,7 +35,7 @@ function c4m_content_document_ds_field_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
   );
-  $export['comment|comment_node_document|activity_stream'] = $ds_layout;
+  $export['comment|comment_node_document|activity_stream'] = $ds_fieldsetting;
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
@@ -51,7 +50,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'default',
     ),
     'post_date' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'ds_post_date_day',
       'formatter_settings' => array(
@@ -73,7 +72,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'c4m_user_author_thumb_image',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -84,6 +83,24 @@ function c4m_content_document_ds_field_settings_info() {
           'ow' => TRUE,
           'ow-el' => 'span',
           'ow-cl' => 'field-name-c4m-user-first-and-last-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_related_document' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Documents',
+          'lb-col' => TRUE,
+          'lbw' => 1,
+          'lbw-el' => 'div',
+          'lbw-cl' => 'field-label',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'field-name-c4m-related-document',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -259,7 +276,7 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'downloads',
     ),
-    'c4m_related_topic' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -493,18 +510,20 @@ function c4m_content_document_ds_layout_settings_info() {
         0 => 'c4m_user_picture',
       ),
       'right' => array(
-        1 => 'c4m_user_first_and_last_name',
-        2 => 'post_date',
-        3 => 'comment_body',
+        1 => 'comment_body',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'post_date',
         4 => 'links',
+        5 => 'c4m_related_document',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
+      'comment_body' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
-      'comment_body' => 'right',
       'links' => 'right',
+      'c4m_related_document' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -643,9 +662,9 @@ function c4m_content_document_ds_layout_settings_info() {
         6 => 'comments',
       ),
       'right' => array(
-        5 => 'c4m_vocab_document_type',
-        7 => 'group_node_meta',
-        8 => 'c4m_related_topic',
+        6 => 'c4m_vocab_document_type',
+        7 => 'c4m_vocab_topic',
+        8 => 'group_node_meta',
         9 => 'c4m_user_picture',
         10 => 'group_options',
         11 => 'og_vocabulary',
@@ -667,8 +686,8 @@ function c4m_content_document_ds_layout_settings_info() {
       'c4m_document' => 'left',
       'c4m_vocab_document_type' => 'right',
       'comments' => 'left',
+      'c4m_vocab_topic' => 'right',
       'group_node_meta' => 'right',
-      'c4m_related_topic' => 'right',
       'c4m_user_picture' => 'right',
       'group_options' => 'right',
       'og_vocabulary' => 'right',

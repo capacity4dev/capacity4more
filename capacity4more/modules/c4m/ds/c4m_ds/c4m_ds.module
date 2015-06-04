@@ -261,7 +261,7 @@ function c4m_ds_ds_fields_info($entity_type) {
 
   // A field to give list of all members of a group node with a particular role.
   foreach (c4m_og_get_group_bundles() as $group_bundle => $og_roles) {
-    $fields['node']['c4m_ds_group_role_members'] = array(
+    $fields['node']['c4m_ds_group_role_members_' . $group_bundle] = array(
       'title'      => t('Group role members'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
       'ui_limit'   => array($group_bundle . '|*'),
@@ -300,7 +300,7 @@ function c4m_ds_ds_fields_info($entity_type) {
   $fields['node']['c4m_ds_group_members_count'] = array(
     'title'      => t('Group members count'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('group|*'),
+    'ui_limit'   => array('group|*', 'project|*'),
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_group_members_count',
     'properties' => array(
@@ -473,4 +473,35 @@ function c4m_ds_ds_pre_render_alter(&$layout_render_array, $context, &$vars) {
       $layout_render_array[$region_name][$key]['#weight'] = $key;
     }
   }
+}
+
+/**
+ * Format the string with the amount of posts and comments a user has posted.
+ *
+ * @param array $count_posts
+ * @param array $count_comments
+ *
+ * @return null|string
+ */
+function c4m_ds_user_activity_summary_helper($count_posts = array(), $count_comments = array()) {
+  $output = '';
+
+  if ($count_posts > 0 && $count_comments > 0) {
+    $output = t('Posted !posts and !comments', array(
+      '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
+      '!comments' => format_plural($count_comments, '1 Comment', '@count Comments'),
+    ));
+  }
+  elseif ($count_posts > 0) {
+    $output = t('Posted !posts', array(
+      '!posts' => format_plural($count_posts, '1 Item', '@count Items'),
+    ));
+  }
+  elseif ($count_comments > 0) {
+    $output = t('Posted !comments', array(
+      '!comments' => format_plural($count_comments, '1 Comment', '@count Comments')
+    ));
+  }
+
+  return $output;
 }
