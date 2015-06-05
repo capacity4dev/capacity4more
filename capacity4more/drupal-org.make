@@ -232,6 +232,9 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/1334374-25-generic_entity_tables_revisions.patch"
 
+projects[views_load_more][subdir] = "contrib"
+projects[views_load_more][version] = "1.5"
+
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
 

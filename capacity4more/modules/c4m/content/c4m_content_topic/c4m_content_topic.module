@@ -40,23 +40,6 @@ function c4m_content_topic_views_pre_render(&$view) {
 
       $view->display_handler->set_option('link_url', url($link, $options));
       break;
-
-    case 'c4m_related_content':
-      $term = c4m_content_topic_get_term_from_node();
-      if (!empty($term)) {
-        $view->display_handler->set_option('link_display', 'custom_url');
-        $options = array(
-          'query' => array(
-            'f' => array('c4m_vocab_topic:' . $term->tid),
-          ),
-        );
-      }
-      else {
-        $options = array();
-      }
-
-      $view->display_handler->set_option('link_url', url('search', $options));
-      break;
   }
 }
 
