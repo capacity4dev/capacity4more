@@ -38,6 +38,7 @@ features[ds_fields][] = related_groups_by_topic
 features[ds_fields][] = related_projects_by_topic
 features[ds_layout_settings][] = node|topic|full
 features[features_api][] = api:2
+features[field_base][] = c4m_related_topic
 features[field_group][] = c4m_header_bottom|node|topic|full
 features[field_group][] = c4m_header_meta|node|topic|full
 features[field_instance][] = node-topic-c4m_banner
