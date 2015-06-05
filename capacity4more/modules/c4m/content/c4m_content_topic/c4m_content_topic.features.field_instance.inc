@@ -269,7 +269,7 @@ function c4m_content_topic_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -386,7 +386,7 @@ function c4m_content_topic_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -484,7 +484,7 @@ function c4m_content_topic_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -582,7 +582,7 @@ function c4m_content_topic_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -677,7 +677,7 @@ function c4m_content_topic_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -770,9 +770,15 @@ function c4m_content_topic_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'inline',
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => 1,
+          'separator' => ' - ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
         'weight' => 30,
       ),
       'inthe_picture_block' => array(
