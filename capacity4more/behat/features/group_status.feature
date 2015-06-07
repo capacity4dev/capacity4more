@@ -129,7 +129,7 @@ Feature: Group Status
     When  I visit the dashboard of group "Deleted group"
     Then  I should see "Access denied"
 
-  @api @foo
+  @api
   Scenario: Check Requested group access by group admin
     Given I am logged in as user "turing"
     When  I visit "Requested group" node of type "group"
