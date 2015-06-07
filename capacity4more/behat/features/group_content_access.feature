@@ -52,8 +52,7 @@ Feature: Group content access
   Scenario: I should not be able to VIEW content out of group.
     Given I am logged in as user "isaacnewton"
     When  a discussion "Test content1" in group "Tennis Group" is created
-    And   I visit "Test content1" node of type "discussion"
-    Then  I should not have access to the page
+    Then I should not be allowed to view "discussion" "Test content1" out of group
 
   @api
   Scenario: I should not be able to DELETE content out of group.
