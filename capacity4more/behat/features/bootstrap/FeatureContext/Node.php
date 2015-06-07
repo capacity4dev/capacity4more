@@ -73,11 +73,9 @@ trait Node {
    */
   public function iShouldBeAllowedToCreateInGroup($type, $group) {
 
-    print_r($group);
     $group = $this->loadGroupByTitleAndType($group, 'group');
     $uri = $this->createUriWithGroupContext($group, '<front>');
-    print_r($uri);
-    print_r($group->title);
+
     return array(
       new Step\When('I visit "' . $uri . '/node/add/' . $type . '"'),
       new Step\Then('I should not see "Access denied"'),
