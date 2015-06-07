@@ -137,7 +137,6 @@ projects[og][download][branch] = 7.x-2.x
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://patch-diff.githubusercontent.com/raw/Gizra/og/pull/43.patch"
-projects[og][patch][] = "https://patch-diff.githubusercontent.com/raw/Gizra/og/pull/48.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
