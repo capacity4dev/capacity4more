@@ -1,3 +1,3 @@
-ID,Title,Status,Body,Managers,Documents,Categories,Tags,Group,Group Type,Date,Language,UID
-tasklist_1,Demo Tasklist,1,,user_1|user_4,,cat_romance|cat_horror,,group_3,group,2019|2020|After 2020,French,user_5
-tasklist_2,Project Tasklist,0,,user_2|user_3|user_6,doc_1|doc_2,cat_p_arch|cat_p_stadium,tag_doha|tag_pearl,project_1,project,2001|2002|2003,Chinese|Arabic,user_6
+ID,Title,Status,Body,Managers,Documents,Categories,Tags,Group,Group Type,Topics,Date,Language,UID
+tasklist_1,Demo Tasklist,1,,user_1|user_4,,cat_romance|cat_horror,,group_3,group,t_earth|t_wind,2019|2020|After 2020,French,user_5
+tasklist_2,Project Tasklist,0,,user_2|user_3|user_6,doc_1|doc_2,cat_p_arch|cat_p_stadium,tag_doha|tag_pearl,project_1,project,t_gas|t_electricity,2001|2002|2003,Chinese|Arabic,user_6

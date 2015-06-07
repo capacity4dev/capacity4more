@@ -362,23 +362,6 @@ trait Group {
   }
 
   /**
-   * @Given /^I check the related topic checkbox$/
-   */
-  public function iCheckRelatedTopic() {
-    $steps = array();
-    $steps[] = new Step\When('I press "c4m_related_topic"');
-    $steps[] = new Step\When('I check the box "Fire"');
-
-    $javascript = "
-      var target = jQuery('input[type=checkbox][title=\"Fire\"]').data('target');
-      jQuery('input[type=checkbox][value=' + target + ']').prop(\"checked\", true);
-    ";
-    $this->getSession()->executeScript($javascript);
-
-    return $steps;
-  }
-
-  /**
    * @Given /^I should see the Group Details$/
    */
   public function iShouldSeeTheGroupDetails() {

@@ -211,7 +211,7 @@ function c4m_features_og_manage_group_details() {
   );
 
   // List of related topics.
-  if ($topics = $wrapper->c4m_related_topic->value()) {
+  if ($topics = $wrapper->c4m_vocab_topic->value()) {
     $topic_list = array(
       'title' => NULL,
       'type' => 'ul',
@@ -225,10 +225,10 @@ function c4m_features_og_manage_group_details() {
         ),
         'absolute' => TRUE,
         'query' => array(
-          'f[0]' => 'c4m_related_topic:' . $topic->nid,
+          'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
         )
       );
-      $topic_list['items'][] = l($topic->title, url('search' , $options));
+      $topic_list['items'][] = l($topic->name, url('search' , $options));
     }
 
     $details['topics'] = theme_item_list($topic_list);
