@@ -304,7 +304,7 @@ trait Group {
     $steps[] = new Step\When('I should see "The group you requested is pending review by one of the administrators."');
 
     $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
-    //$steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
+    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     return $steps;
   }
@@ -491,7 +491,7 @@ trait Group {
 
     $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion."');
     if ($condition == 'with') {
       $steps[] = new Step\When('I upload the file "doc1.doc" in the field with id "' . $file_field . '"');
     }
