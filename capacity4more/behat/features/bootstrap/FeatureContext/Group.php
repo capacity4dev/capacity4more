@@ -281,7 +281,7 @@ trait Group {
       $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     }
 
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default summary."');
 
     // This is a required tag.
     $steps[] = new Step\When('I check the related topic checkbox');
@@ -304,7 +304,7 @@ trait Group {
     $steps[] = new Step\When('I should see "The group you requested is pending review by one of the administrators."');
 
     $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Draft"');
-    $steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
+    //$steps[] = new Step\When('The group "' . $title . '" status is changed by admin to "Published"');
     $steps[] = new Step\When('I am logged in as user "'. $username .'"');
     return $steps;
   }
