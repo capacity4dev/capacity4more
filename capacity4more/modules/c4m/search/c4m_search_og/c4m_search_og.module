@@ -55,7 +55,7 @@ function c4m_search_og_batch_alter(&$batch) {
  * @param array $context
  *   Batch API context.
  */
-function c4m_search_og_reindex_og_access_node_grants (
+function c4m_search_og_reindex_og_access_node_grants(
   $group_type, $group_id, array &$context
 ) {
   $limit = 50;

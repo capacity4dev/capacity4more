@@ -154,7 +154,7 @@ function capacity4more_setup_set_og_permissions() {
 function capacity4more_setup_set_menu_purl() {
   $menus = array('main-menu', 'user-menu');
 
-  foreach($menus as $menu) {
+  foreach ($menus as $menu) {
     variable_set('purl_menu_behavior_' . $menu, 'disabled');
   }
 }
@@ -175,4 +175,3 @@ function capacity4more_setup_set_terms_og_permissions() {
   $permissions[] = 'manage variables';
   og_role_grant_permissions($admin_rid, $permissions);
 }
-
