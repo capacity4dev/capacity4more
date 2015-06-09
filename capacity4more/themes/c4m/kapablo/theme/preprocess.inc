@@ -5,6 +5,21 @@
  */
 
 /**
+ * Implements theme_preprocess_html().
+ */
+function kapablo_preprocess_html(&$vars) {
+  $theme_path = path_to_theme();
+
+  // Include the cookie js files in the header.
+  drupal_add_js('http://ec.europa.eu/wel/cookie-consent/consent.js', array(
+    'weight' => -998,
+  ));
+  drupal_add_js($theme_path . '/js/cookie/cookie_config.js', array(
+    'weight' => -999,
+  ));
+}
+
+/**
  * Implements theme_preprocess_message().
  *
  * Activity stream messages preprocess.
