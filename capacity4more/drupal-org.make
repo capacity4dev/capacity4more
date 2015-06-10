@@ -41,6 +41,10 @@ projects[diff][version] = "3.2"
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.10"
 
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
+projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggableviews-2343793-16.patch"
+
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
