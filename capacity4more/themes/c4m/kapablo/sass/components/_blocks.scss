@@ -114,7 +114,7 @@
       float: left;
       margin-right: 5px;
       a {
-        padding-right: 30px;
+        padding-right: 25px;
         @include image-icon-png-fallback('icons', 'arrow-blue-right');
         background-size: 20px;
         background-repeat: no-repeat;
@@ -122,7 +122,7 @@
         font-size: 0.9em;
         &.orange {
           color: $color-orange;
-          @include image-icon-png-fallback('icons', 'arrow-blue-right');
+          @include image-icon-png-fallback('icons', 'arrow-orange-right');
         }
       }
     }

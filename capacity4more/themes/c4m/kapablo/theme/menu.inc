@@ -237,7 +237,6 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
  * Overrides theme_menu_link() for footer menu.
  */
 function kapablo_menu_link__c4m_footer(array $variables) {
-  dpm($variables);
   $delimiter = '<span class="delimiter">|</span>';
 
   $element = $variables['element'];
