@@ -170,6 +170,7 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     'use search_api_autocomplete for search_api_views_c4m_overview_events_landing',
     'use search_api_autocomplete for search_api_views_c4m_overview_groups',
     'use search_api_autocomplete for search_api_views_c4m_overview_people',
+    'use search_api_autocomplete for search_api_views_c4m_overview_projects',
     'use search_api_autocomplete for search_api_views_c4m_overview_og_members',
     $filtered_html_permission
   );
