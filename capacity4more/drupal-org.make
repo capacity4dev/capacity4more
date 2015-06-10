@@ -57,6 +57,9 @@ projects[entityreference][patch][] = "https://www.drupal.org/files/entityreferen
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 
+projects[eu_cookie_compliance][subdir] = "contrib"
+projects[eu_cookie_compliance][version] = "1.14"
+
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
