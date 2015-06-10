@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Code for the Wysiwyg module.
+ * Code for the Wysiwyg Ckeditor module.
  */
 
 /**
  * Implements hook_ckeditor_plugin().
  */
-function c4m_wysiwyg_ckeditor_plugin() {
-  $module_path = drupal_get_path('module', 'c4m_wysiwyg');
+function c4m_wysiwyg_ckeditor_ckeditor_plugin() {
+  $module_path = drupal_get_path('module', 'c4m_wysiwyg_ckeditor');
   $plugins = array();
 
   // Widget plugin.

@@ -1,5 +1,5 @@
-name = C4m Wysiwyg
-description = This module provides wysiwyg functionality.
+name = CKeditor integration
+description = This module provides extra functionality to the CKeditor.
 core = 7.x
 package = capacity4more - WYSIWYG
 version = 7.x-1.x

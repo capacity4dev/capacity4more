@@ -26,12 +26,12 @@ function capacity4more_install() {
   filter_format_save($full_html_format);
 
   // C4M WYSIWYG.
-  // We need to enable the c4m_wysiwyg module here.
+  // We need to enable the c4m_wysiwyg_ckeditor module here.
   // Because if we enable it in the profile info file, the module's install file
   // will be executed before the text formats are added in this install profile,
   // and so the actions in the module's install file won't be executed.
   /* @todo Find a better solution so we don't need to enable it here */
-  module_enable(array('c4m_wysiwyg'));
+  module_enable(array('c4m_wysiwyg_ckeditor'));
 
   // ROLES & PERMISSIONS.
   _capacity4more_install_save_default_permissions($default_html_format, $filtered_html_format);

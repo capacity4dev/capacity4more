@@ -1,24 +1,24 @@
 <?php
 /**
  * @file
- * Installation hooks for the wysiwyg module.
+ * Installation hooks for the wysiwyg ckeditor module.
  */
 
 /**
  * Implements hook_install().
  */
-function c4m_wysiwyg_install() {
+function c4m_wysiwyg_ckeditor_install() {
   // Update the text formats.
-  c4m_wysiwyg_update_text_formats();
+  c4m_wysiwyg_ckeditor_update_text_formats();
 
   // Add ckeditor profiles.
-  c4m_wysiwyg_set_ckeditor_profiles();
+  c4m_wysiwyg_ckeditor_set_ckeditor_profiles();
 }
 
 /**
  * Update the available text formats.
  */
-function c4m_wysiwyg_update_text_formats() {
+function c4m_wysiwyg_ckeditor_update_text_formats() {
   $formats = filter_formats();
   foreach ($formats as $key => $format) {
     $format = filter_format_load($key);
@@ -34,7 +34,7 @@ function c4m_wysiwyg_update_text_formats() {
       }
     }
 
-    c4m_wysiwyg_update_wysiwyg_filter($format);
+    c4m_wysiwyg_ckeditor_update_wysiwyg_filter($format);
   }
 }
 
@@ -44,7 +44,7 @@ function c4m_wysiwyg_update_text_formats() {
  * @param object $format
  *    The text format.
  */
-function c4m_wysiwyg_update_wysiwyg_filter($format) {
+function c4m_wysiwyg_ckeditor_update_wysiwyg_filter($format) {
   if (!isset($format->filters['wysiwyg']) ||
     $format->filters['wysiwyg']['status'] == 0) {
     return;
@@ -53,11 +53,11 @@ function c4m_wysiwyg_update_wysiwyg_filter($format) {
   $wysiwyg_settings = &$format->filters['wysiwyg']['settings'];
   switch ($format->format) {
     case 'default_html':
-      $wysiwyg_settings = c4m_wysiwyg_default_html_wysiwyg_filter($wysiwyg_settings);
+      $wysiwyg_settings = c4m_wysiwyg_ckeditor_default_html_wysiwyg_filter($wysiwyg_settings);
       break;
 
     case 'filtered_html':
-      $wysiwyg_settings = c4m_wysiwyg_default_html_wysiwyg_filter($wysiwyg_settings);
+      $wysiwyg_settings = c4m_wysiwyg_ckeditor_default_html_wysiwyg_filter($wysiwyg_settings);
       break;
   }
 
@@ -68,7 +68,7 @@ function c4m_wysiwyg_update_wysiwyg_filter($format) {
 /**
  * Set the default C4m ckeditor profiles.
  */
-function c4m_wysiwyg_set_ckeditor_profiles() {
+function c4m_wysiwyg_ckeditor_set_ckeditor_profiles() {
   // Some functions are needed from this file.
   module_load_include('inc', 'ckeditor', 'includes/ckeditor.admin');
 
@@ -188,11 +188,11 @@ function c4m_wysiwyg_ckeditor_save_profile($profile_name, $text_format) {
   // Set profile specific settings.
   switch ($profile_name) {
     case 'c4m_default':
-      c4m_wysiwyg_c4m_default_profile($settings);
+      c4m_wysiwyg_ckeditor_c4m_default_profile($settings);
       break;
 
     case 'c4m_advanced':
-      c4m_wysiwyg_c4m_advanced_profile($settings);
+      c4m_wysiwyg_ckeditor_c4m_advanced_profile($settings);
       break;
   }
 
@@ -207,8 +207,8 @@ function c4m_wysiwyg_ckeditor_save_profile($profile_name, $text_format) {
  * @param array $settings
  *    The default profile settings.
  */
-function c4m_wysiwyg_c4m_default_profile(array &$settings) {
-  $c4m_wysiwyg_plugins_path = drupal_get_path('module', 'c4m_wysiwyg') . '/ckeditor-plugins/';
+function c4m_wysiwyg_ckeditor_c4m_default_profile(array &$settings) {
+  $c4m_wysiwyg_plugins_path = drupal_get_path('module', 'c4m_wysiwyg_ckeditor') . '/ckeditor-plugins/';
 
   // Toolbar.
   $settings['toolbar'] = "
@@ -257,8 +257,8 @@ function c4m_wysiwyg_c4m_default_profile(array &$settings) {
  * @param array $settings
  *    The default profile settings.
  */
-function c4m_wysiwyg_c4m_advanced_profile(array &$settings) {
-  $c4m_wysiwyg_plugins_path = drupal_get_path('module', 'c4m_wysiwyg') . '/ckeditor-plugins/';
+function c4m_wysiwyg_ckeditor_c4m_advanced_profile(array &$settings) {
+  $c4m_wysiwyg_plugins_path = drupal_get_path('module', 'c4m_wysiwyg_ckeditor') . '/ckeditor-plugins/';
 
   // Toolbar.
   $settings['toolbar'] = "
@@ -308,7 +308,7 @@ function c4m_wysiwyg_c4m_advanced_profile(array &$settings) {
  * @return array
  *    The new settings array.
  */
-function c4m_wysiwyg_default_html_wysiwyg_filter(array $settings) {
+function c4m_wysiwyg_ckeditor_default_html_wysiwyg_filter(array $settings) {
   $settings['valid_elements']
     = <<<EOT
 @[class|style|title],
