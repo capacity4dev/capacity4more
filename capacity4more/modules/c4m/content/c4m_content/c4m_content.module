@@ -53,6 +53,11 @@ function c4m_content_block_info() {
     'info' => t('Global website statistics'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
+
+  $blocks['c4m_footer'] = array(
+    'info' => t('Footer'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
   return $blocks;
 }
 
@@ -70,6 +75,12 @@ function c4m_content_block_view($delta = '') {
       );
       $block['content'] = render($stats_summary);
       break;
+
+    case 'c4m_footer':
+      $footer = array(
+        '#theme' => 'c4m_footer',
+      );
+      $block['content'] = render($footer);
   }
   return $block;
 }
@@ -219,6 +230,14 @@ function _c4m_content_statistics_collect_data(array $list) {
  */
 function c4m_content_theme() {
   $theme['c4m_website_statistics_summary'] = array(
+    'variables' => array(
+      'data' => array(),
+    ),
+    'file'  => 'c4m_content.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_content') . '/includes',
+  );
+
+  $theme['c4m_footer'] = array(
     'variables' => array(
       'data' => array(),
     ),
