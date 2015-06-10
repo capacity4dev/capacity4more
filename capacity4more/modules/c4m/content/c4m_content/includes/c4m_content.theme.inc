@@ -83,14 +83,17 @@ function theme_c4m_website_statistics_summary(array $variables) {
  *   Rendered output.
  */
 function theme_c4m_footer(array $variables) {
-  $output = '';
+  $output = '<div class="c4m-footer-block">';
 
   // Get c4m footer navigation links.
   $footer_navigation = variable_get('c4m_footer_navigation_links');
   $navigation_html = '<div class="c4m-footer-navigation">';
   foreach ($footer_navigation as $link) {
     $navigation_html .= '<div class="c4m-footer-nav-link">';
-    $navigation_html .= l(t($link['title']), $link['url']);
+    $navigation_html .= l(t($link['title']),
+                          $link['url'],
+                          array('attributes' => array('class' => $link['class']))
+                        );
     $navigation_html .= '</div>';
   }
   $navigation_html .= '</div>';
@@ -98,13 +101,14 @@ function theme_c4m_footer(array $variables) {
 
   // Get c4m footer menu.
   $c4m_footer_menu = menu_tree('c4m-footer');
-  $output .= render($c4m_footer_menu);
+  $output .= '<div class="c4m-footer-menu">' . render($c4m_footer_menu) . '</div>';
 
   // Get c4m social media.
   $social_media = variable_get('c4m_social_media');
   $social_media_html = theme_c4m_social_media($social_media);
   $output .= $social_media_html;
 
+  $output .= '</div>';
   return $output;
 }
 
