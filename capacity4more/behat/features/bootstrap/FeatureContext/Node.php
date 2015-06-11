@@ -39,8 +39,15 @@ trait Node {
     }
 
     $nid = key($result['node']);
+    $uri = '';
+    if (og_is_group_content_type('node', $type)) {
+      $node = node_load($nid);
+      $wrapper = entity_metadata_wrapper('node', $node);
+      $group = $wrapper->{OG_AUDIENCE_FIELD}->value();
+      $uri = $this->createUriWithGroupContext($group, '<front>') . '/';
+    }
     // Use Drupal Context 'I am at'.
-    return new Given("I go to \"node/$nid\"");
+    return new Given("I go to \"" . $uri . "node/$nid\"");
   }
 
   /**
@@ -62,12 +69,15 @@ trait Node {
   }
 
   /**
-   * @Then /^I should be allowed to create a "([^"]*)"$/
+   * @Then /^I should be allowed to create a "([^"]*)" in the group "([^"]*)"$/
    */
-  public function iShouldBeAllowedToCreateA($type) {
+  public function iShouldBeAllowedToCreateInGroup($type, $group) {
+
+    $group = $this->loadGroupByTitleAndType($group, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
 
     return array(
-      new Step\When('I go to "node/add/'.$type.'"'),
+      new Step\When('I visit "' . $uri . '/node/add/' . $type . '"'),
       new Step\Then('I should not see "Access denied"'),
     );
   }
@@ -77,10 +87,13 @@ trait Node {
    */
   public function aNodeIsCreatedWithTitleInTheGroup($type, $title, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
+
+    $group = $this->loadGroupByTitleAndType($group, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
-    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should see "has been created."');
     return $steps;
@@ -91,10 +104,13 @@ trait Node {
    */
   public function aNodeIsCreatedWithTitleAndTopicInTheGroup($type, $title, $topic, $group) {
     $steps = array();
-    $steps[] = new Step\When('I visit "node/add/' . $type . '"');
+
+    $group = $this->loadGroupByTitleAndType($group, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $type . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "Some text"');
-    $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I check the related topic checkbox with "' . $topic . '"');
     $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I should see "has been created."');

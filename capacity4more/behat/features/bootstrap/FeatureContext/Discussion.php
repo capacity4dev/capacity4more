@@ -64,10 +64,12 @@ trait Discussion {
   public function aDiscussionInGroupIsCreated($title, $group_title) {
     $steps = array();
 
-    $steps[] = new Step\When('I visit "node/add/discussion"');
+    $group = $this->loadGroupByTitleAndType($group_title, 'group');
+    $uri = $this->createUriWithGroupContext($group, '<front>');
+
+    $steps[] = new Step\When('I visit "' . $uri . '/node/add/discussion"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
-    $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I check the related topic checkbox');
     $steps[] = new Step\When('I press "Save"');
 
