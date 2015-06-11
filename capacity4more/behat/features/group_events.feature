@@ -61,7 +61,8 @@ Feature: Group Events
     Then I should see the event detail page
 
   # TODO : Setting the topic does not work on events!
-  @javascript @wip
+  # @javascript
+  @wip
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start creating "event" "Some new event1" in group "Architecture" without file field "document"
@@ -71,7 +72,8 @@ Feature: Group Events
     Then  I should see "Some new event1" in the activity stream of the group "Architecture"
 
   # TODO : Setting the topic does not work on events!
-  @javascript @wip
+  # @javascript
+  @wip
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start editing "event" "Some new event1" in group "Architecture"
