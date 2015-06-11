@@ -118,12 +118,14 @@ function _c4m_user_profile_facet_country_alter(&$build, &$settings) {
   $field = field_info_field($settings->facet);
   $allowed_values = list_allowed_values($field);
   foreach($build as $key => $item) {
-    $options = array(
-      '@country' => ucwords(
-        drupal_strtolower($allowed_values[drupal_strtoupper($key)])
-      ),
-    );
-    $build[$key]["#markup"] = t('@country', $options);
+    if (!empty($allowed_values[drupal_strtoupper($key)])) {
+      $options = array(
+        '@country' => ucwords(
+          drupal_strtolower($allowed_values[drupal_strtoupper($key)])
+        ),
+      );
+      $build[$key]["#markup"] = format_string('@country', $options);
+    }
   }
 }
 
