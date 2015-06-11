@@ -36,57 +36,6 @@ function c4m_features_footer_c4m_footer_menu() {
     'description' => 'The C4m Footer menu.',
   );
   menu_save($footer_menu);
-
-  // Add menu links to the footer menu.
-  $footer_links = array(
-    array(
-      'link_title'  => 'Contact Us',
-      'link_path'   => 'node',
-      'menu_name'   => 'c4m-footer',
-      'weight'      => 0,
-      'expanded'    => 0,
-    ),
-    array(
-      'link_title'  => 'Legal Notices',
-      'link_path'   => 'node',
-      'menu_name'   => 'c4m-footer',
-      'weight'      => 1,
-      'expanded'    => 0,
-    ),
-    array(
-      'link_title'  => 'Privacy',
-      'link_path'   => 'node',
-      'menu_name'   => 'c4m-footer',
-      'weight'      => 2,
-      'expanded'    => 0,
-    ),
-    array(
-      'link_title'  => 'Conditions',
-      'link_path'   => 'node',
-      'menu_name'   => 'c4m-footer',
-      'weight'      => 3,
-      'expanded'    => 0,
-    ),
-    array(
-      'link_title'  => 'FAQ',
-      'link_path'   => 'node',
-      'menu_name'   => 'c4m-footer',
-      'weight'      => 4,
-      'expanded'    => 0,
-    ),
-    array(
-      'link_title'  => 'Help & Guidance',
-      'link_path'   => 'node',
-      'menu_name'   => 'c4m-footer',
-      'weight'      => 5,
-      'expanded'    => 0,
-    ),
-  );
-
-  foreach ($footer_links as $link) {
-    menu_link_save($link);
-  }
-
 }
 
 /**
