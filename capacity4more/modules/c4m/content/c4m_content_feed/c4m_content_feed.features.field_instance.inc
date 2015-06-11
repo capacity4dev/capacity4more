@@ -210,8 +210,8 @@ function c4m_content_feed_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-feed-c4m_related_group'
-  $field_instances['node-feed-c4m_related_group'] = array(
+  // Exported field_instance: 'node-feed-c4m_related_group_unlimited'
+  $field_instances['node-feed-c4m_related_group_unlimited'] = array(
     'bundle' => 'feed',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -289,7 +289,7 @@ function c4m_content_feed_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_related_group',
+    'field_name' => 'c4m_related_group_unlimited',
     'label' => 'Related Groups',
     'required' => 0,
     'settings' => array(

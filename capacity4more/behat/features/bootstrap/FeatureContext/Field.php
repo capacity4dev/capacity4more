@@ -63,7 +63,7 @@ trait Field {
         $locator = '.region-content .field-name-c4m-related-articles';
         break;
       case 'Groups':
-        $locator = '.region-content .field-name-c4m-related-group';
+        $locator = '.region-content .field-name-c4m-related-group-unlimited';
         break;
     }
 

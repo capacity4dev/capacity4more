@@ -49,7 +49,7 @@ class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_related_topic', 'topics');
     $this->addFieldMapping('c4m_related_articles', 'articles');
-    $this->addFieldMapping('c4m_related_group', 'groups');
+    $this->addFieldMapping('c4m_related_group_unlimited', 'groups');
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');

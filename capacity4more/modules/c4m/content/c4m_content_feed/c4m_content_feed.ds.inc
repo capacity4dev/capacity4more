@@ -36,7 +36,7 @@ function c4m_content_feed_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_group' => array(
+    'c4m_related_group_unlimited' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -143,7 +143,7 @@ function c4m_content_feed_ds_layout_settings_info() {
         2 => 'c4m_body',
         3 => 'c4m_related_topic',
         4 => 'c4m_related_articles',
-        5 => 'c4m_related_group',
+        5 => 'c4m_related_group_unlimited',
       ),
     ),
     'fields' => array(
@@ -152,7 +152,7 @@ function c4m_content_feed_ds_layout_settings_info() {
       'c4m_body' => 'ds_content',
       'c4m_related_topic' => 'ds_content',
       'c4m_related_articles' => 'ds_content',
-      'c4m_related_group' => 'ds_content',
+      'c4m_related_group_unlimited' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(

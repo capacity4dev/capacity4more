@@ -41,6 +41,10 @@ projects[diff][version] = "3.2"
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.10"
 
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
+projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggableviews-2343793-16.patch"
+
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
@@ -173,6 +177,9 @@ projects[purl][version] = "1.x-dev"
 projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
+
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc1"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
