@@ -22,7 +22,7 @@ function c4m_content_feed_rss() {
     'language'    => substr($language->language, 0, 2),
   );
 
-  $items = c4m_content_feed_topics_format_rss($feed->c4m_vocab_topic);
+  $items = c4m_content_feed_topics_format_rss($feed->c4m_related_topic);
   $items .= c4m_content_feed_articles_format_rss($feed->c4m_related_articles);
   $items .= c4m_content_feed_groups_format_rss($feed->c4m_related_group_unlimited);
 
@@ -42,11 +42,27 @@ function c4m_content_feed_rss() {
 function c4m_content_feed_topics_format_rss($topics) {
   $items = array();
   foreach ($topics->getIterator() as $item) {
-    $item_title = $item->name->value();
-    $item_link = $item->url->value();
-    $item_body = c4m_content_feed_convert_relative_links($item_link, $item->description->value());
+    // Skip unpublished content.
+    if ($item->status->value() != NODE_PUBLISHED) {
+      continue;
+    }
 
-    $items[] = format_rss_item($item_title, $item_link, $item_body);
+    $item_title = $item->title->value();
+    $item_link = $item->url->value();
+    $item_body = c4m_content_feed_convert_relative_links($item_link, $item->c4m_body->value->value());
+    $item_file = isset($item->c4m_media) ? $item->c4m_media->value() : FALSE;
+
+    $args = array(
+      'category'  => t('Topic'),
+      'pubDate'   => format_date($item->created->value(), 'custom', 'r'),
+    );
+    $args[] = c4m_content_feed_format_rss_guid($item);
+
+    if ($item_file) {
+      $args[] = c4m_content_feed_format_rss_image($item_file);
+    }
+
+    $items[] = format_rss_item($item_title, $item_link, $item_body, $args);
   }
   return implode($items);
 }
@@ -72,7 +88,7 @@ function c4m_content_feed_articles_format_rss($articles) {
       'pubDate'        => format_date($item->created->value(), 'custom', 'r'),
       'count_views'    => $item->views->value(),
       'comments'       => $item->comment_count->value(),
-      'topics'         => c4m_content_feed_format_topics($item->c4m_vocab_topic),
+      'topics'         => c4m_content_feed_format_topics($item->c4m_related_topic),
       'geo'            => c4m_content_feed_format_geo($item->c4m_vocab_geo),
     );
     $args[] = c4m_content_feed_format_rss_guid($item);
@@ -105,7 +121,7 @@ function c4m_content_feed_groups_format_rss($groups) {
     $args = array(
       'category' => t('Group'),
       'pubDate'  => format_date($item->created->value(), 'custom', 'r'),
-      'topics'   => c4m_content_feed_format_topics($item->c4m_vocab_topic),
+      'topics'   => c4m_content_feed_format_topics($item->c4m_related_topic),
       'geo'      => c4m_content_feed_format_geo($item->c4m_vocab_geo),
     );
     $args[] = c4m_content_feed_format_rss_guid($item);
@@ -125,7 +141,7 @@ function c4m_content_feed_groups_format_rss($groups) {
 function c4m_content_feed_format_topics($topics) {
   $items = array();
   foreach ($topics->getIterator() as $item) {
-    $items[] = $item->name->value();
+    $items[] = $item->title->value();
   }
   return implode($items, ', ');
 }
