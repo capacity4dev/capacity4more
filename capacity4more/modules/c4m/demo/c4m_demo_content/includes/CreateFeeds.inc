@@ -10,6 +10,7 @@
 class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'feed';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV column mapping.
@@ -43,8 +44,7 @@ class C4mDemoContentCreateFeeds extends C4mDemoContentCreateEntity {
   public function __construct() {
     parent::__construct();
 
-    $this->addFieldMapping('c4m_body', 'body')
-      ->arguments(array('format' => 'full_html'));
+    $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_vocab_topic', 'topics')
       ->sourceMigration('C4mDemoContentCreateTopicTerms')

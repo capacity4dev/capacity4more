@@ -10,6 +10,7 @@
 class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'topic';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV Column mapping.
