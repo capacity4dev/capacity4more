@@ -178,6 +178,7 @@ abstract class C4mDemoContentCreateOgGroups extends C4mDemoContentCreateEntity {
 
     // Pluggable node access requires a node access rebuild.
     node_access_rebuild();
+
     c4m_og_reset_restricted_info();
   }
 
