@@ -352,9 +352,9 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_add_js($bower_path . '/angular-carousel/dist/angular-carousel.min.js');
 
   // CKEditor library.
-  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
-  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
-  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
+  //drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
+  //drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
+  //drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
 
   // Select UI.
   drupal_add_css($bower_path . '/select2/select2.css');
