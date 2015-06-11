@@ -178,6 +178,9 @@ projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
 
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc1"
+
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
