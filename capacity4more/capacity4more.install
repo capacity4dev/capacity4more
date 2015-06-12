@@ -124,7 +124,7 @@ function _capacity4more_install_get_default_html_format() {
  * Get the filtered_html format.
  *
  * @return stdCLass
- *    An object structered text format.
+ *   An object structered text format.
  */
 function _capacity4more_install_get_filtered_html_format() {
   $filtered_html_format = array(
@@ -163,7 +163,7 @@ function _capacity4more_install_get_filtered_html_format() {
  * Get the full_html format.
  *
  * @return stdCLass
- *    An object structered text format.
+ *   An object structered text format.
  */
 function _capacity4more_install_get_full_html_format() {
   $full_html_format = array(
@@ -212,6 +212,7 @@ function _capacity4more_install_save_default_permissions($default_html_format, $
   // Enable default permissions for system roles.
   $default_html_permission = filter_permission_name($default_html_format);
   $filtered_html_permission = filter_permission_name($filtered_html_format);
+
   $permissions = array(
     'access content',
     'access comments',
@@ -300,7 +301,7 @@ function _capacity4more_install_save_default_menu() {
  * @param string $name
  *   The theme name.
  * @param int $status
- *   The status of the theme.
+ *   The disabled (0) or enabled (1) status of the theme.
  */
 function _capacity4more_install_save_theme($name, $status) {
   db_update('system')
@@ -321,7 +322,8 @@ function _capacity4more_install_save_theme($name, $status) {
  *    Array of blocks.
  */
 function _capacity4more_install_save_theme_blocks(array $blocks) {
-  $query = db_insert('block')->fields(array(
+  $query = db_insert('block')->fields(
+    array(
       'module',
       'delta',
       'theme',
@@ -330,7 +332,8 @@ function _capacity4more_install_save_theme_blocks(array $blocks) {
       'region',
       'pages',
       'cache',
-    ));
+    )
+  );
 
   foreach ($blocks as $block) {
     $query->values($block);
@@ -345,7 +348,7 @@ function _capacity4more_install_save_theme_blocks(array $blocks) {
  *   The name of the theme.
  *
  * @return array
- *    Array of the default theme blocks.
+ *   Array of the default theme blocks.
  */
 function _capacity4more_install_get_default_theme_blocks($theme) {
   // Only content & help blocks.
@@ -383,21 +386,10 @@ function _capacity4more_install_get_default_theme_blocks($theme) {
  *   The name of the theme.
  *
  * @return array
- *    Array of the default admin theme blocks.
+ *   Array of the default admin theme blocks.
  */
 function _capacity4more_install_get_admin_theme_blocks($theme) {
   $blocks = array(
-    // Only if the dashboard module is in use...
-    /*array(
-      'module' => 'node',
-      'delta' => 'recent',
-      'theme' => $theme,
-      'status' => 1,
-      'weight' => 10,
-      'region' => 'dashboard_main',
-      'pages' => '',
-      'cache' => -1,
-    ),*/
     array(
       'module' => 'system',
       'delta' => 'main',
@@ -440,7 +432,7 @@ function _capacity4more_install_get_admin_theme_blocks($theme) {
  *   The name of the theme.
  *
  * @return array
- *    Array of the c4m theme blocks.
+ *   Array of the c4m theme blocks.
  */
 function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
   $blocks = array(
@@ -473,7 +465,7 @@ function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
  * Set the default time formats.
  *
  * @return array
- *    Array with success message.
+ *   Array with success message.
  */
 function _capacity4more_install_set_default_date_formats() {
   $formats = array(

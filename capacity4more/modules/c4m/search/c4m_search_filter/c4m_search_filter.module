@@ -84,6 +84,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       // Apply filter.
       $query->filter($filter);
       break;
+
     case 'interests':
       // Get user object.
       $user_wrapper = entity_metadata_wrapper('user', $user->uid);
