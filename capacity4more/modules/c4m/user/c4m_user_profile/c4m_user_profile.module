@@ -113,10 +113,10 @@ function c4m_user_profile_facet_items_alter(&$build, &$settings) {
  *
  * @param array $build
  *    The facets.
- * @param array $settings
+ * @param stdClass $settings
  *    Facet settings.
  */
-function _c4m_user_profile_facet_country_alter(array &$build, array &$settings) {
+function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
   $allowed_values = list_allowed_values($field);
   foreach ($build as $key => $item) {

@@ -27,6 +27,7 @@ require __DIR__ . '/FeatureContext/Node.php';
 require __DIR__ . '/FeatureContext/NodeJs.php';
 require __DIR__ . '/FeatureContext/Overview.php';
 require __DIR__ . '/FeatureContext/PageAccess.php';
+require __DIR__ . '/FeatureContext/People.php';
 require __DIR__ . '/FeatureContext/QuickPost.php';
 require __DIR__ . '/FeatureContext/Search.php';
 require __DIR__ . '/FeatureContext/Topic.php';
@@ -67,6 +68,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\NodeJs;
   use FeatureContext\Overview;
   use FeatureContext\PageAccess;
+  use FeatureContext\People;
   use FeatureContext\QuickPost;
   use FeatureContext\Search;
   use FeatureContext\Topic;
