@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Extra functionality for comments.
  */
 
 /**
@@ -15,13 +15,14 @@ function c4m_comment_form_node_form_alter(&$form, $form_state) {
     return;
   }
 
-  // If the user has access to the node form, he can also change the comment settings for this content entry.
+  // If the user has access to the node form, he can also change the comment
+  // settings for this content entry.
   $form['comment_settings']['#access'] = TRUE;
 }
 
 /**
-* Implements hook_entity_info_alter().
-*/
+ * Implements hook_entity_info_alter().
+ */
 function c4m_comment_entity_info_alter(&$entity_info) {
   $entity_info['comment']['view modes']['activity_stream'] = array(
     'label' => t('Activity stream'),
@@ -43,7 +44,7 @@ function c4m_comment_c4m_content_statistics_info() {
         'plural'      => 'Posts',
         'state'       => 1,
         'aggregate'   => array(
-          'type' => 'posts'
+          'type' => 'posts',
         ),
         'weight'      => 1,
         'attributes'  => array(

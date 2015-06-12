@@ -10,7 +10,7 @@ include_once 'c4m_admin_groups.features.inc';
  * Implements hook_form_alter().
  *
  * Add "machineName" empty array to the JS settings
- * to avoid undefined object being sent to the jQuery.
+ * to avoid undefined object being sent to jQuery.
  */
 function c4m_admin_groups_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'project_node_form' || $form_id == 'group_node_form') {

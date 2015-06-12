@@ -28,7 +28,7 @@ function c4m_vocab_geo_uninstall() {
 /**
  * Create Countries & Regions vocabulary.
  *
- * @return stdClass
+ * @return object
  *   The Countries & Regions vocabulary.
  */
 function _c4m_vocab_geo_install_vocabulary() {
@@ -50,14 +50,14 @@ function _c4m_vocab_geo_install_vocabulary() {
 /**
  * Create default taxonomy terms for the Document Type vocabulary.
  *
- * @param stdClass $vocabulary
+ * @param object $vocabulary
  *   The vocabulary to which the terms should be added.
  * @param array $terms
  *   Array of terms.
- * @param stdClass $parent
+ * @param object $parent
  *   (optional) Parent term.
  */
-function _c4m_vocab_geo_install_terms($vocabulary, $terms, $parent = NULL) {
+function _c4m_vocab_geo_install_terms($vocabulary, array $terms, $parent = NULL) {
   $weight = -20;
   foreach ($terms as $name => $children) {
     $term              = new stdClass();
@@ -78,9 +78,10 @@ function _c4m_vocab_geo_install_terms($vocabulary, $terms, $parent = NULL) {
 }
 
 /**
- * Get a list of type of documents terms to use during the install.
+ * Get a list of type of location terms to use during the install.
  *
  * @return array
+ *    List of type of location terms.
  */
 function _c4m_vocab_geo_install_get_terms() {
   $terms = array(
