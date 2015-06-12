@@ -1,11 +1,13 @@
 <?php
+/**
+ * @file
+ * Helper functionality around dates.
+ */
 
 include_once 'c4m_helper_date.features.inc';
 
 /**
- * Implementation of hook_date_format_types
- *
- * @return array
+ * Implements hook_date_format_types().
  */
 function c4m_helper_date_date_format_types() {
   // Define the core date format types.
@@ -16,9 +18,7 @@ function c4m_helper_date_date_format_types() {
 }
 
 /**
- * Implementation of hook_data_formats()
- *
- * @return array
+ * Implements hook_data_formats().
  */
 function c4m_helper_date_date_formats() {
   return array(
@@ -39,6 +39,7 @@ function c4m_helper_date_date_formats() {
  * Helper function to return c4m date formatters (only).
  *
  * @return array
+ *    Returns an array with date formatters.
  */
 function c4m_helper_date_formatters() {
   $format_types    = system_get_date_types();
@@ -48,7 +49,7 @@ function c4m_helper_date_formatters() {
     if (FALSE === strpos($type, 'c4m', 0)) {
       continue;
     }
-    foreach($format as $format_instance) {
+    foreach ($format as $format_instance) {
       $date_formatters[$format_instance['format']] = t("Time ago or date format '!date'",
         array('!date' => $format_types[$type]['title'] . ' (' . $format_instance['format'] . ')'));
     }
@@ -57,35 +58,40 @@ function c4m_helper_date_formatters() {
 }
 
 /**
- * Helper function to render timestamp as date or time ago depending on the
- * time which his passed since.
+ * Helper function to render timestamp in some format.
  *
- * @param $timestamp
+ * The timestamp gets rendered as date or time ago depending on the
+ * time which is passed since.
+ *
+ * @param int $timestamp
  *   Timestamp on which to base output time ago or date.
  * @param string $format
  *   The date format for the (old) date.
  * @param int $switch
  *   The time past that decides to show time ago or date.
- *   By default time ago will be shown as long as date is within 24 hours of now.
+ *   By default time ago will be shown as long,
+ *   as date is within 24 hours of now.
  * @param string $operator
  *   The operator which decides if 'time ago' is used if time since is smaller
  *   or bigger than current time.
  * @param string $string
  *    String to return instead of date formatting.
+ *
  * @return mixed|null|string
+ *    A translated date string in one of the requested formats.
  */
-function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400, $operator = '<', $string ='') {
-  If (!is_numeric($timestamp) ||
+function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400, $operator = '<', $string = '') {
+  if (!is_numeric($timestamp) ||
       (int) $timestamp != $timestamp) {
-    return;
+    return FALSE;
   }
 
   $time_since = time() - $timestamp;
 
   if ('<' === $operator &&
-      $time_since < $switch) {
-      $suffix = t('ago');
-      return c4m_helper_date_format_interval($time_since, 1, $suffix);
+    $time_since < $switch) {
+    $suffix = t('ago');
+    return c4m_helper_date_format_interval($time_since, 1, $suffix);
   }
   elseif ('>' === $operator &&
           $time_since > $switch) {
@@ -109,19 +115,19 @@ function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400
  *  - We modify the units somewhat.
  *  - We provide an optional suffix.
  *
- * @see format_interval
- *
- * @param $interval
+ * @param int $interval
  *   The length of the interval in seconds.
- * @param $granularity
+ * @param int $granularity
  *   How many different units to display in the string.
  * @param string $suffix
  *   A suffix for the rendered date.
  *   Optional language code to translate to a language other than
  *   what is used to display the page.
  *
- * @return
+ * @return string
  *   A translated string representation of the interval.
+ *
+ * @see format_interval
  */
 function c4m_helper_date_format_interval($interval, $granularity = 2,
                                          $suffix = '', $langcode = NULL) {
@@ -132,7 +138,7 @@ function c4m_helper_date_format_interval($interval, $granularity = 2,
     '1 day|@count days' => 86400,
     '1 hour|@count hours' => 3600,
     '1 min|@count minutes' => 60,
-    '1 sec|@count seconds' => 1
+    '1 sec|@count seconds' => 1,
   );
   $output = '';
   foreach ($units as $key => $value) {
