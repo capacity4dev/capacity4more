@@ -19,7 +19,7 @@ function c4m_content_organisation_field_schema($field) {
         'icon' => array(
           'type'      => 'int',
           'not null'  => FALSE,
-          'default'   => 0
+          'default'   => 0,
         ),
       );
       break;

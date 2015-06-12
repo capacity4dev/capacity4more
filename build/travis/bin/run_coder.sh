@@ -8,7 +8,7 @@
 
 
 # Do we need to run the coder review?
-if [ $CODE_REVIEW != 1 ]; then
+if [ "$CODE_REVIEW" != 1 ]; then
   exit 0
 fi
 
