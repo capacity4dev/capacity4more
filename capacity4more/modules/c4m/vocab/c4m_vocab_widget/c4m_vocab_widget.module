@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Code for the C4m widget vocabulary.
+ */
 
 /**
  * Implements hook_field_widget_info().
@@ -25,18 +29,19 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
 
   if (!$entity) {
-    return;
+    return FALSE;
   }
   $entity_type = $entity->type;
 
   // Get taxonomy vocabulary and send it to the app.
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['field_name']);
 
-  // Send field info
+  // Send field info.
   $field_info = field_info_instance('node', $field['field_name'], $entity_type);
   $settings['c4m']['data']['vocabularies']['field_info'][$field['field_name']] = $field_info;
 
-  // If $vocabulary is empty, it mean this field is not taxonomy term, It's a node.
+  // If $vocabulary is empty,
+  // it mean this field is not taxonomy term, It's a node.
   if ($vocabulary) {
     $vocabulary_label = $vocabulary->name;
     $vocabulary_machine_name = $vocabulary->machine_name;
@@ -59,7 +64,7 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   // Send all the settings to the app.
   $form['#attached']['js'][] = array(
     'data' => $settings,
-    'type' => 'setting'
+    'type' => 'setting',
   );
 
   // Add the directive.
@@ -95,14 +100,14 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
 /**
  * Keep selected terms in the AngularJS when form is validating.
  *
- * @param $element
- *  Form element.
- * @param $form_state
- *  The current state of the validating form.
- * @param $form
- *  The from that is validating.
+ * @param array $element
+ *    Form element.
+ * @param array $form_state
+ *    The current state of the validating form.
+ * @param array $form
+ *    The from that is validating.
  */
-function c4m_vocab_widget_validate($element, $form_state, &$form) {
+function c4m_vocab_widget_validate(array $element, array $form_state, array &$form) {
   $model = array();
   $settings['c4m']['data']['values'][$element['#field_name']] = array();
 
@@ -112,7 +117,6 @@ function c4m_vocab_widget_validate($element, $form_state, &$form) {
 
   $settings['c4m']['data']['values'][$element['#field_name']] = $model;
 
-
   // Unset previous values.
   foreach ($form['#attached']['js'] as $id => $data) {
     if (!empty($data['data']['c4m']['data']['values'][$element['#field_name']])) {
@@ -120,24 +124,23 @@ function c4m_vocab_widget_validate($element, $form_state, &$form) {
     }
   }
 
-// Send all the settings to the app.
+  // Send all the settings to the app.
   $form['#attached']['js'][] = array(
     'data' => $settings,
-    'type' => 'setting'
+    'type' => 'setting',
   );
-//
 }
 
 /**
  * Builds an array of selected values to be displayed on the taxonomy widgets.
  *
- * @param $entity
- *  The entity being edited.
- * @param $vocabulary_machine_name
- *  The name of the Vocab.
+ * @param object $entity
+ *    The entity being edited.
+ * @param string $vocabulary_machine_name
+ *    The name of the Vocab.
  *
  * @return array
- *  An array of the selected values.
+ *    An array of the selected values.
  */
 function c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name) {
   $taxonomy_values = array();
@@ -158,19 +161,19 @@ function c4m_vocab_widget_get_selected_values($entity, $vocabulary_machine_name)
 /**
  * Build the taxonomy-tree for the AngularJs vocab widget.
  *
- * @param $terms
- *  The taxonomy-terms.
+ * @param array $terms
+ *    The taxonomy-terms.
  *
  * @return array
- *  The praised tree, ready to send to the angularJs app.
+ *    The praised tree, ready to send to the angularJs app.
  */
-function c4m_vocab_widget_prepare_taxonomy_tree($terms) {
+function c4m_vocab_widget_prepare_taxonomy_tree(array $terms) {
   $options = array();
   $children = array();
-  foreach($terms as $term) {
+  foreach ($terms as $term) {
     // If the term is array, this vocab is of type "node".
     if (is_array($term)) {
-      foreach($term as $id => $label) {
+      foreach ($term as $id => $label) {
         $options[$id]['label'] = htmlspecialchars_decode(filter_xss($label));
         $options[$id]['id'] = $id;
       }
