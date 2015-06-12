@@ -25,6 +25,7 @@ angular.module('c4mApp')
         onChange: '=onChange'
       },
       link: function postLink(scope) {
+        scope.purl = DrupalSettings.getPurlPath();
         // On changing type => update the bundleName.
         scope.updateResource = function(resource, e) {
           return scope.onChange(resource, e);

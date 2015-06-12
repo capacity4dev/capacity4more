@@ -377,16 +377,23 @@ function c4m_search_form($form, &$form_state) {
 
   // Show available search pages selector if more than one are available.
   $search_pages = c4m_search_info();
+  if (c4m_og_current_group()) {
+    $default_value = 'search_api_views_c4m_search_og';
+  }
+  else {
+    $default_value = 'search_api_views_c4m_search_nodes';
+  }
+
   if (count($search_pages) > 1) {
     $options = array();
     foreach ($search_pages as $search_page) {
       // Check access.
       if (empty($search_page['access']) || $search_page['access']()) {
-        if (empty($search_page['group'])) {
-          $options[$search_page['machine_name']] = $search_page['name'];
-        }
-        else {
-          $options[$search_page['group']][$search_page['machine_name']] = $search_page['name'];
+        $options[$search_page['machine_name']] = $search_page['name'];
+        $current_path = current_path();
+        // Set default path.
+        if ($current_path === $search_page['path']) {
+          $default_value = $search_page['machine_name'];
         }
       }
     }
@@ -395,7 +402,7 @@ function c4m_search_form($form, &$form_state) {
       '#title' => 'Customize your search',
       '#title_display' => 'invisible',
       '#options' => $options,
-      '#default_value' => key($options),
+      '#default_value' => $default_value,
       '#weight' => 0,
       '#attached' => array(
         'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
@@ -416,6 +423,12 @@ function c4m_search_form($form, &$form_state) {
     ),
   );
 
+  // Get the proper ID for the current search.
+  $search = search_api_autocomplete_search_load($default_value);
+  if ($search && $search->enabled) {
+    $search->alterElement($form['basic']['keys']);
+  }
+
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
@@ -431,16 +444,20 @@ function c4m_search_form($form, &$form_state) {
  * Redirects to the selected search page.
  */
 function c4m_search_form_submit($form, &$form_state) {
+  // Get destination search page.
   $search_page = c4m_search_info($form_state['values']['search_page']);
   $options = array(
     'query' => array(
       'text' => $form_state['values']['keys'],
     ),
     'purl' => array(
-      'disabled' => !$search_page['purl'],
+      'disabled' => ($search_page['type'] === 'global'),
     ),
     'absolute' => TRUE,
   );
+  // Force redirect on 404 pages.
+  unset($_GET['destination']);
+  // Set redirect target.
   $form_state['redirect'] = url($search_page['path'], $options);
 }
 

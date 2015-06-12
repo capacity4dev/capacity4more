@@ -23,8 +23,8 @@ function c4m_content_article_field_group_info() {
     'label' => 'Metadata',
     'weight' => '4',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_topic',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -52,7 +52,7 @@ function c4m_content_article_field_group_info() {
     'label' => 'Group meta',
     'weight' => '9',
     'children' => array(
-      0 => 'c4m_related_topic',
+      0 => 'c4m_vocab_topic',
       1 => 'c4m_vocab_geo',
       2 => 'c4m_related_user',
       3 => 'c4m_related_group',

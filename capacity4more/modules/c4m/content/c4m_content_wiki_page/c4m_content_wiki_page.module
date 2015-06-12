@@ -57,6 +57,34 @@ function c4m_content_wiki_page_ds_fields_info($entity_type) {
     ),
   );
 
+  // Wiki page sidebar collapse button.
+  $fields['node']['c4m_content_wiki_page_collapse'] = array(
+    'title' => t('Wiki page sidebar collapse'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('wiki_page|*'),
+    'file' => $path . '/includes/c4m_content_wiki_page.theme.inc',
+    'function' => 'theme_c4m_content_wiki_page_collapse',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  // Wiki page sidebar Add pages links.
+  $fields['node']['c4m_content_wiki_page_add_links'] = array(
+    'title' => t('Add pages links'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('wiki_page|*'),
+    'file' => $path . '/includes/c4m_content_wiki_page.theme.inc',
+    'function' => 'theme_c4m_content_wiki_page_add_links',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   return $fields;
 }
 

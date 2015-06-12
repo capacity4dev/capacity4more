@@ -21,7 +21,7 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '10',
+    'weight' => '11',
     'children' => array(
       0 => 'og_group_ref',
     ),
@@ -49,9 +49,9 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '11',
+    'weight' => '9',
     'children' => array(
-      0 => 'c4m_related_topic',
+      0 => 'c4m_vocab_topic',
       1 => 'c4m_vocab_date',
       2 => 'c4m_vocab_document_type',
       3 => 'c4m_vocab_geo',

@@ -23,8 +23,8 @@ function c4m_content_project_field_group_info() {
     'label' => 'Metadata',
     'weight' => '8',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_topic',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -82,8 +82,8 @@ function c4m_content_project_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'c4m_date_end',
-      1 => 'c4m_money',
-      2 => 'c4m_implemented_by',
+      1 => 'c4m_implemented_by',
+      2 => 'c4m_money',
       3 => 'c4m_partner',
       4 => 'c4m_source_of_funding',
     ),
@@ -113,8 +113,8 @@ function c4m_content_project_field_group_info() {
     'label' => 'Related content',
     'weight' => '9',
     'children' => array(
-      0 => 'c4m_related_group',
-      1 => 'c4m_related_projects',
+      0 => 'c4m_related_projects',
+      1 => 'c4m_related_group',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

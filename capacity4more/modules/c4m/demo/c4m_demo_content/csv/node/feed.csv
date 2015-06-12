@@ -1,0 +1,5 @@
+ID,Title,Body,Topics,Articles,Groups,UID
+feed_1,"Science feed","<p>Everything about science</p>",topic_wind|topic_earth,article_1|article_2,group_1|group_2,user_1
+feed_2,"Astronomy feed","<p>For the first time this year astronomers caught neutrinos originating in distant galaxies</p>",topic_wind|topic_water,article_2|article_3,group_2|group_3,user_5
+feed_3,"Capacity4More RSS feed","<p>Offshore wind power refers to the construction of wind farms in bodies of water to generate electricity from wind.</p>",topic_wind,article_4,group_3|group_4,user_1
+feed_4,"Another RSS feed","<p>DNA nanotechnology involves the creation of artificial, designed nanostructures out of nucleic acids.</p>",topic_fire|topic_earth|topic_wind|topic_water,article_5,group_4|group_5,user_5

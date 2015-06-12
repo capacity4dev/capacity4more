@@ -48,6 +48,14 @@ function c4m_field_media_permissions() {
   $authenticated_permissions = array_merge(
     $anonymous_permissions, $authenticated_permissions);
 
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID,
-    $authenticated_permissions);
+  user_role_grant_permissions(
+    DRUPAL_AUTHENTICATED_RID,
+    $authenticated_permissions
+  );
+
+  // Allow authenticated users to use the media browser.
+  user_role_grant_permissions(
+    DRUPAL_AUTHENTICATED_RID,
+    array('access media browser')
+  );
 }

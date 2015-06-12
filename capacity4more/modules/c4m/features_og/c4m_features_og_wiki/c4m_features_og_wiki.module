@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Code for the Group Wiki feature.
+ * Code for the Wiki feature.
  */
+
+include_once 'c4m_features_og_wiki.features.inc';
 
 /**
  * Implements hook_c4m_og_feature_info().
@@ -39,7 +41,70 @@ function c4m_features_og_wiki_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['node/%node/wiki/rearrange'] = array(
+    'title' => t('Rearrange'),
+    'page callback'     => 'c4m_content_wiki_page_rearrange_page',
+    'access callback' => array('c4m_features_og_wiki_access'),
+    'access arguments' => array('administer group'),
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_features_og_wiki_menu_alter(&$items) {
+  // Unset the book outline tab,
+  // because we have are own rearrange integration.
+  unset($items['node/%node/outline']);
+}
+
+/**
+ * Access callback for the wiki rearrange menu item.
+ *
+ * @param array $options
+ * @return bool|void
+ */
+function c4m_features_og_wiki_access($options = array()) {
+  $group = og_context();
+
+  // Check if user has access to group context,
+  // and see if the feature is enabled.
+  if (!c4m_og_access('c4m_features_og_wiki')) {
+    return;
+  }
+
+  // Check if the user has the permission  "edit any wiki_page content".
+  $access = og_user_access('node', $group['gid'], $options);
+  if (!$access) {
+    return;
+  }
+
+  // Check if the node type is wiki_page
+  $node = node_load(arg(1));
+  if ($node && $node->type != 'wiki_page') {
+    return;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Page callback for the wiki rearrange menu item.
+ * Returns wiki rearrange view.
+ *
+ * @return mixed
+ */
+function c4m_content_wiki_page_rearrange_page() {
+  drupal_set_title('Rearrange');
+  $node = menu_get_object();
+  $og_id = c4m_og_get_gid_from_entity($node);
+  $output = views_embed_view('c4m_wiki', 'wiki_rearrange_page', $og_id, $og_id);
+
+  return $output;
+
 }
 
 /**

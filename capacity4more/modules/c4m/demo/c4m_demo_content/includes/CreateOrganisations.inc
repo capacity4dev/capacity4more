@@ -10,6 +10,7 @@
 class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'organisation';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV column mapping.
@@ -33,14 +34,24 @@ class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
     $this->addFieldMapping('c4m_link', 'link');
-    $this->addFieldMapping('c4m_domain', 'domain')
-      ->separator(',');
     $this->addFieldMapping('c4m_icon', 'image');
     $this->addFieldMapping('c4m_icon:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_icon:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_icon:destination_dir', 'destination');
+  }
+
+  /**
+   * The entity has been created but not yet saved.
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
+   */
+  public function prepare($entity, $row) {
+    $this->extractDomain($entity, $row, 'domain');
   }
 
 }
