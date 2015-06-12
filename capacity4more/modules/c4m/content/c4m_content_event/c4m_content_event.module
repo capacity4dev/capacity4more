@@ -8,8 +8,6 @@ include_once 'c4m_content_event.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_content().
- *
- * @return array
  */
 function c4m_content_event_c4m_og_vocab_info_content() {
   return array(
@@ -18,7 +16,7 @@ function c4m_content_event_c4m_og_vocab_info_content() {
       'bundle' => 'event',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
   );

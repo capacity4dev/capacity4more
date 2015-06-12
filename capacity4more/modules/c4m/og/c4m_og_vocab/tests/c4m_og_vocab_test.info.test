@@ -12,6 +12,7 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
    * Get the test info.
    *
    * @return array
+   *    Array with the test info.
    */
   public static function getInfo() {
     return array(
@@ -77,4 +78,5 @@ class C4mOgVocabInfo extends DrupalWebTestCase {
     $result = c4m_og_vocab_fill_string($node, $string);
     $this->assertEqual($result, $expected, 'Variables should be filled in properly.');
   }
+
 }

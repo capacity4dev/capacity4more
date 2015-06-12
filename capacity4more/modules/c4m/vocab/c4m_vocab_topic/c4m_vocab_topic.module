@@ -12,12 +12,6 @@
  *
  * @return bool
  *   TRUE or FALSE.
- *
- * @throws \Exception
- *   General Exception.
- * 
- * @throws \InvalidMergeQueryException
- *   Invalid Merge Query Exception.
  */
 function c4m_vocab_topic_add_mapping(array $mapping) {
   if (empty($mapping['tid'])) {

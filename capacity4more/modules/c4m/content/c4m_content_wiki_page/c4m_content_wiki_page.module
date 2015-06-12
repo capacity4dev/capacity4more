@@ -4,14 +4,12 @@
  * Code for the Wiki page content type feature.
  */
 
-define('WIKI_MAX_DEPTH', 6);
+define('C4M_CONTENT_WIKI_PAGE_MAX_DEPTH', 6);
 
 include_once 'c4m_content_wiki_page.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_content().
- *
- * @return array
  */
 function c4m_content_wiki_page_c4m_og_vocab_info_content() {
   return array(
@@ -20,7 +18,7 @@ function c4m_content_wiki_page_c4m_og_vocab_info_content() {
       'bundle' => 'wiki_page',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
   );
@@ -110,14 +108,14 @@ function c4m_content_wiki_page_node_insert($node) {
     'options'            => array(),
     'module'             => 'book',
     'original_bid'       => 0,
-    'parent_depth_limit' => WIKI_MAX_DEPTH,
+    'parent_depth_limit' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH,
     'weight'             => '0',
   );
 
   // We want module book to run after c4m_content_wiki_page because we need
   // all the form altering, so we do not change the weight of
   // c4m_content_wiki_page to run before book module but this means we have to
-  // reexecute the behaviour of book_node_insert now that we made the node a
+  // re-execute the behaviour of book_node_insert now that we made the node a
   // book, because otherwise book will not do anything for us at node insert of
   // an OG  group node.
   book_node_insert($node);
@@ -127,7 +125,6 @@ function c4m_content_wiki_page_node_insert($node) {
  * Implements hook_node_prepare().
  *
  * Prevent the creation of more than 6 levels in a book, including level 0.
- *
  */
 function c4m_content_wiki_page_node_prepare($node) {
   // Find the depth limit for the parent select.
@@ -139,27 +136,23 @@ function c4m_content_wiki_page_node_prepare($node) {
 /**
  * Finds the depth limit for items in the parent select.
  *
- * @param $book_link
+ * @param array $book_link
  *   A fully loaded menu link that is part of the book hierarchy.
  *
- * @return
+ * @return int
  *   The depth limit for items in the parent select.
  */
-function _c4m_content_wiki_page_parent_depth_limit($book_link) {
+function _c4m_content_wiki_page_parent_depth_limit(array $book_link) {
   $current_depth = ($book_link['mlid'] && $book_link['has_children'])
     ? menu_link_children_relative_depth($book_link)
     : 0;
-  return WIKI_MAX_DEPTH - ($current_depth + 1);
+  return C4M_CONTENT_WIKI_PAGE_MAX_DEPTH - ($current_depth + 1);
 }
 
 /**
- * Implementation of hook_form_BASE_ID_alter().
+ * Implements hook_form_BASE_ID_alter().
  *
- * Group is book.
- *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * The Group node is the book.
  */
 function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_id) {
   $node = $form['#node'];
@@ -169,13 +162,9 @@ function c4m_content_wiki_page_form_node_form_alter(&$form, &$form_state, $form_
 }
 
 /**
- * Implementation of hook_form_FORM_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
  * Prevent the creation of more than 6 levels in a book, including level 0.
- *
- * @param $form
- * @param $form_state
- * @param $form_id
  */
 function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_state, $form_id) {
   $node = $form['#node'];
@@ -210,7 +199,7 @@ function c4m_content_wiki_page_form_wiki_page_node_form_alter(&$form, &$form_sta
     $form['book']['plid']['#description'] = t('The parent page in the book. The
       maximum depth for a book and all child pages is !maxdepth. Some pages in
       the selected book may not be available as parents if selecting them would
-      exceed this limit.', array('!maxdepth' => WIKI_MAX_DEPTH));
+      exceed this limit.', array('!maxdepth' => C4M_CONTENT_WIKI_PAGE_MAX_DEPTH));
   }
 }
 
@@ -238,12 +227,11 @@ function c4m_content_wiki_page_get_mlid_by_nid($nid) {
 }
 
 /**
- *  Implements hook_theme_registry_alter().
+ * Implements hook_theme_registry_alter().
+ *
+ * Change the default preprocessing book module executes on the book navigation.
  */
 function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
-  // We change the default preprocessing book module executes on the
-  // book navigation.
-
   if (empty($theme_registry['book_navigation'])) {
     return;
   }
@@ -262,13 +250,13 @@ function c4m_content_wiki_page_theme_registry_alter(&$theme_registry) {
  * Override of template_preprocess_book_navigation()
  * Only difference is that we do not show links to level 0 of book.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing the following key:
- *   - book_link
+ *   - book_link.
  *
  * @see book-navigation.tpl.php
  */
-function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
+function c4m_content_wiki_page_preprocess_book_navigation(array &$variables) {
   $book_link = $variables['book_link'];
 
   // Provide extra variables for themers. Not needed by default.
@@ -310,7 +298,14 @@ function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
 
   $variables['has_links'] = FALSE;
   // Link variables to filter for values and set state of the flag variable.
-  $links = array('prev_url', 'prev_title', 'parent_url', 'parent_title', 'next_url', 'next_title');
+  $links = array(
+    'prev_url',
+    'prev_title',
+    'parent_url',
+    'parent_title',
+    'next_url',
+    'next_title',
+  );
   foreach ($links as $link) {
     if (isset($variables[$link])) {
       // Flag when there is a value.
@@ -326,26 +321,24 @@ function c4m_content_wiki_page_preprocess_book_navigation(&$variables) {
 /**
  * Implements hook_query_TAG_alter().
  *
+ * Only alter a node_access query ...
+ * - If it has 3 conditions of which we know exactly what those are
+ *   (here meaning it originates from menu_tree_check_access() which is called
+ *   by menu_build_tree().
+ *   See c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter.
+ * - And it is querying for group nodes or wiki pages.
+ *   If that is the case, we remove the check on node status as we allow
+ *   group members to see unpublished pages.
+ *
+ * Non-group members still won't be able to see these as this query is tagged
+ * with node_access and grants will be checked for.
+ *
  * @see menu_tree_check_access()
  *   Contains the query being altered here. This is most likely the only query
- *   with tag node_access where the first condition is for the node.status column.
+ *   with tag node_access where the first condition is for the node.status
+ *   column.
  */
 function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $query) {
-  // Only alter a node_access query ...
-  //
-  // - if it has 3 conditions of which we know exactly what those are
-  // ( here meaning it originates from menu_tree_check_access() which is called
-  // by menu_build_tree().
-  // See c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter.
-  //
-  //- and it is querying for group nodes or wiki pages.
-  //
-  // If that is the case, we remove the check on node status as we allow
-  // group members to see unpublished pages.
-  //
-  // Non-group members still won't be able to see these as this query is tagged
-  // with node_access and grants will be checked for.
-
   $c = &$query->conditions();
   if (count($c) == 3 &&
       is_string($c[0]['field']) &&
@@ -354,16 +347,18 @@ function c4m_content_wiki_page_query_node_access_alter(QueryAlterableInterface $
       $c[1]['field'] == 'n.nid' &&
       $c[1]['operator'] == 'IN' &&
       is_array($c[1]['value'])) {
-    $nr_of_nids = sizeof($c[1]['value']);
+    $nr_of_nids = count($c[1]['value']);
+
     // Check if values of the query are group or wiki pages.
-    $result = db_select('node','n')
-              ->fields('n',array('nid'))
-              ->condition('n.type', array('group', 'wiki_page', 'IN'))
-              ->condition('n.nid', $c[1]['value'], 'IN')
-              ->range(0, $nr_of_nids)
-              ->execute()
-              ->rowCount();
-    if ($result === $nr_of_nids ) {
+    $result = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('n.type', array('group', 'wiki_page', 'IN'))
+      ->condition('n.nid', $c[1]['value'], 'IN')
+      ->range(0, $nr_of_nids)
+      ->execute()
+      ->rowCount();
+
+    if ($result === $nr_of_nids) {
       unset($c[0]);
     }
   }
@@ -383,7 +378,7 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
         'plural'      => 'Posts',
         'state'       => 1,
         'aggregate'   => array(
-          'type' => 'posts'
+          'type' => 'posts',
         ),
         'weight'      => 1,
         'attributes'  => array(

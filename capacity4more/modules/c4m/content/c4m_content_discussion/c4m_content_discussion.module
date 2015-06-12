@@ -16,16 +16,14 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
       'bundle'       => 'discussion',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
   );
 }
 
 /**
- *  Implements hook_entity_type_label_alter().
- *
- *  @param $variables
+ * Implements hook_entity_type_label_alter().
  */
 function c4m_content_discussion_entity_type_label_alter(&$variables) {
   if (empty($variables['entity']->type) ||
@@ -49,7 +47,7 @@ function c4m_content_discussion_c4m_content_statistics_info() {
         'plural'      => 'Posts',
         'state'       => 1,
         'aggregate'   => array(
-          'type' => 'posts'
+          'type' => 'posts',
         ),
         'weight'      => 1,
         'attributes'  => array(
