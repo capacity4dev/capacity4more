@@ -27,6 +27,7 @@ dependencies[] = rdf
 ; Contrib modules -------------------------------------------------------------
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
+dependencies[] = better_formats
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
@@ -72,6 +73,7 @@ dependencies[] = views
 dependencies[] = date_views
 dependencies[] = views_content
 dependencies[] = views_bulk_operations
+dependencies[] = wysiwyg_filter
 
 
 ; capacity4more ---------------------------------------------------------------
@@ -173,3 +175,6 @@ dependencies[] = c4m_og_purl
 
 ; Email Domains
 dependencies[] = c4m_domain
+
+; Content Authoring
+;dependencies[] = c4m_wysiwyg_ckeditor

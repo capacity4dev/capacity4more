@@ -8,6 +8,9 @@ projects[admin_views][version] = "1.4"
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
+projects[better_formats][subdir] = "contrib"
+projects[better_formats][version] = "1.x-dev"
+
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
@@ -239,8 +242,14 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/1334374-25-generic_entity_tables_revisions.patch"
 
+projects[views_load_more][subdir] = "contrib"
+projects[views_load_more][version] = "1.5"
+
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
+
+projects[wysiwyg_filter][subdir] = "contrib"
+projects[wysiwyg_filter][version] = "1.x-dev"
 
 
 ; Development modules
