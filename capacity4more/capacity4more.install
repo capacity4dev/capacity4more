@@ -18,13 +18,23 @@ function capacity4more_install() {
   ini_set('auto_detect_line_endings', TRUE);
 
   // TEXT FORMATS.
+  $default_html_format = _capacity4more_install_get_default_html_format();
+  filter_format_save($default_html_format);
   $filtered_html_format = _capacity4more_install_get_filtered_html_format();
   filter_format_save($filtered_html_format);
   $full_html_format = _capacity4more_install_get_full_html_format();
   filter_format_save($full_html_format);
 
+  // C4M WYSIWYG.
+  // We need to enable the c4m_wysiwyg_ckeditor module here.
+  // Because if we enable it in the profile info file, the module's install file
+  // will be executed before the text formats are added in this install profile,
+  // and so the actions in the module's install file won't be executed.
+  /* @todo Find a better solution so we don't need to enable it here */
+  module_enable(array('c4m_wysiwyg_ckeditor'));
+
   // ROLES & PERMISSIONS.
-  _capacity4more_install_save_default_permissions($filtered_html_format);
+  _capacity4more_install_save_default_permissions($default_html_format, $filtered_html_format);
 
   // MENU.
   _capacity4more_install_save_default_menu();
@@ -65,6 +75,9 @@ function capacity4more_install() {
 
   // EU Cookie Compliance.
   _set_eu_cookie_compliance();
+
+  // Path aliases.
+  variable_set('pathauto_update_action', '2');
 }
 
 /******************************************************************************
@@ -72,9 +85,49 @@ function capacity4more_install() {
  ******************************************************************************/
 
 /**
+ * Get the default_html format.
+ *
+ * @return object
+ *    The default html format.
+ */
+function _capacity4more_install_get_default_html_format() {
+  $default_html_format = array(
+    'format' => 'default_html',
+    'name' => 'Default HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight'    => 0,
+        'status'    => 1,
+      ),
+      // Wysiwyg filter.
+      'wysiwyg' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $default_html_format = (object) $default_html_format;
+
+  return $default_html_format;
+}
+
+/**
  * Get the filtered_html format.
  *
  * @return stdCLass
+ *    An object structered text format.
  */
 function _capacity4more_install_get_filtered_html_format() {
   $filtered_html_format = array(
@@ -87,8 +140,8 @@ function _capacity4more_install_get_filtered_html_format() {
         'weight' => 0,
         'status' => 1,
       ),
-      // HTML filter.
-      'filter_html' => array(
+      // Wysiwyg filter.
+      'wysiwyg' => array(
         'weight' => 1,
         'status' => 1,
       ),
@@ -113,6 +166,7 @@ function _capacity4more_install_get_filtered_html_format() {
  * Get the full_html format.
  *
  * @return stdCLass
+ *    An object structered text format.
  */
 function _capacity4more_install_get_full_html_format() {
   $full_html_format = array(
@@ -149,13 +203,17 @@ function _capacity4more_install_get_full_html_format() {
 /**
  * Save the default permissions.
  *
- * @param stdClass $filtered_html_format
+ * @param object $default_html_format
+ *    The default_html text format.
+ * @param object $filtered_html_format
+ *    The filtered_html text format.
  */
-function _capacity4more_install_save_default_permissions($filtered_html_format) {
+function _capacity4more_install_save_default_permissions($default_html_format, $filtered_html_format) {
   // Only admins can create new members.
   variable_set('user_register', USER_REGISTER_ADMINISTRATOS_ONLY);
 
   // Enable default permissions for system roles.
+  $default_html_permission = filter_permission_name($default_html_format);
   $filtered_html_permission = filter_permission_name($filtered_html_format);
   $permissions = array(
     'access content',
@@ -175,7 +233,8 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
     'use search_api_autocomplete for search_api_views_c4m_overview_people',
     'use search_api_autocomplete for search_api_views_c4m_overview_og_members',
     'display EU Cookie Compliance popup',
-    $filtered_html_permission
+    $default_html_permission,
+    $filtered_html_permission,
   );
   // Enable default permissions for anonymous users.
   user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $permissions);
@@ -196,7 +255,8 @@ function _capacity4more_install_save_default_permissions($filtered_html_format) 
   // Enable default permissions for authenticated users.
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
-  // Create a default role for site administrators, with all available permissions assigned.
+  // Create a default role for site administrators,
+  // with all available permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';
   $admin_role->weight = 2;
@@ -241,7 +301,7 @@ function _capacity4more_install_save_default_menu() {
  *
  * @param string $name
  *   The theme name.
- * @param $status
+ * @param int $status
  *   The status of the theme.
  */
 function _capacity4more_install_save_theme($name, $status) {
@@ -260,8 +320,9 @@ function _capacity4more_install_save_theme($name, $status) {
  * Add an array of blocks to the given theme.
  *
  * @param array $blocks
+ *    Array of blocks.
  */
-function _capacity4more_install_save_theme_blocks($blocks) {
+function _capacity4more_install_save_theme_blocks(array $blocks) {
   $query = db_insert('block')->fields(array(
       'module',
       'delta',
@@ -270,7 +331,7 @@ function _capacity4more_install_save_theme_blocks($blocks) {
       'weight',
       'region',
       'pages',
-      'cache'
+      'cache',
     ));
 
   foreach ($blocks as $block) {
@@ -280,12 +341,13 @@ function _capacity4more_install_save_theme_blocks($blocks) {
 }
 
 /**
- * Get the default theme blocks
+ * Get the default theme blocks.
  *
  * @param string $theme
  *   The name of the theme.
  *
  * @return array
+ *    Array of the default theme blocks.
  */
 function _capacity4more_install_get_default_theme_blocks($theme) {
   // Only content & help blocks.
@@ -317,12 +379,13 @@ function _capacity4more_install_get_default_theme_blocks($theme) {
 }
 
 /**
- * Get the default theme blocks
+ * Get the default theme blocks.
  *
  * @param string $theme
  *   The name of the theme.
  *
  * @return array
+ *    Array of the default admin theme blocks.
  */
 function _capacity4more_install_get_admin_theme_blocks($theme) {
   $blocks = array(
@@ -373,12 +436,13 @@ function _capacity4more_install_get_admin_theme_blocks($theme) {
 }
 
 /**
- * Get the capacity4more theme blocks
+ * Get the capacity4more theme blocks.
  *
  * @param string $theme
  *   The name of the theme.
  *
  * @return array
+ *    Array of the c4m theme blocks.
  */
 function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
   $blocks = array(
@@ -408,9 +472,10 @@ function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
 }
 
 /**
- * Set the default time formats
+ * Set the default time formats.
  *
  * @return array
+ *    Array with success message.
  */
 function _capacity4more_install_set_default_date_formats() {
   $formats = array(
@@ -432,7 +497,7 @@ function _capacity4more_install_set_default_date_formats() {
 
   return array(
     'success' => TRUE,
-    'query' => st('Default date formats are set.')
+    'query' => st('Default date formats are set.'),
   );
 }
 

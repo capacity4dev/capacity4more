@@ -10,7 +10,6 @@ use Behat\Behat\Context\Step\Given;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Step;
 
-
 trait Field {
   /**
    * @Given /^I should see a "([^"]*)" field$/
@@ -55,6 +54,9 @@ trait Field {
         break;
       case 'Topics':
         $locator = '.region-content .field-name-c4m-vocab-topic';
+        break;
+      case 'Related Topics':
+        $locator = '.region-content .field-name-c4m-related-topic';
         break;
       case 'Articles':
         $locator = '.region-content .field-name-c4m-related-articles';
@@ -104,5 +106,15 @@ trait Field {
     if (!count($element)) {
       throw new \Exception("No $fieldgroup field group found.");
     }
+  }
+
+  /**
+   * @When /^I fill in ckeditor field "([^"]*)" with "([^"]*)"$/
+   */
+  public function iFillInCkeditorFieldWith($element, $text) {
+    // Using javascript script to fill the ckeditor,
+    // We have to enter the value directly to the scope.
+    $javascript = "CKEDITOR.instances['". $element . "'].setData('" . $text . "')";
+    $this->getSession()->executeScript($javascript);
   }
 }

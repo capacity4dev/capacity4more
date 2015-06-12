@@ -407,6 +407,8 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
         7 => 'c4m_vocab_language',
         8 => 'group_details',
         9 => 'c4m_vocab_geo',
+        10 => 'flag_c4m_og_content_highlight',
+        11 => 'group_options',
       ),
       'right' => array(
         10 => 'title',
@@ -420,6 +422,11 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
+      'c4m_content_wiki_page_navigation' => 'left',
+      'group_pages' => 'left',
+      'group_options' => 'left',
+      'group_details' => 'left',
+      'flag_c4m_og_content_highlight' => 'left',
       'c4m_content_wiki_page_collapse' => 'left',
       'c4m_content_wiki_page_navigation' => 'left',
       'c4m_vocab_topic' => 'left',
@@ -438,6 +445,10 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
       'c4m_related_document' => 'right',
       'book_navigation' => 'right',
       'comments' => 'right',
+      'og_vocabulary' => 'left',
+      'c4m_vocab_date' => 'left',
+      'c4m_vocab_language' => 'left',
+      'c4m_vocab_geo' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(

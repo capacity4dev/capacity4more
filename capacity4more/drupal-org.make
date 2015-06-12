@@ -8,6 +8,9 @@ projects[admin_views][version] = "1.4"
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
+projects[better_formats][subdir] = "contrib"
+projects[better_formats][version] = "1.x-dev"
+
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
@@ -40,6 +43,10 @@ projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.10"
+
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
+projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggableviews-2343793-16.patch"
 
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
@@ -177,6 +184,9 @@ projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
 
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc1"
+
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 
@@ -235,8 +245,14 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/1334374-25-generic_entity_tables_revisions.patch"
 
+projects[views_load_more][subdir] = "contrib"
+projects[views_load_more][version] = "1.5"
+
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
+
+projects[wysiwyg_filter][subdir] = "contrib"
+projects[wysiwyg_filter][version] = "1.x-dev"
 
 
 ; Development modules

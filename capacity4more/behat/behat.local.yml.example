@@ -5,6 +5,7 @@ default:
         dump_html: true
         dump_screenshot: true
         dump_path: 'features/dump'
+        dump_all_steps: false
 
   extensions:
     Behat\MinkExtension\Extension:

@@ -54,8 +54,8 @@ function c4m_content_event_field_group_info() {
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_language',
-      2 => 'og_vocabulary',
-      3 => 'c4m_vocab_topic',
+      2 => 'c4m_vocab_topic',
+      3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -109,7 +109,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '11',
+    'weight' => '10',
     'children' => array(
       0 => 'c4m_vocab_topic',
       1 => 'c4m_vocab_geo',
@@ -166,7 +166,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Location',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_location',
       1 => 'c4m_field_location_city_country',
