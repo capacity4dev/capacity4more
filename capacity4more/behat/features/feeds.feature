@@ -20,7 +20,7 @@ Feature: Feeds
     Then  I should have access to the page
     And   I should see a "Title" field
     And   I should see a "Description" field
-    And   I should see a "Topics" field
+    And   I should see a "Related Topics" field
     And   I should see a "Articles" field
     And   I should see a "Groups" field
 

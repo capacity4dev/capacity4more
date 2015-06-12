@@ -21,13 +21,13 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
-      0 => 'c4m_vocab_topic',
-      1 => 'c4m_vocab_date',
-      2 => 'c4m_vocab_geo',
-      3 => 'c4m_vocab_language',
-      4 => 'og_vocabulary',
+      0 => 'c4m_vocab_date',
+      1 => 'c4m_vocab_geo',
+      2 => 'c4m_vocab_language',
+      3 => 'og_vocabulary',
+      4 => 'c4m_vocab_topic',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
