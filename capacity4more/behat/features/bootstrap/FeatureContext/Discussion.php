@@ -64,22 +64,11 @@ trait Discussion {
   public function aDiscussionInGroupIsCreated($title, $group_title) {
     $steps = array();
 
-    // Get the PURL out of the group title.
-    $group_id= db_select('node', 'n')
-      ->fields('n', array('nid'))
-      ->condition('title', $group_title, '=')
-      ->execute()
-      ->fetchField();
-
-    $purl = db_select('purl', 'p')
-      ->fields('p', array('value'))
-      ->condition('id', $group_id, '=')
-      ->execute()
-      ->fetchField();
-
-    $steps[] = new Step\When('I visit "' . $purl . '/node/add/discussion"');
+    $steps[] = new Step\When('I visit "node/add/discussion"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
+    $steps[] = new Step\When('I check the related topic checkbox');
     $steps[] = new Step\When('I press "Save"');
 
     // Check there was no error.

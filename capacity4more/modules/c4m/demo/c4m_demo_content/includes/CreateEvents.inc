@@ -9,6 +9,7 @@
  */
 class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public $bundle = 'event';
+  protected $textFormat = 'default_html';
 
   /**
    * CSV column mapping.
@@ -74,7 +75,10 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
          ->arguments(array('source_type' => 'tid'))
          ->separator('|');
 
-    $this->addFieldMapping('c4m_related_topic', 'topics_list');
+    $this->addFieldMapping('c4m_vocab_topic', 'topics')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_tag', 'tags')
          ->sourceMigration('C4mDemoContentCreateTags')
@@ -139,21 +143,6 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     // This NULL value is counted however and added to the query, resulting
     // in errors. Therefore we need to filter it out.
     $row->additional = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
-    // TOPIC references.
-    $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateTopics',
-      explode('|', $row->topics),
-      NULL,
-      $this
-    );
-
-    // By default $unfiltered_ids is an array of arrays, containing the
-    // destid1 => destination_nid, but destid2 => NULL.
-    // This NULL value is counted however and added to the query, resulting
-    // in errors. Therefore we need to filter it out.
-    $row->topics_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
 

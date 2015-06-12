@@ -558,4 +558,3 @@ function c4m_features_og_members_preprocess_views_view_table(&$vars) {
     )
   );
 }
-

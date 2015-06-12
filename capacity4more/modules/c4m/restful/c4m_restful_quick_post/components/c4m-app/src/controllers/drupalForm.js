@@ -60,7 +60,11 @@ angular.module('c4mApp')
     // It can be filtered without effecting the data that was sent to the controller.
     $scope.filteredTerms = angular.copy($scope.data);
 
-    // Update the shown texonomies upon searching.
+    // Check if there's categories in the current group,
+    // to display an empty categories message.
+    $scope.categoriesLength = angular.isDefined($scope.filteredTerms.categories) && Object.keys($scope.filteredTerms.categories).length ? true : false;
+
+    // Update the shown taxonomies upon searching.
     $scope.updateSearch = function(vocab) {
       $scope.filteredTerms[vocab] = $filter('termsFilter')($scope.data[vocab], $scope.searchTerms[vocab]);
     };
@@ -114,7 +118,7 @@ angular.module('c4mApp')
         }
         else {
           // Check up to 3 topics selected.
-          if (vocab == 'c4m_related_topic' || vocab == 'c4m_vocab_geo') {
+          if (vocab == 'c4m_vocab_topic' || vocab == 'c4m_vocab_geo') {
             var topicCount = 0;
             angular.forEach($scope.model[vocab], function(element, topicKey) {
               if (element === true && $scope.data[vocab][topicKey]) {

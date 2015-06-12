@@ -15,7 +15,6 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-
 /**
  * Renders 3 suggested group for the user.
  *
@@ -31,7 +30,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $account = user_load($user->uid);
 
   $user_wrapper = entity_metadata_wrapper('user', $account->uid);
-  $interests = $user_wrapper->c4m_related_topic->raw();
+  $interests = $user_wrapper->c4m_vocab_topic->raw();
 
   $filter = !empty($_GET['filter']) ? $_GET['filter'] : NULL;
 
@@ -55,8 +54,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   }
 
   if (!empty($interests)) {
-    $query
-      ->fieldCondition('c4m_related_topic', 'target_id', $interests, 'IN');
+    $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
   }
 
   $result = $query
@@ -69,7 +67,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   }
 
   foreach ($result['node'] as $group) {
-    $node_view = node_view(node_load($group->nid), 'teaser');
+    $node_view = node_view(node_load($group->nid), 'c4m_related');
     $groups .= drupal_render($node_view);
   }
 

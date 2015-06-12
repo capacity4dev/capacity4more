@@ -33,6 +33,7 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
     array('projects', 'Projects'),
     array('membership_open_request', 'Membership_Request'),
     array('group_access', 'Access'),
+    array('restricted_organisations', 'Organisations'),
     array('group_status', 'Status'),
   );
 
@@ -59,10 +60,14 @@ class C4mDemoContentCreateGroups extends C4mDemoContentCreateOgGroups {
    *   The CSV row we are manipulating.
    */
   public function complete($entity, $row) {
+    if ($row->group_access == 1 && $row->restricted_organisations) {
+      $this->savePluggableNodeAccess($entity, $row);
+    }
+
     $modifier = array(
       'provider' => 'og_purl|node',
-      'value' => $row->purl,
-      'id' => $entity->nid,
+      'value'    => $row->purl,
+      'id'       => $entity->nid,
     );
     purl_save($modifier);
   }

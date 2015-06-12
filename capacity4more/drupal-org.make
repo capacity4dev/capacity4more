@@ -3,16 +3,19 @@ api = 2
 
 ; Modules
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.3"
+projects[admin_views][version] = "1.4"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
+
+projects[better_formats][subdir] = "contrib"
+projects[better_formats][version] = "1.x-dev"
 
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.5"
+projects[context][version] = "3.6"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "1.x-dev"
@@ -27,7 +30,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.5"
+projects[ctools][version] = "1.7"
 
 projects[currency][subdir] = "contrib"
 projects[currency][version] = "2.4"
@@ -39,7 +42,11 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.7"
+projects[ds][version] = "2.10"
+
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
+projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggableviews-2343793-16.patch"
 
 projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
@@ -48,7 +55,7 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.5"
 ; Patches for RESTful
 projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
-projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-node-create-3.patch"
+projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
@@ -64,7 +71,7 @@ projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.1"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.3"
+projects[features][version] = "2.5"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
@@ -76,7 +83,7 @@ projects[file_download_count][subdir] = "contrib"
 projects[file_download_count][version] = "1.0-rc1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.5"
+projects[flag][version] = "3.6"
 
 projects[getlocations][subdir] = "contrib"
 projects[getlocations][version] = "1.15"
@@ -85,7 +92,7 @@ projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.5"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.x-dev"
+projects[jquery_update][version] = "3.0-alpha1"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -122,14 +129,12 @@ projects[message_notify][version] = "2.5"
 
 projects[mimemail][version] = "1.0-beta3"
 projects[mimemail][subdir] = "contrib"
-; ? projects[mimemail][patch][] = "http://drupal.org/files/rules-1585546-1-moving_rules_actions.patch"
-; ? projects[mimemail][patch][] = "http://drupal.org/files/compress_install_missing_value.patch"
 
 projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "2.0-alpha2"
+projects[module_filter][version] = "2.0"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
@@ -153,7 +158,7 @@ projects[og_vocab][version] = "1.2"
 projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.4"
+projects[panels][version] = "3.5"
 
 projects[panels_bootstrap_layouts][subdir] = "contrib"
 projects[panels_bootstrap_layouts][version] = "3.0"
@@ -168,13 +173,16 @@ projects[pluggable_node_access][subdir] = "contrib"
 projects[pluggable_node_access][type] = "module"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.6"
+projects[plupload][version] = "1.7"
 
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"
 projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
+
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc1"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
@@ -192,7 +200,10 @@ projects[rules][version] = "2.6"
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.14"
 projects[search_api_attachments][subdir] = "contrib"
-projects[search_api_attachments][version] = "1.x-dev"
+projects[search_api_attachments][version] = "1.6"
+projects[search_api_autocomplete][subdir] = "contrib"
+projects[search_api_autocomplete][version] = "1.x-dev"
+projects[search_api_autocomplete][patch][] = "https://www.drupal.org/files/issues/search_api_autocomplete-JS-error-on-click-or-key-pressed-2473737-5.patch"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_sorts][subdir] = "contrib"
@@ -206,13 +217,13 @@ projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[save_draft][subdir] = "contrib"
 projects[save_draft][version] = "1.4"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = "1.4"
+projects[smart_trim][version] = "1.5"
 
 projects[summary_settings][subdir] = "contrib"
 projects[summary_settings][version] = "1.x-dev"
@@ -224,14 +235,21 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.8"
+projects[views][version] = "3.11"
+projects[views][patch][] = "https://www.drupal.org/files/issues/views-more-links-with-query-params-2210663-1.patch"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/1334374-25-generic_entity_tables_revisions.patch"
 
+projects[views_load_more][subdir] = "contrib"
+projects[views_load_more][version] = "1.5"
+
 projects[weight][subdir] = "contrib"
 projects[weight][version] = "2.4"
+
+projects[wysiwyg_filter][subdir] = "contrib"
+projects[wysiwyg_filter][version] = "1.x-dev"
 
 
 ; Development modules
@@ -268,6 +286,10 @@ libraries[getlocations_markers][destination] = "libraries"
 libraries[select2][type] = "libraries"
 libraries[select2][download][type] = "file"
 libraries[select2][download][url] = "https://github.com/ivaynberg/select2/archive/3.5.2.zip"
+
+libraries[font_awesome][type] = "libraries"
+libraries[font_awesome][download][type] = "file"
+libraries[font_awesome][download][url] = "https://github.com/FortAwesome/Font-Awesome/archive/v4.3.0.tar.gz"
 
 ; Themes
 projects[bootstrap][subdir] = "contrib"

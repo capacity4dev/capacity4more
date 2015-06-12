@@ -26,6 +26,12 @@ function c4m_search_nodes_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_search_filter-search_filter' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_search_nodes-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_search_nodes-page',
@@ -38,27 +44,27 @@ function c4m_search_nodes_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-9',
         ),
-        'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
+        'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
           'module' => 'facetapi',
-          'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
+          'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
           'region' => 'sidebar_first',
           'weight' => '-8',
-        ),
-        'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
-          'module' => 'facetapi',
-          'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
-          'region' => 'sidebar_first',
-          'weight' => '-7',
         ),
         'facetapi-C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => array(
           'module' => 'facetapi',
           'delta' => 'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5',
           'region' => 'sidebar_first',
-          'weight' => '-6',
+          'weight' => '-7',
         ),
         'facetapi-4Erg9yLvJMABad12YSuX81wXLf2eoV17' => array(
           'module' => 'facetapi',
           'delta' => '4Erg9yLvJMABad12YSuX81wXLf2eoV17',
+          'region' => 'sidebar_first',
+          'weight' => '-6',
+        ),
+        'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
+          'module' => 'facetapi',
+          'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
           'region' => 'sidebar_first',
           'weight' => '-5',
         ),

@@ -40,7 +40,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -98,7 +98,7 @@ function c4m_user_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_related_topic_expertise' => array(
+    'c4m_vocab_topic_expertise' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -163,7 +163,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_reset',
@@ -188,7 +188,7 @@ function c4m_user_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_topic_expertise' => array(
+    'c4m_vocab_topic_expertise' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -221,7 +221,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -279,7 +279,7 @@ function c4m_user_ds_field_settings_info() {
     'c4m_user_first_and_last_name' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'linked_user',
+      'format' => 'linked_user_with_icon',
     ),
   );
   $export['user|user|c4m_user_teaser_table_global'] = $ds_fieldsetting;
@@ -340,7 +340,7 @@ function c4m_user_ds_layout_settings_info() {
         4 => 'c4m_user_country',
         5 => 'c4m_features_og_members_since',
         6 => 'c4m_features_og_members_activity_summary',
-        7 => 'c4m_related_topic_expertise',
+        7 => 'c4m_vocab_topic_expertise',
       ),
     ),
     'fields' => array(
@@ -351,7 +351,7 @@ function c4m_user_ds_layout_settings_info() {
       'c4m_user_country' => 'right',
       'c4m_features_og_members_since' => 'right',
       'c4m_features_og_members_activity_summary' => 'right',
-      'c4m_related_topic_expertise' => 'right',
+      'c4m_vocab_topic_expertise' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -384,7 +384,7 @@ function c4m_user_ds_layout_settings_info() {
         3 => 'c4m_user_country',
         4 => 'c4m_user_member_since',
         5 => 'c4m_user_activity_summary',
-        6 => 'c4m_related_topic_expertise',
+        6 => 'c4m_vocab_topic_expertise',
       ),
     ),
     'fields' => array(
@@ -394,7 +394,7 @@ function c4m_user_ds_layout_settings_info() {
       'c4m_user_country' => 'right',
       'c4m_user_member_since' => 'right',
       'c4m_user_activity_summary' => 'right',
-      'c4m_related_topic_expertise' => 'right',
+      'c4m_vocab_topic_expertise' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

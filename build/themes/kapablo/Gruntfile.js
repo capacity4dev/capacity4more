@@ -215,11 +215,10 @@ module.exports = function (grunt) {
     'imagemin',
     'uglify',
     'compass:prod',
-    'pleeease',
+    'pleeease'
   ]);
 
   grunt.registerTask('default', [
-    'dev',
-    'watch'
+    'dev'
   ]);
-}
+};

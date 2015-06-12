@@ -10,6 +10,7 @@
 class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'article';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV column mapping.
@@ -36,7 +37,8 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
    */
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
-    'C4mDemoContentCreateTopics',
+    'C4mDemoContentCreateGroups',
+    'C4mDemoContentCreateProjects',
   );
 
   /**
@@ -52,12 +54,14 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
-    $this->addFieldMapping('c4m_body', 'body')
-      ->arguments(array('format' => 'full_html'));
+    $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_has_video', 'video');
 
-    $this->addFieldMapping('c4m_related_topic', 'topics_list');
+    $this->addFieldMapping('c4m_vocab_topic', 'topics')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_geo', 'geo_entries')
       ->arguments(array('source_type' => 'tid'));
@@ -85,26 +89,91 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
    */
   public function prepareRow($row) {
     parent::prepareRow($row);
-    $unfiltered_ids = $this->handleSourceMigration(
-      'C4mDemoContentCreateTopics',
-      explode('|', $row->topics),
-      NULL,
-      $this
-    );
-
-    // By default $unfiltered_ids is an array of arrays, containing the
-    // destid1 => destination_nid, but destid2 => NULL.
-    // This NULL value is counted however and added to the query, resulting
-    // in errors. Therefore we need to filter it out.
-    $row->topics_list = $this->filterDestid2FromEntityReference(
-      $unfiltered_ids
-    );
 
     $row->geo_entries = $this->mapTaxonomyVocabWithParent(
       $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
     );
 
     return TRUE;
+  }
+
+  /**
+   * Actions after the data is saved in the database.
+   *
+   * @param object $entity
+   *   The entity that is saved into the platform.
+   * @param object $row
+   *   The data row we are importing.
+   */
+  public function complete($entity, $row) {
+    // Make sure the messages have the proper timestamp.
+    $this->messageInsertSave($entity, $row);
+    // Make sure the update message also exists.
+    $this->messageUpdateSave($entity, $row);
+  }
+
+  /**
+   * Reset the $message->timestamp of any related insert message (if any).
+   *
+   * @param object $node
+   *   Node object we want to set the message timestamp for.
+   * @param object $row
+   *   The source data of the migrated entity.
+   */
+  public function messageInsertSave($node, $row) {
+    if (!module_exists('c4m_message')) {
+      return;
+    }
+
+    // Load the message(s).
+    $message_type = 'c4m_insert__node__' . $node->type;
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->propertyCondition('type', $message_type)
+      ->fieldCondition('field_node', 'target_id', $node->nid)
+      ->execute();
+
+    if (empty($result['message'])) {
+      return;
+    }
+
+    // Update the timestamp.
+    $message_ids = array_keys($result['message']);
+    foreach ($message_ids as $message_id) {
+      $message = message_load($message_id);
+      if (!$message) {
+        continue;
+      }
+
+      $message->timestamp = $row->created;
+      message_save($message);
+    }
+  }
+
+  /**
+   * Create optional update messages.
+   *
+   * @param object $node
+   *   Node object we want to set the message timestamp for.
+   * @param object $row
+   *   The source data of the migrated entity.
+   */
+  public function messageUpdateSave($node, $row) {
+    if (!module_exists('c4m_message')) {
+      return;
+    }
+
+    if ($row->changed <= $row->created) {
+      return;
+    }
+
+    $account = user_load($node->uid);
+
+    $message = c4m_message__update__node($node, $account);
+
+    $message->timestamp = $row->changed;
+    message_save($message);
   }
 
 }

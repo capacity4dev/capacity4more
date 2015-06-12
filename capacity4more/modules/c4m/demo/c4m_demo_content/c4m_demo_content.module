@@ -4,7 +4,6 @@
  * Module to create demo content using the Migrate module.
  */
 
-
 /**
  * Name used to group the migration classes.
  */
@@ -18,7 +17,8 @@ function c4m_demo_content_migrate_api() {
 
   $classes = array(
     'C4mDemoContentCreateUsers',
-    'C4mDemoContentCreateTopics',
+    'C4mDemoContentCreateThemes',
+    'C4mDemoContentCreateTopicTerms',
     'C4mDemoContentCreateGroups',
     'C4mDemoContentCreateInThePicture',
     'C4mDemoContentCreateBanners',
@@ -45,6 +45,8 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateDiscussionComments',
     'C4mDemoContentCreateWikiPages',
     'C4mDemoContentCreateWikiPageComments',
+    'C4mDemoContentCreateFeeds',
+    'C4mDemoContentCreateTopics',
   );
 
   $group_name = 'c4m_demo_content';

@@ -16,16 +16,14 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
       'bundle'       => 'discussion',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
   );
 }
 
 /**
- *  Implements hook_entity_type_label_alter().
- *
- *  @param $variables
+ * Implements hook_entity_type_label_alter().
  */
 function c4m_content_discussion_entity_type_label_alter(&$variables) {
   if (empty($variables['entity']->type) ||
@@ -33,4 +31,51 @@ function c4m_content_discussion_entity_type_label_alter(&$variables) {
     return;
   }
   $variables['label'] .= ' ' . ('posted by');
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_discussion_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_discussions' => array(
+        'type'        => 'discussion',
+        'entity_type' => 'node',
+        'bundles'     => array('discussion'),
+        'singular'    => 'Post',
+        'plural'      => 'Posts',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts',
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
+        'link' => array(
+          'path' => 'search',
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_discussions' => array(
+        'type'          => 'discussion',
+        'entity_type'   => 'node',
+        'bundles'       => array('discussion'),
+        'singular'      => 'Discussion',
+        'plural'        => 'Discussions',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 1,
+        'feature_name'  => 'c4m_features_og_discussions',
+        'attributes'    => array(
+          'class' => array('og-discussions'),
+        ),
+        'link'          => array(
+          'path' => 'discussions',
+        ),
+      ),
+    ),
+  );
 }

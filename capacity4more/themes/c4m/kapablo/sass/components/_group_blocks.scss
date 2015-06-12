@@ -98,7 +98,7 @@
       margin: 0 15px 15px 0;
     }
 
-    .field-name-c4m-related-topic, .field-type-taxonomy-term-reference {
+    .field-name-c4m-vocab-topic, .field-type-taxonomy-term-reference {
       .field-item {
         display: inline;
         & + .field-item {
@@ -180,9 +180,7 @@
 }
 
 .right {
-
   .upcoming-events {
-
     .group-right.col-sm-9 {
       border-left: solid 1px;
       margin-left: -25px !important;
@@ -202,7 +200,6 @@
       font-size: $font-size-h2;
     }
 
-    .node.node-teaser,
     .node.node-event {
       margin-bottom: 25px;
 
@@ -223,15 +220,6 @@
 
         .node-icon.as-event-event {
           margin: 5px 0 -5px 20px;
-        }
-
-        .round-bg {
-
-          img {
-            width: 50px;
-            height: 50px;
-            margin: 5px 0 -5px 20px;
-          }
         }
 
         .field-name-title {
@@ -291,5 +279,15 @@
     margin: 26px 0 0 5px;
     display: inline-block;
     font-size: 16px;
+  }
+}
+
+.view-c4m-overview-groups {
+
+  .group-header {
+
+    h3 {
+      display: inline-block;
+    }
   }
 }
