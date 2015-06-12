@@ -18,9 +18,12 @@ function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id
   }
 
   // Add intro text to form.
+  $markup = '<div class="form-item">'
+            . t('!intro', array('!intro' => $contact_settings['intro']))
+            . '</div>';
   if (isset($contact_settings['intro'])) {
     $form['intro'] = array(
-      '#markup' => '<div class="form-item">' . t($contact_settings['intro']) . '</div>',
+      '#markup' => $markup,
       '#weight' => -1,
     );
   }
@@ -42,7 +45,8 @@ function c4m_contact_form_contact_category_edit_form_alter(&$form, &$form_state,
     '#title'          => t('Intro'),
     '#description'    => t('The intro text displayed on top of the contact form.'),
     '#default_value'  => $intro,
-    '#format'         => 'simple_html',
+    '#format'         => 'filtered_html',
+    '#rows'           => 10,
     '#weight'         => 0,
   );
 
