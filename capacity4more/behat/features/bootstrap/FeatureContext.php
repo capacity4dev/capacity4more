@@ -98,6 +98,9 @@ class FeatureContext extends DrupalContext {
       'dump_path' => empty($parameters['debug']['dump_path'])
         ? false
         : $parameters['debug']['dump_path'],
+      'dump_all_steps' => empty($parameters['debug']['dump_all_steps'])
+        ? false
+        : $parameters['debug']['dump_all_steps'],
     );
   }
 }

@@ -10,6 +10,7 @@
 class C4mDemoContentCreateOrganisations extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'organisation';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV column mapping.

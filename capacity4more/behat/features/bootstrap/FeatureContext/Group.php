@@ -281,7 +281,7 @@ trait Group {
       $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
     }
 
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default summary."');
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default summary."');
 
     // This is a required tag.
     $steps[] = new Step\When('I check the related topic checkbox');
@@ -491,7 +491,7 @@ trait Group {
 
     $steps[] = new Step\When('I visit "' . $uri . '/node/add/' . $bundle . '"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion."');
     if ($condition == 'with') {
       $steps[] = new Step\When('I upload the file "doc1.doc" in the field with id "' . $file_field . '"');
     }

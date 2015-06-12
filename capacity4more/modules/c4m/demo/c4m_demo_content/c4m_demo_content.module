@@ -4,7 +4,6 @@
  * Module to create demo content using the Migrate module.
  */
 
-
 /**
  * Name used to group the migration classes.
  */
