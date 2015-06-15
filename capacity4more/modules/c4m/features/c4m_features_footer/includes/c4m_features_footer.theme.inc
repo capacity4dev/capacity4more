@@ -21,7 +21,7 @@ function theme_c4m_footer(array $variables) {
   $navigation_html = '<div class="c4m-footer-navigation">';
   foreach ($footer_navigation as $link) {
     $navigation_html .= '<div class="c4m-footer-nav-link">';
-    $navigation_html .= l(t($link['title']),
+    $navigation_html .= l(t('@title', array('@title' => $link['title'])),
                           $link['url'],
                           array('attributes' => $link['attributes'])
                         );
@@ -56,7 +56,7 @@ function theme_c4m_social_media(array $social_media) {
   $output = '<div class="c4m-social-media">';
   foreach ($social_media as $key => $link) {
     $output .= '<div class="c4m-social-media-item c4m-social-media-' . $key . '">';
-    $output .= l(t($link['title']), $link['url'],
+    $output .= l(t('@title', array('@title' => $link['title'])), $link['url'],
                 array('attributes' => array('target' => '_blank')));
     $output .= '</div>';
   }
