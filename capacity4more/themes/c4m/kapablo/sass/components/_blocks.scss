@@ -179,25 +179,25 @@
       }
 
       &.c4m-social-media-facebook {
-        @include image-icon-png-fallback('icons', 'discussion-qp-question-hover');
+        @include image-icon-png-fallback('icons', 'facebook');
         background-size: 30px;
         background-repeat: no-repeat;
         background-position: 100% 50%;
       }
       &.c4m-social-media-rss {
-        @include image-icon-png-fallback('icons', 'discussion-qp-question-hover');
+        @include image-icon-png-fallback('icons', 'rss');
         background-size: 30px;
         background-repeat: no-repeat;
         background-position: 100% 50%;
       }
       &.c4m-social-media-twitter {
-        @include image-icon-png-fallback('icons', 'discussion-qp-question-hover');
+        @include image-icon-png-fallback('icons', 'twitter');
         background-size: 30px;
         background-repeat: no-repeat;
         background-position: 100% 50%;
       }
       &.c4m-social-media-youtube {
-        @include image-icon-png-fallback('icons', 'discussion-qp-question-hover');
+        @include image-icon-png-fallback('icons', 'youtube');
         background-size: 30px;
         background-repeat: no-repeat;
         background-position: 100% 50%;
