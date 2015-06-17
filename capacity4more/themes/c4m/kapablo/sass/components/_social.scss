@@ -1,0 +1,55 @@
+.field-name-c4m-ds-content-actions {
+  .social-actions-share {
+    @include clearfix;
+    padding: 5px 0;
+
+    .ec-widget-share-item {
+      float: left;
+      margin-right: 5px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      a#share_button_link {
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        margin: 0;
+        &:hover {
+          background-position: initial;
+        }
+      }
+
+      &#ec-widget-share-facebook {
+        a {
+          @include link-icon-png-fallback('icons', 'facebook_icon_black');
+          background-position: initial;
+          background-size: 20px;
+        }
+      }
+      &#ec-widget-share-twitter {
+        a {
+          @include link-icon-png-fallback('icons', 'twitter_icon_black');
+          background-position: initial;
+          background-size: 20px;
+        }
+      }
+      &#ec-widget-share-googleplus {
+        a {
+          @include link-icon-png-fallback('icons', 'googleplus_icon_black');
+          background-position: initial;
+          background-size: 20px;
+        }
+      }
+      &#ec-widget-share-linkedin {
+        a {
+          @include link-icon-png-fallback('icons', 'linkedin_icon_black');
+          background-position: initial;
+          background-size: 20px;
+        }
+      }
+    }
+  }
+}
