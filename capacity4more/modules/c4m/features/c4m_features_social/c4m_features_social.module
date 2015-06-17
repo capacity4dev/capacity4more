@@ -11,7 +11,7 @@ function c4m_features_social_c4m_content_actions_info() {
   return array(
     'social_share' => array(
       'callback'  => 'c4m_features_social_actions_share',
-      'weight'    => '1',
+      'weight'    => '10',
     ),
   );
 }
@@ -19,10 +19,13 @@ function c4m_features_social_c4m_content_actions_info() {
 /**
  * Callback to show the enabled social media.
  *
+ * @param object $node
+ *    The node object.
+ *
  * @return string
  *    Rendered output of the share social media.
  */
-function c4m_features_social_actions_share() {
+function c4m_features_social_actions_share($node) {
   global $language;
   // Limit the lang to 2 chars (because of pt-pt/Portuguese.
   $lang = substr($language->language, 0, 2);
@@ -33,7 +36,7 @@ function c4m_features_social_actions_share() {
 
   $items = '';
   foreach ($social as $media => $info) {
-    $items .= '<div id="ec-widget-share-' . $media . '">
+    $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
             <!--{"to":"' . $media . '","text":"","size":32,"lang":"' . $lang . '"}//--></div>';
   }
 

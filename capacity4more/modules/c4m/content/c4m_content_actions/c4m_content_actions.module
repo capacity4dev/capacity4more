@@ -45,6 +45,7 @@ function c4m_content_actions_info() {
 function c4m_content_action_get_actions() {
   $output = '';
   $actions = c4m_content_actions_info();
+  $node = menu_get_object();
 
   foreach ($actions as $key => $action) {
     if (!isset($action['callback']) || !function_exists($action['callback'])) {
@@ -52,7 +53,7 @@ function c4m_content_action_get_actions() {
     }
 
     $callback = $action['callback'];
-    $output .= $callback();
+    $output .= $callback($node);
   }
 
   return $output;
@@ -69,7 +70,7 @@ function c4m_content_actions_ds_fields_info($entity_type) {
     'title'       => t('Content Actions'),
     'field_type'  => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'    => array('*|*'),
-    'file'        => $path . '/includes/c4m_content_actions.theme.node.inc',
+    'file'        => $path . '/includes/c4m_content_actions.theme.inc',
     'function'    => '_c4m_content_actions_ds_field',
     'properties'  => array(
       'formatters' => array(
