@@ -6,6 +6,7 @@
 'use strict';
 
 angular.module('c4mApp', [
+  'ngCkeditor',
   'ui.select2',
   'ui.bootstrap',
   'angularFileUpload',
