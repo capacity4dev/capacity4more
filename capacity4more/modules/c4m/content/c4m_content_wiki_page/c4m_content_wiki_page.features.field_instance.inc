@@ -153,7 +153,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 7,
+        'weight' => 9,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -282,7 +282,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 8,
+        'weight' => 10,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -632,8 +632,14 @@ function c4m_content_wiki_page_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => '',
+          'separator' => ' » ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(
@@ -721,7 +727,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
