@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * c4m_comment.features.user_permission.inc
+ * C4m_comment.features.user_permission.inc
  */
 
 /**
