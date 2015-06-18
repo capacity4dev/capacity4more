@@ -11,43 +11,48 @@
         margin-right: 0;
       }
 
-      a#share_button_link {
-        background-repeat: no-repeat;
-        width: 20px;
-        height: 20px;
-        padding: 0;
-        margin: 0;
-        &:hover {
-          background-position: initial;
+      #share_button_container {
+        width: auto;
+        height: auto;
+
+        a#share_button_link {
+          background-repeat: no-repeat;
+          width: 24px;
+          height: 24px;
+          padding: 0;
+          margin: 0;
+          &:hover {
+            background-position: initial;
+          }
         }
       }
 
       &#ec-widget-share-facebook {
         a {
-          @include link-icon-png-fallback('icons', 'facebook_icon_black');
+          @include image-icon-png-fallback('icons', 'facebook_icon_black');
           background-position: initial;
-          background-size: 20px;
+          background-size: 24px;
         }
       }
       &#ec-widget-share-twitter {
         a {
-          @include link-icon-png-fallback('icons', 'twitter_icon_black');
+          @include image-icon-png-fallback('icons', 'twitter_icon_black');
           background-position: initial;
-          background-size: 20px;
+          background-size: 24px;
         }
       }
       &#ec-widget-share-googleplus {
         a {
-          @include link-icon-png-fallback('icons', 'googleplus_icon_black');
+          @include image-icon-png-fallback('icons', 'googleplus_icon_black');
           background-position: initial;
-          background-size: 20px;
+          background-size: 24px;
         }
       }
       &#ec-widget-share-linkedin {
         a {
-          @include link-icon-png-fallback('icons', 'linkedin_icon_black');
+          @include image-icon-png-fallback('icons', 'linkedin_icon_black');
           background-position: initial;
-          background-size: 20px;
+          background-size: 24px;
         }
       }
     }
