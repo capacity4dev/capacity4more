@@ -49,13 +49,13 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '9',
+    'weight' => '8',
     'children' => array(
-      0 => 'c4m_vocab_topic',
-      1 => 'c4m_vocab_date',
-      2 => 'c4m_vocab_document_type',
-      3 => 'c4m_vocab_geo',
-      4 => 'c4m_vocab_language',
+      0 => 'c4m_vocab_date',
+      1 => 'c4m_vocab_document_type',
+      2 => 'c4m_vocab_geo',
+      3 => 'c4m_vocab_language',
+      4 => 'c4m_vocab_topic',
       5 => 'og_vocabulary',
     ),
     'format_type' => 'html5',
