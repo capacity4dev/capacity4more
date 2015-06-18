@@ -33,7 +33,7 @@ function c4m_features_social_share_settings() {
       'enabled' => TRUE,
     ),
     'yammer'  => array(
-      'enabled' => TRUE,
+      'enabled' => FALSE,
     ),
     'email_link'  => array(
       'enabled' => TRUE,
