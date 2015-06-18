@@ -212,6 +212,11 @@ function c4m_content_discussion_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_content_actions' => array(
+      'weight' => '14',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_related_document' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -555,7 +560,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
         1 => 'c4m_vocab_topic',
         7 => 'group_node_meta',
         8 => 'c4m_user_picture',
-        9 => 'flag_c4m_og_content_highlight',
+        9 => 'group_node_actions',
         10 => 'c4m_ds_type_posted_by',
         11 => 'group_node_details',
         12 => 'og_vocabulary',
@@ -564,6 +569,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
         15 => 'c4m_vocab_language',
         16 => 'c4m_ds_creation_date',
         17 => 'c4m_vocab_geo',
+        18 => 'c4m_ds_content_actions',
       ),
     ),
     'fields' => array(
@@ -576,7 +582,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'comments' => 'left',
       'group_node_meta' => 'right',
       'c4m_user_picture' => 'right',
-      'flag_c4m_og_content_highlight' => 'right',
+      'group_node_actions' => 'right',
       'c4m_ds_type_posted_by' => 'right',
       'group_node_details' => 'right',
       'og_vocabulary' => 'right',
@@ -585,6 +591,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_vocab_language' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_vocab_geo' => 'right',
+      'c4m_ds_content_actions' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

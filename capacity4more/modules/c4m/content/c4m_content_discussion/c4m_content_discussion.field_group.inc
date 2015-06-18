@@ -26,8 +26,8 @@ function c4m_content_discussion_field_group_info() {
       0 => 'c4m_vocab_date',
       1 => 'c4m_vocab_geo',
       2 => 'c4m_vocab_language',
-      3 => 'og_vocabulary',
-      4 => 'c4m_vocab_topic',
+      3 => 'c4m_vocab_topic',
+      4 => 'og_vocabulary',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

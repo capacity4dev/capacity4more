@@ -54,7 +54,6 @@ features[features_api][] = api:2
 features[field_base][] = c4m_discussion_type
 features[field_group][] = group_node_details|node|discussion|full
 features[field_group][] = group_node_meta|node|discussion|full
-features[field_instance][] = comment-comment_node_discussion-c4m_related_document
 features[field_instance][] = comment-comment_node_discussion-comment_body
 features[field_instance][] = node-discussion-c4m_body
 features[field_instance][] = node-discussion-c4m_discussion_type
