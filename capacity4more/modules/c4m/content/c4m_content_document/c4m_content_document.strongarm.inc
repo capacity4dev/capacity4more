@@ -120,7 +120,7 @@ function c4m_content_document_strongarm() {
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '20',
+            'weight' => '21',
             'visible' => FALSE,
           ),
           'teaser' => array(

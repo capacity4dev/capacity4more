@@ -43,6 +43,33 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_node_actions|node|wiki_page|full';
+  $field_group->group_name = 'group_node_actions';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'wiki_page';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Actions',
+    'weight' => '2',
+    'children' => array(
+      0 => 'c4m_ds_content_actions',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Actions',
+      'instance_settings' => array(
+        'classes' => 'group-node-actions field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsible',
+    ),
+  );
+  $export['group_node_actions|node|wiki_page|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_pages|node|wiki_page|full';
   $field_group->group_name = 'group_pages';
   $field_group->entity_type = 'node';

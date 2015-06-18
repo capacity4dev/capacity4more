@@ -126,7 +126,7 @@ function c4m_content_wiki_page_strongarm() {
       'display' => array(
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '4',
+            'weight' => '26',
             'visible' => FALSE,
           ),
         ),

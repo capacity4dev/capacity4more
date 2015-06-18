@@ -663,7 +663,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2287,7 +2287,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
