@@ -111,9 +111,9 @@ function c4m_content_event_field_group_info() {
     'label' => 'Details',
     'weight' => '10',
     'children' => array(
-      0 => 'c4m_vocab_topic',
-      1 => 'c4m_vocab_geo',
-      2 => 'c4m_vocab_language',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_language',
+      2 => 'c4m_vocab_topic',
       3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
