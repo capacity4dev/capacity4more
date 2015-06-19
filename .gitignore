@@ -83,5 +83,5 @@ behat-failed-step*.png
 capacity4more/themes/c4m/kapablo/images/svgmin
 capacity4more/themes/c4m/kapablo/images/icons
 *.concat.js
-*.min.js
+capacity4more/themes/c4m/kapablo/js/*.min.js
 scripts/vagrant/.vagrant
