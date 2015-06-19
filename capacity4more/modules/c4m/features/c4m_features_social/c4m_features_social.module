@@ -37,7 +37,7 @@ function c4m_features_social_actions_share($node) {
   $items = '';
   foreach ($social as $media => $info) {
     $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
-            <!--{"to":"' . $media . '","text":"","size":32,"lang":"' . $lang . '"}//--></div>';
+            <!--{"to":"' . $media . '","text":"","size":24,"lang":"' . $lang . '"}//--></div>';
   }
 
   $output = '<div class="social-actions-share">' . $items . '</div>';
