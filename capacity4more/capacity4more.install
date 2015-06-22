@@ -502,7 +502,7 @@ function _set_eu_cookie_compliance() {
 
   $settings = array(
     'popup_enabled'                   => TRUE,
-    'popup_clicking_confirmation'     => TRUE,
+    'popup_clicking_confirmation'     => FALSE,
     'popup_agree_button_message'      => 'OK, I agree',
     'popup_disagree_button_message'   => 'No, give me more info',
     'popup_info'                      => array(
@@ -517,8 +517,8 @@ function _set_eu_cookie_compliance() {
       'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
       'format' => 'full_html',
     ),
-    'popup_link'                      => '/',
-    'popup_link_new_window'           => TRUE,
+    'popup_link'                      => 'privacy',
+    'popup_link_new_window'           => FALSE,
     'popup_position'                  => FALSE,
     'popup_height'                    => '',
     'popup_width'                     => '100%',
