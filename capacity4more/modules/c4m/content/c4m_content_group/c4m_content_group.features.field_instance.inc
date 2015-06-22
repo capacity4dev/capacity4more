@@ -339,7 +339,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
-          'image_link' => 'content',
+          'image_link' => 'purl_og_dashboard',
           'image_style' => 'c4m_user_author_thumb_image',
         ),
         'type' => 'image',
