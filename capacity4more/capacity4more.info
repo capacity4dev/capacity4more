@@ -37,6 +37,7 @@ dependencies[] = entity
 dependencies[] = entity_token
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
+dependencies[] = eu_cookie_compliance
 dependencies[] = facetapi
 dependencies[] = features
 dependencies[] = field_group

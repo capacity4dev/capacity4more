@@ -73,6 +73,9 @@ function capacity4more_install() {
   // Quick post debug, Disabled by default.
   variable_set('c4m_quick_post_debug', 0);
 
+  // EU Cookie Compliance.
+  _set_eu_cookie_compliance();
+
   // Path aliases.
   variable_set('pathauto_update_action', '2');
 }
@@ -230,6 +233,7 @@ function _capacity4more_install_save_default_permissions($default_html_format, $
     'use search_api_autocomplete for search_api_views_c4m_overview_groups',
     'use search_api_autocomplete for search_api_views_c4m_overview_people',
     'use search_api_autocomplete for search_api_views_c4m_overview_og_members',
+    'display EU Cookie Compliance popup',
     $default_html_permission,
     $filtered_html_permission,
   );
@@ -487,6 +491,46 @@ function _capacity4more_install_set_default_date_formats() {
     'success' => TRUE,
     'query' => st('Default date formats are set.'),
   );
+}
+
+/**
+ * Set the default eu cookie compliance info.
+ */
+function _set_eu_cookie_compliance() {
+  global $language;
+  $lang = ($language->language) ? $language->language : 'en';
+
+  $settings = array(
+    'popup_enabled'                   => TRUE,
+    'popup_clicking_confirmation'     => FALSE,
+    'popup_agree_button_message'      => 'OK, I agree',
+    'popup_disagree_button_message'   => 'No, give me more info',
+    'popup_info'                      => array(
+      'value' => '<h2>We use cookies on this site to enhance your user experience</h2><p>By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'format' => 'full_html',
+    ),
+    'popup_agreed_enabled'            => TRUE,
+    'popup_hide_agreed'               => TRUE,
+    'popup_find_more_button_message'  => 'More info',
+    'popup_hide_button_message'       => 'Hide',
+    'popup_agreed'                    => array(
+      'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
+      'format' => 'full_html',
+    ),
+    'popup_link'                      => 'privacy',
+    'popup_link_new_window'           => FALSE,
+    'popup_position'                  => FALSE,
+    'popup_height'                    => '',
+    'popup_width'                     => '100%',
+    'popup_delay'                     => 1,
+    'popup_bg_hex'                    => '374E5A',
+    'popup_text_hex'                  => 'ffffff',
+    'domains_option'                  => 1,
+    'domains_list'                    => '',
+    'exclude_paths'                   => '',
+  );
+
+  variable_set('eu_cookie_compliance_' . $lang, $settings);
 }
 
 /******************************************************************************
