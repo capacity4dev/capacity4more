@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Panels plugin to add a video in an overlay.
+ */
 
 /**
  * Plugin definition.
@@ -29,7 +33,7 @@ function c4m_features_homepage_intro_video_overlay_content_type_render($subtype,
   $block = new stdClass();
   $block->module = 'c4m_restful_quick_post';
   $block->title = '';
-  $block->content = theme('c4m_features_homepage_intro_video' , $variables);
+  $block->content = theme('c4m_features_homepage_intro_video', $variables);
   return $block;
 }
 

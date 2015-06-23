@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Content filter plugin.
+ */
 
 /**
  * Plugin definition.
@@ -11,6 +15,8 @@ $plugin = array(
 
 /**
  * Render callback.
+ *
+ * @return array
  */
 function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
@@ -47,13 +53,15 @@ function c4m_features_homepage_filter_form_create() {
     '#default_value' => $default_value,
   );
 
-   $element['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
+  $element['#attached']['js'][] = drupal_get_path('module', 'c4m_features_homepage') . '/plugins/content_types/filter/filter_homepage.js';
 
   return $element;
 }
 
 /**
  * Edit form.
+ *
+ * @return array
  */
 function c4m_features_homepage_filter_content_type_edit_form($form, &$form_state) {
   return $form;
