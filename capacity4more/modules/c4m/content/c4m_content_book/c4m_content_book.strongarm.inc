@@ -84,7 +84,8 @@ function c4m_content_book_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_book';
   $strongarm->value = array(
-    0 => 'main-menu',
+    0 => 'c4m-footer',
+    1 => 'main-menu',
   );
   $export['menu_options_book'] = $strongarm;
 
