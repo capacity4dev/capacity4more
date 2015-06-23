@@ -40,7 +40,10 @@ function c4m_features_homepage_filter_form_create() {
     'showAll' => t('Show all'),
   );
 
-  $default_value = !empty($_GET['filter']) ? $_GET['filter'] : 'showAll';
+  $get_query = drupal_get_query_parameters();
+  $default_value = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : 'showAll';
 
   if (!array_key_exists($default_value, $options)) {
     $default_value = 'showAll';

@@ -951,9 +951,10 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     );
 
     $redirect_query = array();
-    if (isset($_GET['page'])) {
+    $get_query = drupal_get_query_parameters();
+    if (isset($get_query['page'])) {
       $redirect_query = array(
-        'query' => array('page' => $_GET['page']),
+        'query' => array('page' => $get_query['page']),
       );
     }
 

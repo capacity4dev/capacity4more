@@ -161,7 +161,10 @@ function c4m_features_og_events_entity_info_alter(&$entity_info) {
 function c4m_features_og_events_upcoming_events_loggedin() {
   global $user;
   // Get content filter.
-  $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+  $get_query = drupal_get_query_parameters();
+  $filter = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : '';
   $range = 3;
 
   $user_wrapper = entity_metadata_wrapper('user', $user->uid);

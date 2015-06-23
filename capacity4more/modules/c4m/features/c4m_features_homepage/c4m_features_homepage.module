@@ -33,7 +33,10 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $user_wrapper = entity_metadata_wrapper('user', $account->uid);
   $interests = $user_wrapper->c4m_vocab_topic->raw();
 
-  $filter = !empty($_GET['filter']) ? $_GET['filter'] : NULL;
+  $get_query = drupal_get_query_parameters();
+  $filter = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : NULL;
 
   if ($filter == 'groups') {
     return;

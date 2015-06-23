@@ -200,12 +200,14 @@ function c4m_message_format_date_for_message(Message $message) {
  */
 function c4m_messages_group_info(Message $message) {
   $group_info = '';
+  $get_query = drupal_get_query_parameters();
+
   // Add group info for activity stream on the homepage,
   // When the request is from RESTful, "drupal_is_front_page" won't work.
   $handler = og_purl_og_context_handler();
-  if (((drupal_is_front_page() || !empty($_GET['homepage']))
-    && empty($handler) || (isset($_GET['group'])
-      && is_array($_GET['group'])))) {
+  if (((drupal_is_front_page() || !empty($get_query['homepage']))
+    && empty($handler) || (isset($get_query['group'])
+      && is_array($get_query['group'])))) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
       $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
       $link = l($wrapper->label(), $wrapper->value()->purl);
@@ -542,10 +544,11 @@ function c4m_message_format_comment(Message $message) {
  *   The formated string.
  */
 function c4m_message_format_rendered_node(Message $message) {
+  $get_query = drupal_get_query_parameters();
   $wrapper = entity_metadata_wrapper('message', $message);
 
   $handler = og_purl_og_context_handler();
-  if ((empty($_GET['homepage'])) && !empty($handler)) {
+  if ((empty($get_query['homepage'])) && !empty($handler)) {
     $view = node_view($wrapper->field_node->value(), 'activity_group');
   }
   else {
@@ -861,12 +864,17 @@ function c4m_message_preprocess_node__event(&$variables) {
  */
 function c4m_message_load_homepage_activity_stream() {
   global $user;
+  $get_query = drupal_get_query_parameters();
 
   // Get filter value.
-  $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+  $filter = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : '';
   $groups = array();
   $interests = array();
-  $hide_articles = $filter == 'groups' ? 1 : 0;
+  $hide_articles = $filter == 'groups'
+    ? 1
+    : 0;
 
   if ($user->uid) {
     // This is an Authenticated user.
