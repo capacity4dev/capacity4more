@@ -32,11 +32,11 @@ function c4m_features_overview_feeds_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
+        'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
           'module' => 'facetapi',
-          'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
+          'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
           'region' => 'sidebar_first',
-          'weight' => '-9',
+          'weight' => '-8',
         ),
       ),
     ),
