@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * capacity4more profile.
+ * The capacity4more profile.
  */
 
 /**

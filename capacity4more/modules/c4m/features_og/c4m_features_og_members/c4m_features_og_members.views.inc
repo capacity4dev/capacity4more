@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements hook_views_plugins
+ * Implements hook_views_plugins().
  */
 function c4m_features_og_members_views_plugins() {
   $plugins = array(

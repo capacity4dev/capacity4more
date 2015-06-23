@@ -103,7 +103,7 @@ function c4m_features_homepage_video_embed_content_type_edit_form($form, &$form_
 }
 
 /**
-* Edit form submit callback.
+ * Edit form submit callback.
  */
 function c4m_features_homepage_video_embed_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['title'] = $form_state['values']['title'];

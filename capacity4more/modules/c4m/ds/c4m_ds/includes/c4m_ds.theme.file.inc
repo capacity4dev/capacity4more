@@ -5,8 +5,9 @@
  */
 
 /**
- * Copy of theme_file_entity_download_link() for linking to the file download
- * URL, but customized for C4M.
+ * Copy of theme_file_entity_download_link().
+ *
+ * Linking to the file download URL, but customized for C4M.
  *
  * @see theme_file_entity_download_link()
  */
@@ -77,11 +78,13 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
  *
  * Render preview of document
  *
- * @param $field
+ * @param array $field
+ *   The field definition.
  *
  * @return string
+ *   The rendered version.
  */
-function theme_c4m_ds_document_preview($field) {
+function theme_c4m_ds_document_preview(array $field) {
   $output = '';
 
   if (isset($field['entity'])) {

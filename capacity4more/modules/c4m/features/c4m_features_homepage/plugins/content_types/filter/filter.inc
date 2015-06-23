@@ -16,7 +16,8 @@ $plugin = array(
 /**
  * Render callback.
  *
- * @return array
+ * @return object
+ *   The block definition.
  */
 function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
@@ -32,6 +33,7 @@ function c4m_features_homepage_filter_content_type_render($subtype, $conf, $args
  * Create form element for homepage filter.
  *
  * @return mixed
+ *   The element array.
  */
 function c4m_features_homepage_filter_form_create() {
   $options = c4m_og_get_user_group_nodes_by_bundle('group') ? array('groups' => t('My groups')) : array();
@@ -65,6 +67,7 @@ function c4m_features_homepage_filter_form_create() {
  * Edit form.
  *
  * @return array
+ *   The form array.
  */
 function c4m_features_homepage_filter_content_type_edit_form($form, &$form_state) {
   return $form;

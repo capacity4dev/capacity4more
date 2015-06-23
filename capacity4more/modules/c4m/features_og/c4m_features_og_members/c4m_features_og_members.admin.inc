@@ -1,16 +1,23 @@
 <?php
 /**
- * @file Administrator forms/functionality for OG members.
+ * @file
+ * Administrator forms/functionality for OG members.
  */
 
 /**
  * Form callback to promote a user.
  *
- * @param $form
- * @param $form_state
- * @param $account
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The confirmation form.
  */
-function c4m_features_og_members_promote($form, &$form_state, $account) {
+function c4m_features_og_members_promote(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -28,6 +35,7 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
       case OG_STATE_PENDING:
         $error = t('User is not approved as group member yet.');
         break;
+
       case OG_STATE_BLOCKED:
         $error = t('User is rejected from this group.');
         break;
@@ -47,9 +55,11 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
     $warning = t('User already has administrator role for this group.');
   }
 
+  $return_link_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_link_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -88,10 +98,12 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
 /**
  * Submit handler; Edit membership in group.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_promote_submit($form, &$form_state) {
+function c4m_features_og_members_promote_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -119,11 +131,17 @@ function c4m_features_og_members_promote_submit($form, &$form_state) {
 /**
  * Form callback to demote a user.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
- * @param $account
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The confirmation form.
  */
-function c4m_features_og_members_demote($form, &$form_state, $account) {
+function c4m_features_og_members_demote(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -190,10 +208,12 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
 /**
  * Submit handler; Edit membership in group.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_demote_submit($form, &$form_state) {
+function c4m_features_og_members_demote_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -221,11 +241,17 @@ function c4m_features_og_members_demote_submit($form, &$form_state) {
 /**
  * Form callback to remove a user.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
- * @param $account
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The confirmation form.
  */
-function c4m_features_og_members_remove($form, &$form_state, $account) {
+function c4m_features_og_members_remove(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -280,8 +306,10 @@ function c4m_features_og_members_remove($form, &$form_state, $account) {
 /**
  * Submit handler; Remove membership in group.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
+ *   The form state array.
  */
 function c4m_features_og_members_remove_submit($form, &$form_state) {
   $og_membership = $form_state['og_membership'];
@@ -300,11 +328,17 @@ function c4m_features_og_members_remove_submit($form, &$form_state) {
 /**
  * Form callback to approve a user.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
- * @param $account
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   Approve form.
  */
-function c4m_features_og_members_approve($form, &$form_state, $account) {
+function c4m_features_og_members_approve(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -365,10 +399,12 @@ function c4m_features_og_members_approve($form, &$form_state, $account) {
 /**
  * Submit handler; Remove membership in group.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_approve_submit($form, &$form_state) {
+function c4m_features_og_members_approve_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -386,11 +422,17 @@ function c4m_features_og_members_approve_submit($form, &$form_state) {
 /**
  * Form callback to approve a user.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
- * @param $account
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The form.
  */
-function c4m_features_og_members_reject($form, &$form_state, $account) {
+function c4m_features_og_members_reject(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -451,10 +493,12 @@ function c4m_features_og_members_reject($form, &$form_state, $account) {
 /**
  * Submit handler; Remove membership in group.
  *
- * @param $form
+ * @param array $form
+ *   The form array.
  * @param $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_reject_submit($form, &$form_state) {
+function c4m_features_og_members_reject_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 

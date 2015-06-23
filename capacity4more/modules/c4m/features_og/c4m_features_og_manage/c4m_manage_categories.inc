@@ -187,7 +187,9 @@ function c4m_features_og_manage_categories_type_delete_confirm_form_submit($form
 }
 
 /**
- * Form builder to confirm resetting a terms (2nd level) under a specific category type to alphabetical order.
+ * Form builder to confirm resetting a terms (2nd level).
+ *
+ * Under a specific category type to alphabetical order.
  *
  * @ingroup forms
  */
@@ -213,7 +215,9 @@ function c4m_features_og_manage_categories_term_order_confirm_form($form, &$form
 }
 
 /**
- * Submit handler to reset a specific category's children to alphabetical order after confirmation.
+ * Submit handler to reset a specific category's children to alphabetical order.
+ *
+ * Change after confirmation.
  *
  * @see c4m_features_og_manage_categories_term_order_confirm_form()
  */
@@ -241,7 +245,9 @@ EOT;
 }
 
 /**
- * Form builder to confirm resetting category types (1st level) to alphabetical order.
+ * Form builder to confirm resetting category types to alphabetical order.
+ *
+ * 1st level only.
  *
  * @ingroup forms
  */
@@ -261,7 +267,9 @@ function c4m_features_og_manage_categories_type_order_confirm_form($form, &$form
 }
 
 /**
- * Submit handler to reset the vocabulary's category types to alphabetical order after confirmation.
+ * Submit handler to reset the vocabulary's category types.
+ *
+ * Changes the sort to alphabetical order after confirmation.
  *
  * @see c4m_features_og_manage_categories_type_order_confirm_form()
  */
@@ -388,7 +396,8 @@ function c4m_features_og_manage_categories_type_add_form_submit($form, &$form_st
  * Form builder function for the category type edit form.
  *
  * To avoid duplicated code, using the term edit form to build this form,
- * as it's almost the same form, Just unset the parent fields and change the title and description.
+ * as it's almost the same form, Just unset the parent fields and change the
+ * title and description.
  *
  * @ingroup forms
  *
@@ -719,7 +728,7 @@ function theme_c4m_features_og_manage_categories_overview_form(array $variables)
         'header' => $header,
         'rows' => $rows[$parent_id],
         'attributes' => array('id' => 'taxonomy-' . $parent_id),
-        )
+      )
     );
 
     $output .= $form['#page_type'] == 'terms' ? drupal_render_children($form[$parent_key]['add_term_form']) : drupal_render_children($form['add_term_form']);
@@ -805,7 +814,7 @@ function c4m_feature_og_manage_get_category_management_form_info($form) {
  * Helper callback; Builds the actual form for category types/ terms overview.
  *
  * @return array
- *  The overview form.
+ *   The overview form.
  */
 function c4m_features_og_manage_build_category_management_form($form, $tree, $items_type) {
   $form['#page_type'] = $items_type;
@@ -820,7 +829,8 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     }
     $delta++;
 
-    // Finally, if we've gotten down this far, we're rendering a term on this page.
+    // Finally, if we've gotten down this far,
+    // we're rendering a term on this page.
     $term_deltas[$term->tid] = isset($term_deltas[$term->tid]) ? $term_deltas[$term->tid] + 1 : 0;
     $key = 'tid:' . $term->tid . ':' . $term_deltas[$term->tid];
 
