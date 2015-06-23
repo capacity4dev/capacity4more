@@ -8,16 +8,22 @@ include_once 'c4m_field_media.features.inc';
 
 /**
  * Implements hook_field_formatter_info_alter().
+ *
+ * We override the default image field formatter handling.
+ * This way we can implement our onw field formatter settings form,
+ * summary, view rendering,...
  */
 function c4m_field_media_field_formatter_info_alter(&$info) {
-  // Override the default image field handling.
-  // So we can implement our own field formatter settings form,
-  // field formatter rendering,...
+  // Change the module name for all image fields,
+  // so we can implement our own field formatting handlers.
   $info['image']['module'] = 'c4m_field_media';
 }
 
 /**
  * Implements hook_field_formatter_settings_form().
+ *
+ * Extends the default image field formatter settings form.
+ * Add extra options (PURL) to the image link options.
  */
 function c4m_field_media_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   // Get the default settings form from the core image module.
@@ -34,6 +40,10 @@ function c4m_field_media_field_formatter_settings_form($field, $instance, $view_
 
 /**
  * Implements hook_field_formatter_settings_summary().
+ *
+ * Custom field formatter settings summary for image fields.
+ * We start from the default image settings summary and
+ * additionally extend it.
  */
 function c4m_field_media_field_formatter_settings_summary($field, $instance, $view_mode) {
   $summary = image_field_formatter_settings_summary($field, $instance, $view_mode);
@@ -42,9 +52,13 @@ function c4m_field_media_field_formatter_settings_summary($field, $instance, $vi
 
 /**
  * Implements hook_field_formatter_view().
+ *
+ * Custom field formatter view handler for image fields.
+ * Copy of the core image field_formatter_view function.
+ * Extend it to support custom added (form) settings:
+ * - Image link PURL options.
  */
 function c4m_field_media_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  // Override the default image field formatter view.
   $element = array();
   $c4m_og_purl_options = array(
     C4M_OG_PURL_LINK_AUTO,
