@@ -1,5 +1,10 @@
 <?php
 /**
+ * @file
+ * Views plugins.
+ */
+
+/**
  * Implements hook_views_plugins
  */
 function c4m_features_og_members_views_plugins() {
@@ -12,7 +17,8 @@ function c4m_features_og_members_views_plugins() {
         'path' => drupal_get_path('module', 'c4m_features_og_members') . '/includes',
         'theme path' => drupal_get_path('module', 'views') . '/theme',
         'theme file' => 'theme.inc',
-        'parent' => 'fixed', // so that the parent class is included
+        // So that the parent class is included.
+        'parent' => 'fixed',
       ),
     ),
   );

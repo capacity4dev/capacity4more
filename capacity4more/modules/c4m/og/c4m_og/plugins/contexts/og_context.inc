@@ -1,14 +1,16 @@
 <?php
 /**
  * @file
+ * Plugin to provide a group context.
  *
- * Plugin to provide a group context. A group context is a group node wrapped
- * in a context object that can be utilized by anything that accepts contexts.
+ * A group context is a group node wrapped in a context object that can be
+ * utilized by anything that accepts contexts.
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugins are described by creating a $plugin array.
+ *
+ * Which will be used by the system that includes this file.
  */
 $plugin = array(
   'title' => t("Current OG Group from context"),
@@ -21,10 +23,22 @@ $plugin = array(
 );
 
 /**
- * It's important to remember that $conf is optional here, because contexts
- * are not always created from the UI.
+ * It's important to remember that $conf is optional here.
+ *
+ * Because contexts are not always created from the UI.
+ *
+ * @param bool $empty
+ *   Is the context available.
+ * @param mixed $data
+ *   The data array.
+ * @param mixed $conf
+ *   The configuration.
+ * @param mixed $plugin
+ *   The plugin information.
+ *
+ * @return mixed
  */
-function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $plugin) {
+function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $plugin = NULL) {
   $context = new ctools_context('og_context');
   $context->plugin = 'og_context';
 
@@ -136,7 +150,11 @@ function c4m_og_context_node_convert($context, $type) {
     return;
   }
 
-  $values = token_generate('node', array($type => $type), array('node' => $context->data));
+  $values = token_generate(
+    'node',
+    array($type => $type),
+    array('node' => $context->data)
+  );
   if (!isset($values[$type])) {
     return;
   }

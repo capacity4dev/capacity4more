@@ -1,13 +1,15 @@
 <?php
 /**
  * @file
- * Plugin to provide access control/visibility based on the fact if there is an
- * active OG context.
+ * Plugin to provide access control/visibility.
+ *
+ * Based on the fact if there is an active OG context.
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugins are described by creating a $plugin array.
+ *
+ * Which will be used by the system that includes this file.
  */
 $plugin = array(
   'title' => t('OG has group context'),
@@ -19,7 +21,7 @@ $plugin = array(
 );
 
 /**
- * Settings form for the 'OG has group context' access plugin
+ * Settings form for the 'OG has group context' access plugin.
  */
 function c4m_og_og_context_ctools_access_settings($form, &$form_state, $conf) {
   $default = (empty($conf['og_context_access_groups']))
