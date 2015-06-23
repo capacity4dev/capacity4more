@@ -958,7 +958,7 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     }
 
     $form_state['redirect'] = array(
-      $_GET['q'],
+      current_path(),
       $redirect_query,
     );
   }
