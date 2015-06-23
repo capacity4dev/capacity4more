@@ -11,7 +11,7 @@
  *   Configuration as collected through the implemented
  *   hook_c4m_content_actions_info hooks.
  */
-function c4m_content_actions_info() {
+function c4m_content_actions_info($context) {
   $cache_key = 'c4m_content_actions:info';
   $data = &drupal_static($cache_key);
 
@@ -31,6 +31,13 @@ function c4m_content_actions_info() {
     }
   }
 
+  // Filter out the actions that doesn't contain the context.
+  foreach ($data as $identifier => $action) {
+    if (!in_array($context, $action['context'])) {
+      unset($data[$identifier]);
+    }
+  }
+
   return (isset($data))
     ? $data
     : array();
@@ -44,7 +51,8 @@ function c4m_content_actions_info() {
  */
 function c4m_content_action_get_actions() {
   $output = '';
-  $actions = c4m_content_actions_info();
+  $context = c4m_content_current_context();
+  $actions = c4m_content_actions_info($context);
   $node = menu_get_object();
 
   foreach ($actions as $key => $action) {

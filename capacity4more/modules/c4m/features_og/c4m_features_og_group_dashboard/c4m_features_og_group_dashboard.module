@@ -98,6 +98,7 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
 function c4m_features_og_group_dashboard_c4m_content_actions_info() {
   return array(
     'action_promote' => array(
+      'context'   => array('group'),
       'callback'  => 'c4m_features_og_group_dashboard_action_promote',
       'weight'    => '2',
     ),

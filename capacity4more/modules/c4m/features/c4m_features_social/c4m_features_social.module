@@ -10,6 +10,7 @@
 function c4m_features_social_c4m_content_actions_info() {
   return array(
     'social_share' => array(
+      'context'   => array('global', 'group'),
       'callback'  => 'c4m_features_social_actions_share',
       'weight'    => '10',
     ),
