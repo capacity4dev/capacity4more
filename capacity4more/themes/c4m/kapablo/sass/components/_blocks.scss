@@ -125,6 +125,10 @@
     min-height: 35px;
   }
 
+  .c4m-social-media {
+    float: right;
+  }
+
   .c4m-footer-navigation {
     @include clearfix;
     .c4m-footer-nav-link {
