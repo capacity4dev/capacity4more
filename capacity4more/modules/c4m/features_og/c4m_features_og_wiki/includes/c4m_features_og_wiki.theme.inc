@@ -8,7 +8,7 @@
  * Theme function for wiki page.
  *
  * @param array $variables
- *   Theme variables
+ *   Theme variables.
  *
  * @return mixed
  *   The rendered output.
