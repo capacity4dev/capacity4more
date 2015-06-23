@@ -21,12 +21,12 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '3',
+    'weight' => '2',
     'children' => array(
-      0 => 'c4m_vocab_topic',
-      1 => 'c4m_vocab_date',
-      2 => 'c4m_vocab_geo',
-      3 => 'c4m_vocab_language',
+      0 => 'c4m_vocab_date',
+      1 => 'c4m_vocab_geo',
+      2 => 'c4m_vocab_language',
+      3 => 'c4m_vocab_topic',
       4 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
