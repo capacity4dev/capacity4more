@@ -1,0 +1,90 @@
+<?php
+/**
+ * @file
+ * Code for the content action module.
+ */
+
+/**
+ * Load all content actions info from implemented hook_c4m_content_actions_info.
+ *
+ * @return array
+ *   Configuration as collected through the implemented
+ *   hook_c4m_content_actions_info hooks.
+ */
+function c4m_content_actions_info($context) {
+  $cache_key = 'c4m_content_actions:info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $data = module_invoke_all('c4m_content_actions_info');
+
+      // Sort the contexts.
+      uasort($data, 'drupal_sort_weight');
+
+      // Save in cache.
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Filter out the actions that doesn't contain the context.
+  foreach ($data as $identifier => $action) {
+    if (!in_array($context, $action['context'])) {
+      unset($data[$identifier]);
+    }
+  }
+
+  return (isset($data))
+    ? $data
+    : array();
+}
+
+/**
+ * Get and render the content actions.
+ *
+ * Get the actions implemented by hook_c4m_content_actions_info.
+ * Render by calling the callback of each one.
+ */
+function c4m_content_action_get_actions() {
+  $output = '';
+  $context = c4m_content_current_context();
+  $actions = c4m_content_actions_info($context);
+  $node = menu_get_object();
+
+  foreach ($actions as $key => $action) {
+    if (!isset($action['callback']) || !function_exists($action['callback'])) {
+      continue;
+    }
+
+    $callback = $action['callback'];
+    $output .= $callback($node);
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_actions_ds_fields_info($entity_type) {
+  $fields = array();
+  $path = drupal_get_path('module', 'c4m_content_actions');
+
+  $fields['node']['c4m_ds_content_actions'] = array(
+    'title'       => t('Content Actions'),
+    'field_type'  => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'    => array('*|*'),
+    'file'        => $path . '/includes/c4m_content_actions.theme.inc',
+    'function'    => '_c4m_content_actions_ds_field',
+    'properties'  => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+  return $fields;
+}

@@ -126,8 +126,8 @@ function c4m_content_event_strongarm() {
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '9',
-            'visible' => TRUE,
+            'weight' => '25',
+            'visible' => FALSE,
           ),
           'teaser' => array(
             'weight' => '8',

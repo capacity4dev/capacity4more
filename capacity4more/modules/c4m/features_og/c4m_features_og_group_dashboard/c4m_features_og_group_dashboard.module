@@ -91,7 +91,35 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_features_og_group_dashboard_c4m_content_actions_info() {
+  return array(
+    'action_promote' => array(
+      'context'   => array('group'),
+      'callback'  => 'c4m_features_og_group_dashboard_action_promote',
+      'weight'    => '2',
+    ),
+  );
+}
+
+/**
+ * Callback to show the promote link.
+ *
+ * @param object $node
+ *    The node object.
+ *
+ * @return string
+ *    Rendered output of the promote link.
+ */
+function c4m_features_og_group_dashboard_action_promote($node) {
+  $flag_link = flag_create_link('c4m_og_content_highlight', $node->nid);
+  $output = '<div class="group-actions-promote">' . $flag_link . '</div>';
+  return $output;
+}
+
+/**
+ * Implements hook_form_alter()
  */
 function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id === 'flag_confirm') {
