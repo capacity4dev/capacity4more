@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the content module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_features_social_install() {
+  // Set default social share settings.
+  c4m_features_social_share_settings();
+}
+
+/**
+ * Sets some default social share settings.
+ *
+ * Settings are stored in variables table,
+ * so they can be altered easily.
+ */
+function c4m_features_social_share_settings() {
+  $settings = array(
+    'facebook'  => array(
+      'enabled' => TRUE,
+    ),
+    'googleplus'  => array(
+      'enabled' => TRUE,
+    ),
+    'twitter'  => array(
+      'enabled' => TRUE,
+    ),
+    'linkedin'  => array(
+      'enabled' => TRUE,
+    ),
+    'yammer'  => array(
+      'enabled' => FALSE,
+    ),
+    'email_link'  => array(
+      'enabled' => TRUE,
+    ),
+  );
+
+  variable_set('c4m_social_share', $settings);
+}

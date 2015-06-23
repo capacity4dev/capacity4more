@@ -111,8 +111,8 @@ function c4m_content_discussion_strongarm() {
       'display' => array(
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '8',
-            'visible' => TRUE,
+            'weight' => '19',
+            'visible' => FALSE,
           ),
           'teaser' => array(
             'weight' => '6',

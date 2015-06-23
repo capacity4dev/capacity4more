@@ -18,21 +18,6 @@
   }
 }
 
-.group-options {
-  a.flag {
-    padding: 10px 10px 10px 30px;
-    background-size: 24px;
-    background-repeat: no-repeat;
-    background-position: 0 50%;
-  }
-
-  .flag-outer-c4m-og-content-highlight {
-    a.flag {
-      @include image-icon-png-fallback('icons', 'pin');
-    }
-  }
-}
-
 .pane-c4m-content-global-statistics-summary {
   .statistics-list {
     @include clearfix;

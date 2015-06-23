@@ -128,6 +128,10 @@ dependencies[] = c4m_content_organisation
 
 dependencies[] = c4m_field_related_og
 
+; Content Actions
+dependencies[] = c4m_content_actions
+dependencies[] = c4m_features_social
+
 ; Overview content
 dependencies[] = c4m_features_inthe_picture
 dependencies[] = c4m_features_overview_articles
