@@ -517,10 +517,10 @@ function c4m_features_og_members_facet_items_alter(&$build, &$settings) {
  *
  * @param array $build
  *   The build facets.
- * @param array $settings
+ * @param object $settings
  *   The facet settings.
  */
-function _c4m_features_og_members_facet_membership_type_alter(array &$build, array &$settings) {
+function _c4m_features_og_members_facet_membership_type_alter(array &$build, &$settings) {
   $group = c4m_og_current_group();
 
   if (empty($group)) {
