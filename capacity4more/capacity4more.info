@@ -96,6 +96,7 @@ dependencies[] = c4m_vocab_theme
 
 ; Users
 dependencies[] = c4m_user
+dependencies[] = c4m_user_admin
 dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_profile
 
@@ -176,5 +177,9 @@ dependencies[] = c4m_og_purl
 ; Email Domains
 dependencies[] = c4m_domain
 
+; Footer
+dependencies[] = c4m_features_footer
+
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor
+
