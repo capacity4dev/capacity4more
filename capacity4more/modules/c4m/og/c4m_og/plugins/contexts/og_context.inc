@@ -37,6 +37,7 @@ $plugin = array(
  *   The plugin information.
  *
  * @return mixed
+ *   The found context or NULL when none found.
  */
 function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $plugin = NULL) {
   $context = new ctools_context('og_context');
@@ -63,7 +64,7 @@ function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $
     && !empty($data['og_context_group_types'])
     && !in_array($group->type, $data['og_context_group_types'])
   ) {
-      return;
+    return;
   }
 
   $context->data = $group;
@@ -76,16 +77,17 @@ function c4m_og_context_create_og_context($empty, $data = NULL, $conf = FALSE, $
 /**
  * Settings form for the og_context.
  *
- * @param $form
+ * @param array $form
  *   The form as already created by ctools.
- * @param $form_state
+ * @param array $form_state
  *   The form state as already created by ctools.
  *
- * @return mixed
+ * @return array
+ *   The settings form array.
  *
  * @see c4m_og_context_settings_form_submit()
  */
-function c4m_og_context_settings_form($form, &$form_state) {
+function c4m_og_context_settings_form(array $form, array &$form_state) {
   $conf = $form_state['conf'];
   $default = empty($conf['og_context_group_types'])
     ? array()
@@ -114,11 +116,11 @@ function c4m_og_context_settings_form($form, &$form_state) {
  * Submit handler for c4m_og_context_settings_form().
  *
  * @param array $form
- *  The form array.
+ *   The form array.
  * @param array $form_state
  *   The form state.
  */
-function c4m_og_context_settings_form_submit($form, &$form_state) {
+function c4m_og_context_settings_form_submit(array $form, array &$form_state) {
   $group_types = array();
   if (!empty($form_state['values']['og_context_setting'])) {
     $group_types = array_filter($form_state['values']['og_context_setting']);
@@ -129,6 +131,9 @@ function c4m_og_context_settings_form_submit($form, &$form_state) {
 
 /**
  * Provide a list of ways that this context can be converted to a string.
+ *
+ * @return array
+ *   Array of tokens.
  */
 function c4m_og_context_node_convert_list() {
   $tokens = token_info();
@@ -143,6 +148,14 @@ function c4m_og_context_node_convert_list() {
 
 /**
  * Convert a context into a string.
+ *
+ * @param object $context
+ *   The context to alter.
+ * @param string $type
+ *   The node type.
+ *
+ * @return string
+ *   The converted context.
  */
 function c4m_og_context_node_convert($context, $type) {
   $tokens = token_info();

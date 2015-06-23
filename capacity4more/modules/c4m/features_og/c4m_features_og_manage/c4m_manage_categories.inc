@@ -1069,11 +1069,12 @@ function c4m_features_og_manage_categories_edit_form_build($form, &$form_state, 
     '#weight' => 5,
   );
 
+  $vocab_name = isset($term->vocabulary_machine_name)
+    ? $term->vocabulary_machine_name
+    : $vocabulary->name;
   $form['vocabulary_machine_name'] = array(
     '#type' => 'value',
-    '#value' => isset($term->vocabulary_machine_name)
-      ? $term->vocabulary_machine_name
-      : $vocabulary->name,
+    '#value' => $vocab_name,
   );
 
   $form['vid'] = array(
