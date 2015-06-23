@@ -177,5 +177,9 @@ dependencies[] = c4m_og_purl
 ; Email Domains
 dependencies[] = c4m_domain
 
+; Footer
+dependencies[] = c4m_features_footer
+
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor
+
