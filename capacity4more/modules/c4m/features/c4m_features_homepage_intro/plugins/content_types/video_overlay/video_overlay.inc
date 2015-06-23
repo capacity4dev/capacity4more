@@ -60,7 +60,7 @@ function c4m_features_homepage_intro_video_overlay_content_type_edit_form($form,
 }
 
 /**
-* Edit form submit callback.
+ * Edit form submit callback.
  */
 function c4m_features_homepage_intro_video_overlay_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['title'] = $form_state['values']['title'];

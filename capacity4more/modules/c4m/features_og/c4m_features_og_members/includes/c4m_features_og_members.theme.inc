@@ -45,10 +45,12 @@ function theme_c4m_features_og_members_admin_actions(array $field) {
     return $membership_level;
   }
 
-  return theme('c4m_administer_member_links', array(
+  return theme(
+    'c4m_administer_member_links',
+    array(
       'membership_level' => $membership_level,
       'links' => $links,
-      'user_id' => $user->uid
+      'user_id' => $user->uid,
     )
   );
 }

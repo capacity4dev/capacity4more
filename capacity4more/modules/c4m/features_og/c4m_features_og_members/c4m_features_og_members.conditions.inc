@@ -7,10 +7,13 @@
 /**
  * Condition callback. Is user active member of the group?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is active member.
  */
 function _c4m_features_og_members_condition_user_active_member($account, $group) {
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
@@ -26,10 +29,13 @@ function _c4m_features_og_members_condition_user_active_member($account, $group)
 /**
  * Condition callback. Is user blocked from the group?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is blocked member.
  */
 function _c4m_features_og_members_condition_user_blocked_member($account, $group) {
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
@@ -45,10 +51,13 @@ function _c4m_features_og_members_condition_user_blocked_member($account, $group
 /**
  * Condition callback. Is user pending member of the group?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is pending member.
  */
 function _c4m_features_og_members_condition_user_pending_member($account, $group) {
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
@@ -64,10 +73,13 @@ function _c4m_features_og_members_condition_user_pending_member($account, $group
 /**
  * Condition callback. Is user NOT an admin already?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is not group admin.
  */
 function _c4m_features_og_members_condition_user_not_admin($account, $group) {
   return !_c4m_features_og_members_condition_user_admin($account, $group);
@@ -76,10 +88,13 @@ function _c4m_features_og_members_condition_user_not_admin($account, $group) {
 /**
  * Condition callback. Is user administrative member of the group?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is group admin.
  */
 function _c4m_features_og_members_condition_user_admin($account, $group) {
   $admin_role = _c4m_features_og_members_get_admin_role($group);
@@ -100,10 +115,13 @@ function _c4m_features_og_members_condition_user_admin($account, $group) {
 /**
  * Condition callback. Is user the owner of the group?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is owner of the group.
  */
 function _c4m_features_og_members_condition_user_owner($account, $group) {
   return $account->uid == $group->uid;
@@ -112,10 +130,13 @@ function _c4m_features_og_members_condition_user_owner($account, $group) {
 /**
  * Condition callback. Is user NOT the owner of the group?
  *
- * @param $account
- * @param $group
+ * @param object $account
+ *   The user account.
+ * @param object $group
+ *   The group.
  *
  * @return bool
+ *   Is not the group owner.
  */
 function _c4m_features_og_members_condition_user_not_owner($account, $group) {
   return !_c4m_features_og_members_condition_user_owner($account, $group);

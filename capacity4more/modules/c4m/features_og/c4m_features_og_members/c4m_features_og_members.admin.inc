@@ -100,7 +100,7 @@ function c4m_features_og_members_promote(array $form, array &$form_state, $accou
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  */
 function c4m_features_og_members_promote_submit(array $form, array &$form_state) {
@@ -133,7 +133,7 @@ function c4m_features_og_members_promote_submit(array $form, array &$form_state)
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  * @param object $account
  *   The user account.
@@ -167,9 +167,11 @@ function c4m_features_og_members_demote(array $form, array &$form_state, $accoun
     $warning = t('Can not take away administrator role from the group manager.');
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -210,7 +212,7 @@ function c4m_features_og_members_demote(array $form, array &$form_state, $accoun
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  */
 function c4m_features_og_members_demote_submit(array $form, array &$form_state) {
@@ -243,7 +245,7 @@ function c4m_features_og_members_demote_submit(array $form, array &$form_state) 
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  * @param object $account
  *   The user account.
@@ -265,9 +267,11 @@ function c4m_features_og_members_remove(array $form, array &$form_state, $accoun
     $warning = t('Can not remove the group manager.');
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -308,10 +312,10 @@ function c4m_features_og_members_remove(array $form, array &$form_state, $accoun
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  */
-function c4m_features_og_members_remove_submit($form, &$form_state) {
+function c4m_features_og_members_remove_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -330,7 +334,7 @@ function c4m_features_og_members_remove_submit($form, &$form_state) {
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  * @param object $account
  *   The user account.
@@ -358,9 +362,10 @@ function c4m_features_og_members_approve(array $form, array &$form_state, $accou
     }
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text, 'members',
       array('html' => TRUE)
     ),
   );
@@ -401,7 +406,7 @@ function c4m_features_og_members_approve(array $form, array &$form_state, $accou
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  */
 function c4m_features_og_members_approve_submit(array $form, array &$form_state) {
@@ -424,7 +429,7 @@ function c4m_features_og_members_approve_submit(array $form, array &$form_state)
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  * @param object $account
  *   The user account.
@@ -446,15 +451,18 @@ function c4m_features_og_members_reject(array $form, array &$form_state, $accoun
       case OG_STATE_ACTIVE:
         $error = t('User is already approved as a group member yet.');
         break;
+
       case OG_STATE_BLOCKED:
         $error = t('User is rejected from this group.');
         break;
     }
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -495,7 +503,7 @@ function c4m_features_og_members_reject(array $form, array &$form_state, $accoun
  *
  * @param array $form
  *   The form array.
- * @param $form_state
+ * @param array $form_state
  *   The form state array.
  */
 function c4m_features_og_members_reject_submit(array $form, array &$form_state) {
@@ -516,15 +524,21 @@ function c4m_features_og_members_reject_submit(array $form, array &$form_state) 
 /**
  * Create an alert form item.
  *
- * @param        $message
+ * @param array $form
+ *   The form array.
+ * @param string $message
+ *   The message string.
  * @param string $severity
+ *   The message severity level.
+ * @param string $class
+ *   The css class name.
  */
-function _c4m_features_og_members_create_form_alert(&$form, $message, $severity = 'warning', $class = 'warning') {
+function _c4m_features_og_members_create_form_alert(array &$form, $message, $severity = 'warning', $class = 'warning') {
   $form[$severity . '_message'] = array(
     '#markup' => $message,
     '#prefix' => '<div class="alert alert-' . $class . '" role="alert">
   <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
   <span class="sr-only">' . ucfirst($severity) . ':</span>',
-    '#suffix' => '</div>'
+    '#suffix' => '</div>',
   );
 }

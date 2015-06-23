@@ -154,7 +154,7 @@ function c4m_og_context_node_convert_list() {
  * @param string $type
  *   The node type.
  *
- * @return string
+ * @return mixed
  *   The converted context.
  */
 function c4m_og_context_node_convert($context, $type) {

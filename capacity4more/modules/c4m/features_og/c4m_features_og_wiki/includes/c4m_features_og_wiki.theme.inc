@@ -13,7 +13,7 @@
  * @return mixed
  *   The rendered output.
  */
-function theme_c4m_features_og_wiki_wiki($variables) {
+function theme_c4m_features_og_wiki_wiki(array $variables) {
   global $user;
   $output = '';
   if (empty($variables['content'])) {

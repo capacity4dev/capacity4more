@@ -247,7 +247,7 @@ EOT;
 /**
  * Form builder to confirm resetting category types to alphabetical order.
  *
- * 1st level only.
+ * This is only for the first (1) level.
  *
  * @ingroup forms
  */

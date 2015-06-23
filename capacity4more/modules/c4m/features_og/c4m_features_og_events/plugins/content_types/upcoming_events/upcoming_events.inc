@@ -1,6 +1,6 @@
 <?php
 /**
- * @param
+ * @file
  * Upcoming events panels plugin.
  */
 
