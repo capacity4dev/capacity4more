@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Prints out the video overlay.
+ */
+
+?>
+
 <div class="button-wrapper">
   <?php print render($image); ?>
   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#c4mVideoModal">

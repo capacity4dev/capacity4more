@@ -90,7 +90,7 @@ function _c4m_features_og_members_condition_user_admin($account, $group) {
 
   $user_roles = og_get_user_roles('node', $group->nid, $account->uid);
 
-  if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+  if (array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
     return TRUE;
   }
 

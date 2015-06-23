@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Support to move a block table.
+ */
+
 (function ($) {
 
   /**
@@ -8,14 +13,18 @@
    */
   Drupal.behaviors.termDrag = {
     attach: function (context, settings) {
-      for(id in settings.tableDrag) {
-        // Remove term-weight, term-parent, term-depth object element in order not to get relationship error.
+      for (id in settings.tableDrag) {
+        // Remove term-weight, term-parent, term-depth object element in order
+        // not to get relationship error.
         delete settings.tableDrag[id]['term-weight'];
         delete settings.tableDrag[id]['term-parent'];
         delete settings.tableDrag[id]['term-depth'];
         var table = $('#' + id, context);
-        var tableDrag = Drupal.tableDrag[id]; // Get the blocks tableDrag object.
+
+        // Get the blocks tableDrag object.
+        var tableDrag = Drupal.tableDrag[id];
         var rows = $('tr', table).length;
+
         // Disable indent option for drag'n'drop objects.
         tableDrag.indentEnabled = false;
         tableDrag.hideColumns();

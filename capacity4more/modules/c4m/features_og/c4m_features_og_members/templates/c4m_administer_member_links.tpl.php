@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Template to print the membership administration links.
+ */
+
+?>
+
 <div class="dropdown">
   <button class="btn btn-default dropdown-toggle" type="button"
           id="adminster-user-<?php print $user_id; ?>" data-toggle="dropdown"

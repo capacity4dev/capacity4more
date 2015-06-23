@@ -36,14 +36,14 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $admin_role = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
   if (!$admin_role) {
     $error = t('Could not find administrator role to give.');
   }
 
   $user_roles = og_get_user_roles('node', $group->nid, $account->uid);
 
-  if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+  if (array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
     $warning = t('User already has administrator role for this group.');
   }
 
@@ -101,7 +101,7 @@ function c4m_features_og_members_promote_submit($form, &$form_state) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $rid = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $rid = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
 
   if (!$rid) {
     form_set_error(NULL, t('Error promoting user'));
@@ -135,13 +135,13 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $admin_role = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
   if (!$admin_role) {
     $error = t('Could not find administrator role to give.');
   }
 
   $user_roles = og_get_user_roles('node', $group->nid, $account->uid);
-  if (!array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+  if (!array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
     $warning = t('User is not an administrator of this group.');
   }
 
@@ -203,7 +203,7 @@ function c4m_features_og_members_demote_submit($form, &$form_state) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $rid = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $rid = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
 
   if (!$rid) {
     form_set_error(NULL, t('Error demoting user'));
