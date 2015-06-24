@@ -4,7 +4,6 @@
  * Installation hooks for the Group Dashboard feature.
  */
 
-
 /**
  * Implements hook_install().
  */

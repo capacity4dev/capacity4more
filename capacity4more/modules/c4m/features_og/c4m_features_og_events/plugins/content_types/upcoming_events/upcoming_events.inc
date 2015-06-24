@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Upcoming events panels plugin.
+ */
 
 /**
  * Plugin definition.

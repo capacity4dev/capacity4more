@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Custom Display Suite function fields.
  */
 
@@ -11,11 +10,13 @@
  * Render "Submitted by" User first and last name on timestamp.
  * (extends default ds field with first + last name).
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_submitted_by_and_on($field) {
+function theme_c4m_ds_submitted_by_and_on(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -51,11 +52,13 @@ function theme_c4m_ds_submitted_by_and_on($field) {
  * - 5 January 2015 (, 16:47)
  * - 28 August 2014 (, 9:05)
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_creation_date($field) {
+function theme_c4m_ds_creation_date(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -77,11 +80,13 @@ function theme_c4m_ds_creation_date($field) {
  *
  * Render a span with the relevant content type icon.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_content_type_icon($field) {
+function theme_c4m_ds_content_type_icon(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -113,11 +118,13 @@ function theme_c4m_ds_content_type_icon($field) {
  *
  * Render <content type> posted by
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_type_posted_by($field) {
+function theme_c4m_ds_type_posted_by(array $field) {
   $output = '';
 
   if (empty($field['entity'])) {
@@ -217,11 +224,13 @@ function theme_c4m_ds_content_status(array $field) {
  *
  * Render group type info
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_access_info($field) {
+function theme_c4m_ds_group_access_info(array $field) {
   if (!isset($field['entity'])) {
     return NULL;
   }
@@ -241,11 +250,13 @@ function theme_c4m_ds_group_access_info($field) {
  *
  * Render group members count
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_members_count($field) {
+function theme_c4m_ds_group_members_count(array $field) {
   if (!isset($field['entity'])) {
     return NULL;
   }
@@ -265,11 +276,13 @@ function theme_c4m_ds_group_members_count($field) {
  *
  * Render group posts count.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_posts_count($field) {
+function theme_c4m_ds_group_posts_count(array $field) {
   if (!isset($field['entity'])) {
     return NULL;
   }
@@ -289,11 +302,13 @@ function theme_c4m_ds_group_posts_count($field) {
  *
  * Render group access type.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_type($field) {
+function theme_c4m_ds_group_type(array $field) {
   if (!isset($field['entity'])) {
     return NULL;
   }
@@ -313,11 +328,13 @@ function theme_c4m_ds_group_type($field) {
  *
  * Render group access type icon.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_type_icon($field) {
+function theme_c4m_ds_group_type_icon(array $field) {
   if (!isset($field['entity'])) {
     return NULL;
   }
@@ -340,11 +357,13 @@ function theme_c4m_ds_group_type_icon($field) {
  *
  * Render group membership type.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_membership_type($field) {
+function theme_c4m_ds_group_membership_type(array $field) {
   if (!isset($field['entity'])) {
     return NULL;
   }
@@ -367,11 +386,13 @@ function theme_c4m_ds_group_membership_type($field) {
  *
  * Render members of a group with particular role.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_role_members($field) {
+function theme_c4m_ds_group_role_members(array $field) {
   $output = '';
 
   if (empty($field['entity'])) {
@@ -397,11 +418,13 @@ function theme_c4m_ds_group_role_members($field) {
  *
  * Render administration link.
  *
- * @param $field
+ * @param array $field
+ *   The field that needs to be rendered.
  *
- * @return string
+ * @return mixed
+ *   The rendered field.
  */
-function theme_c4m_ds_group_administer_link($field) {
+function theme_c4m_ds_group_administer_link(array $field) {
   global $user;
 
   $entity = $field['entity'];
