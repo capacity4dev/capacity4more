@@ -119,7 +119,7 @@ function c4m_features_og_group_dashboard_action_promote($node) {
 }
 
 /**
- * Implements hook_form_alter()
+ * Implements hook_form_alter().
  */
 function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id === 'flag_confirm') {

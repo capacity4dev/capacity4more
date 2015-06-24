@@ -356,6 +356,7 @@ function c4m_features_og_members_approve(array $form, array &$form_state, $accou
       case OG_STATE_ACTIVE:
         $error = t('User is already approved as a group member yet.');
         break;
+
       case OG_STATE_BLOCKED:
         $error = t('User is rejected from this group.');
         break;
@@ -534,11 +535,15 @@ function c4m_features_og_members_reject_submit(array $form, array &$form_state) 
  *   The css class name.
  */
 function _c4m_features_og_members_create_form_alert(array &$form, $message, $severity = 'warning', $class = 'warning') {
+  $prefix = array(
+    '<div class="alert alert-' . $class . '" role="alert">',
+    '<span class="fa fa-exclamation-circle" aria-hidden="true"></span>',
+    '<span class="sr-only">' . ucfirst($severity) . ':</span>',
+  );
+
   $form[$severity . '_message'] = array(
     '#markup' => $message,
-    '#prefix' => '<div class="alert alert-' . $class . '" role="alert">
-  <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
-  <span class="sr-only">' . ucfirst($severity) . ':</span>',
+    '#prefix' => implode(PHP_EOL, $prefix),
     '#suffix' => '</div>',
   );
 }
