@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Prints out the Voices & Views carousel.
+ */
+
+?>
+
 <div class="row carousel" ng-controller="CarouselCtrl">
   <div class="col-md-12" ng-if="carouselImages.length > 0">
     <span class="block-title"><?php print l(t('VOICES & VIEWS'), 'articles'); ?></span>

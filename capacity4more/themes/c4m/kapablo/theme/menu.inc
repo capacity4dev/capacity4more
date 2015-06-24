@@ -74,7 +74,7 @@ function kapablo_menu_link__c4m_og_menu(array $variables) {
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
-  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
 
@@ -140,7 +140,7 @@ function kapablo_menu_link__book_toc(array $variables) {
   $link_options                   = $element['#localized_options'];
   $element['#attributes']['role'] = 'presentation';
   $active                         = FALSE;
-  if (($element['#href'] == $_GET['q'] ||
+  if (($element['#href'] == current_path() ||
       ($element['#href'] == '<front>' && drupal_is_front_page())) &&
     (empty($element['#localized_options']['language']))
   ) {
@@ -215,7 +215,7 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
-  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
   $tag['element']                                         = array(

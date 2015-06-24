@@ -1,8 +1,13 @@
 <?php
+/**
+ * @file
+ * Custom theme function to theme the file field.
+ */
 
 /**
- * Copy of theme_file_entity_download_link() for linking to the file download
- * URL, but customized for C4M.
+ * Copy of theme_file_entity_download_link().
+ *
+ * Linking to the file download URL, but customized for C4M.
  *
  * @see theme_file_entity_download_link()
  */
@@ -36,7 +41,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
     array('clear' => TRUE, 'sanitize' => !empty($uri['options']['html']))
   );
 
-  // Download link
+  // Download link.
   $tag['element'] = array(
     '#tag'        => 'span',
     '#attributes' => array(
@@ -46,7 +51,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
   );
   $inner = theme_html_tag($tag);
 
-  // Filesize
+  // Filesize.
   $tag['element'] = array(
     '#tag'        => 'span',
     '#attributes' => array(
@@ -65,7 +70,6 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
   );
   $output .= theme_html_tag($tag);
 
-
   return $output;
 }
 
@@ -74,11 +78,13 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
  *
  * Render preview of document
  *
- * @param $field
+ * @param array $field
+ *   The field definition.
  *
  * @return string
+ *   The rendered version.
  */
-function theme_c4m_ds_document_preview($field) {
+function theme_c4m_ds_document_preview(array $field) {
   $output = '';
 
   if (isset($field['entity'])) {

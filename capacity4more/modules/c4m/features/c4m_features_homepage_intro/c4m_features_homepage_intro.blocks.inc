@@ -4,7 +4,6 @@
  * All blocks for the intro_video module.
  */
 
-
 /**
  * Configure the video block.
  *
@@ -38,7 +37,7 @@ function _c4m_features_homepage_intro_video_configure() {
  * @param array $edit
  *   The data as received from the block config form.
  */
-function _c4m_features_homepage_intro_video_save($edit) {
+function _c4m_features_homepage_intro_video_save(array $edit) {
   variable_set(
     'c4m_features_homepage_intro_video_url',
     $edit['c4m_features_homepage_intro_video_url']
@@ -48,7 +47,7 @@ function _c4m_features_homepage_intro_video_save($edit) {
 /**
  * Block to render the video button.
  *
- * @return array
+ * @return mixed
  *   The block array.
  */
 function _c4m_features_homepage_intro_video_view() {
