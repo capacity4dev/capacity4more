@@ -42,6 +42,23 @@ trait WikiPage {
   }
 
   /**
+   * @Then /^I should see the wiki create links$/
+   */
+  public function iShouldSeeTheWikiCreateLinks() {
+    $steps[] = new Step\When('I should see a Wiki "add links" in the "left" bar');
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should not see the wiki create links$/
+   */
+  public function iShouldNotSeeTheWikiCreateLinks() {
+    $steps[] = new Step\When('I should not see a Wiki "add links" in the "left" bar');
+    return $steps;
+  }
+
+
+  /**
    * @Given /^I should see a Wiki "([^"]*)" in the "([^"]*)" bar$/
    */
   public function iShouldSeeAWikiInTheBar($wrapper, $region) {
@@ -50,16 +67,21 @@ trait WikiPage {
 
     $wrapper_class = '.book-';
 
-    switch($wrapper) {
+    switch ($wrapper) {
       case 'table of contents':
         $wrapper_class .= 'toc';
         break;
+
       case 'navigation':
         $wrapper_class .= 'navigation';
         break;
+
+      case 'add links':
+        $wrapper_class = '.wiki-add-links';
+        break;
     }
 
-    $locator = '.region-content .group-' . $region . ' ' . $wrapper_class ;
+    $locator = '.region-content .group-' . $region . ' ' . $wrapper_class;
 
     if (!empty($locator)) {
       $element = $page->findAll('css', $locator);
@@ -67,6 +89,40 @@ trait WikiPage {
 
     if (!count($element)) {
       throw new \Exception("No Wiki $wrapper found in $region region.");
+    }
+  }
+
+  /**
+   * @Given /^I should not see a Wiki "([^"]*)" in the "([^"]*)" bar$/
+   */
+  public function iShouldNotSeeAWikiInTheBar($wrapper, $region) {
+    $element = NULL;
+    $page = $this->getSession()->getPage();
+
+    $wrapper_class = '.book-';
+
+    switch ($wrapper) {
+      case 'table of contents':
+        $wrapper_class .= 'toc';
+        break;
+
+      case 'navigation':
+        $wrapper_class .= 'navigation';
+        break;
+
+      case 'add links':
+        $wrapper_class = '.wiki-add-links';
+        break;
+    }
+
+    $locator = '.region-content .group-' . $region . ' ' . $wrapper_class;
+
+    if (!empty($locator)) {
+      $element = $page->findAll('css', $locator);
+    }
+
+    if (count($element)) {
+      throw new \Exception("Wiki $wrapper found in $region region.");
     }
   }
 
