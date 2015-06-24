@@ -11,6 +11,12 @@ projects[admin_menu][version] = "3.0-rc5"
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.x-dev"
 
+projects[captcha][subdir] = "contrib"
+projects[captcha][version] = "1.3"
+
+projects[recaptcha][subdir] = "contrib"
+projects[recaptcha][version] = "2.0"
+
 projects[ckeditor][subdir] = "contrib"
 projects[ckeditor][version] = "1.x-dev"
 

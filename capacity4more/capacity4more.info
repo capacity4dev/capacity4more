@@ -181,6 +181,9 @@ dependencies[] = c4m_og_purl
 ; Email Domains
 dependencies[] = c4m_domain
 
+; Contact
+dependencies[] = c4m_contact
+
 ; Footer
 dependencies[] = c4m_features_footer
 
