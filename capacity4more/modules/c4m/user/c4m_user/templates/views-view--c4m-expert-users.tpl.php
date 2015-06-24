@@ -32,7 +32,9 @@
     <div class="view-content row">
       <?php print $rows; ?>
     </div>
-  <?php elseif ($empty): ?>
+  <?php endif; ?>
+
+  <?php if ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
     </div>
