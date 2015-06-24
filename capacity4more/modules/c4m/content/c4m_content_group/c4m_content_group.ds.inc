@@ -174,8 +174,6 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'prefix' => '<div class="round-bg">',
-          'suffix' => '</div>',
         ),
       ),
     ),
@@ -311,7 +309,7 @@ function c4m_content_group_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'ow' => TRUE,
           'ow-el' => 'div',
-          'ow-cl' => 'round-bg',
+          'ow-cl' => '',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -381,8 +379,6 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'prefix' => '<div class="round-bg">',
-          'suffix' => '</div>',
         ),
       ),
     ),
