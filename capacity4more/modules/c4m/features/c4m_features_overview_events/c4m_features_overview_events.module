@@ -67,7 +67,7 @@ function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
   );
   $views_group = array(
     'c4m_overview_og_events',
-    'c4m_overview_og_events_landing'
+    'c4m_overview_og_events_landing',
   );
 
   if (in_array($view->name, $views_global)) {
