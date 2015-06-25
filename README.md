@@ -1,4 +1,10 @@
-[![Build Status](https://travis-ci.org/capacity4dev/capacity4more.png?branch=master)](https://travis-ci.org/capacity4dev/capacity4more)
+[![Build Status (master)](https://img.shields.io/travis/capacity4dev/capacity4more/master.svg?style=flat-square)](https://travis-ci.org/capacity4dev/capacity4more.svg?branch=master)
+[![Build Status (develop)](https://img.shields.io/travis/capacity4dev/capacity4more/develop.svg?style=flat-square)](https://travis-ci.org/capacity4dev/capacity4more.svg?branch=develop)
+
+[![Quality Score](https://img.shields.io/scrutinizer/g/capacity4dev/capacity4more.svg?style=flat-square)](https://scrutinizer-ci.com/g/capacity4dev/capacity4more/)
+
+
+
 
 # capacity4more
 
