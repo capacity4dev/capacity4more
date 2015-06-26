@@ -48,20 +48,13 @@ function c4m_field_location_ds_fields_info($entity_type) {
   return $fields;
 }
 
+/**
+ * Implements hook_form_alter().
+ */
 function c4m_field_location_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'event_node_form':
       $form['#attached']['js'][] = drupal_get_path('module', 'c4m_field_location') . '/js/getlocation-geocode.js';
-//      $form['#after_build'][] = 'c4m_field_location_form_after_build';
       break;
   }
-}
-
-function c4m_field_location_form_after_build($form, &$form_state) {
-  drupal_add_js(
-    drupal_get_path('module', 'c4m_field_location')
-    . '/js/getlocation-geocode.js'
-  );
-
-  return $form;
 }
