@@ -1,16 +1,23 @@
 <?php
 /**
- * @file Administrator forms/functionality for OG members.
+ * @file
+ * Administrator forms/functionality for OG members.
  */
 
 /**
  * Form callback to promote a user.
  *
- * @param $form
- * @param $form_state
- * @param $account
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The confirmation form.
  */
-function c4m_features_og_members_promote($form, &$form_state, $account) {
+function c4m_features_og_members_promote(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -28,6 +35,7 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
       case OG_STATE_PENDING:
         $error = t('User is not approved as group member yet.');
         break;
+
       case OG_STATE_BLOCKED:
         $error = t('User is rejected from this group.');
         break;
@@ -36,20 +44,22 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $admin_role = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
   if (!$admin_role) {
     $error = t('Could not find administrator role to give.');
   }
 
   $user_roles = og_get_user_roles('node', $group->nid, $account->uid);
 
-  if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+  if (array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
     $warning = t('User already has administrator role for this group.');
   }
 
+  $return_link_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_link_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -88,10 +98,12 @@ function c4m_features_og_members_promote($form, &$form_state, $account) {
 /**
  * Submit handler; Edit membership in group.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_promote_submit($form, &$form_state) {
+function c4m_features_og_members_promote_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -101,7 +113,7 @@ function c4m_features_og_members_promote_submit($form, &$form_state) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $rid = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $rid = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
 
   if (!$rid) {
     form_set_error(NULL, t('Error promoting user'));
@@ -119,11 +131,17 @@ function c4m_features_og_members_promote_submit($form, &$form_state) {
 /**
  * Form callback to demote a user.
  *
- * @param $form
- * @param $form_state
- * @param $account
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The confirmation form.
  */
-function c4m_features_og_members_demote($form, &$form_state, $account) {
+function c4m_features_og_members_demote(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -135,13 +153,13 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $admin_role = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
   if (!$admin_role) {
     $error = t('Could not find administrator role to give.');
   }
 
   $user_roles = og_get_user_roles('node', $group->nid, $account->uid);
-  if (!array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+  if (!array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
     $warning = t('User is not an administrator of this group.');
   }
 
@@ -149,9 +167,11 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
     $warning = t('Can not take away administrator role from the group manager.');
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -190,10 +210,12 @@ function c4m_features_og_members_demote($form, &$form_state, $account) {
 /**
  * Submit handler; Edit membership in group.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_demote_submit($form, &$form_state) {
+function c4m_features_og_members_demote_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -203,7 +225,7 @@ function c4m_features_og_members_demote_submit($form, &$form_state) {
 
   $roles = og_roles('node', $group->type, $group->nid);
 
-  $rid = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $rid = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
 
   if (!$rid) {
     form_set_error(NULL, t('Error demoting user'));
@@ -221,11 +243,17 @@ function c4m_features_og_members_demote_submit($form, &$form_state) {
 /**
  * Form callback to remove a user.
  *
- * @param $form
- * @param $form_state
- * @param $account
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The confirmation form.
  */
-function c4m_features_og_members_remove($form, &$form_state, $account) {
+function c4m_features_og_members_remove(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -239,9 +267,11 @@ function c4m_features_og_members_remove($form, &$form_state, $account) {
     $warning = t('Can not remove the group manager.');
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -280,10 +310,12 @@ function c4m_features_og_members_remove($form, &$form_state, $account) {
 /**
  * Submit handler; Remove membership in group.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_remove_submit($form, &$form_state) {
+function c4m_features_og_members_remove_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -300,11 +332,17 @@ function c4m_features_og_members_remove_submit($form, &$form_state) {
 /**
  * Form callback to approve a user.
  *
- * @param $form
- * @param $form_state
- * @param $account
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   Approve form.
  */
-function c4m_features_og_members_approve($form, &$form_state, $account) {
+function c4m_features_og_members_approve(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -318,15 +356,17 @@ function c4m_features_og_members_approve($form, &$form_state, $account) {
       case OG_STATE_ACTIVE:
         $error = t('User is already approved as a group member yet.');
         break;
+
       case OG_STATE_BLOCKED:
         $error = t('User is rejected from this group.');
         break;
     }
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text, 'members',
       array('html' => TRUE)
     ),
   );
@@ -365,10 +405,12 @@ function c4m_features_og_members_approve($form, &$form_state, $account) {
 /**
  * Submit handler; Remove membership in group.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_approve_submit($form, &$form_state) {
+function c4m_features_og_members_approve_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -386,11 +428,17 @@ function c4m_features_og_members_approve_submit($form, &$form_state) {
 /**
  * Form callback to approve a user.
  *
- * @param $form
- * @param $form_state
- * @param $account
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
+ * @param object $account
+ *   The user account.
+ *
+ * @return array
+ *   The form.
  */
-function c4m_features_og_members_reject($form, &$form_state, $account) {
+function c4m_features_og_members_reject(array $form, array &$form_state, $account) {
   $group = c4m_og_current_group();
   $membership = og_get_membership('node', $group->nid, 'user', $account->uid);
   $error = NULL;
@@ -404,15 +452,18 @@ function c4m_features_og_members_reject($form, &$form_state, $account) {
       case OG_STATE_ACTIVE:
         $error = t('User is already approved as a group member yet.');
         break;
+
       case OG_STATE_BLOCKED:
         $error = t('User is rejected from this group.');
         break;
     }
   }
 
+  $return_text = '&laquo; ' . t('Return to the members overview');
   $return_link = array(
     '#markup' => l(
-      '&laquo; ' . t('Return to the members overview'), 'members',
+      $return_text,
+      'members',
       array('html' => TRUE)
     ),
   );
@@ -451,10 +502,12 @@ function c4m_features_og_members_reject($form, &$form_state, $account) {
 /**
  * Submit handler; Remove membership in group.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
  */
-function c4m_features_og_members_reject_submit($form, &$form_state) {
+function c4m_features_og_members_reject_submit(array $form, array &$form_state) {
   $og_membership = $form_state['og_membership'];
   $group = node_load($og_membership->gid);
 
@@ -472,15 +525,25 @@ function c4m_features_og_members_reject_submit($form, &$form_state) {
 /**
  * Create an alert form item.
  *
- * @param        $message
+ * @param array $form
+ *   The form array.
+ * @param string $message
+ *   The message string.
  * @param string $severity
+ *   The message severity level.
+ * @param string $class
+ *   The css class name.
  */
-function _c4m_features_og_members_create_form_alert(&$form, $message, $severity = 'warning', $class = 'warning') {
+function _c4m_features_og_members_create_form_alert(array &$form, $message, $severity = 'warning', $class = 'warning') {
+  $prefix = array(
+    '<div class="alert alert-' . $class . '" role="alert">',
+    '<span class="fa fa-exclamation-circle" aria-hidden="true"></span>',
+    '<span class="sr-only">' . ucfirst($severity) . ':</span>',
+  );
+
   $form[$severity . '_message'] = array(
     '#markup' => $message,
-    '#prefix' => '<div class="alert alert-' . $class . '" role="alert">
-  <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
-  <span class="sr-only">' . ucfirst($severity) . ':</span>',
-    '#suffix' => '</div>'
+    '#prefix' => implode(PHP_EOL, $prefix),
+    '#suffix' => '</div>',
   );
 }

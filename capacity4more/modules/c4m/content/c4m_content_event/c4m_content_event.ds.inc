@@ -10,14 +10,13 @@
 function c4m_content_event_ds_field_settings_info() {
   $export = array();
 
-  $ds_layout = new stdClass();
-  $ds_layout->api_version = 1;
-  $ds_layout->id = 'comment|comment_node_event|activity_stream';
-  $ds_layout->entity_type = 'comment';
-  $ds_layout->bundle = 'comment_node_event';
-  $ds_layout->view_mode = 'activity_stream';
-  $ds_layout->layout = 'ds_1col';
-  $ds_layout->settings = array(
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_event|activity_stream';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_event';
+  $ds_fieldsetting->view_mode = 'activity_stream';
+  $ds_fieldsetting->settings = array(
     'regions' => array(
       'ds_content' => array(
         0 => 'comment_body',
@@ -36,7 +35,7 @@ function c4m_content_event_ds_field_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
   );
-  $export['comment|comment_node_event|activity_stream'] = $ds_layout;
+  $export['comment|comment_node_event|activity_stream'] = $ds_fieldsetting;
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
@@ -51,7 +50,7 @@ function c4m_content_event_ds_field_settings_info() {
       'format' => 'default',
     ),
     'post_date' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'ds_post_date_day',
       'formatter_settings' => array(
@@ -73,7 +72,7 @@ function c4m_content_event_ds_field_settings_info() {
       'format' => 'c4m_user_author_thumb_image',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -84,6 +83,24 @@ function c4m_content_event_ds_field_settings_info() {
           'ow' => TRUE,
           'ow-el' => 'span',
           'ow-cl' => 'field-name-c4m-user-first-and-last-name',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_related_document' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Documents',
+          'lb-col' => TRUE,
+          'lbw' => 1,
+          'lbw-el' => 'div',
+          'lbw-cl' => 'field-label',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'field-name-c4m-related-document',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -147,6 +164,43 @@ function c4m_content_event_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|event|c4m_related';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'event';
+  $ds_fieldsetting->view_mode = 'c4m_related';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => 'h3',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'og_group_ref' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Group',
+          'lb-el' => 'span',
+          'prefix' => '<span class="group-ref">',
+          'suffix' => '</span>',
+        ),
+      ),
+    ),
+  );
+  $export['node|event|c4m_related'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|event|full';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'event';
@@ -179,6 +233,11 @@ function c4m_content_event_ds_field_settings_info() {
     ),
     'c4m_content_event_link_to_gmap' => array(
       'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_actions' => array(
+      'weight' => '11',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -264,15 +323,6 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_topic' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Topics',
-          'lb-col' => TRUE,
-        ),
-      ),
-    ),
     'c4m_twitter' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -298,6 +348,15 @@ function c4m_content_event_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_vocab_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Topics',
           'lb-col' => TRUE,
         ),
       ),
@@ -498,18 +557,20 @@ function c4m_content_event_ds_layout_settings_info() {
         0 => 'c4m_user_picture',
       ),
       'right' => array(
-        1 => 'c4m_user_first_and_last_name',
-        2 => 'post_date',
-        3 => 'comment_body',
+        1 => 'comment_body',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'post_date',
         4 => 'links',
+        5 => 'c4m_related_document',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
+      'comment_body' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'post_date' => 'right',
-      'comment_body' => 'right',
       'links' => 'right',
+      'c4m_related_document' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -590,6 +651,43 @@ function c4m_content_event_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|event|c4m_related';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'event';
+  $ds_layout->view_mode = 'c4m_related';
+  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'left' => array(
+        0 => 'c4m_ds_content_type_icon',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_datetime_end',
+        3 => 'og_group_ref',
+      ),
+    ),
+    'fields' => array(
+      'c4m_ds_content_type_icon' => 'left',
+      'title' => 'right',
+      'c4m_datetime_end' => 'right',
+      'og_group_ref' => 'right',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'left' => 'div',
+      'right' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|event|c4m_related'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|event|full';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'event';
@@ -598,62 +696,67 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
-        0 => 'c4m_field_location_city_country',
+        0 => 'c4m_vocab_topic',
+        1 => 'c4m_field_location_city_country',
         3 => 'c4m_location',
-        5 => 'c4m_content_event_link_to_gmap',
         6 => 'c4m_organised_by',
-        11 => 'group_organiser',
-        12 => 'group_location',
-        13 => 'group_details',
-        14 => 'c4m_link',
-        15 => 'c4m_facebook',
-        16 => 'c4m_twitter',
-        17 => 'c4m_related_topic',
-        18 => 'og_vocabulary',
-        20 => 'c4m_vocab_language',
-        21 => 'c4m_vocab_geo',
+        7 => 'c4m_content_event_link_to_gmap',
+        12 => 'group_organiser',
+        13 => 'group_node_actions',
+        14 => 'group_location',
+        15 => 'group_details',
+        16 => 'c4m_ds_content_actions',
+        17 => 'c4m_link',
+        18 => 'c4m_facebook',
+        19 => 'c4m_twitter',
+        20 => 'og_vocabulary',
+        21 => 'c4m_vocab_language',
+        24 => 'c4m_vocab_geo',
       ),
       'left' => array(
-        1 => 'c4m_ds_content_type_icon',
-        2 => 'title',
-        4 => 'links',
-        7 => 'c4m_datetime_end',
-        8 => 'c4m_body',
-        9 => 'group_documents',
-        10 => 'comments',
-        19 => 'c4m_document_agenda',
-        22 => 'c4m_document_presentation',
-        23 => 'c4m_related_document',
+        2 => 'c4m_ds_content_type_icon',
+        4 => 'title',
+        5 => 'links',
+        8 => 'c4m_datetime_end',
+        9 => 'c4m_body',
+        10 => 'group_documents',
+        11 => 'comments',
+        22 => 'c4m_document_agenda',
+        23 => 'c4m_document_presentation',
+        25 => 'c4m_related_document',
       ),
     ),
     'fields' => array(
+      'c4m_vocab_topic' => 'right',
       'c4m_field_location_city_country' => 'right',
       'c4m_ds_content_type_icon' => 'left',
-      'title' => 'left',
       'c4m_location' => 'right',
+      'title' => 'left',
       'links' => 'left',
-      'c4m_content_event_link_to_gmap' => 'right',
       'c4m_organised_by' => 'right',
+      'c4m_content_event_link_to_gmap' => 'right',
       'c4m_datetime_end' => 'left',
       'c4m_body' => 'left',
       'group_documents' => 'left',
       'comments' => 'left',
       'group_organiser' => 'right',
+      'group_node_actions' => 'right',
       'group_location' => 'right',
       'group_details' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_link' => 'right',
       'c4m_facebook' => 'right',
       'c4m_twitter' => 'right',
-      'c4m_related_topic' => 'right',
       'og_vocabulary' => 'right',
-      'c4m_document_agenda' => 'left',
       'c4m_vocab_language' => 'right',
-      'c4m_vocab_geo' => 'right',
+      'c4m_document_agenda' => 'left',
       'c4m_document_presentation' => 'left',
+      'c4m_vocab_geo' => 'right',
       'c4m_related_document' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
     ),
@@ -687,6 +790,7 @@ function c4m_content_event_ds_layout_settings_info() {
         5 => 'c4m_field_location_city_country',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
@@ -698,6 +802,7 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'flag_c4m_og_content_highlight' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

@@ -8,8 +8,6 @@ include_once 'c4m_content_event.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_content().
- *
- * @return array
  */
 function c4m_content_event_c4m_og_vocab_info_content() {
   return array(
@@ -18,7 +16,7 @@ function c4m_content_event_c4m_og_vocab_info_content() {
       'bundle' => 'event',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
   );
@@ -58,4 +56,67 @@ function c4m_content_event_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_event_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_events_posts' => array(
+        'type'        => 'event',
+        'entity_type' => 'node',
+        'bundles'     => array('event'),
+        'singular'    => 'Event',
+        'plural'      => 'Events',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts',
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+        ),
+      ),
+      'c4m_events' => array(
+        'type'        => 'event',
+        'entity_type' => 'node',
+        'bundles'     => array('event'),
+        'singular'    => 'Event',
+        'plural'      => 'Events',
+        'state'       => 1,
+        'aggregate'   => NULL,
+        'weight'      => 4,
+        'attributes'  => array(
+          'class' => array('events'),
+        ),
+        'link'          => array(
+          'path' => 'events',
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_events' => array(
+        'type'          => 'event',
+        'entity_type'   => 'node',
+        'bundles'       => array('event'),
+        'singular'      => 'Event',
+        'plural'        => 'Events',
+        'state'         => 1,
+        'aggregate'     => NULL,
+        'weight'        => 3,
+        'feature_name'  => 'c4m_features_og_events',
+        'attributes'    => array(
+          'class' => array('og-events'),
+        ),
+        'link'          => array(
+          'path' => 'calendar',
+        ),
+      ),
+    ),
+  );
 }

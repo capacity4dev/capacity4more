@@ -21,7 +21,7 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '10',
+    'weight' => '11',
     'children' => array(
       0 => 'og_group_ref',
     ),
@@ -41,6 +41,33 @@ function c4m_content_document_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_node_actions|node|document|full';
+  $field_group->group_name = 'group_node_actions';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'document';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Actions',
+    'weight' => '7',
+    'children' => array(
+      0 => 'c4m_ds_content_actions',
+    ),
+    'format_type' => 'html5',
+    'format_settings' => array(
+      'label' => 'Actions',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-node-actions field-group-html5',
+        'wrapper' => 'section',
+      ),
+    ),
+  );
+  $export['group_node_actions|node|document|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_node_details|node|document|full';
   $field_group->group_name = 'group_node_details';
   $field_group->entity_type = 'node';
@@ -49,13 +76,13 @@ function c4m_content_document_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '11',
+    'weight' => '8',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_date',
-      2 => 'c4m_vocab_document_type',
-      3 => 'c4m_vocab_geo',
-      4 => 'c4m_vocab_language',
+      0 => 'c4m_vocab_date',
+      1 => 'c4m_vocab_document_type',
+      2 => 'c4m_vocab_geo',
+      3 => 'c4m_vocab_language',
+      4 => 'c4m_vocab_topic',
       5 => 'og_vocabulary',
     ),
     'format_type' => 'html5',

@@ -33,7 +33,8 @@ Feature: Group Discussions
   @javascript
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
-    When  I start creating "discussion" "Some new discussion1" in group "Architecture"
+    When  I start creating "discussion" "Some new discussion1" in group "Architecture" with file field "c4m-related-document"
+    And   I check the related topic checkbox
     And   I should not see an "edit-og-group-ref-und-0-default" element
     And   I press "Publish"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"

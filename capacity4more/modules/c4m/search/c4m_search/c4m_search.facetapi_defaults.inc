@@ -87,7 +87,7 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
-    'widget' => 'date_range',
+    'widget' => 'facetapi_links',
     'filters' => array(
       'active_items' => array(
         'status' => 0,
@@ -306,49 +306,6 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_nodes:block:c4m_related_topic';
-  $facet->searcher = 'search_api@c4m_search_nodes';
-  $facet->realm = 'block';
-  $facet->facet = 'c4m_related_topic';
-  $facet->enabled = TRUE;
-  $facet->settings = array(
-    'weight' => 0,
-    'widget' => 'facetapi_links',
-    'filters' => array(),
-    'active_sorts' => array(
-      'display' => 'display',
-      'active' => 'active',
-      'count' => 'count',
-      'indexed' => 0,
-    ),
-    'sort_weight' => array(
-      'active' => '-49',
-      'count' => '-48',
-      'display' => '-50',
-      'indexed' => '-47',
-    ),
-    'sort_order' => array(
-      'active' => '3',
-      'count' => '3',
-      'display' => '4',
-      'indexed' => '4',
-    ),
-    'empty_behavior' => 'none',
-    'facet_more_text' => 'Show more',
-    'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '20',
-    'nofollow' => 1,
-    'show_expanded' => 0,
-    'empty_text' => array(
-      'value' => '',
-      'format' => 'filtered_html',
-    ),
-  );
-  $export['search_api@c4m_search_nodes:block:c4m_related_topic'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_nodes:block:c4m_vocab_category';
   $facet->searcher = 'search_api@c4m_search_nodes';
   $facet->realm = 'block';
@@ -499,20 +456,23 @@ function c4m_search_facetapi_default_facet_settings() {
       'active' => 'active',
       'count' => 'count',
       'indexed' => 0,
+      'natural' => 0,
     ),
     'sort_weight' => array(
+      'taxonomy_weight' => '-50',
       'display' => '-49',
       'active' => '-48',
       'count' => '-47',
       'indexed' => '-46',
-      'taxonomy_weight' => '-50',
+      'natural' => '0',
     ),
     'sort_order' => array(
+      'taxonomy_weight' => '4',
       'display' => '4',
       'active' => '3',
       'count' => '3',
       'indexed' => '4',
-      'taxonomy_weight' => '4',
+      'natural' => '4',
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
@@ -605,6 +565,49 @@ function c4m_search_facetapi_default_facet_settings() {
     'show_expanded' => 0,
   );
   $export['search_api@c4m_search_nodes:block:c4m_vocab_tag'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_nodes:block:c4m_vocab_topic';
+  $facet->searcher = 'search_api@c4m_search_nodes';
+  $facet->realm = 'block';
+  $facet->facet = 'c4m_vocab_topic';
+  $facet->enabled = TRUE;
+  $facet->settings = array(
+    'weight' => 0,
+    'widget' => 'facetapi_links',
+    'filters' => array(),
+    'active_sorts' => array(
+      'display' => 'display',
+      'active' => 'active',
+      'count' => 'count',
+      'indexed' => 0,
+    ),
+    'sort_weight' => array(
+      'active' => '-49',
+      'count' => '-48',
+      'display' => '-50',
+      'indexed' => '-47',
+    ),
+    'sort_order' => array(
+      'active' => '3',
+      'count' => '3',
+      'display' => '4',
+      'indexed' => '4',
+    ),
+    'empty_behavior' => 'none',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
+    'soft_limit' => '20',
+    'nofollow' => 1,
+    'show_expanded' => 0,
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'filtered_html',
+    ),
+  );
+  $export['search_api@c4m_search_nodes:block:c4m_vocab_topic'] = $facet;
 
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
@@ -1101,228 +1104,6 @@ function c4m_search_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_users:block:c4m_related_topic';
-  $facet->searcher = 'search_api@c4m_search_users';
-  $facet->realm = 'block';
-  $facet->facet = 'c4m_related_topic';
-  $facet->enabled = TRUE;
-  $facet->settings = array(
-    'weight' => 0,
-    'widget' => 'facetapi_links',
-    'filters' => array(),
-    'active_sorts' => array(
-      'display' => 'display',
-      'active' => 'active',
-      'count' => 'count',
-      'natural' => 0,
-      'indexed' => 0,
-    ),
-    'sort_weight' => array(
-      'active' => '-49',
-      'count' => '-48',
-      'display' => '-50',
-      'natural' => '-47',
-      'indexed' => '-46',
-    ),
-    'sort_order' => array(
-      'active' => '3',
-      'count' => '3',
-      'display' => '4',
-      'natural' => '4',
-      'indexed' => '4',
-    ),
-    'empty_behavior' => 'none',
-    'facet_more_text' => 'Show more',
-    'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '20',
-    'nofollow' => 1,
-    'show_expanded' => 0,
-    'ranges' => array(
-      'past_hour' => array(
-        'label' => 'Past hour',
-        'machine_name' => 'past_hour',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '1',
-        'date_range_start_unit' => 'HOUR',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '0',
-        'delete' => 0,
-      ),
-      'past_24_hours' => array(
-        'label' => 'Past 24 hours',
-        'machine_name' => 'past_24_hours',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '24',
-        'date_range_start_unit' => 'HOUR',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '1',
-        'delete' => 0,
-      ),
-      'past_week' => array(
-        'label' => 'Past week',
-        'machine_name' => 'past_week',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '7',
-        'date_range_start_unit' => 'DAY',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '2',
-        'delete' => 0,
-      ),
-      'past_month' => array(
-        'label' => 'Past month',
-        'machine_name' => 'past_month',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '1',
-        'date_range_start_unit' => 'MONTH',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '3',
-        'delete' => 0,
-      ),
-      'past_year' => array(
-        'label' => 'Past year',
-        'machine_name' => 'past_year',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '1',
-        'date_range_start_unit' => 'YEAR',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '4',
-        'delete' => 0,
-      ),
-    ),
-    'date_ranges' => array(
-      'add_range' => 'Add a new date range',
-    ),
-    'empty_text' => array(
-      'value' => '',
-      'format' => 'mail',
-    ),
-  );
-  $export['search_api@c4m_search_users:block:c4m_related_topic'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
-  $facet->name = 'search_api@c4m_search_users:block:c4m_related_topic_expertise';
-  $facet->searcher = 'search_api@c4m_search_users';
-  $facet->realm = 'block';
-  $facet->facet = 'c4m_related_topic_expertise';
-  $facet->enabled = TRUE;
-  $facet->settings = array(
-    'weight' => 0,
-    'widget' => 'facetapi_links',
-    'filters' => array(),
-    'active_sorts' => array(
-      'display' => 'display',
-      'active' => 'active',
-      'count' => 'count',
-      'natural' => 0,
-      'indexed' => 0,
-    ),
-    'sort_weight' => array(
-      'active' => '-49',
-      'count' => '-48',
-      'display' => '-50',
-      'natural' => '-47',
-      'indexed' => '-46',
-    ),
-    'sort_order' => array(
-      'active' => '3',
-      'count' => '3',
-      'display' => '4',
-      'natural' => '4',
-      'indexed' => '4',
-    ),
-    'empty_behavior' => 'none',
-    'facet_more_text' => 'Show more',
-    'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '20',
-    'nofollow' => 1,
-    'show_expanded' => 0,
-    'ranges' => array(
-      'past_hour' => array(
-        'label' => 'Past hour',
-        'machine_name' => 'past_hour',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '1',
-        'date_range_start_unit' => 'HOUR',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '0',
-        'delete' => 0,
-      ),
-      'past_24_hours' => array(
-        'label' => 'Past 24 hours',
-        'machine_name' => 'past_24_hours',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '24',
-        'date_range_start_unit' => 'HOUR',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '1',
-        'delete' => 0,
-      ),
-      'past_week' => array(
-        'label' => 'Past week',
-        'machine_name' => 'past_week',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '7',
-        'date_range_start_unit' => 'DAY',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '2',
-        'delete' => 0,
-      ),
-      'past_month' => array(
-        'label' => 'Past month',
-        'machine_name' => 'past_month',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '1',
-        'date_range_start_unit' => 'MONTH',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '3',
-        'delete' => 0,
-      ),
-      'past_year' => array(
-        'label' => 'Past year',
-        'machine_name' => 'past_year',
-        'date_range_start_op' => '-',
-        'date_range_start_amount' => '1',
-        'date_range_start_unit' => 'YEAR',
-        'date_range_end_op' => 'NOW',
-        'date_range_end_amount' => '',
-        'date_range_end_unit' => 'HOUR',
-        'weight' => '4',
-        'delete' => 0,
-      ),
-    ),
-    'date_ranges' => array(
-      'add_range' => 'Add a new date range',
-    ),
-    'empty_text' => array(
-      'value' => '',
-      'format' => 'mail',
-    ),
-  );
-  $export['search_api@c4m_search_users:block:c4m_related_topic_expertise'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
   $facet->name = 'search_api@c4m_search_users:block:c4m_vocab_geo';
   $facet->searcher = 'search_api@c4m_search_users';
   $facet->realm = 'block';
@@ -1433,6 +1214,228 @@ function c4m_search_facetapi_default_facet_settings() {
     ),
   );
   $export['search_api@c4m_search_users:block:c4m_vocab_geo'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_users:block:c4m_vocab_topic';
+  $facet->searcher = 'search_api@c4m_search_users';
+  $facet->realm = 'block';
+  $facet->facet = 'c4m_vocab_topic';
+  $facet->enabled = TRUE;
+  $facet->settings = array(
+    'weight' => 0,
+    'widget' => 'facetapi_links',
+    'filters' => array(),
+    'active_sorts' => array(
+      'display' => 'display',
+      'active' => 'active',
+      'count' => 'count',
+      'natural' => 0,
+      'indexed' => 0,
+    ),
+    'sort_weight' => array(
+      'active' => '-49',
+      'count' => '-48',
+      'display' => '-50',
+      'natural' => '-47',
+      'indexed' => '-46',
+    ),
+    'sort_order' => array(
+      'active' => '3',
+      'count' => '3',
+      'display' => '4',
+      'natural' => '4',
+      'indexed' => '4',
+    ),
+    'empty_behavior' => 'none',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
+    'soft_limit' => '20',
+    'nofollow' => 1,
+    'show_expanded' => 0,
+    'ranges' => array(
+      'past_hour' => array(
+        'label' => 'Past hour',
+        'machine_name' => 'past_hour',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'HOUR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '0',
+        'delete' => 0,
+      ),
+      'past_24_hours' => array(
+        'label' => 'Past 24 hours',
+        'machine_name' => 'past_24_hours',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '24',
+        'date_range_start_unit' => 'HOUR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '1',
+        'delete' => 0,
+      ),
+      'past_week' => array(
+        'label' => 'Past week',
+        'machine_name' => 'past_week',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '7',
+        'date_range_start_unit' => 'DAY',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '2',
+        'delete' => 0,
+      ),
+      'past_month' => array(
+        'label' => 'Past month',
+        'machine_name' => 'past_month',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'MONTH',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '3',
+        'delete' => 0,
+      ),
+      'past_year' => array(
+        'label' => 'Past year',
+        'machine_name' => 'past_year',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'YEAR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '4',
+        'delete' => 0,
+      ),
+    ),
+    'date_ranges' => array(
+      'add_range' => 'Add a new date range',
+    ),
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'mail',
+    ),
+  );
+  $export['search_api@c4m_search_users:block:c4m_vocab_topic'] = $facet;
+
+  $facet = new stdClass();
+  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
+  $facet->api_version = 1;
+  $facet->name = 'search_api@c4m_search_users:block:c4m_vocab_topic_expertise';
+  $facet->searcher = 'search_api@c4m_search_users';
+  $facet->realm = 'block';
+  $facet->facet = 'c4m_vocab_topic_expertise';
+  $facet->enabled = TRUE;
+  $facet->settings = array(
+    'weight' => 0,
+    'widget' => 'facetapi_links',
+    'filters' => array(),
+    'active_sorts' => array(
+      'display' => 'display',
+      'active' => 'active',
+      'count' => 'count',
+      'natural' => 0,
+      'indexed' => 0,
+    ),
+    'sort_weight' => array(
+      'active' => '-49',
+      'count' => '-48',
+      'display' => '-50',
+      'natural' => '-47',
+      'indexed' => '-46',
+    ),
+    'sort_order' => array(
+      'active' => '3',
+      'count' => '3',
+      'display' => '4',
+      'natural' => '4',
+      'indexed' => '4',
+    ),
+    'empty_behavior' => 'none',
+    'facet_more_text' => 'Show more',
+    'facet_fewer_text' => 'Show fewer',
+    'soft_limit' => '20',
+    'nofollow' => 1,
+    'show_expanded' => 0,
+    'ranges' => array(
+      'past_hour' => array(
+        'label' => 'Past hour',
+        'machine_name' => 'past_hour',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'HOUR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '0',
+        'delete' => 0,
+      ),
+      'past_24_hours' => array(
+        'label' => 'Past 24 hours',
+        'machine_name' => 'past_24_hours',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '24',
+        'date_range_start_unit' => 'HOUR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '1',
+        'delete' => 0,
+      ),
+      'past_week' => array(
+        'label' => 'Past week',
+        'machine_name' => 'past_week',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '7',
+        'date_range_start_unit' => 'DAY',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '2',
+        'delete' => 0,
+      ),
+      'past_month' => array(
+        'label' => 'Past month',
+        'machine_name' => 'past_month',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'MONTH',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '3',
+        'delete' => 0,
+      ),
+      'past_year' => array(
+        'label' => 'Past year',
+        'machine_name' => 'past_year',
+        'date_range_start_op' => '-',
+        'date_range_start_amount' => '1',
+        'date_range_start_unit' => 'YEAR',
+        'date_range_end_op' => 'NOW',
+        'date_range_end_amount' => '',
+        'date_range_end_unit' => 'HOUR',
+        'weight' => '4',
+        'delete' => 0,
+      ),
+    ),
+    'date_ranges' => array(
+      'add_range' => 'Add a new date range',
+    ),
+    'empty_text' => array(
+      'value' => '',
+      'format' => 'mail',
+    ),
+  );
+  $export['search_api@c4m_search_users:block:c4m_vocab_topic_expertise'] = $facet;
 
   return $export;
 }

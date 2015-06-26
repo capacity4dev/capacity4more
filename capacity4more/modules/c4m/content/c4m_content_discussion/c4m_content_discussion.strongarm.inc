@@ -102,13 +102,24 @@ function c4m_content_discussion_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '11',
+          'weight' => '10',
         ),
         'locations' => array(
-          'weight' => '12',
+          'weight' => '11',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'flag_c4m_og_content_highlight' => array(
+          'full' => array(
+            'weight' => '19',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '6',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__discussion'] = $strongarm;

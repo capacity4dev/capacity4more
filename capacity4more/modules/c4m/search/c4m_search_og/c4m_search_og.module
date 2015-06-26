@@ -1,11 +1,10 @@
 <?php
 /**
  * @file
- * Integration between Search API and OG
+ * Integration between Search API and OG.
  */
 
 include_once 'c4m_search_og.users.inc';
-
 
 /**
  * Implements hook_batch_alter().
@@ -49,15 +48,15 @@ function c4m_search_og_batch_alter(&$batch) {
 /**
  * Batch operation to mark all nodes, whose node_access changed, as dirty index.
  *
- * @param $group_type
+ * @param string $group_type
  *   The group type to handle.
- * @param $group_id
+ * @param int $group_id
  *   The group id to handle.
- * @param $context
+ * @param array $context
  *   Batch API context.
  */
 function c4m_search_og_reindex_og_access_node_grants(
-  $group_type, $group_id, &$context
+  $group_type, $group_id, array &$context
 ) {
   $limit = 50;
 
@@ -76,7 +75,6 @@ function c4m_search_og_reindex_og_access_node_grants(
     $context['sandbox']['last_id'] = 0;
     $context['sandbox']['total'] = $total;
   }
-
 
   // Retrieve the next batch.
   $query = new EntityFieldQuery();

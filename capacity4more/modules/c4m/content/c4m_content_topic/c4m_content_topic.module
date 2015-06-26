@@ -5,3 +5,255 @@
  */
 
 include_once 'c4m_content_topic.features.inc';
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function c4m_content_topic_views_pre_render(&$view) {
+  switch ($view->name) {
+    case 'c4m_related_nodes':
+      $term = c4m_content_topic_get_term_from_node();
+      if (!empty($term)) {
+        $view->display_handler->set_option('link_display', 'custom_url');
+        $options = array(
+          'query' => array(
+            'f' => array('c4m_vocab_topic:' . $term->tid),
+          ),
+        );
+      }
+      else {
+        $options = array();
+      }
+      switch ($view->current_display) {
+        case 'block':
+          $link = 'groups';
+          break;
+
+        case 'block_1':
+          $link = 'projects';
+          break;
+
+        case 'block_2':
+          $link = 'articles';
+          break;
+      }
+
+      $view->display_handler->set_option('link_url', url($link, $options));
+      break;
+  }
+}
+
+/**
+ * Helper function to retrieve mapped taxonomy term.
+ *
+ * @param null|int $nid
+ *   Node ID (or NULL if we get node from the context).
+ *
+ * @return object|null
+ *   Term object if found, otherwise NULL.
+ */
+function c4m_content_topic_get_term_from_node($nid = NULL) {
+  if ($nid == NULL) {
+    $node = menu_get_object('node');
+  }
+  else {
+    $node = node_load($nid);
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  return (!empty($wrapper->c4m_vocab_topic_mapping))
+    ? $wrapper->c4m_vocab_topic_mapping->value() : NULL;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_content_topic_field_formatter_info() {
+  return array(
+    'term_reference_tree_children_expanded' => array(
+      'label'       => t('Term reference tree with all children'),
+      'field types' => array('taxonomy_term_reference'),
+      'settings'    => array(
+        'display'   => 'all',
+        'link'      => '',
+        'wrap'      => 'none',
+        'separator' => ' » ',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function c4m_content_topic_field_formatter_settings_form($field, $instance,
+  $view_mode, $form, &$form_state
+) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+
+  $element['link'] = array(
+    '#title'         => t('Link each term'),
+    '#description'   => t(
+      'If checked, the terms will link to the search page, filtered by this term.'
+    ),
+    '#type'          => 'checkbox',
+    '#default_value' => $settings['link'],
+  );
+  $element['separator'] = array(
+    '#title'         => t('Separator'),
+    '#description'   => t(
+      'Enter some text or markup that will separate each term in the hierarchy. Leave blank for no separator. Example: <em>»</em>'
+    ),
+    '#type'          => 'textfield',
+    '#size'          => 20,
+    '#default_value' => $settings['separator'],
+    '#required'      => FALSE,
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function c4m_content_topic_field_formatter_settings_summary($field, $instance,
+  $view_mode
+) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $format = $settings['link'] ? t('Links') : t('Plain text');
+
+  $summary = t('Display: As %format', array('%format' => $format));
+
+  if ($settings['separator']) {
+    $summary .= '<br />' . t(
+        'Separator: "%separator"',
+        array('%separator' => filter_xss_admin($settings['separator']))
+      );
+  }
+
+  return $summary;
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function c4m_content_topic_field_formatter_prepare_view($entity_type, $entities,
+  $field, $instances, $langcode, &$items, $displays
+) {
+  taxonomy_field_formatter_prepare_view(
+    $entity_type, $entities, $field, $instances, $langcode, $items, $displays
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_content_topic_field_formatter_view($entity_type, $entity, $field,
+  $instance, $langcode, $items, $display
+) {
+  $element = $used = array();
+  $settings = $display['settings'];
+
+  foreach ($items as $delta => $item) {
+    // Terms whose tid is 'autocreate' do not exist
+    // yet and $item['taxonomy_term'] is not set. Theme such terms as
+    // just their name.
+    if ($item['tid'] == 'autocreate') {
+      $terms = array('tid' => 'none', 'content' => check_plain($item['name']));
+    }
+    else {
+      // Build an array representing the term hierarchy.
+      $term_tree = array($item['taxonomy_term']);
+      $term_tree = array_merge($term_tree, taxonomy_get_tree(
+        $item['taxonomy_term']->vid, $item['taxonomy_term']->tid
+      ));
+
+      // Remove empty elements caused by discarded items.
+      $term_tree = array_filter($term_tree);
+      $terms = array();
+
+      // Get the vocabulary to create a filter on vocab facet.
+      $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);
+
+      foreach ($term_tree as $term) {
+        if ($settings['link']) {
+          $options = array(
+            'query' => array(
+              'f' => array($vocab->machine_name . ':' . $term->tid),
+            ),
+          );
+
+          $link = array(
+            '#type'    => 'link',
+            '#title'   => $term->name,
+            '#href'    => 'search',
+            '#options' => $options,
+          );
+          $terms[] = array(
+            'tid'     => $term->tid,
+            'content' => drupal_render($link),
+          );
+        }
+        else {
+          $terms[] = array(
+            'tid'     => $term->tid,
+            'content' => check_plain($term->name),
+          );
+        }
+      }
+    }
+
+    // Make sure there are terms before adding to $element.
+    if (count($terms)) {
+      // Prepare theme variables.
+      $variables = array(
+        'terms'     => $terms,
+        'separator' => $settings['separator'],
+      );
+
+      $element[$delta] = array(
+        '#markup' => theme(
+          'c4m_content_topic_term_reference_tree_children_expanded', $variables
+        ),
+      );
+    }
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_topic_theme($existing, $type, $theme, $path) {
+  return array(
+    'c4m_content_topic_term_reference_tree_children_expanded' => array(
+      'variables' => array(
+        'terms'     => array(),
+        'separator' => '',
+      ),
+    ),
+  );
+}
+
+/**
+ * Theme the term hierarchy.
+ */
+function theme_c4m_content_topic_term_reference_tree_children_expanded($variables
+) {
+  $items = array();
+  $separator = filter_xss_admin($variables['separator']);
+  $count = 0;
+
+  foreach ($variables['terms'] as $item) {
+    $count++;
+    $items[] = $item['content'];
+  }
+
+  return implode($separator, $items);
+}

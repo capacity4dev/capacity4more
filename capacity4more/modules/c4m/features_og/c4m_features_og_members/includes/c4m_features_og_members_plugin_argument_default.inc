@@ -1,10 +1,18 @@
 <?php
 /**
+ * @file
+ * Views argument plugin.
+ */
+
+/**
  * The group members argument default handler.
  */
 class c4m_features_og_members_plugin_argument_default extends views_plugin_argument_default {
   /**
-   * Return the members of current group
+   * Return the members of current group.
+   *
+   * @return mixed
+   *   String of membership id's.
    */
   function get_argument() {
     $group = c4m_og_current_group();
@@ -33,8 +41,9 @@ class c4m_features_og_members_plugin_argument_default extends views_plugin_argum
       return implode('+', $user_ids);
     }
     else {
-      // If no user ids meet our conditions, show no members
+      // If no user ids meet our conditions, show no members.
       return '';
     }
   }
+
 }

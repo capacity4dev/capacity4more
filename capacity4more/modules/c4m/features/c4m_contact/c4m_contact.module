@@ -1,0 +1,71 @@
+<?php
+/**
+ * @file
+ * Code for the Contact module.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter the site contact form.
+ */
+function c4m_contact_form_contact_site_form_alter(&$form, &$form_state, $form_id) {
+  // Get site contact settings.
+  $contact_settings = variable_get('c4m_site_contact', array());
+
+  if (empty($contact_settings)) {
+    return;
+  }
+
+  // Add intro text to form.
+  $markup = '<div class="form-item">'
+            . t('!intro', array('!intro' => $contact_settings['intro']))
+            . '</div>';
+  if (isset($contact_settings['intro'])) {
+    $form['intro'] = array(
+      '#markup' => $markup,
+      '#weight' => -1,
+    );
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter the site contact admin form.
+ */
+function c4m_contact_form_contact_category_edit_form_alter(&$form, &$form_state, $form_id) {
+  // Get site contact settings.
+  $contact_settings = variable_get('c4m_site_contact', array());
+  $intro = isset($contact_settings['intro']) ? $contact_settings['intro'] : '';
+
+  // Add wysiwyg textarea on top of the form to set the intro text.
+  $form['intro'] = array(
+    '#type'           => 'text_format',
+    '#title'          => t('Intro'),
+    '#description'    => t('The intro text displayed on top of the contact form.'),
+    '#default_value'  => $intro,
+    '#format'         => 'filtered_html',
+    '#rows'           => 10,
+    '#weight'         => 0,
+  );
+
+  $form['#submit'][] = 'c4m_contact_category_edit_form_submit';
+}
+
+/**
+ * Submit handler for the site contact admin form.
+ */
+function c4m_contact_category_edit_form_submit($form, &$form_state) {
+  if (!isset($form_state['values']['intro'])) {
+    return;
+  }
+
+  // Get site contact settings.
+  $contact_settings = variable_get('c4m_site_contact', array());
+
+  // Add the intro text in the contact settings variable.
+  $intro = $form_state['values']['intro']['value'];
+  $contact_settings['intro'] = $intro;
+  variable_set('c4m_site_contact', $contact_settings);
+}

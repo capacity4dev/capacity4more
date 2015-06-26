@@ -1,6 +1,15 @@
+<?php
+/**
+ * @file
+ * Prints out the video overlay.
+ */
+
+?>
+
 <div class="button-wrapper">
+  <?php print render($image); ?>
   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#c4mVideoModal">
-    <?php print $video_title ?>
+    <span><?php print $video_title ?></span>
   </button>
 </div>
 <div class="modal fade" id="c4mVideoModal" tabindex="-1" role="dialog" aria-hidden="true">

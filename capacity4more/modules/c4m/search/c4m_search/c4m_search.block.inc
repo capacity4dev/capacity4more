@@ -22,9 +22,16 @@ function _c4m_search_block_facetapi_view_alter(&$data, $block) {
     'C1uZlhNqghipCSyxxgucWQMdVsq4ppY5' => t('Date'),
     '4Erg9yLvJMABad12YSuX81wXLf2eoV17' => t('Language'),
     'lcuW9WS3uMIsaaA0uZQgyEVGKcC2RDWB' => t('OG Vocab'),
+
+    // Geographical.
     'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => t('Regions & Countries'),
+
+    // Topics.
+    'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => t('Topics'),
     'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => t('Topics'),
-    'QgJEmEcjJBhqSVzHPi5bPE2bqBu7Y67h' => t('Topics of Interest'),
+    'bg1wyxiiqobnrzn1exkukcw9arm3on07' => t('Topics of Interest'),
+    'okbRObcVrcftlQAKnMx7ns16BYwkgQpC' => t('Topics of Expertise'),
+
     // Content type.
     'QjdXjCmQyf1I4MYpAXp20tgcG7rR8PKS' => t('Type'),
 

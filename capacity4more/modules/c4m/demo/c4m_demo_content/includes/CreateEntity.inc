@@ -28,6 +28,13 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   );
 
   /**
+   * The text format to use for body fields.
+   *
+   * @var string
+   */
+  protected $textFormat = 'filtered_html';
+
+  /**
    * Class constructor.
    */
   public function __construct() {
@@ -92,7 +99,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     );
     $this->destination = new $class_name(
       $this->bundle,
-      array('text_format' => 'filtered_html')
+      array('text_format' => $this->textFormat)
     );
   }
 
@@ -411,6 +418,35 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       return TRUE;
     }
     return FALSE;
+  }
+
+  /**
+   * Helper method for the organisation domain field.
+   *
+   * Combine a domain icon state and domain values for a "domain" field.
+   *
+   * @param object $entity
+   *   The entity object AFTER it has been saved (nid available).
+   * @param object $row
+   *   The source row we are processing.
+   * @param string $domainfield
+   *   Name of the field holding the domain data.
+   */
+  public function extractDomain($entity, $row, $domainfield) {
+    $domains = explode(',', $row->$domainfield);
+    if (count($domains) < 1) {
+      return FALSE;
+    }
+
+    foreach ($domains as $domain) {
+      $domain_data = explode('|', $domain);
+      if (count($domain_data) > 1) {
+        $entity->c4m_domain[LANGUAGE_NONE][] = array(
+          'icon' => $domain_data[0],
+          'domain' => $domain_data[1],
+        );
+      }
+    }
   }
 
   /**

@@ -51,9 +51,11 @@ function c4m_search_default_search_api_server() {
  * machine name of the solr service).
  *
  * Based on the search_api_solr_overrides module.
+ *
  * @see https://www.drupal.org/project/search_api_solr_overrides
  *
- * @see c4m_search_default_search_api_server() for an example of the paremeters
+ * @see c4m_search_default_search_api_server()
+ * For an example of the paremeters
  * that can be overridden.
  *
  * Example:
@@ -106,9 +108,6 @@ function c4m_search_search_api_server_load($servers) {
  * Implements hook_block_view_alter().
  *
  * Override the default Search Api Facet block titles.
- *
- * @param $data
- * @param $block
  */
 function c4m_search_block_view_alter(&$data, $block) {
   // Only for blocks provided by the facetapi module.
@@ -141,12 +140,17 @@ function c4m_search_facetapi_widgets() {
 }
 
 /**
- * Implements hook_theme()
+ * Implements hook_theme().
  */
 function c4m_search_theme() {
   return array(
     'c4m_search_facetapi_link_group' => array(
-      'variables' => array('text' => NULL, 'path' => NULL, 'options' => array(), 'count' => 0),
+      'variables' => array(
+        'text' => NULL,
+        'path' => NULL,
+        'options' => array(),
+        'count' => 0,
+      ),
       'file' => 'c4m_search.theme.inc',
     ),
     'c4m_search_dropdown_sort_filters' => array(
@@ -188,13 +192,17 @@ function c4m_search_theme() {
  * F.i. to retrieve counts of documents only and not return items:
  * $query->setOption('limit', 0);
  *
- * @param $filters
- * @param $options
+ * @param array $filters
+ *    The filters to be added to the query.
+ * @param array $options
+ *    Additional options to be added to the query.
+ *
  * @return array
+ *    Result set of the query.
  */
-function c4m_search_custom_search($filters, $options = array()) {
+function c4m_search_custom_search(array $filters, $options = array()) {
   if (empty($filters)) {
-    return;
+    return array();
   }
   $index = search_api_index_load('c4m_search_nodes');
   $query = new SearchApiQuery($index);
@@ -223,12 +231,10 @@ function c4m_search_custom_search($filters, $options = array()) {
 }
 
 /**
- * Implementation of hook_views_data_alter
+ * Implements hook_views_data_alter().
  *
  * Provide a views bulk operations checkbox to search api index views.
  * See https://www.drupal.org/node/1123454#comment-9554163
- *
- * @param $data
  */
 function c4m_search_views_data_alter(&$data) {
   if (isset($data['search_api_index'])) {
@@ -262,11 +268,11 @@ function c4m_search_facetapi_url_processors() {
 }
 
 /**
- * Implements hook_facetapi_searcher_info_alter()
+ * Implements hook_facetapi_searcher_info_alter().
  */
 function c4m_search_facetapi_searcher_info_alter(array &$searcher_info) {
   foreach ($searcher_info as $key => $value) {
-    if($value['url processor'] == 'standard'){
+    if ($value['url processor'] == 'standard') {
       $searcher_info[$key]['url processor'] = 'c4m_processor';
     }
   }
@@ -371,16 +377,23 @@ function c4m_search_form($form, &$form_state) {
 
   // Show available search pages selector if more than one are available.
   $search_pages = c4m_search_info();
+  if (c4m_og_current_group()) {
+    $default_value = 'search_api_views_c4m_search_og';
+  }
+  else {
+    $default_value = 'search_api_views_c4m_search_nodes';
+  }
+
   if (count($search_pages) > 1) {
     $options = array();
     foreach ($search_pages as $search_page) {
       // Check access.
       if (empty($search_page['access']) || $search_page['access']()) {
-        if (empty($search_page['group'])) {
-          $options[$search_page['machine_name']] = $search_page['name'];
-        }
-        else {
-          $options[$search_page['group']][$search_page['machine_name']] = $search_page['name'];
+        $options[$search_page['machine_name']] = $search_page['name'];
+        $current_path = current_path();
+        // Set default path.
+        if ($current_path === $search_page['path']) {
+          $default_value = $search_page['machine_name'];
         }
       }
     }
@@ -389,7 +402,7 @@ function c4m_search_form($form, &$form_state) {
       '#title' => 'Customize your search',
       '#title_display' => 'invisible',
       '#options' => $options,
-      '#default_value' => key($options),
+      '#default_value' => $default_value,
       '#weight' => 0,
       '#attached' => array(
         'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
@@ -410,6 +423,12 @@ function c4m_search_form($form, &$form_state) {
     ),
   );
 
+  // Get the proper ID for the current search.
+  $search = search_api_autocomplete_search_load($default_value);
+  if ($search && $search->enabled) {
+    $search->alterElement($form['basic']['keys']);
+  }
+
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
@@ -425,16 +444,24 @@ function c4m_search_form($form, &$form_state) {
  * Redirects to the selected search page.
  */
 function c4m_search_form_submit($form, &$form_state) {
+  // Get destination search page.
   $search_page = c4m_search_info($form_state['values']['search_page']);
   $options = array(
     'query' => array(
       'text' => $form_state['values']['keys'],
     ),
     'purl' => array(
-      'disabled' => !$search_page['purl'],
+      'disabled' => ($search_page['type'] === 'global'),
     ),
     'absolute' => TRUE,
   );
+
+  // Force redirect on 404 pages.
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  // Set redirect target.
   $form_state['redirect'] = url($search_page['path'], $options);
 }
 

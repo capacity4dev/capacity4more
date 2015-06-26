@@ -25,8 +25,9 @@ function c4m_features_og_manage_categories_overview_form($form, &$form_state) {
 /**
  * Form builder for the category types management overview.
  *
- * Display a list of all the 1st level terms in a vocabulary, with options to edit
- * each one. The form is made drag and drop by the theme function.
+ * Display a list of all the 1st level terms in a vocabulary, with options to
+ * edit each one.
+ * The form is made drag and drop by the theme function.
  *
  * @ingroup forms
  */
@@ -42,7 +43,12 @@ function c4m_features_og_manage_categories_types_overview_form($form, &$form_sta
 
 /**
  * Submit handler for the category types management page.
- * Handles Reordering - Delete - Reset alphabetical - Instant create new category type.
+ *
+ * Handles:
+ * - Reordering.
+ * - Delete.
+ * - Reset alphabetical.
+ * - Instant create new category type.
  */
 function c4m_features_og_manage_categories_types_overview_form_submit($form, &$form_state) {
 
@@ -60,7 +66,12 @@ function c4m_features_og_manage_categories_types_overview_form_submit($form, &$f
 
 /**
  * Submit handler for the category terms management page.
- * Handles Reordering - Delete - Reset alphabetical - Instant create new term.
+ *
+ * Handles:
+ * - Reordering.
+ * - Delete.
+ * - Reset alphabetical.
+ * - Instant create new term.
  */
 function c4m_features_og_manage_categories_overview_form_submit($form, &$form_state) {
 
@@ -138,7 +149,6 @@ function c4m_features_og_manage_categories_term_delete_confirm_form_submit($form
   watchdog('taxonomy', 'Deleted term %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
   $form_state['redirect'] = $form['#destination'];
   cache_clear_all();
-  return;
 }
 
 /**
@@ -174,11 +184,12 @@ function c4m_features_og_manage_categories_type_delete_confirm_form_submit($form
   watchdog('taxonomy', 'Deleted category type %name.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
   $form_state['redirect'] = $form['#destination'];
   cache_clear_all();
-  return;
 }
 
 /**
- * Form builder to confirm resetting a terms (2nd level) under a specific category type to alphabetical order.
+ * Form builder to confirm resetting a terms (2nd level).
+ *
+ * Under a specific category type to alphabetical order.
  *
  * @ingroup forms
  */
@@ -204,7 +215,9 @@ function c4m_features_og_manage_categories_term_order_confirm_form($form, &$form
 }
 
 /**
- * Submit handler to reset a specific category's children to alphabetical order after confirmation.
+ * Submit handler to reset a specific category's children to alphabetical order.
+ *
+ * Change after confirmation.
  *
  * @see c4m_features_og_manage_categories_term_order_confirm_form()
  */
@@ -215,15 +228,16 @@ function c4m_features_og_manage_categories_term_order_confirm_form_submit($form,
     ':parent_tid' => $form_state['values']['parent_tid'],
   );
 
-  db_query(
-    'UPDATE {taxonomy_term_data} AS d ' .
-    'JOIN {taxonomy_term_hierarchy} AS h ' .
-    'ON d.tid = h.tid ' .
-    'SET d.weight = :weight ' .
-    'WHERE d.vid = :vid ' .
-    'AND h.parent = :parent_tid',
-    $params
-  );
+  $query = <<<EOT
+    UPDATE {taxonomy_term_data} AS d
+    JOIN {taxonomy_term_hierarchy} AS h
+    ON d.tid = h.tid
+    SET d.weight = :weight
+    WHERE d.vid = :vid
+    AND h.parent = :parent_tid
+EOT;
+
+  db_query($query, $params);
 
   drupal_set_message(t('Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name'])));
   watchdog('taxonomy', 'Reset category %name children to alphabetical order.', array('%name' => $form_state['values']['name']), WATCHDOG_NOTICE);
@@ -231,7 +245,9 @@ function c4m_features_og_manage_categories_term_order_confirm_form_submit($form,
 }
 
 /**
- * Form builder to confirm resetting category types (1st level) to alphabetical order.
+ * Form builder to confirm resetting category types to alphabetical order.
+ *
+ * This is only for the first (1) level.
  *
  * @ingroup forms
  */
@@ -251,7 +267,9 @@ function c4m_features_og_manage_categories_type_order_confirm_form($form, &$form
 }
 
 /**
- * Submit handler to reset the vocabulary's category types to alphabetical order after confirmation.
+ * Submit handler to reset the vocabulary's category types.
+ *
+ * Changes the sort to alphabetical order after confirmation.
  *
  * @see c4m_features_og_manage_categories_type_order_confirm_form()
  */
@@ -261,14 +279,15 @@ function c4m_features_og_manage_categories_type_order_confirm_form_submit($form,
     ':vid' => $form_state['values']['vid'],
   );
 
-  db_query(
-    'UPDATE {taxonomy_term_data} AS d ' .
-    'JOIN {taxonomy_term_hierarchy} AS h ' .
-    'ON d.tid = h.tid ' .
-    'SET d.weight = :weight ' .
-    'WHERE d.vid = :vid',
-    $params
-  );
+  $query = <<<EOT
+    UPDATE {taxonomy_term_data} AS d
+    JOIN {taxonomy_term_hierarchy} AS h
+    ON d.tid = h.tid
+    SET d.weight = :weight
+    WHERE d.vid = :vid
+EOT;
+
+  db_query($query, $params);
 
   drupal_set_message(t('Reset Categories to alphabetical order.'));
   watchdog('taxonomy', 'Reset Categories to alphabetical order.', WATCHDOG_NOTICE);
@@ -280,6 +299,7 @@ function c4m_features_og_manage_categories_type_order_confirm_form_submit($form,
  *
  * To avoid duplicated code, using the term edit form to build this form,
  * then adding some changes to suit the add form.
+ *
  * @ingroup forms
  */
 function c4m_features_og_manage_categories_type_add_form($form, &$form_state, $edit = array()) {
@@ -376,9 +396,11 @@ function c4m_features_og_manage_categories_type_add_form_submit($form, &$form_st
  * Form builder function for the category type edit form.
  *
  * To avoid duplicated code, using the term edit form to build this form,
- * as it's almost the same form, Just unset the parent fields and change the title and description.
+ * as it's almost the same form, Just unset the parent fields and change the
+ * title and description.
  *
  * @ingroup forms
+ *
  * @see taxonomy_form_term()
  */
 function c4m_features_og_manage_categories_type_form($form, &$form_state, $tid) {
@@ -470,6 +492,7 @@ function c4m_features_og_manage_categories_type_form_submit($form, &$form_state)
  * Form function for the term edit form.
  *
  * @ingroup forms
+ *
  * @see taxonomy_form_term()
  */
 function c4m_features_og_manage_categories_term_form($form, &$form_state, $tid) {
@@ -568,6 +591,7 @@ function c4m_features_og_manage_taxonomy_form_term_submit_build_taxonomy_term($f
  * Returns HTML for a category types overview form as a sortable list of terms.
  *
  * @see theme_c4m_features_og_manage_categories_overview_form()
+ *
  * @ingroup themeable
  */
 function theme_c4m_features_og_manage_categories_types_overview_form($variables) {
@@ -577,16 +601,16 @@ function theme_c4m_features_og_manage_categories_types_overview_form($variables)
 /**
  * Returns HTML for a terms overview form as a sortable list of terms.
  *
- * @param array() $variables
+ * @param array $variables
  *   An associative array containing:
  *   - form: A render element representing the form.
  *
  * @return string
- *  HTML of the terms/types overview form with add terms inputs.
+ *   HTML of the terms/types overview form with add terms inputs.
  *
  * @ingroup themeable
  */
-function theme_c4m_features_og_manage_categories_overview_form($variables) {
+function theme_c4m_features_og_manage_categories_overview_form(array $variables) {
   $form = $variables['form'];
 
   $vocabulary = $form['#vocabulary'];
@@ -646,9 +670,9 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
     $header = array(
       array(
         'data' => t('Name') . l(t('Order items alphabetically'), url('manage/categories/' . $reset_path . '/term-order', array('absolute' => TRUE))),
-        'class' => array('category-name-column')
+        'class' => array('category-name-column'),
       ),
-      t('Operations')
+      t('Operations'),
     );
     // Add necessary classes to rows.
     $row_position = 0;
@@ -686,7 +710,7 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
         'query' => drupal_get_destination(),
       );
       $category_title = theme_html_tag($parent_element) . l(t('Edit'), url('manage/categories/type/' . $parent_id . '/edit', $options));
-      $category_title .= '|' . l(t('Change order'), url('manage/categories/types' ,array('absolute' => TRUE)));
+      $category_title .= '|' . l(t('Change order'), url('manage/categories/types', array('absolute' => TRUE)));
       $category_title .= '|' . l(t('Delete'), url('manage/categories/type/' . $parent_id . '/delete', $options));
 
       $category_title_element['element'] = array(
@@ -698,7 +722,14 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
       );
       $output .= theme_html_tag($category_title_element);
     }
-    $output .= theme('table', array('header' => $header, 'rows' => $rows[$parent_id], 'attributes' => array('id' => 'taxonomy-' . $parent_id)));
+    $output .= theme(
+      'table',
+      array(
+        'header' => $header,
+        'rows' => $rows[$parent_id],
+        'attributes' => array('id' => 'taxonomy-' . $parent_id),
+      )
+    );
 
     $output .= $form['#page_type'] == 'terms' ? drupal_render_children($form[$parent_key]['add_term_form']) : drupal_render_children($form['add_term_form']);
 
@@ -723,7 +754,9 @@ function theme_c4m_features_og_manage_categories_overview_form($variables) {
 }
 
 /**
- * Helper callback; Saves the order of the terms (Terms and category types) in the vocabulary.
+ * Helper callback.
+ *
+ * Saves the order of the terms (Terms and category types) in the vocabulary.
  */
 function c4m_features_og_manage_categories_overview_update_vocabulary($form, &$form_state, $tree) {
   $changed_terms = array();
@@ -763,7 +796,7 @@ function c4m_features_og_manage_categories_overview_update_vocabulary($form, &$f
  * Helper callback; inserts the vocabulary info & group into the form.
  *
  * @return array
- *  The form group/ vocab info.
+ *   The form group/ vocab info.
  */
 function c4m_feature_og_manage_get_category_management_form_info($form) {
   $group = c4m_og_current_group();
@@ -781,7 +814,7 @@ function c4m_feature_og_manage_get_category_management_form_info($form) {
  * Helper callback; Builds the actual form for category types/ terms overview.
  *
  * @return array
- *  The overview form.
+ *   The overview form.
  */
 function c4m_features_og_manage_build_category_management_form($form, $tree, $items_type) {
   $form['#page_type'] = $items_type;
@@ -796,7 +829,8 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     }
     $delta++;
 
-    // Finally, if we've gotten down this far, we're rendering a term on this page.
+    // Finally, if we've gotten down this far,
+    // we're rendering a term on this page.
     $term_deltas[$term->tid] = isset($term_deltas[$term->tid]) ? $term_deltas[$term->tid] + 1 : 0;
     $key = 'tid:' . $term->tid . ':' . $term_deltas[$term->tid];
 
@@ -807,10 +841,14 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
   // If this form was already submitted once, it's probably hit a validation
   // error. Ensure the form is rebuilt in the same order as the user submitted.
   if (!empty($form_state['input'])) {
-    $order = array_flip(array_keys($form_state['input'])); // Get the $_POST order.
-    $current_page = array_merge($order, $current_page); // Update our form with the new order.
+    // Get the $_POST order.
+    $order = array_flip(array_keys($form_state['input']));
+
+    // Update our form with the new order.
+    $current_page = array_merge($order, $current_page);
     foreach ($current_page as $key => $term) {
-      // Verify this is a term for the current page and set at the current depth.
+      // Verify this is a term for the current page and set at the current
+      // depth.
       if (is_array($form_state['input'][$key]) && is_numeric($form_state['input'][$key]['tid'])) {
         $current_page[$key]->depth = $form_state['input'][$key]['depth'];
       }
@@ -822,34 +860,55 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
 
   // Build the actual form.
   foreach ($current_page as $key => $term) {
-    // Save the term for the current page so we don't have to load it a second time.
+    // Save the term for the current page so we don't have to load it a
+    // second time.
     $form[$key]['#term'] = (array) $term;
     if (isset($term->parents)) {
       $form[$key]['#term']['parent'] = $term->parent = $term->parents[0];
       unset($form[$key]['#term']['parents'], $term->parents);
     }
 
-    $form[$key]['view'] = array('#type' => 'link', '#title' => $term->name, '#href' => "taxonomy/term/$term->tid");
+    $form[$key]['view'] = array(
+      '#type' => 'link',
+      '#title' => $term->name,
+      '#href' => 'taxonomy/term/' . $term->tid,
+    );
     if ($form['#vocabulary']->hierarchy < 2 && count($tree) > 1) {
       $form['#parent_fields'] = TRUE;
       $form[$key]['tid'] = array(
         '#type' => 'hidden',
-        '#value' => $term->tid
+        '#value' => $term->tid,
       );
       $form[$key]['parent'] = array(
         '#type' => 'hidden',
-        // Yes, default_value on a hidden. It needs to be changeable by the javascript.
+        // Yes, default_value on a hidden.
+        // It needs to be changeable by the javascript.
         '#default_value' => $term->parent,
       );
       $form[$key]['depth'] = array(
         '#type' => 'hidden',
-        // Same as above, the depth is modified by javascript, so it's a default_value.
+        // Same as above, the depth is modified by javascript,
+        // so it's a default_value.
         '#default_value' => $term->depth,
       );
     }
     $edit_path = $items_type == 'types' ? 'type' : 'term';
-    $form[$key]['edit'] = array('#type' => 'link', '#title' => t('Edit'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit', '#options' => array('query' => drupal_get_destination()));
-    $form[$key]['delete'] = array('#type' => 'link', '#title' => t('Delete'), '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/delete', '#options' => array('query' => drupal_get_destination()));
+    $form[$key]['edit'] = array(
+      '#type' => 'link',
+      '#title' => t('Edit'),
+      '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/edit',
+      '#options' => array(
+        'query' => drupal_get_destination(),
+      ),
+    );
+    $form[$key]['delete'] = array(
+      '#type' => 'link',
+      '#title' => t('Delete'),
+      '#href' => 'manage/categories/' . $edit_path . '/' . $term->tid . '/delete',
+      '#options' => array(
+        'query' => drupal_get_destination(),
+      ),
+    );
     // Adding "Add a term" form under each category type (For terms page).
     if ($term->parent == 0 && $items_type == 'terms') {
       $form[$key]['add_term_form']['name'] = array(
@@ -898,9 +957,21 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
     $form['actions'] = array('#type' => 'actions', '#tree' => FALSE);
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Save')
+      '#value' => t('Save'),
     );
-    $form_state['redirect'] = array($_GET['q'], (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()));
+
+    $redirect_query = array();
+    $get_query = drupal_get_query_parameters();
+    if (isset($get_query['page'])) {
+      $redirect_query = array(
+        'query' => array('page' => $get_query['page']),
+      );
+    }
+
+    $form_state['redirect'] = array(
+      current_path(),
+      $redirect_query,
+    );
   }
 
   // Adding "Add new type of category" button.
@@ -911,7 +982,9 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
       '#type' => 'link',
       '#title' => t('Add new type of category'),
       '#href' => 'manage/categories/type/add',
-      '#options' => array('query' => drupal_get_destination()),
+      '#options' => array(
+        'query' => drupal_get_destination(),
+      ),
       '#attributes' => array(
         'class' => array(
           'btn btn-default',
@@ -931,10 +1004,11 @@ function c4m_features_og_manage_build_category_management_form($form, $tree, $it
 
 /**
  * Helper callback; Gets necessary info for the delete form.
+ *
  * Used by term delete and types delete callbacks.
  *
  * @return array
- *  The delete form info.
+ *   The delete form info.
  */
 function c4m_features_og_manage_categories_delete_helper($form, $tid) {
   $form = c4m_feature_og_manage_get_category_management_form_info($form);
@@ -955,7 +1029,10 @@ function c4m_features_og_manage_categories_delete_helper($form, $tid) {
   $form['#term'] = $term;
   $form['type'] = array('#type' => 'value', '#value' => 'term');
   $form['name'] = array('#type' => 'value', '#value' => $term->name);
-  $form['vocabulary_machine_name'] = array('#type' => 'value', '#value' => $term->vocabulary_machine_name);
+  $form['vocabulary_machine_name'] = array(
+    '#type' => 'value',
+    '#value' => $term->vocabulary_machine_name,
+  );
   $form['delete'] = array('#type' => 'value', '#value' => TRUE);
 
   return $form;
@@ -965,7 +1042,7 @@ function c4m_features_og_manage_categories_delete_helper($form, $tid) {
  * Helper callback; Builds the edit term/type form.
  *
  * @return array
- *  The prepared edit form.
+ *   The prepared edit form.
  */
 function c4m_features_og_manage_categories_edit_form_build($form, &$form_state, $term, $vocabulary) {
   $parent = array_keys(taxonomy_get_parents($term->tid));
@@ -1002,9 +1079,12 @@ function c4m_features_og_manage_categories_edit_form_build($form, &$form_state, 
     '#weight' => 5,
   );
 
+  $vocab_name = isset($term->vocabulary_machine_name)
+    ? $term->vocabulary_machine_name
+    : $vocabulary->name;
   $form['vocabulary_machine_name'] = array(
     '#type' => 'value',
-    '#value' => isset($term->vocabulary_machine_name) ? $term->vocabulary_machine_name : $vocabulary->name,
+    '#value' => $vocab_name,
   );
 
   $form['vid'] = array(
@@ -1037,4 +1117,3 @@ function c4m_features_og_manage_categories_edit_form_build($form, &$form_state, 
 
   return $form;
 }
-

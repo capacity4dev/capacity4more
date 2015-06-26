@@ -131,7 +131,7 @@ function c4m_domain_view_domain($id) {
   $domains = entity_load('c4m_domain', array(intval($id)));
   if (empty($domains[$id])) {
     drupal_not_found();
-    exit;
+    return;
   }
 
   // Render output.

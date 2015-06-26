@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the user admin module.
+ */
+
+include_once 'c4m_user_admin.features.inc';

@@ -162,7 +162,7 @@ function c4m_search_default_search_api_index() {
       "fields" : {
         "attachments_c4m_document" : { "type" : "text" },
         "author" : { "type" : "integer", "entity_type" : "user" },
-        "body:value" : { "type" : "text" },
+        "c4m_body:value" : { "type" : "text" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_date" : { "type" : "date" },
@@ -184,6 +184,8 @@ function c4m_search_default_search_api_index() {
         "c4m_vocab_document_type" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_language" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "c4m_vocab_theme" : { "type" : "integer", "entity_type" : "taxonomy_term" },
+        "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "changed" : { "type" : "date" },
         "comment_count" : { "type" : "integer" },
         "created" : { "type" : "date" },
@@ -224,9 +226,9 @@ function c4m_search_default_search_api_index() {
         "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
         "c4m_organisation" : { "type" : "text" },
         "c4m_organisation_type" : { "type" : "string" },
-        "c4m_related_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "c4m_related_topic_expertise" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "c4m_vocab_topic_expertise" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "mail" : { "type" : "text" },
         "name" : { "type" : "text" },
         "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
@@ -279,8 +281,8 @@ function c4m_search_default_search_api_index() {
               "c4m_last_name" : true,
               "c4m_organisation" : true,
               "c4m_organisation_type" : true,
-              "c4m_related_topic" : true,
-              "c4m_related_topic_expertise" : true,
+              "c4m_vocab_topic" : true,
+              "c4m_vocab_topic_expertise" : true,
               "c4m_vocab_geo" : true
             }
           }
@@ -429,19 +431,6 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "Number of views" },
-    "rdf_mapping" : []
-  }');
-  $items['c4m_search_users__search_api_relevance'] = entity_import('search_api_sort', '{
-    "index_id" : "c4m_search_users",
-    "field" : "search_api_relevance",
-    "name" : "Relevance",
-    "enabled" : "1",
-    "weight" : "0",
-    "identifier" : "c4m_search_users__search_api_relevance",
-    "default_sort" : "0",
-    "default_sort_no_terms" : "0",
-    "default_order" : "desc",
-    "options" : { "field_name" : "search_api_relevance" },
     "rdf_mapping" : []
   }');
   $items['c4m_search_users__c4m_first_name'] = entity_import('search_api_sort', '{

@@ -117,13 +117,20 @@ function c4m_content_wiki_page_strongarm() {
           'weight' => '11',
         ),
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
           'weight' => '10',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'flag_c4m_og_content_highlight' => array(
+          'full' => array(
+            'weight' => '26',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__wiki_page'] = $strongarm;

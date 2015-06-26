@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Plugin to embed videos in panels.
+ */
 
 /**
  * Plugin definition.
@@ -62,7 +66,7 @@ function c4m_features_homepage_video_embed_content_type_render($subtype, $conf, 
   $block = new stdClass();
   $block->module = 'c4m_features_homepage';
   $block->title = '';
-  $block->content = theme('video_embed' , $variables);
+  $block->content = theme('video_embed', $variables);
   return $block;
 }
 
@@ -99,7 +103,7 @@ function c4m_features_homepage_video_embed_content_type_edit_form($form, &$form_
 }
 
 /**
-* Edit form submit callback.
+ * Edit form submit callback.
  */
 function c4m_features_homepage_video_embed_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['title'] = $form_state['values']['title'];

@@ -1,4 +1,19 @@
 .main-container {
+
+  .field-name-title {
+    display: inline-block;
+  }
+
+  .group-status {
+    margin: 0 20px 10px 10px;
+    display: inline-block;
+    border: 1px solid $color-black;
+    padding: 0 4px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    vertical-align: middle;
+  }
+
   .region-sidebar-first {
     @include box-shadow(none);
 
@@ -11,6 +26,12 @@
       margin: 0 15px 0 0;
       padding: 0 15px 0 0;
     }
+  }
+}
+
+footer.footer {
+  .footer-wrapper {
+
   }
 }
 

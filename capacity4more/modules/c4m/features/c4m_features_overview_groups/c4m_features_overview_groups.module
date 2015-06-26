@@ -11,15 +11,14 @@ include_once 'c4m_features_overview_groups.features.inc';
  */
 function c4m_features_overview_groups_c4m_search_page_info() {
   return array(
-    'c4m_features_overview_groups' => array(
+    'search_api_views_c4m_overview_groups' => array(
       'name' => t('Groups'),
       'description' => t('Search groups.'),
-      'machine_name' => 'c4m_features_overview_groups',
-      'path' => 'people',
+      'machine_name' => 'search_api_views_c4m_overview_groups',
+      'path' => 'groups',
       'weight' => 2,
       'default' => FALSE,
-      'purl' => FALSE,
-      'group' => t('Search in all site content'),
+      'type' => 'global',
     ),
   );
 }
