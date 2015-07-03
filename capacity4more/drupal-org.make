@@ -60,7 +60,6 @@ projects[dragndrop_upload][version] = "1.x-dev"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 ; Patches for RESTful
-projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
 projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
 
 projects[entityreference][subdir] = "contrib"
