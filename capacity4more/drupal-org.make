@@ -39,7 +39,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.7"
 
 projects[currency][subdir] = "contrib"
-projects[currency][version] = "2.4"
+projects[currency][version] = "2.5"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
@@ -58,7 +58,7 @@ projects[dragndrop_upload][subdir] = "contrib"
 projects[dragndrop_upload][version] = "1.x-dev"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 ; Patches for RESTful
 projects[entity][patch][] = "https://www.drupal.org/files/issues/2264079-entity-wrapper-access-single-entity-reference-2.patch"
 projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
@@ -80,7 +80,7 @@ projects[facetapi_bonus][subdir] = "contrib"
 projects[facetapi_bonus][version] = "1.1"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.5"
+projects[features][version] = "2.6"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
@@ -95,13 +95,13 @@ projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.6"
 
 projects[getlocations][subdir] = "contrib"
-projects[getlocations][version] = "1.15"
+projects[getlocations][version] = "1.16"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.5"
+projects[inline_entity_form][version] = "1.6"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "3.0-alpha1"
+projects[jquery_update][version] = "3.0-alpha2"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -191,7 +191,7 @@ projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc1"
+projects[redirect][version] = "1.0-rc2"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
@@ -207,14 +207,14 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.6"
 
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.14"
+projects[search_api][version] = "1.15"
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.6"
 projects[search_api_autocomplete][subdir] = "contrib"
 projects[search_api_autocomplete][version] = "1.2"
 projects[search_api_autocomplete][patch][] = "https://www.drupal.org/files/issues/search_api_autocomplete-JS-error-on-click-or-key-pressed-2473737-5.patch"
 projects[search_api_solr][subdir] = "contrib"
-projects[search_api_solr][version] = "1.6"
+projects[search_api_solr][version] = "1.8"
 projects[search_api_sorts][subdir] = "contrib"
 projects[search_api_sorts][version] = "1.x-dev"
 projects[search_api_sorts][patch][] = "https://www.drupal.org/files/issues/default_sort_alter-1894502-11.patch"
@@ -248,7 +248,7 @@ projects[views][version] = "3.11"
 projects[views][patch][] = "https://www.drupal.org/files/issues/views-more-links-with-query-params-2210663-1.patch"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.2"
+projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][patch][] = "https://www.drupal.org/files/issues/1334374-25-generic_entity_tables_revisions.patch"
 
 projects[views_load_more][subdir] = "contrib"
