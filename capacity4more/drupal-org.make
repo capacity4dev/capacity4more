@@ -3,7 +3,7 @@ api = 2
 
 ; Modules
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
+projects[admin_views][version] = "1.5"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
@@ -36,7 +36,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.7"
+projects[ctools][version] = "1.9"
 
 projects[currency][subdir] = "contrib"
 projects[currency][version] = "2.5"
@@ -48,7 +48,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.10"
+projects[ds][version] = "2.11"
 
 projects[draggableviews][subdir] = "contrib"
 projects[draggableviews][version] = "2.1"
@@ -109,7 +109,7 @@ projects[link][subdir] = "contrib"
 projects[link][version] = "1.3"
 
 projects[location][subdir] = "contrib"
-projects[location][version] = "3.6"
+projects[location][version] = "3.7"
 
 projects[mailsystem][version] = "2.34"
 projects[mailsystem][subdir] = "contrib"
@@ -135,7 +135,7 @@ projects[message][version] = "1.10"
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
 
-projects[mimemail][version] = "1.0-beta3"
+projects[mimemail][version] = "1.0-beta4"
 projects[mimemail][subdir] = "contrib"
 
 projects[money][subdir] = "contrib"
@@ -159,7 +159,7 @@ projects[og_purl][version] = "1.x-dev"
 projects[og_purl][patch][] = "https://www.drupal.org/files/issues/og_purl_node_delete-2419277-1.patch"
 
 projects[og_variables][subdir] = "contrib"
-projects[og_variables][version] = "1.0-beta2"
+projects[og_variables][version] = "1.0"
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
@@ -190,7 +190,7 @@ projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc2"
+projects[redirect][version] = "1.0-rc3"
 
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
@@ -210,7 +210,7 @@ projects[search_api][version] = "1.15"
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.6"
 projects[search_api_autocomplete][subdir] = "contrib"
-projects[search_api_autocomplete][version] = "1.2"
+projects[search_api_autocomplete][version] = "1.3"
 projects[search_api_autocomplete][patch][] = "https://www.drupal.org/files/issues/search_api_autocomplete-JS-error-on-click-or-key-pressed-2473737-5.patch"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.8"
