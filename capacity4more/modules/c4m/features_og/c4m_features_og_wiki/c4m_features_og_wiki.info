@@ -3,7 +3,6 @@ description = Provides the Wiki pages within Groups.
 core = 7.x
 package = capacity4more - Features Group
 version = 7.x-1.0-dev
-project = c4m_features_og_wiki
 dependencies[] = c4m_og
 dependencies[] = c4m_og_menu
 dependencies[] = draggableviews_book
