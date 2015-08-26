@@ -129,6 +129,9 @@ projects[media_vimeo][version] = "2.0"
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.x-dev"
 
+projects[memcache][subdir] = "contrib"
+projects[memcache][version] = "1.5"
+
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
