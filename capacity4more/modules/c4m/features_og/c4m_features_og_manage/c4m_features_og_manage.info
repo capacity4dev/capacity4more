@@ -3,7 +3,6 @@ description = Adds management of a group for group administrators.
 core = 7.x
 package = capacity4more - Features Group
 version = 7.x-1.x-dev
-project = c4m_features_og_manage
 dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = page_manager

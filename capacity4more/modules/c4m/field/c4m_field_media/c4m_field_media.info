@@ -3,7 +3,6 @@ description = Provides the base field for all files (images, documents, video, p
 core = 7.x
 package = capacity4more - Fields
 version = 7.x-1.x-dev
-project = c4m_field_media
 dependencies[] = c4m_ds
 dependencies[] = ctools
 dependencies[] = ds
