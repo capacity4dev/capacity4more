@@ -39,10 +39,10 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $handler = EntityReference_SelectionHandler_Generic::getInstance($this->field, $this->instance, $this->entity_type, $this->entity);
     $query = $handler->buildEntityFieldQuery($match, $match_operator);
 
-    // FIXME: http://drupal.org/node/1325628
+    // FIXME: http://drupal.org/node/1325628.
     unset($query->tags['node_access']);
 
-    // FIXME: drupal.org/node/1413108
+    // FIXME: drupal.org/node/1413108.
     unset($query->tags['entityreference']);
 
     $query->addTag('entity_field_access');

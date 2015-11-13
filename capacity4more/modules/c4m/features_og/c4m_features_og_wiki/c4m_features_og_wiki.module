@@ -82,7 +82,7 @@ function c4m_features_og_wiki_access($options = array()) {
     return FALSE;
   }
 
-  // Check if the node type is wiki_page
+  // Check if the node type is wiki_page.
   $node = node_load(arg(1));
   if ($node && $node->type != 'wiki_page') {
     return FALSE;
