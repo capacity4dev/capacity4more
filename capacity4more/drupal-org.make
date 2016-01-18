@@ -219,7 +219,6 @@ projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.8"
 projects[search_api_sorts][subdir] = "contrib"
 projects[search_api_sorts][version] = "1.x-dev"
-projects[search_api_sorts][patch][] = "https://www.drupal.org/files/issues/default_sort_alter-1894502-11.patch"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
