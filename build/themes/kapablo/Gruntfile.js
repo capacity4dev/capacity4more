@@ -135,25 +135,25 @@ module.exports = function (grunt) {
       },
 
       // All the annoying CSS stuff we don't want to do in 1 tool.
-      //pleeease: {
-      //  custom: {
-      //    options: {
-      //      "browsers": ["ie 8"],
-      //      autoprefixer: {'browsers': ['last 4 versions', 'ios 6']},
-      //      filters: {'oldIE': true},
-      //      minifier: false,
-      //      pseudoElements: true,
-      //      opacity: true,
-      //      mqpacker: true,
-      //      calc: true,
-      //      colors: true
-      //    },
-      //    files: {
-      //      '<%= project.root %>/css/mail.css': '<%= project.root %>/css/mail.css',
-      //      '<%= project.root %>/css/style.css': '<%= project.root %>/css/style.css'
-      //    }
-      //  }
-      //},
+      pleeease: {
+        custom: {
+          options: {
+            "browsers": ["ie 8"],
+            autoprefixer: {'browsers': ['last 4 versions', 'ios 6']},
+            filters: {'oldIE': true},
+            minifier: false,
+            pseudoElements: true,
+            opacity: true,
+            mqpacker: true,
+            calc: true,
+            colors: true
+          },
+          files: {
+            '<%= project.root %>/css/mail.css': '<%= project.root %>/css/mail.css',
+            '<%= project.root %>/css/style.css': '<%= project.root %>/css/style.css'
+          }
+        }
+      },
 
       // Automate some tasks during development (if files change).
       watch: {
@@ -204,8 +204,8 @@ module.exports = function (grunt) {
     'imagemin',
     'uglify',
     'compass:dev',
-    //'pleeease',
-    //'csscss',
+    'pleeease',
+    'csscss',
     'watch'
   ]);
 
@@ -215,7 +215,7 @@ module.exports = function (grunt) {
     'imagemin',
     'uglify',
     'compass:prod',
-    //'pleeease'
+    'pleeease'
   ]);
 
   grunt.registerTask('default', [
