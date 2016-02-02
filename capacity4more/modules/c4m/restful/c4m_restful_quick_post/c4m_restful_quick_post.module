@@ -99,8 +99,7 @@ function c4m_restful_quick_post_get_form_fields($resource_name) {
   $public_fields = array();
   $categories = array();
   $handler = restful_get_restful_handler($resource_name);
-  // Send the fields to the app as separate objects by resource
-  // (for validation on submit.)
+  // Send the fields to the app as separate objects by resource (for validation on submit).
   $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
   $public_fields += $handler->getPublicFields();
 
@@ -338,7 +337,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // AngularJs.
   drupal_add_js($bower_path . '/angular/angular.min.js');
 
-  // Angular-touch
+  // Angular-touch.
   drupal_add_js($bower_path . '/angular-touch/angular-touch.min.js');
 
   // Upload file library.
