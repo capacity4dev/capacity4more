@@ -372,7 +372,7 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 
   // Pending memberships count link.
   $pending_memberships_count_text = t('@count Group membership requests', array(
-    '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING)
+    '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
   ));
   $link_options = array(
     'absolute' => TRUE,
