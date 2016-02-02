@@ -134,7 +134,7 @@ projects[memcache][version] = "1.5"
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.11"
-projects[message][patch][] = "https://www.drupal.org/files/issues/message-mysql57_compatibility-2629474-4.patch"
+projects[message][patch][] = "https://www.drupal.org/files/message-primary_nullable-2051751-7.patch"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
