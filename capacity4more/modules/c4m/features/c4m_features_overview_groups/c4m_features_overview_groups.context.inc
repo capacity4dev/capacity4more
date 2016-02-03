@@ -50,17 +50,17 @@ function c4m_features_overview_groups_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-9',
         ),
-        'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
+        'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
           'module' => 'facetapi',
-          'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
+          'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
           'region' => 'sidebar_first',
-          'weight' => '-7',
+          'weight' => '-8',
         ),
         'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
           'module' => 'facetapi',
           'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
           'region' => 'sidebar_first',
-          'weight' => '-6',
+          'weight' => '-7',
         ),
       ),
     ),

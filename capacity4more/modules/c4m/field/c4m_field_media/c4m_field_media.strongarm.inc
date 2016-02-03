@@ -48,7 +48,7 @@ function c4m_field_media_strongarm() {
           ),
           'c4m_preview' => array(
             'weight' => '0',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'teaser' => array(
             'weight' => '1',

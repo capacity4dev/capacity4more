@@ -15,7 +15,7 @@
  * @description Imports the settings sent from drupal.
  */
 angular.module('c4mApp')
-  .service('QuickPostService', function($rootScope, $http) {
+  .service('QuickPostService', function($rootScope, $http, DrupalSettings) {
     var self = this;
 
     /**
@@ -124,17 +124,6 @@ angular.module('c4mApp')
     };
 
     /**
-     * Display the fields upon clicking on the label field.
-     */
-    this.showFields = function (selectedResource, resources) {
-      // Show the first resource available if user didn't select a specific resource.
-      if (!selectedResource) {
-        return Object.keys(resources)[0];
-      }
-      return selectedResource;
-    };
-
-    /**
      * Get matching tags.
      *
      * @param query
@@ -144,7 +133,7 @@ angular.module('c4mApp')
      */
     this.tagsQuery = function (query, scope) {
       var group = {id: scope.data.group};
-      var url = scope.basePath + 'api/tags';
+      var url = DrupalSettings.getBasePath() + 'api/tags';
       var terms = {results: []};
 
       var lowerCaseTerm = query.term.toLowerCase();

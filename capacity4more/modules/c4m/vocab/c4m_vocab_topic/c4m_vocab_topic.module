@@ -1,0 +1,64 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+/**
+ * Add mapping between old topic (name) and new topic name and tid.
+ *
+ * @param array $mapping
+ *   Containing the tid, source and destination to store.
+ *
+ * @return bool
+ *   TRUE or FALSE.
+ */
+function c4m_vocab_topic_add_mapping(array $mapping) {
+  if (empty($mapping['tid'])) {
+    return FALSE;
+  }
+
+  db_merge('c4m_topic_mapping')
+    ->key(array('destination' => $mapping['destination']))
+    ->fields(
+      array(
+        'tid' => $mapping['tid'],
+        'source' => $mapping['source'],
+        'destination' => $mapping['destination'],
+      )
+    )
+    ->execute();
+
+  drupal_static_reset('c4m_vocab_topic_mapping');
+
+  return TRUE;
+}
+
+/**
+ * Retrieve the mapping with the new terms based on the name.
+ *
+ * @param string $name
+ *   Destination title (to be mapped).
+ *
+ * @return array
+ *   Array with the mapping (if found).
+ */
+function c4m_vocab_topic_get_mapping_by_source($name) {
+  $mapping = &drupal_static('c4m_vocab_topic_mapping');
+
+  if (!is_array($mapping)) {
+    $mapping = array();
+  }
+
+  if (!empty($mapping[$name])) {
+    return $mapping[$name];
+  }
+
+  $results = db_select('c4m_topic_mapping', 't')->fields('t')->condition(
+    't.source', $name
+  )->execute()->fetchAll();
+
+  $mapping[$name] = $results;
+
+  return $results;
+}

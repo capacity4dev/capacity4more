@@ -1205,23 +1205,55 @@ This field can have a WYSIWYG rich text editor interface.',
       'weight' => 15,
     ),
   );
-
-  // Exported field_instance: 'node-demo_fields-c4m_related_topic'
-  $field_instances['node-demo_fields-c4m_related_topic'] = array(
-    'bundle' => 'demo_fields',
+  // Exported field_instance: 'node-article-c4m_vocab_topic'
+  $field_instances['node-article-c4m_vocab_topic'] = array(
+    'bundle' => 'article',
     'default_value' => NULL,
-    'default_value_function' => '',
     'deleted' => 0,
-    'description' => 'Select 1 one or more topics that are related to this content.',
+    'description' => 'Select the topics you are interested in.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 6,
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 11,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1229,44 +1261,78 @@ This field can have a WYSIWYG rich text editor interface.',
         'type' => 'hidden',
         'weight' => 0,
       ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic',
-    'label' => 'c4m_related_topic',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_topic',
+    'label' => 'Topics',
+    'required' => 1,
+    'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'options',
+      'active' => 0,
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 7,
+      'type' => 'c4m_taxonomy_reference',
+      'weight' => 14,
     ),
   );
-
-  // Exported field_instance: 'node-demo_fields-c4m_related_topic_expertise'
-  $field_instances['node-demo_fields-c4m_related_topic_expertise'] = array(
-    'bundle' => 'demo_fields',
+  // Exported field_instance: 'node-article-c4m_vocab_topic_expertise'
+  $field_instances['node-article-c4m_vocab_topic_expertise'] = array(
+    'bundle' => 'article',
     'default_value' => NULL,
-    'default_value_function' => '',
     'deleted' => 0,
-    'description' => 'Indicating your expertise enriches your profile and allows experts to connect with each other.',
+    'description' => 'Select the topics you are an expert in.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 7,
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 11,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1274,25 +1340,27 @@ This field can have a WYSIWYG rich text editor interface.',
         'type' => 'hidden',
         'weight' => 0,
       ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_topic_expertise',
-    'label' => 'c4m_related_topic_expertise',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_topic',
+    'label' => 'Topics',
+    'required' => 1,
+    'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'options',
+      'active' => 0,
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 8,
+      'type' => 'c4m_taxonomy_reference',
+      'weight' => 14,
     ),
   );
 
@@ -1405,8 +1473,8 @@ This field can have a WYSIWYG rich text editor interface.');
   t('c4m_money');
   t('c4m_related_document');
   t('c4m_related_tasklist');
-  t('c4m_related_topic');
-  t('c4m_related_topic_expertise');
+  t('c4m_vocab_topic');
+  t('c4m_vocab_topic_expertise');
   t('c4m_related_user');
   t('c4m_vocab_geo');
 

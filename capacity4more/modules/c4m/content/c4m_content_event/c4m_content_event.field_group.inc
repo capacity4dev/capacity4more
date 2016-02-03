@@ -54,7 +54,8 @@ function c4m_content_event_field_group_info() {
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_language',
-      2 => 'og_vocabulary',
+      2 => 'c4m_vocab_topic',
+      3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -80,7 +81,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '15',
+    'weight' => '14',
     'children' => array(
       0 => 'og_group_ref',
     ),
@@ -108,11 +109,11 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '11',
+    'weight' => '10',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
-      2 => 'c4m_vocab_language',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_language',
+      2 => 'c4m_vocab_topic',
       3 => 'og_vocabulary',
     ),
     'format_type' => 'fieldset',
@@ -165,7 +166,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Location',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_location',
       1 => 'c4m_field_location_city_country',
@@ -182,6 +183,33 @@ function c4m_content_event_field_group_info() {
     ),
   );
   $export['group_location|node|event|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_node_actions|node|event|full';
+  $field_group->group_name = 'group_node_actions';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'event';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Actions',
+    'weight' => '8',
+    'children' => array(
+      0 => 'c4m_ds_content_actions',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Actions',
+      'instance_settings' => array(
+        'classes' => 'group-node-actions field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsible',
+    ),
+  );
+  $export['group_node_actions|node|event|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */

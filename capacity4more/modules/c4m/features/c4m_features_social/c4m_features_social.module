@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Code for the social feature.
+ */
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_features_social_c4m_content_actions_info() {
+  return array(
+    'social_share' => array(
+      'context'   => array('global', 'group'),
+      'callback'  => 'c4m_features_social_actions_share',
+      'weight'    => '10',
+    ),
+  );
+}
+
+/**
+ * Callback to show the enabled social media.
+ *
+ * @param object $node
+ *    The node object.
+ *
+ * @return string
+ *    Rendered output of the share social media.
+ */
+function c4m_features_social_actions_share($node) {
+  global $language;
+  // Limit the lang to 2 chars (because of pt-pt/Portuguese.
+  $lang = substr($language->language, 0, 2);
+
+  // Get the social settings.
+  $social = variable_get('c4m_social_share', array());
+  $social = array_filter($social, 'c4m_features_social_social_enabled');
+
+  $items = '';
+  foreach ($social as $media => $info) {
+    $items .= '<div id="ec-widget-share-' . $media . '" class="ec-widget-share-item">
+            <!--{"to":"' . $media . '","text":"","size":24,"lang":"' . $lang . '"}//--></div>';
+  }
+
+  $output = '<div class="social-actions-share">' . $items . '</div>';
+  drupal_add_js('//ec.europa.eu/wel/socialbookmark/share.js', 'external');
+  return $output;
+}
+
+/**
+ * Callback for array_filter.
+ *
+ * Check if a social media is enabled.
+ *
+ * @param array $media
+ *    A social media array with settings.
+ *
+ * @return bool
+ *    The status of the social media (TRUE or FALSE).
+ */
+function c4m_features_social_social_enabled(array $media) {
+  return $media['enabled'];
+}

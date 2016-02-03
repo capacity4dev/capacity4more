@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Extra functionality for comments.
  */
 
 /**
@@ -15,16 +15,57 @@ function c4m_comment_form_node_form_alter(&$form, $form_state) {
     return;
   }
 
-  // If the user has access to the node form, he can also change the comment settings for this content entry.
+  // If the user has access to the node form, he can also change the comment
+  // settings for this content entry.
   $form['comment_settings']['#access'] = TRUE;
 }
 
 /**
-* Implements hook_entity_info_alter().
-*/
+ * Implements hook_entity_info_alter().
+ */
 function c4m_comment_entity_info_alter(&$entity_info) {
   $entity_info['comment']['view modes']['activity_stream'] = array(
     'label' => t('Activity stream'),
     'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_comment_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_comment' => array(
+        'type'        => 'comment',
+        'entity_type' => 'comment',
+        'bundles'     => array(),
+        'singular'    => 'Post',
+        'plural'      => 'Posts',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts',
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_comment' => array(
+        'type'        => 'comment',
+        'entity_type' => 'comment',
+        'bundles'     => array(),
+        'singular'    => 'Comment',
+        'plural'      => 'Comments',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 6,
+        'attributes'  => array(
+          'class' => array('og-comments'),
+        ),
+      ),
+    ),
   );
 }

@@ -71,7 +71,7 @@ trait Document {
     $options = array(
       'query' => array(
         'search_api_views_fulltext' => 'Nobel',
-        'f[0]' => 'c4m_related_topic:1',
+        'f[0]' => 'c4m_vocab_topic:1',
       )
     );
     $uri = $this->createUriWithGroupContext($group, 'documents', $options);
@@ -104,7 +104,7 @@ trait Document {
     if (empty($parsed_url['query']['search_api_views_fulltext']) ||
       'Nobel' != $parsed_url['query']['search_api_views_fulltext'] ||
       empty($parsed_url['query']['f']['0']) ||
-      'c4m_related_topic:1' != $parsed_url['query']['f']['0']) {
+      'c4m_vocab_topic:1' != $parsed_url['query']['f']['0']) {
       throw new \Exception("I am not on table view retaining filters and search
         term.");
     }

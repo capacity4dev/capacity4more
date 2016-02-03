@@ -23,8 +23,8 @@ function c4m_content_article_field_group_info() {
     'label' => 'Metadata',
     'weight' => '4',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_topic',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -42,6 +42,33 @@ function c4m_content_article_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_node_actions|node|article|full';
+  $field_group->group_name = 'group_node_actions';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'article';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Actions',
+    'weight' => '8',
+    'children' => array(
+      0 => 'c4m_ds_content_actions',
+    ),
+    'format_type' => 'html5',
+    'format_settings' => array(
+      'label' => 'Actions',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-node-actions field-group-html5',
+        'wrapper' => 'section',
+      ),
+    ),
+  );
+  $export['group_node_actions|node|article|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_node_meta|node|article|full';
   $field_group->group_name = 'group_node_meta';
   $field_group->entity_type = 'node';
@@ -52,12 +79,12 @@ function c4m_content_article_field_group_info() {
     'label' => 'Group meta',
     'weight' => '9',
     'children' => array(
-      0 => 'c4m_related_topic',
-      1 => 'c4m_vocab_geo',
-      2 => 'c4m_related_user',
-      3 => 'c4m_related_group',
-      4 => 'c4m_link_multiple',
-      5 => 'c4m_related_articles',
+      0 => 'c4m_link_multiple',
+      1 => 'c4m_related_articles',
+      2 => 'c4m_related_group',
+      3 => 'c4m_related_user',
+      4 => 'c4m_vocab_geo',
+      5 => 'c4m_vocab_topic',
     ),
     'format_type' => 'html5',
     'format_settings' => array(

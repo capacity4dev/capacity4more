@@ -31,4 +31,14 @@ trait PageAccess {
 
     return $steps;
   }
+
+  /**
+   * @Then /^I should see in the header "([^"]*)":"([^"]*)"$/
+   */
+  public function iShouldSeeInTheHeader($header, $value) {
+    $headers = $this->getSession()->getResponseHeaders();
+    if (!isset($headers[$header]) || $headers[$header][0] != $value) {
+      throw new \Exception(sprintf("Did not see %s with value %s.", $header, $value));
+    }
+  }
 }

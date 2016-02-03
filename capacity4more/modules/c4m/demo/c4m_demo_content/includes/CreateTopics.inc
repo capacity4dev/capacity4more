@@ -10,19 +10,27 @@
 class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'topic';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV Column mapping.
    *
    * @var array
    */
-  public $csvColumns = array(
-    array('id', 'ID'),
-    array('title', 'Title'),
-    array('body', 'Body'),
-    array('image', 'Image'),
-    array('uid', 'UID'),
-  );
+  public $csvColumns
+    = array(
+      array('id', 'ID'),
+      array('title', 'Title'),
+      array('theme', 'Theme'),
+      array('topic', 'Topic'),
+      array('banner', 'Banner'),
+      array('image', 'Image'),
+      array('body', 'Body'),
+      array('groups', 'Groups'),
+      array('projects', 'Projects'),
+      array('articles', 'Articles'),
+      array('uid', 'UID'),
+    );
 
   /**
    * Content creations that should run before this one.
@@ -31,6 +39,10 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
    */
   public $dependencies = array(
     'C4mDemoContentCreateUsers',
+    'C4mDemoContentCreateTopicTerms',
+    'C4mDemoContentCreateGroups',
+    'C4mDemoContentCreateProjects',
+    'C4mDemoContentCreateArticles',
   );
 
   /**
@@ -41,16 +53,72 @@ class C4mDemoContentCreateTopics extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
 
-    $this->addFieldMapping('c4m_media', 'image')
-      ->separator(';');
+    $this->addFieldMapping('c4m_vocab_theme', 'theme')
+      ->sourceMigration('C4mDemoContentCreateThemes')
+      ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_vocab_topic_mapping', 'topic')
+      ->sourceMigration('C4mDemoContentCreateTopicTerms')
+      ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping('c4m_media', 'image');
     $this->addFieldMapping('c4m_media:file_replace')
       ->defaultValue(FILE_EXISTS_REPLACE);
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
     $this->addFieldMapping('c4m_media:destination_dir', 'destination');
 
+    $this->addFieldMapping('c4m_banner', 'banner');
+    $this->addFieldMapping('c4m_banner:file_replace')
+      ->defaultValue(FILE_EXISTS_REPLACE);
+    $this->addFieldMapping('c4m_banner:source_dir')
+      ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
+
+    $this->addFieldMapping('c4m_related_group_unlimited', 'groups_list');
+
+    $this->addFieldMapping('c4m_related_projects_unlimited', 'projects_list');
+
+    $this->addFieldMapping('c4m_related_articles', 'articles_list');
+
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareRow($row) {
+    parent::prepareRow($row);
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateGroups',
+      explode('|', $row->groups),
+      NULL,
+      $this
+    );
+    $row->groups_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateProjects',
+      explode('|', $row->projects),
+      NULL,
+      $this
+    );
+    $row->projects_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateArticles',
+      explode('|', $row->articles),
+      NULL,
+      $this
+    );
+    $row->articles_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
   }
 
   /**

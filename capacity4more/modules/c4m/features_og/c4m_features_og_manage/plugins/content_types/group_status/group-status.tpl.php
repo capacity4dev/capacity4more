@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Group status template for the group status.
+ */
+
+?>
+
 <div class="row group-management-dashboard">
   <div class="col-md-12 group-management-wrapper right">
     <div class="group-status panel-pane">

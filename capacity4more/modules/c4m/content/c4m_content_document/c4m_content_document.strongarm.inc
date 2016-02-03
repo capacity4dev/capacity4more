@@ -105,13 +105,30 @@ function c4m_content_document_strongarm() {
           'weight' => '1',
         ),
         'path' => array(
-          'weight' => '11',
-        ),
-        'locations' => array(
           'weight' => '12',
         ),
+        'locations' => array(
+          'weight' => '13',
+        ),
       ),
-      'display' => array(),
+      'display' => array(
+        'flag_c4m_node_highlight' => array(
+          'full' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'flag_c4m_og_content_highlight' => array(
+          'full' => array(
+            'weight' => '21',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__document'] = $strongarm;

@@ -23,14 +23,16 @@ trait GroupDashboard {
   }
 
   /**
-   * @Then /^I should see the group dashboard$/
+   * @Then /^I should see the group dashboard (with|without) quick post form$/
    */
-  public function iShouldSeeTheGroupDashboard() {
+  public function iShouldSeeTheGroupDashboard($quick_post_show) {
     $steps = array();
 
     $steps[] = new Step\When('I should have access to the page');
     $steps[] = new Step\When('Group menu item "Home" should be active');
-    $steps[] = new Step\When('I should see the Quick Post form');
+    if ($quick_post_show == 'with') {
+      $steps[] = new Step\When('I should see the Quick Post form');
+    }
     $steps[] = new Step\When('I should see the Activity stream');
     $steps[] = new Step\When('I should see the Highlights');
     $steps[] = new Step\When('I should see the Group Details');

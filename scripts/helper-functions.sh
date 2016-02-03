@@ -38,12 +38,14 @@ function load_config_file {
 # Uses (requests) sudo powers if needed!
 ##
 function delete_sites_default_content {
+  NEEDS_SUDO=0
+
   # Cleanup the www/sites/default content.
   if [ -d $ROOT/www/sites ]; then
     echo -e "${LBLUE}> Cleaning up the sites/default directory${RESTORE}"
     chmod 777 $ROOT/www/sites/default
-    rm -rf $ROOT/www/sites/default/files
-    rm -f $ROOT/www/sites/default/settings.php
+    rm -rf $ROOT/www/sites/default/files || { NEEDS_SUDO=1; }
+    rm -f $ROOT/www/sites/default/settings.php || { NEEDS_SUDO=1; }
     echo
   fi
 

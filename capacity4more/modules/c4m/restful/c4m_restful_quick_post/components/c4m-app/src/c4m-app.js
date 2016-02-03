@@ -6,7 +6,6 @@
 'use strict';
 
 angular.module('c4mApp', [
-  'ngCkeditor',
   'ui.select2',
   'ui.bootstrap',
   'angularFileUpload',
@@ -15,7 +14,7 @@ angular.module('c4mApp', [
   'ngTouch'
 ], function ($httpProvider) {
 
-  // Use x-www-form-urlencoded Content-Type
+  // Use x-www-form-urlencoded Content-Type.
   $httpProvider.defaults.headers.post['Content-Type'] =
     'application/x-www-form-urlencoded;charset=utf-8';
 });

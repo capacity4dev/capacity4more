@@ -9,16 +9,23 @@
  */
 function c4m_og_organisations_info() {
   $default_info = array();
+
   $type = 'organisation';
   $nodes = node_load_multiple(array(), array('type' => $type, 'status' => NODE_PUBLISHED));
   foreach ($nodes as $organisation) {
     $wrapper = entity_metadata_wrapper('node', $organisation);
+    $domains = $wrapper->c4m_domain->getIterator();
+    $domains_list = array();
+    foreach ($domains as $domain) {
+      $domains_list[] = $domain->domain->value();
+    }
+
     $default_info[$organisation->nid] = array(
       'title' => $organisation->title,
       'nid' => $wrapper->nid,
       'description' => $wrapper->c4m_body->value(),
-      'icon' => $wrapper->c4m_icon->value(),
-      'domains' => $wrapper->c4m_domain->value(),
+      'icon' => c4m_content_organisation_get_icon($organisation),
+      'domains' => $domains_list,
     );
   }
 
@@ -192,7 +199,7 @@ function c4m_og_get_email_domains($group) {
  * Adds the fields about the Group Access types & Pluggable Access.
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
-  // Default values;
+  // Default values.
   $default_domains = array();
   $default_organisations = array();
   $default_access_type = 'public';
@@ -211,13 +218,11 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   $organisations_info = c4m_og_organisations_info();
   foreach ($organisations_info as $name => $organisation) {
     // Set arrays for later use.
-    $image_options = array(
-      'path' => $organisation['icon']['uri'],
-      'attributes' => array(
-        'class' => 'organisation-icon',
-      ),
+    $organisation['icon']['#item']['attributes'] = array(
+      'class' => 'organisation-icon',
     );
-    $organisation_field_options[$name] = theme('image', $image_options)
+
+    $organisation_field_options[$name] = drupal_render($organisation['icon'])
       . filter_xss($organisation['title'])
       . '<div>'
       . filter_xss($organisation['description']['value']) . '</br>'

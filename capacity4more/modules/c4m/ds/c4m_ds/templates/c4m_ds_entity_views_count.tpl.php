@@ -6,7 +6,9 @@
  * Available variables:
  * - $count : the views count.
  */
+
 ?>
+
 <span class="row-entity-count count-views">
   <?php print $count; ?>
 </span>

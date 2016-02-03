@@ -49,7 +49,6 @@
   padding-bottom: 10px;
   .label-inline , .user-name, .creation-date {
     float: left;
-    line-height: 0.8em;
   }
   .user-name {
     margin: 0px 5px;
@@ -135,6 +134,7 @@
 .field-name-c4m-user-picture {
   img {
     border-radius: 50%;
+    max-width: inherit;
   }
 }
 
@@ -142,14 +142,12 @@
   .group-right {
     .field-name-c4m-user-picture {
       float: left;
-      margin-right: 15px;
     }
   }
 }
 
 .user-name {
   display: inline-block;
-  line-height: 0.8em;
 
   & + .creation-date {
     display: inline-block;
@@ -157,6 +155,15 @@
     margin-left: 10px;
     padding-left: 10px;
     line-height: 0.8em;
+  }
+
+  &.icon {
+    line-height: 30px;
+    .organisation-icon {
+      margin-left: 10px;
+      vertical-align: top;
+      height: auto;
+    }
   }
 }
 

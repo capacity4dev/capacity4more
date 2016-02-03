@@ -27,15 +27,59 @@ function _c4m_user_profile_block_user_welcome() {
   );
 
   if (user_is_anonymous()) {
-    $block['content'] = implode(' ', $content);
+    $block['content'] = '<div class="userbar-user-login">' . implode(' ', $content) . '</div>';
     return $block;
   }
 
+  // We have a loggedin user.
   global $user;
+  $user = user_load($user->uid);
 
-  // @TODO: submenu, theming function, real name...
-  $block['content'] = t('Hello @user', array('@user' => $user->name));
+  // User fullname + user picture.
+  $full_name_picture = c4m_user_profile_render_user_profile(
+                            'c4m_user_profile_picture_fullname', $user);
 
+  // User profile menu.
+  $menu_list = array(
+    'edit_profile' => array(
+      'title'   => t('Edit Profile'),
+      'url'     => 'user/' . $user->uid . '/edit/',
+      'options' => array(
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
+    'user_logout' => array(
+      'title'   => t('Logout'),
+      'url'     => 'user/logout',
+      'options' => array(
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
+  );
+
+  $menu = array(
+    '#theme'      => 'c4m_user_profile_menu',
+    '#menu_items'  => $menu_list,
+    '#attributes' => array(
+      'class' => array('user-profile-menu', 'dropdown-menu'),
+    ),
+  );
+  $menu = render($menu);
+
+  $output = array(
+    '#theme'      => 'html_tag',
+    '#tag'        => 'div',
+    '#value'      => $full_name_picture . $menu,
+    '#attributes' => array(
+      'class' => array('userbar-userprofile', 'dropdown'),
+    ),
+  );
+
+  $block['content'] = render($output);
   return $block;
 }
 
@@ -59,4 +103,42 @@ function _c4m_user_profile_block_user_notifications() {
   $block['content'] = t('# of messages/notifications/...');
 
   return $block;
+}
+
+/**
+ * Helper function to render user profile.
+ *
+ * @param string $theme_function
+ *    Name of the theme function to be used.
+ * @param object $user
+ *    User object.
+ *
+ * @return string
+ *    The rendered output.
+ */
+function c4m_user_profile_render_user_profile($theme_function, $user) {
+  switch ($theme_function) {
+    case 'c4m_user_profile_picture_fullname':
+      $user_profile = array(
+        '#theme'  => 'c4m_user_profile_picture_fullname',
+        '#user'   => $user,
+        '#link'   => array(
+          'url'     => 'user/' . $user->uid,
+          'options' => array(
+            'attributes'  => array(
+              'class'         => array('dropdown-toggle'),
+              'data-toggle'   => array('dropdown'),
+              'data-disabled' => TRUE,
+            ),
+            'html' => TRUE,
+            'purl'  => array(
+              'disabled' => TRUE,
+            ),
+          ),
+        ),
+      );
+      break;
+  }
+
+  return render($user_profile);
 }

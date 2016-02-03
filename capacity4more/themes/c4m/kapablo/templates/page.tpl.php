@@ -80,11 +80,11 @@
 <header id="page-header" role="banner">
 
   <!--  USER BAR -->
-  <?php if (!empty($page['user'])): ?>
+  <?php if (!empty($page['user_bar'])): ?>
     <section id="user-bar">
       <div class="container">
         <div class="row">
-          <?php print render($page['user']); ?>
+          <?php print render($page['user_bar']); ?>
         </div>
       </div>
     </section>
@@ -123,11 +123,9 @@
     </div>
   </div><!-- /header-content-wrapper -->
 
-  <div id="navbar">
-    <div class="container">
-
-      <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-
+  <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+    <div id="navbar">
+      <div class="container">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -135,7 +133,6 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-
 
         <div class="navbar-collapse collapse">
           <nav role="navigation">
@@ -150,9 +147,9 @@
             <?php endif; ?>
           </nav>
         </div>
-      <?php endif; ?>
+      </div>
     </div>
-  </div>
+  <?php endif; ?>
 </header>
 
 <div class="main-container container">
@@ -218,5 +215,9 @@
 </div>
 
 <footer class="footer container">
-  <?php print render($page['footer']); ?>
+  <div class="container footer-wrapper">
+    <section>
+      <?php print render($page['footer']); ?>
+    </section>
+  </div>
 </footer>

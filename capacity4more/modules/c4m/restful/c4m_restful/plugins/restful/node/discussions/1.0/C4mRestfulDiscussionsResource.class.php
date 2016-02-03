@@ -45,9 +45,9 @@ class C4mRestfulDiscussionsResource extends C4mRestfulEntityBaseNode {
     );
 
     $public_fields['topic'] = array(
-      'property' => 'c4m_related_topic',
+      'property' => 'c4m_vocab_topic',
       'resource' => array(
-        'topic' => array(
+        'c4m_vocab_topic' => array(
           'name' => 'topics',
           'full_view' => FALSE,
         ),

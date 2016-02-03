@@ -1,0 +1,90 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the footer module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_features_footer_install() {
+  // Add c4m_footer menu.
+  c4m_features_footer_c4m_footer_menu();
+
+  // Set footer navigation links.
+  c4m_features_footer_set_navigation_links();
+
+  // Set c4m social media.
+  c4m_features_footer_set_social_media();
+}
+
+/**
+ * Add the c4m_footer menu.
+ */
+function c4m_features_footer_c4m_footer_menu() {
+  $menu_name = 'c4m-footer';
+
+  // Check if the menu not already exists.
+  if (function_exists('menu_load') &&  menu_load($menu_name)) {
+    return;
+  }
+
+  // Create the menu itself.
+  $footer_menu = array(
+    'menu_name'   => $menu_name,
+    'title'       => 'C4M Footer',
+    'description' => 'The C4m Footer menu.',
+  );
+  menu_save($footer_menu);
+}
+
+/**
+ * Set footer navigation links.
+ */
+function c4m_features_footer_set_navigation_links() {
+  $navigation_links = array(
+    array(
+      'title'       => 'EUROPEAID WEBSITE',
+      'url'         => 'https://ec.europa.eu/europeaid/home_en',
+      'attributes'  => array(
+        'class'   => array(),
+        'target'  => '_blank',
+      ),
+    ),
+    array(
+      'title' => 'SIGN UP FOR THE NEWSLETTER',
+      'url'   => '/',
+      'attributes'  => array(
+        'class'   => array('orange'),
+      ),
+    ),
+  );
+
+  variable_set('c4m_footer_navigation_links', $navigation_links);
+}
+
+/**
+ * Set C4m social media.
+ */
+function c4m_features_footer_set_social_media() {
+  $socialmedia_links = array(
+    'facebook' => array(
+      'title' => 'Facebook',
+      'url'   => 'http://facebook.com',
+    ),
+    'rss' => array(
+      'title' => 'Rss',
+      'url' => '/rss',
+    ),
+    'twitter' => array(
+      'title' => 'Twitter',
+      'url'   => 'http://twitter.com',
+    ),
+    'youtube' => array(
+      'title' => 'Youtube',
+      'url'   => 'http://youtube.com',
+    ),
+  );
+
+  variable_set('c4m_social_media', $socialmedia_links);
+}

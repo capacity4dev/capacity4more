@@ -5,7 +5,8 @@ member_1_3,group_4,Group,user_1,0,1
 member_1_4,group_5,Group,user_1,0,1
 member_1_5,project_1,Project,user_1,1,1
 member_2_1,group_2,Group,user_2,1,1
-member_2_2,project_1,Project,user_2,1,1
+member_2_2,group_3,Group,user_2,0,1
+member_2_3,project_1,Project,user_2,1,1
 member_3_1,group_2,Group,user_3,0,1
 member_3_2,group_7,Group,user_3,0,0
 member_4_1,group_2,Group,user_4,0,1

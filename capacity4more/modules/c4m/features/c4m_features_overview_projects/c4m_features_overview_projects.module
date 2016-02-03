@@ -5,3 +5,20 @@
  */
 
 include_once 'c4m_features_overview_projects.features.inc';
+
+/**
+ * Implements hook_c4m_search_page_info().
+ */
+function c4m_features_overview_projects_c4m_search_page_info() {
+  return array(
+    'search_api_views_c4m_overview_projects' => array(
+      'name' => t('Projects'),
+      'description' => t('Search projects.'),
+      'machine_name' => 'search_api_views_c4m_overview_projects',
+      'path' => 'projects',
+      'weight' => 3,
+      'default' => FALSE,
+      'type' => 'global',
+    ),
+  );
+}

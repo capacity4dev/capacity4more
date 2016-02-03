@@ -45,5 +45,6 @@ function c4m_content_group_details() {
 
   // Render it with our custom c4m_dashboard view mode.
   $node_view = node_view($node, 'c4m_dashboard');
+
   return drupal_render($node_view);
 }

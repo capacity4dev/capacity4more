@@ -1,8 +1,8 @@
 <?php
 /**
  * @file
+ * Installation hooks for the C4M location field.
  */
-
 
 /**
  * Implements hook_install().
@@ -14,6 +14,7 @@ function c4m_field_location_install() {
 
 /**
  * Helper function to (re-)generate markers.
+ *
  * This is just copy of code from getlocations module which we execute
  * regardless of being in cli mode or not.
  *
@@ -36,11 +37,11 @@ function c4m_field_location_generate_markers() {
     $jspath = getlocations_get_markerfile(TRUE, FALSE);
     $jsfile = getlocations_get_markerfile(FALSE, FALSE);
     if ($jspath && $jsfile && file_prepare_directory($jspath, FILE_CREATE_DIRECTORY) && file_unmanaged_save_data($contents, $jsfile, FILE_EXISTS_REPLACE)) {
-      // Also regenerate the cached marker titles array
+      // Also regenerate the cached marker titles array.
       getlocations_get_marker_titles(TRUE);
     }
     else {
-      // failed
+      // Failed.
       watchdog('getlocations', 'Getlocations write error when saving the marker configuration to %filepath.', array('%filepath' => $jsfile), WATCHDOG_ERROR);
     }
   }

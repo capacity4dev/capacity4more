@@ -73,9 +73,9 @@ function c4m_features_overview_articles_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
-        'facetapi-fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW' => array(
+        'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
           'module' => 'facetapi',
-          'delta' => 'fzBPY1BAj0MTas5AQbIbJMNKqcb06xVW',
+          'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
           'region' => 'sidebar_first',
           'weight' => '-9',
         ),

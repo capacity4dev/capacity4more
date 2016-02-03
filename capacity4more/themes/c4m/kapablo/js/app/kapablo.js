@@ -72,5 +72,61 @@
         });
       }
     };
+
+    Drupal.behaviors.sidebarCollapseExpand = {
+      attach: function (context, settings) {
+        $('#collapse-sidebar').on('click', function () {
+          var buttonClasses = $(this).attr("class");
+          // If the button has the "collapsed" class,
+          // Expand the sidebar, otherwise collapse it.
+          if (buttonClasses.indexOf("collapsed") >= 0) {
+            expandSidebar($(this));
+          }
+          else {
+            collapseSidebar($(this));
+          }
+        });
+
+        /**
+         * Collapse the sidebar in the Wiki pages.
+         *
+         * Changes classes of the right and left column,
+         * hides the content in the sidebar.
+         *
+         * @param button
+         *  The clicked button element.
+         */
+        function collapseSidebar(button) {
+          var groupLeft = $('.group-left');
+          var groupRight = $('.group-right');
+          var sidebarContent = $('.collapsible');
+          button.addClass('collapsed');
+          button.html('<i class="fa fa-chevron-circle-right"></i>');
+          groupLeft.removeClass('col-sm-4').addClass('col-sm-1');
+          groupRight.removeClass('col-sm-8').addClass('col-sm-11');
+          sidebarContent.hide();
+        }
+
+        /**
+         * Expand the sidebar in the Wiki pages.
+         *
+         * Changes classes of the right and left column,
+         * shows the content in the sidebar.
+         *
+         * @param button
+         *  The clicked button element.
+         */
+        function expandSidebar(button) {
+          var groupLeft = $('.group-left');
+          var groupRight = $('.group-right');
+          var sidebarContent = $('.collapsible');
+          button.removeClass('collapsed');
+          button.html('<i class="fa fa-chevron-circle-left"></i>');
+          groupLeft.removeClass('col-sm-1').addClass('col-sm-4');
+          groupRight.removeClass('col-sm-11').addClass('col-sm-8');
+          sidebarContent.show();
+        }
+      }
+    };
   }
 )(jQuery);

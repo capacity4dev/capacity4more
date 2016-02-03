@@ -15,12 +15,6 @@
 @import "compass/css3";
 @import "compass/utilities";
 
-@import "fontawesome/font-awesome";
-
-// We don't have control over all rendered code. Bootstrap adds some icon-code
-// but asumes glyphicons are available. We map them to font-awesome icons.
-@import "base/glyphawesome";
-
 // Common utility classes to extend or settings.
 @import "base/mixins";
 @import "base/common";
@@ -59,11 +53,15 @@
 @import "components/search";
 @import "components/taxonomy_form";
 @import "components/article";
+@import "components/topic";
+@import "components/social";
+@import "components/content_actions";
 
 // Components - Content types
 @import "components/discussion";
 @import "components/document";
 @import "components/event";
+@import "components/feed";
 
 // State: State rules are ways to describe how our modules or layouts will look when in a particular state.
 @import "states/states";

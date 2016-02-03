@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * Functionality to probide missing info about a user and his
- * (activity within) groups.
+ * Functionality to provide missing info about a user.
+ *
+ * And his (activity within) groups.
  */
-
 
 /**
  * Check if a user has a specific permission within the group.
  *
  * @param string $permission
  *   The permission name.
- * @param stdClass $group
+ * @param object $group
  *   (optional) If no group is given, the current group will be used.
  *
  * @return bool
@@ -47,6 +47,7 @@ function c4m_user_og_has_group_permission($permission, $group = NULL) {
  *   The group where we are trying to determine the users role for.
  *
  * @return string
+ *    The user role.
  */
 function c4m_user_og_get_role_in_group($user, $group) {
   // Is user the owner of the group node?
@@ -71,10 +72,10 @@ function c4m_user_og_get_role_in_group($user, $group) {
 
   // Check if the user has the administrator role.
   $roles = og_roles('node', $group->type, $group->nid);
-  $admin_role = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+  $admin_role = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
   if ($admin_role) {
     $user_roles = og_get_user_roles('node', $group->nid, $user->uid);
-    if (array_search(C4M_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
+    if (array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $user_roles)) {
       return 'administrator';
     }
   }
@@ -95,6 +96,7 @@ function c4m_user_og_get_role_in_group($user, $group) {
  *   The group where we are trying to determine the users role for.
  *
  * @return string
+ *    The human readable name of the user role.
  */
 function c4m_user_og_get_role_in_group_human($user, $group) {
   $role = c4m_user_og_get_role_in_group($user, $group);
@@ -118,7 +120,7 @@ function c4m_user_og_get_human_role_name($role, $group = NULL) {
     $group = c4m_og_current_group();
   }
   if (!$group) {
-    return;
+    return FALSE;
   }
 
   $role_human = $role;
@@ -169,6 +171,7 @@ function c4m_user_og_get_human_role_name($role, $group = NULL) {
  *   The Group ID (node id).
  *
  * @return int
+ *    Number of posts from user within group.
  */
 function c4m_user_og_count_nodes_in_group($uid, $gid) {
   $query = db_select('node', 'n');
@@ -191,6 +194,7 @@ function c4m_user_og_count_nodes_in_group($uid, $gid) {
  *   The Group ID (node id).
  *
  * @return int
+ *    Number of comments from user within group.
  */
 function c4m_user_og_count_comments_in_group($uid, $gid) {
   $query = db_select('comment', 'c');
@@ -260,4 +264,33 @@ function c4m_user_og_get_groups($account = NULL, $bundle = 'group', $status = NO
   // Load groups of bundle type.
   $group_nodes = node_load_multiple($groups['node'], array('type' => $bundle));
   return $group_nodes;
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_user_og_c4m_content_statistics_info() {
+  return array(
+    'group' => array(
+      'c4m_og_user' => array(
+        'type'          => 'user',
+        'entity_type'   => 'user',
+        'bundles'       => array(),
+        'singular'      => 'Member',
+        'plural'        => 'Members',
+        'state'         => 1,
+        'c4m_status'    => array(1),
+        'scope'         => 'group',
+        'aggregate'     => array(),
+        'weight'        => 7,
+        'feature_name'  => 'c4m_features_og_members',
+        'attributes'    => array(
+          'class' => array('og-users'),
+        ),
+        'link' => array(
+          'path' => 'members',
+        ),
+      ),
+    ),
+  );
 }

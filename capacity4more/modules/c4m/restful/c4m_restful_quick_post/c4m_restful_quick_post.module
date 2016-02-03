@@ -14,6 +14,23 @@ function c4m_restful_quick_post_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_restful_quick_post_menu() {
+  $items = array();
+
+  $items['quick-post/%/field-schema'] = array(
+    'page callback' => 'c4m_restful_quick_post_get_form_fields',
+    'page arguments' => array(1),
+    'access callback' => array('c4m_restful_quick_post_get_form_fields_access'),
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_theme().
  */
 function c4m_restful_quick_post_theme() {
@@ -29,7 +46,126 @@ function c4m_restful_quick_post_theme() {
 }
 
 /**
+ * Access callback; access to create entity inside a group.
+ *
+ * Checks if the user is in a group and checks
+ * permissions to create an entity in this group with OG permissions.
+ *
+ * @param string $resource_name
+ *   The name of the resource.
+ *
+ * @return bool
+ *   Access.
+ */
+function c4m_restful_quick_post_get_form_fields_access($resource_name) {
+  $resources = array(
+    'discussions' => array(
+      'bundle' => 'discussion',
+    ),
+    'documents' => array(
+      'bundle' => 'document',
+    ),
+    'events' => array(
+      'bundle' => 'event',
+    ),
+  );
+
+  // Check if in a group.
+  $gid = c4m_og_current_group_id();
+  if (empty($gid)) {
+    return FALSE;
+  }
+
+  return og_user_access('node', $gid, 'create ' . $resources[$resource_name]['bundle'] . ' content');
+}
+
+/**
+ * Page callback; Load the AngularJs fields info.
+ *
+ * Loads the information of the fields according to the
+ * resource name sent from angular.
+ *
+ * @param string $resource_name
+ *   The name of the resource.
+ *
+ * @return mixed
+ *   The JSON with the fields information.
+ */
+function c4m_restful_quick_post_get_form_fields($resource_name) {
+  // Get current group.
+  $group_id = c4m_og_current_group_id();
+  // Get fields.
+  $field_schema = array();
+  $public_fields = array();
+  $categories = array();
+  $handler = restful_get_restful_handler($resource_name);
+  // Send the fields to the app as separate objects by resource
+  // (for validation on submit).
+  $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
+  $public_fields += $handler->getPublicFields();
+
+  // Clean the categories values from the field Schema (Duplicated values).
+  // Order them and assign them to a separate variable.
+  foreach ($field_schema['resources'][$resource_name] as $field_name => $values) {
+    $fixed_values = array();
+    $allowed_values = $field_name == 'categories' ? $values['form_element']['allowed_values']['categories'] : $values['form_element']['allowed_values'];
+    if (!empty($allowed_values)) {
+      foreach ($allowed_values as $id => $label) {
+        $fixed_values[] = array(
+          'id' => $id,
+          'label' => $label,
+        );
+      }
+    }
+    if ($field_name == 'categories') {
+      $categories = $fixed_values;
+      unset($field_schema['resources'][$resource_name][$field_name]['form_element']['allowed_values']);
+    }
+    else {
+      $field_schema['resources'][$resource_name][$field_name]['form_element']['allowed_values'] = $fixed_values;
+    }
+  }
+  $field_schema['categories'] = $categories;
+
+  // Gathering all the fields to pass to the angular-app.
+  $entity_fields = array();
+  $skipped_fields = array(
+    'id',
+    'self',
+  );
+
+  foreach ($public_fields as $public_field_name => $value) {
+    // Skipped fields.
+    if (in_array($public_field_name, $skipped_fields)) {
+      continue;
+    }
+    // Set all fields values to NULL.
+    $entity_fields[$public_field_name] = NULL;
+
+    // Set the current Group.
+    if ($public_field_name == 'group') {
+      $entity_fields[$public_field_name] = $group_id;
+    }
+  }
+
+  // Pass quick post form info via Drupal.settings.
+  $settings['c4m'] = array(
+    'field_schema' => $field_schema,
+    'data' => array(
+      'entity' => $entity_fields,
+    ),
+  );
+
+  drupal_json_output($settings);
+  drupal_exit();
+}
+
+/**
  * Page callback; Load the AngularJs form.
+ *
+ * Loads the AngularJs form without the resources fields
+ * information, Also loads the activity stream of the current group.
+ * Displays the entity-types that are activated in the group features.
  *
  * @param int $group_id
  *   The node ID of the current group.
@@ -68,108 +204,82 @@ function c4m_restful_quick_post_form($group_id) {
     'activities' => $activities,
     'data' => array(
       'request' => $request,
+      'entity' => array(
+        'group' => $group_id,
+      ),
     ),
   );
-
-  // Don't load the quick post form or it's components for anonymous user.
-  if (!user_is_logged_in()) {
-    // Add group id to the settings for the app.
-    $settings['c4m']['data']['entity']['group'] = $group_id;
-    drupal_add_js($settings, 'setting');
-    return FALSE;
-  }
 
   $resources = array(
     'discussions' => array(
       'bundle' => 'Discussion',
       'description' => t('Discussion'),
+      'quick_post' => 1,
     ),
     'documents' => array(
       'bundle' => 'Document',
       'description' => t('Document'),
+      'quick_post' => 1,
     ),
     'events' => array(
       'bundle' => 'Event',
       'description' => t('Event'),
+      'quick_post' => 1,
+    ),
+    'wiki-page' => array(
+      'bundle' => 'wiki_page',
+      'description' => t('Add Wiki page'),
+      'quick_post' => 0,
+    ),
+    'photoalbum' => array(
+      'bundle' => 'photoalbum',
+      'description' => t('Add Photo album'),
+      'quick_post' => 0,
+    ),
+    'task' => array(
+      'bundle' => 'task',
+      'description' => t('Start Task list'),
+      'quick_post' => 0,
+    ),
+    'tasklist' => array(
+      'bundle' => 'tasklist',
+      'description' => t('Add Task to Task list'),
+      'quick_post' => 0,
     ),
   );
+
+  // Don't load the quick post form or it's components for anonymous user
+  // or user without permissions to post in current group.
+  $first_resource = reset($resources);
+  if (!user_is_logged_in() || !og_user_access('node', $group_id, 'create ' . strtolower($first_resource['bundle']) . ' content')) {
+    // Add group id to the settings for the app.
+    drupal_add_js($settings, 'setting');
+    return FALSE;
+  }
 
   $resource_names = array_keys($resources);
 
   $show_resources = $resources;
 
-  // Get fields.
-  $field_schema = array();
-  $public_fields = array();
-  $categories = array();
+  // Remove content types that are disabled in group's features.
   foreach ($resource_names as $resource_name) {
     if (!in_array(strtolower($show_resources[$resource_name]['bundle']), $group_enabled_content_types)) {
       unset($show_resources[$resource_name]);
       continue;
     }
-    $handler = restful_get_restful_handler($resource_name);
-    // Send the fields to the app as separate objects by resource
-    // (for validation on submit.)
-    $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
-    // Clean the categories values from the field Schema (Duplicated values).
-    // Order them and assign them to a separate variable.
-    foreach ($field_schema['resources'][$resource_name] as $field_name => $values) {
-      $fixed_values = array();
-      $allowed_values = $field_name == 'categories' ? $values['form_element']['allowed_values']['categories'] : $values['form_element']['allowed_values'];
-      if (!empty($allowed_values)) {
-        foreach ($allowed_values as $id => $label) {
-          $fixed_values[] = array(
-            'id' => $id,
-            'label' => $label,
-          );
-        }
-      }
-      if ($field_name == 'categories') {
-        $categories = $fixed_values;
-        unset($field_schema['resources'][$resource_name][$field_name]['form_element']['allowed_values']);
-      }
-      else {
-        $field_schema['resources'][$resource_name][$field_name]['form_element']['allowed_values'] = $fixed_values;
-      }
-    }
-    $public_fields += $handler->getPublicFields();
   }
-  $field_schema['categories'] = $categories;
 
   // If all resources are turned off, disable the QP form.
-  if(empty($show_resources)) {
+  if (empty($show_resources)) {
     $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;
   }
 
-  // Gathering all the fields to pass to the angular-app.
-  $entity_fields = array();
-  $skipped_fields = array(
-    'id',
-    'self',
-  );
-
-  foreach ($public_fields as $public_field_name => $value) {
-    // Skipped fields.
-    if (in_array($public_field_name, $skipped_fields)) {
-      continue;
-    }
-    // Set all fields values to NULL.
-    $entity_fields[$public_field_name] = NULL;
-
-    // Set the current Group.
-    if ($public_field_name == 'group') {
-      $entity_fields[$public_field_name] = $group_id;
-    }
-  }
-
   // Pass quick post form info via Drupal.settings.
   $settings['c4m'] += array(
     'resources' => $show_resources,
-    'field_schema' => $field_schema,
   );
-  $settings['c4m']['data']['entity'] = $entity_fields;
   drupal_add_js($settings, 'setting');
 
   // Theme function adds the Quick post form.
@@ -228,7 +338,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // AngularJs.
   drupal_add_js($bower_path . '/angular/angular.min.js');
 
-  // Angular-touch
+  // Angular-touch.
   drupal_add_js($bower_path . '/angular-touch/angular-touch.min.js');
 
   // Upload file library.
@@ -241,11 +351,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // Angular-Carousel.
   drupal_add_css($bower_path . '/angular-carousel/dist/angular-carousel.min.css');
   drupal_add_js($bower_path . '/angular-carousel/dist/angular-carousel.min.js');
-
-  // CKEditor library.
-  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
-  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
-  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
 
   // Select UI.
   drupal_add_css($bower_path . '/select2/select2.css');
@@ -299,12 +404,23 @@ function c4m_restful_quick_post_needs_app() {
   // Get the current path.
   $item = menu_get_item();
   $path = $item['path'];
-
-  // If we are on a group edit form, the app should be loaded.
-  if ($path === 'node/%/edit') {
-    return TRUE;
+  foreach (menu_tree('main-menu') as $menu_item) {
+    if (!empty($menu_item['#title']) && $menu_item['#title'] == $item['title']) {
+      return TRUE;
+    }
   }
 
+  $allowed_paths = array(
+    'node/%/edit',
+    'node/%',
+    'comment/reply/%',
+    'comment/%/edit',
+
+  );
+  // If we are on a group edit form, the app should be loaded.
+  if (in_array($path, $allowed_paths)) {
+    return TRUE;
+  }
   // If we are on a node creation form, the app should be loaded.
   $node_types = array_keys(node_type_get_types());
   foreach ($node_types as $bundle) {

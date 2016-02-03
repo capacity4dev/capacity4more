@@ -32,7 +32,11 @@ angular.module('c4mApp')
       // Preventing the form from redirecting to the "action" url.
       // We nee the url in the action because of the "overlay" module.
       event.preventDefault();
-      $scope.fieldSchema = DrupalSettings.getFieldSchema();
+      DrupalSettings.getFieldSchema('documents')
+        .success(function (data) {
+          $scope.fieldSchema = data.c4m.field_schema;
+          $scope.data.entity = data.c4m.data.entity;
+        });
       var resourceFields = $scope.fieldSchema.resources['documents'];
       var submitData = Request.cleanFields(data, resourceFields);
 

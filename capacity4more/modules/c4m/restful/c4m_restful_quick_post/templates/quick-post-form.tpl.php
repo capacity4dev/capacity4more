@@ -9,7 +9,7 @@
       xmlns="http://www.w3.org/1999/html">
 
 <div class="form-group text" ng-class="{ 'has-error' : errors.label }">
-  <input id="label" class="form-control" name="label" ng-click="showFields()" type="text" ng-model="data.label"
+  <input id="label" class="form-control" name="label" ng-click="updateResource('<?php print key($show_resources) ?>', $event)" type="text" ng-model="data.label"
          placeholder="<?php print t('Title'); ?>" required>
 
   <p ng-show="errors.label"
@@ -24,6 +24,9 @@
 
 <?php if (count($show_resources) > 1): ?>
   <bundle-select items="resources" on-change="updateResource" selected-resource="selectedResource"></bundle-select>
+  <div id="form-spinner" ng-if="resourceSpinner">
+    <i class="fa fa-refresh fa-spin fa-2x"></i>
+  </div>
 <?php endif; ?>
 
 <div class="form-group input-wrapper file-wrapper" ng-if="selectedResource == 'documents'"
@@ -139,11 +142,20 @@
   </div>
 </div>
 
+<div class="form-group place clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
+  <label><?php print t('Where') ?></label>
+
+  <div class="row">
+    <location data="data" class="col-xs-12"></location>
+  </div>
+  <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
+</div>
+
 <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.topic }">
   <div class="label-wrapper">
     <label>{{fieldSchema.resources[selectedResource].topic.info.label}}</label>
-    <span id="topic_description"
-          class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
+  <span id="topic_description"
+        class="description">{{fieldSchema.resources[selectedResource].topic.info.description}}</span>
   </div>
   <div class="checkboxes-wrapper">
     <div class="checkboxes-wrapper">
@@ -153,9 +165,9 @@
         <p ng-show="errors.topic" class="help-block"><?php print t('Topic is required.'); ?></p>
       </div>
       <div class="selected-values" ng-show="data.topic">
-        <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
-          {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
-        </span>
+      <span ng-if="value === true" ng-repeat="(key, value) in data.topic">
+        {{ findLabel(topic, key) }} <i ng-click="removeTaxonomyValue(key, 'topic')" class="fa fa-times"></i>
+      </span>
       </div>
       <!-- Hidden topic checkboxes.-->
       <div class="popover right hidden-checkboxes" ng-show="popups.topic">
@@ -166,15 +178,6 @@
       </div>
     </div>
   </div>
-</div>
-
-<div class="form-group place clearfix btn-group-selectors" ng-if="selectedResource == 'events'" ng-class="{ 'has-error' : errors.location}">
-  <label><?php print t('Where') ?></label>
-
-  <div class="row">
-    <location data="data" class="col-xs-12"></location>
-  </div>
-  <p class="errors" ng-show="errors.location"><?php print t('Location is not valid'); ?></p>
 </div>
 
 <div class="form-group btn-group clearfix btn-group-selectors" ng-class="{ 'has-error' : errors.date }">

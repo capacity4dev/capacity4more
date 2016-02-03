@@ -7,7 +7,8 @@
 /**
  * The links to event views.
  *
- * @return array
+ * @return mixed
+ *   Block definition.
  */
 function _c4m_features_overview_events_block_event_views_links() {
   // Link to the general overview page.
@@ -36,12 +37,13 @@ function _c4m_features_overview_events_block_event_views_links() {
 
   $list = theme_item_list(
     array(
-    'title' => NULL,
-    'type' => 'ul',
-    'items' => $items,
-    'attributes' => array('class' => array('event-views-links')),
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => $items,
+      'attributes' => array('class' => array('event-views-links')),
     )
   );
+
   return array(
     'subject' => '',
     'content' => $list,

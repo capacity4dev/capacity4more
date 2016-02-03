@@ -1,5 +1,5 @@
-ID,Title,Body,Categories,Tags,Group,Group Type,Date,Language,UID,promote
-album_1,Photoalbum 1,,,,group_1,group,2001|2002|2003,French,user_5,
-album_2,Photoalbum 2,,,,group_1,group,Before 2000,Spanish,user_4,
-album_3,Photoalbum 3,,,,group_3,group,2005|2008,English,user_1,1
-album_4,Lusail Album,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail|tag_pearl,project_1,project,2010,English|Spanish,user_3,
+ID,Title,Body,Categories,Tags,Group,Group Type,Date,Language,UID,Topics,Promote
+album_1,Photoalbum 1,,,,group_1,group,2001|2002|2003,French,user_5,t_earth|t_wind,
+album_2,Photoalbum 2,,,,group_1,group,Before 2000,Spanish,user_4,t_earth,
+album_3,Photoalbum 3,,,,group_3,group,2005|2008,English,user_1,t_gas,1
+album_4,Lusail Album,,cat_p_arch|cat_p_city|cat_p_art,tag_lusail|tag_pearl,project_1,project,2010,English|Spanish,user_3,t_electricity,

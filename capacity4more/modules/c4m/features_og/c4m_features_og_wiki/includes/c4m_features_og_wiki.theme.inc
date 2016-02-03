@@ -1,17 +1,19 @@
 <?php
 /**
  * @file
- *
  * Custom Display Suite function fields and theming functions.
  */
 
 /**
  * Theme function for wiki page.
  *
- * @param $variables
- * @return null|string
+ * @param array $variables
+ *   Theme variables.
+ *
+ * @return mixed
+ *   The rendered output.
  */
-function theme_c4m_features_og_wiki_wiki($variables) {
+function theme_c4m_features_og_wiki_wiki(array $variables) {
   global $user;
   $output = '';
   if (empty($variables['content'])) {
@@ -23,6 +25,7 @@ function theme_c4m_features_og_wiki_wiki($variables) {
       '#value' => t('No wiki pages (yet).'),
     );
     $output .= theme_html_tag($message);
+
     // Add wiki page button when user has permissions to add a wiki page.
     if ($group = og_context()) {
       if (og_user_access('node', $group['gid'], 'administer group', $user)) {
@@ -40,4 +43,3 @@ function theme_c4m_features_og_wiki_wiki($variables) {
     return $output;
   }
 }
-

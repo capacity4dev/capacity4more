@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Overview - Feeds feature.
+ */
+
+include_once 'c4m_features_overview_feeds.features.inc';

@@ -50,6 +50,7 @@ function c4m_search_filter_form_alter(&$form, &$form_state, $form_id) {
  */
 function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query) {
   $params = drupal_get_query_parameters();
+
   if (empty($params['filter'])) {
     return;
   }
@@ -83,12 +84,13 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
       // Apply filter.
       $query->filter($filter);
       break;
+
     case 'interests':
       // Get user object.
       $user_wrapper = entity_metadata_wrapper('user', $user->uid);
 
       // Get interests & regions.
-      $interests = $user_wrapper->c4m_related_topic->raw();
+      $interests = $user_wrapper->c4m_vocab_topic->raw();
       $regions = $user_wrapper->c4m_vocab_geo->raw();
       if (empty($interests) && empty($regions)) {
         return;
@@ -99,7 +101,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       // Filter on interests.
       foreach ($interests as $interest) {
-        $filter->condition('c4m_related_topic', $interest);
+        $filter->condition('c4m_vocab_topic', $interest);
       }
 
       // Filter on geographic regions.
@@ -109,6 +111,7 @@ function c4m_search_filter_search_api_query_alter(SearchApiQueryInterface $query
 
       // Apply filter.
       $query->filter($filter);
+
       break;
   }
 }

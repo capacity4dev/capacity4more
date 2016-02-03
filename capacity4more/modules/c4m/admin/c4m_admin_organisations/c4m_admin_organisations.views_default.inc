@@ -93,6 +93,7 @@ function c4m_admin_organisations_views_default_views() {
   $handler->display->display_options['fields']['c4m_domain']['table'] = 'field_data_c4m_domain';
   $handler->display->display_options['fields']['c4m_domain']['field'] = 'c4m_domain';
   $handler->display->display_options['fields']['c4m_domain']['label'] = 'Domains';
+  $handler->display->display_options['fields']['c4m_domain']['click_sort_column'] = 'domain';
   $handler->display->display_options['fields']['c4m_domain']['delta_offset'] = '0';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Code for the C4M user feature.
+ */
+
 include_once 'c4m_user.features.inc';
 
 /**
@@ -12,7 +17,7 @@ include_once 'c4m_user.features.inc';
 function c4m_user_ds_view_modes_info() {
   $ds_view_modes = array();
 
-  $ds_view_mode                   = new stdClass;
+  $ds_view_mode                   = new stdClass();
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_picture';
@@ -22,8 +27,7 @@ function c4m_user_ds_view_modes_info() {
   );
   $ds_view_modes['c4m_user_picture'] = $ds_view_mode;
 
-
-  $ds_view_mode                   = new stdClass;
+  $ds_view_mode                   = new stdClass();
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_teaser_list';
@@ -33,7 +37,7 @@ function c4m_user_ds_view_modes_info() {
   );
   $ds_view_modes['c4m_user_teaser_list'] = $ds_view_mode;
 
-  $ds_view_mode                   = new stdClass;
+  $ds_view_mode                   = new stdClass();
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_teaser_list_global';
@@ -43,7 +47,7 @@ function c4m_user_ds_view_modes_info() {
   );
   $ds_view_modes['c4m_user_teaser_list_global'] = $ds_view_mode;
 
-  $ds_view_mode                   = new stdClass;
+  $ds_view_mode                   = new stdClass();
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_teaser_table';
@@ -53,7 +57,7 @@ function c4m_user_ds_view_modes_info() {
   );
   $ds_view_modes['c4m_user_teaser_table'] = $ds_view_mode;
 
-  $ds_view_mode                   = new stdClass;
+  $ds_view_mode                   = new stdClass();
   $ds_view_mode->disabled         = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
   $ds_view_mode->api_version      = 1;
   $ds_view_mode->view_mode        = 'c4m_user_teaser_table_global';
@@ -92,7 +96,7 @@ function c4m_user_ds_fields_info($entity_type) {
       t('linked to profile');
   }
 
-  // Fields for entity type user
+  // Fields for entity type user.
   $fields['user']['c4m_user_member_since'] = array(
     'title' => t('C4M member since'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -164,7 +168,7 @@ function c4m_user_ds_fields_info($entity_type) {
       'formatters' => array(
         'user'      => 'User first and last name',
         'linked_user' => 'User first and last name linked to profile',
-      )
+      ),
     ),
   );
 
@@ -177,20 +181,19 @@ function c4m_user_ds_fields_info($entity_type) {
     'properties' => array(
       'formatters' => array(
         'default'      => t('Default'),
-      )
+      ),
     ),
   );
 
-  // User related fields for entity type node
+  // User related fields for entity type node.
   $fields['node']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
-  $fields['node']['c4m_user_first_and_last_name'] =
-    $fields['user']['c4m_user_first_and_last_name'];
+  $fields['node']['c4m_user_first_and_last_name']
+    = $fields['user']['c4m_user_first_and_last_name'];
 
-  // User related fields for entity type comment
+  // User related fields for entity type comment.
   $fields['comment']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
-  $fields['comment']['c4m_user_first_and_last_name'] =
-    $fields['user']['c4m_user_first_and_last_name'];
-
+  $fields['comment']['c4m_user_first_and_last_name']
+    = $fields['user']['c4m_user_first_and_last_name'];
 
   return $fields;
 }
@@ -198,9 +201,13 @@ function c4m_user_ds_fields_info($entity_type) {
 /**
  * Helper function to render C4M user image based on a user entity.
  *
- * @param $user
+ * @param object $user
+ *    The user object.
+ * @param string $style
+ *    The image style name.
  *
  * @return string
+ *    Rendered link with image inside.
  */
 function c4m_user_image($user, $style = NULL) {
   $output  = '';
@@ -220,9 +227,13 @@ function c4m_user_image($user, $style = NULL) {
 /**
  * Return the themed initials (max 2) of a user's full name.
  *
- * @param $account
+ * @param object $account
+ *    The user object.
+ * @param mixed $linked
+ *    Whether or not to wrap the output in a link.
  *
  * @return string
+ *    Rendered html.
  */
 function c4m_user_initials_themed($account, $linked = TRUE) {
   $initials = c4m_user_initials($account);
@@ -246,7 +257,7 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
         'class' => array(
           'no-avatar',
           'initials',
-          'bg-' . $colors[mt_rand(0, count($colors) - 1)]
+          'bg-' . $colors[mt_rand(0, count($colors) - 1)],
         ),
       ),
       '#value' => $output,
@@ -259,9 +270,11 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
 /**
  * Return the initials (max 2) of a user's full name.
  *
- * @param $account
+ * @param object $account
+ *    The user object.
  *
  * @return string
+ *    The initials (max 2) of user's full name.
  */
 function c4m_user_initials($account) {
   $name = c4m_user_name($account);
@@ -276,12 +289,15 @@ function c4m_user_initials($account) {
 }
 
 /**
- * Helper function to render user first and last name in one string using the
- * user entity.
+ * Helper function to render user first and last name in one string.
  *
- * @param $user
+ * Using the user entity to get the needed info.
+ *
+ * @param object $user
+ *    The user object.
  *
  * @return string
+ *    The first and last name.
  */
 function c4m_user_name($user) {
   $wrapper = entity_metadata_wrapper('user', $user);
@@ -304,6 +320,7 @@ function c4m_user_name($user) {
  * Get some background classes (random colors).
  *
  * @return array
+ *    Array with colors.
  */
 function _c4m_user_initials_colors() {
   return array(
@@ -322,7 +339,7 @@ function _c4m_user_initials_colors() {
 }
 
 /**
- *  Implements hook_action_info().
+ * Implements hook_action_info().
  */
 function c4m_user_action_info() {
   module_load_include('inc', 'c4m_user', 'actions/c4m_user_contact.action');
@@ -348,7 +365,7 @@ function c4m_user_theme() {
       'rows' => NULL,
       'vbo' => NULL,
       'operation' => NULL,
-      'select_all_pages' => FALSE
+      'select_all_pages' => FALSE,
     ),
   );
 
@@ -356,12 +373,23 @@ function c4m_user_theme() {
 }
 
 /**
- *  Implements hook_theme_registry_alter().
+ * Implements hook_views_api().
+ */
+function c4m_user_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'c4m_user'),
+    'template path' => drupal_get_path('module', 'c4m_user') . DIRECTORY_SEPARATOR . 'templates',
+  );
+}
+
+/**
+ * Implements hook_theme_registry_alter().
  */
 function c4m_user_theme_registry_alter(&$theme_registry) {
   // Replace the theming of the Views Bulk Operation confirmation form.
-  $theme_registry['views_bulk_operations_confirmation']['function'] =
-    'theme_c4m_user_views_bulk_operations_confirmation';
+  $theme_registry['views_bulk_operations_confirmation']['function']
+    = 'theme_c4m_user_views_bulk_operations_confirmation';
 }
 
 /**
@@ -379,7 +407,8 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
     $items[] = 'user' == $entity_type ? c4m_user_name($entity) :
        check_plain(_views_bulk_operations_entity_label($entity_type, $entity));
   }
-  // All rows on all pages have been selected, so show a count of additional items.
+  // All rows on all pages have been selected,
+  // so show a count of additional items.
   if ($select_all_pages) {
     $more_count = $vbo->view->total_rows - count($vbo->view->result);
     $items[] = t('...and %count more.', array('%count' => $more_count));
@@ -390,9 +419,9 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
 
   $title = '';
   switch ($variables['operation']->id()) {
-    case 'action::c4m_user_contact_action' :
+    case 'action::c4m_user_contact_action':
       // Count already escaped by format_plural().
-      $title = t('You selected') . ' ' . $count . ' ' . t('to contact:');
+      $title = t('You selected @count to contact:', array('@count' => $count));
       break;
   }
 
@@ -407,6 +436,7 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
  *   The User ID.
  *
  * @return int
+ *    Number of posts.
  */
 function c4m_user_count_nodes($uid) {
   $query = db_select('node', 'n');
@@ -424,6 +454,7 @@ function c4m_user_count_nodes($uid) {
  *   The User ID.
  *
  * @return int
+ *    Number of comments.
  */
 function c4m_user_count_comments($uid) {
   $query = db_select('comment', 'c');
@@ -444,4 +475,30 @@ function c4m_user_count_comments($uid) {
  */
 function c4m_user_track_change($uid) {
   search_api_track_item_change('user', array($uid));
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_user_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_user' => array(
+        'type'        => 'user',
+        'entity_type' => 'user',
+        'bundles'     => NULL,
+        'singular'    => 'Member',
+        'plural'      => 'Members',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 5,
+        'attributes'  => array(
+          'class' => array('users'),
+        ),
+        'link' => array(
+          'path' => 'people',
+        ),
+      ),
+    ),
+  );
 }

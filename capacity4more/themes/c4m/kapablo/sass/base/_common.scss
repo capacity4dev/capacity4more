@@ -41,6 +41,18 @@ div.label-inline {
   font-weight: bold;
 }
 
+.align-center {
+  text-align: center;
+}
+
+.round-bg {
+  img {
+    @include border-radius(50%);
+    width: 50px;
+    height: 50px;
+  }
+}
+
 .page-header {
   border: 0;
   color: $highlight-blue;

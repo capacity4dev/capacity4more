@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Prints out an embedded video block.
+ */
+
+?>
+
 <div class="video-preview-wrapper">
   <div class="video-preview" data-toggle="modal" data-target="#c4mVideoModal">
     <div class="video-details">

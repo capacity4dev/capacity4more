@@ -5,3 +5,50 @@
  */
 
 include_once 'c4m_content_task.features.inc';
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_task_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_tasks' => array(
+        'type'          => 'task',
+        'entity_type'   => 'node',
+        'bundles'       => array('task'),
+        'singular'      => 'Post',
+        'plural'        => 'Posts',
+        'state'         => 1,
+        'aggregate'     => array(
+          'type' => 'posts',
+        ),
+        'weight'        => 1,
+        'attributes'    => array(
+          'class' => array('posts'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_tasks' => array(
+        'type'          => 'task',
+        'entity_type'   => 'node',
+        'bundles'       => array('task'),
+        'singular'      => 'Task',
+        'plural'        => 'Tasks',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 5,
+        'feature_name'  => 'c4m_features_og_tasklists',
+        'attributes'    => array(
+          'class' => array('og-tasks'),
+        ),
+        'link' => array(
+          'path' => 'tasklists',
+        ),
+      ),
+    ),
+  );
+}

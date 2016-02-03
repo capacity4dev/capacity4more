@@ -21,7 +21,9 @@ angular.module('c4mApp')
         var filtered = {};
         searchText = searchText.toLowerCase();
         angular.forEach(items, function(item, id) {
+          // Check first level terms.
           if (item.label.toLowerCase().indexOf(searchText) >= 0) {
+            // Label match - add to list and go to the next one.
             filtered[id] = {
               id: id,
               label: item.label,
@@ -29,16 +31,50 @@ angular.module('c4mApp')
             };
           }
           else {
-            angular.forEach(item.children, function(child) {
+            var parentTerm = false;
+            angular.forEach(item.children, function(child, childId) {
+              // Label doesn't match - check second level terms.
               if (child.label.toLowerCase().indexOf(searchText) >= 0) {
-                filtered[id] = {
-                  id: id,
-                  label: item.label,
-                  children: []
-                };
-                filtered[id]['children'].push({
+                // Label match - add to list and go to the next one.
+                if (!parentTerm) {
+                  filtered[id] = {
+                    id: id,
+                    label: item.label,
+                    children: []
+                  };
+                  parentTerm = true;
+                }
+                filtered[id].children.push({
                   id: child.id,
-                  label: child.label
+                  label: child.label,
+                  children: child.children
+                });
+              }
+              else {
+                var childTerm = false;
+                angular.forEach(child.children, function(childChild) {
+                  if (childChild.label.toLowerCase().indexOf(searchText) >= 0) {
+                    if (!parentTerm) {
+                      filtered[id] = {
+                        id: id,
+                        label: item.label,
+                        children: []
+                      };
+                      parentTerm = true;
+                    }
+                    if (!childTerm) {
+                      filtered[id].children.push({
+                        id: child.id,
+                        label: child.label,
+                        children: []
+                      });
+                      childTerm = true;
+                    }
+                    filtered[id].children[filtered[id].children.length - 1].children.push({
+                      id: childChild.id,
+                      label: childChild.label
+                    });
+                  }
                 });
               }
             });

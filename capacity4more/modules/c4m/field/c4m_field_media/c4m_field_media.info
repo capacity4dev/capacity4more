@@ -27,7 +27,5 @@ features[features_api][] = api:2
 features[field_base][] = c4m_media
 features[file_display][] = document__c4m_preview__file_field_media_large_icon
 features[file_display][] = image__c4m_preview__file_field_image
-features[image][] = c4m_image_medium
-features[image][] = small
 features[variable][] = field_bundle_settings_file__document
 features[variable][] = field_bundle_settings_file__image

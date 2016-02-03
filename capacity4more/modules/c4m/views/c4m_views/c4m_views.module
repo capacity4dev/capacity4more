@@ -5,8 +5,12 @@
  */
 
 /**
- *  Implements hook_views_api().
+ * Implements hook_views_api().
  */
 function c4m_views_views_api() {
-  return array('api' => 3.0);
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'c4m_views'),
+    'template path' => drupal_get_path('module', 'c4m_views') . DIRECTORY_SEPARATOR . 'templates',
+  );
 }

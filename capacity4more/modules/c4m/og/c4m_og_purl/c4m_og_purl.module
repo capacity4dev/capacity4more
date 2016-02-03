@@ -5,9 +5,9 @@
  */
 
 // Link types that can be used to auto-magically create the proper URL.
-define ('C4M_OG_PURL_LINK_AUTO', 'purl_auto');
-define ('C4M_OG_PURL_LINK_DISABLED', 'purl_disabled');
-define ('C4M_OG_PURL_LINK_DASHBOARD', 'purl_og_dashboard');
+define('C4M_OG_PURL_LINK_AUTO', 'purl_auto');
+define('C4M_OG_PURL_LINK_DISABLED', 'purl_disabled');
+define('C4M_OG_PURL_LINK_DASHBOARD', 'purl_og_dashboard');
 
 include_once 'c4m_og_purl.ds_render_field.inc';
 include_once 'c4m_og_purl.uri_info.inc';
@@ -54,6 +54,7 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
+  // Formatter is c4m_og_purl_entityreference_link.
   if ($display['type'] == 'c4m_og_purl_entityreference_link') {
     $options[C4M_OG_PURL_LINK_AUTO] = t('Auto PURL');
     $options[C4M_OG_PURL_LINK_DISABLED] = t('Disable PURL');
@@ -84,9 +85,11 @@ function c4m_og_purl_field_formatter_settings_summary($field, $instance, $view_m
       case C4M_OG_PURL_LINK_AUTO:
         $summary[] = t('Link to og purl referenced entity');
         break;
+
       case C4M_OG_PURL_LINK_DISABLED:
         $summary[] = t('Link to referenced entity');
         break;
+
       case C4M_OG_PURL_LINK_DASHBOARD:
         $summary[] = t('Link to group dashboard');
         break;
@@ -153,6 +156,7 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
   $result = array();
   $settings = $display['settings'];
 
+  // Formatter is c4m_og_purl_entityreference_link.
   if ($display['type'] == 'c4m_og_purl_entityreference_link') {
     $handler = entityreference_get_selection_handler($field, $instance, $entity_type, $entity);
 
@@ -160,7 +164,9 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
       $label = $handler->getLabel($item['entity']);
       $uri = entity_uri($field['settings']['target_type'], $item['entity']);
       c4m_og_purl_alter_uri_info($settings['link'], $uri);
-      $result[$delta] = array('#markup' => l($label, $uri['path'], $uri['options']));
+      $result[$delta] = array(
+        '#markup' => l($label, $uri['path'], $uri['options']),
+      );
     }
   }
 

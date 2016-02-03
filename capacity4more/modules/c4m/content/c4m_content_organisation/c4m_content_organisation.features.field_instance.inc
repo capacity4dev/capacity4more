@@ -29,6 +29,12 @@ function c4m_content_organisation_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -110,11 +116,17 @@ function c4m_content_organisation_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
+        'module' => 'c4m_content_organisation',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'c4m_domain_icon',
         'weight' => 3,
       ),
       'featured_block' => array(
@@ -154,16 +166,13 @@ function c4m_content_organisation_field_default_field_instances() {
     'label' => 'Domain',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
+      'active' => 0,
+      'module' => 'c4m_content_organisation',
+      'settings' => array(),
+      'type' => 'c4m_domain_field',
       'weight' => 35,
     ),
   );
@@ -181,6 +190,12 @@ function c4m_content_organisation_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

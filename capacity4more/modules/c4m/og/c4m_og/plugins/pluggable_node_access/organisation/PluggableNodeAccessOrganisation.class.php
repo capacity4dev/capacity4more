@@ -37,7 +37,7 @@ class PluggableNodeAccessOrganisation extends PluggableNodeAccessBase {
     $query
       ->condition('n.status', 1, '=')
       ->condition('n.type', 'organisation', '=')
-      ->condition('d.c4m_domain_value', $domain[1]);
+      ->condition('d.c4m_domain_domain', $domain[1]);
 
     $query->fields('n', array('title', 'nid'));
 

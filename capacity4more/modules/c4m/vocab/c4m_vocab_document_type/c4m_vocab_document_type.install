@@ -28,7 +28,7 @@ function c4m_vocab_document_type_uninstall() {
 /**
  * Create Document type vocabulary.
  *
- * @return stdClass
+ * @return object
  *   The Document types vocabulary.
  */
 function _c4m_vocab_document_type_install_vocabulary() {
@@ -50,14 +50,14 @@ function _c4m_vocab_document_type_install_vocabulary() {
 /**
  * Create default taxonomy terms for the Document Type vocabulary.
  *
- * @param stdClass $vocabulary
+ * @param object $vocabulary
  *   The vocabulary to which the terms should be added.
  * @param array $terms
  *   Array of terms.
- * @param stdClass $parent
+ * @param object $parent
  *   (optional) Parent term.
  */
-function _c4m_vocab_document_type_install_terms($vocabulary, $terms, $parent = NULL) {
+function _c4m_vocab_document_type_install_terms($vocabulary, array $terms, $parent = NULL) {
   $weight = -20;
   foreach ($terms as $name => $children) {
     $term              = new stdClass();
@@ -81,6 +81,7 @@ function _c4m_vocab_document_type_install_terms($vocabulary, $terms, $parent = N
  * Get a list of type of documents terms to use during the install.
  *
  * @return array
+ *    List of type of documents.
  */
 function _c4m_vocab_document_type_install_get_terms() {
   $terms = array(

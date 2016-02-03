@@ -6,12 +6,15 @@
 
   &.fl-public {
     background-image: image-url('group-icons/public-group.png');
+    background-size: 25px;
   }
   &.fl-private {
     background-image: image-url('group-icons/private-group.png');
+    background-size: 25px;
   }
   &.fl-restricted {
     background-image: image-url('group-icons/restricted-group.png');
+    background-size: 25px;
   }
   &.fl-debate {
     @include image-icon-png-fallback('icons', 'discussion-qp-debate-hover');

@@ -29,14 +29,14 @@ function c4m_user_bar_context_default_contexts() {
         'c4m_user_profile-user_welcome' => array(
           'module' => 'c4m_user_profile',
           'delta' => 'user_welcome',
-          'region' => 'user',
-          'weight' => '-9',
+          'region' => 'user_bar',
+          'weight' => '-10',
         ),
-        'c4m_user_profile-user_notifications' => array(
-          'module' => 'c4m_user_profile',
-          'delta' => 'user_notifications',
-          'region' => 'user',
-          'weight' => '-8',
+        'c4m_features_footer-c4m_footer' => array(
+          'module' => 'c4m_features_footer',
+          'delta' => 'c4m_footer',
+          'region' => 'footer',
+          'weight' => '-10',
         ),
       ),
     ),

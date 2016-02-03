@@ -37,8 +37,8 @@
         <div ng-if="!categoriesLength">
           <?php print t('No categories have been defined yet.') ?>
         </div>
-        <form action="#" class="search">
-          <input ng-if="categoriesLength" ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>" ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')" class="form-control" type="text" placeholder="Search"/>
+        <form action="#" class="search" ng-show="categoriesLength">
+          <input ng-model="searchTerms.<?php print $vocabulary_machine_name; ?>" ng-change="updateSearch('<?php print $vocabulary_machine_name; ?>')" class="form-control" type="text" placeholder="Search"/>
         </form>
         <ul ng-if="categoriesLength">
           <li class="checkbox table-display" ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">

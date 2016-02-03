@@ -4,6 +4,17 @@
  * Helper functionality around $entity objects.
  */
 
+/**
+ * Helper function to get the label of an entity type.
+ *
+ * @param object $entity
+ *    The entity object.
+ * @param string $entity_type
+ *    The entity type.
+ *
+ * @return mixed
+ *    Returns array with the entity type label.
+ */
 function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node') {
   $variables = array(
     'entity' => $entity,
@@ -30,13 +41,117 @@ function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node')
 /**
  * Helper function to sort objects on their title.
  *
- * @usage usort($array_entitiy_objects, 'c4m_sort_object_by_title');
- *
- * @param $a
- * @param $b
+ * @param object $a
+ *    The object containing the title.
+ * @param object $b
+ *    The object containing the title.
  *
  * @return int
+ *    Returns integer to determine $a is lt, gt or equal than $b.
+ *
+ * @usage usort($array_entitiy_objects, 'c4m_sort_object_by_title');
  */
 function c4m_sort_object_by_title($a, $b) {
   return strcasecmp($a->title, $b->title);
+}
+
+/**
+ * Helper function to get the count per entity type and bundle.
+ *
+ * @param array $variables
+ *    Array containing information needed to perform the query.
+ *    Info needed is:
+ *      - entity_type
+ *      - bundles
+ *      - state
+ *      - og_id
+ *      - c4m_status.
+ *
+ * @return int
+ *    Number of items.
+ */
+function c4m_helper_entity_get_number_of_entities(array $variables) {
+  $amount = 0;
+
+  $entity_type  = $variables['entity_type'];
+  $bundles      = $variables['bundles'];
+  $state        = $variables['state'];
+  $og_id        = $variables['og_id'];
+  $c4m_status   = $variables['c4m_status'];
+
+  if ($entity_type) {
+    switch ($entity_type) {
+      case 'user':
+        $query = db_select('users', 'u');
+        $query->fields('u');
+        if ($state) {
+          $query->condition('u.status', $state, '=');
+        }
+        break;
+
+      case 'node':
+        if (!empty($bundles)) {
+          $query = db_select('node', 'n');
+          $query->fields('n');
+          $query->condition('n.type', $bundles, 'IN');
+          if (!is_null($state)) {
+            $query->condition('n.status', $state, '=');
+          }
+        }
+        $query  = $query->addTag('node_access');
+        break;
+
+      case 'comment':
+        $query = db_select('comment', 'c');
+        $query->fields('c');
+        $query->join('node', 'n', 'c.nid = n.nid');
+        if (!is_null($state)) {
+          $query->condition('n.status', $state, '=');
+        }
+        $query  = $query->addTag('node_access');
+        break;
+    }
+
+    // Add group condition if given.
+    if ($og_id) {
+      switch ($entity_type) {
+        case 'user':
+          $query->join('og_membership', 'og', 'u.uid = og.etid');
+          break;
+
+        case 'node':
+          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          break;
+
+        case 'comment':
+          $query->join('og_membership', 'og', 'n.nid = og.etid');
+          // Exclude the comments on disabled group content features.
+          $disabled_types = c4m_og_feature_disabled_content_types();
+          if (!empty($disabled_types)) {
+            $query->condition('n.type', $disabled_types, 'NOT IN');
+          }
+          break;
+
+        default:
+          return $amount;
+      }
+      $query->condition('og.gid', $og_id, '=');
+    }
+
+    // Add condition on c4m status.
+    if (!empty($c4m_status)) {
+      if ($entity_type == 'node') {
+        $query->join('field_data_c4m_og_status', 'st', 'n.nid = st.entity_id');
+        $query->condition('st.c4m_og_status_value', $c4m_status, 'IN');
+      }
+      elseif ($entity_type == 'user' && $og_id) {
+        $query->condition('og.state', $c4m_status, 'IN');
+      }
+    }
+
+    $query  = $query->execute();
+    $amount = $query->rowCount();
+  }
+
+  return $amount;
 }

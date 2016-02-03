@@ -28,7 +28,9 @@ angular.module('c4mApp')
       },
       link: function postLink(scope) {
         // Set the filtered items to include all items at load.
-        scope.filteredTerms = scope.items;
+        scope.$watch('items', function(items) {
+          scope.filteredTerms = items;
+        });
         // Filtering the items according to the value of the searchTerm input.
         scope.updateSearch = function() {
           scope.filteredTerms = $filter('termsFilter')(scope.items, scope.searchTerm);

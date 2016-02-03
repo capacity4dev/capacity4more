@@ -9,6 +9,7 @@
  */
 abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
+  protected $textFormat = 'default_html';
 
   /**
    * Content creations need to be run before this one.

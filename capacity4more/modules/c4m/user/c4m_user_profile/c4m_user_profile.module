@@ -5,13 +5,9 @@
  */
 
 include_once 'c4m_user_profile.features.inc';
-/**
- * @file
- * capacity4more User Profile module
- */
 
 /**
- * Implements hook_field_extra_fields_alter()
+ * Implements hook_field_extra_fields_alter().
  */
 function c4m_user_profile_field_extra_fields_alter(&$info) {
   // Make sure that the Account fields are always at the top of the
@@ -85,6 +81,7 @@ function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $o
         case 'full-name':
           $replacements[$original] = c4m_user_name($account);
           break;
+
         case 'url-with-name':
           $name = c4m_user_name($account);
           $replacements[$original] = !empty($account->uid) ? l(
@@ -99,10 +96,7 @@ function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $o
 }
 
 /**
- * Implementation of hook_facet_items_alter()
- *
- * @param $build
- * @param $settings
+ * Implements hook_facet_items_alter().
  */
 function c4m_user_profile_facet_items_alter(&$build, &$settings) {
   switch ($settings->facet) {
@@ -117,13 +111,15 @@ function c4m_user_profile_facet_items_alter(&$build, &$settings) {
  *
  * Display full country name instead of country code.
  *
- * @param $build
- * @param $settings
+ * @param array $build
+ *    The facets.
+ * @param object $settings
+ *    Facet settings.
  */
-function _c4m_user_profile_facet_country_alter(&$build, &$settings) {
+function _c4m_user_profile_facet_country_alter(array &$build, $settings) {
   $field = field_info_field($settings->facet);
   $allowed_values = list_allowed_values($field);
-  foreach($build as $key => $item) {
+  foreach ($build as $key => $item) {
     $options = array(
       '@country' => ucwords(
         drupal_strtolower($allowed_values[drupal_strtoupper($key)])
@@ -131,4 +127,29 @@ function _c4m_user_profile_facet_country_alter(&$build, &$settings) {
     );
     $build[$key]["#markup"] = t('@country', $options);
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_user_profile_theme() {
+  $theme['c4m_user_profile_picture_fullname'] = array(
+    'variables' => array(
+      'user' => array(),
+      'link' => array(),
+    ),
+    'file' => 'c4m_user_profile.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  $theme['c4m_user_profile_menu'] = array(
+    'variables' => array(
+      'menu_items'  => array(),
+      'attributes'  => array(),
+    ),
+    'file' => 'c4m_user_profile.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_user_profile') . '/includes',
+  );
+
+  return $theme;
 }

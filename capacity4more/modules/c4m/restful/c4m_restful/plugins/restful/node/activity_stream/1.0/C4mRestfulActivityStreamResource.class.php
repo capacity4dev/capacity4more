@@ -69,7 +69,7 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
     if (!empty($request['topics'])) {
       // Join related to Articles tables to get V&V activities with user's
       // topics of interest.
-      $query->innerJoin('field_data_c4m_related_topic', 'crt', "node.nid = crt.entity_id AND crt.entity_type='node'");
+      $query->innerJoin('field_data_c4m_vocab_topic', 'crt', "node.nid = crt.entity_id AND crt.entity_type='node'");
     }
 
     $query->addField('gn', 'field_group_node_target_id', 'group_node');
@@ -82,7 +82,7 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
           $and = db_and();
           $and->isNull('gn.field_group_node_target_id');
           $and->condition('node.type', 'article');
-          $and->condition('crt.c4m_related_topic_target_id', $request['topics'], is_array($request['topics']) ? 'IN' : '=');
+          $and->condition('crt.c4m_vocab_topic_tid', $request['topics'], is_array($request['topics']) ? 'IN' : '=');
           $or->condition($and);
         }
         else {
