@@ -19,7 +19,7 @@ angular.module('c4mApp')
     var self = this;
 
     // Wraps inside AngularJs Drupal settings global object.
-    // @type {Drupal.settings}
+    // @type {Drupal.settings}.
     this.settings = $window.Drupal.settings;
 
     /**
