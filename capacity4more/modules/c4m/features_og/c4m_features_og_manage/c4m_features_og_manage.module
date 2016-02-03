@@ -118,10 +118,10 @@ function c4m_features_og_manage_categories_access() {
  * Access callback for manage group categories edit/delete/reorder term forms.
  *
  * @param int $tid
- *  The taxonomy term ID.
+ *   The taxonomy term ID.
  *
  * @return bool
- *  user's access to the current group.
+ *   User's access to the current group.
  */
 function c4m_features_og_manage_categories_terms_access($tid) {
   // Check if in a group.
@@ -137,7 +137,8 @@ function c4m_features_og_manage_categories_terms_access($tid) {
   }
 
   $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
-  // Validate if the given category type belongs to the current group (The group vocab).
+  // Validate if the given category type belongs to the current group
+  // (The group vocab).
   if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
     drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
     return FALSE;
@@ -182,9 +183,9 @@ function c4m_features_og_manage_theme() {
  * For the group management dashboard,
  * this function gets a specific information about the current group.
  *
- *
  * @return array|bool
- *  An array of the current group's info OR false if there's no group in current context.
+ *   An array of the current group's info OR false if there's no group in
+ *   current context.
  */
 function c4m_features_og_manage_group_details() {
   $group = c4m_og_current_group();
@@ -226,9 +227,9 @@ function c4m_features_og_manage_group_details() {
         'absolute' => TRUE,
         'query' => array(
           'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
-        )
+        ),
       );
-      $topic_list['items'][] = l($topic->name, url('search' , $options));
+      $topic_list['items'][] = l($topic->name, url('search', $options));
     }
 
     $details['topics'] = theme_item_list($topic_list);
@@ -250,7 +251,7 @@ function c4m_features_og_manage_group_details() {
         'absolute' => TRUE,
         'query' => array(
           'f[0]' => 'c4m_vocab_geo:' . $location->tid,
-        )
+        ),
       );
       $geo_list['items'][] = l($location->name, url('search', $options));
     }
@@ -271,7 +272,7 @@ function c4m_features_og_manage_group_details() {
       'purl' => array(
         'disabled' => TRUE,
       ),
-      'absolute' => TRUE
+      'absolute' => TRUE,
     );
 
     foreach ($related_groups as $related_group) {
@@ -303,7 +304,7 @@ function c4m_features_og_manage_group_details() {
       'purl' => array(
         'disabled' => TRUE,
       ),
-      'absolute' => TRUE
+      'absolute' => TRUE,
     );
 
     foreach ($related_projects as $related_project) {
@@ -321,7 +322,7 @@ function c4m_features_og_manage_group_details() {
 
     $details['related_projects'] = theme_item_list($related_projects_list);
   }
-  
+
   // Get categories and terms count for current group.
   $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
   $details['taxonomy_manage_link'] = l(t('Edit'), url('manage/categories', array('absolute' => TRUE)));
@@ -353,11 +354,13 @@ function c4m_features_og_manage_group_details() {
  * For the group management dashboard,
  * This function gets the current status of the group,
  * An archive link (If the group is not archived),
- * The number of the group membership requests which links to the "members" page (Filtered by pending)
- * and a thumbnail image of the group with an edit link.
+ * The number of the group membership requests which links to the "members"
+ * page (Filtered by pending) and a thumbnail image of the group with an edit
+ * link.
  *
  * @return array|bool
- *  An array of current group's status and thumbnail image OR false if there's no group in current context.
+ *   An array of current group's status and thumbnail image OR false if there's
+ *   no group in current context.
  */
 function c4m_features_og_manage_group_status_and_thumbnail() {
   $group = c4m_og_current_group();
@@ -369,13 +372,12 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 
   // Pending memberships count link.
   $pending_memberships_count_text = t('@count Group membership requests', array(
-      '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
-    )
-  );
+    '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
+  ));
   $link_options = array(
     'absolute' => TRUE,
     'query' => array(
-      'f[0]' => 'c4m_og_membership_type:' . $group->nid .'_pending',
+      'f[0]' => 'c4m_og_membership_type:' . $group->nid . '_pending',
     ),
   );
   $info = array(
@@ -448,7 +450,7 @@ function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state)
     'c4m_banner' => 'edit-image-banner',
     'c4m_media' => 'edit-image-list',
   );
-  foreach($form_elements as $element => $id) {
+  foreach ($form_elements as $element => $id) {
     $form[$element]['#prefix'] = "<div id='$id'>";
     $form[$element]['#suffix'] = '</div>';
   }
@@ -457,7 +459,8 @@ function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state)
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Prevent access to the "description" and "relations" fields for non platform-administrators.
+ * Prevent access to the "description" and "relations" fields for non
+ * platform-administrators.
  */
 function c4m_features_og_manage_form_taxonomy_form_term_alter(&$form, &$form_state) {
   global $user;

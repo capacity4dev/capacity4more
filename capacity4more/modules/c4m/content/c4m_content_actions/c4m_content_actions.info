@@ -1,0 +1,5 @@
+name = Content Actions
+description = Actions functionality for content.
+core = 7.x
+package = capacity4more - Content
+version = 7.x-1.x-dev

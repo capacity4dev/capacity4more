@@ -215,5 +215,9 @@
 </div>
 
 <footer class="footer container">
-  <?php print render($page['footer']); ?>
+  <div class="container footer-wrapper">
+    <section>
+      <?php print render($page['footer']); ?>
+    </section>
+  </div>
 </footer>

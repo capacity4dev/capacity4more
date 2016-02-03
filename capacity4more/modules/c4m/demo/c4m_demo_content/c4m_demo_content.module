@@ -4,7 +4,6 @@
  * Module to create demo content using the Migrate module.
  */
 
-
 /**
  * Name used to group the migration classes.
  */
@@ -23,6 +22,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreateGroups',
     'C4mDemoContentCreateInThePicture',
     'C4mDemoContentCreateBanners',
+    'C4mDemoContentCreateBookPages',
     'C4mDemoContentCreateProjects',
     'C4mDemoContentCreateArticles',
     'C4mDemoContentCreateArticleComments',

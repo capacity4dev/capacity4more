@@ -1,20 +1,25 @@
 <?php
 /**
  * @file
- * This file specifies the command to be executed on install and uninstall
+ * This file specifies the command to be executed on install and uninstall.
  */
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function c4m_comment_delete_install() {
-  db_query("UPDATE {system} SET weight = 1 WHERE name = 'c4m_comment_delete'");
+  // TODO : No need to alter the weight of the module.
+  // The order of the hooks should be altered by hook_module_implements_alter().
+  db_update('system')
+    ->fields(array('weight' => 1))
+    ->condition('name', 'c4m_comment_delete', '=')
+    ->execute();
 
   variable_set('c4m_comment_delete_replies', 2);
 }
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function c4m_comment_delete_uninstall() {
   variable_del('c4m_comment_delete_replies');

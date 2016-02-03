@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Install/update hooks for c4m_mail.
  */
 
@@ -9,7 +10,6 @@
 function c4m_mail_install() {
   _c4m_mail_install_update_messages();
 }
-
 
 /**
  * Helper to update all messages as defined in messages/list.inc.

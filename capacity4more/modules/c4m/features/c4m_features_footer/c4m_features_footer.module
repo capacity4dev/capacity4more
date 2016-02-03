@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Code for the footer feature.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_footer_block_info() {
+  $blocks['c4m_footer'] = array(
+    'info' => t('Footer'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_footer_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'c4m_footer':
+      $footer = array(
+        '#theme' => 'c4m_footer',
+      );
+      $block['content'] = render($footer);
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_footer_theme() {
+  $theme['c4m_footer'] = array(
+    'variables' => array(
+      'data' => array(),
+    ),
+    'file'  => 'c4m_features_footer.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_features_footer') . '/includes',
+  );
+
+  return $theme;
+}

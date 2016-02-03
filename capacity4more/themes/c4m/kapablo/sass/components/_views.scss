@@ -221,3 +221,34 @@ li {
     }
   }
 }
+
+
+
+.view-display-id-og_dashboard_promoted_block {
+  background-color: $color-gray-extra-light;
+  margin-bottom: 60px;
+  padding: 10px 5px;
+
+  .view-header {
+    border-bottom: 1px solid #DADDC9;
+    padding: 0 10px 0 30px;
+    line-height: 30px;
+    margin: 0;
+    @include image-icon-png-fallback('icons', 'pin');
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    background-size: 24px;
+    p {
+      margin: 0;
+    }
+  }
+  .view-content {
+    .views-row {
+      padding: 0px;
+      margin: 0px;
+      .node {
+        border-top: 1px solid #E9EBDE;
+      }
+    }
+  }
+}

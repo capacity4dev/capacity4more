@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Install & Update hooks for c4m_og
+ * Install & Update hooks for c4m_og.
  */
 
 /**
- * Implements hook_install
+ * Implements hook_install().
  */
 function c4m_og_install() {
   _c4m_og_install_context();

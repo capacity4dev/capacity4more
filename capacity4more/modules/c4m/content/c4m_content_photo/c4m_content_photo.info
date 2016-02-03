@@ -20,6 +20,7 @@ dependencies[] = node_gallery_api
 dependencies[] = og
 dependencies[] = og_ui
 dependencies[] = options
+dependencies[] = smart_trim
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text

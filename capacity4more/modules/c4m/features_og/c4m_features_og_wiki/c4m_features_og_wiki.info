@@ -1,6 +1,14 @@
 name = Wiki
 description = Provides the Wiki pages within Groups.
 core = 7.x
-version = 7.x-1.x-dev
+package = capacity4more - Features Group
+version = 7.x-1.0-dev
 dependencies[] = c4m_og
 dependencies[] = c4m_og_menu
+dependencies[] = draggableviews_book
+dependencies[] = views
+features[ctools][] = context:context:3
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_wiki

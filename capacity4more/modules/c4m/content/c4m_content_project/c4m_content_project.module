@@ -8,8 +8,6 @@ include_once 'c4m_content_project.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_groups().
- *
- * @return array
  */
 function c4m_content_project_c4m_og_vocab_info_groups() {
   return array(

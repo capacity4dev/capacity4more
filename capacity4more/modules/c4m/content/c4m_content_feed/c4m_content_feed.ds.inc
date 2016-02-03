@@ -36,7 +36,7 @@ function c4m_content_feed_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_group' => array(
+    'c4m_related_group_unlimited' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -45,7 +45,7 @@ function c4m_content_feed_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_vocab_topic' => array(
+    'c4m_related_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
@@ -76,7 +76,7 @@ function c4m_content_feed_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -87,6 +87,34 @@ function c4m_content_feed_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'inline',
       'format' => 'default',
+    ),
+    'c4m_related_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Topic(s)',
+          'lb-el' => 'div',
+          'lb-cl' => 'field-label',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'field field-label-inline clearfix',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+          'fis' => TRUE,
+          'fis-el' => 'ul',
+          'fis-cl' => 'list-inline field-items',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+          'fi' => TRUE,
+          'fi-el' => 'li',
+          'fi-cl' => 'field-item',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
     ),
   );
   $export['node|feed|teaser'] = $ds_fieldsetting;
@@ -113,18 +141,18 @@ function c4m_content_feed_ds_layout_settings_info() {
         0 => 'c4m_content_feed_url',
         1 => 'c4m_ds_content_footer_stats',
         2 => 'c4m_body',
-        3 => 'c4m_vocab_topic',
+        3 => 'c4m_related_topic',
         4 => 'c4m_related_articles',
-        5 => 'c4m_related_group',
+        5 => 'c4m_related_group_unlimited',
       ),
     ),
     'fields' => array(
       'c4m_content_feed_url' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
       'c4m_body' => 'ds_content',
-      'c4m_vocab_topic' => 'ds_content',
+      'c4m_related_topic' => 'ds_content',
       'c4m_related_articles' => 'ds_content',
-      'c4m_related_group' => 'ds_content',
+      'c4m_related_group_unlimited' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -151,13 +179,15 @@ function c4m_content_feed_ds_layout_settings_info() {
         0 => 'title',
         1 => 'c4m_content_feed_url',
         2 => 'c4m_body',
-        3 => 'c4m_ds_content_footer_stats',
+        3 => 'c4m_related_topic',
+        4 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
       'c4m_content_feed_url' => 'ds_content',
       'c4m_body' => 'ds_content',
+      'c4m_related_topic' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
     'classes' => array(),
