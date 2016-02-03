@@ -4,7 +4,6 @@
  * Installation hooks for the Group Dashboard feature.
  */
 
-
 /**
  * Implements hook_install().
  */
@@ -12,7 +11,7 @@ function c4m_features_og_group_dashboard_install() {
   if (module_exists('flag_actions')) {
     $flag = flag_get_flag('c4m_og_content_highlight');
 
-    //Add custom flag action
+    // Add custom flag action.
     if (!empty($flag)) {
       flag_actions_insert_action($flag->fid, 'flag', 1, 0, 'c4m_unflag_nodes_action', array());
     }
@@ -26,7 +25,7 @@ function c4m_features_og_group_dashboard_uninstall() {
   if (module_exists('flag_actions')) {
     $flag_actions = flag_actions_get_actions('c4m_og_content_highlight');
 
-    //Remove highlight flag action
+    // Remove highlight flag action.
     foreach ($flag_actions as $aid => $action) {
       if ($action->flag == 'c4m_og_content_highlight' &&
           $action->callback == 'c4m_unflag_nodes_action') {

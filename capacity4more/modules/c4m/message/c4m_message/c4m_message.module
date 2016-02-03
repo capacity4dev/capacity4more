@@ -86,7 +86,7 @@ function c4m_message_entity_load($entities, $entity_type) {
  * @param string $op
  *   The operation to perform. Possible values are "insert" or "update".
  *
- * @return Message
+ * @return void|Message
  *   The saved message object, or NULL if not created or updated.
  */
 function c4m_message_crud_message($entity_type, $entity, $op) {
@@ -200,12 +200,14 @@ function c4m_message_format_date_for_message(Message $message) {
  */
 function c4m_messages_group_info(Message $message) {
   $group_info = '';
+  $get_query = drupal_get_query_parameters();
+
   // Add group info for activity stream on the homepage,
   // When the request is from RESTful, "drupal_is_front_page" won't work.
   $handler = og_purl_og_context_handler();
-  if (((drupal_is_front_page() || !empty($_GET['homepage']))
-    && empty($handler) || (isset($_GET['group'])
-      && is_array($_GET['group'])))) {
+  if (((drupal_is_front_page() || !empty($get_query['homepage']))
+    && empty($handler) || (isset($get_query['group'])
+      && is_array($get_query['group'])))) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
       $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
       $link = l($wrapper->label(), $wrapper->value()->purl);
@@ -396,6 +398,9 @@ function c4m_message_load__c4m_insert__comment(Message $message) {
  *
  * @param Message $message
  *   The Message entity.
+ *
+ * @return string
+ *   The discussion type.
  */
 function c4m_message_format_node_discussion_type(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -404,16 +409,24 @@ function c4m_message_format_node_discussion_type(Message $message) {
 
   switch ($discussion_type) {
     case 'info':
-      return $operation == 'insert' ? t('posted Information') : t('updated the Information');
+      return $operation == 'insert'
+        ? t('posted Information')
+        : t('updated the Information');
 
     case 'idea':
-      return $operation == 'insert' ? t('posted an Idea') : t('updated the Idea');
+      return $operation == 'insert'
+        ? t('posted an Idea')
+        : t('updated the Idea');
 
     case 'question':
-      return $operation == 'insert' ? t('asked a Question') : t('updated the Question');
+      return $operation == 'insert'
+        ? t('asked a Question') :
+        t('updated the Question');
 
     case 'debate':
-      return $operation == 'insert' ? t('started a Debate') : t('updated the Debate');
+      return $operation == 'insert'
+        ? t('started a Debate')
+        : t('updated the Debate');
   }
 }
 
@@ -422,28 +435,43 @@ function c4m_message_format_node_discussion_type(Message $message) {
  *
  * @param Message $message
  *   The Message entity.
+ *
+ * @return string
+ *   The action text.
  */
 function c4m_message_format_operation(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $operation = $wrapper->field_operation->value();
   switch ($message->type) {
     case 'c4m_insert__node__event':
-      return $operation == 'insert' ? t('added a new') : t('updated the');
+      return $operation == 'insert'
+        ? t('added a new')
+        : t('updated the');
 
     case 'c4m_insert__node__document':
-      return $operation == 'insert' ? t('uploaded a new') : t('updated the');
+      return $operation == 'insert'
+        ? t('uploaded a new')
+        : t('updated the');
 
     case 'c4m_insert__node__photo':
-      return $operation == 'insert' ? t('added a new') : t('updated the');
+      return $operation == 'insert'
+        ? t('added a new')
+        : t('updated the');
 
     case 'c4m_insert__node__photoalbum':
-      return $operation == 'insert' ? t('created a new') : t('updated the');
+      return $operation == 'insert'
+        ? t('created a new')
+        : t('updated the');
 
     case 'c4m_insert__node__wiki_page':
-      return $operation == 'insert' ? t('created a new') : t('updated the');
+      return $operation == 'insert'
+        ? t('created a new')
+        : t('updated the');
 
     case 'c4m_insert__node__article':
-      return $operation == 'insert' ? t('posted an') : t('updated the');
+      return $operation == 'insert'
+        ? t('posted an')
+        : t('updated the');
   }
 }
 
@@ -452,6 +480,9 @@ function c4m_message_format_operation(Message $message) {
  *
  * @param Message $message
  *   The Message entity.
+ *
+ * @return string
+ *   The Comment type.
  */
 function c4m_message_format_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -513,10 +544,11 @@ function c4m_message_format_comment(Message $message) {
  *   The formated string.
  */
 function c4m_message_format_rendered_node(Message $message) {
+  $get_query = drupal_get_query_parameters();
   $wrapper = entity_metadata_wrapper('message', $message);
 
   $handler = og_purl_og_context_handler();
-  if ((empty($_GET['homepage'])) && !empty($handler)) {
+  if ((empty($get_query['homepage'])) && !empty($handler)) {
     $view = node_view($wrapper->field_node->value(), 'activity_group');
   }
   else {
@@ -832,12 +864,17 @@ function c4m_message_preprocess_node__event(&$variables) {
  */
 function c4m_message_load_homepage_activity_stream() {
   global $user;
+  $get_query = drupal_get_query_parameters();
 
   // Get filter value.
-  $filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+  $filter = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : '';
   $groups = array();
   $interests = array();
-  $hide_articles = $filter == 'groups' ? 1 : 0;
+  $hide_articles = $filter == 'groups'
+    ? 1
+    : 0;
 
   if ($user->uid) {
     // This is an Authenticated user.

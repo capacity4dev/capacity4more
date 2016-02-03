@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Garmentbox profile.
+ * The capacity4more profile.
  */
 
 /**
@@ -125,7 +125,7 @@ function capacity4more_setup_set_permissions(&$install_state) {
  * Task callback; Setting OG permissions.
  */
 function capacity4more_setup_set_og_permissions() {
-  // Set OG_AUTHENTICATED_ROLE permissions
+  // Set OG_AUTHENTICATED_ROLE permissions.
   $content_types = array(
     'discussion',
     'document',
@@ -150,10 +150,10 @@ function capacity4more_setup_set_og_permissions() {
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
 
-  // Set OG_ADMINISTRATOR_ROLE permissions
+  // Set OG_ADMINISTRATOR_ROLE permissions.
   $permissions = array();
 
-  // OG Flag permissions
+  // OG Flag permissions.
   $og_flag_perms = array(
     'c4m_og_content_promote',
     'c4m_og_content_depromote',
@@ -162,7 +162,7 @@ function capacity4more_setup_set_og_permissions() {
 
   $roles = og_roles('node', 'group');
   $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
-  og_role_grant_permissions($admin_member_rid , $permissions);
+  og_role_grant_permissions($admin_member_rid, $permissions);
 }
 
 /**

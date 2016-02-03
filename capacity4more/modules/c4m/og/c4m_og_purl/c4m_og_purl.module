@@ -54,6 +54,7 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
+  // Formatter is c4m_og_purl_entityreference_link.
   if ($display['type'] == 'c4m_og_purl_entityreference_link') {
     $options[C4M_OG_PURL_LINK_AUTO] = t('Auto PURL');
     $options[C4M_OG_PURL_LINK_DISABLED] = t('Disable PURL');
@@ -155,6 +156,7 @@ function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instan
   $result = array();
   $settings = $display['settings'];
 
+  // Formatter is c4m_og_purl_entityreference_link.
   if ($display['type'] == 'c4m_og_purl_entityreference_link') {
     $handler = entityreference_get_selection_handler($field, $instance, $entity_type, $entity);
 

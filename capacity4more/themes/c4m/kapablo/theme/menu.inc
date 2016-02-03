@@ -74,7 +74,7 @@ function kapablo_menu_link__c4m_og_menu(array $variables) {
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
-  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
 
@@ -140,7 +140,7 @@ function kapablo_menu_link__book_toc(array $variables) {
   $link_options                   = $element['#localized_options'];
   $element['#attributes']['role'] = 'presentation';
   $active                         = FALSE;
-  if (($element['#href'] == $_GET['q'] ||
+  if (($element['#href'] == current_path() ||
       ($element['#href'] == '<front>' && drupal_is_front_page())) &&
     (empty($element['#localized_options']['language']))
   ) {
@@ -215,7 +215,7 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
 
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
-  if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
+  if (($element['#href'] == current_path() || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
   $tag['element']                                         = array(
@@ -231,4 +231,20 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
   $link                                                   = l($c4m_chevron_right . $element['#title'], $element['#href'], $element['#localized_options']);
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . "</li>\n";
+}
+
+/**
+ * Overrides theme_menu_link() for footer menu.
+ */
+function kapablo_menu_link__c4m_footer(array $variables) {
+  $delimiter = '<span class="delimiter">|</span>';
+
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . $delimiter . "</li>\n";
 }

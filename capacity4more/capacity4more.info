@@ -96,6 +96,7 @@ dependencies[] = c4m_vocab_theme
 
 ; Users
 dependencies[] = c4m_user
+dependencies[] = c4m_user_admin
 dependencies[] = c4m_user_bar
 dependencies[] = c4m_user_profile
 
@@ -126,6 +127,10 @@ dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_content_organisation
 
 dependencies[] = c4m_field_related_og
+
+; Content Actions
+dependencies[] = c4m_content_actions
+dependencies[] = c4m_features_social
 
 ; Overview content
 dependencies[] = c4m_features_inthe_picture
@@ -176,5 +181,12 @@ dependencies[] = c4m_og_purl
 ; Email Domains
 dependencies[] = c4m_domain
 
+; Contact
+dependencies[] = c4m_contact
+
+; Footer
+dependencies[] = c4m_features_footer
+
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor
+

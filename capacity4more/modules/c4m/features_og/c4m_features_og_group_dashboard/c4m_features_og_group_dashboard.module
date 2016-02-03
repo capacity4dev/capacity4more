@@ -7,8 +7,7 @@
 include_once 'c4m_features_og_group_dashboard.features.inc';
 
 /**
- * Implements hook_og_permission();
- * @return array
+ * Implements hook_og_permission().
  */
 function c4m_features_og_group_dashboard_og_permission() {
   return array(
@@ -28,31 +27,27 @@ function c4m_features_og_group_dashboard_og_permission() {
 }
 
 /**
- * Implements hook_flag_access()
- * @param $flag
- * @param $entity_id
- * @param $action
- * @param $account
- * @return bool
+ * Implements hook_flag_access().
  */
 function c4m_features_og_group_dashboard_flag_access($flag, $entity_id, $action, $account) {
-  if ($flag->name === 'c4m_og_content_highlight') {
-    $group = c4m_og_current_group();
-    if (isset($group->nid)) {
-      if ($action == 'flag') {
-        return og_user_access('node', $group->nid, 'c4m_og_content_promote', $account);
-      } else {
-        return og_user_access('node', $group->nid,'c4m_og_content_depromote', $account);
-      }
-    } else {
-      return FALSE;
-    }
+  if ($flag->name !== 'c4m_og_content_highlight') {
+    return FALSE;
   }
+
+  $group = c4m_og_current_group();
+  if (!isset($group->nid)) {
+    return FALSE;
+  }
+
+  if ($action == 'flag') {
+    return og_user_access('node', $group->nid, 'c4m_og_content_promote', $account);
+  }
+
+  return og_user_access('node', $group->nid, 'c4m_og_content_depromote', $account);
 }
 
 /**
- * Implements hook_action_info()
- * @return mixed
+ * Implements hook_action_info().
  */
 function c4m_features_og_group_dashboard_action_info() {
   $info['c4m_unflag_nodes_action'] = array(
@@ -66,9 +61,12 @@ function c4m_features_og_group_dashboard_action_info() {
 }
 
 /**
- * Action to remove flagged group content
- * @param $object
- * @param array $context
+ * Action to remove flagged group content.
+ *
+ * @param object $object
+ *   The object that is flagged.
+ * @param mixed $context
+ *   The context where the content is flagged.
  */
 function c4m_unflag_nodes_action(&$object, $context = array()) {
   if (isset($object->nid) && isset($context['flag'])) {
@@ -80,12 +78,12 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
     $flagged_og_content = c4m_features_og_group_dashboard_get_flagged_group_content($group_id, $flag_id);
 
     if (!empty($flagged_og_content)) {
-      //Remove the newly flagged node from the flagged content.
-      //because this one shouldn't be unflagged.
+      // Remove the newly flagged node from the flagged content.
+      // Because this one shouldn't be unflagged.
       unset($flagged_og_content[$nid]);
 
-      //Unflag all group content.
-      foreach($flagged_og_content as $row) {
+      // Unflag all group content.
+      foreach ($flagged_og_content as $row) {
         flag('unflag', $flag_name, $row->nid);
       }
     }
@@ -93,10 +91,35 @@ function c4m_unflag_nodes_action(&$object, $context = array()) {
 }
 
 /**
- * Implements hook_form_alter()
- * @param $form
- * @param $form_state
- * @param $form_id
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_features_og_group_dashboard_c4m_content_actions_info() {
+  return array(
+    'action_promote' => array(
+      'context'   => array('group'),
+      'callback'  => 'c4m_features_og_group_dashboard_action_promote',
+      'weight'    => '2',
+    ),
+  );
+}
+
+/**
+ * Callback to show the promote link.
+ *
+ * @param object $node
+ *    The node object.
+ *
+ * @return string
+ *    Rendered output of the promote link.
+ */
+function c4m_features_og_group_dashboard_action_promote($node) {
+  $flag_link = flag_create_link('c4m_og_content_highlight', $node->nid);
+  $output = '<div class="group-actions-promote">' . $flag_link . '</div>';
+  return $output;
+}
+
+/**
+ * Implements hook_form_alter().
  */
 function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id === 'flag_confirm') {
@@ -121,7 +144,7 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
         }
         $flagged_content_summary = array(
           '#theme'  => 'item_list',
-          '#items'  => $list
+          '#items'  => $list,
         );
         $flagged_content_summary = render($flagged_content_summary);
 
@@ -134,15 +157,19 @@ function c4m_features_og_group_dashboard_form_alter(&$form, &$form_state, $form_
 }
 
 /**
- * Function to get flagged group content
- * @param null $og_id
- * @param null $flag_id
- * @param null $limit
+ * Function to get flagged group content.
+ *
+ * @param mixed $og_id
+ *   The Organic Group nid.
+ * @param mixed $flag_id
+ *   The Flag record id.
+ * @param mixed $limit
+ *   The number of items to return.
+ *
  * @return array|null
+ *   Array of node objects that are flagged.
  */
 function c4m_features_og_group_dashboard_get_flagged_group_content($og_id = NULL, $flag_id = NULL, $limit = NULL) {
-  $flagged_content = array();
-
   $query = db_select('node', 'n');
   $query->fields('n', array('nid'));
   $query->fields('f', array('uid'));
@@ -153,6 +180,7 @@ function c4m_features_og_group_dashboard_get_flagged_group_content($og_id = NULL
   if (isset($limit)) {
     $query->range(0, $limit);
   }
+
   $flagged_content = $query->execute();
   $flagged_content = $flagged_content->fetchAllAssoc('nid');
 

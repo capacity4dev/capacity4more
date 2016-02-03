@@ -455,8 +455,12 @@ function c4m_search_form_submit($form, &$form_state) {
     ),
     'absolute' => TRUE,
   );
+
   // Force redirect on 404 pages.
-  unset($_GET['destination']);
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
   // Set redirect target.
   $form_state['redirect'] = url($search_page['path'], $options);
 }

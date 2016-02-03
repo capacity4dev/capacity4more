@@ -38,7 +38,7 @@ code_review () {
 
 
 # Review custom modules, run each folder seperatly to avoid memory limits.
-PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules,bower_components,ckeditor-plugins"
+PATTERNS="*.features.inc,*.features.*.inc,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.pages.inc,*.pages_default.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules,bower_components,ckeditor-plugins"
 
 echo
 echo "${LBLUE}> Sniffing capacity4more Modules${RESTORE}"

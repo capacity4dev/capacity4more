@@ -233,6 +233,7 @@ function _capacity4more_install_save_default_permissions($default_html_format, $
     'use search_api_autocomplete for search_api_views_c4m_overview_groups',
     'use search_api_autocomplete for search_api_views_c4m_overview_people',
     'use search_api_autocomplete for search_api_views_c4m_overview_og_members',
+    'access site-wide contact form',
     'display EU Cookie Compliance popup',
     $default_html_permission,
     $filtered_html_permission,
@@ -252,6 +253,8 @@ function _capacity4more_install_save_default_permissions($default_html_format, $
     'access media browser',
     'access overlay',
     'save draft',
+    'access user contact forms',
+    'skip CAPTCHA',
   );
   // Enable default permissions for authenticated users.
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);

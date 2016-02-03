@@ -110,8 +110,9 @@ function c4m_features_homepage_intro_theme() {
  * Preprocess function for the video rendering.
  *
  * @param array $vars
+ *   Template variables.
  */
-function template_preprocess_c4m_features_homepage_intro_video(&$vars) {
+function template_preprocess_c4m_features_homepage_intro_video(array &$vars) {
   // Image.
   $vars['image'] = array(
     '#theme'    => 'image',
@@ -127,7 +128,7 @@ function template_preprocess_c4m_features_homepage_intro_video(&$vars) {
   if (preg_match('/youtu.be\/([a-z1-9.-_]+)/', $vars['video_url'], $matches)) {
     $vars['video_id'] = $matches[1];
   }
-  else if (preg_match("/youtube.com(.+)v=([^&]+)/", $vars['video_url'], $matches)) {
+  elseif (preg_match("/youtube.com(.+)v=([^&]+)/", $vars['video_url'], $matches)) {
     $vars['video_id'] = $matches[2];
   }
 

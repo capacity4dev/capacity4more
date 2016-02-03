@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Suggested groups panels plugin.
+ */
 
 /**
  * Plugin definition.

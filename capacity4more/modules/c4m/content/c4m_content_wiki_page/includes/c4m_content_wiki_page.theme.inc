@@ -90,10 +90,18 @@ function theme_c4m_content_wiki_page_collapse(array $field) {
  * @param array $field
  *   Field info.
  *
- * @return string
- *   The rendered version of the field.
+ * @return mixed
+ *   The rendered version of the field if the access check is TRUE.
  */
 function theme_c4m_content_wiki_page_add_links(array $field) {
+  $group = og_context();
+
+  // See if user should access these links.
+  if (!$group ||
+      !og_user_access($group['group_type'], $group['gid'], 'create wiki_page content')) {
+    return;
+  }
+
   $book = $field['entity']->book;
   $current_page = $book['mlid'];
   $parent_page = $book['plid'];

@@ -38,8 +38,9 @@ function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$
   if (FALSE === strpos(current_path(), 'events', 0)) {
     return;
   }
+
   $default_sort = $default_sort;
-  foreach($search_sorts as $search_sort) {
+  foreach ($search_sorts as $search_sort) {
     if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $search_sort->name) {
       // Sort past events on date descending.
       if (0 === strpos(current_path(), 'events/past', 0)) {
@@ -60,10 +61,18 @@ function c4m_features_overview_events_search_api_sorts_get_default_sort_alter(&$
  * sorts and give ours a new name.
  */
 function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
-  if (in_array($view->name, array('c4m_overview_events',
-    'c4m_overview_events_landing'))) {
+  $views_global = array(
+    'c4m_overview_events',
+    'c4m_overview_events_landing',
+  );
+  $views_group = array(
+    'c4m_overview_og_events',
+    'c4m_overview_og_events_landing',
+  );
+
+  if (in_array($view->name, $views_global)) {
+    // Remove all sorts but start date and relevance.
     foreach ($block['content']['#items'] as $key => $item) {
-      // Remove all sorts but start date and relevance.
       if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE !== $item['#name']
         && C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_RELEVANCE !== $item['#name']
       ) {
@@ -71,15 +80,12 @@ function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
       }
     }
   }
-  else {
+  elseif (!in_array($view->name, $views_group)) {
     // Remove 'Start date' sort if this is not an events overview.
-    if (!in_array($view->name, array('c4m_overview_og_events',
-      'c4m_overview_og_events_landing'))) {
-      foreach ($block['content']['#items'] as $key => $item) {
-        if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $item['#name']) {
-          unset($block['content']['#items'][$key]);
-          break;
-        }
+    foreach ($block['content']['#items'] as $key => $item) {
+      if (C4M_FEATURES_OVERVIEW_EVENTS_SORT_BY_START_DATE === $item['#name']) {
+        unset($block['content']['#items'][$key]);
+        break;
       }
     }
   }
@@ -87,7 +93,7 @@ function c4m_features_overview_events_search_api_sorts_alter(&$block, $view) {
 
 /**
  * Implements hook_views_pre_render().
- * 
+ *
  * On the events landing page, we need ...
  * - a Dummy View page to have an exposed search form block (page) of which we
  * will remove the output here

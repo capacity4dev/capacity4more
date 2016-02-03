@@ -408,7 +408,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 22,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -867,8 +867,14 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => '',
+          'separator' => ' » ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(
@@ -961,7 +967,7 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 23,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * C4m_content_feed.install.
+ * Install & Update hooks for c4m_content_feed module.
  */
 
 /**
