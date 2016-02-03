@@ -152,11 +152,11 @@ projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
 
 projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
-projects[og][download][branch] = og_context_check_access
+projects[og][download][url] = "https://github.com/Gizra/og.git"
+projects[og][download][branch] = 7.x-2.x
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
-projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
+projects[og][patch][] = "https://patch-diff.githubusercontent.com/raw/Gizra/og/pull/43.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
