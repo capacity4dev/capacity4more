@@ -119,8 +119,10 @@ function c4m_vocab_widget_validate(array $element, array $form_state, array &$fo
 
   // Unset previous values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['values'][$element['#field_name']])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['values'][$element['#field_name']]);
+    if (is_array($data['data'])) {
+      if (!empty($data['data']['c4m']['data']['values'][$element['#field_name']])) {
+        unset($form['#attached']['js'][$id]['data']['c4m']['data']['values'][$element['#field_name']]);
+      }
     }
   }
 

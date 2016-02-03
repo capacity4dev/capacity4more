@@ -923,7 +923,6 @@ function c4m_content_event_field_default_field_instances() {
     'bundle' => 'event',
     'default_value' => array(
       0 => array(
-        'address' => '',
         'name' => '',
         'street' => '',
         'additional' => '',
@@ -988,7 +987,7 @@ function c4m_content_event_field_default_field_instances() {
           'circles_strokecolor' => '#FF0000',
           'circles_strokeopacity' => 0.8,
           'circles_strokeweight' => 3,
-          'city_autocomplete' => 0,
+          'city_autocomplete' => 1,
           'comment_map_marker' => 'small red',
           'controltype' => 'small',
           'country' => 'BE',
@@ -1021,31 +1020,31 @@ function c4m_content_event_field_default_field_instances() {
           'input_city_required' => 0,
           'input_city_weight' => 5,
           'input_city_width' => 40,
-          'input_clear_button_weight' => 8,
+          'input_clear_button_weight' => 10,
           'input_country_required' => 0,
           'input_country_weight' => 7,
           'input_country_width' => 40,
           'input_fax_required' => 4,
-          'input_fax_weight' => 10,
+          'input_fax_weight' => 0,
           'input_fax_width' => 20,
-          'input_geobutton_weight' => 0,
-          'input_geolocation_button_weight' => 0,
+          'input_geobutton_weight' => 8,
+          'input_geolocation_button_weight' => 7,
           'input_latitude_weight' => 12,
           'input_latitude_width' => 20,
           'input_longitude_weight' => 13,
           'input_longitude_width' => 20,
           'input_map_marker' => 'small red',
-          'input_map_show' => 1,
+          'input_map_show' => 0,
           'input_map_weight' => 11,
           'input_marker_weight' => 0,
           'input_mobile_required' => 4,
-          'input_mobile_weight' => 9,
+          'input_mobile_weight' => 0,
           'input_mobile_width' => 20,
           'input_name_required' => 0,
           'input_name_weight' => 1,
           'input_name_width' => 40,
           'input_phone_required' => 4,
-          'input_phone_weight' => 8,
+          'input_phone_weight' => 0,
           'input_phone_width' => 20,
           'input_postal_code_required' => 0,
           'input_postal_code_weight' => 4,
@@ -1105,7 +1104,7 @@ function c4m_content_event_field_default_field_instances() {
           'polylines_strokecolor' => '#FF0000',
           'polylines_strokeopacity' => 0.8,
           'polylines_strokeweight' => 3,
-          'province_autocomplete' => 0,
+          'province_autocomplete' => 1,
           'rectangles_apply' => 0,
           'rectangles_clickable' => 0,
           'rectangles_coords' => '',
@@ -1132,7 +1131,7 @@ function c4m_content_event_field_default_field_instances() {
           'show_bubble_on_one_marker' => 0,
           'show_maplinks' => 0,
           'show_search_distance' => 0,
-          'street_num_pos' => 1,
+          'street_num_pos' => 2,
           'streetview_settings_allow' => 0,
           'sv_addresscontrol' => 1,
           'sv_addresscontrolposition' => '',
@@ -1150,10 +1149,10 @@ function c4m_content_event_field_default_field_instances() {
           'sv_zoomcontrol' => 'default',
           'sv_zoomcontrolposition' => '',
           'svcontrolposition' => '',
-          'use_address' => 2,
+          'use_address' => 0,
           'use_clear_button' => 1,
           'use_country_dropdown' => 1,
-          'use_geolocation_button' => 0,
+          'use_geolocation_button' => 1,
           'use_smart_ip_button' => 0,
           'use_smart_ip_latlon' => 0,
           'user_map_marker' => 'small red',
@@ -1177,7 +1176,9 @@ function c4m_content_event_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Enter the address of the event.
+At least a valid city or province name should be entered.
+This must be a VALID, GEOGRAPHICAL address.',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -2466,6 +2467,9 @@ function c4m_content_event_field_default_field_instances() {
   t('Comment');
   t('Date');
   t('Description');
+  t('Enter the address of the event.
+At least a valid city or province name should be entered.
+This must be a VALID, GEOGRAPHICAL address.');
   t('Documents');
   t('Event website');
   t('Facebook page');

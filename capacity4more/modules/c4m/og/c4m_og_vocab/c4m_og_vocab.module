@@ -319,8 +319,10 @@ function c4m_og_vocab_validate(array $element, array &$form_state, array &$form)
 
   // Unset previous values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['values']['categories'])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
+    if (is_array($data['data'])) {
+      if (!empty($data['data']['c4m']['data']['values']['categories'])) {
+        unset($form['#attached']['js'][$id]['data']['c4m']['data']['values']['categories']);
+      }
     }
   }
 

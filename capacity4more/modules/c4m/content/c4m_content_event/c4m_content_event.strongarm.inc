@@ -163,7 +163,6 @@ function c4m_content_event_strongarm() {
   $strongarm->name = 'node_options_event';
   $strongarm->value = array(
     0 => 'status',
-    1 => 'revision',
   );
   $export['node_options_event'] = $strongarm;
 
