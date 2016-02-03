@@ -85,7 +85,7 @@ function c4m_content_document_ds_fields_info($entity_type) {
     'file' => $path . '/includes/c4m_content_document.theme.inc',
     'function' => 'theme_c4m_content_document_type_size',
     'properties' => array(
-      'default' => t('Default')
+      'default' => t('Default'),
     ),
   );
 
