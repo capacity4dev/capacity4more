@@ -15,11 +15,12 @@ class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
    * group status value.
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
+    $entity_wrapper = entity_metadata_wrapper('node', $entity);
     $account = $this->getAccount();
     $resource_name = $this->getResourceName();
-    $group_id = $this->request['group'];
+    $group_id = isset($this->request['group']) ? $this->request['group'] : $entity_wrapper->{OG_AUDIENCE_FIELD}->value();
     $wrapper = entity_metadata_wrapper('node', $group_id);
-    $group_status = $wrapper->c4m_og_status->value();
+    $group_status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
     // Only platform admins can create group content if group status
     // is NOT within the allowed groups array.
     $allowed_groups = array(
