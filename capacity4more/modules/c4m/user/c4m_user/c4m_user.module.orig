@@ -421,7 +421,11 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
   switch ($variables['operation']->id()) {
     case 'action::c4m_user_contact_action':
       // Count already escaped by format_plural().
+<<<<<<< HEAD
+      $title = t('You selected !count to contact:', array('!count' => $count));
+=======
       $title = t('You selected @count to contact:', array('@count' => $count));
+>>>>>>> develop
       break;
   }
 
