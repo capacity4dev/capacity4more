@@ -133,7 +133,8 @@ projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.5"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.10"
+projects[message][version] = "1.11"
+projects[message][patch][] = "https://www.drupal.org/files/message-primary_nullable-2051751-7.patch"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
@@ -219,7 +220,6 @@ projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.8"
 projects[search_api_sorts][subdir] = "contrib"
 projects[search_api_sorts][version] = "1.x-dev"
-projects[search_api_sorts][patch][] = "https://www.drupal.org/files/issues/default_sort_alter-1894502-11.patch"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
