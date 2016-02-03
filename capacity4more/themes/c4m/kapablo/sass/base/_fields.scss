@@ -108,15 +108,49 @@
   margin-bottom: 10px;
 }
 
-.field-name-c4m-related-document {
-  margin-top: 50px;
+.field-name-c4m-related-document,
+.group-node-documents {
+  margin-top: 30px;
+
+  .label-above {
+    font-size: $font-size-h4;
+    margin-top: 15px;
+  }
 
   .field-label {
-    color: $highlight-blue;
-    font-size: $font-size-h2;
-    //    font-weight: lighter;
-    margin-bottom: 25px;
-    text-transform: uppercase;
+
+    .label-above {
+      color: $highlight-blue;
+      font-size: $font-size-h2;
+      font-weight: lighter;
+      margin-bottom: 25px;
+      text-transform: uppercase;
+    }
+  }
+
+  .node-document {
+    padding: 18px 0;
+    border-bottom: 1px solid $color-gray-light;
+
+    .field-name-title {
+
+      h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+
+        a {
+          color: $color-gray;
+        }
+      }
+    }
+
+    .document-type {
+      margin-right: 10px;
+    }
+
+    .document-size {
+      margin-left: 10px;
+    }
   }
 }
 

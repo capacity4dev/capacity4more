@@ -725,23 +725,33 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
+<<<<<<< HEAD
+        2 => 'submitted_by',
+        3 => 'c4m_content_document_type_size',
+=======
         2 => 'c4m_user_first_and_last_name',
         3 => 'c4m_ds_creation_date',
         4 => 'c4m_body',
         5 => 'c4m_document',
         6 => 'c4m_ds_content_footer_stats',
         7 => 'flag_c4m_og_content_highlight',
+>>>>>>> develop
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
+<<<<<<< HEAD
+      'submitted_by' => 'right',
+      'c4m_content_document_type_size' => 'right',
+=======
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
       'flag_c4m_og_content_highlight' => 'right',
+>>>>>>> develop
     ),
     'classes' => array(),
     'wrappers' => array(
