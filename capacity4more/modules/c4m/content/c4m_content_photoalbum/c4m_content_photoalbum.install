@@ -1,13 +1,14 @@
 <?php
 /**
  * @file
+ * Install & Update hooks.
  */
 
-define('C4M_PHOTOALBUM_TYPE', 'photoalbum');
-define('C4M_PHOTOALBUM_ITEM_TYPE', 'photo');
-define('C4M_PHOTOALBUM_FIELD_NAME', 'c4m_media');
-define('C4M_PHOTOALBUM_RELATIONSHIP_NAME', 'Photo Album');
-define('C4M_PHOTOALBUM_VIEWS_VIEW', 'c4m_photoalbum_item_views');
+define('C4M_CONTENT_PHOTOALBUM_C4M_PHOTOALBUM_TYPE', 'photoalbum');
+define('C4M_CONTENT_PHOTOALBUM_ITEM_TYPE', 'photo');
+define('C4M_CONTENT_PHOTOALBUM_FIELD_NAME', 'c4m_media');
+define('C4M_CONTENT_PHOTOALBUM_RELATIONSHIP_NAME', 'Photo Album');
+define('C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW', 'c4m_photoalbum_item_views');
 
 /**
  * Implements hook_install().
@@ -17,8 +18,8 @@ function c4m_content_photoalbum_install() {
   // It can then be overridden without interfere the feature settings.
   variable_set('pathauto_node_photoalbum_pattern', 'photo-album/[node:title]');
 
-  // Save the relationship (so we can delete it if we uninstall our module)
-  $relationship_id = (int)_c4m_content_photoalbum_create_relationship();
+  // Save the relationship (so we can delete it if we uninstall our module).
+  $relationship_id = (int) _c4m_content_photoalbum_create_relationship();
   variable_set('c4m_content_photoalbum_relationship_type_id', $relationship_id);
 }
 
@@ -32,23 +33,22 @@ function c4m_content_photoalbum_uninstall() {
 }
 
 /**
- * Create Photo albums relationship
+ * Create Photo albums relationship.
  *
- * @param void
  * @return int
  *   The relationship record id
  */
 function _c4m_content_photoalbum_create_relationship() {
   $r = new NodeGalleryRelationshipType();
   $r->settings = node_gallery_api_relationship_type_settings_defaults();
-  $r->settings['relationship']['name'] = C4M_PHOTOALBUM_RELATIONSHIP_NAME;
-  $r->settings['relationship_type']['gallery_types'] = array(C4M_PHOTOALBUM_TYPE);
-  $r->settings['relationship_type']['item_types'] = array(C4M_PHOTOALBUM_ITEM_TYPE);
-  $r->settings['view_modes']['full']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_1';
-  $r->settings['view_modes']['teaser']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_6';
-  $r->settings['view_modes']['activity_group']['view'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_7';
-  $r->settings['item_view']['view_navigator_item_display'] = C4M_PHOTOALBUM_VIEWS_VIEW . ':embed_5';
-  $r->filefield_name = C4M_PHOTOALBUM_FIELD_NAME;
+  $r->settings['relationship']['name'] = C4M_CONTENT_PHOTOALBUM_RELATIONSHIP_NAME;
+  $r->settings['relationship_type']['gallery_types'] = array(C4M_CONTENT_PHOTOALBUM_C4M_PHOTOALBUM_TYPE);
+  $r->settings['relationship_type']['item_types'] = array(C4M_CONTENT_PHOTOALBUM_ITEM_TYPE);
+  $r->settings['view_modes']['full']['view'] = C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW . ':embed_1';
+  $r->settings['view_modes']['teaser']['view'] = C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW . ':embed_6';
+  $r->settings['view_modes']['activity_group']['view'] = C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW . ':embed_7';
+  $r->settings['item_view']['view_navigator_item_display'] = C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW . ':embed_5';
+  $r->filefield_name = C4M_CONTENT_PHOTOALBUM_FIELD_NAME;
   $r->label = $r->settings['relationship']['name'];
   $r->save();
 

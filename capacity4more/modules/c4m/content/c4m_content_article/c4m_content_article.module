@@ -7,7 +7,7 @@
 include_once 'c4m_content_article.features.inc';
 
 /**
- * Implements hook_c4m_content_statistics_info()
+ * Implements hook_c4m_content_statistics_info().
  */
 function c4m_content_article_c4m_content_statistics_info() {
   return array(

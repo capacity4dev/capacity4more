@@ -20,7 +20,7 @@ Feature: Feeds
     Then  I should have access to the page
     And   I should see a "Title" field
     And   I should see a "Description" field
-    And   I should see a "Topics" field
+    And   I should see a "Related Topics" field
     And   I should see a "Articles" field
     And   I should see a "Groups" field
 
@@ -31,7 +31,7 @@ Feature: Feeds
     And   I fill in "Title" with "An RSS feed"
     And   I fill in "Description" with "This is the description of the feed."
     And   I fill in "edit-c4m-related-articles-und-0-target-id" with "Electricity for Water"
-    And   I fill in "edit-c4m-related-group-und-0-target-id" with "Nobel Prize"
+    And   I fill in "edit-c4m-related-group-unlimited-und-0-target-id" with "Nobel Prize"
     And   I press "Publish"
     Then  I should see "Feed An RSS feed has been created"
 

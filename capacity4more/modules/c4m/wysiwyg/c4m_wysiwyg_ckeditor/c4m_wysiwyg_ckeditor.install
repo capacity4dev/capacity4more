@@ -1,0 +1,381 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the wysiwyg ckeditor module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_wysiwyg_ckeditor_install() {
+  // Update the text formats.
+  c4m_wysiwyg_ckeditor_install_update_text_formats();
+
+  // Add ckeditor profiles.
+  c4m_wysiwyg_ckeditor_install_set_ckeditor_profiles();
+
+  c4m_wysiwyg_ckeditor_install_set_permissions();
+}
+
+/**
+ * Update the available text formats.
+ */
+function c4m_wysiwyg_ckeditor_install_update_text_formats() {
+  $formats = filter_formats();
+  foreach ($formats as $key => $format) {
+    $format = filter_format_load($key);
+
+    // Get the filters used by this format.
+    if (empty($format->filters)) {
+      $filters = filter_list_format($format->format);
+      $format->filters = array();
+      foreach ($filters as $name => $filter) {
+        foreach ($filter as $k => $v) {
+          $format->filters[$name][$k] = $v;
+        }
+      }
+    }
+
+    c4m_wysiwyg_ckeditor_install_update_wysiwyg_filter($format);
+  }
+}
+
+/**
+ * Update the wysiwyg filter settings.
+ *
+ * @param object $format
+ *    The text format.
+ */
+function c4m_wysiwyg_ckeditor_install_update_wysiwyg_filter($format) {
+  if (!isset($format->filters['wysiwyg']) ||
+    $format->filters['wysiwyg']['status'] == 0) {
+    return;
+  }
+
+  $wysiwyg_settings = &$format->filters['wysiwyg']['settings'];
+  switch ($format->format) {
+    case 'default_html':
+      $wysiwyg_settings = c4m_wysiwyg_ckeditor_install_default_html_wysiwyg_filter($wysiwyg_settings);
+      break;
+
+    case 'filtered_html':
+      $wysiwyg_settings = c4m_wysiwyg_ckeditor_install_default_html_wysiwyg_filter($wysiwyg_settings);
+      break;
+  }
+
+  // Save the format.
+  filter_format_save($format);
+}
+
+/**
+ * Set the default C4m ckeditor profiles.
+ */
+function c4m_wysiwyg_ckeditor_install_set_ckeditor_profiles() {
+  // Some functions are needed from this file.
+  module_load_include('inc', 'ckeditor', 'includes/ckeditor.admin');
+
+  // C4m ckeditor profiles.
+  $c4m_profiles = array(
+    'c4m_simple'    => 'filtered_html',
+    'c4m_default'   => 'default_html',
+    'c4m_advanced'  => 'full_html',
+  );
+
+  // Get current profiles.
+  $profiles = ckeditor_profile_load('', TRUE);
+  $profile_names = array_keys($profiles);
+
+  // Add c4m profiles.
+  foreach ($c4m_profiles as $name => $c4m_profile) {
+    if (!in_array($name, $profile_names)) {
+      c4m_wysiwyg_ckeditor_install_save_profile($name, $c4m_profile);
+    }
+  }
+
+  // Unset the default installed ckeditor profiles.
+  $default_profiles = array('Advanced', 'Full');
+  foreach ($default_profiles as $profile_name) {
+    if (isset($profiles[$profile_name])) {
+      $default_profile = $profiles[$profile_name];
+      ckeditor_profile_delete($profile_name);
+      unset($default_profile->settings['filters']);
+      db_insert('ckeditor_settings')
+        ->fields(array(
+          "name" => $profile_name,
+          "settings" => serialize($default_profile->settings),
+        ))
+        ->execute();
+    }
+  }
+
+}
+
+/**
+ * Build and save the ckeditor profile with settings.
+ *
+ * @param string $profile_name
+ *    The ckeditor machine name.
+ * @param string $text_format
+ *    The text format to use in the ckeditor profile.
+ */
+function c4m_wysiwyg_ckeditor_install_save_profile($profile_name, $text_format) {
+  if (empty($profile_name) || empty($text_format)) {
+    return;
+  }
+
+  db_insert('ckeditor_input_format')->fields(array("name" => $profile_name, "format" => $text_format))->execute();
+
+  // Set default settings.
+  $settings = array();
+  $settings['filebrowser'] = 'none';
+  $settings['quickupload'] = 'f';
+  $settings['UserFilesPath'] = '%b%f/';
+  $settings['UserFilesAbsolutePath'] = '%d%b%f/';
+
+  // Security.
+  $settings['ss'] = "2";
+  $settings['filters']['filter_html'] = 1;
+
+  // Appearance.
+  $settings['default'] = "t";
+  $settings['show_toggle'] = "t";
+  $settings['popup'] = variable_get('ckeditor_popup', 0) ? "t" : "f";
+
+  // Toolbar.
+  $settings['toolbar'] = "
+    [
+      ['Bold','Italic','Strike','-','BulletedList','NumberedList','-','Outdent','Indent'],
+      ['Link','Unlink','Format'],
+    ]
+  ";
+
+  // Plugins.
+  $settings['loadPlugins'] = array();
+
+  $settings['expand'] = variable_get('ckeditor_toolbar_start_expanded', 1) ? "t" : "f";
+  $settings['width'] = variable_get("ckeditor_width", "100%");
+  $settings['lang'] = "en";
+  $settings['auto_lang'] = "t";
+  $settings['language_direction'] = "default";
+
+  // Output.
+  $settings['enter_mode'] = "p";
+  $settings['shift_enter_mode'] = "br";
+  $settings['font_format'] = 'p;div;pre;address;h1;h2;h3;h4;h5;h6';
+  $settings['format_source'] = "t";
+  $settings['format_output'] = "t";
+  $settings['custom_formatting'] = "f";
+  $settings['formatting']['custom_formatting_options'] = array(
+    'indent' => 'indent',
+    'breakBeforeOpen' => 'breakBeforeOpen',
+    'breakAfterOpen' => 'breakAfterOpen',
+    'breakAfterClose' => 'breakAfterClose',
+  );
+
+  // Css.
+  $settings['css_mode'] = "none";
+  $settings['css_path'] = variable_get("ckeditor_stylesheet", "");
+
+  // Upload.
+  // Get permissions here like in _update_role_permissions.
+  $settings['filebrowser'] = "none";
+  $settings['user_choose'] = "f";
+  $settings['ckeditor_load_method'] = "ckeditor.js";
+  $settings['ckeditor_load_time_out'] = 0;
+  $settings['scayt_autoStartup'] = "f";
+
+  // Advanced options.
+  $settings['html_entities'] = "f";
+
+  // Set profile specific settings.
+  switch ($profile_name) {
+    case 'c4m_default':
+      c4m_wysiwyg_ckeditor_install_c4m_default_profile($settings);
+      break;
+
+    case 'c4m_advanced':
+      c4m_wysiwyg_ckeditor_install_c4m_advanced_profile($settings);
+      break;
+  }
+
+  db_insert('ckeditor_settings')->fields(array("name" => $profile_name, "settings" => serialize($settings)))->execute();
+}
+
+/**
+ * Sets the settings for the c4m_default profile.
+ *
+ * Alters the default (simple) profile settings.
+ *
+ * @param array $settings
+ *    The default profile settings.
+ */
+function c4m_wysiwyg_ckeditor_install_c4m_default_profile(array &$settings) {
+  $c4m_wysiwyg_plugins_path = drupal_get_path('module', 'c4m_wysiwyg_ckeditor') . '/ckeditor-plugins/';
+
+  // Toolbar.
+  $settings['toolbar'] = "
+    [
+      ['Bold','Italic','Strike','-','BulletedList','NumberedList','-','Outdent','Indent'],
+      ['Link','Unlink','Anchor','Linkit','-','BidiLtr','BidiRtl','-','Superscript','Subscript'],
+      ['CreateDiv','SpecialChar','Format','DrupalBreak','-','Table','Image','Media','oembed'],
+      ['Maximize']
+    ]
+  ";
+
+  // Plugins.
+  $settings['loadPlugins'] = array(
+    'media' => array(
+      'name'  => 'media',
+      'path'  => '%plugin_dir%media/',
+    ),
+    'drupalbreaks' => array(
+      'name'  => 'drupalbreaks',
+      'path'  => '%plugin_dir%drupalbreaks/',
+    ),
+    'lineutils' => array(
+      'name'  => 'lineutils',
+      'path'  => '%base_path%' . $c4m_wysiwyg_plugins_path . 'lineutils/',
+    ),
+    'oembed' => array(
+      'name' => 'oembed',
+      'path' => '%base_path%' . $c4m_wysiwyg_plugins_path . 'oembed/',
+    ),
+    'tableresize' => array(
+      'name' => 'tableresize',
+      'path' => '%base_path%' . $c4m_wysiwyg_plugins_path . 'tableresize/',
+    ),
+    'widget' => array(
+      'name' => 'widget',
+      'path' => '%base_path%' . $c4m_wysiwyg_plugins_path . 'widget/',
+    ),
+  );
+}
+
+/**
+ * Sets the settings for the c4m_advanced profile.
+ *
+ * Alters the default (simple) profile settings.
+ *
+ * @param array $settings
+ *    The default profile settings.
+ */
+function c4m_wysiwyg_ckeditor_install_c4m_advanced_profile(array &$settings) {
+  $c4m_wysiwyg_plugins_path = drupal_get_path('module', 'c4m_wysiwyg_ckeditor') . '/ckeditor-plugins/';
+
+  // Toolbar.
+  $settings['toolbar'] = "
+    [
+      ['Bold','Italic','Strike','-','BulletedList','NumberedList','-','Outdent','Indent'],
+      ['Link','Unlink','Anchor','Linkit','-','BidiLtr','BidiRtl','-','Superscript','Subscript'],
+      ['CreateDiv','SpecialChar','Format','DrupalBreak','-','Table','Image','Media','oembed'],
+      ['Source','-','Maximize']
+    ]
+  ";
+
+  // Plugins.
+  $settings['loadPlugins'] = array(
+    'media' => array(
+      'name'  => 'media',
+      'path'  => '%plugin_dir%media/',
+    ),
+    'drupalbreaks' => array(
+      'name'  => 'drupalbreaks',
+      'path'  => '%plugin_dir%drupalbreaks/',
+    ),
+    'lineutils' => array(
+      'name'  => 'lineutils',
+      'path'  => '%base_path%' . $c4m_wysiwyg_plugins_path . 'lineutils/',
+    ),
+    'oembed' => array(
+      'name' => 'oembed',
+      'path' => '%base_path%' . $c4m_wysiwyg_plugins_path . 'oembed/',
+    ),
+    'tableresize' => array(
+      'name' => 'tableresize',
+      'path' => '%base_path%' . $c4m_wysiwyg_plugins_path . 'tableresize/',
+    ),
+    'widget' => array(
+      'name' => 'widget',
+      'path' => '%base_path%' . $c4m_wysiwyg_plugins_path . 'widget/',
+    ),
+  );
+}
+
+/**
+ * Get the wysiwyg filter settings for the default_html format.
+ *
+ * @param array $settings
+ *    The wysiwyg filter settings.
+ *
+ * @return array
+ *    The new settings array.
+ */
+function c4m_wysiwyg_ckeditor_install_default_html_wysiwyg_filter(array $settings) {
+  $settings['valid_elements']
+    = <<<EOT
+@[class|style|title],
+a[href|target<_blank|title|rel|name],
+em/i, strong/b, strike/s, sub, sup,
+img[width|height|alt|title|src],
+p[align<center?justify?left?right],
+div[align<center?justify?left?right|data-align|data-oembed|data-oembed_provider|data-resizetype],
+br,address, hr, blockquote, pre, cite, code, span,
+h1,h2,h3,h4,h5,h6,
+ul,ol,li,dl,dt,dd,
+table[width|cellpadding|cellspacing|border|summary|align<center?left?right],
+colgroup,col,
+tr[align|valign|rowspan],
+td[align|valign|width|colspan],
+th[align|valign|width],tbody,thead,tfoot,
+iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
+EOT;
+  $settings['nofollow_domains'] = array();
+  $settings['style_color']      = array(
+    'background-color' => 'background-color',
+  );
+  $settings['style_text']      = array(
+    'text-align'      => 'text-align',
+    'text-decoration' => 'text-decoration',
+    'text-indent'     => 'text-indent',
+    'text-transform'  => 'text-transform',
+  );
+  $settings['style_box'] = array(
+    'margin'  => 'margin',
+    'padding' => 'padding',
+  );
+  $settings['style_border-1'] = array(
+    'border'  => 'border',
+  );
+  $settings['style_border-2'] = array(
+    'border-color'  => 'border-color',
+    'border-style'  => 'border-style',
+  );
+  $settings['style_dimension'] = array(
+    'height'  => 'height',
+    'width'   => 'width',
+  );
+  $settings['style_table'] = array(
+    'border-collapse'   => 'border-collapse',
+    'border-spacing'    => 'border-spacing',
+  );
+  $settings['rule_valid_classes'] = array(
+    'align-right',
+    'align-left',
+    'embeddedContent',
+    'oembed-provider-*',
+    'oembed-provider-youtube',
+  );
+
+  return $settings;
+}
+
+/**
+ * Custom function to set permissions.
+ */
+function c4m_wysiwyg_ckeditor_install_set_permissions() {
+  // Allow authenticated users to use the media browser within WYSIWYG.
+  user_role_grant_permissions(
+    DRUPAL_AUTHENTICATED_RID,
+    array('use media wysiwyg')
+  );
+}

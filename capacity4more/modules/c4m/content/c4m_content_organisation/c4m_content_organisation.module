@@ -48,13 +48,14 @@ function c4m_content_organisation_domain_field_property_info_callback(&$info, $e
  * Callback for creating a new, empty domain field item.
  *
  * @return array
+ *   The empty properties information array.
  *
  * @see c4m_content_organisation_domain_field_property_info_callback()
  */
 function c4m_content_organisation_domain_field_create() {
   return array(
     'icon' => NULL,
-    'domain' => NULL
+    'domain' => NULL,
   );
 }
 
@@ -62,6 +63,7 @@ function c4m_content_organisation_domain_field_create() {
  * Defines info for the properties of the link-field item data structure.
  *
  * @return array
+ *   The properties information array.
  *
  * @see c4m_content_organisation_domain_field_property_info_callback()
  */
@@ -97,7 +99,7 @@ function c4m_content_organisation_field_widget_info() {
  */
 function c4m_content_organisation_field_settings_form($field, $instance, $has_data) {
   $settings = $field['settings'];
-  // Add your global settings fields here
+  // Add your global settings fields here.
   $form = array();
   return $form;
 }
@@ -107,7 +109,7 @@ function c4m_content_organisation_field_settings_form($field, $instance, $has_da
  */
 function c4m_content_organisation_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   switch ($instance['widget']['type']) {
-    case 'c4m_domain_field' :
+    case 'c4m_domain_field':
       $element['c4m_domain'] = array(
         '#type' => 'fieldset',
         '#title' => $element['#title'],
@@ -173,7 +175,7 @@ function c4m_content_organisation_field_formatter_info() {
 function c4m_content_organisation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   switch ($display['type']) {
-    case 'c4m_domain_default' :
+    case 'c4m_domain_default':
       foreach ($items as $delta => $item) {
         if (isset($item['domain'])) {
           $element[$delta]['#markup'] = $item['domain'];
@@ -181,7 +183,7 @@ function c4m_content_organisation_field_formatter_view($entity_type, $entity, $f
       }
       break;
 
-    case 'c4m_domain_icon' :
+    case 'c4m_domain_icon':
       foreach ($items as $delta => $item) {
         if (isset($item['domain'])) {
           $element[$delta]['#markup'] = '';
@@ -272,8 +274,7 @@ function c4m_content_organisation_get_icon($organisation) {
 }
 
 /**
- * Get organisation icon,
- * where it matches the given domain.
+ * Get organisation icon, where it matches the given domain.
  *
  * @param string $email
  *   The email address we want the icon for (if any).

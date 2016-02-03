@@ -21,11 +21,6 @@ default:
         alfrednobel:
           'drupal'
 
-      debug:
-        dump_html: true
-        dump_screenshot: true
-        dump_path: 'features/dump'
-
   paths:
     features: 'features'
   extensions:

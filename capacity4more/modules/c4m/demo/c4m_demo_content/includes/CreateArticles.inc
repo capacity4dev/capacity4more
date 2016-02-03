@@ -10,6 +10,7 @@
 class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
   public $entityType = 'node';
   public $bundle = 'article';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV column mapping.
@@ -53,8 +54,7 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $this->addFieldMapping('c4m_media:source_dir')
       ->defaultValue(drupal_get_path('module', 'c4m_demo_content') . '/images');
 
-    $this->addFieldMapping('c4m_body', 'body')
-      ->arguments(array('format' => 'full_html'));
+    $this->addFieldMapping('c4m_body', 'body');
 
     $this->addFieldMapping('c4m_has_video', 'video');
 

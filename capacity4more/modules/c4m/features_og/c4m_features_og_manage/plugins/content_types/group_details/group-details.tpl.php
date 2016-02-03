@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Template for the group management dashboard.
+ */
+
+?>
+
 <div class="row group-management-dashboard">
   <div class="col-md-12 group-management-wrapper">
     <div class="group-details">

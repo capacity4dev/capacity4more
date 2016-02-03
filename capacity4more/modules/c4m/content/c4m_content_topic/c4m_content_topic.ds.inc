@@ -17,33 +17,33 @@ function c4m_content_topic_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'topic';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'expert_users_by_topic' => array(
-      'weight' => '7',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'related_articles_by_topic' => array(
-      'weight' => '6',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'related_events_by_topic' => array(
+    'activity_stream_by_topic' => array(
       'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'related_groups_by_topic' => array(
+    'expert_users_by_topic' => array(
+      'weight' => '8',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'related_articles_by_topic' => array(
+      'weight' => '7',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'related_events_by_topic' => array(
       'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'related_projects_by_topic' => array(
+    'related_groups_by_topic' => array(
       'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'activity_stream_by_topic' => array(
-      'weight' => '2',
+    'related_projects_by_topic' => array(
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -51,6 +51,13 @@ function c4m_content_topic_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_vocab_topic_mapping' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Topics and Sub-Topics',
+        ),
+      ),
     ),
   );
   $export['node|topic|full'] = $ds_fieldsetting;
@@ -175,31 +182,35 @@ function c4m_content_topic_ds_layout_settings_info() {
       'header' => array(
         0 => 'c4m_banner',
         1 => 'c4m_header_meta',
-        2 => 'title',
+        2 => 'c4m_header_bottom',
+        3 => 'title',
         5 => 'c4m_body',
+        11 => 'c4m_vocab_topic_mapping',
       ),
       'left' => array(
-        3 => 'activity_stream_by_topic',
+        4 => 'activity_stream_by_topic',
       ),
       'right' => array(
-        4 => 'related_events_by_topic',
-        6 => 'related_groups_by_topic',
-        7 => 'related_projects_by_topic',
-        8 => 'related_articles_by_topic',
-        9 => 'expert_users_by_topic',
+        6 => 'related_events_by_topic',
+        7 => 'related_groups_by_topic',
+        8 => 'related_projects_by_topic',
+        9 => 'related_articles_by_topic',
+        10 => 'expert_users_by_topic',
       ),
     ),
     'fields' => array(
       'c4m_banner' => 'header',
       'c4m_header_meta' => 'header',
+      'c4m_header_bottom' => 'header',
       'title' => 'header',
       'activity_stream_by_topic' => 'left',
-      'related_events_by_topic' => 'right',
       'c4m_body' => 'header',
+      'related_events_by_topic' => 'right',
       'related_groups_by_topic' => 'right',
       'related_projects_by_topic' => 'right',
       'related_articles_by_topic' => 'right',
       'expert_users_by_topic' => 'right',
+      'c4m_vocab_topic_mapping' => 'header',
     ),
     'classes' => array(),
     'wrappers' => array(

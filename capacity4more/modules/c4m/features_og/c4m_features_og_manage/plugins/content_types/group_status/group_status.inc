@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Panels plugin to show the group status.
+ */
 
 /**
  * Plugin definition.

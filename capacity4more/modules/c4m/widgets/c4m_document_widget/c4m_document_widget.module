@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Code for the c4m document widget.
+ */
 
 /**
  * Implements hook_field_widget_info().
@@ -39,7 +43,7 @@ function c4m_document_widget_overlay_child_initialize() {
 }
 
 /**
- * hook_module_implements_alter(&$implementations, $hook)
+ * Implements hook_module_implements_alter().
  *
  * Change the execution order of the hook_overlay_child_initialize().
  */
@@ -84,7 +88,6 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   $element['#suffix'] = '</div>';
 
   // Add the angular directive.
-
   // Get the existing field value.
   $default_value = $element['#default_value'];
 
@@ -134,7 +137,8 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
   if (in_array($form_id, $comment_form_ids)) {
     $form_id = 'comment-form';
   }
-    //comment_node_discussion_form
+
+  // Comment_node_discussion_form.
   $settings['c4m'] = array(
     'basePath' => url('', $options),
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
@@ -144,14 +148,14 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
         $field_name => $default_values[1],
       ),
       // The form id in HTML is with dashes, not underscores.
-      'formId' => drupal_clean_css_identifier($form_id),
-    )
+      'formId' => drupal_clean_css_identifier($form_state['build_info']['form_id']),
+    ),
   );
 
   // Send all the settings to the app.
   $form['#attached']['js'][] = array(
     'data' => $settings,
-    'type' => 'setting'
+    'type' => 'setting',
   );
 
   return $element;
@@ -160,13 +164,13 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
 /**
  * Get field parent fieldset name.
  *
- * @param $entity_type
- *  The entity type.
- * @param $field_name
- *  The name of the field.
+ * @param string $entity_type
+ *    The entity type.
+ * @param string $field_name
+ *    The name of the field.
  *
- * @return String
- *  Return fieldset name.
+ * @return string
+ *    Return fieldset name.
  */
 function c4m_document_widget_get_field_parent_fieldset($entity_type, $field_name) {
   $fieldset_name = NULL;
@@ -191,7 +195,7 @@ function c4m_document_widget_get_field_parent_fieldset($entity_type, $field_name
  * Add our custom widgets to theirs fieldsets if needed.
  */
 function c4m_document_widget_form_alter(&$form, &$form_state, $form_id) {
-  foreach($form as $field_name => $field) {
+  foreach ($form as $field_name => $field) {
     if (is_array($field)) {
       if (!empty($field['#parent_fieldset'])) {
         // Add field as a child to his parent fieldset.
@@ -253,7 +257,7 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
   // Send all the settings to the app.
   $form['#attached']['js'][] = array(
     'data' => $settings,
-    'type' => 'setting'
+    'type' => 'setting',
   );
 }
 
@@ -289,7 +293,7 @@ function c4m_document_widget_theme() {
  * Add a custom menu alter for editing nodes which simply can be opened via
  * overlay.
  *
- * @see c4m_document_widget_admin_paths_alter().
+ * @see c4m_document_widget_admin_paths_alter()
  */
 function c4m_document_widget_menu_alter(&$items) {
   $items['overlay-node/%node/edit'] = $items['node/%node/edit'];
@@ -352,15 +356,14 @@ function c4m_document_widget_menu() {
 /**
  * Check if user has access to the current file.
  *
- * @param $file_id
- *  Document's file id
+ * @param int $file_id
+ *    Document's file id.
  *
- * @return boolean
- *  Return true if user has access at list to one node with the current file.
- *  Otherwise return false.
+ * @return bool
+ *    Return true if user has access at list to one node with the current file.
+ *    Otherwise return false.
  */
 function c4m_document_widget_check_file_access($file_id) {
-
   // Get all references to the current file.
   $file_references = file_get_file_references(file_load($file_id));
   $image_references = file_get_file_references(file_load($file_id), NULL, FIELD_LOAD_REVISION, 'image');
@@ -371,7 +374,7 @@ function c4m_document_widget_check_file_access($file_id) {
     return TRUE;
   }
   foreach ($references as $element) {
-    foreach ($element as $type => $entity){
+    foreach ($element as $type => $entity) {
       $entity = reset($entity);
       if ($type != 'node') {
         // Entity is not a node.
@@ -391,11 +394,11 @@ function c4m_document_widget_check_file_access($file_id) {
 /**
  * Renders pre-create document form.
  *
- * @param $file_id
- *  Document's file id.
+ * @param int $file_id
+ *    Document's file id.
  *
  * @return string
- *  Return formatted html of the overlay-file page.
+ *    Return formatted html of the overlay-file page.
  */
 function c4m_document_widget_add_document_file($file_id) {
   $file = file_load($file_id);
@@ -410,13 +413,14 @@ function c4m_document_widget_add_document_file($file_id) {
   $context = og_context();
   if (!$context) {
     // There is no og context.
-    return;
+    return FALSE;
   }
   $group_id = $context['gid'];
 
   // Get fields for the documents.
   $handler = restful_get_restful_handler('documents');
-  // Send the fields to the app as separate objects by resource (for validation on submit.)
+  // Send the fields to the app as separate objects by resource
+  // (for validation on submit).
   $field_schema['resources']['documents'] = $handler->options('', array('group' => $group_id));
 
   // URL options.
@@ -440,7 +444,7 @@ function c4m_document_widget_add_document_file($file_id) {
     'data' => array(
       'groupID' => $group_id,
       'purl' => url('', $options_context),
-    )
+    ),
   );
 
   drupal_add_js($settings, 'setting');
@@ -491,7 +495,7 @@ function c4m_document_widget_preprocess_node__document(&$variables) {
 
   // Format the creation date.
   $timestamp = $node->created;
-  $date = format_date($timestamp ,'custom', 'l, d/m/Y');
+  $date = format_date($timestamp, 'custom', 'l, d/m/Y');
 
   $variables['document_data'] = t('Submitted by @user on @date', array('@user' => $user_name, '@date' => $date));
 

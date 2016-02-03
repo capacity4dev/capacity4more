@@ -6,7 +6,7 @@
 
 include_once 'c4m_features_og_members.features.inc';
 
-define('C4M_ADMINISTRATOR_ROLE_NAME', 'administrator member');
+define('C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME', 'administrator member');
 
 /**
  * Implements hook_c4m_og_feature_info().
@@ -95,7 +95,7 @@ function c4m_features_og_members_ds_fields_info($entity_type) {
   $date_formatters = c4m_helper_date_formatters();
 
   $path = drupal_get_path('module', 'c4m_features_og_members');
-  // Administrator links field for entity type user (, within a group)
+  // Administrator links field for entity type user (, within a group).
   $fields['user']['c4m_features_og_members_admin_actions'] = array(
     'title' => t('C4M OG administer user links'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -268,7 +268,7 @@ function c4m_features_og_members_get_administer_links_for_user_in_group(
     }
 
     $access = TRUE;
-    // Check conditions
+    // Check conditions.
     foreach ($hook_info['conditions'] as $condition) {
       if (!$condition($user, $group)) {
         $access = FALSE;
@@ -283,8 +283,7 @@ function c4m_features_og_members_get_administer_links_for_user_in_group(
       );
       $options = array(
         'attributes' => array(
-          'class' =>
-            !empty($hook_info['class']) ? $hook_info['class'] : array(),
+          'class' => !empty($hook_info['class']) ? $hook_info['class'] : array(),
         ),
       );
       $links[] = '<li>' . l($title, $callback, $options) . '</li>';
@@ -297,8 +296,6 @@ function c4m_features_og_members_get_administer_links_for_user_in_group(
 
 /**
  * Implements hook_c4m_features_og_members_administer_links().
- *
- * @return array
  */
 function c4m_features_og_members_c4m_features_og_members_administer_links() {
   $file = drupal_get_path('module', 'c4m_features_og_members')
@@ -315,7 +312,7 @@ function c4m_features_og_members_c4m_features_og_members_administer_links() {
       ),
       'weight' => -8,
       'class' => array(
-        'bold-text'
+        'bold-text',
       ),
       'file' => $file,
     ),
@@ -326,10 +323,10 @@ function c4m_features_og_members_c4m_features_og_members_administer_links() {
         '_c4m_features_og_members_condition_user_active_member',
         '_c4m_features_og_members_condition_user_admin',
         '_c4m_features_og_members_condition_user_not_owner',
-        ),
+      ),
       'weight' => -7,
       'class' => array(
-        'bold-text'
+        'bold-text',
       ),
       'file' => $file,
     ),
@@ -351,7 +348,7 @@ function c4m_features_og_members_c4m_features_og_members_administer_links() {
       ),
       'weight' => -10,
       'class' => array(
-        'bold-text'
+        'bold-text',
       ),
       'file' => $file,
     ),
@@ -368,12 +365,19 @@ function c4m_features_og_members_c4m_features_og_members_administer_links() {
 }
 
 /**
- * usort callback for weighted multidimensional arrays. Sorts Ascending (- to +).
+ * Sort callback for weighted multidimensional arrays.
+ *
+ * Sorts Ascending (- to +).
  *
  * @param array $a
+ *   Array 1.
  * @param array $b
+ *   Array 2.
+ *
+ * @return int
+ *   If the first array should be put before the second array.
  */
-function _c4m_features_og_members_sort_weight($a, $b) {
+function _c4m_features_og_members_sort_weight(array $a, array $b) {
   if ($a['weight'] == $b['weight']) {
     return 0;
   }
@@ -381,6 +385,15 @@ function _c4m_features_og_members_sort_weight($a, $b) {
   return ($a['weight'] > $b['weight']) ? 1 : -1;
 }
 
+/**
+ * Get the admin role within a group.
+ *
+ * @param object $group
+ *   The group we need to get the admin role for.
+ *
+ * @return mixed
+ *   The role information.
+ */
 function _c4m_features_og_members_get_admin_role($group) {
   $cache_key = 'c4m_features_og_members:admin_role';
   $info = &drupal_static($cache_key);
@@ -392,7 +405,7 @@ function _c4m_features_og_members_get_admin_role($group) {
     }
     else {
       $roles = og_roles('node', $group->type, $group->nid);
-      $info = array_search(C4M_ADMINISTRATOR_ROLE_NAME, $roles);
+      $info = array_search(C4M_FEATURES_OG_MEMBERS_ADMINISTRATOR_ROLE_NAME, $roles);
       cache_set($cache_key, $info);
     }
   }
@@ -401,16 +414,20 @@ function _c4m_features_og_members_get_admin_role($group) {
 }
 
 /**
- * Check if a user is power user within a group, meaning the user...
+ * Check if a user is power user within a group.
  *
- * - has the site wide role 'administrator'
- * OR
- * - is author of the group
- * OR
- * - has the 'administrator member' role within the group
+ * Meaning the user:
+ * - Or has the site wide role 'administrator'.
+ * - Or is author of the group.
+ * - Or has the 'administrator member' role within the group.
  *
- * @param null $group
- * @param null $user
+ * @param mixed $group
+ *   The group we want to check the user for.
+ * @param mixed $user
+ *   The user object.
+ *
+ * @return bool
+ *   Is the user a power user.
  */
 function _c4m_features_og_members_is_power_user($group = NULL, $user = NULL) {
   if (!isset($user)) {
@@ -449,11 +466,15 @@ function c4m_features_og_members_entity_property_info_alter(&$info) {
 }
 
 /**
- * Getter callback for a multiple field to keep the highest group membership
- * type of a user in search index.
+ * Getter for multiple field.
  *
- * @param $user
+ * Keeps the highest group membership type of a user in search index.
+ *
+ * @param object $user
+ *   The user object.
+ *
  * @return array
+ *   Array of group nid's.
  */
 function _c4m_features_og_members_membership_type_getter_callback($user) {
   $values = array();
@@ -477,13 +498,8 @@ function _c4m_features_og_members_membership_type_getter_callback($user) {
   return $values;
 }
 
-
-
 /**
- * Implementation of hook_facet_items_alter()
- *
- * @param $build
- * @param $settings
+ * Implements hook_facet_items_alter().
  */
 function c4m_features_og_members_facet_items_alter(&$build, &$settings) {
   switch ($settings->facet) {
@@ -496,23 +512,25 @@ function c4m_features_og_members_facet_items_alter(&$build, &$settings) {
 /**
  * Helper function to alter the facet for the OG membership type.
  *
- * @TODO : Fix the order of the items: Pending should always be first and
- *         should have extra styling.
+ * TODO : Fix the order of the items: Pending should always be first and
+ *        should have extra styling.
  *
- * @param $build
- * @param $settings
+ * @param array $build
+ *   The build facets.
+ * @param object $settings
+ *   The facet settings.
  */
-function _c4m_features_og_members_facet_membership_type_alter(&$build, &$settings) {
+function _c4m_features_og_members_facet_membership_type_alter(array &$build, &$settings) {
   $group = c4m_og_current_group();
 
   if (empty($group)) {
     return;
   }
 
-  foreach($build as $key => $item) {
+  foreach ($build as $key => $item) {
     $membership_type = explode('_', $key);
     $gid = $membership_type[0];
-    // Remove groups which are not current
+    // Remove groups which are not current.
     if ($gid !== $group->nid) {
       unset($build[$key]);
       continue;
@@ -524,15 +542,11 @@ function _c4m_features_og_members_facet_membership_type_alter(&$build, &$setting
 
 /**
  * Implements hook_block_view_alter().
- *
- * @param $data
- * @param $block
  */
 function c4m_features_og_members_block_view_alter(&$data, $block) {
   module_load_include('inc', 'c4m_features_og_members', 'includes/c4m_features_og_members.block');
   _c4m_features_og_members_block_view_alter($data, $block);
 }
-
 
 /**
  * Implements template_preprocess_views_view_table().

@@ -83,12 +83,12 @@ function c4m_content_article_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
     'comments' => array(
-      'weight' => '8',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -96,7 +96,7 @@ function c4m_content_article_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '4',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -106,39 +106,32 @@ function c4m_content_article_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_content_article_disclaimer' => array(
-      'weight' => '7',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_vocab_topic' => array(
+    'c4m_ds_content_actions' => array(
+      'weight' => '15',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_related_articles' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Topics & Subtopics',
+          'lb' => 'Related Articles',
           'lb-el' => 'h3',
           'lb-col' => TRUE,
-          'fi' => TRUE,
-          'fi-el' => 'div',
-          'fi-cl' => 'topic',
-          'fi-at' => '',
-          'fi-def-at' => FALSE,
-          'fi-odd-even' => FALSE,
         ),
       ),
     ),
-    'c4m_vocab_geo' => array(
+    'c4m_related_group' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Regions & Countries',
+          'lb' => 'Related groups',
           'lb-el' => 'h3',
           'lb-col' => TRUE,
-          'fi' => TRUE,
-          'fi-el' => 'div',
-          'fi-cl' => 'region',
-          'fi-at' => '',
-          'fi-def-at' => FALSE,
-          'fi-odd-even' => FALSE,
         ),
       ),
     ),
@@ -158,23 +151,37 @@ function c4m_content_article_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_related_group' => array(
+    'c4m_vocab_geo' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Related groups',
+          'lb' => 'Regions & Countries',
           'lb-el' => 'h3',
           'lb-col' => TRUE,
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'region',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
         ),
       ),
     ),
-    'c4m_related_articles' => array(
+    'c4m_vocab_topic' => array(
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Related Articles',
+          'lb' => 'Topics & Subtopics',
           'lb-el' => 'h3',
           'lb-col' => TRUE,
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'topic',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
         ),
       ),
     ),
@@ -355,29 +362,32 @@ function c4m_content_article_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
+      'right' => array(
+        0 => 'c4m_vocab_topic',
+        9 => 'group_node_actions',
+        10 => 'group_node_meta',
+        11 => 'c4m_related_user',
+        12 => 'c4m_link_multiple',
+        13 => 'c4m_vocab_geo',
+        14 => 'c4m_related_group',
+        15 => 'c4m_related_articles',
+        16 => 'c4m_ds_content_actions',
+      ),
       'header' => array(
-        0 => 'c4m_banner',
+        1 => 'c4m_banner',
       ),
       'left' => array(
-        1 => 'c4m_ds_content_status',
-        2 => 'c4m_ds_creation_date',
-        3 => 'c4m_ds_content_footer_stats',
-        4 => 'c4m_intro_text',
-        5 => 'c4m_body',
-        6 => 'c4m_content_article_disclaimer',
-        7 => 'comments',
-      ),
-      'right' => array(
-        8 => 'group_node_meta',
-        9 => 'c4m_related_user',
-        10 => 'c4m_link_multiple',
-        11 => 'c4m_vocab_topic',
-        12 => 'c4m_vocab_geo',
-        13 => 'c4m_related_group',
-        14 => 'c4m_related_articles',
+        2 => 'c4m_ds_content_status',
+        3 => 'c4m_ds_creation_date',
+        4 => 'c4m_ds_content_footer_stats',
+        5 => 'c4m_intro_text',
+        6 => 'c4m_body',
+        7 => 'c4m_content_article_disclaimer',
+        8 => 'comments',
       ),
     ),
     'fields' => array(
+      'c4m_vocab_topic' => 'right',
       'c4m_banner' => 'header',
       'c4m_ds_content_status' => 'left',
       'c4m_ds_creation_date' => 'left',
@@ -386,13 +396,14 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_body' => 'left',
       'c4m_content_article_disclaimer' => 'left',
       'comments' => 'left',
+      'group_node_actions' => 'right',
       'group_node_meta' => 'right',
       'c4m_related_user' => 'right',
       'c4m_link_multiple' => 'right',
-      'c4m_vocab_topic' => 'right',
       'c4m_vocab_geo' => 'right',
       'c4m_related_group' => 'right',
       'c4m_related_articles' => 'right',
+      'c4m_ds_content_actions' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

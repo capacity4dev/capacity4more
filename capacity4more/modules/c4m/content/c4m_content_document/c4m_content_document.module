@@ -8,8 +8,6 @@ include_once 'c4m_content_document.features.inc';
 
 /**
  * Implements hook_c4m_og_vocab_info_content().
- *
- * @return array
  */
 function c4m_content_document_c4m_og_vocab_info_content() {
   return array(
@@ -18,7 +16,7 @@ function c4m_content_document_c4m_og_vocab_info_content() {
       'bundle' => 'document',
       'vocabularies' => array(
         'c4m_vocab_category',
-        'c4m_vocab_tag'
+        'c4m_vocab_tag',
       ),
     ),
   );
@@ -32,7 +30,7 @@ function c4m_content_document_c4m_og_vocab_info_content() {
 function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
   // Hide field Add to library from user.
   $form['c4m_document_add_to_library']['#access'] = FALSE;
-  
+
   if (strpos(url(current_path()), 'overlay')) {
     // If this is overlay page - add our own submit handler.
     $form['actions']['submit']['#submit'][] = 'c4m_content_document_form_document_node_form_submit';
@@ -76,7 +74,7 @@ function c4m_content_document_ds_fields_info($entity_type) {
     'file' => $path . '/includes/c4m_content_document.theme.inc',
     'function' => 'theme_c4m_content_document_icon',
     'properties' => array(
-      'default' => t('Default')
+      'default' => t('Default'),
     ),
   );
 
@@ -95,9 +93,7 @@ function c4m_content_document_ds_fields_info($entity_type) {
 }
 
 /**
- *  Implements hook_entity_type_label_alter().
- *
- *  @param $variables
+ * Implements hook_entity_type_label_alter().
  */
 function c4m_content_document_entity_type_label_alter(&$variables) {
   if (empty($variables['entity']->type) ||

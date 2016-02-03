@@ -32,6 +32,12 @@ function c4m_user_bar_context_default_contexts() {
           'region' => 'user_bar',
           'weight' => '-10',
         ),
+        'c4m_features_footer-c4m_footer' => array(
+          'module' => 'c4m_features_footer',
+          'delta' => 'c4m_footer',
+          'region' => 'footer',
+          'weight' => '-10',
+        ),
       ),
     ),
   );

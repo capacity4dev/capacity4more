@@ -52,7 +52,7 @@ function theme_c4m_user_activity_summary(array $field) {
   // Count published comments of user.
   $count_comments = c4m_user_count_comments($user->uid);
 
-  // Format the string to show the number of posts/comments
+  // Format the string to show the number of posts/comments.
   $output = c4m_ds_user_activity_summary_helper($count_posts, $count_comments);
   return $output;
 }

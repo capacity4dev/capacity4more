@@ -13,11 +13,11 @@ explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field l
 features[ctools][] = ds:ds:1
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
-features[field_base][] = c4m_icon
 features[field_base][] = c4m_domain
+features[field_base][] = c4m_icon
 features[field_instance][] = node-organisation-c4m_body
-features[field_instance][] = node-organisation-c4m_icon
 features[field_instance][] = node-organisation-c4m_domain
+features[field_instance][] = node-organisation-c4m_icon
 features[node][] = organisation
 features[variable][] = field_bundle_settings_node__organisation
 features[variable][] = menu_options_organisation

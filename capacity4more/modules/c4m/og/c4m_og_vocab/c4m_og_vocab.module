@@ -7,7 +7,6 @@
  * distribution.
  */
 
-
 define('C4M_OG_VOCAB_INFO_VOCABULARIES', 'vocabularies');
 define('C4M_OG_VOCAB_INFO_GROUPS', 'groups');
 define('C4M_OG_VOCAB_INFO_CONTENT', 'content');
@@ -75,7 +74,7 @@ function c4m_og_vocab_info($type) {
  * Load the group vocabulary by the given vocabulary name.
  *
  * @param object $group
- *   The group node
+ *   The group node.
  * @param string $name
  *   The vocab name as set in the hook_c4m_og_vocab_info_vocabularies() hooks.
  *
@@ -85,7 +84,7 @@ function c4m_og_vocab_info($type) {
 function c4m_og_vocab_load_group_vocabulary($group, $name) {
   $vocabularies = c4m_og_vocab_info(C4M_OG_VOCAB_INFO_VOCABULARIES);
   if (!isset($vocabularies[$name])) {
-    return;
+    return FALSE;
   }
 
   module_load_include('inc', 'c4m_og_vocab');
@@ -170,7 +169,6 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   // We call the global taxonomy widget for the categories,
   // Building the necessary tree for this widget,
   // Then we call the "tags" directive.
-
   // URL options.
   $options = array(
     'purl' => array(
@@ -190,7 +188,7 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
 
   // Send the tags to the AngularJs if we have values (On edit page).
   $tags = array();
-  foreach($terms['tags'] as $term) {
+  foreach ($terms['tags'] as $term) {
     if (isset($entity->og_vocabulary) && !empty($entity->og_vocabulary)) {
       $values = $entity->og_vocabulary;
       foreach ($values[LANGUAGE_NONE] as $value) {
@@ -227,11 +225,12 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   // Send all the settings to the app.
   $form['#attached']['js'][] = array(
     'data' => $settings,
-    'type' => 'setting'
+    'type' => 'setting',
   );
 
   // Add the directive.
-  // Add the "taxonomy" widget for the "categories" directive, Add the "ig_vocab" widget for "tags" directive.
+  // Add the "taxonomy" widget for the "categories" directive,
+  // Add the "ig_vocab" widget for "tags" directive.
   $variables = array(
     'vocabulary_label' => 'Categories',
     'vocabulary_machine_name' => 'categories',
@@ -244,17 +243,18 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   );
 
   $form['directive-tags'] = array(
-    '#markup' => theme('c4m_og_vocab_widget', array('required' => $element['#required'])),
-    // The order of the tags directive should always be under the "Region-Countries" directive.
+    '#markup' => theme(
+      'c4m_og_vocab_widget',
+      array('required' => $element['#required'])
+    ),
+    // The order of the tags directive should always
+    // be under the "Region-Countries" directive.
     '#weight' => $form['directive-c4m_vocab_geo']['#weight'] + 1,
   );
-
 
   $fieldset = c4m_document_widget_get_field_parent_fieldset($instance['bundle'], $field['field_name']);
   $form['directive-categories']['#parent_fieldset'] = $fieldset;
   $form['directive-tags']['#parent_fieldset'] = $form['directive-c4m_vocab_geo']['#parent_fieldset'];
-
-
 
   $element['target_id']['#element_validate'][] = 'c4m_og_vocab_validate';
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';
@@ -265,18 +265,17 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   return $element;
 }
 
-
 /**
  * Keep selected and created tags in the AngularJS when form is validating.
  *
- * @param $element
- *  Form element.
- * @param $form_state
- *  The current state of the validating form.
- * @param $form
- *  The from that is validating.
+ * @param array $element
+ *    Form element.
+ * @param array $form_state
+ *    The current state of the validating form.
+ * @param array $form
+ *    The from that is validating.
  */
-function c4m_og_vocab_validate($element, &$form_state, &$form) {
+function c4m_og_vocab_validate(array $element, array &$form_state, array &$form) {
   // Submitted values for the og vocab field.
   $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
 
@@ -306,7 +305,7 @@ function c4m_og_vocab_validate($element, &$form_state, &$form) {
                 'id' => $term->tid,
               );
             }
-            else if (is_object($term)) {
+            elseif (is_object($term)) {
               // This is an existing category.
               $categories[$term->tid] = TRUE;
             }
@@ -328,7 +327,7 @@ function c4m_og_vocab_validate($element, &$form_state, &$form) {
   // Send all the settings to the app.
   $form['#attached']['js'][] = array(
     'data' => $settings,
-    'type' => 'setting'
+    'type' => 'setting',
   );
 }
 /**
@@ -355,11 +354,6 @@ function c4m_og_vocab_theme() {
 
 /**
  * Implements hook_facetapi_facet_info().
- *
- * @param array $searcher_info
- *   The definition of the searcher that facets are being collected for.
- *
- * @return array
  */
 function c4m_og_vocab_facetapi_facet_info(array $searcher_info) {
   $facets = array();
@@ -395,7 +389,7 @@ function c4m_og_vocab_facetapi_facet_info(array $searcher_info) {
             'key' => 'og_vocabulary',
           ),
           'index id' => $searcher_info['instance'],
-          'value callback' => '_search_api_facetapi_facet_create_label'
+          'value callback' => '_search_api_facetapi_facet_create_label',
         ),
         'alter callbacks' => array('c4m_og_vocab_alter_callback'),
       );

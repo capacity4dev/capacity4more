@@ -240,3 +240,21 @@ function c4m_content_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
   );
 }
+
+/**
+ * Helper to determine the current context.
+ *
+ * @return string
+ *    Returns one of the following contexts:
+ *    - group: we are in a group
+ *    - global: we are outside a group
+ */
+function c4m_content_current_context() {
+  $gid = c4m_og_current_group_id();
+  if ($gid) {
+    return 'group';
+  }
+  else {
+    return 'global';
+  }
+}

@@ -9,6 +9,7 @@ dependencies[] = migrate_extras
 ; Classes to create the dummy content.
 files[] = includes/CreateArticleComments.inc
 files[] = includes/CreateArticles.inc
+files[] = includes/CreateBookPages.inc
 files[] = includes/CreateDiscussionComments.inc
 files[] = includes/CreateDiscussions.inc
 files[] = includes/CreateCategories.inc
@@ -33,7 +34,6 @@ files[] = includes/CreatePhotoalbums.inc
 files[] = includes/CreatePhotoComments.inc
 files[] = includes/CreatePhotos.inc
 files[] = includes/CreateProjects.inc
-files[] = includes/CreateRegionTerms.inc
 files[] = includes/CreateTags.inc
 files[] = includes/CreateTasklists.inc
 files[] = includes/CreateTaskComments.inc
