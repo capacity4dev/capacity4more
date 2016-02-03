@@ -3,7 +3,6 @@ description = This module provides functionality for the user administration.
 core = 7.x
 package = capacity4more - User
 version = 7.x-1.0-dev
-project = c4m_user_admin
 dependencies[] = features
 dependencies[] = views
 features[ctools][] = views:views_default:3.0

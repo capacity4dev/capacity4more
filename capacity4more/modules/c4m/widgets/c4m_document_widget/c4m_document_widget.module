@@ -422,7 +422,7 @@ function c4m_document_widget_add_document_file($file_id) {
   // Get fields for the documents.
   $handler = restful_get_restful_handler('documents');
   // Send the fields to the app as separate objects by resource
-  // (for validation on submit.)
+  // (for validation on submit).
   $field_schema['resources']['documents'] = $handler->options('', array('group' => $group_id));
 
   // URL options.

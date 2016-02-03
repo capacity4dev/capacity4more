@@ -5,7 +5,7 @@
 
 var player;
 function onYouTubePlayerAPIReady() {
-  // Create the global player from the specific iframe (#video)
+  // Create the global player from the specific iframe (#video).
   player = new YT.Player('c4mVideo');
 
   jQuery('#c4mVideoModal').click(function() {
