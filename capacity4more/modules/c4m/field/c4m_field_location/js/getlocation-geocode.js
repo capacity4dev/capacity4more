@@ -7,7 +7,7 @@
   function ($) {
     Drupal.behaviors.getLocationsGeocode = {
       attach: function (context, settings) {
-        // Work over all class 'getlocations_map_canvas'
+        // Work over all class 'getlocations_map_canvas'.
         $(".getlocations_map_canvas", context).once('getlocations-fields-map-processed-fix', function (index, element) {
           var elemID = $(element).attr('id');
           var key = elemID.replace(/^getlocations_map_canvas_/, '');
