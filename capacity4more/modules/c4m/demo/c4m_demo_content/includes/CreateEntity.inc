@@ -28,6 +28,13 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   );
 
   /**
+   * The text format to use for body fields.
+   *
+   * @var string
+   */
+  protected $textFormat = 'filtered_html';
+
+  /**
    * Class constructor.
    */
   public function __construct() {
@@ -92,7 +99,7 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     );
     $this->destination = new $class_name(
       $this->bundle,
-      array('text_format' => 'filtered_html')
+      array('text_format' => $this->textFormat)
     );
   }
 

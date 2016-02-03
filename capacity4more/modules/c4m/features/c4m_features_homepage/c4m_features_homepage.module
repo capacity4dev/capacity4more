@@ -18,12 +18,13 @@ function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
 /**
  * Renders 3 suggested group for the user.
  *
- * Suggest 3 random groups for the user which he is not subscribed to,
- * When interests filter is applied,
- * select groups which has at least one common topic of interest with the user (Interests are taken from user's profile).
+ * Suggest 3 random groups for the user which he is not subscribed to.
+ * When interests filter is applied : select groups which has at least one
+ * common topic of interest with the user.
+ * Interests are taken from user's profile.
  *
- * @return string
- *  Rendered HTML of 3 suggested groups.
+ * @return mixed
+ *   Rendered HTML of 3 suggested groups.
  */
 function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   global $user;
@@ -32,7 +33,10 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   $user_wrapper = entity_metadata_wrapper('user', $account->uid);
   $interests = $user_wrapper->c4m_vocab_topic->raw();
 
-  $filter = !empty($_GET['filter']) ? $_GET['filter'] : NULL;
+  $get_query = drupal_get_query_parameters();
+  $filter = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : NULL;
 
   if ($filter == 'groups') {
     return;
@@ -77,7 +81,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
 }
 
 /**
- * Implementation of hook_query_TAG_alter
+ * Implements hook_query_TAG_alter().
  */
 function c4m_features_homepage_query_random_alter($query) {
   $query->orderRandom();
@@ -105,7 +109,7 @@ function c4m_features_homepage_theme() {
  * Adds these entity to the setting for the angular-carousel directive,
  *
  * @return string
- *  Rendered HTML of the angular-carousel directive.
+ *   Rendered HTML of the angular-carousel directive.
  */
 function c4m_features_homepage_voices_views_carousel() {
   $carousels = array();
@@ -152,7 +156,7 @@ function c4m_features_homepage_voices_views_carousel() {
     '#value'      => t('See more'),
     '#attributes' => array(
       'href' => url('articles'),
-      'class' => 'see-more-link'
+      'class' => 'see-more-link',
     ),
   );
 

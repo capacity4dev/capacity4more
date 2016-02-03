@@ -313,11 +313,13 @@ function c4m_content_feed_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-feed-c4m_vocab_topic'
-  $field_instances['node-feed-c4m_vocab_topic'] = array(
+  // Exported field_instance: 'node-feed-c4m_related_topic'
+  $field_instances['node-feed-c4m_related_topic'] = array(
     'bundle' => 'feed',
+    'default_value' => NULL,
+    'default_value_function' => '',
     'deleted' => 0,
-    'description' => 'Select up to three main topics and unlimited subtopics this feed is related to.',
+    'description' => '',
     'display' => array(
       'activity_global' => array(
         'label' => 'above',
@@ -339,10 +341,13 @@ function c4m_content_feed_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 6,
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => 0,
+          'view_mode' => 'teaser',
+        ),
+        'type' => 'entityreference_entity_view',
+        'weight' => 3,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -364,15 +369,22 @@ function c4m_content_feed_field_default_field_instances() {
       ),
       'rss' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => 0,
+          'view_mode' => 'rss',
+        ),
+        'type' => 'entityreference_entity_view',
+        'weight' => 1,
       ),
       'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 4,
+        'label' => 'inline',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_disabled',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 3,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -383,17 +395,26 @@ function c4m_content_feed_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_vocab_topic',
+    'field_name' => 'c4m_related_topic',
     'label' => 'Related Topics',
     'required' => 0,
     'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'c4m_vocab_widget',
-      'settings' => array(),
-      'type' => 'c4m_taxonomy_reference',
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
       'weight' => 4,
     ),
   );
@@ -404,7 +425,6 @@ function c4m_content_feed_field_default_field_instances() {
   t('Related Articles');
   t('Related Groups');
   t('Related Topics');
-  t('Select up to three main topics and unlimited subtopics this feed is related to.');
 
   return $field_instances;
 }

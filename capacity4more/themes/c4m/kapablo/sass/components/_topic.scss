@@ -4,7 +4,7 @@
       @media screen and (min-width: $screen-sm-min) {
         background-color: $color-gray-light;
         border: 0;
-        padding: 25px;
+        padding: 25px 25px 15px 25px;
         margin: 25px 0;
       }
     }
@@ -15,7 +15,7 @@
 
     @media screen and (min-width: $screen-sm-min) {
       background-color: $color-white;
-      margin: -15px;
+      margin: -15px -15px 0 -15px;
       padding: 15px;
       position: relative;
 
@@ -26,6 +26,11 @@
         padding: 0;
       }
     }
+  }
+
+  .group-c4m-header-bottom {
+    color: $color-gray;
+    margin-top: 15px;
   }
 
   .field-name-c4m-banner {
@@ -92,6 +97,9 @@
 
     &.views-field-title {
       margin-top: 10px;
+      height: 2.4em;
+      line-height: 1.2em;
+      overflow: hidden;
     }
 
     a {

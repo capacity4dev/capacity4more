@@ -8,7 +8,7 @@
 
 
 # Do we need to run the coder review?
-if [ $CODE_REVIEW != 1 ]; then
+if [ "$CODE_REVIEW" != 1 ]; then
   exit 0
 fi
 
@@ -29,7 +29,7 @@ source $TRAVIS_BUILD_DIR/scripts/helper-colors.sh
 ##
 code_review () {
   echo "${LWHITE}$1${RESTORE}"
-  phpcs --standard=Drupal -p --colors --ignore=$2 $1
+  phpcs --standard=Drupal -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css,info --ignore=$2 $1
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
@@ -38,7 +38,7 @@ code_review () {
 
 
 # Review custom modules, run each folder seperatly to avoid memory limits.
-PATTERNS="*.features.*,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules"
+PATTERNS="*.features.inc,*.features.*.inc,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.pages.inc,*.pages_default.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,dist,node_modules,bower_components,ckeditor-plugins"
 
 echo
 echo "${LBLUE}> Sniffing capacity4more Modules${RESTORE}"

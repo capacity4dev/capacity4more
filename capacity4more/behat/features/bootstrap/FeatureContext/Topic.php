@@ -17,8 +17,7 @@ trait Topic {
    */
   public function iCheckRelatedTopic() {
     $steps = array();
-    $steps[] = new Step\When('I press "c4m_vocab_topic"');
-    $steps[] = new Step\When('I check the box "Fire"');
+    $steps[] = new Step\When('I check the related topic checkbox with "Fire"');
 
     return $steps;
   }

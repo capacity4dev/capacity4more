@@ -170,7 +170,7 @@ function c4m_content_event_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'c4m_related';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -233,6 +233,11 @@ function c4m_content_event_ds_field_settings_info() {
     ),
     'c4m_content_event_link_to_gmap' => array(
       'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_actions' => array(
+      'weight' => '11',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -318,15 +323,6 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_vocab_topic' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Topics',
-          'lb-col' => TRUE,
-        ),
-      ),
-    ),
     'c4m_twitter' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -352,6 +348,15 @@ function c4m_content_event_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_vocab_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Topics',
           'lb-col' => TRUE,
         ),
       ),
@@ -691,62 +696,67 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
-        0 => 'c4m_field_location_city_country',
+        0 => 'c4m_vocab_topic',
+        1 => 'c4m_field_location_city_country',
         3 => 'c4m_location',
-        5 => 'c4m_content_event_link_to_gmap',
         6 => 'c4m_organised_by',
-        11 => 'group_organiser',
-        12 => 'group_location',
-        13 => 'group_details',
-        14 => 'c4m_link',
-        15 => 'c4m_facebook',
-        16 => 'c4m_twitter',
-        17 => 'c4m_vocab_topic',
-        18 => 'og_vocabulary',
-        20 => 'c4m_vocab_language',
-        21 => 'c4m_vocab_geo',
+        7 => 'c4m_content_event_link_to_gmap',
+        12 => 'group_organiser',
+        13 => 'group_node_actions',
+        14 => 'group_location',
+        15 => 'group_details',
+        16 => 'c4m_ds_content_actions',
+        17 => 'c4m_link',
+        18 => 'c4m_facebook',
+        19 => 'c4m_twitter',
+        20 => 'og_vocabulary',
+        21 => 'c4m_vocab_language',
+        24 => 'c4m_vocab_geo',
       ),
       'left' => array(
-        1 => 'c4m_ds_content_type_icon',
-        2 => 'title',
-        4 => 'links',
-        7 => 'c4m_datetime_end',
-        8 => 'c4m_body',
-        9 => 'group_documents',
-        10 => 'comments',
-        19 => 'c4m_document_agenda',
-        22 => 'c4m_document_presentation',
-        23 => 'c4m_related_document',
+        2 => 'c4m_ds_content_type_icon',
+        4 => 'title',
+        5 => 'links',
+        8 => 'c4m_datetime_end',
+        9 => 'c4m_body',
+        10 => 'group_documents',
+        11 => 'comments',
+        22 => 'c4m_document_agenda',
+        23 => 'c4m_document_presentation',
+        25 => 'c4m_related_document',
       ),
     ),
     'fields' => array(
+      'c4m_vocab_topic' => 'right',
       'c4m_field_location_city_country' => 'right',
       'c4m_ds_content_type_icon' => 'left',
-      'title' => 'left',
       'c4m_location' => 'right',
+      'title' => 'left',
       'links' => 'left',
-      'c4m_content_event_link_to_gmap' => 'right',
       'c4m_organised_by' => 'right',
+      'c4m_content_event_link_to_gmap' => 'right',
       'c4m_datetime_end' => 'left',
       'c4m_body' => 'left',
       'group_documents' => 'left',
       'comments' => 'left',
       'group_organiser' => 'right',
+      'group_node_actions' => 'right',
       'group_location' => 'right',
       'group_details' => 'right',
+      'c4m_ds_content_actions' => 'right',
       'c4m_link' => 'right',
       'c4m_facebook' => 'right',
       'c4m_twitter' => 'right',
-      'c4m_vocab_topic' => 'right',
       'og_vocabulary' => 'right',
-      'c4m_document_agenda' => 'left',
       'c4m_vocab_language' => 'right',
-      'c4m_vocab_geo' => 'right',
+      'c4m_document_agenda' => 'left',
       'c4m_document_presentation' => 'left',
+      'c4m_vocab_geo' => 'right',
       'c4m_related_document' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
     ),
@@ -780,6 +790,7 @@ function c4m_content_event_ds_layout_settings_info() {
         5 => 'c4m_field_location_city_country',
         6 => 'c4m_body',
         7 => 'c4m_ds_content_footer_stats',
+        8 => 'flag_c4m_og_content_highlight',
       ),
     ),
     'fields' => array(
@@ -791,6 +802,7 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_field_location_city_country' => 'right',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'flag_c4m_og_content_highlight' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

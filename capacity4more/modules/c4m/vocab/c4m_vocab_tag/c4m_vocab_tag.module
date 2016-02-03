@@ -1,12 +1,13 @@
 <?php
 /**
  * @file
+ * Code for the C4m tag vocabulary.
  */
 
-define ('C4M_VOCAB_TAG_NAME', 'c4m_vocab_tag');
+define('C4M_VOCAB_TAG_NAME', 'c4m_vocab_tag');
 
 /**
- * Implmements hook_c4m_og_vocab_info_vocabularies().
+ * Implements hook_c4m_og_vocab_info_vocabularies().
  */
 function c4m_vocab_tag_c4m_og_vocab_info_vocabularies() {
   return array(
@@ -18,18 +19,18 @@ function c4m_vocab_tag_c4m_og_vocab_info_vocabularies() {
         'required' => 0,
         'widget_type' => 'entityreference_autocomplete_tags',
         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
-      )
-    )
+      ),
+    ),
   );
 }
 
 /**
  * Load the Tag vocabulary for the given group.
  *
- * @param stdClass $group
- *   Group node
+ * @param object $group
+ *   Group node.
  *
- * @return stdClass
+ * @return object
  *   The vocabulary (if any).
  */
 function c4m_vocab_tag_load($group) {

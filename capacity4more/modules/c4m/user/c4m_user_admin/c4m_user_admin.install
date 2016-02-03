@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the user admin module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_user_admin_install() {
+  // Disable the default admin user view.
+  $views_status = variable_get('views_defaults', array());
+  $views_status['admin_views_user'] = TRUE;
+  variable_set('views_defaults', $views_status);
+}

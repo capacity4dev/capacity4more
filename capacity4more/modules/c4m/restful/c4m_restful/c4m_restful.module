@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * c4m restful module.
+ * C4m restful module.
  */
 
 /**
@@ -16,15 +16,15 @@ function c4m_restful_ctools_plugin_directory($module, $plugin) {
 /**
  * Gets the og_vocab by it's group ID.
  *
- * @param $group_type.
- *  The type of the group.
- * @param $gid.
- *  The ID of the group.
- * @param $vocab_name
- *  The name of the Vocab.
+ * @param string $group_type
+ *    The type of the group.
+ * @param int $gid
+ *    The ID of the group.
+ * @param string $vocab_name
+ *    The name of the Vocab.
  *
- * @return array().
- *  Returns the details of the og_vocab.
+ * @return array
+ *    Returns the details of the og_vocab.
  */
 function c4m_restful_get_og_vocab_by_name($group_type, $gid, $vocab_name) {
   $query = db_select('og_vocab_relation', 'ogr');
@@ -42,11 +42,11 @@ function c4m_restful_get_og_vocab_by_name($group_type, $gid, $vocab_name) {
 /**
  * Gets group ID by the taxonomy vocabulary machine name.
  *
- * @param $vocab_machine_name.
- *  The machine name of the taxonomy vocabulary.
+ * @param string $vocab_machine_name
+ *    The machine name of the taxonomy vocabulary.
  *
- * @return array().
- *  Returns the group ID.
+ * @return array
+ *    Returns the group ID.
  */
 function c4m_restful_get_group_by_og_vocab_name($vocab_machine_name) {
   $query = db_select('og_vocab_relation', 'ogr');

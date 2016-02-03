@@ -19,20 +19,20 @@ function c4m_comment_edited_schema() {
         'type'        => 'int',
         'unsigned'    => TRUE,
         'default'     => 0,
-        'not null'    => TRUE
+        'not null'    => TRUE,
       ),
       'uid'       => array(
         'description' => 'The id of the user who last changed the comment.',
         'type'        => 'int',
         'unsigned'    => TRUE,
         'not null'    => TRUE,
-        'default'     => 0
+        'default'     => 0,
       ),
       'timestamp' => array(
         'description' => 'The timestamp of the last change on the comment.',
         'type'        => 'int',
         'not null'    => TRUE,
-        'default'     => 0
+        'default'     => 0,
       ),
     ),
     'unique keys' => array('edited_key' => array('cid')),

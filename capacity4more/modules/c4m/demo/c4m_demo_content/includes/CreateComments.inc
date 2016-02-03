@@ -23,6 +23,13 @@ abstract class C4mDemoContentCreateComments extends Migration {
   public $entityType = 'comment';
 
   /**
+   * The text format to use for body fields.
+   *
+   * @var string
+   */
+  protected $textFormat = 'default_html';
+
+  /**
    * Creation classes that should run before this one.
    *
    * @var array
@@ -49,8 +56,7 @@ abstract class C4mDemoContentCreateComments extends Migration {
     $this->addFieldMapping('status', 'status')
       ->defaultValue(COMMENT_PUBLISHED);
 
-    $this->addFieldMapping('comment_body', 'comment_body')
-      ->arguments(array('format' => 'filtered_html'));
+    $this->addFieldMapping('comment_body', 'comment_body');
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
@@ -77,7 +83,10 @@ abstract class C4mDemoContentCreateComments extends Migration {
       $this->csvColumns,
       array('header_rows' => 1)
     );
-    $this->destination = new MigrateDestinationComment($this->bundle);
+    $this->destination = new MigrateDestinationComment(
+      $this->bundle,
+      array('text_format' => $this->textFormat)
+    );
   }
 
   /**

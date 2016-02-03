@@ -17,9 +17,9 @@ function c4m_content_featured_ctools_plugin_directory($module, $plugin) {
 
 /**
  * Gets 3 random published Featured nodes.
- * Returns formatted html for 3-column block.
  *
  * @return string
+ *   Returns formatted html for 3-column block.
  */
 function c4m_content_featured_render_featured_blocks() {
   global $user;
@@ -38,8 +38,9 @@ function c4m_content_featured_render_featured_blocks() {
     $query->addTag('random');
   }
   else {
-    // For anonymous user values shouldn't be changed until new content is added.
-    // In this case order the query by file id in order to imitate the randomising.
+    // For anonymous user values shouldn't be changed until new content is
+    // added. In this case order the query by file id in order to imitate the
+    // randomising.
     $query->fieldOrderBy('c4m_media', 'fid', 'DESC');
   }
 
@@ -59,7 +60,7 @@ function c4m_content_featured_render_featured_blocks() {
 }
 
 /**
- * Implementation of hook_query_TAG_alter
+ * Implements hook_query_TAG_alter().
  */
 function c4m_content_featured_query_random_alter($query) {
   $query->orderRandom();

@@ -199,7 +199,7 @@ function c4m_og_get_email_domains($group) {
  * Adds the fields about the Group Access types & Pluggable Access.
  */
 function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
-  // Default values;
+  // Default values.
   $default_domains = array();
   $default_organisations = array();
   $default_access_type = 'public';

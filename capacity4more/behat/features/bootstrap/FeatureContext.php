@@ -20,6 +20,7 @@ require __DIR__ . '/FeatureContext/File.php';
 require __DIR__ . '/FeatureContext/Group.php';
 require __DIR__ . '/FeatureContext/GroupDashboard.php';
 require __DIR__ . '/FeatureContext/GroupManagement.php';
+require __DIR__ . '/FeatureContext/GroupMembers.php';
 require __DIR__ . '/FeatureContext/Highlights.php';
 require __DIR__ . '/FeatureContext/Homepage.php';
 require __DIR__ . '/FeatureContext/MainMenu.php';
@@ -27,6 +28,7 @@ require __DIR__ . '/FeatureContext/Node.php';
 require __DIR__ . '/FeatureContext/NodeJs.php';
 require __DIR__ . '/FeatureContext/Overview.php';
 require __DIR__ . '/FeatureContext/PageAccess.php';
+require __DIR__ . '/FeatureContext/People.php';
 require __DIR__ . '/FeatureContext/QuickPost.php';
 require __DIR__ . '/FeatureContext/Search.php';
 require __DIR__ . '/FeatureContext/Topic.php';
@@ -60,6 +62,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\Group;
   use FeatureContext\GroupDashboard;
   use FeatureContext\GroupManagement;
+  use FeatureContext\GroupMembers;
   use FeatureContext\Highlights;
   use FeatureContext\Homepage;
   use FeatureContext\MainMenu;
@@ -67,6 +70,7 @@ class FeatureContext extends DrupalContext {
   use FeatureContext\NodeJs;
   use FeatureContext\Overview;
   use FeatureContext\PageAccess;
+  use FeatureContext\People;
   use FeatureContext\QuickPost;
   use FeatureContext\Search;
   use FeatureContext\Topic;
@@ -98,6 +102,9 @@ class FeatureContext extends DrupalContext {
       'dump_path' => empty($parameters['debug']['dump_path'])
         ? false
         : $parameters['debug']['dump_path'],
+      'dump_all_steps' => empty($parameters['debug']['dump_all_steps'])
+        ? false
+        : $parameters['debug']['dump_all_steps'],
     );
   }
 }

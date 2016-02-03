@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Garmentbox profile.
+ * The capacity4more profile.
  */
 
 /**
@@ -77,11 +77,11 @@ function capacity4more_setup_rebuild_permissions() {
  */
 function capacity4more_setup_set_variables(&$install_state) {
   $variables = array(
-    // Homepage
+    // Homepage.
     'weight_frontpage' => '0',
     'site_frontpage' => 'node',
 
-    // Theme
+    // Theme.
     'theme_default' => 'kapablo',
     'admin_theme' => 'seven',
     'node_admin_theme' => 0,
@@ -90,7 +90,7 @@ function capacity4more_setup_set_variables(&$install_state) {
     'page_manager_node_view_disabled' => FALSE,
     'page_manager_term_view_disabled' => FALSE,
 
-    // RESTful
+    // RESTful.
     'restful_file_upload' => TRUE,
 
     // Enable counting views of the entity.
@@ -125,6 +125,7 @@ function capacity4more_setup_set_permissions(&$install_state) {
  * Task callback; Setting OG permissions.
  */
 function capacity4more_setup_set_og_permissions() {
+  // Set OG_AUTHENTICATED_ROLE permissions.
   $content_types = array(
     'discussion',
     'document',
@@ -148,6 +149,20 @@ function capacity4more_setup_set_og_permissions() {
   $roles = og_roles('node', 'group');
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
+
+  // Set OG_ADMINISTRATOR_ROLE permissions.
+  $permissions = array();
+
+  // OG Flag permissions.
+  $og_flag_perms = array(
+    'c4m_og_content_promote',
+    'c4m_og_content_depromote',
+  );
+  $permissions = array_merge($permissions, $og_flag_perms);
+
+  $roles = og_roles('node', 'group');
+  $admin_member_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($admin_member_rid, $permissions);
 }
 
 /**
@@ -156,7 +171,7 @@ function capacity4more_setup_set_og_permissions() {
 function capacity4more_setup_set_menu_purl() {
   $menus = array('main-menu', 'user-menu');
 
-  foreach($menus as $menu) {
+  foreach ($menus as $menu) {
     variable_set('purl_menu_behavior_' . $menu, 'disabled');
   }
 }

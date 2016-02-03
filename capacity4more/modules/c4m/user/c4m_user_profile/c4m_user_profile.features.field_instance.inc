@@ -673,6 +673,7 @@ function c4m_user_profile_field_default_field_instances() {
   // Exported field_instance: 'user-user-c4m_vocab_topic'
   $field_instances['user-user-c4m_vocab_topic'] = array(
     'bundle' => 'user',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => 'Select one or more topics you are interested in.',
     'display' => array(
@@ -724,9 +725,9 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'c4m_vocab_widget',
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'c4m_taxonomy_reference',
+      'type' => 'options_buttons',
       'weight' => 11,
     ),
   );
@@ -734,6 +735,7 @@ function c4m_user_profile_field_default_field_instances() {
   // Exported field_instance: 'user-user-c4m_vocab_topic_expertise'
   $field_instances['user-user-c4m_vocab_topic_expertise'] = array(
     'bundle' => 'user',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => 'Select one or more topics you are an expert in.',
     'display' => array(
@@ -785,9 +787,9 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'c4m_vocab_widget',
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'c4m_taxonomy_reference',
+      'type' => 'options_buttons',
       'weight' => 12,
     ),
   );
