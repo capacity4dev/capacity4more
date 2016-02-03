@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Filters the homepage content based on the filter.
+ */
+
 (function ($) {
 
   $(document).ready(function() {
@@ -9,5 +14,3 @@
   });
 
 })(jQuery);
-
-

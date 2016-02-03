@@ -8,11 +8,13 @@
 /**
  * Render administrator actions on OG members list.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered admin actions.
  */
-function theme_c4m_features_og_members_admin_actions($field) {
+function theme_c4m_features_og_members_admin_actions(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -43,10 +45,12 @@ function theme_c4m_features_og_members_admin_actions($field) {
     return $membership_level;
   }
 
-  return theme('c4m_administer_member_links', array(
+  return theme(
+    'c4m_administer_member_links',
+    array(
       'membership_level' => $membership_level,
       'links' => $links,
-      'user_id' => $user->uid
+      'user_id' => $user->uid,
     )
   );
 }
@@ -54,11 +58,13 @@ function theme_c4m_features_og_members_admin_actions($field) {
 /**
  * Render the role within the group.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered role name.
  */
-function theme_c4m_features_og_members_role($field) {
+function theme_c4m_features_og_members_role(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -76,11 +82,13 @@ function theme_c4m_features_og_members_role($field) {
 /**
  * Render date on which user became group member.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered member since date.
  */
-function theme_c4m_features_og_members_since($field) {
+function theme_c4m_features_og_members_since(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -110,11 +118,13 @@ function theme_c4m_features_og_members_since($field) {
 /**
  * Render user activity summary within group.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered user activity summary.
  */
-function theme_c4m_features_og_members_activity_summary($field) {
+function theme_c4m_features_og_members_activity_summary(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -144,11 +154,13 @@ function theme_c4m_features_og_members_activity_summary($field) {
 /**
  * Render count of posts (nodes) for the given user in the current group.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered posts count.
  */
-function theme_c4m_features_og_members_activity_posts($field) {
+function theme_c4m_features_og_members_activity_posts(array $field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -172,11 +184,13 @@ function theme_c4m_features_og_members_activity_posts($field) {
 /**
  * Render count of comments for the given user in the current group.
  *
- * @param $field
+ * @param array $field
+ *   The field info.
  *
- * @return string
+ * @return mixed
+ *   The rendered comment count.
  */
-function theme_c4m_features_og_members_activity_comments($field) {
+function theme_c4m_features_og_members_activity_comments(array $field) {
   if (empty($field['entity'])) {
     return;
   }

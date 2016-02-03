@@ -51,9 +51,11 @@ function c4m_search_default_search_api_server() {
  * machine name of the solr service).
  *
  * Based on the search_api_solr_overrides module.
+ *
  * @see https://www.drupal.org/project/search_api_solr_overrides
  *
- * @see c4m_search_default_search_api_server() for an example of the paremeters
+ * @see c4m_search_default_search_api_server()
+ * For an example of the paremeters
  * that can be overridden.
  *
  * Example:
@@ -106,9 +108,6 @@ function c4m_search_search_api_server_load($servers) {
  * Implements hook_block_view_alter().
  *
  * Override the default Search Api Facet block titles.
- *
- * @param $data
- * @param $block
  */
 function c4m_search_block_view_alter(&$data, $block) {
   // Only for blocks provided by the facetapi module.
@@ -141,12 +140,17 @@ function c4m_search_facetapi_widgets() {
 }
 
 /**
- * Implements hook_theme()
+ * Implements hook_theme().
  */
 function c4m_search_theme() {
   return array(
     'c4m_search_facetapi_link_group' => array(
-      'variables' => array('text' => NULL, 'path' => NULL, 'options' => array(), 'count' => 0),
+      'variables' => array(
+        'text' => NULL,
+        'path' => NULL,
+        'options' => array(),
+        'count' => 0,
+      ),
       'file' => 'c4m_search.theme.inc',
     ),
     'c4m_search_dropdown_sort_filters' => array(
@@ -158,12 +162,79 @@ function c4m_search_theme() {
 }
 
 /**
- * Implementation of hook_views_data_alter
+ * Pragmatically execute a search.
+ *
+ * There must be at least one filter.
+ * Each filter contains a condition with a field name, value and operator.
+ *
+ * For example the $filters array to retrieve all published nodes of type event:
+ *
+ * $filters = array(
+ *   '0' => array(
+ *     'conjunction' => 'AND',
+ *     'condition' => array(
+ *        'field' => 'status',
+ *        'value' => 1,
+ *        'operator' => '=',
+ *     ),
+ *   ),
+ *  '1' => array(
+ *    'conjunction' => 'AND',
+ *    'condition' => array(
+ *      'field' => 'type',
+ *      'value' => 'event',
+ *       'operator' => '=',
+ *    ),
+ *  ),
+ * );
+ *
+ * You can also set options on the query. F.i. nr. of rows to return: 'limit'
+ * F.i. to retrieve counts of documents only and not return items:
+ * $query->setOption('limit', 0);
+ *
+ * @param array $filters
+ *    The filters to be added to the query.
+ * @param array $options
+ *    Additional options to be added to the query.
+ *
+ * @return array
+ *    Result set of the query.
+ */
+function c4m_search_custom_search(array $filters, $options = array()) {
+  if (empty($filters)) {
+    return array();
+  }
+  $index = search_api_index_load('c4m_search_nodes');
+  $query = new SearchApiQuery($index);
+  $base_filter = $subfilter = NULL;
+
+  foreach ($filters as $filter) {
+    if (empty($base_filter)) {
+      $base_filter = $query->createFilter($filter['conjunction']);
+      $base_filter->condition($filter['condition']['field'],
+        $filter['condition']['value'], $filter['condition']['operator']);
+    }
+    else {
+      $subfilter = $query->createFilter($filter['conjunction']);
+      $subfilter->condition($filter['condition']['field'],
+        $filter['condition']['value'], $filter['condition']['operator']);
+      $base_filter->filter($subfilter);
+    }
+  }
+
+  $query->filter($base_filter);
+  foreach ($options as $option) {
+    $query->setOption($option['name'], $option['value']);
+  }
+
+  return $query->execute();
+}
+
+/**
+ * Implements hook_views_data_alter().
  *
  * Provide a views bulk operations checkbox to search api index views.
  * See https://www.drupal.org/node/1123454#comment-9554163
- *
- * @param $data
  */
 function c4m_search_views_data_alter(&$data) {
   if (isset($data['search_api_index'])) {
@@ -197,11 +268,11 @@ function c4m_search_facetapi_url_processors() {
 }
 
 /**
- * Implements hook_facetapi_searcher_info_alter()
+ * Implements hook_facetapi_searcher_info_alter().
  */
 function c4m_search_facetapi_searcher_info_alter(array &$searcher_info) {
   foreach ($searcher_info as $key => $value) {
-    if($value['url processor'] == 'standard'){
+    if ($value['url processor'] == 'standard') {
       $searcher_info[$key]['url processor'] = 'c4m_processor';
     }
   }
@@ -384,8 +455,12 @@ function c4m_search_form_submit($form, &$form_state) {
     ),
     'absolute' => TRUE,
   );
+
   // Force redirect on 404 pages.
-  unset($_GET['destination']);
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
   // Set redirect target.
   $form_state['redirect'] = url($search_page['path'], $options);
 }

@@ -12,7 +12,7 @@ function c4m_field_og_ds_fields_info($entity_type) {
 
   $path = drupal_get_path('module', 'c4m_field_og');
 
-  // A field to indicate the group a group node belongs to
+  // A field to indicate the group a group node belongs to.
   $fields['node']['c4m_field_og_group'] = array(
     'title'      => t('Group'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
@@ -59,7 +59,6 @@ function c4m_field_og_field_access($op, $field, $entity_type, $entity, $account)
 
   if ($account->uid == $entity->uid) {
     // Group owner.
-
     $allowed_values = array(
       'requested',
       'draft',
@@ -146,7 +145,6 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
 
   if ($account->uid == $entity->uid) {
     // Group owner.
-
     $unallowed_values = array(
       'requested' => array(
         'draft',
@@ -176,7 +174,6 @@ function c4m_field_og_form_group_node_form_alter(&$form, &$form_state, $form_id)
 
   if (og_user_access('node', $entity->nid, 'administer group', $account)) {
     // Group administrator.
-
     $unallowed_values = array(
       'draft' => array(
         'requested',

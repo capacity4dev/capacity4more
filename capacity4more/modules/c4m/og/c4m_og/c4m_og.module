@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- *
- * General Organic Groups functionality
+ * General Organic Groups functionality.
  */
 
 include_once 'c4m_og.features.inc';
@@ -16,7 +15,7 @@ define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
 /**
  * Helper to get the current active group (based on og_context()).
  *
- * @return stdClass|FALSE
+ * @return object|FALSE
  *   The group entity, or FALSE if no context was found.
  */
 function c4m_og_current_group() {
@@ -64,13 +63,15 @@ function c4m_og_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Helper function to get the human readable name of a group type
+ * Helper function to get the human readable name of a group type.
  *
- * @param null $node
+ * @param object $node
+ *    The node object.
  *
  * @internal param object $group
  *
  * @return string
+ *    Human readable name of group type.
  */
 function c4m_og_get_group_type_name($node = NULL) {
   if (!$node) {
@@ -116,6 +117,15 @@ function c4m_og_module_implements_alter(&$implementations, $hook) {
   }
 }
 
+/**
+ * Function to check if a path is a purl path.
+ *
+ * @param string $value
+ *    Group path.
+ *
+ * @return bool
+ *    TRUE or FALSE.
+ */
 function c4m_og_purl_exists($value) {
   return FALSE;
 }
@@ -142,7 +152,7 @@ function c4m_og_get_group_bundles() {
 /**
  * Function to get OG permissions by OG role.
  *
- * @param $rid
+ * @param int $rid
  *   The role ID.
  *
  * @return array
@@ -166,8 +176,10 @@ function c4m_og_get_permissions_by_role($rid, $module = 'c4m_og') {
 /**
  * Function to get OG roles by OG permission.
  *
- * @param $perm
- *   The permission.
+ * @param string $permission
+ *    The permission.
+ * @param string $module
+ *    The module name.
  *
  * @return array
  *    Array of role ids.
@@ -190,9 +202,9 @@ function c4m_og_get_roles_by_permission($permission, $module = 'c4m_og') {
 /**
  * Get all the users with certain roles in a group.
  *
- * @param $gid
+ * @param int $gid
  *   The group unique ID.
- * @param $roles
+ * @param array $rids
  *   Array with the role IDs to query.
  */
 function c4m_og_get_users_by_roles($gid, $rids = array()) {
@@ -221,6 +233,7 @@ function c4m_og_views_api() {
  *   If the $account argument is omitted, the current user is used.
  *
  * @return bool
+ *    TRUE or FALSE whether access is granted or not.
  */
 function c4m_og_access($feature = NULL, $account = NULL) {
   // Check if the user has access to the group context.
@@ -238,7 +251,7 @@ function c4m_og_access($feature = NULL, $account = NULL) {
 }
 
 /**
- * Implementation of hook_og_permission
+ * Implements hook_og_permission().
  *
  * Add group permissions.
  */
@@ -255,6 +268,7 @@ function c4m_og_og_permission() {
 
 /**
  * Function to filter all groups of a user by a certain permission.
+ *
  * It returns only the gids of the groups for which the user has the permission.
  *
  * We do this by retrieving roles of the user for the groups
@@ -263,12 +277,14 @@ function c4m_og_og_permission() {
  * We assemble all the permissions this user has in a group and with those we
  * filter out the groups which do not contain the desired permission.
  *
- * @param $perm
- * @param $gids
- *
- * @return array
+ * @param string $uid
+ *    User id needed to collect the user roles for this user.
+ * @param string $perm
+ *    The permission to check on.
+ * @param array $gids
+ *    The group ID's to fetch the permissions for.
  */
-function c4m_og_user_has_permission_in($uid, $perm, &$gids) {
+function c4m_og_user_has_permission_in($uid, $perm, array &$gids) {
   foreach ($gids as $membership_id => $gid) {
     $roles = og_get_user_roles('node', $gid, $uid);
     $rids = array_keys($roles);
@@ -291,10 +307,9 @@ function c4m_og_user_has_permission_in($uid, $perm, &$gids) {
 function c4m_og_node_grants($account, $op) {
   switch ($op) {
     case 'view':
+      // Only grant group members and users with the appropriate role within
+      // the group the right to view unpublished nodes.
       if ($groups = og_get_entity_groups('user', $account)) {
-        // Only grant group members and users with the appropriate role within
-        // the group the right to view unpublished nodes.
-
         // We need to know if the user has the right role within these
         // groups, meaning a role with the right permission.
         foreach ($groups as $group_type => $gids) {
@@ -312,7 +327,7 @@ function c4m_og_node_grants($account, $op) {
 }
 
 /**
- * Implementation of hook_node_access_records_alter.
+ * Implements hook_node_access_records_alter().
  *
  * We could use hook_node_access_records for this because node module and
  * og_access module do not deliver grants for unpublished nodes so there is no
@@ -321,9 +336,6 @@ function c4m_og_node_grants($account, $op) {
  * possibly in the future one of hook_node_access_records_alter.
  *
  * It's clearer to have our node_access_records logic in one place.
- *
- * @param $grants
- * @param $node
  */
 function c4m_og_node_access_records_alter(&$grants, $node) {
   // Allow group members with the right permission to view unpublished group
@@ -331,7 +343,6 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
   if (empty($node->status) && og_is_group_content_type('node', $node->type)) {
     // Node is unpublished, so og_access will not deliver grants, nor will node
     // (module).
-
     // We allow a view grant within our realm
     // 'c4m_og_access:view unpublished group content' for the groups of
     // which this node is content.
@@ -357,13 +368,13 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
 /**
  * Counts the number of members in a given group.
  *
- * @param $group
- *  The group entity.
- * @param $state
- *  The status of the membership, Defaults to active.
+ * @param object $group
+ *    The group entity.
+ * @param int $state
+ *    The status of the membership, Defaults to active.
  *
  * @return int
- *  The count of members in the group.
+ *    The count of members in the group.
  */
 function c4m_og_get_members_count($group, $state = OG_STATE_ACTIVE) {
   $query = new EntityFieldQuery();
@@ -383,11 +394,11 @@ function c4m_og_get_members_count($group, $state = OG_STATE_ACTIVE) {
 /**
  * Counts the number of posts in a given group.
  *
- * @param $group
- *  The group entity.
+ * @param object $group
+ *    The group entity.
  *
  * @return int
- *  The count of posts in the group.
+ *    The count of posts in the group.
  */
 function c4m_og_get_posts_count($group) {
   $query = db_select('node', 'n');
@@ -415,9 +426,11 @@ function c4m_og_entity_property_info_alter(&$info) {
 /**
  * Getter callback for created_week_day property.
  *
- * @param $item
+ * @param object $item
+ *    The group object.
  *
  * @return string
+ *    Type of group access.
  */
 function _c4m_og_group_type_getter_callback($item) {
   // Get group type information.
@@ -606,7 +619,7 @@ function c4m_og_feature_disabled_content_types() {
  *
  * @param string $feature
  *   The feature to install.
- * @param bool   $enabled
+ * @param bool $enabled
  *   Optional, if the feature should be enabled by default (default = TRUE).
  */
 function c4m_og_feature_install($feature, $enabled = TRUE) {
@@ -633,17 +646,19 @@ function c4m_og_feature_uninstall($feature) {
 }
 
 /**
- * Get the group IDs of all the group nodes of specific node type a user is an
+ * Get the group IDs of all the group nodes.
+ *
+ * For specific node type a user is an
  * approved member of.
  *
- * @param $bundle
- *  (optional) The group node type.
- * @param $account
- * (optional) The user object to fetch group memberships for. Defaults to the
+ * @param string $bundle
+ *    (optional) The group node type.
+ * @param object $account
+ *    (optional) The user object to fetch group memberships for. Defaults to the
  *   acting user.
  *
- * @return array()
- *  Returns array of group nodes IDs of specific node type.
+ * @return array $groups
+ *    Returns array of group nodes IDs of specific node type.
  */
 function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
   $groups = og_get_groups_by_user($account, 'node');

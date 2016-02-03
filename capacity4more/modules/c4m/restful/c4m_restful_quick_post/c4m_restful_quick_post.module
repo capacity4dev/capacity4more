@@ -51,11 +51,11 @@ function c4m_restful_quick_post_theme() {
  * Checks if the user is in a group and checks
  * permissions to create an entity in this group with OG permissions.
  *
- * @param $resource_name
- *  The name of the resource.
-
+ * @param string $resource_name
+ *   The name of the resource.
+ *
  * @return bool
- *  Access.
+ *   Access.
  */
 function c4m_restful_quick_post_get_form_fields_access($resource_name) {
   $resources = array(
@@ -85,11 +85,11 @@ function c4m_restful_quick_post_get_form_fields_access($resource_name) {
  * Loads the information of the fields according to the
  * resource name sent from angular.
  *
- * @param $resource_name
- *  The name of the resource.
+ * @param string $resource_name
+ *   The name of the resource.
  *
  * @return mixed
- *  The JSON with the fields information.
+ *   The JSON with the fields information.
  */
 function c4m_restful_quick_post_get_form_fields($resource_name) {
   // Get current group.
@@ -100,7 +100,7 @@ function c4m_restful_quick_post_get_form_fields($resource_name) {
   $categories = array();
   $handler = restful_get_restful_handler($resource_name);
   // Send the fields to the app as separate objects by resource
-  // (for validation on submit.)
+  // (for validation on submit).
   $field_schema['resources'][$resource_name] = $handler->options('', array('group' => $group_id));
   $public_fields += $handler->getPublicFields();
 
@@ -270,7 +270,8 @@ function c4m_restful_quick_post_form($group_id) {
   }
 
   // If all resources are turned off, disable the QP form.
-  if(empty($show_resources)) {
+  if (empty($show_resources)) {
+    $settings['c4m']['data']['entity']['group'] = $group_id;
     drupal_add_js($settings, 'setting');
     return FALSE;
   }
@@ -337,7 +338,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // AngularJs.
   drupal_add_js($bower_path . '/angular/angular.min.js');
 
-  // Angular-touch
+  // Angular-touch.
   drupal_add_js($bower_path . '/angular-touch/angular-touch.min.js');
 
   // Upload file library.
@@ -350,11 +351,6 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   // Angular-Carousel.
   drupal_add_css($bower_path . '/angular-carousel/dist/angular-carousel.min.css');
   drupal_add_js($bower_path . '/angular-carousel/dist/angular-carousel.min.js');
-
-  // CKEditor library.
-  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
-  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
-  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
 
   // Select UI.
   drupal_add_css($bower_path . '/select2/select2.css');

@@ -1,11 +1,11 @@
 <?php
-
 /**
  * @file
  * Display a node featured in "Featured block" view mode.
  *
  * @see node.tpl.php
  */
+
 ?>
 
 <div class="col-sm-4">

@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Code for the Group Wiki feature.
+ * Code for the Wiki feature.
  */
+
+include_once 'c4m_features_og_wiki.features.inc';
 
 /**
  * Implements hook_c4m_og_feature_info().
@@ -22,10 +24,7 @@ function c4m_features_og_wiki_c4m_og_feature_info() {
 }
 
 /**
- * Implementation of hook_menu().
- *
- * @param $entity_type
- * @return array
+ * Implements hook_menu().
  */
 function c4m_features_og_wiki_menu() {
   $items = array();
@@ -39,7 +38,72 @@ function c4m_features_og_wiki_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['node/%node/wiki/rearrange'] = array(
+    'title' => 'Rearrange',
+    'page callback' => 'c4m_content_wiki_page_rearrange_page',
+    'access callback' => array('c4m_features_og_wiki_access'),
+    'access arguments' => array('administer group'),
+    'type' => MENU_LOCAL_TASK,
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_features_og_wiki_menu_alter(&$items) {
+  // Unset the book outline tab,
+  // because we have are own rearrange integration.
+  unset($items['node/%node/outline']);
+}
+
+/**
+ * Access callback for the wiki rearrange menu item.
+ *
+ * @param mixed $options
+ *   The optional options.
+ *
+ * @return bool
+ *   Has the user access.
+ */
+function c4m_features_og_wiki_access($options = array()) {
+  $group = og_context();
+
+  // Check if user has access to group context,
+  // and see if the feature is enabled.
+  if (!c4m_og_access('c4m_features_og_wiki')) {
+    return FALSE;
+  }
+
+  // Check if the user has the permission  "edit any wiki_page content".
+  $access = og_user_access('node', $group['gid'], $options);
+  if (!$access) {
+    return FALSE;
+  }
+
+  // Check if the node type is wiki_page.
+  $node = node_load(arg(1));
+  if ($node && $node->type != 'wiki_page') {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Page callback for the wiki rearrange menu item.
+ *
+ * @return mixed
+ *   Returns wiki rearrange view.
+ */
+function c4m_content_wiki_page_rearrange_page() {
+  drupal_set_title('Rearrange');
+  $node = menu_get_object();
+  $og_id = c4m_og_get_gid_from_entity($node);
+  $output = views_embed_view('c4m_wiki', 'wiki_rearrange_page', $og_id, $og_id);
+
+  return $output;
 }
 
 /**
@@ -53,6 +117,7 @@ function c4m_features_og_wiki_theme() {
     ),
   );
 }
+
 /**
  * Implements hook_block_view_MODULE_DELTA_alter().
  *
@@ -85,12 +150,11 @@ function c4m_features_og_wiki_block_view_menu_c4m_og_menu_alter(&$data, $block) 
   // kapablo_menu_link__book_c4m_og_menu will be
   // called. If we do not alter the theme suggestion on the link
   // hook_menu_link will be used and this is a too generic hook for our
-  // purposes. (Currently in that case bootstrap_menu_link() would be called in
-  // that case.)
-
+  // purposes.
+  // Currently in that case bootstrap_menu_link() would be called.
   if (!empty($wiki['#below']) &&
     is_array($wiki['#below'])) {
-    foreach($wiki['#below'] as $key => $element) {
+    foreach ($wiki['#below'] as $key => $element) {
       if (isset($element['#theme'])) {
         $wiki['#below'][$key]['#theme']  = 'menu_link__book_c4m_og_menu__';
       }

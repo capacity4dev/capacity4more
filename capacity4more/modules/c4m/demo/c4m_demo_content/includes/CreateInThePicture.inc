@@ -9,6 +9,7 @@
  */
 class C4mDemoContentCreateInThePicture extends C4mDemoContentCreateOgContent {
   public $bundle = 'inthe_picture';
+  protected $textFormat = 'full_html';
 
   /**
    * CSV column mapping.

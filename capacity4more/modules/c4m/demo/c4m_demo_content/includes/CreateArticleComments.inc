@@ -9,6 +9,7 @@
  */
 class C4mDemoContentCreateArticleComments extends C4mDemoContentCreateComments {
   public $bundle = 'comment_node_article';
+  protected $textFormat = 'filtered_html';
 
   /**
    * Configure the migration class during creation.

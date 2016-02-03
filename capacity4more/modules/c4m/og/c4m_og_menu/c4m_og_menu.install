@@ -5,14 +5,16 @@
  */
 
 /**
- * Implements hook_install()
+ * Implements hook_install().
  *
  * Make sure that we have the "home" menu link in the custom menu.
  */
 function c4m_og_menu_install() {
-  // Create a Home link in the OG Menu
+  $t = get_t();
+
+  // Create a Home link in the OG Menu.
   $item = array(
-    'link_title' => st('Home'),
+    'link_title' => $t('Home'),
     'link_path' => '<front>',
     'menu_name' => 'c4m-og-menu',
     'weight'    => -50,

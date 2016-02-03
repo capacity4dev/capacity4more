@@ -23,7 +23,7 @@ function c4m_context_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_context_plugins()
+ * Implements hook_context_plugins().
  */
 function c4m_context_context_plugins() {
   $plugins                                         = array();
@@ -48,7 +48,7 @@ function c4m_context_context_plugins() {
 }
 
 /**
- * Implements hook_context_registry()
+ * Implements hook_context_registry().
  */
 function c4m_context_context_registry() {
   return array(
@@ -71,17 +71,17 @@ function c4m_context_context_registry() {
   );
 }
 
+/**
+ * Implements hook_preprocess_page().
+ */
 function c4m_context_preprocess_page(&$variables) {
   if ($plugin = context_get_plugin('reaction', 'unset_variables')) {
     $plugin->execute($variables);
   }
-  /*if ($plugin = context_get_plugin('condition', 'no_form')) {
-      $plugin->execute();
-  }*/
 }
 
 /**
- * Implementation of hook_views_pre_view().
+ * Implements hook_views_pre_view().
  */
 function c4m_context_views_pre_view($view, $display) {
   if ($plugin = context_get_plugin('condition', 'no_form')) {

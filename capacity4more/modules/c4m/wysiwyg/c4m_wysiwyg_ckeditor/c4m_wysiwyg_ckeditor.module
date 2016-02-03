@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Code for the Wysiwyg Ckeditor module.
+ */
+
+/**
+ * Implements hook_ckeditor_plugin().
+ */
+function c4m_wysiwyg_ckeditor_ckeditor_plugin() {
+  $module_path = drupal_get_path('module', 'c4m_wysiwyg_ckeditor');
+  $plugins = array();
+
+  // Widget plugin.
+  $plugins['widget'] = array(
+    'name' => 'widget',
+    'desc' => t('CKEditor: Widget plugin'),
+    'path' => $module_path . '/ckeditor-plugins/widget/',
+    'default' => 't',
+  );
+
+  // Line utils plugin.
+  $plugins['lineutils'] = array(
+    'name' => 'lineutils',
+    'desc' => t('CKEditor: Line utils plugin'),
+    'path' => $module_path . '/ckeditor-plugins/lineutils/',
+    'default' => 't',
+  );
+
+  // Oembed plugin.
+  $plugins['oembed'] = array(
+    'name' => 'oembed',
+    'desc' => t('CKEditor: Oembed plugin'),
+    'path' => $module_path . '/ckeditor-plugins/oembed/',
+    'default' => 't',
+    'buttons' => array(
+      'oembed' => array(
+        'label' => 'Oembed',
+        'icon'  => 'icons/oembed.png',
+      ),
+    ),
+  );
+
+  // Tableresize plugin.
+  $plugins['tableresize'] = array(
+    'name' => 'tableresize',
+    'desc' => t('CKEditor: Tableresize plugin'),
+    'path' => $module_path . '/ckeditor-plugins/tableresize/',
+    'default' => 't',
+  );
+
+  return $plugins;
+}

@@ -1,4 +1,12 @@
 .book-toc {
+  a.active {
+    font-weight: bold;
+  }
+  li {
+    &:not(.expanded) {
+      margin-left: 20px;
+    }
+  }
   li.expanded {
     .toggle {
       /* symbol for "open" submenu */
@@ -16,7 +24,7 @@
       padding-left: 20px;
     }
     ul {
-      padding-left: 35px;
+      padding-left: 20px;
     }
   }
 }

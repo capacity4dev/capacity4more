@@ -118,8 +118,22 @@ function c4m_content_event_strongarm() {
         ),
       ),
       'display' => array(
+        'flag_c4m_node_highlight' => array(
+          'full' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+        ),
         'flag_c4m_og_content_highlight' => array(
-          'upcoming_event' => array(
+          'full' => array(
+            'weight' => '25',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'c4m_related' => array(
             'weight' => '10',
             'visible' => FALSE,
           ),

@@ -71,7 +71,7 @@ function c4m_vocab_topic_schema() {
         'description' => 'The destination TID of the mapping if it is known.',
         'type' => 'int',
         'length' => 10,
-        'not null' => FALSE,
+        'not null' => TRUE,
       ),
     ),
     'primary key' => array('tid'),

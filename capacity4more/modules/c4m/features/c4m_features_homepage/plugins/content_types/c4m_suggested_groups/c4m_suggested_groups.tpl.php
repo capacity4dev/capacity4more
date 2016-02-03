@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Prints out the list of suggested groups.
+ */
+
+?>
+
 <div class="row">
   <div class="col-md-12 right">
     <div class="suggested-groups panel-pane">
