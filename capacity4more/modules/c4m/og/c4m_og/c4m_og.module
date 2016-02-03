@@ -676,3 +676,54 @@ function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) 
   }
   return $groups;
 }
+
+/**
+ * Implements hook_node_access().
+ *
+ * Deny access to add/edit/view/delete a content item if
+ * - the content type is one of the group content types.
+ * - the group content type is not available because the related feature is not
+ * enabled.
+ */
+function c4m_og_node_access($node, $op, $account) {
+  $node_type = is_string($node) ? $node : $node->type;
+
+  if (og_is_group_type('node', $node_type) || !og_is_group_content_type('node', $node_type)) {
+    // This is group or side wide content.
+    return NODE_ACCESS_IGNORE;
+  }
+  // Check that entity creating within a group context.
+  $group_id = c4m_og_current_group_id();
+
+  // User can't view/add/edut/delete group content out of group.
+  if (!$group_id && og_is_group_content_type('node', $node_type)) {
+    return NODE_ACCESS_DENY;
+  }
+
+  if ($op != 'create' && is_object($node)) {
+    $node = node_load($node->nid);
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $node_group = $wrapper->{OG_AUDIENCE_FIELD}->value();
+    if ($node_group->nid != $group_id) {
+      // User is trying to view/edit/delete content of one group while user is
+      // inside other group.
+      return NODE_ACCESS_DENY;
+    }
+  }
+
+  if ($op == 'create' && $group_id && !og_user_access('node', $group_id, "create " . $node_type . " content")) {
+    // User has access to group but doesn't have permissions to create content
+    // in this group, probably he is not member of this group.
+    return NODE_ACCESS_DENY;
+  }
+  // TODO: Content type 'photo' does not exist in feature_enabled_content_types
+  // TODO: therefore it will be always blocked.
+
+  // Allow create content type only allowed by group settings.
+  $features = c4m_og_feature_enabled_content_types();
+  if (!in_array($node_type, $features)) {
+    return NODE_ACCESS_DENY;
+  }
+
+  return NODE_ACCESS_IGNORE;
+}

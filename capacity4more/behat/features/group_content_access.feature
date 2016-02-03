@@ -35,3 +35,27 @@ Feature: Group content access
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
     And   I should see "Access denied"
+
+  @api
+  Scenario: I should not be able to CREATE content out of group.
+    Given I am logged in as user "isaacnewton"
+    When  I go to "/node/add/discussion"
+    Then  I should not have access to the page
+
+  @api
+  Scenario: I should not be able to EDIT content out of group.
+    Given I am logged in as user "isaacnewton"
+    When  a discussion "Test content" in group "Tennis Group" is created
+    Then  I should not be allowed to edit "discussion" "Test content" out of group
+
+  @api
+  Scenario: I should not be able to VIEW content out of group.
+    Given I am logged in as user "isaacnewton"
+    When  a discussion "Test content1" in group "Tennis Group" is created
+    Then I should not be allowed to view "discussion" "Test content1" out of group
+
+  @api
+  Scenario: I should not be able to DELETE content out of group.
+    Given I am logged in as user "isaacnewton"
+    When  a discussion "Test content2" in group "Tennis Group" is created
+    Then  I should not be allowed to delete "discussion" "Test content2" out of group

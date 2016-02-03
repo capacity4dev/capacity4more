@@ -518,6 +518,54 @@ trait Group {
   }
 
   /**
+   * @Then /^I should not be allowed to edit "([^"]*)" "([^"]*)" out of group$/
+   */
+  public function iShouldNotBeAllowedToEditOutOfGroup($bundle, $title) {
+    $steps = array();
+
+    $nodes = entity_load('node', FALSE, array('type' => $bundle, 'title' => $title));
+    $node = reset($nodes);
+    $nid = $node->nid;
+
+    $steps[] = new Step\When('I go to "node/' . $nid . '/edit"');
+    $steps[] = new Step\When('I should not have access to the page');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should not be allowed to view "([^"]*)" "([^"]*)" out of group$/
+   */
+  public function iShouldNotBeAllowedToViewOutOfGroup($bundle, $title) {
+    $steps = array();
+
+    $nodes = entity_load('node', FALSE, array('type' => $bundle, 'title' => $title));
+    $node = reset($nodes);
+    $nid = $node->nid;
+
+    $steps[] = new Step\When('I go to "node/' . $nid . '/"');
+    $steps[] = new Step\When('I should not have access to the page');
+
+    return $steps;
+  }
+
+  /**
+   * @Then /^I should not be allowed to delete "([^"]*)" "([^"]*)" out of group$/
+   */
+  public function iShouldNotBeAllowedToDeleteOutOfGroup($bundle, $title) {
+    $steps = array();
+
+    $nodes = entity_load('node', FALSE, array('type' => $bundle, 'title' => $title));
+    $node = reset($nodes);
+    $nid = $node->nid;
+
+    $steps[] = new Step\When('I go to "node/' . $nid . '/delete"');
+    $steps[] = new Step\When('I should not have access to the page');
+
+    return $steps;
+  }
+
+  /**
    * @Given /^I start editing group "([^"]*)"$/
    */
   public function iStartEditingGroup($group_title) {

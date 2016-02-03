@@ -69,7 +69,12 @@ trait Discussion {
 
     $steps[] = new Step\When('I visit "' . $uri . '/node/add/discussion"');
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
-    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion"');
+<<<<<<< HEAD
+    $steps[] = new Step\When('I fill in "edit-c4m-body-und-0-value" with "This is default discussion."');
+=======
+    $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion."');
+    $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
+>>>>>>> develop
     $steps[] = new Step\When('I check the related topic checkbox');
     $steps[] = new Step\When('I press "Save"');
 
