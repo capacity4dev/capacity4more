@@ -78,6 +78,17 @@ function c4m_content_document_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_content_document_type_size'] = array(
+    'title' => t('Document type and size'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('document|*'),
+    'file' => $path . '/includes/c4m_content_document.theme.inc',
+    'function' => 'theme_c4m_content_document_type_size',
+    'properties' => array(
+      'default' => t('Default'),
+    ),
+  );
+
   return $fields;
 }
 

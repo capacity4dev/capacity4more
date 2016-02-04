@@ -47,3 +47,47 @@ function theme_c4m_content_document_icon(array $field) {
 
   return theme_html_tag($tag);
 }
+
+/**
+ * DS function field.
+ *
+ * Render a document type and size.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return string
+ *   The rendered version of the field.
+ */
+function theme_c4m_content_document_type_size(array $field) {
+  if (empty($field['entity']->c4m_document)) {
+    return NULL;
+  }
+
+  $object = $field['entity'];
+  $object_wrapper = entity_metadata_wrapper('node', $object);
+  $document = $object_wrapper->c4m_document->value();
+
+  $tags = array(
+    'type' => array(
+      'element' => array(
+        '#tag' => 'span',
+        '#attributes' => array(
+          'class' => array('document-type'),
+        ),
+        '#value' => t('File type: @type', array('@type' => $document['type'])),
+      ),
+    ),
+    'size' => array(
+      'element' => array(
+        '#tag' => 'span',
+        '#attributes' => array(
+          'class' => array('document-size'),
+        ),
+        '#value' => t('Size: @size', array('@size' => format_size($document['filesize']))),
+      ),
+    ),
+  );
+
+  return theme_html_tag($tags['type']) . ' | ' . theme_html_tag($tags['size']);
+}

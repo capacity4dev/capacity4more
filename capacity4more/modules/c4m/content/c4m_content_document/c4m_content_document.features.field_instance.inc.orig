@@ -420,7 +420,11 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
+<<<<<<< HEAD
+        'weight' => 22,
+=======
         'weight' => 21,
+>>>>>>> develop
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -699,7 +703,12 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
+<<<<<<< HEAD
+        'weight' => 19,
+        'weight' => 27,
+=======
         'weight' => 28,
+>>>>>>> develop
       ),
       'upcoming_event' => array(
         'label' => 'above',

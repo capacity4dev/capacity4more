@@ -249,8 +249,10 @@ function c4m_document_widget_entityreference_autocomplete_tags_validate($element
 
   // Unset previous related documents values.
   foreach ($form['#attached']['js'] as $id => $data) {
-    if (!empty($data['data']['c4m']['data']['relatedDocuments'][$field_name])) {
-      unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][$field_name]);
+    if (is_array($data['data'])) {
+      if (!empty($data['data']['c4m']['data']['relatedDocuments'][$field_name])) {
+        unset($form['#attached']['js'][$id]['data']['c4m']['data']['relatedDocuments'][$field_name]);
+      }
     }
   }
 

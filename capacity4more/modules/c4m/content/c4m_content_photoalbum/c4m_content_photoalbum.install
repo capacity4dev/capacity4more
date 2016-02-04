@@ -4,7 +4,7 @@
  * Install & Update hooks.
  */
 
-define('C4M_CONTENT_PHOTOALBUM_C4M_PHOTOALBUM_TYPE', 'photoalbum');
+define('C4M_CONTENT_PHOTOALBUM_TYPE', 'photoalbum');
 define('C4M_CONTENT_PHOTOALBUM_ITEM_TYPE', 'photo');
 define('C4M_CONTENT_PHOTOALBUM_FIELD_NAME', 'c4m_media');
 define('C4M_CONTENT_PHOTOALBUM_RELATIONSHIP_NAME', 'Photo Album');
@@ -42,7 +42,7 @@ function _c4m_content_photoalbum_create_relationship() {
   $r = new NodeGalleryRelationshipType();
   $r->settings = node_gallery_api_relationship_type_settings_defaults();
   $r->settings['relationship']['name'] = C4M_CONTENT_PHOTOALBUM_RELATIONSHIP_NAME;
-  $r->settings['relationship_type']['gallery_types'] = array(C4M_CONTENT_PHOTOALBUM_C4M_PHOTOALBUM_TYPE);
+  $r->settings['relationship_type']['gallery_types'] = array(C4M_CONTENT_PHOTOALBUM_TYPE);
   $r->settings['relationship_type']['item_types'] = array(C4M_CONTENT_PHOTOALBUM_ITEM_TYPE);
   $r->settings['view_modes']['full']['view'] = C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW . ':embed_1';
   $r->settings['view_modes']['teaser']['view'] = C4M_CONTENT_PHOTOALBUM_VIEWS_VIEW . ':embed_6';

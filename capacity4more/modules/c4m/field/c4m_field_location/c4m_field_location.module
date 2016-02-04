@@ -32,18 +32,29 @@ function c4m_field_location_ds_fields_info($entity_type) {
   $path = drupal_get_path('module', 'c4m_field_location');
 
   $fields['node']['c4m_field_location_city_country'] = array(
-    'title'      => t('C4M location'),
+    'title' => t('C4M location'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_field_location.theme.inc',
-    'function'   => 'theme_c4m_field_location_city_country',
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_field_location.theme.inc',
+    'function' => 'theme_c4m_field_location_city_country',
     'properties' => array(
       'formatters' => array(
         'in @city (@country)' => t('in city (country)'),
-        '@name (@country)' => t('Name (country)'),
+        '@name (@country)'    => t('Name (country)'),
       ),
     ),
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_field_location_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'event_node_form':
+      $form['#attached']['js'][] = drupal_get_path('module', 'c4m_field_location') . '/js/getlocation-geocode.js';
+      break;
+  }
 }
