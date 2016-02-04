@@ -352,6 +352,11 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_add_css($bower_path . '/angular-carousel/dist/angular-carousel.min.css');
   drupal_add_js($bower_path . '/angular-carousel/dist/angular-carousel.min.js');
 
+  // CKEditor library.
+  drupal_add_css($bower_path . '/ng-ckeditor/ng-ckeditor.css');
+  drupal_add_js($bower_path . '/ng-ckeditor/libs/ckeditor/ckeditor.js');
+  drupal_add_js($bower_path . '/ng-ckeditor/ng-ckeditor.js');
+
   // Select UI.
   drupal_add_css($bower_path . '/select2/select2.css');
   drupal_add_css($bower_path . '/select2/select2-bootstrap.css');
@@ -382,6 +387,17 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
     'csrfToken' => drupal_get_token(\RestfulInterface::TOKEN_VALUE),
   );
   drupal_add_js($settings, 'setting');
+}
+
+/**
+ * Implements hook_js_alter().
+ */
+function c4m_restful_quick_post_js_alter(&$javascript) {
+  // If we are not on the site homepage or a group dashboard,
+  // we remove the angular ckeditor library from the js queue.
+  if (!drupal_is_front_page()) {
+    unset($javascript['profiles/capacity4more/libraries/bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']);
+  }
 }
 
 /**
