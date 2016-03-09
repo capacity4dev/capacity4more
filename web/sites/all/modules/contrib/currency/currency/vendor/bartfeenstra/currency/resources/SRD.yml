@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SRD
+ISO4217Number: '968'
+sign: $
+subunits: 100
+title: 'Surinamese dollar'
+usage:
+    - { ISO8601From: '2004-01-01', ISO8601To: '', ISO3166Code: SR }

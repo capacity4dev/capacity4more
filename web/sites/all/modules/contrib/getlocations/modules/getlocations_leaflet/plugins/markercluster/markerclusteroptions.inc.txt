@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * See the examples in the download from https://github.com/Leaflet/Leaflet.markercluster
+ *
+ * To provide options to markercluster copy this file to markerclusteroptions.inc and edit to suit your needs
+ *
+ */
+
+function getlocations_leaflet_get_markerclusteroptions() {
+  $markerclusteroptions = array(
+    'polygonOptions' => array(
+      'color' => '#008000',
+      'weight' => 2,
+      'opacity' => 0.75,
+      'fillColor' => '#C0C0C0',
+      'fillOpacity' => 0.25,
+    ),
+#    'maxClusterRadius' => 80, //A cluster will cover at most this many pixels from its center
+
+  );
+  return $markerclusteroptions;
+}
+

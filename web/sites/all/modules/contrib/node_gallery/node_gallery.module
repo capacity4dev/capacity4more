@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * Node Gallery module.
+ */
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function node_gallery_entity_info_alter(&$entity_info) {
+  $entity_info['file']['view modes']['node_gallery_file_display'] = array(
+    'label' => t('Node Gallery File Display'),
+    'custom settings' => FALSE,
+  );
+  $entity_info['file']['view modes']['node_gallery_file_thumbnail'] = array(
+    'label' => t('Node Gallery File Thumbnail'),
+    'custom settings' => FALSE,
+  );
+  $entity_info['file']['view modes']['node_gallery_file_cover'] = array(
+    'label' => t('Node Gallery File Cover'),
+    'custom settings' => FALSE,
+  );
+  $entity_info['node']['view modes']['node_gallery_node_thumbnail'] = array(
+    'label' => t('Node Gallery Thumbnail'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function node_gallery_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'node_gallery') . '/includes/views',
+  );
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function node_gallery_image_default_styles() {
+  $styles = array();
+
+  $styles['node_gallery_display'] = array(
+    'effects' => array(
+      array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => 1500,
+          'upscale' => 0,
+        ),
+        'weight' => 0,
+      ),
+      array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 600,
+          'height' => '',
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  $styles['node_gallery_thumbnail'] = array(
+    'effects' => array(
+      array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 150,
+          'height' => 150,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * @param object $view
+ *   The view
+ */
+function node_gallery_views_pre_render(&$view) {
+  if ($view->name == 'node_gallery_gallery_item_views' || $view->name == 'node_gallery_gallery_summaries') {
+    drupal_add_css(drupal_get_path('module', 'node_gallery') . '/node_gallery.css');
+  }
+}

@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    BRN: '1'
+ISO4217Code: BRE
+ISO4217Number: null
+sign: ₢
+subunits: 100
+title: 'Brazilian cruzeiro'
+usage:
+    - { ISO8601From: '1990-03-16', ISO8601To: '1993-08-01', ISO3166Code: BR }

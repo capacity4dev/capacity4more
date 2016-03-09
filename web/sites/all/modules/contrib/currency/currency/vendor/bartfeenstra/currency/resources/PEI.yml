@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    PEH: '1000'
+ISO4217Code: PEI
+ISO4217Number: null
+sign: I/.
+subunits: 100
+title: 'Peruvian inti'
+usage:
+    - { ISO8601From: '1985-02-01', ISO8601To: '1991-07-01', ISO3166Code: PE }

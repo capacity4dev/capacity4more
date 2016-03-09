@@ -1,0 +1,52 @@
+/**
+ * @file
+ * getlocations_leaflet.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_leaflet css.
+ *
+ */
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 100;
+}
+
+.leaflet-control-attribution {
+  background:  #FFFFFF;
+  filter: alpha(opacity=70);
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+  opacity: 0.7;
+  -moz-opacity: 0.7;
+  color:  #000000;
+}
+.leaflet-control-attribution a {
+  color:  #000000;
+}
+
+.getlocations_leaflet_map_wrapper {
+}
+.getlocations_leaflet_map_wrapper_inner {
+}
+.getlocations_leaflet_canvas {
+}
+.getlocations_leaflet_canvas img {
+  max-width: none !important;
+}
+
+/* map links feature */
+.getlocations_leaflet_map_links {
+  border: 1px solid #CCCCCC;
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 4px;
+  margin-top: 8px;
+  max-height: 150px;
+  overflow: auto;
+}
+.getlocations_leaflet_map_links ul {
+  list-style-type: none;
+  margin-left: 0px;
+}
+.getlocations_leaflet_map_buttons {
+}

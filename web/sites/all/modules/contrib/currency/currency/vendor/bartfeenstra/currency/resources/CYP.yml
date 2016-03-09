@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CYP
+ISO4217Number: '196'
+sign: £
+subunits: 100
+title: 'Cypriot pound'
+usage:
+    - { ISO8601From: '1914-09-10', ISO8601To: '2008-01-31', ISO3166Code: CY }

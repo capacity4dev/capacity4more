@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    ISJ: '100'
+ISO4217Code: ISK
+ISO4217Number: '352'
+sign: kr
+subunits: 100
+title: 'Icelandic krona'
+usage:
+    - { ISO8601From: '1981-01-01', ISO8601To: '', ISO3166Code: IS }

@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: JOD
+ISO4217Number: '400'
+sign: JD
+subunits: 1000
+title: 'Jordanian dinar'
+usage:
+    - { ISO8601From: '1950-07-01', ISO8601To: '', ISO3166Code: JO }
+    - { ISO8601From: '1996-02-12', ISO8601To: '', ISO3166Code: PS }
+    - { ISO8601From: '1950-07-01', ISO8601To: '1967-06-01', ISO3166Code: PS }

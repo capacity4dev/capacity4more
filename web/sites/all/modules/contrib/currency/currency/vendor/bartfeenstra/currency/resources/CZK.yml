@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CZK
+ISO4217Number: '203'
+sign: Kč
+subunits: 100
+title: 'Czech koruna'
+usage:
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: CZ }

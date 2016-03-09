@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    BGL: '1000'
+ISO4217Code: BGN
+ISO4217Number: '975'
+sign: лв
+subunits: 100
+title: 'Bulgarian lev'
+usage:
+    - { ISO8601From: '1999-07-05', ISO8601To: '', ISO3166Code: BG }

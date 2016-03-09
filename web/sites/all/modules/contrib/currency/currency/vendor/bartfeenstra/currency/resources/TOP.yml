@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: TOP
+ISO4217Number: '776'
+sign: $
+subunits: 100
+title: 'Tongan pa’anga'
+usage:
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: TO }

@@ -1,0 +1,2260 @@
+<?php
+
+/**
+ * @file
+ * getlocations_mapquest.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides Mapquest maps integration for data from Getlocations Fields, location_cck, geofield and geolocation modules.
+ *
+ *
+ */
+
+define('GETLOCATIONS_MAPQUEST_PATH', drupal_get_path('module', 'getlocations_mapquest'));
+
+/**
+ * Implements hook_help().
+ */
+function getlocations_mapquest_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#getlocations':
+      $output = '<p>' . t('Provides Mapquest Maps integration for Getlocations.') . '</p>';
+      return $output;
+  }
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function getlocations_mapquest_menu() {
+  $items = array();
+  $items[GETLOCATIONS_ADMIN_PATH . '/mapquest'] = array(
+    'title' => 'Mapquest',
+    'description' => 'Configure Getlocations Mapquest',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('getlocations_mapquest_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 6,
+  );
+
+  // getlocations/[entity_type]/$nid    # show all location on one entity_type
+  $items['getlocations_mapquest/%getlocations_entity_type/%getlocations_id'] = array(
+    'title' => 'Get locations',
+    'access callback' => 'getlocations_access_location',
+    'page callback' => 'getlocations_mapquest_entity_type_map',
+    'page arguments' => array(1, 2),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function getlocations_mapquest_flush_caches() {
+  if (variable_get('getlocations_mapquest_flush', 1)) {
+    getlocations_mapquest_regenerate_markers();
+  }
+}
+
+/**
+ * Implements hook_library().
+ */
+function getlocations_mapquest_library() {
+
+  #$aggr = (getlocations_aggr_get() ? TRUE : FALSE);
+  $mapquest_lic =  variable_get('getlocations_mapquest_lic', array('key' => '', 'type' => 'l'));
+  $defaults = getlocations_defaults();
+  $version = '7.2.s';
+  $libraries = array();
+  $libraries['mapquest'] = array(
+    'title' => 'Mapquest',
+    'website' => 'http://www.mapquest.com',
+    'version' => $version,
+  );
+  if ($mapquest_lic['key']) {
+    if (! isset($defaults['is_https']) || ! $defaults['is_https']) {
+      global $is_https;
+    }
+    else {
+      $is_https = $defaults['is_https'];
+    }
+    $scheme = ($is_https ? 'https' : 'http');
+    if ($mapquest_lic['type'] == 'o') {
+      $dom = 'open.mapquestapi.com/sdk/js/v' . $version;
+    }
+    else {
+      $dom = 'www.mapquestapi.com/sdk/js/v' . $version;
+    }
+    $url = $scheme . '://' . $dom . '/' . 'mqa.toolkit.js' . '?key=' . $mapquest_lic['key'];
+    $libraries['mapquest']['js'] = array(
+      $url => array(
+        'type' => 'external'
+      )
+    );
+  }
+  return $libraries;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function getlocations_mapquest_views_api() {
+  return array(
+    'api' => 3,
+    'path' => GETLOCATIONS_MAPQUEST_PATH . '/views',
+  );
+}
+
+
+/**
+ * Implements hook_field_info().
+ * Define Field API field types.
+ *
+ * @return
+ *   An array whose keys are field type names and whose values are arrays
+ *   describing the field type.
+ */
+function getlocations_mapquest_field_info() {
+
+  $info = array(
+    'getlocations_mapquest' => array(
+      'label' => t('Getlocations Mapquest Map'),
+      'description' => t('Provide Getlocations Mapquest Map.'),
+      'default_formatter' => 'getlocations_mapquest_map',
+      'default_widget' => 'getlocations_mapquest_map',
+      'settings' => array(
+        'input_text' => 0,
+      ),
+    )
+  );
+  return $info;
+
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * Declare information about a formatter.
+ *
+ * @return
+ *   An array keyed by formatter name. Each element of the array is an associative
+ *   array with these keys and values:
+ *   - "label": The human-readable label for the formatter.
+ *   - "field types": An array of field type names that can be displayed using
+ *     this formatter.
+ *
+ */
+function getlocations_mapquest_field_formatter_info() {
+
+  $formatters = array(
+    'getlocations_mapquest_map' => array(
+      'label' => t('Getlocations Mapquest Map Field'),
+      'field types' => array('getlocations_mapquest'),
+      'settings' => getlocations_mapquest_map_formatter_defaults(),
+    ),
+    'getlocations_mapquest_link' => array(
+      'label' => t('Getlocations Mapquest Link Field'),
+      'field types' => array('getlocations_mapquest'),
+      'settings' => getlocations_mapquest_link_formatter_defaults(),
+    ),
+  );
+  return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ * Build a renderable array for a field value.
+ *
+ * @param $entity_type
+ *   The type of $entity.
+ * @param $entity
+ *   The entity being displayed.
+ * @param $field
+ *   The field structure.
+ * @param $instance
+ *   The field instance.
+ * @param $langcode
+ *   The language associated with $items.
+ * @param $items
+ *   Array of values for this field.
+ * @param $display
+ *   The display settings to use, as found in the 'display' entry of instance definitions.
+ * @return
+ *   A renderable array for the $items, as an array of child elements keyed
+ *   by numeric indexes starting from 0.
+ *
+ */
+function getlocations_mapquest_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+
+  global $language;
+  $lang = ($langcode ? $langcode : ($entity->language ? $entity->language : $language->language));
+  $locative_field_name = (isset($items[0]['locative_field_name']) ? $items[0]['locative_field_name'] : '');
+  if (empty($locative_field_name) || ! isset($entity->{$locative_field_name}[$lang])) {
+    return;
+  }
+  $locative_fields = $entity->{$locative_field_name}[$lang];
+  if (! (is_array($locative_fields) && count($locative_fields) > 0)) {
+    return;
+  }
+  $settings = $display['settings'];
+  $element = array();
+
+  switch ($display['type']) {
+    case 'getlocations_mapquest_map':
+
+      if (empty($settings)) {
+        $settings = getlocations_mapquest_map_formatter_defaults();
+      }
+
+      $module = getlocations_get_current_supported_module();
+      $bundle = $instance['bundle'];
+      $minmaxes = '';
+      $default_settings = getlocations_mapquest_map_formatter_defaults();
+      $default = getlocations_adjust_vars($default_settings, $settings);
+
+      // awesome
+      $marker = '';
+      $vector = '';
+      if ($settings['awesome'] && $settings['marker_type'] == 'fa') {
+        if ($entity_type == 'node') {
+          $per_field_markers = FALSE;
+          $getlocations_node_marker = variable_get('getlocations_node_marker', array('enable' => 0));
+          if ($getlocations_node_marker['enable']) {
+            if ($types = getlocations_get_types()) {
+              foreach ($types AS $type => $name) {
+                if ($type == $bundle) {
+                  $field_names = getlocations_get_fieldname2($type, 'node');
+                  foreach ($field_names AS $field_name) {
+                    if ($field_name == $locative_field_name) {
+                      $mkey = 'node_marker__' . strtolower($type) . '__' . $field_name;
+                      $vicon = getlocations_mapquest_awesome_marker_get($settings, $mkey);
+                      $per_field_markers = TRUE;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          if (! $per_field_markers) {
+            $vicon = getlocations_mapquest_awesome_marker_get($settings, 'node');
+          }
+          // TODO per tid marker
+        }
+        elseif ($entity_type == 'taxonomy_term') {
+          $vicon = getlocations_mapquest_awesome_marker_get($settings, 'vocabulary');
+          // TODO ??? sort out vocab/term
+        }
+        elseif ($entity_type == 'user') {
+          $vicon = getlocations_mapquest_awesome_marker_get($settings, 'user');
+        }
+        elseif ($entity_type == 'comment') {
+          $vicon = getlocations_mapquest_awesome_marker_get($settings, 'comment');
+        }
+        else {
+          $vicon = getlocations_mapquest_awesome_marker_get($settings);
+        }
+        $vector = $vicon;
+      }
+      else {
+        // marker
+        if ($entity_type == 'node') {
+          $per_field_markers = FALSE;
+          $getlocations_node_marker = variable_get('getlocations_node_marker', array('enable' => 0));
+          if ($getlocations_node_marker['enable']) {
+            if ($types = getlocations_get_types()) {
+              foreach ($types AS $type => $name) {
+                if ($type == $bundle) {
+                  $field_names = getlocations_get_fieldname2($type, 'node');
+                  foreach ($field_names AS $field_name) {
+                    if ($field_name == $locative_field_name) {
+                      $marker = (isset($getlocations_node_marker['content_type'][$type]['field_name'][$field_name]['map_marker']) ? $getlocations_node_marker['content_type'][$type]['field_name'][$field_name]['map_marker'] : '');
+                      $per_field_markers = TRUE;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          if (! $per_field_markers) {
+            $marker = (isset($default['node_map_marker']) ? $default['node_map_marker'] : '');
+          }
+        }
+        elseif ($entity_type == 'user') {
+          $marker = (isset($default['user_map_marker']) ? $default['user_map_marker'] : '');
+        }
+        elseif ($entity_type == 'taxonomy_term') {
+          // TODO needs testing
+          if (module_exists('taxonomy')) {
+            // vocabulary markers
+            if ($types = getlocations_get_vocabularies()) {
+              $getlocations_vocabulary_marker = variable_get('getlocations_vocabulary_marker', array('enable' => 0));
+              if ($getlocations_vocabulary_marker['enable']) {
+                foreach ($types AS $type => $name) {
+                  $field_name = getlocations_get_fieldname($type, 'taxonomy_term');
+                  if ($field_name == $locative_field_name) {
+                    $marker = (isset($getlocations_vocabulary_marker['vocabulary'][$type]['map_marker']) ? $getlocations_vocabulary_marker['vocabulary'][$type]['map_marker'] : $default['vocabulary_map_marker']);
+                  }
+                }
+              }
+            }
+            // term markers
+            $getlocations_term_marker = variable_get('getlocations_term_marker', array('enable' => 0, 'vids' => 0, 'max_depth' => ''));
+            if ($getlocations_term_marker['enable'] && $getlocations_term_marker['vids']) {
+              $depth = is_numeric($getlocations_term_marker['max_depth']) && $getlocations_term_marker['max_depth'] > 0 ? $getlocations_term_marker['max_depth'] : NULL;
+              $vids = $getlocations_term_marker['vids'];
+              foreach ($vids AS $vid) {
+                $terms = taxonomy_get_tree($vid, 0, $depth);
+                foreach ($terms AS $term) {
+                  $tid = $term->tid;
+                  $marker = (isset($getlocations_term_marker['vid'][$vid]['term'][$tid]['map_marker']) ? $getlocations_term_marker['vid'][$vid]['term'][$tid]['map_marker'] : $default['term_map_marker']);
+                }
+              }
+            }
+          }
+        }
+        elseif ($entity_type == 'comment') {
+          $marker = (isset($default['comment_map_marker']) ? $default['comment_map_marker'] : '');
+        }
+        else {
+          $marker = (isset($default['node_map_marker']) ? $default['node_map_marker'] : '');
+        }
+      }
+
+      $mapzoom = FALSE;
+      $iconlist = array();
+      $minmaxes = array('minlat' => 0, 'minlon' => 0, 'maxlat' => 0, 'maxlon' => 0);
+
+      // fetch lats and lons
+      $ct = 0;
+      foreach (array_keys($locative_fields) AS $delta) {
+        $title = '';
+        $lid = 0;
+        if (isset($entity->{$locative_field_name}[$lang][$delta]) && $location = $entity->{$locative_field_name}[$lang][$delta]) {
+          // collect the lat and lon
+          if ($module == 'getlocations_fields') {
+            $lat = $location['latitude'];
+            $lon = $location['longitude'];
+            $lid = (isset($location['glid']) ? $location['glid'] : 0);
+          }
+          elseif ($module == 'location_cck') {
+            $lat = $location['latitude'];
+            $lon = $location['longitude'];
+            $lid = (isset($location['lid']) ? $location['lid'] : 0);
+          }
+          elseif ($module == 'geofield') {
+            $lat = $location['lat'];
+            $lon = $location['lon'];
+          }
+          elseif ($module == 'geolocation') {
+            $lat = $location['lat'];
+            $lon = $location['lng'];
+          }
+
+          if (isset($lat) && ! empty($lat) && isset($lon) && ! empty($lon)  && $latlon = getlocations_latlon_check($lat . ',' . $lon)) {
+            $ll = explode(',', $latlon);
+            $location['latitude'] = $ll[0];
+            $location['longitude'] = $ll[1];
+            $entity_get_info = entity_get_info($entity_type);
+            $entity_key = $entity_get_info['entity keys']['id']; // nid, cid, uid etc
+            $entity_id = $entity->{$entity_key};
+
+            if (isset($location['name']) && ! empty($location['name'])) {
+              $title = $location['name'];
+            }
+            else {
+              $title = (isset($entity->title) ? $entity->title : '');
+            }
+            $title = htmlspecialchars_decode(strip_tags($title), ENT_QUOTES);
+            $minmaxes = getlocations_do_minmaxes($ct, $location, $minmaxes);
+
+            // per item marker
+            if (isset($location['marker']) && ! empty($location['marker'])) {
+              $marker = $location['marker'];
+            }
+
+            if (isset($location['mapzoom'])) {
+              $mapzoom = $location['mapzoom'];
+            }
+
+            if ($lid && $default['markeraction'] == 'popup') {
+              $extra = FALSE;
+              if (isset($default['getdirections_link'])) {
+                $extra['gdlink'] = $default['getdirections_link'];
+              }
+              $markeraction = array('type' => 'popup', 'data' => getlocations_getinfo($lid, $entity_key, $extra));
+            }
+            elseif ($lid && $default['markeraction'] == 'link') {
+              $markeraction = array('type' => 'link', 'data' => getlocations_getlidinfo($lid, $entity_key));
+            }
+            else {
+              $markeraction = array();
+            }
+
+            $iconlist[$marker] = getlocations_mapquest_get_marker($marker);
+            $latlons[$ct] = array($location['latitude'], $location['longitude'], $entity_key, $entity_id, $lid, $title, $marker, $vector, $markeraction, '');
+
+            $ct++;
+          } // end lat lon check
+        }
+      } // end foreach
+
+      if ($ct < 2 ) {
+        unset($minmaxes);
+        $minmaxes = '';
+      }
+
+      $nodezoom = FALSE;
+      if ($ct == 1 && $settings['nodezoom']) {
+        $nodezoom = $settings['nodezoom'];
+        $map_settings['map_opts']['center'] = array($location['latitude'], $location['longitude']);
+        $map_settings['map_opts']['zoom'] = $nodezoom;
+      }
+      elseif ($ct < 1) {
+        $ll = explode(',', $default['latlong']);
+        $map_settings['map_opts']['center'] = array($ll[0], $ll[1]);
+        $map_settings['map_opts']['zoom'] = $default['zoom'];
+      }
+
+      $mapid = getlocations_setup_map('', FALSE, FALSE, TRUE);
+
+      // add in some more
+      $map_settings = getlocations_mapquest_map_settings_do($map_settings, $default, $latlons, $mapid);
+
+      $map_settings['map_settings']['nodezoom'] = ($nodezoom ? $nodezoom : FALSE);
+      $map_settings['map_settings']['minmaxes'] = (empty($minmaxes) ? FALSE : implode(',', $minmaxes));
+
+      $map_settings['icons'] = $iconlist;
+      $map_settings['datanum'] = $ct;
+      $map_settings['latlons'] = $latlons;
+
+      $element[$delta] = array(
+        '#theme' => 'getlocations_mapquest_map',
+        '#width' => $default['width'],
+        '#height' => $default['height'],
+        '#map_settings' => $map_settings,
+        '#mapid' => $mapid,
+        '#links' => '',
+      );
+
+      break;
+
+    case 'getlocations_mapquest_link':
+
+      if (empty($settings) || ! isset($settings['text'])) {
+        $settings = getlocations_mapquest_link_formatter_defaults();
+      }
+      $bundle = $instance['bundle'];
+      foreach (array_keys($locative_fields) AS $delta) {
+        $entity_get_info = entity_get_info($entity_type);
+        $entity_key = $entity_get_info['entity keys']['id']; // nid, cid, uid etc
+        $entity_id = $entity->{$entity_key};
+        $link_text = $settings['text'];
+        if ($settings['text_opt'] == 'page') {
+          $entity_title = '';
+          if (isset($entity_get_info['entity keys']['label'])) {
+            $entity_title = $entity_get_info['entity keys']['label'];
+          }
+          elseif ($entity_type == 'user') {
+            $entity_title = 'name';
+          }
+          if ($entity_title && isset($entity->{$entity_title})) {
+            $link_text = $entity->{$entity_title};
+          }
+        }
+
+        $element[$delta] = array(
+          '#theme' => 'getlocations_mapquest_link',
+          '#link_text' => $link_text,
+          '#entity_type' => $entity_type,
+          '#entity_id' => $entity_id,
+        );
+      }
+
+      break;
+  } // end switch
+  return $element;
+}
+
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ * Returns a short summary for the current formatter settings of an instance.
+ *
+ *
+ * If an empty result is returned, the formatter is assumed to have no
+ * configurable settings, and no UI will be provided to display a settings
+ * form.
+ *
+ *   The field structure.
+ * @param $instance
+ *   The instance structure.
+ * @param $view_mode
+ *   The view mode for which a settings summary is requested.
+ *
+ * @return
+ *   A string containing a short summary of the formatter settings.
+ */
+function getlocations_mapquest_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array();
+
+  switch ($display['type']) {
+    case 'getlocations_mapquest_map':
+
+      $summary[] = t('Getlocations Mapquest Map Field settings');
+      if ($settings['zoomControl'] != 'none') {
+        $summary[] = t('Zoom control type: !t', array('!t' => ($settings['zoomControl'] == 'small' ? 'Small' : 'Large') ));
+      }
+      if ($settings['layerControl']) {
+        $summary[] = t('Show layer control: Yes');
+      }
+      if ($settings['overview']) {
+        $summary[] = t('Show Overview: Yes');
+      }
+      if ($settings['trafficControl']) {
+        $summary[] = t('Show traffic control: Yes');
+      }
+      if ($settings['drawingControl']) {
+        $summary[] = t('Show drawing control: Yes');
+      }
+      if ($settings['geolocationControl']) {
+        $summary[] = t('Show geolocation control: Yes');
+      }
+
+      break;
+
+    case 'getlocations_mapquest_link':
+      $summary[] = t('Getlocations Mapquest Link Field settings');
+      if ($settings['text_opt']) {
+        $summary[] = t('Text options: @a', array('@a' => $settings['text_opt']));
+      }
+      if ($settings['text']) {
+        $summary[] = t('Text: @a', array('@a' => $settings['text']));
+      }
+
+
+      break;
+
+  }
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ * Returns form elements for a formatter's settings.
+ *
+ * @param $field
+ *   The field structure being configured.
+ * @param $instance
+ *   The instance structure being configured.
+ * @param $view_mode
+ *   The view mode being configured.
+ * @param $form
+ *   The (entire) configuration form array, which will usually have no use here.
+ * @param $form_state
+ *   The form state of the (entire) configuration form.
+ *
+ * @return
+ *   The form elements for the formatter settings.
+ */
+function getlocations_mapquest_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $getlocations_mapquest_paths = getlocations_mapquest_paths_get();
+  drupal_add_js($getlocations_mapquest_paths['getlocations_mapquest_formatter_path']);
+
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+  switch ($display['type']) {
+    case 'getlocations_mapquest_map':
+
+      $settings['map_resize'] = 0;
+      $settings['fullscreen_disable'] = 0;
+      $settings['styles'] = '';
+      $labels = array(
+        'width' => t('Width'),
+        'height' => t('Height'),
+      );
+
+      $element += getlocations_map_display_basics_form($settings, $labels);
+      unset($element['map_resize']);
+      unset($element['fullscreen_disable']);
+      unset($element['styles']);
+      $element['width']['#element_validate'] = array('getlocations_element_validate_dim');
+      $element['height']['#element_validate'] = array('getlocations_element_validate_dim');
+      $element['latlong']['#element_validate'] = array('getlocations_element_validate_latlon');
+
+      unset($element['zoom']['#options']['21']);
+      unset($element['zoom']['#options']['20']);
+      unset($element['zoom']['#options']['19']);
+
+      unset($element['minzoom_map']['#options']['21']);
+      unset($element['minzoom_map']['#options']['20']);
+      unset($element['minzoom_map']['#options']['19']);
+
+      unset($element['maxzoom_map']['#options']['21']);
+      unset($element['maxzoom_map']['#options']['20']);
+      unset($element['maxzoom_map']['#options']['19']);
+
+      $element += getlocations_mapquest_display_options_form($settings, TRUE);
+
+      unset($element['nodezoom']['#options']['21']);
+      unset($element['nodezoom']['#options']['20']);
+      unset($element['nodezoom']['#options']['19']);
+
+      // awesome?
+
+    break;
+    case 'getlocations_mapquest_link':
+      $element['text'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Default text'),
+        '#description' => t('The text to use if no other option is available.'),
+        '#default_value' => $settings['text'],
+        '#size' => 25,
+      );
+      $element['text_opt'] = array(
+        '#type' => 'select',
+        '#title' => t('Display format'),
+        '#default_value' => $settings['text_opt'],
+        '#options' => $settings['text_options'],
+      );
+    break;
+
+  }
+  return $element;
+
+}
+
+/**
+ * Implements hook_field_widget_info().
+ * Expose Field API widget types.
+ *
+ * @return
+ *   An array describing the widget types implemented by the module.
+ *
+ */
+function getlocations_mapquest_field_widget_info() {
+  $info = array(
+    'getlocations_mapquest_map' => array(
+      'label' => t('Getlocations Mapquest Map Field'),
+      'field types' => array('getlocations_mapquest'),
+      'settings' => array(
+        //
+      ),
+    ),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ * Return the form for a single field widget.
+ *
+ * @param $form
+ *   The form structure where widgets are being attached to. This might be a
+ *   full form structure, or a sub-element of a larger form.
+ * @param $form_state
+ *   An associative array containing the current state of the form.
+ * @param $field
+ *   The field structure.
+ * @param $instance
+ *   The field instance.
+ * @param $langcode
+ *   The language associated with $items.
+ * @param $items
+ *   Array of default values for this field.
+ * @param $delta
+ *   The order of this item in the array of subelements (0, 1, 2, etc).
+ * @param $element
+ *   A form element array containing basic properties for the widget.
+ * @return
+ *   The form elements for a single widget for this field.
+ */
+function getlocations_mapquest_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+
+  switch ($instance['widget']['type']) {
+    case 'getlocations_mapquest_map':
+
+      // is this real or a demo in settings
+      $active = TRUE;
+      if (empty($element['#entity'])) {
+        $active = FALSE;
+      }
+
+      $entity_type = $element['#entity_type'];
+      $bundle = $element['#bundle'];
+      $module = getlocations_get_current_supported_module();
+      $fieldnames = array();
+      $query = db_select('field_config', 'f');
+      $query->fields('i', array('field_name', 'data'));
+      $query->join('field_config_instance', 'i', 'f.id=i.field_id');
+      $query->condition('i.bundle', $bundle)
+        ->condition('f.module', $module)
+        ->condition('i.entity_type', $entity_type)
+        ->condition('f.active', 1);
+      $rows = $query->execute();
+      foreach ($rows AS $row) {
+        $data = unserialize($row->data);
+        $fieldnames[$row->field_name] = $data['label'];
+      }
+
+      $cardinality = $field['cardinality'];
+      // Wrap in a fieldset for single fields
+      if ($cardinality == 1) {
+        $element['#type'] = 'fieldset';
+        $element['#collapsible'] = TRUE;
+        $element['#collapsed'] = FALSE;
+      }
+
+      if (! empty($fieldnames)) {
+        $element['#delta'] = $delta;
+        $dval = (isset($items[$delta]['locative_field_name']) ? $items[$delta]['locative_field_name'] : (isset($instance['default_value'][$delta]['locative_field_name']) ? $instance['default_value'][$delta]['locative_field_name'] : ''));
+        if ($active && module_exists('views_bulk_operations') && isset($settings['input_text']) && $settings['input_text']) {
+          $element['locative_field_name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Location Field'),
+            '#description' => t('Field to take locative data from'),
+            '#default_value' => $dval,
+            '#size' => 30,
+          );
+        }
+        else {
+          // items only see which field, no choice
+          if ($active && $dval) {
+            $element['locative_field_name'] = array('#type' => 'value', '#value' => $dval);
+            $element['locative_field_name_markup'] = array('#markup' => '<p>' . t('Locative data taken from !f', array('!f' => $fieldnames[$dval])) . '</p>');
+          }
+          else {
+            $element['locative_field_name'] = array(
+              '#type' => 'select',
+              '#title' => t('Location Field'),
+              '#options' => $fieldnames,
+              '#description' => t('Field to take locative data from'),
+              '#default_value' => $dval,
+            );
+          }
+        }
+      }
+      else {
+        if (! $active) {
+          $element['some_info'] = array(
+            '#type' => 'markup',
+            '#markup' => '<p>' . t('You must attach an instance of !m', array('!m' => $module))
+          );
+        }
+      }
+
+      break;
+  }
+  return $element;
+
+}
+
+/**
+ * Implements hook_field_widget_error().
+ *
+ * hook_field_widget_error() lets us figure out what to do with errors
+ * we might have generated in hook_field_validate(). Generally, we'll just
+ * call form_error().
+ *
+ */
+function getlocations_mapquest_field_widget_error($element, $error, $form, &$form_state) {
+  switch ($error['error']) {
+    case 'getlocations_mapquest_field_invalid':
+      form_error($element, $error['message']);
+      break;
+  }
+
+}
+
+
+/**
+ * Implements hook_field_is_empty().
+ * Define what constitutes an empty item for a field type.
+ * hook_field_is_emtpy() is where Drupal asks us if this field is empty.
+ * Return TRUE if it does not contain data, FALSE if it does. This lets
+ * the form API flag an error when required fields are empty.
+ *
+ * @param $item
+ *   An item that may or may not be empty.
+ * @param $field
+ *   The field to which $item belongs.
+ * @return
+ *   TRUE if $field's type considers $item not to contain any data;
+ *   FALSE otherwise.
+ */
+function getlocations_mapquest_field_is_empty($item, $field) {
+  return FALSE;
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_map_formatter_defaults() {
+  return getlocations_mapquest_defaults();
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_link_formatter_defaults() {
+  return array(
+    'text' => t('this location'),
+    'text_opt' => 'page',
+    'text_options' => array(
+      '' => t('None'),
+      'page' => t('Page title'),
+    ),
+  );
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_map_settings_do($map_settings, $defaults, $latlons, $mapid) {
+
+//  $map_settings['map_opts']
+  $map_settings['map_opts']['zoom'] = $defaults['zoom'];
+  $map_settings['map_opts']['nodezoom'] = $defaults['nodezoom'];
+  $map_settings['map_opts']['latlong'] = $defaults['latlong'];
+  $map_settings['map_opts']['minzoom_map'] = $defaults['minzoom_map'];
+  $map_settings['map_opts']['maxzoom_map'] = $defaults['maxzoom_map'];
+  $map_settings['map_opts']['maps_default'] = $defaults['maps_default'];
+  $map_settings['map_opts']['bestfitmargin'] = $defaults['bestfitmargin'];
+  $map_settings['map_opts']['doubleClickZoom']    = ($defaults['doubleClickZoom'] ? TRUE : FALSE);
+
+  $map_settings['map_settings']['scrollWheelZoom'] = $defaults['scrollWheelZoom'];
+  $map_settings['map_settings']['dragging'] = $defaults['dragging'];
+  $map_settings['map_settings']['zoomControl'] = $defaults['zoomControl'];
+  $map_settings['map_settings']['zoomcontrolposition'] = $defaults['zoomcontrolposition'];
+  $map_settings['map_settings']['zoomcontrol_vset'] = $defaults['zoomcontrol_vset'];
+  $map_settings['map_settings']['zoomcontrol_hset'] = $defaults['zoomcontrol_hset'];
+  $map_settings['map_settings']['layerControl'] = $defaults['layerControl'];
+  $map_settings['map_settings']['layercontrolposition'] = $defaults['layercontrolposition'];
+  $map_settings['map_settings']['layercontrol_vset'] = $defaults['layercontrol_vset'];
+  $map_settings['map_settings']['layercontrol_hset'] = $defaults['layercontrol_hset'];
+  $map_settings['map_settings']['overview'] = $defaults['overview'];
+  $map_settings['map_settings']['overviewposition'] = $defaults['overviewposition'];
+  $map_settings['map_settings']['overview_opened'] = $defaults['overview_opened'];
+  $map_settings['map_settings']['overview_vset'] = $defaults['overview_vset'];
+  $map_settings['map_settings']['overview_hset'] = $defaults['overview_hset'];
+  $map_settings['map_settings']['overview_zoom'] = $defaults['overview_zoom'];
+
+  $map_settings['map_settings']['trafficControl'] = $defaults['trafficControl'];
+  $map_settings['map_settings']['trafficcontrolposition'] = $defaults['trafficcontrolposition'];
+  $map_settings['map_settings']['trafficcontrol_vset'] = $defaults['trafficcontrol_vset'];
+  $map_settings['map_settings']['trafficcontrol_hset'] = $defaults['trafficcontrol_hset'];
+
+  $map_settings['map_settings']['drawingControl'] = $defaults['drawingControl'];
+  $map_settings['map_settings']['drawingcontrolposition'] = $defaults['drawingcontrolposition'];
+  $map_settings['map_settings']['drawingcontrol_vset'] = $defaults['drawingcontrol_vset'];
+  $map_settings['map_settings']['drawingcontrol_hset'] = $defaults['drawingcontrol_hset'];
+  $map_settings['map_settings']['geolocationControl'] = $defaults['geolocationControl'];
+  $map_settings['map_settings']['geolocationcontrolposition'] = $defaults['geolocationcontrolposition'];
+  $map_settings['map_settings']['geolocationcontrol_vset'] = $defaults['geolocationcontrol_vset'];
+  $map_settings['map_settings']['geolocationcontrol_hset'] = $defaults['geolocationcontrol_hset'];
+
+  $map_settings['map_settings']['markeraction'] = $defaults['markeraction'];
+  $map_settings['map_settings']['show_maplinks'] = $defaults['show_maplinks'];
+  #$map_settings['map_settings'][''] = $defaults[''];
+
+  $map_settings['map_settings']['show_search_distance'] = $defaults['show_search_distance'];
+  $map_settings['map_settings']['views_search_marker_enable'] = $defaults['views_search_marker_enable'];
+  $map_settings['map_settings']['views_search_marker'] = $defaults['views_search_marker'];
+  $map_settings['map_settings']['views_search_marker_info'] = '';
+  if ($defaults['views_search_marker']) {
+    $map_settings['map_settings']['views_search_marker_info'] = getlocations_mapquest_get_marker($defaults['views_search_marker']);
+  }
+
+  $map_settings['map_settings']['views_search_marker_toggle'] = $defaults['views_search_marker_toggle'];
+  $map_settings['map_settings']['views_search_marker_toggle_active'] = $defaults['views_search_marker_toggle_active'];
+  $map_settings['map_settings']['views_search_radshape_enable'] = $defaults['views_search_radshape_enable'];
+  $map_settings['map_settings']['views_search_radshape_strokecolor'] = $defaults['views_search_radshape_strokecolor'];
+  $map_settings['map_settings']['views_search_radshape_strokeopacity'] = $defaults['views_search_radshape_strokeopacity'];
+  $map_settings['map_settings']['views_search_radshape_strokeweight'] = $defaults['views_search_radshape_strokeweight'];
+  $map_settings['map_settings']['views_search_radshape_fillcolor'] = $defaults['views_search_radshape_fillcolor'];
+  $map_settings['map_settings']['views_search_radshape_fillopacity'] = $defaults['views_search_radshape_fillopacity'];
+  $map_settings['map_settings']['views_search_radshape_toggle'] = $defaults['views_search_radshape_toggle'];
+  $map_settings['map_settings']['views_search_radshape_toggle_active'] = $defaults['views_search_radshape_toggle_active'];
+  $map_settings['map_settings']['views_search_center'] = $defaults['views_search_center'];
+  $map_settings['map_settings']['geolocation_mobile_check'] = $defaults['geolocation_mobile_check'];
+
+  // field group support;
+  $map_settings['map_settings']['field_group_enable'] = (module_exists('field_group') ? 1 : 0);
+
+  return $map_settings;
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_js_settings_do($defaults, $mapid) {
+
+  $settings = array(
+    $mapid => $defaults
+  );
+  drupal_add_js(array('getlocations_mapquest' => $settings), 'setting');
+
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_get_icondata($reset = FALSE) {
+
+  static $icons;
+  if (is_array($icons) && !$reset) {
+    return $icons;
+  }
+
+  $icons = cache_get('getlocations_mapquest_icondata');
+  if ($icons) {
+    $icons = $icons->data;
+  }
+
+  if ($reset || !$icons) {
+    module_load_include('inc', 'getlocations_mapquest', 'getlocations_mapquest.markerinfo');
+    $icons = _getlocations_mapquest_get_icondata();
+  }
+  if ($icons) {
+    cache_set('getlocations_mapquest_icondata', $icons, 'cache');
+  }
+  return $icons;
+
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_regenerate_markers() {
+  $icons = getlocations_mapquest_get_icondata(TRUE);
+  if (! $icons) {
+    // no markers found
+    drupal_set_message(t('No markers found, you need to install some markers, please see the project page for details.'), 'error');
+    watchdog('getlocations_mapquest', 'No markers found.', array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_get_marker($key) {
+  $icons = getlocations_mapquest_get_icondata();
+  if (isset($icons[$key])) {
+    return $icons[$key];
+  }
+  return FALSE;
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_marker_list() {
+  $icons = getlocations_mapquest_get_icondata();
+  if (! $icons) {
+    // no markers found
+    drupal_set_message(t('No markers found, you need to install some markers, please see the project page for details.'), 'error');
+    watchdog('getlocations_mapquest', 'No markers found.', array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+  $data = array();
+  foreach ($icons AS $k => $v) {
+    $data[$k] = $v['name'];
+  }
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_controlpositions($dd = TRUE) {
+  if ($dd) {
+    $controlpositions = array(
+      ''   => t('Default'),
+      'topleft' => t('Top Left'),
+      'topright' => t('Top Right'),
+      'bottomright' => t('Bottom Right'),
+      'bottomleft' => t('Bottom Left'),
+    );
+  }
+  else {
+    $controlpositions = array('topleft', 'topright', 'bottomright', 'bottomleft');
+  }
+  return $controlpositions;
+}
+
+/**
+ * Implements hook_getlocations_mapquest_map_info().
+ *
+ */
+function getlocations_mapquest_getlocations_mapquest_map_info() {
+
+  $map_info = array(
+    'Getlocations OSM' => array(
+      'label' => 'Getlocations OSM',
+      'description' => t('Getlocations Mapquest maps.'),
+      'map_opts' => array(
+        'dragging'                   => TRUE,
+        'touchZoom'                  => TRUE,
+        'scrollWheelZoom'            => TRUE,
+        'doubleClickZoom'            => TRUE,
+        'boxZoom'                    => TRUE,
+        'tap'                        => TRUE,
+        'tapTolerance'               => 15,
+        'zoomControl'                => TRUE,
+        'attributionControl'         => TRUE,
+        'trackResize'                => TRUE,
+        'fadeAnimation'              => TRUE,
+        'zoomAnimation'              => TRUE,
+        'closePopupOnClick'          => TRUE,
+        'bounceAtZoomLimits'         => TRUE,
+        'layerControl'               => TRUE,
+        'minZoom'                    => 0,
+        'maxZoom'                    => 18,
+      ),
+      'map_settings' => array(
+        'zoomcontrolposition'        => '',
+        'attributioncontrolposition' => '',
+        'layercontrolposition'       => '',
+        'scaleControl'               => FALSE,
+        'scalecontrolposition'       => '',
+        'scalecontrolunits'          => '',
+        'markeraction'               => '',
+      ),
+    ),
+  );
+
+  return $map_info;
+}
+
+/**
+ * Implements hook_field_settings_form().
+ * Add settings to a field settings form.
+ *
+ * Invoked from field_ui_field_settings_form() to allow the module defining the
+ * field to add global settings (i.e. settings that do not depend on the bundle
+ * or instance) to the field settings form. If the field already has data, only
+ * include settings that are safe to change.
+ *
+ * @todo: Only the field type module knows which settings will affect the
+ * field's schema, but only the field storage module knows what schema
+ * changes are permitted once a field already has data. Probably we need an
+ * easy way for a field type module to ask whether an update to a new schema
+ * will be allowed without having to build up a fake $prior_field structure
+ * for hook_field_update_forbid().
+ *
+ * @param $field
+ *   The field structure being configured.
+ * @param $instance
+ *   The instance structure being configured.
+ * @param $has_data
+ *   TRUE if the field already has data, FALSE if not.
+ *
+ * @return
+ *   The form definition for the field settings.
+ */
+function getlocations_mapquest_field_settings_form($field, $instance, $has_data) {
+  $settings = $field['settings'];
+  if (empty($settings)) {
+    $settings = getlocations_mapquest_field_info();
+  }
+
+  $form = array();
+
+  // input_text
+  if (module_exists('views_bulk_operations')) {
+    $form['input_text'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use a textfield'),
+      '#description' => t('Select this setting if you intend to use VBO to update data.'),
+      '#default_value' => (isset($settings['input_text']) ? $settings['input_text'] : 0),
+      '#return_value' => 1,
+    );
+  }
+  else {
+    $form['input_text'] = array('#type' => 'value', '#value' => 0);
+  }
+
+  return $form;
+
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_defaults() {
+  $getlocations_defaults = getlocations_defaults();
+  $newdefaults = array(
+    'width'                      => $getlocations_defaults['width'],
+    'height'                     => $getlocations_defaults['height'],
+    'zoom'                       => $getlocations_defaults['zoom'],
+    'minzoom_map'                => $getlocations_defaults['minzoom_map'],
+    'maxzoom_map'                => $getlocations_defaults['maxzoom_map'],
+    'latlong'                    => $getlocations_defaults['latlong'],
+    'nodezoom'                   => $getlocations_defaults['nodezoom'],
+    // categories
+    'category_method'            => $getlocations_defaults['category_method'],
+    'category_term_reference_field' => $getlocations_defaults['category_term_reference_field'],
+    'category_showhide_buttons'  => $getlocations_defaults['category_showhide_buttons'],
+    'categories'                 => $getlocations_defaults['categories'],
+    'returnlink_page_enable'     => $getlocations_defaults['returnlink_page_enable'],
+    'returnlink_page_link'       => $getlocations_defaults['returnlink_page_link'],
+    'returnlink_user_enable'     => $getlocations_defaults['returnlink_user_enable'],
+    'returnlink_user_link'       => $getlocations_defaults['returnlink_user_link'],
+    'returnlink_term_enable'     => $getlocations_defaults['returnlink_term_enable'],
+    'returnlink_term_link'       => $getlocations_defaults['returnlink_term_link'],
+    'returnlink_comment_enable'  => $getlocations_defaults['returnlink_comment_enable'],
+    'returnlink_comment_link'    => $getlocations_defaults['returnlink_comment_link'],
+    'node_map_marker'            => $getlocations_defaults['node_map_marker'],
+    'user_map_marker'            => $getlocations_defaults['user_map_marker'],
+    'vocabulary_map_marker'      => $getlocations_defaults['vocabulary_map_marker'],
+    'term_map_marker'            => $getlocations_defaults['term_map_marker'],
+    'comment_map_marker'         => $getlocations_defaults['comment_map_marker'],
+    'dragging'                   => $getlocations_defaults['draggable'],
+    'scrollWheelZoom'            => $getlocations_defaults['scrollwheel'],
+    'doubleClickZoom'            => ($getlocations_defaults['nodoubleclickzoom'] ? 0 : 1),
+    'jquery_colorpicker_enabled' => $getlocations_defaults['jquery_colorpicker_enabled'],
+    'getdirections_link'         => $getlocations_defaults['getdirections_link'],
+    'show_maplinks'              => $getlocations_defaults['show_maplinks'],
+    'show_search_distance'      => $getlocations_defaults['show_search_distance'],
+    'views_search_marker_enable'           => $getlocations_defaults['views_search_marker_enable'],
+    'views_search_marker'                  => $getlocations_defaults['views_search_marker'],
+    'views_search_marker_toggle'           => $getlocations_defaults['views_search_marker_toggle'],
+    'views_search_marker_toggle_active'    => $getlocations_defaults['views_search_marker_toggle_active'],
+    'views_search_radshape_enable'         => $getlocations_defaults['views_search_radshape_enable'],
+    'views_search_radshape_strokecolor'    => $getlocations_defaults['views_search_radshape_strokecolor'],
+    'views_search_radshape_strokeopacity'  => $getlocations_defaults['views_search_radshape_strokeopacity'],
+    'views_search_radshape_strokeweight'   => $getlocations_defaults['views_search_radshape_strokeweight'],
+    'views_search_radshape_fillcolor'      => $getlocations_defaults['views_search_radshape_fillcolor'],
+    'views_search_radshape_fillopacity'    => $getlocations_defaults['views_search_radshape_fillopacity'],
+    'views_search_radshape_toggle'         => $getlocations_defaults['views_search_radshape_toggle'],
+    'views_search_radshape_toggle_active'  => $getlocations_defaults['views_search_radshape_toggle_active'],
+    'views_search_center'                  => $getlocations_defaults['views_search_center'],
+    'geolocation_mobile_check'             => $getlocations_defaults['geolocation_mobile_check'],
+  );
+
+  $newdefaults['zoomControl']                 = 'none';
+  $newdefaults['zoomcontrolposition']         = '';
+  $newdefaults['zoomcontrol_vset']            = 5;
+  $newdefaults['zoomcontrol_hset']            = 5;
+
+  $newdefaults['layerControl']                = 0;
+  $newdefaults['layercontrolposition']        = '';
+  $newdefaults['layercontrol_vset']           = 5;
+  $newdefaults['layercontrol_hset']           = 5;
+
+  $newdefaults['overview']                    = 0;
+  $newdefaults['overview_opened']             = 0;
+  $newdefaults['overviewposition']            = '';
+  $newdefaults['overview_vset']               = 125;
+  $newdefaults['overview_hset']               = 150;
+  $newdefaults['overview_zoom']               = 3;
+
+  $newdefaults['trafficControl']              = 0;
+  $newdefaults['trafficcontrolposition']      = '';
+  $newdefaults['trafficcontrol_vset']         = 5;
+  $newdefaults['trafficcontrol_hset']         = 5;
+
+  $newdefaults['drawingControl']              = 0;
+  $newdefaults['drawingcontrolposition']      = '';
+  $newdefaults['drawingcontrol_vset']         = 5;
+  $newdefaults['drawingcontrol_hset']         = 5;
+
+  $newdefaults['geolocationControl']          = 0;
+  $newdefaults['geolocationcontrolposition']  = '';
+  $newdefaults['geolocationcontrol_vset']     = 5;
+  $newdefaults['geolocationcontrol_hset']     = 5;
+
+  $newdefaults['markeraction']                = '';
+
+  $newdefaults['marker_type'] = 'gg'; // or 'fa'
+
+  $newdefaults['map_resize'] = 0;
+  $newdefaults['fullscreen_disable'] = 0;
+  $newdefaults['styles'] = '';
+
+  // custom content
+  $newdefaults['custom_content_enable'] = 0;
+  $newdefaults['custom_content_source'] = '';
+
+  $newdefaults['maps_default']        = 'map';
+  $newdefaults['bestfitmargin']       = 0;
+
+  $settings = variable_get('getlocations_mapquest_defaults', '');
+
+  $newdefaults['baselayers'] = (isset($settings['baselayers']) && ! empty($settings['baselayers']) ? $settings['baselayers'] : array('OpenStreetMap.Mapnik'));
+
+  $settings = getlocations_adjust_vars($newdefaults, $settings);
+
+  return $settings;
+}
+
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_display_options_form($defaults, $admin = FALSE) {
+  $form = array();
+  $form['#theme'][] = 'getlocations_mapquest_display_options_form';
+
+  $mapquest_lic =  variable_get('getlocations_mapquest_lic', array('key' => '', 'type' => 'l'));
+  $controlpositions = getlocations_mapquest_controlpositions();
+
+  $form['nodezoom'] = getlocations_element_map_zoom(
+    t('Default Zoom for Single location'),
+    $defaults['nodezoom'],
+    t('The Default zoom level for a single marker.')
+  );
+
+  $form['scrollWheelZoom'] = getlocations_element_map_checkbox(
+    t('Scrollwheel'),
+    $defaults['scrollWheelZoom'],
+    t('Enable scrollwheel zooming.')
+  );
+
+  $form['dragging'] = getlocations_element_map_checkbox(
+    t('Draggable'),
+    $defaults['dragging'],
+    t('Enable dragging the map.')
+  );
+
+  $form['doubleClickZoom'] = getlocations_element_map_checkbox(
+    t('DoubleClick Zoom'),
+    $defaults['doubleClickZoom'],
+    t('Enable DoubleClick Zooming.')
+  );
+
+  $mapopts = array(
+    'map' => t('Map layer'),
+    'sat' => t('Satellite layer'),
+    'hyb' => t('Hybrid layer')
+  );
+    $form['maps_default'] = getlocations_element_dd(
+      t('Default map'),
+      $defaults['maps_default'],
+      $mapopts
+    );
+
+  $form['zoomControl'] = getlocations_element_dd(
+    t('Zoom Control type'),
+    $defaults['zoomControl'],
+    array('none' => t('None'), 'small' => t('Small'), 'large' => t('Large'))
+  );
+  $form['zoomControl']['#suffix'] = '<div id="wrap-getlocations-zoomcontrol">';
+  $form['zoomcontrol_hset'] = getlocations_element_map_tf(
+    t('Horizontal offset'),
+    $defaults['zoomcontrol_hset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['zoomcontrol_vset'] = getlocations_element_map_tf(
+    t('Vertical offset'),
+    $defaults['zoomcontrol_vset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['zoomcontrolposition'] = getlocations_element_dd(
+    t('Position of Zoom Control'),
+    $defaults['zoomcontrolposition'],
+    $controlpositions
+  );
+  $form['zoomcontrolposition']['#suffix'] = '</div>';
+
+
+  $form['layerControl'] = getlocations_element_map_checkbox(
+    t('Layer Control'),
+    $defaults['layerControl'],
+    t('Enable Layer Control on the map.')
+  );
+  $form['layerControl']['#suffix'] = '<div id="wrap-getlocations-layercontrol">';
+  $form['layercontrol_hset'] = getlocations_element_map_tf(
+    t('Horizontal offset'),
+    $defaults['layercontrol_hset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['layercontrol_vset'] = getlocations_element_map_tf(
+    t('Vertical offset'),
+    $defaults['layercontrol_vset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+
+  $form['layercontrolposition'] = getlocations_element_dd(
+    t('Position of Layer Control'),
+    $defaults['layercontrolposition'],
+    $controlpositions
+  );
+  $form['layercontrolposition']['#suffix'] = '</div>';
+
+  $form['overview'] = getlocations_element_map_checkbox(
+    t('Overview map'),
+    $defaults['overview'],
+    t('Show overview map.')
+  );
+  $form['overview']['#suffix'] = '<div id="wrap-getlocations-overview">';
+  $form['overview_hset'] = getlocations_element_map_tf(
+    t('Overview Width'),
+    $defaults['overview_hset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['overview_vset'] = getlocations_element_map_tf(
+    t('Overview Height'),
+    $defaults['overview_vset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['overview_zoom'] = getlocations_element_map_tf(
+    t('Overview Zoom offset'),
+    $defaults['overview_zoom'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['overviewposition'] = getlocations_element_dd(
+    t('Position of Overview'),
+    $defaults['overviewposition'],
+    $controlpositions
+  );
+  $form['overview_opened'] = getlocations_element_map_checkbox(
+    t('Overview map state'),
+    $defaults['overview_opened'],
+    t('Show overview map as open by default.')
+  );
+  $form['overview_opened']['#suffix'] = '</div>';
+
+  #    Traffic Control
+  if ($mapquest_lic['type'] == 'l') {
+    $form['trafficControl'] = getlocations_element_map_checkbox(
+      t('Traffic Control'),
+      $defaults['trafficControl'],
+      t('Enable Traffic Control on the map.')
+    );
+    $form['trafficControl']['#suffix'] = '<div id="wrap-getlocations-trafficcontrol">';
+
+    $form['trafficcontrol_hset'] = getlocations_element_map_tf(
+      t('Horizontal offset'),
+      $defaults['trafficcontrol_hset'],
+      '',
+      5,
+      255,
+      TRUE
+    );
+    $form['trafficcontrol_vset'] = getlocations_element_map_tf(
+      t('Vertical offset'),
+      $defaults['trafficcontrol_vset'],
+      '',
+      5,
+      255,
+      TRUE
+    );
+    $form['trafficcontrolposition'] = getlocations_element_dd(
+      t('Position of Traffic Control'),
+      $defaults['trafficcontrolposition'],
+      $controlpositions
+    );
+    $form['trafficcontrolposition']['#suffix'] = '</div>';
+  }
+  else {
+    $form['trafficControl'] = array('#type' => 'value', '#value' => 0);
+    $form['trafficcontrolposition'] = array('#type' => 'value', '#value' => '');
+  }
+
+  # Drawing Control
+  $form['drawingControl'] = getlocations_element_map_checkbox(
+    t('Drawing Control'),
+    $defaults['drawingControl'],
+    t('Enable Drawing Control on the map.')
+  );
+  $form['drawingControl']['#suffix'] = '<div id="wrap-getlocations-drawingcontrol">';
+  $form['drawingcontrol_hset'] = getlocations_element_map_tf(
+    t('Horizontal offset'),
+    $defaults['drawingcontrol_hset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['drawingcontrol_vset'] = getlocations_element_map_tf(
+    t('Vertical offset'),
+    $defaults['drawingcontrol_vset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['drawingcontrolposition'] = getlocations_element_dd(
+    t('Position of Drawing Control'),
+    $defaults['drawingcontrolposition'],
+    $controlpositions
+  );
+  $form['drawingcontrolposition']['#suffix'] = '</div>';
+
+  #    Geolocation Control
+  $form['geolocationControl'] = getlocations_element_map_checkbox(
+    t('Geolocation Control'),
+    $defaults['geolocationControl'],
+    t('Enable Geolocation Control on the map.')
+  );
+  $form['geolocationControl']['#suffix'] = '<div id="wrap-getlocations-geolocationcontrol">';
+  $form['geolocationcontrol_hset'] = getlocations_element_map_tf(
+    t('Horizontal offset'),
+    $defaults['geolocationcontrol_hset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['geolocationcontrol_vset'] = getlocations_element_map_tf(
+    t('Vertical offset'),
+    $defaults['geolocationcontrol_vset'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+  $form['geolocationcontrolposition'] = getlocations_element_dd(
+    t('Position of Geolocation Control'),
+    $defaults['geolocationcontrolposition'],
+    $controlpositions
+  );
+  $form['geolocationcontrolposition']['#suffix'] = '</div>';
+
+  $form['markeraction'] = getlocations_element_dd(
+    t('Marker action'),
+    $defaults['markeraction'],
+    array(
+      '' => t('None'),
+      'popup' => t('Popup'),
+      'link' => t('Link to content')
+    )
+  );
+
+  $form['show_maplinks'] = getlocations_element_map_checkbox(
+    t('Show map links'),
+    $defaults['show_maplinks'],
+    t('Show a list of links to show Popup or go to Link on the map.')
+  );
+
+  if (module_exists('getdirections')) {
+    $form['getdirections_link'] = getlocations_element_map_checkbox(
+      t('Link to Getdirections in popup'),
+      $defaults['getdirections_link'],
+      t('Include a link to the Getdirections page in Popup.')
+    );
+  }
+
+  $form['bestfitmargin'] = getlocations_element_map_tf(
+    t('Best fit margin'),
+    $defaults['bestfitmargin'],
+    '',
+    5,
+    255,
+    TRUE
+  );
+
+  return $form;
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_paths_get($reset = FALSE, $min = FALSE) {
+
+  if ($min) {
+    $defaults = array(
+      'getlocations_mapquest_path'            => GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest.min.js',
+      'getlocations_mapquest_formatter_path'  => GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest_formatter.min.js',
+      'getlocations_mapquest_preview_path'    => GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest_preview.min.js',
+    );
+  }
+  else {
+    $defaults = array(
+      'getlocations_mapquest_path'            => GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest.js',
+      'getlocations_mapquest_formatter_path'  => GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest_formatter.js',
+      'getlocations_mapquest_preview_path'    => GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest_preview.js',
+    );
+  }
+
+  if ($reset || $min) {
+    $getlocations_mapquest_paths = $defaults;
+  }
+  else {
+    $settings = variable_get('getlocations_mapquest_paths', $defaults);
+    $getlocations_mapquest_paths = getlocations_adjust_vars($defaults, $settings);
+  }
+  return $getlocations_mapquest_paths;
+}
+
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_settings_form() {
+
+  $form = array();
+  $pagetitle = '<div><h4>' . t('Getlocations Mapquest') . '</h4><p>' . t('The settings selected here will be used as the starting point for all other Mapquest maps.') . '</p></div>';
+  $form['pagetitle'] = array('#markup' => $pagetitle);
+
+  $form['rebuild'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Regenerate Getlocations mapquest marker cache'),
+    '#description' => t('If you are having problems with markers, or have changed anything in the markers library, click on the Regenerate button.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $c = count(getlocations_get_marker_titles());
+  if ($c) {
+    $rebuildmsg = '<p>' . format_plural($c, 'You have 1 marker installed.', 'You have @count markers installed.') . '</p>';
+  }
+  else {
+    $rebuildmsg = '<p class="error">' . t('WARNING! NO markers found.') . '</p>';
+  }
+  $form['rebuild']['msg'] = array('#markup' => $rebuildmsg);
+
+  $form['rebuild']['rebuild_marker_js'] = array(
+    '#type' => 'submit',
+    '#value' => t('Regenerate'),
+    '#submit' => array('_getlocations_mapquest_rebuild_marker_js_submit'),
+  );
+  $form['rebuild']['getlocations_mapquest_flush'] = getlocations_element_map_checkbox(
+    t('Flush marker cache'),
+    variable_get('getlocations_mapquest_flush', 1),
+    t('Include the marker cache when the Drupal cache is flushed.')
+  );
+
+
+  $mapquest_lic =  variable_get('getlocations_mapquest_lic', array('key' => '', 'type' => 'l'));
+  if ($mapquest_lic['key']) {
+    $form['getlocations_mapquest_preview'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Getlocations Mapquest Preview'),
+      #'#description' => t('A preview of the current map settings.') . '<br />' . t('You can adjust the default Map center and Zoom by changing the map.') . '<br />' . t('For all other changes use the form. Remember to Save configuration when you are done.'),
+      // This will store all the defaults in one variable.
+      '#tree' => FALSE,
+    );
+    $form['getlocations_mapquest_preview']['preview_map'] = array('#markup' => '');
+  }
+  else {
+    $form['getlocations_mapquest_preview'] = array('#markup' => '<p>' . t('No mapquest key found.') . '</p>');
+  }
+
+  $settings = getlocations_mapquest_defaults();
+
+  $form['getlocations_mapquest_defaults'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Default Page settings'),
+    // This will store all the defaults in one variable.
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $labels = array(
+    'width' => t('Width'),
+    'height' => t('Height'),
+  );
+
+  $form['getlocations_mapquest_defaults'] += getlocations_map_display_basics_form($settings, $labels);
+  unset($form['getlocations_mapquest_defaults']['map_resize']);
+  unset($form['getlocations_mapquest_defaults']['fullscreen_disable']);
+  unset($form['getlocations_mapquest_defaults']['styles']);
+
+  unset($form['getlocations_mapquest_defaults']['zoom']['#options']['21']);
+  unset($form['getlocations_mapquest_defaults']['zoom']['#options']['20']);
+  unset($form['getlocations_mapquest_defaults']['zoom']['#options']['19']);
+  unset($form['getlocations_mapquest_defaults']['minzoom_map']['#options']['21']);
+  unset($form['getlocations_mapquest_defaults']['minzoom_map']['#options']['20']);
+  unset($form['getlocations_mapquest_defaults']['minzoom_map']['#options']['19']);
+
+  unset($form['getlocations_mapquest_defaults']['maxzoom_map']['#options']['21']);
+  unset($form['getlocations_mapquest_defaults']['maxzoom_map']['#options']['20']);
+  unset($form['getlocations_mapquest_defaults']['maxzoom_map']['#options']['19']);
+
+  $form['getlocations_mapquest_defaults'] += getlocations_mapquest_display_options_form($settings, TRUE);
+  unset($form['getlocations_mapquest_defaults']['nodezoom']['#options']['21']);
+  unset($form['getlocations_mapquest_defaults']['nodezoom']['#options']['20']);
+  unset($form['getlocations_mapquest_defaults']['nodezoom']['#options']['19']);
+
+  // search markers
+  if (module_exists('getlocations_fields') && module_exists('views')) {
+    $form['getlocations_mapquest_defaults'] += getlocations_fields_views_search_form($settings, 'mapquest');
+  }
+
+  // javascript paths
+  $getlocations_mapquest_paths = getlocations_mapquest_paths_get();
+  $form['getlocations_mapquest_paths'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Javascript paths'),
+    '#description' => t('For advanced users who want to supply their own javascript.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // This will store all the defaults in one variable.
+    '#tree' => TRUE,
+  );
+
+  $form['getlocations_mapquest_paths']['getlocations_mapquest_path'] = getlocations_element_path(
+    t('Path to Getlocations mapquest javascript file'),
+    $getlocations_mapquest_paths['getlocations_mapquest_path'],
+    80,
+    128,
+    t('Where the Getlocations mapquest javascript file is located.')
+  );
+  $form['getlocations_mapquest_paths']['getlocations_mapquest_formatter_path'] = getlocations_element_path(
+    t('Path to Getlocations mapquest formatter javascript file'),
+    $getlocations_mapquest_paths['getlocations_mapquest_formatter_path'],
+    80,
+    128,
+    t('Where the Getlocations mapquest formatter javascript file is located.')
+  );
+  $form['getlocations_mapquest_paths']['getlocations_mapquest_preview_path'] = getlocations_element_path(
+    t('Path to Getlocations mapquest preview javascript file'),
+    $getlocations_mapquest_paths['getlocations_mapquest_preview_path'],
+    80,
+    128,
+    t('Where the Getlocations mapquest preview javascript file is located.')
+  );
+  $form['getlocations_mapquest_paths']['reset'] = getlocations_element_dd(
+    t('Reset'),
+    0,
+    array(0 => t('No'), 1 => t('Reset'), 2 => t('Reset to minified')),
+    t('Reset the paths to the defaults.')
+  );
+
+  unset($form['#theme']);
+  $form['#theme'] = 'getlocations_mapquest_settings_form';
+  $form['#validate'][] = 'getlocations_mapquest_settings_validate';
+  $form['#attached']['js'] = array(
+    $getlocations_mapquest_paths['getlocations_mapquest_formatter_path'],
+    $getlocations_mapquest_paths['getlocations_mapquest_preview_path'],
+  );
+
+  return system_settings_form($form);
+
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_settings_validate($form, &$form_state) {
+  $reset = $form_state['values']['getlocations_mapquest_paths']['reset'];
+  unset($form_state['values']['getlocations_mapquest_paths']['reset']);
+  if ($reset == 1) {
+    $form_state['values']['getlocations_mapquest_paths'] = getlocations_mapquest_paths_get(TRUE);
+  }
+  elseif ($reset == 2) {
+    $form_state['values']['getlocations_mapquest_paths'] = getlocations_mapquest_paths_get(FALSE, TRUE);
+  }
+
+  // css check
+  if (isset($form_state['values']['getlocations_mapquest_defaults']['width'])) {
+    if ($check = getlocations_dim_check($form_state['values']['getlocations_mapquest_defaults']['width'])) {
+      $form_state['values']['getlocations_mapquest_defaults']['width'] = $check;
+    }
+    else {
+      form_set_error('getlocations_mapquest_defaults][width', t('Width must be valid css'));
+    }
+  }
+  if (isset($form_state['values']['getlocations_mapquest_defaults']['height'])) {
+    if ($check = getlocations_dim_check($form_state['values']['getlocations_mapquest_defaults']['height'])) {
+      $form_state['values']['getlocations_mapquest_defaults']['height'] = $check;
+    }
+    else {
+      form_set_error('getlocations_mapquest_defaults][height', t('Height must be valid css'));
+    }
+  }
+
+}
+
+/**
+ * Rebuild marker js.
+ */
+function _getlocations_mapquest_rebuild_marker_js_submit($form, &$form_state) {
+  if (getlocations_mapquest_regenerate_markers()) {
+    drupal_set_message(t('Marker cache regenerated.'));
+  }
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function getlocations_mapquest_entity_type_map($type, $entity_id) {
+  global $language;
+
+  $entity_type = getlocations_get_entity_type_from_path($type);
+  $entity_get_info = entity_get_info($entity_type);
+
+  // get key for entity_type
+  $entity_key = $entity_get_info['entity keys']['id']; // nid, cid, uid etc
+  $locations = getlocations_load_locations($entity_id, $entity_key);
+  $getlocations_mapquest_defaults = getlocations_mapquest_defaults();
+
+  $load_hook = $entity_get_info['load hook'];
+  $object = $load_hook($entity_id);
+  $lang = ($object->language ? $object->language : $language->language);
+  $locative_field_name = $object->field_mapquest_map[$lang][0]['locative_field_name'];
+  $typemarkers = getlocations_get_markertypes($entity_type);
+  $bundle = $object->type;
+  $marker = '';
+  $vector = '';
+
+  // marker
+  $marker = $getlocations_mapquest_defaults['node_map_marker'];
+  if (isset($getlocations_mapquest_defaults[$entity_type . '_map_marker'])) {
+    $marker = $getlocations_mapquest_defaults[$entity_type . '_map_marker'];
+  }
+  if (isset($typemarkers[$object->type]) && $typemarkers[$object->type]) {
+    $marker = $typemarkers[$object->type];
+  }
+
+  $entity_title = '';
+  if (isset($object->title)) {
+    $entity_title = $object->title;
+  }
+  elseif (isset($object->name)) {
+    $entity_title = $object->name;
+  }
+  elseif (isset($object->subject)) {
+    $entity_title = $object->subject;
+  }
+
+  $returnlink = FALSE;
+  $links = array();
+  // return link
+  if ($entity_type == 'node' && $getlocations_mapquest_defaults['returnlink_page_enable']) {
+    if (is_object($object)) {
+      $linktext = $getlocations_mapquest_defaults['returnlink_page_link'];
+      if ( preg_match("/%t/", $linktext)) {
+        $linktext = preg_replace("/%t/", $object->title, $linktext);
+      }
+      $returnlink = l($linktext, 'node/' . $object->nid);
+    }
+  }
+  elseif ($entity_type == 'user' && $getlocations_mapquest_defaults['returnlink_user_enable']) {
+    if (is_object($object)) {
+      $linktext = $getlocations_mapquest_defaults['returnlink_user_link'];
+      if ( preg_match("/%n/", $linktext)) {
+        $linktext = preg_replace("/%n/", $object->name, $linktext);
+      }
+      $returnlink = l($linktext, 'user/' . $object->uid);
+    }
+  }
+  elseif (($entity_type == 'term' || $entity_type == 'taxonomy_term') && $getlocations_mapquest_defaults['returnlink_term_enable'] && module_exists('taxonomy')) {
+    if (is_object($object)) {
+      $linktext = $getlocations_mapquest_defaults['returnlink_term_link'];
+      if ( preg_match("/%n/", $linktext)) {
+        $linktext = preg_replace("/%n/", $object->name, $linktext);
+      }
+      $returnlink = l($linktext, 'taxonomy/term/' . $object->tid);
+    }
+  }
+  elseif ($entity_type == 'comment' && $getlocations_mapquest_defaults['returnlink_comment_enable'] && module_exists('comment')) {
+    if (is_object($object)) {
+      $linktext = $getlocations_mapquest_defaults['returnlink_comment_link'];
+      if ( preg_match("/%n/", $linktext)) {
+        $linktext = preg_replace("/%n/", $object->subject, $linktext);
+      }
+      $returnlink = l($linktext, 'comment/' . $object->cid);
+    }
+  }
+  if ($returnlink) {
+    $links['returnlink'] = $returnlink;
+  }
+
+  $latlons = array();
+  $minmaxes = array('minlat' => 0, 'minlon' => 0, 'maxlat' => 0, 'maxlon' => 0);
+  $ct = 0;
+
+  if (count($locations)) {
+    // we should loop over them and dump bummers with no lat/lon
+    foreach ($locations AS $key => $location) {
+      if ($latlon = getlocations_latlon_check($location['latitude'] . ',' . $location['longitude'])) {
+        $ll = explode(',', $latlon);
+        $location['latitude'] = $ll[0];
+        $location['longitude'] = $ll[1];
+        $minmaxes = getlocations_do_minmaxes($ct, $location, $minmaxes);
+
+        $lid = (isset($location['glid']) ? $location['glid'] : (isset($location['lid']) ? $location['lid'] : 0));
+
+        if (! isset($location['key'])) {
+          $location['key'] = '';
+        }
+        else {
+          $location['lid'] = $entity_id;
+        }
+        // node only
+        if ($entity_type == 'node') {
+          // term markers
+          $marker = getlocations_get_term_marker($entity_id, $marker);
+
+          // TODO awesome here too?
+
+        }
+
+        // per location marker
+        if (isset($location['marker']) && ! empty($location['marker'])) {
+          $marker = $location['marker'];
+        }
+
+        if ($lid && $getlocations_mapquest_defaults['markeraction'] == 'popup') {
+          $extra = FALSE;
+          if (isset($getlocations_mapquest_defaults['getdirections_link'])) {
+            $extra['gdlink'] = $getlocations_mapquest_defaults['getdirections_link'];
+          }
+          $markeraction = array('type' => 'popup', 'data' => getlocations_getinfo($lid, $entity_key, $extra));
+        }
+        elseif ($lid && $getlocations_mapquest_defaults['markeraction'] == 'link') {
+          $markeraction = array('type' => 'link', 'data' => getlocations_getlidinfo($lid, $entity_key));
+        }
+        else {
+          $markeraction = array();
+        }
+
+        $name = htmlspecialchars_decode($location['name'] ? strip_tags($location['name']) : strip_tags($entity_title), ENT_QUOTES);
+        $latlons[$ct] = array($location['latitude'], $location['longitude'], $entity_key, $entity_id, $lid, $entity_title, $marker, $vector, $markeraction, '');
+        $iconlist[$marker] = getlocations_mapquest_get_marker($marker);
+
+        $ct++;
+      }
+
+    } // end foreach
+
+    if ($ct < 2 ) {
+      unset($minmaxes);
+      $minmaxes = '';
+    }
+
+    $nodezoom = FALSE;
+    if ($ct == 1 && $getlocations_mapquest_defaults['nodezoom']) {
+      $nodezoom = $getlocations_mapquest_defaults['nodezoom'];
+      $map_settings['map_opts']['center'] = array($location['latitude'], $location['longitude']);
+      $map_settings['map_opts']['zoom'] = $nodezoom;
+    }
+    elseif ($ct < 1) {
+      $ll = explode(',', $getlocations_mapquest_defaults['latlong']);
+      $map_settings['map_opts']['center'] = array($ll[0], $ll[1]);
+      $map_settings['map_opts']['zoom'] = $getlocations_mapquest_defaults['zoom'];
+    }
+
+    $mapid = getlocations_setup_map('', FALSE, FALSE, TRUE);
+
+    // add in some more
+    $map_settings = getlocations_mapquest_map_settings_do($map_settings, $getlocations_mapquest_defaults, $latlons, $mapid);
+    $map_settings['map_settings']['nodezoom'] = ($nodezoom ? $nodezoom : FALSE);
+    $map_settings['map_settings']['minmaxes'] = (empty($minmaxes) ? FALSE : implode(',', $minmaxes));
+
+    $map_settings['icons'] = $iconlist;
+    $map_settings['datanum'] = $ct;
+    $map_settings['latlons'] = $latlons;
+
+    $output = theme('getlocations_mapquest_map', array(
+        'width' => $getlocations_mapquest_defaults['width'],
+        'height' => $getlocations_mapquest_defaults['height'],
+        'map_settings' => $map_settings,
+        'mapid' => $mapid,
+        'links' => $links
+      )
+    );
+    return $output;
+
+  }
+
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function getlocations_mapquest_theme() {
+
+  return array(
+    'getlocations_mapquest_link' => array(
+      'variables' => array(
+        'link_text' => '',
+        'entity_type' => '',
+        'entity_id' => 0,
+      ),
+    ),
+    'getlocations_mapquest_map' => array(
+      'variables' => array(
+        'width' => '',
+        'height' => '',
+        'map_settings' => '',
+        'mapid' => '',
+        'links' => '',
+      ),
+    ),
+    'getlocations_mapquest_plugin_style_options_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_mapquest_settings_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_mapquest_display_options_form' => array(
+      'render element' => 'form',
+    ),
+
+  );
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function theme_getlocations_mapquest_link($variables) {
+  $link_text   = $variables['link_text'];
+  $entity_type = $variables['entity_type'];
+  $entity_id   = $variables['entity_id'];
+
+  $output = '';
+  $path = 'getlocations_mapquest/' . $entity_type . '/' . $entity_id;
+  $link = t('!l on a map', array('!l' => l($link_text, $path)));
+
+  $output .= '<div class="getlocations_link">' . $link . '</div>';
+  return $output;
+
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function theme_getlocations_mapquest_map($variables) {
+
+  drupal_add_js(GETLOCATIONS_MAPQUEST_PATH . '/js/getlocations_mapquest.js');
+  drupal_add_library('getlocations_mapquest', 'mapquest');
+  drupal_add_css(GETLOCATIONS_MAPQUEST_PATH . '/getlocations_mapquest.css');
+  $width = $variables['width'];
+  $height = $variables['height'];
+  $map_settings = $variables['map_settings'];
+  $mapid = $variables['mapid'];
+  $links = $variables['links'];
+
+  $datanum = $map_settings['datanum'];
+  $latlons = $map_settings['latlons'];
+  $icons = $map_settings['icons'];
+  $minmaxes = $map_settings['map_settings']['minmaxes'];
+  $show_maplinks = $map_settings['map_settings']['show_maplinks'];
+  unset($map_settings['datanum']);
+  unset($map_settings['latlons']);
+  unset($map_settings['icons']);
+  unset($map_settings['map_settings']['minmaxes']);
+
+  getlocations_mapquest_js_settings_do($map_settings, $mapid);
+
+  $output = '';
+
+  // links
+  if (isset($links['returnlink'])) {
+    $output .= '<div class="getlocations_returnlink">' . $links['returnlink'] . '</div>';
+  }
+
+  // wrap the map
+  $output .= '<div class="getlocations_mapquest_map_wrapper_inner">';
+  $output .= '<div id="getlocations_mapquest_wrapper_' . $mapid . '"  style="width: ' . $width . '; height: ' . $height . '" >';
+  $output .= '<div class="getlocations_mapquest_canvas" id="getlocations_mapquest_canvas_' . $mapid . '" style="width: 100%; height: 100%" ></div>';
+  $output .= '</div>';
+  $output .= '</div>';
+
+  // give each map its own data
+  $localdata = json_encode(array(
+    'datanum'  => $datanum,
+    'latlons'  => $latlons,
+    'icons'    => $icons,
+    'minmaxes' => $minmaxes
+  ));
+  $output .= "\n" . '<script type="text/javascript">' . "\n" . '<!--//--><![CDATA[//><!--' . "\n";
+  $output .= 'Drupal.getlocations_mapquest_data["' . $mapid . '"] = ' . $localdata . ';' . "\n";
+  $output .= '//--><!]]>' . "\n" . '</script>' . "\n";
+
+  // show_search_distance etc
+  if (module_exists('getlocations_fields') && isset($map_settings['search_dist_info'])) {
+    $output .= '<div id="getlocations_fields_search_views_search_wrapper_' . $mapid . '" class="js-hide">';
+    $output .= '<div id="getlocations_fields_search_views_search_units_' . $mapid . '">' . $map_settings['search_dist_info']['search_units'] . '</div>';
+    $output .= '<div id="getlocations_fields_search_views_search_latitude_' . $mapid . '">' . $map_settings['search_dist_info']['latitude'] . '</div>';
+    $output .= '<div id="getlocations_fields_search_views_search_longitude_' . $mapid . '">' . $map_settings['search_dist_info']['longitude'] . '</div>';
+    $output .= '<div id="getlocations_fields_search_views_search_distance_meters_' . $mapid . '">' . getlocations_convert_distance_to_meters($map_settings['search_dist_info']['search_distance'], $map_settings['search_dist_info']['search_units']) . '</div>';
+    $output .= '</div>';
+  }
+
+  // show maplinks if enabled
+  if ($show_maplinks) {
+    $output .= '<div class="getlocations_mapquest_map_links" id="getlocations_mapquest_map_links_' . $mapid . '" ><ul></ul></div>';
+  }
+
+  // buttons
+  $buttons = array();
+
+  // views_search_marker
+  if (module_exists('getlocations_fields') && isset($map_settings['search_dist_info'])) {
+    if ($map_settings['map_settings']['views_search_marker_enable'] && $map_settings['map_settings']['views_search_marker_toggle']) {
+      $buttons[] = '<input type="button" value="' . t('Search marker !t', array('!t' => ($map_settings['map_settings']['views_search_marker_toggle_active'] ? t('Off') : t('On')))) . '" id="getlocations_mapquest_toggleSearchMarker_' . $mapid . '" class="form-submit" />';
+    }
+    if ($map_settings['map_settings']['views_search_radshape_enable'] && $map_settings['map_settings']['views_search_radshape_toggle']) {
+      $buttons[] = '<input type="button" value="' . t('Search area !t', array('!t' => ($map_settings['map_settings']['views_search_radshape_toggle_active'] ? t('Off') : t('On')))) . '" id="getlocations_mapquest_toggleSearchArea_' . $mapid . '" class="form-submit" />';
+    }
+  }
+
+  if (count($buttons)) {
+    $output .= '<div class="getlocations_mapquest_map_buttons container-inline">';
+    $output .= implode('&nbsp;', $buttons);
+    $output .= '</div>';
+  }
+
+  return $output;
+
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function theme_getlocations_mapquest_plugin_style_options_form($variables) {
+  $form = $variables['form'];
+  $form = getlocations_mapquest_display_options_fieldsets($form);
+  $output = '';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * Function
+ *
+ * @param
+ *
+ * @return
+ *   Returns
+ *
+ */
+function theme_getlocations_mapquest_settings_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $form['getlocations_mapquest_defaults']['returnlink_page_link']['#prefix'] = '<div id="wrap-page-link">';
+  $form['getlocations_mapquest_defaults']['returnlink_page_link']['#suffix'] = '</div>';
+  if (isset($form['getlocations_mapquest_defaults']['returnlink_user_link'])) {
+    $form['getlocations_mapquest_defaults']['returnlink_user_link']['#prefix'] = '<div id="wrap-user-link">';
+    $form['getlocations_mapquest_defaults']['returnlink_user_link']['#suffix'] = '</div>';
+  }
+  if (isset($form['getlocations_mapquest_defaults']['returnlink_term_link'])) {
+    $form['getlocations_mapquest_defaults']['returnlink_term_link']['#prefix'] = '<div id="wrap-term-link">';
+    $form['getlocations_mapquest_defaults']['returnlink_term_link']['#suffix'] = '</div>';
+  }
+  if (isset($form['getlocations_mapquest_defaults']['returnlink_comment_link'])) {
+    $form['getlocations_mapquest_defaults']['returnlink_comment_link']['#prefix'] = '<div id="wrap-comment-link">';
+    $form['getlocations_mapquest_defaults']['returnlink_comment_link']['#suffix'] = '</div>';
+  }
+
+  // preview mapquest
+  if (isset($form['getlocations_mapquest_preview']['preview_map']['#markup'])) {
+    $links = array();
+    $nodezoom = FALSE;
+    $iconlist = array();
+
+    $getlocations_mapquest_defaults = getlocations_mapquest_defaults();
+
+    $ll = explode(',', $getlocations_mapquest_defaults['latlong']);
+    $map_settings['map_opts']['center'] = array($ll[0], $ll[1]);
+    $map_settings['map_opts']['zoom'] = $getlocations_mapquest_defaults['zoom'];
+    $mapid = getlocations_setup_map('', FALSE, FALSE, TRUE);
+    $latlons = array();
+    $minmaxes = array();
+    $map_settings['map_settings']['dragging'] = TRUE;
+    // add in some more
+    $map_settings = getlocations_mapquest_map_settings_do($map_settings, $getlocations_mapquest_defaults, $latlons, $mapid);
+    $map_settings['map_settings']['nodezoom'] = ($nodezoom ? $nodezoom : FALSE);
+    $map_settings['map_settings']['minmaxes'] = (empty($minmaxes) ? FALSE : implode(',', $minmaxes));
+    $map_settings['icons'] = $iconlist;
+    $map_settings['datanum'] = 0;
+    $map_settings['latlons'] = $latlons;
+    $map_settings['extcontrol'] = 'preview_map';
+
+    $preview_map = theme('getlocations_mapquest_map', array(
+        'width' => $getlocations_mapquest_defaults['width'],
+        'height' => $getlocations_mapquest_defaults['height'],
+        'map_settings' => $map_settings,
+        'mapid' => $mapid,
+        'links' => $links
+      )
+    );
+
+    $form['getlocations_mapquest_preview']['preview_map']['#markup'] = '<div id="getlocations_mapquest_preview_map">' . $preview_map . '</div>';
+  }
+
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+function theme_getlocations_mapquest_display_options_form($variables) {
+  $form = $variables['form'];
+  $form = getlocations_mapquest_display_options_fieldsets($form);
+  $output = '';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+function getlocations_mapquest_display_options_fieldsets($form) {
+
+  if (isset($form['zoomControl']) && $form['zoomControl']['#type'] !== 'value') {
+    $form['zoomControl']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('Zoom Control') . '</span></legend><div class="fieldset-wrapper">';
+    $tsuf = $form['zoomcontrolposition']['#suffix'];
+    $form['zoomcontrolposition']['#suffix'] = $tsuf . '</div></fieldset>';
+  }
+
+  if (isset($form['layerControl']) && $form['layerControl']['#type'] !== 'value' ) {
+    $form['layerControl']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('Layer Control') . '</span></legend><div class="fieldset-wrapper">';
+    $tsuf = $form['layercontrolposition']['#suffix'];
+    $form['layercontrolposition']['#suffix'] = $tsuf . '</div></fieldset>';
+  }
+
+  if (isset($form['overview']) && $form['overview']['#type'] !== 'value' ) {
+    $form['overview']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('Overview') . '</span></legend><div class="fieldset-wrapper">';
+    $tsuf = $form['overview_opened']['#suffix'];
+    $form['overview_opened']['#suffix'] = $tsuf . '</div></fieldset>';
+  }
+
+  if (isset($form['drawingControl']) && $form['drawingControl']['#type'] !== 'value' ) {
+    $form['drawingControl']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('Drawing Control') . '</span></legend><div class="fieldset-wrapper">';
+    $tsuf = $form['drawingcontrolposition']['#suffix'];
+    $form['drawingcontrolposition']['#suffix'] = $tsuf . '</div></fieldset>';
+  }
+
+  if (isset($form['trafficControl']) && $form['trafficControl']['#type'] !== 'value' ) {
+    $form['trafficControl']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('Traffic Control') . '</span></legend><div class="fieldset-wrapper">';
+    $tsuf = $form['trafficcontrolposition']['#suffix'];
+    $form['trafficcontrolposition']['#suffix'] = $tsuf . '</div></fieldset>';
+  }
+
+  if (isset($form['geolocationControl']) && $form['geolocationControl']['#type'] !== 'value' ) {
+    $form['geolocationControl']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('Geolocation Control') . '</span></legend><div class="fieldset-wrapper">';
+    $tsuf = $form['geolocationcontrolposition']['#suffix'];
+    $form['geolocationcontrolposition']['#suffix'] = $tsuf . '</div></fieldset>';
+  }
+
+  return $form;
+}

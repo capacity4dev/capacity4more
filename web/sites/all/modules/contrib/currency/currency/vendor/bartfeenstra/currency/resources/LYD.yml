@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: LYD
+ISO4217Number: '434'
+sign: ل.د
+subunits: 1000
+title: 'Libyan dinar'
+usage:
+    - { ISO8601From: '1971-09-01', ISO8601To: '', ISO3166Code: LY }

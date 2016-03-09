@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * getlocations_mapquest.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_mapquest module installation.
+ *
+ */
+/**
+ * Implements hook_requirements().
+ */
+function getlocations_mapquest_requirements($phase) {
+  $requirements = array();
+
+  // Ensure js library is available.
+  if ($phase != 'runtime') {
+    return $requirements;
+  }
+
+  $mapquest_lic = variable_get('getlocations_mapquest_lic', array('key' => '', 'type' => 'l'));
+  if (! empty($mapquest_lic['key'])) {
+    $requirements['mapquest'] = array(
+      'title' => t('Mapquest license found'),
+      'value' => t('The Mapquest license was found.'),
+      'severity' => REQUIREMENT_OK,
+    );
+
+  }
+  else {
+    $requirements['mapquest'] = array(
+      'title' => t('Mapquest license not found'),
+      'value' => t('The Mapquest license was not found. Please visit !site to obtain it.',
+        array(
+          '!site' => l('Mapquest', 'http://www.mapquest.com/'),
+        )
+      ),
+      'severity' => REQUIREMENT_ERROR,
+    );
+
+  }
+  return $requirements;
+
+}

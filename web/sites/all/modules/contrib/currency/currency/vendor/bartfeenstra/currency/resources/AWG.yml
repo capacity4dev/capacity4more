@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AWG
+ISO4217Number: '533'
+sign: Afl.
+subunits: 100
+title: 'Aruban florin'
+usage:
+    - { ISO8601From: '1986-01-01', ISO8601To: '', ISO3166Code: AW }

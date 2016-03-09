@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    SDP: '10'
+ISO4217Code: SDD
+ISO4217Number: '736'
+sign: ₤Sd
+subunits: 0
+title: 'Sudanese dinar'
+usage:
+    - { ISO8601From: '1992-06-08', ISO8601To: '2007-06-30', ISO3166Code: SD }

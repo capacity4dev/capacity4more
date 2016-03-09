@@ -1,0 +1,27 @@
+<p>
+  Node Gallery uses the <a href="http://drupal.org/project/imagecache">imagecache</a> module to
+  generate image derivatives such as thumbnails or smaller display sizes. Imagecache provides
+  the technology to dynamically generate images when the file is accessed for the first time.
+  It offers different actions that it can execute on images, such as resizing or cropping a file
+  to specified dimensions. These actions are grouped into so called "presets". The module uses the
+  file path to determine which preset it should use on an Image. 
+</p>
+<div>
+  During the installation of Node Gallery, three such imagecache presets are generated, corresponding
+  to different contexts:
+  <ul>
+    <li>node-gallery-thumbnail: A preset that will be applied to thumbnails, e.g. displayed on gallery summaries and teasers.</li>
+    <li>node-gallery-cover: A preset that will be applied when only the cover image is displayed for a gallery.</li>
+    <li>node-gallery-display: A preset that will be applied to images as they appear on their full node page.</li>
+    <li>node-gallery-admin-thumbnail: A preset creating a micro thumbnail to display images on administrative pages, such as the manage images and sort images screens.</li>
+  </ul>
+  The imagecache presets can be freely customized to suit your requirements. To learn how to use imagecache and how to customize those presets,
+  please refer to the <a href="http://drupal.org/node/163561">Imagecache documentation on drupal.org</a>.
+
+  <!-- @todo: 
+   Possible topics:
+    - Watermarking full size images with imagecache_actions
+    - adding borders to images, or foto effects to covers?
+    - changing the preset that is used on the views?
+  -->
+</div>

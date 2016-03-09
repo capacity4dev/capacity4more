@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Drupal hooks
+ */
+
+/**
+ * Implements hook_search_api_alter_callback_info().
+ */
+function search_api_attachments_entityreference_search_api_alter_callback_info() {
+  $callbacks['search_api_attachments_entityreference_alter_settings'] = array(
+    'name' => t('File attachments Entityreference'),
+    'description' => t('Extract the content of attached files of a referenced entity and index it.'),
+    'class' => 'SearchApiAttachmentsEntityreferenceAlterSettings',
+  );
+  return $callbacks;
+}

@@ -1,0 +1,15 @@
+core = 7.x
+dependencies[] = "purl"
+description = "Test module for PURL testing."
+name = "Persistent URL tests"
+package = "Testing"
+
+files[] = purl.test
+files[] = purl_test.module
+
+; Information added by drupal.org packaging script on 2013-10-01
+version = "7.x-1.0-beta1+11-dev"
+core = "7.x"
+project = "purl"
+datestamp = "1380624350"
+

@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * getlocations_cloudmade.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_cloudmade module installation.
+ *
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ */
+function getlocations_cloudmade_uninstall() {
+  $query = db_delete('variable')
+    ->condition('name', 'getlocations_leaflet_cloudmade', 'LIKE')
+    ->execute();
+}

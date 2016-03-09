@@ -1,0 +1,201 @@
+<?php
+
+/**
+ * @file
+ * Provides dragndrop_upload element.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function dragndrop_upload_element_theme($existing, $type, $theme, $path) {
+  return array(
+    'dnd_upload_droppable_area' => array(
+      'render element' => 'element',
+      'template' => 'dnd-upload-droppable-area',
+      'path' => $path . '/templates',
+    ),
+    'dnd_upload_standard_upload' => array(
+      'render element' => 'element',
+      'template' => 'dnd-upload-standard-upload',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function dragndrop_upload_element_element_info() {
+  $elements = array();
+  $path = array(
+    'dndu' => drupal_get_path('module', 'dragndrop_upload'),
+    'dndu_element' => drupal_get_path('module', 'dragndrop_upload_element'),
+    'file' => drupal_get_path('module', 'file'),
+  );
+
+  $elements['dragndrop_upload'] = array(
+    '#input' => TRUE,
+    '#value_callback' => 'file_managed_file_value',
+    '#element_validate' => array('file_managed_file_validate'),
+    '#process' => array(
+      'file_managed_file_process',
+      'dragndrop_upload_element_element_process',
+    ),
+    '#pre_render' => array(
+      'dragndrop_upload_element_pre_render',
+      'dragndrop_upload_element_element_pre_render',
+    ),
+    '#theme' => 'file_managed_file',
+    '#theme_wrappers' => array('form_element'),
+    '#progress_indicator' => 'throbber',
+    '#progress_message' => NULL,
+    '#upload_validators' => array(),
+    '#upload_location' => NULL,
+    '#size' => 22,
+    '#extended' => FALSE,
+    '#attached' => array(
+      'css' => array(
+        $path['dndu_element'] . '/css/dragndrop-upload-element.css',
+        $path['file'] . '/file.css',
+      ),
+      'js' => array(
+        // It is needed to add core dndu js files here, because they will be not
+        // automatically added to the page when the element is already filled
+        // with file. It is needed to have them on page to retrieve proper
+        // context when removing file and initializing droppalbe area.
+        // Related to issue #2135555 (https://drupal.org/node/2135555).
+        array(
+          'data' => $path['dndu'] . '/js/dragndrop-upload.dnd.js',
+          'type' => 'file',
+          'group' => JS_LIBRARY,
+        ),
+        array(
+          'data' => $path['dndu'] . '/js/dragndrop-upload.js',
+          'type' => 'file',
+          'weight' => 5.01,
+        ),
+        array(
+          'data' => $path['dndu_element'] . '/js/dragndrop-upload-element.abstract.js',
+          'type' => 'file',
+          'weight' => 5.11,
+        ),
+        array(
+          'data' => $path['dndu_element'] . '/js/dragndrop-upload-element.class.js',
+          'type' => 'file',
+          'weight' => 5.12,
+        ),
+        array(
+          'data' => $path['dndu_element'] . '/js/dragndrop-upload-element.js',
+          'type' => 'file',
+          'weight' => 5.2,
+        ),
+        $path['file'] . '/file.js',
+      ),
+    ),
+    '#upload_event' => 'auto',
+    '#upload_button_text' => t('Upload'),
+    '#droppable_area_text' => t('Drop files here to upload'),
+    // This setting is responsive for showing Browse button or not.
+    '#standard_upload' => 1,
+    // This setting can allow the Browse button to be displayed even if field
+    // already contains a file. Selected new file will replace the existing one.
+    '#allow_replace' => 0,
+    '#cardinality' => 1,
+    '#file_upload_max_size' => file_upload_max_size(),
+    '#multiupload' => FALSE,
+  );
+
+  return $elements;
+}
+
+/**
+ * Process callback for an element.
+ */
+function dragndrop_upload_element_element_process($element, &$form_state, $form) {
+  $element['upload_button']['#value'] = $element['#upload_button_text'];
+  $dnd_id = 'droppable-' . str_replace(
+      array('[', ']', '_'),
+      array('-', '', '-'),
+      $element['#name']
+    );
+  $element['droppable_area'] = array(
+    '#theme' => 'dnd_upload_droppable_area',
+    '#text' => $element['#droppable_area_text'],
+    '#id' => $element['#id'],
+    '#name' => $element['#name'],
+    '#dnd_id' => $dnd_id,
+    '#standard_upload' => $element['#standard_upload'],
+    '#weight' => -10,
+  );
+
+  return $element;
+}
+
+/**
+ * Pre render callback to add JS settings for the element.
+ */
+function dragndrop_upload_element_element_pre_render($element) {
+  if (isset($element['droppable_area']['#access']) && !$element['droppable_area']['#access']) {
+    return $element;
+  }
+
+  $selector = '#' . $element['droppable_area']['#dnd_id'];
+  $element['#attached']['dragndrop_upload'][] = array(
+    'selector' => $selector,
+    'settings' => array(
+      'id' => $element['upload']['#id'],
+      'name' => $element['upload']['#name'],
+      'multiupload' => $element['#multiupload'],
+      'cardinality' => $element['#multiupload'] ? $element['#cardinality'] : 1,
+      'validators' => $element['#upload_validators'],
+      'uploadButton' => $element['upload_button']['#id'],
+      'browseButton' => $selector . ':parent .droppable-browse-button',
+      'allowReplace' => $element['#allow_replace'],
+      'uploadEvent' => $element['#upload_event'],
+    ),
+  );
+
+  $element['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array(
+      'dragndropUploadElement' => array(
+        '#' . $element['droppable_area']['#dnd_id'] => TRUE,
+      ),
+    ),
+  );
+
+  $element['droppable_area']['upload_button'] = $element['upload_button'];
+  // Hide buttons because we assume that they are rendered in the droppable
+  // area template.
+  hide($element['upload_button']);
+
+  return $element;
+}
+
+/**
+ * Common pre_render callback for the widget and for the element.
+ *
+ * @see file_managed_file_pre_render()
+ */
+function dragndrop_upload_element_pre_render($element) {
+  // If we already have a file, we don't want to show the upload controls.
+  if (!empty($element['#value']['fid'])) {
+    $element['upload']['#access'] = FALSE;
+    $element['upload_button']['#access'] = FALSE;
+    $element['droppable_area']['#access'] = FALSE;
+  }
+  else {
+    $element['remove_button']['#access'] = FALSE;
+    $element['droppable_area']['upload_button'] = $element['upload_button'];
+    $element['droppable_area']['remove_button'] = $element['remove_button'];
+    // Hide buttons because we assume that they are rendered in the droppable
+    // area template.
+    hide($element['upload_button']);
+    hide($element['remove_button']);
+  }
+
+  $element['upload']['#theme_wrappers'][] = 'dnd_upload_standard_upload';
+
+  return $element;
+}

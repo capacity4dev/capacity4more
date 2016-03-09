@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyExchangerBartFeenstraCurrencyWebTestCase.
+ */
+
+/**
+ * Tests CurrencyExchangerBartFeenstraCurrency.
+ */
+class CurrencyExchangerBartFeenstraCurrencyWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyExchangerBartFeenstraCurrency',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test currency exchange.
+   */
+  function testCurrencyExchangerBartFeenstraCurrency() {
+    // Test CurrencyExchangerBartFeenstraCurrency::load().
+    // Test an available exchange rate.
+    $this->assertIdentical(CurrencyExchangerBartFeenstraCurrency::load('EUR', 'NLG'), '2.20371');
+    // Test an unavailable exchange rate for which the reverse rate is
+    // available.
+    $this->assertIdentical(round(CurrencyExchangerBartFeenstraCurrency::load('NLG', 'EUR'), 5), '0.45378');
+
+    // Test CurrencyExchangerBartFeenstraCurrency::loadMultiple().
+    // Test an available exchange rate.
+    $rates = CurrencyExchangerBartFeenstraCurrency::loadMultiple(array(
+      'EUR' => array('NLG'),
+    ));
+    $this->assertTrue(isset($rates['EUR']));
+    $this->assertTrue(isset($rates['EUR']['NLG']));
+    $this->assertIdentical($rates['EUR']['NLG'], '2.20371');
+    // Test an unavailable exchange rate for which the reverse rate is
+    // available.
+    $rates = CurrencyExchangerBartFeenstraCurrency::loadMultiple(array(
+      'NLG' => array('EUR'),
+    ));
+    $this->assertTrue(isset($rates['NLG']));
+    $this->assertTrue(isset($rates['NLG']['EUR']));
+    $this->assertIdentical(round($rates['NLG']['EUR'], 5), '0.45378');
+  }
+}

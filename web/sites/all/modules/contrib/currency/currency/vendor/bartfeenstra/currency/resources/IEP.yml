@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: IEP
+ISO4217Number: '372'
+sign: £
+subunits: 100
+title: 'Irish pound'
+usage:
+    - { ISO8601From: '1922-01-01', ISO8601To: '2002-02-09', ISO3166Code: IE }

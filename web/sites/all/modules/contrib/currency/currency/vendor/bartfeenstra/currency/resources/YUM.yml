@@ -1,0 +1,12 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: YUM
+ISO4217Number: '891'
+sign: дин
+subunits: 100
+title: 'Yugoslav dinar'
+usage:
+    - { ISO8601From: '1994-01-24', ISO8601To: '2002-05-15', ISO3166Code: CS }
+    - { ISO8601From: '1994-01-24', ISO8601To: '2002-05-15', ISO3166Code: ME }
+    - { ISO8601From: '1994-01-24', ISO8601To: '2002-05-15', ISO3166Code: RS }
+    - { ISO8601From: '1994-01-24', ISO8601To: '2002-05-15', ISO3166Code: YU }

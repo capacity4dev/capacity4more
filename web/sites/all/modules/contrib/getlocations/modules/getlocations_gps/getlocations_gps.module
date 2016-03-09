@@ -1,0 +1,357 @@
+<?php
+
+/**
+ * @file
+ * getlocations_gps.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides a gps facility.
+ * for Drupal 7
+ */
+
+define('GETLOCATIONS_GPS_PATH', drupal_get_path('module', 'getlocations_gps'));
+
+/**
+ * Implements hook_help().
+ */
+function getlocations_gps_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#getlocations_gps':
+      $output = '<p>' . t('Provide a gps faciliy on a map.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function getlocations_gps_permission() {
+  $perms = array();
+  $perms['access getlocations gps'] = array(
+    'title' => t('Access Getlocations GPS'),
+    'description' => t('View and use the Getlocations_gps module.')
+  );
+  return $perms;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function getlocations_gps_menu() {
+  $items = array();
+
+  $items[GETLOCATIONS_ADMIN_PATH . '/gps'] = array(
+    'title' => 'Gps',
+    'description' => 'Configure Getlocations gps',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('getlocations_gps_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 14,
+  );
+
+  return $items;
+}
+
+/**
+ * Set up default settings.
+ *
+ * @return array $newdefaults
+ *
+ */
+function getlocations_gps_defaults($settings = '') {
+
+  $getlocations_gps_defaults = array(
+    'gps_button'       => 0, // checkbox
+    'gps_button_label' => t('Show current position'), // tf
+    'gps_marker'       => 'drupal',
+    'gps_marker_title' => t('Your current position'),
+    'gps_bubble'       => 0, // checkbox
+    'gps_geocode'      => 0, // checkbox
+    'gps_center'       => 0, // checkbox
+  );
+
+  if ($settings) {
+    $getlocations_gps_defaults = getlocations_adjust_vars($getlocations_gps_defaults, $settings);
+  }
+  else {
+    $getlocations_gps_defaults = variable_get('getlocations_gps_defaults', $getlocations_gps_defaults);
+  }
+
+  return $getlocations_gps_defaults;
+}
+
+/**
+ * Function to display the getlocations_gps admin settings form
+ * @return
+ *   Returns the form.
+ */
+function getlocations_gps_settings_form() {
+
+  $getlocations_gps_defaults = getlocations_gps_defaults();
+
+  $getlocations_gps_paths = getlocations_gps_paths_get();
+
+  $form = array();
+
+  $form['getlocations_gps_defaults'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Getlocations GPS Default settings'),
+    '#description' => t('The settings here will provide the defaults for Getlocations GPS.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    // This will store all the defaults in one variable.
+    '#tree' => TRUE,
+  );
+
+  $form['getlocations_gps_defaults'] += getlocations_gps_map_display_options_form($getlocations_gps_defaults);
+
+  $form['getlocations_gps_paths'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Javascript paths'),
+    '#description' => t('For advanced users who want to supply their own javascript.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // This will store all the defaults in one variable.
+    '#tree' => TRUE,
+  );
+
+  $form['getlocations_gps_paths']['getlocations_gps_path'] = getlocations_element_path(
+    t('Path to getlocations_gps javascript file'),
+    $getlocations_gps_paths['getlocations_gps_path'],
+    70,
+    128,
+    t('Where the getlocations_gps javascript file is located.')
+  );
+  $form['getlocations_gps_paths']['getlocations_gps_admin_path'] = getlocations_element_path(
+    t('Path to getlocations_gps_admin javascript file'),
+    $getlocations_gps_paths['getlocations_gps_admin_path'],
+    70,
+    128,
+    t('Where the getlocations_gps_admin javascript file is located.')
+  );
+
+  $form['getlocations_gps_paths']['reset'] = getlocations_element_dd(
+    t('Reset'),
+    0,
+    array(0 => t('No'), 1 => t('Reset'), 2 => t('Reset to minified')),
+    t('Reset the paths to the defaults.')
+  );
+
+  $form = system_settings_form($form);
+  unset($form['#theme']);
+  $form['#theme'] = 'getlocations_gps_settings_form';
+  $form['#validate'][] = 'getlocations_gps_settings_validate';
+  return $form;
+
+}
+
+
+function getlocations_gps_settings_validate($form, &$form_state) {
+
+  $reset = $form_state['values']['getlocations_gps_paths']['reset'];
+  unset($form_state['values']['getlocations_gps_paths']['reset']);
+  if ($reset == 1) {
+    $form_state['values']['getlocations_gps_paths'] = getlocations_gps_paths_get(TRUE);
+  }
+  elseif ($reset == 2) {
+    $form_state['values']['getlocations_gps_paths'] = getlocations_gps_paths_get(FALSE ,TRUE);
+  }
+
+}
+
+
+function getlocations_gps_paths_get($reset = FALSE, $min = FALSE) {
+  if ($min) {
+    $defaults = array(
+      'getlocations_gps_path'       => GETLOCATIONS_GPS_PATH . '/js/getlocations_gps.min.js',
+      'getlocations_gps_admin_path' => GETLOCATIONS_GPS_PATH . '/js/getlocations_gps_admin.min.js',
+    );
+  }
+  else {
+    $defaults = array(
+      'getlocations_gps_path'       => GETLOCATIONS_GPS_PATH . '/js/getlocations_gps.js',
+      'getlocations_gps_admin_path' => GETLOCATIONS_GPS_PATH . '/js/getlocations_gps_admin.js',
+    );
+  }
+  if ($reset || $min) {
+    $getlocations_gps_paths = $defaults;
+  }
+  else {
+    $settings = variable_get('getlocations_gps_paths', $defaults);
+    $getlocations_gps_paths = getlocations_adjust_vars($defaults, $settings);
+  }
+  return $getlocations_gps_paths;
+}
+
+/**
+ * @param array $defaults
+ *  Settings
+ *
+ * @param string $mapid
+ *  Unique map identifier used in javascript to allow multiple maps
+ *
+ */
+function getlocations_gps_js_settings_do($defaults, $mapid) {
+  $settings = array(
+    $mapid => array(
+    'gps_button'       => $defaults['gps_button'],
+    'gps_button_label' => $defaults['gps_button_label'],
+    'gps_marker'       => $defaults['gps_marker'],
+    'gps_marker_title' => $defaults['gps_marker_title'],
+    'gps_bubble'       => $defaults['gps_bubble'],
+    'gps_geocode'      => $defaults['gps_geocode'],
+    'gps_center'       => $defaults['gps_center'],
+    ),
+  );
+  drupal_add_js(array('getlocations_gps' => $settings), 'setting');
+  getlocations_gps_js_do();
+}
+
+function getlocations_gps_js_do() {
+  static $getlocations_gps_js_done = FALSE;
+  if (! $getlocations_gps_js_done) {
+    $getlocations_gps_paths = getlocations_gps_paths_get();
+    drupal_add_js($getlocations_gps_paths['getlocations_gps_path'], array('weight' => 50));
+    drupal_add_css(GETLOCATIONS_GPS_PATH . '/getlocations_gps.css');
+  }
+  $getlocations_gps_js_done = TRUE;
+}
+
+/**
+ * @param array $defaults
+ *  Settings
+ *
+ * Returns form
+ *
+ */
+function getlocations_gps_map_display_options_form($defaults) {
+
+  if (empty($defaults['gps_button_label'])) {
+    $getlocations_gps_defaults = getlocations_gps_defaults();
+    $defaults['gps_button']       = $getlocations_gps_defaults['gps_button'];
+    $defaults['gps_button_label'] = $getlocations_gps_defaults['gps_button_label'];
+    $defaults['gps_marker']       = $getlocations_gps_defaults['gps_marker'];
+    $defaults['gps_marker_title'] = $getlocations_gps_defaults['gps_marker_title'];
+    $defaults['gps_bubble']       = $getlocations_gps_defaults['gps_bubble'];
+    $defaults['gps_geocode']      = $getlocations_gps_defaults['gps_geocode'];
+    $defaults['gps_center']       = $getlocations_gps_defaults['gps_center'];
+  }
+
+  $form = _getlocations_gps_map_display_options_form($defaults);
+  $form['#theme'][] = 'getlocations_gps_map_display_options_form';
+  return $form;
+
+}
+
+function _getlocations_gps_map_display_options_form($defaults) {
+
+  $getlocations_gps_paths = getlocations_gps_paths_get();
+  drupal_add_js($getlocations_gps_paths['getlocations_gps_admin_path']);
+
+  $form['gps_button'] = getlocations_element_map_checkbox(
+    t('Show GPS button'),
+    $defaults['gps_button']
+  );
+  $form['gps_button']['#suffix'] = '<div id="wrap-getlocations-gps-button">';
+
+  $form['gps_button_label'] = getlocations_element_map_tf(
+    t('GPS button label'),
+    $defaults['gps_button_label'],
+    '',
+    30,
+    30,
+    TRUE
+  );
+  $markers = getlocations_get_marker_titles();
+  $form['gps_marker'] = getlocations_element_map_marker(
+    t('GPS Map marker'),
+    $markers,
+    $defaults['gps_marker'],
+    ''
+  );
+  $form['gps_marker_title'] = getlocations_element_map_tf(
+    t('GPS Marker title'),
+    $defaults['gps_marker_title'],
+    '',
+    30,
+    30,
+    TRUE
+  );
+
+  $form['gps_geocode'] = getlocations_element_map_checkbox(
+    t('Geocode the current location'),
+    $defaults['gps_geocode'],
+    t('Attempt a reverse Geocode on the location supplied by GPS.')
+  );
+
+  $form['gps_bubble'] = getlocations_element_map_checkbox(
+    t('Show bubble on GPS Marker click'),
+    $defaults['gps_bubble'],
+    t('This only applies if the location has been Geocoded.')
+  );
+
+  $form['gps_center'] = getlocations_element_map_checkbox(
+    t('Center the GPS marker on the map'),
+    $defaults['gps_center']
+  );
+  $form['gps_center']['#suffix'] = '</div>';
+
+  return $form;
+
+}
+
+
+/**
+ * Implements hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function getlocations_gps_theme() {
+  return array(
+    'getlocations_gps_settings_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_gps_map_display_options_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_gps_button' => array(
+      'variables' => array(
+        'defaults' => array(),
+        'mapid' => ''
+      ),
+    ),
+  );
+}
+
+function theme_getlocations_gps_settings_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+function theme_getlocations_gps_map_display_options_form($variables) {
+  $form = $variables['form'];
+  $form['gps_button']['#prefix'] = '<fieldset class="collapsible getlocations_fieldset form-wrapper"><legend><span class="fieldset-legend">' . t('GPS Button') . '</span></legend><div class="fieldset-wrapper">';
+  $tsuf = $form['gps_center']['#suffix'];
+  $form['gps_center']['#suffix'] = $tsuf . '</div></fieldset>';
+  $output = '';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+function theme_getlocations_gps_button($variables) {
+  $defaults = $variables['defaults'];
+  $mapid = $variables['mapid'];
+  $output = '';
+
+  $geolocation_mobile_check = ($defaults['geolocation_mobile_check'] ? FALSE : TRUE);
+  if (getlocations_is_mobile($geolocation_mobile_check) && isset($defaults['gps_button']) && $defaults['gps_button']) {
+    $gpsbtn = '<input type="button" value="' . $defaults['gps_button_label'] . '" id="getlocations_gps_show_' . $mapid . '" class="form-submit"  />';
+    $gpsbtn .= '<div class="getlocations_gps_throbber getlocations_gps_throbber_inactive" id="getlocations_gps_throbber_' . $mapid . '">&nbsp;&nbsp;&nbsp;&nbsp;</div>';
+    $output .= $gpsbtn;
+  }
+  return $output;
+}

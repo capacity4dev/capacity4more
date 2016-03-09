@@ -1,0 +1,18 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: GBP
+ISO4217Number: '826'
+sign: £
+subunits: 100
+title: 'British pound sterling'
+usage:
+    - { ISO8601From: '1694-07-27', ISO8601To: '', ISO3166Code: GB }
+    - { ISO8601From: '1830-01-01', ISO8601To: '', ISO3166Code: GG }
+    - { ISO8601From: '1908-01-01', ISO8601To: '', ISO3166Code: GS }
+    - { ISO8601From: '1800-01-01', ISO8601To: '1922-01-01', ISO3166Code: IE }
+    - { ISO8601From: '1840-01-03', ISO8601To: '', ISO3166Code: IM }
+    - { ISO8601From: '1965-11-08', ISO8601To: '', ISO3166Code: IO }
+    - { ISO8601From: '1837-01-01', ISO8601To: '', ISO3166Code: JE }
+    - { ISO8601From: '1889-01-19', ISO8601To: '1958-01-01', ISO3166Code: SD }
+    - { ISO8601From: '1808-11-30', ISO8601To: '1966-02-04', ISO3166Code: SL }
+    - { ISO8601From: '1833-01-01', ISO8601To: '1959-01-01', ISO3166Code: VG }

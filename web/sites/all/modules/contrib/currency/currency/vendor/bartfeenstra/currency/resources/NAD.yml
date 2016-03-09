@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: NAD
+ISO4217Number: '516'
+sign: $
+subunits: 100
+title: 'Namibian dollar'
+usage:
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: NA }

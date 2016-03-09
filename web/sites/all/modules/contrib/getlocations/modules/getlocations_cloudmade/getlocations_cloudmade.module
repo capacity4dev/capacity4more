@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * @file
+ * getlocations_cloudmade.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides cloudmade maps integration for Leaflet.
+ *
+ *
+ */
+
+function getlocations_cloudmade_get_map_layers() {
+  $cloudmade_info = variable_get('getlocations_leaflet_cloudmade', '');
+  $add = array();
+  if (! empty($cloudmade_info)) {
+    if (isset($cloudmade_info['cloudmade_key']) && ! empty($cloudmade_info['cloudmade_key'])) {
+      $cloudmade_key = $cloudmade_info['cloudmade_key'];
+      if (isset($cloudmade_info['cloudmade_maps']) && is_array($cloudmade_info['cloudmade_maps']) ) {
+        $res = getlocations_cloudmade_get_resolutions();
+        $add = array();
+        foreach ($cloudmade_info['cloudmade_maps'] AS $k => $map) {
+          $style_id = $map['style_id'];
+          $style_name = $map['style_name'];
+          $style_token = $map['style_token'];
+          $query = '';
+          if (! empty($style_token)) {
+            $query = '?token=' . $style_token;
+          }
+          $add[$style_name] = array(
+            'label' => $res[$style_name],
+            'type' => 'base',
+            'options' => array(
+              'apiKey' => $cloudmade_key,
+              'styleID' => $style_id,
+              'styleToken' => $query,
+            ),
+          );
+        }
+      }
+    }
+  }
+  return $add;
+}
+
+function getlocations_cloudmade_get_resolutions() {
+  $output = array(
+    'standardResolution1' => t('Standard Resolution 1'),
+    'standardResolution2' => t('Standard Resolution 2'),
+    'standardResolution3' => t('Standard Resolution 3'),
+    'standardResolution4' => t('Standard Resolution 4'),
+    'standardResolution5' => t('Standard Resolution 5'),
+    'highResolution1' => t('High Resolution 1'),
+    'highResolution2' => t('High Resolution 2'),
+    'highResolution3' => t('High Resolution 3'),
+    'highResolution4' => t('High Resolution 4'),
+    'highResolution5' => t('High Resolution 5'),
+    'highResolution1s' => t('High Resolution 1 Small tile'),
+    'highResolution2s' => t('High Resolution 2 Small tile'),
+    'highResolution3s' => t('High Resolution 3 Small tile'),
+    'highResolution4s' => t('High Resolution 4 Small tile'),
+    'highResolution5s' => t('High Resolution 5 Small tile'),
+  );
+  return $output;
+}
+
+function getlocations_cloudmade_settings_form() {
+  $form = array();
+  // cloudmade
+  $getlocations_leaflet_cloudmade = variable_get('getlocations_leaflet_cloudmade', array('cloudmade_key' => '', 'cloudmade_maps' => array()));
+  $mapnum = count($getlocations_leaflet_cloudmade['cloudmade_maps']);
+  $form['getlocations_leaflet_cloudmade'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Cloudmade maps'),
+    // This will store all the defaults in one variable.
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => ($mapnum ? FALSE : TRUE),
+  );
+  $form['getlocations_leaflet_cloudmade']['cloudmade_key'] = getlocations_element_map_tf(
+    t('CloudMade Developers Key'),
+    $getlocations_leaflet_cloudmade['cloudmade_key'],
+    t('In order to use the <a target="_blank" href="@services">CloudMade services</a>, you must <a target="_blank" href="@key">register and get a key</a> first.', array('@services' => 'http://developers.cloudmade.com/projects', '@key' => 'http://account.cloudmade.com/register')),
+    40
+  );
+  if ($mapnum == 0) {
+    $mapnum = 2;
+  }
+  else {
+    $mapnum++;
+  }
+  // limit mapnum
+  if ($mapnum > 5) {
+    $mapnum = 5;
+  }
+  $res = getlocations_cloudmade_get_resolutions();
+  for ($ct = 0; $ct < $mapnum; $ct++) {
+
+    $form['getlocations_leaflet_cloudmade']['cloudmade_maps'][$ct]['style_name'] = getlocations_element_dd(
+      t('Style Name @num', array('@num' => $ct+1)),
+      (isset($getlocations_leaflet_cloudmade['cloudmade_maps'][$ct]['style_name']) ? $getlocations_leaflet_cloudmade['cloudmade_maps'][$ct]['style_name'] : ''),
+      $res,
+      t('"Standard Resolution" is for general use, "High Resolution" is best for tablets, "High Resolution Small tile" is best for smartphones.')
+    );
+
+    $form['getlocations_leaflet_cloudmade']['cloudmade_maps'][$ct]['style_id'] = getlocations_element_map_tf(
+      t('Style ID @num', array('@num' => $ct+1)),
+      (isset($getlocations_leaflet_cloudmade['cloudmade_maps'][$ct]['style_id']) ? $getlocations_leaflet_cloudmade['cloudmade_maps'][$ct]['style_id'] : ''),
+      t('The style ID for the map you want to include, see <a href="@editor">Cloudmade style editor</a>, note the number in the bottom righthand corner of the examples.', array('@editor' => 'http://maps.cloudmade.com/editor')),
+      10
+    );
+    $form['getlocations_leaflet_cloudmade']['cloudmade_maps'][$ct]['style_token'] = getlocations_element_map_tf(
+      t('Style Token @num', array('@num' => $ct+1)),
+      (isset($getlocations_leaflet_cloudmade['cloudmade_maps'][$ct]['style_token']) ? $getlocations_leaflet_cloudmade['cloudmade_maps'][$ct]['style_token'] : ''),
+      t('Some styles require a token.'),
+      40
+    );
+
+  }
+  return $form;
+}
+
+function getlocations_cloudmade_settings_validate($form_state) {
+
+  // we need to ensure that any empty cloudmade_maps are not saved
+  $mapnum = count($form_state['values']['getlocations_leaflet_cloudmade']['cloudmade_maps']);
+  $emptyfound = FALSE;
+  for ($ct = 0; $ct < $mapnum; $ct++) {
+    if (empty($form_state['values']['getlocations_leaflet_cloudmade']['cloudmade_maps'][$ct]['style_id'])) {
+      unset($form_state['values']['getlocations_leaflet_cloudmade']['cloudmade_maps'][$ct]);
+      $emptyfound = TRUE;
+    }
+  }
+  // reorder them in case some clown empties one before the last one
+  if ($emptyfound) {
+    $mapnum = count($form_state['values']['getlocations_leaflet_cloudmade']['cloudmade_maps']);
+    $temp = array();
+    $ct = 0;
+    foreach ($form_state['values']['getlocations_leaflet_cloudmade']['cloudmade_maps'] AS $k => $v) {
+      $temp[$ct] = $v;
+      $ct++;
+    }
+    if (count($temp)) {
+      $form_state['values']['getlocations_leaflet_cloudmade']['cloudmade_maps'] = $temp;
+    }
+  }
+
+  return $form_state;
+}

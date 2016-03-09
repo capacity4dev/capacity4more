@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BEL
+ISO4217Number: '992'
+sign: ¤
+subunits: null
+title: 'Belgian financial franc'
+usage:
+    - { ISO8601From: '', ISO8601To: '2001-12-31', ISO3166Code: BE }

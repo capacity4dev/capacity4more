@@ -1,0 +1,68 @@
+/**
+ * @file
+ * getlocations_mapquest.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_mapquest css.
+ *
+ */
+.mapquest-top,
+.mapquest-bottom {
+  z-index: 100;
+}
+
+.mapquest-control-attribution {
+  background:  #FFFFFF;
+  filter: alpha(opacity=70);
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+  opacity: 0.7;
+  -moz-opacity: 0.7;
+  color:  #000000;
+}
+.mapquest-control-attribution a {
+  color:  #000000;
+}
+
+.getlocations_mapquest_map_wrapper {
+}
+.getlocations_mapquest_map_wrapper_inner {
+}
+.getlocations_mapquest_canvas {
+}
+.getlocations_mapquest_canvas img {
+  max-width: none !important;
+}
+
+/* map links feature */
+.getlocations_mapquest_map_links {
+  border: 1px solid #CCCCCC;
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 4px;
+  margin-top: 8px;
+  max-height: 150px;
+  overflow: auto;
+}
+.getlocations_mapquest_map_links ul {
+  list-style-type: none;
+  margin-left: 0px;
+}
+
+/* example of a specific map_links box */
+.view-display-id-page_4 .getlocations_mapquest_map_links {
+  width:  490px;
+  max-height: 75px;
+}
+
+
+
+.getlocations_mapquest_map_buttons {
+}
+
+.mapquest_circle {
+  background:  #A0A0A0;
+  opacity:  0.3;
+  
+}
+

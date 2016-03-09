@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BBD
+ISO4217Number: '052'
+sign: $
+subunits: 100
+title: 'Barbadian dollar'
+usage:
+    - { ISO8601From: '1973-12-03', ISO8601To: '', ISO3166Code: BB }

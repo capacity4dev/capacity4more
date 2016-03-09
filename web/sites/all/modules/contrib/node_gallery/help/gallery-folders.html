@@ -1,0 +1,19 @@
+<div>
+  To put uploaded images into seperate folders for every gallery, you will need
+  to install and enable the following modules:
+  <ul>
+    <li><a href="http://drupal.org/project/filefield_paths" target="_blank">Filefield Paths</a></li>
+    <li><a href="http://drupal.org/project/token" target="_blank">Token</a></li>
+  </ul>
+  Please refer to their documentation to get instructions on the installation process.
+  <p>
+    After successful installation and activation of the above modules, visit the <a href="&base_url&admin/settings/node_gallery" target="_blank">Node Gallery settings page</a>.
+    In the right-most column, you will see a link to the CCK field that is used for storing the images. Clicking this link will bring you to the field settings page.
+    In the settings, you will find a fieldset labelled "Filefield Path settings". The File path determines where in the file directory the files will be stored.
+    You can use tokens to customize this path. Node Gallery implements tokens for its types, such as the name of the gallery, which we will use here. For other tokens, see
+    the "File path replacement patterns" fieldset on that page. Do not include preceding or trailing slashes in this field. The following screenshot shows how to use
+    a subdirectory named like the gallery for the stored files.
+  </p>
+  <div align="center"><img src="&path&images/filefield_paths.jpg" alt="Screenshot showing the field configurtion" /></div>
+  <p>Please note: this setting is field dependant, so it is only activated on the gallery types of which you changed the field settings. You need to configure this for every field if you want all gallery types to behave this way.</p>
+</div>

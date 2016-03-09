@@ -1,0 +1,110 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyExchangerWebTestCase.
+ */
+
+/**
+ * Tests CurrencyExchanger.
+ */
+class CurrencyExchangerWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyExchanger',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test currency exchange.
+   *
+   * We use CurrencyExchangerBartFeenstraCurrency to test some functionality,
+   * which means that if this test fails, the problem may be caused by
+   * CurrencyExchangerBartFeenstraCurrency.
+   *
+   * @see CurrencyExchangerBartFeenstraCurrency
+   */
+  function testCurrencyExchanger() {
+    // Test default configuration.
+    $this->assertCurrencyExchangeRates();
+    $this->assertIdenticalCurrencyExchangeRates();
+
+    // Test a configuration with explicitly enabled exchangers.
+    CurrencyExchanger::saveConfiguration(array(
+      'CurrencyExchangerFixedRates' => TRUE,
+      'CurrencyExchangerBartFeenstraCurrency' => TRUE,
+    ));
+    $this->assertCurrencyExchangeRates();
+    $this->assertIdenticalCurrencyExchangeRates();
+
+    // Test a configuration with explicitly disabled exchangers.
+    CurrencyExchanger::saveConfiguration(array(
+      'CurrencyExchangerBartFeenstraCurrency' => FALSE,
+      'CurrencyExchangerFixedRates' => FALSE,
+    ));
+    $this->assertFalse(count(CurrencyExchanger::loadExchangers()));
+    $this->assertIdenticalCurrencyExchangeRates();
+  }
+
+  /**
+   * Asserts that exchange rates can be retrieved.
+   *
+   * This function expects CurrencyExchangerFixedRates and
+   * CurrencyExchangerBartFeenstraCurrency to be enabled in that order.
+   */
+  function assertCurrencyExchangeRates() {
+    $exchangers = CurrencyExchanger::loadExchangers();
+    $this->assertEqual(CurrencyExchanger::loadExchangers(), array('CurrencyExchangerFixedRates', 'CurrencyExchangerBartFeenstraCurrency'));
+
+    // Make sure the first exchanger has a rate on EUR>NLG, so it has
+    // priority over the second exchanger's rate for these currencies.
+    CurrencyExchangerFixedRates::save('EUR', 'NLG', '7');
+
+    // Test CurrencyExchanger::load().
+    $this->assertIdentical(CurrencyExchanger::load('EUR', 'NLG'), '7');
+    $this->assertIdentical(CurrencyExchanger::load('EUR', 'DEM'), '1.95583');
+    $this->assertFalse(CurrencyExchanger::load('EUR', 'XXX'));
+
+    // Test CurrencyExchanger::loadMultiple().
+    $rates = CurrencyExchanger::loadMultiple(array(
+      'EUR' => array('NLG', 'DEM', 'XXX'),
+    ));
+    $this->assertTrue(isset($rates['EUR']));
+    $this->assertTrue(isset($rates['EUR']['NLG']));
+    $this->assertIdentical($rates['EUR']['NLG'], '7');
+    $this->assertTrue(isset($rates['EUR']['DEM']));
+    $this->assertIdentical($rates['EUR']['DEM'], '1.95583');
+    $this->assertTrue(isset($rates['EUR']['XXX']));
+    $this->assertFalse($rates['EUR']['XXX']);
+  }
+
+  /**
+   * Assert sthat exchange rates for identical currencies can be retrieved.
+   */
+  function assertIdenticalCurrencyExchangeRates() {
+    // Test CurrencyExchanger::load().
+    $this->assertIdentical(CurrencyExchanger::load('EUR', 'EUR'), '1');
+
+    // Test CurrencyExchanger::loadMultiple().
+    $rates = CurrencyExchanger::loadMultiple(array(
+      'EUR' => array('EUR'),
+    ));
+    $this->assertTrue(isset($rates['EUR']));
+    $this->assertTrue(isset($rates['EUR']['EUR']));
+    $this->assertIdentical($rates['EUR']['EUR'], '1');
+  }
+}

@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: DEM
+ISO4217Number: '276'
+sign: DM
+subunits: 100
+title: 'German mark'
+usage:
+    - { ISO8601From: '1948-06-20', ISO8601To: '2002-02-28', ISO3166Code: DE }
+    - { ISO8601From: '1999-10-02', ISO8601To: '2002-05-15', ISO3166Code: ME }

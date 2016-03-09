@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyExchangerUIWebTestCase.
+ */
+
+/**
+ * Tests the UI for CurrencyExchanger.
+ */
+class CurrencyExchangerUIWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyExchanger UI',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test CurrencyExchanger's UI.
+   */
+  function testCurrencyExchangerUI() {
+    $user = $this->drupalCreateUser(array('currency.currency_exchanger.administer'));
+    $this->drupalLogin($user);
+
+    // Test the default configuration.
+    $this->assertEqual(array(
+      'CurrencyExchangerFixedRates' => TRUE,
+      'CurrencyExchangerBartFeenstraCurrency' => TRUE,
+    ), CurrencyExchanger::loadConfiguration());
+    // Test overridden configuration.
+    $path = 'admin/config/regional/currency-exchange';
+    $values = array(
+      'exchangers[CurrencyExchangerFixedRates][enabled]' => FALSE,
+    );
+    $this->drupalPost($path, $values, t('Save'));
+    $this->assertEqual(array(
+      'CurrencyExchangerFixedRates' => FALSE,
+      'CurrencyExchangerBartFeenstraCurrency' => TRUE,
+    ), CurrencyExchanger::loadConfiguration());
+  }
+}

@@ -1,0 +1,20 @@
+name = OG Variables
+description = Allows for per group variables
+package = Organic Groups
+core = 7.x
+php = 5.1
+
+dependencies[] = variable_store (7.x-2.x)
+dependencies[] = variable_realm (7.x-2.x)
+dependencies[] = og_ui
+dependencies[] = og_context
+dependencies[] = entity
+
+files[] = og_variables.class.inc
+
+; Information added by Drupal.org packaging script on 2015-07-08
+version = "7.x-1.0"
+core = "7.x"
+project = "og_variables"
+datestamp = "1436385540"
+

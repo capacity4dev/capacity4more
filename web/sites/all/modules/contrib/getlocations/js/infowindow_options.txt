@@ -1,0 +1,13 @@
+
+/**
+ * copy infowindow_options.txt to infowindow_options.js to override infowindow settings
+ * see https://developers.google.com/maps/documentation/javascript/reference#InfoWindowOptions
+ * for details
+ */
+
+// defaults
+var infoWindowOptions = {};
+
+// overrides
+// Maximum width of the infowindow, regardless of content's width.
+// infoWindowOptions.maxWidth = 200;

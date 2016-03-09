@@ -1,0 +1,15 @@
+name = Drag & Drop Upload: Multiupload support
+description = Provides a multiupload functionality for the Drag & Drop Upload widgets
+
+core = 7.x
+package = Media
+
+dependencies[] = dragndrop_upload
+dependencies[] = multiupload_filefield_widget
+
+; Information added by Drupal.org packaging script on 2016-02-22
+version = "7.x-1.0-alpha2+13-dev"
+core = "7.x"
+project = "dragndrop_upload"
+datestamp = "1456131540"
+

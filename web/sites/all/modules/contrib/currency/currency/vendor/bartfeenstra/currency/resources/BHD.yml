@@ -1,0 +1,10 @@
+alternativeSigns:
+    - BD
+exchangeRates: {  }
+ISO4217Code: BHD
+ISO4217Number: '048'
+sign: .د.ب
+subunits: 1000
+title: 'Bahraini dinar'
+usage:
+    - { ISO8601From: '1965-10-16', ISO8601To: '', ISO3166Code: BH }

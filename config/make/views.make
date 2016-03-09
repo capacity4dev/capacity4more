@@ -1,0 +1,11 @@
+core = 7.x
+api = 2
+
+; Views
+
+projects[views_load_more][subdir] = "contrib"
+projects[views_load_more][version] = "1.5"
+
+projects[draggableviews][subdir] = "contrib"
+projects[draggableviews][version] = "2.1"
+projects[draggableviews][patch][] = "https://www.drupal.org/files/issues/draggableviews-2343793-16.patch"

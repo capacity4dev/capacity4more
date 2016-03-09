@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyCurrencyLocalePatternUIWebTestCase.
+ */
+
+/**
+ * Tests the Ctools exportables UI for CurrencyLocalePattern exportables.
+ */
+class CurrencyLocalePatternUIWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyLocalePattern UI',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test CurrencyCurrencyLocalePattern's UI.
+   */
+  function testCurrencyCurrencyLocalePatternUI() {
+    $user = $this->drupalCreateUser(array('currency.currency_locale_pattern.administer'));
+    $this->drupalLogin($user);
+    $path = 'admin/config/regional/currency_locale_pattern/add';
+
+    // Test valid values.
+    $valid_values = array(
+      'locale[locale][language_code]' => 'nl',
+      'locale[locale][country_code]' => 'ZA',
+      'pattern' => 'foo',
+      'symbol_decimal_separator' => '@',
+      'symbol_grouping_separator' => '#',
+    );
+    $this->drupalPost($path, $valid_values, t('Save'));
+    ctools_include('export');
+    $locale_pattern = ctools_export_crud_load('currency_locale_pattern', 'nl_ZA');
+    $this->assertTrue($locale_pattern);
+  }
+}

@@ -1,0 +1,14 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: XAF
+ISO4217Number: '950'
+sign: ₣
+subunits: 0
+title: 'Central African franc'
+usage:
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: CF }
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: CG }
+    - { ISO8601From: '1973-04-01', ISO8601To: '', ISO3166Code: CM }
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: GA }
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: GQ }
+    - { ISO8601From: '1993-01-01', ISO8601To: '', ISO3166Code: TD }

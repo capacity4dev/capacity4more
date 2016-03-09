@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: TRL
+ISO4217Number: '792'
+sign: TL
+subunits: 100
+title: 'Turkish lira'
+usage:
+    - { ISO8601From: '1922-11-01', ISO8601To: '2005-12-31', ISO3166Code: TR }

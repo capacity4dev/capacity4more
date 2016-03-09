@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Provides an integration for Media browser.
+ */
+
+module_load_include('media.inc', 'dragndrop_upload_media');
+
+/**
+ * Implements hook_field_widget_info_alter().
+ */
+function dragndrop_upload_media_field_widget_info_alter(&$info) {
+  // Add a setting to a widget type.
+  $info['dragndrop_upload_file']['settings'] += array(
+    'media_browser' => 0,
+  );
+  if (isset($info['dragndrop_upload_image'])) {
+    $info['dragndrop_upload_image']['settings'] += array(
+      'media_browser' => 0,
+    );
+  }
+  if (isset($info['dragndrop_upload_video'])) {
+    $info['dragndrop_upload_video']['settings'] += array(
+      'media_browser' => 0,
+    );
+  }
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function dragndrop_upload_media_dnd_upload_widget_settings_form_alter(&$form, $field, $instance) { 
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+
+  $_fieldset =& $form['dragndrop_fieldset'];
+  $_fieldset['media_browser'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use Media browser'),
+    '#description' => t(
+      'Open Media browser by clicking on Browse button'
+    ),
+    '#default_value' => $settings['media_browser'],
+  );
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function dragndrop_upload_file_field_widget_form_alter(&$element, &$form_state, $context) {
+  $field =& $context['field'];
+  $widget =& $context['instance']['widget'];
+  if (in_array(
+    $widget['type'],
+    array('dragndrop_upload_file', 'dragndrop_upload_image', 'dragndrop_upload_video')
+  )
+  ) {
+    if ($widget['settings']['media_browser']) {
+      if ($field['cardinality'] != 1) {
+        array_unshift($element['#process'], 'dragndrop_upload_media_process_multiple');
+        foreach (element_children($element) as $delta) {
+          $element[$delta]['#pre_render'][] = 'dragndrop_upload_media_pre_render';
+        }
+      }
+      else {
+        $element[0]['#pre_render'][] = 'dragndrop_upload_media_pre_render';
+      }
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Pre render callback for the widget.
+ */
+function dragndrop_upload_media_pre_render($element) {
+  if (isset($element['droppable_area']['#access']) && !$element['droppable_area']['#access']) {
+    return $element;
+  }
+  
+  // Create name template for hidden inputs that will contain fids.
+  $parents = $element['#parents'];
+  array_pop($parents);
+  $nameTemplate = array_shift($parents) . '[' . implode('][', $parents) . ']';
+
+  $path = drupal_get_path('module', 'dragndrop_upload_media');
+  $element['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/dragndrop-upload-media.class.js',
+    'weight' => 5.51,
+  );
+  $element['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/dragndrop-upload-media.js',
+    'weight' => 5.52,
+  );
+  $element['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array(
+      'dragndropUploadMedia' => array(
+        '#' . $element['droppable_area']['#dnd_id'] => array(
+          'nameTemplate' => $nameTemplate,
+          'delta' => end($element['#parents']),
+          'display' => $element['display']['#value'],
+        ),
+      ),
+    ),
+  );
+
+  module_load_include('inc', 'media', 'wysiwyg_plugins/media');
+  media_include_browser_js();
+
+  return $element;
+}
+
+/**
+ * Custom process callback for widget.
+ * 
+ * Allows saving of multiple fids at once.
+ */
+function dragndrop_upload_media_process_multiple($element, &$form_state, $form) {
+  if (isset($form_state['input'][$element['#field_name']][$element['#language']])) {
+    $count = count(
+      $form_state['input'][$element['#field_name']][$element['#language']]
+    );
+    for ($i = 1; $i < $count; $i++) {
+      $element[] = $element[$element['#file_upload_delta']];
+    }
+  }
+
+  return $element;
+}

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * getlocations_feeds.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ *   Install, update and uninstall functions for the getlocations_feeds module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function getlocations_feeds_enable() {
+  cache_clear_all('plugins:feeds:plugins', 'cache');
+}

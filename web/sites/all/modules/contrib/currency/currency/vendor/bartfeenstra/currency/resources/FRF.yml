@@ -1,0 +1,20 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: FRF
+ISO4217Number: '250'
+sign: ₣
+subunits: 100
+title: 'French franc'
+usage:
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: AD }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: BL }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: FR }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: GF }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: GP }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: MC }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: MF }
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: MQ }
+    - { ISO8601From: '1972-12-21', ISO8601To: '2002-02-17', ISO3166Code: PM }
+    - { ISO8601From: '1975-01-01', ISO8601To: '2002-02-17', ISO3166Code: RE }
+    - { ISO8601From: '1959-01-01', ISO8601To: '2002-02-17', ISO3166Code: TF }
+    - { ISO8601From: '1976-02-23', ISO8601To: '2002-02-17', ISO3166Code: YT }

@@ -1,0 +1,44 @@
+; getlocation_fields-7.x-1.x
+name = Getlocations Fields
+description = Defines a Getlocations Geocoding Field type.
+core = 7.x
+package = Fields
+dependencies[] = getlocations
+
+files[] = handlers/getlocations_fields_handler_argument_distance.inc
+files[] = handlers/getlocations_fields_handler_argument_country.inc
+files[] = handlers/getlocations_fields_handler_argument_postcode.inc
+files[] = handlers/getlocations_fields_handler_argument_province.inc
+files[] = handlers/getlocations_fields_handler_argument_city.inc
+files[] = handlers/getlocations_fields_handler_argument_glid.inc
+files[] = handlers/getlocations_fields_handler_argument_bbox.inc
+
+files[] = handlers/getlocations_fields_plugin_argument_default_bboxquery.inc
+
+files[] = handlers/getlocations_fields_handler_field_coordinates.inc
+
+files[] = handlers/getlocations_fields_handler_field_wkt.inc
+
+files[] = handlers/getlocations_fields_handler_field_country.inc
+files[] = handlers/getlocations_fields_handler_field_distance.inc
+files[] = handlers/getlocations_fields_handler_field_latitude.inc
+files[] = handlers/getlocations_fields_handler_field_longitude.inc
+files[] = handlers/getlocations_fields_handler_field_data.inc
+
+files[] = handlers/getlocations_fields_handler_filter_country.inc
+files[] = handlers/getlocations_fields_handler_filter_distance.inc
+
+#files[] = handlers/getlocations_fields_handler_filter_data.inc
+
+files[] = handlers/getlocations_fields_handler_sort_distance.inc
+
+files[] = views/getlocations_fields_plugin_style_streetview.inc
+
+configure = admin/config/services/getlocations/fields
+
+; Information added by Drupal.org packaging script on 2015-06-10
+version = "7.x-1.16"
+core = "7.x"
+project = "getlocations"
+datestamp = "1433951603"
+

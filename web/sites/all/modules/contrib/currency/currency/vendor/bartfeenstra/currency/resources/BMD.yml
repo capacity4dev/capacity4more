@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BMD
+ISO4217Number: '060'
+sign: $
+subunits: 100
+title: 'Bermudian dollar'
+usage:
+    - { ISO8601From: '1970-02-06', ISO8601To: '', ISO3166Code: BM }

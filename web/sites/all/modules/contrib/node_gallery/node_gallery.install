@@ -1,0 +1,449 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the node_gallery module.
+ */
+
+define('NODE_GALLERY_DEFAULT_GALLERY_TYPE', 'node_gallery_gallery');
+define('NODE_GALLERY_DEFAULT_ITEM_TYPE', 'node_gallery_item');
+define('NODE_GALLERY_DEFAULT_MEDIA_FIELD', 'node_gallery_media');
+
+
+/**
+ * Check for type existence.
+ */
+function node_gallery_type_exists($type) {
+  // During install profiles, node and user modules aren't yet loaded.
+  // Ensure they're loaded before calling node_get_types().
+  include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'node') . '/node.module';
+  include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'user') . '/user.module';
+  $types = node_type_get_types();
+  $types = array_change_key_case($types, CASE_LOWER);
+  return array_key_exists($type, $types);
+}
+
+/**
+ * Set up default display mode for the image file type.
+ */
+function node_gallery_setup_display_modes($item_type = NODE_GALLERY_DEFAULT_ITEM_TYPE) {
+  // First setup the file view modes.
+  $bundle_settings = field_bundle_settings('file', 'image');
+  $bundle_settings['view_modes']['node_gallery_file_thumbnail']['custom_settings'] = TRUE;
+  $bundle_settings['view_modes']['node_gallery_file_thumbnail']['file_image']['image_style'] = 'node_gallery_thumbnail';
+  $bundle_settings['view_modes']['node_gallery_file_cover']['custom_settings'] = TRUE;
+  $bundle_settings['view_modes']['node_gallery_file_cover']['file_image']['image_style'] = 'node_gallery_thumbnail';
+  $bundle_settings['view_modes']['node_gallery_file_display']['custom_settings'] = TRUE;
+  $bundle_settings['view_modes']['node_gallery_file_display']['file_image']['image_style'] = 'node_gallery_display';
+  field_bundle_settings('file', 'image', $bundle_settings);
+
+  // Now configure the file displays.
+  // Thumbnail.
+  $file_displays = file_displays_load('image', 'node_gallery_file_thumbnail');
+  if (empty($file_displays['image__node_gallery_file_thumbnail__file_image'])) {
+    $file_displays['image__node_gallery_file_thumbnail__file_image'] = file_display_new('image', 'node_gallery_file_thumbnail', 'file_image');
+  }
+  $file_displays['image__node_gallery_file_thumbnail__file_image']->status = 1;
+  $file_displays['image__node_gallery_file_thumbnail__file_image']->settings['image_style'] = 'node_gallery_thumbnail';
+  file_display_save($file_displays['image__node_gallery_file_thumbnail__file_image']);
+
+  // Cover.
+  $file_displays = file_displays_load('image', 'node_gallery_file_cover');
+  if (empty($file_displays['image__node_gallery_file_cover__file_image'])) {
+    $file_displays['image__node_gallery_file_cover__file_image'] = file_display_new('image', 'node_gallery_file_cover', 'file_image');
+  }
+  $file_displays['image__node_gallery_file_cover__file_image']->status = 1;
+  $file_displays['image__node_gallery_file_cover__file_image']->settings['image_style'] = 'node_gallery_thumbnail';
+  file_display_save($file_displays['image__node_gallery_file_cover__file_image']);
+
+  // Full display.
+  $file_displays = file_displays_load('image', 'node_gallery_file_display');
+  if (empty($file_displays['image__node_gallery_file_display__file_image'])) {
+    $file_displays['image__node_gallery_file_display__file_image'] = file_display_new('image', 'node_gallery_file_display', 'file_image');
+  }
+  $file_displays['image__node_gallery_file_display__file_image']->status = 1;
+  $file_displays['image__node_gallery_file_display__file_image']->settings['image_style'] = 'node_gallery_display';
+  file_display_save($file_displays['image__node_gallery_file_display__file_image']);
+
+  $settings = variable_get('node_gallery_api_file_link_settings', array());
+  $settings['image']['node_gallery_file_thumbnail'] = 'gallery_item';
+  $settings['image']['node_gallery_file_cover'] = 'gallery';
+  variable_set('node_gallery_api_file_link_settings', $settings);
+
+  // Setup node display modes.
+  $bundle_settings = field_view_mode_settings('node', $item_type);
+  $bundle_settings['extra_fields']['display']['node_gallery_navigation']['node_gallery_node_thumbnail']['visible'] = FALSE;
+  $bundle_settings['extra_fields']['display']['node_gallery_navigation']['node_gallery_node_thumbnail']['weight'] = 1;
+  field_bundle_settings('node', $item_type, $bundle_settings);
+  variable_set('node_submitted_' . $item_type, FALSE);
+  // Set up the link to the gallery and gallery item.
+}
+
+/**
+ * Set up default content types.
+ */
+function node_gallery_setup_content_types() {
+  $t = get_t();
+
+  $gallery_type = array(
+    'type' => NODE_GALLERY_DEFAULT_GALLERY_TYPE,
+    'name' => $t('Gallery'),
+    'base' => 'node_content',
+    'description' => $t('A gallery of nodes.'),
+    'title_label' => $t('Gallery Name'),
+    'custom' => TRUE,
+  );
+  $content_type = node_type_set_defaults($gallery_type);
+  node_add_body_field($content_type, $t('Description'));
+  node_type_save($content_type);
+
+  $item_type = array(
+    'type' => NODE_GALLERY_DEFAULT_ITEM_TYPE,
+    'name' => $t('Gallery Item'),
+    'base' => 'node_content',
+    'description' => $t('A gallery node item.'),
+    'title_label' => $t('Title'),
+    'custom' => TRUE,
+  );
+  $content_type = node_type_set_defaults($item_type);
+  node_add_body_field($content_type, $t('Caption'));
+  node_type_save($content_type);
+
+  _node_gallery_create_default_relationship();
+
+  node_gallery_create_thumbnail_node_view_mode();
+
+  menu_cache_clear_all();
+}
+
+/**
+ * Sets up Node Gallery Thumbnail view mode for nodes.
+ *
+ * @param string $item_type
+ * @param string $field_name
+ */
+function node_gallery_create_thumbnail_node_view_mode($item_type = NODE_GALLERY_DEFAULT_ITEM_TYPE, $field_name = NODE_GALLERY_DEFAULT_MEDIA_FIELD) {
+  $instance = field_info_instance('node', $field_name, $item_type);
+  // Default View mode.
+  $instance['display']['default']['label'] = 'hidden';
+  $instance['display']['default']['type'] = 'file_rendered';
+  $instance['display']['default']['settings']['file_view_mode'] = 'node_gallery_file_display';
+  // Teaser.
+  $instance['display']['teaser']['label'] = 'hidden';
+  $instance['display']['teaser']['weight'] = 1;
+  $instance['display']['teaser']['type'] = 'file_rendered';
+  $instance['display']['teaser']['settings']['file_view_mode'] = 'node_gallery_file_display';
+  // Node gallery thumbnail.
+  $instance['display']['node_gallery_node_thumbnail']['label'] = 'hidden';
+  $instance['display']['node_gallery_node_thumbnail']['type'] = 'file_rendered';
+  $instance['display']['node_gallery_node_thumbnail']['settings']['file_view_mode'] = 'node_gallery_file_thumbnail';
+  field_update_instance($instance);
+}
+
+/**
+ * Create default Node Gallery relationship.
+ */
+function _node_gallery_create_default_relationship() {
+  $r = new NodeGalleryRelationshipType();
+  $r->settings = node_gallery_api_relationship_type_settings_defaults();
+
+  $r->settings['relationship_type']['gallery_types'] = array(NODE_GALLERY_DEFAULT_GALLERY_TYPE);
+  $r->settings['relationship_type']['item_types'] = array(NODE_GALLERY_DEFAULT_ITEM_TYPE);
+  $r->settings['view_modes']['full']['view'] = 'node_gallery_gallery_item_views:embed_1';
+  $r->settings['view_modes']['teaser']['view'] = 'node_gallery_gallery_item_views:embed_6';
+  $r->settings['item_view']['view_navigator_item_display'] = 'node_gallery_gallery_item_views:embed_5';
+  $r->filefield_name = NODE_GALLERY_DEFAULT_MEDIA_FIELD;
+  $r->label = $r->settings['relationship']['name'];
+  $r->save();
+  variable_set('node_gallery_default_relationship_type_id', $r->id);
+}
+
+/**
+ * Implements hook_install().
+ */
+function node_gallery_install() {
+  node_gallery_setup_display_modes();
+  node_gallery_setup_content_types();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function node_gallery_uninstall() {
+  $default_relationship_type_id = variable_get('node_gallery_default_relationship_type_id');
+  entity_delete('node_gallery_relationship_type', $default_relationship_type_id);
+  variable_del('node_gallery_default_relationship_type_id');
+  cache_clear_all();
+}
+
+/**
+ * Check dependencies for Node Gallery.
+ * Code adapted from module_enable().
+ *
+ * @param $module_list
+ * @throws DrupalUpdateException
+ */
+function _node_gallery_check_dependencies($module_list) {
+  // Get all module data so we can find dependencies and sort.
+  $module_data = system_rebuild_module_data();
+
+  // Create an associative array with weights as values.
+  $module_list = array_flip(array_values($module_list));
+
+  while (list($module) = each($module_list)) {
+    if (!isset($module_data[$module])) {
+      // This module is not found in the filesystem, throw an exception.
+      $t = get_t();
+      throw new DrupalUpdateException($t('Node Gallery (node_gallery) requires that @module module is installed. Install this module and run the update again.',
+        array('@module' => $module)));
+    }
+    if ($module_data[$module]->status) {
+      // Skip already enabled modules.
+      unset($module_list[$module]);
+      continue;
+    }
+    $module_list[$module] = $module_data[$module]->sort;
+
+    // Add dependencies to the list, with a placeholder weight.
+    // The new modules will be processed as the while loop continues.
+    foreach (array_keys($module_data[$module]->requires) as $dependency) {
+      if (!isset($module_list[$dependency])) {
+        $module_list[$dependency] = 0;
+      }
+    }
+  }
+}
+
+/**
+ * Check to make sure user has upgraded CCK fields from D6 for all
+ * relationship types.
+ *
+ * @throws DrupalUpdateException
+ */
+function _node_gallery_check_field_upgrades() {
+  $result = db_query("SELECT * FROM {node_gallery_relationships_d6}");
+  $missing_fields = array();
+  foreach ($result as $row) {
+    $field = field_info_field($row->imagefield_name);
+    if (is_null($field)) {
+      $missing_fields[] = $row->imagefield_name;
+    }
+  }
+  if (!empty($missing_fields)) {
+    $t = get_t();
+    throw new DrupalUpdateException($t('The following fields need to be upgraded with CCK Content Migrate before Node Gallery can be upgraded: @fields.',
+      array('@fields' => implode(', ', $missing_fields))));
+  }
+}
+
+/**
+ * Rename Drupal 6 tables for migration.
+ */
+function node_gallery_update_7000() {
+  // The "node_gallery_galleries" table is used in both D6 and D7, but in
+  // D7 the table is owned by node_gallery_api. In order to prevent them from
+  // colliding, we rename it and then migrate the data.
+
+  // Do our check based on a D6-only database table.
+  if (db_table_exists('node_gallery_images')) {
+    db_rename_table('node_gallery_galleries', 'node_gallery_galleries_d6');
+    db_rename_table('node_gallery_images', 'node_gallery_images_d6');
+    db_rename_table('node_gallery_relationships', 'node_gallery_relationships_d6');
+  }
+}
+
+/**
+ * Enable the node_gallery_api module to create its database tables.
+ */
+function node_gallery_update_7001() {
+  if (!db_table_exists('node_gallery_galleries')) {
+
+    // Check to ensure we have all dependencies first. Throw exception if not.
+    // We do this first so we can display a specific error to the user.
+    $module_list = array('node_gallery_api', 'node_gallery');
+    _node_gallery_check_dependencies($module_list);
+    _node_gallery_check_field_upgrades();
+
+    // Enable the modules.
+    module_enable($module_list);
+  }
+}
+
+/**
+ * Migrate Node Gallery relationships to Drupal 7 relationship entities.
+ */
+function node_gallery_update_7002() {
+  if (!db_table_exists('node_gallery_relationships_d6')) {
+    return;
+  }
+
+  if (!module_exists('node_gallery_api')) {
+    throw new DrupalUpdateException('This update requires Node Gallery API (node_gallery_api) module is enabled. Enable this module and run the update again.');
+  }
+
+  // Most sites only have 1 relationship, so assuming a small number of fields
+  // is like going to be acceptable here.
+  $result = db_query("SELECT * FROM {node_gallery_relationships_d6}");
+  foreach ($result as $row) {
+    $old_settings = unserialize($row->settings);
+    $old_settings['view_gallery_full_image_display'] = unserialize($old_settings['view_gallery_full_image_display']);
+    $old_settings['view_gallery_teaser_view_image_display'] = unserialize($old_settings['view_gallery_teaser_view_image_display']);
+    $old_settings['view_navigator_image_display'] = unserialize($old_settings['view_navigator_image_display']);
+
+    $settings = node_gallery_api_relationship_type_settings_defaults();
+    $settings['relationship']['name'] = $old_settings['name'];
+    $settings['relationship_type']['gallery_types'] = array($row->gallery_type);
+    $settings['relationship_type']['item_types'] = array($row->image_type);
+
+    $settings['item_view']['display_navigator'] = $old_settings['display_navigator'];
+    $settings['item_view']['view_navigator_item_display'] = 'node_gallery_gallery_item_views:embed_5';
+
+    $settings['view_modes']['full']['view'] = 'node_gallery_gallery_item_views:embed_1';
+    $settings['view_modes']['teaser']['view'] = 'node_gallery_gallery_item_views:embed_6';
+
+    $settings['manage_items']['items_fields'] = $old_settings['manage_images_fields'];
+    $settings['manage_items']['items_per_page'] = (int) $old_settings['manage_images_per_page'];
+    if ((bool) $old_settings['manage_images_show_gallery_list']) {
+      $settings['manage_items']['item_fields']['node_gallery_ref_' . $row->rid] = 'node_gallery_ref_' . $row->rid;
+    }
+    // Check if exists to prevent primary key dupes. http://drupal.org/node/1872808
+    $exists = db_query("SELECT COUNT(*) FROM {node_gallery_relationship_type} WHERE id = :id", array(':id' => $row->rid))->fetchField();
+    if (!$exists) {
+      $r = new NodeGalleryRelationshipType();
+      $r->id = $row->rid;
+      $r->is_new = TRUE;
+      $r->settings = $settings;
+      $r->label = $settings['relationship']['name'];
+      $r->filefield_name = $row->imagefield_name;
+      $r->save();
+    }
+
+    // Enable the default display modes.
+    node_gallery_setup_display_modes($row->image_type);
+
+    // Reconfigure display settings to use the new view modes.
+    node_gallery_create_thumbnail_node_view_mode($row->image_type, $row->imagefield_name);
+  }
+}
+
+/**
+ * Migrate Node Gallery images.
+ */
+function node_gallery_update_7003(&$sandbox) {
+  if (!db_table_exists('node_gallery_images_d6')) {
+    return;
+  }
+
+  if (!isset($sandbox['total'])) {
+    $sandbox['total'] = db_query("SELECT COUNT(*) FROM {node_gallery_images_d6}")->fetchField();
+    $sandbox['processed'] = 0;
+  }
+
+  // Number of images to process per batch.
+  $count = 1000;
+
+  // The Drupal 6 version of Node Gallery does not store *which* relationship
+  // a photo is used with, so we have to reconstruct that relationship from the
+  // node_gallery_relationships table, comparing with the node_type table.
+  $result = db_query_range("SELECT i.nid, i.gid as ngid, i.weight, r.rid as relationship_type FROM {node_gallery_images_d6} i LEFT JOIN {node} n ON i.nid = n.nid LEFT JOIN {node_gallery_relationships_d6} r ON n.type = r.image_type GROUP BY i.nid ORDER BY i.nid", $sandbox['processed'], $count);
+  foreach ($result as $row) {
+    db_insert('node_gallery_relationship')
+      ->fields((array) $row)
+      ->execute();
+    $sandbox['processed']++;
+  }
+
+  if (!empty($sandbox['total'])) {
+    $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
+    if ($sandbox['#finished'] === 1) {
+      field_cache_clear();
+    }
+  }
+}
+
+/**
+ * Migrate Node Gallery galleries.
+ */
+function node_gallery_update_7004(&$sandbox) {
+  if (!db_table_exists('node_gallery_galleries_d6')) {
+    return;
+  }
+
+  if (!isset($sandbox['total'])) {
+    $sandbox['total'] = db_query("SELECT COUNT(*) FROM {node_gallery_galleries_d6}")->fetchField();
+    $sandbox['processed'] = 0;
+  }
+
+  // Number of galleries to process per batch.
+  $count = 500;
+  $result = db_query_range("SELECT g.gid as ngid, g.cover_image as cover_item, COUNT(n.nid) as item_count, SUM(n.status) as pub_item_count FROM {node_gallery_galleries_d6} g LEFT JOIN {node_gallery_images_d6} i ON g.gid = i.gid LEFT JOIN {node} n ON i.nid = n.nid GROUP BY g.gid ORDER BY g.gid", $sandbox['processed'], $count);
+  foreach ($result as $row) {
+    // Change NULL values to 0.
+    $row = (array) $row;
+    $row['pub_item_count'] = (int) $row['pub_item_count'];
+    $row['item_count'] = (int) $row['item_count'];
+    db_insert('node_gallery_galleries')
+      ->fields($row)
+      ->execute();
+    $sandbox['processed']++;
+  }
+
+  if (!empty($sandbox['total'])) {
+    $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
+    if ($sandbox['#finished'] === 1) {
+      field_cache_clear();
+    }
+  }
+}
+
+/**
+ * Drop the old database tables.
+ */
+function node_gallery_update_7005(&$sandbox) {
+  if (db_table_exists('node_gallery_galleries_d6')) {
+    db_drop_table('node_gallery_galleries_d6');
+    db_drop_table('node_gallery_images_d6');
+    db_drop_table('node_gallery_relationships_d6');
+  }
+}
+
+/**
+ * Remove File Entity Link dependency. Replace with Node Gallery API's own link handling.
+ */
+function node_gallery_update_7006(&$sandbox) {
+  // Only change the default setting we programmatically added.
+  $settings = variable_get('file_entity_link_settings', array());
+  $settings['image']['node_gallery_file_thumbnail'] = FALSE;
+  variable_set('file_entity_link_settings', $settings);
+
+  // Replace it with our new setting.
+  $settings = variable_get('node_gallery_api_file_link_settings', array());
+  $settings['image']['node_gallery_file_thumbnail'] = 'gallery_item';
+  variable_set('node_gallery_api_file_link_settings', $settings);
+
+  $t = get_t();
+  return $t("File Entity Link module dependency removed from Node Gallery. You may disable this module if you aren't using it for other purposes.");
+}
+
+/**
+ * Add Node Gallery Cover file view mode.
+ */
+function node_gallery_update_7007(&$sandbox) {
+  // First setup the file view mode.
+  $bundle_settings = field_bundle_settings('file', 'image');
+  $bundle_settings['view_modes']['node_gallery_file_cover']['custom_settings'] = TRUE;
+  $bundle_settings['view_modes']['node_gallery_file_cover']['file_image']['image_style'] = 'node_gallery_thumbnail';
+  field_bundle_settings('file', 'image', $bundle_settings);
+  $file_displays = file_displays_load('image', 'node_gallery_file_cover');
+  if (empty($file_displays['image__node_gallery_file_cover__file_image'])) {
+    $file_displays['image__node_gallery_file_cover__file_image'] = file_display_new('image', 'node_gallery_file_cover', 'file_image');
+  }
+  $file_displays['image__node_gallery_file_cover__file_image']->status = 1;
+  $file_displays['image__node_gallery_file_cover__file_image']->settings['image_style'] = 'node_gallery_thumbnail';
+  file_display_save($file_displays['image__node_gallery_file_cover__file_image']);
+
+  // Set up the link to the gallery.
+  $settings = variable_get('node_gallery_api_file_link_settings', array());
+  $settings['image']['node_gallery_file_cover'] = 'gallery';
+  variable_set('node_gallery_api_file_link_settings', $settings);
+}

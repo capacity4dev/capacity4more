@@ -1,0 +1,43 @@
+<?php
+
+/*
+ * @file
+ * getlocations_location_taxonomize.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Installer
+ */
+
+require_once('getlocations_location_taxonomize.inc');
+
+/**
+ * Implements hook_install().
+ */
+function getlocations_location_taxonomize_install() {
+  _getlocations_location_taxonomize_set_defaults();
+}
+
+/**
+ * Implements hook_enable().
+ */
+function getlocations_location_taxonomize_enable() {
+  // set this module as the default source module if another is not already set
+  location_taxonomize_source_default_set(LT_GETLOC_MODULE_ID);
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function getlocations_location_taxonomize_requirements($phase) {
+  $requirements = array();
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function getlocations_location_taxonomize_uninstall() {
+  // delete all variables created by this modules
+  _getlocations_location_taxonomize_del_variables();
+}

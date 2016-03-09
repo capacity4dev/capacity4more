@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SZL
+ISO4217Number: '748'
+sign: L
+subunits: 100
+title: 'Swazi lilangeni'
+usage:
+    - { ISO8601From: '1974-09-06', ISO8601To: '', ISO3166Code: SZ }

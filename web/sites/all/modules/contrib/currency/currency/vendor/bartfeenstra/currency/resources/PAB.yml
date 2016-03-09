@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: PAB
+ISO4217Number: '590'
+sign: B/.
+subunits: 100
+title: 'Panamanian balboa'
+usage:
+    - { ISO8601From: '1903-11-04', ISO8601To: '', ISO3166Code: PA }

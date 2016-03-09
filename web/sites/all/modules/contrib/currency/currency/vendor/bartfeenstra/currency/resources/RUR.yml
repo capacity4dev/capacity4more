@@ -1,0 +1,18 @@
+alternativeSigns:
+    - руб
+exchangeRates: {  }
+ISO4217Code: RUR
+ISO4217Number: '810'
+sign: ''
+subunits: 100
+title: 'Russian ruble'
+usage:
+    - { ISO8601From: '1991-12-25', ISO8601To: '1993-11-22', ISO3166Code: AM }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1994-01-01', ISO3166Code: AZ }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1994-11-08', ISO3166Code: BY }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1993-06-11', ISO3166Code: GE }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1993-05-10', ISO3166Code: KG }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1998-12-31', ISO3166Code: RU }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1995-05-10', ISO3166Code: TJ }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1993-11-01', ISO3166Code: TM }
+    - { ISO8601From: '1991-12-25', ISO8601To: '1992-11-13', ISO3166Code: UA }

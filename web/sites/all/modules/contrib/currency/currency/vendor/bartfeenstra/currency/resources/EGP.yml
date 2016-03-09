@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: EGP
+ISO4217Number: '818'
+sign: 'ج.م'
+subunits: 100
+title: 'Egyptian pound'
+usage:
+    - { ISO8601From: '1885-11-14', ISO8601To: '', ISO3166Code: EG }
+    - { ISO8601From: '1920-11-11', ISO8601To: '1931-04-19', ISO3166Code: IQ }
+    - { ISO8601From: '1889-01-19', ISO8601To: '1958-01-01', ISO3166Code: SD }

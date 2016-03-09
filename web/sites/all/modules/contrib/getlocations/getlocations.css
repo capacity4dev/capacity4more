@@ -1,0 +1,156 @@
+
+/**
+ * @file
+ * getlocations.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * css for getlocations.
+ *
+ * To avoid being overwritten, copy this into your theme
+*/
+
+/**
+ * the map, see theme_getlocations_show().
+ */
+.getlocations_map_canvas {
+}
+/* see issue #1577634 #6 */
+.getlocations_map_canvas img {
+  max-width: none !important;
+}
+
+.getlocations_streetview_canvas img {
+  max-width: none !important;
+}
+
+.getlocations_map_buttons {
+}
+.getlocations_returnlink {
+}
+
+/* used in getlocations-view-map.tpl */
+.getlocations_map_wrapper {
+}
+
+.getlocations_map_wrapper_inner {
+}
+
+/* map links feature */
+.getlocations_map_links {
+  border: 1px solid #CCCCCC;
+  width: 100%;
+  padding: 4px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  max-height: 150px;
+  overflow: auto;
+}
+.getlocations_map_links ul {
+  list-style-type: none;
+  margin-left: 0px;
+}
+
+/**
+ * the infobubble, see function theme_getlocations_info().
+ */
+.vcard {
+}
+.vcard h4 {
+}
+/* stop long titles from creeping in under the close button */
+.location.vcard {
+  margin-top: 8px;
+}
+.adr {
+}
+.street-address {
+}
+.locality {
+}
+.region {
+}
+.postal-code {
+}
+.country-name {
+}
+.search-distance {
+}
+
+div.fullscreen {
+  width:100% !important;
+  height:100% !important;
+  /*position:absolute !important;*/
+  position:fixed !important;
+  top:0;
+  left:0;
+  z-index:500;
+  zoom: 1.0;
+}
+.fullscreen-body{
+  overflow: hidden !important;
+}
+
+/* search_places css */
+.search_places_input_wrapper {
+  padding-bottom: 4px;
+}
+.sp_left1 {
+  float: left;
+  width: 25px;
+  padding-right: 8px;
+}
+.sp_left2 {
+  float: left;
+  width: 275px;
+}
+.sp_main {
+  clear: both;
+  width: 310px;
+}
+.placeIcon {
+  height: 25px;
+  width: 25px;
+}
+.sp_left3 {
+  float: left;
+  width: 75px;
+  padding-right: 8px;
+}
+.sp_left4 {
+  float: left;
+  width: 225px;
+}
+.sp_picture {
+}
+
+.sp_listing_wrapper {
+  border: 1px solid #CCCCCC;
+  width: 494px;
+  padding: 4px;
+  margin-bottom: 8px;
+}
+.sp_listing {
+  max-height: 200px;
+  overflow: auto;
+  cursor: pointer;
+}
+.sp_ul {
+  list-style-type: none;
+  margin-left: 0px;
+}
+.sp_link {
+  vertical-align: middle;
+}
+.sp_link:hover {
+  background: #F0F0F0;
+}
+
+.sp_address {
+}
+.sp_phone {
+}
+.sp_web {
+}
+.search_places_input_wrapper {
+}

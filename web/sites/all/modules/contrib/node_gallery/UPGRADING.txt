@@ -1,0 +1,24 @@
+# Upgrading Node Gallery from Drupal 6 to Drupal 7
+
+Please read through all of these instructions before you begin. Upgrading your
+Node Gallery tables to Drupal 7 format requires that you follow these steps
+in the correct order.
+
+1. Before upgrading your Drupal 6 website, disable the Node Gallery module.
+2. Upgrade your Drupal 6 website to Drupal 7 as described here:
+http://drupal.org/documentation/upgrade/6/7
+3. After upgrading to Drupal 7, install the CCK Content Migrate Module and
+upgrade your Node Gallery image fields as described here:
+http://drupal.org/node/1144136
+4. Once your fields are migrated, download Node Gallery for Drupal 7. DO NOT
+ENABLE IT.
+5. Run update.php before enabling Node Gallery or Node Gallery API. This will
+upgrade your tables to the Drupal 7 format. If you have a lot of galleries
+and/or images, this could take awhile.
+6. Once the database conversion is complete, the upgrade process will enable
+the Node Gallery API and Node Gallery modules.
+7. If you customized your Node Gallery views for Drupal 6, you will need to
+re-apply your changes. The default views have changed significantly to
+accommodate mixed-media galleries, so your custom views may no longer be
+valid. You can adjust the views in the normal Views admin interface, and
+select them for use on the Node Gallery relationship type settings page.

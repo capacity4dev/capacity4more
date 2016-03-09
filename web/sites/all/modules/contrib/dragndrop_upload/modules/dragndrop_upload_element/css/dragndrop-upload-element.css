@@ -1,0 +1,60 @@
+.droppable {
+  float: left;
+  padding: 2px;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin: 5px 0;
+  min-width: 175px;
+}
+
+.droppable-preview>div {
+  display: none;
+}
+
+.droppable-preview-file {
+  border: 1px solid #ccc;
+  margin: 1px;
+  line-height: 20px;
+  height: 20px;
+  position: relative;
+}
+
+/**
+ * Hides the standard file input element.
+ */
+.droppable-standard-upload-hidden {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.droppable-standard-upload {
+  min-height: 75px;
+}
+
+.droppable-controls {
+  clear: left;
+}
+
+.droppable-message {
+  line-height: 75px;
+}
+
+.preview-remove {
+  cursor: pointer;
+  width: 20px;
+  background-color: #ccc;
+  z-index: 2;
+  position: absolute;
+  right: 0;
+}
+
+.preview-filesize {
+  font-size: 75%;
+  color: #555;
+}
+
+.droppable-controls input,
+.form-managed-file .droppable-controls input.progress-disabled {
+  display: none;
+}

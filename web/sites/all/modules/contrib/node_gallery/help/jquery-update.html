@@ -1,0 +1,24 @@
+<h2>Problem</h2>
+<p>
+ Node Gallery makes use of jquery and optionally of the jquery_ui module. Some drupal modules, however, require a newer version of jQuery to work.
+ If for example you choose to use colorbox to display your images, you also need to enable the jquery_update module. This might cause some problems,
+ e.g. the custom sorting of gallery images might fail. This is due to a conflict between your version of jquery_ui and the jquery version provided
+ by jquery_update.
+</p>
+<h2>What to do?</h2>
+<p>
+You can see what versions are in use of your site if you visit your status report page.
+The version of jQuery targeted by a release jQuery UI are mentioned in the release notes.
+As a rule of thumb these combinations work well together:
+<ul>
+  <li>jquery 1.2 -> jquery UI 1.6</li>
+  <li>jquery 1.3 -> jquery UI 1.7</li>
+  <li>jquery 1.4 -> jquery UI 1.8</li>
+</ul>
+<p>
+So check which version of jquery is in use and (if necessary) install a compatible version of jquery UI.
+If you don't know how to do that take a look at this tutorial: http://drupal.org/node/1078080
+</p>
+<p>
+After uploading the new version of jquery_ui you only have to flush your caches (at mysite.com/admin/settings/performance or via the link provided by the admin menu module which you should be using) and you are good to go.
+</p>

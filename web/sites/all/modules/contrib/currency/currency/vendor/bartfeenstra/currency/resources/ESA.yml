@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: ESA
+ISO4217Number: '996'
+sign: ¤
+subunits: null
+title: 'Spanish peseta'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: ES }

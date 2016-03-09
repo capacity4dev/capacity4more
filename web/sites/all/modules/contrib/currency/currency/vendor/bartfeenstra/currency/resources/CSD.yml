@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CSD
+ISO4217Number: '891'
+sign: 'РСД'
+subunits: 100
+title: 'Serbian dinar'
+usage:
+    - { ISO8601From: '2002-05-15', ISO8601To: '2006-06-03', ISO3166Code: CS }
+    - { ISO8601From: '2002-05-15', ISO8601To: '2006-10-25', ISO3166Code: RS }

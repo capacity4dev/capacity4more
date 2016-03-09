@@ -1,0 +1,12 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: DKK
+ISO4217Number: '208'
+sign: kr.
+subunits: 100
+title: 'Danish krone'
+usage:
+    - { ISO8601From: '1873-05-27', ISO8601To: '', ISO3166Code: DK }
+    - { ISO8601From: '1948-01-01', ISO8601To: '', ISO3166Code: FO }
+    - { ISO8601From: '1873-05-27', ISO8601To: '', ISO3166Code: GL }
+    - { ISO8601From: '1873-05-27', ISO8601To: '1918-12-01', ISO3166Code: IS }

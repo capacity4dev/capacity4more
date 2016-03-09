@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: WST
+ISO4217Number: '882'
+sign: WS$
+subunits: 100
+title: 'Samoan tala'
+usage:
+    - { ISO8601From: '1967-07-10', ISO8601To: '', ISO3166Code: WS }

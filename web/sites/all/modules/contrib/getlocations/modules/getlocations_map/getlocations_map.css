@@ -1,0 +1,13 @@
+
+/**
+ * @file
+ * getlocations_map.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ *   css for the getlocations_map module.
+ */
+
+.field-type-getlocations-map {
+  margin-bottom: 12px;
+}

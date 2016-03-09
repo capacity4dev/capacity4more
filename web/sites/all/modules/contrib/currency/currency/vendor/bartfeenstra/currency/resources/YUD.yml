@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: YUD
+ISO4217Number: null
+sign: дин
+subunits: 100
+title: 'Yugoslav dinar'
+usage:
+    - { ISO8601From: '1966-01-01', ISO8601To: '1990-01-01', ISO3166Code: BA }
+    - { ISO8601From: '1966-01-01', ISO8601To: '1990-01-01', ISO3166Code: HR }
+    - { ISO8601From: '1966-01-01', ISO8601To: '1990-01-01', ISO3166Code: YU }

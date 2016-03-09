@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CHW
+ISO4217Number: '948'
+sign: ¤
+subunits: 100
+title: 'WIR franc'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: CH }

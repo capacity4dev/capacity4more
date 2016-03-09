@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CNY
+ISO4217Number: '156'
+sign: ¥
+subunits: 100
+title: 'Chinese renminbi'
+usage:
+    - { ISO8601From: '1953-03-01', ISO8601To: '', ISO3166Code: CN }

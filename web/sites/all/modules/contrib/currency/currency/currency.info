@@ -1,0 +1,46 @@
+name = Currency
+description = Provides currency information and allows users to add custom currencies.
+core = 7.x
+php = 5.3
+configure = admin/config/regional/currency
+dependencies[] = ctools
+dependencies[] = system (>=7.14)
+test_dependencies[] = views
+files[] = includes/Currency.inc
+files[] = includes/CurrencyAmountViewsHandlerField.inc
+files[] = includes/CurrencyExchanger.inc
+files[] = includes/CurrencyExchangerBartFeenstraCurrency.inc
+files[] = includes/CurrencyExchangerFixedRates.inc
+files[] = includes/CurrencyExchangerInterface.inc
+files[] = includes/CurrencyCtoolsExportUI.inc
+files[] = includes/CurrencyLocalePattern.inc
+files[] = includes/CurrencyLocalePatternCtoolsExportUI.inc
+files[] = includes/CurrencyViewsHandlerField.inc
+files[] = includes/CurrencyViewsHandlerFilter.inc
+files[] = tests/CurrencyAmountFormElementWebTestCase.test
+files[] = tests/CurrencyAmountViewsHandlerFieldWebTestCase.test
+files[] = tests/CurrencyExchangerBartFeenstraCurrencyWebTestCase.test
+files[] = tests/CurrencyExchangerFixedRatesUIWebTestCase.test
+files[] = tests/CurrencyExchangerFixedRatesWebTestCase.test
+files[] = tests/CurrencyExchangerUIWebTestCase.test
+files[] = tests/CurrencyExchangerWebTestCase.test
+files[] = tests/CurrencyCRUDWebTestCase.test
+files[] = tests/CurrencyFilterWebTestCase.test
+files[] = tests/CurrencyLocaleFormElementWebTestCase.test
+files[] = tests/CurrencyLocalePatternCRUDWebTestCase.test
+files[] = tests/CurrencyLocalePatternUIWebTestCase.test
+files[] = tests/CurrencyLocalePatternWebTestCase.test
+files[] = tests/CurrencyModuleInstallUninstall.test
+files[] = tests/CurrencySignFormElementWebTestCase.test
+files[] = tests/CurrencyTokenWebTestCase.test
+files[] = tests/CurrencyUIWebTestCase.test
+files[] = tests/CurrencyViewsHandlerFieldWebTestCase.test
+files[] = tests/CurrencyViewsHandlerFilterWebTestCase.test
+files[] = tests/CurrencyWebTestCase.test
+
+; Information added by Drupal.org packaging script on 2015-06-24
+version = "7.x-2.5"
+core = "7.x"
+project = "currency"
+datestamp = "1435153681"
+

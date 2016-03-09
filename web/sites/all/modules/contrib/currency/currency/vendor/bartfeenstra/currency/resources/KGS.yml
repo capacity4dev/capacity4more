@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    SUR: '200'
+ISO4217Code: KGS
+ISO4217Number: '417'
+sign: ¤
+subunits: 100
+title: 'Kyrgyzstani som'
+usage:
+    - { ISO8601From: '1993-05-10', ISO8601To: '', ISO3166Code: KG }

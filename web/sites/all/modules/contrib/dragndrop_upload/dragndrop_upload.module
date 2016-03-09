@@ -1,0 +1,206 @@
+<?php
+
+/**
+ * @file
+ * Provides API for drag & drop upload features.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function dragndrop_upload_menu() {
+  $items['system/dragndrop/%'] = array(
+    'page callback' => 'dragndrop_upload_callback',
+    'page arguments' => array(2),
+    'access arguments' => TRUE,
+    'delivery callback' => 'ajax_deliver',
+    'theme callback' => 'ajax_base_page_theme',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * Enable dragndrop_upload_element, dragndrop_upload_file,
+ * dragndrop_upload_image, dragndrop_upload_multi modules automatically.
+ */
+function dragndrop_upload_modules_enabled($modules) {
+  if (in_array('dragndrop_upload', $modules)) {
+    $enable = array('dragndrop_upload_element');
+
+    // Add dragndrop_upload_file module only if module 'file' is enabled.
+    if (module_exists('file')) {
+      $enable[] = 'dragndrop_upload_file';
+    }
+
+    // Add dragndrop_upload_image module only if module 'image' is enabled.
+    if (module_exists('image')) {
+      $enable[] = 'dragndrop_upload_image';
+    }
+
+    // Add dragndrop_upload_multi module only if module
+    // 'multiupload_filefield_widget' is enabled.
+    if (module_exists('multiupload_filefield_widget')) {
+      $enable[] = 'dragndrop_upload_multi';
+    }
+
+    module_enable($enable);
+  }
+}
+
+/**
+ * Default ajax callback for dropzones.
+ *
+ * Calls the 'callback' function from the dropzone settings array.
+ *
+ * @param string $id
+ *   Id of the dropzone that has been generated in
+ *   dragndrop_upload_dropzone_add().
+ *
+ * @return mixed
+ *   Return from callback function (should be ajax commands or text).
+ */
+function dragndrop_upload_callback($id) {
+  if ($settings = dragndrop_upload_cache_get($id)) {
+    $file = $_FILES[$settings['name']];
+
+    if (is_callable($settings['callback'])) {
+      return $settings['callback']($settings['name'], $file);
+    }
+  }
+}
+
+/**
+ * Add a dropzone.
+ *
+ * @param string $selector
+ *   A jQuery selector of the element that must become a dropzone.
+ *
+ * @param array $settings
+ *   Settings for the dropzone.
+ */
+function dragndrop_upload_dropzone_add($selector, array $settings) {
+  $js_added = & drupal_static(__FUNCTION__, array());
+
+  if (!$js_added) {
+    drupal_add_library('system', 'drupal.ajax');
+
+    $path = drupal_get_path('module', 'dragndrop_upload');
+    $options = array('group' => JS_LIBRARY);
+    drupal_add_js($path . '/js/dragndrop-upload.formdata.js', $options);
+    drupal_add_js($path . '/js/dragndrop-upload.dnd.js', $options);
+    drupal_add_js($path . '/js/dragndrop-upload.js');
+
+    $js_added = TRUE;
+  }
+
+  // Set default URL in DnD settings if callback is provided.
+  if (!empty($settings['callback'])) {
+    $id = drupal_hash_base64(uniqid(mt_rand(), TRUE) . mt_rand());
+    $settings['url'] = url('system/dragndrop/' . $id);
+    dragndrop_upload_cache_set($id, $settings);
+  }
+
+  // Give an ability to alter dropzone settings.
+  drupal_alter('dragndrop_upload_dropzone', $settings, $selector);
+
+  $settings += array(
+    'selector' => $selector,
+    'validators' => array(),
+    'cardinality' => 1,
+    'multiupload' => 0,
+    'name' => '',
+    'url' => '',
+    'errorsInfo' => dragndrop_upload_errors_info(),
+  );
+
+  // Add Drupal setting in this way in order to escape from settings
+  // duplicating.
+  $javascript = & drupal_static('drupal_add_js', array());
+  $javascript['settings']['data'][__FUNCTION__]['dragndropUpload'][$selector] = $settings;
+}
+
+/**
+ * A callback to process '#attached' setting of the elements to add a dropzone.
+ *
+ * I.e.
+ * @code
+ *   ...
+ *   $element['#attached']['dragndrop_upload'][] = array(
+ *    'selector' => '#my-dropzone',
+ *    'settings' => array(
+ *        'name' => 'my_dropzone',
+ *        'callback' => 'my_dropzone_callback'
+ *      )
+ *   );
+ *   ...
+ * @endcode
+ *
+ * @param string $selector
+ *   A selector of the element that must become a dropzone.
+ * @param array $settings
+ *   Settings to a dropzone.
+ *
+ * @see drupal_process_attached()
+ */
+function dragndrop_upload($selector, $settings) {
+  dragndrop_upload_dropzone_add($selector, $settings);
+}
+
+/**
+ * Set DnD settings cache.
+ *
+ * @param string $id
+ *   Hash-id of the dropzone.
+ * @param array $settings
+ *   Settings of the dropzone.
+ */
+function dragndrop_upload_cache_set($id, $settings) {
+  // Cache lifetime is 6 hours.
+  $expire = 21600;
+
+  cache_set('dragndrop_upload:' . $id, $settings, 'cache', REQUEST_TIME + $expire);
+}
+
+/**
+ * Get DnD cached settings by id.
+ *
+ * @param string $id
+ *   Hash-id of the dropzone.
+ *
+ * @return mixed
+ *   Settings of the dropzone.
+ */
+function dragndrop_upload_cache_get($id) {
+  if ($cached = cache_get('dragndrop_upload:' . $id)) {
+    return $cached->data;
+  }
+}
+
+/**
+ * Get available errors types.
+ *
+ * Return array with available error types and human-readable messages for them.
+ * Types can be altered by hook_dragndrop_upload_element_errors_info_alter().
+ *
+ * @return array
+ *   Available error messages.
+ */
+function dragndrop_upload_errors_info() {
+  $errors = array(
+    'fileSize' => t(
+      'The selected file @filename cannot be uploaded, because it exceeds the maximum file size for uploading.'),
+    'filesNum' => t(
+      'The selected file @filename cannot be uploaded. Maximum allowed number (@allowed) of files is exceeded.'),
+    'fileExt' => t(
+      'The selected file @filename cannot be uploaded. Only files with the following extensions are allowed: @allowed.'),
+    'unknown' => t('Unknown error type'),
+  );
+
+  drupal_alter('dragndrop_upload_errors_info', $errors);
+
+  return $errors;
+}

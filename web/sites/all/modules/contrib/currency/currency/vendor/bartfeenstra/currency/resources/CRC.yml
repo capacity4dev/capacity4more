@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CRC
+ISO4217Number: '188'
+sign: ₡
+subunits: 100
+title: 'Costa Rican colon'
+usage:
+    - { ISO8601From: '1896-10-26', ISO8601To: '', ISO3166Code: CR }

@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyTokenWebTestCase.
+ */
+
+/**
+ * Tests Token integration.
+ */
+class CurrencyTokenWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Token integration',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Tests token integration.
+   */
+  function testTokenIntegration() {
+    $data = array(
+      'EUR' => array(
+        '[currency:code]' => 'EUR',
+        '[currency:number]' => '978',
+        '[currency:subunits]' => '100',
+      ),
+      'BHD' => array(
+        '[currency:code]' => 'BHD',
+        '[currency:number]' => '048',
+        '[currency:subunits]' => '1000',
+      ),
+    );
+    foreach ($data as $currency_code => $tokens) {
+      $data = array(
+        'currency' => $currency_code,
+      );
+      foreach ($tokens as $token => $replacement) {
+        $this->assertEqual(token_replace($token, $data), $replacement);
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+name = Getlocations Fields Entity
+description = Provide information about Getlocations Fields to Entity module.
+core = 7.x
+package = Fields
+
+dependencies[] = entity
+dependencies[] = getlocations_fields
+
+; Information added by Drupal.org packaging script on 2015-06-10
+version = "7.x-1.16"
+core = "7.x"
+project = "getlocations"
+datestamp = "1433951603"
+

@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    ZWN: '10000000000'
+ISO4217Code: ZWR
+ISO4217Number: '935'
+sign: $
+subunits: 100
+title: 'Zimbabwean dollar'
+usage:
+    - { ISO8601From: '2008-08-01', ISO8601To: '2009-02-02', ISO3166Code: ZW }

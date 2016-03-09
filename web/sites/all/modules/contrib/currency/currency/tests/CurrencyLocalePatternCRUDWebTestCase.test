@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyLocalePatternCRUDWebTestCase.
+ */
+
+/**
+ * Tests CRUD.
+ */
+class CurrencyLocalePatternCRUDWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Currency locale pattern CRUD',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Checks if a locale pattern exists in the database.
+   *
+   * @param CurrencyLocalePattern $locale_pattern
+   *
+   * @return boolean
+   */
+  function localePatternExists(CurrencyLocalePattern $locale_pattern) {
+    $schema = drupal_get_schema('currency_locale_pattern');
+    $query = db_select('currency_locale_pattern');
+    foreach (array_keys($schema['fields']) as $property) {
+      $query->condition($property, $locale_pattern->$property);
+    }
+
+    return $query->countQuery()
+      ->execute()->fetchField();
+  }
+
+  /**
+   * Test CRUD functionality.
+   */
+  function testCRUD() {
+    // Test creating a new locale pattern.
+    $this->assertEqual(ctools_export_crud_new('currency_locale_pattern'), new CurrencyLocalePattern(), 'Chaos tools correctly creates a new currency locale pattern.');
+
+    // Test inserting a locale pattern.
+    $locale_pattern = new CurrencyLocalePattern(array(
+      'locale' => 'nl_NL',
+      'pattern' => 'foo',
+    ));
+    ctools_export_crud_save('currency_locale_pattern', $locale_pattern);
+    $this->assertTrue($this->localePatternExists($locale_pattern), 'Chaos tools correctly inserts a currency locale pattern.');
+
+    // Test loading a locale pattern.
+    $locale_pattern_loaded = ctools_export_crud_load('currency_locale_pattern', $locale_pattern->locale);
+    // The "export_type" and "type" properties are supposed to change.
+    $locale_pattern_original = clone $locale_pattern;
+    unset($locale_pattern_original->export_type);
+    unset($locale_pattern_original->type);
+    unset($locale_pattern_loaded->export_type);
+    unset($locale_pattern_loaded->type);
+    $this->assertEqual($locale_pattern_original, $locale_pattern_loaded, 'Chaos tools correctly loads a currency locale pattern.');
+
+    // Test updating a locale pattern.
+    $locale_pattern->pattern = 'bar';
+    ctools_export_crud_save('currency_locale_pattern', $locale_pattern);
+    $this->assertTrue($this->localePatternExists($locale_pattern), 'Chaos tools correctly updates a currency locale pattern.');
+
+    // Test deleting a locale pattern.
+    ctools_export_crud_delete('currency_locale_pattern', $locale_pattern->locale);
+    $this->assertFalse($this->localePatternExists($locale_pattern), 'Chaos tools correctly deletes a currency locale pattern.');
+  }
+}

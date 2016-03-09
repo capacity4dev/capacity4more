@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SOS
+ISO4217Number: '706'
+sign: Sh.So.
+subunits: 100
+title: 'Somali shilling'
+usage:
+    - { ISO8601From: '1960-07-01', ISO8601To: '', ISO3166Code: SO }

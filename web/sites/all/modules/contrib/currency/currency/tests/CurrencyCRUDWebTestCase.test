@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyCRUDWebTestCase.
+ */
+
+/**
+ * Tests CRUD.
+ */
+class CurrencyCRUDWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Currency CRUD',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Checks if a currency exists in the database.
+   *
+   * @param Currency $currency
+   *
+   * @return boolean
+   */
+  function currencyExists(Currency $currency) {
+    $schema = drupal_get_schema('currency');
+    $query = db_select('currency');
+    foreach (array_keys($schema['fields']) as $property) {
+      $query->condition($property, $currency->$property);
+    }
+
+    return $query->countQuery()
+      ->execute()->fetchField();
+  }
+
+  /**
+   * Test CRUD functionality.
+   */
+  function testCRUD() {
+    // Test creating a new currency.
+    $this->assertEqual(ctools_export_crud_new('currency'), new Currency(), 'Chaos tools correctly creates a new currency.');
+
+    // Test inserting a currency.
+    $currency = new Currency(array(
+      'ISO4217Code' => 'XXX',
+      'subunits' => 5,
+      'title' => $this->randomName(),
+    ));
+    currency_save($currency);
+    $this->assertTrue($this->currencyExists($currency), 'Chaos tools correctly inserts a currency.');
+
+    // Test loading a currency.
+    $currency_loaded = currency_load($currency->ISO4217Code);
+    // The "export_type" and "type" properties are supposed to change.
+    unset($currency->export_type);
+    unset($currency->type);
+    unset($currency_loaded->export_type);
+    unset($currency_loaded->type);
+    $this->assertEqual($currency, $currency_loaded, 'Chaos tools correctly loads a currency.');
+
+    // Test updating a currency.
+    $currency->ISO4217Code = 'EUR';
+    $currency->export_module = 'foo';
+    $currency->export_type = EXPORT_IN_CODE;
+    $currency->rounding_step = 100;
+    $currency->sign = 'bar';
+    $currency->subunits = 100;
+    $currency->title = 'baz';
+    currency_save($currency);
+    $this->assertTrue($this->currencyExists($currency), 'Chaos tools correctly updates a currency.');
+
+    // Test deleting a currency.
+    currency_delete($currency->ISO4217Code);
+    $this->assertFalse($this->currencyExists($currency), 'Chaos tools correctly deletes a currency.');
+  }
+}

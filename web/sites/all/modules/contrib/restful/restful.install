@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Restful module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function restful_schema() {
+  $schema = array();
+
+  $schema['cache_restful'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  // Rate limit entity base table.
+  $schema['restful_rate_limit'] = array(
+    'description' => 'Rate limit base table',
+    'fields' => array(
+      'rlid' => array(
+        'description' => 'The rate limit unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'event' => array(
+        'description' => 'The event name.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'identifier' => array(
+        'description' => 'The user & request identifier.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the rate limit window started.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'expiration' => array(
+        'description' => 'The Unix timestamp when the rate limit window expires.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'hits' => array(
+        'description' => 'The number of hits.',
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ),
+    ),
+    'unique keys' => array(
+      'identifier' => array('identifier'),
+    ),
+    'indexes' => array(
+      'rate_limit_identifier' => array('identifier'),
+    ),
+    'primary key' => array('rlid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function restful_uninstall() {
+  variable_del('restful_default_output_formatter');
+
+  variable_del('restful_enable_discovery_resource');
+
+  variable_del('restful_file_upload');
+  variable_del('restful_file_upload_allow_anonymous_user');
+
+  variable_del('restful_hijack_api_pages');
+  variable_del('restful_hook_menu_base_path');
+
+  variable_del('restful_enable_user_login_resource');
+
+  variable_del('restful_global_rate_limit');
+  variable_del('restful_global_rate_period');
+
+  variable_del('restful_enable_users_resource');
+
+  variable_del('restful_render_cache');
+  variable_del('restful_skip_basic_auth');
+}

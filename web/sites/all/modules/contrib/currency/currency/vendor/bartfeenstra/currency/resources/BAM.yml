@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BAM
+ISO4217Number: '977'
+sign: KM
+subunits: 100
+title: 'Bosnian Herzegovinian convertible mark'
+usage:
+    - { ISO8601From: '1995-01-01', ISO8601To: '', ISO3166Code: BA }

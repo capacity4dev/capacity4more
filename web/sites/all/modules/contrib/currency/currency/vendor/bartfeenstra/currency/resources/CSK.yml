@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CSK
+ISO4217Number: '200'
+sign: Kčs
+subunits: 100
+title: 'Czechoslovak koruna'
+usage:
+    - { ISO8601From: '1953-06-01', ISO8601To: '1993-03-01', ISO3166Code: CZ }
+    - { ISO8601From: '1953-06-01', ISO8601To: '1992-12-31', ISO3166Code: SK }

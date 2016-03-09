@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AON
+ISO4217Number: '024'
+sign: ¤
+subunits: 0
+title: 'Angolan kwanza'
+usage:
+    - { ISO8601From: '1990-09-25', ISO8601To: '2000-02-01', ISO3166Code: AO }

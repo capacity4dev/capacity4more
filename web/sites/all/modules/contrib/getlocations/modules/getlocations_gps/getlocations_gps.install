@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * getlocations_gps.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_gps module installation.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function getlocations_gps_uninstall() {
+  variable_del('getlocations_gps_defaults');
+  variable_del('getlocations_gps_paths');
+}
+
+/**
+ * Implements hook_enable().
+ */
+function getlocations_gps_enable() {
+  drupal_set_message(st('Thank you for installing Getlocations gps. To set it up please visit the <a href="@url">configuration page</a>.', array('@url' => url('admin/config/services/getlocations/gps'))), 'status');
+}

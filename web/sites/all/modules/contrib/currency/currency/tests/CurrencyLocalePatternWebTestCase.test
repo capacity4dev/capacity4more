@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyLocalePatternWebTestCase.
+ */
+
+/**
+ * Tests class CurrencyLocalePattern.
+ */
+class CurrencyLocalePatternWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyLocalePattern',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Tests locale delegation.
+   */
+  function testLocaleDelegation() {
+    global $language;
+
+    // Test getting the default.
+    $this->assertEqual(CurrencyLocalePattern::getCountryCode(), NULL);
+
+    // Test setting a custom country.
+    CurrencyLocalePattern::setCountryCode('NL');
+    $this->assertEqual(CurrencyLocalePattern::getCountryCode(), 'NL');
+
+    // Test loading a locale pattern based on the environment.
+    $language->language = 'nl';
+    CurrencyLocalePattern::setCountryCode('NL');
+    $locale_pattern = CurrencyLocalePattern::loadFromEnv();
+    $this->assertEqual($locale_pattern->locale, 'nl_NL');
+
+    // Test resetting the country.
+    CurrencyLocalePattern::resetCountryCode();
+    $this->assertEqual(CurrencyLocalePattern::getCountryCode(), NULL);
+  }
+
+  /**
+   * Test format().
+   */
+  function testFormat() {
+    $currency = currency_load('EUR');
+    $locale_pattern = new CurrencyLocalePattern(array(
+      'pattern' => '¤-#,##0.00[XXX][999]',
+      'symbol_decimal_separator' => ',',
+      'symbol_grouping_separator' => '.',
+    ));
+    $amount = 12345.6789;
+    $formatted = $locale_pattern->format($currency, $amount);
+    $formatted_expected = '€-12.345,6789EUR978';
+    $this->assertEqual($formatted, $formatted_expected);
+  }
+}

@@ -1,0 +1,153 @@
+<?php
+
+function context_og_ctools_plugin_api($module, $api) {
+  if ($module == 'context' && $api == 'plugins') {
+    return array('version' => 3);
+  }
+}
+
+function context_og_context_plugins() {
+  $plugins = array();
+  $plugins['context_og_condition_group_node'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_og') . '/plugins',
+      'file' => 'context_og_condition_group_node.inc',
+      'class' => 'context_og_condition_group_node',
+      'parent' => 'context_condition',
+    ),
+  );
+  $plugins['context_og_condition_group_type'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_og') . '/plugins',
+      'file' => 'context_og_condition_group_type.inc',
+      'class' => 'context_og_condition_group_type',
+      'parent' => 'context_condition',
+    ),
+  );
+  $plugins['context_og_condition_member_status'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_og') . '/plugins',
+      'file' => 'context_og_condition_member_status.inc',
+      'class' => 'context_og_condition_member_status',
+      'parent' => 'context_condition',
+    ),
+  );
+  $plugins['context_og_condition_member_role'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_og') . '/plugins',
+      'file' => 'context_og_condition_member_role.inc',
+      'class' => 'context_og_condition_member_role',
+      'parent' => 'context_condition',
+    ),
+  );
+  $plugins['context_og_reaction_set_group_context'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_og') . '/plugins',
+      'file' => 'context_og_reaction_set_group_context.inc',
+      'class' => 'context_og_reaction_set_group_context',
+      'parent' => 'context_reaction',
+    ),
+  );
+  return $plugins;
+}
+
+/**
+ * Implementation of hook_context_registry().
+ */
+function context_og_context_registry() {
+  return array(
+    'conditions' => array(
+      'context_og_condition_group_node' => array(
+        'title' => t('OG - group node context'),
+        'description' => t("Set this context when viewing a node or other page that is in any of the selected groups."),
+        'plugin' => 'context_og_condition_group_node',
+      ),
+      'context_og_condition_group_type' => array(
+        'title' => t('OG - group type context'),
+        'description' => t("Set this context when viewing a node or other page that is in any group of the selected types.  Select <em>Not in a group</em> to also set the context when viewing a node or other page that is not in any group."),
+        'plugin' => 'context_og_condition_group_type',
+      ),
+      'context_og_condition_member_status' => array(
+        'title' => t('OG - Member Status'),
+        'description' => t("Set this context based on the current user's OG membership status."),
+        'plugin' => 'context_og_condition_member_status',
+      ),
+      'context_og_condition_member_role' => array(
+        'title' => t('OG - Member Role'),
+        'description' => t("Set this context based on the current user's OG Role. Note that this currently only supports global non-overridden roles."),
+        'plugin' => 'context_og_condition_member_role',
+      ),
+    ),
+    'reactions' => array(
+      'context_og_reaction_set_group_context' => array(
+        'title' => t('OG - set group context'),
+        'description' => t("Set this group's context."),
+        'plugin' => 'context_og_reaction_set_group_context',
+      ),
+    ),
+  );
+}
+
+/**
+ * TODO The call order of the plugins has been reversed here (which arguably is
+ * confusing).
+ * The hook_context_page_reaction() sets up our condition plugins and the the
+ * hook_context_page_condition() sets up our reaction.
+ * This had to be done because we need the hooks in the following order:
+ *
+ * 1. OG hooks (to set context)
+ * 2. context_og reaction (so our conditions can work with it)
+ * 3. context_og condition
+ */
+
+
+/*
+ * Implementation of hook_context_page_reaction().
+ *
+ * This needs to run after Organic Groups' hook_init() because we need the group context to be set.
+ *
+ * It also needs to run after Views processes arguments because og_views provides argument handlers
+ * that set OG's group context.
+ */
+function context_og_context_page_reaction() {
+  $group = og_context();
+
+  // Only execute the group context conditions if there is a group node.
+  if ($group) {
+    $plugin = context_get_plugin('condition', 'context_og_condition_group_node');
+    if ($plugin) {
+      $plugin->execute($group);
+    }
+
+    $plugin = context_get_plugin('condition', 'context_og_condition_member_status');
+    if ($plugin) {
+      $plugin->execute($group);
+    }
+
+    $plugin = context_get_plugin('condition', 'context_og_condition_member_role');
+    if ($plugin) {
+      $plugin->execute($group);
+    }
+  }
+
+  // Execute the group type context condition all the time because we want
+  // to use that condition to be able to check for "no group context."
+  $plugin = context_get_plugin('condition', 'context_og_condition_group_type');
+  if ($plugin) {
+    $plugin->execute($group);
+  }
+}
+
+/**
+ * Execute the "set group context" reaction here so that our conditions will work
+ * when they get executed.  We want to come after organic groups' hook_init() so
+ * the context doesn't get switched out from under us.
+ */
+function context_og_context_page_condition() {
+  $plugin = context_get_plugin('reaction', 'context_og_reaction_set_group_context');
+
+  if ($plugin) {
+    $plugin->execute();
+  }
+}
+

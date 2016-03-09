@@ -1,0 +1,91 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the purl module.
+ *
+ */
+
+
+/**
+ * Implements hook_install().
+ */
+function purl_install() {
+  db_update('system')
+    ->fields(array('weight' => -20,))
+    ->condition('name', 'purl')
+    ->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function purl_uninstall() {
+  // should we delete this variable here??
+  variable_del('purl_method_pair_key');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function purl_schema() {
+  $schema['purl'] = array(
+    'description' => 'purl.',
+    'fields' => array(
+      'value' => array(
+        'description' => 'The string to detect from incoming URLs and to use when rewriting outgoing URLs.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'provider' => array(
+        'description' => 'The provider (usually a module\'s name) of the prefix/id pair.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'id' => array(
+        'description' => 'The ID given by the provider to associate with a corresponding prefix. This might be a group_nid (og), a language code (i18n) or some other unique identifier that the provider is interested in associating with the URL prefix.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('value'),
+    'indexes' => array(
+      'provider_id' => array(
+        'provider',
+        'id',
+      ),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * The "path pair" processor was using a variable named
+ * "purl_method_path_key", update that to "purl_method_pair_key".
+ */
+function purl_update_6001() {
+  if ($pair = variable_get('purl_method_path_key', FALSE)) {
+    variable_set('purl_method_pair_key', $pair);
+    variable_del('purl_method_path_key');
+  }
+  return;
+}
+
+/**
+ * Install CTools.
+ */
+function purl_update_6002() {
+  module_enable(array('ctools'));
+  $modules = module_list();
+  if (!isset($modules['ctools'])) {
+    throw new DrupalUpdateException(t('Could not enable CTools.'));
+  }
+  return t('Enabled CTools successfully.');
+}
+

@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BWP
+ISO4217Number: '072'
+sign: P
+subunits: 100
+title: 'Botswanan pula'
+usage:
+    - { ISO8601From: '1976-08-23', ISO8601To: '', ISO3166Code: BW }

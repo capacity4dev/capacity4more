@@ -1,0 +1,545 @@
+<?php
+
+/**
+ * @file
+ * This module defines the Money field.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function money_init() {
+  if (module_exists('diff')) {
+    module_load_include('inc', 'money', 'includes/money.diff');
+  }
+  if (module_exists('feeds')) {
+    module_load_include('inc', 'money', 'includes/money.feeds');
+  }
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function money_field_info() {
+  return array(
+    'money' => array(
+      'label' => t('Money'),
+      'description' => t('This field stores and renders an amount with its currency.'),
+      'settings' => array('min' => '', 'max' => '', 'precision' => 10, 'scale' => 2),
+      'instance_settings' => array('min' => '', 'max' => ''),
+      'default_widget' => 'money_widget',
+      'default_formatter' => 'money_default',
+      'property_type' => 'money',
+      'property_callbacks' => array('money_field_property_info_callback'),
+    ),
+  );
+}
+
+/**
+ * Additional callback to adapt the property info of money field.
+ *
+ * @see entity_metadata_field_entity_property_info()
+ */
+function money_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+  $property['type'] = ($field['cardinality'] != 1) ? 'list<money>' : 'money';
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+  $property['auto creation'] = 'entity_property_create_array';
+  $property['property info'] = array(
+    'amount' => array(
+      'label' => 'Amount',
+      'type' => 'decimal',
+      'setter callback' => 'entity_property_verbatim_set',
+      'getter callback' => 'entity_property_verbatim_get',
+    ),
+    'currency' => array(
+      'label' => 'Currency',
+      'type' => 'text',
+      'setter callback' => 'entity_property_verbatim_set',
+      'getter callback' => 'entity_property_verbatim_get',
+    ),
+  );
+  unset($property['query callback']);
+}
+
+/**
+ * Implements hook_field_settings_form().
+ */
+function money_field_settings_form($field, $instance, $has_data) {
+  $settings = $field['settings'];
+  $form = array();
+
+  $form['precision'] = array(
+    '#type' => 'select',
+    '#title' => t('Precision'),
+    '#options' => drupal_map_assoc(range(10, 32)),
+    '#default_value' => $settings['precision'],
+    '#description' => t('The total number of digits to store in the database, including those to the right of the decimal.'),
+    '#disabled' => $has_data,
+  );
+  $form['scale'] = array(
+    '#type' => 'select',
+    '#title' => t('Scale'),
+    '#options' => drupal_map_assoc(range(0, 10)),
+    '#default_value' => $settings['scale'],
+    '#description' => t('The number of digits to the right of the decimal.'),
+    '#disabled' => $has_data,
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_field_info_alter().
+ */
+function money_field_info_alter(&$info) {
+  // Add min/max settings to decimal field types.
+  if (isset($info['money'])) {
+    $precision = $info['money']['settings']['precision'];
+    $scale = $info['money']['settings']['scale'];
+    $min = (float)('-' . str_repeat('9', $precision - $scale) . '.' . str_repeat('9', $scale));
+    $max = (float)(str_repeat('9', $precision - $scale) . '.' . str_repeat('9', $scale));
+    $info['money']['settings']['min'] = $min;
+    $info['money']['settings']['max'] = $max;
+  }
+}
+
+/**
+ * Implements hook_field_instance_settings_form().
+ */
+function money_field_instance_settings_form($field, $instance) {
+  $settings = $instance['settings'];
+
+  $form['min'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Minimum'),
+    '#default_value' => $settings['min'],
+    '#description' => t('The minimum value that should be allowed in this field. Leave blank for no minimum.'),
+    '#element_validate' => array('_element_validate_limit'),
+    '#weight' => -1,
+  );
+  $form['max'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum'),
+    '#default_value' => $settings['max'],
+    '#description' => t('The maximum value that should be allowed in this field. Leave blank for no maximum.'),
+    '#element_validate' => array('_element_validate_limit'),
+    '#weight' => -1,
+  );
+
+  return $form;
+}
+
+/**
+ * Validate the element for min/max limits.
+ * Copied from http://drupalcode.org/sandbox/nouriassafi/1603812.git fork of formatted_number module.
+ */
+function _element_validate_limit($element, &$form_state) {
+  $value = $element['#value'];
+  $field_name = $form_state['values']['instance']['field_name'];
+  $field = $form_state['field'][$field_name][LANGUAGE_NONE]['field'];
+  if ($value != '' && !is_numeric($value)) {
+    form_error($element, t('%name must be a number.', array('%name' => $element['#title'])));
+  }
+  if ($value != '' && isset($field['settings']['min'])) {
+    if ($element['#name'] == 'instance[settings][min]' && $value < $field['settings']['min']) {
+      form_error($element, t('%name: the value may be no less than %min.', array('%name' => $element['#title'], '%min' => $field['settings']['min'])));
+    }
+    if ($element['#name'] == 'instance[settings][max]' && $value > $field['settings']['max']) {
+      form_error($element, t('%name: the value may be no greater than %max.', array('%name' => $element['#title'], '%max' => $field['settings']['max'])));
+    }
+  }
+}
+
+/**
+ * Implements hook_field_validate().
+ *
+ * Possible error codes:
+ * - 'money_min': The value is less than the allowed minimum value.
+ * - 'money_max': The value is greater than the allowed maximum value.
+ * - 'money_currency': Currency is missing.
+ * - 'money_amount': Amount is missing.
+ */
+function money_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  foreach ($items as $delta => $item) {
+    if ($item['amount'] != '') {
+      $min = is_numeric($instance['settings']['min']) ? $instance['settings']['min'] : $field['settings']['min'];
+      if (is_numeric($min) && $item['amount'] < $min) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'money_min',
+          'message' => t('%name: the value may be no less than %min.', array('%name' => $instance['label'], '%min' => $min)),
+        );
+      }
+      $max = is_numeric($instance['settings']['max']) ? $instance['settings']['max'] : $field['settings']['max'];
+      if (is_numeric($max) && $item['amount'] > $max) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'money_max',
+          'message' => t('%name: the value may be no greater than %max.', array('%name' => $instance['label'], '%max' => $max)),
+        );
+      }
+      if (empty($item['currency'])) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'money_currency',
+          'message' => t('%name: currency is required when an amount is specified.', array('%name' => $instance['label'])),
+        );
+      }
+    }
+    if (!is_numeric($item['amount']) && $item['currency']) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'money_amount',
+        'message' => t('%name: a valid amount is required when a currency is specified.', array('%name' => $instance['label'])),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function money_field_is_empty($item, $field) {
+  if (!is_numeric($item['amount']) && empty($item['currency'])) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function money_field_formatter_info() {
+  return array(
+    'money_default' => array(
+      'label' => t('Default'),
+      'field types' => array('money'),
+    ),
+    'money_unformatted' => array(
+      'label' => t('Unformatted'),
+      'field types' => array('money'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function money_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  // Dependency required by CurrencyLocalePattern class.
+  ctools_include('export');
+
+  foreach ($items as $delta => $item) {
+    $currency = $item['currency'];
+    $currency_object = currency_load($currency);
+    $currency_pattern = CurrencyLocalePattern::loadFromEnv();
+
+    $symbol = $currency_object->sign;
+    $decimal_separator = $currency_pattern->symbol_decimal_separator;
+    $grouping_separator = $currency_pattern->symbol_grouping_separator;
+
+    // Amount with currency-based decimal and grouping separators.
+    $amount = number_format($item['amount'], $field['settings']['scale'], $decimal_separator, $grouping_separator);
+
+    // Amount with currency-based decimal and grouping separators and a currency symbol.
+    $amount_with_symbol = $display['type'] == 'money_default' ? $currency_object->format($item['amount']) : $item['amount'];
+
+    $output = '';
+    foreach (explode('|', $instance['widget']['settings']['currency_display_mode']) as $option) {
+      switch ($option) {
+      case 'a':
+        // The amount.
+        $output .= $amount;
+        break;
+
+      case 'as':
+        // Amount with currency symbol.
+        $output .= $amount_with_symbol;
+        break;
+
+      case 'c':
+        // Currency code.
+        $output .= $currency;
+        break;
+
+      case 's':
+        // Currency symbol.
+        $output .= $symbol;
+        break;
+
+      case '+':
+        // Separator.
+        $output .= $display['type'] == 'money_default' ? "\xC2\xA0" : ' ';
+        break;
+      }
+    }
+
+    $element[$delta] = array('#markup' => $output);
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function money_field_widget_info() {
+  return array(
+    'money_widget' => array(
+      'label' => t('Amount and currency'),
+      'field types' => array('money'),
+      'settings' => array(
+        'currency_select_mode' => 'name',
+        'currency_display_mode' => 'ac',
+        'decimals_display_mode' => 'field',
+        'currencies' => array(
+          'allowed_currencies' => array()
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function money_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $value = isset($items[$delta]['amount']) ? $items[$delta]['amount'] : '';
+
+  // Dependency required by CurrencyLocalePattern class.
+  ctools_include('export');
+
+  $decimal_separator = CurrencyLocalePattern::loadFromEnv()->symbol_decimal_separator;
+
+  // Substitute the decimal separator.
+  $value = strtr($value, '.', $decimal_separator);
+  $element += array(
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+    '#attributes' => array('class' => array('container-inline')),
+  );
+  $element['amount'] = array(
+    '#type' => 'textfield',
+    '#default_value' => $value,
+    // Allow a slightly larger size than the field length to allow for some
+    // configurations where all characters won't fit in input field.
+    '#size' => $field['settings']['precision'] + 4,
+    // Allow two extra characters for signed values and decimal separator.
+    '#maxlength' => $field['settings']['precision'] + 2,
+    '#attributes' => array('class' => array('formatted-number'), 'decimals' => $field['settings']['scale']),
+    '#attached' => array(
+      'css' => array(
+        // Removed dependency to format_number module.
+        // Removed dependency to formatted_number module.
+      ),
+      'js' => array(
+        // Removed dependency to format_number module.
+        // Removed dependency to formatted_number module.
+        array(
+          'data' => array(), // Removed dependency to format_number module.
+          'type' => 'setting',
+        ),
+      ),
+    ),
+  );
+  $element['currency'] = array(
+    '#type' => 'select',
+    '#default_value' => (isset($items[$delta]['currency']) ? $items[$delta]['currency'] : array()),
+    '#options' => money_get_widget_currencies($instance, $element),
+  );
+
+  $element['#element_validate'][] = 'money_field_widget_validate';
+  return $element;
+}
+
+/**
+ * Build currency options for the given field/widget.
+ */
+function money_get_widget_currencies($instance, $element) {
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+  // Currently implemented modes: code, name. See money_field_widget_settings_form().
+  $mode = $settings['currency_select_mode'];
+
+  // Prepare the array of allowed currencies.
+  if (isset($settings['currencies']['allowed_currencies']) && is_array($settings['currencies']['allowed_currencies'])) {
+    // Obtain the list of allowed currencies. Note that this array is in the form of 'code' => boolean.
+    $allowed_currencies = array_filter($settings['currencies']['allowed_currencies']);
+  }
+  else {
+    // Initialize array when the list has not been already set in field settings.
+    $allowed_currencies = array();
+  }
+
+  // When no currency has been specified in widget settings we allow them all.
+  if (empty($allowed_currencies)) {
+    // Note that this array is built in the form of 'code' => 'name'.
+    $allowed_currencies = currency_options();
+  }
+  else {
+    // One or more currencies have been specified in widget settings.
+    if ($mode == 'name') {
+      // Build the array in the form of 'code' => 'name' extracting the
+      // allowed currencies from the array returned from currency_api.
+      $allowed_currencies = array_intersect_key(currency_options(), $allowed_currencies);
+    }
+  }
+
+  // If the requested mode is 'code', then we need to transform the array
+  // so that item keys are also used for values.
+  if ($mode == 'code') {
+    $allowed_currencies = array_keys($allowed_currencies);
+    $allowed_currencies = array_combine($allowed_currencies, $allowed_currencies);
+  }
+
+  // When field is not required, an additional empty currency is pushed on top of the resulting list.
+  if (!$element['#required']) {
+    $allowed_currencies = array('' => ($mode == 'code' ? '---' : t('-- Select currency --'))) + $allowed_currencies;
+  }
+
+  return $allowed_currencies;
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function money_field_widget_settings_form($field, $instance) {
+  $widget = $instance['widget'];
+  $settings = $widget['settings'];
+
+  $options = array('code' => t('Currency code'), 'name' => t('Currency name'));
+  $form['currency_select_mode'] = array(
+    '#type' => 'radios',
+    '#title' => t('Currency selection mode'),
+    '#options' => $options,
+    '#default_value' => $settings['currency_select_mode'],
+    '#required' => TRUE,
+    '#description' => t('Choose the format of the label that will be displayed for options of the currency select list.'),
+  );
+  $options = money_get_display_modes();
+  $form['currency_display_mode'] = array(
+    '#type' => 'select',
+    '#title' => t('Currency display mode'),
+    '#options' => $options,
+    '#default_value' => $settings['currency_display_mode'],
+    '#required' => TRUE,
+    '#description' => t('Choose the format that will be used to display this money field when a node is rendered.'),
+  );
+  if (function_exists('currency_api_get_currencies')) {
+    $options = array('field' => t('Field precision'), 'currency' => t('Currency precision'));
+    $form['decimals_display_mode'] = array(
+      '#type' => 'radios',
+      '#title' => t('Decimals display mode'),
+      '#options' => $options,
+      '#default_value' => $settings['decimals_display_mode'],
+      '#required' => TRUE,
+      '#description' => t('Choose the method to select the number of decimals used to display the field. The standard precision for each currency is displayed in the <em>Available currencies</em> list.'),
+    );
+    $currency_options = array();
+    foreach (currency_api_get_currencies() as $code => $currency) {
+      $currency_options[$code] = $currency['name'] . ' [' . $currency['decimals'] . ']';
+    }
+  }
+  else {
+    $currency_options = currency_options();
+  }
+  $form['currencies'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Available currencies'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#description' => t('Choose the currencies that you want to enable for this field. Do not select any currency to enable them all.'),
+  );
+  if (function_exists('currency_api_get_currencies')) {
+    $form['currencies']['#description'] .= ' ' . t('The number between square brakets indicates the standard precision for each currency.');
+  }
+  if (isset($settings['currencies']['allowed_currencies']) && is_array($settings['currencies']['allowed_currencies'])) {
+    // Get filtered array.
+    $allowed_currencies = array_filter($settings['currencies']['allowed_currencies']);
+    // If not empty, create array for the form element values.
+    if (!empty($allowed_currencies)) {
+      $allowed_currencies = array_keys($allowed_currencies);
+      $allowed_currencies = array_combine($allowed_currencies, $allowed_currencies);
+    }
+  }
+  else {
+    $allowed_currencies = array();
+  }
+  $form['currencies']['allowed_currencies'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $currency_options,
+    '#default_value' => $allowed_currencies,
+    '#checkall' => TRUE,
+    '#prefix' => '<div class="money-field-currency-checkboxes">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'css' => array(drupal_get_path('module', 'money') . '/money.css')
+    ),
+  );
+  return $form;
+}
+
+/**
+ * Obtain display modes for money fields.
+ */
+function money_get_display_modes() {
+  return array(
+    'as' => t('Localized format of amount with currency symbol'),
+    's|a' => t('Symbol + Amount'),
+    's|+|a' => t('Symbol + Space + Amount'),
+    'a|s' => t('Amount + Symbol'),
+    'a|+|s' => t('Amount + Space + Symbol'),
+    's|a|+|c' => t('Symbol + Amount + Space + Currency Code'),
+    's|+|a|+|c' => t('Symbol + Space + Amount + Space + Currency Code'),
+    'a|+|c' => t('Amount + Space + Currency Code'),
+    'c|+|a' => t('Currency Code + Space + Amount'),
+    'c|+|as' => t('Currency Code + Space + Localized format of amount with currency symbol'),
+    'c|+|a|s' => t('Currency Code + Space + Amount + Symbol'),
+    'c|+|a|+|s' => t('Currency Code + Space + Amount + Space + Symbol'),
+  );
+}
+
+/**
+ * FAPI validation of an individual number element.
+ */
+function money_field_widget_validate($element, &$form_state) {
+  $instance = field_widget_instance($element, $form_state);
+  $value = $element['amount']['#value'];
+  // Dependency required by CurrencyLocalePattern class.
+  ctools_include('export');
+
+  $decimal_separator = CurrencyLocalePattern::loadFromEnv()->symbol_decimal_separator;
+
+  // Reject invalid characters.
+  if (!empty($value)) {
+    $regexp = '@([^-0-9\\' . $decimal_separator . '])|(.-)@';
+    $message = t('Only numbers and the decimal separator (@separator) allowed in %field.', array('%field' => $instance['label'], '@separator' => $decimal_separator));
+    if ($value != preg_replace($regexp, '', $value)) {
+      form_error($element, $message);
+    }
+    else {
+      // Verify that only one decimal separator exists in the field.
+      if (substr_count($value, $decimal_separator) > 1) {
+        $message = t('%field: There should only be one decimal separator (@separator).',
+          array(
+            '%field' => t($instance['label']),
+            '@separator' => $decimal_separator,
+          )
+        );
+        form_error($element, $message);
+      }
+      else {
+        // Substitute the decimal separator; things should be fine.
+        $value = strtr($value, $decimal_separator, '.');
+      }
+      form_set_value($element['amount'], $value, $form_state);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_error().
+ */
+function money_field_widget_error($element, $error, $form, &$form_state) {
+  form_error($element, $error['message']);
+}

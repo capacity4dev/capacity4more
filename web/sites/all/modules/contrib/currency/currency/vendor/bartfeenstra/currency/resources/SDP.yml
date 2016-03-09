@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SDP
+ISO4217Number: '736'
+sign: ₤
+subunits: 1000
+title: 'Sudanese pound'
+usage:
+    - { ISO8601From: '1957-04-08', ISO8601To: '1998-06-01', ISO3166Code: SD }

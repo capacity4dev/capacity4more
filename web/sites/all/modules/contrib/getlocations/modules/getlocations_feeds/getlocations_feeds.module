@@ -1,0 +1,197 @@
+<?php
+
+/**
+ * @file
+ * getlocations_feeds.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ *
+ * This module provides getlocations mappers to feed importers.
+ * Derived from location_feeds by Elliott Foster.
+ *
+ *
+ */
+
+/**
+ * Implements hook_feeds_processor_targets_alter().
+ *
+ * Alter mapping targets for entities. Use this hook to add additional target
+ * options to the mapping form of Node processors.
+ *
+ * If the key in $targets[] does not correspond to the actual key on the node
+ * object ($node->key), real_target MUST be specified. See mappers/link.inc
+ *
+ * For an example implementation, see mappers/content.inc
+ *
+ * @param &$targets
+ *   Array containing the targets to be offered to the user. Add to this array
+ *   to expose additional options. Remove from this array to suppress options.
+ *   Remove with caution.
+ * @param $entity_type
+ *   The entity type of the target, for instance a 'node' entity.
+ * @param $bundle_name
+ *   The bundle name for which to alter targets.
+ */
+function getlocations_feeds_feeds_processor_targets_alter(&$targets, $entity_type, $bundle_name) {
+
+  $fields = field_read_fields(array('module' => 'getlocations_fields'));
+  $location_fields = _getlocations_feeds_fields();
+  foreach ($fields as $field_name => $field) {
+    _getlocations_feeds_fill_targets($targets, 'getlocations_fields', $field_name, $location_fields);
+  }
+}
+
+/**
+ * Helper function to add target fields
+ *
+ * @param $targets
+ * @param $module
+ *   Module name providing the field.
+ * @param $field_name
+ *   Field name where values are supposed to get stored to.
+ * @param $sub_fields
+ *   Getlocations Fields elements for the given $field_name
+ */
+function _getlocations_feeds_fill_targets(&$targets, $module, $field_name, $sub_fields) {
+  foreach ($sub_fields as $sub_field => $value) {
+    $callback = 'getlocations_feeds_set_target';
+    /* This still doesn't work if country is not in ISO code */
+    if ($sub_field == 'country') {
+      $callback = 'getlocations_feeds_set_country';
+    }
+
+    $targets[ $field_name . ':' . $sub_field] = array(
+      'name' => $module . " module: " . $field_name . '.' . t('@label', array('@label' => $value)),
+      'callback' => $callback,
+      'description' => t('The @label for the location of the node.', array('@label' => $sub_field)),
+      'real_target' => $field_name,
+    );
+  }
+}
+
+/**
+ * Helper function to get to manage target fields
+ *
+ * @return array of key/value field name/field label
+ */
+function _getlocations_feeds_fields() {
+  static $fields;
+  if (isset($fields)) {
+    return $fields;
+  }
+  $fields = &drupal_static(__FUNCTION__ . '_fields', array());
+  if (empty($fields)) {
+    $getlocations_fields_defaults = getlocations_fields_defaults();
+    $fields = $getlocations_fields_defaults['columns'];
+    $fields += getlocations_fields_data_keys();
+  }
+
+  return $fields;
+}
+
+// callbacks from _getlocations_feeds_fill_targets
+
+/**
+ * @param $source
+ *  Field mapper source settings.
+ * @param $entity
+ *   Either a user or node object dpending on where this is called
+ * @param $target
+ *   When targeting sub arrays the '][' is used to drill down.
+ *   Note that this implementation is lazy ... we assume just depth=2
+ * @param $value
+ * @return object
+ */
+function getlocations_feeds_set_target($source, $entity, $target, $value) {
+
+  if (empty($value)) {
+    $value = '';
+  }
+  if (! is_array($value)) {
+    $value = array($value);
+  }
+  list($field_name, $sub_field) = explode(':', $target);
+  if (strpos($sub_field, '][') !== FALSE) {
+    list($sub_field, $last_field) = explode('][', $sub_field, 2);
+  }
+
+  $language = (isset($entity->language) ? $entity->language : 'und');
+
+  foreach ($value as $i => $val) {
+    $val = trim($val);
+    if (isset($last_field)) {
+      if (! isset($entity->{$field_name}[$language][$i]['settings'])) {
+        $entity->{$field_name}[$language][$i]['settings'] = getlocations_feeds_get_field_info($field_name);
+      }
+      $entity->{$field_name}[$language][$i][$sub_field][$last_field] = $val;
+    }
+    else {
+      if (! isset($entity->{$field_name}[$language][$i]['settings'])) {
+        $entity->{$field_name}[$language][$i]['settings'] = getlocations_feeds_get_field_info($field_name);
+      }
+      $entity->{$field_name}[$language][$i][$sub_field] = $val;
+    }
+  }
+
+  return $entity;
+}
+
+/**
+ * Set the country and attempt to support non-iso country imports
+ *
+ * @param $source
+ *   Field mapper source settings.
+ * @param $entity
+ *   Either a user or node object dpending on where this is called
+ * @param $target
+ *   When targeting sub arrays the '][' is used to drill down.
+ *   Note that this implementation is lazy ... we assume just depth=2
+ * @param $value
+ * @return object
+ */
+function getlocations_feeds_set_country($source, $entity, $target, $value) {
+  if (empty($value)) {
+    $getlocations_fields_defaults = getlocations_fields_defaults();
+    $value = $getlocations_fields_defaults['country'];
+  }
+  if (! is_array($value)) {
+    $value = array($value);
+  }
+  list($field_name, $sub_field) = explode(':', $target);
+
+  foreach ($value as $i => $val) {
+    if (! isset($entity->{$field_name}['und'][$i]['settings'])) {
+      $entity->{$field_name}['und'][$i]['settings'] = getlocations_feeds_get_field_info($field_name);
+    }
+    // set default
+    $entity->{$field_name}['und'][$i][$sub_field] = $entity->{$field_name}['und'][$i]['settings']['country'];
+    $val = trim($val);
+    if (drupal_strlen($val) == 2) {
+      // we have a code
+      if (getlocations_get_country_name($val)) {
+        $entity->{$field_name}['und'][$i][$sub_field] = drupal_strtoupper($val);
+      }
+    }
+    else {
+      // full country name
+      if ($id = getlocations_get_country_id($val)) {
+        $entity->{$field_name}['und'][$i][$sub_field] = $id;
+      }
+    }
+  }
+  return $entity;
+}
+
+/**
+ * Returns location field level settings.
+ *
+ * @param $field_name
+ *  The field name to return info for.
+ * @return
+ *  The field info array.
+ */
+function getlocations_feeds_get_field_info($field_name) {
+  $field_settings = field_info_field($field_name);
+  return $field_settings['settings'];
+}

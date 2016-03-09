@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: GEL
+ISO4217Number: '981'
+sign: ლ
+subunits: 100
+title: 'Georgian lari'
+usage:
+    - { ISO8601From: '1995-09-23', ISO8601To: '', ISO3166Code: GE }

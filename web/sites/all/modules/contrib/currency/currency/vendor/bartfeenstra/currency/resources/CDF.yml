@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: CDF
+ISO4217Number: '976'
+sign: ₣
+subunits: 100
+title: 'Congolese franc'
+usage:
+    - { ISO8601From: '1998-07-01', ISO8601To: '', ISO3166Code: CD }

@@ -1,0 +1,41 @@
+<div>Upon initially visiting the <a href="&base_url&admin/settings/node_gallery">node gallery relationships page</a>, you'll be presented
+with something resembling the following:</div>
+<br/>
+<div align="center"><img src="&path&images/relationship-list.png" alt="Screenshot showing the relationship list" /></div>
+<br/>
+<div>
+<p>
+A relationship is what associates a gallery node type to its image node type.  Each relationship consists of a descriptive name, 
+a gallery content type, a node content type, and settings that <strong>apply only to that relationship</strong>.
+</p>
+<p>
+Content types belong to one Node Gallery relationship exclusively -- every image type has exactly one gallery type
+and vice-versa.  This dependency may be removed in later development, see <a href="http://drupal.org/node/1130450">http://drupal.org/node/1130450</a>.
+</p>
+<p>
+If you click <a href="&base_url&admin/settings/node_gallery/relationship/settings/1">Change settings</a>, you'll be presented with the following:
+</div>
+<br/>
+<div align="center"><img src="&path&images/relationship-settings.png" alt="Screenshot showing the relationship's settings" /></div>
+<br/>
+<div>
+<p>
+<strong>Relationship settings</strong>:  Here you can specify a name of your choice, and if you have more than one imagefield attached to the Node 
+Gallery image content type, you can change which field the module uses via the dropdown here.
+</p>
+<p>
+<strong>Gallery settings</strong>:  You may change settings which apply when viewing a gallery as a whole here.  You can select the view to be used to 
+display a gallery's images in both the full-page view and the teaser view here.  Also, you can specify a view to use as the default sort query.  If you
+can represent your desired sort in a view, then Node Gallery can support it!
+</p>
+<p>
+<strong>Image view settings</strong>:  The settings here pertain to behaviors used when displaying an individual image within a gallery.  You can elect
+to disable the image navigator completely (to move it, see <a href="topic:node_gallery/content-type-settings">content type settings</a>).  When "Use named anchors..." 
+is selected, when a user clicks a link on the image navigator, the page will jump down to the top of the next image -- eliminating the need for the user
+to scroll down to view the full image.</p>
+<p>
+<strong>Manage images tab settings</strong>: These settings pertain to the "Manage Images" tab displayed when viewing a gallery node.  You can place a checkbox
+next to every field you wish to display on the tab, specify the maximum number of images to display per page, enable/disable the dropdown that allows changing the 
+gallery that an image belongs to, and even allow basic image rotation from the page.
+</p>
+</div>

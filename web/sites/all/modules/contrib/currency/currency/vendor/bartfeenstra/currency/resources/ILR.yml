@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: ILR
+ISO4217Number: null
+sign: ¤
+subunits: 100
+title: 'Israeli shekel'
+usage:
+    - { ISO8601From: '1980-02-22', ISO8601To: '1985-09-04', ISO3166Code: IL }

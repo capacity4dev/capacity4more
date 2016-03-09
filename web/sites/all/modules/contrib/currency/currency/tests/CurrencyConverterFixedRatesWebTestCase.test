@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyExchangerFixedRatesWebTestCase.
+ */
+
+/**
+ * Tests CurrencyExchangerFixedRates.
+ */
+class CurrencyExchangerFixedRatesWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyExchangerFixedRates',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test currency exchange.
+   */
+  function testCurrencyExchangerFixedRates() {
+    // Test CurrencyExchangerFixedRates::save().
+    CurrencyExchangerFixedRates::save('EUR', 'NLG', 5);
+    CurrencyExchangerFixedRates::save('EUR', 'UAH', 7);
+
+    // Test CurrencyExchangerFixedRates::load().
+    // Test an available exchange rate.
+    $this->assertIdentical(CurrencyExchangerFixedRates::load('EUR', 'NLG'), '5');
+    // Test an unavailable exchange rate for which the reverse rate is
+    // available.
+    $this->assertIdentical(CurrencyExchangerFixedRates::load('NLG', 'EUR'), '0.2');
+    // Test an unavailable exchange rate for no the reverse rate is
+    // available.
+    $this->assertFalse(CurrencyExchangerFixedRates::load('NLG', 'XXX'));
+
+    // Test CurrencyExchangerFixedRates::loadMultiple().
+    $rates = CurrencyExchangerFixedRates::loadMultiple(array(
+      'EUR' => array('NLG', 'XXX'),
+      'NLG' => array('EUR'),
+    ));
+    // Test an available exchange rate.
+    $this->assertTrue(isset($rates['EUR']));
+    $this->assertTrue(isset($rates['EUR']['NLG']));
+    $this->assertIdentical($rates['EUR']['NLG'], '5');
+    // Test an unavailable exchange rate for which the reverse rate is
+    // available.
+    $this->assertTrue(isset($rates['NLG']));
+    $this->assertTrue(isset($rates['NLG']['EUR']));
+    $this->assertIdentical($rates['NLG']['EUR'], '0.2');
+    // Test an unavailable exchange rate for which the no rate is
+    // available.
+    $this->assertTrue(isset($rates['EUR']));
+    $this->assertTrue(isset($rates['EUR']['XXX']));
+    $this->assertFalse($rates['EUR']['XXX']);
+
+    // Test CurrencyExchangerFixedRates::delete().
+    CurrencyExchangerFixedRates::delete('EUR', 'NLG');
+    // Test the deleted exchange rate.
+    $this->assertFalse(CurrencyExchangerFixedRates::load('EUR', 'NLG'));
+    // Test the reverse of the deleted exchange rate.
+    $this->assertFalse(CurrencyExchangerFixedRates::load('NLG', 'EUR'));
+    // Test an available exchange rate.
+    $this->assertIdentical(CurrencyExchangerFixedRates::load('EUR', 'UAH'), '7');
+  }
+}

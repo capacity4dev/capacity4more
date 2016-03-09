@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AZM
+ISO4217Number: '031'
+sign: ¤
+subunits: 0
+title: 'Azerbaijani manat'
+usage:
+    - { ISO8601From: '1993-11-22', ISO8601To: '2006-12-31', ISO3166Code: AZ }

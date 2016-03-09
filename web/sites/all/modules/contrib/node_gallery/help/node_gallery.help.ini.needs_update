@@ -1,0 +1,101 @@
+[advanced help settings]
+name = node_gallery
+index name = "Node Gallery"
+
+
+[about]
+title = About Node Gallery
+weight = 0
+
+[getting-started]
+title = Getting started
+weight = 1
+
+[create-gallery]
+title = Create a gallery
+parent = getting-started
+weight = 0
+
+[configure]
+title = Configure Node Gallery
+parent = getting-started
+weight = 1
+
+[recipes]
+title = Recipes
+weight = 2
+
+[gallery-folders]
+title = Create a folder for every gallery
+parent = recipes
+weight = 0
+
+[image-sizes]
+title = Change image sizes
+parent = recipes
+weight = 1
+
+[include-slideshows]
+title = Include slideshows
+parent = recipes
+weight = 2
+
+[user-profile]
+title = Link user galleries in profile
+parent = recipes
+weight = 3
+
+[restrict-access]
+title = Restrict access to galleries
+parent = recipes
+weight = 4
+
+[jcarousel]
+title = Display a microthumb navigator
+parent = recipes
+weight = 5
+
+[link-next-image]
+title = Link an image to the next image in the gallery
+parent = recipes
+weight = 6
+
+[link-cover]
+title = Link cover image to gallery overview
+parent = recipes
+weight = 7
+
+[pathaliases]
+title = Rename gallery paths
+parent = recipes
+weight = 8
+
+[jquery-update]
+title = Get jquery_update and jquery_ui to play nicely together
+parent = recipes
+weight = 9
+
+[global-settings]
+title = Global Settings
+parent = configure
+weight = 1
+
+[relationship-settings]
+title = Per-Relationship Settings
+parent = configure
+weight = 2
+
+[content-type-settings]
+title = Content Type Settings
+parent = configure
+weight = 3
+
+[views-integration]
+title = Views Integration
+parent = configure
+weight = 4
+
+[getting-help]
+title = Getting Help
+weight = 3
+

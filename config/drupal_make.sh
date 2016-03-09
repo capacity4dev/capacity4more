@@ -7,4 +7,15 @@
 MAKE_FILES=(
   "minimal.make"
   "administration.make"
+  "bootstrap.make"
+  "ckeditor.make"
+  "configuration.make"
+  "fields.make"
+  "media.make"
+  "notifications.make"
+  "og.make"
+  "panels.make"
+  "performance.make"
+  "search.make"
+  "views.make"
 )

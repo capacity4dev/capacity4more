@@ -1,0 +1,205 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulAuthenticationTestCase.
+ */
+
+class RestfulAuthenticationTestCase extends RestfulCurlBaseTestCase {
+
+  /**
+   * Holds the generated account.
+   *
+   * @var stdClass
+   */
+  protected $account;
+
+  /**
+   * Holds the current value of the $_SERVER super global.
+   *
+   * @var array
+   */
+  protected $originalServer;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Authentication',
+      'description' => 'Test the request authentication.',
+      'group' => 'RESTful',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('restful_test');
+    // Create a custom user that we'll use to identify.
+    $this->account = $this->drupalCreateUser();
+
+    $this->originalServer = $_SERVER;
+  }
+
+  function tearDown() {
+    // Put back the $_SERVER array.
+    $_SERVER = $this->originalServer;
+    parent::tearDown();
+  }
+
+  /**
+   * Test authenticating a user.
+   */
+  function testAuthentication() {
+    global $user;
+    $handler = restful_get_restful_handler('main', 1, 5);
+
+    // Case 1. Check that the handler has the expected authentication providers.
+    $providers = array_keys($handler->getAuthenticationManager()->getArrayCopy());
+    foreach ($handler->getPluginKey('authentication_types') as $provider_name) {
+      $this->assertTrue(in_array($provider_name, $providers), format_string('The %name authorization type was found.', array(
+        '%name' => $provider_name,
+      )));
+    }
+
+    // Case 2. Test that the account from the authentication manager is the
+    // logged in user.
+
+    // We need to hijack the global user object in order to force it to be our
+    // test account and make the cookie authentication provider to resolve it.
+    $user = $this->account;
+    $this->assertEqual($this->account->uid, $handler->getAccount()->uid, 'The authentication manager resolved the currently logged in user.');
+
+    $cookie_provider = restful_get_authentication_handler('cookie');
+
+    // Case 3. Test the 'cookie_auth' authentication provider.
+    $this->assertEqual($this->account->uid, $cookie_provider->authenticate()->uid, 'The cookie provider resolved the currently logged in user.');
+
+    $user = drupal_anonymous_user();
+    // Case 4. Test that the 'cookie_auth' resolves the anonymous user.
+    $this->assertEqual(0, $cookie_provider->authenticate()->uid, 'The cookie provider resolved the anonymous user.');
+
+    $basic_auth_provider = restful_get_authentication_handler('basic_auth');
+
+    // Case 5. Valid login using basic auth.
+    $_SERVER['PHP_AUTH_USER'] = $this->account->name;
+    $_SERVER['PHP_AUTH_PW'] = $this->account->pass_raw;
+    $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = NULL;
+    $this->assertEqual($this->account->uid, $basic_auth_provider->authenticate()->uid, 'The basic auth provider resolved the currently logged in user.');
+
+    // Case 6. Valid login using REDIRECT_HTTP_AUTHORIZATION.
+    $_SERVER['PHP_AUTH_USER'] = NULL;
+    $_SERVER['PHP_AUTH_PW'] = NULL;
+    $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = 'Basic: ' . base64_encode($this->account->name . ':' . $this->account->pass_raw);
+    $this->assertEqual($this->account->uid, $basic_auth_provider->authenticate()->uid, 'The basic auth provider resolved the currently logged in user. Using REDIRECT_HTTP_AUTHORIZATION.');
+
+    // Case 7. Invalid pass for basic auth.
+    $_SERVER['PHP_AUTH_USER'] = $this->account->name;
+    $_SERVER['PHP_AUTH_PW'] = $this->randomName();
+    $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = NULL;
+    $this->assertNull($basic_auth_provider->authenticate(), 'The basic auth provider could not resolve a user with invalid password.');
+
+    // Case 8. Invalid username for basic auth.
+    $_SERVER['PHP_AUTH_USER'] = $this->randomName();
+    $_SERVER['PHP_AUTH_PW'] = $this->account->pass_raw;
+    $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = NULL;
+    $this->assertNull($basic_auth_provider->authenticate(), 'The basic auth provider could not resolve a user with invalid username.');
+
+    // Case 9. Valid login using REDIRECT_HTTP_AUTHORIZATION.
+    $_SERVER['PHP_AUTH_USER'] = NULL;
+    $_SERVER['PHP_AUTH_PW'] = NULL;
+    $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = 'Basic: ' . base64_encode($this->randomName() . ':' . $this->randomName());
+    $this->assertNull($basic_auth_provider->authenticate(), 'The basic auth provider could not resolve a user with invalid encoded username & password. Using REDIRECT_HTTP_AUTHORIZATION.');
+
+    // Case 11. Accessing a resource with optional authentication.
+
+    // We are getting a 403 instead of 401, as the access is now based on the
+    // permissions.
+    $result = $this->httpRequest('api/v1.0/users');
+    $this->assertEqual($result['code'], 403, 'Anonymous user got 403 when trying to access the "users" resource.');
+
+    // To assert permissions control access to the resource, we change the
+    // permission for anonymous to access other user's profile.
+    user_role_change_permissions(DRUPAL_ANONYMOUS_RID, array('access user profiles' => TRUE));
+    $result = $this->httpRequest('api/v1.0/users');
+    $this->assertEqual($result['code'], 200, 'Anonymous user got 200 when trying to access the "users" resource after permissions changed.');
+  }
+
+  /**
+   * Test switching the user in an API call.
+   */
+  function testSwitchUser() {
+    global $user;
+    // We need to hijack the global user object in order to force it to be an
+    // anonymous user.
+    $user = drupal_anonymous_user();
+
+    $user1 = $this->drupalCreateUser();
+
+    $handler = restful_get_restful_handler('articles');
+    $handler->setAccount($user1);
+    $handler->get();
+
+    $this->assertEqual($user->uid, 0, 'Global user is the correct one after an API call that switches the user.');
+  }
+
+  /**
+   * Test recording of access time.
+   */
+  function testAccessTime() {
+    global $user;
+
+    $user1 = $this->drupalCreateUser();
+    $user2 = $this->drupalCreateUser();
+
+    $handler = restful_get_restful_handler('main', 1, 5);
+
+    // Case 1. Ensure that access time is recorded for cookie auth.
+    $user = $user1;
+
+    $user1_access_time_before = db_query('SELECT access FROM {users} WHERE uid = :d', array(':d' => $user1->uid))->fetchObject();
+
+    // Perform request authentication.
+    $handler->getAccount();
+
+    $user1_access_time = db_query('SELECT access FROM {users} WHERE uid = :d', array(':d' => $user1->uid))->fetchObject();
+    $this->assertEqual($user1_access_time->access, REQUEST_TIME, 'Cookie authenticated user access time is updated.');
+
+    $this->assertNotEqual($user1_access_time_before->access, $user1_access_time->access, 'Access time before and after request are equal.');
+
+    // Case 2. Ensure that access time is recorded for basic auth.
+    $user = $user2;
+
+    $_SERVER['PHP_AUTH_USER'] = $user2->name;
+    $_SERVER['PHP_AUTH_PW'] = $user2->pass_raw;
+    $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] = NULL;
+    $handler = restful_get_restful_handler('articles');
+
+    // Perform request authentication.
+    $handler->getAccount();
+
+    $user2_access_time = db_query('SELECT access FROM {users} WHERE uid = :d', array(':d' => $user2->uid))->fetchObject();
+    $this->assertEqual($user2_access_time->access, REQUEST_TIME, 'Basic authenticated user access time is updated.');
+
+    // Case 3. Ensure that the timestamp gets updated.
+    $user = $user1;
+
+    // Get a timestamp that is in the past.
+    $the_past = REQUEST_TIME - variable_get('session_write_interval');
+
+    // To begin, we'll set the timestamp for user1 back a little bit.
+    $num_updated = db_update('users')
+      ->fields(array('access' => $the_past))
+      ->condition('uid', $user1->uid)
+      ->execute();
+
+    $user1_pre_access_time = db_query('SELECT access FROM {users} WHERE uid = :d', array(':d' => $user1->uid))->fetchObject();
+    $this->assertEqual($user1_pre_access_time->access, $the_past, 'Set user1 access time to a time in the past.');
+
+    // Perform an authenticated request.
+    $this->drupalGet('/api/v1.5/main', array(), array(
+      'Authorization' => 'Basic ' . base64_encode($user1->name . ':' . $user1->pass_raw))
+    );
+
+    $user1_post_access_time = db_query('SELECT access FROM {users} WHERE uid = :d', array(':d' => $user1->uid))->fetchObject();
+
+    $this->assertEqual($user1_post_access_time->access, REQUEST_TIME, 'Basic authenticated user access time is updated.');
+  }
+
+}

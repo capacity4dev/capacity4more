@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: NLG
+ISO4217Number: '528'
+sign: ƒ
+subunits: 100
+title: 'Dutch guilder'
+usage:
+    - { ISO8601From: '1816-12-15', ISO8601To: '1831-02-07', ISO3166Code: BE }
+    - { ISO8601From: '1813-01-01', ISO8601To: '2002-02-28', ISO3166Code: NL }
+    - { ISO8601From: '1815-11-20', ISO8601To: '1940-05-10', ISO3166Code: SR }

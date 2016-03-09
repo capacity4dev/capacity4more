@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    NFD: '1'
+ISO4217Code: CAD
+ISO4217Number: '124'
+sign: $
+subunits: 100
+title: 'Canadian dollar'
+usage:
+    - { ISO8601From: '1858-01-01', ISO8601To: '', ISO3166Code: CA }

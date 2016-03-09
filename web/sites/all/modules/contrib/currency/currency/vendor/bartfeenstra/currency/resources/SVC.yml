@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SVC
+ISO4217Number: '222'
+sign: ₡
+subunits: 100
+title: 'Salvadoran colon'
+usage:
+    - { ISO8601From: '1919-11-11', ISO8601To: '2001-01-01', ISO3166Code: SV }

@@ -1,0 +1,1037 @@
+<?php
+
+/**
+ * @file
+ * getlocations_blocks.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides blocks for use with getlocations_fields views.
+ * for Drupal 7
+ */
+
+define('GETLOCATIONS_BLOCKS_PATH', drupal_get_path('module', 'getlocations_blocks'));
+
+/**
+ * Implements hook_menu().
+ */
+function getlocations_blocks_menu() {
+  $items = array();
+  $items['getlocations_blocks/city_autocomplete'] = array(
+    'page callback' => 'getlocations_blocks_city_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['getlocations_blocks/province_autocomplete'] = array(
+    'page callback' => 'getlocations_blocks_province_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['getlocations_blocks/postalcode_autocomplete'] = array(
+    'page callback' => 'getlocations_blocks_postalcode_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['getlocations_blocks/country_autocomplete'] = array(
+    'page callback' => 'getlocations_blocks_country_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function getlocations_blocks_block_info() {
+
+  $blocks = array();
+  $blocks['getlocations_blocks_city'] = array(
+    'info' => t("Getlocations search by city."),
+  );
+  $blocks['getlocations_blocks_province'] = array(
+    'info' => t("Getlocations search by province."),
+  );
+  $blocks['getlocations_blocks_postalcode'] = array(
+    'info' => t("Getlocations search by postal code."),
+  );
+  $blocks['getlocations_blocks_country'] = array(
+    'info' => t("Getlocations search by country."),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ *
+ * This hook declares configuration options for blocks provided by this module.
+ */
+function getlocations_blocks_block_configure($delta = '') {
+  drupal_add_js(GETLOCATIONS_BLOCKS_PATH . '/js/getlocations_blocks_admin.js');
+  // The $delta parameter tells us which block is being configured.
+  $options = array('dropdown' => t('Dropdown'), 'autocomplete' => t('Autocomplete'));
+  $settings = getlocations_blocks_get_var();
+  $form = array();
+  $desc2 = array();
+  $desc2[0] = t('Please enable this view.');
+  $desc2[1] = t('This view is enabled.');
+  switch ($delta) {
+    case 'getlocations_blocks_city':
+      $view = 'getlocations_by_city';
+      $tarr = array('%t' => $desc2[0]);
+      if (getlocations_blocks_check_view($view)) {
+        $tarr = array('%t' => $desc2[1]);
+      }
+      $form['getlocations_blocks_city_path'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Path'),
+        '#size' => 40,
+        '#description' => t("The path to the 'Getlocations by city' View. %t", $tarr),
+        '#default_value' => $settings['city_path'],
+      );
+      $form['getlocations_blocks_city_element'] = array(
+        '#type' => 'select',
+        '#title' => t('Selection method'),
+        '#options' => $options,
+        '#default_value' => $settings['city_element'],
+      );
+
+      $form['getlocations_blocks_city_filter'] = array(
+        '#type' => 'select',
+        '#title' => t('Filter on'),
+        '#options' => array('' => t('None'), 'field_name' => t('Field name'), 'bundle' => t('Content type') ),
+        '#default_value' => $settings['city_filter'],
+      );
+      $fieldnames = getlocations_get_fieldnames();
+      $fieldnames = array('' => t('None')) + $fieldnames;
+      $form['getlocations_blocks_city_filter_fieldname'] = array(
+        '#type' => 'select',
+        '#title' => t('Field name'),
+        '#options' => $fieldnames,
+        '#default_value' => $settings['city_filter_fieldname'],
+      );
+      $bundles = getlocations_get_bundles();
+      $bundles = array('' => t('None')) + $bundles;
+      $form['getlocations_blocks_city_filter_bundle'] = array(
+        '#type' => 'select',
+        '#title' => t('Content type'),
+        '#options' => $bundles,
+        '#default_value' => $settings['city_filter_bundle'],
+      );
+
+      break;
+
+    case 'getlocations_blocks_province':
+      $view = 'getlocations_by_province';
+      $tarr = array('%t' => $desc2[0]);
+      if (getlocations_blocks_check_view($view)) {
+        $tarr = array('%t' => $desc2[1]);
+      }
+      $form['getlocations_blocks_province_path'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Path'),
+        '#size' => 40,
+        '#description' => t("The path to the 'Getlocations by province' View. %t", $tarr),
+        '#default_value' => $settings['province_path'],
+      );
+      $form['getlocations_blocks_province_element'] = array(
+        '#type' => 'select',
+        '#title' => t('Selection method'),
+        '#options' => $options,
+        '#default_value' => $settings['province_element'],
+      );
+
+      $form['getlocations_blocks_province_filter'] = array(
+        '#type' => 'select',
+        '#title' => t('Filter on'),
+        '#options' => array('' => t('None'), 'field_name' => t('Field name'), 'bundle' => t('Content type') ),
+        '#default_value' => $settings['province_filter'],
+      );
+      $fieldnames = getlocations_get_fieldnames();
+      $fieldnames = array('' => t('None')) + $fieldnames;
+      $form['getlocations_blocks_province_filter_fieldname'] = array(
+        '#type' => 'select',
+        '#title' => t('Field name'),
+        '#options' => $fieldnames,
+        '#default_value' => $settings['province_filter_fieldname'],
+      );
+      $bundles = getlocations_get_bundles();
+      $bundles = array('' => t('None')) + $bundles;
+      $form['getlocations_blocks_province_filter_bundle'] = array(
+        '#type' => 'select',
+        '#title' => t('Content type'),
+        '#options' => $bundles,
+        '#default_value' => $settings['province_filter_bundle'],
+      );
+
+      break;
+
+    case 'getlocations_blocks_postalcode':
+      $view = 'getlocations_bypostcode';
+      $tarr = array('%t' => $desc2[0]);
+      if (getlocations_blocks_check_view($view)) {
+        $tarr = array('%t' => $desc2[1]);
+      }
+      $form['getlocations_blocks_postalcode_path'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Path'),
+        '#size' => 40,
+        '#description' => t("The path to the 'Getlocations by postalcode' View. %t", $tarr),
+        '#default_value' => $settings['postalcode_path'],
+      );
+      $form['getlocations_blocks_postalcode_element'] = array(
+        '#type' => 'select',
+        '#title' => t('Selection method'),
+        '#options' => $options,
+        '#default_value' => $settings['postalcode_element'],
+      );
+
+      $form['getlocations_blocks_postalcode_filter'] = array(
+        '#type' => 'select',
+        '#title' => t('Filter on'),
+        '#options' => array('' => t('None'), 'field_name' => t('Field name'), 'bundle' => t('Content type') ),
+        '#default_value' => $settings['postalcode_filter'],
+      );
+      $fieldnames = getlocations_get_fieldnames();
+      $fieldnames = array('' => t('None')) + $fieldnames;
+      $form['getlocations_blocks_postalcode_filter_fieldname'] = array(
+        '#type' => 'select',
+        '#title' => t('Field name'),
+        '#options' => $fieldnames,
+        '#default_value' => $settings['postalcode_filter_fieldname'],
+      );
+      $bundles = getlocations_get_bundles();
+      $bundles = array('' => t('None')) + $bundles;
+      $form['getlocations_blocks_postalcode_filter_bundle'] = array(
+        '#type' => 'select',
+        '#title' => t('Content type'),
+        '#options' => $bundles,
+        '#default_value' => $settings['postalcode_filter_bundle'],
+      );
+
+      break;
+
+    case 'getlocations_blocks_country':
+      $view = 'getlocations_bycountry';
+      $tarr = array('%t' => $desc2[0]);
+      if (getlocations_blocks_check_view($view)) {
+        $tarr = array('%t' => $desc2[1]);
+      }
+      $form['getlocations_blocks_country_path'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Path'),
+        '#size' => 40,
+        '#description' => t("The path to the 'Getlocations by country' View. %t", $tarr),
+        '#default_value' => $settings['country_path'],
+      );
+      $form['getlocations_blocks_country_element'] = array(
+        '#type' => 'select',
+        '#title' => t('Selection method'),
+        '#options' => $options,
+        '#default_value' => $settings['country_element'],
+      );
+      $form['getlocations_blocks_country_full'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Use full country list'),
+        '#default_value' => $settings['country_full'],
+      );
+
+      $form['getlocations_blocks_country_filter'] = array(
+        '#type' => 'select',
+        '#title' => t('Filter on'),
+        '#options' => array('' => t('None'), 'field_name' => t('Field name'), 'bundle' => t('Content type') ),
+        '#default_value' => $settings['country_filter'],
+      );
+      $fieldnames = getlocations_get_fieldnames();
+      $fieldnames = array('' => t('None')) + $fieldnames;
+      $form['getlocations_blocks_country_filter_fieldname'] = array(
+        '#type' => 'select',
+        '#title' => t('Field name'),
+        '#options' => $fieldnames,
+        '#default_value' => $settings['country_filter_fieldname'],
+      );
+      $bundles = getlocations_get_bundles();
+      $bundles = array('' => t('None')) + $bundles;
+      $form['getlocations_blocks_country_filter_bundle'] = array(
+        '#type' => 'select',
+        '#title' => t('Content type'),
+        '#options' => $bundles,
+        '#default_value' => $settings['country_filter_bundle'],
+      );
+
+      break;
+  }
+
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ *
+ * This hook declares how the configured options for a block
+ * provided by this module are saved.
+ */
+function getlocations_blocks_block_save($delta = '', $edit = array()) {
+  // We need to save settings from the configuration form.
+  // $delta contains the block name.
+  $set = array();
+  switch ($delta) {
+    case 'getlocations_blocks_city':
+      $set['city_path'] = $edit['getlocations_blocks_city_path'];
+      $set['city_element'] = $edit['getlocations_blocks_city_element'];
+      $set['city_filter'] = $edit['getlocations_blocks_city_filter'];
+      if ($edit['getlocations_blocks_city_filter'] == 'field_name') {
+        $set['city_filter_fieldname'] = $edit['getlocations_blocks_city_filter_fieldname'];
+        $set['city_filter_bundle'] = '';
+      }
+      elseif ($edit['getlocations_blocks_city_filter'] == 'bundle') {
+        $set['city_filter_fieldname'] = '';
+        $set['city_filter_bundle'] = $edit['getlocations_blocks_city_filter_bundle'];
+      }
+      else {
+        $set['city_filter_fieldname'] = '';
+        $set['city_filter_bundle'] = '';
+      }
+      break;
+
+    case 'getlocations_blocks_province':
+      $set['province_path'] = $edit['getlocations_blocks_province_path'];
+      $set['province_element'] = $edit['getlocations_blocks_province_element'];
+      $set['province_filter'] = $edit['getlocations_blocks_province_filter'];
+      if ($edit['getlocations_blocks_province_filter'] == 'field_name') {
+        $set['province_filter_fieldname'] = $edit['getlocations_blocks_province_filter_fieldname'];
+        $set['province_filter_bundle'] = '';
+      }
+      elseif ($edit['getlocations_blocks_province_filter'] == 'bundle') {
+        $set['province_filter_fieldname'] = '';
+        $set['province_filter_bundle'] = $edit['getlocations_blocks_province_filter_bundle'];
+      }
+      else {
+        $set['province_filter_fieldname'] = '';
+        $set['province_filter_bundle'] = '';
+      }
+      break;
+
+    case 'getlocations_blocks_postalcode':
+      $set['postalcode_path'] = $edit['getlocations_blocks_postalcode_path'];
+      $set['postalcode_element'] = $edit['getlocations_blocks_postalcode_element'];
+      $set['postalcode_filter'] = $edit['getlocations_blocks_postalcode_filter'];
+      if ($edit['getlocations_blocks_postalcode_filter'] == 'field_name') {
+        $set['postalcode_filter_fieldname'] = $edit['getlocations_blocks_postalcode_filter_fieldname'];
+        $set['postalcode_filter_bundle'] = '';
+      }
+      elseif ($edit['getlocations_blocks_postalcode_filter'] == 'bundle') {
+        $set['postalcode_filter_fieldname'] = '';
+        $set['postalcode_filter_bundle'] = $edit['getlocations_blocks_postalcode_filter_bundle'];
+      }
+      else {
+        $set['postalcode_filter_fieldname'] = '';
+        $set['postalcode_filter_bundle'] = '';
+      }
+
+      break;
+
+    case 'getlocations_blocks_country':
+      $set['country_path'] = $edit['getlocations_blocks_country_path'];
+      $set['country_element'] = $edit['getlocations_blocks_country_element'];
+      $set['country_full'] = $edit['getlocations_blocks_country_full'];
+      $set['country_filter'] = $edit['getlocations_blocks_country_filter'];
+      if ($edit['getlocations_blocks_country_filter'] == 'field_name') {
+        $set['country_filter_fieldname'] = $edit['getlocations_blocks_country_filter_fieldname'];
+        $set['country_filter_bundle'] = '';
+      }
+      elseif ($edit['getlocations_blocks_country_filter'] == 'bundle') {
+        $set['country_filter_fieldname'] = '';
+        $set['country_filter_bundle'] = $edit['getlocations_blocks_country_filter_bundle'];
+      }
+      else {
+        $set['country_filter_fieldname'] = '';
+        $set['country_filter_bundle'] = '';
+      }
+
+      break;
+  }
+
+  if (count($set)) {
+    getlocations_blocks_set_var($set);
+  }
+
+  return;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function getlocations_blocks_block_view($delta = '') {
+
+  $block = array();
+  //The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+    case 'getlocations_blocks_city':
+      $block['subject'] = t('Getlocations cities');
+      $block['content'] = getlocations_blocks_contents($delta);
+      break;
+
+    case 'getlocations_blocks_province':
+      $block['subject'] = t('Getlocations provinces');
+      $block['content'] = getlocations_blocks_contents($delta);
+      break;
+
+    case 'getlocations_blocks_postalcode':
+      $block['subject'] = t('Getlocations post codes');
+      $block['content'] = getlocations_blocks_contents($delta);
+      break;
+
+    case 'getlocations_blocks_country':
+      $block['subject'] = t('Getlocations countries');
+      $block['content'] = getlocations_blocks_contents($delta);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function getlocations_blocks_contents($which_block) {
+  switch ($which_block) {
+    case 'getlocations_blocks_city':
+      $form = drupal_get_form('getlocations_blocks_city_form');
+      $output = drupal_render($form);
+      return $output;
+
+    case 'getlocations_blocks_province':
+      $form = drupal_get_form('getlocations_blocks_province_form');
+      $output = drupal_render($form);
+      return $output;
+
+    case 'getlocations_blocks_postalcode':
+      $form = drupal_get_form('getlocations_blocks_postalcode_form');
+      $output = drupal_render($form);
+      return $output;
+
+    case 'getlocations_blocks_country':
+      $form = drupal_get_form('getlocations_blocks_country_form');
+      $output = drupal_render($form);
+      return $output;
+  }
+}
+
+/**
+ * @return array Provides an array for a city dropdown
+ */
+function getlocations_blocks_city_get() {
+  $settings = getlocations_blocks_get_var();
+  $matches = array('' => t('Select a city'));
+
+  $query = db_select('getlocations_fields', 'f');
+  $query->fields('f', array('city'));
+
+  if ($settings['city_filter'] && $settings['city_filter'] == 'field_name' && $settings['city_filter_fieldname']) {
+    $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+    $query->condition('e.field_name', $settings['city_filter_fieldname']);
+  }
+  elseif ($settings['city_filter'] && $settings['city_filter'] == 'bundle' && $settings['city_filter_bundle']) {
+    $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+    $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+    $query->condition('i.bundle', $settings['city_filter_bundle']);
+  }
+
+  $result = $query->execute();
+  foreach ($result AS $row) {
+    if ($row->city) {
+      $matches[$row->city] = getlocations_apoclean($row->city);
+    }
+  }
+  ksort($matches);
+  return $matches;
+}
+
+/**
+ * @return array Provides an array for a province dropdown
+ */
+function getlocations_blocks_province_get() {
+  $settings = getlocations_blocks_get_var();
+  $matches = array('' => t('Select a province'));
+
+  $query = db_select('getlocations_fields', 'f');
+  $query->fields('f', array('province'));
+
+  if ($settings['province_filter'] && $settings['province_filter'] == 'field_name' && $settings['province_filter_fieldname']) {
+    $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+    $query->condition('e.field_name', $settings['province_filter_fieldname']);
+  }
+  elseif ($settings['province_filter'] && $settings['province_filter'] == 'bundle' && $settings['province_filter_bundle']) {
+    $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+    $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+    $query->condition('i.bundle', $settings['province_filter_bundle']);
+  }
+
+  $result = $query->execute();
+  foreach ($result AS $row) {
+    if ($row->province) {
+      $matches[$row->province] = getlocations_apoclean($row->province);
+    }
+  }
+  ksort($matches);
+  return $matches;
+}
+
+/**
+ * @return array Provides an array for a postalcode dropdown
+ */
+function getlocations_blocks_postalcode_get() {
+  $settings = getlocations_blocks_get_var();
+  $matches = array('' => t('Select a postal code'));
+
+  $query = db_select('getlocations_fields', 'f');
+  $query->fields('f', array('postal_code'));
+
+  if ($settings['postalcode_filter'] && $settings['postalcode_filter'] == 'field_name' && $settings['postalcode_filter_fieldname']) {
+    $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+    $query->condition('e.field_name', $settings['postalcode_filter_fieldname']);
+  }
+  elseif ($settings['postalcode_filter'] && $settings['postalcode_filter'] == 'bundle' && $settings['postalcode_filter_bundle']) {
+    $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+    $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+    $query->condition('i.bundle', $settings['postalcode_filter_bundle']);
+  }
+
+  $result = $query->execute();
+  foreach ($result AS $row) {
+    if ($row->postal_code) {
+      $matches[$row->postal_code] = getlocations_apoclean($row->postal_code);
+    }
+  }
+  ksort($matches);
+  return $matches;
+}
+
+/**
+ * @return array Provides an array for a countries dropdown
+ */
+function getlocations_blocks_country_get() {
+  $settings = getlocations_blocks_get_var();
+  $countries = array();
+  if ($settings['country_full']) {
+    $countries = getlocations_get_countries_list();
+  }
+  else {
+    // need to make a list of existing countries, these are stored as 2 letter codes so need to be converted
+    $query = db_select('getlocations_fields', 'f');
+    $query->fields('f', array('country'));
+
+    if ($settings['country_filter'] && $settings['country_filter'] == 'field_name' && $settings['country_filter_fieldname']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->condition('e.field_name', $settings['country_filter_fieldname']);
+    }
+    elseif ($settings['country_filter'] && $settings['country_filter'] == 'bundle' && $settings['country_filter_bundle']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+      $query->condition('i.bundle', $settings['country_filter_bundle']);
+    }
+
+    $result = $query->execute();
+    foreach ($result AS $row) {
+      $country = getlocations_get_country_name($row->country);
+      $countries[$row->country] = $country;
+    }
+    asort($countries);
+  }
+  $newcountries = array('' => t('Select a country'));
+  $newcountries += $countries;
+  return $newcountries;
+
+}
+
+/**
+ * @param array $form
+ *
+ * @param array $form_state
+ *
+ * @return array the form
+ *
+ */
+function getlocations_blocks_city_form($form, &$form_state) {
+  $settings = getlocations_blocks_get_var();
+  if ($settings['city_element'] == 'dropdown') {
+    $options = getlocations_blocks_city_get();
+    $form['getlocations_blocks_city'] = array(
+      '#type' => 'select',
+      '#title' => t('City'),
+      '#options' => $options,
+    );
+  }
+  else {
+    $form['getlocations_blocks_city'] = array(
+      '#type' => 'textfield',
+      '#title' => t('City'),
+      '#maxlength' => 255,
+      '#size' => 20,
+      '#autocomplete_path' => 'getlocations_blocks/city_autocomplete'
+    );
+  }
+  $form['getlocations_blocks_city_form_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Go')
+  );
+  $form += getlocations_blocks_get_attached_elements();
+  return $form;
+}
+
+/**
+ * @param array $form
+ *
+ * @param array $form_state
+ *
+ * @return array the form
+ *
+ */
+function getlocations_blocks_province_form($form, &$form_state) {
+  $settings = getlocations_blocks_get_var();
+  if ($settings['province_element'] == 'dropdown') {
+    $options = getlocations_blocks_province_get();
+    $form['getlocations_blocks_province'] = array(
+      '#type' => 'select',
+      '#title' => t('Province'),
+      '#options' => $options,
+    );
+  }
+  else {
+    $form['getlocations_blocks_province'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Province'),
+      '#maxlength' => 255,
+      '#size' => 20,
+      '#autocomplete_path' => 'getlocations_blocks/province_autocomplete'
+    );
+  }
+  $form['getlocations_blocks_province_form_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Go')
+  );
+  $form += getlocations_blocks_get_attached_elements();
+  return $form;
+}
+
+/**
+ * @param array $form
+ *
+ * @param array $form_state
+ *
+ * @return array the form
+ *
+ */
+function getlocations_blocks_postalcode_form($form, &$form_state) {
+  $settings = getlocations_blocks_get_var();
+  if ($settings['postalcode_element'] == 'dropdown') {
+    $options = getlocations_blocks_postalcode_get();
+    $form['getlocations_blocks_postalcode'] = array(
+      '#type' => 'select',
+      '#title' => t('Postal code'),
+      '#options' => $options,
+    );
+  }
+  else {
+    $form['getlocations_blocks_postalcode'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Postal code'),
+      '#maxlength' => 255,
+      '#size' => 20,
+      '#autocomplete_path' => 'getlocations_blocks/postalcode_autocomplete'
+    );
+  }
+  $form['getlocations_blocks_postalcode_form_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Go')
+  );
+  $form += getlocations_blocks_get_attached_elements();
+  return $form;
+}
+
+/**
+ * @param array $form
+ *
+ * @param array $form_state
+ *
+ * @return array the form
+ *
+ */
+function getlocations_blocks_country_form($form, &$form_state) {
+  $settings = getlocations_blocks_get_var();
+  if ($settings['country_element'] == 'dropdown') {
+    $options = getlocations_blocks_country_get();
+    $form['getlocations_blocks_country'] = array(
+      '#type' => 'select',
+      '#title' => t('Country'),
+      '#options' => $options,
+    );
+  }
+  else {
+    $form['getlocations_blocks_country'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Country'),
+      '#maxlength' => 255,
+      '#size' => 20,
+      '#autocomplete_path' => 'getlocations_blocks/country_autocomplete'
+    );
+  }
+  $form['getlocations_blocks_country_form_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Go')
+  );
+  $form += getlocations_blocks_get_attached_elements();
+  return $form;
+}
+
+/**
+ * autocomplete for city
+ *
+ * @param string $string
+ *
+ * @return array cities
+ *
+ */
+function getlocations_blocks_city_autocomplete($string = '') {
+  $settings = getlocations_blocks_get_var();
+  $matches = array();
+  if ($string) {
+    $query = db_select('getlocations_fields', 'f');
+    $query->fields('f', array('city'));
+    if ($settings['city_filter'] && $settings['city_filter'] == 'field_name' && $settings['city_filter_fieldname']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->where("LOWER(f.city) LIKE LOWER(:st)", array(':st' => $string . '%'));
+      $query->condition('e.field_name', $settings['city_filter_fieldname']);
+    }
+    elseif ($settings['city_filter'] && $settings['city_filter'] == 'bundle' && $settings['city_filter_bundle']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+      $query->where("LOWER(f.city) LIKE LOWER(:st)", array(':st' => $string . '%'));
+      $query->condition('i.bundle', $settings['city_filter_bundle']);
+    }
+    else {
+      $query->where("LOWER(f.city) LIKE LOWER(:st)", array(':st' => $string . '%'));
+    }
+    $query->range(0, 15);
+    $result = $query->execute();
+    foreach ($result AS $row) {
+      $matches[$row->city] = check_plain($row->city);
+    }
+  }
+  drupal_json_output($matches);
+}
+
+/**
+ * autocomplete for province
+ *
+ * @param string $string
+ *
+ * @return array provinces
+ *
+ */
+function getlocations_blocks_province_autocomplete($string = '') {
+  $settings = getlocations_blocks_get_var();
+  $matches = array();
+  if ($string) {
+    $query = db_select('getlocations_fields', 'f');
+    $query->fields('f', array('province'));
+    if ($settings['province_filter'] && $settings['province_filter'] == 'field_name' && $settings['province_filter_fieldname']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->where("LOWER(f.province) LIKE LOWER(:st)", array(':st' => $string . '%'));
+      $query->condition('e.field_name', $settings['province_filter_fieldname']);
+    }
+    elseif ($settings['province_filter'] && $settings['province_filter'] == 'bundle' && $settings['province_filter_bundle']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+      $query->where("LOWER(f.province) LIKE LOWER(:st)", array(':st' => $string . '%'));
+      $query->condition('i.bundle', $settings['province_filter_bundle']);
+    }
+    else {
+      $query->where("LOWER(f.province) LIKE LOWER(:st)", array(':st' => $string . '%'));
+    }
+    $query->range(0, 15);
+    $result = $query->execute();
+    foreach ($result AS $row) {
+      $matches[$row->province] = check_plain($row->province);
+    }
+  }
+  drupal_json_output($matches);
+}
+
+/**
+ * autocomplete for postal codes
+ *
+ * @param string $string
+ *
+ * @return array postal codes
+ *
+ */
+function getlocations_blocks_postalcode_autocomplete($string = '') {
+  $settings = getlocations_blocks_get_var();
+  $matches = array();
+  if ($string) {
+    $query = db_select('getlocations_fields', 'f');
+    $query->fields('f', array('postal_code'));
+    if ($settings['postalcode_filter'] && $settings['postalcode_filter'] == 'field_name' && $settings['postalcode_filter_fieldname']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->where("LOWER(f.postal_code) LIKE LOWER(:st)", array(':st' => $string . '%'));
+      $query->condition('e.field_name', $settings['postalcode_filter_fieldname']);
+    }
+    elseif ($settings['postalcode_filter'] && $settings['postalcode_filter'] == 'bundle' && $settings['postalcode_filter_bundle']) {
+      $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+      $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+      $query->where("LOWER(f.postal_code) LIKE LOWER(:st)", array(':st' => $string . '%'));
+      $query->condition('i.bundle', $settings['postalcode_filter_bundle']);
+    }
+    else {
+      $query->where("LOWER(f.postal_code) LIKE LOWER(:st)", array(':st' => $string . '%'));
+    }
+    $query->range(0, 15);
+    $result = $query->execute();
+    foreach ($result AS $row) {
+      $matches[$row->postal_code] = check_plain($row->postal_code);
+    }
+  }
+  drupal_json_output($matches);
+}
+
+/**
+ * autocomplete for country
+ *
+ * @param string $string
+ *
+ * @return
+ *   Returns country names
+ *
+ */
+function getlocations_blocks_country_autocomplete($string = '') {
+  $settings = getlocations_blocks_get_var();
+  $matches = array();
+  if ($string) {
+    if ($settings['country_full']) {
+      $countries = getlocations_get_countries_list();
+      foreach ($countries AS $code => $country) {
+        $s = drupal_strtolower($string);
+        $c = drupal_strtolower($country);
+        preg_match_all("/^$s/", $c, $m);
+        if (count( $m[0])) {
+          $matches[$code] = $country;
+        }
+      }
+    }
+    else {
+      // need to make a list of existing countries, these are stored as 2 letter codes so need to be converted
+      $query = db_select('getlocations_fields', 'f');
+      $query->fields('f', array('country'));
+      if ($settings['country_filter'] && $settings['country_filter'] == 'field_name' && $settings['country_filter_fieldname']) {
+        $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+        $query->condition('e.field_name', $settings['country_filter_fieldname']);
+      }
+      elseif ($settings['country_filter'] && $settings['country_filter'] == 'bundle' && $settings['country_filter_bundle']) {
+        $query->join('getlocations_fields_entities', 'e', 'f.glid=e.glid');
+        $query->join('field_config_instance', 'i', 'e.field_name=i.field_name');
+        $query->condition('i.bundle', $settings['country_filter_bundle']);
+      }
+      $result = $query->execute();
+      foreach ($result AS $row) {
+        $country = getlocations_get_country_name($row->country);
+        $s = drupal_strtolower($string);
+        $c = drupal_strtolower($country);
+        preg_match_all("/^$s/", $c, $m);
+        if (count( $m[0])) {
+          $matches[$row->country] = $country;
+        }
+      }
+    }
+  }
+  drupal_json_output($matches);
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function getlocations_blocks_theme() {
+  return array(
+    'getlocations_blocks_city_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_blocks_province_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_blocks_postalcode_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_blocks_country_form' => array(
+      'render element' => 'form',
+    ),
+  );
+}
+
+/**
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_blocks_city_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $form['getlocations_blocks_city']['#prefix'] = '<div id="getlocations_blocks_city">';
+  $form['getlocations_blocks_city_form_submit']['#suffix'] = '</div>';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_blocks_province_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $form['getlocations_blocks_province']['#prefix'] = '<div id="getlocations_blocks_province">';
+  $form['getlocations_blocks_province_form_submit']['#suffix'] = '</div>';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_blocks_postalcode_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $form['getlocations_blocks_postalcode']['#prefix'] = '<div id="getlocations_blocks_postalcode">';
+  $form['getlocations_blocks_postalcode_form_submit']['#suffix'] = '</div>';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_blocks_country_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $form['getlocations_blocks_country']['#prefix'] = '<div id="getlocations_blocks_country">';
+  $form['getlocations_blocks_country_form_submit']['#suffix'] = '</div>';
+  $output .= drupal_render_children($form);
+  return $output;
+}
+
+/**
+ * Fetch the default settings
+ *
+ * @return array
+ */
+function getlocations_blocks_defaults() {
+  $defaults = array(
+    'city_path' => 'getlocations_by_city',
+    'city_element' => 'dropdown',
+    'city_filter' => '',
+    'city_filter_fieldname' => '',
+    'city_filter_bundle' => '',
+    'province_path' => 'getlocations_by_province',
+    'province_element' => 'dropdown',
+    'province_filter' => '',
+    'province_filter_fieldname' => '',
+    'province_filter_bundle' => '',
+    'postalcode_path' => 'getlocations_by_postcode',
+    'postalcode_element' => 'dropdown',
+    'postalcode_filter' => '',
+    'postalcode_filter_fieldname' => '',
+    'postalcode_filter_bundle' => '',
+    'country_path' => 'getlocations_by_country',
+    'country_element' => 'dropdown',
+    'country_full' => 0,
+    'country_filter' => '',
+    'country_filter_fieldname' => '',
+    'country_filter_bundle' => '',
+  );
+  return $defaults;
+}
+
+/**
+ * Load the getlocations_blocks variables array
+ *
+ * @return array
+ */
+function getlocations_blocks_get_var() {
+  $defaults = getlocations_blocks_defaults();
+  $var = variable_get('getlocations_blocks', $defaults);
+  $newvar = getlocations_adjust_vars($defaults, $var);
+  return $newvar;
+}
+
+/**
+ * Save the getlocations_blocks variables array
+ *
+ * @param array $var
+ */
+function getlocations_blocks_set_var($var) {
+  $defaults = getlocations_blocks_get_var();
+  $newvar = getlocations_adjust_vars($defaults, $var);
+  variable_set('getlocations_blocks', $newvar);
+}
+
+/**
+ * Check that a view is enabled.
+ *
+ * @param string $view The Views machine name
+ *
+ * @return bool
+ *
+ */
+function getlocations_blocks_check_view($view) {
+  $views = views_get_enabled_views();
+  $views_names = array();
+  foreach (array_keys($views) AS $key) {
+    $views_names[] = $key;
+  }
+  if (in_array($view, $views_names)) {
+    return TRUE;
+  }
+  return FALSE;
+
+}
+
+function getlocations_blocks_get_settings() {
+
+  $get = getlocations_blocks_get_var();
+  return array(
+    'city_path' => $get['city_path'],
+    'province_path' => $get['province_path'],
+    'postalcode_path' => $get['postalcode_path'],
+    'country_path' => $get['country_path'],
+  );
+}
+
+function getlocations_blocks_get_attached_elements() {
+  $form['#attached']['css'] = array(GETLOCATIONS_BLOCKS_PATH . '/getlocations_blocks.css');
+  $form['#attached']['js'] = array(GETLOCATIONS_BLOCKS_PATH . '/js/getlocations_blocks.js');
+  $settings = getlocations_blocks_get_settings();
+  $form['#attached']['js'][] = array(
+    'data' => array('getlocations_blocks' => $settings),
+    'type' => 'setting',
+  );
+  return $form;
+}

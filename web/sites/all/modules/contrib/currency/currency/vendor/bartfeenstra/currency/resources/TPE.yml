@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: TPE
+ISO4217Number: null
+sign: ¤
+subunits: 100
+title: 'Portuguese Timorese escudo'
+usage:
+    - { ISO8601From: '1959-01-02', ISO8601To: '2002-05-20', ISO3166Code: TL }
+    - { ISO8601From: '1959-01-02', ISO8601To: '2002-05-20', ISO3166Code: TP }

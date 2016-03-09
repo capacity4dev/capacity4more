@@ -1,0 +1,21 @@
+name = Node Gallery API
+description = "A node gallery module."
+core = 7.x
+dependencies[] = entity
+dependencies[] = entityreference
+dependencies[] = views
+dependencies[] = file_entity
+package = "Node Gallery"
+
+files[] = includes/views/node_gallery_api.views.inc
+files[] = includes/views/node_gallery_api_views_handler_comments_count.inc
+files[] = includes/views/node_gallery_api_views_handler_item_date.inc
+files[] = includes/views/node_gallery_api_views_handler_item_navigator.inc
+files[] = node_gallery_api.rules.inc
+
+; Information added by Drupal.org packaging script on 2015-01-05
+version = "7.x-1.1"
+core = "7.x"
+project = "node_gallery"
+datestamp = "1420487285"
+

@@ -1,0 +1,17 @@
+name = GetLocations Mapquest
+description = "Provides Mapquest Maps integration for Getlocations."
+core = 7.x
+php = 5
+package = Fields
+dependencies[] = getlocations
+
+files[] = views/getlocations_mapquest_plugin_style.inc
+
+configure = admin/config/services/getlocations/mapquest
+
+; Information added by Drupal.org packaging script on 2015-06-10
+version = "7.x-1.16"
+core = "7.x"
+project = "getlocations"
+datestamp = "1433951603"
+

@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BGL
+ISO4217Number: '100'
+sign: лв
+subunits: 100
+title: 'Bulgarian lev'
+usage:
+    - { ISO8601From: '1962-01-01', ISO8601To: '1999-07-05', ISO3166Code: BG }

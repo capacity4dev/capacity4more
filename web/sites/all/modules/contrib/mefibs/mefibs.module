@@ -1,0 +1,1229 @@
+<?php
+
+/**
+ * @file
+ * Primarily Drupal hooks and global API functions to manipulate views and to
+ * provide an additional block with an exposed filter form.
+ *
+ * This is the main module file for Mefibs.
+ */
+
+/**
+ * General purpose prefix for mefibs forms.
+ */
+define('MEFIBS_VIEW_DISPLAY_PREFIX', 'mefibs-form');
+
+/**
+ * Implements hook_views_pre_build().
+ */
+function mefibs_views_pre_build(&$view) {
+
+  $display_id = $view->current_display;
+  if (!mefibs_display_is_mefibs_enabled($view->display[$display_id]->handler)) {
+    return;
+  }
+
+  $display = $view->display[$display_id]->handler;
+  
+  $mefibs = $display->get_option('mefibs');
+  if (!$mefibs) {
+    return;
+  }
+
+  // Get the submitted form values
+  $filters = $view->get_exposed_input();
+
+  // Retrieve the original filter values.
+  $old_filters = array();
+  if (isset($_SESSION['mefibs'][$view->name][$view->current_display]['filters'])) {
+    $old_filters = $_SESSION['mefibs'][$view->name][$view->current_display]['filters'];
+  }
+
+  // Get enabled blocks.
+  $mefibs_blocks = $display->extender['mefibs_blocks']->get_enabled_blocks();
+  if (!count($mefibs_blocks)) {
+    // No blocks, nothing to do.
+    return;
+  }
+  
+  // Find out which block has been submitted.
+  $block_id = 'default';
+  foreach ($filters as $key => $value) {
+    if (strpos($key, '-mefibs_block_id') !== FALSE) {
+      $block_id = $value;
+      break;
+    }
+  }
+
+  // The expected items for this block
+  $expected_items = mefibs_get_expected_items_for_exposed_form_block($view, $block_id);
+
+  // Select the filters we want to use.
+  $valid_filters = array();
+  $block_id_clean = str_replace('_', '-', $block_id);
+  $prefix = mefibs_get_element_name_prefix($block_id);
+  foreach ($filters as $filter => $value) {
+    $filter_name = $filter;
+    if ($block_id != 'default' && strpos($filter, $prefix . '-') === FALSE) {
+      // One of the additional forms has been used.
+      continue;
+    }
+    $filter_name = str_replace($prefix . '-', '', $filter);
+
+    // Check filters and extra stuff like items_per_page and offset.
+    foreach (array('filter', 'other') as $type) {
+      if (($type != 'filter' && in_array($filter_name, $expected_items[$type])) || $type == 'filter' && isset($expected_items[$type][$filter_name])) {
+        // This is an expected argument.
+        $valid_filters[$filter_name] = $value;
+      }
+    }
+
+    // Check sort options.
+    if ($filter_name == 'sort_by' && count($expected_items['sort']) && in_array($value, $expected_items['sort'])) {
+      $valid_filters['sort_by'] = $value;
+    }
+    if ($filter_name == 'sort_order' && count($expected_items['sort'])) {
+      $valid_filters['sort_order'] = $value;
+    }
+  }
+
+  // Unset all old filters of expected items that should have been submitted if
+  // they had been set.
+  foreach ($expected_items as $type => $items) {
+    foreach ($items as $key => $item) {
+      if (isset($old_filters[$key])) {
+        unset($old_filters[$key]);
+      }
+      // This is important for things like sort and items per page.
+      if (isset($_GET[$key])) {
+        unset($_GET[$key]);
+      }
+    }
+  }
+
+  // Fill in values from previous query if not overridden.
+  $filters = $valid_filters + $old_filters;
+
+  // Allow other modules to alter the filter values.
+  drupal_alter('mefibs_filter', $filters);
+
+  // Pass the filters on to the view. Also update the request parameters so
+  // that views doesn't get confused. This is particularily important in order
+  // to set the correct default values.
+  $_GET = $filters + $_GET;
+  $view->set_exposed_input($filters);
+  
+  // And save them in the session for later reference.
+  $_SESSION['mefibs'][$view->name][$view->current_display]['filters'] = $filters;
+
+  $pager = $view->display_handler->get_plugin('pager');
+  
+  // Support for exposed items per page.
+  if (isset($filters['items_per_page'])) {
+    // Unsetting $_GET is ugly but necessary,
+    // see views_plugin_pager_full::query().
+    unset($_GET['items_per_page']);
+    $view->set_items_per_page($filters['items_per_page']);
+  }
+  if (isset($filters['offset'])) {
+    unset($_GET['offset']);
+    $view->set_offset($filters['offset']);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function mefibs_theme($existing, $type, $theme, $path) {
+  return array(
+    'mefibs_views_ui_block_list' => array(
+      'render element' => 'form',
+      'file' => 'mefibs.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function mefibs_block_info() {
+  // Try to avoid instantiating all the views just to get the blocks info.
+  views_include('cache');
+  $cache = views_cache_get('mefibs_block_items', TRUE);
+  if ($cache && is_array($cache->data) && count($cache->data)) {
+    return $cache->data;
+  }
+
+  $blocks = array();
+  $views = views_get_enabled_views();
+  foreach ($views as $view) {
+    $view->init_display();
+    foreach ($view->display as $display) {
+      if (isset($display->handler)) {
+        $display_handler = $view->display[$display->id]->handler;
+        if (!mefibs_display_is_mefibs_enabled($display_handler)) {
+          continue;
+        }
+        $mefibs_blocks = $display_handler->extender['mefibs_blocks']->get_enabled_blocks();
+        if (count($mefibs_blocks)) {
+          foreach ($mefibs_blocks as $machine_name => $name) {
+            $blocks['mefibs_' . $view->name . '--' . $display->id . '--' . $machine_name] = array(
+              'info' => t('Exposed form: !view_name: !block', array(
+                            '!view_name' => $view->name . '-' . $display->id,
+                            '!block' => check_plain($name),
+                          )),
+              'cache' => DRUPAL_NO_CACHE,
+            );
+          }
+        }
+      }
+    }
+    // Save memory: Destroy the view.
+    $view->destroy();
+  }
+
+  // The block.module has a delta length limit of 32, but our deltas can
+  // unfortunately be longer because view names can be 32 and display IDs
+  // can also be 32. So for very long deltas, change to md5 hashes.
+  $hashes = array();
+
+  // Get the keys because we're modifying the array and we don't want to
+  // confuse PHP too much.
+  $keys = array_keys($blocks);
+
+  foreach ($keys as $delta) {
+    if (strlen($delta) >= 32) {
+      $hash = md5($delta);
+      $hashes[$hash] = $delta;
+      $blocks[$hash] = $blocks[$delta];
+      unset($blocks[$delta]);
+    }
+  }
+
+  // Only save hashes if they have changed.
+  $old_hashes = variable_get('mefibs_block_hashes', array());
+  if ($hashes != $old_hashes) {
+    variable_set('mefibs_block_hashes', $hashes);
+  }
+  views_cache_set('mefibs_block_items', $blocks, TRUE);
+
+  // Delete stale block data
+  if (count($blocks)) {
+    db_delete('block')
+      ->condition('module', 'mefibs')
+      ->condition('delta', array_keys($blocks), 'NOT IN')
+      ->execute();
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function mefibs_block_view($delta) {
+
+  // If this is 32, this should be an md5 hash.
+  if (strlen($delta) == 32) {
+    $hashes = variable_get('mefibs_block_hashes', array());
+    if (!empty($hashes[$delta])) {
+      $delta = $hashes[$delta];
+    }
+  }
+
+  if (strpos($delta, 'mefibs_') === 0) {
+    $delta = str_replace('mefibs_', '', $delta);
+    $parts = explode('--', $delta);
+    if (count($parts) <= 2) {
+      return;
+    }
+    list($view_name, $display_id, $block_id) = $parts;
+    $view = views_get_view($view_name);
+    $view->init_display();
+    $view->set_display($display_id);
+    $view->init_handlers();
+    if (!mefibs_display_is_mefibs_enabled($view->display_handler)) {
+      return;
+    }
+    $mefibs_blocks = $view->display_handler->extender['mefibs_blocks']->get_enabled_blocks();
+    if (!isset($mefibs_blocks[$block_id])) {
+      return;
+    }
+    $elements = mefibs_get_expected_items_for_exposed_form_block($view, $block_id);
+    if (count($elements, COUNT_RECURSIVE) > 3) {
+      $form = mefibs_exposed_block_form($view, $block_id);
+      views_add_contextual_links($form, 'special_block_-exp', $view, $display_id);
+      return array(
+        'content' => $form,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_block_info_alter().
+ *
+ * Add "Default block" to exposed filter blocks for mefibs enabled views.
+ */
+function mefibs_block_info_alter(&$blocks, $theme, $code_blocks) {
+  // Avoid warnings in certain conditions, e.g. drush install
+  // @see https://drupal.org/node/2229753
+  if (!isset($blocks['views'])) {
+    return;
+  }
+  foreach ($blocks['views'] as $delta => $block) {
+    $start = microtime(TRUE);
+    // if this is 32, this should be an md5 hash.
+    if (strlen($delta) == 32) {
+      $hashes = variable_get('views_block_hashes', array());
+      if (!empty($hashes[$delta])) {
+        $original_delta = $delta;
+        $delta = $hashes[$delta];
+      }
+    }
+
+    // This indicates it's a special one.
+    if (substr($delta, 0, 1) == '-') {
+      list($nothing, $type, $name, $display_id) = explode('-', $delta);
+      // Put the - back on.
+      $type = '-' . $type;
+      if ($view = views_get_view($name)) {
+        if ($view->access($display_id)) {
+          $view->set_display($display_id);
+          if (isset($view->display_handler)) {
+            // Check if mefibs is configured
+            if (!mefibs_display_is_mefibs_enabled($view->display_handler)) {
+              continue;
+            }
+            // This is a default exposed filter bock for a view that has
+            // mefibs enabled.
+            // If $original_delta is set, we switch the delta value back to its
+            // hashed version to store the info.
+            if (!empty($original_delta)) {
+              $delta = $original_delta;
+            }
+            $blocks['views'][$delta]['info'] .= ': Default Block';
+          }
+        }
+        $view->destroy();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mefibs_form_views_ui_edit_form_alter(&$form, $form_state) {
+  drupal_add_js(drupal_get_path('module', 'mefibs') . '/js/mefibs_admin.js');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mefibs_form_views_ui_edit_display_form_alter(&$form, $form_state) {
+  $form['buttons']['cancel']['#validate'][] = 'mefibs_form_views_ui_edit_display_form_cancel';
+
+  if ($form_state['section'] == 'mefibs' && $form['options']['#mefibs_block_edit']) {
+    // An individual block is edited. Disable the apply button that would
+    // submit the entire mefibs window instead of only block configuration.
+    $form['buttons']['submit']['#disabled'] = 'disabled';
+    return;
+  }
+
+  if (!in_array($form_state['section'], array('pager_options', 'exposed_form_options'))) {
+    return;
+  }
+
+  $view = $form_state['view'];
+  if (!$view->display_handler->get_option('exposed_block')) {
+    return;
+  }
+  $display_id = $view->current_display;
+  
+  $mefibs = $view->display_handler->get_option('mefibs');
+  $blocks = $view->display_handler->extender['mefibs_blocks']->get_enabled_blocks();
+  if (!count($blocks)) {
+    return;
+  }
+  
+  // Add block selector for exposed items_per_page options
+  if ($form_state['section'] == 'pager_options') {
+    $form['options']['pager_options']['expose']['items_per_page']['#weight'] = -1;
+    $form['options']['pager_options']['expose']['items_per_page_label']['#weight'] = -1;
+    $form['options']['pager_options']['expose']['items_per_page_options']['#weight'] = -1;
+    $form['options']['pager_options']['expose']['mefibs_block_items_per_page'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Show in block'),
+      '#description' => t('Select where the exposed <em>items per page</em> item will be displayed. If you do not check any block, the items per page will be hidden completly.'),
+      '#options' => array('default' => 'default') + drupal_map_assoc(array_keys($blocks)),
+      '#default_value' => isset($mefibs[$display_id]['other']['items_per_page']) ? $mefibs[$display_id]['other']['items_per_page'] : array(),
+      '#dependency' => array(
+        'edit-pager-options-expose-items-per-page' => array(1),
+      ),
+      '#weight' => 0,
+      '#multiple' => TRUE,
+    );
+    $form['options']['pager_options']['expose']['mefibs_block_offset'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Show in block'),
+      '#description' => t('Select where the exposed <em>offset</em> item will be displayed. If you do not check any block, the offset will be hidden completly.'),
+      '#options' => array('default' => 'default') + drupal_map_assoc(array_keys($blocks)),
+      '#default_value' => isset($mefibs[$display_id]['other']['offset']) ? $mefibs[$display_id]['other']['offset'] : array(),
+      '#dependency' => array(
+        'edit-pager-options-expose-offset' => array(1),
+      ),
+      '#weight' => 1,
+      '#multiple' => TRUE,
+    );
+  }
+  
+  // Add block selector for exposed form plugin settings.
+  if ($form_state['section'] == 'exposed_form_options') {
+    $form['options']['mefibs_block_sort'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Display exposed sort in block'),
+      '#description' => t('Select where exposed sort items will be displayed. If you do not check any block, the sort items will be hidden completly.'),
+      '#options' => array('default' => 'default') + drupal_map_assoc(array_keys($blocks)),
+      '#default_value' => isset($mefibs[$display_id]['sort_block']) ? $mefibs[$display_id]['sort_block'] : array(),
+      '#multiple' => TRUE,
+    );
+  }
+  
+  $form['buttons']['submit']['#submit'][] = 'mefibs_form_views_ui_edit_display_form_submit';
+}
+
+/**
+ * Submit callback for the views_ui_edit_display form.
+ */
+function mefibs_form_views_ui_edit_display_form_submit($form, &$form_state) {
+  if ($form_state['section'] == 'pager_options') {
+    $values = $form_state['values'];
+
+    $view = $form_state['view'];
+    $display_id = $form_state['display_id'];
+    $view->set_display($display_id);
+    $display = $view->display[$display_id]->handler;
+    
+    if (!$display->get_option('exposed_block')) {
+      return;
+    }
+    $mefibs = $display->get_option('mefibs');
+    
+    $mefibs_block_items_per_page = $values['pager_options']['expose']['mefibs_block_items_per_page'];
+    $blocks_items_per_page = array_keys(array_filter($mefibs_block_items_per_page));
+    $mefibs[$display_id]['other']['items_per_page'] = $blocks_items_per_page;
+    
+    $mefibs_block_offset = $values['pager_options']['expose']['mefibs_block_offset'];
+    $blocks_offset = array_keys(array_filter($mefibs_block_offset));
+    $mefibs[$display_id]['other']['offset'] = $blocks_offset;
+    
+    $view->display_handler->set_option('mefibs', $mefibs);
+    views_ui_cache_set($view);
+  }
+  
+  if ($form_state['section'] == 'exposed_form_options') {
+    $values = $form_state['values'];
+
+    $view = $form_state['view'];
+    $display_id = $form_state['display_id'];
+    $view->set_display($display_id);
+    $display = $view->display[$display_id]->handler;
+    
+    if (!$display->get_option('exposed_block')) {
+      return;
+    }
+    $mefibs = $display->get_option('mefibs');
+
+    $blocks_sort = array_keys(array_filter($values['mefibs_block_sort']));
+    $mefibs[$display_id]['sort_block'] = $blocks_sort;
+
+    $view->display_handler->set_option('mefibs', $mefibs);
+    views_ui_cache_set($view);
+  }
+}
+
+/**
+ * Custom cancel callback for the edit display form.
+ *
+ * Clear the form cache, so that next time the config form is rendered, it will
+ * be rebuild from scratch.
+ * @see mefibs_display_extender_plugin_blocks::options_form().
+ */
+function mefibs_form_views_ui_edit_display_form_cancel($form, &$form_state) {
+  $form_state['view']->form_cache = array();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mefibs_form_views_ui_config_item_form_alter(&$form, $form_state) {
+  $view = $form_state['view'];
+  if (!$view->display_handler->get_option('exposed_block')) {
+    return;
+  }
+  $section = $form_state['section'];
+  $type = $form_state['type'];
+  if (!in_array($section, array('filters'))) {
+    return;
+  }
+  
+  // Check if mefibs is configured
+  if (!isset($view->display_handler->extender['mefibs_blocks'])) {
+    return;
+  }
+  
+  $section_settings = $view->display_handler->get_option($section);
+  $element_name = $form_state['id'];
+  $mefibs = $view->display_handler->get_option('mefibs');
+
+  $blocks = $view->display_handler->extender['mefibs_blocks']->get_enabled_blocks();
+  $default_value = isset($mefibs[$view->current_display][$type][$element_name]) ? $mefibs[$view->current_display][$type][$element_name] : array();
+  if (isset($section_settings[$element_name]['exposed']) && $section_settings[$element_name]['exposed'] && count($blocks)) {
+    $form['options']['expose']['mefibs_blocks'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Show in block'),
+      '#description' => t('Please note, that not checking any block here effectivly hides the exposed filter.'),
+      '#options' => array('default' => 'default') + drupal_map_assoc(array_keys($blocks)),
+      '#default_value' => $default_value,
+      '#multiple' => TRUE,
+    );
+    $form['buttons']['submit']['#submit'][] = 'mefibs_form_views_ui_config_item_form_submit';
+  }
+}
+
+/**
+ * Customer submit callback for the views_ui_config_item_form.
+ *
+ * React on update of a filter or sort item. Handle submission of our custom
+ * form elements and save the configured options into the views_ui cache.
+ */
+function mefibs_form_views_ui_config_item_form_submit($form, &$form_state) {
+  $view = &$form_state['view'];
+  $section = $form_state['section'];
+
+  // Extract 'filter' or 'sort'.
+  $type = substr($section, 0, strlen($section) - 1);
+
+  $element_name = $form_state['id'];
+  $values = $form_state['values'];
+
+  $current_display = $form_state['display_id'];
+  $view->set_display($current_display);
+  $mefibs = $view->display_handler->get_option('mefibs');
+
+  if (!isset($mefibs[$current_display][$type]) || !is_array($mefibs[$current_display][$type])) {
+    $mefibs[$current_display][$type] = array();
+  }
+
+  $blocks = array_keys(array_filter($values['options']['expose']['mefibs_blocks']));
+  $mefibs[$current_display][$type][$element_name] = $blocks;
+
+  $view->display_handler->set_option('mefibs', $mefibs);
+  views_ui_cache_set($view);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mefibs_form_views_exposed_form_alter(&$form, $form_state) {
+  $view = $form_state['view'];
+
+  if (!mefibs_display_is_mefibs_enabled($view->display_handler)) {
+    return;
+  }
+  
+  $block_id = 'default';
+  if (isset($form_state['exposed_form_override']) && isset($form_state['mefibs_block_id'])) {
+    $form['mefibs_block_id'] = array(
+      '#type' => 'hidden',
+      '#name' => 'mefibs_block_id',
+      '#value' => $form_state['mefibs_block_id'],
+    );
+    $block_id = $form_state['mefibs_block_id'];
+  }
+  
+  if ($block_id == 'default') {
+    // Add necessary info to JS settings.
+    drupal_add_js(array(
+      'mefibs' => array(
+        'forms' => array(
+          'default' => array(
+            'view_name' => $view->name,
+            'view_display_id' => $view->current_display,
+            'form_prefix' => '',
+          ),
+        ),
+      ),
+    ), 'setting');
+  }
+  
+  // Hide exposed items from other form blocks.
+  mefibs_hide_exposed_form_items($form, $view, $block_id);
+
+  // Set default values to reflect the current filter states.
+  mefibs_set_default_values($form, $view, $block_id);
+  
+  array_unshift($form['#submit'], 'mefibs_exposed_block_form_submit');
+
+}
+
+/**
+ * Form builder for the additional exposed form.
+ *
+ * @param object $view
+ *   A fully loaded views object.
+ * @param string $display_id
+ *   Display id of the view that the additonal filter form is associated to.
+ *
+ * @return array
+ *   Form API array.
+ */
+function mefibs_exposed_block_form($view, $block_id) {
+  $rendered = &drupal_static(__FUNCTION__);
+  $display_id = $view->current_display;
+  $display = $view->display[$display_id]->handler;
+
+  $static_key = $view->name . '-' . $display_id . '-' . $block_id;
+
+  if (isset($rendered[$static_key])) {
+    return;
+  }
+  $rendered[$static_key] = TRUE;
+
+  if (!mefibs_display_is_mefibs_enabled($view->display[$display_id]->handler)) {
+    return;
+  }
+
+  // Add javascript needed for ajax form behaviors.
+  drupal_add_js(drupal_get_path('module', 'mefibs') . '/js/mefibs.js');
+  
+  // Add necessary info to JS settings.
+  drupal_add_js(array(
+    'mefibs' => array(
+      'forms' => array(
+        $block_id => array(
+          'view_name' => $view->name,
+          'view_display_id' => $display_id,
+          'form_prefix' => mefibs_get_element_name_prefix($block_id),
+        ),
+      ),
+    ),
+  ), 'setting');
+
+  // Inspired by the code in views_plugin_exposed_form::render_exposed_form().
+  $exposed_form = $display->get_plugin('exposed_form');
+  
+  // Deal with any exposed filters we may have, before building.
+  $form_state = array(
+    'view' => &$exposed_form->view,
+    'display' => &$exposed_form->display,
+    'method' => 'get',
+    'rerender' => TRUE,
+    'no_redirect' => TRUE,
+    'always_process' => TRUE,
+    'exposed_form_override' => TRUE,
+    'mefibs_block_id' => $block_id,
+  );
+
+  // Some types of displays (eg. attachments) may wish to use the exposed
+  // filters of their parent displays instead of showing an additional
+  // exposed filter form for the attachment as well as that for the parent.
+  if (!$display->displays_exposed()) {
+    unset($form_state['rerender']);
+  }
+
+  if (!empty($exposed_form->ajax)) {
+    $form_state['ajax'] = TRUE;
+  }
+
+  // Retrieve the bare form.
+  $form_state['exposed_form_plugin'] = $exposed_form;
+  $form = drupal_build_form('views_exposed_form', $form_state);
+
+  $mefibs = $display->extender['mefibs_blocks'];
+  $block_settings = $mefibs->get_block_options($block_id);
+  $form['submit']['#value'] = $block_settings['submit_button'];
+  if ($block_settings['reset_button']) {
+    if (!isset($form['reset'])) {
+      $form['reset'] = array(
+        '#type' => 'submit',
+        '#value' => $block_settings['reset_button_label'],
+        '#weight' => 10,
+        '#access' => TRUE,
+      );
+    }
+    else {
+      $form['reset']['#value'] = $block_settings['reset_button_label'];
+    }
+  }
+  if (!$block_settings['reset_button']) {
+    $form['reset']['#access'] = FALSE;
+  }
+
+  // Apply autosubmit values.
+  if (!empty($block_settings['autosubmit'])) {
+    $form = array_merge_recursive($form, array('#attributes' => array('class' => array('ctools-auto-submit-full-form'))));
+    $form['submit']['#attributes']['class'][] = 'ctools-use-ajax';
+    $form['submit']['#attributes']['class'][] = 'ctools-auto-submit-click';
+    $form['#attached']['js'][] = drupal_get_path('module', 'ctools') . '/js/auto-submit.js';
+    
+    // As this is a copy of the original form, it is possible that the classes
+    // are already there. We want uniqueness.
+    array_unique($form['submit']['#attributes']['class']);
+
+    if (!empty($block_settings['autosubmit_hide'])) {
+      $form['submit']['#attributes']['class'][] = 'js-hide';
+    }
+    else {
+      mefibs_remove_value_from_array($form['submit']['#attributes']['class'], 'js-hide');
+    }
+  }
+  else {
+    // Remove autosubmit classes if set in the original form, otherwhise the
+    // submit button won't show up.
+    if (isset($form['submit']['#attributes']['class'])) {
+      mefibs_remove_value_from_array($form['submit']['#attributes']['class'], array('ctools-use-ajax', 'ctools-auto-submit-click', 'js-hide'));
+    }
+  }
+
+  // This is important! Change the form id, otherwhise strange things are going
+  // to happen.
+  $form['#id'] = $form['#id'] . '-' . mefibs_get_element_name_prefix($block_id);
+  mefibs_set_form_id_recursive($form, mefibs_get_element_name_prefix($block_id));
+  mefibs_set_element_name_recursive($form, mefibs_get_element_name_prefix($block_id));
+
+  return $form;
+}
+
+/**
+ * Custom submit handler for exposed forms.
+ *
+ * This code will run before the original submit handler, so we can alter
+ * things here.
+ */
+function mefibs_exposed_block_form_submit(&$form, &$form_state) {
+  $view = $form_state['view'];
+
+  $block_id = isset($form_state['mefibs_block_id']) ? $form_state['mefibs_block_id'] : NULL;
+  if (!$block_id || $block_id == 'default' || !mefibs_display_is_mefibs_enabled($view->display_handler)) {
+    return;
+  }
+  
+  $display_id = $view->current_display;
+  $display = $view->display[$display_id]->handler;
+  
+  // Check if the reset button for this block is enabled. If so, we need to
+  // rewrite the "op" value in order to let views know that the form should be
+  // reset.
+  $block_settings = $display->extender['mefibs_blocks']->get_block_options($block_id);
+  $op_key = mefibs_get_element_name_prefix($block_id) . '-op';
+  if (isset($_GET[$op_key]) && $block_settings['reset_button'] && $_GET[$op_key] == $block_settings['reset_button_label']) {
+    $form_state['values']['op'] = $display->get_plugin('exposed_form')->options['reset_button_label'];
+    unset($_SESSION['mefibs'][$view->name][$display_id]);
+  }
+}
+
+/**
+ * Recursivly assign a value to a form property and all its children.
+ *
+ * @param array $form
+ *   Form API array.
+ * @param string $property
+ *   The name of the property, that is the array key without the leading #.
+ * @param mixed $value
+ *   The new value for the property.
+ * @param array $exclude
+ *   Array with the name of form form children that should not be affected.
+ */
+function mefibs_set_form_property_recursive(&$form, $property, $value, $exclude = array()) {
+  foreach (element_children($form) as $element) {
+    if (count($exclude) && in_array($element, $exclude)) {
+      continue;
+    }
+    $form[$element]['#' . $property] = $value;
+    if (count(element_children($form[$element]))) {
+      mefibs_set_form_property_recursive($form[$element], $property, $value, $exclude);
+    }
+  }
+}
+
+/**
+ * Recursivly prefix the #id attribute of all elements in a form.
+ *
+ * @param array $form
+ *   Form API array.
+ * @param string $prefix
+ *   The string to use as a prefix.
+ */
+function mefibs_set_form_id_recursive(&$form, $prefix) {
+  foreach (element_children($form) as $element) {
+    if ($element == 'mefibs_form') {
+      continue;
+    }
+    if (isset($form[$element]['#id'])) {
+      if (strpos($form[$element]['#id'], 'edit-') === 0) {
+        $form[$element]['#id'] = drupal_html_id('edit-' . $prefix . '-' . substr($form[$element]['#id'], 5));
+      }
+      else {
+        $form[$element]['#id'] = drupal_html_id($prefix . '-' . $form[$element]['#id']);
+      }
+    }
+    if (count(element_children($form[$element]))) {
+      mefibs_set_form_id_recursive($form[$element], $prefix);
+    }
+  }
+}
+
+/**
+ * Recursivly prefix the #name attribute of all elements in a form.
+ *
+ * @param array $form
+ *   Form API array.
+ * @param string $prefix
+ *   The string to use as a prefix.
+ */
+function mefibs_set_element_name_recursive(&$form, $prefix) {
+  $valid_element_types = array('textfield', 'textarea', 'select', 'checkbox', 'checkboxes', 'radio', 'radios', 'hidden');
+  foreach (element_children($form) as $element) {
+    if ($element == 'mefibs_form') {
+      continue;
+    }
+    if (isset($form[$element]['#type']) && in_array($form[$element]['#type'], $valid_element_types)) {
+      $form[$element]['#name'] = $prefix . '-' . $form[$element]['#name'];
+    }
+    if (count(element_children($form[$element]))) {
+      mefibs_set_element_name_recursive($form[$element], $prefix);
+    }
+  }
+}
+
+/**
+ * Build the element name prefix for the givne block_id.
+ *
+ * @param string $block_id 
+ * @return string
+ */
+function mefibs_get_element_name_prefix($block_id) {
+  return MEFIBS_VIEW_DISPLAY_PREFIX . '-' . str_replace('_', '-', $block_id);
+}
+
+/**
+ * Retrieve all exposed fields of a given type (filter, sort).
+ *
+ * @param object $view
+ *   A fully loaded views object.
+ *
+ * @return array
+ *   Array containing the internal names of exposed elements.
+ */
+function mefibs_get_exposed_items($view) {
+  static $exposed_items;
+  if (!isset($exposed_items[$view->current_display])) {
+    $items = array(
+      'filter' => array(),
+      'sort' => array(),
+      'other' => array(),
+    );
+    foreach (array('sort', 'filter') as $type) {
+      $handlers = $view->display_handler->get_handlers($type);
+      foreach ($handlers as $handler) {
+        if ($handler->options['exposed'] && in_array($type, array('filter', 'sort'))) {
+          if ($type == 'filter') {
+            $expose_info = $handler->options['expose'];
+            $identifier = $expose_info['identifier'];
+            if ($handler->options['is_grouped']) {
+              $identifier = $handler->options['group_info']['identifier'];
+            }
+            $items[$type][$identifier] = $handler->options['id'];
+            if ($expose_info['use_operator']) {
+              $items[$type][$expose_info['operator']] = $expose_info['operator_id'];
+            }
+          }
+          else {
+            $items[$type][] = $handler->options['id'];
+          }
+        }
+      }
+    }
+    $pager = $view->display_handler->get_plugin('pager');
+    if ($pager->items_per_page_exposed()) {
+      $items['other'][] = 'items_per_page';
+    }
+    if ($pager->offset_exposed()) {
+      $items['other'][] = 'offset';
+    }
+
+    $exposed_items[$view->current_display] = $items;
+  }
+
+  return $exposed_items[$view->current_display];
+}
+
+/**
+ * Retrieve the elements that should go into an additional form.
+ *
+ * @param object $view
+ *   A fully loaded views object.
+ * @param string $block_id
+ *  The internal machine name for the block.
+ *
+ * @return array
+ *   An array of view specific unique names of the elements for the additional
+ *   form, keyed by type (filter, sort, other).
+ */
+function mefibs_get_expected_items_for_exposed_form_block($view, $block_id) {
+  $mefibs = $view->display_handler->get_option('mefibs');
+  $display_id = $view->current_display;
+
+  $elements = array(
+    'filter' => array(),
+    'sort' => array(),
+    'other' => array(),
+  );
+
+  $exposed_items = mefibs_get_exposed_items($view);
+
+  foreach (array('filter', 'other') as $type) {
+    if (!isset($mefibs[$display_id][$type])) {
+      continue;
+    }
+    
+    foreach ($exposed_items[$type] as $key => $item) {
+      // Filters can have exposed operators so in case this is an operator we
+      // build a special base name without the attached '_op'.
+      $is_operator = strrpos($item, '_op') === strlen($item) - 3;
+      $base = $is_operator ? substr($item, 0, strlen($item) - 3) : $item;
+      
+      // Check for normal items and operators in special block.
+      if (mefibs_item_visible($block_id, $mefibs, $display_id, $type, $item)) {
+        $elements[$type][$key] = $item;
+      }
+    }
+  }
+
+  if (mefibs_sort_block_visible($block_id, $mefibs, $display_id)) {
+    $elements['sort'] = $exposed_items['sort'];
+  }
+
+  $context = array(
+    'view' => clone $view,
+    'display_id' => $display_id,
+    'block_id' => $block_id,
+    'type' => 'expected_items',
+  );
+  drupal_alter('mefibs_elements', $elements, $context);
+
+  return $elements;
+}
+
+/**
+ * Hide form elements that should not show up for the given block id.
+ *
+ * @param array $form 
+ * @param object $view 
+ * @param string $block_id 
+ * @return void
+ */
+function mefibs_hide_exposed_form_items(&$form, $view, $block_id) {
+  $elements = mefibs_get_expected_items_for_exposed_form_block($view, $block_id);
+  $mefibs_options = $view->display_handler->get_option('mefibs');
+
+  $display_id = $view->current_display;
+  $display = $view->display[$display_id]->handler;
+
+  $form_keys = array();
+  foreach ($form['#info'] as $key => $definition) {
+    list($type, $id) = explode('-', $key);
+    if ($display->get_handler($type, $id) && in_array($id, $elements[$type])) {
+      // This is a non grouped filter
+      if (!isset($form['#info']['filter-' . $id]['value'])) {
+        $key = $id;
+      }
+      else {
+        $key = $form['#info']['filter-' . $id]['value'];
+      }
+      $form_keys[] = $key;
+      if (isset($definition['operator']) && !empty($definition['operator'])) {
+        $form_keys[] = $definition['operator'];
+      }
+    }
+    elseif (isset($elements[$type][$id])) {
+      // This is a grouped filter
+      $form_keys[] = $form['#info']['filter-' . $id]['value'];
+      if (isset($definition['operator']) && !empty($definition['operator'])) {
+        $form_keys[] = $definition['operator'];
+      }
+    }
+  }
+
+  if (count($elements['sort']) && $mefibs_options[$display_id]['sort_block'] == $block_id) {
+    $form_keys[] = 'sort_by';
+    $form_keys[] = 'sort_order';
+  }
+
+  if (count($elements['other'])) {
+    $form_keys = array_merge($form_keys, $elements['other']);
+  }
+
+  // Add available elements to JS settings.
+  drupal_add_js(array(
+    'mefibs' => array(
+      'forms' => array(
+        $block_id => array(
+          'elements' => $form_keys,
+        ),
+      ),
+    ),
+  ), 'setting');
+  
+  // Add default form keys that we never want to hide.
+  $form_keys = array_merge($form_keys, array(
+    'submit',
+    'reset',
+    'form_build_id',
+    'form_id',
+    'form_token',
+  ));
+
+  $context = array(
+    'view' => clone $view,
+    'display_id' => $display_id,
+    'block_id' => $block_id,
+    'type' => 'hide_items',
+  );
+
+  drupal_alter('mefibs_elements', $form_keys, $context);
+
+  // Do some magic: hide all other elements.
+  $prefix = '<div style="display: none;">';
+  $suffix = '</div>';
+
+  mefibs_set_form_property_recursive($form, 'prefix', $prefix, $form_keys);
+  mefibs_set_form_property_recursive($form, 'suffix', $suffix, $form_keys);
+
+  // Also hide the labels of hidden filters.
+  $mefibs_options = $display->get_option('mefibs');
+
+  // Finally hide the labels of all non-shown filters.
+  foreach ($form['#info'] as $key => $info) {
+    if (isset($info['value']) && !in_array($info['value'], $form_keys)) {
+      $form['#info'][$key]['label'] = '';
+      $form['#info'][$key]['description'] = '';
+    }
+  }
+}
+
+/**
+ * Check if the given item should be visible in the given context.
+ *
+ * The context is defined by the view specific mefibs options, the current
+ * display id, the item type (filter, other) and the item name itself.
+ *
+ * @param string $block_id 
+ * @param array $mefibs_options 
+ * @param string $display_id 
+ * @param string $type 
+ * @param string $item 
+ * @return boolean
+ */
+function mefibs_item_visible($block_id, $mefibs_options, $display_id, $type, $item) {
+  if (!isset($mefibs_options[$display_id][$type][$item])) {
+    // This is legacy support to not break old configuration.
+    return $block_id == 'default';
+  }
+  $blocks = $mefibs_options[$display_id][$type][$item];
+  if (is_string($blocks)) {
+    // This is legacy support to not break old configuration.
+    return $blocks == $block_id;
+  }
+  if (is_array($blocks)) {
+    // This is the new expected form of the configuration.
+    return count($blocks) ? in_array($block_id, $blocks, TRUE) : FALSE;
+  }
+  return FALSE;
+}
+
+/**
+ * Check if the sort block should be visible in the given context.
+ *
+ * The context is defined by the view specific mefibs options and the current
+ * display id.
+ *
+ * @param string $block_id 
+ * @param array $mefibs_options 
+ * @param string $display_id 
+ * @return boolean
+ */
+function mefibs_sort_block_visible($block_id, $mefibs_options, $display_id) {
+  if (!isset($mefibs_options[$display_id]['sort_block'])) {
+    // This is legacy support to not break old configuration.
+    return $block_id == 'default';
+  }
+  $blocks = $mefibs_options[$display_id]['sort_block'];
+  if (is_string($blocks)) {
+    // This is legacy support to not break old configuration.
+    return $blocks == $block_id;
+  }
+  if (is_array($blocks)) {
+    // This is the new expected form of the configuration.
+    return in_array($block_id, $blocks);
+  }
+  return FALSE;
+}
+
+/**
+ * Recursivly set correct default values for current filter set.
+ */
+function mefibs_set_default_values(&$form, $view, $block_id) {
+  $current_filters = array();
+  if (isset($_SESSION['mefibs'][$view->name][$view->current_display]['filters'])) {
+    $current_filters = $_SESSION['mefibs'][$view->name][$view->current_display]['filters'];
+  }
+  foreach (element_children($form) as $element) {
+    if (isset($current_filters[$element])) {
+      $form[$element]['#default_value'] = $current_filters[$element];
+      // This is a first quick draft for composed filter elements like
+      // "in between" filters.
+      if (is_array($current_filters[$element])) {
+        foreach ($current_filters[$element] as $key => $value) {
+          if (isset($form[$element][$key]) && isset($form[$element][$key]['#type'])) {
+            $form[$element][$key]['#default_value'] = $value;
+          }
+        }
+      }
+    }
+    if (count(element_children($form[$element]))) {
+      mefibs_set_default_values($form[$element], $view, $block_id);
+    }
+  }
+
+}
+
+/**
+ * Check if mefibs is enabled for the given display handler.
+ *
+ * @param object $display_handler 
+ * @return boolean
+ */
+function mefibs_display_is_mefibs_enabled($display_handler) {
+  
+  if (!is_object($display_handler) || !method_exists($display_handler, 'get_option')) {
+    return FALSE;
+  }
+  
+  if (!isset($display_handler->extender['mefibs_blocks'])) {
+    return FALSE;
+  }
+
+  if (!$display_handler->get_option('exposed_block')) {
+    return FALSE;
+  }
+
+  $mefibs_blocks = $display_handler->extender['mefibs_blocks']->get_enabled_blocks();
+  return count($mefibs_blocks) > 0;
+}
+
+/**
+ * Callback function for a blocks machine_name form element.
+ *
+ * @param string $value 
+ * @return boolean
+ */
+function mefibs_block_machine_name_exists($value, $element, $form_state) {
+  // Check which button has triggered the submit. We need to verify uniqueness
+  // of the given value only when a new block should be added.
+  $button = $form_state['triggering_element'];
+  if (!isset($button['#group'])) {
+    return FALSE;
+  }
+  if ($button['#group'] !== 'add') {
+    return FALSE;
+  }
+
+  // Prevent usage of "default".
+  if ($value == 'default') {
+    return TRUE;
+  }
+
+  if (property_exists($form_state['view'], 'form_cache')) {
+    $blocks = $form_state['view']->form_cache['blocks'];
+    foreach ($blocks as $block) {
+      if ($block['machine_name'] == $value) {
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Recursively remove block associations from mefibs settings.
+ *
+ * @param array $display_settings 
+ *  A structure like:
+ *      'filter' => array(
+ *        'filter_name' => array(
+ *          1 => block_id_1
+ *          2 => block_id_2
+ *        ),
+ *      ),
+ *      'sort_block => array(
+ *        0 => block_id_1,
+ *      ),
+ *      'other' => array(
+ *        'items_per_page' => array(
+ *          1 => block_id_1,
+ *        ),
+ *        'offset' => array(
+ *          1 => block_id_1,
+ *        ),
+ *      )
+ *
+ * @param array $block_ids 
+ *  The blocks to preserve.
+ */
+function mefibs_remove_block_association_recursive(&$display_settings, $block_ids) {
+  if (!is_array($display_settings) || !count($display_settings)) {
+    return;
+  }
+  foreach ($display_settings as $key => $value) {
+    if (is_array($value)) {
+      mefibs_remove_block_association_recursive($display_settings[$key], $block_ids);
+      continue;
+    }
+    if (!in_array($value, $block_ids)) {
+      unset($display_settings[$key]);
+    }
+  }
+}
+
+/**
+ * Remove an item from an array based on the value.
+ *
+ * @param array $array 
+ * @param mixed $values 
+ *  Either a single element or an array of elements that will be removed
+ */
+function mefibs_remove_value_from_array(&$array, $values) {
+  if (!count($array)) {
+    return;
+  }
+  // Make sure we have an array.
+  if (!is_array($values)) {
+    $values = array($values);
+  }
+  foreach ($array as $key => $value) {
+    if (in_array($value, $values)) {
+      unset($array[$key]);
+    }
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function mefibs_views_api() {
+  return array(
+    'api' => 3,
+  );
+}

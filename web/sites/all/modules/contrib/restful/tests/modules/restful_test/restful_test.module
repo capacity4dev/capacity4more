@@ -1,0 +1,455 @@
+<?php
+
+/**
+ * @file
+ * Helper module for testing the RESTful module.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function restful_test_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Flag a field to not be accessible.
+ *
+ * @param $nid
+ *   The node ID to deny access.
+ */
+function restful_test_deny_access_node($nid) {
+  variable_set('restful_test_deny_access_node', $nid);
+}
+
+/**
+ * Clear un-accessible node.
+ */
+function restful_test_clear_access_node() {
+  variable_del('restful_test_deny_access_node');
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function restful_test_node_access($node, $op, $account) {
+  if (!$nid = variable_get('restful_test_deny_access_node')) {
+    return;
+  }
+
+  if ($op != 'view') {
+    return;
+  }
+
+  if ($node->nid != $nid) {
+    return;
+  }
+
+  // Deny access.
+  return NODE_ACCESS_DENY;
+}
+
+
+/**
+ * Flag a field to not be accessible.
+ *
+ * @param $field_name
+ *   The field name. Defaults to "body".
+ */
+function restful_test_deny_access_field($field_name = 'body') {
+  variable_set('restful_test_deny_access_field', $field_name);
+}
+
+/**
+ * Clear un-accessible fields.
+ */
+function restful_test_clear_access_field() {
+  variable_del('restful_test_deny_access_field');
+}
+
+/**
+ * Implements hook_field_access().
+ */
+function restful_test_field_access($op, $field, $entity_type, $entity, $account) {
+  if (!$field_name = variable_get('restful_test_deny_access_field')) {
+    return;
+  }
+
+  if ($field_name == $field['field_name']) {
+    return FALSE;
+  }
+}
+
+/**
+ * Helper function to add common fields.
+ *
+ * @param string $entity_type
+ *   The entity type. Defautls to "entity_test".
+ * @param string $bundle.
+ *   The bundle name. Defaults to "main".
+ *
+ * @return int
+ *   The vocabulary ID created.
+ */
+function restful_test_add_fields($entity_type = 'entity_test', $bundle = 'main') {
+  // Text - single.
+  $field = array(
+    'field_name' => 'text_single',
+    'type' => 'text_long',
+    'entity_types' => array($entity_type),
+    'cardinality' => 1,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'text_single',
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'label' => t('Text single'),
+    'settings' => array(
+      // No text processing
+      'text_processing' => 0,
+    ),
+  );
+  field_create_instance($instance);
+
+  // Text - single, with text processing.
+  $field = array(
+    'field_name' => 'text_single_processing',
+    'type' => 'text_long',
+    'entity_types' => array($entity_type),
+    'cardinality' => 1,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'text_single_processing',
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'label' => t('Text single with text processing'),
+    'settings' => array(
+      'text_processing' => 1,
+    ),
+  );
+  field_create_instance($instance);
+
+  // Text - multiple.
+  $field = array(
+    'field_name' => 'text_multiple',
+    'type' => 'text_long',
+    'entity_types' => array($entity_type),
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'text_multiple',
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'label' => t('Text multiple'),
+    'settings' => array(
+      'text_processing' => 0,
+    ),
+  );
+  field_create_instance($instance);
+
+  // Text - multiple, with text processing.
+  $field = array(
+    'field_name' => 'text_multiple_processing',
+    'type' => 'text_long',
+    'entity_types' => array($entity_type),
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'text_multiple_processing',
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'label' => t('Text multiple with text processing'),
+    'settings' => array(
+      'text_processing' => 1,
+    ),
+  );
+  field_create_instance($instance);
+
+  // Entity reference - single.
+  $field = array(
+    'entity_types' => array($entity_type),
+    'settings' => array(
+      'handler' => 'base',
+      'target_type' => $entity_type,
+      'handler_settings' => array(
+      ),
+    ),
+    'field_name' => 'entity_reference_single',
+    'type' => 'entityreference',
+    'cardinality' => 1,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'entity_type' => $entity_type,
+    'field_name' => 'entity_reference_single',
+    'bundle' => $bundle,
+    'label' => t('Entity reference single'),
+  );
+
+  field_create_instance($instance);
+
+  // Entity reference - multiple.
+  $field = array(
+    'entity_types' => array($entity_type),
+    'settings' => array(
+      'handler' => 'base',
+      'target_type' => $entity_type,
+      'handler_settings' => array(
+      ),
+    ),
+    'field_name' => 'entity_reference_multiple',
+    'type' => 'entityreference',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'entity_type' => $entity_type,
+    'field_name' => 'entity_reference_multiple',
+    'bundle' => $bundle,
+    'label' => t('Entity reference multiple'),
+  );
+
+  field_create_instance($instance);
+
+  $vocabulary_id = restful_test_create_vocabulary_and_terms();
+
+  // Taxonomy term - single.
+  $field = array(
+    'field_name' => 'term_single',
+    'type' => 'taxonomy_term_reference',
+    'entity_types' => array($entity_type),
+    'cardinality' => 1,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'term_single',
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'label' => t('Term reference single'),
+    'settings' => array(
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => $vocabulary_id,
+          ),
+        ),
+      ),
+    ),
+  );
+  field_create_instance($instance);
+
+  // Taxonomy term - multiple.
+  $field = array(
+    'field_name' => 'term_multiple',
+    'type' => 'taxonomy_term_reference',
+    'entity_types' => array($entity_type),
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'term_multiple',
+    'bundle' => $bundle,
+    'entity_type' => $entity_type,
+    'label' => t('Term reference multiple'),
+    'settings' => array(
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => $vocabulary_id,
+          ),
+        ),
+      ),
+    ),
+  );
+  field_create_instance($instance);
+
+  // File field - single.
+  $field = array(
+    'field_name' => 'file_single',
+    'type' => 'file',
+    'settings' => array(),
+    'cardinality' => 1,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'file_single',
+    'entity_type' => $entity_type,
+    'label' => 'File single',
+    'bundle' => $bundle,
+  );
+  field_create_instance($instance);
+
+  // File field - multiple.
+  $field = array(
+    'field_name' => 'file_multiple',
+    'type' => 'file',
+    'settings' => array(),
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'file_multiple',
+    'entity_type' => $entity_type,
+    'label' => 'File multiple',
+    'bundle' => $bundle,
+  );
+  field_create_instance($instance);
+
+  // Image field - single.
+  $field = array(
+    'field_name' => 'image_single',
+    'type' => 'image',
+    'settings' => array(),
+    'cardinality' => 1,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'image_single',
+    'entity_type' => $entity_type,
+    'label' => 'Image single',
+    'bundle' => $bundle,
+  );
+  field_create_instance($instance);
+
+  // Image field - multiple.
+  $field = array(
+    'field_name' => 'image_multiple',
+    'type' => 'image',
+    'settings' => array(),
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'image_multiple',
+    'entity_type' => $entity_type,
+    'label' => 'Image multiple',
+    'bundle' => $bundle,
+  );
+  field_create_instance($instance);
+
+  return $vocabulary_id;
+}
+
+
+/**
+ * Helper function; Create a vocabulary and terms.
+ *
+ * @param string $machine_name
+ *   The machine name of the vocabulary. Defaults to 'test_vocab'.
+ * @param bool $create_vocab
+ *   Determines if to create a vocabulary, or use an existing one.
+ *
+ * @return int
+ *   The newly created vocabulary ID.
+ */
+function restful_test_create_vocabulary_and_terms($machine_name = 'test_vocab', $create_vocab = TRUE) {
+  if ($create_vocab) {
+    $vocabulary = (object) array(
+      'name' => 'Tags test',
+      'description' => '',
+      'machine_name' => $machine_name,
+    );
+    taxonomy_vocabulary_save($vocabulary);
+  }
+  else {
+    $vocabulary = taxonomy_vocabulary_machine_name_load($machine_name);
+  }
+
+
+  $vid = $vocabulary->vid;
+
+  // Create three terms.
+  foreach (array(1, 2, 3) as $id) {
+    $values = array(
+      'name' => 'term' . $id,
+      'vid' => $vid,
+
+    );
+    $term = entity_create('taxonomy_term', $values);
+    taxonomy_term_save($term);
+  }
+
+  return $vid;
+}
+
+/**
+ * Helper function; Create a node with taxonomy terms.
+ *
+ * @return object
+ *   The saved node.
+ */
+function restful_test_create_node_with_tags() {
+  $values = array('type' => 'article');
+  $node = entity_create('node', $values);
+
+  $vocabulary = taxonomy_vocabulary_machine_name_load('tags');
+
+  // Create a random number of tags for the created node.
+  for ($index = 0; $index < mt_rand(1, 10); $index++) {
+    $term = (object) array(
+      'vid' => $vocabulary->vid,
+      'name' => 'term ' . $vocabulary->vid . '::' . $index,
+    );
+    taxonomy_term_save($term);
+    $terms[] = $term;
+    $node->field_tags[LANGUAGE_NONE][$index]['tid'] = $term->tid;
+  }
+  node_save($node);
+
+  return $node;
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function restful_test_entity_info() {
+  return array(
+    'restful_test_translatable_entity' => array(
+      'label' => t('Translatable Test Entity'),
+      'plural label' => t('Translatable Test Entities'),
+      'description' => t('An entity type used by the Restful tests.'),
+      'entity class' => 'Entity',
+      'controller class' => 'EntityAPIController',
+      'base table' => 'restful_test_translatable_entity',
+      'fieldable' => TRUE,
+      'entity keys' => array(
+        'id' => 'pid',
+        'bundle' => 'name',
+        'label' => 'label',
+      ),
+      // Make use the class' label() and uri() implementation by default.
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'bundles' => array(
+        'restful_test_translatable_entity' => array(
+          'label' => 'Translatable Test Entity'
+        )
+      ),
+      'bundle keys' => array(
+        'bundle' => 'name',
+      ),
+      'module' => 'restful_test',
+      'translation' => array(
+        'locale' => TRUE,
+      ),
+    ),
+  );
+}

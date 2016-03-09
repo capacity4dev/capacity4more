@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Installation and uninstallation functionality.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function currency_exchange_rate_db_table_schema() {
+  $schema['currency_exchange_rate_db_table'] = array(
+    'description' => 'Currency exchange rates.',
+    'fields' => array(
+      'currency_code_from' => array(
+        'not null' => TRUE,
+        'type' => 'varchar',
+        'length' => 3,
+      ),
+      'currency_code_to' => array(
+        'not null' => TRUE,
+        'type' => 'varchar',
+        'length' => 3,
+      ),
+      'rate' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('currency_code_from', 'currency_code_to'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function currency_exchange_rate_db_table_uninstall() {
+  variable_del('currency_exchange_rate_db_table_cron_last');
+}
+
+/**
+ * Sets all primary keys to not null.
+ */
+function currency_exchange_rate_db_table_update_7200(array &$sandbox) {
+  db_change_field('currency_locale_pattern', 'locale', 'locale', array(
+    'not null' => TRUE,
+    'length' => 5,
+    'type' => 'varchar',
+  ));
+}

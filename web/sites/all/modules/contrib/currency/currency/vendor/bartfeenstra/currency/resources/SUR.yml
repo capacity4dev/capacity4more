@@ -1,0 +1,19 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SUR
+ISO4217Number: null
+sign: руб
+subunits: 100
+title: 'Soviet ruble'
+usage:
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: AM }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: AZ }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: BY }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1992-06-20', ISO3166Code: EE }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: GE }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: KG }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1992-10-01', ISO3166Code: LT }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1992-07-20', ISO3166Code: LV }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: SU }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: TM }
+    - { ISO8601From: '1961-01-01', ISO8601To: '1991-12-25', ISO3166Code: UA }

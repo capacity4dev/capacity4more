@@ -1,0 +1,9 @@
+.dragndrop-example-api,
+.dragndrop-example-element-mirror {
+  width: 179px;
+  height: 154px;
+  margin: 10px 10px 10px 0;
+  border: 1px solid #ccc;
+  line-height: 154px;
+  text-align: center;
+}

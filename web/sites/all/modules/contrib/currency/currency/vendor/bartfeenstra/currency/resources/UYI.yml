@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: UYI
+ISO4217Number: '940'
+sign: ¤
+subunits: 0
+title: 'Uruguayan Peso en Unidades Indexadas'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: UY }

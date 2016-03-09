@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: JMD
+ISO4217Number: '388'
+sign: $
+subunits: 100
+title: 'Jamaican dollar'
+usage:
+    - { ISO8601From: '1969-09-08', ISO8601To: '', ISO3166Code: JM }
+    - { ISO8601From: '1969-09-08', ISO8601To: '1971-01-01', ISO3166Code: KY }

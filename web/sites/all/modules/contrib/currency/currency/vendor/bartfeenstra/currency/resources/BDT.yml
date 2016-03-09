@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BDT
+ISO4217Number: '050'
+sign: ৳
+subunits: 100
+title: 'Bangladeshi taka'
+usage:
+    - { ISO8601From: '1972-01-01', ISO8601To: '', ISO3166Code: BD }

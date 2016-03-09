@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    TRL: '1000000'
+ISO4217Code: TRY
+ISO4217Number: '949'
+sign: TL
+subunits: 100
+title: 'Turkish lira'
+usage:
+    - { ISO8601From: '2005-01-01', ISO8601To: '', ISO3166Code: TR }

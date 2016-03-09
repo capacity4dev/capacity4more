@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: NFD
+ISO4217Number: null
+sign: $
+subunits: 100
+title: 'Dominion of Newfoundland dollar'
+usage:
+    - { ISO8601From: '1865', ISO8601To: '', ISO3166Code: '' }

@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * getlocations_search.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_search module installation.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function getlocations_search_uninstall() {
+  variable_del('getlocations_search_defaults');
+  variable_del('getlocations_search_paths');
+}
+
+/**
+ * Implements hook_enable().
+ */
+function getlocations_search_enable() {
+  drupal_set_message(st('Thank you for installing Getlocations search. To set it up please visit the <a href="@url">configuration page</a>.', array('@url' => url('admin/config/services/getlocations/search'))), 'status');
+}

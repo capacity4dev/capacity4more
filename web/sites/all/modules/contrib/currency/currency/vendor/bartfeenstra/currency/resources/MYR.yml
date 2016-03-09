@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: MYR
+ISO4217Number: '458'
+sign: RM
+subunits: 100
+title: 'Malaysian ringgit'
+usage:
+    - { ISO8601From: '1963-09-16', ISO8601To: '1967-06-12', ISO3166Code: BN }
+    - { ISO8601From: '1963-09-16', ISO8601To: '', ISO3166Code: MY }
+    - { ISO8601From: '1963-09-16', ISO8601To: '1967-06-12', ISO3166Code: SG }

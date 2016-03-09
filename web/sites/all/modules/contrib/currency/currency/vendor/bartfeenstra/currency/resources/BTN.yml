@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BTN
+ISO4217Number: '064'
+sign: Nu.
+subunits: 100
+title: 'Buthanese ngultrum'
+usage:
+    - { ISO8601From: '1974-04-16', ISO8601To: '', ISO3166Code: BT }

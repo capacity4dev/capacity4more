@@ -1,0 +1,66 @@
+alternativeSigns: {  }
+exchangeRates:
+    ATS: '13.7603'
+    BEF: '40.3399'
+    CYP: '0.585274'
+    DEM: '1.95583'
+    EEK: '15.6466'
+    ESP: '166.386'
+    FIM: '5.94573'
+    FRF: '6.55957'
+    GRD: '340.75'
+    IEP: '0.787564'
+    ITL: '1.93627'
+    LUF: '40.3399'
+    LVL: '0.702804'
+    LTL: '3.4528'
+    MCF: '6.55957'
+    MTL: '0.4293'
+    NLG: '2.20371'
+    PTE: '200.482'
+    SIT: '239.64'
+    SKK: '30.126'
+    SML: '1.93627'
+    VAL: '1.93627'
+    XEU: '1'
+ISO4217Code: EUR
+ISO4217Number: '978'
+sign: €
+subunits: 100
+title: euro
+usage:
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: AD }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: AT }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: AX }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: BE }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: BL }
+    - { ISO8601From: '2003-02-04', ISO8601To: '2006-06-03', ISO3166Code: CS }
+    - { ISO8601From: '2008-01-01', ISO8601To: '', ISO3166Code: CY }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: DE }
+    - { ISO8601From: '2011-01-01', ISO8601To: '', ISO3166Code: EE }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: ES }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: FI }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: FR }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: GF }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: GP }
+    - { ISO8601From: '2001-01-01', ISO8601To: '', ISO3166Code: GR }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: IE }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: IT }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: LU }
+    - { ISO8601From: '2014-01-01', ISO8601To: '', ISO3166Code: LV }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: MC }
+    - { ISO8601From: '2002-01-01', ISO8601To: '', ISO3166Code: ME }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: MF }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: MQ }
+    - { ISO8601From: '2008-01-01', ISO8601To: '', ISO3166Code: MT }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: NL }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: PM }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: PT }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: EU }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: RE }
+    - { ISO8601From: '2007-01-01', ISO8601To: '', ISO3166Code: SI }
+    - { ISO8601From: '2009-01-01', ISO8601To: '', ISO3166Code: SK }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: SM }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: TF }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: VA }
+    - { ISO8601From: '1999-01-01', ISO8601To: '', ISO3166Code: YT }

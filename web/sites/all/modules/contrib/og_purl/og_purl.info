@@ -1,0 +1,14 @@
+name = Organic groups PURL
+description = "PURL integration for Organic grous."
+dependencies[] = og_context
+dependencies[] = purl
+package = "Organic groups"
+core = 7.x
+
+
+; Information added by Drupal.org packaging script on 2014-11-13
+version = "7.x-1.2+4-dev"
+core = "7.x"
+project = "og_purl"
+datestamp = "1415911681"
+

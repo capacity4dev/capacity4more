@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: KHR
+ISO4217Number: '116'
+sign: ៛
+subunits: 100
+title: 'Cambodian riel'
+usage:
+    - { ISO8601From: '1980-03-20', ISO8601To: '', ISO3166Code: KH }

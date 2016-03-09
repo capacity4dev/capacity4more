@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyModuleInstallUninstall.
+ */
+
+/**
+ * Tests installing and uninstalling the module.
+ */
+class CurrencyModuleInstallUninstall extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Module installation and uninstallation',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test uninstall.
+   */
+  function testUninstalla() {
+    $this->assertTrue(module_exists('currency'));
+    module_disable(array('currency'));
+    drupal_uninstall_modules(array('currency'));
+    $this->assertFalse(module_exists('currency'));
+  }
+}

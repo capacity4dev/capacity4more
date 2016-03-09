@@ -1,0 +1,52 @@
+<?php
+/**
+ * @file
+ * Allows disabling of blocks as a Context reaction
+ */
+
+/**
+ * Implements hook_context_plugins().
+ */
+function context_block_disable_context_plugins() {
+
+  $plugins = array();
+  $plugins['context_block_disable_reaction'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'context_block_disable') . '/plugins',
+      'file' => 'context_block_disable_reaction.inc',
+      'class' => 'Context_Block_Disable_Reaction',
+      'parent' => 'context_reaction_block',
+    ),
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_context_registry().
+ */
+function context_block_disable_context_registry() {
+
+  return array(
+    'reactions' => array(
+      'block_disable' => array(
+        'title' => t('Block disable'),
+        'plugin' => 'context_block_disable_reaction',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function context_block_disable_block_view_alter(&$data, $block) {
+
+  module_invoke_all('context_page_condition');
+
+  if ($plugin = context_get_plugin('reaction', 'block_disable')) {
+
+    $plugin->set_reaction_block($block);
+    $plugin->execute($data);
+  }
+}

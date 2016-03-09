@@ -1,0 +1,133 @@
+<?php
+
+/**
+ * @file
+ * RESTful token authentication.
+ */
+
+/**
+ *  Implements hook_menu().
+ */
+function restful_token_auth_menu() {
+  // Add administration page.
+  $items['admin/config/services/restful/token-auth'] = array(
+    'title' => 'Token Authentication',
+    'description' => 'Administer the RESTful Token Authentication module.',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('restful_token_auth_admin_settings'),
+    'access arguments' => array('administer restful'),
+    'file' => 'restful_token_auth.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function restful_token_auth_menu_alter(&$items) {
+  $access_token_plugins = array();
+  foreach (restful_get_restful_plugins() as $plugin) {
+    if ($plugin['entity_type'] == 'restful_token_auth') {
+      $access_token_plugins[] = $plugin;
+    }
+  }
+  if (empty($access_token_plugins)) {
+    return;
+  }
+  foreach ($access_token_plugins as $access_token_plugin) {
+    if (!empty($items[$access_token_plugin['menu_item']])) {
+      $items[$access_token_plugin['menu_item']]['delivery callback'] = 'restful_unprepared_delivery';
+    }
+  }
+}
+
+/**
+ * Implements hook_restful_parse_request_alter()
+ */
+function restful_token_auth_restful_parse_request_alter(&$request) {
+  $plugin = restful_get_authentication_plugin('token');
+  $param_name = $plugin['options']['param_name'];
+
+  $value = \RestfulManager::getRequestHttpHeader($param_name);
+  if (!$value && !empty($_GET[$param_name])) {
+    // If no access token found on the HTTP header, check if it's in the URL
+    // itself. This allows to do a POST request to for example:
+    // https://example.com/api/file-upload?access_token=foo
+    $value = $_GET[$param_name];
+  }
+
+  $request['__application'] += array(
+    $param_name => $value,
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function restful_token_auth_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+
+/**
+ * Implements hook_entity_info().
+ */
+function restful_token_auth_entity_info() {
+  $items['restful_token_auth'] = array(
+    'label' => t('Authentication token'),
+    'entity class' => 'RestfulTokenAuth',
+    'controller class' => 'RestfulTokenAuthController',
+    'base table' => 'restful_token_auth',
+    'fieldable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      'label' => 'name',
+      'bundle' => 'type',
+    ),
+    'bundles' => array(
+      'access_token' => array(
+        'label' => t('Access token'),
+      ),
+      'refresh_token' => array(
+        'label' => t('Refresh token'),
+      ),
+    ),
+    'bundle keys' => array(
+      'bundle' => 'type',
+    ),
+    'module' => 'restful_token_auth',
+    'entity cache' => module_exists('entitycache'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Delete expired token auth entities.
+ */
+function restful_token_auth_cron() {
+  if (!variable_get('restful_token_auth_delete_expired_tokens', TRUE)) {
+    // We should not delete expired tokens.
+    return;
+  }
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'restful_token_auth')
+    ->propertyCondition('expire', REQUEST_TIME, '<')
+    ->range(0, 50)
+    ->execute();
+
+  if (empty($result['restful_token_auth'])) {
+    // No expired tokens.
+    return;
+  }
+
+  $ids = array_keys($result['restful_token_auth']);
+  entity_delete_multiple('restful_token_auth', $ids);
+}

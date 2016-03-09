@@ -1,0 +1,231 @@
+<?php
+
+/**
+ * @file
+ * Provides Drag & Drop Upload widget for an Image field.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function dragndrop_upload_image_theme($existing, $type, $theme, $path) {
+  return array(
+    'dnd_upload_droppable_area_image' => array(
+      'render element' => 'element',
+      'template' => 'dnd-upload-droppable-area-image',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function dragndrop_upload_image_field_widget_info() {
+  $dnd_upload_widget_info = dragndrop_upload_file_field_widget_info();
+
+  $info['dragndrop_upload_image'] = $dnd_upload_widget_info['dragndrop_upload_file'];
+  $info['dragndrop_upload_image']['field types'] = array('image');
+  $info['dragndrop_upload_image']['settings'] += array(
+    'preview_image_style' => 'thumbnail',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function dragndrop_upload_image_field_widget_settings_form($field, $instance) {
+  $form = image_field_widget_settings_form($field, $instance);
+  // Unset 'progress_indicator', as it will be added
+  // in dragndrop_upload_file_field_widget_settings_form().
+  unset($form['progress_indicator']);
+
+  $form = array_merge_recursive(
+    $form,
+    dragndrop_upload_file_field_widget_settings_form($field, $instance)
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ *
+ * @see image_field_widget_form()
+ */
+function dragndrop_upload_image_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // Add display_field setting to field because file_field_widget_form()
+  // assumes it is set.
+  $field['settings']['display_field'] = 0;
+
+  $elements = dragndrop_upload_file_field_widget_form(
+    $form,
+    $form_state,
+    $field,
+    $instance,
+    $langcode,
+    $items,
+    $delta,
+    $element
+  );
+
+  $instance_settings = $instance['settings'];
+  $widget_settings = $instance['widget']['settings'];
+
+  $element_info = element_info('dragndrop_upload');
+  $pre_render = array_merge(
+    $element_info['#pre_render'],
+    array('dragndrop_upload_image_pre_render')
+  );
+
+  foreach (element_children($elements) as $delta) {
+    // Add upload resolution validation.
+    if ($instance_settings['max_resolution'] || $instance_settings['min_resolution']) {
+      $elements[$delta]['#upload_validators']['file_validate_image_resolution'] = array(
+        $instance_settings['max_resolution'],
+        $instance_settings['min_resolution'],
+      );
+    }
+
+    $_validators = $elements[$delta]['#upload_validators'];
+
+    // If not using custom extension validation, ensure this is an image.
+    $supported_extensions = array('png', 'gif', 'jpg', 'jpeg');
+    if (isset($_validators['file_validate_extensions'][0])) {
+      $extensions = array_intersect(
+        explode(' ', $_validators['file_validate_extensions'][0]),
+        $supported_extensions
+      );
+    }
+    else {
+      $extensions = $supported_extensions;
+    }
+
+    $_validators['file_validate_extensions'][0] = implode(' ', $extensions);
+
+    // Add all extra functionality provided by the image widget.
+    $elements[$delta]['#process'][] = 'image_field_widget_process';
+    $elements[$delta]['#process'][] = 'dragndrop_upload_image_widget_process';
+    $elements[$delta]['#preview_image_style'] = $widget_settings['preview_image_style'];
+  }
+
+  if ($field['cardinality'] == 1) {
+    // If there's only one field, return it as delta 0.
+    if (empty($elements[0]['#default_value']['fid'])) {
+      $elements[0]['#description'] = theme(
+        'file_upload_help',
+        array(
+          'description' => $instance['description'],
+          'upload_validators' => $elements[0]['#upload_validators'],
+        )
+      );
+    }
+  }
+  else {
+    $elements['#file_upload_description'] = theme(
+      'file_upload_help',
+      array('upload_validators' => $elements[0]['#upload_validators'])
+    );
+  }
+
+  // Set full pre render list to the last element only.
+  $elements[$delta]['#pre_render'] = $pre_render;
+
+  return $elements;
+}
+
+/**
+ * Custom process callback for the 'dragndrop_upload_image' widget.
+ */
+function dragndrop_upload_image_widget_process($element, &$form_state, $form) {
+  $element['droppable_area']['#theme'] = 'dnd_upload_droppable_area_image';
+
+  $path = drupal_get_path('module', 'dragndrop_upload_image');
+  $element['#attached']['css'][] = $path . '/css/dragndrop-upload-image.css';
+
+  return $element;
+}
+
+/**
+ * Pre render callback for the widget.
+ */
+function dragndrop_upload_image_pre_render($element) {
+  if (isset($element['droppable_area']['#access']) && !$element['droppable_area']['#access']) {
+    return $element;
+  }
+
+  // Add dragndrop_upload_file js at first.
+  $path = drupal_get_path('module', 'dragndrop_upload_file');
+  $element['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/dragndrop-upload-file.class.js',
+    'weight' => 5.31,
+  );
+  $element['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/dragndrop-upload-file.js',
+    'weight' => 5.32,
+  );
+
+  $path = drupal_get_path('module', 'dragndrop_upload_image');
+  $element['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/dragndrop-upload-image.class.js',
+    'weight' => 5.41,
+  );
+  $element['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/dragndrop-upload-image.js',
+    'weight' => 5.42,
+  );
+  $element['#attached']['js'][] = array(
+    'type' => 'setting',
+    'data' => array(
+      'dragndropUploadImage' => array(
+        '#' . $element['droppable_area']['#dnd_id'],
+      ),
+    ),
+  );
+
+  return $element;
+}
+
+/**
+ * Implementation of hook_insert_widgets()
+ * - Provides integration support for the 'Insert' module
+ */
+function dragndrop_upload_image_insert_widgets() {
+  return array(
+    'dragndrop_upload_image' => array(
+      'element_type' => 'dragndrop_upload',
+      'wrapper' => '.image-widget',
+      'fields' => array(
+        'alt' => 'input[name$="[alt]"], textarea[name$="[alt]"]',
+        'title' => 'input[name$="[title]"], textarea[name$="[title]"]',
+        'description' => 'input[name$="[description]"], textarea[name$="[description]"]',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_focal_point_supported_widget_types_alter().
+ *
+ * Adds integration with module Focal Point.
+ */
+function dragndrop_upload_image_focal_point_supported_widget_types_alter(&$supported) {
+  $supported[] = 'dragndrop_upload_image';
+}
+
+/**
+ * Process callback of dragndrop_upload_image widget for Focal Point module.
+ *
+ * Adds integration with module Focal Point.
+ *
+ * @see focal_point_field_widget_form_alter().
+ */
+function focal_point_widget_dragndrop_upload_image_process($element, &$form_state, $form) {
+  return focal_point_widget_image_image_process($element, $form_state, $form);
+}

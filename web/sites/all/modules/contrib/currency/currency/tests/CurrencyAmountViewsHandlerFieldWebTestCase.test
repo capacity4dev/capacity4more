@@ -1,0 +1,239 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyAmountViewsHandlerFieldWebTestCase.
+ */
+
+/**
+ * Tests CurrencyAmountViewsHandlerField.
+ */
+class CurrencyAmountViewsHandlerFieldWebTestCase extends ViewsSqlTest {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyAmountViewsFieldHandler',
+      'group' => 'Currency',
+      'dependencies' => array('views'),
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp() {
+    $this->profile = 'testing';
+    parent::setUp();
+    module_enable(array('currency', 'views'));
+  }
+
+  /**
+   * Overrides parent::schemaDefinition.
+   */
+  protected function schemaDefinition() {
+    $schema['views_test'] = array(
+      'fields' => array(
+        'currency_code' => array(
+          'type' => 'varchar',
+          'length' => '3',
+        ),
+      ),
+    );
+    $fields = array('amount_currency_code_field_option', 'amount_currency_code_definition', 'amount_currency_code_field_definition', 'amount_currency_code_field_table_definition', 'amount_currency_undefined');
+    foreach ($fields as $field) {
+      $schema['views_test']['fields'][$field] = array(
+        'type' => 'varchar',
+        'length' => 255,
+      );
+    }
+
+    return $schema;
+  }
+
+  /**
+   * Overrides parent::viewsData();
+   */
+  function viewsData() {
+    // Declaration of the base table.
+    $data['views_test']['table'] = array(
+      'group' => t('Views test'),
+      'base' => array(
+        'field' => 'id',
+        'title' => t('Views test'),
+      ),
+    );
+
+    // Declaration of fields.
+    $data['views_test']['currency_code'] = array(
+      'title' => t('Currency code'),
+      'help' => t('Currency code'),
+      'field' => array(
+        'handler' => 'views_handler_field',
+      ),
+      'sort' => array(
+        'handler' => 'views_handler_sort',
+      ),
+    );
+    $data['views_test']['amount_currency_code_definition'] = array(
+      'title' => t('Amount'),
+      'help' => t('Amount'),
+      'field' => array(
+        'handler' => 'CurrencyAmountViewsHandlerField',
+        'currency_code' => 'EUR',
+      ),
+    );
+    $data['views_test']['amount_currency_code_field_definition'] = array(
+      'title' => t('Amount'),
+      'help' => t('Amount'),
+      'field' => array(
+        'handler' => 'CurrencyAmountViewsHandlerField',
+        'currency_code' => 'UAH',
+        'currency_code_field' => 'currency_code',
+      ),
+    );
+    $data['views_test']['amount_currency_code_field_table_definition'] = array(
+      'title' => t('Amount'),
+      'help' => t('Amount'),
+      'field' => array(
+        'handler' => 'CurrencyAmountViewsHandlerField',
+        'currency_code' => 'UAH',
+        'currency_code_field' => 'currency_code',
+        'currency_code_table' => 'views_test',
+      ),
+    );
+    $data['views_test']['amount_currency_undefined'] = array(
+      'title' => t('Amount'),
+      'help' => t('Amount'),
+      'field' => array(
+        'handler' => 'CurrencyAmountViewsHandlerField',
+      ),
+    );
+
+    return $data;
+  }
+
+  /**
+   * Overrides parent::dataSet();
+   */
+  protected function dataSet() {
+    $amounts = array(
+      'amount_currency_code_definition' => 123.456,
+      'amount_currency_code_field_definition' => 123.456,
+      'amount_currency_code_field_table_definition' => 123.456,
+      'amount_currency_undefined' => 123.456,
+    );
+    return array(
+      array(
+        'currency_code' => 'EUR',
+      ) + $amounts,
+      array(
+        'currency_code' => 'USD',
+      ) + $amounts,
+      array(
+        'currency_code' => '',
+      ) + $amounts,
+    );
+  }
+
+  /**
+   * Overrides parent::getBasicView().
+   */
+  protected function getBasicView() {
+    views_include('view');
+
+    // Create the basic view.
+    $view = new view();
+    $view->name = 'test_view';
+    $view->add_display('default');
+    $view->base_table = 'views_test';
+
+    // Set up the fields we need.
+    $display = $view->new_display('default', 'Master', 'default');
+    $display->override_option('fields', array(
+      'currency_code' => array(
+        'id' => 'currency_code',
+        'table' => 'views_test',
+        'field' => 'currency_code',
+        'relationship' => 'none',
+      ),
+      'amount_currency_code_definition' => array(
+        'id' => 'amount_currency_code_definition',
+        'table' => 'views_test',
+        'field' => 'amount_currency_code_definition',
+        'relationship' => 'none',
+      ),
+      'amount_currency_code_field_definition' => array(
+        'id' => 'amount_currency_code_field_definition',
+        'table' => 'views_test',
+        'field' => 'amount_currency_code_field_definition',
+        'relationship' => 'none',
+      ),
+      'amount_currency_code_field_table_definition' => array(
+        'id' => 'amount_currency_code_field_table_definition',
+        'table' => 'views_test',
+        'field' => 'amount_currency_code_field_table_definition',
+        'relationship' => 'none',
+      ),
+      'amount_currency_undefined' => array(
+        'id' => 'amount_currency_undefined',
+        'table' => 'views_test',
+        'field' => 'amount_currency_undefined',
+        'relationship' => 'none',
+      ),
+    ));
+
+    return $view;
+  }
+
+  /**
+   * Tests CurrencyAmountViewsHandlerField.
+   */
+  public function testCurrencyAmountViewsHandlerField() {
+    $view = $this->getBasicView();
+    $view->save();
+
+    // Test view creation/editing.
+    $account = $this->drupalCreateUser(array('administer views'));
+    $this->drupalLogin($account);
+    $this->drupalPost('admin/structure/views/nojs/config-item/test_view/default/field/amount_currency_code_definition', array(
+      'options[currency_round]' => TRUE,
+    ), t('Apply'));
+    $this->drupalPost('admin/structure/views/view/' . $view->name, array(), t('Save'));
+
+    // Test view display.
+    $view = views_get_view($view->name);
+    $this->executeView($view);
+    $values = array(
+      array(
+        // The amount_currency_code_definition field is rounded.
+        'amount_currency_code_definition' => '€123.46',
+        'amount_currency_code_field_definition' => '€123.456',
+        'amount_currency_code_field_table_definition' => '€123.456',
+        'amount_currency_undefined' => '¤123.456',
+      ),
+      array(
+        // The amount_currency_code_definition field is rounded.
+        'amount_currency_code_definition' => '€123.46',
+        'amount_currency_code_field_definition' => '$123.456',
+        'amount_currency_code_field_table_definition' => '$123.456',
+        'amount_currency_undefined' => '¤123.456',
+      ),
+      array(
+        // The amount_currency_code_definition field is rounded.
+        'amount_currency_code_definition' => '€123.46',
+        'amount_currency_code_field_definition' => '₴123.456',
+        'amount_currency_code_field_table_definition' => '₴123.456',
+        'amount_currency_undefined' => '¤123.456',
+      ),
+    );
+    foreach ($values as $row => $row_values) {
+      foreach ($row_values as $field => $value) {
+        $this->assertEqual($view->field[$field]->advanced_render($view->result[$row]), $value);
+      }
+    }
+  }
+}

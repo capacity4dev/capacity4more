@@ -1,0 +1,16 @@
+
+name = Search API attachments
+description = "Provides a generic API for modules offering search capabilities."
+dependencies[] = search_api
+core = 7.x
+package = Search
+
+configure = admin/config/search/search_api/attachments
+files[] = includes/callback_attachments_settings.inc
+
+; Information added by Drupal.org packaging script on 2015-05-02
+version = "7.x-1.6"
+core = "7.x"
+project = "search_api_attachments"
+datestamp = "1430603282"
+

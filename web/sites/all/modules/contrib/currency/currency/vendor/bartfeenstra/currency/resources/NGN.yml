@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: NGN
+ISO4217Number: '566'
+sign: ₦
+subunits: 100
+title: 'Nigerian naira'
+usage:
+    - { ISO8601From: '1973-01-01', ISO8601To: '', ISO3166Code: NG }

@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: ADP
+ISO4217Number: '020'
+sign: ₧
+subunits: 100
+title: 'Andorran peseta'
+usage:
+    - { ISO8601From: '1936-01-01', ISO8601To: '2001-12-31', ISO3166Code: AD }

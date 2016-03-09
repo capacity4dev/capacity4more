@@ -1,0 +1,14 @@
+name = Getlocations Search
+description = Provides a search page with a map.
+core = 7.x
+package = "Location"
+php = 5
+dependencies[] = getlocations
+configure = admin/config/services/getlocations/search
+
+; Information added by Drupal.org packaging script on 2015-06-10
+version = "7.x-1.16"
+core = "7.x"
+project = "getlocations"
+datestamp = "1433951603"
+

@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the money module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function money_field_schema($field) {
+  return array(
+    'columns' => array(
+      'amount' => array(
+        'type' => 'numeric',
+        'precision' => $field['settings']['precision'],
+        'scale' => $field['settings']['scale'],
+        'not null' => FALSE
+      ),
+      'currency' => array(
+        'type' => 'varchar',
+        'length' => 3,
+        'not null' => FALSE
+      ),
+    ),
+  );
+}

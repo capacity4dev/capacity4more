@@ -1,0 +1,124 @@
+<?php
+
+/**
+ * @file
+ * Contains hook implementations and shared functions.
+ */
+
+/**
+ * The database table's default update interval.
+ */
+define('CURRENCY_CONVERSION_RATE_DB_TABLE_DEFAULT_UPDATE_INTERVAL', 3600);
+
+/**
+ * Implements hook_cron().
+ */
+function currency_exchange_rate_db_table_cron() {
+  $last = variable_get('currency_exchange_rate_db_table_cron_last');
+  $interval = variable_get('currency_exchange_rate_db_table_cron_interval', CURRENCY_CONVERSION_RATE_DB_TABLE_DEFAULT_UPDATE_INTERVAL);
+  if (is_null($last) || REQUEST_TIME - $last > $interval) {
+    currency_exchange_rate_db_table_refresh();
+    variable_set('currency_exchange_rate_db_table_cron_last', REQUEST_TIME);
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function currency_exchange_rate_db_table_menu() {
+  $items['admin/config/regional/currency_exchange_rate_db_table'] = array(
+    'access arguments' => array('currency_exchange_rate_db_table.administer'),
+    'description' => 'Configure how exchange rates should be cached in the database table.',
+    'page arguments' => array('currency_exchange_rate_db_table_form_global_configuration'),
+    'page callback' => 'drupal_get_form',
+    'title' => 'Currency exchange rate database table',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function currency_exchange_rate_db_table_permission() {
+  $permissions['currency_exchange_rate_db_table.administer'] = array(
+    'title' => t('Administer Currency exchange rate database table'),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function currency_exchange_rate_db_table_views_api() {
+  return array(
+    'api' => '2',
+  );
+}
+
+/**
+ * Updates the exchange rates stored in the database table.
+ *
+ * @return NULL
+ */
+function currency_exchange_rate_db_table_refresh() {
+  $currency_codes_from = variable_get('currency_exchange_rate_db_table_currency_codes_from', array());
+  $currency_codes_to = variable_get('currency_exchange_rate_db_table_currency_codes_to', array());
+  $currency_codes = array_fill_keys($currency_codes_from, $currency_codes_to);
+  $rates = CurrencyExchanger::loadMultiple($currency_codes);
+  $delete_query = db_delete('currency_exchange_rate_db_table');
+  foreach ($rates as $currency_code_from => $currency_code_from_rates) {
+    // Prevent unavailable rates from being saved.
+    $currency_code_from_rates = array_filter($currency_code_from_rates);
+    foreach ($currency_code_from_rates as $currency_code_to => $rate) {
+      db_merge('currency_exchange_rate_db_table')
+        ->key(array(
+          'currency_code_from' => $currency_code_from,
+          'currency_code_to' => $currency_code_to,
+        ))
+        ->fields(array(
+          'currency_code_from' => $currency_code_from,
+          'currency_code_to' => $currency_code_to,
+          'rate' => $rate,
+        ))
+        ->execute();
+      // Add a condition that says this currency code combination is not stale.
+      $delete_query->where("currency_code_from <> '$currency_code_from' AND currency_code_to <> '$currency_code_to'");
+    }
+  }
+  $delete_query->execute();
+}
+
+/**
+ * Implements form build callback: the global configuration form.
+ */
+function currency_exchange_rate_db_table_form_global_configuration(array $form, array &$form_state) {
+  $form['currency_exchange_rate_db_table_cron_interval'] = array(
+    '#default_value' => variable_get('currency_exchange_rate_db_table_cron_interval', CURRENCY_CONVERSION_RATE_DB_TABLE_DEFAULT_UPDATE_INTERVAL),
+    '#description' => t('The length of time between exchange rate updates. Requires a correctly configured <a href="@cron">cron maintenance task</a>.', array(
+      '@cron' => url('admin/reports/status'),
+    )),
+    '#options' => drupal_map_assoc(array(60, 120, 180, 240, 300, 600, 1200, 1800, 2400, 3000, 3600, 7200, 10800, 14400, 18000), 'format_interval'),
+    '#title' => t('Update interval'),
+    '#type' => 'select',
+  );
+  $form['currency_exchange_rate_db_table_currency_codes_from'] = array(
+    '#default_value' => variable_get('currency_exchange_rate_db_table_currency_codes_from', array()),
+    '#multiple' => TRUE,
+    '#options' => currency_options(),
+    '#size' => 9,
+    '#title' => t('Source currencies'),
+    '#type' => 'select',
+  );
+  $form['currency_exchange_rate_db_table_currency_codes_to'] = array(
+    '#default_value' => variable_get('currency_exchange_rate_db_table_currency_codes_to', array()),
+    '#multiple' => TRUE,
+    '#options' => currency_options(),
+    '#size' => 9,
+    '#title' => t('Destination currencies'),
+    '#type' => 'select',
+  );
+
+  return system_settings_form($form);
+}

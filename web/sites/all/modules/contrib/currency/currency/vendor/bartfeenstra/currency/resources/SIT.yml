@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SIT
+ISO4217Number: '705'
+sign: ¤
+subunits: 10
+title: 'Slovenian tolar'
+usage:
+    - { ISO8601From: '1992-10-07', ISO8601To: '2007-01-14', ISO3166Code: SI }

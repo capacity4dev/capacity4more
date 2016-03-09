@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyFilterWebTestCase.
+ */
+
+/**
+ * Tests the currency exchange input filter.
+ */
+class CurrencyFilterWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Input filters',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test the currency_exchange input filter.
+   */
+  function testCurrencyExchange() {
+    $tokens_valid = array(
+      '[currency:EUR:NLG]' => '2.20371',
+      '[currency:EUR:NLG:1]' => '2.20371',
+      '[currency:EUR:NLG:2]' => '4.40742',
+    );
+    $tokens_invalid = array(
+      // Missing arguments.
+      '[currency]',
+      '[currency:]',
+      '[currency::]',
+      '[currency:EUR]',
+      // Invalid currency code.
+      '[currency:EUR:123]',
+      '[currency:123:EUR]',
+      // Invalid currency code and missing argument.
+      '[currency:123]',
+    );
+    $format = new stdClass();
+    $format->format = 'currency_localize';
+    $format->name = 'Currency format';
+    $format->filters = array(
+      'currency_exchange' => array(
+        'status' => TRUE,
+      ),
+    );
+    filter_format_save($format);
+
+    foreach ($tokens_valid as $token => $replacement) {
+      $this->assertIdentical(check_markup($token, $format->format), $replacement);
+    }
+    foreach ($tokens_invalid as $token) {
+      $this->assertIdentical(check_markup($token, $format->format), $token);
+    }
+  }
+
+  /**
+   * Test the currency_localize input filter.
+   */
+  function testCurrencyLocalze() {
+    $tokens_valid = array(
+      '[currency-localize:EUR:100]' => '€100.00',
+      '[currency-localize:EUR:1.99]' => '€1.99',
+      '[currency-localize:EUR:2,99]' => '€2.99',
+    );
+    $tokens_invalid = array(
+      // Missing arguments.
+      '[currency-localize]',
+      '[currency-localize:]',
+      '[currency-localize::]',
+      '[currency-localize:EUR]',
+      // Invalid currency code.
+      '[currency-localize:123:456]',
+      // Invalid currency code and missing argument.
+      '[currency-localize:123]',
+    );
+    $format = new stdClass();
+    $format->format = 'currency_localize';
+    $format->name = 'Currency format';
+    $format->filters = array(
+      'currency_localize' => array(
+        'status' => TRUE,
+      ),
+    );
+    filter_format_save($format);
+
+    foreach ($tokens_valid as $token => $replacement) {
+      $this->assertIdentical(check_markup($token, $format->format), $replacement);
+    }
+    foreach ($tokens_invalid as $token) {
+      $this->assertIdentical(check_markup($token, $format->format), $token);
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<h5>Module Overview</h5>
+<p>
+ Node Gallery enables users to create flexible and powerful image galleries that
+ are fully integrated with Drupal's node system.
+</p>
+<p>
+ At its heart, Node Gallery consists of one or more relationship types that associate
+ a "Gallery" node content type to one or more "Item" node content types. By default,
+ Node Gallery supports image uploads in the Item content type, but by changing the File
+ Entity module configuration, it's possible to support other media types like video and
+ audio.
+</p>
+<p>
+ Once a relationship between two content types is established, the admin can
+ optionally change settings on a per-relationship basis, allowing greater flexibility.
+ Users can then create galleries and upload media to those galleries.
+ Because Items and Galleries are both node types, Node Gallery naturally
+ integrates with Drupal core's taxonomy and comment module, and other powerful
+ modules to enhance the gallery and its items (i.e. <a href="http://drupal.org/project/og">Organic Groups</a>,
+ <a href="http://drupal.org/project/flag">flag</a>, <a href="http://drupal.org/project/fivestar">fivestar</a>, etc.)
+</p>
+<p>
+ If all this sounds complex, don't worry.  Node Gallery ships with everything you
+ need to get started - 2 content types, a relationship type, 3 image style presets, and
+ a handful of views.  All of this is configured to work together out-of-the-box
+ with sane defaults so that many users of the module will never have the need to ever
+ change these default settings. Just know that they're there if you need to change them.
+</p>
+<h5>Node Gallery Features</h5>
+<ul>
+  <li>Uses <a href="http://drupal.org/project/file_entity">File Entity</a> for manging media display. This
+  allows Node Gallery to seamlessly handle images, video, and other file types.</li>
+  <li>Uses image styles to create image derivatives, allowing full customization of
+      display resolutions and additional decorations.</li>
+  <li>Tightly integrates with <a href="http://drupal.org/project/views">Views</a> module for the retrieval
+      and display of images and galleries, allowing easy customization of design and logic.  Node Gallery
+      also ships with quite a few default views to make it easier on the admin.</li>
+  <li>Integration with <a href="http://drupal.org/project/plupload">plupload</a> module for
+      easy bulk uploads using HTML 5, or Adobe Flash.</li>
+  <li>Each gallery has a "Manage Images" tab that allows mass editing of user-configured fields on each image
+      in the gallery to streamline workflow.</li>
+  <li>Leverages Drupal's Batch API to operate on large amounts of images,
+      guaranteeing high scalability and reliable operations.</li>
+  <li>Engineered to be as effecient as possible with regards to memory and database load.  By utilizing caching
+      methods, galleries with <em>thousands</em> of images still render quickly.</li>
+  <li>An unlimited number of gallery relationships can be established, thus
+      allowing administrators to setup both simple and complex galleries for
+      their users to utilize.</li>
+  <li>Token integration for customized file paths and links.</li>
+  <li>Rules integration.</li>
+  <li>Reliance on established modules provides automatic integration with the
+      countless add-on modules for Views and other modules, such as
+      <a href="http://drupal.org/project/filefield_paths">Filefield Paths</a> or
+      <a href="http://drupal.org/project/views_galleriffic">Views Galleriffic.</a>
+  </li>
+</ul>

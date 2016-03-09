@@ -1,0 +1,165 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulHookMenuTestCase
+ */
+
+class RestfulHookMenuTestCase extends RestfulCurlBaseTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Menu API',
+      'description' => 'Test the hook_menu() and delivery callback implementations.',
+      'group' => 'RESTful',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('restful_example');
+
+    // Allow anonymous users to edit articles.
+    user_role_change_permissions(DRUPAL_ANONYMOUS_RID, array('edit any article content' => TRUE));
+  }
+
+  /**
+   * Test viewing an entity (GET method).
+   */
+  function testViewEntity() {
+    $user1 = $this->drupalCreateUser();
+
+    $title = $this->randomName();
+    $settings = array(
+      'type' => 'article',
+      'title' => $title,
+      'uid' => $user1->uid,
+    );
+    $node1 = $this->drupalCreateNode($settings);
+
+    // Test version 1.0
+    $result = $this->httpRequest('api/v1.0/articles/' . $node1->nid);
+    $expected_result = array(
+      'data' => array(array(
+        'id' => $node1->nid,
+        'label' => $node1->title,
+        'self' => url('api/v1.0/articles/' . $node1->nid, array('absolute' => TRUE)),
+      )),
+      'self' => array(
+        'title' => 'Self',
+        'href' => url('api/v1.0/articles/' . $node1->nid, array('absolute' => TRUE)),
+      ),
+    );
+
+    $this->assertEqual($result['body'], json_encode($expected_result));
+
+    // Test version 1.1
+    $result = $this->httpRequest('api/v1.1/articles/' . $node1->nid, \RestfulInterface::GET);
+    $expected_result['self']['href'] = url('api/v1.1/articles/' . $node1->nid, array('absolute' => TRUE));
+    unset($expected_result['data'][0]['self']);
+    $this->assertEqual($result['body'], json_encode($expected_result));
+
+    // Test method override.
+    $headers = array('X-HTTP-Method-Override' => \RestfulInterface::PATCH);
+    $body = array(
+      'label' => 'new title',
+    );
+    $this->httpRequest('api/v1.0/articles/' . $node1->nid, \RestfulInterface::POST, $body, $headers);
+
+    $node1 = node_load($node1->nid);
+    $this->assertEqual($node1->title, 'new title', 'HTTP method was overriden.');
+
+    // Try to override with an invalid method.
+    $headers = array('X-HTTP-Method-Override' => 'MALICIOUS');
+    $body = array(
+      'label' => 'new title',
+    );
+    $result = $this->httpRequest('api/v1.0/articles/' . $node1->nid, \RestfulInterface::POST, $body, $headers);
+    $this->assertTrue($result['code'] > 399, 'Bad overridden method is caught.');
+  }
+
+  /**
+   * Test HTTP headers change according to the response.
+   */
+  function testHttpHeadersAndStatus() {
+    // Valid request (eventough it's empty).
+    $result = $this->httpRequest('api/v1.0/articles/', \RestfulInterface::GET);
+    $this->assertTrue(strpos($result['headers'], 'application/json;'), '"application/json" found in valid request.');
+
+    // Invalid request.
+    $result = $this->httpRequest('api/v1.0/articles/', \RestfulInterface::GET, array('sort' => 'invalid_key'));
+    $this->assertTrue(strpos($result['headers'], 'application/problem+json;'), '"application/problem+json" found in valid request.');
+
+    // Switch site to offline mode.
+    variable_set('maintenance_mode', TRUE);
+    $this->httpauth_credentials = NULL;
+    $result = $this->httpRequest('api/login');
+    $this->assertEqual($result['code'], '503', '503 status code sent for site in offline mode.');
+  }
+
+  /**
+   * Test hijacking of api/* pages and showing proper error messages.
+   */
+  function testNotFoundDelivery() {
+    // Invalid URLs.
+    $urls = array(
+      'api/invalid',
+    );
+
+    foreach ($urls as $url) {
+      $result = $this->httpRequest($url);
+
+      $body = drupal_json_decode($result['body']);
+      $this->assertEqual($result['code'], '404', format_string('404 status code sent for @url url.', array('@url' => $url)));
+      $this->assertTrue(strpos($result['headers'], 'application/problem+json;'), '"application/problem+json" found in invalid request.');
+      $this->assertEqual($body['title'], 'Invalid URL path.', 'Correct error message.');
+    }
+
+    // Non-related url.
+    $result = $this->httpRequest('api-api');
+    $this->assertEqual($result['code'], '404', format_string('404 status code sent for @url url.', array('@url' => $url)));
+    $this->assertFalse(strpos($result['headers'], 'application/problem+json;'), 'Only correct URL is hijacked.');
+  }
+
+  /**
+   * Test the version negotiation.
+   */
+  function testVersionNegotiation() {
+    // Fake the HTTP header.
+    $original_header = \RestfulManager::getRequestHttpHeader('X-API-Version');
+
+    // 1. my-api/v1.1/articles yields version 1.1
+    $handler = restful_get_restful_handler_for_path('api/v1.1/articles');
+    $this->assertEqual($handler->getVersion(), array('major' => 1, 'minor' => 1), 'api/v1.1/articles resolves 1.1');
+
+    // 2. my-api/v1/articles yields version 1.7 (update to last 1.x version)
+    drupal_static_reset('RestfulBase::getVersionFromRequest');
+    $handler = restful_get_restful_handler_for_path('api/v1/articles');
+    $this->assertEqual($handler->getVersion(), array('major' => 1, 'minor' => 7), 'api/v1.7/articles resolves 1.7');
+
+    // 3. my-api/articles with header X-API-Version: v1.1 yields 1.1
+    // Fake the HTTP header.
+    $_SERVER['HTTP_X_API_VERSION'] = 'v1.1';
+    drupal_static_reset('RestfulBase::getVersionFromRequest');
+    $handler = restful_get_restful_handler_for_path('api/articles');
+    $this->assertEqual($handler->getVersion(), array('major' => 1, 'minor' => 1), 'api/articles resolves 1.1');
+
+    // 4. my-api/articles with header X-API-Version: v1 yields 1.7
+    // Fake the HTTP header.
+    $_SERVER['HTTP_X_API_VERSION'] = 'v1';
+    drupal_static_reset('RestfulBase::getVersionFromRequest');
+    drupal_static_reset('restful_get_restful_handler_for_path');
+    $handler = restful_get_restful_handler_for_path('api/articles');
+    $this->assertEqual($handler->getVersion(), array('major' => 1, 'minor' => 7), 'api/articles resolves 1.7');
+
+    // 5. my-api/articles without header X-API-Version yields 2.0
+    drupal_static_reset('RestfulBase::getVersionFromRequest');
+    drupal_static_reset('restful_get_restful_handler_for_path');
+    unset($_SERVER['HTTP_X_API_VERSION']);
+    $handler = restful_get_restful_handler_for_path('api/articles');
+    $this->assertEqual($handler->getVersion(), array('major' => 2, 'minor' => 0), 'api/articles resolves 2.0');
+
+    // Restore the original header.
+    $_SERVER['HTTP_X_API_VERSION'] = $original_header;
+  }
+
+}

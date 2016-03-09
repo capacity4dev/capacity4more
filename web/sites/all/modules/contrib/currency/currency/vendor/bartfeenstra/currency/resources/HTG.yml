@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: HTG
+ISO4217Number: '332'
+sign: G
+subunits: 100
+title: 'Haitian gourde'
+usage:
+    - { ISO8601From: '1872-08-26', ISO8601To: '', ISO3166Code: HT }

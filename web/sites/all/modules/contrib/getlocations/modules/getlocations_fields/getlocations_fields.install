@@ -1,0 +1,274 @@
+<?php
+
+/**
+ * @file
+ * getlocations_fields.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ *   Install, update and uninstall functions for the getlocations_fields module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function getlocations_fields_schema() {
+  $schema['getlocations_fields'] = array(
+    'description' => 'Locational data managed by getlocations_fields module.',
+    'fields' => array(
+      'glid' => array(
+        'description' => 'Primary Key: Unique location ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Place Name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'street' => array(
+        'description' => 'Street address, line 1.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'additional' => array(
+        'description' => 'Street address, line 2.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'city' => array(
+        'description' => 'City.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'province' => array(
+        'description' => 'State / Province.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'postal_code' => array(
+        'description' => 'Postal / ZIP code.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'country' => array(
+        'description' => 'Country.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'address' => array(
+        'description' => 'Address.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'latitude' => array(
+        'description' => 'Location latitude (decimal degrees).',
+        'type' => 'numeric',
+        'precision' => 10,
+        'scale' => 6,
+        'default' => 0.0,
+        'not null' => TRUE,
+      ),
+      'longitude' => array(
+        'description' => 'Location longitude (decimal degrees).',
+        'type' => 'numeric',
+        'precision' => 10,
+        'scale' => 6,
+        'default' => 0.0,
+        'not null' => TRUE,
+      ),
+      'marker' => array(
+        'description' => 'Marker.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'data' => array(
+        'description' => 'Data.',
+        'type' => 'text',
+        'size' => 'medium',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('glid'),
+  );
+  $schema['getlocations_fields_entities'] = array(
+    'description' => 'N:M join table to join getlocations_fields entries to entities, eg node, user, comments, taxonomy.',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'Reference to {node}.nid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+      'vid' => array(
+        'description' => 'Reference to {node_revision}.vid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'Reference to {users}.uid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+      'tid' => array(
+        'description' => 'Reference to {term_data}.tid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+      'cid' => array(
+        'description' => 'Reference to {comment}.cid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+      'field_name' => array(
+        'description' => 'Reference to field name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'not null' => TRUE,
+      ),
+      'glid' => array(
+        'description' => 'Reference to {getlocations_fields}.glid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'vid' => array('vid'),
+      'uid' => array('uid'),
+      'tid' => array('tid'),
+      'cid' => array('cid'),
+      'field_name' => array('field_name'),
+      'glid' => array('glid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+  */
+function getlocations_fields_uninstall() {
+  variable_del('getlocations_fields_defaults');
+  variable_del('getlocations_fields_paths');
+}
+
+/**
+ * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ *
+ * All implementations of hook_field_schema() must be in the module's
+ * .install file.
+ *
+ * @see http://drupal.org/node/146939
+ * @see http://drupal.org/developing/api/schema
+ */
+function getlocations_fields_field_schema($field) {
+
+  switch ($field['type']) {
+    case 'getlocations_fields':
+      $columns = array(
+        'glid' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+      );
+      break;
+  }
+  return array(
+    'columns' => $columns,
+    'indexes' => array('glid' => array('glid')),
+  );
+
+}
+
+/**
+ * Implements hook_enable().
+ */
+function getlocations_fields_enable() {
+
+  drupal_set_message(st('Thank you for installing Getlocations fields. To set it up please visit the <a href="@url">configuration page</a>.', array('@url' => url('admin/config/services/getlocations/fields'))), 'status');
+
+}
+
+/**
+ * Add marker field.
+ */
+function getlocations_fields_update_7100() {
+  $spec = array(
+    'description' => 'Marker.',
+    'type' => 'varchar',
+    'length' => 255,
+    'default' => '',
+    'not null' => TRUE,
+  );
+  db_add_field('getlocations_fields', 'marker', $spec);
+}
+
+/**
+ * Add data field.
+ */
+function getlocations_fields_update_7101() {
+
+  if ($result = db_field_exists('getlocations_fields', 'data')) {
+    return;
+  }
+  $spec = array(
+    'description' => 'Data.',
+    'type' => 'text',
+    'size' => 'medium',
+    'not null' => TRUE,
+    'initial' => '',
+  );
+  db_add_field('getlocations_fields', 'data', $spec);
+}
+
+/**
+ * Convert float to decimal.
+ */
+function getlocations_fields_update_7102() {
+  $spec = array(
+    'type' => 'numeric',
+    'precision' => 10,
+    'scale' => 6,
+    'default' => 0.0,
+    'not null' => TRUE,
+  );
+  db_change_field('getlocations_fields', 'latitude', 'latitude', $spec);
+  db_change_field('getlocations_fields', 'longitude', 'longitude', $spec);
+}

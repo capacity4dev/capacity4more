@@ -1,0 +1,141 @@
+<?php
+
+/**
+ * @file
+ * Contains examples of how to create droppable zones.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function dragndrop_upload_example_menu() {
+  $items['dragndrop-upload/example-dropzone'] = array(
+    'title' => 'Drag & Drop Dropzone Example',
+    'page callback' => 'dragndrop_upload_example_dropzone',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['dragndrop-upload/example-element'] = array(
+    'title' => 'Drag & Drop Element Example',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dragndrop_upload_example_element'),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback for 'dragndrop-upload/example-api'.
+ */
+function dragndrop_upload_example_dropzone() {
+  if ($_FILES) {
+    exit(print_r($_FILES, 1));
+  }
+  $build = array();
+
+  $settings = array(
+    'selector' => '.dragndrop-example-api',
+    'settings' => array(
+      'name' => 'dragndrop-example-api',
+      'callback' => 'dragndrop_upload_example_dropzone_callback',
+    ),
+  );
+
+  $path = drupal_get_path('module', 'dragndrop_upload_example');
+
+  $build['dropzone'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => 'dragndrop-example-api',
+    ),
+    'text' => array(
+      '#markup' => t('Dropzone here'),
+    ),
+    '#attached' => array(
+      'css' => array(
+        $path . '/css/dragndrop-upload-example.css',
+      ),
+      'dragndrop_upload' => array(
+        $settings,
+      ),
+    ),
+  );
+
+  $build['dropzone2'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => 'dragndrop-example-api',
+    ),
+    'text' => array(
+      '#markup' => t('Same dropzone here'),
+    ),
+    '#attached' => array(
+      'dragndrop_upload' => array(
+        $settings,
+      ),
+    ),
+  );
+
+  return $build;
+}
+
+/**
+ * Ajax file callback for example dropzones.
+ *
+ * @param string $name
+ *   Name of the dropzone.
+ * @param array $file
+ *   Received file array, extracted the $_FILES.
+ *
+ * @return array
+ *   Ajax commands.
+ */
+function dragndrop_upload_example_dropzone_callback($name, $file) {
+  $commands = array();
+  $text = t('File received: @name', array('@name' => $file['name']));
+  $commands[] = ajax_command_invoke('.dragndrop-example-api', 'text', array($text));
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Form callback for the 'dragndrop-upload/example-element'.
+ */
+function dragndrop_upload_example_element($form, &$form_state) {
+  $form = array();
+
+  $path = drupal_get_path('module', 'dragndrop_upload_example');
+
+  $form['dnd'] = array(
+    '#type' => 'dragndrop_upload',
+    '#title' => t('Drag & Drop files here'),
+    '#file_upload_max_size' => '10M',
+    '#upload_location' => 'public://',
+    '#upload_event' => 'manual',
+  );
+
+  $form['dropzone'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('dragndrop-example-element-mirror'),
+    ),
+    'text' => array(
+      '#markup' => t('Mirror dropzone here'),
+    ),
+    '#attached' => array(
+      'css' => array(
+        $path . '/css/dragndrop-upload-example.css',
+      ),
+    ),
+  );
+
+  // It is needed to prefix element name that needs a mirror with "droppable-"
+  // to get its identifier.
+  dragndrop_upload_dropzone_add(
+    '.dragndrop-example-element-mirror', array('asMirrorFor' => '#droppable-dnd')
+  );
+
+  return $form;
+}

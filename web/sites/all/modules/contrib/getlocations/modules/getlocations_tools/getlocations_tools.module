@@ -1,0 +1,494 @@
+<?php
+
+/**
+ * @file
+ * getlocations_tools.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides import and export utilities.
+ * for Drupal 7
+ */
+
+/**
+ * Implements hook_help().
+ */
+function getlocations_tools_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#getlocations_tools':
+      $output = '<p>' . t('Provides import and export utilities.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function getlocations_tools_menu() {
+  $items = array();
+
+  $items[GETLOCATIONS_ADMIN_PATH . '/export'] = array(
+    'title' => 'Export',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('getlocations_tools_export_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 8,
+  );
+
+  // opl
+  if (module_exists('openlayers')) {
+    $items[GETLOCATIONS_ADMIN_PATH . '/export_opl'] = array(
+      'title' => 'Export Opl',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('getlocations_tools_export_opl_form'),
+      'access arguments' => array('administer site configuration'),
+      'type' => MENU_LOCAL_TASK,
+      'weight' => 10,
+    );
+  }
+
+  $items[GETLOCATIONS_ADMIN_PATH . '/import'] = array(
+    'title' => 'Import',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('getlocations_tools_import_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 12,
+  );
+  return $items;
+}
+
+function getlocations_tools_export_form($form, &$form_state) {
+  global $base_url;
+  $export_select = variable_get('getlocations_tools_export_select', 0);
+  variable_del('getlocations_tools_export_select');
+
+  $form = array();
+  $opts = getlocations_tools_get_options();
+
+  if (count($opts) > 1) {
+    $form['getlocations_tools_export_select'] = getlocations_element_dd(
+      t('Configuration settings'),
+      $export_select,
+      $opts,
+      t('Which configuration settings to export.')
+    );
+    $form['getlocations_tools_export_submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Select'),
+    );
+
+    $output = FALSE;
+    $addon = $base_url . "\n" . '// ' . t('Date') . ': ' . date('Y-m-d H:i:s T') . "\n";
+    if ($export_select == 1) {
+      $output = '// getlocations.module configuration on ' . $addon;
+      $output .= '$getlocations_defaults = ';
+      $defaults = getlocations_defaults();
+      $output .= var_export($defaults, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_paths = ';
+      $paths = getlocations_paths_get();
+      $output .= var_export($paths, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_node_marker = ';
+      $node_marker = variable_get('getlocations_node_marker', array('enable' => 0));
+      $output .= var_export($node_marker, TRUE) . ';' . "\n";
+
+      if (module_exists('taxonomy')) {
+        $output .= '$getlocations_vocabulary_marker = ';
+        $vocabulary_marker = variable_get('getlocations_vocabulary_marker', array('enable' => 0));
+        $output .= var_export($vocabulary_marker, TRUE) . ';' . "\n";
+
+        $output .= '$getlocations_term_marker = ';
+        $term_marker = variable_get('getlocations_term_marker', array('enable' => 0, 'vids' => 0, 'max_depth' => ''));
+        $output .= var_export($term_marker, TRUE) . ';' . "\n";
+      }
+      if (module_exists('colorbox')) {
+        $output .= '$getlocations_colorbox = ';
+        $colorbox = getlocations_colorbox_settings();
+        $output .= var_export($colorbox, TRUE) . ';' . "\n";
+      }
+
+      $output .= '$getlocations_ua = ';
+      $ua = getlocations_ua_get();
+      $output .= var_export($ua, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_aggr = ';
+      $aggr = getlocations_aggr_get();
+      $output .= var_export($aggr, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_flush = ';
+      $flush = variable_get('getlocations_flush', 1);
+      $output .= var_export($flush, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_api3_key = ';
+      $key = variable_get('getlocations_api3_key', '');
+      $output .= var_export($key, TRUE) . ';' . "\n";
+
+      $title = t('Getlocations configuration settings');
+    }
+    elseif ($export_select == 2) {
+      $output = '// getlocations_fields.module configuration on ' . $addon;
+      $output .= '$getlocations_fields_defaults = ';
+      $defaults = getlocations_fields_defaults();
+      $output .= var_export($defaults, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_fields_paths = ';
+      $paths = getlocations_fields_paths_get();
+      $output .= var_export($paths, TRUE) . ';' . "\n";
+
+      $title = t('Getlocations Fields configuration settings');
+    }
+    elseif ($export_select == 3) {
+      $output = '// getlocations_search.module configuration on ' . $addon;
+      $output .= '$getlocations_search_defaults = ';
+      $defaults = getlocations_search_defaults();
+      $output .= var_export($defaults, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_search_paths = ';
+      $paths = getlocations_search_paths_get();
+      $output .= var_export($paths, TRUE) . ';' . "\n";
+
+      $title = t('Getlocations Search configuration settings');
+    }
+    elseif ($export_select == 4) {
+      $output = '// getlocations_leaflet.module configuration on ' . $addon;
+      $output .= '$getlocations_leaflet_defaults = ';
+      $defaults = getlocations_leaflet_defaults();
+      $output .= var_export($defaults, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_leaflet_paths = ';
+      $paths = getlocations_leaflet_paths_get();
+      $output .= var_export($paths, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_leaflet_plugins = ';
+      $plugins = getlocations_leaflet_plugins();
+      $output .= var_export($plugins, TRUE) . ';' . "\n";
+
+      $output .= '$getlocations_leaflet_cloudmade = ';
+      $cloudmade = variable_get('getlocations_leaflet_cloudmade', array('cloudmade_key' => '', 'cloudmade_maps' => array()));
+      $output .= var_export($cloudmade, TRUE) . ';' . "\n";
+
+      $title = t('Getlocations Leaflet configuration settings');
+    }
+
+    if ($output) {
+      $form['getlocations_tools_export_output'] = array(
+        '#type' => 'textarea',
+        '#title' => $title,
+        '#default_value' => $output,
+        '#rows' => 15,
+      );
+    }
+    return $form;
+  }
+}
+
+function getlocations_tools_export_form_submit($form, &$form_state) {
+  variable_set('getlocations_tools_export_select', $form_state['values']['getlocations_tools_export_select'] );
+}
+
+function getlocations_tools_import_form($form, &$form_state) {
+  $import_select = variable_get('getlocations_tools_import_select', 0);
+  variable_del('getlocations_tools_import_select');
+
+  $form = array();
+  $opts = getlocations_tools_get_options();
+
+  if (count($opts) > 1) {
+    $form['getlocations_tools_import_select'] = getlocations_element_dd(
+      t('Configuration settings'),
+      $import_select,
+      $opts,
+      t('Which configuration settings to import.')
+    );
+
+    $title = t('None selected');
+    $select = FALSE;
+    if ($import_select == 1) {
+      $title = t('Paste Getlocations settings here');
+      $select = TRUE;
+    }
+    elseif ($import_select == 2) {
+      $title = t('Paste Getlocations Fields settings here');
+      $select = TRUE;
+    }
+    elseif ($import_select == 3) {
+      $title = t('Paste Getlocations Search settings here');
+      $select = TRUE;
+    }
+    elseif ($import_select == 4) {
+      $title = t('Paste Getlocations Leaflet settings here');
+      $select = TRUE;
+    }
+
+    $form['getlocations_tools_import_content'] = array(
+      '#type' => 'textarea',
+      '#title' => $title,
+      '#rows' => 15,
+    );
+
+    $form['getlocations_tools_import_submit'] = array(
+      '#type' => 'submit',
+      '#value' => ($select ? t('Import') : t('Select')),
+    );
+
+    return $form;
+  }
+}
+
+function getlocations_tools_import_form_submit($form, &$form_state) {
+
+  if ($form_state['values']['getlocations_tools_import_select'] == 0) {
+    return;
+  }
+  else {
+    variable_set('getlocations_tools_import_select', $form_state['values']['getlocations_tools_import_select']);
+  }
+
+  if (empty($form_state['values']['getlocations_tools_import_content'])) {
+    return;
+  }
+
+  $import_select = $form_state['values']['getlocations_tools_import_select'];
+
+  // Be forgiving if someone pastes code that starts with '<?php'.
+  if (substr($form_state['values']['getlocations_tools_import_content'], 0, 5) == '<?php') {
+    $form_state['values']['getlocations_tools_import_content'] = substr($form_state['values']['getlocations_tools_import_content'], 5);
+  }
+
+  ob_start();
+  eval($form_state['values']['getlocations_tools_import_content']);
+  ob_end_clean();
+
+  $msg = t('Unable to interpret code.');
+  if ($import_select == 1) {
+    // getlocations_defaults
+    if (isset($getlocations_defaults) && is_array($getlocations_defaults)) {
+      variable_set('getlocations_defaults', $getlocations_defaults);
+      $msg = t('Getlocations settings imported');
+    }
+    if (isset($getlocations_paths) && is_array($getlocations_paths)) {
+      variable_set('getlocations_paths', $getlocations_paths);
+    }
+    if (isset($getlocations_node_marker) && is_array($getlocations_node_marker)) {
+      variable_set('getlocations_node_marker', $getlocations_node_marker);
+    }
+    if (isset($getlocations_vocabulary_marker) && is_array($getlocations_vocabulary_marker)) {
+      variable_set('getlocations_vocabulary_marker', $getlocations_vocabulary_marker);
+    }
+    if (isset($getlocations_term_marker) && is_array($getlocations_term_marker)) {
+      variable_set('getlocations_term_marker', $getlocations_term_marker);
+    }
+    if (isset($getlocations_colorbox) && is_array($getlocations_colorbox)) {
+      variable_set('getlocations_colorbox', $getlocations_colorbox);
+    }
+    if (isset($getlocations_ua) && is_array($getlocations_ua)) {
+      variable_set('getlocations_ua', $getlocations_ua);
+    }
+    if (isset($getlocations_aggr)) {
+      variable_set('getlocations_aggr', $getlocations_aggr);
+    }
+    if (isset($getlocations_flush)) {
+      variable_set('getlocations_flush', $getlocations_flush);
+    }
+    if (isset($getlocations_api3_key)) {
+      variable_set('getlocations_api3_key', $getlocations_api3_key);
+    }
+  }
+  elseif ($import_select == 2) {
+    // getlocations_fields_defaults
+    if (isset($getlocations_fields_defaults) && is_array($getlocations_fields_defaults)) {
+      variable_set('getlocations_fields_defaults', $getlocations_fields_defaults);
+      $msg = t('Getlocations Fields settings imported');
+    }
+    if (isset($getlocations_fields_paths) && is_array($getlocations_fields_paths)) {
+      variable_set('getlocations_fields_paths', $getlocations_fields_paths);
+    }
+  }
+  elseif ($import_select == 3) {
+    // getlocations_search_defaults
+    if (isset($getlocations_search_defaults) && is_array($getlocations_search_defaults)) {
+      variable_set('getlocations_search_defaults', $getlocations_search_defaults);
+      $msg = t('Getlocations Search settings imported');
+    }
+    if (isset($getlocations_search_paths) && is_array($getlocations_search_paths)) {
+      variable_set('getlocations_search_paths', $getlocations_search_paths);
+    }
+  }
+  elseif ($import_select == 4) {
+    // getlocations_leaflet_defaults
+    if (isset($getlocations_leaflet_defaults) && is_array($getlocations_leaflet_defaults)) {
+      variable_set('getlocations_leaflet_defaults', $getlocations_leaflet_defaults);
+      $msg = t('Getlocations Leaflet settings imported');
+    }
+    if (isset($getlocations_leaflet_paths) && is_array($getlocations_leaflet_paths)) {
+      variable_set('getlocations_leaflet_paths', $getlocations_leaflet_paths);
+    }
+    if (isset($getlocations_leaflet_plugins) && is_array($getlocations_leaflet_plugins)) {
+      variable_set('getlocations_leaflet_plugins', $getlocations_leaflet_plugins);
+    }
+    if (isset($getlocations_leaflet_cloudmade) && is_array($getlocations_leaflet_cloudmade)) {
+      variable_set('getlocations_leaflet_cloudmade', $getlocations_leaflet_cloudmade);
+    }
+  }
+  drupal_set_message($msg);
+}
+
+/**
+ * export getlocations markers to Openlayers
+ */
+function getlocations_tools_export_opl_form($form, &$form_state) {
+
+  $form = array();
+  // list all the marker sets
+
+  $icons = getlocations_get_icondata();
+  $data = array();
+  $files = array();
+  $machine_names = array();
+  $display_names = array();
+  $positions = array();
+  $iconct = 0;
+  foreach (array_keys($icons) AS $path) {
+    if (preg_match("~^/.*/$~", $path)) {
+      continue;
+    }
+    $files = $icons[$path]['f'];
+    $widths = $icons[$path]['w'];
+    $heights = $icons[$path]['h'];
+    $machine_names = $icons[$path]['i'][0][0][0];
+    $display_names = $icons[$path]['i'][0][0][1];
+    $positions     = $icons[$path]['i'][0][0][2];
+    $newpositions = array();
+    foreach ($positions AS $pos) {
+      if (isset($pos[0])) {
+        $newpositions[] = $pos[0];
+      }
+    }
+    $adj = 0;
+    $w = $widths[0];
+    $h = $heights[0];
+    foreach ($newpositions AS $pos) {
+      // no shadow
+      if ($pos < 1) {
+        $adj = 1;
+      }
+      // skip this
+      if ($files[$pos] == 'shadow.png') {
+        continue;
+      }
+      $data[$iconct]['path'] = $path . $files[$pos];
+      $data[$iconct]['machine_name'] = $machine_names[$pos + $adj];
+      $data[$iconct]['display_name'] = $display_names[$pos + $adj];
+      if (isset($widths[$pos]) && $widths[$pos]) {
+        $w = $widths[$pos];
+      }
+      $data[$iconct]['width'] = $w;
+
+      if (isset($heights[$pos]) && $heights[$pos]) {
+        $h = $heights[$pos];
+      }
+      $data[$iconct]['height'] = $h;
+
+      $iconct++;
+    }
+  }
+
+  // build the output
+  $template = getlocations_tools_opl_template();
+  $s = array(
+    '/__TITLE__/',
+    '/__NAME__/',
+    '/__FULL_TITLE__/',
+    '/__DESC__/',
+    '/__PATH__/',
+    '/__RADIUS__/',
+    '/__WIDTH__/',
+    '/__HEIGHT__/'
+  );
+
+  $output = '';
+  foreach ($data AS $iconct => $value) {
+    $value['machine_name'] = preg_replace("/\s+/", '_', $value['machine_name']);
+    $value['machine_name'] = preg_replace("/-/", '_', $value['machine_name']);
+    $value['machine_name'] = strtolower($value['machine_name']);
+    $t = $template;
+    $r = array(
+      $value['display_name'],
+      'getlocations_marker_' . $iconct . '_' . $value['machine_name'],
+      'Getlocations marker no:' . $iconct . ' ' . $value['display_name'],
+      'Marker provided by the getlocations module',
+      $value['path'],
+      intval($value['width'] / 2),
+      $value['width'],
+      $value['height']
+    );
+    $t = preg_replace($s, $r, $t);
+    $output .= $t . "\n";
+  }
+
+  $form['getlocations_tools_export_opl_output'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Export getlocations markers in openlayers format'),
+    '#description' => t('The Openlayers styles import facility can only handle one marker at a time so use copy and paste to import the markers you want.'),
+    '#default_value' => $output,
+    '#rows' => 20,
+  );
+
+    return $form;
+
+}
+
+#function getlocations_tools_export_opl_form_submit($form, &$form_state) {
+#}
+
+function getlocations_tools_opl_template() {
+
+  $template = '/* getlocations marker __TITLE__ */' . "\n";
+  $template .= '$openlayers_styles = new stdClass();' . "\n";
+  $template .= '$openlayers_styles->disabled = FALSE; /* Edit this to true to make a default openlayers_styles disabled initially */' . "\n";
+  $template .= '$openlayers_styles->api_version = 1;' . "\n";
+  $template .= '$openlayers_styles->name = ' . "'__NAME__';" . "\n";
+  $template .= '$openlayers_styles->title = ' . "'__FULL_TITLE__';" . "\n";
+  $template .= '$openlayers_styles->description = ' . "'__DESC__';" . "\n";
+  $template .= '$openlayers_styles->data = array(' . "\n";
+  $template .= "  'externalGraphic' => '__PATH__'," . "\n";
+  $template .= "  'pointRadius' => '__RADIUS__'," . "\n";
+  $template .= "  'fillColor' => '#FFFFFF'," . "\n";
+  $template .= "  'strokeColor' => '#FFFFFF'," . "\n";
+  $template .= "  'strokeWidth' => 1," . "\n";
+  $template .= "  'fillOpacity' => 1," . "\n";
+  $template .= "  'strokeOpacity' => 1," . "\n";
+  $template .= "  'strokeLinecap' => 'round'," . "\n";
+  $template .= "  'strokeDashstyle' => 'solid'," . "\n";
+  $template .= "  'graphicWidth' => __WIDTH__," . "\n";
+  $template .= "  'graphicHeight' => __HEIGHT__," . "\n";
+  $template .= "  'graphicOpacity' => 1," . "\n";
+  $template .= "  'graphicXOffset' => -__RADIUS__," . "\n";
+  $template .= "  'graphicYOffset' => -__HEIGHT__," . "\n";
+  $template .= "  'graphicName' => '__TITLE__'," . "\n";
+  $template .= "  'labelAlign' => 'cm'," . "\n";
+  $template .= ');' . "\n";
+  return $template;
+}
+
+
+function getlocations_tools_get_options() {
+  $opts = array(0 => t('None'));
+  if (module_exists('getlocations')) {
+    $opts[1] = t('Getlocations');
+  }
+  if (module_exists('getlocations_fields')) {
+    $opts[2] = t('Getlocations Fields');
+  }
+  if (module_exists('getlocations_search')) {
+    $opts[3] = t('Getlocations Search');
+  }
+  if (module_exists('getlocations_leaflet')) {
+    $opts[4] = t('Getlocations Leaflet');
+  }
+  return $opts;
+}
+

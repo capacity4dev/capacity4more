@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: ZMW
+ISO4217Number: '967'
+sign: ZK
+subunits: 100
+title: 'Zambian kwacha'
+usage:
+    - { ISO8601From: '2013-01-01', ISO8601To: '', ISO3166Code: ZM }

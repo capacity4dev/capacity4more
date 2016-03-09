@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * @file
+ * getlocations.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations module installation.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function getlocations_uninstall() {
+  $query = db_delete('variable')
+    ->condition('name', 'getlocations_%', 'LIKE')
+    ->execute();
+
+  // delete markerfile
+  if (file_default_scheme() == 'public') {
+    $markerpath = file_stream_wrapper_get_instance_by_scheme(file_default_scheme())->getDirectoryPath() . '/getlocations';
+    if (file_exists($markerpath)) {
+      file_unmanaged_delete_recursive($markerpath);
+    }
+  }
+}
+
+/**
+ * Implements hook_enable().
+ */
+function getlocations_enable() {
+  if (drupal_is_cli()) {
+    return;
+  }
+  if ((isset($_GET) && $_GET['q'] == 'admin/modules') || (isset($_REQUEST['overlay']) && $_REQUEST['overlay'] == 'admin/modules')) {
+    drupal_set_message(st('Thank you for installing Getlocations. To set it up please visit the <a href="@url">configuration page</a>.', array('@url' => url('admin/config/services/getlocations'))), 'status');
+  }
+}
+
+function getlocations_update_7100() {
+  $module = '';
+  if (module_exists('getlocations_fields')) {
+    $module = 'getlocations_fields';
+  }
+  elseif (module_exists('location_cck')) {
+    $module = 'location_cck';
+  }
+  elseif (module_exists('geolocation')) {
+    $module = 'geolocation';
+  }
+  elseif (module_exists('geofield')) {
+    $module = 'geofield';
+  }
+  if ($module) {
+    $var = variable_get('getlocations_node_marker', array('enable' => 0));
+    if ($var['enable'] == 1) {
+      $data = array();
+      $ct = 0;
+      $found = FALSE;
+      foreach ($var['content_type'] AS $bundle => $m) {
+        if (isset($var['content_type'][$bundle]['map_marker'])) {
+          $found = TRUE;
+          $data[$ct]['bundle'] = $bundle;
+          $data[$ct]['map_marker'] = ($m['map_marker'] ? $m['map_marker'] : 'drupal');
+          $query = db_select('field_config', 'f');
+          $query->fields('i', array('field_name'));
+          $query->join('field_config_instance', 'i', 'f.id=i.field_id');
+          $query->condition('i.bundle', $bundle)
+            ->condition('i.entity_type', 'node')
+            ->condition('f.module', $module)
+            ->condition('f.active', 1);
+          $rows = $query->execute();
+          foreach ($rows AS $row) {
+            $data[$ct]['field_name'] = $row->field_name;
+          }
+          $ct++;
+        }
+      }
+      if ($found) {
+        $tmp = array();
+        foreach ($data AS $d) {
+          $tmp = array_merge($tmp, array(
+            $d['bundle'] => array(
+              'field_name' => array(
+                $d['field_name'] => array(
+                  'map_marker' => $d['map_marker']
+                )
+              )
+            )
+          ));
+        }
+        $data2['enable'] = 1;
+        $data2['content_type'] = $tmp;
+        variable_set('getlocations_node_marker', $data2);
+      }
+    }
+  }
+}
+
+function getlocations_update_7101() {
+  $getlocations_term_marker = variable_get('getlocations_term_marker', array('enable' => 0, 'vid' => 0, 'max_depth' => ''));
+  if ($getlocations_term_marker['enable']) {
+    if ($getlocations_term_marker['vid']) {
+      $vid = $getlocations_term_marker['vid'];
+      $terms = $getlocations_term_marker['term'];
+      $tmp_term_marker = array();
+      $tmp_term_marker['enable'] = $getlocations_term_marker['enable'];
+      $tmp_term_marker['vids'][$vid] = $vid;
+      foreach ($terms AS $tid => $term) {
+        $tmp_term_marker['vid'][$vid]['term'][$tid] = $term;
+      }
+      $tmp_term_marker['max_depth'] = $getlocations_term_marker['max_depth'];
+      variable_set('getlocations_term_marker', $tmp_term_marker);
+    }
+    else {
+      variable_set('getlocations_term_marker', array('enable' => 0, 'vids' => 0, 'max_depth' => ''));
+    }
+  }
+  else {
+    variable_set('getlocations_term_marker', array('enable' => 0, 'vids' => 0, 'max_depth' => ''));
+  }
+}
+
+function getlocations_update_7102() {
+  menu_rebuild();
+}

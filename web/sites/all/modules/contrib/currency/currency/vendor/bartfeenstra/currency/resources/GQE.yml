@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: GQE
+ISO4217Number: null
+sign: ¤
+subunits: 100
+title: 'Equatorial Guinean ekwele'
+usage:
+    - { ISO8601From: '1975-07-07', ISO8601To: '1986-06-01', ISO3166Code: GQ }

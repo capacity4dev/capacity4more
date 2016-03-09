@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: MCF
+ISO4217Number: null
+sign: fr.
+subunits: 10
+title: 'Monegasque franc'
+usage:
+    - { ISO8601From: '1960-01-01', ISO8601To: '2002-02-17', ISO3166Code: MC }

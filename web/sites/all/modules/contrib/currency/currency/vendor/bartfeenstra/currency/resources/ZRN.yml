@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates:
+    ZRZ: '3000000'
+ISO4217Code: ZRN
+ISO4217Number: '180'
+sign: Ƶ
+subunits: 100
+title: 'Zaïrean zaïre'
+usage:
+    - { ISO8601From: '1993-11-01', ISO8601To: '1998-07-01', ISO3166Code: CD }
+    - { ISO8601From: '1993-11-01', ISO8601To: 1998-07, ISO3166Code: ZR }

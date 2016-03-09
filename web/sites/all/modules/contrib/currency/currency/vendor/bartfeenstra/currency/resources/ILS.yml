@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates:
+    ILR: '1000'
+ISO4217Code: ILS
+ISO4217Number: '376'
+sign: ₪
+subunits: 100
+title: 'Israeli shekel'
+usage:
+    - { ISO8601From: '1985-09-04', ISO8601To: '', ISO3166Code: IL }
+    - { ISO8601From: '1985-09-04', ISO8601To: '', ISO3166Code: PS }

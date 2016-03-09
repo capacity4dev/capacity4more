@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyExchangeRateDBTableModuleInstallUninstall.
+ */
+
+/**
+ * Tests installing and uninstalling the module.
+ */
+class CurrencyExchangeRateDBTableModuleInstallUninstall extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Module installation and uninstallation',
+      'group' => 'Currency exchange rate database table',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency_exchange_rate_db_table'));
+  }
+
+  /**
+   * Test uninstall.
+   */
+  function testUninstalla() {
+    $this->assertTrue(module_exists('currency_exchange_rate_db_table'));
+    module_disable(array('currency_exchange_rate_db_table'));
+    drupal_uninstall_modules(array('currency_exchange_rate_db_table'));
+    $this->assertFalse(module_exists('currency_exchange_rate_db_table'));
+  }
+}

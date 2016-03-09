@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: XPF
+ISO4217Number: '953'
+sign: ¤
+subunits: 0
+title: 'CFP franc'
+usage:
+    - { ISO8601From: '1985-01-01', ISO8601To: '', ISO3166Code: NC }
+    - { ISO8601From: '1945-12-26', ISO8601To: '', ISO3166Code: PF }
+    - { ISO8601From: '1961-07-30', ISO8601To: '', ISO3166Code: WF }

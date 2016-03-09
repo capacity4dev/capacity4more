@@ -1,0 +1,93 @@
+
+/**
+ * @file
+ * getlocations_fields.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ *   css for the getlocations_fields module.
+ */
+
+/* manage the latitude and longitude input boxes */
+.getlocations_fields_latlon_wrapper {
+  width: 400px;
+}
+.getlocations_fields_lat_wrapper {
+  float: left;
+}
+.getlocations_fields_lon_wrapper {
+  float: right;
+}
+
+.getlocations_fields_latlon_wrapper_themed {
+  width: 500px;
+  padding-top: 8px;
+  margin-bottom: 8px;
+}
+.getlocations_fields_lat_wrapper_themed {
+  float: left;
+}
+.getlocations_fields_lon_wrapper_themed {
+  float: right;
+}
+
+.getlocations_fields_latlon_wrapper_themed_nomap {
+  width: 380px;
+  padding-top: 8px;
+  margin-bottom: 8px;
+}
+.getlocations_fields_lat_wrapper_themed_nomap {
+  float: left;
+}
+.getlocations_fields_lon_wrapper_themed_nomap {
+  float: right;
+}
+
+
+.getlocations_fields_input_table {
+/*  width: 550px;*/
+}
+.getlocations_fields_input_cell1 {
+
+}
+.getlocations_fields_input_cell2 {
+
+}
+.getlocations_fields_input_cell3 {
+
+}
+
+/* autocomplete correction, ff only */
+.getlocations_fields_city_wrapper .form-item {
+  position: relative;
+}
+
+.getlocations_fields_province_wrapper .form-item {
+  position: relative;
+}
+.getlocations_fields_country_wrapper .form-item {
+  position: relative;
+}
+
+.getlocations_fields_marker_wrapper {
+
+}
+
+.phones {
+  padding-top: 4px;
+}
+.phone {}
+.mobile {}
+.fax {}
+.phone_label {
+  padding-right: 8px;
+}
+.mobile_label {
+  padding-right: 8px;
+}
+.fax_label {
+  padding-right: 8px;
+}
+.geo .latitude {
+  padding-right: 8px;
+}

@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: MVR
+ISO4217Number: '462'
+sign: ރ
+subunits: 100
+title: 'Maldivian rufiyaa'
+usage:
+    - { ISO8601From: '1981-07-01', ISO8601To: '', ISO3166Code: MV }

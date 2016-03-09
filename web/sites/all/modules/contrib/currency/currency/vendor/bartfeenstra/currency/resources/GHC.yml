@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: GHC
+ISO4217Number: '288'
+sign: GH¢
+subunits: 100
+title: 'Ghanaian cedi'
+usage:
+    - { ISO8601From: '1979-03-09', ISO8601To: '2007-12-31', ISO3166Code: GH }

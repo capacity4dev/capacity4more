@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: THB
+ISO4217Number: '764'
+sign: ฿
+subunits: 100
+title: 'Thai baht'
+usage:
+    - { ISO8601From: '1928-04-15', ISO8601To: '', ISO3166Code: TH }

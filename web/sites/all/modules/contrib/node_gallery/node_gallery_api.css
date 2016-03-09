@@ -1,0 +1,78 @@
+
+.item-navigator tr {background:#fff}
+
+table.item-navigator td.item-navigator-position {width:17%}
+table.item-navigator td.item-navigator-first {width:15%; text-align:right}
+table.item-navigator td.item-navigator-prev {width:18%; text-align:left}
+table.item-navigator td.item-navigator-next {width:15%; text-align:right}
+table.item-navigator td.item-navigator-last {width:15%; text-align:left}
+table.item-navigator td.item-navigator-gallery-link {width:20%; text-align:right}
+
+/**
+ * Rotation Dialog
+ */
+#node-gallery-rotate-dialog img {
+  margin: 10px;
+  border: 1px solid #000;
+}
+
+#node-gallery-rotate-dialog img.selected {
+  outline: 5px solid #000;
+}
+
+/**
+ * Rotation Radios
+ */
+.node-gallery-api-rotate-0,
+.node-gallery-api-rotate-90,
+.node-gallery-api-rotate-180,
+.node-gallery-api-rotate-270 {
+    transition: transform 0.25s ease-in;
+    -moz-transition: -moz-transform 0.25s ease-in;
+    -webkit-transition: -webkit-transform 0.25s ease-in;
+    -o-transition: -o-transform 0.25s ease-in;
+}
+
+/**
+ * Helper classes *not* meant for styling.
+ */
+.node-gallery-api-hidden { display:none; }
+
+.node-gallery-api-rotate-0 {
+    transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -webkit-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+    -ms-filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=0)";
+    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+}
+
+.node-gallery-api-rotate-90 {
+    transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    -ms-filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+.node-gallery-api-rotate-180 {
+    transform:rotate(180deg);
+    -moz-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    -o-transform:rotate(180deg);
+    -ms-filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+
+.node-gallery-api-rotate-270 {
+    transform:rotate(-90deg);
+    -moz-transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+    -o-transform:rotate(-90deg);
+    -ms-filter:"progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+#upload-attachments td .description {
+  white-space: normal;
+}

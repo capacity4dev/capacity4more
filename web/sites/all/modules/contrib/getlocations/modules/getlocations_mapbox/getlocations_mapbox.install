@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * getlocations_mapbox.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_mapbox module installation.
+ *
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ */
+function getlocations_mapbox_uninstall() {
+  $query = db_delete('variable')
+    ->condition('name', 'getlocations_leaflet_mapbox', 'LIKE')
+    ->execute();
+}

@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: KWD
+ISO4217Number: '414'
+sign: د.ك
+subunits: 1000
+title: 'Kuwaiti dinar'
+usage:
+    - { ISO8601From: '1961-04-01', ISO8601To: '', ISO3166Code: KW }

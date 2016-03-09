@@ -1,0 +1,14 @@
+.droppable-preview-image {
+  border: 1px solid #ccc;
+  width: 200px;
+  float: left;
+  overflow: hidden;
+  margin: 2px;
+  position: relative;
+}
+
+.droppable-preview-image img {
+  position: relative;
+  max-width: 200px;
+  max-height: 200px;
+}

@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AMD
+ISO4217Number: '051'
+sign: ֏
+subunits: 100
+title: 'Armenian dram'
+usage:
+    - { ISO8601From: '1993-11-22', ISO8601To: '', ISO3166Code: AM }

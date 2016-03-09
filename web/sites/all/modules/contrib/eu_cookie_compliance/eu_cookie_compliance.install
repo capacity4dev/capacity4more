@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Installation file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function eu_cookie_compliance_install() {
+  $popup_settings = array(
+    'popup_info' => array(
+      'value' => '<h2>We use cookies on this site to enhance your user experience</h2><p>By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'format' => filter_default_format(),
+    ),
+    'popup_agreed' => array(
+      'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
+      'format' => filter_default_format(),
+    ),
+  );
+  global $language;
+  $lang = ($language->language) ? $language->language : 'en';
+  variable_set('eu_cookie_compliance_' . $lang, $popup_settings);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function eu_cookie_compliance_uninstall() {
+  if(module_exists('locale')) {
+    $langs = locale_language_list();
+    foreach($langs as $key => $lang) {
+      variable_del('eu_cookie_compliance_' . $key);
+    }
+  } else {
+    $lang = ($language->language) ? $language->language : 'en';
+    variable_del('eu_cookie_compliance_' . $lang);
+  }
+  cache_clear_all('variables', 'cache');
+}

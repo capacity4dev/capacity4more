@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the node_gallery_api module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function node_gallery_api_schema() {
+  $schema = array();
+
+  $schema['node_gallery_relationship_type'] = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Node Gallery Relationship Type ID',
+      ),
+      'label' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => 'Node Gallery Relationship Type Label',
+      ),
+      'filefield_name' => array(
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 255,
+        'description' => 'The name of the file field that contains the media file on an item node.',
+      ),
+      'settings' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  $schema['node_gallery_relationship'] = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Node Gallery Relationship ID',
+      ),
+      'relationship_type' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Relationship type ID.',
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Image node id.',
+      ),
+      'ngid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Gallery node id.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      // For quick finding of the contents of a gallery.
+      'gallery' => array('ngid'),
+    ),
+  );
+
+  $schema['node_gallery_galleries'] = array(
+    'fields' => array(
+      'ngid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Gallery node id.',
+      ),
+      'cover_item' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
+        'description' => 'Node Id of the Cover Item',
+      ),
+      'item_count' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Gallery items count.',
+      ),
+      'pub_item_count' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Gallery published item count.',
+      ),
+    ),
+    'primary key' => array('ngid'),
+    'indexes' => array(
+      'item_count' => array('item_count'),
+      'pub_item_count' => array('pub_item_count'),
+      // To quickly answer, is this image the cover image?
+      'cover_item' => array('cover_item'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function node_gallery_api_requirements($phase) {
+  $t = get_t();
+  $requirements = array();
+
+  // Do not let this module be enabled if a D6 table schema exists.
+  // Update.php must be run with this module disabled, and it will be enabled
+  // as part of the upgrade process in node_gallery_update_7001().
+  if ($phase === 'install') {
+    $node_gallery_schema = drupal_get_installed_schema_version('node_gallery');
+    $d6_table_exists = db_table_exists('node_gallery_images');
+    if ($node_gallery_schema < 7000 && $d6_table_exists) {
+      $requirements['node_gallery_upgrade'] = array(
+        'description' => $t('Node Gallery API cannot be enabled because updates need to be run. With this module in place (but disabled), run <a href="!url">update.php</a>. Node Gallery API will be enabled as part of the upgrade path.', array('!url' => base_path() . 'update.php')),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => NULL,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function node_gallery_api_install() {
+  node_gallery_api_setup_display_modes();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function node_gallery_api_uninstall() {
+  variable_del('node_gallery_api_keyboard_shortcuts');
+  variable_del('node_gallery_api_activate_image_downloading_permission');
+  variable_del('node_gallery_api_direct_image_downloading');
+  variable_del('node_gallery_api_display_exif_creation_date');
+  variable_del('node_gallery_api_activate_chronological_sorting_button');
+  variable_del('node_gallery_api_plupload_integration');
+  variable_del('node_gallery_api_plupload_manage_images_integration');
+  variable_del('node_gallery_api_plupload_manage_images_limit');
+  variable_del('node_gallery_api_plupload_wizard');
+}
+
+/**
+ * Setup admin thumbnail view modes.
+ */
+function node_gallery_api_update_7000() {
+  node_gallery_api_setup_display_modes();
+
+  // Add default rotation settings to all relationship types.
+  $types = node_gallery_api_get_all_relationship_types();
+  if (!empty($types)) {
+    foreach ($types as $type) {
+      $type->settings['manage_items']['rotation_radios'] = TRUE;
+      $type->settings['manage_items']['rotation_modal'] = TRUE;
+      $type->save();
+    }
+  }
+}
+
+/**
+ * NOTE: After this update, you may need to revert the view called "Node Gallery: Gallery Item Views" to repair issues related to sorting order. This can be done under Structure, Views. Expand the edit button and choose "revert". If you have intentionally customized this view, make sure the sort order includes Node Gallery weight.
+ */
+function node_gallery_api_update_7001() {
+  // This is just a message to the user.
+  $t = get_t();
+  return $t('<strong>NOTE: After this update, you may need to revert the view called "Node Gallery: Gallery Item Views" to repair issues related to sorting order. This can be done under Structure, Views. Expand the edit button and choose "revert". If you have intentionally customized this view, make sure the sort order includes Node Gallery weight.</strong>');
+}
+
+/**
+ * Sets up the admin view mode for Management pages.
+ */
+function node_gallery_api_setup_display_modes() {
+  $bundle_settings = field_bundle_settings('file', 'image');
+  $bundle_settings['view_modes']['node_gallery_api_admin_thumbnail']['custom_settings'] = TRUE;
+  $bundle_settings['view_modes']['node_gallery_api_admin_thumbnail']['file_image']['image_style'] = 'node_gallery_api_admin_thumbnail';
+  field_bundle_settings('file', 'image', $bundle_settings);
+  $file_displays = file_displays_load('image', 'node_gallery_api_admin_thumbnail');
+  if (empty($file_displays['image__node_gallery_api_admin_thumbnail__file_image'])) {
+    $file_displays['image__node_gallery_api_admin_thumbnail__file_image'] = file_display_new('image', 'node_gallery_api_admin_thumbnail', 'file_image');
+  }
+  $file_displays['image__node_gallery_api_admin_thumbnail__file_image']->status = 1;
+  $file_displays['image__node_gallery_api_admin_thumbnail__file_image']->settings['image_style'] = 'node_gallery_api_admin_thumbnail';
+  file_display_save($file_displays['image__node_gallery_api_admin_thumbnail__file_image']);
+}

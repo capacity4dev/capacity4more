@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AOR
+ISO4217Number: '982'
+sign: ¤
+subunits: 0
+title: 'Angolan kwanza readjustado'
+usage:
+    - { ISO8601From: '1995-07-01', ISO8601To: '2000-02-01', ISO3166Code: AO }

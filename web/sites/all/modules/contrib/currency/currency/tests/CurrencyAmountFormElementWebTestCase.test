@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyAmountFormElementWebTestCase.
+ */
+
+/**
+ * Tests the currency_amount form element.
+ */
+class CurrencyAmountFormElementWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'currency_amount form element',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency_test'));
+  }
+
+  /**
+   * Test validation.
+   */
+  function testValidation() {
+    $path = 'currency_test-form-element-currency-amount/50.00/100';
+
+    // Test valid values.
+    $values =  array(
+      'amount[amount]' => '50,95',
+      'amount[currency_code]' => 'EUR',
+    );
+    $this->drupalPost($path, $values, t('Submit'));
+    $this->assertUrl('user', array(), 'A valid value higher than an explicitely configured <em>#minimum_value</em> triggers form submission.');
+    $this->assertRaw("\$form_state['amount'] = " . var_export(array(
+      'amount' => '50.95',
+      'currency_code' => 'EUR',
+    ), TRUE));
+
+    // Test valid values with a predefined currency.
+    $this->drupalGet($path . '/NLG');
+    $this->assertNoFieldByXPath("//input[@name='amount[currency_code]']");
+    $values =  array(
+      'amount[amount]' => '50,95',
+    );
+    $this->drupalPost($path . '/NLG', $values, t('Submit'));
+    $this->assertUrl('user', array(), 'A valid value higher than an explicitely configured <em>#minimum_value</em> triggers form submission.');
+    $this->assertRaw("\$form_state['amount'] = " . var_export(array(
+      'amount' => '50.95',
+      'currency_code' => 'NLG',
+    ), TRUE));
+
+    // Test illegal characters.
+    $values =  array(
+      'amount[amount]' => $this->randomName(2),
+    );
+    $this->drupalPost($path, $values, t('Submit'));
+    $this->assertText('The amount can only consist of a minus sign, decimals and one decimal mark.', 'Non-numeric characters that are no period, comma, or minus sign throw a validation error.');
+
+    // Test multiple decimal marks.
+    $values =  array(
+      'amount[amount]' => '49,.95',
+    );
+    $this->drupalPost($path, $values, t('Submit'));
+    $this->assertText('The amount can only have no or one decimal separator and it must be one of ', 'Multiple decimal marks throw a validation error.');
+
+    // Test the minimum value.
+    $values =  array(
+      'amount[amount]' => '49.95',
+    );
+    $this->drupalPost($path, $values, t('Submit'));
+    $this->assertText('The minimum amount is ', 'An amount below the minimum throws a validation error.');
+
+    // Test the maximum value.
+    $values =  array(
+      'amount[amount]' => '49.95',
+    );
+    $this->drupalPost($path, $values, t('Submit'));
+    $this->assertText('The minimum amount is ', 'An amount above the maximum throws a validation error.');
+  }
+}

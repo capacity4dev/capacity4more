@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * @file
+ * Primarily Drupal hooks and global API functions to add support for the
+ * Better Exposed Filters module.
+ */
+
+/**
+ * Implements hook_mefibs_elements_alter().
+ */
+function mefibs_bef_mefibs_elements_alter(&$elements, $context) {
+  $view = $context['view'];
+  $display_id = $view->current_display;
+  $options = $view->display[$display_id]->handler->get_option('exposed_form');
+  $mefibs = $view->display_handler->get_option('mefibs');
+  if ($options['type'] != 'better_exposed_filters') {
+    return;
+  }
+
+  $bef_settings = $options['options']['bef'];
+
+  // Add needed javascript support for sliders and select links.
+  drupal_add_js(drupal_get_path('module', 'mefibs_bef') . '/mefibs_bef.js');
+
+  // Check if secondary exposed form is present.
+  $use_secondary = isset($bef_settings['general']['allow_secondary']) && $bef_settings['general']['allow_secondary'];
+  if ($use_secondary && in_array($context['block_id'], $mefibs[$display_id]['secondary_form_block'])) {
+    // Make sure it's getting rendered.
+    if ($context['type'] == 'hide_items') {
+      $elements[] = 'secondary';
+    }
+    // Also make sure we know how to handle it.
+    if ($context['type'] == 'expected_items') {
+      // BEF stores the filter names, not the identifiers! So we have to check for ourselves.
+      $exposed_items = mefibs_get_exposed_items($view);
+      foreach($exposed_items['filter'] as $filter_identifier => $filter_name) {
+        if (!isset($bef_settings[$filter_name]['more_options']['is_secondary'])) {
+          continue;
+        }
+        $is_secondary = $bef_settings[$filter_name]['more_options']['is_secondary'];
+        if ($is_secondary) {
+          // It's a filter in the secondary exposed form.
+          $elements['filter'][$filter_identifier] = $filter_name;
+        }
+      }
+    }
+  }
+
+  if (!isset($bef_settings['sort']['advanced']['combine'])) {
+    return;
+  }
+  if (!$bef_settings['sort']['advanced']['combine']) {
+    return;
+  }
+
+  $sort_block = isset($mefibs[$display_id]['sort_block']) && in_array($context['block_id'], $mefibs[$display_id]['sort_block']);
+  if ($context['type'] == 'expected_items' && $sort_block) {
+    $elements['sort'][] = 'sort_bef_combine';
+  }
+  
+  if ($context['type'] == 'hide_items' && $sort_block) {
+    $elements[] = 'sort_bef_combine';
+  }
+}
+
+/**
+ * Implements hook_mefibs_filter_alter().
+ */
+function mefibs_bef_mefibs_filter_alter(&$filters) {
+  // Look for the correct key in the request parameters.
+  foreach ($_REQUEST as $key => $block_id) {
+    if (!is_string($block_id)) {
+      continue;
+    }
+    $prefix = mefibs_get_element_name_prefix($block_id);
+    if ($key == $prefix . '-mefibs_block_id') {
+      if (isset($_REQUEST[$prefix . '-sort_bef_combine'])) {
+        $sort_bef_combine = $_REQUEST[$prefix . '-sort_bef_combine'];
+        $filters['sort_bef_combine'] = $sort_bef_combine;
+        list($filters['sort_by'], $filters['sort_order']) = explode(' ', $filters['sort_bef_combine']);
+        return;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hool_FORM_ID_alter().
+ * 
+ * Change position of the block selector for exposed sort items.
+ */
+function mefibs_bef_form_views_ui_edit_display_form_alter(&$form, $form_state) {
+  $view = $form_state['view'];
+  $display_id = $form_state['display_id'];
+  $section = $form_state['section'];
+  if ($section != 'exposed_form_options') {
+    return;
+  }
+  if (!$view->display_handler->get_option('exposed_block')) {
+    return;
+  }
+  
+  $mefibs = $view->display_handler->get_option('mefibs');
+
+  $blocks = $view->display_handler->extender['mefibs_blocks']->get_enabled_blocks();
+  
+  // Move the sort block selector into the appropriate position in the BEF
+  // settings.
+  $sort_options = &$form['options']['exposed_form_options']['bef']['sort'];
+  $sort_options['bef_format']['#weight'] = 0;
+  $sort_options['advanced']['#weight'] = 2;
+  $sort_options['mefibs_block_sort_bef'] = $form['options']['mefibs_block_sort'];
+  $sort_options['mefibs_block_sort_bef']['#weight'] = 1;
+  $form['options']['mefibs_block_sort']['#access'] = FALSE;
+
+  // Add block selector for the secondary exposed form.
+  $form['options']['exposed_form_options']['bef']['general']['secondary_form_block'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Display secondary exposed form in block'),
+    '#description' => t('Select in which block the secondary exposed from will be displayed. If you do not check any block, the secondary exposed form will be hidden completly.'),
+    '#options' => array('default' => 'default') + drupal_map_assoc(array_keys($blocks)),
+    '#default_value' => isset($mefibs[$display_id]['secondary_form_block']) ? $mefibs[$display_id]['secondary_form_block'] : array(),
+    '#multiple' => TRUE,
+    '#dependency' => array('edit-exposed-form-options-bef-general-allow-secondary' => array(1),)
+  );
+  
+  $form['buttons']['submit']['#validate'][] = 'mefibs_bef_form_views_ui_edit_display_form_validate';
+  $form['buttons']['submit']['#submit'][] = 'mefibs_bef_form_views_ui_edit_display_form_submit';
+}
+
+/**
+ * Custom validate handler for the ui_edit_display form.
+ */
+function mefibs_bef_form_views_ui_edit_display_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  if (isset($values['exposed_form_options']['bef']['sort']['mefibs_block_sort_bef'])) {
+    $block_ids = $values['exposed_form_options']['bef']['sort']['mefibs_block_sort_bef'];
+    form_set_value($form['options']['mefibs_block_sort'], $block_ids, $form_state);
+  }
+}
+
+/**
+ * Custom submit handler for the ui_edit_display form.
+ */
+function mefibs_bef_form_views_ui_edit_display_form_submit($form, &$form_state) {
+  $view = $form_state['view'];
+  $display_id = $form_state['display_id'];
+  $view->set_display($display_id);
+  $values = $form_state['values'];
+  
+  if (isset($values['exposed_form_options']['bef']['general']['secondary_form_block'])) {
+    $block_ids = $values['exposed_form_options']['bef']['general']['secondary_form_block'];
+    $mefibs = $view->display_handler->get_option('mefibs');
+    $mefibs[$display_id]['secondary_form_block'] = array_keys(array_filter($block_ids));
+    $view->display_handler->set_option('mefibs', $mefibs);
+    views_ui_cache_set($view);
+  }
+}

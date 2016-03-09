@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations and shared functions.
+ *
+ * @see CurrenctCurrencyAmountFormElementWebTestCase
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function currency_test_menu() {
+  // The URL path arguments are optional numeric values specifying a minimum
+  // and maximum amount.
+  $items['currency_test-form-element-currency-amount/%/%'] = array(
+    'title' => 'Test the currency_amount form element',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_test_form_currency_amount', 1, 2),
+    'access callback' => TRUE,
+  );
+  $items['currency_test-form-element-currency-locale'] = array(
+    'title' => 'Test the currency_locale form element',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_test_form_currency_locale'),
+    'access callback' => TRUE,
+  );
+  $items['currency_test-form-element-currency-sign'] = array(
+    'title' => 'Test the currency_sign form element',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_test_form_currency_sign', 1, 2),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements form build callback: show a currency_amount element.
+ */
+function currency_test_form_currency_amount(array $form, array &$form_state, $minimum_amount, $maximum_amount, $currency_code = FALSE) {
+  $form['#submit'] = array('currency_test_form_submit');
+  $form['amount'] = array(
+    '#currency_code' => $currency_code,
+    '#type' => 'currency_amount',
+    '#title' => t('Foo amount'),
+    '#minimum_amount' => $minimum_amount,
+    '#maximum_amount' => $maximum_amount,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements form build callback: show a currency_locale element.
+ */
+function currency_test_form_currency_locale(array $form, array &$form_state) {
+  $form['#submit'] = array('currency_test_form_submit');
+  $form['locale'] = array(
+    '#type' => 'currency_locale',
+    '#title' => t('Foo locale'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements form build callback: show a currency_sign element.
+ */
+function currency_test_form_currency_sign(array $form, array &$form_state, $currency_code, $currency_sign) {
+  $form['#submit'] = array('currency_test_form_submit');
+  $form['sign'] = array(
+    '#currency_code' => $currency_code ? $currency_code : FALSE,
+    '#default_value' => $currency_sign,
+    '#type' => 'currency_sign',
+    '#title' => t('Foo sign'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements form submit callback for testing the submission of form elements.
+ */
+function currency_test_form_submit(array $form, array &$form_state) {
+  // Redirect, so we can test whether form errors were thrown.
+  $form_state['redirect'] = 'user';
+  // Display the form element value, so we can test if it is processed.
+  foreach ($form_state['values'] as $name => $value) {
+    drupal_set_message("\$form_state['$name'] = " . var_export($value, TRUE));
+  }
+}

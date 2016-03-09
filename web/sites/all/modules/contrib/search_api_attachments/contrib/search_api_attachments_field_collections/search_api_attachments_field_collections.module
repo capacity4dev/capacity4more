@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Drupal hooks
+ */
+
+/**
+ * Implements hook_search_api_alter_callback_info().
+ */
+function search_api_attachments_field_collections_search_api_alter_callback_info() {
+  $callbacks['search_api_attachments_field_collections_alter_settings'] = array(
+    'name' => t('File attachments Field collections'),
+    'description' => t('Extract the content of attached files of a field collection item and index it.'),
+    'class' => 'SearchApiAttachmentsFieldCollectionsAlterSettings',
+  );
+  return $callbacks;
+}

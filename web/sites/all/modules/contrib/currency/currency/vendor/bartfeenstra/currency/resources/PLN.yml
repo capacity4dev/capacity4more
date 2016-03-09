@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    PLZ: '10000'
+ISO4217Code: PLN
+ISO4217Number: '985'
+sign: zł
+subunits: 100
+title: 'Polish złoty'
+usage:
+    - { ISO8601From: '1995-01-01', ISO8601To: '', ISO3166Code: PL }

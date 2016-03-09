@@ -1,0 +1,69 @@
+<?php
+/**
+ * @file
+ * Drupal update and install hooks.
+ */
+
+/**
+ * Updates the old settings format to the new settings format.
+ */
+function context_block_disable_update_7001(&$sandbox) {
+
+  drupal_load('module', 'block');
+  drupal_load('module', 'ctools');
+  drupal_load('module', 'context');
+
+  $updated = array();
+
+  /*
+    Goes through each context looking for the block_disable context and
+    converts the settings from module -> bid to bid -> block info.
+   */
+
+  $contexts = context_load(NULL, TRUE);
+  foreach ($contexts as $context) {
+
+    if (empty($context->reactions['block_disable']['blocks'])) {
+
+      continue;
+    }
+
+    $new_block_settings = array();
+
+    $reaction_blocks = $context->reactions['block_disable']['blocks'];
+    foreach ($reaction_blocks as $module => $disabled_blocks) {
+
+      foreach ($disabled_blocks as $bid) {
+
+        // $bid is of format module_name-block_delta.
+        $delta = substr($bid, drupal_strlen($module . '-'));
+
+        $block = block_load($module, $delta);
+        if (!empty($block)) {
+
+          $new_block_settings[$bid] = array(
+            'module' => $module,
+            'delta' => $delta,
+            'weight' => $block->weight,
+            'region' => $block->region,
+          );
+        }
+      }
+    }
+
+    $reaction_blocks = $new_block_settings;
+    context_save($context);
+    $updated[] = $context->name;
+  }
+
+  if (empty($updated)) {
+
+    $ret = t('No contexts requiring migration detected');
+  }
+  else {
+
+    $ret = t('The following contexts had theme reaction data migrated: @names', array('@names' => join(', ', $updated)));
+  }
+
+  return $ret;
+}

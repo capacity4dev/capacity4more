@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SRG
+ISO4217Number: '740'
+sign: ƒ
+subunits: 100
+title: 'Surinamese guilder'
+usage:
+    - { ISO8601From: '1940-05-10', ISO8601To: '2003-12-31', ISO3166Code: SR }

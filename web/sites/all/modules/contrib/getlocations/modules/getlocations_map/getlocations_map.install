@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file
+ * getlocations_map.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_map module installation.
+ *
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ */
+function getlocations_map_uninstall() {
+}
+
+/**
+ * Implements hook_enable().
+ *
+ */
+function getlocations_map_enable() {
+
+  drupal_set_message(st('Thank you for installing Getlocations Map.'), 'status');
+
+}
+
+/**
+ * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ *
+ * All implementations of hook_field_schema() must be in the module's
+ * .install file.
+ *
+ * @see http://drupal.org/node/146939
+ * @see http://drupal.org/developing/api/schema
+ */
+function getlocations_map_field_schema($field) {
+
+  switch ($field['type']) {
+    case 'getlocations_map':
+      $columns = array(
+        'locative_field_name' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'default' => '',
+          'not null' => TRUE,
+        ),
+      );
+      break;
+  }
+  return array(
+    'columns' => $columns,
+    'indexes' => array('locative_field_name' => array('locative_field_name')),
+  );
+
+}

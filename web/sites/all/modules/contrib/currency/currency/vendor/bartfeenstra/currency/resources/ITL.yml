@@ -1,0 +1,12 @@
+alternativeSigns: {  }
+exchangeRates:
+    VAL: '1'
+ISO4217Code: ITL
+ISO4217Number: '380'
+sign: ₤
+subunits: 100
+title: 'Italian lira'
+usage:
+    - { ISO8601From: '1862-08-24', ISO8601To: '2002-02-28', ISO3166Code: IT }
+    - { ISO8601From: '1865-12-23', ISO8601To: '2001-02-28', ISO3166Code: SM }
+    - { ISO8601From: '1870-10-19', ISO8601To: '2002-02-28', ISO3166Code: VA }

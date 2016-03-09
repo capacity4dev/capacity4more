@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: XFU
+ISO4217Number: Nil
+sign: ¤
+subunits: 0
+title: 'UIC franc'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: ZZ }

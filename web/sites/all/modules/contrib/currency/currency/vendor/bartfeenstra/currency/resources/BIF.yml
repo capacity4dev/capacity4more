@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: BIF
+ISO4217Number: '108'
+sign: FBu
+subunits: 100
+title: 'Burundian franc'
+usage:
+    - { ISO8601From: '1964-05-19', ISO8601To: '', ISO3166Code: BI }

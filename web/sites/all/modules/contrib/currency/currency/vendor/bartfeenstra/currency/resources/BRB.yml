@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    BRZ: '1000'
+ISO4217Code: BRB
+ISO4217Number: null
+sign: ₢
+subunits: 100
+title: 'Brazilian cruzeiro novo'
+usage:
+    - { ISO8601From: '1967-02-13', ISO8601To: '1986-02-28', ISO3166Code: BR }

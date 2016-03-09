@@ -1,0 +1,237 @@
+<?php
+
+/**
+ * @file
+ * Contains RestfulEntityAndPropertyAccessTestCase
+ */
+
+class RestfulEntityAndPropertyAccessTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Entity and property access',
+      'description' => 'Test access for the entity and the properties.',
+      'group' => 'RESTful',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('restful_test');
+  }
+
+  /**
+   * Test access control for creating an entity.
+   */
+  function testCreateAccess() {
+    $handler = restful_get_restful_handler('test_articles');
+    $request = array('label' => $this->randomName());
+
+    // Non-privileged user.
+    $user1 = $this->drupalCreateUser();
+    try {
+      $handler->setAccount($user1);
+      $handler->post('', $request);
+      $this->fail('Non-privileged user can create entity.');
+    }
+    catch (Exception $e) {
+      $this->pass('Non-privileged user cannot create entity.');
+    }
+
+    // Privileged user.
+    $user2 = $this->drupalCreateUser(array('create article content'));
+    $handler->setAccount($user2);
+    $result = $handler->post('', $request);
+    $this->assertTrue($result[0], 'Privileged user can create entity.');
+
+    // Privileged user, with limited access to property.
+    restful_test_deny_access_field();
+    $handler->setAccount($user2);
+    $result = $handler->post('', $request);
+    $this->assertTrue($result[0], 'Privileged user can create entity, with limited access to property.');
+
+    // Privileged user, with limited access to property, and that property
+    // passed in the request.
+    $text1 = $this->randomName();
+    $request['body'] = $text1;
+
+    try {
+      $handler->setAccount($user1);
+      $handler->post('', $request);
+      $this->fail('Non-privileged user can create entity with unaccessible property that was passed in the request.');
+    }
+    catch (Exception $e) {
+      $this->pass('Non-privileged user cannot create entity with unaccessible property that was passed in the request.');
+    }
+    restful_test_clear_access_field();
+  }
+
+  /**
+   * Test access control for updating an entity.
+   */
+  function testUpdateAccess() {
+    $label = $this->randomName();
+    $new_label = $this->randomName();
+
+    $settings = array(
+      'type' => 'article',
+      'title' => $label,
+    );
+
+    $node = $this->drupalCreateNode($settings);
+    $id = $node->nid;
+
+    $handler = restful_get_restful_handler('test_articles');
+    $request = array('label' => $new_label);
+
+    // Non-privileged user.
+    $user1 = $this->drupalCreateUser();
+    try {
+      $handler->setAccount($user1);
+      $handler->put($id, $request);
+      $this->fail('Non-privileged user can update entity.');
+    }
+    catch (Exception $e) {
+      $this->pass('Non-privileged user cannot update entity.');
+    }
+
+    // Privileged user.
+    $user2 = $this->drupalCreateUser(array('edit any article content'));
+    $handler->setAccount($user2);
+    $result = $handler->put($id, $request);
+    $this->assertTrue($result[0], 'Privileged user can update entity.');
+    $this->assertEqual($result[0]['id'], $id, 'Updated entity has the same entity ID.');
+    $this->assertEqual($result[0]['label'], $new_label, 'Entity label was updated.');
+
+    // Privileged user, with limited access to property.
+    restful_test_deny_access_field();
+    $handler->setAccount($user2);
+    $result = $handler->put($id, $request);
+    $this->assertTrue($result[0], 'Privileged user can update entity, with limited access to property.');
+
+    // Privileged user, with limited access to property, and that property
+    // passed in the request.
+    $text1 = $this->randomName();
+    $request['body'] = $text1;
+
+    try {
+      $handler->setAccount($user1);
+      $handler->put($id, $request);
+      $this->fail('Non-privileged user can update entity with unaccessible property that was passed in the request.');
+    }
+    catch (Exception $e) {
+      $this->pass('Non-privileged user cannot update entity with unaccessible property that was passed in the request.');
+    }
+    restful_test_clear_access_field();
+  }
+
+  /**
+   * Test access control for viewing an entity.
+   */
+  function testViewAccess() {
+    $user1 = $this->drupalCreateUser();
+    $label = $this->randomName();
+    $settings = array(
+      'type' => 'article',
+      'title' => $label,
+      'uid' => $user1->uid,
+    );
+    $node1 = $this->drupalCreateNode($settings);
+    $wrapper = entity_metadata_wrapper('node' ,$node1);
+
+    $text1 = $this->randomName();
+    $wrapper->body->set(array('value' => $text1));
+    $wrapper->save();
+
+    $handler = restful_get_restful_handler('test_articles');
+
+    // Privileged user.
+    $handler->setAccount($user1);
+    $response = $handler->get($node1->nid, array());
+    $result = $response[0];
+    $this->assertTrue($result['body'], 'Privileged user can view entity.');
+
+    // Privileged user, with limited access to property.
+    restful_test_deny_access_field();
+    $handler->setAccount($user1);
+    $result = $handler->get($node1->nid, array());
+    $this->assertTrue(!isset($result['body']), 'Privileged user can view entity but without unaccessible properties.');
+    restful_test_clear_access_field();
+
+    // Non-privileged user (Revoke "access content" permission).
+    user_role_revoke_permissions(DRUPAL_ANONYMOUS_RID, array('access content'));
+    $user2 = drupal_anonymous_user();
+    try {
+      $handler->setAccount($user2);
+      $handler->get($node1->nid, array());
+      $this->fail('Non-privileged user can view entity.');
+    }
+    catch (Exception $e) {
+      $this->pass('Non-privileged user cannot view entity.');
+    }
+  }
+
+  /**
+   * Tests custom access callbacks at the resource method level.
+   */
+  public function testEndPointAccessCallback() {
+    $settings = array(
+      'type' => 'article',
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    $handler = restful_get_restful_handler('test_articles', 1, 3);
+    try {
+      $handler->get($node->nid);
+      $this->fail('Custom access callback per resource\'s method not executed correctly.');
+    }
+    catch (\RestfulForbiddenException $e) {
+      $this->pass('Custom access callback per endpoint executed correctly.');
+    }
+
+    $handler->head($node->nid);
+    $this->pass('Custom access callback per endpoint executed correctly.');
+  }
+
+  /**
+   * Test access callback per public field.
+   */
+  public function testPublicFieldAccess() {
+    $settings = array(
+      'title' => 'no access',
+      'type' => 'article',
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    $handler = restful_get_restful_handler('test_articles');
+
+    $result = $handler->get($node->nid);
+    $this->assertTrue($result[0]['label'], 'Label access is allowed without access callback.');
+
+    $public_fields = $handler->getPublicFields();
+    $public_fields['label']['access_callbacks'][] = array($this, 'publicFieldAccessFalse');
+    $handler->setPublicFields($public_fields);
+
+    $result = $handler->get($node->nid);
+    $this->assertTrue(empty($result[0]['label']), 'Label access is denied with access callback.');
+  }
+
+  /**
+   * An access callback that returns TRUE if title is "access". Otherwise FALSE.
+   *
+   * @param string $op
+   *   The operation that access should be checked for. Can be "view" or "edit".
+   *   Defaults to "edit".
+   * @param string $public_field_name
+   *   The name of the public field.
+   * @param EntityMetadataWrapper $property_wrapper
+   *   The wrapped property.
+   * @param EntityMetadataWrapper $wrapper
+   *   The wrapped entity.
+   *
+   * @return string
+   *   "Allow" or "Deny" if user has access to the property.
+   */
+  public static function publicFieldAccessFalse($op, $public_field_name, \EntityMetadataWrapper $property_wrapper, \EntityMetadataWrapper $wrapper) {
+    return $wrapper->label() == 'access' ? \RestfulInterface::ACCESS_ALLOW : \RestfulInterface::ACCESS_DENY;
+  }
+}

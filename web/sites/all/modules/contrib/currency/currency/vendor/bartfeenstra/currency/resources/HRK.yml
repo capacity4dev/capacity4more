@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    HRD: '1000'
+ISO4217Code: HRK
+ISO4217Number: '191'
+sign: kn
+subunits: 100
+title: 'Croatian kuna'
+usage:
+    - { ISO8601From: '1994-05-30', ISO8601To: '', ISO3166Code: HR }

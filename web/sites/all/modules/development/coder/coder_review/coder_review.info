@@ -1,0 +1,13 @@
+name = Coder Review
+description = "Developer module" which reviews your code identifying coding style problems and where updates to the API are required.
+package = Development
+core = 7.x
+dependencies[] = coder
+configure = admin/config/development/coder/review
+
+; Information added by Drupal.org packaging script on 2015-12-05
+version = "7.x-2.x-dev"
+core = "7.x"
+project = "coder"
+datestamp = "1449320350"
+

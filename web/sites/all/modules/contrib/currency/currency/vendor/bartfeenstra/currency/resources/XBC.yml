@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: XBC
+ISO4217Number: '957'
+sign: ¤
+subunits: 0
+title: 'Bond Markets Unit European Unit of Account 9 (E.U.A.-9)'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: ZZ }

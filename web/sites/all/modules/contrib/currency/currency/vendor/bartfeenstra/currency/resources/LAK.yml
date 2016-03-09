@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: LAK
+ISO4217Number: '418'
+sign: ₭
+subunits: 100
+title: 'Lao kip'
+usage:
+    - { ISO8601From: '1979-12-10', ISO8601To: '', ISO3166Code: LA }

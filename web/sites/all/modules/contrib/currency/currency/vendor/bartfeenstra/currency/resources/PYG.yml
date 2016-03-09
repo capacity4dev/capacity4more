@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: PYG
+ISO4217Number: '600'
+sign: ₲
+subunits: 100
+title: 'Paraguayan guaraní'
+usage:
+    - { ISO8601From: '1943-11-01', ISO8601To: '', ISO3166Code: PY }

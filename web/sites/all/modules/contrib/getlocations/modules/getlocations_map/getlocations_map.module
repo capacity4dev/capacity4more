@@ -1,0 +1,963 @@
+<?php
+
+/**
+ * @file
+ * getlocations_map.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides Field module integration for a Getlocations map
+ *
+ *
+ */
+
+define('GETLOCATIONS_MAP_PATH', drupal_get_path('module', 'getlocations_map'));
+
+/**
+ * Implements hook_help().
+ */
+function getlocations_map_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#getlocations':
+      $output = '<p>' . t('Provides a getlocations map field type.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_field_info().
+ * Define Field API field types.
+ *
+ * @return
+ *   An array whose keys are field type names and whose values are arrays
+ *   describing the field type.
+ */
+function getlocations_map_field_info() {
+
+  $info = array(
+    'getlocations_map' => array(
+      'label' => t('Getlocations Map'),
+      'description' => t('Provide Getlocations Map.'),
+      'default_formatter' => 'getlocations_map_default',
+      'default_widget' => 'getlocations_map',
+      'settings' => array(
+        'input_text' => 0,
+      ),
+    )
+  );
+  return $info;
+
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * Declare information about a formatter.
+ *
+ * @return
+ *   An array keyed by formatter name. Each element of the array is an associative
+ *   array with these keys and values:
+ *   - "label": The human-readable label for the formatter.
+ *   - "field types": An array of field type names that can be displayed using
+ *     this formatter.
+ *
+ */
+function getlocations_map_field_formatter_info() {
+
+  $formatters = array(
+    'getlocations_map_default' => array(
+      'label' => t('Getlocations Map Field'),
+      'field types' => array('getlocations_map'),
+      'settings' => getlocations_map_map_formatter_defaults(),
+    ),
+    'getlocations_map_link' => array(
+      'label' => t('Getlocations Link Field'),
+      'field types' => array('getlocations_map'),
+      'settings' => getlocations_map_link_formatter_defaults(),
+    ),
+  );
+  return $formatters;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ * Build a renderable array for a field value.
+ *
+ * @param $entity_type
+ *   The type of $entity.
+ * @param $entity
+ *   The entity being displayed.
+ * @param $field
+ *   The field structure.
+ * @param $instance
+ *   The field instance.
+ * @param $langcode
+ *   The language associated with $items.
+ * @param $items
+ *   Array of values for this field.
+ * @param $display
+ *   The display settings to use, as found in the 'display' entry of instance definitions.
+ * @return
+ *   A renderable array for the $items, as an array of child elements keyed
+ *   by numeric indexes starting from 0.
+ *
+ */
+function getlocations_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  drupal_add_css(GETLOCATIONS_MAP_PATH . '/getlocations_map.css');
+  global $language;
+  $lang = ($langcode ? $langcode : ($entity->language ? $entity->language : $language->language));
+  $locative_field_name = (isset($items[0]['locative_field_name']) ? $items[0]['locative_field_name'] : '');
+  if (empty($locative_field_name) || ! isset($entity->{$locative_field_name}[$lang])) {
+    return;
+  }
+  $locative_fields = $entity->{$locative_field_name}[$lang];
+  if (! (is_array($locative_fields) && count($locative_fields) > 0)) {
+    return;
+  }
+  $settings = $display['settings'];
+  $element = array();
+
+  switch ($display['type']) {
+    case 'getlocations_map_default':
+
+      $module = getlocations_get_current_supported_module();
+      $bundle = $instance['bundle'];
+      $minmaxes = '';
+      // marker
+      $marker = '';
+      if (empty($settings)) {
+        $settings = getlocations_map_map_formatter_defaults();
+      }
+      $default_settings = getlocations_map_map_formatter_defaults();
+      $default = getlocations_adjust_vars($default_settings, $settings);
+
+      $marker = (isset($default['node_map_marker']) ? $default['node_map_marker'] : '');
+      if ($entity_type == 'node') {
+        $getlocations_node_marker = variable_get('getlocations_node_marker', array('enable' => 0));
+        if ($getlocations_node_marker['enable']) {
+          if ($types = getlocations_get_types()) {
+            foreach ($types AS $type => $name) {
+              if ($type == $bundle) {
+                $field_names = getlocations_get_fieldname2($type, 'node');
+                foreach ($field_names AS $field_name) {
+                  if ($field_name == $locative_field_name) {
+                    $marker = (isset($getlocations_node_marker['content_type'][$type]['field_name'][$field_name]['map_marker']) ? $getlocations_node_marker['content_type'][$type]['field_name'][$field_name]['map_marker'] : '');
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      elseif ($entity_type == 'user') {
+        $marker = (isset($default['user_map_marker']) ? $default['user_map_marker'] : '');
+      }
+      elseif ($entity_type == 'taxonomy_term') {
+      // TODO needs testing
+//////
+        if (module_exists('taxonomy')) {
+          // vocabulary markers
+          if ($types = getlocations_get_vocabularies()) {
+            $getlocations_vocabulary_marker = variable_get('getlocations_vocabulary_marker', array('enable' => 0));
+            if ($getlocations_vocabulary_marker['enable']) {
+              foreach ($types AS $type => $name) {
+                $field_name = getlocations_get_fieldname($type, 'taxonomy_term');
+
+                if ($field_name == $locative_field_name) {
+                  $marker = (isset($getlocations_vocabulary_marker['vocabulary'][$type]['map_marker']) ? $getlocations_vocabulary_marker['vocabulary'][$type]['map_marker'] : $default['vocabulary_map_marker']);
+                }
+              }
+            }
+          }
+
+          // term markers
+          $getlocations_term_marker = variable_get('getlocations_term_marker', array('enable' => 0, 'vids' => 0, 'max_depth' => ''));
+          if ($getlocations_term_marker['enable'] && $getlocations_term_marker['vids']) {
+            $depth = is_numeric($getlocations_term_marker['max_depth']) && $getlocations_term_marker['max_depth'] > 0 ? $getlocations_term_marker['max_depth'] : NULL;
+            $vids = $getlocations_term_marker['vids'];
+            foreach ($vids AS $vid) {
+              $terms = taxonomy_get_tree($vid, 0, $depth);
+              foreach ($terms AS $term) {
+                $tid = $term->tid;
+
+                $marker = (isset($getlocations_term_marker['vid'][$vid]['term'][$tid]['map_marker']) ? $getlocations_term_marker['vid'][$vid]['term'][$tid]['map_marker'] : $default['term_map_marker']);
+
+              }
+            }
+          }
+        }
+
+//////
+      }
+      elseif ($entity_type == 'comment') {
+        $marker = (isset($default['comment_map_marker']) ? $default['comment_map_marker'] : '');
+      }
+
+      // fetch lats and lons
+      $ct = 0;
+      foreach (array_keys($locative_fields) AS $delta) {
+        $title = '';
+        if ($module == 'getlocations_fields') {
+          if (isset($entity->{$locative_field_name}[$lang][$delta])) {
+            if ($location = $entity->{$locative_field_name}[$lang][$delta]) {
+              $lat = $location['latitude'];
+              $lon = $location['longitude'];
+              // per item marker
+              if (isset($location['marker']) && ! empty($location['marker'])) {
+                $marker = $location['marker'];
+              }
+              if (isset($location['name']) && ! empty($location['name'])) {
+                $title = $location['name'];
+              }
+            }
+          }
+
+          // smuggle these in from location data
+          // streetview_ settings
+          if (isset($location['streetview_settings_allow'])) {
+            $streetview_settings_allow = $location['streetview_settings_allow'];
+          }
+          else {
+            $streetview_settings_allow = getlocations_fields_streetview_settings_allow();
+          }
+          if ($streetview_settings_allow) {
+
+            if (isset($location['sv_heading']) && is_numeric($location['sv_heading'])) {
+              $default['sv_heading'] = $location['sv_heading'];
+            }
+            if (isset($location['sv_zoom']) && is_numeric($location['sv_zoom'])) {
+              $default['sv_zoom'] = $location['sv_zoom'];
+            }
+            if (isset($location['sv_pitch']) && is_numeric($location['sv_pitch'])) {
+              $default['sv_pitch'] = $location['sv_pitch'];
+            }
+            if (isset($location['sv_showfirst']) && is_numeric($location['sv_showfirst'])) {
+              $default['sv_showfirst'] = $location['sv_showfirst'];
+            }
+            // streetview display settings
+            $display_settings_defaults = getlocations_fields_get_display_settings_defaults();
+            foreach ($display_settings_defaults AS $dkey => $dval) {
+              if (isset($location[$dkey])) {
+                $default[$dkey] = $location[$dkey];
+              }
+              else {
+                $default[$dkey] = $dval;
+              }
+            }
+          }
+
+          // map_settings
+          if (isset($location['map_settings_allow'])) {
+            $map_settings_allow = $location['map_settings_allow'];
+          }
+          else {
+            $map_settings_allow = getlocations_fields_map_settings_allow();
+          }
+          if ($map_settings_allow) {
+            if (isset($location['mapzoom']) && is_numeric($location['mapzoom'])) {
+              $default['nodezoom'] = $location['mapzoom'];
+            }
+            if (isset($location['map_maptype']) && $location['map_maptype']) {
+              $default['maptype'] = $location['map_maptype'];
+            }
+            // update baselayers
+            $default['baselayers'][$location['map_maptype']] = 1;
+
+          }
+        }
+        elseif ($module == 'location_cck') {
+          if (isset($entity->{$locative_field_name}[$lang][$delta])) {
+            if ($location = $entity->{$locative_field_name}[$lang][$delta]) {
+              $lat = $location['latitude'];
+              $lon = $location['longitude'];
+              if (isset($location['name']) && ! empty($location['name'])) {
+                $title = $location['name'];
+              }
+            }
+          }
+        }
+        elseif ($module == 'geofield') {
+          if ($location = $entity->{$locative_field_name}[$lang][$delta]) {
+            $lat = $location['lat'];
+            $lon = $location['lon'];
+          }
+        }
+        elseif ($module == 'geolocation') {
+          if ($location = $entity->{$locative_field_name}[$lang][$delta]) {
+            $lat = $location['lat'];
+            $lon = $location['lng'];
+          }
+        }
+        # elseif other modules here
+
+        if (isset($lat) && ! empty($lat) && isset($lon) && ! empty($lon)  && $latlon = getlocations_latlon_check($lat . ',' . $lon)) {
+          $ll = explode(',', $latlon);
+          $location['latitude'] = $ll[0];
+          $location['longitude'] = $ll[1];
+          $entity_get_info = entity_get_info($entity_type);
+          $entity_key = $entity_get_info['entity keys']['id']; // nid, cid, uid etc
+          $entity_id = $entity->{$entity_key};
+          if (empty($title)) {
+            $title = (isset($entity->title) ? $entity->title : '');
+          }
+          $title = htmlspecialchars_decode(strip_tags($title), ENT_QUOTES);
+          $minmaxes = getlocations_do_minmaxes($ct, $location, $minmaxes);
+          $latlons[] = array($lat, $lon, $entity_id, $title, $marker, $entity_key, '', '');
+          $ct++;
+        } // end lat lon check
+      } // end foreach
+
+      $mapid = getlocations_setup_map($default);
+
+      if ($ct < 2 ) {
+        unset($minmaxes);
+        $minmaxes = '';
+      }
+
+      getlocations_js_settings_do($default, $latlons, $minmaxes, $mapid);
+      $element[$delta] = array(
+        '#theme' => 'getlocations_show',
+        '#width' => $default['width'],
+        '#height' => $default['height'],
+        '#defaults' => $default,
+        '#mapid' => $mapid,
+        '#latlons' => $latlons,
+        '#minmaxes' => $minmaxes,
+        '#type' => '',
+        '#node' => '',
+      );
+
+      break;
+
+    case 'getlocations_map_link':
+
+      if (empty($settings) || ! isset($settings['text'])) {
+        $settings = getlocations_map_link_formatter_defaults();
+      }
+      foreach (array_keys($locative_fields) AS $delta) {
+        $entity_get_info = entity_get_info($entity_type);
+        $entity_key = $entity_get_info['entity keys']['id']; // nid, cid, uid etc
+        $entity_id = $entity->{$entity_key};
+        $link_text = $settings['text'];
+        if ($settings['text_opt'] == 'page') {
+          $entity_title = '';
+          if (isset($entity_get_info['entity keys']['label'])) {
+            $entity_title = $entity_get_info['entity keys']['label'];
+          }
+          elseif ($entity_type == 'user') {
+            $entity_title = 'name';
+          }
+          if ($entity_title && isset($entity->{$entity_title})) {
+            $link_text = $entity->{$entity_title};
+          }
+        }
+
+        $element[$delta] = array(
+          '#theme' => 'getlocations_map_link',
+          '#link_text' => $link_text,
+          '#entity_type' => $entity_type,
+          '#entity_id' => $entity_id,
+        );
+      }
+
+      break;
+  } // end switch
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ * Returns a short summary for the current formatter settings of an instance.
+ *
+ *
+ * If an empty result is returned, the formatter is assumed to have no
+ * configurable settings, and no UI will be provided to display a settings
+ * form.
+ *
+ *   The field structure.
+ * @param $instance
+ *   The instance structure.
+ * @param $view_mode
+ *   The view mode for which a settings summary is requested.
+ *
+ * @return
+ *   A string containing a short summary of the formatter settings.
+ */
+function getlocations_map_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = array();
+
+  switch ($display['type']) {
+    case 'getlocations_map_default':
+      $default_settings = getlocations_map_map_formatter_defaults();
+      $summary[] = t('Getlocations Map Field settings');
+
+      if ($settings['pancontrol']) {
+        $summary[] = t('Show Pan control: Yes');
+      }
+      if ($settings['mtc']) {
+        $summary[] = t('Map control type: @c', array('@c' => $settings['mtc']));
+      }
+      if ($settings['maptype']) {
+        $summary[] = t('Default map type: @c', array('@c' => $settings['maptype']));
+      }
+      $types = array();
+      foreach ($settings['baselayers'] AS $key => $value) {
+        if ($value) {
+          $types[] = $key;
+        }
+      }
+      if (count($types)) {
+        $m = implode(', ', $types);
+        $summary[] = t('Enabled map types: @m', array('@m' => $m));
+      }
+
+      if ($settings['scale']) {
+        $summary[] = t('Show scale: Yes');
+      }
+      if ($settings['overview']) {
+        $summary[] = t('Show overview map: Yes');
+      }
+      if ($settings['scrollwheel']) {
+        $summary[] = t('Enable scrollwheel zooming: Yes');
+      }
+      if ($settings['draggable']) {
+        $summary[] = t('Enable dragging the map: Yes');
+      }
+      if ($settings['sv_show']) {
+        $summary[] = t('Show streetview pegman: Yes');
+      }
+      if ($settings['sv_showfirst']) {
+        $summary[] = t('Show streetview first: Yes');
+      }
+      if ($settings['fullscreen']) {
+        $summary[] = t('Show Fullscreen button: Yes');
+      }
+      if ($settings['show_bubble_on_one_marker']) {
+        $summary[] = t('Show bubble on one marker: Yes');
+      }
+
+      $info_display = array();
+      if ($settings['trafficinfo']) {
+        $info_display[] = t('Traffic');
+      }
+      if ($settings['bicycleinfo']) {
+        $info_display[] = t('Bicycling');
+      }
+      if ($settings['transitinfo']) {
+        $info_display[] = t('Transit');
+      }
+      if ($settings['panoramio_show']) {
+        $info_display[] = t('Panoramio');
+      }
+      if ($settings['poi_show']) {
+        $info_display[] = t('Points of Interest');
+      }
+      if ($settings['transit_show']) {
+        $info_display[] = t('Transit Points');
+      }
+      if (count($info_display)) {
+        $summary[] = t("Enabled information layers:") . '<br />' . implode(', ', $info_display);
+      }
+      if ($settings['map_backgroundcolor']) {
+        $summary[] = t('Map background color: @c', array('@c' => $settings['map_backgroundcolor']));
+      }
+
+      if ($settings['markeraction'] > 0) {
+        if ($settings['markeraction'] == 1) {
+          $msg = t('InfoWindow');
+        }
+        elseif ($settings['markeraction'] == 2) {
+          $msg = t('InfoBubble');
+        }
+        else {
+          $msg = t('Link');
+        }
+        if ($settings['markeractiontype'] == 2) {
+          $msg2 = t('Mouse over');
+        }
+        else {
+          $msg2 = t('Click');
+        }
+        $summary[] = t('Marker action: @a on @b', array('@a' => $msg, '@b' => $msg2));
+      }
+      $summary[] = t('Zoom level: @z', array('@z' => $settings['nodezoom']));
+      if ($settings['polygons_enable']) {
+        $summary[] = t('Enable polygons: Yes');
+        if ($settings['polygons_clickable']) {
+          $summary[] = t('Polygons clickable: Yes');
+        }
+      }
+      if ($settings['rectangles_enable']) {
+        $summary[] = t('Enable rectangles: Yes');
+        if ($settings['rectangles_clickable']) {
+          $summary[] = t('Rectangles clickable: Yes');
+        }
+      }
+      if ($settings['circles_enable']) {
+        $summary[] = t('Enable circles: Yes');
+        if ($settings['circles_clickable']) {
+          $summary[] = t('Circles clickable: Yes');
+        }
+      }
+      if ($settings['polylines_enable']) {
+        $summary[] = t('Enable polylines: Yes');
+        if ($settings['polylines_clickable']) {
+          $summary[] = t('Polylines clickable: Yes');
+        }
+      }
+      // search_places
+      if ($settings['search_places']) {
+        $summary[] = t('Enable Search Places: Yes');
+      }
+
+      break;
+    case 'getlocations_map_link':
+      $default_settings = getlocations_map_link_formatter_defaults();
+      $summary[] = t('Link Formatter settings');
+      $summary[] = t('Text: %t', array('%t' => $settings['text']));
+      $summary[] = t('Option: %o', array('%o' => $default_settings['text_options'][$settings['text_opt']]));
+      break;
+  }
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ * Returns form elements for a formatter's settings.
+ *
+ * @param $field
+ *   The field structure being configured.
+ * @param $instance
+ *   The instance structure being configured.
+ * @param $view_mode
+ *   The view mode being configured.
+ * @param $form
+ *   The (entire) configuration form array, which will usually have no use here.
+ * @param $form_state
+ *   The form state of the (entire) configuration form.
+ *
+ * @return
+ *   The form elements for the formatter settings.
+ */
+function getlocations_map_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  drupal_add_js(GETLOCATIONS_MAP_PATH . '/js/getlocations_map_formatter.js');
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+  switch ($display['type']) {
+    case 'getlocations_map_default':
+      $getlocations_map_defaults = getlocations_map_defaults();
+      if (empty($settings)) {
+        $settings = $getlocations_map_defaults;
+      }
+      $element += getlocations_map_display_basics_form($settings);
+      $element['width']['#element_validate'] = array('getlocations_element_validate_dim');
+      $element['height']['#element_validate'] = array('getlocations_element_validate_dim');
+      $element['latlong']['#element_validate'] = array('getlocations_element_validate_latlon');
+
+      $element['nodezoom'] = getlocations_element_map_zoom(
+        t('Default Zoom for Single location'),
+        $settings['nodezoom'],
+        t('The Default zoom level for a single marker.')
+      );
+
+      $element += getlocations_map_display_options_form($settings, FALSE, TRUE);
+      break;
+    case 'getlocations_map_link':
+      $element['text'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Default text'),
+        '#description' => t('The text to use if no other option is available.'),
+        '#default_value' => $settings['text'],
+        '#size' => 25,
+      );
+      $element['text_opt'] = array(
+        '#type' => 'select',
+        '#title' => t('Display format'),
+        '#default_value' => $settings['text_opt'],
+        '#options' => $settings['text_options'],
+      );
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ * Expose Field API widget types.
+ *
+ * @return
+ *   An array describing the widget types implemented by the module.
+ *
+ */
+function getlocations_map_field_widget_info() {
+  $info = array(
+    'getlocations_map_default' => array(
+      'label' => t('Getlocations Map Field'),
+      'field types' => array('getlocations_map'),
+      'settings' => array(),
+    ),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_field_widget_form().
+ * Return the form for a single field widget.
+ *
+ * @param $form
+ *   The form structure where widgets are being attached to. This might be a
+ *   full form structure, or a sub-element of a larger form.
+ * @param $form_state
+ *   An associative array containing the current state of the form.
+ * @param $field
+ *   The field structure.
+ * @param $instance
+ *   The field instance.
+ * @param $langcode
+ *   The language associated with $items.
+ * @param $items
+ *   Array of default values for this field.
+ * @param $delta
+ *   The order of this item in the array of subelements (0, 1, 2, etc).
+ * @param $element
+ *   A form element array containing basic properties for the widget.
+ * @return
+ *   The form elements for a single widget for this field.
+ */
+function getlocations_map_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+
+  switch ($instance['widget']['type']) {
+    case 'getlocations_map_default':
+
+      // is this real or a demo in settings
+      $active = TRUE;
+      if (empty($element['#entity'])) {
+        $active = FALSE;
+      }
+
+      $entity_type = $element['#entity_type'];
+      $bundle = $element['#bundle'];
+      $module = getlocations_get_current_supported_module();
+      $fieldnames = array();
+      $query = db_select('field_config', 'f');
+      $query->fields('i', array('field_name', 'data'));
+      $query->join('field_config_instance', 'i', 'f.id=i.field_id');
+      $query->condition('i.bundle', $bundle)
+        ->condition('f.module', $module)
+        ->condition('i.entity_type', $entity_type)
+        ->condition('f.active', 1);
+      $rows = $query->execute();
+      foreach ($rows AS $row) {
+        $data = unserialize($row->data);
+        $fieldnames[$row->field_name] = $data['label'];
+      }
+
+      $cardinality = $field['cardinality'];
+      $settings = $field['settings'];
+      // Wrap in a fieldset for single fields
+      if ($cardinality == 1) {
+        $element['#type'] = 'fieldset';
+        $element['#collapsible'] = TRUE;
+        $element['#collapsed'] = FALSE;
+      }
+
+      if (! empty($fieldnames)) {
+        $element['#delta'] = $delta;
+        $dval = (isset($items[$delta]['locative_field_name']) ? $items[$delta]['locative_field_name'] : (isset($instance['default_value'][$delta]['locative_field_name']) ? $instance['default_value'][$delta]['locative_field_name'] : ''));
+        if ($active && module_exists('views_bulk_operations') && isset($settings['input_text']) && $settings['input_text']) {
+          $element['locative_field_name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Location Field'),
+            '#description' => t('Field to take locative data from'),
+            '#default_value' => $dval,
+            '#size' => 30,
+          );
+        }
+        else {
+          // items only see which field, no choice
+          if ($active && $dval) {
+            $element['locative_field_name'] = array('#type' => 'value', '#value' => $dval);
+            $element['locative_field_name_markup'] = array('#markup' => '<p>' . t('Locative data taken from !f', array('!f' => $fieldnames[$dval])) . '</p>');
+          }
+          else {
+            $element['locative_field_name'] = array(
+              '#type' => 'select',
+              '#title' => t('Location Field'),
+              '#options' => $fieldnames,
+              '#description' => t('Field to take locative data from'),
+              '#default_value' => $dval,
+            );
+          }
+        }
+      }
+      else {
+        if (! $active) {
+          $element['some_info'] = array(
+            '#type' => 'markup',
+            '#markup' => '<p>' . t('You must attach an instance of !m', array('!m' => $module))
+          );
+        }
+      }
+
+      break;
+  }
+  return $element;
+
+}
+
+/**
+ * Implements hook_field_widget_error().
+ *
+ * hook_field_widget_error() lets us figure out what to do with errors
+ * we might have generated in hook_field_validate(). Generally, we'll just
+ * call form_error().
+ *
+ */
+function getlocations_map_field_widget_error($element, $error, $form, &$form_state) {
+  switch ($error['error']) {
+    case 'getlocations_map_field_invalid':
+      form_error($element, $error['message']);
+      break;
+  }
+
+}
+
+/**
+ * Implements hook_field_is_empty().
+ * Define what constitutes an empty item for a field type.
+ * hook_field_is_emtpy() is where Drupal asks us if this field is empty.
+ * Return TRUE if it does not contain data, FALSE if it does. This lets
+ * the form API flag an error when required fields are empty.
+ *
+ * @param $item
+ *   An item that may or may not be empty.
+ * @param $field
+ *   The field to which $item belongs.
+ * @return
+ *   TRUE if $field's type considers $item not to contain any data;
+ *   FALSE otherwise.
+ */
+function getlocations_map_field_is_empty($item, $field) {
+  return FALSE;
+}
+
+
+function getlocations_map_defaults() {
+  $getlocations_defaults = getlocations_defaults();
+  $defaults = array(
+    'width'                         => $getlocations_defaults['width'],
+    'height'                        => $getlocations_defaults['height'],
+    'map_resize'                    => $getlocations_defaults['map_resize'],
+    'fullscreen_disable'            => $getlocations_defaults['fullscreen_disable'],
+    'styles'                        => $getlocations_defaults['styles'],
+    'latlong'                       => $getlocations_defaults['latlong'],
+    'zoom'                          => $getlocations_defaults['zoom'],
+    'minzoom_map'                   => $getlocations_defaults['minzoom_map'],
+    'maxzoom_map'                   => $getlocations_defaults['maxzoom_map'],
+    'maptype'                       => $getlocations_defaults['maptype'],
+    'mtc'                           => $getlocations_defaults['mtc'],
+    'baselayers'                    => $getlocations_defaults['baselayers'],
+    'scale'                         => $getlocations_defaults['scale'],
+    'overview'                      => $getlocations_defaults['overview'],
+    'overview_opened'               => $getlocations_defaults['overview_opened'],
+    'scrollwheel'                   => $getlocations_defaults['scrollwheel'],
+    'draggable'                     => $getlocations_defaults['draggable'],
+    'map_backgroundcolor'           => $getlocations_defaults['map_backgroundcolor'],
+    'show_maplinks'                 => $getlocations_defaults['show_maplinks'],
+    'show_bubble_on_one_marker'     => $getlocations_defaults['show_bubble_on_one_marker'],
+    'fullscreen'                    => $getlocations_defaults['fullscreen'],
+    'fullscreen_controlposition'    => $getlocations_defaults['fullscreen_controlposition'],
+    'sv_show'                       => $getlocations_defaults['sv_show'],
+    'sv_showfirst'                  => $getlocations_defaults['sv_showfirst'],
+    'sv_heading'                    => $getlocations_defaults['sv_heading'],
+    'sv_zoom'                       => $getlocations_defaults['sv_zoom'],
+    'sv_pitch'                      => $getlocations_defaults['sv_pitch'],
+    'trafficinfo'                   => $getlocations_defaults['trafficinfo'],
+    'trafficinfo_state'             => $getlocations_defaults['trafficinfo_state'],
+    'bicycleinfo'                   => $getlocations_defaults['bicycleinfo'],
+    'bicycleinfo_state'             => $getlocations_defaults['bicycleinfo_state'],
+    'transitinfo'                   => $getlocations_defaults['transitinfo'],
+    'transitinfo_state'             => $getlocations_defaults['transitinfo_state'],
+    'weather_show'                  => $getlocations_defaults['weather_show'],
+    'weather_state'                 => $getlocations_defaults['weather_state'],
+    'weather_temp'                  => $getlocations_defaults['weather_temp'],
+    'weather_speed'                 => $getlocations_defaults['weather_speed'],
+    'weather_label'                 => $getlocations_defaults['weather_label'],
+    'weather_cloud'                 => $getlocations_defaults['weather_cloud'],
+    'weather_cloud_state'           => $getlocations_defaults['weather_cloud_state'],
+    'weather_clickable'             => $getlocations_defaults['weather_clickable'],
+    'weather_info'                  => $getlocations_defaults['weather_info'],
+    'poi_show'                      => $getlocations_defaults['poi_show'],
+    'transit_show'                  => $getlocations_defaults['transit_show'],
+    'polygons_enable'               => $getlocations_defaults['polygons_enable'],
+    'polygons_strokecolor'          => $getlocations_defaults['polygons_strokecolor'],
+    'polygons_strokeopacity'        => $getlocations_defaults['polygons_strokeopacity'],
+    'polygons_strokeweight'         => $getlocations_defaults['polygons_strokeweight'],
+    'polygons_fillcolor'            => $getlocations_defaults['polygons_fillcolor'],
+    'polygons_fillopacity'          => $getlocations_defaults['polygons_fillopacity'],
+    'polygons_coords'               => $getlocations_defaults['polygons_coords'],
+    'polygons_clickable'            => $getlocations_defaults['polygons_clickable'],
+    'polygons_message'              => $getlocations_defaults['polygons_message'],
+    'rectangles_enable'             => $getlocations_defaults['rectangles_enable'],
+    'rectangles_strokecolor'        => $getlocations_defaults['rectangles_strokecolor'],
+    'rectangles_strokeopacity'      => $getlocations_defaults['rectangles_strokeopacity'],
+    'rectangles_strokeweight'       => $getlocations_defaults['rectangles_strokeweight'],
+    'rectangles_fillcolor'          => $getlocations_defaults['rectangles_fillcolor'],
+    'rectangles_fillopacity'        => $getlocations_defaults['rectangles_fillopacity'],
+    'rectangles_coords'             => $getlocations_defaults['rectangles_coords'],
+    'rectangles_clickable'          => $getlocations_defaults['rectangles_clickable'],
+    'rectangles_message'            => $getlocations_defaults['rectangles_message'],
+    'rectangles_apply'              => $getlocations_defaults['rectangles_apply'],
+    'rectangles_dist'               => $getlocations_defaults['rectangles_dist'],
+    'circles_enable'                => $getlocations_defaults['circles_enable'],
+    'circles_strokecolor'           => $getlocations_defaults['circles_strokecolor'],
+    'circles_strokeopacity'         => $getlocations_defaults['circles_strokeopacity'],
+    'circles_strokeweight'          => $getlocations_defaults['circles_strokeweight'],
+    'circles_fillcolor'             => $getlocations_defaults['circles_fillcolor'],
+    'circles_fillopacity'           => $getlocations_defaults['circles_fillopacity'],
+    'circles_coords'                => $getlocations_defaults['circles_coords'],
+    'circles_clickable'             => $getlocations_defaults['circles_clickable'],
+    'circles_message'               => $getlocations_defaults['circles_message'],
+    'circles_radius'                => $getlocations_defaults['circles_radius'],
+    'circles_apply'                 => $getlocations_defaults['circles_apply'],
+    'polylines_enable'              => $getlocations_defaults['polylines_enable'],
+    'polylines_strokecolor'         => $getlocations_defaults['polylines_strokecolor'],
+    'polylines_strokeopacity'       => $getlocations_defaults['polylines_strokeopacity'],
+    'polylines_strokeweight'        => $getlocations_defaults['polylines_strokeweight'],
+    'polylines_coords'              => $getlocations_defaults['polylines_coords'],
+    'polylines_clickable'           => $getlocations_defaults['polylines_clickable'],
+    'polylines_message'             => $getlocations_defaults['polylines_message'],
+    'kml_group'                     => $getlocations_defaults['kml_group'],
+    'search_places'                 => $getlocations_defaults['search_places'],
+    'search_places_size'            => $getlocations_defaults['search_places_size'],
+    'search_places_position'        => $getlocations_defaults['search_places_position'],
+    'search_places_label'           => $getlocations_defaults['search_places_label'],
+    'search_places_placeholder'     => $getlocations_defaults['search_places_placeholder'],
+    'search_places_dd'              => $getlocations_defaults['search_places_dd'],
+    'search_places_list'            => $getlocations_defaults['search_places_list'],
+    'geojson_enable'                => $getlocations_defaults['geojson_enable'],
+    'geojson_data'                  => $getlocations_defaults['geojson_data'],
+    'geojson_options'               => $getlocations_defaults['geojson_options'],
+    'nokeyboard'                    => $getlocations_defaults['nokeyboard'],
+    'nodoubleclickzoom'             => $getlocations_defaults['nodoubleclickzoom'],
+    'zoomcontrolposition'           => $getlocations_defaults['zoomcontrolposition'],
+    'pancontrolposition'            => $getlocations_defaults['pancontrolposition'],
+    'mapcontrolposition'            => $getlocations_defaults['mapcontrolposition'],
+    'scalecontrolposition'          => $getlocations_defaults['scalecontrolposition'],
+    'svcontrolposition'             => $getlocations_defaults['svcontrolposition'],
+    #'markeraction' => 0,
+    'gps_button'                    => 0,
+    'gps_button_label'              => $getlocations_defaults['gps_button_label'],
+    'gps_marker'                    => $getlocations_defaults['gps_marker'],
+    'gps_marker_title'              => $getlocations_defaults['gps_marker_title'],
+    'gps_bubble'                    => $getlocations_defaults['gps_bubble'],
+    'gps_geocode'                   => $getlocations_defaults['gps_geocode'],
+    'gps_center'                    => $getlocations_defaults['gps_center'],
+  );
+
+  $newdefaults = getlocations_adjust_vars($getlocations_defaults, $defaults);
+  return $newdefaults;
+}
+
+function getlocations_map_map_formatter_defaults() {
+  return getlocations_map_defaults();
+}
+
+function getlocations_map_link_formatter_defaults() {
+  return array(
+    'text' => t('this location'),
+    'text_opt' => 'page',
+    'text_options' => array(
+      '' => t('None'),
+      'page' => t('Page title'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_settings_form().
+ * Add settings to a field settings form.
+ *
+ * Invoked from field_ui_field_settings_form() to allow the module defining the
+ * field to add global settings (i.e. settings that do not depend on the bundle
+ * or instance) to the field settings form. If the field already has data, only
+ * include settings that are safe to change.
+ *
+ * @todo: Only the field type module knows which settings will affect the
+ * field's schema, but only the field storage module knows what schema
+ * changes are permitted once a field already has data. Probably we need an
+ * easy way for a field type module to ask whether an update to a new schema
+ * will be allowed without having to build up a fake $prior_field structure
+ * for hook_field_update_forbid().
+ *
+ * @param $field
+ *   The field structure being configured.
+ * @param $instance
+ *   The instance structure being configured.
+ * @param $has_data
+ *   TRUE if the field already has data, FALSE if not.
+ *
+ * @return
+ *   The form definition for the field settings.
+ */
+function getlocations_map_field_settings_form($field, $instance, $has_data) {
+  $settings = $field['settings'];
+  if (empty($settings)) {
+    $settings = getlocations_map_field_info();
+  }
+
+  $form = array();
+
+  // input_text
+  if (module_exists('views_bulk_operations')) {
+    $form['input_text'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Use a textfield'),
+      '#description' => t('Select this setting if you intend to use VBO to update data.'),
+      '#default_value' => (isset($settings['input_text']) ? $settings['input_text'] : 0),
+      '#return_value' => 1,
+    );
+  }
+  else {
+    $form['input_text'] = array('#type' => 'value', '#value' => 0);
+  }
+
+  return $form;
+
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function getlocations_map_theme() {
+
+  return array(
+    'getlocations_map_link' => array(
+      'variables' => array(
+        'link_text' => '',
+        'entity_type' => '',
+        'entity_id' => 0,
+      ),
+    ),
+
+  );
+}
+
+function theme_getlocations_map_link($variables) {
+  $link_text   = $variables['link_text'];
+  $entity_type = $variables['entity_type'];
+  $entity_id   = $variables['entity_id'];
+
+  $output = '';
+  $path = 'getlocations/' . $entity_type . '/' . $entity_id;
+  $link = t('!l on a map', array('!l' => l($link_text, $path)));
+
+  $output .= '<div class="getlocations_link">' . $link . '</div>';
+  return $output;
+
+}

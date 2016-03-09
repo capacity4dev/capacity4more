@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AFN
+ISO4217Number: '971'
+sign: ؋
+subunits: 100
+title: 'Afghan afghani'
+usage:
+    - { ISO8601From: '2002-10-07', ISO8601To: '', ISO3166Code: AF }

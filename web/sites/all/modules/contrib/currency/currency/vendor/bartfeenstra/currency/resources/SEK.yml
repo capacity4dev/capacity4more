@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: SEK
+ISO4217Number: '752'
+sign: kr
+subunits: 100
+title: 'Swedish krona'
+usage:
+    - { ISO8601From: '1873-05-27', ISO8601To: '1905-06-07', ISO3166Code: NO }
+    - { ISO8601From: '1873-05-27', ISO8601To: '', ISO3166Code: SE }

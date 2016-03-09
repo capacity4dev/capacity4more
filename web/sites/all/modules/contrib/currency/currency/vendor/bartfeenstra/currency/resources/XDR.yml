@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: XDR
+ISO4217Number: '960'
+sign: SDR
+subunits: 0
+title: 'Special Drawing Right'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: ZZ }

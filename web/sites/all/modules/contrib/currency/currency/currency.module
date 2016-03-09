@@ -1,0 +1,1110 @@
+<?php
+
+/**
+ * @file
+ * Provides currency information and allows users to add custom currencies.
+ */
+
+use BartFeenstra\Currency\AmountInvalidDecimalSeparatorException;
+use BartFeenstra\Currency\AmountNotNumericException;
+use BartFeenstra\Currency\Input;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+/**
+ * The default locale.
+ */
+define('CURRENCY_DEFAULT_LOCALE', 'en_US');
+
+/**
+ * The value for the currency_sign form element's "custom" option.
+ */
+define('CURRENCY_SIGN_FORM_ELEMENT_CUSTOM_VALUE', '###CUSTOM###');
+
+/**
+ * The number of decimals for BCMath calculations.
+ */
+define('CURRENCY_BCMATH_SCALE', 9);
+
+/**
+ * Implements hook_hook_info().
+ */
+function currency_hook_info() {
+  $hooks['currency_exchanger_info'] = array(
+    'group' => 'currency',
+  );
+  $hooks['currency_info'] = array(
+    'group' => 'currency',
+  );
+  $hooks['currency_info_alter'] = array(
+    'group' => 'currency',
+  );
+  $hooks['currency_locale_pattern_info'] = array(
+    'group' => 'currency',
+  );
+  $hooks['currency_locale_pattern_info_alter'] = array(
+    'group' => 'currency',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function currency_menu() {
+  $items['admin/config/regional/currency-exchange'] = array(
+    'description' => 'Configure how currency exchange rates should be retrieved.',
+    'title' => 'Currency exchange',
+    'access arguments' => array('currency.currency_exchanger.administer'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_form_currency_exchanger'),
+  );
+  $items['admin/config/regional/currency-exchange/fixed'] = array(
+    'description' => 'Administer fixed currency exchange rates.',
+    'title' => 'Fixed rates',
+    'access arguments' => array('currency.currency_exchanger.administer'),
+    'page callback' => 'currency_currency_exchanger_fixed_rates_overview',
+  );
+  $items['admin/config/regional/currency-exchange/fixed/add'] = array(
+    'title' => 'Add an exchange rate',
+    'access arguments' => array('currency.currency_exchanger.administer'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_form_currency_exchanger_fixed_rates'),
+    'type' => MENU_LOCAL_ACTION,
+  );
+  $items['admin/config/regional/currency-exchange/fixed/%currency_form_currency_exchanger_fixed_rates/%'] = array(
+    'title' => 'Configure a exchange rate',
+    'access arguments' => array('currency.currency_exchanger.administer'),
+    'load arguments' => array(6),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('currency_form_currency_exchanger_fixed_rates', 5, 6),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/regional/currency/list/%currency/translate'] = array(
+    'title' => 'Translate',
+    'access arguments' => array('currency.currency.administer'),
+    'page callback' => 'i18n_string_object_translate_page',
+    'page arguments' => array('currency', 5),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/config/regional/currency/list/%currency/translate/%i18n_language'] = array(
+    'title' => 'Translate',
+    'access arguments' => array('currency.currency.administer'),
+    'page callback' => 'i18n_string_object_translate_page',
+    'page arguments' => array('currency', 5, 8),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function currency_element_info() {
+  // An element to collect an amount of money and convert it to a numeric string.
+  $elements['currency_amount'] = array(
+    '#input' => TRUE,
+    '#process' => array('currency_form_currency_amount_process'),
+    '#default_value' => array(
+      'amount' => NULL,
+      'currency_code' => 'XXX',
+    ),
+    '#element_validate' => array('currency_form_currency_amount_validate'),
+    // The minimum amount as a numeric string, or FALSE to omit.
+    '#minimum_amount' => FALSE,
+    // The maximum amount as a numeric string, or FALSE to omit.
+    '#maximum_amount' => FALSE,
+    // The ISO 4217 code of the currency the amount should be in. Use FALSE to
+    // let users choose.
+    '#currency_code' => FALSE,
+  );
+  // A locale selector. Returns a string in the format of xx_ZZ.
+  $elements['currency_locale'] = array(
+    '#input' => TRUE,
+    '#process' => array('currency_form_currency_locale_process'),
+    '#element_validate' => array('currency_form_currency_locale_validate'),
+  );
+  // An element to set a currency sign.
+  $elements['currency_sign'] = array(
+    '#input' => TRUE,
+    '#process' => array('currency_form_currency_sign_process'),
+    '#element_validate' => array('currency_form_currency_sign_validate'),
+    // The ISO 4217 code of the currency which signs to suggest to the user.
+    // Optional.
+    '#currency_code' => FALSE,
+  );
+
+  return $elements;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function currency_permission() {
+  $permissions['currency.currency.administer'] = array(
+    'title' => t('Administer currencies'),
+  );
+  $permissions['currency.currency_locale_pattern.administer'] = array(
+    'restrict access' => TRUE,
+    'title' => t('Administer currency locale patterns'),
+  );
+  $permissions['currency.currency_exchanger.administer'] = array(
+    'title' => t('Administer currency exchangers'),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_filter_info().
+ */
+function currency_filter_info() {
+  // Use "currency_exchange" as the machine name for backwards compatibility
+  // with Currency 7.x-1.x.
+  $filters['currency_exchange'] = array(
+    'process callback' => 'currency_filter_currency_exchange_process',
+    'title' => t('Currency exchange'),
+    'tips callback' => 'currency_filter_currency_exchange_tips',
+  );
+  $filters['currency_localize'] = array(
+    'cache' => FALSE,
+    'process callback' => 'currency_filter_currency_localize_process',
+    'tips callback' => 'currency_filter_currency_localize_tips',
+    'title' => t('Currency amount formatting'),
+  );
+
+  return $filters;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function currency_theme(array $existing, $type, $theme, $path) {
+  $templates['currency_form_currency_exchanger'] = array(
+    'render element' => 'form',
+  );
+
+  return $templates;
+}
+
+/**
+ * Implements hook_ctools_plugin_type().
+ */
+function currency_ctools_plugin_type() {
+  $plugins_types['currency_exchanger'] = array(
+    'classes' => array('exchanger'),
+    'defaults' => array(
+      'description' => '',
+      'title' => '',
+    ),
+    'hook' => 'currency_exchanger_info',
+    'use hooks' => TRUE,
+  );
+
+  return $plugins_types;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function currency_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'export_ui') {
+    return 'ctools/plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements form process callback for a currency_amount element.
+ */
+function currency_form_currency_amount_process(array $element, array &$form_state, array &$form) {
+  // Validate element configuration.
+  if ($element['#minimum_amount'] !== FALSE && !is_numeric($element['#minimum_amount'])) {
+    throw new Exception(t('The minimum amount must be a decimal number.'));
+  }
+  if ($element['#maximum_amount'] !== FALSE && !is_numeric($element['#maximum_amount'])) {
+    throw new Exception(t('The maximum amount must be a decimal number.'));
+  }
+  ctools_include('export');
+  $currency = FALSE;
+  if ($element['#currency_code'] !== FALSE) {
+    $currency = currency_load($element['#currency_code']);
+    if (!$currency) {
+      throw new Exception(t('A valid ISO 4217 currency code needs to be set.'));
+    }
+  }
+  else {
+    $currency = currency_load('XXX');
+  }
+
+  // Modify the element.
+  $element['#tree'] = TRUE;
+  $element['#theme_wrappers'][] = 'form_element';
+  $element['#attached']['css'] = array(
+    drupal_get_path('module', 'currency') . '/currency.css',
+  );
+
+  // Add the currency element.
+  if (!$element['#currency_code']) {
+    $element['currency_code'] = array(
+      '#default_value' => $element['#default_value']['currency_code'],
+      '#type' => 'select',
+      '#title' => t('Currency'),
+      '#title_display' => 'invisible',
+      '#options' => currency_options(),
+      '#required' => $element['#required'],
+      '#default_value' => 'XXX',
+    );
+  }
+
+  // Add the amount element.
+  $description = NULL;
+  if ($element['#minimum_amount'] !== FALSE) {
+    $description = t('The minimum amount is !amount.', array(
+      '!amount' => $currency->format($element['#minimum_amount']),
+    ));
+  }
+  $element['amount'] = array(
+    '#default_value' => $element['#default_value']['amount'],
+    '#type' => 'textfield',
+    '#title' => t('Amount'),
+    '#title_display' => 'invisible',
+    '#description' => $description,
+    '#prefix' => $element['#currency_code'] ? $currency->sign : NULL,
+    '#required' => $element['#required'],
+    '#size' => 9,
+  );
+
+  return $element;
+}
+
+/**
+ * Implements form validate callback for a currency_amount element.
+ */
+function currency_form_currency_amount_validate(array $element, array &$form_state) {
+  $value = $element['#value'];
+  $amount = $value['amount'];
+  $currency_code = isset($value['currency_code']) ? $value['currency_code'] : $element['#currency_code'];
+
+  try {
+    $amount = Input::parseAmount($amount);
+  }
+  catch (AmountInvalidDecimalSeparatorException $e) {
+    form_error($element['amount'], t('The amount can only have no or one decimal separator and it must be one of %decimal_separators.', array(
+     '%decimal_separators' => implode(Input::$decimalSeparators),
+    )));
+  }
+  catch (AmountNotNumericException $e) {
+    form_error($element['amount'], t('The amount can only consist of a minus sign, decimals and one decimal mark.'));
+  }
+
+  // Confirm the amount lies within the allowed range.
+  $currency = currency_load($currency_code);
+  if ($element['#minimum_amount'] !== FALSE && bccomp($element['#minimum_amount'], $amount, CURRENCY_BCMATH_SCALE) == 1) {
+    form_error($element['amount'], t('The minimum amount is !amount.', array(
+      '!amount' => $currency->format($element['#minimum_amount']),
+    )));
+  }
+  elseif ($element['#maximum_amount'] !== FALSE && bccomp($amount, $element['#maximum_amount'], CURRENCY_BCMATH_SCALE) == 1) {
+    form_error($element['amount'], t('The maximum amount is !amount.', array(
+      '!amount' => $currency->format($element['#maximum_amount']),
+    )));
+  }
+
+  // The amount in $form_state is a human-readable, optionally localized
+  // string, which cannot be used by other code. $amount is a numeric string
+  // after running it through Input::parseAmount().
+  form_set_value($element, array(
+    'amount' => $amount,
+    'currency_code' => $currency_code,
+  ), $form_state);
+}
+
+/**
+ * Implements form process callback for a currency_sign element.
+ */
+function currency_form_currency_sign_process(array $element, array &$form_state, array &$form) {
+  $currency = FALSE;
+  $currency = new Currency();
+  if ($element['#currency_code']) {
+    try {
+      $currency->resourceLoad($element['#currency_code']);
+    }
+    catch (Exception $e) {
+    }
+  }
+  if (!$currency) {
+    $currency->resourceLoad('XXX');
+  }
+
+  // Modify the element.
+  $element['#tree'] = TRUE;
+  $element['#theme_wrappers'][] = 'form_element';
+  $element['#attached']['css'] = array(
+    drupal_get_path('module', 'currency') . '/currency.css',
+  );
+
+  $signs = array_merge(array($currency->sign), $currency->alternativeSigns);
+  $signs = array_combine($signs, $signs);
+  $signs = array_unique(array_filter(array_merge(array(
+    CURRENCY_SIGN_FORM_ELEMENT_CUSTOM_VALUE => t('- Custom -'),
+  ), $signs)));
+  asort($signs);
+  $element['sign'] = array(
+    '#default_value' => in_array($element['#default_value'], $signs) ? $element['#default_value'] : CURRENCY_SIGN_FORM_ELEMENT_CUSTOM_VALUE,
+    '#empty_value' => '',
+    '#options' => $signs,
+    '#required' => $element['#required'],
+    '#title' => t('Sign'),
+    '#title_display' => 'invisible',
+    '#type' => 'select',
+  );
+  $sign_js_selector = '.form-type-currency-sign .form-select';
+  $element['sign_custom'] = array(
+    '#attached' => array(
+      'css' => array(
+        drupal_get_path('module', 'currency') . '/currency.css',
+      ),
+    ),
+    '#default_value' => $element['#default_value'],
+    '#states' => array(
+      'visible' => array(
+        $sign_js_selector => array(
+          'value' => CURRENCY_SIGN_FORM_ELEMENT_CUSTOM_VALUE,
+        ),
+      ),
+    ),
+    '#title' => t('Custom sign'),
+    '#title_display' => 'invisible',
+    '#type' => 'textfield',
+  );
+
+  return $element;
+}
+
+/**
+ * Implements form validate callback for a currency_sign element.
+ */
+function currency_form_currency_sign_validate(array $element, array &$form_state) {
+  // Set a scalar value.
+  $sign = $element['#value']['sign'];
+  if ($sign == CURRENCY_SIGN_FORM_ELEMENT_CUSTOM_VALUE) {
+    $sign = $element['#value']['sign_custom'];
+  }
+  form_set_value($element, $sign, $form_state);
+}
+
+/**
+ * Implements form process callback for a currency_locale element.
+ */
+function currency_form_currency_locale_process(array $element, array &$form_state, array &$form) {
+  require_once DRUPAL_ROOT . '/includes/iso.inc';
+  require_once DRUPAL_ROOT . '/includes/locale.inc';
+
+  $locale_language_code = isset($element['#default_value']) ? substr($element['#default_value'], 0, 2) : '';
+  $locale_country_code = isset($element['#default_value']) ? substr($element['#default_value'], 3) : '';
+
+  // Modify the element.
+  $element['#tree'] = TRUE;
+  $element['locale'] = array(
+    '#description' => isset($element['#description']) ? $element['#description'] : NULL,
+    '#title' => isset($element['#title']) ? $element['#title'] : NULL,
+    '#type' => 'fieldset',
+  );
+
+  $options = array();
+  foreach (_locale_get_predefined_list() as $language_code => $language_data) {
+    $options[$language_code] = $language_data[0];
+  }
+  asort($options);
+  $element['locale']['language_code'] = array(
+    '#default_value' => $locale_language_code,
+    '#empty_value' => '',
+    '#options' => $options,
+    '#required' => $element['#required'],
+    '#title' => t('Language'),
+    '#type' => 'select',
+  );
+
+  $element['locale']['country_code'] = array(
+    '#default_value' => $locale_country_code,
+    '#empty_value' => '',
+    '#options' => country_get_list(),
+    '#required' => $element['#required'],
+    '#title' => t('Country'),
+    '#type' => 'select',
+  );
+
+  return $element;
+}
+
+/**
+ * Implements form validate callback for a currency_locale element.
+ */
+function currency_form_currency_locale_validate(array $element, array &$form_state) {
+  $locale = $element['locale']['language_code']['#value'] . '_' . $element['locale']['country_code']['#value'];
+  form_set_value($element, $locale, $form_state);
+}
+
+/**
+ * Returns an options list of currencies.
+ *
+ * @return array
+ *  Keys are ISO 4217 codes and values are currency titles.
+ */
+function currency_options() {
+  ctools_include('export');
+  $options = array();
+  foreach (currency_load_all() as $currency) {
+    $options[$currency->ISO4217Code] = t('@currency_title (@currency_code)', array(
+      '@currency_title' => $currency->translateTitle(),
+      '@currency_code' => $currency->ISO4217Code,
+    ));
+  }
+  natcasesort($options);
+
+  return $options;
+}
+
+/**
+ * Implements Ctools exportable UI edit form callback.
+ */
+function currency_form_currency(array &$form, array &$form_state) {
+  $currency = $form_state['item'];
+
+  $form['info']['ISO4217Code']['#description'] = '';
+  $form['info']['ISO4217Code']['#element_validate'] = array('currency_form_element_validate_iso_4217_code');
+  $form['info']['ISO4217Code']['#maxlength'] = 3;
+  $form['info']['ISO4217Code']['#size'] = 3;
+
+  $form['ISO4217Number'] = array(
+    '#default_value' => $currency->ISO4217Number,
+    '#element_validate' => array('currency_form_element_validate_iso_4217_number'),
+    '#maxlength' => 3,
+    '#title' => t('ISO 4217 number'),
+    '#type' => 'textfield',
+    '#size' => 3,
+  );
+
+  $form['title'] = array(
+    '#default_value' => $currency->title,
+    '#maxlength' => 255,
+    '#required' => TRUE,
+    '#title' => t('Title'),
+    '#type' => 'textfield',
+  );
+
+  $form['sign'] = array(
+    '#currency_code' => $currency->ISO4217Code,
+    '#default_value' => $currency->sign,
+    '#title' => t('Sign'),
+    '#type' => 'currency_sign',
+  );
+
+  $form['subunits'] = array(
+    '#default_value' => $currency->subunits,
+    '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
+    '#size' => 3,
+    '#title' => t('Number of subunits'),
+    '#type' => 'textfield',
+  );
+
+  $form['rounding_step'] = array(
+    '#default_value' => $currency->rounding_step,
+    '#element_validate' => array('element_validate_number'),
+    '#required' => TRUE,
+    '#size' => 5,
+    '#title' => t('Rounding step'),
+    '#type' => 'textfield',
+  );
+}
+
+/**
+ * Implements Ctools exportable UI edit form callback.
+ */
+function currency_form_currency_locale_pattern(array &$form, array &$form_state) {
+  require_once DRUPAL_ROOT . '/includes/iso.inc';
+
+  $locale_pattern = $form_state['item'];
+
+  $form['info']['locale']['#type'] = 'currency_locale';
+  unset($form['info']['locale']['#description']);
+  unset($form['info']['locale']['#maxlength']);
+
+  $form['cldr'] = array(
+    '#title' => t('Formatting'),
+    '#type' => 'fieldset',
+  );
+
+  $form['cldr']['pattern'] = array(
+    '#default_value' => $locale_pattern->pattern,
+    '#description' => t('A Unicode <abbr title="Common Locale Data Repository">CLDR</abbr> <a href="http://cldr.unicode.org/translation/number-patterns">currency number pattern</a>. Non-standard characters are allowed. <code>[XXX]</code> and <code>[999]</code> will be replaced by the ISO 4217 currency code and number.'),
+    '#maxlength' => 255,
+    '#required' => TRUE,
+    '#title' => t('Pattern'),
+    '#type' => 'textfield',
+  );
+
+  $form['cldr']['symbol_decimal_separator'] = array(
+    '#default_value' => $locale_pattern->symbol_decimal_separator,
+    '#maxlength' => 255,
+    '#title' => t('Decimal separator'),
+    '#type' => 'textfield',
+  );
+
+  $form['cldr']['symbol_grouping_separator'] = array(
+    '#default_value' => $locale_pattern->symbol_grouping_separator,
+    '#maxlength' => 255,
+    '#title' => t('Group separator'),
+    '#type' => 'textfield',
+  );
+}
+
+/**
+ * Implements Form API #element_validate callback.
+ */
+function currency_form_element_validate_iso_4217_code(array $element, array $form, array &$form_state) {
+  $currency_code = $element['#value'];
+  if (!preg_match('/[a-z]{3}/i', $currency_code)) {
+    form_error($element, t('The currency code should be three letters.'));
+  }
+  if ($element['#default_value'] !== $element['#value']) {
+    $currency = currency_load($currency_code);
+    if ($currency) {
+      form_error($element, t('The currency code is already in use by !link.', array(
+        '!link' => l($currency->translateTitle(), "admin/config/regional/currency/currency/list/$currency->ISO4217Code/edit"),
+      )));
+    }
+  }
+}
+
+/**
+ * Implements Form API #element_validate callback.
+ */
+function currency_form_element_validate_iso_4217_number(array $element, array $form, array &$form_state) {
+  if ($element['#value'] && !preg_match('/\d{3}/i', $element['#value'])) {
+    form_error($element, t('@title should be three digits.', array(
+      '@title' => $element['#title'],
+    )));
+  }
+}
+
+/**
+ * Implements hook_filter_info()'s process callback.
+ */
+function currency_filter_currency_exchange_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+  return preg_replace_callback('/\[currency:([a-z]{3}):([a-z]{3})(.*?)\]/i', '_currency_filter_currency_exchange_process', $text);
+}
+
+/**
+ * Implements preg_replace_callback() callback.
+ */
+function _currency_filter_currency_exchange_process(array $matches) {
+  $currency_code_from = $matches[1];
+  $currency_code_to = $matches[2];
+  $amount = str_replace(':', '', $matches[3]);
+  if (strlen($amount) !== 0) {
+    try {
+      $amount = Input::parseAmount($amount);
+    }
+    // The amount is invalid, so return the token.
+    catch (Exception $e) {
+      return $matches[0];
+    }
+  }
+  // The amount defaults to 1.
+  else {
+    $amount = 1;
+  }
+
+  if ($rate = CurrencyExchanger::load($currency_code_from, $currency_code_to)) {
+    return currency_multiply($amount, $rate);
+  }
+  // The filter failed, so return the token.
+  return $matches[0];
+}
+
+/**
+ * Implements hook_filter_info()'s tips callback.
+ */
+function currency_filter_currency_exchange_tips($filter, $format, $long) {
+  return t('Use <code>[currency:from:to:amount]</code> to convert an amount of money from one currency to another. The <code>amount</code> parameter is optional and defaults to <code>1</code>. Example: <code>[currency:EUR:USD:100]</code>.');
+}
+
+
+/**
+ * Implements hook_filter_info()'s process callback.
+ */
+function currency_filter_currency_localize_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+  return preg_replace_callback('/\[currency-localize:([a-z]{3}):(.+?)\]/i', '_currency_filter_currency_localize_process', $text);
+}
+
+/**
+ * Implements preg_replace_callback() callback.
+ */
+function _currency_filter_currency_localize_process(array $matches) {
+  $currency_code = $matches[1];
+  try {
+    $amount = Input::parseAmount($matches[2]);
+  }
+  // The amount is invalid, so return the token.
+  catch (Exception $e) {
+    return $matches[0];
+  }
+  ctools_include('export');
+  $currency = currency_load($currency_code);
+  if ($currency) {
+    return $currency->format($amount);
+  }
+  // The currency code is invalid, so return the token.
+  return $matches[0];
+}
+
+/**
+ * Implements hook_filter_info()'s tips callback.
+ */
+function currency_filter_currency_localize_tips($filter, $format, $long) {
+  return t('Use <code>[currency-localize:<strong>currency-code</strong>:<strong>amount</strong>]</code> to localize an amount of money. The <code>currency-code</code> and <code>amount</code> parameters are the ISO 4217 currency code and the actual amount to display. Example: <code>[currency-localize:EUR:99.95]</code>.');
+}
+
+/**
+ * Loads a currency.
+ *
+ * @param string $currency_code
+ *
+ * @return Currency
+ */
+function currency_load($currency_code) {
+  ctools_include('export');
+
+  return ctools_export_crud_load('currency', $currency_code);
+}
+
+/**
+ * Loads all currencies.
+ *
+ * @return array
+ *   An array of Currency objects.
+ */
+function currency_load_all() {
+  ctools_include('export');
+
+  return ctools_export_crud_load_all('currency');
+}
+
+/**
+ * Saves a currency.
+ *
+ * @param Currency $currency
+ *
+ * @return integer
+ *   The result of drupal_write_record().
+ */
+function currency_save(Currency $currency) {
+  if ($currency->export_type & EXPORT_IN_DATABASE) {
+    $update = array('ISO4217Code');
+  }
+  else {
+    $update = array();
+    $currency->export_type = EXPORT_IN_DATABASE;
+  }
+  $status = drupal_write_record('currency', $currency, $update);
+  if (module_exists('i18n_string')) {
+    i18n_string_object_update('currency', $currency);
+  }
+
+  return $status;
+}
+
+
+/**
+ * Deletes a currency.
+ *
+ * @param Currency|string $currency
+ *   A Currency object, or the currency's ISO 4217 code.
+ *
+ * @return Currency
+ */
+function currency_delete($currency) {
+  $currency_code = is_object($currency) ? $currency->ISO4217Code : $currency;
+  if (module_exists('i18n_string')) {
+    $currency = is_object($currency) ? $currency : currency_load($currency_code);
+    i18n_string_object_remove('currency', $currency);
+  }
+  db_delete('currency')
+    ->condition('ISO4217Code', $currency_code)
+    ->execute();
+}
+
+/**
+ * Implements form build callback: the currency exchanger overview form.
+ *
+ * @see theme_currency_form_currency_exchangers()
+ */
+function currency_form_currency_exchanger(array $form, array &$form_state) {
+  ctools_include('plugins');
+  $exchangers_info = ctools_get_plugins('currency', 'currency_exchanger');
+  $currency_exchangers = CurrencyExchanger::loadConfiguration();
+  $weight = 0;
+  foreach (array_keys($currency_exchangers) as $name) {
+    $exchanger_info = $exchangers_info[$name];
+
+    $form['exchangers']['#tree'] = TRUE;
+    $form['exchangers'][$name]['#tree'] = TRUE;
+    $form['exchangers'][$name]['enabled'] = array(
+      '#default_value' => $currency_exchangers[$name],
+      '#title' => t('Enabled'),
+      '#type' => 'checkbox',
+    );
+    $form['exchangers'][$name]['title'] = array(
+      '#description' => $exchanger_info['description'],
+      '#markup' => $exchanger_info['title'],
+      '#title' => t('Title'),
+      '#type' => 'item',
+    );
+    $form['exchangers'][$name]['weight'] = array(
+      '#default_value' => $weight++,
+      '#delta' => count($exchangers_info),
+      '#title' => t('Weight'),
+      '#type' => 'weight',
+    );
+    // @todo Convert this to a dropbutton in 8.x-3.x.
+    $form['exchangers'][$name]['operations'] = array(
+      '#markup' => theme('links', array(
+        'links' => $exchanger_info['exchanger']['class']::operationsLinks(),
+        'attributes' => array(
+          'class' => array('links', 'inline', 'operations'),
+        ),
+      )),
+      '#title' => t('Operations'),
+      '#type' => 'markup',
+    );
+  }
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+  $form['actions']['save'] = array(
+    '#value' => t('Save'),
+    '#type' => 'submit',
+  );
+
+  return $form;
+}
+
+/**
+ * Implements form submit callback.
+ *
+ * @see currency_form_currency_exchangers()
+ */
+function currency_form_currency_exchanger_submit(array $form, array &$form_state) {
+  uasort($form_state['values']['exchangers'], 'drupal_sort_weight');
+  $configuration = array();
+  foreach ($form_state['values']['exchangers'] as $name => $exchanger_configuration) {
+    $configuration[$name] = (bool) $exchanger_configuration['enabled'];
+  }
+  CurrencyExchanger::saveConfiguration($configuration);
+  drupal_set_message(t('The configuration options have been saved.'));
+}
+
+/**
+ * Implements theme function: themes the currency exchanger overview form.
+ *
+ * @see currency_form_currency_exchangers()
+ */
+function theme_currency_form_currency_exchanger(array $variables) {
+  drupal_add_tabledrag('currency-exchangers', 'order', 'sibling', 'form-select');
+  $header = array(t('Title'), t('Enabled'), t('Weight'), t('Operations'));
+  $rows = array();
+  $names = element_children($variables['form']['exchangers']);
+  foreach ($names as $name) {
+    $elements = &$variables['form']['exchangers'][$name];
+    $row_data = array();
+    foreach (array('title', 'enabled', 'weight', 'operations') as $key) {
+      $elements[$key]['#title_display'] = 'invisible';
+      $row_data[] = drupal_render($elements[$key]);
+    }
+    $rows[] = array(
+      'class' => array('draggable'),
+      'data' => $row_data,
+    );
+  }
+
+  return theme('table', array(
+    'attributes' => array(
+      'id' => 'currency-exchangers',
+    ),
+    'header' => $header,
+    'rows' => $rows,
+  )) . drupal_render_children($variables['form']);
+}
+
+/**
+ * Displays CurrencyExchangerFixedRates' exchange rate overview.
+ *
+ * @return string
+ */
+function currency_currency_exchanger_fixed_rates_overview() {
+  $header = array(t('From'), t('To'), t('Conversion rate'), t('Operations'));
+  $rows = array();
+  $rates = CurrencyExchangerFixedRates::loadAll();
+  foreach ($rates as $currency_code_from => $currency_codes_to) {
+    $currency_from = currency_load($currency_code_from);
+    foreach ($currency_codes_to as $currency_code_to => $rate) {
+      $currency_to = currency_load($currency_code_to);
+      $operations = theme('links', array(
+        'links' => array(array(
+          'title' => t('edit'),
+          'href' => 'admin/config/regional/currency-exchange/fixed/' . $currency_code_from . '/' . $currency_code_to,
+        )),
+        'attributes' => array(
+          'class' => array('links', 'inline', 'operations'),
+        ),
+      ));
+      $rows[] = array(check_plain($currency_from->translateTitle()), check_plain($currency_to->translateTitle()), $currency_to->format($rate), $operations);
+    }
+  }
+  if (!$rows) {
+    $rows[] = array(array(
+      'data' => t('There are no exchange rates yet. <a href="@path">Add an exchange rate</a>.', array(
+        '@path' => url('admin/config/regional/currency-exchange/fixed/add'),
+      )),
+      'colspan' => 4,
+    ));
+  }
+
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+  ));
+}
+
+/**
+ * Implements form build callback: CurrencyExchangerFixedRates' add/edit form.
+ */
+function currency_form_currency_exchanger_fixed_rates(array $form, array &$form_state, $currency_code_from = NULL, $currency_code_to = NULL) {
+  $rate = $currency_code_from && $currency_code_to ? CurrencyExchangerFixedRates::load($currency_code_from, $currency_code_to) : NULL;
+
+  $options = currency_options();
+  $form['currency_code_from'] = array(
+    '#default_value' => isset($options[$currency_code_from]) ? $currency_code_from : 'XXX',
+    '#disabled' => !is_null($rate),
+    '#options' => $options,
+    '#required' => TRUE,
+    '#title' => t('Source currency'),
+    '#type' => 'select',
+  );
+  $form['currency_code_to'] = array(
+    '#default_value' => isset($options[$currency_code_to]) ? $currency_code_to : 'XXX',
+    '#disabled' => !is_null($rate),
+    '#options' => $options,
+    '#required' => TRUE,
+    '#title' => t('Source currency'),
+    '#type' => 'select',
+  );
+  $form['rate'] = array(
+    '#currency_code' => 'XXX',
+    '#default_value' => $rate,
+    '#required' => TRUE,
+    '#title' => t('Conversion rate'),
+    '#type' => 'currency_amount',
+  );
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+  $form['actions']['save'] = array(
+    '#name' => 'save',
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+  if (!is_null($rate)) {
+    $form['actions']['delete'] = array(
+      '#limit_validation_errors' => array(array('currency_code_from'), array('currency_code_to')),
+      '#name' => 'delete',
+      '#type' => 'submit',
+      '#value' => t('Delete'),
+    );
+  }
+  $form['actions']['cancel'] = array(
+    '#markup' => l(t('Cancel'), 'admin/config/regional/currency-exchange/fixed'),
+    '#type' => 'markup',
+  );
+
+  return $form;
+}
+
+/**
+ * Implements form submit callback for
+ * currency_form_currency_exchanger_fixed_rates().
+ */
+function currency_form_currency_exchanger_fixed_rates_submit(array $form, array &$form_state) {
+  $values = $form_state['values'];
+  $currency_from = currency_load($values['currency_code_from']);
+  $currency_to = currency_load($values['currency_code_to']);
+
+  switch ($form_state['triggering_element']['#name']) {
+    case 'save':
+      CurrencyExchangerFixedRates::save($currency_from->ISO4217Code, $currency_to->ISO4217Code, $values['rate']['amount']);
+      drupal_set_message(t('The exchange rate for @currency_title_from to @currency_title_to has been saved.', array(
+        '@currency_title_from' => $currency_from->translateTitle(),
+        '@currency_title_to' => $currency_to->translateTitle(),
+      )));
+      break;
+    case 'delete':
+      CurrencyExchangerFixedRates::delete($currency_from->ISO4217Code, $currency_to->ISO4217Code);
+      drupal_set_message(t('The exchange rate for @currency_title_from to @currency_title_to has been deleted.', array(
+        '@currency_title_from' => $currency_from->translateTitle(),
+        '@currency_title_to' => $currency_to->translateTitle(),
+      )));
+      break;
+  }
+  $form_state['redirect'] = 'admin/config/regional/currency-exchange/fixed';
+}
+
+/**
+ * Implements menu load callback: checks if CurrencyExchangerFixedRates has a
+ * exchange rate.
+ *
+ * @param string $currency_code_from
+ * @param string $currency_code_to
+ *
+ * @return string|false
+ *   The source currency code if the rate could be found, FALSE if it couldn't.
+ */
+function currency_form_currency_exchanger_fixed_rates_load($currency_code_from, $currency_code_to) {
+  $rate = CurrencyExchangerFixedRates::load($currency_code_from, $currency_code_to);
+
+  return $rate !== FALSE ? $currency_code_from : FALSE;
+}
+
+/**
+ * Implements hook_webform_select_options_info().
+ */
+function currency_webform_select_options_info() {
+  $options['currency'] = array(
+    'title' => t('Currencies'),
+    'options callback' => 'currency_options',
+  );
+
+  return $options;
+}
+
+/**
+ * Adds two numbers.
+ *
+ * @param int|float|string $number_a
+ * @param int|float|string $number_b
+ *
+ * @return int|float|string
+ */
+function currency_add($number_a, $number_b) {
+  if (extension_loaded('bcmath')) {
+    return bcadd($number_a, $number_b, CURRENCY_BCMATH_SCALE);
+  }
+  else {
+    return $number_a + $number_b;
+  }
+}
+
+/**
+ * Subtracts one number from another.
+ *
+ * @param int|float|string $number_a
+ *   The number to subtract from.
+ * @param int|float|string $number_b
+ *   The number to subtract.
+ *
+ * @return int|float|string
+ */
+function currency_subtract($number_a, $number_b) {
+  if (extension_loaded('bcmath')) {
+    return bcsub($number_a, $number_b, CURRENCY_BCMATH_SCALE);
+  }
+  else {
+    return $number_a - $number_b;
+  }
+}
+
+/**
+ * Multiplies two numbers.
+ *
+ * @param int|float|string $number_a
+ * @param int|float|string $number_b
+ *
+ * @return int|float|string
+ */
+function currency_multiply($number_a, $number_b) {
+  if (extension_loaded('bcmath')) {
+    return bcmul($number_a, $number_b, CURRENCY_BCMATH_SCALE);
+  }
+  else {
+    return $number_a * $number_b;
+  }
+}
+
+/**
+ * Divdes one number by another.
+ *
+ * @param int|float|string $number_a
+ *   The number to divide.
+ * @param int|float|string $number_b
+ *   The number to divide by.
+ *
+ * @return int|float|string
+ */
+function currency_divide($number_a, $number_b) {
+  if (extension_loaded('bcmath')) {
+    return bcdiv($number_a, $number_b, CURRENCY_BCMATH_SCALE);
+  }
+  else {
+    return $number_a / $number_b;
+  }
+}
+
+/**
+ * Divides one number by another.
+ *
+ * @param int|float|string $number
+ *   The number to round.
+ * @param int|float|string $rounding_step
+ *   The step to round by. Example: when the step is 0.25, values will be
+ *   rounded to the nearest quarter.
+ *
+ * @return int|float|string
+ */
+function currency_round($number, $rounding_step) {
+  if (extension_loaded('bcmath')) {
+    return bcmul(round(bcdiv($number, $rounding_step, CURRENCY_BCMATH_SCALE)), $rounding_step, CURRENCY_BCMATH_SCALE);
+  }
+  else {
+    return round($number / $rounding_step) * $rounding_step;
+  }
+}
+
+/**
+ * Compares two numbers to each other.
+ *
+ * @param int|float|string $number_a
+ * @param int|float|string $number_b
+ *
+ * @return int
+ *   0 if both numbers are identical, 1 if $number_a is larger than $number_b
+ *   and -1 if $number_b is larger than $number_a.
+ */
+function currency_compare($number_a, $number_b) {
+  if (extension_loaded('bcmath')) {
+    return bccomp($number_a, $number_b, CURRENCY_BCMATH_SCALE);
+  }
+  else {
+    if ($number_a == $number_b) {
+      return 0;
+    }
+    elseif ($number_a > $number_b) {
+      return 1;
+    }
+    else {
+      return -1;
+    }
+  }
+}

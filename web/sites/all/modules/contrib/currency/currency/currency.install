@@ -1,0 +1,202 @@
+<?php
+
+/**
+ * @file
+ * Installation and uninstallation functionality.
+ */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+/**
+ * Implements hook_schema().
+ */
+function currency_schema() {
+  $schema['currency'] = array(
+    'description' => 'Currency information based on ISO 4127.',
+    'export' => array(
+      'key' => 'ISO4217Code',
+      'key name' => 'ISO 4217 code',
+      'primary key' => 'ISO4217Code',
+      'default hook' => 'currency_info',
+      'object' => 'Currency',
+      'save callback' => 'currency_save',
+      'delete callback' => 'currency_delete',
+      'cache defaults' => TRUE,
+    ),
+    'fields' => array(
+      'export_module' => array(
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'export_type' => array(
+        'type' => 'int',
+        'length' => 'tiny',
+        'not null' => TRUE,
+      ),
+      'ISO4217Code' => array(
+        'type' => 'varchar',
+        'length' => 3,
+        'not null' => TRUE,
+      ),
+      'ISO4217Number' => array(
+        'type' => 'varchar',
+        'length' => 3,
+      ),
+      'rounding_step' => array(
+        'type' => 'int',
+      ),
+      'sign' => array(
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'subunits' => array(
+        'type' => 'int',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+    ),
+    'primary key' => array('ISO4217Code'),
+    'indexes' => array(
+      'ISO4217Number' => array('ISO4217Number'),
+    ),
+  );
+  // Set Ctools object defaults based on Currency's default values.
+  // Manually include the class' file, because the registry may not have been
+  // loaded yet.
+  require_once __DIR__ . '/includes/Currency.inc';
+  foreach (get_class_vars('Currency') as $property => $default_value) {
+    if (isset($schema['currency']['fields'][$property])) {
+      $schema['currency']['fields'][$property]['object default'] = $default_value;
+    }
+  }
+  $schema['currency_locale_pattern'] = array(
+    'description' => 'Locale-specific amount formatting.',
+    'export' => array(
+      'key' => 'locale',
+      'key name' => 'Locale',
+      'default hook' => 'currency_locale_pattern_info',
+      'object' => 'CurrencyLocalePattern',
+      'cache defaults' => TRUE,
+    ),
+    'fields' => array(
+      'export_module' => array(
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'export_type' => array(
+        'type' => 'int',
+        'length' => 'tiny',
+      ),
+      'locale' => array(
+        'not null' => TRUE,
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'pattern' => array(
+        'type' => 'varchar',
+        'length' => 255,
+      ),
+      'symbol_decimal_separator' => array(
+        'type' => 'varchar',
+        'length' => '255',
+      ),
+      'symbol_grouping_separator' => array(
+        'type' => 'varchar',
+        'length' => '255',
+      ),
+    ),
+    'primary key' => array('locale'),
+  );
+  // Set Ctools object defaults based on CurrencyLocalePattern's default
+  // values.
+  // Manually include the class' file, because the registry may not have been
+  // loaded yet.
+  require_once __DIR__ . '/includes/CurrencyLocalePattern.inc';
+  foreach (get_class_vars('CurrencyLocalePattern') as $property => $default_value) {
+    if (isset($schema['currency_locale_pattern']['fields'][$property])) {
+      $schema['currency_locale_pattern']['fields'][$property]['object default'] = $default_value;
+    }
+  }
+  $schema['currency_exchanger_fixed_rates'] = array(
+    'fields' => array(
+      'currency_code_from' => array(
+        'type' => 'varchar',
+        'length' => 3,
+        'not null' => TRUE,
+      ),
+      'currency_code_to' => array(
+        'type' => 'varchar',
+        'length' => 3,
+        'not null' => TRUE,
+      ),
+      'rate' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('currency_code_from', 'currency_code_to'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function currency_uninstall() {
+  variable_del('currency_exchanger');
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function currency_requirements($phase) {
+  $loaded = extension_loaded('BCMath');
+  $requirements['currency_extension_bcmath'] = array(
+    'description' => t('BCMath is used to prevent possible precision loss during calculations.'),
+    'title' => t('PHP BCMath extension'),
+    'value' => $loaded ? t('Loaded') : t('Not loaded'),
+    'severity' => $loaded ? REQUIREMENT_OK : REQUIREMENT_WARNING,
+  );
+
+  return $requirements;
+}
+
+/**
+ * Sets all primary keys to not null.
+ */
+function currency_update_7200(array &$sandbox) {
+  db_change_field('currency_locale_pattern', 'locale', 'locale', array(
+    'not null' => TRUE,
+    'length' => 5,
+    'type' => 'varchar',
+  ));
+}
+
+/**
+ * Increases the maximum locale length.
+ */
+function currency_update_7201(array &$sandbox) {
+  db_change_field('currency_locale_pattern', 'locale', 'locale', array(
+    'not null' => TRUE,
+    'length' => 255,
+    'type' => 'varchar',
+  ));
+}
+
+/**
+ * Adds missing fields on locale schema.
+ */
+function currency_update_7202(array &$sandbox) {
+  db_add_field('currency_locale_pattern', 'symbol_decimal_separator', array(
+    'type' => 'varchar',
+    'length' => '255',
+  ));
+  db_add_field('currency_locale_pattern', 'symbol_grouping_separator', array(
+    'type' => 'varchar',
+    'length' => '255',
+  ));
+}

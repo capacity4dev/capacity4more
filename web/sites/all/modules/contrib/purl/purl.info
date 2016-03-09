@@ -1,0 +1,24 @@
+name = Persistent URL
+description = "Provides tools for using persistent URL pieces"
+core = 7.x
+dependencies[] = ctools
+
+files[] = purl.admin.inc
+files[] = purl.api.php
+files[] = purl.install
+files[] = purl.module
+files[] = includes/purl_domain.inc
+files[] = includes/purl_extension.inc
+files[] = includes/purl_pair.inc
+files[] = includes/purl_path.inc
+files[] = includes/purl_processor.inc
+files[] = includes/purl_querystring.inc
+files[] = includes/purl_subdomain.inc
+files[] = includes/purl_useragent.inc
+
+; Information added by drupal.org packaging script on 2013-10-01
+version = "7.x-1.0-beta1+11-dev"
+core = "7.x"
+project = "purl"
+datestamp = "1380624350"
+

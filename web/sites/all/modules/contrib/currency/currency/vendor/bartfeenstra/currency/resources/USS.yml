@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: USS
+ISO4217Number: '998'
+sign: ¤
+subunits: 100
+title: 'U.S. dollar (same day)'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: US }

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * getlocations_blocks.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_blocks module installation.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function getlocations_blocks_uninstall() {
+  variable_del('getlocations_blocks');
+}

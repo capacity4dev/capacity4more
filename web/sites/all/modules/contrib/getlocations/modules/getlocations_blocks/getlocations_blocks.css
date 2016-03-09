@@ -1,0 +1,30 @@
+/**
+ * @file
+ * getlocations_blocks.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * css for getlocations_blocks.
+ *
+ * To avoid being overwritten, copy this into your theme
+*/
+
+#getlocations_blocks_city div,
+#getlocations_blocks_city label {
+  display: inline;
+}
+
+#getlocations_blocks_province div,
+#getlocations_blocks_province label {
+  display: inline;
+}
+
+#getlocations_blocks_postalcode div,
+#getlocations_blocks_postalcode label {
+  display: inline;
+}
+
+#getlocations_blocks_country div,
+#getlocations_blocks_country label {
+  display: inline;
+}

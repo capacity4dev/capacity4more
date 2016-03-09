@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * Implements hook_field_widget_info_alter().
+ */
+function summary_settings_field_widget_info_alter(&$info) {
+  $info['text_textarea_with_summary']['settings'] += array(
+    'summary_display' => 'default',
+  );
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function summary_settings_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
+  // Replace the javascript that toggles the summary display.
+  $summary_js =& $element['summary']['#attached']['js'];
+  $key = array_search(drupal_get_path('module', 'text') . '/text.js', $summary_js);
+  if ($key !== FALSE) {
+    $element['summary']['#attached']['js'][$key] = drupal_get_path('module', 'summary_settings') . '/text.js';
+  }
+  $mode = isset($context['instance']['settings']['summary_display']) ? $context['instance']['settings']['summary_display'] : 'default';
+  switch ($mode) {
+    case 'hidden':
+      $element['summary']['#attributes']['class'][] = 'text-summary-hidden';
+      break;
+    case 'required':
+      if ($form_state['build_info']['form_id'] != 'field_ui_field_edit_form') {
+        $element['summary']['#required'] = TRUE;
+        unset($element['summary']['#description']);
+      }
+      // NO BREAK.
+    case 'visible':
+      $element['summary']['#attributes']['class'][] = 'text-summary-visible';
+      break;
+    case 'default':
+    default:
+      // Do nothing.
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function summary_settings_form_field_ui_field_edit_form_alter(&$form, $form_state) {
+  if (isset($form['instance']) && isset($form['instance']['widget']['type']['#value'])) {
+    // Get the instance and widget type.
+    $element = &$form['instance'];
+    $widget_type = $element['widget']['type']['#value'];
+    if ($widget_type == 'text_textarea_with_summary') {
+      $instance = field_info_instance($element['entity_type']['#value'], $element['field_name']['#value'], $element['bundle']['#value']);
+      $form['instance']['settings'] += summary_settings_instance_settings_form($instance['settings']);
+    }
+  }
+}
+
+function summary_settings_instance_settings_form($settings) {
+  return array('summary_display' => array(
+    '#title' => t('Summary display'),
+    '#type' => 'radios',
+    '#options' => array(
+      'default' => t('Default (summary can be toggled)'),
+      'visible' => t('Visible (summary is always visible)'),
+      'required' => t('Required (summary is required and always visible)'),
+      'hidden' => t('Hidden (summary is always hidden, regardless if empty)'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="instance[settings][display_summary]"]' => array('checked' => TRUE),
+      )
+    ),
+    '#default_value' => empty($settings['summary_display']) ? 'default' : $settings['summary_display'],
+  ));
+}

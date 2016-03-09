@@ -1,0 +1,10 @@
+alternativeSigns: {  }
+exchangeRates:
+    UGS: '100'
+ISO4217Code: UGX
+ISO4217Number: '800'
+sign: USh
+subunits: 100
+title: 'Ugandan shilling'
+usage:
+    - { ISO8601From: '1987-05-15', ISO8601To: '', ISO3166Code: UG }

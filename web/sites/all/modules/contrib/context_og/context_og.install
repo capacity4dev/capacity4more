@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install file for the context_og module.
+ */ 
+
+/**
+ * Implementation of hook_enable().
+ */
+function context_og_enable() {
+  context_invalidate_cache();
+}
+

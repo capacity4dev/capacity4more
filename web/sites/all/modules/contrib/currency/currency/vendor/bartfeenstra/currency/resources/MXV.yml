@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: MXV
+ISO4217Number: '979'
+sign: ¤
+subunits: 100
+title: 'Mexican Unidad de Inversion'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: MX }

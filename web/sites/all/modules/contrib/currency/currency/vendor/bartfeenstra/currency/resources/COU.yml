@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: COU
+ISO4217Number: '970'
+sign: ¤
+subunits: 100
+title: 'Colombian Unidad de Valor Real'
+usage:
+    - { ISO8601From: '', ISO8601To: '', ISO3166Code: CO }

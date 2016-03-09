@@ -1,0 +1,250 @@
+<?php
+
+/**
+ * @file
+ * PURL integration for Organic grous.
+ */
+
+/**
+ * Implements hook_purl_provider().
+ */
+function og_purl_purl_provider() {
+  $items = array();
+  $items["og_purl|node"] = array(
+    'name' => t('OG'),
+    'description' => t('Sets PURL according to Organic groups.'),
+    'callback' => 'og_purl_init_provider',
+    'example' => 'my-group',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ */
+function og_purl_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['og_purl'] = array(
+    'name' => t('OG PURL'),
+    'description' => t('Select groups according to the PURL prefix.'),
+    'callback' => 'og_purl_og_context_handler',
+  );
+  return $providers;
+}
+
+/**
+ * OG-context handler.
+ *
+ * Get all the group IDs according to the PURL prefix.
+ */
+function og_purl_og_context_handler() {
+  $gids = array();
+  foreach (purl_active()->get() as $modifier => $values) {
+    foreach ($values as $modifier) {
+      if ($modifier->provider == 'og_purl|node') {
+        $gids['node'][] = $modifier->id;
+      }
+    }
+  }
+  return $gids;
+}
+
+/**
+ * Implements hook_init().
+ *
+ * Redirect to PURL if in OG-context.
+ */
+function og_purl_init() {
+  if (purl_disable()) {
+    // PURL is disabled.
+    return;
+  }
+
+  if ($purl_gids = og_purl_og_context_handler()) {
+    // We are already in the PURL context.
+    return;
+  }
+
+  $og_context = og_context();
+  if (!$og_context || $og_context['group_type'] != 'node') {
+    return;
+  }
+
+  $group_node = node_load($og_context['gid']);
+  if (!node_access('view', $group_node)) {
+    // User doesn't have access to the group node.
+    return;
+  }
+
+  $purl_params = array(
+    'query' => drupal_get_query_parameters($_GET, array('q')),
+    'purl' => array(
+      'provider' => "og_purl|node",
+      'id' => $og_context['gid'],
+    ),
+  );
+  unset($_GET['destination']);
+  purl_goto($_GET['q'], $purl_params);
+}
+
+/**
+ * Purl provider callback.
+ */
+function og_purl_init_provider($id) {
+  if (purl_disable()) {
+    // PURL is disabled for this request.
+    return;
+  }
+
+  $og_context = og_context();
+  if (!$og_context || $og_context['group_type'] != 'node') {
+    return;
+  }
+
+  $group_type = $og_context['group_type'];
+  $gid = $og_context['gid'];
+
+  // Make sure we are not already in the PURL context.
+  $purl_gids = og_purl_og_context_handler();
+  if (!empty($purl_gids[$group_type]) && in_array($gid, $purl_gids[$group_type])) {
+    return;
+  }
+
+  $purl_params = array(
+    'query' => drupal_get_query_parameters($_GET, array('q')),
+    'purl' => array(
+      'provider' => "og_purl|node",
+      'id' => $og_context['gid'],
+    )
+  );
+  purl_goto($_GET['q'], $purl_params);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add the PURL setting to the group's node form.
+ */
+function og_purl_form_alter(&$form, $form_state) {
+  if (empty($form['#node_edit_form']) || !og_is_group_type('node', $form['#node']->type)) {
+    return;
+  }
+
+  // Add purl form.
+  og_purl_form($form, $form_state, $form['#node']);
+}
+
+/**
+ * Add og_purl information to a form.
+ */
+function og_purl_form(&$form, $form_state, $node) {
+  $form['og_purl'] = array(
+    '#type' => 'container',
+  );
+
+  $nid = isset($form['#node']->nid) ? $form['#node']->nid : NULL;
+  $purl = isset($form['#node']->purl) ? $form['#node']->purl : '';
+  $purl_value = isset($form_state['node_preview']) ? $form['#node']->purl['value'] : $purl;
+  $form['og_purl']['purl'] = purl_form('og_purl|node', $nid, $purl_value);
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function og_purl_field_extra_fields() {
+  $extra = array();
+  foreach (entity_get_info() as $entity_type => $entity_info) {
+    foreach (array_keys($entity_info['bundles']) as $bundle) {
+      if (og_is_group_type('node', $bundle)) {
+        $extra[$entity_type][$bundle]['form']['og_purl'] = array(
+          'label' => t('Path Prefix'),
+          'description' => t('OG PURL Path Prefix.'),
+          'weight' => -40,
+        );
+      }
+    }
+  }
+  return $extra;
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function og_purl_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if (og_is_group('node', $node)) {
+      $values = array(
+        'id' => isset($node->nid) ? $node->nid : NULL,
+        // We use the provider key to also pass the entity-type if the
+        // group.
+        'provider' => 'og_purl|node',
+      );
+      $modifier = purl_load($values);
+      $node->purl = $modifier['value'];
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function og_purl_node_insert($node) {
+  og_purl_purl_save($node);
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function og_purl_node_update($node) {
+  og_purl_purl_save($node);
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function og_purl_node_delete($node) {
+  $modifier = array(
+    'id' => $node->nid,
+    'provider' => 'og_purl|node',
+  );
+  purl_delete($modifier);
+}
+
+/**
+ * Save PURL modifier
+ *
+ * @param $node
+ *   The company node object.
+ */
+function og_purl_purl_save($node) {
+  if (!og_is_group('node', $node)) {
+    return;
+  }
+
+  // Save PURL modifier.
+  $modifier = array(
+    'provider' => 'og_purl|node',
+    'id' => $node->nid,
+  );
+
+  if (empty($node->purl)) {
+    // Fallback, in case purl value was not given.
+    ctools_include('cleanstring');
+    $settings = array(
+      'transliterate' => TRUE,
+      'max length' => 255,
+      'lower case' => TRUE,
+    );
+
+    if (!$value = ctools_cleanstring($node->title, $settings)) {
+      $value = "{$node->type}-{$node->nid}";
+    }
+    $modifier['value'] = $value;
+    purl_save($modifier);
+  }
+  elseif (is_array($node->purl) && !empty($node->purl['value'])) {
+    $modifier['value'] = $node->purl['value'];
+    purl_save($modifier);
+  }
+}

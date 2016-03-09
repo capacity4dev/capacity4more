@@ -1,0 +1,138 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyViewsHandlerFilterWebTestCase.
+ */
+
+/**
+ * Tests CurrencyViewsHandlerFilter.
+ */
+class CurrencyViewsHandlerFilterWebTestCase extends ViewsSqlTest {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'CurrencyViewsFilterHandler',
+      'group' => 'Currency',
+      'dependencies' => array('views'),
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp() {
+    $this->profile = 'testing';
+    parent::setUp();
+    module_enable(array('currency', 'views'));
+  }
+
+  /**
+   * Overrides parent::schemaDefinition.
+   */
+  protected function schemaDefinition() {
+    $schema['views_test'] = array(
+      'fields' => array(
+        'currency_code' => array(
+          'type' => 'varchar',
+          'length' => '3',
+        ),
+      ),
+    );
+
+    return $schema;
+  }
+
+  /**
+   * Overrides parent::viewsData();
+   */
+  function viewsData() {
+    // Declaration of the base table.
+    $data['views_test']['table'] = array(
+      'group' => t('Views test'),
+      'base' => array(
+        'field' => 'id',
+        'title' => t('Views test'),
+      ),
+    );
+
+    // Declaration of fields.
+    $data['views_test']['currency_code'] = array(
+      'title' => t('Currency code'),
+      'help' => t('Currency code'),
+      'field' => array(
+        'handler' => 'CurrencyViewsHandlerField',
+      ),
+      'filter' => array(
+        'handler' => 'CurrencyViewsHandlerFilter',
+      ),
+    );
+
+    return $data;
+  }
+
+  /**
+   * Overrides parent::dataSet();
+   */
+  protected function dataSet() {
+    return array(array(
+      'currency_code' => 'EUR',
+      'currency_code' => 'NLG',
+      'currency_code' => 'UAH',
+    ));
+  }
+
+  /**
+   * Overrides parent::getBasicView().
+   */
+  protected function getBasicView() {
+    views_include('view');
+
+    // Create the basic view.
+    $view = new view();
+    $view->name = 'test_view';
+    $view->add_display('default');
+    $view->base_table = 'views_test';
+
+    // Set up the fields we need.
+    $display = $view->new_display('default', 'Master', 'default');
+    $filters = array(
+      'currency_code' => array(
+        'id' => 'currency_code',
+        'table' => 'views_test',
+        'field' => 'currency_code',
+        'group_info' => array(
+          'identifier' => 'currency_code',
+          'group_items' => array(
+            1 => array(
+              'operator' => 'in',
+              'value' => array('EUR', 'NLG'),
+            ),
+          ),
+        ),
+      ),
+    );
+    $display->override_option('filters', $filters);
+
+    return $view;
+  }
+
+  /**
+   * Tests CurrencyAmountViewsHandlerField.
+   */
+  public function testCurrencyAmountViewsHandlerField() {
+    $view = $this->getBasicView();
+    $view->save();
+
+    $account = $this->drupalCreateUser(array('administer views'));
+    $this->drupalLogin($account);
+    $this->drupalGet('admin/structure/views/nojs/config-item/test_view/default/filter/currency_code');
+    foreach (currency_options() as $option) {
+      $this->assertText($option);
+    }
+  }
+}

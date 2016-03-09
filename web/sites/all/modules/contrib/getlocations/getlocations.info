@@ -1,0 +1,16 @@
+; getlocations-7.x-1.x
+name = Get Locations
+description = "Show locations on a Google map."
+package = "Location"
+core = 7.x
+php = 5
+dependencies[] = libraries
+files[] = "views/getlocations_plugin_style_map.inc"
+configure = admin/config/services/getlocations
+
+; Information added by Drupal.org packaging script on 2015-06-10
+version = "7.x-1.16"
+core = "7.x"
+project = "getlocations"
+datestamp = "1433951603"
+

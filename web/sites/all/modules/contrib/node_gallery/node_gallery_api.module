@@ -1,0 +1,1408 @@
+<?php
+
+/**
+ * @file
+ * Node Gallery module.
+ */
+
+define('NODE_GALLERY_REF_FIELD', 'node_gallery_ref');
+define('NODE_GALLERY_GALLERY_FIELD', 'node_gallery_gallery');
+define('NODE_GALLERY_MEDIA_FIELD', 'node_gallery_media');
+
+define("NODE_GALLERY_PERM_ADMIN_GALLERY", 'administer node gallery');
+define("NODE_GALLERY_PERM_VIEW_GALLERY", 'view node gallery');
+define("NODE_GALLERY_PERM_UPLOAD_TO_ALL_GALLERIES", 'upload to all galleries');
+
+define('NODE_GALLERY_DEFAULT_WEIGHT', 0);
+
+define('NODE_GALLERY_BATCH_DELETE', 10);
+define("NODE_GALLERY_BATCH_CHUNK_SIZE", 5);
+
+module_load_include('inc', 'node_gallery_api', 'node_gallery_api');
+
+
+/**
+ * Implements hook_menu().
+ */
+function node_gallery_api_menu() {
+  $items = array();
+
+  /* Admin pages */
+  $items['admin/config/content/node-gallery'] = array(
+    'title' => 'Node Gallery',
+    'description' => 'Create and manage your Node Gallery relationships.',
+    'page callback' => 'node_gallery_api_relationship_type_list',
+    'access arguments' => array(NODE_GALLERY_PERM_ADMIN_GALLERY),
+    'file' => 'node_gallery_api.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/config/content/node-gallery/list'] = array(
+    'title' => 'Relationship Types',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/config/content/node-gallery/settings'] = array(
+    'title' => 'Global Settings',
+    'description' => "Manage node gallery's global settings.",
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_settings_form'),
+    'access arguments' => array(NODE_GALLERY_PERM_ADMIN_GALLERY),
+    'file' => 'node_gallery_api.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/config/content/node-gallery/add'] = array(
+    'title' => 'Add a Gallery Relationship Type',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_relationship_type_content_types_form'),
+    'access arguments' => array(NODE_GALLERY_PERM_ADMIN_GALLERY),
+    'file' => 'node_gallery_api.admin.inc',
+    'type' => MENU_LOCAL_ACTION,
+  );
+  $items['admin/config/content/node-gallery/relationship-type/content_types/%node_gallery_api_relationship_type'] = array(
+    'title' => 'Node Gallery - Edit Relationship Type Content Types',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_relationship_type_content_types_form', 6),
+    'access arguments' => array(NODE_GALLERY_PERM_ADMIN_GALLERY),
+    'file' => 'node_gallery_api.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/content/node-gallery/relationship-type/settings/%node_gallery_api_relationship_type'] = array(
+    'title' => 'Node Gallery - Edit Relationship Type Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_relationship_type_settings_form', 6),
+    'access arguments' => array(NODE_GALLERY_PERM_ADMIN_GALLERY),
+    'file' => 'node_gallery_api.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/content/node-gallery/delete/%node_gallery_api_relationship_type'] = array(
+    'title' => 'Node Gallery - Delete Relationship Type',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_relationship_type_delete_form', 5),
+    'access arguments' => array(NODE_GALLERY_PERM_ADMIN_GALLERY),
+    'file' => 'node_gallery_api.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  /* User-facing pages */
+  $items['node/%node_gallery_api_gallery/browse'] = array(
+    'title' => 'Browse Items',
+    'page callback' => 'node_gallery_api_browse_items',
+    'page arguments' => array(1),
+    'access arguments' => array(NODE_GALLERY_PERM_VIEW_GALLERY),
+    'file' => 'node_gallery_api.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['node/%node_gallery_api_gallery/sort'] = array(
+    'title' => 'Sort Items',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_sort_items_form', 1, 3),
+    'access callback' => 'node_gallery_api_user_access',
+    'access arguments' => array('edit item', 1),
+    'file' => 'node_gallery_api.pages.inc',
+    'weight' => -4,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+  );
+  $items['node-gallery/json/item/create/%/%/%'] = array(
+    'page callback' => 'node_gallery_api_json_create_item',
+    'page arguments' => array(4, 5, 6),
+    'access callback' => TRUE,
+    'file' => 'node_gallery_api.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['node-gallery/json/gallery/create/%/%'] = array(
+    'page callback' => 'node_gallery_json_create_gallery',
+    'page arguments' => array(4, 5),
+    'access callback' => TRUE,
+    'file' => 'node_gallery.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['node-gallery/json/gallery/%node_gallery_api_gallery/sort'] = array(
+    'page callback' => 'node_gallery_json_get_sorted_images',
+    'page arguments' => array(3, 5, 6),
+    'access callback' => 'node_gallery_user_access',
+    'access arguments' => array('edit item', 3),
+    'file' => 'node_gallery.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['node-gallery/json/gallery/%node_gallery_api_gallery/images'] = array(
+    'page callback' => 'node_gallery_json_get_images',
+    'page arguments' => array(3, 5, 6, 7),
+    'access callback' => 'node_gallery_user_access',
+    'access arguments' => array('view', 3),
+    'file' => 'node_gallery.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['node/%node_gallery_api_gallery/items'] = array(
+    'title' => 'Manage Items',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('node_gallery_api_manage_items_form', 1),
+    'access callback' => 'node_gallery_api_user_access',
+    'access arguments' => array('edit item', 1),
+    'file' => 'node_gallery_api.pages.inc',
+    'weight' => -3,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+  );
+  // Alias /manage to /images
+  $items['node/%node_gallery_api_gallery/manage'] = $items['node/%node_gallery_api_gallery/items'];
+  $items['node/%node_gallery_api_gallery/manage']['type'] = MENU_CALLBACK;
+  // Callback for AHAH add more buttons.
+  $items['node-gallery/json/js_add_more'] = array(
+    'page callback' => 'node_gallery_content_add_more_js',
+    'access arguments' => array('access content'),
+    'file' => 'node_gallery.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+
+  $item_types = array();
+  $relationship_types = node_gallery_api_get_relationship_type(NULL, NULL, NULL, TRUE);
+  if (!empty($relationship_types)) {
+    foreach ($relationship_types as $relationship) {
+      foreach ($relationship->item_types as $item_type) {
+        $type_info = node_type_load($item_type);
+        $items['node/%node_gallery_api_gallery/upload/' . $item_type] = array(
+          'title' => $type_info->name,
+          'page callback' => 'node_gallery_api_upload_items_form',
+          'page arguments' => array(1, $item_type),
+          'access callback' => 'node_gallery_api_upload_access',
+          'access arguments' => array(1, $item_type),
+          'file' => 'node_gallery_api.pages.inc',
+          'weight' => -2,
+          'type' => (empty($item_types)) ? MENU_DEFAULT_LOCAL_TASK : MENU_LOCAL_TASK,
+        );
+        $item_types[] = $item_type;
+      }
+    }
+  }
+
+  $items['node/%node_gallery_api_gallery/upload'] = array(
+    'title' => 'Upload New Items',
+    'page callback' => 'node_gallery_api_upload_items_form',
+    'page arguments' => array(1),
+    'access callback' => 'node_gallery_api_upload_access',
+    'access arguments' => array(1),
+    'file' => 'node_gallery_api.pages.inc',
+    'weight' => -2,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function node_gallery_api_admin_paths() {
+  $paths = array(
+    'node/*/sort' => TRUE,
+    'node/*/upload' => TRUE,
+    'node/*/items' => TRUE,
+    'node/*/manage' => TRUE
+  );
+  return $paths;
+}
+
+/**
+ * Implements hook_permission()
+ */
+function node_gallery_api_permission() {
+  return array(
+    NODE_GALLERY_PERM_ADMIN_GALLERY => array(
+      'title' => t('Administer Node Gallery Settings'),
+      'description' => t('Create Node Gallery relationship types and administer settings.'),
+    ),
+    NODE_GALLERY_PERM_UPLOAD_TO_ALL_GALLERIES => array(
+      'title' => t('Upload to All Galleries'),
+      'description' => t('Upload to any gallery, regardless if they were the creator'),
+    ),
+  );
+}
+
+/**
+ * Access function for uploads.
+ */
+function node_gallery_api_upload_access($gallery, $item_type = NULL) {
+  $relationship_types = node_gallery_api_get_relationship_type($gallery->type, $item_type);
+  return (!empty($relationship_types) && node_gallery_api_user_access('upload', $gallery));
+}
+
+/**
+ * Object replacement function for hook_menu().
+ *
+ * @param int $nid
+ *   The nid of a node.
+ *
+ * @return object
+ *   A populated node object if the $nid passed in corresponds to a gallery,
+ *   FALSE if not.
+ */
+function node_gallery_api_gallery_load($nid) {
+  $types = node_gallery_api_get_types('gallery');
+  if (is_numeric($nid)) {
+    $node = node_load($nid);
+
+    // Is the current node used in any ng relationships?
+    if (in_array($node->type, $types)) {
+      return $node;
+    }
+    else {
+      // This is not a ng node.
+      return FALSE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Object replacement function for hook_menu().
+ *
+ * @param int $id
+ *   The Entity ID of the gallery.
+ *
+ * @return mixed|null
+ *   A relationship array.
+ */
+function node_gallery_api_relationship_type_load($id) {
+  $relationship_types = entity_load('node_gallery_relationship_type', array($id));
+  if (!empty($relationship_types)) {
+    return array_shift($relationship_types);
+  }
+  return NULL;
+}
+
+/**
+ * Submit handler for uploads.
+ */
+function node_gallery_api_upload_submit($form, &$form_state) {
+  $form_state['values'][$form_state['values']['node_gallery_field_name']][LANGUAGE_NONE][0]['target_id'] = $form_state['values']['node_gallery_target_id'];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function node_gallery_api_form_alter(&$form, $form_state, $form_id) {
+  if (!empty($form['#node']->node_gallery_target_id) && !empty($form['#node']->node_gallery_field_name)) {
+    // TODO: This is real garbage. Need to rework this.
+    array_unshift($form['actions']['submit']['#submit'], 'node_gallery_api_upload_submit');
+
+    $form[$form['#node']->node_gallery_field_name][LANGUAGE_NONE]['#access'] = FALSE;
+    $form['node_gallery_target_id'] = array(
+      '#type' => 'value',
+      '#value' => $form['#node']->node_gallery_target_id,
+    );
+    $form['node_gallery_field_name'] = array(
+      '#type' => 'value',
+      '#value' => $form['#node']->node_gallery_field_name,
+    );
+    return;
+  }
+  // If displaying our VBO image weight form, theme it.
+  if (strpos($form_id, 'views_bulk_operations_form') !== FALSE && isset($form['node_gallery_change_image_weight_action']) && isset($form['#ngtheme'])) {
+    $form['#theme'] = $form['#ngtheme'];
+    unset($form['#ngtheme']);
+  }
+  // If displaying an image edit form, display a select
+  // box allowing choice of gallery.
+  elseif (!empty($form['#node_edit_form'])) {
+    if (in_array($form['type']['#value'], (array) node_gallery_api_get_types('gallery'))) {
+      // Gallery node form.
+      $form['buttons']['submit']['#submit'][] = 'node_gallery_create_gallery_redirect_submit';
+    }
+    elseif (in_array($form['type']['#value'], (array) node_gallery_api_get_types('item'))) {
+      // Item node form.
+      $fieldname = node_gallery_api_get_item_field_name(NULL, $form['type']['#value']);
+      $menu_item = menu_get_item();
+      if ($menu_item['path'] == 'node/%/upload') {
+        // Pull the gallery object, and pre-fill in the gallery info.
+        $fieldname = node_gallery_api_get_item_field_name(NULL, $form['type']['#value']);
+        if (isset($form[$fieldname][LANGUAGE_NONE]['#options'])) {
+          $form[$fieldname][LANGUAGE_NONE] = array(
+            '#type' => 'value',
+            '#value' => array($menu_item['map'][1]->nid),
+          );
+        }
+      }
+      elseif ($menu_item['path'] == 'node/%/items') {
+
+      }
+      else {
+        // TODO: Make sure users have the ability to create new galleries.
+        if (isset($form[$fieldname][LANGUAGE_NONE]['#options'])) {
+          $option_keys = array_keys($form[$fieldname][LANGUAGE_NONE]['#options']);
+          if ($option_keys[0] == '_none') {
+            $none_option = $form[$fieldname][LANGUAGE_NONE]['#options']['_none'];
+            unset($form[$fieldname][LANGUAGE_NONE]['#options']['_none']);
+          }
+          $form[$fieldname][LANGUAGE_NONE]['#options'] = array('_node_gallery_create' => t('- Create a new gallery -')) + $form[$fieldname][LANGUAGE_NONE]['#options'];
+          if ($none_option) {
+            $form[$fieldname][LANGUAGE_NONE]['#options'] = array('_none' => $none_option) + $form[$fieldname][LANGUAGE_NONE]['#options'];
+          }
+          if (empty($form[$fieldname][LANGUAGE_NONE]['#default_value'])) {
+            $form[$fieldname][LANGUAGE_NONE]['#default_value'] = '_node_gallery_create';
+          }
+          array_unshift($form['actions']['submit']['#submit'], 'node_gallery_api_create_new_gallery_submit');
+          $form['actions']['submit']['#submit'][] = 'node_gallery_api_gallery_edit_redirect';
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implments hook_form_FORM_ID_alter() for file_entity_file_display_form.
+ *
+ * @param array $form
+ * @param array $form_state
+ * @param string $form_id
+ */
+function node_gallery_api_form_file_entity_file_display_form_alter(&$form, &$form_state, $form_id) {
+  $settings = variable_get('node_gallery_api_file_link_settings', array());
+  $form['node_gallery_api_link'] = array(
+    '#type' => 'select',
+    '#options' => array(
+      'none' => t('None'),
+      'gallery_item' => t('Link to gallery item'),
+      'gallery' => t('Link to gallery'),
+    ),
+    '#title' => t('Node Gallery Link'),
+    '#default_value' => isset($settings[$form['#file_type']][$form['#view_mode']]) ? $settings[$form['#file_type']][$form['#view_mode']] : 'none',
+  );
+
+  $form['#submit'][] = 'node_gallery_api_file_entity_display_form_submit';
+}
+
+/**
+ * Submit handler for saving file display link settings.
+ *
+ * @param array $form
+ * @param array $form_state
+ */
+function node_gallery_api_file_entity_display_form_submit(&$form, &$form_state) {
+  $settings = variable_get('node_gallery_api_file_link_settings', array());
+  if (!isset($settings[$form['#file_type']])) {
+    $settings[$form['#file_type']] = array();
+  }
+  $settings[$form['#file_type']][$form['#view_mode']]  = $form_state['values']['node_gallery_api_link'];
+  variable_set('node_gallery_api_file_link_settings', $settings);
+}
+
+
+/**
+ * Implements hook_file_view().
+ *
+ * @param object $file
+ *   file object
+ * @param string $view_mode
+ *   current view mode
+ * @param string $langcode
+ *   language code
+ */
+function node_gallery_api_file_view($file, $view_mode, $langcode) {
+  $settings = variable_get('node_gallery_api_file_link_settings', array());
+  if (!empty($settings[$file->type][$view_mode]) && $settings[$file->type][$view_mode] != 'none' && !empty($file->referencing_entity)) {
+    if ($settings[$file->type][$view_mode] == 'gallery_item') {
+      $uri = entity_uri('node', $file->referencing_entity);
+    }
+    elseif ($settings[$file->type][$view_mode] == 'gallery') {
+      $relationships = node_gallery_api_get_relationships(NULL, $file->referencing_entity->nid);
+      if (!empty($relationships)) {
+        $r = reset($relationships);
+        $gallery = node_load($r->ngid);
+        $uri = entity_uri('node', $gallery);
+      }
+    }
+  }
+  if (!empty($uri)) {
+    $file->content['file'] = array(
+      '#contents' => !empty($file->content['file']) ? $file->content['file'] : '',
+      '#uri' => $uri,
+      '#theme' => 'node_gallery_api_file_display_link',
+    );
+  }
+}
+
+/**
+ * Redirect to gallery on form submit.
+ */
+function node_gallery_api_gallery_edit_redirect($form, &$form_state) {
+  if (!empty($form_state['node_gallery_edit_redirect'])) {
+    $form_state['redirect'] = $form_state['node_gallery_edit_redirect'];
+  }
+}
+
+/**
+ * If the user selected the option to create a new gallery,
+ * create a stub gallery, assign the images to that gallery,
+ * and redirect them to the gallery edit form.
+ *
+ * @param array $form
+ *   The Drupal FAPI form array.
+ * @param array $form_state
+ *   The Drupal FAPI form_state array.
+ */
+function node_gallery_api_create_new_gallery_submit($form, &$form_state) {
+  $fieldname = node_gallery_api_get_item_field_name(NULL, $form_state['values']['type']);
+  if ($form_state['values'][$fieldname][LANGUAGE_NONE][0]['target_id'] == '_node_gallery_create') {
+    $relationship_type = node_gallery_api_get_relationship_type(NULL, $form_state['values']['type']);
+    $content_type = $relationship_type->gallery_types[0];
+    $gallery = _node_gallery_api_create_new_gallery($content_type);
+    $form_state['values'][$fieldname][LANGUAGE_NONE][0]['target_id'] = $gallery->nid;
+    drupal_set_message(t('You have been redirected to your new auto-generated gallery edit page, please update the title and review the other settings before pressing save.'));
+    $form_state['node_gallery_edit_redirect'] = 'node/' . $gallery->nid . '/edit';
+  }
+}
+
+/**
+ * Given a content type, creates a new gallery node,
+ *  returning the node object.
+ *
+ * @param string $content_type
+ *   The content type of the new node.
+ *
+ * @return
+ *   The completed node object.
+ */
+function _node_gallery_api_create_new_gallery($content_type) {
+  global $user;
+  module_load_include('inc', 'node', 'node.pages');
+  $node = new stdClass();
+  $node->type = $content_type;
+  node_object_prepare($node);
+  $node->title = 'Unnamed Gallery';
+  $node->name = $user->name;
+  node_save($node);
+  return $node;
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function node_gallery_api_token_info() {
+  // Node tokens.
+  $info['tokens']['node']['node_gallery_gallery_path'] = array(
+    'name' => t('Node Gallery: Path'),
+    'description' => t('The gallery path.'),
+  );
+  $info['tokens']['node']['node_gallery_gallery_title'] = array(
+    'name' => t('Node Gallery: Title'),
+    'description' => t('The gallery title.'),
+  );
+  $info['tokens']['node']['node_gallery_gallery_nid'] = array(
+    'name' => t('Node Gallery: NID'),
+    'description' => t('The gallery Node NID.'),
+  );
+  return $info;
+}
+
+
+  /**
+   * Implements hook_tokens().
+   */
+function node_gallery_api_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+    $relationships = node_gallery_api_get_relationships(NULL, $node->nid);
+    if (!empty($relationships)) {
+      $r = reset($relationships);
+      $gallery_node = node_load($r->ngid);
+      $gallery_path = drupal_get_path_alias('node/' . $gallery_node->nid);
+      foreach ($tokens as $name => $original) {
+        switch ($name) {
+          case 'node_gallery_gallery_path':
+            $replacements[$original] = decode_entities(check_plain($gallery_path));
+            break;
+
+          case 'node_gallery_gallery_title':
+            $replacements[$original] = decode_entities(check_plain($gallery_node->title));
+            break;
+
+          case 'node_gallery_gallery_nid':
+            $replacements[$original] = $gallery_node->nid;
+            break;
+        }
+      }
+    }
+  }
+  return $replacements;
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function node_gallery_api_field_extra_fields_alter(&$info) {
+  $types = node_gallery_api_get_relationship_type();
+  if (!empty($types)) {
+    foreach ($types as $type) {
+      foreach ($type->gallery_types as $gallery_type) {
+        $info['node'][$gallery_type]['display']['node_gallery_view'] = array(
+          'label' => t('Gallery View'),
+          'description' => t('View specified in the gallery type settings.'),
+          'weight' => 100,
+          // Try to put it at the bottom.
+        );
+      }
+      foreach ($type->item_types as $item_types) {
+        $info['node'][$item_types]['display']['node_gallery_navigation'] = array(
+          'label' => t('Gallery Navigation'),
+          'description' => t('Previous / Next links for moving through a gallery.'),
+          'weight' => -100,
+          // Try to put it at the top.
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function node_gallery_api_entity_delete($entity, $type) {
+  if ($type == 'node_gallery_relationship_type') {
+    field_delete_field(node_gallery_api_get_item_field_name(NULL, NULL, $entity->id));
+
+    $gallery_nids = array();
+
+    // Delete all relationships of this type;
+    $result = db_select('node_gallery_relationship', 'ngr')
+              ->fields('ngr', array('id', 'ngid'))
+              ->condition('relationship_type', $entity->id)->execute();
+    foreach ($result as $r) {
+      $gallery_nids[$r->ngid] = $r->ngid;
+      entity_delete('node_gallery_relationship', $r->id);
+    }
+
+    // Delete gallery information for galleries of this type.
+    foreach ($gallery_nids as $ngid) {
+      db_delete('node_gallery_galleries')->condition('ngid', $ngid)->execute();
+    }
+  }
+  if ($type == 'og_membership' && $entity->entity_type == 'node') {
+    if (node_gallery_api_is_gallery($entity->etid)) {
+      $bundle_type = db_select('node', 'n')
+                       ->fields('n', array('type'))
+                       ->condition('n.nid', $entity->etid)
+                       ->execute()
+                       ->fetchField();
+      $relationship_type = node_gallery_api_get_relationship_type($bundle_type);
+      if ($relationship_type->settings['og']['sync_items']) {
+        $item_nids = node_gallery_api_get_item_nids($entity->etid, TRUE, FALSE);
+        $og_memberships = db_select('og_membership', 'ogm')
+          ->fields('ogm', array('id'))
+          ->condition('group_type', $entity->group_type)
+          ->condition('gid', $entity->gid)
+          ->condition('entity_type', 'node')
+          ->condition('etid', $item_nids, 'IN')
+          ->execute()
+          ->fetchCol();
+        og_membership_delete_multiple($og_memberships);
+        foreach ($item_nids as $nid) {
+          cache_clear_all('field:node:' . $nid, 'cache_field');
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function node_gallery_api_entity_insert($entity, $type) {
+  node_gallery_api_entity_update($entity, $type);
+  if ($type == 'og_membership' && $entity->entity_type == 'node') {
+    if (node_gallery_api_is_gallery($entity->etid)) {
+      $bundle_type = db_select('node', 'n')
+        ->fields('n', array('type'))
+        ->condition('n.nid', $entity->etid)
+        ->execute()
+        ->fetchField();
+      $relationship_type = node_gallery_api_get_relationship_type($bundle_type);
+      if ($relationship_type->settings['og']['sync_items']) {
+        $item_nids = node_gallery_api_get_item_nids($entity->etid, TRUE, FALSE);
+        foreach ($item_nids as $nid) {
+          $membership = og_membership_create($entity->group_type, $entity->gid, 'node', $nid, $entity->field_name);
+          try{
+            $membership->save();
+          }
+          catch (OgException $ex) {
+            // This membership already exists or is not group content type.
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function node_gallery_api_entity_update($entity, $type) {
+  if ($type == 'node_gallery_relationship_type') {
+    if ($entity->filefield_name == 'node_gallery_create') {
+      $entity->filefield_name = NODE_GALLERY_MEDIA_FIELD;
+    }
+    $fieldname = node_gallery_api_get_item_field_name(NULL, NULL, $entity->id);
+    foreach ($entity->settings['relationship_type']['item_types'] as $item_type) {
+
+      // Create the gallery reference field.
+      $ng_field = node_gallery_api_field_information($fieldname);
+      node_gallery_api_create_field($fieldname, 'node', $item_type);
+
+      // Create a media field if selected.
+      if ($entity->filefield_name != 'node_gallery_none') {
+        node_gallery_api_create_field($entity->filefield_name, 'node', $item_type);
+      }
+    }
+  }
+}
+
+
+
+/**
+ * Implements hook_node_load().
+ */
+function node_gallery_api_node_load($nodes, $types) {
+  $gallery_types = node_gallery_api_get_types('gallery');
+
+  foreach ($nodes as $i => $node) {
+    if (in_array($node->type, $gallery_types)) {
+      $gallery_info = db_select('node_gallery_galleries', 'ngg')->fields('ngg')->condition('ngid', $node->nid)->execute()->fetchAssoc();
+      if (empty($gallery_info)) {
+        // This node type turned into a gallery after this node was last saved.
+        $item_count = db_select('node_gallery_relationship', 'ngr')->fields('ngr')->condition('ngid', $node->nid)->countQuery()->execute()->fetchField();
+        $q = db_select('node_gallery_relationship', 'ngr');
+        $q->join('node', 'n');
+        $pub_item_count = $q->fields('ngr')
+                            ->condition('ngid', $node->nid)
+                            ->condition('n.status', 1)
+                            ->countQuery()->execute()->fetchField();
+        $gallery_info = array(
+          'cover_item' => NULL,
+          'item_count' => $item_count,
+          'pub_item_count' => $pub_item_count,
+        );
+      }
+      $nodes[$i]->node_gallery = $gallery_info;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function node_gallery_api_node_insert($node) {
+  if (in_array($node->type, (array) node_gallery_api_get_types('item'))) {
+    $relationships = node_gallery_api_get_relationships(NULL, $node->nid);
+    foreach ($relationships as $relationship) {
+      $cover_nid = node_gallery_api_get_cover_nid($relationship->ngid);
+      if (empty($cover_nid)) {
+        node_gallery_api_set_gallery_cover_item($node->nid, $relationship->ngid);
+      }
+      node_gallery_api_clear_gallery_caches($relationship->ngid);
+      node_gallery_api_update_image_counts($relationship->ngid);
+    }
+
+    if (isset($node->pluploaded) && $node->pluploaded == TRUE && variable_get('node_gallery_plupload_manage_images_integration', TRUE)) {
+      if (!isset($_SESSION['node_gallery_plupload_nids'][$node->ngid])) {
+        $_SESSION['node_gallery_plupload_nids'][$node->ngid] = array();
+      }
+      array_unshift($_SESSION['node_gallery_plupload_nids'][$node->ngid], $node->nid);
+    }
+  }
+  elseif (in_array($node->type, (array) node_gallery_api_get_types('gallery'))) {
+    $node->ngid = $node->nid;
+    drupal_write_record('node_gallery_galleries', $node);
+    node_gallery_api_update_image_counts($node->ngid);;
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function node_gallery_api_node_update($node) {
+  if (in_array($node->type, (array) node_gallery_api_get_types('item'))) {
+    $relationships = node_gallery_api_get_relationships(NULL, $node->nid);
+    foreach ($relationships as $relationship) {
+      $cover_nid = node_gallery_api_get_cover_nid($relationship->ngid);
+      if (empty($cover_nid)) {
+        node_gallery_api_set_gallery_cover_item($node->nid, $relationship->ngid);
+      }
+      node_gallery_api_clear_gallery_caches($relationship->ngid);
+      node_gallery_api_update_image_counts($relationship->ngid);
+    }
+  }
+  elseif (in_array($node->type, node_gallery_api_get_types('gallery'))) {
+    $node->node_gallery['ngid'] = $node->nid;
+    $old_node = node_load($node->nid);
+    if ($node->status != $old_node->status) {
+      // Publish status changed.
+      _node_gallery_api_set_publish($node, $node->status);
+    }
+    $gallery_exists = db_query('SELECT ngid FROM {node_gallery_galleries} WHERE ngid = :ngid', array(':ngid' => $node->nid))->fetchField();
+    if ($gallery_exists) {
+      drupal_write_record('node_gallery_galleries', $node->node_gallery, 'ngid');
+    }
+    else {
+      drupal_write_record('node_gallery_galleries', $node->node_gallery);
+    }
+    node_gallery_api_update_image_counts($node->nid);
+    if (module_exists('pathauto')) {
+      // Our tokens are all based off the gallery nid or title,
+      // no need for processing if those stay the same.
+      if ($node->title != $old_node->title) {
+        $item_nids = node_gallery_api_get_item_nids($node->nid);
+        if (count($item_nids) > 0) {
+          if (function_exists('pathauto_node_update_alias_multiple')) {
+            pathauto_node_update_alias_multiple($item_nids, 'bulkupdate');
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function node_gallery_api_node_view($node, $view_mode = 'full') {
+  if (in_array($node->type, (array) node_gallery_api_get_types('gallery'))) {
+    _node_gallery_api_gallery_view($node, $view_mode);
+  }
+  elseif (in_array($node->type, (array) node_gallery_api_get_types('item'))) {
+    _node_gallery_api_item_view($node, $view_mode);
+  }
+}
+
+/**
+ * Field information.
+ */
+function node_gallery_api_field_information($field_name = NULL) {
+  // We can't use node_gallery_api_get_relationship_type() here because it
+  // creates PHP notices from this core issue: http://drupal.org/node/1001060.
+  $relationship_types = db_select('node_gallery_relationship_type', 'ngrt')
+                          ->fields('ngrt')
+                          ->execute();
+  if (!empty($relationship_types)) {
+    foreach ($relationship_types as $relationship_type) {
+      $relationship_type->settings = unserialize($relationship_type->settings);
+      $relationship_type->item_types = $relationship_type->settings['relationship_type']['item_types'];
+      $relationship_type->gallery_types = $relationship_type->settings['relationship_type']['gallery_types'];
+
+      $name = node_gallery_api_get_item_field_name(NULL, NULL, $relationship_type->id);
+      $items[$name] = array(
+        'no ui' => TRUE,
+        'type' => array('gallery item'),
+        'description' => t('Determine to which galleries this gallery item is assigned to.'),
+        'field' => array(
+          'field_name' => $name,
+          'type' => 'entityreference',
+          'cardinality' => 1,
+          'settings' => array(
+            'handler' => 'node_gallery',
+            'handler_submit' => 'Change handler',
+            'handler_settings' => array(
+              'node_gallery_relationship_type' => $relationship_type->id,
+              'behaviors' => array(
+                'node_gallery_behavior' => array(
+                  'status' => TRUE,
+                ),
+              ),
+              'target_bundles' => $relationship_type->gallery_types,
+              'sort' => array(
+                'type' => 'property',
+                'property' => 'title',
+                'field' => 'body:value',
+                'direction' => 'ASC',
+              ),
+            ),
+            'target_type' => 'node',
+          ),
+        ),
+        'instance' => array(
+          'label' => t('Galleries'),
+          'widget' => array(
+            'module' => 'options',
+            'settings' => array(),
+            'type' => 'options_select',
+          ),
+          'display' => array(
+            'default' => array(
+              'module' => 'options',
+              'label' => 'inline',
+              'type' => 'hidden',
+              'settings' => array(),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+  $items[NODE_GALLERY_MEDIA_FIELD] = array(
+    'description' => t('Default field for storing node gallery media.'),
+    'field' => array(
+      'field_name' => NODE_GALLERY_MEDIA_FIELD,
+      'type' => 'file',
+      'cardinality' => 1,
+    ),
+    'instance' => array(
+      'label' => t('Gallery Media '),
+      'description' => t('File to store Node Gallery media.'),
+      'display_label' => 1,
+      'settings' => array(
+        'file_directory' => 'node_gallery',
+        'file_extensions' => 'jpg jpeg gif png',
+        'description_field' => 0,
+      ),
+      'widget' => array(
+        'module' => 'file',
+        'type' => 'file_generic',
+        'weight' => 2,
+      ),
+    ),
+  );
+  if (empty($field_name)) {
+    return $items;
+  }
+  if (empty($items[$field_name])) {
+    return NULL;
+  }
+  return $items[$field_name];
+}
+
+/**
+ * Implements hook_field_attach_insert().
+ */
+function node_gallery_api_field_attach_insert($entity_type, $entity) {
+  _node_gallery_api_update_entity_fields($entity_type, $entity);
+}
+
+/**
+ * Implements hook_field_attach_update().
+ */
+function node_gallery_api_field_attach_update($entity_type, $entity) {
+  _node_gallery_api_update_entity_fields($entity_type, $entity);
+}
+
+/**
+ * Update the field values in the entity, to reflect the membership.
+ *
+ * This is used to allow other modules that save a new/ existing entity
+ * to act on the field values, even before hook_field_load() is called.
+ */
+function _node_gallery_api_update_entity_fields($entity_type, $entity) {
+  if ($entity_type != 'node') {
+    return;
+  }
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $relationship_type = node_gallery_api_get_relationship_type(NULL, $bundle);
+  if (empty($relationship_type)) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+  $field_name = node_gallery_api_get_item_field_name(NULL, NULL, $relationship_type->id);
+  $field = field_info_field($field_name);
+  $ngids = array();
+  $relationships = node_gallery_api_get_relationships(NULL, $wrapper->nid->value());
+  if (!empty($relationships)) {
+    if ($field['cardinality'] == 1) {
+      $relationship = reset($relationships);
+      $ngids = $relationship->ngid;
+    }
+    else {
+      foreach ($relationships as $relationship) {
+        $ngids[] = $ngids = $relationship->ngid;
+      }
+    }
+    if ($ngids) {
+      $wrapper->{$field_name}->set($ngids);
+    }
+  }
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function node_gallery_api_image_default_styles() {
+  $styles = array();
+  $styles['node_gallery_api_admin_thumbnail'] = array(
+    'effects' => array(
+      array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 120,
+          'height' => 120,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+  return $styles;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function node_gallery_api_entity_info_alter(&$entity_info) {
+  $entity_info['file']['view modes']['node_gallery_api_admin_thumbnail'] = array(
+    'label' => t('Node Gallery API Admin Thumbnail'),
+    'custom settings' => FALSE,
+  );
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function node_gallery_api_entity_info() {
+  $items['node_gallery_relationship_type'] = array(
+    'label' => t('Node Gallery Relationship Type'),
+    'controller class' => 'EntityAPIControllerExportable',
+    'entity class' => 'NodeGalleryRelationshipType',
+    'base table' => 'node_gallery_relationship_type',
+    'fieldable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      'label' => 'label',
+    ),
+   // 'exportable' => TRUE,
+   // 'export' => array(
+     // 'default hook' => 'default_node_gallery_relationship_type',
+   // ),
+    'bundle of' => 'node_gallery_relationship',
+    'module' => 'node_gallery_api',
+    'metadata controller class' => 'NodeGalleryRelationshipTypeMetadataController',
+    'views controller class' => 'NodeGalleryRelationshipTypeViewsController',
+  );
+
+  $items['node_gallery_relationship'] = array(
+    'label' => t('Node Gallery Relationship'),
+    'entity class' => 'NodeGalleryRelationship',
+    'controller class' => 'EntityAPIController',
+    'base table' => 'node_gallery_relationship',
+    'fieldable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      // The message has no label.
+      'label' => FALSE,
+      'bundle' => 'relationship_type',
+    ),
+    // 'label callback' => 'node_gallery_relationship_label',
+    'bundles' => array(),
+    'bundle keys' => array(
+      'bundle' => 'id',
+    ),
+    'module' => 'node_gallery_api',
+    'views controller class' => 'NodeGalleryRelationshipViewsController',
+    'metadata controller class' => 'NodeGalleryRelationshipMetadataController',
+  );
+
+  // Add bundle info but bypass entity_load() as we cannot use it here.
+  if (db_table_exists('node_gallery_relationship_type')) {
+    $relationships = db_select('node_gallery_relationship_type', 'ng')
+      ->fields('ng')
+      ->execute()
+      ->fetchAllAssoc('id');
+
+    foreach ($relationships as $type_name => $type) {
+      $items['node_gallery_relationship']['bundles'][$type_name] = array(
+        'label' => $type->label,
+        'admin' => array(
+          'path' => 'admin/config/content/node-gallery/relationship-type/settings/%node_gallery_api_relationship_type',
+          'real path' => 'admin/config/content/node-gallery/relationship-type/settings/' . $type->id,
+          'bundle argument' => 5,
+          'access arguments' => array('administer node gallery'),
+        ),
+      );
+    }
+  }
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function node_gallery_api_theme() {
+  $file = 'theme.inc';
+  $path = drupal_get_path('module', 'node_gallery') . "/theme";
+
+  $themes = array(
+    'node_gallery_api_item_navigator' => array(
+      'template' => 'node-gallery-api-item-navigator',
+      'variables' => array(
+        'navigator' => NULL,
+        'item' => NULL,
+      ),
+    ),
+    'node_gallery_api_manage_items_form' => array(
+      'render element' => 'form',
+    ),
+    'node_gallery_api_sort_items_form' => array(
+      'render element' => 'form',
+    ),
+    'node_gallery_api_file_display_link' => array(
+      'render element' => 'element',
+    ),
+  );
+
+  foreach ($themes as &$theme) {
+    $theme['path'] = $path;
+    $theme['file'] = $file;
+  }
+  return $themes;
+}
+
+/**
+ * Attaches the image navigator to the image node's content.
+ *
+ * @param object $node
+ *   A reference to the image node object.
+ * @param string $view_mode
+ *   View module
+ */
+function _node_gallery_api_item_view(&$node, $view_mode) {
+  $extra_field_settings = field_extra_fields_get_display('node', $node->type, $view_mode);
+  $relationships = node_gallery_api_get_relationships(NULL, $node->nid);
+  // Take the first one for now. In the future, if we
+  // support more than one gallery for an item, we need
+  // a way to specify context.
+  if(!empty($relationships)) {
+    $relationship = array_shift($relationships);
+  }
+  if (!empty($relationship) && !empty($extra_field_settings['node_gallery_navigation']) && $extra_field_settings['node_gallery_navigation']['visible']) {
+    if (variable_get('node_gallery_api_keyboard_shortcuts', FALSE)) {
+      drupal_add_js(drupal_get_path('module', 'node_gallery') . '/js/ng_keyboard_shortcuts.js');
+    }
+    $node->content['node_gallery_navigation'] = array(
+      '#theme' => 'node_gallery_api_item_navigator',
+      '#label_display' => 'hidden',
+      '#access' => TRUE,
+      '#weight' => $extra_field_settings['node_gallery_navigation']['weight'],
+      '#navigator' => node_gallery_api_get_item_navigator($relationship->ngid, $node->nid),
+      '#item' => $node,
+    );
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function node_gallery_api_views_api() {
+  return array(
+    'api' => 2.0,
+    'path' => drupal_get_path('module', 'node_gallery_api') . '/includes/views',
+  );
+}
+
+/**
+ * Builds an array with the data necessary to navigate a gallery.
+ *
+ * @param int $ngid
+ *   The nid of the gallery to navigate within.
+ * @param int $nid
+ *   The nid of the current image.
+ * @param bool $reset
+ *   (optional) boolean when set to true, clears the caches.
+ *
+ * @return array
+ *   An associative array consisting of:
+ *     - total: The count of published images in the gallery.
+ *     - parent: The nid of the gallery.
+ *     - current: The nid of the current image.
+ *     - prev_nid: The nid of the previous image.
+ *     - next_nid: The nid of the next image.
+ *     - first_nid: The nid of the first image in the gallery.
+ *     - last_nid: The nid of the last image in the gallery.
+ */
+function node_gallery_api_get_item_navigator($ngid, $nid, $reset = FALSE) {
+  $navigator['total'] = node_gallery_api_get_item_count($ngid, $reset);
+  $navigator['gallery_nid'] = $ngid;
+  $navigator['current'] = node_gallery_api_get_item_position($ngid, $nid, $reset);
+  $navigator['prev_nid'] = node_gallery_api_get_prev_item($ngid, $nid, $reset);
+  $navigator['next_nid'] = node_gallery_api_get_next_item($ngid, $nid, $reset);
+  $navigator['first_nid'] = node_gallery_api_get_first_item($ngid, $reset);
+  $navigator['last_nid'] = node_gallery_api_get_last_item($ngid, $reset);
+  $navigator['image_nids'] = node_gallery_api_get_item_list($ngid, $reset);
+  return $navigator;
+}
+
+/**
+ * Attaches the gallery node's image view to the node's content.
+ *
+ * @param object $node
+ *   A reference to the gallery node object.
+ * @param string $view_mode
+ *   View mode.
+ */
+function _node_gallery_api_gallery_view(&$node, $view_mode) {
+  $relationship_type = node_gallery_api_get_relationship_type($node->type);
+  $config = $relationship_type->settings;
+
+  $extra_field_settings = field_extra_fields_get_display('node', $node->type, $view_mode);
+
+  if ($view_mode == 'full') {
+    // node_gallery_set_user_breadcrumb($node->uid, $node);
+  }
+
+  if (isset($config['view_modes'][$view_mode])) {
+    list($view_name, $view_display) = explode(':', $config['view_modes'][$view_mode]['view']);
+
+    // @todo: we should be able to programmatically set some options on the view, such as number of images, filefield_name, etc.
+    $output = _node_gallery_api_views_embed_view($view_name, $view_display, $node->nid);
+
+    $node->content['node_gallery_view'] = array(
+      '#markup' => $output,
+      // '#label_display' => 'hidden',
+      '#access' => TRUE,
+      '#weight' => isset($extra_field_settings['node_gallery_view']['weight']) ? $extra_field_settings['node_gallery_view']['weight'] : 0,
+      // '#navigator' => node_gallery_get_item_navigator($node->ngid, $node->nid),
+      // '#item' => $node,
+    );
+  }
+}
+
+/**
+ * Embed a view.
+ */
+function _node_gallery_api_views_embed_view($name, $display_id = 'default') {
+  static $pager_id = 0;
+  $args = func_get_args();
+  // Remove $name.
+  array_shift($args);
+  if (count($args)) {
+    // Remove $display_id.
+    array_shift($args);
+  }
+
+  $view = views_get_view($name);
+  if (!$view || !$view->access($display_id)) {
+    return;
+  }
+
+  // Override view pager options here.
+  if (method_exists($view, 'init_pager')) {
+    // Views 3 version.
+    $pager = $view->display_handler->get_option('pager');
+    $pager['options']['id'] = ++$pager_id;
+    $view->display_handler->set_option('pager', $pager);
+  }
+  else {
+    $view->set_display($display_id);
+    $view->display_handler->set_option('pager_element', ++$pager_id);
+  }
+
+  return $view->preview($display_id, $args);
+}
+
+/**
+ * Implements hook_help().
+ */
+function node_gallery_api_help($path, $arg) {
+  $output = '';
+  switch ($path) {
+    case 'node/%/images':
+      if (node_gallery_api_user_access('administer')) {
+        return '<p>' . t('To configure what is displayed on this form, review the "Manage Items Fields" fieldset under <a href="!admin">Node Gallery administration</a>.', array('!admin' => url('admin/config/content/node_gallery'))) . '</p>';
+      }
+      break;
+
+    case 'node/%/upload':
+      if (module_exists('plupload')) {
+        return '<p>' . t('To edit image data after uploading please visit the <a href="!manage">Manage Items</a> tab.', array('!manage' => url('node/' . $arg[1] . '/items'))) . '</p>';
+      }
+      elseif (node_gallery_api_user_access('administer')) {
+        return '<p>' . t('To enable seamless bulk image uploading please install the <a href="!plupload">plupload integration</a> module.', array('!plupload' => url('http://drupal.org/project/plupload'))) . '</p>';
+      }
+      break;
+
+    case 'node/%/sort':
+      $output .= '<p>' . t('To change the weight of the gallery items, drag and drop them below.') . '  ';
+      return $output;
+      break;
+
+    case 'admin/help#node_gallery':
+      $output = '<p>' . t('Node Gallery integrates with the <a href="!advanced_help">advanced help</a> module for help.  Please install that, or visit the <a href="!ng">Node Gallery project page</a> and use the demo link to browse help online.',
+                array('!advanced_help' => url('http://drupal.org/project/advanced_help'), '!ng' => 'http://drupal.org/project/node_gallery'));
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function node_gallery_api_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+  elseif ($module == 'entityreference') {
+    return "plugins/entityreference/$plugin";
+  }
+}
+
+/**
+ * Create a node gallery field in a bundle.
+ *
+ * @param string $field_name
+ *   The field name
+ * @param string $entity_type
+ *   The entity type
+ * @param string $bundle
+ *   The bundle name.
+ * @param string $ng_field
+ *   Optional; Array with field definitions, to allow easier overriding by the
+ *   caller. If empty, function will get the field info by calling
+ *   node_gallery_api_fields_info() with the field name.
+ */
+function node_gallery_api_create_field($field_name, $entity_type, $bundle, $ng_field = array()) {
+  if (empty($ng_field)) {
+    $ng_field = node_gallery_api_field_information($field_name);
+  }
+
+  $field = field_info_field($field_name);
+  // Allow overriding the field name.
+  $ng_field['field']['field_name'] = $field_name;
+
+  if (empty($field)) {
+    $field = field_create_field($ng_field['field']);
+  }
+
+  $instance = field_info_instance($entity_type, $field_name, $bundle);
+
+  if (empty($instance)) {
+    if (!empty($ng_field['instance'])) {
+      $instance = $ng_field['instance'];
+    }
+    elseif (!empty($field['bundles']['node'][0])) {
+      $copy_from_bundle = $field['bundles']['node'][0];
+      $instance = field_info_instance($entity_type, $field_name, $copy_from_bundle);
+    }
+    else {
+      $instance = array();
+    }
+
+    $instance['field_name'] = $field_name;
+    $instance['bundle'] = $bundle;
+    $instance['entity_type'] = $entity_type;
+    field_create_instance($instance);
+  }
+}
+
+
+/**
+ * Determines if a user has access to do something to a gallery or it's images.
+ *
+ * @param string $op
+ *   The operation being requested.
+ * @param object $gallery
+ *   (optional) The populated gallery node.  Defaults to NULL.
+ *
+ * @return
+ *   boolean
+ */
+function node_gallery_api_user_access($op, $gallery = NULL, $account = NULL) {
+  global $user;
+
+  if (user_access('administer nodes') || user_access(NODE_GALLERY_PERM_ADMIN_GALLERY)) {
+    // Admins can do everything.
+    return TRUE;
+  }
+  if (isset($account)) {
+    if (!$account->uid || !$account->status) {
+      // Cannot view gallery of anonymous or blocked users.
+      // This condition should prevent seeing the link in the nav block for
+      // anonymous users.
+      return FALSE;
+    }
+  }
+  $any = 'any';
+  $content = 'content';
+  $generic_permissions = array('view', 'view My Galleries', 'administer');
+  if (!in_array($op, $generic_permissions)) {
+    if (!isset($gallery)) {
+      return FALSE;
+    }
+    $gallery_type = $gallery->type;
+    $image_operations = array('upload', 'edit item');
+    if (in_array($op, $image_operations)) {
+      $relationship = node_gallery_api_get_relationship_type($gallery_type);
+      $types = $relationship->item_types;
+    }
+  }
+  switch ($op) {
+    // Generic permissions.
+    case 'administer':
+      return user_access(NODE_GALLERY_PERM_ADMIN_GALLERY);
+
+    // Permissions acting on gallery images.
+    case 'upload':
+      if (!user_access(NODE_GALLERY_PERM_UPLOAD_TO_ALL_GALLERIES) && $user->uid != $gallery->uid) {
+        return FALSE;
+      }
+      foreach ($types as $type) {
+        if (user_access('create ' . $type . ' ' . $content)) {
+          return TRUE;
+        }
+      }
+      return FALSE;
+
+    case 'edit item':
+      foreach ($types as $type) {
+        if ($user->uid == $gallery->uid) {
+          if (user_access('edit own ' . $type . ' ' . $content) || user_access('edit ' . $any . ' ' . $type . ' ' . $content)) {
+            return TRUE;
+          }
+        }
+        else {
+          if (user_access('edit ' . $any . ' ' . $type . ' ' . $content)) {
+            return TRUE;
+          }
+        }
+      }
+      return FALSE;
+
+    // Permissions acting on galleries.
+    case 'create':
+      return user_access('create ' . $gallery_type . ' ' . $content);
+
+    case 'edit':
+    case 'delete':
+      if (!user_access($op . ' ' . $any . ' ' . $gallery_type . ' ' . $content) && $user->uid != $gallery->uid) {
+        return FALSE;
+      }
+      return user_access($op . ' own ' . $gallery_type . ' ' . $content);
+
+  }
+  return FALSE;
+}
+
+
+/**
+ * A class used for Node Gallery Relationship Types
+ */
+class NodeGalleryRelationshipType extends Entity {
+
+  public function __construct($values = array()) {
+    parent::__construct($values, 'node_gallery_relationship_type');
+  }
+
+  protected function setUp() {
+    if (!empty($this->settings)) {
+      $settings = unserialize($this->settings);
+      $this->gallery_types = $settings['relationship_type']['gallery_types'];
+      $this->item_types = $settings['relationship_type']['item_types'];
+    }
+  }
+}
+
+
+/**
+ * Main class for Node Gallery relationship entities provided by Entity API.
+ */
+class NodeGalleryRelationship extends Entity {
+
+  public function __construct(array $values = array(), $entityType = NULL) {
+    parent::__construct($values, 'node_gallery_relationship');
+  }
+}

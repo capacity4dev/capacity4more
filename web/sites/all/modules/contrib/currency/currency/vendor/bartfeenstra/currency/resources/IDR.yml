@@ -1,0 +1,11 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: IDR
+ISO4217Number: '360'
+sign: Rp
+subunits: 100
+title: 'Indonesian rupiah'
+usage:
+    - { ISO8601From: '1965-12-13', ISO8601To: '', ISO3166Code: ID }
+    - { ISO8601From: '1975-12-07', ISO8601To: '2002-05-20', ISO3166Code: TL }
+    - { ISO8601From: '1975-12-07', ISO8601To: '2002-05-20', ISO3166Code: TP }

@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Organic groups arbitrary
+ * access module.
+ */
+
+/**
+ * Implements hook_schema()
+ */
+function pluggable_node_access_schema() {
+  $schema['pluggable_node_access'] = array(
+    'description' => 'An instance of a Pluggable node access.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'description' => 'The Unique ID of the Pluggable node access.',
+      ),
+      'type' => array(
+        'description' => 'Reference to an Pluggable node access plugin.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'timestamp' => array(
+        'description' => 'When the Pluggable node access instance was recorded.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'data' => array(
+        'description' => 'Serialized array with general data.',
+        'type' => 'text',
+        'serialize' => TRUE,
+        'size' => 'big',
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'type_index' => array('type'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  // Cache bins for Entity-cache module.
+  $cache_schema = drupal_get_schema_unprocessed('system', 'cache');
+  $schema["cache_entity_pluggable_node_access"] = $cache_schema;
+  $schema["cache_entity_pluggable_node_access"]['description'] = "Cache table used to store Pluggable node access entity records.";
+
+  return $schema;
+}

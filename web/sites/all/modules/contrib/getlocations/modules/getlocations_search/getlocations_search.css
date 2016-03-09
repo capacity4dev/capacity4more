@@ -1,0 +1,60 @@
+/**
+ * @file
+ * getlocations_search.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * css for getlocations_search.
+ *
+ * To avoid being overwritten, copy this into your theme
+*/
+#getlocations_search_wrapper div,
+#getlocations_search_wrapper label {
+/*  display: inline;*/
+}
+
+#getlocations_search_result {
+  width: 494px;
+  height: auto;
+  border: 1px solid #C0C0C0;
+  margin-top: 20px;
+  padding: 4px;
+  padding-bottom: 8px;
+}
+
+#getlocations_search_block_result {
+  width: 232px;
+  height: auto;
+  border: 1px solid #C0C0C0;
+  margin-top: 20px;
+  padding: 4px;
+  padding-bottom: 8px;
+}
+
+#getlocations_search_latlon_wrapper {
+  height: 20px;
+  display: inline;
+}
+#getlocations_search_block_latlon_wrapper {
+  height: 40px;
+  display: inline;
+}
+
+.getlocations_search_lat, .getlocations_search_lon, .getlocations_search_block_lat, .getlocations_search_block_lon {
+  width: 210px;
+  height: 1em;
+}
+
+.getlocations_search_lon {
+  margin-left: 210px;
+  margin-top: -1em;
+}
+
+.results-label {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.results-value {
+
+}

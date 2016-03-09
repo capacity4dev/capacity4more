@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: KES
+ISO4217Number: '404'
+sign: KSh
+subunits: 100
+title: 'Kenyan shilling'
+usage:
+    - { ISO8601From: '1966-09-14', ISO8601To: '', ISO3166Code: KE }

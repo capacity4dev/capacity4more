@@ -1,0 +1,18 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: AUD
+ISO4217Number: '036'
+sign: $
+subunits: 100
+title: 'Australian dollar'
+usage:
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: AU }
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: CC }
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: CX }
+    - { ISO8601From: '1967-02-16', ISO8601To: '', ISO3166Code: HM }
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: KI }
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: NF }
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: NR }
+    - { ISO8601From: '1966-02-14', ISO8601To: '1975-09-16', ISO3166Code: PG }
+    - { ISO8601From: '1966-02-14', ISO8601To: '1978-06-30', ISO3166Code: SB }
+    - { ISO8601From: '1966-02-14', ISO8601To: '', ISO3166Code: TV }

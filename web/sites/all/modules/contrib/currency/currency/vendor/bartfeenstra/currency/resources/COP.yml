@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: COP
+ISO4217Number: '170'
+sign: $
+subunits: 100
+title: 'Colombian peso'
+usage:
+    - { ISO8601From: '1905-01-01', ISO8601To: '', ISO3166Code: CO }

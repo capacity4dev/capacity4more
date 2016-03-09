@@ -1,0 +1,1965 @@
+<?php
+
+/**
+ * @file
+ * getlocations_search.module
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * Provides a search page.
+ * for Drupal 7
+ */
+
+define('GETLOCATIONS_SEARCH_PATH', drupal_get_path('module', 'getlocations_search'));
+
+/**
+ * Implements hook_help().
+ */
+function getlocations_search_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#getlocations_search':
+      $output = '<p>' . t('Provide a search faciliy for locations on a map.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function getlocations_search_permission() {
+  $perms = array();
+  $perms['access getlocations search'] = array(
+    'title' => t('Access Getlocations Search'),
+    'description' => t('View and use the Getlocations_search module.')
+  );
+  return $perms;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function getlocations_search_menu() {
+  $items = array();
+
+  $items[GETLOCATIONS_ADMIN_PATH . '/search'] = array(
+    'title' => 'Search',
+    'description' => 'Configure Getlocations search',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('getlocations_search_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'getlocations_search.admin.inc',
+    'weight' => 4,
+  );
+
+  $items['getlocations_search'] = array(
+    'title' => 'Getlocations search',
+    'description' => 'Search for places on a map',
+    'access arguments' => array('access getlocations search'),
+    'page callback' => 'getlocations_search',
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  // getlocations_search/info     # ajax callback to fetch all location info
+  $items['getlocations_search/info'] = array(
+    'page callback' => 'getlocations_search_allinfo',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  if (module_exists('taxonomy')) {
+    $items['getlocations_search/term_autocomplete'] = array(
+      'page callback' => 'getlocations_search_term_autocomplete',
+      'access arguments' => array('access content'),
+      'type' => MENU_CALLBACK,
+    );
+  }
+
+  // colorbox
+  $items['getlocations_search_box'] = array(
+    'title' => 'Getlocations search',
+    'access arguments' => array('access getlocations search'),
+    'page callback' => 'getlocations_search_box',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu item
+ */
+function getlocations_search($which = 'page') {
+  $contents = '';
+  $contents .= theme('getlocations_search', array('which' => $which));
+  return $contents;
+}
+
+/**
+ * The search form
+ *
+ */
+function getlocations_search_form($form, &$form_state, $which, $mapid) {
+  $mapid2 = preg_replace("/_/", "-", $mapid);
+  $getlocations_search_defaults = getlocations_search_defaults();
+
+  if ($which == 'block') {
+    $getlocations_search_defaults = getlocations_search_block_get_var();
+  }
+
+  $form['#attached']['css'] = array(GETLOCATIONS_SEARCH_PATH . '/getlocations_search.css');
+
+  // pass this on to the theme
+  $form['which'] = array('#type' => 'value', '#value' => $which);
+  $form['mapid'] = array('#type' => 'value', '#value' => $mapid);
+  $form['display_latlon'] = array('#type' => 'value', '#value' => $getlocations_search_defaults['display_latlon']);
+  $form['display_geo_microformat'] = array('#type' => 'value', '#value' => $getlocations_search_defaults['display_geo_microformat']);
+  $form['display_accuracy'] = array('#type' => 'value', '#value' => $getlocations_search_defaults['display_accuracy']);
+
+  if ($getlocations_search_defaults['method'] == 'vocab' && $getlocations_search_defaults['vocab_element'] == 'dropdown') {
+    //
+    $form['getlocations_search_' . $mapid] = array(
+      '#type' => 'select',
+      '#title' => t('Search'),
+      '#options' => getlocations_search_term_get(),
+    );
+  }
+  else {
+    $form['getlocations_search_' . $mapid] = array(
+      '#type' => 'textfield',
+      '#title' => t('Search'),
+      '#maxlength' => 255,
+      '#size' => $getlocations_search_defaults['searchbox_size'],
+    );
+    if ($getlocations_search_defaults['method'] == 'vocab' && $getlocations_search_defaults['vocab_element'] == 'autocomplete') {
+      $form['getlocations_search_' . $mapid]['#autocomplete_path'] = 'getlocations_search/term_autocomplete';
+    }
+  }
+
+  if ($getlocations_search_defaults['use_geolocation_button']) {
+    $form['getlocations_search_geolocation_button_' . $mapid] = array('#markup' => '');
+  }
+
+  if ($getlocations_search_defaults['display_search_distance']) {
+    $form['getlocations_search_distance_' . $mapid] = getlocations_element_search_distance($getlocations_search_defaults['search_distance'], t('Search distance'), t('The distance away from the center to search for locations.'));
+  }
+  else {
+    $form['getlocations_search_distance_' . $mapid] = array(
+      '#type' => 'hidden',
+      '#value' => $getlocations_search_defaults['search_distance'],
+      '#attributes' => array('id' => 'edit-getlocations-search-distance-' . $mapid2)
+    );
+  }
+
+  if ($getlocations_search_defaults['display_search_units']) {
+    $form['getlocations_search_units_' . $mapid] = getlocations_element_distance_unit($getlocations_search_defaults['search_units'], t('Distance units'));
+  }
+  else {
+    $form['getlocations_search_units_' . $mapid] = array(
+      '#type' => 'hidden',
+      '#value' => $getlocations_search_defaults['search_units'],
+      '#attributes' => array('id' => 'edit-getlocations-search-units-' . $mapid2)
+    );
+  }
+
+  if ($getlocations_search_defaults['display_search_limits']) {
+    $form['getlocations_search_limits_' . $mapid] = getlocations_element_map_limits($getlocations_search_defaults['search_limits']);
+  }
+  else {
+    $form['getlocations_search_limits_' . $mapid] = array(
+      '#type' => 'hidden',
+      '#value' => $getlocations_search_defaults['search_limits'],
+      '#attributes' => array('id' => 'edit-getlocations-search-limits-' . $mapid2)
+    );
+  }
+
+  $opts = getlocations_search_type_options();
+  if ($getlocations_search_defaults['display_search_type'] && count($opts)) {
+    $form['getlocations_search_type_' . $mapid] = array(
+      '#type' => 'select',
+      '#title' => t('Restrict the search'),
+      '#options' => $opts,
+      '#default_value' => $getlocations_search_defaults['search_type'],
+      '#description' => t('Restrict the search to a content type'),
+    );
+  }
+  else {
+    $form['getlocations_search_type_' . $mapid] = array(
+      '#type' => 'hidden',
+      '#value' => $getlocations_search_defaults['search_type'],
+      '#attributes' => array('id' => 'edit-getlocations-search-type-' . $mapid2)
+    );
+  }
+
+  if ($getlocations_search_defaults['restrict_by_country'] && $getlocations_search_defaults['country']) {
+    $form['getlocations_search_country_' . $mapid] = array(
+      '#markup' => $getlocations_search_defaults['country'],
+    );
+  }
+
+  if ($getlocations_search_defaults['method'] != 'google_ac') {
+    $form['getlocations_search_submit_' . $mapid] = array(
+      '#type' => 'submit',
+      '#value' => t('Go')
+    );
+  }
+  else {
+    if ($getlocations_search_defaults['geocode_button_enable']) {
+      // geocode button
+      $form['getlocations_search_geocode_button_' . $mapid] = array('#markup' => '');
+    }
+  }
+  if ($getlocations_search_defaults['reset_button_enable']) {
+    // Reset button
+    $form['getlocations_search_reset_button_' . $mapid] = array('#markup' => '');
+  }
+
+  return $form;
+}
+
+/**
+ * colorbox
+ *
+ */
+function getlocations_search_box() {
+  $content = getlocations_search();
+  $output = theme('getlocations_search_box', array('content' => $content));
+  print $output;
+  exit;
+}
+
+/**
+ * Set up the map and use getlocations to spit it out
+ *
+ */
+function getlocations_search_getmap($which = 'page') {
+  $getlocations_defaults = getlocations_defaults();
+  $getlocations_defaults['places'] = 1;
+  $getlocations_defaults['preload_data'] = 0;
+
+  $getlocations_search_defaults = getlocations_search_defaults();
+  if ($which == 'block') {
+    $getlocations_search_defaults = getlocations_search_block_get_var();
+  }
+
+
+  // we need a markermanager enabled
+  if ($getlocations_defaults['markermanagertype'] < 1) {
+    $getlocations_search_defaults['markermanagertype'] = 1;
+  }
+  $getlocations_search_defaults['pansetting'] = $getlocations_defaults['pansetting'];
+
+  // we need to update $getlocations_defaults with data from $getlocations_search_defaults
+  $keys = array(
+    'width', 'height', 'styles', 'latlong',
+    'zoom', 'minzoom_map', 'maxzoom_map', 'controltype', 'pancontrol', 'mtc',
+    'maptype', 'baselayers', 'scale', 'overview', 'overview_opened', 'scrollwheel', 'draggable',
+    'sv_show', 'sv_showfirst', 'sv_heading', 'sv_zoom', 'sv_pitch',
+    'trafficinfo', 'trafficinfo_state', 'bicycleinfo', 'bicycleinfo_state',
+    'transitinfo', 'transitinfo_state', 'panoramio_show', 'panoramio_state',
+    'poi_show', 'transit_show', 'markeraction', 'markeractiontype', 'minzoom',
+    'maxzoom', 'nodezoom', 'markermanagertype', 'usemarkermanager',
+    'useclustermanager', 'markerclusterer_style', 'markerclusterer_zoom',
+    'markerclusterer_size', 'markerclusterer_minsize', 'markerclusterer_title', 'markerclusterer_imgpath',
+    'weather_show', 'weather_state', 'weather_cloud', 'weather_cloud_state',
+    'map_backgroundcolor', 'show_maplinks', 'fullscreen', 'show_bubble_on_one_marker',
+    'polygons_enable', 'polygons_strokecolor', 'polygons_strokeopacity', 'polygons_strokeweight',
+    'polygons_fillcolor', 'polygons_fillopacity', 'polygons_coords', 'polygons_clickable','polygons_message',
+    'rectangles_enable', 'rectangles_strokecolor', 'rectangles_strokeopacity', 'rectangles_strokeweight',
+    'rectangles_fillcolor', 'rectangles_fillopacity', 'rectangles_coords', 'rectangles_clickable', 'rectangles_message',
+    'circles_enable', 'circles_strokecolor', 'circles_strokeopacity', 'circles_strokeweight',
+    'circles_fillcolor', 'circles_fillopacity', 'circles_coords', 'circles_radius', 'circles_clickable', 'circles_message',
+    'polylines_enable', 'polylines_strokecolor', 'polylines_strokeopacity', 'polylines_strokeweight',
+    'polylines_coords', 'polylines_clickable', 'polylines_message',
+    'kml_group', 'map_resize', 'region_bias', 'fullscreen_disable', 'fullscreen_controlposition',
+    'search_places', 'search_places_size', 'search_places_position', 'search_places_label',
+    'search_places_placeholder', 'search_places_dd', 'search_places_list',
+    'search_radshape_toggle', 'search_radshape_toggle_active', 'search_radshape_enable',
+    'do_search_marker', 'search_marker_toggle', 'search_marker_toggle_active', 'geo_enable',
+    'geojson_enable', 'geojson_data', 'geojson_options', 'nokeyboard', 'nodoubleclickzoom',
+    'zoomcontrolposition', 'pancontrolposition', 'mapcontrolposition', 'scalecontrolposition', 'svcontrolposition',
+    'highlight_enable', 'highlight_strokecolor', 'highlight_strokeopacity', 'highlight_strokeweight', 'highlight_fillcolor', 'highlight_fillopacity', 'highlight_radius',
+    'getdirections_link', 'gps_button', 'gps_button_label', 'gps_marker', 'gps_marker_title', 'gps_bubble', 'gps_geocode', 'gps_center', 'geolocation_mobile_check', 'geocoder_enable'
+  );
+
+  foreach ($keys AS $key) {
+    $getlocations_defaults[$key] = $getlocations_search_defaults[$key];
+  }
+  // tell getlocations.js that this map is externally controlled
+  // switch it off for showall so that markers can be generated
+  if (! $getlocations_search_defaults['showall']) {
+    $getlocations_defaults['extcontrol'] = 'getlocations_search';
+  }
+  $mapid = getlocations_setup_map($getlocations_defaults);
+
+  $aggr = (getlocations_aggr_get() ? TRUE : FALSE);
+
+  getlocations_search_js_settings_do($getlocations_search_defaults, $mapid);
+  $getlocations_search_paths = getlocations_search_paths_get();
+  $jsfile = $getlocations_search_paths['getlocations_search_path'];
+  $js_opts = array();
+  $js_opts['weight'] = $getlocations_defaults['getlocations_js_weight'] + 30;
+  $js_opts['type'] = 'file';
+  $js_opts['preprocess'] = $aggr;
+  drupal_add_js($jsfile, $js_opts);
+
+  $minmaxes = '';
+  $latlons = array();
+
+  if ($getlocations_search_defaults['showall']) {
+    $minmaxes = array('minlat' => 0, 'minlon' => 0, 'maxlat' => 0, 'maxlon' => 0);
+    $locations = getlocations_search_load_all_locations($getlocations_search_defaults['search_type']);
+    $ct = 0;
+    if (count($locations)) {
+      // we should loop over them and dump bummers with no lat/lon
+      foreach ($locations AS $key => $location) {
+        if ($latlon = getlocations_latlon_check($location['latitude'] . ',' . $location['longitude'])) {
+          $ll = explode(',', $latlon);
+          $location['latitude'] = $ll[0];
+          $location['longitude'] = $ll[1];
+          $minmaxes = getlocations_do_minmaxes($ct, $location, $minmaxes);
+
+          if (! isset($location['key'])) {
+            $location['key'] = '';
+          }
+          if (isset($location['lid']) && $location['lid']) {
+            $id = $location['lid'];
+          }
+          elseif (isset($location['nid']) && $location['nid']) {
+            $id = $location['nid'];
+            $location['key'] = 'nid';
+          }
+          elseif (isset($location['uid']) && $location['uid']) {
+            $id = $location['uid'];
+            $location['key'] = 'uid';
+          }
+          elseif (isset($location['tid']) && $location['tid']) {
+            $id = $location['tid'];
+            $location['key'] = 'tid';
+          }
+          elseif (isset($location['cid']) && $location['cid']) {
+            $id = $location['cid'];
+            $location['key'] = 'cid';
+          }
+          $name = htmlspecialchars_decode(isset($location['name']) ? strip_tags($location['name']) : strip_tags($location['title']), ENT_QUOTES);
+          $latlons[] = array($location['latitude'], $location['longitude'], $id, $name, $location['marker'] , $location['key'], '', '');
+          $ct++;
+        }
+      }
+    }
+
+    if ($ct < 2 ) {
+      unset($minmaxes);
+      $minmaxes = '';
+    }
+  }
+
+  getlocations_js_settings_do($getlocations_defaults, $latlons, $minmaxes, $mapid, FALSE, $getlocations_defaults['extcontrol']);
+
+  $map = theme('getlocations_show', array('width' => $getlocations_defaults['width'] , 'height' => $getlocations_defaults['height'] , 'defaults' => $getlocations_defaults, 'mapid' => $mapid, 'latlons' => $latlons, 'minmaxes' => $minmaxes, 'type' => '', 'node' => ''));
+  return array('map' => $map, 'mapid' => $mapid);
+}
+
+/**
+ * @param array $defaults
+ *  Settings
+ *
+ * @param string $mapid
+ *  Unique map identifier used in javascript to allow multiple maps
+ *
+ */
+function getlocations_search_js_settings_do($defaults, $mapid) {
+
+  $do_lookup = getlocations_search_do_types();
+  $settings = array(
+    $mapid => array(
+      'method'                         => $defaults['method'],
+      'maxzoom'                        => $defaults['maxzoom'],
+      'do_lookup'                      => ($do_lookup ? 1 : 0),
+      'autocomplete_bias'              => $defaults['autocomplete_bias'],
+      'restrict_by_country'            => $defaults['restrict_by_country'],
+      'country'                        => $defaults['country'],
+      'show_distance'                  => $defaults['show_distance'],
+      'search_marker'                  => $defaults['search_marker'],
+      'do_search_marker'               => $defaults['do_search_marker'],
+      'search_marker_toggle'           => $defaults['search_marker_toggle'],
+      'search_marker_toggle_active'    => $defaults['search_marker_toggle_active'],
+      'search_info_path'               => url("getlocations_search/info"),
+      'search_radshape_enable'         => $defaults['search_radshape_enable'],
+      'search_radshape_strokecolor'    => $defaults['search_radshape_strokecolor'],
+      'search_radshape_strokeopacity'  => $defaults['search_radshape_strokeopacity'],
+      'search_radshape_strokeweight'   => $defaults['search_radshape_strokeweight'],
+      'search_radshape_fillcolor'      => $defaults['search_radshape_fillcolor'],
+      'search_radshape_fillopacity'    => $defaults['search_radshape_fillopacity'],
+      'search_radshape_toggle'         => $defaults['search_radshape_toggle'],
+      'search_radshape_toggle_active'  => $defaults['search_radshape_toggle_active'],
+      'search_distance_type'           => $defaults['search_distance_type'],
+      'zoom_on_single_use'             => $defaults['zoom_on_single_use'],
+      'display_accuracy'               => $defaults['display_accuracy'],
+      'showall'                        => $defaults['showall'],
+      'display_geo_microformat'        => $defaults['display_geo_microformat'],
+    ),
+  );
+
+  drupal_add_js(array('getlocations_search' => $settings), 'setting');
+}
+
+/**
+ * Collect information about which entity_types have fields for supported module
+ * and return an array suitable for a dropdown
+ *
+ * @return Array
+ *
+ */
+function getlocations_search_type_options() {
+  $module = getlocations_get_current_supported_module();
+
+  $query = db_select('field_config', 'f');
+  $query->fields('i', array('entity_type'));
+  $query->join('field_config_instance', 'i', 'f.id=i.field_id');
+  $query->condition('f.module', $module)->condition('f.active', 1);
+  $rows = $query->execute();
+  $opts = array();
+  foreach ($rows AS $row) {
+    $found = FALSE;
+    $entity_type = $row->entity_type;
+    if ($entity_type == 'user' && getlocations_access_user_location()) {
+      $found = TRUE;
+    }
+    elseif ($entity_type == 'comment' && user_access('access comments') ) {
+      $found = TRUE;
+    }
+    elseif (getlocations_access_location()) {
+      $found = TRUE;
+    }
+
+    if ($found) {
+      $entity_get_info = entity_get_info($entity_type);
+      $label = (isset($entity_get_info['plural label']) ? $entity_get_info['plural label'] : $entity_get_info['label'] );
+      $opts[$entity_type] = $label;
+    }
+  }
+  if (count($opts) > 1) {
+    $opts = array('all' => t('Show All')) + $opts;
+    return $opts;
+  }
+  return array();
+}
+
+function getlocations_search_load_all_locations($search_type = 'all') {
+
+  if (! user_access('access getlocations')) {
+    return;
+  }
+
+  $getlocations_defaults = getlocations_defaults();
+
+  $permitted_entity_types = array();
+  if (user_access('access content') && user_access('access getlocations') && ($search_type == 'all' || $search_type == 'node')) {
+    $permitted_entity_types[] = 'node';
+  }
+  if (getlocations_access_user_location() && ($search_type == 'all' || $search_type == 'user')) {
+    $permitted_entity_types[] = 'user';
+  }
+  if (user_access('access getlocations') && ($search_type == 'all' || $search_type == 'term')) {
+    $permitted_entity_types[] = 'term';
+  }
+  if (user_access('access comments') && user_access('access getlocations') && ($search_type == 'all' || $search_type == 'comment')) {
+    $permitted_entity_types[] = 'comment';
+  }
+
+  $locations = array();
+  $module = getlocations_get_current_supported_module();
+  if ($module == 'getlocations_fields') {
+    // we want all the glids
+    $query = db_select('getlocations_fields', 'f');
+    $query->fields('f', array('glid'));
+    $rows = $query->execute();
+    $glids = array();
+    foreach ($rows AS $row) {
+      $glids[$row->glid] = $row->glid;
+    }
+    $ct = 0;
+    foreach ($glids AS $glid) {
+      $locations[$ct] = getlocations_load_location($glid);
+      $ct++;
+    }
+
+  }
+  elseif ($module == 'location_cck') {
+    $query = db_select('location', 'f');
+    $query->fields('f', array('lid'));
+    $rows = $query->execute();
+    $lids = array();
+    foreach ($rows AS $row) {
+      $lids[$row->lid] = $row->lid;
+    }
+    $ct = 0;
+    foreach ($lids AS $lid) {
+      $locations[$ct] = getlocations_load_location($lid);
+      // get data from location_instance
+      $sql = "SELECT nid, uid FROM {location_instance} WHERE lid = :lid";
+      $sqlarr = array(':lid' => $lid);
+      $result = db_query($sql, $sqlarr);
+      foreach ($result AS $row) {
+        $locations[$ct]['nid'] = $row->nid;
+        $locations[$ct]['uid'] = $row->uid;
+        if ($row->nid > 0) {
+          $entity_type = 'node';
+          $locations[$ct]['marker'] = $getlocations_defaults['node_map_marker'];
+        }
+        elseif ($row->uid > 0) {
+          $entity_type = 'user';
+          $locations[$ct]['marker'] = $getlocations_defaults['user_map_marker'];
+        }
+        $locations[$ct]['type'] = $entity_type;
+      }
+      $ct++;
+    }
+
+  }
+  elseif ($module == 'geofield') {
+    $gtype = 'geofield';
+    $entity_type = '';
+    $fieldnames = getlocations_other_get_fieldname($gtype, $module, $entity_type);
+    if (! empty($fieldnames)) {
+      $tabledata = array();
+      $ct = 0;
+      foreach ($fieldnames AS $fieldname) {
+        $tabledata[$ct]['table'] = 'field_data_' . $fieldname;
+        $tabledata[$ct]['fieldname_latitude'] = $fieldname . '_lat';
+        $tabledata[$ct]['fieldname_longitude'] = $fieldname . '_lon';
+        $ct++;
+      }
+    }
+  }
+  elseif ($module == 'geolocation') {
+    $gtype = 'geolocation_latlng';
+    $entity_type = '';
+    $fieldnames = getlocations_other_get_fieldname($gtype, $module, $entity_type);
+    if (! empty($fieldnames)) {
+      $tabledata = array();
+      $ct = 0;
+      foreach ($fieldnames AS $fieldname) {
+        $tabledata[$ct]['table'] = 'field_data_' . $fieldname;
+        $tabledata[$ct]['fieldname_latitude'] = $fieldname . '_lat';
+        $tabledata[$ct]['fieldname_longitude'] = $fieldname . '_lng';
+        $ct++;
+      }
+    }
+  }
+
+  if (($module == 'geolocation' || $module == 'geofield') && ! empty($fieldnames)) {
+    $location_ct = 0;
+    foreach ($tabledata AS $data) {
+      $table = $data['table'];
+      $latfield = 'g.' . $data['fieldname_latitude'];
+      $lonfield = 'g.' . $data['fieldname_longitude'];
+
+      $fields = array();
+      $fields[] = "$latfield AS latitude";
+      $fields[] = "$lonfield AS longitude";
+      $fields[] = "g.entity_type AS entity_type";
+      $fields[] = "g.entity_id AS entity_id";
+
+      $selects = implode(",", $fields);
+      $sql = "SELECT $selects FROM {$table} g";
+      $sql .= " WHERE $latfield != '0' AND $lonfield != '0'";
+      $result = db_query($sql);
+      foreach ($result AS $row) {
+        $locations[$location_ct]['latitude'] = $row->latitude;
+        $locations[$location_ct]['longitude'] = $row->longitude;
+
+        if ($row->entity_type == 'node') {
+          $locations[$location_ct]['nid'] = $row->entity_id;
+          $locations[$location_ct]['type'] = $row->entity_type;
+          $locations[$location_ct]['marker'] = $getlocations_defaults['node_map_marker'];
+          $t = getlocations_get_nodetype($locations[$location_ct]['nid']);
+          if ($t) {
+            $typemarkers = getlocations_get_markertypes('node');
+            if (isset($typemarkers[$t]) && $typemarkers[$t]) {
+              $locations[$location_ct]['marker'] = $typemarkers[$t];
+            }
+          }
+
+          // term markers
+          $locations[$location_ct]['marker'] = getlocations_get_term_marker($row->entity_id, $locations[$location_ct]['marker']);
+
+          $n = node_load($locations[$location_ct]['nid']);
+          $locations[$location_ct]['title'] = $n->title;
+          // sanity check
+          if ($n->status == 0 || ! in_array('node', $permitted_entity_types)) {
+            unset($locations[$location_ct]);
+          }
+        }
+        elseif ($row->entity_type == 'user') {
+          $locations[$location_ct]['uid'] = $row->entity_id;
+          $locations[$location_ct]['type'] = $row->entity_type;
+          $locations[$location_ct]['marker'] = $getlocations_defaults['user_map_marker'];
+          $u = user_load($locations[$location_ct]['uid']);
+          $locations[$location_ct]['title'] = $u->name;
+          // sanity check
+          if ($u->status == 0 || ! in_array('user', $permitted_entity_types)) {
+            unset($locations[$location_ct]);
+          }
+        }
+        elseif ($row->entity_type == 'term') {
+          $locations[$location_ct]['tid'] = $row->entity_id;
+          $locations[$location_ct]['type'] = $row->entity_type;
+          $locations[$location_ct]['marker'] = $getlocations_defaults['vocabulary_map_marker'];
+        }
+        elseif ($row->entity_type == 'comment') {
+          $locations[$location_ct]['cid'] = $row->entity_id;
+          $locations[$location_ct]['type'] = $row->entity_type;
+          $locations[$location_ct]['marker'] = $getlocations_defaults['comment_map_marker'];
+          $comment = comment_load($locations[$location_ct]['cid']);
+          // sanity check
+          if ($comment->status == 0 || ! in_array('comment', $permitted_entity_types)) {
+            unset($locations[$location_ct]);
+          }
+        }
+        // just in case
+        if (isset($locations[$location_ct]) && empty($locations[$location_ct]['marker'])) {
+          $locations[$location_ct]['marker'] = $getlocations_defaults['node_map_marker'];
+        }
+
+        $location_ct++;
+      }
+    }
+  }
+
+  if (($module == 'getlocations_fields' || $module == 'location_cck') && ! empty($locations)) {
+    foreach ($locations AS $ct => $val) {
+      if ($locations[$ct]['type'] == 'node') {
+        $n = node_load($locations[$ct]['nid']);
+        $locations[$ct]['title'] = htmlspecialchars_decode(($locations[$ct]['name'] ? strip_tags($locations[$ct]['name']) : strip_tags($n->title)), ENT_QUOTES);
+        // sanity check
+        if ($n->status == 0 || ! in_array('node', $permitted_entity_types)) {
+          unset($locations[$ct]);
+        }
+      }
+      elseif ($locations[$ct]['type'] == 'user') {
+        $u = user_load($locations[$ct]['uid']);
+        $locations[$ct]['title'] = htmlspecialchars_decode(($locations[$ct]['name'] ? strip_tags($locations[$ct]['name']) : strip_tags($u->name)), ENT_QUOTES);
+        // sanity check
+        if ($u->status == 0 || ! in_array('user', $permitted_entity_types)) {
+          unset($locations[$ct]);
+        }
+      }
+      elseif ($locations[$ct]['type'] == 'term') {
+        // sanity check
+        if (! in_array('term', $permitted_entity_types)) {
+          unset($locations[$ct]);
+        }
+      }
+      elseif ($locations[$ct]['type'] == 'comment') {
+        $c = comment_load($locations[$ct]['cid']);
+        $locations[$ct]['title'] = htmlspecialchars_decode(($locations[$ct]['name'] ? strip_tags($locations[$ct]['name']) : strip_tags($c->subject)), ENT_QUOTES);
+        // sanity check
+        if ($c->status == 0 || ! in_array('comment', $permitted_entity_types)) {
+          unset($locations[$ct]);
+        }
+      }
+    }
+  }
+
+  return $locations;
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function getlocations_search_theme() {
+  return array(
+    'getlocations_search' => array(
+      'variables' => array(
+        'which' => NULL,
+      ),
+    ),
+    'getlocations_search_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_search_settings_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_search_block_settings_form' => array(
+      'render element' => 'form',
+    ),
+    'getlocations_search_box' => array(
+      'variables' => array(
+        'content' => NULL,
+      ),
+      'template' => 'getlocations_search_box',
+    ),
+  );
+}
+
+/**
+ * Themes the search page.
+ *
+ * @param array $variables
+ *
+ * @return
+ *   Returns $content
+ *
+ */
+function theme_getlocations_search($variables) {
+  $which = $variables['which'];
+  $contents = '';
+  $contents .= '<div id="getlocations_search_' . $which . '">';
+  $getmap = getlocations_search_getmap($which);
+  $map = $getmap['map'];
+  $mapid = $getmap['mapid'];
+  $form = drupal_get_form('getlocations_search_form', $which, $mapid);
+  $contents .= drupal_render($form);
+  $contents .= $map;
+  $contents .= '</div>';
+  return $contents;
+}
+
+/**
+ * Themes the search form and results.
+ *
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_search_form($variables) {
+  $form = $variables['form'];
+  $which = $form['which']['#value'];
+  unset($form['which']);
+  $mapid = $form['mapid']['#value'];
+  unset($form['mapid']);
+  $display_latlon = $form['display_latlon']['#value'];
+  unset($form['display_latlon']);
+  $display_accuracy = $form['display_accuracy']['#value'];
+  unset($form['display_accuracy']);
+  $display_geo_microformat = $form['display_geo_microformat']['#value'];
+  unset($form['display_geo_microformat']);
+  $output = '';
+  $form['getlocations_search_' . $mapid]['#prefix'] = '<div id="getlocations_search_wrapper">';
+  $form['getlocations_search_submit']['#suffix'] = '</div>';
+
+  // if the units dropdown is not exposed show the units after the distance box
+  if ($form['getlocations_search_units_' . $mapid]['#type'] == 'hidden' && $form['getlocations_search_distance_' . $mapid]['#type'] !== 'hidden') {
+    $form['getlocations_search_distance_' . $mapid]['#field_suffix'] = getlocations_get_unit_names($form['getlocations_search_units_' . $mapid]['#value'], 'plurals');
+  }
+
+  if (getlocations_is_mobile() && isset($form['getlocations_search_geolocation_button_' . $mapid])) {
+    $geolocation_button = '<div id="getlocations_search_geolocation_button_wrapper_' . $mapid . '"><p>';
+    $geolocation_button .= '<input type="button" value="' . t('Find current Location') . '" title="' . t('Get the latitude and longitude for this location from the browser') . '" id="getlocations_search_geolocation_button_' . $mapid . '" class="form-submit" />&nbsp;';
+    $geolocation_button .= '<span id="getlocations_search_geolocation_status_ok_' . $mapid . '" class="js-hide" ><img src="' . base_path() . GETLOCATIONS_PATH . '/images/ok.png' . '" title="' . t('Geolocation OK') . '" /></span>';
+    $geolocation_button .= '<span id="getlocations_search_geolocation_status_err_' . $mapid . '" class="js-hide" ><img src="' . base_path() . GETLOCATIONS_PATH . '/images/error.png' . '" title="' . t('Geolocation failed') . '" /></span>';
+    $geolocation_button .= '<span id="getlocations_search_geolocation_status_load_' . $mapid . '" class="js-hide" ><img src="' . base_path() . GETLOCATIONS_PATH . '/images/loading_small.gif' . '" title="' . t('Geolocation loading') . '" /></span>';
+    $geolocation_button .= '</p>';
+    $geolocation_button .= '<p>' . t('Use the browser to find your current location') . '</p></div>';
+    $form['getlocations_search_geolocation_button_' . $mapid]['#markup'] = $geolocation_button;
+  }
+
+  if (isset($form['getlocations_search_country_' . $mapid]['#markup'])) {
+    $restrict_country = '<p>' . t('Restrict the search to %c', array('%c' => getlocations_get_country_name($form['getlocations_search_country_' . $mapid]['#markup']))) . '</p>';
+    $form['getlocations_search_country_' . $mapid]['#markup'] = $restrict_country;
+  }
+
+  // geocode button
+  if (isset($form['getlocations_search_geocode_button_' . $mapid]['#markup'])) {
+    $geocode_button = '<div id="getlocations_search_geocode_button_wrapper_' . $mapid . '">';
+    $geocode_button .= '<input type="button" value="' . t('Geocode') . '" title="' . t('Geocode this address') . '" id="getlocations_search_geocode_button_' . $mapid . '" class="form-submit" />';
+    $geocode_button .= '</div>';
+    $form['getlocations_search_geocode_button_' . $mapid]['#markup'] = $geocode_button;
+  }
+
+  // reset button
+  if (isset($form['getlocations_search_reset_button_' . $mapid]['#markup'])) {
+    $reset_button = '<div id="getlocations_search_reset_button_wrapper_' . $mapid . '">';
+    $reset_button .= '<input type="button" value="' . t('Reset') . '" title="' . t('Reset this form') . '" id="getlocations_search_reset_button_' . $mapid . '" class="form-submit" />';
+    $reset_button .= '</div>';
+    $form['getlocations_search_reset_button_' . $mapid]['#markup'] = $reset_button;
+  }
+
+  $output .= drupal_render_children($form);
+
+  // $which can be page or block so we can change things accordingly
+  $output .= "<!-- $which -->";
+  $output .= '<div id="getlocations_search' . ($which == 'block' ? '_block' : '') . '_result">';
+
+  $output .= '<h4>' . t('Results') . '</h4>';
+  $output .= '<div id="getlocations_search_address_' . $mapid . '"></div>';
+  $output .= '<div id="getlocations_search_distance_' . $mapid . '"></div>';
+  $output .= '<div id="getlocations_search_count_' . $mapid . '"></div>';
+  $output .= '<div id="getlocations_search_type_' . $mapid . '"></div>';
+  if ($display_accuracy) {
+    $output .= '<div id="getlocations_search_accuracy_' . $mapid . '"></div>';
+  }
+  if ($display_latlon) {
+    $output .= '<div id="getlocations_search' . ($which == 'block' ? '_block' : '') . '_latlon_wrapper">';
+    if ($display_geo_microformat) {
+      $output .= '<div id="getlocations_search_latlon_' . $mapid . '" class="getlocations_search' . ($which == 'block' ? '_block' : '') . '_latlon"></div>';
+    }
+    else {
+      $output .= '<div id="getlocations_search_lat_' . $mapid . '" class="getlocations_search' . ($which == 'block' ? '_block' : '') . '_lat"></div>';
+      $output .= '<div id="getlocations_search_lon_' . $mapid . '" class="getlocations_search' . ($which == 'block' ? '_block' : '') . '_lon"></div>';
+    }
+    $output .= '</div>';
+  }
+  $output .= '</div>';
+  // hidden
+  $output .= '<div id="getlocations_search_data_' . $mapid . '" class="js-hide">';
+  $output .= '<div id="getlocations_search_slat_' . $mapid . '"></div>';
+  $output .= '<div id="getlocations_search_slon_' . $mapid . '"></div>';
+  $output .= '<div id="getlocations_search_sunit_' . $mapid . '"></div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Themes getlocations_search settings form
+ *
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_search_settings_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $varname = $form['varname']['#value'];
+  unset($form['varname']);
+
+  if (isset($form[$varname]['vocab']) ) {
+    $form[$varname]['vocab']['#prefix'] = '<div id="getlocations_search_defaults_vocab">';
+    $form[$varname]['vocab_element']['#suffix'] = '</div>';
+  }
+  $form[$varname]['useclustermanager']['#prefix'] = '<div id="wrap-getlocations-clusteropts">';
+  $form[$varname]['markerclusterer_minsize']['#suffix'] = '</div>';
+
+  $form[$varname]['usemarkermanager']['#prefix'] = '<div id="wrap-getlocations-markeropts">';
+  $form[$varname]['maxzoom']['#suffix'] = '</div>';
+
+  $form[$varname]['do_search_marker']['#suffix'] = '<div id="wrap-getlocations-search-marker">';
+  $form[$varname]['search_marker_toggle_active']['#suffix'] = '</div>';
+
+  if (module_exists('colorbox')) {
+    $getlocations_colorbox = getlocations_colorbox_settings();
+    if ($getlocations_colorbox['marker_enable']) {
+      $link = getlocations_markerpicker_link($form[$varname]['search_marker']['#id'], 's');
+      $form[$varname]['search_marker']['#field_suffix'] = '&nbsp;' . $link;
+    }
+  }
+
+  $output .= drupal_render_children($form);
+  return $output;
+
+}
+
+/**
+ * Themes getlocations_search settings form
+ *
+ * @param array $variables
+ *
+ * @return
+ *   Returns $output
+ *
+ */
+function theme_getlocations_search_block_settings_form($variables) {
+  $form = $variables['form'];
+  $output = '';
+  $varname = $form['varname']['#value'];
+  unset($form['varname']);
+
+  if (isset($form[$varname]['vocab']) ) {
+    $form[$varname]['vocab']['#prefix'] = '<div id="getlocations_search_defaults_vocab">';
+    $form[$varname]['vocab_element']['#suffix'] = '</div>';
+  }
+  $form[$varname]['useclustermanager']['#prefix'] = '<div id="wrap-getlocations-clusteropts">';
+  $form[$varname]['markerclusterer_minsize']['#suffix'] = '</div>';
+
+  $form[$varname]['usemarkermanager']['#prefix'] = '<div id="wrap-getlocations-markeropts">';
+  $form[$varname]['maxzoom']['#suffix'] = '</div>';
+
+  $form[$varname]['do_search_marker']['#suffix'] = '<div id="wrap-getlocations-search-marker">';
+  $form[$varname]['search_marker_toggle_active']['#suffix'] = '</div>';
+
+  if (module_exists('colorbox')) {
+    $getlocations_colorbox = getlocations_colorbox_settings();
+    if ($getlocations_colorbox['marker_enable']) {
+      $link = getlocations_markerpicker_link($form[$varname]['search_marker']['#id'], 's');
+      $form[$varname]['search_marker']['#field_suffix'] = '&nbsp;' . $link;
+    }
+  }
+
+  $output .= drupal_render_children($form);
+  return $output;
+
+}
+
+
+
+/**
+ * @param array $variables
+ *
+ * @return
+ *   Modifies $variables in situ
+ *
+ */
+function template_preprocess_getlocations_search_box(&$variables) {
+
+  $getlocations_search_defaults = getlocations_search_defaults();
+  $variables['box_width'] = $getlocations_search_defaults['width'];
+  $variables['box_height'] = $getlocations_search_defaults['height'];
+
+  if (module_exists('admin_menu')) {
+    admin_menu_suppress();
+  }
+
+  // Construct page title
+  if (drupal_get_title()) {
+    $head_title = array(strip_tags(drupal_get_title()), variable_get('site_name', 'Drupal'));
+  }
+  else {
+    $head_title = array(variable_get('site_name', 'Drupal'));
+    if (variable_get('site_slogan', '')) {
+      $head_title[] = variable_get('site_slogan', '');
+    }
+  }
+  $variables['head_title'] = implode(' | ', $head_title);
+  $variables['base_path'] = base_path();
+  $variables['head'] = drupal_get_html_head();
+  $variables['language'] = $GLOBALS['language'];
+  $variables['language']->dir = $GLOBALS['language']->direction ? 'rtl' : 'ltr';
+  $variables['css'] = drupal_add_css();
+  $variables['styles'] = drupal_get_css();
+  $variables['scripts'] = drupal_get_js();
+  $variables['title'] = drupal_get_title();
+  // Closure should be filled last.
+  $variables['closure'] = theme('closure');
+  // Compile a list of classes that are going to be applied to the body element.
+  // This allows advanced theming based on context (home page, node of certain type, etc.).
+  $body_classes = array();
+  // Add a class that tells us whether we're on the front page or not.
+  $body_classes[] = $variables['is_front'] ? 'front' : 'not-front';
+  // Add a class that tells us whether the page is viewed by an authenticated user or not.
+  $body_classes[] = $variables['logged_in'] ? 'logged-in' : 'not-logged-in';
+  $body_classes[] = 'no-sidebars';
+  // Implode with spaces.
+  $variables['body_classes'] = implode(' ', $body_classes);
+
+}
+
+
+/**
+ * Set up default settings.
+ *
+ * @return array $newdefaults
+ *
+ */
+function getlocations_search_defaults() {
+  $getlocations_defaults = getlocations_defaults();
+  $defaults = array(
+    'method'                        => 'google_ac',
+    'vocab'                         => '',
+    'vocab_element'                 => 'dropdown',
+    'search_distance'               => 1,
+    'search_distance_type'          => 'mbr',
+    'search_units'                  => 'km',
+    'search_limits'                 => 0,
+    'search_type'                   => 'all',
+    'display_dms'                   => 0,
+    'display_latlon'                => 0,
+    'display_geo_microformat'       => 0,
+    'display_accuracy'              => 0,
+    'show_distance'                 => 0,
+    'search_marker'                 => 'drupal',
+    'do_search_marker'              => 0,
+    'search_marker_toggle'          => 0,
+    'search_marker_toggle_active'   => 1,
+    'display_search_distance'       => 1,
+    'display_search_units'          => 1,
+    'display_search_limits'         => 1,
+    'display_search_type'           => 1,
+    'autocomplete_bias'             => 0,
+    'restrict_by_country'           => 0,
+    'searchbox_size'                => 50,
+    'country'                       => variable_get('site_default_country', ''),
+    'width'                         => $getlocations_defaults['width'],
+    'height'                        => $getlocations_defaults['height'],
+    'styles'                        => $getlocations_defaults['styles'],
+    'latlong'                       => $getlocations_defaults['latlong'],
+    'zoom'                          => $getlocations_defaults['zoom'],
+    'minzoom_map'                   => $getlocations_defaults['minzoom_map'],
+    'maxzoom_map'                   => $getlocations_defaults['maxzoom_map'],
+    'controltype'                   => $getlocations_defaults['controltype'],
+    'pancontrol'                    => $getlocations_defaults['pancontrol'],
+    'mtc'                           => $getlocations_defaults['mtc'],
+    'maptype'                       => $getlocations_defaults['maptype'],
+    'baselayers'                    => $getlocations_defaults['baselayers'],
+    'scale'                         => $getlocations_defaults['scale'],
+    'overview'                      => $getlocations_defaults['overview'],
+    'overview_opened'               => $getlocations_defaults['overview_opened'],
+    'scrollwheel'                   => $getlocations_defaults['scrollwheel'],
+    'draggable'                     => $getlocations_defaults['draggable'],
+    'sv_show'                       => $getlocations_defaults['sv_show'],
+    'sv_showfirst'                  => $getlocations_defaults['sv_showfirst'],
+    'sv_heading'                    => $getlocations_defaults['sv_heading'],
+    'sv_zoom'                       => $getlocations_defaults['sv_zoom'],
+    'sv_pitch'                      => $getlocations_defaults['sv_pitch'],
+    'trafficinfo'                   => $getlocations_defaults['trafficinfo'],
+    'trafficinfo_state'             => $getlocations_defaults['trafficinfo_state'],
+    'bicycleinfo'                   => $getlocations_defaults['bicycleinfo'],
+    'bicycleinfo_state'             => $getlocations_defaults['bicycleinfo_state'],
+    'transitinfo'                   => $getlocations_defaults['transitinfo'],
+    'transitinfo_state'             => $getlocations_defaults['transitinfo_state'],
+    'panoramio_use'                 => $getlocations_defaults['panoramio_use'],
+    'panoramio_show'                => $getlocations_defaults['panoramio_show'],
+    'panoramio_state'               => $getlocations_defaults['panoramio_state'],
+    'poi_show'                      => $getlocations_defaults['poi_show'],
+    'transit_show'                  => $getlocations_defaults['transit_show'],
+    'markeraction'                  => $getlocations_defaults['markeraction'],
+    'markeractiontype'              => $getlocations_defaults['markeractiontype'],
+    'minzoom'                       => $getlocations_defaults['minzoom'],
+    'maxzoom'                       => $getlocations_defaults['maxzoom'],
+    'nodezoom'                      => $getlocations_defaults['nodezoom'],
+    'markermanagertype'             => $getlocations_defaults['markermanagertype'],
+    'usemarkermanager'              => $getlocations_defaults['usemarkermanager'],
+    'useclustermanager'             => $getlocations_defaults['useclustermanager'],
+    'markerclusterer_style'         => $getlocations_defaults['markerclusterer_style'],
+    'markerclusterer_zoom'          => $getlocations_defaults['markerclusterer_zoom'],
+    'markerclusterer_size'          => $getlocations_defaults['markerclusterer_size'],
+    'markerclusterer_minsize'       => $getlocations_defaults['markerclusterer_minsize'],
+    'markerclusterer_title'         => $getlocations_defaults['markerclusterer_title'],
+    'markerclusterer_imgpath'       => $getlocations_defaults['markerclusterer_imgpath'],
+    'pansetting'                    => $getlocations_defaults['pansetting'],
+    'use_geolocation_button'        => $getlocations_defaults['use_jsapi'],
+    'weather_use'                   => $getlocations_defaults['weather_use'],
+    'weather_show'                  => $getlocations_defaults['weather_show'],
+    'weather_state'                 => $getlocations_defaults['weather_state'],
+    'weather_cloud'                 => $getlocations_defaults['weather_cloud'],
+    'weather_cloud_state'           => $getlocations_defaults['weather_cloud_state'],
+    'map_backgroundcolor'           => $getlocations_defaults['map_backgroundcolor'],
+    'show_maplinks'                 => $getlocations_defaults['show_maplinks'],
+    'fullscreen'                    => $getlocations_defaults['fullscreen'],
+    'fullscreen_controlposition'    => $getlocations_defaults['fullscreen_controlposition'],
+    'show_bubble_on_one_marker'     => $getlocations_defaults['show_bubble_on_one_marker'],
+    'polygons_enable'               => $getlocations_defaults['polygons_enable'],
+    'polygons_strokecolor'          => $getlocations_defaults['polygons_strokecolor'],
+    'polygons_strokeopacity'        => $getlocations_defaults['polygons_strokeopacity'],
+    'polygons_strokeweight'         => $getlocations_defaults['polygons_strokeweight'],
+    'polygons_fillcolor'            => $getlocations_defaults['polygons_fillcolor'],
+    'polygons_fillopacity'          => $getlocations_defaults['polygons_fillopacity'],
+    'polygons_coords'               => $getlocations_defaults['polygons_coords'],
+    'polygons_clickable'            => $getlocations_defaults['polygons_clickable'],
+    'polygons_message'              => $getlocations_defaults['polygons_message'],
+    'rectangles_enable'             => $getlocations_defaults['rectangles_enable'],
+    'rectangles_strokecolor'        => $getlocations_defaults['rectangles_strokecolor'],
+    'rectangles_strokeopacity'      => $getlocations_defaults['rectangles_strokeopacity'],
+    'rectangles_strokeweight'       => $getlocations_defaults['rectangles_strokeweight'],
+    'rectangles_fillcolor'          => $getlocations_defaults['rectangles_fillcolor'],
+    'rectangles_fillopacity'        => $getlocations_defaults['rectangles_fillopacity'],
+    'rectangles_coords'             => $getlocations_defaults['rectangles_coords'],
+    'rectangles_clickable'          => $getlocations_defaults['rectangles_clickable'],
+    'rectangles_message'            => $getlocations_defaults['rectangles_message'],
+    'rectangles_apply'              => $getlocations_defaults['rectangles_apply'],
+    'rectangles_dist'               => $getlocations_defaults['rectangles_dist'],
+    'circles_enable'                => $getlocations_defaults['circles_enable'],
+    'circles_strokecolor'           => $getlocations_defaults['circles_strokecolor'],
+    'circles_strokeopacity'         => $getlocations_defaults['circles_strokeopacity'],
+    'circles_strokeweight'          => $getlocations_defaults['circles_strokeweight'],
+    'circles_fillcolor'             => $getlocations_defaults['circles_fillcolor'],
+    'circles_fillopacity'           => $getlocations_defaults['circles_fillopacity'],
+    'circles_coords'                => $getlocations_defaults['circles_coords'],
+    'circles_clickable'             => $getlocations_defaults['circles_clickable'],
+    'circles_message'               => $getlocations_defaults['circles_message'],
+    'circles_radius'                => $getlocations_defaults['circles_radius'],
+    'circles_apply'                 => $getlocations_defaults['circles_apply'],
+    'polylines_enable'              => $getlocations_defaults['polylines_enable'],
+    'polylines_strokecolor'         => $getlocations_defaults['polylines_strokecolor'],
+    'polylines_strokeopacity'       => $getlocations_defaults['polylines_strokeopacity'],
+    'polylines_strokeweight'        => $getlocations_defaults['polylines_strokeweight'],
+    'polylines_coords'              => $getlocations_defaults['polylines_coords'],
+    'polylines_clickable'           => $getlocations_defaults['polylines_clickable'],
+    'polylines_message'             => $getlocations_defaults['polylines_message'],
+    'kml_group'                     => $getlocations_defaults['kml_group'],
+    'map_resize'                    => $getlocations_defaults['map_resize'],
+    'region_bias'                   => $getlocations_defaults['region_bias'],
+    'fullscreen_disable'            => $getlocations_defaults['fullscreen_disable'],
+    'search_places'                 => $getlocations_defaults['search_places'],
+    'search_places_size'            => $getlocations_defaults['search_places_size'],
+    'search_places_position'        => $getlocations_defaults['search_places_position'],
+    'search_places_label'           => $getlocations_defaults['search_places_label'],
+    'search_places_placeholder'     => $getlocations_defaults['search_places_placeholder'],
+    'search_places_dd'              => $getlocations_defaults['search_places_dd'],
+    'search_places_list'            => $getlocations_defaults['search_places_list'],
+    'search_radshape_enable'        => 0,
+    'search_radshape_strokecolor'   => $getlocations_defaults['circles_strokecolor'],
+    'search_radshape_strokeopacity' => $getlocations_defaults['circles_strokeopacity'],
+    'search_radshape_strokeweight'  => $getlocations_defaults['circles_strokeweight'],
+    'search_radshape_fillcolor'     => $getlocations_defaults['circles_fillcolor'],
+    'search_radshape_fillopacity'   => $getlocations_defaults['circles_fillopacity'],
+    'search_radshape_toggle'        => 0,
+    'search_radshape_toggle_active' => 1,
+    'zoom_on_single_use'            => 1,
+    'geo_enable'                    => 1,
+    'geojson_enable'                => $getlocations_defaults['geojson_enable'],
+    'geojson_data'                  => $getlocations_defaults['geojson_data'],
+    'geojson_options'               => $getlocations_defaults['geojson_options'],
+    'nokeyboard'                    => $getlocations_defaults['nokeyboard'],
+    'nodoubleclickzoom'             => $getlocations_defaults['nodoubleclickzoom'],
+    'zoomcontrolposition'           => $getlocations_defaults['zoomcontrolposition'],
+    'pancontrolposition'            => $getlocations_defaults['pancontrolposition'],
+    'mapcontrolposition'            => $getlocations_defaults['mapcontrolposition'],
+    'scalecontrolposition'          => $getlocations_defaults['scalecontrolposition'],
+    'svcontrolposition'             => $getlocations_defaults['svcontrolposition'],
+    'showall'                       => 0,
+    'highlight_enable'          => $getlocations_defaults['highlight_enable'],
+    'highlight_strokecolor'     => $getlocations_defaults['highlight_strokecolor'],
+    'highlight_strokeopacity'   => $getlocations_defaults['highlight_strokeopacity'],
+    'highlight_strokeweight'    => $getlocations_defaults['highlight_strokeweight'],
+    'highlight_fillcolor'       => $getlocations_defaults['highlight_fillcolor'],
+    'highlight_fillopacity'     => $getlocations_defaults['highlight_fillopacity'],
+    'highlight_radius'          => $getlocations_defaults['highlight_radius'],
+    'getdirections_link'        => $getlocations_defaults['getdirections_link'],
+    'geocode_button_enable'     => 0,
+    'reset_button_enable'       => 0,
+    'gps_button'                => 0,
+    'gps_button_label'          => $getlocations_defaults['gps_button_label'],
+    'gps_marker'                => $getlocations_defaults['gps_marker'],
+    'gps_marker_title'          => $getlocations_defaults['gps_marker_title'],
+    'gps_bubble'                => $getlocations_defaults['gps_bubble'],
+    'gps_geocode'               => $getlocations_defaults['gps_geocode'],
+    'gps_center'                => $getlocations_defaults['gps_center'],
+    'geolocation_mobile_check'  => $getlocations_defaults['geolocation_mobile_check'],
+    'geocoder_enable'           => $getlocations_defaults['geocoder_enable'],
+  );
+
+  $settings = variable_get('getlocations_search_defaults', $defaults);
+  $getlocations_search_defaults = getlocations_adjust_vars($defaults, $settings);
+  return $getlocations_search_defaults;
+
+}
+
+/**
+ * @return array $options
+ *   Returns list of vocabularies suitable for a dropdown
+ */
+function getlocations_search_get_vocabularies() {
+  if (module_exists('taxonomy')) {
+    $vocabularies = taxonomy_get_vocabularies();
+    $options = array();
+    if (count($vocabularies)) {
+      foreach ($vocabularies as $vid => $vocabulary) {
+        $options[$vid] = $vocabulary->name;
+      }
+      return $options;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * autocomplete for taxonomy terms
+ *
+ * @param string $string
+ *
+ * @return
+ *   Returns term names
+ *
+ */
+function getlocations_search_term_autocomplete($string) {
+  $matches = array();
+
+  // Taxonomy which holds locative info
+  $getlocations_search_defaults = getlocations_search_defaults();
+  $vid = FALSE;
+  if (is_numeric($getlocations_search_defaults['vocab']) && $getlocations_search_defaults['vocab'] > 0) {
+    $vid = $getlocations_search_defaults['vocab'];
+  }
+
+  if ($vid) {
+    $query = db_select('taxonomy_term_data', 't');
+    $query->fields('t', array('name'))
+      ->where("LOWER(name) LIKE LOWER(:st)", array(':st' => $string . '%'))
+      ->condition('t.vid', $vid, '=')
+      ->range(0, 15);
+    $result = $query->execute();
+    foreach ($result AS $row) {
+      $matches[$row->name] = check_plain($row->name);
+    }
+  }
+  drupal_json_output($matches);
+}
+
+/**
+ * @return array $matches
+ *   Returns a list of terms of a given vocabulary, suitable for a dropdown
+ */
+function getlocations_search_term_get() {
+  $matches = array();
+
+  // Taxonomy which holds locative info
+  $getlocations_search_defaults = getlocations_search_defaults();
+  $vid = FALSE;
+  if (is_numeric($getlocations_search_defaults['vocab']) && $getlocations_search_defaults['vocab'] > 0) {
+    $vid = $getlocations_search_defaults['vocab'];
+  }
+
+  if ($vid) {
+    $query = db_select('taxonomy_term_data', 't');
+    $query->fields('t', array('name'))
+      ->condition('t.vid', $vid, '=');
+    $result = $query->execute();
+    foreach ($result AS $row) {
+      $matches[$row->name] = getlocations_apoclean($row->name);
+    }
+  }
+  ksort($matches);
+  return $matches;
+}
+
+function getlocations_search_paths_get($reset = FALSE, $min = FALSE) {
+  if ($min) {
+    $defaults = array(
+      'getlocations_search_path' => GETLOCATIONS_SEARCH_PATH . '/js/getlocations_search.min.js',
+      'getlocations_search_admin_path' => GETLOCATIONS_SEARCH_PATH . '/js/getlocations_search_admin.min.js',
+    );
+  }
+  else {
+    $defaults = array(
+      'getlocations_search_path' => GETLOCATIONS_SEARCH_PATH . '/js/getlocations_search.js',
+      'getlocations_search_admin_path' => GETLOCATIONS_SEARCH_PATH . '/js/getlocations_search_admin.js',
+    );
+  }
+  if ($reset || $min) {
+    $getlocations_search_paths = $defaults;
+  }
+  else {
+    $settings = variable_get('getlocations_search_paths', $defaults);
+    $getlocations_search_paths = getlocations_adjust_vars($defaults, $settings);
+  }
+  return $getlocations_search_paths;
+}
+
+/**
+ * @return json format $output
+ *   Returns search result to getlocations_search.js
+ *
+ */
+function getlocations_search_allinfo() {
+  $lat = $_GET['lat'];
+  $lon = $_GET['lon'];
+  $getlocations_search_defaults = getlocations_search_defaults();
+  $distance = $getlocations_search_defaults['search_distance'];
+  if (isset($_GET['distance']) && is_numeric($_GET['distance'])) {
+    $distance = $_GET['distance'];
+    // sanity check
+    if (! $distance > 0) {
+      $distance = $getlocations_search_defaults['search_distance'];
+    }
+  }
+  $units = $getlocations_search_defaults['search_units'];
+  if (isset($_GET['units'])) {
+    $units = $_GET['units'];
+    // sanity check
+    $unitsarr = array('km', 'm', 'mi', 'yd', 'nmi');
+    if (! in_array($units, $unitsarr)) {
+      $units = $getlocations_search_defaults['search_units'];
+    }
+  }
+  $type = $getlocations_search_defaults['search_type'];
+  if (isset($_GET['type'])) {
+    $type = $_GET['type'];
+    // sanity check
+    $typarr = array('all', 'node', 'user', 'term', 'taxonomy_term', 'comment');
+    if (! in_array($type, $typarr)) {
+      $type = $getlocations_search_defaults['search_type'];
+    }
+  }
+
+  $dosort = FALSE;
+  if (isset($_GET['limits']) && is_numeric($_GET['limits'])) {
+    $limits = $_GET['limits'];
+    // sanity check
+    if ($limits < 0) {
+      $limits = 0;
+    }
+    if ($limits > 0) {
+      $dosort = TRUE;
+    }
+  }
+
+  // sanity check
+  if ($latlon = getlocations_latlon_check($lat . ',' . $lon)) {
+    $ll = explode(',', $latlon);
+    $lat = $ll[0];
+    $lon = $ll[1];
+    $output = getlocations_search_info_sql($lat, $lon, $distance, $units, $type, $dosort, $limits);
+    drupal_json_output($output);
+  }
+}
+
+// $type can be node, user, comment, term. anything else is all
+function getlocations_search_info_sql($lat, $lon, $distance, $units, $type, $dosort, $limits) {
+
+  $getlocations_defaults = getlocations_defaults();
+  $getlocations_search_defaults = getlocations_search_defaults();
+  $dms = ( ($getlocations_search_defaults['display_dms'] || $getlocations_search_defaults['display_geo_microformat']) ? TRUE : FALSE);
+
+  $distance_meters = getlocations_convert_distance_to_meters($distance, $units);
+  $latrange = getlocations_earth_latitude_range($lat, $lon, $distance_meters);
+  $lonrange = getlocations_earth_longitude_range($lat, $lon, $distance_meters);
+
+  $locations = array();
+
+  if (module_exists('getlocations_fields')) {
+    if ($lonrange[0] > $lonrange[1]) {
+      $where = "g.latitude > :minlat AND g.latitude < :maxlat AND ((g.longitude < 180 AND g.longitude > :minlon) OR (g.longitude < :maxlon AND g.longitude > -180))";
+    }
+    else {
+      $where = "g.latitude > :minlat AND g.latitude < :maxlat AND g.longitude > :minlon AND g.longitude < :maxlon";
+    }
+    $sqlarr = array(':minlat' => $latrange[0], ':maxlat' => $latrange[1], ':minlon' => $lonrange[0], ':maxlon' => $lonrange[1]);
+
+    if ($getlocations_search_defaults['search_distance_type'] == 'dist') {
+      $where .= " AND " . getlocations_earth_distance_sql($lat, $lon, 'g') . ' < :distance';
+      $sqlarr += array(':distance' => $distance_meters);
+    }
+
+    $fields = array();
+    $fields[] = 'g.glid';
+    $fields[] = 'g.name';
+    $fields[] = 'g.latitude';
+    $fields[] = 'g.longitude';
+    $fields[] = 'g.marker';
+    if (getlocations_fields_column_check('data')) {
+      $fields[] = 'g.data';
+    }
+    $fields[] = 'f.nid';
+    $fields[] = 'f.uid';
+    $fields[] = 'f.tid';
+    $fields[] = 'f.cid';
+
+    $sqlsnip1 = "";
+    $sqlsnip2 = "";
+    $marker = '';
+    if ($type == 'node' && user_access('access content') && user_access('access getlocations')) {
+      $fields[] = 'n.title AS title';
+      $fields[] = 'n.nid';
+      $sqlsnip1 = "LEFT JOIN {node} n ON f.vid = n.vid ";
+      $sqlsnip2 = "AND n.nid > 0 AND n.status = 1 ";
+      $marker = $getlocations_defaults['node_map_marker'];
+    }
+    elseif ($type == 'user' && getlocations_access_user_location()) {
+      $fields[] = 'u.name AS title';
+      $fields[] = 'u.uid';
+      $sqlsnip1 = "LEFT JOIN {users} u ON f.uid = u.uid ";
+      $sqlsnip2 = "AND u.uid > 0 AND u.status = 1 ";
+      $marker = $getlocations_defaults['user_map_marker'];
+    }
+    elseif (($type == 'term' || $type == 'taxonomy_term') && user_access('access getlocations')) {
+      $fields[] = 't.name AS title';
+      $fields[] = 't.tid';
+      $sqlsnip1 = "LEFT JOIN {taxonomy_term_data} t ON f.tid = t.tid ";
+      $sqlsnip2 = "AND t.tid > 0 ";
+      $marker = $getlocations_defaults['vocabulary_map_marker'];
+    }
+    elseif ($type == 'comment' && user_access('access comments') && user_access('access getlocations')) {
+      $fields[] = 'c.subject AS title';
+      $fields[] = 'c.cid';
+      $sqlsnip1 = "LEFT JOIN {comment} c ON f.cid = c.cid ";
+      $sqlsnip2 = "AND c.cid > 0 AND c.status = 1 ";
+      $marker = $getlocations_defaults['comment_map_marker'];
+    }
+    elseif ($type == 'all') {
+      $sqlsnip2arr = array();
+      if (user_access('access content') && user_access('access getlocations')) {
+        $sqlsnip2arr[] = "f.nid > 0";
+        $sqlsnip2arr[] = "f.tid > 0";
+      }
+      if (getlocations_access_user_location()) {
+        $sqlsnip2arr[] = "f.uid > 0";
+      }
+      if (user_access('access comments') && user_access('access getlocations')) {
+        $sqlsnip2arr[] = "f.cid > 0";
+      }
+      if (! empty($sqlsnip2arr)) {
+        $sqlsnip2 = "AND (" . implode(" OR ", $sqlsnip2arr) . ") ";
+      }
+      else {
+        // this user may not see anything
+        $sqlsnip2 = "AND 1=0 ";
+      }
+    }
+
+    if ($dosort) {
+      $sort = getlocations_earth_distance_sql($lat, $lon, 'g');
+      $fields[] = "$sort AS distance_sort ";
+    }
+
+    $selects = implode(",", $fields);
+
+    $sql = "SELECT $selects ";
+    $sql .= "FROM {getlocations_fields} g LEFT JOIN {getlocations_fields_entities} f ON g.glid = f.glid ";
+    $sql .= $sqlsnip1;
+    $sql .= "WHERE ($where) ";
+    $sql .= "AND g.glid IS NOT NULL ";
+    $sql .= "AND g.latitude != '0' ";
+    $sql .= "AND g.longitude != '0' ";
+    $sql .= $sqlsnip2;
+    if ($dosort) {
+      $sql .= "ORDER BY distance_sort ASC ";
+    }
+    if ($limits > 0) {
+      $sql .= "LIMIT 0, $limits ";
+    }
+
+    $location_ct = 0;
+    $result = db_query($sql, $sqlarr);
+    foreach ($result AS $row) {
+      $locations[$location_ct] = $row;
+      if (empty($locations[$location_ct]->marker)) {
+        if (! empty($marker)) {
+          $locations[$location_ct]->marker = $marker;
+          if (isset($locations[$location_ct]->nid) && $locations[$location_ct]->nid > 0) {
+            $t = getlocations_get_nodetype($locations[$location_ct]->nid);
+            if ($t) {
+              $typemarkers = getlocations_get_markertypes('node');
+              if (isset($typemarkers[$t]) && $typemarkers[$t]) {
+                $locations[$location_ct]->marker = $typemarkers[$t];
+              }
+            }
+          }
+        }
+        else {
+          // must be an 'all' search so we have to figure out a marker
+          if ($locations[$location_ct]->nid > 0) {
+            $locations[$location_ct]->marker = $getlocations_defaults['node_map_marker'];
+            $t = getlocations_get_nodetype($locations[$location_ct]->nid);
+            if ($t) {
+              $typemarkers = getlocations_get_markertypes('node');
+              if (isset($typemarkers[$t]) && $typemarkers[$t]) {
+                $locations[$location_ct]->marker = $typemarkers[$t];
+              }
+            }
+
+            // term markers
+            $locations[$location_ct]->marker = getlocations_get_term_marker($locations[$location_ct]->nid, $locations[$location_ct]->marker);
+
+          }
+          elseif ($locations[$location_ct]->uid > 0) {
+            $locations[$location_ct]->marker = $getlocations_defaults['user_map_marker'];
+          }
+          elseif ($locations[$location_ct]->tid > 0) {
+            $locations[$location_ct]->marker = $getlocations_defaults['vocabulary_map_marker'];
+          }
+          elseif ($locations[$location_ct]->cid > 0) {
+            $locations[$location_ct]->marker = $getlocations_defaults['comment_map_marker'];
+          }
+        }
+        // just in case
+        if (empty($locations[$location_ct]->marker)) {
+          $locations[$location_ct]->marker = $getlocations_defaults['node_map_marker'];
+        }
+      }
+      // ensure we always have a title
+      if (! isset($locations[$location_ct]->title) || empty($locations[$location_ct]->title)) {
+        if ($locations[$location_ct]->nid > 0) {
+          $n = node_load($locations[$location_ct]->nid);
+          $locations[$location_ct]->title = $n->title;
+          // sanity check
+          if ($n->status == 0) {
+            unset($locations[$location_ct]);
+            continue;
+          }
+        }
+        elseif ($locations[$location_ct]->uid > 0) {
+          $u = user_load($locations[$location_ct]->uid);
+          $locations[$location_ct]->title = $u->name;
+          // sanity check
+          if ($u->status == 0) {
+            unset($locations[$location_ct]);
+            continue;
+          }
+        }
+        elseif ($locations[$location_ct]->tid > 0) {
+          $term = taxonomy_term_load($locations[$location_ct]->tid);
+          $locations[$location_ct]->title = $term->name;
+        }
+        elseif ($locations[$location_ct]->cid > 0) {
+          $comment = comment_load($locations[$location_ct]->cid);
+          $locations[$location_ct]->title = $comment->subject;
+          // sanity check
+          if ($comment->status == 0) {
+            unset($locations[$location_ct]);
+            continue;
+          }
+        }
+      }
+      $location_ct++;
+    }
+  }
+  elseif (module_exists('location_cck')) {
+    if ($lonrange[0] > $lonrange[1]) {
+      $where = "l.latitude > :minlat AND l.latitude < :maxlat AND ((l.longitude < 180 AND l.longitude > :minlon) OR (l.longitude < :maxlon AND l.longitude > -180))";
+    }
+    else {
+      $where = "l.latitude > :minlat AND l.latitude < :maxlat AND l.longitude > :minlon AND l.longitude < :maxlon";
+    }
+    $sqlarr = array(':minlat' => $latrange[0], ':maxlat' => $latrange[1], ':minlon' => $lonrange[0], ':maxlon' => $lonrange[1]);
+
+    if ($getlocations_search_defaults['search_distance_type'] == 'dist') {
+      $where .= " AND " . getlocations_earth_distance_sql($lat, $lon, 'l') . ' < :distance';
+      $sqlarr += array(':distance' => $distance_meters);
+    }
+
+    $fields = array();
+    $fields[] = 'l.lid';
+    $fields[] = 'l.name';
+    $fields[] = 'l.latitude';
+    $fields[] = 'l.longitude';
+
+    $fields[] = 'i.nid';
+    $fields[] = 'i.uid';
+
+    $sqlsnip1 = "";
+    $sqlsnip2 = "";
+    $marker = '';
+    if ($type == 'node' && user_access('access content') && user_access('access getlocations')) {
+      $fields[] = 'n.title AS title';
+      $fields[] = 'n.nid';
+      $sqlsnip1 = "LEFT JOIN {node} n ON i.vid = n.vid ";
+      $sqlsnip2 = "AND n.nid > 0 AND n.status = 1 ";
+      $marker = $getlocations_defaults['node_map_marker'];
+    }
+    elseif ($type == 'user' && getlocations_access_user_location()) {
+      $fields[] = 'u.name AS title';
+      $fields[] = 'u.uid';
+      $sqlsnip1 = "LEFT JOIN {users} u ON i.uid = u.uid ";
+      $sqlsnip2 = "AND u.uid > 0 AND u.status = 1 ";
+      $marker = $getlocations_defaults['user_map_marker'];
+    }
+    elseif ($type == 'all') {
+      $sqlsnip2arr = array();
+      if (user_access('access content') && user_access('access getlocations')) {
+        $sqlsnip2arr[] = "i.nid > 0";
+      }
+      if (getlocations_access_user_location()) {
+        $sqlsnip2arr[] = "i.uid > 0";
+      }
+      if (! empty($sqlsnip2arr)) {
+        $sqlsnip2 = "AND (" . implode(" OR ", $sqlsnip2arr) . ") ";
+      }
+      else {
+        // this user may not see anything
+        $sqlsnip2 = "AND 1=0 ";
+      }
+    }
+
+    if ($dosort) {
+      $sort = getlocations_earth_distance_sql($lat, $lon, 'l');
+      $fields[] = "$sort AS distance_sort ";
+    }
+
+    $selects = implode(",", $fields);
+
+    $sql = "SELECT $selects ";
+    $sql .= "FROM {location} l LEFT JOIN {location_instance} i ON l.lid = i.lid ";
+    $sql .= $sqlsnip1;
+    $sql .= "WHERE ($where) ";
+    $sql .= "AND l.lid IS NOT NULL ";
+    $sql .= "AND l.latitude != '0' ";
+    $sql .= "AND l.longitude != '0' ";
+    $sql .= $sqlsnip2;
+    if ($dosort) {
+      $sql .= "ORDER BY distance_sort ASC ";
+    }
+    if ($limits > 0) {
+      $sql .= "LIMIT 0, $limits ";
+    }
+
+    $location_ct = 0;
+    $result = db_query($sql, $sqlarr);
+    foreach ($result AS $row) {
+      $locations[$location_ct] = $row;
+      if (! empty($marker)) {
+        $locations[$location_ct]->marker = $marker;
+      }
+      else {
+        // must be an 'all' search so we have to figure out a marker
+        if ($locations[$location_ct]->nid > 0) {
+          $locations[$location_ct]->marker = $getlocations_defaults['node_map_marker'];
+        }
+        elseif ($locations[$location_ct]->uid > 0) {
+          $locations[$location_ct]->marker = $getlocations_defaults['user_map_marker'];
+        }
+      }
+      // ensure we always have a title
+      if (! isset($locations[$location_ct]->title) || empty($locations[$location_ct]->title)) {
+        if ($locations[$location_ct]->nid > 0) {
+          $n = node_load($locations[$location_ct]->nid);
+          $locations[$location_ct]->title = $n->title;
+          // sanity check
+          if ($n->status == 0) {
+            unset($locations[$location_ct]);
+            continue;
+          }
+        }
+        elseif ($locations[$location_ct]->uid > 0) {
+          $u = user_load($locations[$location_ct]->uid);
+          $locations[$location_ct]->title = $u->name;
+          // sanity check
+          if ($u->status == 0) {
+            unset($locations[$location_ct]);
+            continue;
+          }
+        }
+      }
+      $location_ct++;
+    }
+  }
+  elseif (module_exists('geolocation')) {
+    $module = 'geolocation';
+    $gtype = 'geolocation_latlng';
+    $entity_type = '';
+    $fieldnames = getlocations_other_get_fieldname($gtype, $module, $entity_type);
+    if (! empty($fieldnames)) {
+      $tabledata = array();
+      $ct = 0;
+      foreach ($fieldnames AS $fieldname) {
+        $tabledata[$ct]['table'] = 'field_data_' . $fieldname;
+        $tabledata[$ct]['fieldname_latitude'] = $fieldname . '_lat';
+        $tabledata[$ct]['fieldname_longitude'] = $fieldname . '_lng';
+        $ct++;
+      }
+    }
+  }
+  elseif (module_exists('geofield')) {
+    $module = 'geofield';
+    $gtype = 'geofield';
+    $entity_type = '';
+    $fieldnames = getlocations_other_get_fieldname($gtype, $module, $entity_type);
+    if (! empty($fieldnames)) {
+      $tabledata = array();
+      $ct = 0;
+      foreach ($fieldnames AS $fieldname) {
+        $tabledata[$ct]['table'] = 'field_data_' . $fieldname;
+        $tabledata[$ct]['fieldname_latitude'] = $fieldname . '_lat';
+        $tabledata[$ct]['fieldname_longitude'] = $fieldname . '_lon';
+        $ct++;
+      }
+    }
+  }
+  if ((module_exists('geolocation') || module_exists('geofield')) && ! empty($fieldnames)) {
+    $location_ct = 0;
+    foreach ($tabledata AS $data) {
+      $table = $data['table'];
+      $latfield = 'g.' . $data['fieldname_latitude'];
+      $lonfield = 'g.' . $data['fieldname_longitude'];
+      if ($lonrange[0] > $lonrange[1]) {
+        $where = "$latfield > :minlat AND $latfield < :maxlat AND (($lonfield < 180 AND $lonfield > :minlon) OR ($lonfield < :maxlon AND $lonfield > -180))";
+      }
+      else {
+        $where = "$latfield > :minlat AND $latfield < :maxlat AND $lonfield > :minlon AND $lonfield < :maxlon";
+      }
+      $sqlarr = array(':minlat' => $latrange[0], ':maxlat' => $latrange[1], ':minlon' => $lonrange[0], ':maxlon' => $lonrange[1]);
+
+      if ($getlocations_search_defaults['search_distance_type'] == 'dist') {
+        $where .= " AND " . getlocations_earth_distance_sql($lat, $lon, 'g') . ' < :distance';
+        $sqlarr += array(':distance' => $distance_meters);
+      }
+
+      $fields = array();
+      $fields[] = "$latfield AS latitude";
+      $fields[] = "$lonfield AS longitude";
+      $fields[] = "g.entity_type AS entity_type";
+      $fields[] = "g.entity_id AS entity_id";
+
+      $sqlsnip1 = "";
+      $sqlsnip2 = "";
+      $marker = '';
+      if ($type == 'node' && user_access('access content') && user_access('access getlocations')) {
+        $fields[] = 'n.title AS title';
+        $fields[] = 'n.nid';
+        $sqlsnip1 = "LEFT JOIN {node} n ON g.entity_id = n.nid ";
+        $sqlsnip2 = "AND g.entity_type = :type AND n.nid > 0 AND n.status = 1 ";
+        $sqlarr[':type'] = $type;
+        $marker = $getlocations_defaults['node_map_marker'];
+      }
+      elseif ($type == 'user' && getlocations_access_user_location()) {
+        $fields[] = 'u.name AS title';
+        $fields[] = 'u.uid';
+        $sqlsnip1 = "LEFT JOIN {users} u ON g.entity_id = u.uid ";
+        $sqlsnip2 = "AND g.entity_type = :type AND u.uid > 0 AND u.status = 1 ";
+        $sqlarr[':type'] = $type;
+        $marker = $getlocations_defaults['user_map_marker'];
+      }
+      elseif (($type == 'term' || $type == 'taxonomy_term') && user_access('access getlocations')) {
+        $fields[] = 't.name AS title';
+        $fields[] = 't.tid';
+        $sqlsnip1 = "LEFT JOIN {taxonomy_term_data} t ON g.entity_id = t.tid ";
+        $sqlsnip2 = "AND g.entity_type = :type AND t.tid > 0 ";
+        $sqlarr[':type'] = $type;
+        $marker = $getlocations_defaults['vocabulary_map_marker'];
+      }
+      elseif ($type == 'comment' && user_access('access comments') && user_access('access getlocations')) {
+        $fields[] = 'c.subject AS title';
+        $fields[] = 'c.cid';
+        $sqlsnip1 = "LEFT JOIN {comment} c ON g.entity_id = c.cid ";
+        $sqlsnip2 = "AND g.entity_type = :type AND c.cid > 0 AND c.status = 1 ";
+        $sqlarr[':type'] = $type;
+        $marker = $getlocations_defaults['comment_map_marker'];
+      }
+      elseif ($type == 'all') {
+        // need a list of all the entity_types in this table so that we can limit on permissions
+        $sqlsnip2arr = array();
+        $permitted_entity_types = array();
+        if (user_access('access content') && user_access('access getlocations')) {
+          $permitted_entity_types[] = 'node';
+        }
+        if (getlocations_access_user_location()) {
+          $permitted_entity_types[] = 'user';
+        }
+        if (user_access('access getlocations')) {
+          $permitted_entity_types[] = 'term';
+        }
+        if (user_access('access comments') && user_access('access getlocations')) {
+          $permitted_entity_types[] = 'comment';
+        }
+
+        $sql = "SELECT DISTINCT entity_type FROM {$table} ";
+        $rows = db_query($sql);
+        $at = '';
+        $ct = 1;
+        $sqlsnip2 = '';
+        foreach ($rows AS $row) {
+          $et = $row->entity_type;
+          if (in_array($et, $permitted_entity_types)) {
+            $sqlsnip2arr[] = "g.entity_type = :et_$ct";
+            $sqlarr[":et_$ct"] = $et;
+            $ct++;
+          }
+        }
+        if (! empty($sqlsnip2arr)) {
+          $sqlsnip2 = "AND (" . implode(" OR ", $sqlsnip2arr) . ") ";
+        }
+        else {
+          // this user may not see anything
+          $sqlsnip2 = "AND 1=0 ";
+        }
+      }
+
+      if ($dosort) {
+        $sort = getlocations_earth_distance_sql($lat, $lon, 'g');
+        $fields[] = "$sort AS distance_sort ";
+      }
+
+      $selects = implode(",", $fields);
+
+      $sql = "SELECT $selects FROM {$table} g ";
+      $sql .= $sqlsnip1;
+      $sql .= "WHERE ($where) ";
+      $sql .= "AND $latfield != '0' ";
+      $sql .= "AND $lonfield != '0' ";
+      $sql .= $sqlsnip2;
+      if ($dosort) {
+        $sql .= "ORDER BY distance_sort ASC ";
+      }
+      if ($limits > 0) {
+        $sql .= "LIMIT 0, $limits ";
+      }
+      $result = db_query($sql, $sqlarr);
+      foreach ($result AS $row) {
+        $locations[$location_ct]->latitude = $row->latitude;
+        $locations[$location_ct]->longitude = $row->longitude;
+        if (isset($row->title)) {
+          $locations[$location_ct]->title = $row->title;
+        }
+        if ($row->entity_type == 'node') {
+          $locations[$location_ct]->nid = $row->entity_id;
+          $locations[$location_ct]->marker = $getlocations_defaults['node_map_marker'];
+          $t = getlocations_get_nodetype($locations[$location_ct]->nid);
+          if ($t) {
+            $typemarkers = getlocations_get_markertypes('node');
+            if (isset($typemarkers[$t]) && $typemarkers[$t]) {
+              $locations[$location_ct]->marker = $typemarkers[$t];
+            }
+          }
+
+          // term markers
+          $locations[$location_ct]->marker = getlocations_get_term_marker($row->entity_id, $locations[$location_ct]->marker);
+          $n = node_load($locations[$location_ct]->nid);
+          // sanity check
+          if ($n->status == 0) {
+            unset($locations[$location_ct]);
+          }
+        }
+        elseif ($row->entity_type == 'user') {
+          $locations[$location_ct]->uid = $row->entity_id;
+          $locations[$location_ct]->marker = $getlocations_defaults['user_map_marker'];
+          $u = user_load($locations[$location_ct]->uid);
+          // sanity check
+          if ($u->status == 0) {
+            unset($locations[$location_ct]);
+          }
+        }
+        elseif ($row->entity_type == 'term') {
+          $locations[$location_ct]->tid = $row->entity_id;
+          $locations[$location_ct]->marker = $getlocations_defaults['vocabulary_map_marker'];
+        }
+        elseif ($row->entity_type == 'comment') {
+          $locations[$location_ct]->cid = $row->entity_id;
+          $locations[$location_ct]->marker = $getlocations_defaults['comment_map_marker'];
+          $comment = comment_load($locations[$location_ct]->cid);
+          // sanity check
+          if ($comment->status == 0) {
+            unset($locations[$location_ct]);
+          }
+        }
+        // just in case
+        if (isset($locations[$location_ct]) && empty($locations[$location_ct]->marker)) {
+          $locations[$location_ct]->marker = $getlocations_defaults['node_map_marker'];
+        }
+        $location_ct++;
+      }
+    }
+  }
+
+  $minmaxes = $latrange[0] . ',' . $lonrange[0] . ',' . $latrange[1] . ',' . $lonrange[1];
+  // format lat/lon
+  if ($dms) {
+    $latout = theme('getlocations_latitude_dms', array('latitude' => $lat));
+    $lonout = theme('getlocations_longitude_dms', array('longitude' => $lon));
+  }
+  else {
+    $latout = round($lat, 6);
+    $lonout = round($lon, 6);
+  }
+  $infoarr = array($distance, $units, ($type ? $type : 'all'), $latout, $lonout, $distance_meters);
+  $info = implode(",", $infoarr);
+  $ret = array('locations' => $locations, 'minmaxes' => $minmaxes, 'info' => $info);
+
+  return $ret;
+
+}
+
+function getlocations_search_do_types() {
+  $return = FALSE;
+  if (module_exists('getlocations_fields')) {
+    $return = TRUE;
+  }
+  elseif (module_exists('geolocation')) {
+    $return = TRUE;
+  }
+  elseif (module_exists('geofield')) {
+    $return = TRUE;
+  }
+  elseif (module_exists('location_cck')) {
+    $return = TRUE;
+  }
+
+  return $return;
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * This hook declares what blocks are provided by the module.
+ */
+function getlocations_search_block_info() {
+  $blocks = array();
+  $blocks['getlocations_search_block'] = array(
+    'info' => t("Getlocations search."),
+  );
+  return $blocks;
+
+}
+
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function getlocations_search_block_view($delta = '') {
+
+  $block = array();
+  //The $delta parameter tells us which block is being requested.
+  switch ($delta) {
+    case 'getlocations_search_block':
+      $block['subject'] = t('Getlocations search');
+      $block['content'] = getlocations_search('block');
+      break;
+  }
+  return $block;
+
+}
+
+/**
+ * Implements hook_block_configure().
+ *
+ * This hook declares configuration options for blocks provided by this module.
+ */
+function getlocations_search_block_configure($delta = '') {
+  module_load_include('inc', 'getlocations_search', 'getlocations_search.admin');
+  $settings = getlocations_search_block_get_var();
+  $form = array();
+  switch ($delta) {
+    case 'getlocations_search_block':
+      $form = _getlocations_search_settings_form($settings, 'block');
+      $form['#theme'] = 'getlocations_search_block_settings_form';
+      break;
+  }
+  return $form;
+}
+
+
+/**
+ * Implements hook_block_save().
+ *
+ * This hook declares how the configured options for a block
+ * provided by this module are saved.
+ */
+function getlocations_search_block_save($delta = '', $edit = array()) {
+  // We need to save settings from the configuration form.
+  // $delta contains the block name.
+  $set = array();
+  switch ($delta) {
+    case 'getlocations_search_block':
+      if (isset($edit['getlocations_search_block_defaults']) ) {
+        getlocations_search_block_set_var($edit['getlocations_search_block_defaults']);
+      }
+    break;
+  }
+}
+
+
+/**
+ * Load the getlocations_blocks variables array
+ *
+ * @return array
+ */
+function getlocations_search_block_get_var() {
+  $defaults = getlocations_search_block_defaults();
+  $var = variable_get('getlocations_search_block', $defaults);
+  $newvar = getlocations_adjust_vars($defaults, $var);
+  return $newvar;
+}
+
+/**
+ * Save the getlocations_blocks variables array
+ *
+ * @param array $var
+ */
+function getlocations_search_block_set_var($var) {
+  $defaults = getlocations_search_block_get_var();
+  $newvar = getlocations_adjust_vars($defaults, $var);
+  variable_set('getlocations_search_block', $newvar);
+}
+
+function getlocations_search_block_defaults() {
+  $defaults = getlocations_search_defaults();
+  return $defaults;
+}

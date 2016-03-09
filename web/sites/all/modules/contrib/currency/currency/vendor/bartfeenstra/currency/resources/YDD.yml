@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: YDD
+ISO4217Number: '720'
+sign: ﷼
+subunits: 1000
+title: 'South Yemeni dinar'
+usage:
+    - { ISO8601From: '1965-04-01', ISO8601To: '1996-01-01', ISO3166Code: YD }

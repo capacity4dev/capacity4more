@@ -1,0 +1,21 @@
+/**
+ * @file
+ * getlocations_leaflet.css
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_gps css.
+ *
+ */
+.getlocations_gps_throbber {
+  background-image: url('/misc/throbber.gif');
+  background-position: 100% 2px;
+  background-repeat: repeat-y;
+}
+.getlocations_gps_throbber_active {
+  background-position: 100% -18px;
+}
+.getlocations_gps_throbber_inactive {
+  background-position: 100% 2px;
+}
+

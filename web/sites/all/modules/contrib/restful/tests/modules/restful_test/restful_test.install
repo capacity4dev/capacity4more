@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the entity_test module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function restful_test_uninstall() {
+  field_attach_delete_bundle('restful_test_translatable_entity', 'restful_test_translatable_entity');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function restful_test_schema() {
+  $schema['restful_test_translatable_entity'] = array(
+    'description' => 'Stores restful_test_translatable_entity items.',
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique restful_test_translatable_entity item ID.',
+      ),
+      'name' => array(
+        'description' => 'The name of the restful_test_translatable_entity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
+        'description' => "The {users}.uid of the associated user.",
+      ),
+      'label' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array(
+      'uid' => array('uid'),
+    ),
+    'foreign keys' => array(
+      'uid' => array('users' => 'uid'),
+    ),
+    'primary key' => array('pid'),
+  );
+
+  // Defining table via hook_install() due to drupal_write_record().
+  $schema['restful_test_db_query'] = array(
+    'description' => 'Table for DbQuery testing.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for a record.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'str_field' => array(
+        'description' => 'String piece of data.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'int_field' => array(
+        'description' => 'An int piece of data.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'serialized_field' => array(
+        'description' => 'An serialized piece of data.',
+        'type' => 'blob',
+        'serialize' => TRUE,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}

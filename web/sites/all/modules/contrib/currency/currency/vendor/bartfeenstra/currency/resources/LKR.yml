@@ -1,0 +1,9 @@
+alternativeSigns: {  }
+exchangeRates: {  }
+ISO4217Code: LKR
+ISO4217Number: '144'
+sign: ₨
+subunits: 100
+title: 'Sri Lankan rupee'
+usage:
+    - { ISO8601From: '1978-05-22', ISO8601To: '', ISO3166Code: LK }

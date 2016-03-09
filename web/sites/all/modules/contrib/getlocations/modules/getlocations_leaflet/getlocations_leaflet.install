@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * getlocations_leaflet.install
+ * @author Bob Hutchinson http://drupal.org/user/52366
+ * @copyright GNU GPL
+ *
+ * getlocations_leaflet module installation.
+ *
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function getlocations_leaflet_requirements($phase) {
+  $requirements = array();
+
+  // Ensure js library is available.
+  if ($phase != 'runtime') {
+    return $requirements;
+  }
+  // Ensure js library is installed. Show number of maps avaialble.
+  if (file_exists(libraries_get_path('leaflet') . '/leaflet.js')) {
+    $maps = getlocations_leaflet_map_get_info();
+    $version = getlocations_leaflet_library_version();
+    $requirements['leaflet'] = array(
+      'title' => t('Leaflet library'),
+      'value' => t('@v Installed. @maps available.', array(
+        '@v' => ($version ? 'Version ' . $version : ''),
+        '@maps' => format_plural(count($maps['Getlocations OSM']['map_layers']), 'One map', '@count maps'))),
+      'severity' => REQUIREMENT_OK,
+    );
+  }
+  else {
+    $requirements['leaflet'] = array(
+      'title' => t('Leaflet library not found'),
+      'value' => t('The !leaflet javascript library was not found. Please !download it and unzip the files into <em>sites/all/libraries/leaflet</em>. You can also use "drush getlocations-leaflet".',
+        array(
+          '!leaflet' => l('Leaflet', 'http://leafletjs.com'),
+          '!download' => l('download', 'http://leafletjs.com/download.html'),
+        )
+      ),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ */
+function getlocations_leaflet_uninstall() {
+  $query = db_delete('variable')
+    ->condition('name', 'getlocations_leaflet_%', 'LIKE')
+    ->execute();
+}
+
+/**
+ * Implements hook_enable().
+ *
+ */
+function getlocations_leaflet_enable() {
+
+  drupal_set_message(st('Thank you for installing Getlocations Leaflet. To set it up please visit the <a href="@url">configuration page</a>.', array('@url' => url('admin/config/services/getlocations/leaflet'))), 'status');
+
+}
+
+/**
+ * Implements hook_field_schema().
+ *
+ * Defines the database schema of the field, using the format used by the
+ * Schema API.
+ *
+ * All implementations of hook_field_schema() must be in the module's
+ * .install file.
+ *
+ * @see http://drupal.org/node/146939
+ * @see http://drupal.org/developing/api/schema
+ */
+function getlocations_leaflet_field_schema($field) {
+
+  switch ($field['type']) {
+    case 'getlocations_leaflet':
+      $columns = array(
+        'locative_field_name' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'default' => '',
+          'not null' => TRUE,
+        ),
+      );
+      break;
+  }
+  return array(
+    'columns' => $columns,
+    'indexes' => array('locative_field_name' => array('locative_field_name')),
+  );
+
+}

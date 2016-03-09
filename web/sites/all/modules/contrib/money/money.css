@@ -1,0 +1,9 @@
+/* Checkboxes for currency selection. */
+.money-field-currency-checkboxes .form-checkboxes .form-item {
+  display: block;
+  float: left;
+  width: 300px;
+}
+.money-field-currency-checkboxes .description {
+  clear: both;
+}

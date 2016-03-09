@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyWebTestCase.
+ */
+
+/**
+ * Tests class Currency.
+ */
+class CurrencyWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Currency',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test format().
+   */
+  function testFormat() {
+    $currency = currency_load('EUR');
+    $amount = 12345.6789;
+    $formatted = $currency->format($amount);
+    $formatted_expected = '€12,345.6789';
+    $this->assertEqual($formatted, $formatted_expected, 'Currency::format() correctly formats an amount.');
+  }
+
+  /**
+   * Test roundAmount().
+   */
+  function testRoundAmount() {
+    $currency = currency_load('JPY');
+    $this->assertTrue($currency->roundAmount('12.34'), '12.340');
+    $this->assertTrue($currency->roundAmount('1234.5678'), '1234.568');
+  }
+}

@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * @file
+ * Contains class CurrencyUIWebTestCase.
+ */
+
+/**
+ * Tests the Ctools exportables UI for Currency exportables.
+ */
+class CurrencyUIWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Implements DrupalTestCase::getInfo().
+   */
+  static function getInfo() {
+    return array(
+      'description' => '',
+      'name' => 'Currency UI',
+      'group' => 'Currency',
+    );
+  }
+
+  /**
+   * Overrides parent::setUp().
+   */
+  function setUp(array $modules = array()) {
+    $this->profile = 'testing';
+    parent::setUp($modules + array('currency'));
+  }
+
+  /**
+   * Test Currency's exportables UI.
+   */
+  function testCurrencyExportablesUI() {
+    $user = $this->drupalCreateUser(array('currency.currency.administer'));
+    $this->drupalLogin($user);
+    $path = 'admin/config/regional/currency/add';
+
+    // Test valid values.
+    $valid_values = array(
+      'ISO4217Code' => 'ABC',
+      'ISO4217Number' => '123',
+      'title' => 'foo',
+      'rounding_step' => '1',
+      'sign[sign]' => CURRENCY_SIGN_FORM_ELEMENT_CUSTOM_VALUE,
+      'sign[sign_custom]' => 'foobar',
+      'subunits' => 2,
+    );
+    $this->drupalPost($path, $valid_values, t('Save'));
+    ctools_include('export');
+    $currency = currency_load('ABC');
+    $this->assertTrue($currency);
+
+    // Test invalid values.
+    $valid_values['ISO4217Code'] = 'XYZ';
+    $invalid_values =  array(
+      'ISO4217Code' => 'EUR',
+      'ISO4217Number' => 'abc',
+      'rounding_step' => 'x',
+      'subunits' => 'x',
+    );
+    foreach ($invalid_values as $name => $invalid_value) {
+      $values = array(
+        $name => $invalid_value,
+      ) + $valid_values;
+      $this->drupalPost($path, $values, t('Save'));
+      // Test that the invalid element is the only element to be flagged.
+      $this->assertFieldByXPath("//input[@name='$name' and contains(@class, 'error')]");
+      $this->assertNoFieldByXPath("//input[not(@name='$name') and contains(@class, 'error')]");
+    }
+
+    // Edit and save an existing currency.
+    $path = 'admin/config/regional/currency/list/ABC/edit';
+    $this->drupalPost($path, array(), t('Save'));
+    $this->assertUrl('admin/config/regional/currency');
+  }
+}
