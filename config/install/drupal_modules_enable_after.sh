@@ -1,4 +1,3 @@
-
 ################################################################################
 # Use this file to add custom script steps that should run after the
 # installation of Drupal and its contrib modules has finished.
@@ -7,6 +6,14 @@
 # Make sure that we are in the Drupal root.
 cd "$DIR_WEB"
 
+# Make the default directory and its content writable.
+markup_h1 "Make the sites/default directory and its content writable."
+drupal_sites_default_unprotect
+echo
+
+# Enable the theme debugging.
+markup_h1 "Enable theme debugging"
+drupal_drush vset theme_debug 1
 
 # Set the administration theme.
 markup_h1 "Set the administration menu"
