@@ -16,11 +16,13 @@ module.exports = function (grunt) {
 
         bootstrapDir: './node_modules/bootstrap-sass',
 
+        // Compile SASS, including bootstrap-sass.
         sass: {
             dev: {
                 options: {
                     style: 'expanded',
                     sourcemap: 'auto',
+                    debug: true,
                     loadPath: '<%= bootstrapDir %>/assets/stylesheets'
                 },
                 files: [{
@@ -31,10 +33,11 @@ module.exports = function (grunt) {
                     ext: '.css'
                 }]
             },
-            dist: {
+            build: {
                 options: {
                     style: 'compressed',
                     sourcemap: 'none',
+                    debug: false,
                     loadPath: '<%= bootstrapDir %>/assets/stylesheets'
                 },
                 files: [{
@@ -47,7 +50,70 @@ module.exports = function (grunt) {
             }
         },
 
+        autoprefixer: {
+            dev: {
+                options: {
+                    browsers: ['last 2 versions', 'ie 9'],
+                    diff: true,
+                    map: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.dst %>/css',
+                    src: ['*.css'],
+                    dest: '<%= project.dst %>/css',
+                    ext: '.css'
+                }]
+            },
+            build: {
+                options: {
+                    browsers: ['last 2 versions', 'ie 6'],
+                    diff: false,
+                    map: false
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.dst %>/css',
+                    src: ['*.css'],
+                    dest: '<%= project.dst %>/css',
+                    ext: '.css'
+                }]
+            }
+
+        },
+
+        // Automate some tasks during development (if files change).
+        watch: {
+            style: {
+                files: [
+                    '<%= project.src %>/stylesheets/*.scss',
+                    '<%= project.src %>/stylesheets/**/*.scss'
+                ],
+                tasks: ['sass:dev', 'autoprefixer:dev'],
+                options: {
+                    livereload: true
+                }
+            }
+        }
+
     });
 
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-autoprefixer');
+
+    grunt.registerTask('dev', [
+        'sass:dev',
+        'autoprefixer:dev',
+        'watch'
+    ]);
+
+    grunt.registerTask('build', [
+        'sass:build',
+        'autoprefixer:build'
+    ]);
+
+    grunt.registerTask('default', [
+        'build'
+    ]);
 }
