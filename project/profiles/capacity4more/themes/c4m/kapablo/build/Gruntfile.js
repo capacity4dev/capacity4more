@@ -80,6 +80,16 @@ module.exports = function (grunt) {
                 }]
             }
 
+        // Remove destination files.
+        clean: {
+            options: {
+                force: true
+            },
+            dst: [
+                "<%= project.dst %>/css",
+                "<%= project.dst %>/js",
+                "<%= project.dst %>/images"
+            ],
         },
 
         // Automate some tasks during development (if files change).
@@ -98,17 +108,20 @@ module.exports = function (grunt) {
 
     });
 
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-autoprefixer');
 
     grunt.registerTask('dev', [
+        'clean',
         'sass:dev',
         'autoprefixer:dev',
         'watch'
     ]);
 
     grunt.registerTask('build', [
+        'clean',
         'sass:build',
         'autoprefixer:build'
     ]);
