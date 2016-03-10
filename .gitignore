@@ -85,3 +85,4 @@ capacity4more/themes/c4m/kapablo/images/icons
 *.concat.js
 capacity4more/themes/c4m/kapablo/js/*.min.js
 scripts/vagrant/.vagrant
+project/profiles/capacity4more/libraries/bower_components
