@@ -1,88 +1,31 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
+# The config file is environment (local, dev, tst, prd, ...) different and
+# contains sensitive data (passwords).
+# This file should never be in a repository!
+/config/config.sh
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
+# The backups folder is used to store local backups whan one of the scripts is
+# performing destructive operations. No need for it in the repository.
+/backup
 
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
+# The build folder is used when building the whole project to be packaged or
+# uploaded. No need to be stored in the repository.
+/build
 
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
+# The reason of this project is to avoid core and contrib code to be stored in
+# the project repository. Do not store what can be build using make files.
+/web
 
-# IDE #
-##########
-.project
-.settings/
-.idea
+# Theme assets are generated dynamically.
+project/profiles/capacity4more/themes/c4m/kapablo/css
+project/profiles/capacity4more/themes/c4m/kapablo/js
+project/profiles/capacity4more/themes/c4m/kapablo/images
 
-
-# Drupal profile #
-##################
-capacity4more/modules/contrib
-capacity4more/modules/development
-capacity4more/1
-capacity4more/themes/contrib
-capacity4more/libraries
-
-# Behat
-capacity4more/behat/vendor/
-behat.local.yml
-capacity4more/behat/bin
-capacity4more/behat/composer.phar
-capacity4more/behat/features/dump
-
-# Temporay "build" files
-www
-
-# Local Configuration
-config.sh
-symlinks.sh
-
-# Ignore for Yeoman-Jekyll projects #
-jekyll/app/_bower_components
-jekyll/app/bower_components
-jekyll/dist
-jekyll/node_modules
-jekyll/.tmp
-jekyll/.jekyll
-jekyll/.sass-cache
-
+# Ignore dev dependencies.
 node_modules
+bower_components
 .sass-cache
-capacity4more/themes/c4m/kapablo/css
-capacity4more/themes/c4m/kapablo/bootstrap
-behat-failed-step*.png
-capacity4more/themes/c4m/kapablo/images/svgmin
-capacity4more/themes/c4m/kapablo/images/icons
-*.concat.js
-capacity4more/themes/c4m/kapablo/js/*.min.js
-scripts/vagrant/.vagrant
-project/profiles/capacity4more/libraries/bower_components
+
+# Avoid IDE files being commited.
+.idea
+*.sublime-project
+*.sublime-workspace
