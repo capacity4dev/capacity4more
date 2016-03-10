@@ -50,6 +50,7 @@ module.exports = function (grunt) {
             }
         },
 
+        // Auto prefix CSS files with specified browser support.
         autoprefixer: {
             dev: {
                 options: {
@@ -79,6 +80,12 @@ module.exports = function (grunt) {
                     ext: '.css'
                 }]
             }
+        },
+
+        // ESLint Theme's JavaScript file.
+        eslint: {
+            src: ['<%= project.src %>/javascripts/kapablo.js']
+        },
 
         // Remove destination files.
         clean: {
@@ -105,25 +112,32 @@ module.exports = function (grunt) {
                 }
             }
         }
-
     });
 
+    grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-eslint');
 
     grunt.registerTask('dev', [
         'clean',
+
         'sass:dev',
         'autoprefixer:dev',
+
+        'eslint',
+
         'watch'
     ]);
 
     grunt.registerTask('build', [
         'clean',
+
         'sass:build',
-        'autoprefixer:build'
+        'autoprefixer:build',
+
+        'eslint'
     ]);
 
     grunt.registerTask('default', [
