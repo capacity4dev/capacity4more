@@ -10,7 +10,7 @@ module.exports = function (grunt) {
          */
         project: {
             src: 'src',
-            dst: '../'
+            dst: '..'
         },
 
 
@@ -87,6 +87,75 @@ module.exports = function (grunt) {
             src: ['<%= project.src %>/javascripts/kapablo.js']
         },
 
+        // Concatenate JavaScript files.
+        concat: {
+            dev: {
+                options: {
+                    sourceMap: true
+                },
+                files: {
+                    '<%= project.dst %>/js/kapablo.js': [
+                        '<%= project.src %>/javascripts/kapablo.js'
+                    ],
+                    '<%= project.dst %>/js/bootstrap.js': [
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/collapse.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
+                    ]
+                }
+            },
+            build: {
+                options: {
+                    sourceMap: false,
+                    stripBanners: true
+                },
+                files: {
+                    '<%= project.dst %>/js/kapablo.js': [
+                        '<%= project.src %>/javascripts/kapablo.js'
+                    ],
+                    '<%= project.dst %>/js/bootstrap.js': [
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/collapse.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
+                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
+                    ]
+                }
+            }
+        },
+
+        // Uglify JavaScript files.
+        uglify: {
+            build: {
+                options: {
+                    report: 'min'
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= project.dst %>/js',
+                    src: ['*.js'],
+                    dest: '<%= project.dst %>/js',
+                    ext: '.js'
+                }]
+            }
+        },
+
         // Remove destination files.
         clean: {
             options: {
@@ -110,13 +179,26 @@ module.exports = function (grunt) {
                 options: {
                     livereload: true
                 }
+            },
+
+            scripts: {
+                files: [
+                    '<%= project.src %>/javascripts/*.js',
+                    '<%= project.src %>/javascripts/**/*.js'
+                ],
+                tasks: ['eslint', 'concat', 'uglify'],
+                options: {
+                    livereload: true
+                }
             }
         }
     });
 
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-eslint');
 
@@ -127,6 +209,7 @@ module.exports = function (grunt) {
         'autoprefixer:dev',
 
         'eslint',
+        'concat:dev',
 
         'watch'
     ]);
@@ -137,7 +220,9 @@ module.exports = function (grunt) {
         'sass:build',
         'autoprefixer:build',
 
-        'eslint'
+        'eslint',
+        'concat:build',
+        'uglify'
     ]);
 
     grunt.registerTask('default', [
