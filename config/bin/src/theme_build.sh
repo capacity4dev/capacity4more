@@ -10,20 +10,8 @@
 #   the grunt task to build.
 ##
 function theme_build {
-  theme_build_bundle
   theme_build_npm
   theme_build_grunt $1
-}
-
-##
-# Install/update the bower modules.
-##
-function theme_build_bundle {
-  cd "$DIR_PROJECT/profiles/capacity4more/themes/c4m/kapablo/build"
-
-  bundle install
-
-  cd "$DIR_ROOT"
 }
 
 ##
