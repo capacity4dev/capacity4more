@@ -142,12 +142,6 @@ delete_obsolete_folders
 # Symlink extra modules (if any).
 symlink_externals
 
-# Install the Drupal profile as defined in the config.sh file.
-install_drupal_profile
-
-# Overwrite the TIKA config
-install_tika_config
-
 # Setup the files directory.
 create_sites_default_files_directory
 
@@ -159,48 +153,6 @@ if [ $DEMO_CONTENT ]; then
   migrate_dummy_content
 fi
 
-# Build the AngularJs application.
-build_angular_app
-
-# Build Kapablo theme.
-build_kapablo_theme
-
 # Run post script (if any).
 run_post_script "install"
 
-
-
-# Check if we have a working bootstrap.
-cd $ROOT/www
-BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd $ROOT
-
-if [ ! "$BOOTSTRAP_SUCCESS" ]; then
-  echo
-  echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo -e "${BGLRED}  Installation failure!                                          ${RESTORE}"
-  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
-  echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo
-  exit 1
-fi
-
-
-# If we managed to get to here: the installation was successful!
-LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
-echo
-echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
-echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
-echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo
-
-
-# Auto Login?
-if [ $AUTO_LOGIN ]; then
-  drupal_login
-fi
-
-
-# DONE!
-exit 0

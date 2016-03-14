@@ -27,7 +27,19 @@ ACCOUNT_NAME="admin"
 ACCOUNT_PASS="drupal"
 ACCOUNT_MAIL="$ACCOUNT_NAME@$SITE_URL"
 
+# Apache Solr configuration.
+SOLR_NAME=""
+SOLR_HOST=""
+SOLR_PORT=""
+SOLR_PATH=""
 
+# Tika jar file location.
+TIKA_PATH=""
+TIKA_FILE=""
+
+# Memcache settings. Fill in ONLY if there is a working memcache environment!
+MEMCACHE_HOST=""
+MEMCACHE_PORT=""
 
 ################################################################################
 # Druleton configuration.
