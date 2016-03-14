@@ -98,18 +98,18 @@ module.exports = function (grunt) {
                         '<%= project.src %>/javascripts/kapablo.js'
                     ],
                     '<%= project.dst %>/js/bootstrap.js': [
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/collapse.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/collapse.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
                     ]
                 }
             },
@@ -123,18 +123,18 @@ module.exports = function (grunt) {
                         '<%= project.src %>/javascripts/kapablo.js'
                     ],
                     '<%= project.dst %>/js/bootstrap.js': [
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/collapse.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
-                        '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/collapse.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
+                        //'<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
                     ]
                 }
             }
