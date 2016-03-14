@@ -29,27 +29,20 @@ overlay_regions[] = footer
 overlay_regions[] = content
 overlay_regions[] = content_bottom
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = css/kapablo.css
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts
 ;;;;;;;;;;;;;;;;;;;;;
 
-scripts[] = js/bootstrap.min.js
-scripts[] = js/dist/modernizr.js
-
-scripts[] = js/kapablo.min.js
-
-;scripts[] = 'js/bootstrap/affix.js'
-;scripts[] = 'js/bootstrap/alert.js'
-;scripts[] = 'js/bootstrap/button.js'
-;scripts[] = 'js/bootstrap/carousel.js'
-;scripts[] = 'js/bootstrap/collapse.js'
-;scripts[] = 'js/bootstrap/dropdown.js'
-;scripts[] = 'js/bootstrap/modal.js'
-;scripts[] = 'js/bootstrap/tooltip.js'
-;scripts[] = 'js/bootstrap/popover.js'
-;scripts[] = 'js/bootstrap/scrollspy.js'
-;scripts[] = 'js/bootstrap/tab.js'
-;scripts[] = 'js/bootstrap/transition.js'
+scripts[] = js/bootstrap.js
+;scripts[] = js/dist/modernizr.js
+;
+scripts[] = js/kapablo.js
 
 ; Disable BootstrapCDN so the compiled SASS source files can be used.
 settings[bootstrap_cdn] = ''
