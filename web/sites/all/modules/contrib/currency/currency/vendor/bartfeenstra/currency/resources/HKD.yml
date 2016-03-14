@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: HKD
-ISO4217Number: '344'
-sign: $
-subunits: 100
-title: 'Hong Kong dollar'
-usage:
-    - { ISO8601From: '1895-02-02', ISO8601To: '', ISO3166Code: HK }

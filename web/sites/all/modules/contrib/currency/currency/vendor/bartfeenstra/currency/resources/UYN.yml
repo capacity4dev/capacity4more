@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: UYN
-ISO4217Number: null
-sign: $
-subunits: 100
-title: 'Uruguayan peso'
-usage:
-    - { ISO8601From: '', ISO8601To: '1993-03-01', ISO3166Code: ZR }

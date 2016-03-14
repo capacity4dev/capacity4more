@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: BYB
-ISO4217Number: null
-sign: ¤
-subunits: null
-title: 'Belarusian ruble'
-usage:
-    - { ISO8601From: '1994-08-01', ISO8601To: '2000-12-31', ISO3166Code: BY }

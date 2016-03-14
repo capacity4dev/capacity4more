@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: KZT
-ISO4217Number: '398'
-sign: ₸
-subunits: 100
-title: 'Kazakhstani tenge'
-usage:
-    - { ISO8601From: '1993-11-05', ISO8601To: '', ISO3166Code: KZ }

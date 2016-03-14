@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: GWP
-ISO4217Number: '624'
-sign: ¤
-subunits: 100
-title: 'Guinean peso'
-usage:
-    - { ISO8601From: '1976-02-28', ISO8601To: '1997-03-31', ISO3166Code: GW }

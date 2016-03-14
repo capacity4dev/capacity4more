@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: LUF
-ISO4217Number: '442'
-sign: fr.
-subunits: 10
-title: 'Luxembourg franc'
-usage:
-    - { ISO8601From: '1944-09-4', ISO8601To: '2002-02-28', ISO3166Code: LU }

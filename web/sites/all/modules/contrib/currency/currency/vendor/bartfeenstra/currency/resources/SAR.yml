@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: SAR
-ISO4217Number: '682'
-sign: ﷼
-subunits: 100
-title: 'Saudi riyal'
-usage:
-    - { ISO8601From: '1952-10-22', ISO8601To: '', ISO3166Code: SA }

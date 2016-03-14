@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: SBD
-ISO4217Number: '090'
-sign: $
-subunits: 100
-title: 'Solomon Island dollar'
-usage:
-    - { ISO8601From: '1977-10-24', ISO8601To: '', ISO3166Code: SB }

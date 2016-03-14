@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: FKP
-ISO4217Number: '238'
-sign: £
-subunits: 100
-title: 'Falkland Islands Pound'
-usage:
-    - { ISO8601From: '1901-01-01', ISO8601To: '', ISO3166Code: FK }

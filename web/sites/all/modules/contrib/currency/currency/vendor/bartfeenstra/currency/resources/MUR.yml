@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: MUR
-ISO4217Number: '480'
-sign: ₨
-subunits: 100
-title: 'Mauritian rupee'
-usage:
-    - { ISO8601From: '1934-04-01', ISO8601To: '', ISO3166Code: MU }

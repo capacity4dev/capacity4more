@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: PLZ
-ISO4217Number: '616'
-sign: zł
-subunits: 100
-title: 'Polish złoty'
-usage:
-    - { ISO8601From: '1950-10-28', ISO8601To: '1994-12-31', ISO3166Code: PL }

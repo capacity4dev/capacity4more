@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: BZD
-ISO4217Number: '084'
-sign: $
-subunits: 100
-title: 'Belizean dollar'
-usage:
-    - { ISO8601From: '1974-01-01', ISO8601To: '', ISO3166Code: BZ }

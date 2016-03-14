@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: XPD
-ISO4217Number: '964'
-sign: ¤
-subunits: 0
-title: Palladium
-usage:
-    - { ISO8601From: '', ISO8601To: '', ISO3166Code: ZZ }

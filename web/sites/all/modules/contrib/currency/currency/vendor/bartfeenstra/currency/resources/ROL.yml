@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: ROL
-ISO4217Number: '642'
-sign: ¤
-subunits: 100
-title: 'Romanian leu'
-usage:
-    - { ISO8601From: '1952-01-28', ISO8601To: '2006-12-31', ISO3166Code: RO }

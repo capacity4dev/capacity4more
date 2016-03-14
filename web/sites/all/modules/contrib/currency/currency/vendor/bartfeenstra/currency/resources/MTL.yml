@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: MTL
-ISO4217Number: '470'
-sign: ₤
-subunits: 100
-title: 'Maltese lira'
-usage:
-    - { ISO8601From: '1968-06-07', ISO8601To: '2008-01-31', ISO3166Code: MT }

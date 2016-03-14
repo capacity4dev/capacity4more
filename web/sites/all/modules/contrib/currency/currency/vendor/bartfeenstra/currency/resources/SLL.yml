@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: SLL
-ISO4217Number: '694'
-sign: Le
-subunits: 100
-title: 'Sierran Leonean leone'
-usage:
-    - { ISO8601From: '1964-08-04', ISO8601To: '', ISO3166Code: SL }

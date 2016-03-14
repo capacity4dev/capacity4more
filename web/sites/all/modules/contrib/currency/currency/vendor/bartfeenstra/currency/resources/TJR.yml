@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: TJR
-ISO4217Number: '762'
-sign: ¤
-subunits: 100
-title: 'Tajikistani ruble'
-usage:
-    - { ISO8601From: '1995-05-10', ISO8601To: '2000-10-25', ISO3166Code: TJ }

@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: TMM
-ISO4217Number: '795'
-sign: m
-subunits: 100
-title: 'Turkmenistani manat'
-usage:
-    - { ISO8601From: '1993-11-01', ISO8601To: '2009-01-01', ISO3166Code: TM }

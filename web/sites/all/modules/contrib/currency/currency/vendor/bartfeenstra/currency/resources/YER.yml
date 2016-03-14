@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: YER
-ISO4217Number: '886'
-sign: ﷼
-subunits: 100
-title: 'Yemeni rial'
-usage:
-    - { ISO8601From: '1990-05-22', ISO8601To: '', ISO3166Code: YE }

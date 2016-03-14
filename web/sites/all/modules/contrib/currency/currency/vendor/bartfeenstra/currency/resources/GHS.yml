@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: GHS
-ISO4217Number: '936'
-sign: GH¢
-subunits: 100
-title: 'Ghanaian cedi'
-usage:
-    - { ISO8601From: '2007-07-03', ISO8601To: '', ISO3166Code: GH }

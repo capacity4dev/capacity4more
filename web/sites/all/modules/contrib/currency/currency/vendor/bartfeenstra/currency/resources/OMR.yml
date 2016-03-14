@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: OMR
-ISO4217Number: '512'
-sign: ر.ع.
-subunits: 1000
-title: 'Omani rial'
-usage:
-    - { ISO8601From: '1972-11-11', ISO8601To: '', ISO3166Code: OM }

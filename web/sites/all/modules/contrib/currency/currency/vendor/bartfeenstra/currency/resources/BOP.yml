@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: BOP
-ISO4217Number: null
-sign: b$
-subunits: 100
-title: 'Bolivian peso'
-usage:
-    - { ISO8601From: '1963-01-01', ISO8601To: '1986-12-31', ISO3166Code: BO }

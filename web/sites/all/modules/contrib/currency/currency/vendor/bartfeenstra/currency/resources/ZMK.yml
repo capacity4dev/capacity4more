@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: ZMK
-ISO4217Number: '894'
-sign: ZK
-subunits: 100
-title: 'Zambian kwacha'
-usage:
-    - { ISO8601From: '1968-01-16', ISO8601To: '2013-06-30', ISO3166Code: ZM }

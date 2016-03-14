@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: LRD
-ISO4217Number: '430'
-sign: $
-subunits: 100
-title: 'Liberian dollar'
-usage:
-    - { ISO8601From: '1944-01-01', ISO8601To: '', ISO3166Code: LR }

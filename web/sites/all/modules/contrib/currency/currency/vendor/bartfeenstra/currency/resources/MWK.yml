@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: MWK
-ISO4217Number: '454'
-sign: MK
-subunits: 100
-title: 'Malawian kwacha'
-usage:
-    - { ISO8601From: '1971-02-15', ISO8601To: '', ISO3166Code: MW }

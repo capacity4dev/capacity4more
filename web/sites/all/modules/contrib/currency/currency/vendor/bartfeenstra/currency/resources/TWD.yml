@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: TWD
-ISO4217Number: '901'
-sign: $
-subunits: 100
-title: 'Taiwanese dollar'
-usage:
-    - { ISO8601From: '1949-06-15', ISO8601To: '', ISO3166Code: TW }

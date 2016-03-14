@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: ALK
-ISO4217Number: null
-sign: ¤
-subunits: 100
-title: 'Albanian lek'
-usage:
-    - { ISO8601From: '1946-11-01', ISO8601To: '1965-08-16', ISO3166Code: AL }

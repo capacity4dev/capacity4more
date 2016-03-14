@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: BND
-ISO4217Number: '096'
-sign: $
-subunits: 100
-title: 'Bruneian dollar'
-usage:
-    - { ISO8601From: '1967-06-12', ISO8601To: '', ISO3166Code: BN }

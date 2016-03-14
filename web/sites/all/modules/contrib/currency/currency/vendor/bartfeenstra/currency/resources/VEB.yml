@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: VEB
-ISO4217Number: '862'
-sign: Bs
-subunits: 100
-title: 'Venezuelan bolívar'
-usage:
-    - { ISO8601From: '1871-05-11', ISO8601To: '2008-06-30', ISO3166Code: VE }

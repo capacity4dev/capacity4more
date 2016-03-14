@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: HUF
-ISO4217Number: '348'
-sign: Ft
-subunits: 100
-title: 'Hungarian forint'
-usage:
-    - { ISO8601From: '1946-07-23', ISO8601To: '', ISO3166Code: HU }

@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: NPR
-ISO4217Number: '524'
-sign: ₨
-subunits: 100
-title: 'Nepalese rupee'
-usage:
-    - { ISO8601From: '1933-01-01', ISO8601To: '', ISO3166Code: NP }

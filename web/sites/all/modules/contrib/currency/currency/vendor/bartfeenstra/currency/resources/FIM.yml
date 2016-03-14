@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: FIM
-ISO4217Number: '246'
-sign: mk
-subunits: 100
-title: 'Finnish markka'
-usage:
-    - { ISO8601From: '1963-01-01', ISO8601To: '2002-02-28', ISO3166Code: FI }

@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: XBD
-ISO4217Number: '958'
-sign: ¤
-subunits: 0
-title: 'Bond Markets Unit European Unit of Account 17 (E.U.A.-17)'
-usage:
-    - { ISO8601From: '', ISO8601To: '', ISO3166Code: ZZ }

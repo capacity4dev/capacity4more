@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: EEK
-ISO4217Number: '233'
-sign: ¤
-subunits: 100
-title: 'Estonian kroon'
-usage:
-    - { ISO8601From: '1992-06-21', ISO8601To: '2010-12-31', ISO3166Code: EE }

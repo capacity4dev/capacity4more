@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: GYD
-ISO4217Number: '328'
-sign: $
-subunits: 100
-title: 'Guyanese dollar'
-usage:
-    - { ISO8601From: '1966-05-26', ISO8601To: '', ISO3166Code: GY }

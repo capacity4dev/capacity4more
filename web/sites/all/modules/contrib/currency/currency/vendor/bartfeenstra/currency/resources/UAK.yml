@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: UAK
-ISO4217Number: '804'
-sign: ¤
-subunits: 100
-title: 'Ukrainian karbovanets'
-usage:
-    - { ISO8601From: '1992-11-13', ISO8601To: '1993-10-17', ISO3166Code: UA }

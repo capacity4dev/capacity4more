@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: AOK
-ISO4217Number: null
-sign: ¤
-subunits: 100
-title: 'Angolan kwanza'
-usage:
-    - { ISO8601From: '1977-01-08', ISO8601To: '1991-03-01', ISO3166Code: AO }

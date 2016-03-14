@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: SKK
-ISO4217Number: '703'
-sign: Sk
-subunits: 10
-title: 'Slovak koruna'
-usage:
-    - { ISO8601From: '1992-12-31', ISO8601To: '2009-01-01', ISO3166Code: SK }

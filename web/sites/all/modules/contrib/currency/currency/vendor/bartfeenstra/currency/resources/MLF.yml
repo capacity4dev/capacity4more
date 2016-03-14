@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: MLF
-ISO4217Number: null
-sign: MAF
-subunits: 100
-title: 'Malian franc'
-usage:
-    - { ISO8601From: '1962-07-02', ISO8601To: '1984-08-31', ISO3166Code: ML }

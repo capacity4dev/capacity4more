@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: BEF
-ISO4217Number: '056'
-sign: fr.
-subunits: 10
-title: 'Belgian franc'
-usage:
-    - { ISO8601From: '1831-02-07', ISO8601To: '2002-02-28', ISO3166Code: BE }

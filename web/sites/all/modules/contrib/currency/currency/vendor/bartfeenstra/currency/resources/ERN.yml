@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: ERN
-ISO4217Number: '232'
-sign: Nfk
-subunits: 100
-title: 'Eritrean nakfa'
-usage:
-    - { ISO8601From: '1997-11-08', ISO8601To: '', ISO3166Code: ER }

@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: SHP
-ISO4217Number: '654'
-sign: £
-subunits: 100
-title: 'Saint Helena pound'
-usage:
-    - { ISO8601From: '1917-02-15', ISO8601To: '', ISO3166Code: SH }

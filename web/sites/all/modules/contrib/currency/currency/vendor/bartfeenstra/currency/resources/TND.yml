@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: TND
-ISO4217Number: '788'
-sign: د.ت
-subunits: 1000
-title: 'Tunisian dinar'
-usage:
-    - { ISO8601From: '1958-11-01', ISO8601To: '', ISO3166Code: TN }

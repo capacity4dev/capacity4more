@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: CLF
-ISO4217Number: '990'
-sign: ¤
-subunits: 0
-title: 'Chilean Unidad de Fomento'
-usage:
-    - { ISO8601From: '', ISO8601To: '', ISO3166Code: CL }

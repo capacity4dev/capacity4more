@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: LBP
-ISO4217Number: '422'
-sign: £
-subunits: 100
-title: 'Lebanese pound'
-usage:
-    - { ISO8601From: '1948-02-02', ISO8601To: '', ISO3166Code: LB }

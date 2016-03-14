@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: MOP
-ISO4217Number: '446'
-sign: MOP$
-subunits: 100
-title: 'Macanese pataca'
-usage:
-    - { ISO8601From: '1901-01-01', ISO8601To: '', ISO3166Code: MO }

@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: MNT
-ISO4217Number: '496'
-sign: ₮
-subunits: 100
-title: 'Mongolian tugrik'
-usage:
-    - { ISO8601From: '1915-03-01', ISO8601To: '', ISO3166Code: MN }

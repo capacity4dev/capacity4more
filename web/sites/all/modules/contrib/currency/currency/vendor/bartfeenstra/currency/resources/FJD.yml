@@ -1,9 +1,0 @@
-alternativeSigns: {  }
-exchangeRates: {  }
-ISO4217Code: FJD
-ISO4217Number: '242'
-sign: $
-subunits: 100
-title: 'Fiji dollar'
-usage:
-    - { ISO8601From: '1969-01-13', ISO8601To: '', ISO3166Code: FJ }
