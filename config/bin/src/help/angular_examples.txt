@@ -1,0 +1,4 @@
+  * bin/angular           Watch for changes and rebuild the changed assets (default).
+  * bin/angular build     Build the angular app.
+  * bin/angular test      Run karma test suite on the resources.
+  * bin/angular watch     Watch for changes and rebuild the changed assets (default).
