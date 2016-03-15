@@ -5,6 +5,12 @@ branches:
     - master
     - develop
 
+env:
+  - INSTALL_PROFILE=1
+    BEHAT_TAG="api"
+    CODE_REVIEW=0
+    SIMPLETEST=1
+
 php:
   - '5.6'
 
@@ -47,10 +53,10 @@ install:
   #- $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
 
   # Run headless browser environment, only needed for javascript behat tests.
-  #- $TRAVIS_BUILD_DIR/build/travis/bin/install_browser.sh
+  #- $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
 
   # Install grunt & bower
-  - $TRAVIS_BUILD_DIR/build/travis/bin/install_taskrunners.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
 
 before_script:
   - date

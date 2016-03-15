@@ -9,7 +9,7 @@ set -e
 
 
 # No need for taskrunners if profile is not installed.
-if [ $INSTALL_PROFILE != 1 ]; then
+if [ $INSTALL_PROFILE -ne 1 ]; then
  exit 0;
 fi
 
