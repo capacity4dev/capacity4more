@@ -14,9 +14,9 @@ echo
 markup_h1 "Update settings.php file"
 
 # Write Apache Solr config to settings file.
-markup_debug "SOLR Host : ${SOLR_HOST}"
-markup_debug "SOLR Port : ${SOLR_PORT}"
-markup_debug "SOLR Path : ${SOLR_PATH}"
+#markup_debug "SOLR Host : ${SOLR_HOST}"
+#markup_debug "SOLR Port : ${SOLR_PORT}"
+#markup_debug "SOLR Path : ${SOLR_PATH}"
 
 # Write TIKA config to the settings file.
 markup_debug "File path : ${TIKA_PATH}"
@@ -73,7 +73,6 @@ else
 fi
 
 markup
-# /END Update settings file ----------------------------------------------------
 
 # Write reCaptcha config to settings file.
 if [ "$RECAPTCHA_SITE_KEY" != "" ] && [ "$RECAPTCHA_SECRET_KEY" != "" ]; then
@@ -92,3 +91,30 @@ EOF
 else
   message_warning "No reCaptcha configuration to write."
 fi
+
+markup
+
+# Write migration config to settings file.
+if [ "$MIGRATION_DB" != "" ] && [ "$MIGRATION_HOST" != "" ] && [ "$MIGRATION_USER" != "" ] && [ "$MIGRATION_PASS" != "" ] && [ "$MIGRATION_FILES" != "" ]; then
+  drupal_sites_default_unprotect
+  cat << EOF >> "$DIR_WEB/sites/default/settings.php"
+
+/**
+ * Migration settings (c4d source).
+ */
+\$conf["c4d_migrate_db_hostname"] = "${MIGRATION_HOST}";
+\$conf["c4d_migrate_db_database"] = "${MIGRATION_DB}";
+\$conf["c4d_migrate_db_username"] = "${MIGRATION_USER}";
+\$conf["c4d_migrate_db_password"] = "${MIGRATION_PASS}";
+\$conf["c4d_migrate_files_root"] = "${MIGRATION_FILES}";
+
+EOF
+  drupal_sites_default_protect
+  message_success "Migration configuration added."
+else
+  message_warning "No migration configuration to write."
+fi
+
+markup
+
+# /END Update settings file ----------------------------------------------------

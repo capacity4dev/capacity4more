@@ -34,3 +34,16 @@ markup
 markup_h2 "Memcached server configuration"
 markup_li_value "Hostname" "${INIT_CONFIG_MEMCACHE_HOST:--}"
 markup_li_value "Port number" "${INIT_CONFIG_MEMCACHE_PORT:--}"
+
+markup
+
+markup_h2 "Migration information"
+markup_li_value "Migration module" "${INIT_CONFIG_MIGRATION_MODULE:--}"
+markup_li_value "Migration script" "${INIT_CONFIG_MIGRATION_SCRIPT:--}"
+
+markup_li_value "Migration source database host" "${INIT_CONFIG_MIGRATION_HOST:--}"
+markup_li_value "Migration source database name" "${INIT_CONFIG_MIGRATION_DB:--}"
+markup_li_value "Migration source database user" "${INIT_CONFIG_MIGRATION_USER:--}"
+markup_li_value "Migration source database password" "${INIT_CONFIG_MIGRATION_PASS:--}"
+markup_li_value "Migration source files directory" "${INIT_CONFIG_MIGRATION_FILES:--}"
+

@@ -41,6 +41,16 @@ TIKA_FILE=""
 MEMCACHE_HOST=""
 MEMCACHE_PORT=""
 
+# capacity4dev migration settings.
+MIGRATION_MODULE=""
+MIGRATION_SCRIPT=""
+
+MIGRATION_DB=""
+MIGRATION_HOST=""
+MIGRATION_USER=""
+MIGRATION_PASS=""
+MIGRATION_FILES=""
+
 ################################################################################
 # Druleton configuration.
 ################################################################################
