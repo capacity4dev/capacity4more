@@ -31,6 +31,9 @@ install:
   # Install drush.
   - $TRAVIS_BUILD_DIR/ci/bin/install_drush.sh
 
+  # Install Coder for code standard reviews.
+  - $TRAVIS_BUILD_DIR/ci/bin/install_coder.sh
+
 before_script:
   - date
 
