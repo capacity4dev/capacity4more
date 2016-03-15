@@ -34,6 +34,9 @@ install:
   # Install Coder for code standard reviews.
   - $TRAVIS_BUILD_DIR/ci/bin/install_coder.sh
 
+  # Install MySQL.
+  - $TRAVIS_BUILD_DIR/ci/bin/install_mysql.sh
+
 before_script:
   - date
 
