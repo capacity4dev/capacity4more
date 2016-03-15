@@ -15,7 +15,7 @@ fi
 
 
 # We use a script hosted on GitHub.
-SCRIPT_URL="https://raw.githubusercontent.com/zero2one/travis-solr/master/travis-solr.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/soniCaH/travis-solr/update_versions_to_4x_5x/travis-solr.sh"
 SCRIPT_CONFIG="$TRAVIS_BUILD_DIR/search_api_solr/solr-conf/5.x"
 
 # Define the core name we want.
