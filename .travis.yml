@@ -28,6 +28,9 @@ install:
   # Install Apache + extra PHP packages.
   - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
 
+  # Install drush.
+  - $TRAVIS_BUILD_DIR/ci/bin/install_drush.sh
+
 before_script:
   - date
 
