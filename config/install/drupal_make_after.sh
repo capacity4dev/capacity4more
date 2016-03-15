@@ -23,9 +23,17 @@ markup_h2 "Libraries"
 mkdir -p "$DIR_WEB/sites/all/libraries"
 file_symlink_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
-markup_h2 "Migration module"
-mkdir -p "$DIR_WEB/sites/all/modules/c4d_migrate"
-ln -s "$MIGRATION_MODULE" "$DIR_WEB/sites/all/modules/c4d_migrate"
-message_success "$MIGRATION_MODULE"
-ln -s "$MIGRATION_SCRIPT" "$DIR_WEB/"
-message_success "$MIGRATION_SCRIPT"
+if [ "$MIGRATION_MODULE" != "" ] || [ "$MIGRATION_SCRIPT" != "" ]; then
+    markup_h2 "Migration module"
+
+    if [ "$MIGRATION_MODULE" != "" ]; then
+        mkdir -p "$DIR_WEB/sites/all/modules/c4d_migrate"
+        ln -s "$MIGRATION_MODULE" "$DIR_WEB/sites/all/modules/c4d_migrate"
+        message_success "$MIGRATION_MODULE"
+    fi
+
+    if [ "$MIGRATION_SCRIPT" != "" ]; then
+        ln -s "$MIGRATION_SCRIPT" "$DIR_WEB/"
+        message_success "$MIGRATION_SCRIPT"
+    fi
+fi
