@@ -48,7 +48,7 @@ install:
   - $TRAVIS_BUILD_DIR/ci/bin/install_solr.sh capacity4more
 
   # Install Tika, pass the desired version number.
-  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.12"
+  - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.10"
 
   # Configure Behat + Install dependencies.
   #- $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
