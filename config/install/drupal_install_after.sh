@@ -10,6 +10,14 @@ source "$DIR_CONFIG_SRC/angular_build.sh"
 angular_build build
 echo
 
+# Execute dummy content migration.
+dummy_content=$( option_is_set "--dummy-content" )
+if [ $dummy_content -eq 1 ]; then
+  markup_h1 "Install dummy demo content."
+  source "$DIR_CONFIG_SRC/dummy.sh"
+  dummy_content
+fi
+
 # Update settings file ---------------------------------------------------------
 markup_h1 "Update settings.php file"
 

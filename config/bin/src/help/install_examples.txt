@@ -1,0 +1,2 @@
+  * bin/install --dummy-content
+                        Install the website and execute dummy content migration.

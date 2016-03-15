@@ -14,7 +14,7 @@ function dummy_content {
 # Enable migration modules.
 ##
 function dummy_content_modules {
-  drupal_drush --uri="$SITE_URL" en -y migrate migrate_ui c4m_demo_content
+  drupal_drush --uri="$SITE_URL" en -y migrate c4m_demo_content
 }
 
 ##
