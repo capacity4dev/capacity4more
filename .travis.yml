@@ -43,6 +43,9 @@ install:
   # Install Tika, pass the desired version number.
   - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.12"
 
+  # Configure Behat + Install dependencies.
+  #- $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
+
 before_script:
   - date
 
