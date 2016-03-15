@@ -1,6 +1,0 @@
-# MySQL Config file.
-
-[server]
-max_allowed_packet=64M
-wait_timeout=300
-max_connections=250
