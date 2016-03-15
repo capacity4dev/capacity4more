@@ -25,6 +25,9 @@ install:
   # Update node.js to 4.x
   - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
 
+  # Install Apache + extra PHP packages.
+  - $TRAVIS_BUILD_DIR/ci/bin/install_apache.sh
+
 before_script:
   - date
 
