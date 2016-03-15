@@ -23,7 +23,7 @@ sudo a2enmod rewrite actions fastcgi alias
 # Config php-fpm.
 sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-sudo ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
 
 # Set sendmail so php doesn't throw an error while trying to send out email.
 echo "sendmail_path='true'" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
