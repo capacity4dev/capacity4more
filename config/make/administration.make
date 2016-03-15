@@ -42,9 +42,6 @@ projects[context_og][version] = "2.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
-projects[entity][patch][] = "https://www.drupal.org/files/issues/2086225-entity-access-check-18.patch"
-projects[entityreference][patch][] = "https://www.drupal.org/files/entityreference-decode_option_labels-1665818-32_0.patch"
-
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 
