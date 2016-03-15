@@ -6,7 +6,7 @@ branches:
     - develop
 
 php:
-  - 5.6
+  - '5.6'
 
 mysql:
   database: drupal
@@ -21,6 +21,9 @@ before_install:
 
 install:
   - date
+
+  # Update node.js to 4.x
+  - $TRAVIS_BUILD_DIR/ci/bin/install_nodejs.sh
 
 before_script:
   - date
