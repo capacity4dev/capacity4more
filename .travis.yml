@@ -24,6 +24,7 @@ before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - gem install sass
 
 install:
   - date
