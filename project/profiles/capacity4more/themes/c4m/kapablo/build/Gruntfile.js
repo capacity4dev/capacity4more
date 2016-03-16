@@ -30,7 +30,7 @@ module.exports = function (grunt) {
                     cwd: '<%= project.src %>/stylesheets',
                     src: ['*.scss'],
                     dest: '<%= project.dst %>/css',
-                    ext: '.css'
+                    ext: '.concat.css'
                 }]
             },
             build: {
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
                     cwd: '<%= project.src %>/stylesheets',
                     src: ['*.scss'],
                     dest: '<%= project.dst %>/css',
-                    ext: '.css'
+                    ext: '.concat.css'
                 }]
             }
         },
@@ -61,9 +61,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= project.dst %>/css',
-                    src: ['*.css'],
+                    src: ['*.concat.css'],
                     dest: '<%= project.dst %>/css',
-                    ext: '.css'
+                    ext: '.concat.css'
                 }]
             },
             build: {
@@ -75,9 +75,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= project.dst %>/css',
-                    src: ['*.css'],
+                    src: ['*.concat.css'],
                     dest: '<%= project.dst %>/css',
-                    ext: '.css'
+                    ext: '.concat.css'
                 }]
             }
         },
@@ -94,10 +94,10 @@ module.exports = function (grunt) {
                     sourceMap: true
                 },
                 files: {
-                    '<%= project.dst %>/js/kapablo.js': [
+                    '<%= project.dst %>/js/kapablo.concat.js': [
                         '<%= project.src %>/javascripts/kapablo.js'
                     ],
-                    '<%= project.dst %>/js/bootstrap.js': [
+                    '<%= project.dst %>/js/bootstrap.concat.js': [
                         //'<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
                         //'<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
                         //'<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
@@ -119,10 +119,10 @@ module.exports = function (grunt) {
                     stripBanners: true
                 },
                 files: {
-                    '<%= project.dst %>/js/kapablo.js': [
+                    '<%= project.dst %>/js/kapablo.concat.js': [
                         '<%= project.src %>/javascripts/kapablo.js'
                     ],
-                    '<%= project.dst %>/js/bootstrap.js': [
+                    '<%= project.dst %>/js/bootstrap.concat.js': [
                         //'<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
                         //'<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
                         //'<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
@@ -149,9 +149,9 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= project.dst %>/js',
-                    src: ['*.js'],
+                    src: ['*.concat.js'],
                     dest: '<%= project.dst %>/js',
-                    ext: '.js'
+                    ext: '.concat.js'
                 }]
             }
         },

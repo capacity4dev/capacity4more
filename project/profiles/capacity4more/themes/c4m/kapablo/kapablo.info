@@ -33,16 +33,16 @@ overlay_regions[] = content_bottom
 ;; Stylesheets.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-stylesheets[all][] = css/kapablo.css
+stylesheets[all][] = css/kapablo.concat.css
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts
 ;;;;;;;;;;;;;;;;;;;;;
 
-scripts[] = js/bootstrap.js
+scripts[] = js/bootstrap.concat.js
 ;scripts[] = js/dist/modernizr.js
 ;
-scripts[] = js/kapablo.js
+scripts[] = js/kapablo.concat.js
 
 ; Disable BootstrapCDN so the compiled SASS source files can be used.
 settings[bootstrap_cdn] = ''
