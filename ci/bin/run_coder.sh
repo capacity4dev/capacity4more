@@ -14,10 +14,6 @@ fi
 
 HAS_ERRORS=0
 
-# Add some color support.
-source ../config/helper-colors.sh
-
-
 ##
 # Function to run the actual code review
 #
