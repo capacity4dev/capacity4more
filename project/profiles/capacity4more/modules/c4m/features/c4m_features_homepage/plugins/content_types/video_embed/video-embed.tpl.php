@@ -3,7 +3,6 @@
  * @file
  * Prints out an embedded video block.
  */
-
 ?>
 
 <div class="video-preview-wrapper">

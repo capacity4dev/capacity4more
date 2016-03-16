@@ -3,7 +3,6 @@
  * @file
  * Template to print the membership administration links.
  */
-
 ?>
 
 <div class="dropdown">

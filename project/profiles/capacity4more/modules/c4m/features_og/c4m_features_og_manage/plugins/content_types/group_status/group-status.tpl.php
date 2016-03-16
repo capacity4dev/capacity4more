@@ -3,7 +3,6 @@
  * @file
  * Group status template for the group status.
  */
-
 ?>
 
 <div class="row group-management-dashboard">

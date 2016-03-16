@@ -2,7 +2,6 @@ name = Projects overview
 description = Basic overview of the projects on the platform
 core = 7.x
 package = capacity4more - Features
-project = c4m_features_overview_projects
 dependencies[] = c4m_search_filter
 dependencies[] = context
 dependencies[] = ds

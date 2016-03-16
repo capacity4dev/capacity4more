@@ -3,7 +3,6 @@
  * @file
  * Template to print the group membership level.
  */
-
 ?>
 
 <?php if ($membership_level): ?>

@@ -3,7 +3,6 @@
  * @file
  * Prints out the Voices & Views carousel.
  */
-
 ?>
 
 <div class="row carousel" ng-controller="CarouselCtrl">

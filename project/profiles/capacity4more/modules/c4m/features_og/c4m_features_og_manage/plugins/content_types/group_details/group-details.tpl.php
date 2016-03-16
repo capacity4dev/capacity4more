@@ -3,7 +3,6 @@
  * @file
  * Template for the group management dashboard.
  */
-
 ?>
 
 <div class="row group-management-dashboard">

@@ -3,7 +3,6 @@
  * @file
  * Template to print the user table overview header.
  */
-
 ?>
 
 <div class="view-mode-c4m_user_teaser_table view-mode-c4m_user_teaser_table_header">

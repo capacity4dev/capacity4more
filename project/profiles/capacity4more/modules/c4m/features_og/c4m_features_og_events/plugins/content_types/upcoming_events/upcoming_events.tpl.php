@@ -3,7 +3,6 @@
  * @file
  * Upcoming events panel template.
  */
-
 ?>
 
 <div class="row">

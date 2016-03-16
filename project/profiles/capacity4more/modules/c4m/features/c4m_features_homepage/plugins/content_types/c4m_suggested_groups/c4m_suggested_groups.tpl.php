@@ -3,7 +3,6 @@
  * @file
  * Prints out the list of suggested groups.
  */
-
 ?>
 
 <div class="row">

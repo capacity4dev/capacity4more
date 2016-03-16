@@ -3,7 +3,6 @@
  * @file
  * Prints out the video overlay.
  */
-
 ?>
 
 <div class="button-wrapper">
