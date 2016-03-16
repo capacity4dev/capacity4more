@@ -15,7 +15,7 @@ fi
 HAS_ERRORS=0
 
 # Add some color support.
-source $TRAVIS_BUILD_DIR/ci/config/helper-colors.sh
+source ../config/helper-colors.sh
 
 
 ##
