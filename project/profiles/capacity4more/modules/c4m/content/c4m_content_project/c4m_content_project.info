@@ -2,7 +2,6 @@ name = Project content type
 description = This module provides the Project content type and the Related Projects field.
 core = 7.x
 package = capacity4more - Content
-version = 7.x-1.x-dev
 dependencies[] = c4m_field_banner
 dependencies[] = c4m_field_body
 dependencies[] = c4m_field_date

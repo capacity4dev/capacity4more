@@ -2,7 +2,6 @@ name = Related users field
 description = Provides the related users field
 core = 7.x
 package = capacity4more - Fields
-version = 7.x-1.x-dev
 dependencies[] = entityreference
 dependencies[] = features
 features[features_api][] = api:2

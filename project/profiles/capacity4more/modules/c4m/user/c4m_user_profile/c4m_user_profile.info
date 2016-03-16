@@ -2,7 +2,6 @@ name = User Profile
 description = This module provides the setup and extra fields for the User Profile.
 core = 7.x
 package = capacity4more - User
-version = 7.x-1.x-dev
 dependencies[] = c4m_field_body
 dependencies[] = c4m_field_media
 dependencies[] = c4m_vocab_geo

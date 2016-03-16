@@ -2,7 +2,6 @@ name = Admin Groups
 description = Administration interface to manage groups & their status.
 core = 7.x
 package = capacity4more - Admin
-version = 7.x-1.0
 dependencies[] = views
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2

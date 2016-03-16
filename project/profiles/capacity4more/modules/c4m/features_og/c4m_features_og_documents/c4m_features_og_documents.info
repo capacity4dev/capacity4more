@@ -2,7 +2,6 @@ name = Documents
 description = Provides the Documents functionality within Groups.
 core = 7.x
 package = capacity4more - Features Group
-version = 7.x-1.x-dev
 dependencies[] = c4m_content_document
 dependencies[] = c4m_og
 dependencies[] = context

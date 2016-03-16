@@ -2,7 +2,6 @@ name = Group Management
 description = Adds management of a group for group administrators.
 core = 7.x
 package = capacity4more - Features Group
-version = 7.x-1.x-dev
 dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = page_manager

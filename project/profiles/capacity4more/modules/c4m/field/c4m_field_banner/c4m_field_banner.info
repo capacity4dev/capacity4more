@@ -2,7 +2,6 @@ name = Banner field
 description = Provides the base field for wide banner images.
 core = 7.x
 package = capacity4more - Fields
-version = 7.x-1.x-dev
 dependencies[] = features
 dependencies[] = image
 dependencies[] = media

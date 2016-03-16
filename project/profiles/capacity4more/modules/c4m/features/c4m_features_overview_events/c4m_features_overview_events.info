@@ -2,7 +2,6 @@ name = Events overview
 description = Base overview of all events
 core = 7.x
 package = capacity4more - Features
-version = 7.x-1.x-dev
 dependencies[] = c4m_features_og_events
 dependencies[] = c4m_og
 dependencies[] = c4m_search_filter

@@ -2,7 +2,6 @@ name = Money Field
 description = This module provides the base money field: this is a field with a value and a currency.
 core = 7.x
 package = capacity4more - Fields
-version = 7.x-1.x-dev
 dependencies[] = features
 dependencies[] = money
 features[features_api][] = api:2

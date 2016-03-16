@@ -1,6 +1,5 @@
 name = capacity4more
 description = capacity4more platform installation profile
-version = 1.x-dev
 core = 7.x
 
 

@@ -2,5 +2,4 @@ name = Email Domain functionalities
 description = Identify specific email domains and their validation mechanism. This to validate if the email address of a user is still valid.
 core = 7.x
 package = capacity4more - Domain
-version = 7.x-1.x-dev
 dependencies[] = entity

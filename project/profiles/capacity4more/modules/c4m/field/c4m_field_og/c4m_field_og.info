@@ -2,7 +2,6 @@ name = Group fields
 description = This module provides the base fields to indicate that content is a group or that it is a post within a group.
 core = 7.x
 package = capacity4more - Fields
-version = 7.x-1.x-dev
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = list

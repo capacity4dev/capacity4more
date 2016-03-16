@@ -2,4 +2,3 @@ name = General content functionality
 description = This module provides general content functionality.
 core = 7.x
 package = capacity4more - Content
-version = 7.x-1.x

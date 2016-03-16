@@ -2,7 +2,6 @@ name = Members
 description = Provides the members functionality within a Group
 core = 7.x
 package = capacity4more - Features Group
-version = 7.x-1.x-dev
 dependencies[] = c4m_og
 dependencies[] = c4m_user_og
 dependencies[] = context

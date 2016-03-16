@@ -2,5 +2,4 @@ name = Group Vocabularies
 description = Creates automatically vocabularies for Group enabled content types. This is an API module, other modules have to implement provided hooks to define what vocabularies need to be created and what group content types should use them.
 core = 7.x
 package = capacity4more - OG
-version = 7.x-1.x-dev
 dependencies[] = og_vocab

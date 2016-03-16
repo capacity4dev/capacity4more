@@ -2,7 +2,6 @@ name = Location Field
 description = Provides the base field for geocoded locations (e.g. addresses). The stored data can be used to pinpoint the address on a map.
 core = 7.x
 package = capacity4more - Fields
-version = 7.x-1.x-dev
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = getlocations_fields

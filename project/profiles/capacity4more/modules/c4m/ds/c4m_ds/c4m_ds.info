@@ -2,7 +2,6 @@ name = Custom Display Suite functionalities
 description = This module provides DS fields, view modes and layouts.
 core = 7.x
 package = capacity4more - Display Suite
-version = 7.x-1.x-dev
 dependencies[] = c4m_helper_date
 dependencies[] = ds
 dependencies[] = strongarm

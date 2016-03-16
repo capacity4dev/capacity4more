@@ -2,7 +2,6 @@ name = Fields Demo
 description = Demonstration of all available base fields in the capcity4more distribution. Warning: do not use in production environments!
 core = 7.x
 package = capacity4more - Demo
-version = 7.x-1.x-dev
 dependencies[] = c4m_content_document
 dependencies[] = c4m_content_tasklist
 dependencies[] = c4m_field_body

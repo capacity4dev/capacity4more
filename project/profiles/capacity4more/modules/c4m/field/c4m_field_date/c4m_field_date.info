@@ -2,7 +2,6 @@ name = Date field
 description = Provides a date field with a start and (optional) end date.
 core = 7.x
 package = capacity4more - Fields
-version = 7.x-1.x-dev
 dependencies[] = c4m_helper_date
 dependencies[] = ctools
 dependencies[] = date

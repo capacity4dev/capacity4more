@@ -2,7 +2,6 @@ name = Tasks overview
 description = Block displaying the tasks of a specified tasklist (detail page)
 core = 7.x
 package = capacity4more - Features Group
-version = 7.x-1.x-dev
 dependencies[] = c4m_content_tasklist
 dependencies[] = context
 dependencies[] = ctools

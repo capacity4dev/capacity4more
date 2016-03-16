@@ -2,7 +2,6 @@ name = Search Content
 description = Global search within the node content.
 core = 7.x
 package = capacity4more - Search
-version = 7.x-1.x-dev
 dependencies[] = c4m_search_filter
 dependencies[] = context
 dependencies[] = entity
