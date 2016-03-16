@@ -5,7 +5,6 @@
  *
  * @see node.tpl.php
  */
-
 ?>
 
 <div class="col-sm-4">

@@ -188,4 +188,3 @@ dependencies[] = c4m_features_footer
 
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor
-

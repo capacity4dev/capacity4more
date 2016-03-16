@@ -3,7 +3,6 @@
  * @file
  * Four column layout to use in "table" views with views bulk operations.
  */
-
 ?>
 
 

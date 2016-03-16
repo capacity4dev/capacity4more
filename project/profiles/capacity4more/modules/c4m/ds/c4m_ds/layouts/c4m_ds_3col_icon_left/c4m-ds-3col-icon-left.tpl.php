@@ -3,7 +3,6 @@
  * @file
  * Bootstrap 8-4 template for Display Suite.
  */
-
 ?>
 
 <<?php print $layout_wrapper; print $layout_attributes; ?> class="cols-3 <?php print $classes; ?>">
