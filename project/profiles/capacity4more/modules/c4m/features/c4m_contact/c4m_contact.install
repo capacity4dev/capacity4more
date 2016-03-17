@@ -28,4 +28,3 @@ function c4m_contact_contact_settings() {
 
   variable_set('c4m_site_contact', $contact_settings);
 }
-
