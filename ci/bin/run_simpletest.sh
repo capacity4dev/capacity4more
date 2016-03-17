@@ -23,4 +23,4 @@ fi
 drush @capacity4more -y en simpletest
 
 # Run all tests tagged with the distribution name.
-drush @capacity4more test-run "capacity4more"
+php $TRAVIS_BUILD_DIR/web/scripts/run-tests.sh "capacity4more"
