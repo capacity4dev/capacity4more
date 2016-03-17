@@ -14,7 +14,7 @@ function dummy_content {
 # Enable migration modules.
 ##
 function dummy_content_modules {
-  drupal_drush --uri="$SITE_URL" en -y migrate c4m_demo_content search_api_attachments c4m_search search
+  drupal_drush --uri="$SITE_URL" en -y migrate c4m_demo_content search_api_attachments
 }
 
 ##
