@@ -15,6 +15,7 @@ fi
 
 
 # Run the index batch.
+drush @capacity4more en -y c4m_search search_api_attachments
 drush @capacity4more search-api-reindex -y
 drush @capacity4more search-api-index -y
 
