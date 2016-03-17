@@ -62,26 +62,6 @@ fi
 
 markup
 
-# Write reCaptcha config to settings file.
-if [ "$RECAPTCHA_SITE_KEY" != "" ] && [ "$RECAPTCHA_SECRET_KEY" != "" ]; then
-  drupal_sites_default_unprotect
-  cat << EOF >> "$DIR_WEB/sites/default/settings.php"
-
-/**
- * reCapthca settings.
- */
-\$conf["recaptcha_site_key"] = "${RECAPTCHA_SITE_KEY}";
-\$conf["recaptcha_secret_key"] = "${RECAPTCHA_SECRET_KEY}";
-
-EOF
-  drupal_sites_default_protect
-  message_success "reCaptcha configuration added."
-else
-  message_warning "No reCaptcha configuration to write."
-fi
-
-markup
-
 # Write migration config to settings file.
 if [ "$MIGRATION_DB" != "" ] && [ "$MIGRATION_HOST" != "" ] && [ "$MIGRATION_USER" != "" ] && [ "$MIGRATION_PASS" != "" ] && [ "$MIGRATION_FILES" != "" ]; then
   drupal_sites_default_unprotect

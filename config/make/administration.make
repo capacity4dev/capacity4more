@@ -18,12 +18,6 @@ projects[module_filter][version] = "2.0"
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.x-dev"
 
-projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.3"
-
-projects[recaptcha][subdir] = "contrib"
-projects[recaptcha][version] = "2.0"
-
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.6"
 

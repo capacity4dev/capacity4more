@@ -255,7 +255,6 @@ function _capacity4more_install_save_default_permissions($default_html_format, $
     'access overlay',
     'save draft',
     'access user contact forms',
-    'skip CAPTCHA',
   );
   // Enable default permissions for authenticated users.
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
