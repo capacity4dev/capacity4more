@@ -82,5 +82,8 @@ script:
   # Run Code Style validation.
   - $TRAVIS_BUILD_DIR/ci/bin/run_coder.sh
 
+  # Run WebTests
+  - $TRAVIS_BUILD_DIR/ci/bin/run_simpletest.sh
+
 after_script:
   - date
