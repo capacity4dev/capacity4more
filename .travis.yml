@@ -79,11 +79,14 @@ before_script:
 script:
   - date
 
-  # Run Code Style validation.
-  - $TRAVIS_BUILD_DIR/ci/bin/run_coder.sh
-
   # Run WebTests
   - $TRAVIS_BUILD_DIR/ci/bin/run_simpletest.sh
+
+  # Run behat tests, different run based on the environment setting.
+  - $TRAVIS_BUILD_DIR/ci/bin/run_behat.sh
+
+  # Run Code Style validation.
+  - $TRAVIS_BUILD_DIR/ci/bin/run_coder.sh
 
 after_script:
   - date
