@@ -13,7 +13,7 @@ projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.15"
 
 projects[search_api_attachments][subdir] = "contrib"
-projects[search_api_attachments][version] = "1.6"
+projects[search_api_attachments][version] = "1.8"
 
 projects[search_api_autocomplete][subdir] = "contrib"
 projects[search_api_autocomplete][version] = "1.3"
