@@ -10,6 +10,10 @@ env:
     BEHAT_TAG="api"
     CODE_REVIEW=0
     SIMPLETEST=1
+  - INSTALL_PROFILE=1
+    BEHAT_TAG="javascript"
+    CODE_REVIEW=0
+    SIMPLETEST=0
   - INSTALL_PROFILE=0
     BEHAT_TAG=
     CODE_REVIEW=1
@@ -55,10 +59,10 @@ install:
   - $TRAVIS_BUILD_DIR/ci/bin/install_tika.sh "1.7"
 
   # Configure Behat + Install dependencies.
-  #- $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/install_behat.sh
 
   # Run headless browser environment, only needed for javascript behat tests.
-  #- $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
+  - $TRAVIS_BUILD_DIR/ci/bin/install_browser.sh
 
   # Install grunt & bower
   - $TRAVIS_BUILD_DIR/ci/bin/install_taskrunners.sh
