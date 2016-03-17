@@ -15,6 +15,7 @@ fi
 
 
 # Run the index batch.
+drush @capacity4more search-reindex 
 drush @capacity4more search-api-index
 
 # Make sure all committed content is indexed.
