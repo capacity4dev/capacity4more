@@ -26,6 +26,5 @@ drush @capacity4more -y en simpletest
 cd $TRAVIS_BUILD_DIR/web
 
 echo "PHP SETTINGS"
-which php
 
-php scripts/run-tests.sh "capacity4more" --php /usr/bin/php
+php scripts/run-tests.sh  --php /home/travis/.phpenv/shims/php "capacity4more"
