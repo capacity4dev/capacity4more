@@ -29,3 +29,6 @@ bower_components
 .idea
 *.sublime-project
 *.sublime-workspace
+project/profiles/capacity4more/behat/vendor
+project/profiles/capacity4more/behat/bin
+behat.local.yml
