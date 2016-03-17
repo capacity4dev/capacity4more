@@ -21,7 +21,7 @@ cp $TRAVIS_BUILD_DIR/ci/config/config.sh.travis config/config.sh
 ./bin/init -y
 
 # Install the drupal platform based on the config file.
-./bin/install -y --dummy-content
+./bin/install -y --dummy-content --no-login
 
 # Disable the dblog module to prevent overuse of the mysql server.
 echo "Disable dblog module to avoid extra stress on MySQL server"
