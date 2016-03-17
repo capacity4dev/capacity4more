@@ -23,4 +23,9 @@ fi
 drush @capacity4more -y en simpletest
 
 # Run all tests tagged with the distribution name.
-php $TRAVIS_BUILD_DIR/web/scripts/run-tests.sh "capacity4more"
+cd $TRAVIS_BUILD_DIR/web
+
+echo "PHP SETTINGS"
+which php
+
+php scripts/run-tests.sh "capacity4more" --php /usr/bin/php
