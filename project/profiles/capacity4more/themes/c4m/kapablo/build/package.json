@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.6"
@@ -21,8 +21,5 @@
     "grunt-contrib-uglify": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^18.0.0"
-  },
-  "scripts": {
-    "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   }
 }
