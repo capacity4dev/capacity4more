@@ -22,9 +22,6 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^18.0.0"
   },
-  "peerDependencies": {
-    "grunt-cli": "*"
-  },
   "scripts": {
     "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   }

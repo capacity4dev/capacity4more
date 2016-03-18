@@ -40,9 +40,6 @@
     "npmconf": "0.0.24",
     "requirejs": "^2.1.11"
   },
-  "peerDependencies": {
-    "grunt-cli": "*"
-  },
   "scripts": {
     "postinstall": "find node_modules/ -name \"*.info\" -type f -delete"
   }

@@ -33,6 +33,8 @@ before_install:
   - composer self-update
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - gem install sass
+  - npm -v
+  - npm install -g grunt-cli
 
 install:
   - date
