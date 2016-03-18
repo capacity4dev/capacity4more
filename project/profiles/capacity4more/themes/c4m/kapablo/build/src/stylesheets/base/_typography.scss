@@ -1,0 +1,53 @@
+/**
+ * SET THE BASELINE.
+ */
+
+html {
+  font-size: $font-size-base;
+}
+
+/**
+ * HELPER MIXINS.
+ */
+
+
+/**
+ * HELPER CLASSES.
+ */
+
+.text-xlarge {
+  // 36px.
+  font-size: $font-size-h1;
+}
+.text-large {
+  // 20px.
+  font-size: $font-size-h2;
+}
+.text-medium {
+  // 18px.
+  font-size: $font-size-h3;
+}
+.text-normal {
+  // 14px.
+  font-size: $font-size-h4;
+}
+.text-small {
+  // 12px.
+  font-size: $font-size-h5;
+}
+.text-xsmall {
+  // 10px.
+  font-size: $font-size-h6;
+}
+
+/**
+ * FONT DEFINITIONS.
+ */
+
+h1 {
+  color: $color-text-alternative;
+}
+
+h2 {
+  color: $color-text-alternative;
+}

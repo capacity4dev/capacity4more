@@ -1,58 +1,58 @@
 /*
  * COLOR DEFINITIONS
  */
+$color-white: #FFF;
+$color-gray-light: #C5C7C8;
+$color-gray-dark: #72726F;
 
-$color-beige: #D3D1C9;
-$color-beige-light: #F3F2ED;
-$color-black: #000000;
-$color-blue: #557D86;
-$color-blue-light: #8BBCCA;
-$color-blue-ultra-light: #F6F6F6;
-$color-blue-dark: #2B4753;
-$color-brown: #7C6E5A;
-$color-gray-extra-light: #E7EAD7;
-$color-light-gray: #D3D3D3;
-$color-gray: #70706D;
-$color-gray-dark: #3E3E3E;
-$color-gray-light: #EEEEEE;
-$color-green: #ACBD40;
-$color-green-light: #F0FED0;
-$color-orange: #D66745;
-$color-red: #C65A56;
-$color-white: #FFFFFF;
-$color-yellow: #F6CA50;
-$color-blue-dark: #374E5A;
-$color-blue-mid: #4A93A3;
+$color-text: #4A4A4A;
+$color-text-alternative: #6E969F;
+
+$color-link: #347C98;
+
+$color-logo-blue: #1484C6;
+
+$color-background: #F1F6F9;
+
+$color-accent: #FFBB6D;
+$color-highlight: #EE6A32;
+$color-red: #D0021B;
+$color-green: #B0C35A;
+
+$body-bg: $color-white;
+
+$brand-primary: $color-text-alternative;
+$brand-success: $color-green;
+$brand-info: $color-accent;
+$brand-warning: $color-highlight;
+$brand-danger: $color-red;
 
 /*
- * DECLARATIVE COLORS
+ * FONT STACKS
  */
+$font-gill: "GillSans-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-$color-public: $color-green;
-$color-restricted: $color-yellow;
-$color-private: $color-red;
+$font-family-sans-serif: $font-helvetica;
+$font-size-base: 14px;
 
-$userbar-blue: $color-blue-dark;
-$highlight-blue: $color-blue-light;
+$headings-color: $color-text;
+$headings-font-family: $font-gill;
+$headings-font-weight: normal;
 
-$public: $color-public;
-$restricted: $color-restricted;
-$private: $color-private;
+/*
+ * FONT SIZES
+ */
+$font-size-h1: 2.571428571rem;
+$font-size-h2: 1.428571429rem;
+$font-size-h3: 1.285714286rem;
+$font-size-h4: 1rem;
+$font-size-h5: 0.857142857rem;
+$font-size-h6: 0.714285714rem;
 
-$link-color: $color-blue;
-$link-hover-color: $link-color;
-
-$activity-load: $color-green-light;
-
-// Avatar bg colors:
-$ava-dark-navy: #47727B;
-$ava-pastel-pink: #D1A2B4;
-$ava-beige: $color-beige;
-$ava-brown: $color-brown;
-$ava-brown-light: #C8A687;
-$ava-blue: $color-blue;
-$ava-salmon: #FBA490;
-$ava-pastel-orange: #CF7F58;
-$ava-green: $color-green;
-$ava-green-light: #8CD771;
-$ava-pink-dark: #523F46;
+/**
+ * LINKS
+ */
+$link-color: $color-link;
+$link-hover-color: $color-link;
+$link-hover-decoration: underline;
