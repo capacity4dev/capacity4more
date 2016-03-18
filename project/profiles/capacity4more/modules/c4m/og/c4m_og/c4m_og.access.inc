@@ -334,22 +334,22 @@ function c4m_og_form_group_node_form_alter(&$form, &$form_state) {
   // Add select2 widget for related groups.
   $form['c4m_related_projects'][LANGUAGE_NONE]['#attached'] = array(
     'css' => array(
-      libraries_get_path('select2') . '/select2.css',
+      libraries_get_path('select2') . '/dist/css/select2.min.css',
       drupal_get_path('module', 'c4m_og') . '/css/select2-widget.css',
     ),
     'js' => array(
-      libraries_get_path('select2') . '/select2.js',
+      libraries_get_path('select2') . '/dist/js/select2.min.js',
       drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
     ),
   );
   $form['c4m_related_projects'][LANGUAGE_NONE]['#after_build'] = array('c4m_og_select2_widget_after_build');
   $form['c4m_related_group'][LANGUAGE_NONE]['#attached'] = array(
     'css' => array(
-      libraries_get_path('select2') . '/select2.css',
+      libraries_get_path('select2') . '/dist/css/select2.min.css',
       drupal_get_path('module', 'c4m_og') . '/css/select2-widget.css',
     ),
     'js' => array(
-      libraries_get_path('select2') . '/select2.js',
+      libraries_get_path('select2') . '/dist/js/select2.min.js',
       drupal_get_path('module', 'c4m_og') . '/js/select2-widget.js',
     ),
   );
