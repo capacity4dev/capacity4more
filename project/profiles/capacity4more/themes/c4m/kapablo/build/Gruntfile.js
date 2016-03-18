@@ -213,9 +213,7 @@ module.exports = function (grunt) {
         'autoprefixer:dev',
 
         'eslint',
-        'concat:dev',
-
-        'watch'
+        'concat:dev'
     ]);
 
   grunt.registerTask('build', [
