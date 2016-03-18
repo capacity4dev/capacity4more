@@ -41,7 +41,7 @@ function theme_build_npm {
 function theme_build_grunt {
   cd "$DIR_PROJECT/profiles/capacity4more/themes/c4m/kapablo/build"
 
-  node_modules/grunt-cli/bin/grunt $1
+  grunt $1
 
   cd "$DIR_ROOT"
 }

@@ -42,7 +42,7 @@ function angular_build_npm {
 function angular_build_grunt {
   cd "$DIR_PROJECT/profiles/capacity4more/modules/c4m/restful/c4m_restful_quick_post/components/c4m-app"
 
-  node_modules/grunt-cli/bin/grunt $1
+  grunt $1
 
   cd "$DIR_ROOT"
 }
