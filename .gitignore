@@ -32,3 +32,4 @@ bower_components
 project/profiles/capacity4more/behat/vendor
 project/profiles/capacity4more/behat/bin
 behat.local.yml
+project/profiles/capacity4more/behat/features/dump
