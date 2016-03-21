@@ -1,0 +1,6 @@
+name = CKeditor integration
+description = This module provides extra functionality to the CKeditor.
+core = 7.x
+package = capacity4more - WYSIWYG
+dependencies[] = ckeditor
+dependencies[] = media_wysiwyg

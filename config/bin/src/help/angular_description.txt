@@ -1,0 +1,5 @@
+The angular command is a wrapper around the grunt script used to build and combine
+javascript files (scripts) from our Angular app.
+
+The script will every time check if all node modules are in place and if they
+are up to date.

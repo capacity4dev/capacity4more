@@ -1,0 +1,2 @@
+The dummy command will enable the migration api modules and execute a dummy
+demo content migration.

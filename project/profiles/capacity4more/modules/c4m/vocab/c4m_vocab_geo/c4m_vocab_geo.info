@@ -1,0 +1,9 @@
+name = Regions & Countries vocabulary
+description = Provides the Regions & Countries vocabulary.
+core = 7.x
+package = capacity4more - Vocabulary
+dependencies[] = features
+dependencies[] = taxonomy
+features[features_api][] = api:2
+features[field_base][] = c4m_vocab_geo
+features[taxonomy][] = c4m_vocab_geo

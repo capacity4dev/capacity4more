@@ -1,6 +1,0 @@
-name = Category Vocabulary
-description = Defines the Category vocabulary so it can be automatically created within groups.
-core = 7.x
-package = capacity4more - Vocabulary
-version = 7.x-1.x-dev
-dependencies[] = c4m_og_vocab

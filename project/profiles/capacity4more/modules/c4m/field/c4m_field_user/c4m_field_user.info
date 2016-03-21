@@ -1,0 +1,8 @@
+name = Related users field
+description = Provides the related users field
+core = 7.x
+package = capacity4more - Fields
+dependencies[] = entityreference
+dependencies[] = features
+features[features_api][] = api:2
+features[field_base][] = c4m_related_user

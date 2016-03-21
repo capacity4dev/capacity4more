@@ -1,0 +1,5 @@
+name = Social
+description = Functionality related to social.
+core = 7.x
+package = capacity4more - Features
+dependencies[] = c4m_content_actions

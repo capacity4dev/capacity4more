@@ -1,0 +1,9 @@
+name = Highlights
+description = Provides the Highlights within Groups.
+core = 7.x
+package = capacity4more - Features Group
+dependencies[] = ctools
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_overview_og_highlights

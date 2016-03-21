@@ -1,0 +1,5 @@
+  * bin/theme           Build the theme, minify resources.
+  * bin/theme build     Build the theme, minify resources (default).
+  * bin/theme dev       Build the theme, watch for changes and rebuild the
+                        changed assets.
+  * bin/theme watch     Watch for changes and rebuild the changed assets.

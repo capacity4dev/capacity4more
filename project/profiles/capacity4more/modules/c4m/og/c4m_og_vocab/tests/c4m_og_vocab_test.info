@@ -1,0 +1,9 @@
+name = Group Vocabularies Tests
+description = Tests for the capacity4more Group vocabularies.
+core = 7.x
+package = capacity4more - OG
+dependencies[] = c4m_og_vocab
+hidden = TRUE
+
+; Test files
+files[] = c4m_og_vocab_test.info.test

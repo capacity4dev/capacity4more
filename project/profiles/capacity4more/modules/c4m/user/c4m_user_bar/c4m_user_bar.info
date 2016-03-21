@@ -1,0 +1,11 @@
+name = User Profile Bar
+description = Provides the User navigation bar.
+core = 7.x
+package = capacity4more - User
+dependencies[] = c4m_features_footer
+dependencies[] = c4m_user_profile
+dependencies[] = context
+dependencies[] = ctools
+features[context][] = c4m_context_sitewide
+features[ctools][] = context:context:3
+features[features_api][] = api:2

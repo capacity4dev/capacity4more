@@ -1,0 +1,190 @@
+name = capacity4more
+description = capacity4more platform installation profile
+core = 7.x
+
+
+; Core ------------------------------------------------------------------------
+dependencies[] = block
+;dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = overlay
+dependencies[] = path
+dependencies[] = statistics
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = shortcut
+dependencies[] = file
+dependencies[] = rdf
+
+; Contrib modules -------------------------------------------------------------
+dependencies[] = admin_menu_toolbar
+dependencies[] = admin_views
+dependencies[] = better_formats
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_popup
+dependencies[] = diff
+dependencies[] = entity
+dependencies[] = entity_token
+dependencies[] = entityreference
+dependencies[] = entityreference_prepopulate
+dependencies[] = eu_cookie_compliance
+dependencies[] = facetapi
+dependencies[] = features
+dependencies[] = field_group
+dependencies[] = file_download_count
+dependencies[] = flag
+;dependencies[] = inline_entity_form
+dependencies[] = jquery_update
+dependencies[] = libraries
+dependencies[] = message
+dependencies[] = link
+;dependencies[] = message
+
+dependencies[] = module_filter
+dependencies[] = og
+dependencies[] = og_access
+dependencies[] = og_context
+dependencies[] = og_ui
+dependencies[] = og_purl
+dependencies[] = og_vocab
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = pathauto
+dependencies[] = pluggable_node_access
+dependencies[] = redirect
+dependencies[] = reldate
+dependencies[] = restful
+dependencies[] = save_draft
+dependencies[] = strongarm
+dependencies[] = smart_trim
+dependencies[] = term_reference_tree
+dependencies[] = transliteration
+dependencies[] = token
+dependencies[] = views
+dependencies[] = date_views
+dependencies[] = views_content
+dependencies[] = views_bulk_operations
+dependencies[] = wysiwyg_filter
+
+
+; capacity4more ---------------------------------------------------------------
+
+; Admin Management
+dependencies[] = c4m_admin_groups
+dependencies[] = c4m_admin_organisations
+
+; Helpers
+dependencies[] = c4m_helper_comment
+dependencies[] = c4m_helper_date
+dependencies[] = c4m_helper_entity
+
+; Vocabularies
+dependencies[] = c4m_vocab_category
+dependencies[] = c4m_vocab_tag
+dependencies[] = c4m_vocab_topic
+dependencies[] = c4m_vocab_theme
+
+; Users
+dependencies[] = c4m_user
+dependencies[] = c4m_user_admin
+dependencies[] = c4m_user_bar
+dependencies[] = c4m_user_profile
+
+dependencies[] = c4m_comment
+dependencies[] = c4m_comment_delete
+;dependencies[] = c4m_comment_edited
+
+; Content Types
+dependencies[] = c4m_content
+dependencies[] = c4m_content_article
+dependencies[] = c4m_content_book
+dependencies[] = c4m_content_discussion
+dependencies[] = c4m_content_document
+dependencies[] = c4m_content_event
+dependencies[] = c4m_content_featured
+dependencies[] = c4m_content_feed
+dependencies[] = c4m_content_group
+dependencies[] = c4m_content_inthe_picture
+dependencies[] = c4m_content_banner
+dependencies[] = c4m_content_page_element
+dependencies[] = c4m_content_photo
+dependencies[] = c4m_content_photoalbum
+dependencies[] = c4m_content_project
+dependencies[] = c4m_content_task
+dependencies[] = c4m_content_tasklist
+dependencies[] = c4m_content_topic
+dependencies[] = c4m_content_wiki_page
+dependencies[] = c4m_content_organisation
+
+dependencies[] = c4m_field_related_og
+
+; Content Actions
+dependencies[] = c4m_content_actions
+dependencies[] = c4m_features_social
+
+; Overview content
+dependencies[] = c4m_features_inthe_picture
+dependencies[] = c4m_features_overview_articles
+dependencies[] = c4m_features_overview_events
+dependencies[] = c4m_features_overview_feeds
+dependencies[] = c4m_features_overview_groups
+dependencies[] = c4m_features_overview_people
+dependencies[] = c4m_features_overview_projects
+dependencies[] = c4m_features_overview_topics
+dependencies[] = c4m_features_homepage
+dependencies[] = c4m_features_homepage_intro
+
+; RESTful
+dependencies[] = c4m_restful_quick_post
+dependencies[] = c4m_restful
+
+; Overview content within groups
+dependencies[] = c4m_og_menu
+dependencies[] = c4m_features_og_events
+dependencies[] = c4m_features_og_group_dashboard
+dependencies[] = c4m_features_og_discussions
+dependencies[] = c4m_features_og_documents
+dependencies[] = c4m_features_og_highlights
+dependencies[] = c4m_features_og_manage
+dependencies[] = c4m_features_og_members
+dependencies[] = c4m_features_og_photoalbums
+dependencies[] = c4m_features_og_search
+dependencies[] = c4m_features_og_tasklists
+dependencies[] = c4m_features_og_overview_tasks
+dependencies[] = c4m_features_og_wiki
+
+; Search
+dependencies[] = c4m_search
+dependencies[] = c4m_search_nodes
+dependencies[] = c4m_search_og
+
+; Message
+dependencies[] = c4m_mail
+dependencies[] = c4m_message
+
+; Widgets
+dependencies[] = c4m_document_widget
+
+; Organic Groups
+dependencies[] = c4m_og_purl
+
+; Email Domains
+dependencies[] = c4m_domain
+
+; Contact
+dependencies[] = c4m_contact
+
+; Footer
+dependencies[] = c4m_features_footer
+
+; Content Authoring
+;dependencies[] = c4m_wysiwyg_ckeditor

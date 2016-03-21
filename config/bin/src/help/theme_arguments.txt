@@ -1,0 +1,7 @@
+  There is only one argument for the theme script: what task should be run.
+  The default task is "build".
+  The result is minified and uglified CSS and JS, and minified images.
+
+  The other arguments are:
+  * watch : Build the theme and then watch for changes.
+  * dev : Build the theme for development (no minification and uglification...)

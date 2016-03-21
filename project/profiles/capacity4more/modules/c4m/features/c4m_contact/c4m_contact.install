@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the contact module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_contact_install() {
+  // Set the default contact form settings.
+  c4m_contact_contact_settings();
+}
+
+/**
+ * Sets the default contact form settings.
+ */
+function c4m_contact_contact_settings() {
+  // Set default intro text for global contact form.
+  $intro
+    = 'Please use the form below to contact us selecting the type of issue from the list.
+    <br/>
+    Please note that for content and editorial issues in groups you should first contact the moderator of the group.';
+
+  $contact_settings = array(
+    'intro' => $intro,
+  );
+
+  variable_set('c4m_site_contact', $contact_settings);
+}

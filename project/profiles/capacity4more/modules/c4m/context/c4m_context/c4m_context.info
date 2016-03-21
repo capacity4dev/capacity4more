@@ -1,0 +1,6 @@
+name = Context plugins
+description = This module provides conditions and reactions for context.
+core = 7.x
+package = capacity4more - Context
+dependencies[] = context
+dependencies[] = ctools

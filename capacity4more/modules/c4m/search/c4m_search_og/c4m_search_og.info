@@ -1,7 +1,0 @@
-name = Search OG
-description = Provides the missing parts in the integration between OG and Search API.
-core = 7.x
-package = capacity4more - Search
-version = 7.x-1.x-dev
-dependencies[] = og_access
-dependencies[] = search_api

@@ -1,0 +1,4 @@
+[submodule "bin"]
+	path = bin
+	url = https://github.com/druleton/druleton
+	branch = master

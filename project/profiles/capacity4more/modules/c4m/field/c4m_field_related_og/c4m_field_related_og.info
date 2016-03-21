@@ -1,0 +1,12 @@
+name = Related Organic Groups
+description = Adds a Related Projects field to the Group content type. Adds a Related Groups field to the Project content type.
+core = 7.x
+package = capacity4more - Fields
+dependencies[] = c4m_content_group
+dependencies[] = c4m_content_project
+dependencies[] = entityreference
+dependencies[] = features
+dependencies[] = options
+features[features_api][] = api:2
+features[field_instance][] = node-group-c4m_related_projects
+features[field_instance][] = node-project-c4m_related_group

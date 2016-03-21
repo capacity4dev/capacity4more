@@ -1,5 +1,0 @@
-name = Search Filter
-description = Provides the search filter on groups and interests.
-core = 7.x
-package = capacity4more - Search Filter
-version = 7.x-1.x-dev

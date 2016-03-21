@@ -1,0 +1,8 @@
+name = Quick Post
+description = Base feature containing the quick post
+core = 7.x
+package = capacity4more - Restful
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = page_manager
+dependencies[] = restful
