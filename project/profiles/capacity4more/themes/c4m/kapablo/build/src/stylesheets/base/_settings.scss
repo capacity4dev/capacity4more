@@ -30,10 +30,10 @@ $brand-danger: $color-red;
 /*
  * FONT STACKS
  */
-$font-gill: "GillSans-Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-gill: "GillSans-Light", Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-verdana: Verdana, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-$font-family-sans-serif: $font-helvetica;
+$font-family-sans-serif: $font-verdana;
 $font-size-base: 14px;
 
 $headings-color: $color-text;
