@@ -1,0 +1,260 @@
+<?php
+/**
+ * @file
+ * Code for the Article content type feature.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add a cancel button to all node forms.
+ */
+function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Check if a cancel button should be added to node forms.
+  $cancel = variable_get('c4m_content_cancel_button', FALSE);
+  if (!$cancel) {
+    return;
+  }
+
+  // Use destination parameter when set.
+  $params = drupal_get_query_parameters();
+  if (empty($params['destination'])) {
+    // Use javascript history.go(-1) when destination is not set.
+    $form['actions']['cancel'] = array(
+      '#type'   => 'button',
+      '#value'  => t('Cancel'),
+      '#attributes' => array('onClick' => 'history.go(-1); return true;'),
+      '#weight' => 14,
+    );
+  }
+  else {
+    $form['actions']['cancel'] = array(
+      '#type'   => 'submit',
+      '#value'  => t('Cancel'),
+      '#submit' => array('c4m_content_cancel_button_callback'),
+      '#limit_validation_errors' => array(),
+      '#weight' => 14,
+    );
+  }
+}
+
+/**
+ * Cancel button callback when a destination parameter was set.
+ */
+function c4m_content_cancel_button_callback($form, &$form_state) {
+  drupal_goto();
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_content_block_info() {
+  $blocks['global_statistics_summary'] = array(
+    'info' => t('Global website statistics'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'global_statistics_summary':
+      $stats_summary = array(
+        '#theme' => 'c4m_website_statistics_summary',
+        '#data' => c4m_content_get_global_statistics(),
+      );
+      $block['content'] = render($stats_summary);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Load all statistics info from implemented hook_c4m_content_statistics_info.
+ *
+ * @param string $context
+ *   The context to load the info for.
+ *   Supported contexts:
+ *   - global.
+ *   - group.
+ *
+ * @return array
+ *   Configuration as collected through the implemented
+ *   hook_c4m_content_statistics_info hooks.
+ */
+function c4m_content_statistics_info($context) {
+  $cache_key = 'c4m_content:statistics_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $data = module_invoke_all('c4m_content_statistics_info');
+
+      // Sort the contexts.
+      foreach ($data as $key => $info) {
+        uasort($info, 'drupal_sort_weight');
+        $data[$key] = $info;
+      }
+
+      // Save in cache.
+      cache_set($cache_key, $data);
+    }
+  }
+
+  return (isset($data[$context]))
+    ? $data[$context]
+    : array();
+}
+
+/**
+ * Get the global statistics.
+ *
+ * @return array
+ *   The collected statistics.
+ */
+function c4m_content_get_global_statistics() {
+  $list = c4m_content_statistics_info('global');
+  $data = _c4m_content_statistics_collect_data($list);
+  return $data;
+}
+
+/**
+ * Get the statistics specific for the current group.
+ *
+ * @return array
+ *   The collected statistics.
+ */
+function c4m_content_get_group_statistics() {
+  $list = c4m_content_statistics_info('group');
+  $group = og_context();
+  if (!$group) {
+    return array();
+  }
+
+  // Filter the list & limit to only content types that are enabled for the
+  // given group.
+  foreach ($list as $key => &$info) {
+
+    if ($info['entity_type'] === 'node'
+      && !c4m_og_feature_is_content_type_enabled($info['type'])
+    ) {
+      unset($list[$key]);
+      continue;
+    }
+
+    // Add the current og_id to the info.
+    $info['og_id'] = $group['gid'];
+  }
+
+  $data = _c4m_content_statistics_collect_data($list);
+  return $data;
+}
+
+/**
+ * Helper to collect the statistics data based on the given list.
+ *
+ * @param array $list
+ *   Statistics configuration list retrieved from c4m_content_statistics_info().
+ *
+ * @return array
+ *   The collected data.
+ */
+function _c4m_content_statistics_collect_data(array $list) {
+  $data = array();
+
+  foreach ($list as $key => $info) {
+    $type = isset($info['aggregate']['type'])
+      ? $info['aggregate']['type']
+      : $info['type'];
+
+    $og_id = isset($info['og_id'])
+      ? $info['og_id']
+      : NULL;
+    $status = isset($info['c4m_status'])
+      ? $info['c4m_status']
+      : NULL;
+
+    $arguments = array(
+      'entity_type' => $info['entity_type'],
+      'bundles' => $info['bundles'],
+      'state' => $info['state'],
+      'og_id' => $og_id,
+      'c4m_status' => $status,
+    );
+    $count = c4m_helper_entity_get_number_of_entities($arguments);
+
+    $link = isset($info['link'])
+      ? $info['link']
+      : FALSE;
+
+    if (!isset($data[$type])) {
+      $data[$type] = array(
+        'title' => array(
+          'singular' => $info['singular'],
+          'plural' => $info['plural'],
+        ),
+        'count' => 0,
+        'attributes' => $info['attributes'],
+        'link' => $link,
+      );
+    }
+
+    $data[$type]['count'] += $count;
+  }
+
+  return $data;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_theme() {
+  $theme['c4m_website_statistics_summary'] = array(
+    'variables' => array(
+      'data' => array(),
+    ),
+    'file'  => 'c4m_content.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_content') . '/includes',
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add "Related" view mode.
+ */
+function c4m_content_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['c4m_related'] = array(
+    'label' => t('Related'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Helper to determine the current context.
+ *
+ * @return string
+ *    Returns one of the following contexts:
+ *    - group: we are in a group
+ *    - global: we are outside a group
+ */
+function c4m_content_current_context() {
+  $gid = c4m_og_current_group_id();
+  if ($gid) {
+    return 'group';
+  }
+  else {
+    return 'global';
+  }
+}

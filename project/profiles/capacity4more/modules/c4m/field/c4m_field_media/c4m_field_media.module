@@ -1,0 +1,196 @@
+<?php
+/**
+ * @file
+ * Code for the Media field feature.
+ */
+
+include_once 'c4m_field_media.features.inc';
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ *
+ * We override the default image field formatter handling.
+ * This way we can implement our onw field formatter settings form,
+ * summary, view rendering,...
+ */
+function c4m_field_media_field_formatter_info_alter(&$info) {
+  // Change the module name for all image fields,
+  // so we can implement our own field formatting handlers.
+  $info['image']['module'] = 'c4m_field_media';
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ *
+ * Extends the default image field formatter settings form.
+ * Add extra options (PURL) to the image link options.
+ */
+function c4m_field_media_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  // Get the default settings form from the core image module.
+  $element = image_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+  // Add some extra link options for the image field formatter.
+  $image_link_options = array(
+    C4M_OG_PURL_LINK_AUTO       => t('Yes, auto PURL'),
+    C4M_OG_PURL_LINK_DISABLED   => t('Yes, disable PURL'),
+    C4M_OG_PURL_LINK_DASHBOARD  => t('Yes, to group dashboard'),
+  );
+  $element['image_link']['#options'] += $image_link_options;
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ *
+ * Custom field formatter settings summary for image fields.
+ * We start from the default image settings summary and
+ * additionally extend it.
+ */
+function c4m_field_media_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $summary = image_field_formatter_settings_summary($field, $instance, $view_mode);
+  return $summary;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * Custom field formatter view handler for image fields.
+ * Copy of the core image field_formatter_view function.
+ * Extend it to support custom added (form) settings:
+ * - Image link PURL options.
+ */
+function c4m_field_media_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $c4m_og_purl_options = array(
+    C4M_OG_PURL_LINK_AUTO,
+    C4M_OG_PURL_LINK_DISABLED,
+    C4M_OG_PURL_LINK_DASHBOARD,
+  );
+
+  // Check if the formatter involves a link.
+  if ($display['settings']['image_link'] == 'content') {
+    $uri = entity_uri($entity_type, $entity);
+  }
+  elseif (in_array($display['settings']['image_link'], $c4m_og_purl_options)) {
+    // Our custom link setting for the image field formatter.
+    $uri = entity_uri($entity_type, $entity);
+    // Add the og purl option to the url settings.
+    c4m_og_purl_alter_uri_info($display['settings']['image_link'], $uri);
+  }
+  elseif ($display['settings']['image_link'] == 'file') {
+    $link_file = TRUE;
+  }
+
+  foreach ($items as $delta => $item) {
+    if (isset($link_file)) {
+      $uri = array(
+        'path' => file_create_url($item['uri']),
+        'options' => array(),
+      );
+    }
+    $element[$delta] = array(
+      '#theme' => 'image_formatter',
+      '#item' => $item,
+      '#image_style' => $display['settings']['image_style'],
+      '#path' => isset($uri) ? $uri : '',
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_image_styles_alter().
+ *
+ * Override the default image presets.
+ */
+function c4m_field_media_image_styles_alter(&$styles) {
+  $styles['thumbnail']['label'] = t('Thumbnail (60x60)');
+  $styles['thumbnail']['effects'][0]['data']['width'] = 60;
+  $styles['thumbnail']['effects'][0]['data']['height'] = 60;
+
+  $styles['medium']['label'] = t('Medium (300x225)');
+  $styles['medium']['effects'][0]['data']['width'] = 300;
+  $styles['medium']['effects'][0]['data']['height'] = 225;
+
+  $styles['large']['label'] = t('Large (620x465)');
+  $styles['large']['effects'][0]['data']['width'] = 620;
+  $styles['large']['effects'][0]['data']['height'] = 465;
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function c4m_field_media_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: c4m_image_medium.
+  $styles['c4m_image_medium'] = array(
+    'name' => 'c4m_image_medium',
+    'label' => 'Featured images (300x225)',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 300,
+          'height' => 225,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: icon_small.
+  $styles['icon_small'] = array(
+    'name' => 'icon_small',
+    'label' => 'Icon (30x30)',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale',
+        'help' => 'Scale will maintain the aspect-ratio of the original image.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 30,
+          'height' => 30,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: small.
+  $styles['small'] = array(
+    'name' => 'small',
+    'label' => 'Small (220x165)',
+    'effects' => array(
+      0 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 220,
+          'height' => 165,
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  return $styles;
+}

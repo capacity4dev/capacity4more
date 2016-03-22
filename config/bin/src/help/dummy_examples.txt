@@ -1,0 +1,1 @@
+  * bin/dummy             Start migration of the dummy demo content.

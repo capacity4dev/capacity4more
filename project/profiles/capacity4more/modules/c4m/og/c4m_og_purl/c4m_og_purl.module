@@ -1,0 +1,174 @@
+<?php
+/**
+ * @file
+ * Hooks & plugins for the c4m_og_purl module.
+ */
+
+// Link types that can be used to auto-magically create the proper URL.
+define('C4M_OG_PURL_LINK_AUTO', 'purl_auto');
+define('C4M_OG_PURL_LINK_DISABLED', 'purl_disabled');
+define('C4M_OG_PURL_LINK_DASHBOARD', 'purl_og_dashboard');
+
+include_once 'c4m_og_purl.ds_render_field.inc';
+include_once 'c4m_og_purl.uri_info.inc';
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_og_purl_field_formatter_info() {
+  return array(
+    'c4m_og_purl_entityreference_link' => array(
+      'label' => t('Purl link'),
+      'description' => t('Link to entityreference with og purl.'),
+      'field types' => array('entityreference'),
+      'settings' => array(
+        'link' => C4M_OG_PURL_LINK_AUTO,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ds_fields_info_alter().
+ */
+function c4m_og_purl_ds_fields_info_alter(&$fields, $entity_type) {
+  // Replace the title render function for title fields.
+  if (isset($fields['title'])) {
+    $fields['title']['function'] = 'c4m_og_purl_ds_render_field';
+  }
+
+  // Add extra link type options.
+  if (isset($fields['title']['properties']['settings']['link']['options'])) {
+    $options = $fields['title']['properties']['settings']['link']['options'];
+    $options[C4M_OG_PURL_LINK_AUTO] = t('Yes, auto PURL');
+    $options[C4M_OG_PURL_LINK_DISABLED] = t('Yes, disable PURL');
+    $options[C4M_OG_PURL_LINK_DASHBOARD] = t('Yes, to group dashboard');
+    $fields['title']['properties']['settings']['link']['options'] = $options;
+  }
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  // Formatter is c4m_og_purl_entityreference_link.
+  if ($display['type'] == 'c4m_og_purl_entityreference_link') {
+    $options[C4M_OG_PURL_LINK_AUTO] = t('Auto PURL');
+    $options[C4M_OG_PURL_LINK_DISABLED] = t('Disable PURL');
+    $options[C4M_OG_PURL_LINK_DASHBOARD] = t('To group dashboard');
+
+    $element['link'] = array(
+      '#title'          => t('Link label to the referenced entity'),
+      '#type'           => 'select',
+      '#options'        => $options,
+      '#default_value'  => $settings['link'],
+    );
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function c4m_og_purl_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  if ($display['type'] == 'c4m_og_purl_entityreference_link') {
+    switch ($settings['link']) {
+      case C4M_OG_PURL_LINK_AUTO:
+        $summary[] = t('Link to og purl referenced entity');
+        break;
+
+      case C4M_OG_PURL_LINK_DISABLED:
+        $summary[] = t('Link to referenced entity');
+        break;
+
+      case C4M_OG_PURL_LINK_DASHBOARD:
+        $summary[] = t('Link to group dashboard');
+        break;
+    }
+  }
+
+  return implode('<br />', $summary);
+}
+
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function c4m_og_purl_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  $target_ids = array();
+
+  // Collect every possible entity attached to any of the entities.
+  foreach ($entities as $id => $entity) {
+    foreach ($items[$id] as $delta => $item) {
+      if (isset($item['target_id'])) {
+        $target_ids[] = $item['target_id'];
+      }
+    }
+  }
+
+  if ($target_ids) {
+    $target_entities = entity_load($field['settings']['target_type'], $target_ids);
+  }
+  else {
+    $target_entities = array();
+  }
+
+  // Iterate through the fieldable entities again to attach the loaded data.
+  foreach ($entities as $id => $entity) {
+    $rekey = FALSE;
+
+    foreach ($items[$id] as $delta => $item) {
+      // Check whether the referenced entity could be loaded.
+      if (isset($target_entities[$item['target_id']])) {
+        // Replace the instance value with the term data.
+        $items[$id][$delta]['entity'] = $target_entities[$item['target_id']];
+        // Check whether the user has access to the referenced entity.
+        $has_view_access = (entity_access('view', $field['settings']['target_type'], $target_entities[$item['target_id']]) !== FALSE);
+        $has_update_access = (entity_access('update', $field['settings']['target_type'], $target_entities[$item['target_id']]) !== FALSE);
+        $items[$id][$delta]['access'] = ($has_view_access || $has_update_access);
+      }
+      // Otherwise, unset the instance value, since the entity does not exist.
+      else {
+        unset($items[$id][$delta]);
+        $rekey = TRUE;
+      }
+    }
+
+    if ($rekey) {
+      // Rekey the items array.
+      $items[$id] = array_values($items[$id]);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_og_purl_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $result = array();
+  $settings = $display['settings'];
+
+  // Formatter is c4m_og_purl_entityreference_link.
+  if ($display['type'] == 'c4m_og_purl_entityreference_link') {
+    $handler = entityreference_get_selection_handler($field, $instance, $entity_type, $entity);
+
+    foreach ($items as $delta => $item) {
+      $label = $handler->getLabel($item['entity']);
+      $uri = entity_uri($field['settings']['target_type'], $item['entity']);
+      c4m_og_purl_alter_uri_info($settings['link'], $uri);
+      $result[$delta] = array(
+        '#markup' => l($label, $uri['path'], $uri['options']),
+      );
+    }
+  }
+
+  return $result;
+}

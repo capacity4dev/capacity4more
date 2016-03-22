@@ -1,0 +1,151 @@
+<?php
+/**
+ * @file
+ * Code for the Document content type feature.
+ */
+
+include_once 'c4m_content_document.features.inc';
+
+/**
+ * Implements hook_c4m_og_vocab_info_content().
+ */
+function c4m_content_document_c4m_og_vocab_info_content() {
+  return array(
+    'document' => array(
+      'entity_type' => 'node',
+      'bundle' => 'document',
+      'vocabularies' => array(
+        'c4m_vocab_category',
+        'c4m_vocab_tag',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add our own submit handler as the last one.
+ */
+function c4m_content_document_form_document_node_form_alter(&$form, $form_state) {
+  // Hide field Add to library from user.
+  $form['c4m_document_add_to_library']['#access'] = FALSE;
+
+  if (strpos(url(current_path()), 'overlay')) {
+    // If this is overlay page - add our own submit handler.
+    $form['actions']['submit']['#submit'][] = 'c4m_content_document_form_document_node_form_submit';
+  }
+}
+
+/**
+ * Form Submit; Do not redirect the overlay to the node page after submit.
+ *
+ * Add 'close_overlay' after submitting to let the javascript know,
+ * that overlay should be closed.
+ */
+function c4m_content_document_form_document_node_form_submit($form, &$form_state) {
+  $form_state['redirect'] = current_path() . '/close_overlay';
+}
+
+/**
+ * Define fields.
+ *
+ * These fields are not overridden through the interface.
+ * If you want those, look at hook_ds_custom_fields_info().
+ *
+ * @param string $entity_type
+ *   The name of the entity which we are requesting fields for, e.g. 'node'.
+ *
+ * @return array
+ *   A collection of fields which keys are the entity type name and values
+ *   a collection fields.
+ *
+ * @see ds_get_fields()
+ */
+function c4m_content_document_ds_fields_info($entity_type) {
+  $fields = array();
+
+  $path = drupal_get_path('module', 'c4m_content_document');
+
+  $fields['node']['c4m_content_document_icon'] = array(
+    'title' => t('Document icon'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('document|*'),
+    'file' => $path . '/includes/c4m_content_document.theme.inc',
+    'function' => 'theme_c4m_content_document_icon',
+    'properties' => array(
+      'default' => t('Default'),
+    ),
+  );
+
+  $fields['node']['c4m_content_document_type_size'] = array(
+    'title' => t('Document type and size'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('document|*'),
+    'file' => $path . '/includes/c4m_content_document.theme.inc',
+    'function' => 'theme_c4m_content_document_type_size',
+    'properties' => array(
+      'default' => t('Default'),
+    ),
+  );
+
+  return $fields;
+}
+
+/**
+ * Implements hook_entity_type_label_alter().
+ */
+function c4m_content_document_entity_type_label_alter(&$variables) {
+  if (empty($variables['entity']->type) ||
+      'document' !== $variables['entity']->type) {
+    return;
+  }
+  $variables['label'] .= ' ' . ('uploaded by');
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_document_c4m_content_statistics_info() {
+  return array(
+    'global' => array(
+      'c4m_documents' => array(
+        'type'        => 'document',
+        'entity_type' => 'node',
+        'bundles'     => array('document'),
+        'singular'    => 'Post',
+        'plural'      => 'Posts',
+        'state'       => 1,
+        'aggregate'   => array(
+          'type' => 'posts',
+        ),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('posts'),
+        ),
+        'link' => array(
+          'path' => 'search',
+        ),
+      ),
+    ),
+    'group' => array(
+      'c4m_og_documents' => array(
+        'type'          => 'document',
+        'entity_type'   => 'node',
+        'bundles'       => array('document'),
+        'singular'      => 'Document',
+        'plural'        => 'Documents',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_documents',
+        'attributes'    => array(
+          'class' => array('og-documents'),
+        ),
+        'link'          => array(
+          'path' => 'documents',
+        ),
+      ),
+    ),
+  );
+}

@@ -1,0 +1,4 @@
+name = Photoalbums
+description = Provides the Photoalbums within Groups.
+core = 7.x
+dependencies[] = c4m_og

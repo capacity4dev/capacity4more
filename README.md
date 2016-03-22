@@ -1,79 +1,64 @@
-[![Build Status](https://travis-ci.org/capacity4dev/capacity4more.png?branch=master)](https://travis-ci.org/capacity4dev/capacity4more)
+[![Build Status](https://img.shields.io/travis/capacity4dev/capacity4more/develop.svg?style=flat-square)](https://travis-ci.org/capacity4dev/capacity4more)
+[![Quality Score](https://img.shields.io/scrutinizer/g/capacity4dev/capacity4more.svg?style=flat-square)](https://scrutinizer-ci.com/g/capacity4dev/capacity4more/)
 
 # capacity4more
 
 A Drupal 7 powered distribution providing a community platform to share
 knowledge.
 
+## Requirements
 
+- Grunt and grunt-cli (`npm install -g grunt grunt-cli`)
+- Bower (`npm install -g bower`)
+- Sass (`sudo gem install sass`)
 
 ## Installation
 
-**Warning:** you need to setup [Drush](https://github.com/drush-ops/drush)
-first or the installation and update scripts will not work.
-
 Clone the project from [GitHub](https://github.com/capacity4dev/capacity4more).
 
-#### Create config file
+### Initialize configuration
 
-Copy the example configuration file to config.sh:
+When we first clone the repository, we need to initialize it:
 
-	$ cp default.config.sh config.sh 
+    $ bin/init
+    
+This script will:
+1. Create the config/config.sh file based on the config/config_example.sh file.
+2. Ask you for the config variables (db credentials, website details, ...).
+3. Install composer locally (bin/composer)
+4. Install a local version of drush.
+5. Detect any custom commands and add them to the bin directory.
 
-Edit the configuration file, fill in the blanks.
-
-
-#### Run the install script
+### Run the install script
 
 Run the install script from within the root of the repository:
 
-	$ ./install
-
-The profile has a module to load demo data in to the platform.
-Loading that data during install can be requested by adding -d top the command:
-
-  $ ./install -d
+	$ bin/install
 	
-	
-#### Configure web server
+The install command has a few optional options:
 
-Create a vhost for your webserver, point it to the `REPOSITORY/ROOT/www` folder.  
+```
+Options:
+  --no-backup           Do not take a backup before the installation is run.
+  --no-login            Do not open a webbrowser and login to the website when
+                        the installation is finished.
+  --dummy-content       Execute dummy content migration after installation.
+  --env=<name>          The environment to run the script for (default : dev)
+  --help (-h)           Show this help text.
+  --hook-info           Show information about the available hooks.
+  --no-color            Disable all colored output.
+  --confirm (-y)        Skip the confirmation step when the script starts.
+  --verbose (-v)        Verbose.
+```
+	
+### Configure web server
+
+Create a vhost for your webserver, point it to the `REPOSITORY/ROOT/web` folder.
 (Restart/reload your webserver).
 
 Add the local domain to your ```/etc/hosts``` file.
 
 Open the URL in your favorite browser.
-
-
-
-## Reinstall
-
-You can Reinstall the platform any type by running the install script.
-
-	$ ./install
-
-	
-#### The install script will perform following steps:
-
-1. Delete the /www folder.
-2. Recreate the /www folder.
-3. Download and extract all contrib modules, themes & libraries to the proper
-   subfolders of the profile.
-4. Download and extract Drupal 7 core in the /www folder
-5. Create an empty sites/default/files directory
-6. Makes a symlink within the /www/profiles directory to the /capacity4more
-   directory.
-7. Run the Drupal installer (Drush) using the capacity4more profile.
-
-#### Warning!
-
-* The install script will not preserve the data located in the
-  sites/default/files directory.
-* The install script will clear the database during the installation.
-
-**You need to take backups before you run the install script!**
-
-
 
 ## Upgrade
 
@@ -82,28 +67,15 @@ without destroying the data in tha database and the sites/default directory.
 
 Run the update script:
 
-	$ ./upgrade
+	$ bin/upgrade
 
-The profile has a module to load demo data in to the platform.
-Loading or updating that data during an upgrade can be requested by
-adding -d top the command:
+## Reset
 
-  $ ./upgrade -d
+Will destroy the database and install the capacity4more profile again.
 
-	
-#### The upgrade script will perform following steps:
+Run the reset script:
 
-1. Create a backup of the sites/default folder.
-2. Delete the /www folder.
-3. Recreate the /www folder.
-4. Download and extract all contrib modules, themes & libraries to the proper
-   subfolders of the profile.
-5. Download and extract Drupal 7 core in the /www folder.
-6. Makes a symlink within the /www/profiles directory to the
-   /capacity4more 7. directory.
-7. Restore the backup of the sites/default folder.
-
-
+    $ bin/reset
 
 ## Unit testing
    
@@ -116,7 +88,7 @@ For testing use Behat with PhantomJS.
 To run our tests, we need behat (and some extensions). With composer installed, we can quickly install the right versions: 
 
 ```
-$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cd /PATH/TO/project/profiles/capacity4more/behat
 $ composer install
 ```
 
@@ -133,7 +105,7 @@ $ sudo npm install -g phantomjs
 You need to start the webdriver before you start the tests:
 
 ```
-$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cd /PATH/TO/project/profiles/capacity4more/behat
 $ phantomjs --webdriver=4444
 ```
 
@@ -143,7 +115,7 @@ $ phantomjs --webdriver=4444
 Behat needs a configuration file. Copy the example file and fill in the local configuration parameters.
 
 ```
-$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cd /PATH/TO/project/profiles/capacity4more/behat
 $ cp behat.local.yml.example behat.local.yml
 $ vi behat.local.yml
 ```
@@ -154,7 +126,7 @@ $ vi behat.local.yml
 Executing behat is as simple as running
 
 ```
-$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cd /PATH/TO/project/profiles/capacity4more/behat
 $ ./bin/behat
 ```
 
@@ -169,13 +141,31 @@ There are 2 default tags in use:
 **@api** : Run all tests that **don't require** PhantomJs:
 
 ```
-$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cd /PATH/TO/project/profiles/capacity4more/behat
 $ ./bin/behat --tags=@api
 ```
 
 **@javascript** : Run only the tests that **require** PhantomJs:
 
 ```
-$ cd /PATH/TO/capacity4more/capacity4more/behat
+$ cd /PATH/TO/project/profiles/capacity4more/behat
 $ ./bin/behat --tags=@javascript
 ```
+
+
+## Powered by [druleton][link-druleton]
+
+[![Powered by Druleton][icon-druleton]][link-druleton]
+
+This project is using the [druleton][link-druleton] to support
+storing it in version control without the need to store also core & contributed
+modules, themes and libraries.
+
+See the [druleton documentation][link-druleton-doc] as included in
+this project.
+
+[link-druleton]: https://github.com/druleton/druleton
+[link-druleton-doc]: https://github.com/druleton/druleton/blob/master/docs/README.md
+
+[icon-druleton]: https://img.shields.io/badge/powered%20by-druleton-blue.svg?style=flat-square
+[link-druleton]: https://github.com/druleton/druleton

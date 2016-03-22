@@ -1,0 +1,6 @@
+name = PURL
+description = Bridge between OG, PURL and the capacity4more platform.
+core = 7.x
+package = capacity4more - OG
+dependencies[] = c4m_og
+dependencies[] = purl

@@ -1,0 +1,138 @@
+<?php
+/**
+ * @file
+ * Code for the Homepage Intro video feature.
+ */
+
+include_once 'c4m_features_homepage_intro.features.inc';
+/**
+ * @file
+ * Provides a block to show an intro video about capacity4more.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_homepage_intro_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_homepage_intro_block_info() {
+  $blocks['video'] = array(
+    'info' => t('Intro Video'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function c4m_features_homepage_intro_block_configure($delta = '') {
+  $callback = _c4m_features_homepage_intro_block_callback($delta, 'configure');
+  if ($callback) {
+    return $callback();
+  }
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function c4m_features_homepage_intro_block_save($delta = '', $edit = array()) {
+  $callback = _c4m_features_homepage_intro_block_callback($delta, 'save');
+  if ($callback) {
+    return $callback($edit);
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_homepage_intro_block_view($delta = '') {
+  $callback = _c4m_features_homepage_intro_block_callback($delta, 'view');
+  if ($callback) {
+    return $callback();
+  }
+}
+
+/**
+ * Helper to include the blocks include and to create the proper callback.
+ *
+ * @param string $delta
+ *   The delta of the block.
+ * @param string $type
+ *   The block hook name (configure, save, view).
+ *
+ * @return FALSE|string
+ *   The callback name will only be returned if it exists.
+ */
+/**
+ * Implements hook_action_info().
+ */
+function _c4m_features_homepage_intro_block_callback($delta, $type) {
+  module_load_include(
+    'inc',
+    'c4m_features_homepage_intro',
+    'c4m_features_homepage_intro.blocks'
+  );
+
+  $callback = '_c4m_features_homepage_intro_' . $delta . '_' . $type;
+  if (!function_exists($callback)) {
+    return FALSE;
+  }
+
+  return $callback;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_homepage_intro_theme() {
+  $theme['c4m_features_homepage_intro_video'] = array(
+    'template' => 'video-overlay',
+    'path' => drupal_get_path('module', 'c4m_features_homepage_intro') . '/templates',
+    'variables' => array(
+      'video_url' => NULL,
+      'video_title' => NULL,
+      'video_id' => NULL,
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Preprocess function for the video rendering.
+ *
+ * @param array $vars
+ *   Template variables.
+ */
+function template_preprocess_c4m_features_homepage_intro_video(array &$vars) {
+  // Image.
+  $vars['image'] = array(
+    '#theme'    => 'image',
+    '#path'     => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-fullheader.png',
+  );
+
+  // Video title fallback.
+  if (empty($vars['video_title'])) {
+    $vars['video_title'] = t('Watch what is capacity4dev');
+  }
+
+  // Extract the video ID from the URL.
+  if (preg_match('/youtu.be\/([a-z1-9.-_]+)/', $vars['video_url'], $matches)) {
+    $vars['video_id'] = $matches[1];
+  }
+  elseif (preg_match("/youtube.com(.+)v=([^&]+)/", $vars['video_url'], $matches)) {
+    $vars['video_id'] = $matches[2];
+  }
+
+  // This js will enable communication with YouTube's API.
+  $path = drupal_get_path('module', 'c4m_features_homepage_intro');
+  drupal_add_js($path . '/js/video_overlay.js');
+}

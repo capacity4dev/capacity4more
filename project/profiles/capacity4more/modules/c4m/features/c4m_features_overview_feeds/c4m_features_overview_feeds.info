@@ -1,0 +1,16 @@
+name = Overview - Feeds
+description = Overview of all feeds.
+core = 7.x
+package = capacity4more - Features
+dependencies[] = context
+dependencies[] = entity
+dependencies[] = facetapi
+dependencies[] = search_api_autocomplete
+dependencies[] = views
+features[context][] = c4m_overview_feeds
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[search_api_autocomplete_search][] = search_api_views_c4m_overview_feeds
+features[views_view][] = c4m_overview_feeds
+features_exclude[dependencies][ctools] = ctools

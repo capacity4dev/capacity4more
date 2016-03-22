@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * c4m_features_overview_projects.context.inc
+ */
+
+/**
+ * Implements hook_context_default_contexts().
+ */
+function c4m_features_overview_projects_context_default_contexts() {
+  $export = array();
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'c4m_overview_projects';
+  $context->description = 'Overview page of all Projects';
+  $context->tag = 'cap4more - Projects';
+  $context->conditions = array(
+    'views' => array(
+      'values' => array(
+        'c4m_overview_projects:page' => 'c4m_overview_projects:page',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'views-0832eb7e6f1d35503c5b3a8f77094884' => array(
+          'module' => 'views',
+          'delta' => '0832eb7e6f1d35503c5b3a8f77094884',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
+        'c4m_search_filter-search_filter' => array(
+          'module' => 'c4m_search_filter',
+          'delta' => 'search_filter',
+          'region' => 'content_top',
+          'weight' => '-9',
+        ),
+        'views--exp-c4m_overview_projects-page' => array(
+          'module' => 'views',
+          'delta' => '-exp-c4m_overview_projects-page',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
+        'facetapi-0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp' => array(
+          'module' => 'facetapi',
+          'delta' => '0fu22cwdXHTX0SCpBBcEbOR77Jm1IfBp',
+          'region' => 'sidebar_first',
+          'weight' => '-9',
+        ),
+        'facetapi-SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E' => array(
+          'module' => 'facetapi',
+          'delta' => 'SpfB5FmHUHWhgc7eyjZ86g8LsNjQHx8E',
+          'region' => 'sidebar_first',
+          'weight' => '-8',
+        ),
+        'facetapi-JQeEQzhfJJBhHcXpX4531H7GTXL1viNU' => array(
+          'module' => 'facetapi',
+          'delta' => 'JQeEQzhfJJBhHcXpX4531H7GTXL1viNU',
+          'region' => 'sidebar_first',
+          'weight' => '-7',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Overview page of all Projects');
+  t('cap4more - Projects');
+  $export['c4m_overview_projects'] = $context;
+
+  return $export;
+}

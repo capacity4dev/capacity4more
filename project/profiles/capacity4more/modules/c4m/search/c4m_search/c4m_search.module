@@ -1,0 +1,482 @@
+<?php
+/**
+ * @file
+ * Code for the Search feature.
+ */
+
+include_once 'c4m_search.features.inc';
+include_once 'c4m_search.facetapi_sorts.inc';
+
+
+/**
+ * Implements hook_default_search_api_server().
+ *
+ * Don't feature this as this will be probably overwritten depending on the
+ * environment.
+ */
+function c4m_search_default_search_api_server() {
+  $items = array();
+  $items['c4m_solr'] = entity_import('search_api_server', '{
+    "name" : "Solr",
+    "machine_name" : "c4m_solr",
+    "description" : "",
+    "class" : "search_api_solr_service",
+    "options" : {
+      "clean_ids" : true,
+      "site_hash" : true,
+      "scheme" : "http",
+      "host" : "127.0.0.1",
+      "port" : "8983",
+      "path" : "\\/solr\\/capacity4more",
+      "http_user" : "",
+      "http_pass" : "",
+      "excerpt" : 0,
+      "retrieve_data" : 0,
+      "highlight_data" : 0,
+      "skip_schema_check" : 0,
+      "solr_version" : "",
+      "http_method" : "AUTO"
+    },
+    "enabled" : "1",
+    "rdf_mapping" : []
+  }');
+  return $items;
+}
+
+/**
+ * Implements hook_search_api_server_load().
+ *
+ * Provide a configuration as the same structure as the
+ * search api server entity in array form (keyed by the
+ * machine name of the solr service).
+ *
+ * Based on the search_api_solr_overrides module.
+ *
+ * @see https://www.drupal.org/project/search_api_solr_overrides
+ *
+ * @see c4m_search_default_search_api_server()
+ * For an example of the paremeters
+ * that can be overridden.
+ *
+ * Example:
+ * $conf['c4m_search_server_overrides'] = array(
+ *   'c4m_solr' => array(
+ *     'name' => t('Solr Server (Overridden)'),
+ *     'options' => array(
+ *       'host' => '127.0.0.1',
+ *       'port' => 8983,
+ *       'path' => '/solr/core1',
+ *     ),
+ *   ),
+ * );
+ */
+function c4m_search_search_api_server_load($servers) {
+  // Get the solr host overrides.
+  $overrides = variable_get('c4m_search_server_overrides', FALSE);
+
+  // Ensure the is information provided.
+  if (empty($overrides)) {
+    return;
+  }
+
+  // Loop over an make the required updates.
+  foreach ($overrides as $id => $override) {
+    // Check to see if the server config exists.
+    if (empty($servers[$id])) {
+      continue;
+    }
+
+    foreach ($servers[$id] as $key => $field) {
+      // Ensure we need to override the key.
+      if (empty($override[$key])) {
+        continue;
+      }
+
+      // Check for if the field is an array.
+      if (is_array($field)) {
+        $servers[$id]->$key = array_merge($servers[$id]->$key, $override[$key]);
+      }
+      // Else its a value.
+      else {
+        $servers[$id]->$key = $override[$key];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_block_view_alter().
+ *
+ * Override the default Search Api Facet block titles.
+ */
+function c4m_search_block_view_alter(&$data, $block) {
+  // Only for blocks provided by the facetapi module.
+  if ($block->module === 'facetapi') {
+    module_load_include('inc', 'c4m_search', 'c4m_search.block');
+    return _c4m_search_block_facetapi_view_alter($data, $block);
+  }
+}
+
+/**
+ * Implements hook_facetapi_widgets().
+ */
+function c4m_search_facetapi_widgets() {
+  return array(
+    'c4m_search_links_content_type' => array(
+      'handler' => array(
+        'label' => t('Content Type'),
+        'class' => 'C4mSearchWidgetLinksContentTypes',
+        'query types' => array('term'),
+      ),
+    ),
+    'c4m_search_links_grouped' => array(
+      'handler' => array(
+        'label' => t('Links Grouped'),
+        'class' => 'C4mSearchWidgetLinksGrouped',
+        'query types' => array('term', 'date'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_search_theme() {
+  return array(
+    'c4m_search_facetapi_link_group' => array(
+      'variables' => array(
+        'text' => NULL,
+        'path' => NULL,
+        'options' => array(),
+        'count' => 0,
+      ),
+      'file' => 'c4m_search.theme.inc',
+    ),
+    'c4m_search_dropdown_sort_filters' => array(
+      'variables' => array('list' => NULL, 'active' => NULL),
+      'template' => 'search-api-sorts-list',
+      'path' => drupal_get_path('module', 'c4m_search') . '/templates',
+    ),
+  );
+}
+
+/**
+ * Pragmatically execute a search.
+ *
+ * There must be at least one filter.
+ * Each filter contains a condition with a field name, value and operator.
+ *
+ * For example the $filters array to retrieve all published nodes of type event:
+ *
+ * $filters = array(
+ *   '0' => array(
+ *     'conjunction' => 'AND',
+ *     'condition' => array(
+ *        'field' => 'status',
+ *        'value' => 1,
+ *        'operator' => '=',
+ *     ),
+ *   ),
+ *  '1' => array(
+ *    'conjunction' => 'AND',
+ *    'condition' => array(
+ *      'field' => 'type',
+ *      'value' => 'event',
+ *       'operator' => '=',
+ *    ),
+ *  ),
+ * );
+ *
+ * You can also set options on the query. F.i. nr. of rows to return: 'limit'
+ * F.i. to retrieve counts of documents only and not return items:
+ * $query->setOption('limit', 0);
+ *
+ * @param array $filters
+ *    The filters to be added to the query.
+ * @param array $options
+ *    Additional options to be added to the query.
+ *
+ * @return array
+ *    Result set of the query.
+ */
+function c4m_search_custom_search(array $filters, $options = array()) {
+  if (empty($filters)) {
+    return array();
+  }
+  $index = search_api_index_load('c4m_search_nodes');
+  $query = new SearchApiQuery($index);
+  $base_filter = $subfilter = NULL;
+
+  foreach ($filters as $filter) {
+    if (empty($base_filter)) {
+      $base_filter = $query->createFilter($filter['conjunction']);
+      $base_filter->condition($filter['condition']['field'],
+        $filter['condition']['value'], $filter['condition']['operator']);
+    }
+    else {
+      $subfilter = $query->createFilter($filter['conjunction']);
+      $subfilter->condition($filter['condition']['field'],
+        $filter['condition']['value'], $filter['condition']['operator']);
+      $base_filter->filter($subfilter);
+    }
+  }
+
+  $query->filter($base_filter);
+  foreach ($options as $option) {
+    $query->setOption($option['name'], $option['value']);
+  }
+
+  return $query->execute();
+}
+
+/**
+ * Implements hook_views_data_alter().
+ *
+ * Provide a views bulk operations checkbox to search api index views.
+ * See https://www.drupal.org/node/1123454#comment-9554163
+ */
+function c4m_search_views_data_alter(&$data) {
+  if (isset($data['search_api_index'])) {
+    foreach (search_api_index_load_multiple(FALSE) as $index) {
+      $data['search_api_index_' . $index->machine_name]['views_bulk_operations'] = array(
+        'title' => t('Bulk operations'),
+        'help' => t('Provide a checkbox to select the row for bulk operations.'),
+        'real field' => 'id',
+        'field' => array(
+          'handler' => 'c4m_search_vbo_handler_field_operations',
+          'item_type' => $index->item_type,
+          'click sortable' => FALSE,
+        ),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_facetapi_url_processors().
+ */
+function c4m_search_facetapi_url_processors() {
+  return array(
+    'c4m_processor' => array(
+      'handler' => array(
+        'label' => t('C4M URL processor'),
+        'class' => 'FacetapiUrlProcessorC4m',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_facetapi_searcher_info_alter().
+ */
+function c4m_search_facetapi_searcher_info_alter(array &$searcher_info) {
+  foreach ($searcher_info as $key => $value) {
+    if ($value['url processor'] == 'standard') {
+      $searcher_info[$key]['url processor'] = 'c4m_processor';
+    }
+  }
+}
+
+/**
+ * Implements hook_search_api_sorts_alter().
+ *
+ * Show sort by relevance only when a search term is entered.
+ */
+function c4m_search_search_api_sorts_alter(&$block, $view) {
+  $params = drupal_get_query_parameters();
+
+  if (empty($params['text'])) {
+    foreach ($block['content']['#items'] as $key => $item) {
+      if (isset($item['#options']['query']['sort'])
+        && $item['#options']['query']['sort'] === 'search_api_relevance') {
+        unset($block['content']['#items'][$key]);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_search_api_sorts_get_default_sort_alter().
+ *
+ * Make sort by relevance the default sort when a term is entered
+ * without a manual sort being selected.
+ */
+function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
+  $params = drupal_get_query_parameters();
+
+  if (empty($params['sort']) && !empty($params['text'])) {
+    foreach ($search_sorts as $search_sort) {
+      if ($search_sort->field === 'search_api_relevance') {
+        $search_sort->default_order = 'desc';
+        $default_sort = $search_sort;
+        break;
+      }
+    }
+  }
+}
+
+/**
+ * Load all search pages info from implemented hook_c4m_search_page_info hooks.
+ *
+ * @param string $page
+ *   Optional, only return data for a given search page.
+ *
+ * @return array
+ *   Configuration as collected through the implemented
+ *   hook_c4m_search_page_info hooks.
+ */
+function c4m_search_info($page = NULL) {
+  $cache_key = 'c4m_search:page_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'c4m_search_page_info';
+      $data = module_invoke_all($hook);
+      uasort($data, 'drupal_sort_weight');
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Only return data for a given search page.
+  if (isset($data[$page])) {
+    return $data[$page];
+  }
+
+  // Return all data.
+  return $data;
+}
+
+/**
+ * Implements hook_forms().
+ */
+function c4m_search_forms($form_id, $args) {
+  $forms['c4m_search_form'] = array(
+    'callback' => 'c4m_search_form',
+  );
+  return $forms;
+}
+
+/**
+ * Create search form.
+ */
+function c4m_search_form($form, &$form_state) {
+  $form = array();
+  $form['#attributes']['class'][] = 'search-form';
+  $form['basic'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('container-inline'),
+    ),
+  );
+
+  // Show available search pages selector if more than one are available.
+  $search_pages = c4m_search_info();
+  if (c4m_og_current_group()) {
+    $default_value = 'search_api_views_c4m_search_og';
+  }
+  else {
+    $default_value = 'search_api_views_c4m_search_nodes';
+  }
+
+  if (count($search_pages) > 1) {
+    $options = array();
+    foreach ($search_pages as $search_page) {
+      // Check access.
+      if (empty($search_page['access']) || $search_page['access']()) {
+        $options[$search_page['machine_name']] = $search_page['name'];
+        $current_path = current_path();
+        // Set default path.
+        if ($current_path === $search_page['path']) {
+          $default_value = $search_page['machine_name'];
+        }
+      }
+    }
+    $form['basic']['search_page'] = array(
+      '#type' => 'select',
+      '#title' => 'Customize your search',
+      '#title_display' => 'invisible',
+      '#options' => $options,
+      '#default_value' => $default_value,
+      '#weight' => 0,
+      '#attached' => array(
+        'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
+      ),
+    );
+  }
+
+  // Search input.
+  $form['basic']['keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search'),
+    '#title_display' => 'invisible',
+    '#default_value' => '',
+    '#size' => 15,
+    '#maxlength' => 255,
+    '#attributes' => array(
+      'title' => t('Enter the terms you wish to search for.'),
+    ),
+  );
+
+  // Get the proper ID for the current search.
+  $search = search_api_autocomplete_search_load($default_value);
+  if ($search && $search->enabled) {
+    $search->alterElement($form['basic']['keys']);
+  }
+
+  // Submit button.
+  $form['basic']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search'),
+  );
+
+  return $form;
+}
+
+/**
+ * Search form submit handler.
+ *
+ * Redirects to the selected search page.
+ */
+function c4m_search_form_submit($form, &$form_state) {
+  // Get destination search page.
+  $search_page = c4m_search_info($form_state['values']['search_page']);
+  $options = array(
+    'query' => array(
+      'text' => $form_state['values']['keys'],
+    ),
+    'purl' => array(
+      'disabled' => ($search_page['type'] === 'global'),
+    ),
+    'absolute' => TRUE,
+  );
+
+  // Force redirect on 404 pages.
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  // Set redirect target.
+  $form_state['redirect'] = url($search_page['path'], $options);
+}
+
+/**
+ * Implements hook_facet_items_alter().
+ */
+function c4m_search_facet_items_alter(&$build, &$settings) {
+  if ($settings->facet == 'type') {
+    foreach ($build as $key => $item) {
+      if (og_is_group_content_type('node', $item['#indexed_value'])) {
+        $build[$key]['#class'][] = 'group';
+      }
+      else {
+        $build[$key]['#class'][] = 'global';
+      }
+    }
+  }
+}

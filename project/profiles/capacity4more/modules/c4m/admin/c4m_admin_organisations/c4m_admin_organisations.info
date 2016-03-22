@@ -1,0 +1,9 @@
+name = Admin Organisations
+description = Administration interface to manage organisations.
+core = 7.x
+package = capacity4more - Admin
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_admin_organisations
+features_exclude[dependencies][ctools] = ctools

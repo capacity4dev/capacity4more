@@ -1,0 +1,167 @@
+<?php
+/**
+ * @file
+ * Code for the Homepage feature.
+ */
+
+include_once 'c4m_features_homepage.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function c4m_features_homepage_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Renders 3 suggested group for the user.
+ *
+ * Suggest 3 random groups for the user which he is not subscribed to.
+ * When interests filter is applied : select groups which has at least one
+ * common topic of interest with the user.
+ * Interests are taken from user's profile.
+ *
+ * @return mixed
+ *   Rendered HTML of 3 suggested groups.
+ */
+function c4m_features_homepage_c4m_suggested_groups_get_groups() {
+  global $user;
+  $account = user_load($user->uid);
+
+  $user_wrapper = entity_metadata_wrapper('user', $account->uid);
+  $interests = $user_wrapper->c4m_vocab_topic->raw();
+
+  $get_query = drupal_get_query_parameters();
+  $filter = !empty($get_query['filter'])
+    ? $get_query['filter']
+    : NULL;
+
+  if ($filter == 'groups') {
+    return;
+  }
+
+  $user_groups = og_get_groups_by_user($account, NULL, TRUE);
+  $groups = '';
+
+  $query = new EntityFieldQuery();
+
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'group')
+    ->propertyCondition('status', NODE_PUBLISHED);
+
+  if (!empty($user_groups['node'])) {
+    $query
+      ->propertyCondition('nid', $user_groups['node'], 'NOT IN');
+  }
+
+  if (!empty($interests)) {
+    $query->fieldCondition('c4m_vocab_topic', 'tid', $interests, 'IN');
+  }
+
+  $result = $query
+    ->addTag('random')
+    ->range(0, 3)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return;
+  }
+
+  foreach ($result['node'] as $group) {
+    $node_view = node_view(node_load($group->nid), 'c4m_related');
+    $groups .= drupal_render($node_view);
+  }
+
+  $variables['groups'] = $groups;
+
+  return theme('c4m_features_homepage_c4m_suggested_groups', $variables);
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function c4m_features_homepage_query_random_alter($query) {
+  $query->orderRandom();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_homepage_theme() {
+  $theme['c4m_voices_views_carousel'] = array(
+    'template' => 'voices-views-carousel',
+    'path' => drupal_get_path('module', 'c4m_features_homepage') . '/templates',
+    'variables' => array(
+      'link' => NULL,
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Render homepage carousel for anonymous users.
+ *
+ * Fetches 3 "Article" entities which has "Banner" and "Into text",
+ * Adds these entity to the setting for the angular-carousel directive,
+ *
+ * @return string
+ *   Rendered HTML of the angular-carousel directive.
+ */
+function c4m_features_homepage_voices_views_carousel() {
+  $carousels = array();
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'article')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_banner', 'fid', '', '!=')
+    ->fieldCondition('c4m_intro_text', 'value', '', '!=')
+    ->propertyOrderBy('sticky', 'DESC')
+    ->propertyOrderBy('promote', 'DESC')
+    ->propertyOrderBy('created', 'DESC')
+    ->range(0, 3)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return FALSE;
+  }
+
+  foreach ($result['node'] as $article) {
+    $wrapper = entity_metadata_wrapper('node', $article->nid);
+    $banner = $wrapper->c4m_banner->value();
+    $carousels[] = array(
+      'id' => $wrapper->getIdentifier(),
+      'title' => $wrapper->label(),
+      'text' => $wrapper->c4m_intro_text->value(),
+      'date' => c4m_helper_date_time_ago($wrapper->created->value()),
+      'image' => file_create_url($banner['uri']),
+      'alias' => drupal_get_path_alias('node/' . $article->nid),
+    );
+  }
+
+  // Pass info via Drupal.settings.
+  $settings['c4m'] = array(
+    'carousels' => $carousels,
+  );
+  drupal_add_js($settings, 'setting');
+
+  // Render "see more" link.
+  $link['element'] = array(
+    '#tag'        => 'a',
+    '#value'      => t('See more'),
+    '#attributes' => array(
+      'href' => url('articles'),
+      'class' => 'see-more-link',
+    ),
+  );
+
+  $variables['link'] = theme_html_tag($link);
+
+  // Theme function adds the carousel.
+  return theme('c4m_voices_views_carousel', $variables);
+}

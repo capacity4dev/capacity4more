@@ -1,0 +1,8 @@
+  There is only one argument for the theme script: what task should be run.
+  The default task is "watch".
+  Watches the application for changes in the resources.
+
+  The other arguments are:
+  * build : The result is a concatenated application.
+  * release : Creates a version of the application ready for a release.
+  * test : Runs the karma test suite on the application.

@@ -1,0 +1,5 @@
+name = Contact integration
+description = This module provides extra functionality to the contact module.
+core = 7.x
+package = capacity4more - Content
+dependencies[] = contact

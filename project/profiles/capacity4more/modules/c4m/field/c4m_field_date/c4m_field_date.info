@@ -1,0 +1,14 @@
+name = Date field
+description = Provides a date field with a start and (optional) end date.
+core = 7.x
+package = capacity4more - Fields
+dependencies[] = c4m_helper_date
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = features
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[field_base][] = c4m_date
+features[field_base][] = c4m_date_end
+features[field_base][] = c4m_datetime
+features[field_base][] = c4m_datetime_end
