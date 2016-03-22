@@ -1,0 +1,38 @@
+#header-ec-wrapper {
+  @include grey_bar;
+}
+
+#navbar {
+  .navbar-collapse {
+    padding: 1rem 0;
+
+    ul.menu {
+      li {
+        padding: 0 2rem;
+
+        border-left: 1px solid $color-gray-dark;
+        border-right: 1px solid $color-gray-light;
+
+        a {
+          text-transform: uppercase;
+          padding: 0;
+          line-height: 1rem;
+
+          &:hover {
+            background: none;
+            color: $color-gray-dark;
+          }
+        }
+
+        &.first {
+          padding-left: 0;
+          border-left: none;
+        }
+        &.last {
+          padding-right: 0;
+          border-right: none;
+        }
+      }
+    }
+  }
+}

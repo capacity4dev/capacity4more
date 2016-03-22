@@ -10,7 +10,7 @@
 function c4m_content_page_element_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_page'
+  // Exported field_base: 'c4m_page'.
   $field_bases['c4m_page'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function c4m_content_page_element_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_position'
+  // Exported field_base: 'c4m_position'.
   $field_bases['c4m_position'] = array(
     'active' => 1,
     'cardinality' => 1,

@@ -2,4 +2,9 @@
 
 @import "bootstrap";
 
+@import "base/mixins";
 @import "base/typography";
+@import "base/global";
+
+@import "components/header";
+@import "components/homepage";

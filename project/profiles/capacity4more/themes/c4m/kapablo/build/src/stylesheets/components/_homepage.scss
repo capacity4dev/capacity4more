@@ -1,0 +1,19 @@
+#content-top-wrapper {
+  @include grey_bar;
+}
+
+.pane-voices-views-carousel {
+  @include grey_box;
+  margin: 2rem 0;
+}
+
+.pane-featured-block {
+  margin-bottom: 2rem;
+
+  .col-sm-4 {
+    a {
+      @include grey_box;
+      display: block;
+    }
+  }
+}

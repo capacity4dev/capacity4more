@@ -19,15 +19,12 @@ function theme_c4m_website_statistics_summary(array $variables) {
     return;
   }
 
-  $flip = array('even' => 'odd', 'odd' => 'even');
-  $class = 'even';
   $list = array();
+
   foreach ($statistics as $key => $stat) {
     if (!$stat) {
       continue;
     }
-
-    $class = $flip[$class];
 
     // Format single/plural text.
     $text = $stat['count'] . ' ' . format_plural(
@@ -56,10 +53,12 @@ function theme_c4m_website_statistics_summary(array $variables) {
       'class' => array(
         'statistics-item',
         'stats-' . $key,
-        $class,
+        'col-md-2 col-sm-2',
         implode(',', $stat_classes),
       ),
     );
+
+    $i++;
   }
 
   $summary = array(
