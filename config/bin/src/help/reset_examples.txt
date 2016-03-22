@@ -1,0 +1,5 @@
+  * bin/reset   --dummy-content
+                        Reset the website and execute dummy content migration.
+  * bin/reset --migrate-content
+                        Reset the website and execute drupal 6 to 7 content
+                        migration.
