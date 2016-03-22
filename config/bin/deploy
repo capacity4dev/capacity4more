@@ -1,0 +1,51 @@
+#!/bin/bash
+
+################################################################################
+# Script to deploy to a specific environment.
+#
+# Do not run this command directly from within the config/bin directory; it will
+# fail.
+################################################################################
+
+
+# Exit if we encounter a problem
+set -e
+
+
+# Check if symlink.
+if [ ! -f "$(dirname $0)/src/bootstrap.sh" ]; then
+  echo "ERROR : This script should be called from within the bin directory!"
+  echo
+  exit 1
+fi
+
+# Bootstrap the script.
+source $(dirname $0)/src/bootstrap.sh
+
+
+# Includes.
+source "$DIR_SRC/script.sh"
+source "$DIR_CONFIG_SRC/deploy.sh"
+
+
+# Init deploy.
+deploy_init
+
+# Show the information.
+deploy_info
+
+# Show the confirmation message.
+deploy_confirm
+
+
+# Start Deploy -----------------------------------------------------------------
+
+script_before_run
+deploy_run
+echo
+script_after_run
+
+# END DEPLOY -------------------------------------------------------------------
+
+
+exit 0
