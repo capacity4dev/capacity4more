@@ -30,10 +30,6 @@ else
   message_warning "No Solr configuration to write."
 fi
 
-$conf['c4m_search_server_overrides'] = array(
-
-);
-
 # Write TIKA config to the settings file.
 markup_debug "File path : ${TIKA_PATH}"
 markup_debug "File file : ${TIKA_FILE}"
