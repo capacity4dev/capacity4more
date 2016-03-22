@@ -1,0 +1,1 @@
+  * bin/migrate           Start migration of drupal 6 database.

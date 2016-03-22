@@ -1,2 +1,5 @@
   * bin/install --dummy-content
                         Install the website and execute dummy content migration.
+  * bin/install --migrate-content
+                        Install the website and execute drupal 6 to 7 content
+                        migration.

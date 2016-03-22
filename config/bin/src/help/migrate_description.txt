@@ -1,0 +1,2 @@
+The migrate command will enable the migration api modules and execute the
+content migration of the production data (drupal 6 database).
