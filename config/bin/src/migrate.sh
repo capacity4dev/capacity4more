@@ -6,32 +6,38 @@
 # Migrate migrate content.
 ##
 function migrate_content {
-  migrate_content_modules
+  pre_migrate
   migrate_content_migrate
+  post_migrate
 }
 
 ##
 # Enable migration modules.
 ##
-function migrate_content_modules {
+function pre_migrate {
   drupal_drush --uri="$SITE_URL" dis -y c4m_demo
   drupal_drush --uri="$SITE_URL" dis -y admin_menu
   drupal_drush --uri="$SITE_URL" en -y c4d_migrate
   drupal_drush --uri="$SITE_URL" en -y toolbar
+  drupal_drush --uri="$SITE_URL" search-api-disable -y c4m_search_nodes
+  drupal_drush --uri="$SITE_URL" search-api-disable -y c4m_search_users
 }
 
+function post_migrate {
+  drupal_drush --uri="$SITE_URL" search-api-enable -y c4m_search_nodes
+  drupal_drush --uri="$SITE_URL" search-api-enable -y c4m_search_users
+  drupal_drush --uri="$SITE_URL" drush vset maintenance_mode 1
+  drupal_drush --uri="$SITE_URL" vset restful_skip_basic_auth 1
+  sudo mv "$DIR_WEB/cron.php" "$DIR_WEB/cron-disabled.php"
+  drupal_drush --uri="$SITE_URL" search-api-index c4m_search_nodes && drupal_drush --uri="$SITE_URL" search-api-index c4m_search_users
+  sudo mv "$DIR_WEB/cron-disabled.php" "$DIR_WEB/cron.php"
+  drupal_drush --uri="$SITE_URL" vset maintenance_mode 0
+}
 
 ##
 # Execute migrate migration.
 ##
 function migrate_content_migrate {
-  if [ "$CODER_DISABLED" = "1" ]; then
-    markup_warning "drupal/coder is disabled."
-    markup_info "Enable it by setting CODER_DISABLED=0 in config/config.sh."
-    echo
-    return
-  fi
-
   # Make sure that migrate detected all migration scripts.
   drupal_drush --uri="$SITE_URL" ms
   echo
