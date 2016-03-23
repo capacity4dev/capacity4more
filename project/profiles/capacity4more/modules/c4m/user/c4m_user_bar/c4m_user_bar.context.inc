@@ -32,10 +32,16 @@ function c4m_user_bar_context_default_contexts() {
           'region' => 'user_bar',
           'weight' => '-10',
         ),
-        'c4m_features_footer-c4m_footer' => array(
+        'c4m_features_footer-c4m_footer_bar' => array(
           'module' => 'c4m_features_footer',
-          'delta' => 'c4m_footer',
-          'region' => 'footer',
+          'delta' => 'c4m_footer_bar',
+          'region' => 'footer_top',
+          'weight' => '-10',
+        ),
+        'c4m_features_footer-c4m_footer_menu' => array(
+          'module' => 'c4m_features_footer',
+          'delta' => 'c4m_footer_menu',
+          'region' => 'footer_bottom',
           'weight' => '-10',
         ),
       ),
