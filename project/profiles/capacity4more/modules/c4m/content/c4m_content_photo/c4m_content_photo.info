@@ -56,4 +56,5 @@ features[variable][] = menu_parent_photo
 features[variable][] = node_options_photo
 features[variable][] = node_preview_photo
 features[variable][] = node_submitted_photo
+features[variable][] = pathauto_node_photo_pattern
 features_exclude[field_base][comment_body] = comment_body

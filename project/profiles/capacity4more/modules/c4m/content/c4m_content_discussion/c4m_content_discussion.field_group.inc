@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function c4m_content_discussion_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -35,7 +35,7 @@ function c4m_content_discussion_field_group_info() {
       ),
     ),
   );
-  $export['group_node_actions|node|discussion|full'] = $field_group;
+  $field_groups['group_node_actions|node|discussion|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -66,7 +66,7 @@ function c4m_content_discussion_field_group_info() {
       ),
     ),
   );
-  $export['group_node_details|node|discussion|full'] = $field_group;
+  $field_groups['group_node_details|node|discussion|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -96,7 +96,13 @@ function c4m_content_discussion_field_group_info() {
       ),
     ),
   );
-  $export['group_node_meta|node|discussion|full'] = $field_group;
+  $field_groups['group_node_meta|node|discussion|full'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Actions');
+  t('Details');
+  t('Group meta');
+
+  return $field_groups;
 }

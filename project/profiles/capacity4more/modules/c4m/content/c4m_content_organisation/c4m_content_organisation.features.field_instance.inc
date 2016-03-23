@@ -10,7 +10,7 @@
 function c4m_content_organisation_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-organisation-c4m_body'
+  // Exported field_instance: 'node-organisation-c4m_body'.
   $field_instances['node-organisation-c4m_body'] = array(
     'bundle' => 'organisation',
     'default_value' => NULL,
@@ -97,7 +97,7 @@ function c4m_content_organisation_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-organisation-c4m_domain'
+  // Exported field_instance: 'node-organisation-c4m_domain'.
   $field_instances['node-organisation-c4m_domain'] = array(
     'bundle' => 'organisation',
     'default_value' => NULL,
@@ -177,7 +177,7 @@ function c4m_content_organisation_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-organisation-c4m_icon'
+  // Exported field_instance: 'node-organisation-c4m_icon'.
   $field_instances['node-organisation-c4m_icon'] = array(
     'bundle' => 'organisation',
     'deleted' => 0,
@@ -203,7 +203,7 @@ function c4m_content_organisation_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => '',

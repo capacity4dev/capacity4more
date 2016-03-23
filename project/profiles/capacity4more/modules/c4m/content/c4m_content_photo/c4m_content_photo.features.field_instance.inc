@@ -10,7 +10,7 @@
 function c4m_content_photo_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_photo-comment_body'
+  // Exported field_instance: 'comment-comment_node_photo-comment_body'.
   $field_instances['comment-comment_node_photo-comment_body'] = array(
     'bundle' => 'comment_node_photo',
     'default_value' => NULL,
@@ -62,7 +62,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-c4m_body'
+  // Exported field_instance: 'node-photo-c4m_body'.
   $field_instances['node-photo-c4m_body'] = array(
     'bundle' => 'photo',
     'default_value' => NULL,
@@ -147,7 +147,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-c4m_media'
+  // Exported field_instance: 'node-photo-c4m_media'.
   $field_instances['node-photo-c4m_media'] = array(
     'bundle' => 'photo',
     'deleted' => 0,
@@ -155,7 +155,7 @@ function c4m_content_photo_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => 'medium',
@@ -165,7 +165,7 @@ function c4m_content_photo_field_default_field_instances() {
       ),
       'activity_group' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => 'medium',
@@ -181,7 +181,7 @@ function c4m_content_photo_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => '',
@@ -259,7 +259,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-c4m_vocab_date'
+  // Exported field_instance: 'node-photo-c4m_vocab_date'.
   $field_instances['node-photo-c4m_vocab_date'] = array(
     'bundle' => 'photo',
     'default_value' => NULL,
@@ -338,7 +338,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-c4m_vocab_language'
+  // Exported field_instance: 'node-photo-c4m_vocab_language'.
   $field_instances['node-photo-c4m_vocab_language'] = array(
     'bundle' => 'photo',
     'default_value' => NULL,
@@ -417,7 +417,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-node_gallery_ref_1'
+  // Exported field_instance: 'node-photo-node_gallery_ref_1'.
   $field_instances['node-photo-node_gallery_ref_1'] = array(
     'bundle' => 'photo',
     'default_value' => NULL,
@@ -508,7 +508,7 @@ function c4m_content_photo_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photo-og_group_ref'
+  // Exported field_instance: 'node-photo-og_group_ref'.
   $field_instances['node-photo-og_group_ref'] = array(
     'bundle' => 'photo',
     'default_value' => NULL,

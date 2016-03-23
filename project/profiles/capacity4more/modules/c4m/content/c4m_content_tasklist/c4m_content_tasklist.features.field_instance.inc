@@ -10,7 +10,7 @@
 function c4m_content_tasklist_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_tasklist-comment_body'
+  // Exported field_instance: 'comment-comment_node_tasklist-comment_body'.
   $field_instances['comment-comment_node_tasklist-comment_body'] = array(
     'bundle' => 'comment_node_tasklist',
     'default_value' => NULL,
@@ -62,7 +62,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_body'
+  // Exported field_instance: 'node-tasklist-c4m_body'.
   $field_instances['node-tasklist-c4m_body'] = array(
     'bundle' => 'tasklist',
     'default_value' => array(
@@ -151,7 +151,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_related_document'
+  // Exported field_instance: 'node-tasklist-c4m_related_document'.
   $field_instances['node-tasklist-c4m_related_document'] = array(
     'bundle' => 'tasklist',
     'default_value' => NULL,
@@ -242,7 +242,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_related_user'
+  // Exported field_instance: 'node-tasklist-c4m_related_user'.
   $field_instances['node-tasklist-c4m_related_user'] = array(
     'bundle' => 'tasklist',
     'default_value' => NULL,
@@ -333,7 +333,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_tasklist_status'
+  // Exported field_instance: 'node-tasklist-c4m_tasklist_status'.
   $field_instances['node-tasklist-c4m_tasklist_status'] = array(
     'bundle' => 'tasklist',
     'default_value' => array(
@@ -416,7 +416,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_vocab_date'
+  // Exported field_instance: 'node-tasklist-c4m_vocab_date'.
   $field_instances['node-tasklist-c4m_vocab_date'] = array(
     'bundle' => 'tasklist',
     'default_value' => NULL,
@@ -495,7 +495,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_vocab_language'
+  // Exported field_instance: 'node-tasklist-c4m_vocab_language'.
   $field_instances['node-tasklist-c4m_vocab_language'] = array(
     'bundle' => 'tasklist',
     'default_value' => NULL,
@@ -574,7 +574,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-c4m_vocab_topic'
+  // Exported field_instance: 'node-tasklist-c4m_vocab_topic'.
   $field_instances['node-tasklist-c4m_vocab_topic'] = array(
     'bundle' => 'tasklist',
     'deleted' => 0,
@@ -653,7 +653,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-og_group_ref'
+  // Exported field_instance: 'node-tasklist-og_group_ref'.
   $field_instances['node-tasklist-og_group_ref'] = array(
     'bundle' => 'tasklist',
     'default_value' => NULL,
@@ -769,7 +769,7 @@ function c4m_content_tasklist_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-tasklist-og_vocabulary'
+  // Exported field_instance: 'node-tasklist-og_vocabulary'.
   $field_instances['node-tasklist-og_vocabulary'] = array(
     'bundle' => 'tasklist',
     'default_value' => NULL,
