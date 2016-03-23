@@ -33,3 +33,17 @@
     }
   }
 }
+
+.pane-upcoming-events {
+  .pane-title {
+    margin-top: 0;
+  }
+}
+
+.node-event.view-mode-upcoming_event {
+  .field-name-title {
+    h3 {
+      font-size: $font-size-h4;
+    }
+  }
+}

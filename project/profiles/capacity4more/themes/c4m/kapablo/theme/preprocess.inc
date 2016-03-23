@@ -7,7 +7,7 @@
 /**
  * Implements theme_preprocess_message().
  *
- * Activity stream messages preprocess.
+ *  Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
   if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {

@@ -72,9 +72,10 @@ function theme_c4m_footer_menu(array $variables) {
 function theme_c4m_social_media(array $social_media) {
   $output = '<div class="c4m-social-media">';
   foreach ($social_media as $key => $link) {
+    $link_classes = array('fa', 'fa-' . $key);
     $output .= '<div class="c4m-social-media-item c4m-social-media-' . $key . '">';
-    $output .= l(t('@title', array('@title' => $link['title'])), $link['url'],
-                array('attributes' => array('target' => '_blank')));
+    $output .= l(t('<i class="' . implode($link_classes, ' ') . '"></i><span>@title</span>', array('@title' => $link['title'])), $link['url'],
+                array('html' => TRUE, 'attributes' => array('target' => '_blank', 'classes' => $link_classes)));
     $output .= '</div>';
   }
   $output .= '</div>';

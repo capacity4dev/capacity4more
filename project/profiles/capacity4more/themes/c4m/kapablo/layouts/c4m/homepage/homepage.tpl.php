@@ -84,11 +84,11 @@
 </div>
 
 <div class="row">
-    <aside class="col-md-7" role="complementary">
+    <aside class="col-md-8" role="complementary">
       <?php print $content['left']; ?>
     </aside>  <!-- /#sidebar-first -->
 
-    <aside class="col-md-5" role="complementary">
+    <aside class="col-md-4" role="complementary">
       <?php print $content['right']; ?>
     </aside>  <!-- /#sidebar-first -->
 </div>

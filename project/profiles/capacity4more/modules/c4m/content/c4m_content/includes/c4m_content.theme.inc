@@ -20,6 +20,14 @@ function theme_c4m_website_statistics_summary(array $variables) {
   }
 
   $list = array();
+  $icons_table = array(
+    'article' => 'fa-bullhorn',
+    'group' => 'fa-users',
+    'project' => 'fa-flag-checkered',
+    'posts' => 'fa-comments-o',
+    'event' => 'fa-bullhorn',
+    'user' => 'fa-user',
+  );
 
   foreach ($statistics as $key => $stat) {
     if (!$stat) {
@@ -54,6 +62,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
         'statistics-item',
         'stats-' . $key,
         'col-md-2 col-sm-2',
+        'fa ' . $icons_table[$key],
         implode(',', $stat_classes),
       ),
     );

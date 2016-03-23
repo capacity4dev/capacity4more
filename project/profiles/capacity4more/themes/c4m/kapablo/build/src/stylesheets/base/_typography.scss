@@ -46,7 +46,7 @@ html {
 
 .header-1 {
   @extend .text-xlarge;
-  color: $color-text-alternative;
+  color: $color-gray-dark;
   font-family: $font-gill;
 }
 
@@ -58,7 +58,7 @@ html {
 
 .header-2 {
   @extend .text-large;
-  color: $color-text-alternative;
+  color: $color-gray-dark;
   font-family: $font-gill;
 }
 
