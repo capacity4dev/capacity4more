@@ -16,6 +16,8 @@ knowledge.
 
 Clone the project from [GitHub](https://github.com/capacity4dev/capacity4more).
 
+    $ git clone --recursive https://github.com/capacity4dev/capacity4more.git
+
 ### Initialize configuration
 
 When we first clone the repository, we need to initialize it:
