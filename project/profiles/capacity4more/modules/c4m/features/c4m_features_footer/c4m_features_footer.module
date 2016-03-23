@@ -8,8 +8,12 @@
  * Implements hook_block_info().
  */
 function c4m_features_footer_block_info() {
-  $blocks['c4m_footer'] = array(
-    'info' => t('Footer'),
+  $blocks['c4m_footer_bar'] = array(
+    'info' => t('Footer bar'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  $blocks['c4m_footer_menu'] = array(
+    'info' => t('Footer menu'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
   return $blocks;
@@ -22,11 +26,18 @@ function c4m_features_footer_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
-    case 'c4m_footer':
-      $footer = array(
-        '#theme' => 'c4m_footer',
+    case 'c4m_footer_bar':
+      $footer_bar = array(
+        '#theme' => 'c4m_footer_bar',
       );
-      $block['content'] = render($footer);
+      $block['content'] = render($footer_bar);
+      break;
+    case 'c4m_footer_menu':
+      $footer_menu = array(
+        '#theme' => 'c4m_footer_menu',
+      );
+      $block['content'] = render($footer_menu);
+      break;
   }
   return $block;
 }
@@ -35,7 +46,14 @@ function c4m_features_footer_block_view($delta = '') {
  * Implements hook_theme().
  */
 function c4m_features_footer_theme() {
-  $theme['c4m_footer'] = array(
+  $theme['c4m_footer_bar'] = array(
+    'variables' => array(
+      'data' => array(),
+    ),
+    'file'  => 'c4m_features_footer.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_features_footer') . '/includes',
+  );
+  $theme['c4m_footer_menu'] = array(
     'variables' => array(
       'data' => array(),
     ),

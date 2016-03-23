@@ -1,9 +1,11 @@
 .panel-separator {
-  border-top: 1px dashed $color-gray-light;
+
 }
 
 .pane-c4m-content-global-statistics-summary {
   padding: 2rem 0;
+  margin: 2rem 0;
+  border-top: 1px dashed $color-gray-light;
 
   ul.statistics-list {
     margin: 0;

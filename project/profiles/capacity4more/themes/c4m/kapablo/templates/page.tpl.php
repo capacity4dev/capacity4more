@@ -227,10 +227,23 @@
 <?php endif; ?>
 
 
-<footer class="footer container">
-  <div class="container footer-wrapper">
-    <section>
-      <?php print render($page['footer']); ?>
-    </section>
+<div id="footer-top-wrapper">
+  <div class="container">
+    <div class="row">
+      <section class="col-md-12">
+        <?php print render($page['footer_top']); ?>
+      </section>
+    </div>
   </div>
-</footer>
+</div>
+
+
+<div id="footer-bottom-wrapper">
+  <div class="container">
+    <div class="row">
+      <section class="col-md-12">
+        <?php print render($page['footer_bottom']); ?>
+      </section>
+    </div>
+  </div>
+</div>

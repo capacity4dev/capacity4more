@@ -8,12 +8,28 @@
 }
 
 .pane-featured-block {
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px dashed $color-gray-light;
 
   .col-sm-4 {
     a {
       @include grey_box;
       display: block;
+      color: $color-text;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      .caption {
+        span {
+          display: block;
+          font-weight: bold;
+          padding: 0.5rem 0;
+        }
+      }
     }
   }
 }

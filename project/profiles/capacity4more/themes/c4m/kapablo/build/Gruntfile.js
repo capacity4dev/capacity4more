@@ -236,6 +236,8 @@ module.exports = function (grunt) {
   grunt.registerTask('dev', [
         'clean',
 
+        'imagemin',
+
         'sass:dev',
         'autoprefixer:dev',
 
@@ -245,6 +247,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
         'clean',
+
+        'imagemin',
 
         'sass:build',
         'autoprefixer:build',

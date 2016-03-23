@@ -57,8 +57,6 @@ function theme_c4m_website_statistics_summary(array $variables) {
         implode(',', $stat_classes),
       ),
     );
-
-    $i++;
   }
 
   $summary = array(
