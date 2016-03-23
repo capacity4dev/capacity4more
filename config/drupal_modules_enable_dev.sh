@@ -8,5 +8,6 @@
 MODULES_ENABLE=(
   "devel"
   "devel_generate"
+  "field_ui"
   "views_ui"
 )
