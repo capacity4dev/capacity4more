@@ -1,0 +1,3 @@
+  --dummy-content       Execute dummy content migration after reset.
+  --migrate-content     Execute drupal 6 to drupal 7 content migration after
+                        reset.
