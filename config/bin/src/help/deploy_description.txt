@@ -1,0 +1,3 @@
+The deploy command will build the website locally and deploy it to a remote
+location. The remote location will be updated (updb), feature-reverted (fra) and
+cache cleared (cc all).

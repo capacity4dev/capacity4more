@@ -88,6 +88,14 @@ markup
 # /END Update settings file ----------------------------------------------------
 
 # Execute dummy content migration.
+migrate_content=$( option_is_set "--migrate-content" )
+if [ $migrate_content -eq 1 ]; then
+  markup_h1 "Install migrated content."
+  source "$DIR_CONFIG_SRC/migrate.sh"
+  migrate_content
+fi
+
+# Execute dummy content migration.
 dummy_content=$( option_is_set "--dummy-content" )
 if [ $dummy_content -eq 1 ]; then
   markup_h1 "Install dummy demo content."
