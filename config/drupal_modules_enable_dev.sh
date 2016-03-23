@@ -8,6 +8,7 @@
 MODULES_ENABLE=(
   "devel"
   "devel_generate"
+  "context_ui"
   "field_ui"
   "views_ui"
 )
