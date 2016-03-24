@@ -1,0 +1,48 @@
+<?php
+/**
+ * @file
+ * Code for the header feature.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_header_block_info() {
+  $blocks['c4m_header_menu'] = array(
+    'info' => t('Header menu'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_header_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'c4m_header_menu':
+      $header_menu = array(
+        '#theme' => 'c4m_header_menu',
+      );
+      $block['content'] = render($header_menu);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_header_theme() {
+  $theme['c4m_header_menu'] = array(
+    'variables' => array(
+      'data' => array(),
+    ),
+    'file'  => 'c4m_features_header.theme.inc',
+    'path'  => drupal_get_path('module', 'c4m_features_header') . '/includes',
+  );
+
+  return $theme;
+}

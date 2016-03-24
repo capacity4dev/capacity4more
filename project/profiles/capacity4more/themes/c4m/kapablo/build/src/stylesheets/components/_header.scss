@@ -1,30 +1,17 @@
 #block-c4m-user-bar-user-signup-login {
   ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
+    @include horizontal_menu;
     li {
-      float: left;
-      padding: 0 1rem;
-      line-height: 1rem;
-
-      border-left: 1px solid $color-gray-dark;
-      border-right: 1px solid $color-gray-light;
-
       a {
         font-weight: bold;
       }
-
-      &.first {
-        padding-left: 0;
-        border-left: none;
-      }
-      &.last {
-        padding-right: 0;
-        border-right: none;
-      }
     }
+  }
+}
+
+#block-c4m-features-header-c4m-header-menu {
+  ul {
+    @include horizontal_menu;
   }
 }
 
@@ -55,11 +42,10 @@
     padding: 1rem 0;
 
     ul.menu {
+      @include horizontal_menu;
+
       li {
         padding: 0 2rem;
-
-        border-left: 1px solid $color-gray-dark;
-        border-right: 1px solid $color-gray-light;
 
         a {
           text-transform: uppercase;
@@ -70,15 +56,6 @@
             background: none;
             color: $color-gray-dark;
           }
-        }
-
-        &.first {
-          padding-left: 0;
-          border-left: none;
-        }
-        &.last {
-          padding-right: 0;
-          border-right: none;
         }
       }
     }

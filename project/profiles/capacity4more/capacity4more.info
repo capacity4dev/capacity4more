@@ -184,6 +184,9 @@ dependencies[] = c4m_domain
 ; Contact
 dependencies[] = c4m_contact
 
+; Header
+dependencies[] = c4m_features_header
+
 ; Footer
 dependencies[] = c4m_features_footer
 

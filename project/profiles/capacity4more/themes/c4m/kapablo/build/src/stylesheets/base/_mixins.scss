@@ -11,3 +11,27 @@
   border-radius: 5px;
   padding: 2rem;
 }
+
+@mixin horizontal_menu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  li {
+    float: left;
+    padding: 0 1rem;
+    line-height: 1rem;
+
+    border-left: 1px solid $color-gray-dark;
+    border-right: 1px solid $color-gray-light;
+
+    &.first {
+      padding-left: 0;
+      border-left: none;
+    }
+    &.last {
+      padding-right: 0;
+      border-right: none;
+    }
+  }
+}
