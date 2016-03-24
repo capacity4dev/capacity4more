@@ -10,14 +10,13 @@
 function c4m_field_link_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_facebook'
+  // Exported field_base: 'c4m_facebook'.
   $field_bases['c4m_facebook'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_facebook',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -40,14 +39,13 @@ function c4m_field_link_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'c4m_link'
+  // Exported field_base: 'c4m_link'.
   $field_bases['c4m_link'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_link',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -70,14 +68,13 @@ function c4m_field_link_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'c4m_link_multiple'
+  // Exported field_base: 'c4m_link_multiple'.
   $field_bases['c4m_link_multiple'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_link_multiple',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -100,14 +97,13 @@ function c4m_field_link_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'c4m_twitter'
+  // Exported field_base: 'c4m_twitter'.
   $field_bases['c4m_twitter'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_twitter',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',

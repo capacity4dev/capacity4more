@@ -10,7 +10,7 @@
 function c4m_content_inthe_picture_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_heading'
+  // Exported field_base: 'c4m_heading'.
   $field_bases['c4m_heading'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function c4m_content_inthe_picture_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_overview_page'
+  // Exported field_base: 'c4m_overview_page'.
   $field_bases['c4m_overview_page'] = array(
     'active' => 1,
     'cardinality' => -1,

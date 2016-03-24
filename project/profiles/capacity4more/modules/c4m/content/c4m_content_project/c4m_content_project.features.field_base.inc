@@ -10,7 +10,7 @@
 function c4m_content_project_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_cris_contract_number'
+  // Exported field_base: 'c4m_cris_contract_number'.
   $field_bases['c4m_cris_contract_number'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -31,7 +31,7 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_cris_decision_number'
+  // Exported field_base: 'c4m_cris_decision_number'.
   $field_bases['c4m_cris_decision_number'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -52,7 +52,7 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_implemented_by'
+  // Exported field_base: 'c4m_implemented_by'.
   $field_bases['c4m_implemented_by'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -73,7 +73,7 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_partner'
+  // Exported field_base: 'c4m_partner'.
   $field_bases['c4m_partner'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -94,7 +94,7 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_related_projects'
+  // Exported field_base: 'c4m_related_projects'.
   $field_bases['c4m_related_projects'] = array(
     'active' => 1,
     'cardinality' => 3,
@@ -132,7 +132,7 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'c4m_related_projects_unlimited'
+  // Exported field_base: 'c4m_related_projects_unlimited'.
   $field_bases['c4m_related_projects_unlimited'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -170,7 +170,7 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'c4m_source_of_funding'
+  // Exported field_base: 'c4m_source_of_funding'.
   $field_bases['c4m_source_of_funding'] = array(
     'active' => 1,
     'cardinality' => -1,

@@ -10,7 +10,7 @@
 function c4m_content_discussion_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_discussion-comment_body'
+  // Exported field_instance: 'comment-comment_node_discussion-comment_body'.
   $field_instances['comment-comment_node_discussion-comment_body'] = array(
     'bundle' => 'comment_node_discussion',
     'default_value' => NULL,
@@ -94,7 +94,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_body'
+  // Exported field_instance: 'node-discussion-c4m_body'.
   $field_instances['node-discussion-c4m_body'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -237,7 +237,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_discussion_type'
+  // Exported field_instance: 'node-discussion-c4m_discussion_type'.
   $field_instances['node-discussion-c4m_discussion_type'] = array(
     'bundle' => 'discussion',
     'default_value' => array(
@@ -326,7 +326,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_related_document'
+  // Exported field_instance: 'node-discussion-c4m_related_document'.
   $field_instances['node-discussion-c4m_related_document'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -428,7 +428,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_vocab_date'
+  // Exported field_instance: 'node-discussion-c4m_vocab_date'.
   $field_instances['node-discussion-c4m_vocab_date'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -514,7 +514,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_vocab_geo'
+  // Exported field_instance: 'node-discussion-c4m_vocab_geo'.
   $field_instances['node-discussion-c4m_vocab_geo'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -600,7 +600,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_vocab_language'
+  // Exported field_instance: 'node-discussion-c4m_vocab_language'.
   $field_instances['node-discussion-c4m_vocab_language'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -686,7 +686,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-c4m_vocab_topic'
+  // Exported field_instance: 'node-discussion-c4m_vocab_topic'.
   $field_instances['node-discussion-c4m_vocab_topic'] = array(
     'bundle' => 'discussion',
     'deleted' => 0,
@@ -772,7 +772,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-og_group_ref'
+  // Exported field_instance: 'node-discussion-og_group_ref'.
   $field_instances['node-discussion-og_group_ref'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -894,7 +894,7 @@ function c4m_content_discussion_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-og_vocabulary'
+  // Exported field_instance: 'node-discussion-og_vocabulary'.
   $field_instances['node-discussion-og_vocabulary'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,

@@ -10,7 +10,7 @@
 function c4m_user_profile_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_country'
+  // Exported field_base: 'c4m_country'.
   $field_bases['c4m_country'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -281,7 +281,7 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'c4m_first_name'
+  // Exported field_base: 'c4m_first_name'.
   $field_bases['c4m_first_name'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -302,7 +302,7 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_is_deleted'
+  // Exported field_base: 'c4m_is_deleted'.
   $field_bases['c4m_is_deleted'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -327,7 +327,7 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'c4m_is_spammer'
+  // Exported field_base: 'c4m_is_spammer'.
   $field_bases['c4m_is_spammer'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -352,7 +352,7 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'c4m_last_name'
+  // Exported field_base: 'c4m_last_name'.
   $field_bases['c4m_last_name'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -373,7 +373,7 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_organisation'
+  // Exported field_base: 'c4m_organisation'.
   $field_bases['c4m_organisation'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -394,7 +394,7 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_organisation_type'
+  // Exported field_base: 'c4m_organisation_type'.
   $field_bases['c4m_organisation_type'] = array(
     'active' => 1,
     'cardinality' => 1,

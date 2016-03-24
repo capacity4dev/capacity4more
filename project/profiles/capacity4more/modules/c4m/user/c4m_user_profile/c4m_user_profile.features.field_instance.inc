@@ -10,7 +10,7 @@
 function c4m_user_profile_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'user-user-c4m_body'
+  // Exported field_instance: 'user-user-c4m_body'.
   $field_instances['user-user-c4m_body'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -76,7 +76,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_country'
+  // Exported field_instance: 'user-user-c4m_country'.
   $field_instances['user-user-c4m_country'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -137,7 +137,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_first_name'
+  // Exported field_instance: 'user-user-c4m_first_name'.
   $field_instances['user-user-c4m_first_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -200,7 +200,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_is_deleted'
+  // Exported field_instance: 'user-user-c4m_is_deleted'.
   $field_instances['user-user-c4m_is_deleted'] = array(
     'bundle' => 'user',
     'default_value' => array(
@@ -266,7 +266,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_is_spammer'
+  // Exported field_instance: 'user-user-c4m_is_spammer'.
   $field_instances['user-user-c4m_is_spammer'] = array(
     'bundle' => 'user',
     'default_value' => array(
@@ -332,7 +332,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_last_name'
+  // Exported field_instance: 'user-user-c4m_last_name'.
   $field_instances['user-user-c4m_last_name'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -395,7 +395,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_media'
+  // Exported field_instance: 'user-user-c4m_media'.
   $field_instances['user-user-c4m_media'] = array(
     'bundle' => 'user',
     'deleted' => 0,
@@ -433,7 +433,7 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => 'c4m_user_author_thumb_image',
@@ -481,7 +481,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_organisation'
+  // Exported field_instance: 'user-user-c4m_organisation'.
   $field_instances['user-user-c4m_organisation'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -547,7 +547,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_organisation_type'
+  // Exported field_instance: 'user-user-c4m_organisation_type'.
   $field_instances['user-user-c4m_organisation_type'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -610,7 +610,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_vocab_geo'
+  // Exported field_instance: 'user-user-c4m_vocab_geo'.
   $field_instances['user-user-c4m_vocab_geo'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -670,7 +670,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_vocab_topic'
+  // Exported field_instance: 'user-user-c4m_vocab_topic'.
   $field_instances['user-user-c4m_vocab_topic'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -732,7 +732,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_vocab_topic_expertise'
+  // Exported field_instance: 'user-user-c4m_vocab_topic_expertise'.
   $field_instances['user-user-c4m_vocab_topic_expertise'] = array(
     'bundle' => 'user',
     'default_value' => NULL,

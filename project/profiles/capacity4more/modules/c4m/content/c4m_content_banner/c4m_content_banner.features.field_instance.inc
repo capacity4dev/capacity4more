@@ -10,7 +10,7 @@
 function c4m_content_banner_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-banner-c4m_banner'
+  // Exported field_instance: 'node-banner-c4m_banner'.
   $field_instances['node-banner-c4m_banner'] = array(
     'bundle' => 'banner',
     'deleted' => 0,
@@ -36,7 +36,7 @@ function c4m_content_banner_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => '',

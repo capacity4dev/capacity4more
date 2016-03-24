@@ -10,7 +10,7 @@
 function c4m_content_event_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_document_agenda'
+  // Exported field_base: 'c4m_document_agenda'.
   $field_bases['c4m_document_agenda'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -45,7 +45,7 @@ function c4m_content_event_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'c4m_document_presentation'
+  // Exported field_base: 'c4m_document_presentation'.
   $field_bases['c4m_document_presentation'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -80,7 +80,7 @@ function c4m_content_event_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'c4m_event_type'
+  // Exported field_base: 'c4m_event_type'.
   $field_bases['c4m_event_type'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -106,7 +106,7 @@ function c4m_content_event_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'c4m_organised_by'
+  // Exported field_base: 'c4m_organised_by'.
   $field_bases['c4m_organised_by'] = array(
     'active' => 1,
     'cardinality' => 1,

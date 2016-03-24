@@ -10,7 +10,7 @@
 function c4m_content_project_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-project-c4m_banner'
+  // Exported field_instance: 'node-project-c4m_banner'.
   $field_instances['node-project-c4m_banner'] = array(
     'bundle' => 'project',
     'deleted' => 0,
@@ -36,7 +36,7 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => 'large',
@@ -114,7 +114,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_body'
+  // Exported field_instance: 'node-project-c4m_body'.
   $field_instances['node-project-c4m_body'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -231,7 +231,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_cris_contract_number'
+  // Exported field_instance: 'node-project-c4m_cris_contract_number'.
   $field_instances['node-project-c4m_cris_contract_number'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -313,7 +313,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_cris_decision_number'
+  // Exported field_instance: 'node-project-c4m_cris_decision_number'.
   $field_instances['node-project-c4m_cris_decision_number'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -395,7 +395,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_date_end'
+  // Exported field_instance: 'node-project-c4m_date_end'.
   $field_instances['node-project-c4m_date_end'] = array(
     'bundle' => 'project',
     'deleted' => 0,
@@ -428,6 +428,7 @@ function c4m_content_project_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 4,
@@ -490,7 +491,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_implemented_by'
+  // Exported field_instance: 'node-project-c4m_implemented_by'.
   $field_instances['node-project-c4m_implemented_by'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -572,7 +573,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_media'
+  // Exported field_instance: 'node-project-c4m_media'.
   $field_instances['node-project-c4m_media'] = array(
     'bundle' => 'project',
     'deleted' => 0,
@@ -592,7 +593,7 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'c4m_related' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => 'content',
           'image_style' => 'c4m_user_author_thumb_image',
@@ -602,7 +603,7 @@ function c4m_content_project_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => 'large',
@@ -680,7 +681,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_money'
+  // Exported field_instance: 'node-project-c4m_money'.
   $field_instances['node-project-c4m_money'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -1057,7 +1058,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_partner'
+  // Exported field_instance: 'node-project-c4m_partner'.
   $field_instances['node-project-c4m_partner'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -1139,7 +1140,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_related_projects'
+  // Exported field_instance: 'node-project-c4m_related_projects'.
   $field_instances['node-project-c4m_related_projects'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -1231,7 +1232,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_source_of_funding'
+  // Exported field_instance: 'node-project-c4m_source_of_funding'.
   $field_instances['node-project-c4m_source_of_funding'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -1313,7 +1314,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_vocab_geo'
+  // Exported field_instance: 'node-project-c4m_vocab_geo'.
   $field_instances['node-project-c4m_vocab_geo'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -1392,7 +1393,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_vocab_topic'
+  // Exported field_instance: 'node-project-c4m_vocab_topic'.
   $field_instances['node-project-c4m_vocab_topic'] = array(
     'bundle' => 'project',
     'deleted' => 0,
@@ -1471,7 +1472,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-group_group'
+  // Exported field_instance: 'node-project-group_group'.
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
     'default_value' => array(
