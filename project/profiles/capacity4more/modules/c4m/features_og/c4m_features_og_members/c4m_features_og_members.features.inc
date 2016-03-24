@@ -29,6 +29,7 @@ function c4m_features_og_members_default_search_api_autocomplete_search() {
     "machine_name" : "search_api_views_c4m_overview_og_members",
     "name" : "Overview - OG - Members",
     "index_id" : "c4m_search_users",
+    "suggester_id" : "",
     "type" : "search_api_views",
     "enabled" : "1",
     "options" : { "result count" : true, "fields" : [] },

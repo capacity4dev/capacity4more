@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function c4m_content_event_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -37,7 +37,7 @@ function c4m_content_event_field_group_info() {
       ),
     ),
   );
-  $export['c4m_documents|node|event|form'] = $field_group;
+  $field_groups['c4m_documents|node|event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -68,7 +68,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['c4m_metadata|node|event|form'] = $field_group;
+  $field_groups['c4m_metadata|node|event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -96,7 +96,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['c4m_og|node|event|form'] = $field_group;
+  $field_groups['c4m_og|node|event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -125,7 +125,7 @@ function c4m_content_event_field_group_info() {
       ),
     ),
   );
-  $export['group_details|node|event|full'] = $field_group;
+  $field_groups['group_details|node|event|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -153,7 +153,7 @@ function c4m_content_event_field_group_info() {
       ),
     ),
   );
-  $export['group_documents|node|event|full'] = $field_group;
+  $field_groups['group_documents|node|event|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -182,7 +182,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_location|node|event|full'] = $field_group;
+  $field_groups['group_location|node|event|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -209,7 +209,7 @@ function c4m_content_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_node_actions|node|event|full'] = $field_group;
+  $field_groups['group_node_actions|node|event|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -238,7 +238,17 @@ function c4m_content_event_field_group_info() {
       ),
     ),
   );
-  $export['group_organiser|node|event|full'] = $field_group;
+  $field_groups['group_organiser|node|event|full'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Actions');
+  t('Details');
+  t('Documents');
+  t('Groups');
+  t('Location');
+  t('Metadata');
+  t('Organiser');
+
+  return $field_groups;
 }

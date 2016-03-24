@@ -10,7 +10,7 @@
 function c4m_content_document_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_document-comment_body'
+  // Exported field_instance: 'comment-comment_node_document-comment_body'.
   $field_instances['comment-comment_node_document-comment_body'] = array(
     'bundle' => 'comment_node_document',
     'default_value' => NULL,
@@ -94,7 +94,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_body'
+  // Exported field_instance: 'node-document-c4m_body'.
   $field_instances['node-document-c4m_body'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -240,7 +240,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_document'
+  // Exported field_instance: 'node-document-c4m_document'.
   $field_instances['node-document-c4m_document'] = array(
     'bundle' => 'document',
     'deleted' => 0,
@@ -350,7 +350,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_document_add_to_library'
+  // Exported field_instance: 'node-document-c4m_document_add_to_library'.
   $field_instances['node-document-c4m_document_add_to_library'] = array(
     'bundle' => 'document',
     'default_value' => array(
@@ -448,7 +448,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_vocab_date'
+  // Exported field_instance: 'node-document-c4m_vocab_date'.
   $field_instances['node-document-c4m_vocab_date'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -540,7 +540,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_vocab_document_type'
+  // Exported field_instance: 'node-document-c4m_vocab_document_type'.
   $field_instances['node-document-c4m_vocab_document_type'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -632,7 +632,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_vocab_geo'
+  // Exported field_instance: 'node-document-c4m_vocab_geo'.
   $field_instances['node-document-c4m_vocab_geo'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -724,7 +724,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_vocab_language'
+  // Exported field_instance: 'node-document-c4m_vocab_language'.
   $field_instances['node-document-c4m_vocab_language'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -816,7 +816,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-c4m_vocab_topic'
+  // Exported field_instance: 'node-document-c4m_vocab_topic'.
   $field_instances['node-document-c4m_vocab_topic'] = array(
     'bundle' => 'document',
     'deleted' => 0,
@@ -913,7 +913,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-og_group_ref'
+  // Exported field_instance: 'node-document-og_group_ref'.
   $field_instances['node-document-og_group_ref'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -1040,7 +1040,7 @@ function c4m_content_document_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-og_vocabulary'
+  // Exported field_instance: 'node-document-og_vocabulary'.
   $field_instances['node-document-og_vocabulary'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
