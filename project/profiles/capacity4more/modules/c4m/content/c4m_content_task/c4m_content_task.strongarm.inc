@@ -145,5 +145,12 @@ function c4m_content_task_strongarm() {
   $strongarm->value = 1;
   $export['node_submitted_task'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_task_pattern';
+  $strongarm->value = 'task/[node:title]';
+  $export['pathauto_node_task_pattern'] = $strongarm;
+
   return $export;
 }

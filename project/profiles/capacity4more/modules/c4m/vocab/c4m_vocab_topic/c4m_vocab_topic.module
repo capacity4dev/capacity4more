@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Topic vocabulary feature.
  */
+
+include_once 'c4m_vocab_topic.features.inc';
 
 /**
  * Add mapping between old topic (name) and new topic name and tid.

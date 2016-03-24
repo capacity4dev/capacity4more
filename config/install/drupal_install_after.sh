@@ -2,9 +2,33 @@
 markup_h1 "Update settings.php file"
 
 # Write Apache Solr config to settings file.
-#markup_debug "SOLR Host : ${SOLR_HOST}"
-#markup_debug "SOLR Port : ${SOLR_PORT}"
-#markup_debug "SOLR Path : ${SOLR_PATH}"
+markup_debug "SOLR Host : ${SOLR_HOST}"
+markup_debug "SOLR Port : ${SOLR_PORT}"
+markup_debug "SOLR Path : ${SOLR_PATH}"
+
+if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" != "" ]; then
+  drupal_sites_default_unprotect
+  cat << EOF >> "$DIR_WEB/sites/default/settings.php"
+
+/**
+ * Solr config settings.
+ */
+\$conf["c4m_search_server_overrides"] = array(
+  'c4m_solr' => array(
+    'name' => t('Solr Server'),
+    'options' => array(
+      'host' => '"$SOLR_HOST"',
+      'port' => "$SOLR_PORT",
+      'path' => '"$SOLR_PATH"',
+    ),
+  ),
+);
+EOF
+  drupal_sites_default_protect
+  message_success "Solr configuration added."
+else
+  message_warning "No Solr configuration to write."
+fi
 
 # Write TIKA config to the settings file.
 markup_debug "File path : ${TIKA_PATH}"

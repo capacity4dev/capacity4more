@@ -42,4 +42,5 @@ features[variable][] = menu_parent_feed
 features[variable][] = node_options_feed
 features[variable][] = node_preview_feed
 features[variable][] = node_submitted_feed
+features[variable][] = pathauto_node_feed_pattern
 features[variable][] = save_continue_feed

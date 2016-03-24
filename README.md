@@ -16,11 +16,15 @@ knowledge.
 
 Clone the project from [GitHub](https://github.com/capacity4dev/capacity4more).
 
+    $ git clone --recursive https://github.com/capacity4dev/capacity4more.git
+
 ### Initialize configuration
 
 When we first clone the repository, we need to initialize it:
 
     $ bin/init
+    
+Keep in mind to configure the proper installation profile, which is "capacity4more" in our case!
     
 This script will:
 1. Create the config/config.sh file based on the config/config_example.sh file.

@@ -10,14 +10,13 @@
 function c4m_field_date_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_date'
+  // Exported field_base: 'c4m_date'.
   $field_bases['c4m_date'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_date',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -40,14 +39,13 @@ function c4m_field_date_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'c4m_date_end'
+  // Exported field_base: 'c4m_date_end'.
   $field_bases['c4m_date_end'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_date_end',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -70,14 +68,13 @@ function c4m_field_date_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'c4m_datetime'
+  // Exported field_base: 'c4m_datetime'.
   $field_bases['c4m_datetime'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_datetime',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -100,14 +97,13 @@ function c4m_field_date_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'c4m_datetime_end'
+  // Exported field_base: 'c4m_datetime_end'.
   $field_bases['c4m_datetime_end'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_datetime_end',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',

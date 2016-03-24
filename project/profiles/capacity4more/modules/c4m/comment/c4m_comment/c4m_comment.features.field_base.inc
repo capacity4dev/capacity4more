@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * c4m_content_tasklist.features.field_base.inc
+ * c4m_comment.features.field_base.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function c4m_comment_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'comment_body'
+  // Exported field_base: 'comment_body'.
   $field_bases['comment_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -19,14 +19,6 @@ function c4m_comment_field_default_field_bases() {
       0 => 'comment',
     ),
     'field_name' => 'comment_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',

@@ -10,7 +10,7 @@
 function c4m_content_feed_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-feed-c4m_body'
+  // Exported field_instance: 'node-feed-c4m_body'.
   $field_instances['node-feed-c4m_body'] = array(
     'bundle' => 'feed',
     'default_value' => NULL,
@@ -107,7 +107,7 @@ function c4m_content_feed_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-feed-c4m_related_articles'
+  // Exported field_instance: 'node-feed-c4m_related_articles'.
   $field_instances['node-feed-c4m_related_articles'] = array(
     'bundle' => 'feed',
     'default_value' => NULL,
@@ -210,7 +210,7 @@ function c4m_content_feed_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-feed-c4m_related_group_unlimited'
+  // Exported field_instance: 'node-feed-c4m_related_group_unlimited'.
   $field_instances['node-feed-c4m_related_group_unlimited'] = array(
     'bundle' => 'feed',
     'default_value' => NULL,
@@ -313,7 +313,7 @@ function c4m_content_feed_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-feed-c4m_related_topic'
+  // Exported field_instance: 'node-feed-c4m_related_topic'.
   $field_instances['node-feed-c4m_related_topic'] = array(
     'bundle' => 'feed',
     'default_value' => NULL,

@@ -10,7 +10,7 @@
 function c4m_content_task_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_task-comment_body'
+  // Exported field_instance: 'comment-comment_node_task-comment_body'.
   $field_instances['comment-comment_node_task-comment_body'] = array(
     'bundle' => 'comment_node_task',
     'default_value' => NULL,
@@ -94,7 +94,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_body'
+  // Exported field_instance: 'node-task-c4m_body'.
   $field_instances['node-task-c4m_body'] = array(
     'bundle' => 'task',
     'default_value' => NULL,
@@ -211,7 +211,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_date'
+  // Exported field_instance: 'node-task-c4m_date'.
   $field_instances['node-task-c4m_date'] = array(
     'bundle' => 'task',
     'deleted' => 0,
@@ -244,6 +244,7 @@ function c4m_content_task_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 3,
@@ -306,7 +307,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_related_document'
+  // Exported field_instance: 'node-task-c4m_related_document'.
   $field_instances['node-task-c4m_related_document'] = array(
     'bundle' => 'task',
     'default_value' => NULL,
@@ -397,7 +398,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_related_tasklist'
+  // Exported field_instance: 'node-task-c4m_related_tasklist'.
   $field_instances['node-task-c4m_related_tasklist'] = array(
     'bundle' => 'task',
     'default_value' => NULL,
@@ -488,7 +489,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_task_assigned_to'
+  // Exported field_instance: 'node-task-c4m_task_assigned_to'.
   $field_instances['node-task-c4m_task_assigned_to'] = array(
     'bundle' => 'task',
     'default_value' => NULL,
@@ -579,7 +580,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_task_priority'
+  // Exported field_instance: 'node-task-c4m_task_priority'.
   $field_instances['node-task-c4m_task_priority'] = array(
     'bundle' => 'task',
     'default_value' => array(
@@ -662,7 +663,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_task_status'
+  // Exported field_instance: 'node-task-c4m_task_status'.
   $field_instances['node-task-c4m_task_status'] = array(
     'bundle' => 'task',
     'default_value' => array(
@@ -745,7 +746,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_vocab_date'
+  // Exported field_instance: 'node-task-c4m_vocab_date'.
   $field_instances['node-task-c4m_vocab_date'] = array(
     'bundle' => 'task',
     'default_value' => NULL,
@@ -824,7 +825,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-c4m_vocab_language'
+  // Exported field_instance: 'node-task-c4m_vocab_language'.
   $field_instances['node-task-c4m_vocab_language'] = array(
     'bundle' => 'task',
     'default_value' => NULL,
@@ -903,7 +904,7 @@ function c4m_content_task_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-task-og_group_ref'
+  // Exported field_instance: 'node-task-og_group_ref'.
   $field_instances['node-task-og_group_ref'] = array(
     'bundle' => 'task',
     'default_value' => NULL,

@@ -10,7 +10,7 @@
 function c4m_content_task_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_task_assigned_to'
+  // Exported field_base: 'c4m_task_assigned_to'.
   $field_bases['c4m_task_assigned_to'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -45,7 +45,7 @@ function c4m_content_task_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'c4m_task_priority'
+  // Exported field_base: 'c4m_task_priority'.
   $field_bases['c4m_task_priority'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -71,7 +71,7 @@ function c4m_content_task_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'c4m_task_status'
+  // Exported field_base: 'c4m_task_status'.
   $field_bases['c4m_task_status'] = array(
     'active' => 1,
     'cardinality' => 1,
