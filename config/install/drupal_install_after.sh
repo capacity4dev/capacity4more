@@ -6,7 +6,7 @@ markup_debug "SOLR Host : ${SOLR_HOST}"
 markup_debug "SOLR Port : ${SOLR_PORT}"
 markup_debug "SOLR Path : ${SOLR_PATH}"
 
-if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" !== "" ]; then
+if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" != "" ]; then
   drupal_sites_default_unprotect
   cat << EOF >> "$DIR_WEB/sites/default/settings.php"
 
@@ -22,7 +22,7 @@ if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" !== "" ]; 
       'path' => "$SOLR_PATH",
     ),
   ),
-)
+);
 EOF
   drupal_sites_default_protect
   message_success "Solr configuration added."
