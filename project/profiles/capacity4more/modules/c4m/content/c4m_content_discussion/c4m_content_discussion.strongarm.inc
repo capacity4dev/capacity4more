@@ -118,6 +118,10 @@ function c4m_content_discussion_strongarm() {
             'weight' => '6',
             'visible' => TRUE,
           ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),
@@ -161,6 +165,13 @@ function c4m_content_discussion_strongarm() {
   $strongarm->name = 'node_submitted_discussion';
   $strongarm->value = 1;
   $export['node_submitted_discussion'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_discussion_pattern';
+  $strongarm->value = 'discussion/[node:title]';
+  $export['pathauto_node_discussion_pattern'] = $strongarm;
 
   return $export;
 }

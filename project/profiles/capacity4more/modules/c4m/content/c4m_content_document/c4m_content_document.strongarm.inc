@@ -127,6 +127,14 @@ function c4m_content_document_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'activity_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),
@@ -170,6 +178,13 @@ function c4m_content_document_strongarm() {
   $strongarm->name = 'node_submitted_document';
   $strongarm->value = 1;
   $export['node_submitted_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_document_pattern';
+  $strongarm->value = 'document/[node:title]';
+  $export['pathauto_node_document_pattern'] = $strongarm;
 
   return $export;
 }

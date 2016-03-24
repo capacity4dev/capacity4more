@@ -56,5 +56,6 @@ features[variable][] = menu_parent_photoalbum
 features[variable][] = node_options_photoalbum
 features[variable][] = node_preview_photoalbum
 features[variable][] = node_submitted_photoalbum
+features[variable][] = pathauto_node_photoalbum_pattern
 features[views_view][] = c4m_photoalbum_item_views
 features_exclude[field_base][comment_body] = comment_body
