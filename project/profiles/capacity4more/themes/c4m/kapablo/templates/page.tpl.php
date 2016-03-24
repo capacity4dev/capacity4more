@@ -84,7 +84,9 @@
     <section id="user-bar">
       <div class="container">
         <div class="row">
-          <?php print render($page['user_bar']); ?>
+          <div class="col-sm-12 col-md-12">
+            <?php print render($page['user_bar']); ?>
+          </div>
         </div>
       </div>
     </section>

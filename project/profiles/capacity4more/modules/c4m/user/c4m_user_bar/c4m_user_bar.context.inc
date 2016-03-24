@@ -26,9 +26,9 @@ function c4m_user_bar_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'c4m_user_profile-user_welcome' => array(
-          'module' => 'c4m_user_profile',
-          'delta' => 'user_welcome',
+        'c4m_user_bar-user_signup_login' => array(
+          'module' => 'c4m_user_bar',
+          'delta' => 'user_signup_login',
           'region' => 'user_bar',
           'weight' => '-10',
         ),
