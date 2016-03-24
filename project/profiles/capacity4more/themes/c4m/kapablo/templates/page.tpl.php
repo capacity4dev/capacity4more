@@ -93,7 +93,6 @@
   <div id="header-ec-wrapper">
     <div class="container">
       <div class="row">
-
         <div class="col-sm-12 col-md-8 header-logo">
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
@@ -106,7 +105,11 @@
           <!-- SEARCH-->
           <?php print render($search_form); ?>
         </div>
-
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 header-breadcrumb">
+          <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
+        </div>
       </div>
     </div>
   </div><!-- /banner-ec -->
@@ -186,7 +189,6 @@
             <?php if (!empty($page['highlighted'])): ?>
             <div class="highlighted well"><?php print render($page['highlighted']); ?></div>
             <?php endif; ?>
-            <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
             <a id="main-content"></a>
             <?php print render($title_prefix); ?>
             <?php if (!empty($title)): ?>

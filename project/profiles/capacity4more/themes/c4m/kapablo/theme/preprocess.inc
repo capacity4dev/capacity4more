@@ -263,3 +263,63 @@ function kapablo_preprocess_views_view(&$vars) {
   );
   drupal_add_js($settings, 'setting');
 }
+
+/**
+ * Overrides theme_breadcrumb() and bootstrap_breadcrumb().
+ *
+ * Print breadcrumbs as an ordered list.
+ * We need to set the icon class on every item except the first one.
+ * That is why we cannot use theme_item_list.
+ *
+ * @see bootstrap_breadcrumb()
+ * @see theme_breadcrumb()
+ */
+function kapablo_breadcrumb($variables) {
+  $output = '';
+  $breadcrumb = $variables['breadcrumb'];
+
+  // Determine if we are to display the breadcrumb.
+  $bootstrap_breadcrumb = theme_get_setting('bootstrap_breadcrumb');
+  if (($bootstrap_breadcrumb == 1 || ($bootstrap_breadcrumb == 2 && arg(0) == 'admin')) && !empty($breadcrumb)) {
+
+    $output = "<ol" . drupal_attributes(array('class' => array('breadcrumb', 'text-small'))) . '>';
+
+    array_unshift($breadcrumb, l(t('EUROPA'), 'http://ec.europa.eu'), l(t('capacity4dev'), '<front>'));
+
+    $num_items = count($breadcrumb);
+
+    foreach ($breadcrumb as $i => $item) {
+      $attributes = array();
+      $i++;
+      $data = '';
+
+      if (is_array($item)) {
+        foreach ($item as $key => $value) {
+          if ($key == 'data') {
+            $data = $value;
+          } else {
+            $attributes[$key] = $value;
+          }
+        }
+      }
+      else {
+        $data = $item;
+      }
+
+      if ($i == 1) {
+        $attributes['class'][] = 'first';
+      }
+      if ($i == $num_items) {
+        $attributes['class'][] = 'last';
+      }
+      else {
+        $data .= '<i class="fa fa-chevron-right"></i>';
+      }
+
+      $output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+    }
+
+    $output .= '</ol>';
+  }
+  return $output;
+}
