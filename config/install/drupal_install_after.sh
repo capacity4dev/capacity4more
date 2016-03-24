@@ -17,9 +17,9 @@ if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" !== "" ]; 
   'c4m_solr' => array(
     'name' => t('Solr Server'),
     'options' => array(
-      'host' => '"$SOLR_HOST"',
+      'host' => "$SOLR_HOST",
       'port' => "$SOLR_PORT",
-      'path' => '"$SOLR_PATH"',
+      'path' => "$SOLR_PATH",
     ),
   ),
 )
