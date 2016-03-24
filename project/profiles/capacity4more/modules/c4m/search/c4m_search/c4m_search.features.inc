@@ -162,7 +162,7 @@ function c4m_search_default_search_api_index() {
       "fields" : {
         "attachments_c4m_document" : { "type" : "text" },
         "author" : { "type" : "integer", "entity_type" : "user" },
-        "c4m_body:value" : { "type" : "text" },
+        "c4m_body:value" : { "type" : "text", "boost" : "3.0" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_date" : { "type" : "date" },
@@ -186,6 +186,7 @@ function c4m_search_default_search_api_index() {
         "c4m_vocab_language" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_theme" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "c4m_vocab_topic:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "13.0" },
         "changed" : { "type" : "date" },
         "comment_count" : { "type" : "integer" },
         "created" : { "type" : "date" },
