@@ -22,7 +22,7 @@ if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" != "" ]; t
       'path' => '"$SOLR_PATH"',
     ),
   ),
-)
+);
 EOF
   drupal_sites_default_protect
   message_success "Solr configuration added."
