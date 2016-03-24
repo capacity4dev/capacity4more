@@ -10,7 +10,7 @@
 function c4m_field_media_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_media'
+  // Exported field_base: 'c4m_media'.
   $field_bases['c4m_media'] = array(
     'active' => 1,
     'cardinality' => 1,

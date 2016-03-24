@@ -79,3 +79,4 @@ features[variable][] = menu_parent_group
 features[variable][] = node_options_group
 features[variable][] = node_preview_group
 features[variable][] = node_submitted_group
+features[variable][] = pathauto_node_group_pattern

@@ -10,14 +10,13 @@
 function c4m_message_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_comment'
+  // Exported field_base: 'field_comment'.
   $field_bases['field_comment'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_comment',
-    'foreign keys' => array(),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -44,14 +43,13 @@ function c4m_message_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_entity_published'
+  // Exported field_base: 'field_entity_published'.
   $field_bases['field_entity_published'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_entity_published',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -70,14 +68,13 @@ function c4m_message_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_group_node'
+  // Exported field_base: 'field_group_node'.
   $field_bases['field_group_node'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_group_node',
-    'foreign keys' => array(),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -106,21 +103,13 @@ function c4m_message_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_node'
+  // Exported field_base: 'field_node'.
   $field_bases['field_node'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_node',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -155,14 +144,13 @@ function c4m_message_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_operation'
+  // Exported field_base: 'field_operation'.
   $field_bases['field_operation'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_operation',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',

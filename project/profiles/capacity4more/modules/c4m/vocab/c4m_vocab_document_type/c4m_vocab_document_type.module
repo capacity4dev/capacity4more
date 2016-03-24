@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Document Type vocabulary feature.
  */
+
+include_once 'c4m_vocab_document_type.features.inc';

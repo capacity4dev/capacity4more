@@ -144,5 +144,12 @@ function c4m_content_project_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_project'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_project_pattern';
+  $strongarm->value = 'project/[node:title]';
+  $export['pathauto_node_project_pattern'] = $strongarm;
+
   return $export;
 }

@@ -10,7 +10,7 @@
 function c4m_content_event_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_event-c4m_related_document'
+  // Exported field_instance: 'comment-comment_node_event-c4m_related_document'.
   $field_instances['comment-comment_node_event-c4m_related_document'] = array(
     'bundle' => 'comment_node_event',
     'default_value' => NULL,
@@ -61,7 +61,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'comment-comment_node_event-comment_body'
+  // Exported field_instance: 'comment-comment_node_event-comment_body'.
   $field_instances['comment-comment_node_event-comment_body'] = array(
     'bundle' => 'comment_node_event',
     'default_value' => NULL,
@@ -145,7 +145,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_body'
+  // Exported field_instance: 'node-event-c4m_body'.
   $field_instances['node-event-c4m_body'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -288,7 +288,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_datetime_end'
+  // Exported field_instance: 'node-event-c4m_datetime_end'.
   $field_instances['node-event-c4m_datetime_end'] = array(
     'bundle' => 'event',
     'deleted' => 0,
@@ -315,6 +315,7 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 2,
@@ -328,6 +329,7 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 5,
@@ -347,6 +349,7 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 3,
@@ -372,6 +375,7 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 4,
@@ -385,6 +389,7 @@ function c4m_content_event_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 2,
@@ -417,7 +422,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_document_agenda'
+  // Exported field_instance: 'node-event-c4m_document_agenda'.
   $field_instances['node-event-c4m_document_agenda'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -518,7 +523,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_document_presentation'
+  // Exported field_instance: 'node-event-c4m_document_presentation'.
   $field_instances['node-event-c4m_document_presentation'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -619,7 +624,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_event_type'
+  // Exported field_instance: 'node-event-c4m_event_type'.
   $field_instances['node-event-c4m_event_type'] = array(
     'bundle' => 'event',
     'default_value' => array(
@@ -708,7 +713,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_facebook'
+  // Exported field_instance: 'node-event-c4m_facebook'.
   $field_instances['node-event-c4m_facebook'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -814,7 +819,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_link'
+  // Exported field_instance: 'node-event-c4m_link'.
   $field_instances['node-event-c4m_link'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -920,7 +925,7 @@ function c4m_content_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_location'
+  // Exported field_instance: 'node-event-c4m_location'.
   $field_instances['node-event-c4m_location'] = array(
     'bundle' => 'event',
     'default_value' => array(
@@ -1260,6 +1265,8 @@ This must be a VALID, GEOGRAPHICAL address.',
           'gps_geocode' => 0,
           'gps_marker' => '',
           'gps_marker_title' => '',
+          'gps_type' => 0,
+          'gps_zoom' => -1,
           'highlight_enable' => 0,
           'highlight_fillcolor' => '#FF0000',
           'highlight_fillopacity' => 0.35,
@@ -1282,6 +1289,8 @@ This must be a VALID, GEOGRAPHICAL address.',
           'mapcontrolposition' => '',
           'maptype' => 'Map',
           'markeraction' => 0,
+          'markeraction_click_center' => 0,
+          'markeraction_click_zoom' => -1,
           'markeractiontype' => 1,
           'maxzoom_map' => -1,
           'minzoom_map' => -1,
@@ -1380,6 +1389,7 @@ This must be a VALID, GEOGRAPHICAL address.',
           'weather_show' => 0,
           'weather_state' => 0,
           'weather_use' => 0,
+          'what3words_display' => 0,
           'zoomcontrolposition' => '',
         ),
         'type' => 'getlocations_fields_default',
@@ -1474,6 +1484,8 @@ This must be a VALID, GEOGRAPHICAL address.',
           'gps_geocode' => 0,
           'gps_marker' => '',
           'gps_marker_title' => '',
+          'gps_type' => 0,
+          'gps_zoom' => -1,
           'highlight_enable' => 0,
           'highlight_fillcolor' => '#FF0000',
           'highlight_fillopacity' => 0.35,
@@ -1496,6 +1508,8 @@ This must be a VALID, GEOGRAPHICAL address.',
           'mapcontrolposition' => '',
           'maptype' => 'Map',
           'markeraction' => 0,
+          'markeraction_click_center' => 0,
+          'markeraction_click_zoom' => -1,
           'markeractiontype' => 1,
           'maxzoom_map' => -1,
           'minzoom_map' => -1,
@@ -1594,6 +1608,7 @@ This must be a VALID, GEOGRAPHICAL address.',
           'weather_show' => 0,
           'weather_state' => 0,
           'weather_use' => 0,
+          'what3words_display' => 0,
           'zoomcontrolposition' => '',
         ),
         'type' => 'getlocations_fields_default',
@@ -1685,7 +1700,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_organised_by'
+  // Exported field_instance: 'node-event-c4m_organised_by'.
   $field_instances['node-event-c4m_organised_by'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -1775,7 +1790,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_related_document'
+  // Exported field_instance: 'node-event-c4m_related_document'.
   $field_instances['node-event-c4m_related_document'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -1876,7 +1891,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_twitter'
+  // Exported field_instance: 'node-event-c4m_twitter'.
   $field_instances['node-event-c4m_twitter'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -1982,7 +1997,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_vocab_geo'
+  // Exported field_instance: 'node-event-c4m_vocab_geo'.
   $field_instances['node-event-c4m_vocab_geo'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -2068,7 +2083,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_vocab_language'
+  // Exported field_instance: 'node-event-c4m_vocab_language'.
   $field_instances['node-event-c4m_vocab_language'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -2154,7 +2169,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-c4m_vocab_topic'
+  // Exported field_instance: 'node-event-c4m_vocab_topic'.
   $field_instances['node-event-c4m_vocab_topic'] = array(
     'bundle' => 'event',
     'deleted' => 0,
@@ -2245,7 +2260,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-og_group_ref'
+  // Exported field_instance: 'node-event-og_group_ref'.
   $field_instances['node-event-og_group_ref'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -2373,7 +2388,7 @@ This must be a VALID, GEOGRAPHICAL address.',
     ),
   );
 
-  // Exported field_instance: 'node-event-og_vocabulary'
+  // Exported field_instance: 'node-event-og_vocabulary'.
   $field_instances['node-event-og_vocabulary'] = array(
     'bundle' => 'event',
     'default_value' => NULL,
@@ -2470,10 +2485,10 @@ This must be a VALID, GEOGRAPHICAL address.',
   t('Comment');
   t('Date');
   t('Description');
+  t('Documents');
   t('Enter the address of the event.
 At least a valid city or province name should be entered.
 This must be a VALID, GEOGRAPHICAL address.');
-  t('Documents');
   t('Event website');
   t('Facebook page');
   t('Groups');

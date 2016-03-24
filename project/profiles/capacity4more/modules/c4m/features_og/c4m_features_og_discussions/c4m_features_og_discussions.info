@@ -16,6 +16,7 @@ features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[search_api_autocomplete_search][] = search_api_views_c4m_overview_og_discussions
+features[variable][] = pathauto_node_discussion_pattern
 features[views_view][] = c4m_overview_og_discussions
 features_exclude[dependencies][ctools] = ctools
 features_exclude[dependencies][search_api_autocomplete] = search_api_autocomplete

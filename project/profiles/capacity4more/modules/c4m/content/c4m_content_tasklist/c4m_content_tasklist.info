@@ -54,3 +54,4 @@ features[variable][] = menu_parent_tasklist
 features[variable][] = node_options_tasklist
 features[variable][] = node_preview_tasklist
 features[variable][] = node_submitted_tasklist
+features[variable][] = pathauto_node_tasklist_pattern

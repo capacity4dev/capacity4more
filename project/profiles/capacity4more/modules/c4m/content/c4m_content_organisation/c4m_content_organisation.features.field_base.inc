@@ -10,7 +10,7 @@
 function c4m_content_organisation_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_domain'
+  // Exported field_base: 'c4m_domain'.
   $field_bases['c4m_domain'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -29,7 +29,7 @@ function c4m_content_organisation_field_default_field_bases() {
     'type' => 'c4m_domain',
   );
 
-  // Exported field_base: 'c4m_icon'
+  // Exported field_base: 'c4m_icon'.
   $field_bases['c4m_icon'] = array(
     'active' => 1,
     'cardinality' => 1,
