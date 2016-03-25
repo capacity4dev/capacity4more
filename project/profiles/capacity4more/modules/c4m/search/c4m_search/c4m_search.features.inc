@@ -45,6 +45,7 @@ function c4m_search_default_search_api_index() {
               "discussion" : "discussion",
               "document" : "document",
               "event" : "event",
+              "feed" : "feed",
               "group" : "group",
               "project" : "project",
               "wiki_page" : "wiki_page"
