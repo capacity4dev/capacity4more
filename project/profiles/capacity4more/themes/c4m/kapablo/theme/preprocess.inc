@@ -389,6 +389,6 @@ function kapablo_item_list($variables) {
 /**
  * Overrides theme_menu_tree().
  */
-function kapablo_menu_tree__header(&$variables) {
+function kapablo_menu_tree__small(&$variables) {
   return '<ul class="text-small">' . $variables['tree'] . '</ul>';
 }

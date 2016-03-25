@@ -1,3 +1,30 @@
 #footer-top-wrapper {
   @include grey_bar;
+  padding: 1rem 0;
+}
+
+#footer-bottom-wrapper {
+  padding: 1rem 0;
+}
+
+.c4m-footer-bar, .c4m-footer-menu {
+  text-align: center;
+
+  @include horizontal_menu;
+
+  li {
+    display: inline-block;
+    float: none;
+  }
+}
+
+.c4m-footer-menu {
+  ul {
+    padding: 0;
+    li {
+      a {
+        color: $color-gray-dark;
+      }
+    }
+  }
 }
