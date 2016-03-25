@@ -1,3 +1,21 @@
+.pane-c4m-content-global-statistics-summary {
+  padding: 2rem 0;
+  margin: 2rem 0;
+  border-top: 1px dashed $color-gray-light;
+
+  ul.statistics-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      a {
+        padding-left: 1rem;
+      }
+    }
+  }
+}
+
 #content-top-wrapper {
   @include grey_bar;
 

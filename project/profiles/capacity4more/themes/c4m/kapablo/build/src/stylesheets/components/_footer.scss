@@ -9,7 +9,6 @@
 
 .c4m-footer-bar, .c4m-footer-menu {
   text-align: center;
-
   @include horizontal_menu;
 
   li {
@@ -24,6 +23,18 @@
     li {
       a {
         color: $color-gray-dark;
+      }
+    }
+  }
+}
+
+.c4m-social-media {
+  .c4m-social-media-item {
+    display: inline-block;
+    padding: 0 0.5rem;
+    a {
+      span {
+        display: none;
       }
     }
   }

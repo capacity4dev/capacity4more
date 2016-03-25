@@ -4,45 +4,11 @@
   }
 }
 
-#user-bar {
-  padding: 1rem 0;
-}
-
-.pane-c4m-content-global-statistics-summary {
+#main-wrapper {
   padding: 2rem 0;
-  margin: 2rem 0;
-  border-top: 1px dashed $color-gray-light;
-
-  ul.statistics-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-
-    li {
-      a {
-        padding-left: 1rem;
-      }
-    }
-  }
-}
-
-.c4m-social-media {
-  .c4m-social-media-item {
-    display: inline-block;
-    padding: 0 0.5rem;
-    a {
-      span {
-        display: none;
-      }
-    }
-  }
 }
 
 .page-header {
   border-bottom: none;
   margin: 2rem 0;
-}
-
-#main-wrapper {
-  padding: 2rem 0;
 }
