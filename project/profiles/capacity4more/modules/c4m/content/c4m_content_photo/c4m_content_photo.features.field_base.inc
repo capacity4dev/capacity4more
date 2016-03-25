@@ -10,7 +10,7 @@
 function c4m_content_photo_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'node_gallery_ref_1'
+  // Exported field_base: 'node_gallery_ref_1'.
   $field_bases['node_gallery_ref_1'] = array(
     'active' => 1,
     'cardinality' => 1,

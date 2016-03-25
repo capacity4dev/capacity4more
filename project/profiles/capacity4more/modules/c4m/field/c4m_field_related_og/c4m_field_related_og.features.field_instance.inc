@@ -10,7 +10,7 @@
 function c4m_field_related_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-group-c4m_related_projects'
+  // Exported field_instance: 'node-group-c4m_related_projects'.
   $field_instances['node-group-c4m_related_projects'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
@@ -31,6 +31,12 @@ function c4m_field_related_og_field_default_field_instances() {
         'weight' => 0,
       ),
       'c4m_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -107,7 +113,7 @@ function c4m_field_related_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_related_group'
+  // Exported field_instance: 'node-project-c4m_related_group'.
   $field_instances['node-project-c4m_related_group'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
@@ -122,6 +128,12 @@ function c4m_field_related_og_field_default_field_instances() {
         'weight' => 0,
       ),
       'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'c4m_related' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

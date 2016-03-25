@@ -56,4 +56,5 @@ features[variable][] = menu_parent_task
 features[variable][] = node_options_task
 features[variable][] = node_preview_task
 features[variable][] = node_submitted_task
+features[variable][] = pathauto_node_task_pattern
 features_exclude[field_base][comment_body] = comment_body

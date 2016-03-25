@@ -10,7 +10,7 @@
 function c4m_content_group_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-group-c4m_banner'
+  // Exported field_instance: 'node-group-c4m_banner'.
   $field_instances['node-group-c4m_banner'] = array(
     'bundle' => 'group',
     'deleted' => 0,
@@ -128,7 +128,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_body'
+  // Exported field_instance: 'node-group-c4m_body'.
   $field_instances['node-group-c4m_body'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
@@ -263,7 +263,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_media'
+  // Exported field_instance: 'node-group-c4m_media'.
   $field_instances['node-group-c4m_media'] = array(
     'bundle' => 'group',
     'deleted' => 0,
@@ -391,7 +391,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_og_status'
+  // Exported field_instance: 'node-group-c4m_og_status'.
   $field_instances['node-group-c4m_og_status'] = array(
     'bundle' => 'group',
     'default_value' => array(
@@ -496,7 +496,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_related_group'
+  // Exported field_instance: 'node-group-c4m_related_group'.
   $field_instances['node-group-c4m_related_group'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
@@ -596,7 +596,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_vocab_geo'
+  // Exported field_instance: 'node-group-c4m_vocab_geo'.
   $field_instances['node-group-c4m_vocab_geo'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
@@ -698,7 +698,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-c4m_vocab_topic'
+  // Exported field_instance: 'node-group-c4m_vocab_topic'.
   $field_instances['node-group-c4m_vocab_topic'] = array(
     'bundle' => 'group',
     'deleted' => 0,
@@ -790,7 +790,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-field_membership_open_request'
+  // Exported field_instance: 'node-group-field_membership_open_request'.
   $field_instances['node-group-field_membership_open_request'] = array(
     'bundle' => 'group',
     'default_value' => array(
@@ -885,7 +885,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-field_message_to_site_admin'
+  // Exported field_instance: 'node-group-field_message_to_site_admin'.
   $field_instances['node-group-field_message_to_site_admin'] = array(
     'bundle' => 'group',
     'default_value' => NULL,
@@ -980,7 +980,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-group_access'
+  // Exported field_instance: 'node-group-group_access'.
   $field_instances['node-group-group_access'] = array(
     'bundle' => 'group',
     'default_value' => array(
@@ -1085,7 +1085,7 @@ function c4m_content_group_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-group-group_group'
+  // Exported field_instance: 'node-group-group_group'.
   $field_instances['node-group-group_group'] = array(
     'bundle' => 'group',
     'default_value' => array(
@@ -1197,7 +1197,7 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-group-pluggable_node_access'
+  // Exported field_instance: 'node-group-pluggable_node_access'.
   $field_instances['node-group-pluggable_node_access'] = array(
     'bundle' => 'group',
     'default_value' => NULL,

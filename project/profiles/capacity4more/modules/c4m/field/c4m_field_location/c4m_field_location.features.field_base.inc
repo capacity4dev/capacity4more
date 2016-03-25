@@ -10,14 +10,13 @@
 function c4m_field_location_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_location'
+  // Exported field_base: 'c4m_location'.
   $field_bases['c4m_location'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_location',
-    'foreign keys' => array(),
     'indexes' => array(
       'glid' => array(
         0 => 'glid',
@@ -87,6 +86,8 @@ function c4m_field_location_field_default_field_bases() {
       'gps_geocode' => 0,
       'gps_marker' => '',
       'gps_marker_title' => '',
+      'gps_type' => 0,
+      'gps_zoom' => -1,
       'highlight_enable' => 0,
       'highlight_fillcolor' => '#FF0000',
       'highlight_fillopacity' => 0.35,
@@ -251,6 +252,7 @@ function c4m_field_location_field_default_field_bases() {
       'views_search_radshape_toggle' => 0,
       'views_search_radshape_toggle_active' => 0,
       'vocabulary_map_marker' => 'small red',
+      'what3words_collect' => 0,
       'zoom' => 3,
       'zoomcontrolposition' => '',
     ),

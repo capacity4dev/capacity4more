@@ -10,7 +10,7 @@
 function c4m_vocab_theme_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_vocab_theme'
+  // Exported field_base: 'c4m_vocab_theme'.
   $field_bases['c4m_vocab_theme'] = array(
     'active' => 1,
     'cardinality' => 1,

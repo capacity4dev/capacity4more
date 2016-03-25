@@ -10,7 +10,7 @@
 function c4m_content_photoalbum_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_photoalbum-comment_body'
+  // Exported field_instance: 'comment-comment_node_photoalbum-comment_body'.
   $field_instances['comment-comment_node_photoalbum-comment_body'] = array(
     'bundle' => 'comment_node_photoalbum',
     'default_value' => NULL,
@@ -94,7 +94,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photoalbum-c4m_body'
+  // Exported field_instance: 'node-photoalbum-c4m_body'.
   $field_instances['node-photoalbum-c4m_body'] = array(
     'bundle' => 'photoalbum',
     'default_value' => NULL,
@@ -233,7 +233,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photoalbum-c4m_vocab_date'
+  // Exported field_instance: 'node-photoalbum-c4m_vocab_date'.
   $field_instances['node-photoalbum-c4m_vocab_date'] = array(
     'bundle' => 'photoalbum',
     'default_value' => NULL,
@@ -312,7 +312,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photoalbum-c4m_vocab_language'
+  // Exported field_instance: 'node-photoalbum-c4m_vocab_language'.
   $field_instances['node-photoalbum-c4m_vocab_language'] = array(
     'bundle' => 'photoalbum',
     'default_value' => NULL,
@@ -391,7 +391,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photoalbum-c4m_vocab_topic'
+  // Exported field_instance: 'node-photoalbum-c4m_vocab_topic'.
   $field_instances['node-photoalbum-c4m_vocab_topic'] = array(
     'bundle' => 'photoalbum',
     'deleted' => 0,
@@ -470,7 +470,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photoalbum-og_group_ref'
+  // Exported field_instance: 'node-photoalbum-og_group_ref'.
   $field_instances['node-photoalbum-og_group_ref'] = array(
     'bundle' => 'photoalbum',
     'default_value' => NULL,
@@ -592,7 +592,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-photoalbum-og_vocabulary'
+  // Exported field_instance: 'node-photoalbum-og_vocabulary'.
   $field_instances['node-photoalbum-og_vocabulary'] = array(
     'bundle' => 'photoalbum',
     'default_value' => NULL,
