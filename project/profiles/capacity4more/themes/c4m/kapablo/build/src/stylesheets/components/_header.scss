@@ -1,3 +1,12 @@
+#user-bar {
+  .region-user-bar {
+    .block {
+      display: inline-block;
+      margin-left: 3rem;
+    }
+  }
+}
+
 #block-c4m-user-bar-user-signup-login {
   ul {
     @include horizontal_menu;
@@ -12,6 +21,12 @@
 #block-c4m-features-header-c4m-header-menu {
   ul {
     @include horizontal_menu;
+
+    li {
+      a {
+        color: $color-gray-dark;
+      }
+    }
   }
 }
 
@@ -19,13 +34,41 @@
   @include grey_bar;
 }
 
+#c4m-search-form {
+  margin-top: 1.8rem;
+  position: relative;
+
+  input {
+    width: 17rem;
+    color: $color-gray-light;
+    font-style: italic;
+    padding-right: 3rem;
+    border: 1px solid $color-gray-light;
+  }
+
+  .form-submit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    color: $color-gray-dark;
+  }
+}
+
 .header-breadcrumb {
+  //margin-top: 1rem;
   ol {
     padding: 0;
     margin: 0 0 0 6rem;
 
     li {
+      a {
+        @extend .text-breadcrumb;
+      }
+
       i {
+        color: $color-logo-blue;
         padding: 0 0.5rem;
       }
 

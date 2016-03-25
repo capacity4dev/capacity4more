@@ -84,7 +84,7 @@
     <section id="user-bar">
       <div class="container">
         <div class="row">
-          <div class="col-sm-12 col-md-12">
+          <div class="col-sm-12 col-md-12 text-right">
             <?php print render($page['user_bar']); ?>
           </div>
         </div>
@@ -95,7 +95,7 @@
   <div id="header-ec-wrapper">
     <div class="container">
       <div class="row">
-        <div class="col-sm-12 col-md-8 header-logo">
+        <div class="col-sm-9 col-md-9 header-logo">
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
               <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
@@ -103,7 +103,7 @@
           <?php endif; ?>
         </div>
 
-        <div class="col-sm-12 col-md-4 header-search">
+        <div class="col-sm-3 col-md-3 header-search">
           <!-- SEARCH-->
           <?php print render($search_form); ?>
         </div>

@@ -117,7 +117,7 @@ html {
 }
 
 .text-link--cta {
-  @extend .text-normal;
+  @extend .text-small;
   color: $color-highlight;
   font-family: $font-verdana;
 }
@@ -163,11 +163,10 @@ html {
   font-family: $font-verdana;
 }
 
-.text-orange {
-  color: $color-highlight;
-}
-.text-blue {
+.text-link--blue {
+  @extend .text-small;
   color: $color-logo-blue;
+  font-family: $font-verdana;
 }
 
 /**

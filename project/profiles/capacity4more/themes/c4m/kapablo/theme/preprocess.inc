@@ -282,7 +282,7 @@ function kapablo_breadcrumb($variables) {
   $bootstrap_breadcrumb = theme_get_setting('bootstrap_breadcrumb');
   if (($bootstrap_breadcrumb == 1 || ($bootstrap_breadcrumb == 2 && arg(0) == 'admin')) && !empty($breadcrumb)) {
 
-    $output = "<ol" . drupal_attributes(array('class' => array('breadcrumb', 'text-small'))) . '>';
+    $output = "<ol" . drupal_attributes(array('class' => array('breadcrumb'))) . '>';
 
     array_unshift($breadcrumb, l(t('EUROPA'), 'http://ec.europa.eu'), l(t('capacity4dev'), '<front>'));
 
@@ -384,4 +384,11 @@ function kapablo_item_list($variables) {
   }
   $output .= '</div>';
   return $output;
+}
+
+/**
+ * Overrides theme_menu_tree().
+ */
+function kapablo_menu_tree__header(&$variables) {
+  return '<ul class="text-small">' . $variables['tree'] . '</ul>';
 }

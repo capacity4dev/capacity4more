@@ -371,7 +371,7 @@ function c4m_search_form($form, &$form_state) {
   $form['basic'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('container-inline'),
+      'class' => array('container-inline', 'pull-right'),
     ),
   );
 
@@ -384,32 +384,6 @@ function c4m_search_form($form, &$form_state) {
     $default_value = 'search_api_views_c4m_search_nodes';
   }
 
-  if (count($search_pages) > 1) {
-    $options = array();
-    foreach ($search_pages as $search_page) {
-      // Check access.
-      if (empty($search_page['access']) || $search_page['access']()) {
-        $options[$search_page['machine_name']] = $search_page['name'];
-        $current_path = current_path();
-        // Set default path.
-        if ($current_path === $search_page['path']) {
-          $default_value = $search_page['machine_name'];
-        }
-      }
-    }
-    $form['basic']['search_page'] = array(
-      '#type' => 'select',
-      '#title' => 'Customize your search',
-      '#title_display' => 'invisible',
-      '#options' => $options,
-      '#default_value' => $default_value,
-      '#weight' => 0,
-      '#attached' => array(
-        'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
-      ),
-    );
-  }
-
   // Search input.
   $form['basic']['keys'] = array(
     '#type' => 'textfield',
@@ -420,6 +394,7 @@ function c4m_search_form($form, &$form_state) {
     '#maxlength' => 255,
     '#attributes' => array(
       'title' => t('Enter the terms you wish to search for.'),
+      'placeholder' => t('search capacity4dev...'),
     ),
   );
 
@@ -432,7 +407,7 @@ function c4m_search_form($form, &$form_state) {
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Search'),
+    '#value' => '<i class="fa fa-search"></i>',
   );
 
   return $form;

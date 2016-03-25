@@ -21,8 +21,8 @@ function _c4m_user_bar_block_user_signup_login() {
   }
 
   $links = array(
-    l(t('Sign up'), 'user/register', array('attributes' => array('class' => array('text-small', 'text-orange')))),
-    l(t('Log in'), 'user/login', array('attributes' => array('class' => array('text-small', 'text-blue')))),
+    l(t('Sign up'), 'user/register', array('attributes' => array('class' => array('text-link--cta')))),
+    l(t('Log in'), 'user/login', array('attributes' => array('class' => array('text-link--blue')))),
   );
 
   $output = array(
@@ -30,7 +30,7 @@ function _c4m_user_bar_block_user_signup_login() {
     '#items'      => $links,
     '#attributes' => array(
       'class' => array(
-        'pull-right'
+        'text-small'
       ),
     ),
   );
