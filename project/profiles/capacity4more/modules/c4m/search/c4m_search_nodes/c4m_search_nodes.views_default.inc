@@ -79,18 +79,9 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['ui_name'] = 'Only Group and Global content types';
+  $handler->display->display_options['filters']['type']['operator'] = '<>';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'article' => 'article',
-    'discussion' => 'discussion',
-    'document' => 'document',
-    'event' => 'event',
-    'group' => 'group',
-    'photoalbum' => 'photoalbum',
-    'project' => 'project',
-    'task' => 'task',
-    'tasklist' => 'tasklist',
-    'topic' => 'topic',
-    'wiki_page' => 'wiki_page',
+    'feed' => 'feed',
   );
 
   /* Display: Page */
