@@ -10,3 +10,4 @@ libraries[font_awesome][download][url] = "https://github.com/FortAwesome/Font-Aw
 projects[bootstrap][subdir] = "contrib"
 projects[bootstrap][version] = "3.5"
 projects[bootstrap][type] = "theme"
+projects[bootstrap][patch][] = https://www.drupal.org/files/issues/bootstrap-autosubmit-fix-2695405-2.patch

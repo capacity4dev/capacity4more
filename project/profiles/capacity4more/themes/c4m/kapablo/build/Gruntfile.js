@@ -99,8 +99,7 @@ module.exports = function (grunt) {
                 },
               files: {
                   '<%= project.dst %>/js/kapablo.concat.js': [
-                      '<%= project.src %>/javascripts/kapablo.js',
-                      '<%= project.src %>/javascripts/autocomplete.js'
+                      '<%= project.src %>/javascripts/kapablo.js'
                   ],
                   '<%= project.dst %>/js/bootstrap.concat.js': [
                       // '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
@@ -125,8 +124,7 @@ module.exports = function (grunt) {
                 },
               files: {
                   '<%= project.dst %>/js/kapablo.concat.js': [
-                      '<%= project.src %>/javascripts/kapablo.js',
-                      '<%= project.src %>/javascripts/autocomplete.js'
+                      '<%= project.src %>/javascripts/kapablo.js'
                   ],
                   '<%= project.dst %>/js/bootstrap.concat.js': [
                       // '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
