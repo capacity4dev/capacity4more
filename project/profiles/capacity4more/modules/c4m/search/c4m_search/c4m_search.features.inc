@@ -177,7 +177,6 @@ function c4m_search_default_search_api_index() {
         "c4m_body:value" : { "type" : "text" },
         "c4m_cris_contract_number" : { "type" : "list\\u003Ctext\\u003E" },
         "c4m_cris_decision_number" : { "type" : "list\\u003Ctext\\u003E" },
-        "c4m_date" : { "type" : "date" },
         "c4m_datetime_end:duration" : { "type" : "duration" },
         "c4m_datetime_end:value" : { "type" : "date" },
         "c4m_datetime_end:value2" : { "type" : "date" },

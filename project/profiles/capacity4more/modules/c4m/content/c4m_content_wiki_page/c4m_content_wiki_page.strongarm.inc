@@ -84,13 +84,13 @@ function c4m_content_wiki_page_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'teaser' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -108,6 +108,27 @@ function c4m_content_wiki_page_strongarm() {
         'custom_settings' => FALSE,
       ),
       'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'featured_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'library' => array(
+        'custom_settings' => FALSE,
+      ),
+      'upcoming_event' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_table' => array(
         'custom_settings' => FALSE,
       ),
     ),
@@ -132,6 +153,10 @@ function c4m_content_wiki_page_strongarm() {
           'activity_global' => array(
             'weight' => '10',
             'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '10',
+            'visible' => TRUE,
           ),
         ),
       ),

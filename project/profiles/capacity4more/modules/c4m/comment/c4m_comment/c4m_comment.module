@@ -21,16 +21,6 @@ function c4m_comment_form_node_form_alter(&$form, $form_state) {
 }
 
 /**
- * Implements hook_entity_info_alter().
- */
-function c4m_comment_entity_info_alter(&$entity_info) {
-  $entity_info['comment']['view modes']['activity_stream'] = array(
-    'label' => t('Activity stream'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_comment_c4m_content_statistics_info() {

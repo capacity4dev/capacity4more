@@ -145,18 +145,6 @@ function c4m_features_og_events_block_view($delta = '') {
 }
 
 /**
- * Implements hook_entity_info_alter().
- *
- * Add "Upcoming event" view mode.
- */
-function c4m_features_og_events_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['upcoming_event'] = array(
-    'label' => t('Upcoming event'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
  * Get rendered events for loggedin user.
  *
  * @return string

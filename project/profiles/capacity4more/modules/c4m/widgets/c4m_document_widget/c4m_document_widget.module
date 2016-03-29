@@ -455,16 +455,6 @@ function c4m_document_widget_add_document_file($file_id) {
 }
 
 /**
- * Implements hook_entity_info_alter().
- */
-function c4m_document_widget_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['library'] = array(
-    'label' => t('Library'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
  * Node preprocess.
  */
 function c4m_document_widget_preprocess_node(&$variables) {

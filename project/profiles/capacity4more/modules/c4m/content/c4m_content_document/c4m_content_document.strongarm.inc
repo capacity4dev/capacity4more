@@ -66,10 +66,10 @@ function c4m_content_document_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'full' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -90,13 +90,34 @@ function c4m_content_document_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'revision' => array(
         'custom_settings' => FALSE,
       ),
       'c4m_teaser_table' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
+      ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'featured_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'library' => array(
+        'custom_settings' => FALSE,
+      ),
+      'upcoming_event' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_list' => array(
+        'custom_settings' => FALSE,
       ),
     ),
     'extra_fields' => array(
@@ -134,6 +155,10 @@ function c4m_content_document_strongarm() {
           'activity_global' => array(
             'weight' => '10',
             'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '10',
+            'visible' => TRUE,
           ),
         ),
       ),
@@ -178,13 +203,6 @@ function c4m_content_document_strongarm() {
   $strongarm->name = 'node_submitted_document';
   $strongarm->value = 1;
   $export['node_submitted_document'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_document_pattern';
-  $strongarm->value = 'document/[node:title]';
-  $export['pathauto_node_document_pattern'] = $strongarm;
 
   return $export;
 }

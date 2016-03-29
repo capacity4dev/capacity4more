@@ -66,7 +66,7 @@ function c4m_content_group_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'full' => array(
         'custom_settings' => FALSE,
@@ -90,27 +90,33 @@ function c4m_content_group_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'c4m_dashboard' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'revision' => array(
         'custom_settings' => FALSE,
       ),
       'featured_block' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'library' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'upcoming_event' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'c4m_teaser_list' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'c4m_teaser_table' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
         'custom_settings' => FALSE,
       ),
     ),
