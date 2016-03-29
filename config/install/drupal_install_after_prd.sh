@@ -1,30 +1,6 @@
 # Update settings file ---------------------------------------------------------
 markup_h1 "Update settings.php file"
 
-# Write Apache Solr config to settings file.
-markup_debug "Memcache Host : ${MEMCACHE_HOST}"
-markup_debug "Memcache Port : ${MEMCACHE_PORT}"
-
-if [ "$MEMCACHE_HOST" != "" ] && [ "$MEMCACHE_PORT" != "" ]; then
-  drupal_sites_default_unprotect
-  cat << EOF >> "$DIR_WEB/sites/default/settings.php"
-
-/**
- * Memcache settings.
- */
-\$conf["cache_backends"][] = "sites/all/modules/contrib/memcache/memcache.inc";
-\$conf["cache_default_class"] = "MemCacheDrupal";
-\$conf["cache_class_cache_form"] = "DrupalDatabaseCache";
-\$conf["page_cache_without_database"] = TRUE;
-\$conf["page_cache_invoke_hooks"] = FALSE;
-\$conf["memcache_servers"] = array("$MEMCACHE_HOST:$MEMCACHE_PORT" => "default");
-EOF
-  drupal_sites_default_protect
-  message_success "Memcache configuration added."
-else
-  message_warning "No Memcache configuration to write."
-fi
-
 # Write TIKA config to the settings file.
 markup_debug "File path : ${TIKA_PATH}"
 markup_debug "File file : ${TIKA_FILE}"
