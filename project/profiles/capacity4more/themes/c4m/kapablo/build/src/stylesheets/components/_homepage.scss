@@ -9,8 +9,10 @@
     list-style: none;
 
     li {
+      color: $color-gray-dark;
       a {
         padding-left: 1rem;
+        color: $color-gray-dark;
       }
     }
   }

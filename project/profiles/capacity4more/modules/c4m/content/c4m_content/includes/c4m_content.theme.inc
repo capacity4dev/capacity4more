@@ -45,7 +45,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     if (!empty($stat['link']['path'])) {
       $options = isset($stat['link']['options'])
         ? $stat['link']['options']
-        : array();
+        : array('attributes' => array('class' => array('text-copy', 'text-small')));
 
       $text = l($text, $stat['link']['path'], $options);
     }
