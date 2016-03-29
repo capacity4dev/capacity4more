@@ -33,8 +33,8 @@ if [ "$MEMCACHE_HOST" != "" ] && [ "$MEMCACHE_PORT" != "" ]; then
  * Memcache settings
  */
 // Memcache settings.
-\$conf["cache_backends"][] = "sites/all/modules/memcache/memcache.inc";
-\$conf["lock_inc"] = "sites/all/modules/memcache/memcache-lock.inc";
+\$conf["cache_backends"][] = "sites/all/modules/contrib/memcache/memcache.inc";
+\$conf["lock_inc"] = "sites/all/modules/contrib/memcache/memcache-lock.inc";
 \$conf["memcache_stampede_protection"] = TRUE;
 \$conf["cache_default_class"] = "MemCacheDrupal";
 
