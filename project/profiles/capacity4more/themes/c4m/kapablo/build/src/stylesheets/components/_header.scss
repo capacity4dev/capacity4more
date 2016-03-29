@@ -34,12 +34,13 @@
 
 #header-ec-wrapper {
   @include grey_bar;
+  border-bottom: none;
 }
 
 #header-content-wrapper {
   background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green.png') repeat-x;
 
-  .logged-in & {
+  .intro-banner & {
     background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green-white.png') repeat-x;
   }
 }
@@ -64,10 +65,13 @@
     background: none;
     border: none;
     color: $color-gray-dark;
+    box-shadow: none;
   }
 }
 
 .header-breadcrumb {
+  margin-top: 1rem;
+
   ol {
     padding: 0;
     margin: 0 0 0 6rem;

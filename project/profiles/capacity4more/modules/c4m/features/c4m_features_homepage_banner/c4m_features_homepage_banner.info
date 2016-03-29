@@ -5,5 +5,6 @@ dependencies[] = c4m_features_homepage_intro
 dependencies[] = context
 dependencies[] = ctools
 features[context][] = c4m_homepage_intro_banner
+features[context][] = c4m_homepage_intro_banner_bis
 features[ctools][] = context:context:3
 features[features_api][] = api:2

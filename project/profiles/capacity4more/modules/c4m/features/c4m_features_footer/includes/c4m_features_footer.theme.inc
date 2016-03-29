@@ -35,7 +35,7 @@ function theme_c4m_footer_bar(array $variables) {
   $social_media = variable_get('c4m_social_media');
   $social_media_html = theme_c4m_social_media($social_media);
 
-  $navigation_html_2 = '<li class="c4m-footer-navigation-1 last">';
+  $navigation_html_2 = '<li class="c4m-footer-navigation-2 last">';
   foreach ($footer_navigation_2 as $link) {
     $navigation_html_2 .= '<div class="c4m-footer-nav-link">';
     $navigation_html_2 .= l(t('@title', array('@title' => $link['title'])),
