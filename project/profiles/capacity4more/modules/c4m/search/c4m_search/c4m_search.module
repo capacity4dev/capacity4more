@@ -375,8 +375,6 @@ function c4m_search_form($form, &$form_state) {
     ),
   );
 
-  // Show available search pages selector if more than one are available.
-  $search_pages = c4m_search_info();
   if (c4m_og_current_group()) {
     $default_value = 'search_api_views_c4m_search_og';
   }
@@ -384,28 +382,10 @@ function c4m_search_form($form, &$form_state) {
     $default_value = 'search_api_views_c4m_search_nodes';
   }
 
-  if (count($search_pages) > 1) {
-    $options = array();
-    foreach ($search_pages as $search_page) {
-      // Check access.
-      if (empty($search_page['access']) || $search_page['access']()) {
-        $options[$search_page['machine_name']] = $search_page['name'];
-        $current_path = current_path();
-        // Set default path.
-        if ($current_path === $search_page['path']) {
-          $default_value = $search_page['machine_name'];
-        }
-      }
-    }
-    $form['basic']['search_page'] = array(
-      '#type' => 'select',
-      '#title' => 'Customize your search',
-      '#title_display' => 'invisible',
-      '#options' => $options,
-      '#default_value' => $default_value,
-      '#weight' => 0,
-    );
-  }
+  $form['basic']['search_page'] = array(
+    '#type' => 'hidden',
+    '#value' => $default_value,
+  );
 
   // Search input.
   $form['basic']['keys'] = array(
