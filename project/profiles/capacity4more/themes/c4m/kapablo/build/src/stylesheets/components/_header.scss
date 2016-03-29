@@ -48,12 +48,13 @@
   margin-top: 1.8rem;
   position: relative;
 
+  .form-group {
+    margin: 0;
+  }
+
   input {
     width: 17rem;
-    color: $color-gray-light;
-    font-style: italic;
     padding-right: 3rem;
-    border: 1px solid $color-gray-light;
   }
 
   .form-submit {
