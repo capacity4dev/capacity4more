@@ -1,4 +1,4 @@
-<?php
+  <?php
 /**
  * @file
  * Code for the Homepage Intro video feature.
@@ -25,6 +25,9 @@ function c4m_features_homepage_intro_ctools_plugin_directory($module, $plugin) {
 function c4m_features_homepage_intro_block_info() {
   $blocks['video'] = array(
     'info' => t('Intro Video'),
+  );
+  $blocks['banner'] = array(
+    'info' => t('Intro Banner'),
   );
 
   return $blocks;
@@ -102,6 +105,11 @@ function c4m_features_homepage_intro_theme() {
       'video_id' => NULL,
     ),
   );
+  $theme['c4m_features_homepage_intro_banner'] = array(
+    'template' => 'banner',
+    'path' => drupal_get_path('module', 'c4m_features_homepage_intro') . '/templates',
+    'variables' => array(),
+  );
 
   return $theme;
 }
@@ -135,4 +143,18 @@ function template_preprocess_c4m_features_homepage_intro_video(array &$vars) {
   // This js will enable communication with YouTube's API.
   $path = drupal_get_path('module', 'c4m_features_homepage_intro');
   drupal_add_js($path . '/js/video_overlay.js');
+}
+
+/**
+ * Preprocess function for the banner rendering.
+ *
+ * @param array $vars
+ *   Template variables.
+ */
+function template_preprocess_c4m_features_homepage_intro_banner(array &$vars) {
+  // Image.
+  $vars['image'] = array(
+    '#theme'    => 'image',
+    '#path'     => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-user.png',
+  );
 }

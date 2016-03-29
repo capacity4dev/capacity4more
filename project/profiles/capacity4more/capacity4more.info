@@ -143,6 +143,7 @@ dependencies[] = c4m_features_overview_topics
 dependencies[] = c4m_features_homepage
 dependencies[] = c4m_features_homepage_intro
 dependencies[] = c4m_features_homepage_intro_block
+dependencies[] = c4m_features_homepage_banner
 
 ; RESTful
 dependencies[] = c4m_restful_quick_post

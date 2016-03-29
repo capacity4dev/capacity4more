@@ -67,5 +67,24 @@ function _c4m_features_homepage_intro_video_view() {
     'subject' => NULL,
     'content' => $content,
   );
+
+  return $block;
+}
+
+/**
+ * Block to render the banner.
+ *
+ * @return mixed
+ *   The block array.
+ */
+function _c4m_features_homepage_intro_banner_view() {
+  $content = theme('c4m_features_homepage_intro_banner', array());
+
+  // Return the block.
+  $block = array(
+    'subject' => NULL,
+    'content' => $content,
+  );
+
   return $block;
 }

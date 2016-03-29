@@ -36,6 +36,14 @@
   @include grey_bar;
 }
 
+#header-content-wrapper {
+  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green.png') repeat-x;
+
+  .logged-in & {
+    background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green-white.png') repeat-x;
+  }
+}
+
 #c4m-search-form {
   margin-top: 1.8rem;
   position: relative;
