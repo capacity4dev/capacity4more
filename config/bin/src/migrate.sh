@@ -88,8 +88,6 @@ function migrate_content_migrate {
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGEvent
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGPhotoalbum
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGPhoto
-  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGTasklist
-  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportNodeOGTask
 
   # Comments
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentArticle
@@ -98,5 +96,4 @@ function migrate_content_migrate {
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGDiscussion
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGEvent
   drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGPhotoalbum
-  drupal_drush --uri="$SITE_URL" mi --instrument --feedback="30 seconds" C4dMigrateImportCommentOGTask
 }

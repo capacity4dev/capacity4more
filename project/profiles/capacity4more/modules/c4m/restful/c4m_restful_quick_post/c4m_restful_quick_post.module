@@ -236,16 +236,6 @@ function c4m_restful_quick_post_form($group_id) {
       'description' => t('Add Photo album'),
       'quick_post' => 0,
     ),
-    'task' => array(
-      'bundle' => 'task',
-      'description' => t('Start Task list'),
-      'quick_post' => 0,
-    ),
-    'tasklist' => array(
-      'bundle' => 'tasklist',
-      'description' => t('Add Task to Task list'),
-      'quick_post' => 0,
-    ),
   );
 
   // Don't load the quick post form or it's components for anonymous user

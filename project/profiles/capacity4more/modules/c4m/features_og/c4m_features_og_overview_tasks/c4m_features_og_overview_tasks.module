@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Tasks overview feature.
- */
-
-include_once 'c4m_features_og_overview_tasks.features.inc';

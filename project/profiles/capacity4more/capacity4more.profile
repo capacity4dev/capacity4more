@@ -132,8 +132,6 @@ function capacity4more_setup_set_og_permissions() {
     'event',
     'photo',
     'photoalbum',
-    'task',
-    'tasklist',
     'wiki_page',
   );
 

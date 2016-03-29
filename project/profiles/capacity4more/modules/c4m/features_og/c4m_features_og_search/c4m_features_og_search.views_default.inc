@@ -94,8 +94,6 @@ function c4m_features_og_search_views_default_views() {
     'document' => 'document',
     'event' => 'event',
     'photoalbum' => 'photoalbum',
-    'task' => 'task',
-    'tasklist' => 'tasklist',
     'topic' => 'topic',
     'wiki_page' => 'wiki_page',
   );
