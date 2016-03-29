@@ -404,9 +404,6 @@ function c4m_search_form($form, &$form_state) {
       '#options' => $options,
       '#default_value' => $default_value,
       '#weight' => 0,
-      '#attached' => array(
-        'js' => array(drupal_get_path('module', 'c4m_search') . '/js/c4m_search.js'),
-      ),
     );
   }
 
@@ -422,12 +419,6 @@ function c4m_search_form($form, &$form_state) {
       'title' => t('Enter the terms you wish to search for.'),
     ),
   );
-
-  // Get the proper ID for the current search.
-  $search = search_api_autocomplete_search_load($default_value);
-  if ($search && $search->enabled) {
-    $search->alterElement($form['basic']['keys']);
-  }
 
   // Submit button.
   $form['basic']['submit'] = array(

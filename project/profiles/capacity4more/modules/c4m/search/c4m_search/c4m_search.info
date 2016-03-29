@@ -8,7 +8,6 @@ dependencies[] = facetapi
 dependencies[] = facetapi_bonus
 dependencies[] = search_api
 dependencies[] = search_api_attachments
-dependencies[] = search_api_autocomplete
 dependencies[] = search_api_facetapi
 dependencies[] = search_api_solr
 dependencies[] = search_api_sorts
