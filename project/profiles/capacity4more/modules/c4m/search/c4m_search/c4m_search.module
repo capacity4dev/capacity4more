@@ -375,8 +375,6 @@ function c4m_search_form($form, &$form_state) {
     ),
   );
 
-  // Show available search pages selector if more than one are available.
-  $search_pages = c4m_search_info();
   if (c4m_og_current_group()) {
     $default_value = 'search_api_views_c4m_search_og';
   }
