@@ -23,3 +23,6 @@ projects[search_api_solr][version] = "1.10"
 
 projects[search_api_sorts][subdir] = "contrib"
 projects[search_api_sorts][version] = "1.x-dev"
+
+projects[search_api_spellcheck][subdir] = "contrib"
+projects[search_api_spellcheck][version] = "1.0"
