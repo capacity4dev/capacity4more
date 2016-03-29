@@ -29,10 +29,17 @@ function c4m_search_nodes_default_search_api_autocomplete_search() {
     "machine_name" : "search_api_views_c4m_search_nodes",
     "name" : "Search Content",
     "index_id" : "c4m_search_nodes",
-    "suggester_id" : "",
+    "suggester_id" : "server",
     "type" : "search_api_views",
     "enabled" : "1",
-    "options" : { "result count" : true, "fields" : [] },
+    "options" : {
+      "min_length" : "1",
+      "results" : 1,
+      "custom" : { "display" : "page" },
+      "submit_button_selector" : ":submit",
+      "autosubmit" : 1,
+      "suggester_configuration" : []
+    },
     "rdf_mapping" : []
   }');
   return $items;
