@@ -185,6 +185,7 @@ function c4m_restful_quick_post_form($group_id) {
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
     'hide_articles' => 1,
+    'group_context' => TRUE,
   );
   $activities = $activity_stream_handler->get('', $request);
 

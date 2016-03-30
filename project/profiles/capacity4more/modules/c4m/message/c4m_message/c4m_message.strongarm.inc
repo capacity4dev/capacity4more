@@ -15,10 +15,41 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__comment';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__comment'] = $strongarm;
@@ -28,10 +59,41 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__article';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__node__article'] = $strongarm;
@@ -41,12 +103,36 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__discussion';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
           'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),
@@ -61,10 +147,41 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__document';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__node__document'] = $strongarm;
@@ -74,10 +191,41 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__event';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__node__event'] = $strongarm;
@@ -87,10 +235,41 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__photo';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__node__photo'] = $strongarm;
@@ -100,10 +279,41 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__photoalbum';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__node__photoalbum'] = $strongarm;

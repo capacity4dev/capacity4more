@@ -360,13 +360,13 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
 function c4m_message_load__c4m_insert__node__event(Message $message) {
   c4m_message_load_general_arguments($message);
 
-  $message->arguments['!content'] = array(
-    'callback' => 'c4m_message_format_rendered_node',
+  $message->arguments['@type'] = array(
+    'callback' => 'c4m_message_format_node_event_type',
     'pass message' => TRUE,
   );
 
-  $message->arguments['@operation'] = array(
-    'callback' => 'c4m_message_format_operation',
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
   );
 }
@@ -427,6 +427,40 @@ function c4m_message_format_node_discussion_type(Message $message) {
       return $operation == 'insert'
         ? t('started a Debate')
         : t('updated the Debate');
+  }
+}
+
+/**
+ * Return the formatted event type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The event type.
+ */
+function c4m_message_format_node_event_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $event_type = $wrapper->field_node->c4m_event_type->value();
+  $operation = $wrapper->field_operation->value();
+
+  switch ($event_type) {
+    case 'learning':
+      return $operation == 'insert'
+        ? t('created a Learning Event')
+        : t('updated the Learning Event');
+
+    case 'meeting':
+      return $operation == 'insert'
+        ? t('posted a Meeting') :
+        t('updated the Meeting');
+
+    case 'event':
+    default:
+      return $operation == 'insert'
+        ? t('created an Event')
+        : t('updated the Event');
+
   }
 }
 
@@ -845,6 +879,7 @@ function c4m_message_load_homepage_activity_stream() {
   $hide_articles = $filter == 'groups'
     ? 1
     : 0;
+  $group_context = (bool)og_context();
 
   if ($user->uid) {
     // This is an Authenticated user.
@@ -892,6 +927,7 @@ function c4m_message_load_homepage_activity_stream() {
     'sort' => '-timestamp',
     'homepage' => 1,
     'hide_articles' => $hide_articles,
+    'group_context' => $group_context,
   );
 
   $activities = $activity_stream_handler->get('', $request);
