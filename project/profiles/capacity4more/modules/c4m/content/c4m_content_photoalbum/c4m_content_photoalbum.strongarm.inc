@@ -66,10 +66,10 @@ function c4m_content_photoalbum_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -90,10 +90,10 @@ function c4m_content_photoalbum_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'activity_global' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -113,6 +113,12 @@ function c4m_content_photoalbum_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -129,15 +135,27 @@ function c4m_content_photoalbum_strongarm() {
       'display' => array(
         'node_gallery_view' => array(
           'activity_group' => array(
-            'weight' => '2',
+            'weight' => '0',
             'visible' => TRUE,
           ),
           'activity_global' => array(
-            'weight' => '2',
+            'weight' => '0',
             'visible' => TRUE,
           ),
           'default' => array(
-            'weight' => '100',
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+          'full' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser_group' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),
