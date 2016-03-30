@@ -8,8 +8,30 @@
     padding: 0;
     list-style: none;
 
+    /* Graceful degradation */
+    display: table;
+    table-layout: fixed;
+
+    /* Flexbox */
+    display: flex;
+    align-content: unset;
+    justify-content: space-between;
+    width: 100%;
+
     li {
       color: $color-gray-dark;
+      text-align: left;
+
+      /* Graceful degradation */
+      display: table-cell;
+
+      /* Flexbox */
+      display: flex;
+
+      &.last {
+        text-align: right;
+      }
+
       a {
         padding-left: 1rem;
         color: $color-gray-dark;
