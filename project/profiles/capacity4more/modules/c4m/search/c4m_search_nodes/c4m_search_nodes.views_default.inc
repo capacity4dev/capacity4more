@@ -41,7 +41,6 @@ function c4m_search_nodes_views_default_views() {
   $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
   $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
   $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
-  $handler->display->display_options['header']['search_api_spellcheck']['label'] = 'Did you mean';
   $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
   /* Header: Sorts */
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['id'] = 'c4m_views_search_api_sorts';
