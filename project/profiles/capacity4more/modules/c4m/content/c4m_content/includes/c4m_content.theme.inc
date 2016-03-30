@@ -61,7 +61,6 @@ function theme_c4m_website_statistics_summary(array $variables) {
       'class' => array(
         'statistics-item',
         'stats-' . $key,
-        'col-md-2 col-sm-2',
         'fa ' . $icons_table[$key],
         implode(',', $stat_classes),
       ),

@@ -382,6 +382,11 @@ function c4m_search_form($form, &$form_state) {
     $default_value = 'search_api_views_c4m_search_nodes';
   }
 
+  $form['basic']['search_page'] = array(
+    '#type' => 'hidden',
+    '#value' => $default_value,
+  );
+
   // Search input.
   $form['basic']['keys'] = array(
     '#type' => 'textfield',
