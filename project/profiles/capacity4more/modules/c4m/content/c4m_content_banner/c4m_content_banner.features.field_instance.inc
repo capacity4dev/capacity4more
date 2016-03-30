@@ -39,7 +39,7 @@ function c4m_content_banner_field_default_field_instances() {
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'large',
+          'image_style' => 'banner',
         ),
         'type' => 'image',
         'weight' => 6,

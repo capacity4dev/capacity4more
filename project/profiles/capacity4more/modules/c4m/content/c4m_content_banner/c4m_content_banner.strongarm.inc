@@ -113,6 +113,12 @@ function c4m_content_banner_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
