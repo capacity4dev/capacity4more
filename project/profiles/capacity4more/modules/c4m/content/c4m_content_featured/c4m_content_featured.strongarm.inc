@@ -116,6 +116,12 @@ function c4m_content_featured_strongarm() {
       'c4m_related' => array(
         'custom_settings' => FALSE,
       ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
