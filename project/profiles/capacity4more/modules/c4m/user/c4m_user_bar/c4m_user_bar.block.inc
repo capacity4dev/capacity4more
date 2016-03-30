@@ -24,7 +24,7 @@ function _c4m_user_bar_block_user_signup_login() {
   }
   else {
     $links = array(
-      l(t('Logout'), 'user/logout', array('attributes' => array('class' => array('text-link--blue')))),
+      l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('text-link--blue')))),
     );
   }
 
