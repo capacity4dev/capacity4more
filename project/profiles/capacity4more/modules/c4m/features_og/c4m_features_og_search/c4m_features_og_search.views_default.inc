@@ -29,6 +29,7 @@ function c4m_features_og_search_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
   $handler->display->display_options['query']['options']['entity_access'] = 0;
+  $handler->display->display_options['query']['options']['parse_mode'] = 'direct';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
