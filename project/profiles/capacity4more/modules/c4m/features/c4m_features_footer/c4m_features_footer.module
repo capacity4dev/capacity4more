@@ -32,12 +32,14 @@ function c4m_features_footer_block_view($delta = '') {
       );
       $block['content'] = render($footer_bar);
       break;
+
     case 'c4m_footer_menu':
       $footer_menu = array(
         '#theme' => 'c4m_footer_menu',
       );
       $block['content'] = render($footer_menu);
       break;
+
   }
   return $block;
 }

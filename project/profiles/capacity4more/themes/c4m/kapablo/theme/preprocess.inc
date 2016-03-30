@@ -297,7 +297,8 @@ function kapablo_breadcrumb($variables) {
         foreach ($item as $key => $value) {
           if ($key == 'data') {
             $data = $value;
-          } else {
+          }
+          else {
             $attributes[$key] = $value;
           }
         }
@@ -370,7 +371,12 @@ function kapablo_item_list($variables) {
       }
       if (count($children) > 0) {
         // Render nested list.
-        $data .= theme_item_list(array('items' => $children, 'title' => NULL, 'type' => $type, 'attributes' => $attributes));
+        $data .= theme_item_list(array(
+          'items' => $children,
+          'title' => NULL,
+          'type' => $type,
+          'attributes' => $attributes,
+        ));
       }
       if ($i == 1) {
         $attributes['class'][] = 'first';
