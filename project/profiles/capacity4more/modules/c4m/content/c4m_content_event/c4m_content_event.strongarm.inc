@@ -66,10 +66,10 @@ function c4m_content_event_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -93,7 +93,7 @@ function c4m_content_event_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_dashboard' => array(
         'custom_settings' => FALSE,
@@ -114,10 +114,16 @@ function c4m_content_event_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_teaser_list' => array(
         'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(
@@ -135,6 +141,30 @@ function c4m_content_event_strongarm() {
       'display' => array(
         'flag_c4m_node_highlight' => array(
           'full' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'default' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'teaser_group' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
             'weight' => '8',
             'visible' => TRUE,
           ),
@@ -157,8 +187,20 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'default' => array(
-            'weight' => '10',
+            'weight' => '25',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '8',
             'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '25',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '25',
+            'visible' => FALSE,
           ),
         ),
       ),
