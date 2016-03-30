@@ -66,7 +66,7 @@ function c4m_content_book_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'teaser' => array(
         'custom_settings' => FALSE,
@@ -111,6 +111,12 @@ function c4m_content_book_strongarm() {
         'custom_settings' => FALSE,
       ),
       'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
         'custom_settings' => FALSE,
       ),
     ),
