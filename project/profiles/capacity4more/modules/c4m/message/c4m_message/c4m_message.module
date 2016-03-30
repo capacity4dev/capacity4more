@@ -105,7 +105,6 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   $valid_node_types = array(
     'discussion',
     'event',
-    'photo',
     'photoalbum',
     'document',
     'wiki_page',
