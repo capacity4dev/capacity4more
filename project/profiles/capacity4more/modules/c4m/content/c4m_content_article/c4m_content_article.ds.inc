@@ -213,18 +213,13 @@ function c4m_content_article_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_creation_date' => array(
-      'weight' => '2',
+    'c4m_ds_submitted_by_and_on' => array(
+      'weight' => '25',
       'label' => 'hidden',
       'format' => 'j F Y',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '4',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -440,22 +435,22 @@ function c4m_content_article_ds_layout_settings_info() {
     'regions' => array(
       'header' => array(
         0 => 'title',
+        4 => 'c4m_ds_submitted_by_and_on',
       ),
       'left' => array(
         1 => 'c4m_media',
       ),
       'right' => array(
-        2 => 'c4m_ds_creation_date',
-        3 => 'c4m_intro_text',
-        4 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_intro_text',
+        3 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'header',
       'c4m_media' => 'left',
-      'c4m_ds_creation_date' => 'right',
       'c4m_intro_text' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
+      'c4m_ds_submitted_by_and_on' => 'header',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -468,6 +463,7 @@ function c4m_content_article_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|article|teaser'] = $ds_layout;
 

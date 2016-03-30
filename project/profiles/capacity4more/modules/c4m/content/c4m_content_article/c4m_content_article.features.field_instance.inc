@@ -141,7 +141,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 26,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -268,7 +268,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -395,7 +395,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 29,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -484,7 +484,7 @@ function c4m_content_article_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -519,7 +519,28 @@ function c4m_content_article_field_default_field_instances() {
     'default_value' => NULL,
     'deleted' => 0,
     'description' => 'Enter the names of non-registered contributors.',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 16,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 16,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 19,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_link_multiple',
@@ -678,7 +699,32 @@ function c4m_content_article_field_default_field_instances() {
     'default_value_function' => '',
     'deleted' => 0,
     'description' => 'Select related articles.',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 17,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 17,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 18,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_articles',
@@ -712,7 +758,32 @@ function c4m_content_article_field_default_field_instances() {
     'default_value_function' => '',
     'deleted' => 0,
     'description' => 'Enter group(s) that are related to this article.',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 18,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 18,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_group',
@@ -746,7 +817,32 @@ function c4m_content_article_field_default_field_instances() {
     'default_value_function' => '',
     'deleted' => 0,
     'description' => 'Enter the name(s) of registered users.',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 19,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 19,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_related_user',
@@ -834,7 +930,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'upcoming_event' => array(
         'label' => 'above',
@@ -925,7 +1021,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 20,
       ),
       'upcoming_event' => array(
         'label' => 'above',
