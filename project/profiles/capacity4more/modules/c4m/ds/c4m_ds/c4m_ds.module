@@ -133,9 +133,7 @@ function c4m_ds_ds_view_modes_info() {
   $ds_view_mode->view_mode      = 'activity_global';
   $ds_view_mode->label          = 'Activity Global';
   $ds_view_mode->entities       = array(
-    'node' => 'node',
     'message' => 'message',
-    'comment' => 'comment',
   );
   $ds_view_modes['activity_global'] = $ds_view_mode;
 
@@ -146,9 +144,7 @@ function c4m_ds_ds_view_modes_info() {
   $ds_view_mode->view_mode      = 'activity_group';
   $ds_view_mode->label          = 'Activity Group';
   $ds_view_mode->entities       = array(
-    'node' => 'node',
     'message' => 'message',
-    'comment' => 'comment',
   );
   $ds_view_modes['activity_group'] = $ds_view_mode;
 
