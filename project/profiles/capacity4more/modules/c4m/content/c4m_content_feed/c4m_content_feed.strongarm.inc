@@ -101,7 +101,7 @@ function c4m_content_feed_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'featured_block' => array(
         'custom_settings' => FALSE,
@@ -122,7 +122,7 @@ function c4m_content_feed_strongarm() {
         'custom_settings' => FALSE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -149,6 +149,12 @@ function c4m_content_feed_strongarm() {
         'custom_settings' => FALSE,
       ),
       'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
         'custom_settings' => FALSE,
       ),
     ),
