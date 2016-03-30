@@ -92,3 +92,6 @@ script:
 
 after_script:
   - date
+
+notifications:
+  slack: amplexor:7ssq8h2xLhkDGyJCw6rtmfOY
