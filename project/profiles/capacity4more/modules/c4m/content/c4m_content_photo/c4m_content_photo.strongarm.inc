@@ -66,10 +66,10 @@ function c4m_content_photo_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -113,6 +113,12 @@ function c4m_content_photo_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -137,8 +143,20 @@ function c4m_content_photo_strongarm() {
             'visible' => FALSE,
           ),
           'default' => array(
-            'weight' => '-100',
+            'weight' => '5',
             'visible' => TRUE,
+          ),
+          'full' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '16',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '16',
+            'visible' => FALSE,
           ),
         ),
       ),
