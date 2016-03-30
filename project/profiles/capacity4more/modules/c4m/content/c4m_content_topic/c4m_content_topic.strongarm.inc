@@ -66,10 +66,10 @@ function c4m_content_topic_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'featured_block' => array(
         'custom_settings' => FALSE,
@@ -114,6 +114,12 @@ function c4m_content_topic_strongarm() {
         'custom_settings' => FALSE,
       ),
       'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
         'custom_settings' => FALSE,
       ),
     ),
