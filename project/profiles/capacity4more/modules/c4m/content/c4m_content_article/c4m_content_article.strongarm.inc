@@ -92,6 +92,12 @@ function c4m_content_article_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

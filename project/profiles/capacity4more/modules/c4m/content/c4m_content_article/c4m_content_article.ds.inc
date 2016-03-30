@@ -33,7 +33,7 @@ function c4m_content_article_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'activity_global';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -43,8 +43,13 @@ function c4m_content_article_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+    ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -56,6 +61,11 @@ function c4m_content_article_ds_field_settings_info() {
           'fis-at' => '',
           'fis-def-at' => FALSE,
         ),
+      ),
+    ),
+    'c4m_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(),
       ),
     ),
   );
@@ -269,23 +279,30 @@ function c4m_content_article_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'article';
   $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'ds_1col';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'ds_content' => array(
-        0 => 'title',
-        1 => 'c4m_body',
-        2 => 'c4m_ds_content_footer_stats',
+      'right' => array(
+        0 => 'c4m_ds_creation_date',
+        1 => 'title',
+        2 => 'c4m_body',
+        3 => 'c4m_ds_content_footer_stats',
+      ),
+      'left' => array(
+        4 => 'c4m_media',
       ),
     ),
     'fields' => array(
-      'title' => 'ds_content',
-      'c4m_body' => 'ds_content',
-      'c4m_ds_content_footer_stats' => 'ds_content',
+      'c4m_ds_creation_date' => 'right',
+      'title' => 'right',
+      'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'right',
+      'c4m_media' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
-      'ds_content' => 'div',
+      'left' => 'div',
+      'right' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

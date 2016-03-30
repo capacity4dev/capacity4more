@@ -85,7 +85,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 23,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -215,7 +215,7 @@ function c4m_content_article_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'activity_group' => array(
         'label' => 'hidden',
@@ -346,7 +346,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 28,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -433,7 +433,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 27,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -520,6 +520,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Enter the names of non-registered contributors.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'link',
@@ -585,10 +591,14 @@ function c4m_content_article_field_default_field_instances() {
     'description' => 'A picture to use on the Article listings.',
     'display' => array(
       'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 19,
+        'label' => 'hidden',
+        'module' => 'c4m_field_media',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'medium',
+        ),
+        'type' => 'image',
+        'weight' => 25,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -700,6 +710,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Select related articles.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -759,6 +775,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Enter group(s) that are related to this article.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 24,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -818,6 +840,12 @@ function c4m_content_article_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Enter the name(s) of registered users.',
     'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 26,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -880,7 +908,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 29,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -966,7 +994,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 19,
       ),
       'activity_group' => array(
         'label' => 'above',
