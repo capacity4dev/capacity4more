@@ -66,10 +66,10 @@ function c4m_content_discussion_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -90,7 +90,7 @@ function c4m_content_discussion_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'revision' => array(
         'custom_settings' => FALSE,
@@ -108,7 +108,7 @@ function c4m_content_discussion_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_dashboard' => array(
         'custom_settings' => FALSE,
@@ -117,6 +117,12 @@ function c4m_content_discussion_strongarm() {
         'custom_settings' => FALSE,
       ),
       'c4m_teaser_table' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
         'custom_settings' => FALSE,
       ),
     ),
@@ -139,16 +145,24 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '6',
-            'visible' => TRUE,
+            'weight' => '20',
+            'visible' => FALSE,
           ),
           'activity_global' => array(
             'weight' => '10',
             'visible' => FALSE,
           ),
           'default' => array(
-            'weight' => '10',
-            'visible' => TRUE,
+            'weight' => '9',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '27',
+            'visible' => FALSE,
+          ),
+          'activity_group' => array(
+            'weight' => '21',
+            'visible' => FALSE,
           ),
         ),
       ),
