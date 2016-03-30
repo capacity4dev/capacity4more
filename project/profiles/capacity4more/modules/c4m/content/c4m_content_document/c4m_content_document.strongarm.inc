@@ -66,10 +66,10 @@ function c4m_content_document_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -90,7 +90,7 @@ function c4m_content_document_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'revision' => array(
         'custom_settings' => FALSE,
@@ -111,13 +111,19 @@ function c4m_content_document_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'c4m_dashboard' => array(
         'custom_settings' => FALSE,
       ),
       'c4m_teaser_list' => array(
         'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(
@@ -138,6 +144,11 @@ function c4m_content_document_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'teaser' => NULL,
+          'teaser_group' => NULL,
+          'activity_global' => NULL,
+          'activity_group' => NULL,
+          'block_list' => NULL,
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
@@ -145,8 +156,8 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '7',
-            'visible' => TRUE,
+            'weight' => '22',
+            'visible' => FALSE,
           ),
           'activity_group' => array(
             'weight' => '10',
@@ -157,8 +168,16 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'default' => array(
-            'weight' => '10',
-            'visible' => TRUE,
+            'weight' => '26',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '25',
+            'visible' => FALSE,
+          ),
+          'block_list' => array(
+            'weight' => '25',
+            'visible' => FALSE,
           ),
         ),
       ),
