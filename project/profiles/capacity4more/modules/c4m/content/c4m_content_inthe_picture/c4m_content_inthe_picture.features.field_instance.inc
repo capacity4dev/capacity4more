@@ -16,7 +16,14 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_body',
@@ -68,10 +75,9 @@ function c4m_content_inthe_picture_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'featured_block' => array(
         'label' => 'above',
@@ -131,7 +137,14 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_link',
@@ -174,7 +187,18 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'bundle' => 'inthe_picture',
     'deleted' => 0,
     'description' => '',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'c4m_field_media',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'banner',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_media',
@@ -222,7 +246,14 @@ function c4m_content_inthe_picture_field_default_field_instances() {
     'default_value' => NULL,
     'deleted' => 0,
     'description' => 'Select the overview page where this in the picture item should be shown.',
-    'display' => array(),
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
+    ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
     'field_name' => 'c4m_overview_page',
