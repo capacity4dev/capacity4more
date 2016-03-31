@@ -304,9 +304,17 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 28,
       ),
       'block_list' => array(
-        'label' => 'inline',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'c4m_long_without_time',
+          'fromto' => 'value',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+          'show_remaining_days' => 0,
+        ),
+        'type' => 'date_default',
         'weight' => 3,
       ),
       'c4m_related' => array(
@@ -2486,9 +2494,12 @@ This must be a VALID, GEOGRAPHICAL address.',
         'weight' => 24,
       ),
       'block_list' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'inline',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_og_dashboard',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
         'weight' => 26,
       ),
       'c4m_related' => array(

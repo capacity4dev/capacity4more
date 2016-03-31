@@ -77,6 +77,23 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
+    ),
+    'c4m_datetime_end' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'og_group_ref' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
   );
   $export['node|event|block_list'] = $ds_fieldsetting;
@@ -475,7 +492,7 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'event';
   $ds_layout->view_mode = 'block_list';
-  $ds_layout->layout = 'c4m_ds_2col_icon_left';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
@@ -483,11 +500,15 @@ function c4m_content_event_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
+        2 => 'c4m_datetime_end',
+        3 => 'og_group_ref',
       ),
     ),
     'fields' => array(
       'c4m_ds_content_type_icon' => 'left',
       'title' => 'right',
+      'c4m_datetime_end' => 'right',
+      'og_group_ref' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
