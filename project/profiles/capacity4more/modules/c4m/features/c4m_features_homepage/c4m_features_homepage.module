@@ -71,7 +71,7 @@ function c4m_features_homepage_c4m_suggested_groups_get_groups() {
   }
 
   foreach ($result['node'] as $group) {
-    $node_view = node_view(node_load($group->nid), 'c4m_related');
+    $node_view = node_view(node_load($group->nid), 'block_list');
     $groups .= drupal_render($node_view);
   }
 
