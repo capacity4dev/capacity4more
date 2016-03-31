@@ -43,8 +43,8 @@ function c4m_content_group_details() {
   // Retrieve current group.
   $node = c4m_og_current_group();
 
-  // Render it with our custom c4m_dashboard view mode.
-  $node_view = node_view($node, 'c4m_dashboard');
+  // Render it with our custom group_dashboard view mode.
+  $node_view = node_view($node, 'group_dashboard');
 
   return drupal_render($node_view);
 }

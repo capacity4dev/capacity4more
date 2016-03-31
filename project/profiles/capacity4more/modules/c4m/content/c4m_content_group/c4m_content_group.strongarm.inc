@@ -125,6 +125,9 @@ function c4m_content_group_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'group_dashboard' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

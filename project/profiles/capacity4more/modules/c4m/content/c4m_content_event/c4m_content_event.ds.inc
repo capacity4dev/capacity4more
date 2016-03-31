@@ -72,6 +72,12 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => 'purl_auto',
+        'wrapper' => '',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_type_icon' => array(
       'weight' => '0',

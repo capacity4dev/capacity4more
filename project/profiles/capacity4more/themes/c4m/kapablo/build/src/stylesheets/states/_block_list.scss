@@ -1,0 +1,13 @@
+.view-mode-block_list {
+  .row {
+    border-bottom: 1px dashed $color-gray-light;
+    margin: 0 0 1rem 0;
+    padding: 0 0 1rem 0;
+
+    .group-left, .group-right {
+      padding: 0 $grid-gutter-width / 4;
+    }
+  }
+
+
+}
