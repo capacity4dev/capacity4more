@@ -29,6 +29,9 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['access']['feature'] = 'c4m_features_og_documents';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
+  $handler->display->display_options['query']['options']['entity_access'] = 0;
+  $handler->display->display_options['query']['options']['parse_mode'] = 'direct';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['pager']['type'] = 'full';

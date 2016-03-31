@@ -437,26 +437,42 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Add required inputs to the form.
+ * Alter the #info data so that the widgets are altered.
+ * @see template_preprocess_views_exposed_form()
  */
 function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }
+
+  $form['#info']['filter-search_api_views_fulltext']['label'] = '';
+  $form['text']['#type'] = 'hidden';
+
   $form['search_within_results'] = array(
     '#type' => 'checkbox',
     '#title' => 'Search within search results',
     '#weight' => -5,
   );
-  $form['#submit'][] = 'c4m_search_submit_handler_search_within_results';
-  $form['text']['#type'] = 'hidden';
+  $form['#info']['search_within_results'] = array(
+    'value' => 'search_within_results',
+  );
+  $form['#info']['search'] = array(
+    'value' => 'search',
+    'label'=> 'Search',
+  );
   $form['search'] = array(
     '#type' => 'textfield',
     '#weight' => -10,
   );
+
   $form['search_params'] = array(
     '#type' => 'hidden',
     '#value' => serialize(drupal_get_query_parameters()),
   );
+
+  $form['#submit'][] = 'c4m_search_submit_handler_search_within_results';
 }
 
 /**
