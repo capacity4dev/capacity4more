@@ -12,6 +12,7 @@
 #block-c4m-user-bar-user-signup-login {
   ul {
     @include horizontal_menu;
+
     li {
       a {
         font-weight: bold;
@@ -49,23 +50,23 @@
   margin-top: 1.8rem;
   position: relative;
 
-  .form-group {
-    margin: 0;
-  }
-
   input {
     width: 17rem;
     padding-right: 3rem;
   }
 
+  .form-group {
+    margin: 0;
+  }
+
   .form-submit {
-    position: absolute;
-    top: 0;
-    right: 0;
     background: none;
     border: none;
-    color: $color-gray-dark;
     box-shadow: none;
+    color: $color-gray-dark;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 
@@ -73,8 +74,8 @@
   margin-top: 1rem;
 
   ol {
-    padding: 0;
     margin: 0 0 0 6rem;
+    padding: 0;
 
     li {
       a {
@@ -87,8 +88,8 @@
       }
 
       &:before {
-        padding: 0;
         content: "";
+        padding: 0;
       }
     }
   }
@@ -107,9 +108,9 @@
         padding: 0 2rem;
 
         a {
-          text-transform: uppercase;
-          padding: 0;
           line-height: 1rem;
+          padding: 0;
+          text-transform: uppercase;
 
           &:hover {
             background: none;

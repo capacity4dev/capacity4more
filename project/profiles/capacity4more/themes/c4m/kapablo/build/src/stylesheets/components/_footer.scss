@@ -8,8 +8,8 @@
 }
 
 .c4m-footer-bar, .c4m-footer-menu {
-  text-align: center;
   @include horizontal_menu;
+  text-align: center;
 
   li {
     display: inline-block;
@@ -20,6 +20,7 @@
 .c4m-footer-menu {
   ul {
     padding: 0;
+
     li {
       a {
         color: $color-gray-dark;
@@ -32,15 +33,16 @@
   .c4m-social-media-item {
     display: inline-block;
     padding: 0 0.5rem;
+
     a {
       i {
-        width: 20px;
+        background-color: $color-gray-dark;
+        border-radius: 50%;
+        color: $color-white;
         height: 20px;
         padding-top: 4px;
         padding-left: 1px;
-        border-radius: 50%;
-        color: $color-white;
-        background-color: $color-gray-dark;
+        width: 20px;
 
         &.fa-twitter {
           background-color: $color-twitter;
