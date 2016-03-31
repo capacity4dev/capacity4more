@@ -26,4 +26,4 @@ projects[search_api_sorts][version] = "1.x-dev"
 
 projects[search_api_spellcheck][subdir] = "contrib"
 projects[search_api_spellcheck][version] = "1.0"
-projects[search_api_spellcheck][patch] = "https://www.drupal.org/files/issues/search_api_spellcheck-adjust_regexp-2304271-3_0.patch"
+projects[search_api_spellcheck][patch][] = "https://www.drupal.org/files/issues/search_api_spellcheck-adjust_regexp-2304271-3_0.patch"
