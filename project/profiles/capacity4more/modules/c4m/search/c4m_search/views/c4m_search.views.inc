@@ -1,20 +1,11 @@
 <?php
 /**
  * @file
- * c4m_search Views hooks.
+ * Views hooks for the c4m_search module.
  */
 
 /**
  * Implements hook_views_data_alter().
- *
- * search_api_views already exposes each index as a data sources. This hook
- * gives us the oppotunity to refine the data specification by asking each
- * index's server if it supports search_api_spellcheck. For those that do we
- * attach a new area handler to display spelling suggestions.
- *
- * Because the field extends views_handler_area it can optionally be added to
- * views Headers and Footers.
- * It only displays if spelling suggestions are returned.
  */
 function c4m_search_views_data_alter(&$data) {
   if (!isset($data['search_api_index'])) {
@@ -46,4 +37,3 @@ function c4m_search_views_data_alter(&$data) {
     );
   }
 }
-

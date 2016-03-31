@@ -440,6 +440,7 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
  *
  * Add required inputs to the form.
  * Alter the #info data so that the widgets are altered.
+ *
  * @see template_preprocess_views_exposed_form()
  */
 function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
@@ -460,7 +461,7 @@ function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id
   );
   $form['#info']['search'] = array(
     'value' => 'search',
-    'label'=> 'Search',
+    'label' => 'Search',
   );
   $form['search'] = array(
     '#type' => 'textfield',
