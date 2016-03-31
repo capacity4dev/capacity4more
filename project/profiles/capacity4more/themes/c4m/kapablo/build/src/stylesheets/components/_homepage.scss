@@ -1,20 +1,20 @@
 .pane-c4m-content-global-statistics-summary {
-  padding: 2rem 0;
-  margin: 2rem 0;
   border-top: 1px dashed $color-gray-light;
+  margin: 2rem 0;
+  padding: 2rem 0;
 
   ul.statistics-list {
+    list-style: none;
     margin: 0;
     padding: 0;
-    list-style: none;
 
     /* Graceful degradation */
     display: table;
     table-layout: fixed;
 
     /* Flexbox */
-    display: flex;
     align-content: unset;
+    display: flex;
     justify-content: space-between;
     width: 100%;
 
@@ -33,8 +33,8 @@
       }
 
       a {
-        padding-left: 1rem;
         color: $color-gray-dark;
+        padding-left: 1rem;
       }
     }
   }
@@ -52,15 +52,15 @@
 }
 
 .pane-featured-block {
+  border-top: 1px dashed $color-gray-light;
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px dashed $color-gray-light;
 
   .col-sm-4 {
     a {
       @include grey_box;
-      display: block;
       color: $color-text;
+      display: block;
       text-decoration: none;
 
       &:hover {
@@ -97,34 +97,34 @@
     position: relative;
 
     .justifier {
-      position: absolute;
-      left: 50%;
       bottom: 0;
+      left: 50%;
+      position: absolute;
 
       .btn {
-        position: relative;
-        left: -50%;
-        bottom: 2rem;
         background-color: $color-blue-dark;
         border: 5px solid $color-text-alternative;
         border-radius: 30px;
+        bottom: 2rem;
+        left: -50%;
         padding-left: 6rem;
         padding-right: 4rem;
+        position: relative;
 
         i.fa {
-          position: absolute;
           bottom: 1px;
-          left: 6px;
           font-size: 3rem;
+          left: 6px;
+          position: absolute;
         }
       }
     }
 
     iframe {
+      display: none;
+      height: 298px;
       position: absolute;
       top: 0;
-      height: 298px;
-      display: none;
     }
   }
 }
