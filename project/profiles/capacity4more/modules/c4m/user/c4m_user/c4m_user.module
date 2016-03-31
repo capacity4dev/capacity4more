@@ -14,7 +14,7 @@ include_once 'c4m_user.features.inc';
  * hook_ctools_plugin_api(). The values of this hook can be overridden
  * and reverted through the UI.
  */
-//function c4m_user_ds_view_modes_info() {
+// Function c4m_user_ds_view_modes_info() {
 //  $ds_view_modes = array();
 //
 //  $ds_view_mode                   = new stdClass();
@@ -68,8 +68,7 @@ include_once 'c4m_user.features.inc';
 //  $ds_view_modes['c4m_user_teaser_table_global'] = $ds_view_mode;
 //
 //  return $ds_view_modes;
-//}
-
+// }.
 /**
  * Define fields.
  *

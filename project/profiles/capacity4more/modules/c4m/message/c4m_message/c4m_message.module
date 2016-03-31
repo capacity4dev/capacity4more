@@ -878,7 +878,7 @@ function c4m_message_load_homepage_activity_stream() {
   $hide_articles = $filter == 'groups'
     ? 1
     : 0;
-  $group_context = (bool)og_context();
+  $group_context = (bool) og_context();
 
   if ($user->uid) {
     // This is an Authenticated user.
