@@ -32,7 +32,7 @@ Feature: Feeds
     And   I fill in "Description" with "This is the description of the feed."
     And   I fill in "edit-c4m-related-articles-und-0-target-id" with "Electricity for Water"
     And   I fill in "edit-c4m-related-group-unlimited-und-0-target-id" with "Nobel Prize"
-    And   I press "Publish"
+    And   I press "Save"
     Then  I should see "Feed An RSS feed has been created"
 
   @api
