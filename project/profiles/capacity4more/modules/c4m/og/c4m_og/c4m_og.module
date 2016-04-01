@@ -90,7 +90,8 @@ function c4m_og_get_group_type_name($node = NULL) {
 function c4m_og_form_alter(&$form, $form_state) {
   if (empty($form['#node_edit_form'])
     || !og_is_group_type(
-      'node', $form['#node']->type
+      'node',
+      $form['#node']->type
     )
   ) {
     return;
@@ -98,10 +99,10 @@ function c4m_og_form_alter(&$form, $form_state) {
   $form['og_purl']['purl']['value']['#title'] = t('Group path');
   $form['og_purl']['purl']['value']['#type'] = 'machine_name';
   $form['og_purl']['purl']['value']['#machine_name'] = array(
-    'source'          => array('title'),
-    'label'           => t('Group path'),
-    'exists'          => 'c4m_og_purl_exists',
-    'replace'         => '-',
+    'source' => array('title'),
+    'label' => t('Group path'),
+    'exists' => 'c4m_og_purl_exists',
+    'replace' => '-',
     'replace_pattern' => '[^a-z0-9_-]+',
   );
 }
@@ -258,9 +259,9 @@ function c4m_og_access($feature = NULL, $account = NULL) {
 function c4m_og_og_permission() {
   return array(
     'view unpublished group content' => array(
-      'title'        => t('View unpublished group content'),
-      'description'  => t("Allow user to view unpublished content of a group."),
-      'roles'        => array(OG_AUTHENTICATED_ROLE),
+      'title' => t('View unpublished group content'),
+      'description' => t("Allow user to view unpublished content of a group."),
+      'roles' => array(OG_AUTHENTICATED_ROLE),
       'default role' => array(OG_ANONYMOUS_ROLE, OG_ADMINISTRATOR_ROLE),
     ),
   );
@@ -353,12 +354,12 @@ function c4m_og_node_access_records_alter(&$grants, $node) {
       foreach ($values as $gid) {
         $list_gids[$group_type][] = $gid;
         $grants[] = array(
-          'realm'        => C4M_OG_ACCESS_REALM . ':' . $perm,
-          'gid'          => $gid,
-          'grant_view'   => 1,
+          'realm' => C4M_OG_ACCESS_REALM . ':' . $perm,
+          'gid' => $gid,
+          'grant_view' => 1,
           'grant_update' => 0,
           'grant_delete' => 0,
-          'priority'     => 0,
+          'priority' => 0,
         );
       }
     }
@@ -416,9 +417,9 @@ function c4m_og_get_posts_count($group) {
  */
 function c4m_og_entity_property_info_alter(&$info) {
   $info['node']['properties']['c4m_og_group_type'] = array(
-    'type'            => 'text',
-    'label'           => t('Group type'),
-    'sanitized'       => TRUE,
+    'type' => 'text',
+    'label' => t('Group type'),
+    'sanitized' => TRUE,
     'getter callback' => '_c4m_og_group_type_getter_callback',
   );
 }
@@ -450,6 +451,11 @@ function _c4m_og_group_type_getter_callback($item) {
  *   The group ID if any.
  */
 function c4m_og_get_gid_from_entity($entity) {
+  // Check if entity has the "type" property.
+  if (!property_exists($entity, 'type')) {
+    return;
+  }
+
   if (og_is_group_type('node', $entity->type)) {
     return (int) $entity->nid;
   }
@@ -660,7 +666,10 @@ function c4m_og_feature_uninstall($feature) {
  * @return array $groups
  *    Returns array of group nodes IDs of specific node type.
  */
-function c4m_og_get_user_group_nodes_by_bundle($bundle = NULL, $account = NULL) {
+function c4m_og_get_user_group_nodes_by_bundle(
+  $bundle = NULL,
+  $account = NULL
+) {
   $groups = og_get_groups_by_user($account, 'node');
 
   if (!$groups || !$bundle) {
