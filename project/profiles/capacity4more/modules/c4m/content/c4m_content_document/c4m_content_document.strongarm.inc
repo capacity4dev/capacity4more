@@ -127,6 +127,14 @@ function c4m_content_document_strongarm() {
             'weight' => '7',
             'visible' => TRUE,
           ),
+          'activity_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

@@ -365,7 +365,7 @@ function c4m_search_form($form, &$form_state) {
   $form['basic'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('container-inline'),
+      'class' => array('container-inline', 'pull-right'),
     ),
   );
 
@@ -391,19 +391,14 @@ function c4m_search_form($form, &$form_state) {
     '#maxlength' => 255,
     '#attributes' => array(
       'title' => t('Enter the terms you wish to search for.'),
+      'placeholder' => t('search capacity4dev...'),
     ),
   );
-
-  // Get the proper ID for the current search.
-  $search = search_api_autocomplete_search_load($default_value);
-  if ($search && $search->enabled) {
-    $search->alterElement($form['basic']['keys']);
-  }
 
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Search'),
+    '#value' => '<i class="fa fa-search"></i>',
   );
 
   return $form;
@@ -450,6 +445,74 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
       }
     }
   }
+  if ($settings->settings['widget'] == 'c4m_search_links_content_type') {
+    if (isset($build['discussion']['#active'])) {
+      $discussion_items = _c4m_search_get_facet_items('c4m_discussion_type');
+      $list = array(
+        'info' => t('Information'),
+        'idea' => t('Idea'),
+        'question' => t('Question'),
+        'debate' => t('Debate'),
+
+      );
+      foreach ($discussion_items as $key => $item) {
+        if (isset($list[$item['#indexed_value']])) {
+          $item['#markup'] = $list[$item['#indexed_value']];
+        }
+        $discussion_items[$key] = $item;
+      }
+
+      $build['discussion']['#item_children'] = $discussion_items;
+      _c4m_search_remove_facet_param($build['discussion'], 'c4m_discussion_type');
+    }
+    if (isset($build['document']['#active'])) {
+      $build['document']['#item_children'] = _c4m_search_get_facet_items('c4m_vocab_document_type');
+      _c4m_search_remove_facet_param($build['document'], 'c4m_vocab_document_type');
+    }
+    if (isset($build['event']['#active'])) {
+      $build['event']['#item_children'] = _c4m_search_get_facet_items('c4m_event_type');
+      _c4m_search_remove_facet_param($build['event'], 'c4m_event_type');
+    }
+  }
+}
+
+/**
+ * Removes a query param from a facet item link.
+ */
+function _c4m_search_remove_facet_param(&$facet_item, $param_name) {
+  $params = &$facet_item['#query']['f'];
+  if (!isset($params)) {
+    return;
+  }
+  foreach ($params as $key => $value) {
+    if (strpos($value, $param_name) === 0) {
+      array_splice($params, $key, 1);
+    }
+  }
+}
+
+/**
+ * Retrieves facet items for field.
+ *
+ * @param string $field_name
+ *   Machine name of the field.
+ *
+ * @return array
+ *   List of facet items.
+ */
+function _c4m_search_get_facet_items($field_name) {
+  $adapter = facetapi_adapter_load('search_api@c4m_search_nodes');
+  $facets = new FacetapiFacet($adapter, facetapi_facet_load($field_name, 'search_api@c4m_search_nodes'));
+
+  $processor = new FacetapiFacetProcessor($facets);
+  $processor->process();
+
+  $realm = facetapi_realm_load('block');
+  $facets->build($realm, $processor);
+
+  $build_list = $facets->getBuild();
+
+  return $build_list;
 }
 
 /**

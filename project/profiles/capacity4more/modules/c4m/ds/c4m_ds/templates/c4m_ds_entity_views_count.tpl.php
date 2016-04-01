@@ -8,6 +8,6 @@
  */
 ?>
 
-<span class="row-entity-count count-views">
+<span class="row-entity-count count-views fa fa-eye">
   <?php print $count; ?>
 </span>

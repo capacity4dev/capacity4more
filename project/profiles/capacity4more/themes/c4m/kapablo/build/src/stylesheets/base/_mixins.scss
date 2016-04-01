@@ -1,0 +1,40 @@
+@mixin grain {
+  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/grain.png');
+}
+
+@mixin grey_bar {
+  background-color: $color-background;
+  border-top: 1px solid $color-gray-light;
+  border-bottom: 1px solid $color-gray-light;
+  padding: 2rem 0;
+}
+
+@mixin grey_box {
+  @include grey_bar;
+  border: 1px solid $color-gray-light;
+  border-radius: 5px;
+  padding: 2rem;
+}
+
+@mixin horizontal_menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    border-left: 1px solid $color-gray-dark;
+    border-right: 1px solid $color-gray-light;
+    float: left;
+    line-height: 1rem;
+    padding: 0 1rem;
+
+    &.first {
+      border-left: none;
+      padding-left: 0;
+    }
+    &.last {
+      border-right: none;
+      padding-right: 0;
+    }
+  }
+}

@@ -7,7 +7,7 @@
 /**
  * Implements theme_preprocess_message().
  *
- * Activity stream messages preprocess.
+ *  Activity stream messages preprocess.
  */
 function kapablo_preprocess_message(&$variables) {
   if ($variables['view_mode'] != 'activity_group' && $variables['view_mode'] != 'activity_global') {
@@ -262,4 +262,139 @@ function kapablo_preprocess_views_view(&$vars) {
     'carousels' => $carousels,
   );
   drupal_add_js($settings, 'setting');
+}
+
+/**
+ * Overrides theme_breadcrumb() and bootstrap_breadcrumb().
+ *
+ * Print breadcrumbs as an ordered list.
+ * We need to set the icon class on every item except the first one.
+ * That is why we cannot use theme_item_list.
+ *
+ * @see bootstrap_breadcrumb()
+ * @see theme_breadcrumb()
+ */
+function kapablo_breadcrumb($variables) {
+  $output = '';
+  $breadcrumb = $variables['breadcrumb'];
+
+  // Determine if we are to display the breadcrumb.
+  $bootstrap_breadcrumb = theme_get_setting('bootstrap_breadcrumb');
+  if (($bootstrap_breadcrumb == 1 || ($bootstrap_breadcrumb == 2 && arg(0) == 'admin')) && !empty($breadcrumb)) {
+
+    $output = "<ol" . drupal_attributes(array('class' => array('breadcrumb'))) . '>';
+
+    array_unshift($breadcrumb, l(t('EUROPA'), 'http://ec.europa.eu'), l(t('capacity4dev'), '<front>'));
+
+    $num_items = count($breadcrumb);
+
+    foreach ($breadcrumb as $i => $item) {
+      $attributes = array();
+      $i++;
+      $data = '';
+
+      if (is_array($item)) {
+        foreach ($item as $key => $value) {
+          if ($key == 'data') {
+            $data = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
+      }
+      else {
+        $data = $item;
+      }
+
+      if ($i == 1) {
+        $attributes['class'][] = 'first';
+      }
+      if ($i == $num_items) {
+        $attributes['class'][] = 'last';
+      }
+      else {
+        $data .= '<i class="fa fa-chevron-right"></i>';
+      }
+
+      $output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+    }
+
+    $output .= '</ol>';
+  }
+  return $output;
+}
+
+/**
+ * Implements theme_item_list().
+ *
+ * Get back first and last classes (Bootstrap theme removes them).
+ */
+function kapablo_item_list($variables) {
+  $items = $variables['items'];
+  $title = $variables['title'];
+  $type = $variables['type'];
+  $attributes = $variables['attributes'];
+
+  // Only output the list container and title, if there are any list items.
+  // Check to see whether the block title exists before adding a header.
+  // Empty headers are not semantic and present accessibility challenges.
+  $output = '<div class="item-list">';
+  if (isset($title) && $title !== '') {
+    $output .= '<h3>' . $title . '</h3>';
+  }
+
+  if (!empty($items)) {
+    $output .= "<$type" . drupal_attributes($attributes) . '>';
+    $num_items = count($items);
+    $i = 0;
+    foreach ($items as $item) {
+      $attributes = array();
+      $children = array();
+      $data = '';
+      $i++;
+      if (is_array($item)) {
+        foreach ($item as $key => $value) {
+          if ($key == 'data') {
+            $data = $value;
+          }
+          elseif ($key == 'children') {
+            $children = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
+      }
+      else {
+        $data = $item;
+      }
+      if (count($children) > 0) {
+        // Render nested list.
+        $data .= theme_item_list(array(
+          'items' => $children,
+          'title' => NULL,
+          'type' => $type,
+          'attributes' => $attributes,
+        ));
+      }
+      if ($i == 1) {
+        $attributes['class'][] = 'first';
+      }
+      if ($i == $num_items) {
+        $attributes['class'][] = 'last';
+      }
+      $output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+    }
+    $output .= "</$type>";
+  }
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+ * Overrides theme_menu_tree().
+ */
+function kapablo_menu_tree__small(&$variables) {
+  return '<ul class="text-small">' . $variables['tree'] . '</ul>';
 }

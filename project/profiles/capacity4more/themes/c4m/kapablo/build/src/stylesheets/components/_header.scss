@@ -1,0 +1,123 @@
+#user-bar {
+  padding: 1rem 0;
+
+  .region-user-bar {
+    .block {
+      display: inline-block;
+      margin-left: 3rem;
+    }
+  }
+}
+
+#block-c4m-user-bar-user-signup-login {
+  ul {
+    @include horizontal_menu;
+
+    li {
+      a {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+#block-c4m-features-header-c4m-header-menu {
+  ul {
+    @include horizontal_menu;
+
+    li {
+      a {
+        color: $color-gray-dark;
+      }
+    }
+  }
+}
+
+#header-ec-wrapper {
+  @include grey_bar;
+  border-bottom: none;
+}
+
+#header-content-wrapper {
+  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green.png') repeat-x;
+
+  .intro-banner & {
+    background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green-white.png') repeat-x;
+  }
+}
+
+#c4m-search-form {
+  margin-top: 1.8rem;
+  position: relative;
+
+  input {
+    width: 17rem;
+    padding-right: 3rem;
+  }
+
+  .form-group {
+    margin: 0;
+  }
+
+  .form-submit {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $color-gray-dark;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.header-breadcrumb {
+  margin-top: 1rem;
+
+  ol {
+    margin: 0 0 0 6rem;
+    padding: 0;
+
+    li {
+      a {
+        @extend .text-breadcrumb;
+      }
+
+      i {
+        color: $color-logo-blue;
+        padding: 0 0.5rem;
+      }
+
+      &:before {
+        content: "";
+        padding: 0;
+      }
+    }
+  }
+}
+
+#navbar {
+  border-bottom: 1px solid $color-gray-light;
+
+  .navbar-collapse {
+    padding: 1rem 0;
+
+    ul.menu {
+      @include horizontal_menu;
+
+      li {
+        padding: 0 2rem;
+
+        a {
+          line-height: 1rem;
+          padding: 0;
+          text-transform: uppercase;
+
+          &:hover {
+            background: none;
+            color: $color-gray-dark;
+          }
+        }
+      }
+    }
+  }
+}

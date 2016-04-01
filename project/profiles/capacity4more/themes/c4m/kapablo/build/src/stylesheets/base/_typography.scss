@@ -1,0 +1,183 @@
+/**
+ * SET THE BASELINE.
+ */
+
+html {
+  font-size: $font-size-base;
+}
+
+/**
+ * HELPER MIXINS.
+ */
+
+
+/**
+ * HELPER CLASSES.
+ */
+
+.text-xlarge {
+  // 36px.
+  font-size: $font-size-h1;
+}
+.text-large {
+  // 20px.
+  font-size: $font-size-h2;
+}
+.text-medium {
+  // 18px.
+  font-size: $font-size-h3;
+}
+.text-normal {
+  // 14px.
+  font-size: $font-size-h4;
+}
+.text-small {
+  // 12px.
+  font-size: $font-size-h5;
+}
+.text-xsmall {
+  // 10px.
+  font-size: $font-size-h6;
+}
+
+/* *********** *
+ * TEXT STYLES *
+ * *********** */
+
+.header-1 {
+  @extend .text-xlarge;
+  color: $color-gray-dark;
+  font-family: $font-gill;
+}
+
+.header-sidebar, .header-tagline {
+  @extend .text-large;
+  color: $color-text;
+  font-family: $font-gill;
+}
+
+.header-2 {
+  @extend .text-large;
+  color: $color-gray-dark;
+  font-family: $font-gill;
+}
+
+.header-sub {
+  @extend .text-medium;
+  color: $color-text;
+  font-family: $font-gill;
+}
+
+.text-copy {
+  @extend .text-normal;
+  color: $color-text;
+  font-family: $font-verdana;
+}
+
+.text-copy--small {
+  @extend .text-small;
+  color: $color-text;
+  font-family: $font-verdana;
+}
+
+.text-copy--inverse {
+  @extend .text-normal;
+  color: $color-white;
+  font-family: $font-verdana;
+}
+
+.text-copy--inverse--small {
+  @extend .text-small;
+  color: $color-white;
+  font-family: $font-verdana;
+}
+
+.text-copy--muted {
+  @extend .text-normal;
+  color: $color-gray-light;
+  font-family: $font-verdana;
+}
+
+.text-copy--emphasized {
+  @extend .text-small;
+  color: $color-text;
+  font-family: $font-verdana;
+  font-style: italic;
+}
+
+.text-link {
+  @extend .text-normal;
+  color: $color-link;
+  font-family: $font-verdana;
+}
+
+.text-link--bold {
+  @extend .text-link;
+  font-weight: bold;
+}
+
+.text-link--cta {
+  @extend .text-small;
+  color: $color-highlight;
+  font-family: $font-verdana;
+}
+
+.text-link--small {
+  @extend .text-small;
+  color: $color-link;
+  font-family: $font-verdana;
+}
+
+.text-link--ec {
+  @extend .text-small;
+  color: $color-text-alternative;
+  font-family: $font-verdana;
+}
+
+.text-nav--selected {
+  @extend .text-copy;
+}
+
+.text-nav--unselected {
+  @extend .text-normal;
+  color: $color-text-alternative;
+  font-family: $font-verdana;
+}
+
+.text-placeholder {
+  @extend .text-normal;
+  color: $color-gray-light;
+  font-family: $font-verdana;
+  font-style: italic;
+}
+
+.text-breadcrumb {
+  @extend .text-small;
+  color: $color-logo-blue;
+  font-family: $font-verdana;
+}
+
+.text-tooltip {
+  @extend .text-small;
+  color: $color-white;
+  font-family: $font-verdana;
+}
+
+.text-link--blue {
+  @extend .text-small;
+  color: $color-logo-blue;
+  font-family: $font-verdana;
+}
+
+/**
+ * FONT DEFINITIONS.
+ */
+
+h1 {
+  @extend .header-1;
+}
+
+h2 {
+  @extend .header-2
+}
+

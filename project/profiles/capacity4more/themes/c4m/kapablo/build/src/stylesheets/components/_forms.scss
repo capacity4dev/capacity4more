@@ -1,10 +1,22 @@
+.form-control {
+  border: 1px solid $color-gray-light;
+  box-shadow: inset 0 0 2px 0 $color-gray-light;
+  color: $color-gray-dark;
+  font-style: italic;
+}
+
+.btn {
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 $color-gray-light;
+}
+
 // ========================================================================== //
 // Exposed forms.
 //
 // Normally these are only used for search related views. If they are used for
 // something else we should take care of all scenarios.
 // ========================================================================== //
-
 .views-exposed-form {
   .views-exposed-widget {
     float: none;

@@ -8,11 +8,10 @@ body {
 
 
 a {
-  color: $link-color;
+  color: $color-link;
   text-decoration: none;
 
   &:hover {
-    color: $link-hover-color;
     text-decoration: underline;
   }
 }

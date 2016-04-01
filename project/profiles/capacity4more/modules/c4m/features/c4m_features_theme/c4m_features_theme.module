@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Code for the Theme settings feature.
+ */
+
+include_once 'c4m_features_theme.features.inc';
+
+/**
+ * Implements hook_bootstrap_colorize_text_alter().
+ */
+function c4m_features_theme_bootstrap_colorize_text_alter(&$texts) {
+  // This matches the exact string: "My Unique Button Text".
+  $texts['matches'][t('Log in')] = 'primary';
+}

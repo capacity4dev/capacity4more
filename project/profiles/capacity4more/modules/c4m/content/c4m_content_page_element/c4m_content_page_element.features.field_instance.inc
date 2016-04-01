@@ -10,7 +10,7 @@
 function c4m_content_page_element_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-page_element-c4m_body'
+  // Exported field_instance: 'node-page_element-c4m_body'.
   $field_instances['node-page_element-c4m_body'] = array(
     'bundle' => 'page_element',
     'default_value' => NULL,
@@ -97,7 +97,7 @@ function c4m_content_page_element_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page_element-c4m_page'
+  // Exported field_instance: 'node-page_element-c4m_page'.
   $field_instances['node-page_element-c4m_page'] = array(
     'bundle' => 'page_element',
     'default_value' => NULL,
@@ -179,7 +179,7 @@ function c4m_content_page_element_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page_element-c4m_position'
+  // Exported field_instance: 'node-page_element-c4m_position'.
   $field_instances['node-page_element-c4m_position'] = array(
     'bundle' => 'page_element',
     'default_value' => NULL,

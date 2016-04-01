@@ -118,6 +118,10 @@ function c4m_content_discussion_strongarm() {
             'weight' => '6',
             'visible' => TRUE,
           ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

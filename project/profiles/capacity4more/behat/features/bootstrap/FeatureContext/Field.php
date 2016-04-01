@@ -47,10 +47,10 @@ trait Field {
         $locator = '.region-content .field-name-c4m-vocab-geo';
         break;
       case 'Title':
-        $locator = '.main-container .page-header, .node .field-name-title';
+        $locator = '#main-wrapper .page-header, .node .field-name-title';
         break;
       case 'Title in right region':
-        $locator = '.main-container .field-name-title';
+        $locator = '.region-content .field-name-title';
         break;
       case 'Topics':
         $locator = '.region-content .field-name-c4m-vocab-topic';
