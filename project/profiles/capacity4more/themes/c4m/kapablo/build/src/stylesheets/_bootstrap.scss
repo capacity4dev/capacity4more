@@ -26,8 +26,8 @@
 
 // Components
 //@import "bootstrap/component-animations";
-//@import "bootstrap/dropdowns";
-//@import "bootstrap/button-groups";
+@import "bootstrap/dropdowns";
+@import "bootstrap/button-groups";
 //@import "bootstrap/input-groups";
 @import "bootstrap/navs";
 @import "bootstrap/navbar";
@@ -38,7 +38,7 @@
 //@import "bootstrap/badges";
 //@import "bootstrap/jumbotron";
 //@import "bootstrap/thumbnails";
-//@import "bootstrap/alerts";
+@import "bootstrap/alerts";
 //@import "bootstrap/progress-bars";
 //@import "bootstrap/media";
 //@import "bootstrap/list-group";
@@ -51,7 +51,7 @@
 //@import "bootstrap/modals";
 //@import "bootstrap/tooltip";
 //@import "bootstrap/popovers";
-//@import "bootstrap/carousel";
+@import "bootstrap/carousel";
 
 // Utility classes
 @import "bootstrap/utilities";

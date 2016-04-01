@@ -8,6 +8,10 @@
  * Callback for the search_overview block.
  */
 function _c4m_search_nodes_block_search_overview() {
+  // Get active query parameters.
+  $param = drupal_get_query_parameters();
+
+  // Get summary of (global) content types.
   $types = array(
     'article',
     'group',
@@ -25,6 +29,16 @@ function _c4m_search_nodes_block_search_overview() {
       'class' => array('bg-info'),
     ),
   );
+
+  if (isset($param['text'])) {
+    $content['info']['term'] = array(
+      '#type' => 'markup',
+      '#markup' => t(
+        'You searched for: %searchterm',
+        array('%searchterm' => $param['text'])
+      ),
+    );
+  }
 
   $content['info']['list'] = array(
     '#theme' => 'item_list',
