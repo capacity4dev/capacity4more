@@ -68,7 +68,7 @@ Feature: Group Events
     When  I start creating "event" "Some new event1" in group "Architecture" without file field "document"
     And   I check the related topic checkbox
     And   I should not see an "edit-og-group-ref-und-0-default" element
-    And   I press "Publish"
+    And   I press "Save"
     Then  I should see "Some new event1" in the activity stream of the group "Architecture"
 
   # TODO : Setting the topic does not work on events!

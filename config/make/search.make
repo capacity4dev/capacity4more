@@ -15,9 +15,6 @@ projects[search_api][version] = "1.17"
 projects[search_api_attachments][subdir] = "contrib"
 projects[search_api_attachments][version] = "1.8"
 
-projects[search_api_autocomplete][subdir] = "contrib"
-projects[search_api_autocomplete][version] = "1.4"
-
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.10"
 
