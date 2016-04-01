@@ -116,17 +116,17 @@
     </div>
   </div><!-- /banner-ec -->
 
+  <?php if ($page['header']): ?>
   <div id="header-content-wrapper">
     <div class="container">
       <div class="row">
-
         <div class="col-sm-12 col-md-12 header-content">
           <?php print render($page['header']); ?>
         </div>
-
       </div>
     </div>
   </div><!-- /header-content-wrapper -->
+  <?php endif; ?>
 
   <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
     <div id="navbar">

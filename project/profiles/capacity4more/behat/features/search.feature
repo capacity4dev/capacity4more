@@ -6,7 +6,7 @@ Feature: Testing the did you mean feature offered for search api that provides
     Given I am an anonymous user
     When I visit the site homepage
     And I fill in "edit-keys" with "lega"
-    And I press "Search"
+    And I press "<i class=\"fa fa-search\"></i>"
     Then I should see "Did you mean"
 
   @api
@@ -14,5 +14,5 @@ Feature: Testing the did you mean feature offered for search api that provides
     Given I am an anonymous user
     When I visit the site homepage
     And I fill in "edit-keys" with "level"
-    And I press "Search"
+    And I press "<i class=\"fa fa-search\"></i>"
     Then I should not see "Did you mean"

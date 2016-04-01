@@ -42,12 +42,15 @@
 
 #content-top-wrapper {
   @include grey_bar;
+  @include grain;
 
   border-top: none;
 }
 
 .pane-voices-views-carousel {
   @include grey_box;
+  @include grain;
+
   margin-bottom: 2rem;
 }
 
@@ -59,6 +62,8 @@
   .col-sm-4 {
     a {
       @include grey_box;
+      @include grain;
+
       color: $color-text;
       display: block;
       text-decoration: none;
@@ -106,16 +111,21 @@
         border: 5px solid $color-text-alternative;
         border-radius: 30px;
         bottom: 2rem;
+        font-size: 1.1rem;
         left: -50%;
         padding-left: 6rem;
         padding-right: 4rem;
         position: relative;
 
-        i.fa {
-          bottom: 1px;
-          font-size: 3rem;
-          left: 6px;
+        .icon-play2 {
+          bottom: 7px;
+          font-size: 2rem;
+          left: 10px;
           position: absolute;
+
+          &:before {
+            content: "\e900";
+          }
         }
       }
     }

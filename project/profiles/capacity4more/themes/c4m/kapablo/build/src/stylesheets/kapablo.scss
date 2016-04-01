@@ -2,16 +2,16 @@
 
 @import "bootstrap";
 
+@import "base/global";
+@import "base/icomoon";
 @import "base/mixins";
 @import "base/typography";
-@import "base/global";
 
-@import "components/header";
-@import "components/images";
-@import "components/footer";
-@import "components/homepage";
 @import "components/activity_stream";
+@import "components/footer";
 @import "components/forms";
-@import "components/exposed-form";
+@import "components/header";
+@import "components/homepage";
+@import "components/images";
 
 @import "states/block_list";
