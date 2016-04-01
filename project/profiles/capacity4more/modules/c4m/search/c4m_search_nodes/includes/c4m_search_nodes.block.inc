@@ -45,7 +45,7 @@ function _c4m_search_nodes_block_search_overview() {
     ),
   );
 
-  if (isset($param['text'])) {
+  if (isset($param['text']) && strlen($param['text']) > 0) {
     $content['info']['term'] = array(
       '#type' => 'markup',
       '#markup' => t(
@@ -58,6 +58,7 @@ function _c4m_search_nodes_block_search_overview() {
   $content['info']['list'] = array(
     '#theme' => 'item_list',
     '#items' => $facet_items,
+    '#attributes' => array('class' => 'list-inline text-center')
   );
 
   return array(
