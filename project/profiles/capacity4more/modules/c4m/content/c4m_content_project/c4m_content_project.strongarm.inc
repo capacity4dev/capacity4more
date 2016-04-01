@@ -66,7 +66,7 @@ function c4m_content_project_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'full' => array(
         'custom_settings' => FALSE,
@@ -118,6 +118,15 @@ function c4m_content_project_strongarm() {
       ),
       'revision' => array(
         'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(

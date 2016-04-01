@@ -12,58 +12,43 @@ function c4m_content_project_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
-  $ds_fieldsetting->id = 'node|project|c4m_related';
+  $ds_fieldsetting->id = 'node|project|block_list';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'project';
-  $ds_fieldsetting->view_mode = 'c4m_related';
+  $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
-        'link' => 'purl_auto',
-        'wrapper' => 'h3',
+        'link' => 'purl_og_dashboard',
+        'wrapper' => '',
         'class' => '',
-        'ft' => array(),
-      ),
-    ),
-    'c4m_user_first_and_last_name' => array(
-      'weight' => '1',
-      'label' => 'inline',
-      'format' => 'linked_user',
-      'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Owned by',
-          'prefix' => '<div class="owner">',
-          'suffix' => '</div>',
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
-    'c4m_ds_group_members_count' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '2',
       'label' => 'hidden',
-      'format' => 'default',
+      'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'prefix' => '<span class="group-members-count">',
-          'suffix' => '</span>',
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
     'c4m_media' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'prefix' => '<div class="round-bg">',
-          'suffix' => '</div>',
+          'func' => 'theme_ds_field_reset',
         ),
       ),
     ),
   );
-  $export['node|project|c4m_related'] = $ds_fieldsetting;
+  $export['node|project|block_list'] = $ds_fieldsetting;
 
   return $export;
 }
@@ -76,27 +61,25 @@ function c4m_content_project_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
-  $ds_layout->id = 'node|project|c4m_related';
+  $ds_layout->id = 'node|project|block_list';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'project';
-  $ds_layout->view_mode = 'c4m_related';
+  $ds_layout->view_mode = 'block_list';
   $ds_layout->layout = 'c4m_ds_3_9_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
-        0 => 'title',
-        1 => 'c4m_user_first_and_last_name',
-        2 => 'c4m_ds_group_members_count',
-      ),
       'left' => array(
-        3 => 'c4m_media',
+        0 => 'c4m_media',
+      ),
+      'right' => array(
+        1 => 'title',
+        2 => 'c4m_user_first_and_last_name',
       ),
     ),
     'fields' => array(
+      'c4m_media' => 'left',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
-      'c4m_ds_group_members_count' => 'right',
-      'c4m_media' => 'left',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -108,8 +91,66 @@ function c4m_content_project_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
-  $export['node|project|c4m_related'] = $ds_layout;
+  $export['node|project|block_list'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|project|group_dashboard';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'project';
+  $ds_layout->view_mode = 'group_dashboard';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_body',
+        1 => 'c4m_media',
+        2 => 'c4m_banner',
+        3 => 'c4m_date_end',
+        4 => 'c4m_source_of_funding',
+        5 => 'c4m_partner',
+        6 => 'c4m_implemented_by',
+        7 => 'c4m_cris_decision_number',
+        8 => 'c4m_cris_contract_number',
+        9 => 'c4m_vocab_geo',
+        10 => 'c4m_related_group',
+        11 => 'c4m_related_projects',
+        12 => 'c4m_money',
+        13 => 'group_group',
+        14 => 'c4m_vocab_topic',
+      ),
+    ),
+    'fields' => array(
+      'c4m_body' => 'ds_content',
+      'c4m_media' => 'ds_content',
+      'c4m_banner' => 'ds_content',
+      'c4m_date_end' => 'ds_content',
+      'c4m_source_of_funding' => 'ds_content',
+      'c4m_partner' => 'ds_content',
+      'c4m_implemented_by' => 'ds_content',
+      'c4m_cris_decision_number' => 'ds_content',
+      'c4m_cris_contract_number' => 'ds_content',
+      'c4m_vocab_geo' => 'ds_content',
+      'c4m_related_group' => 'ds_content',
+      'c4m_related_projects' => 'ds_content',
+      'c4m_money' => 'ds_content',
+      'group_group' => 'ds_content',
+      'c4m_vocab_topic' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['node|project|group_dashboard'] = $ds_layout;
 
   return $export;
 }
