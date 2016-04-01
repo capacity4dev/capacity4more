@@ -58,7 +58,7 @@ Feature: Group Documents
 #    Given I am logged in as user "mariecurie"
 #    When  I start creating "document" "Some new document1" in group "Architecture" with file field "edit-c4m-document-und-0-upload"
 #    And   I should not see an "edit-og-group-ref-und-0-default" element
-#    And   I press "Publish"
+#    And   I press "Save"
 #    Then  I should see "Some new document1" in the activity stream of the group "Architecture"
 #
 #  @javascript
