@@ -120,7 +120,7 @@ function c4m_content_group_strongarm() {
         'custom_settings' => FALSE,
       ),
       'teaser_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'block_list' => array(
         'custom_settings' => TRUE,
