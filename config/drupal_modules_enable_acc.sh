@@ -7,4 +7,5 @@
 
 MODULES_ENABLE=(
   "c4d_migrate"
+  "memcache"
 )
