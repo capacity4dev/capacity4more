@@ -69,6 +69,7 @@ class C4mSearchWidgetLinksContentTypes extends FacetapiWidgetLinks {
         if ($item['#active'] || !empty($settings['show_expanded'])) {
           $row['class'][] = 'expanded';
           $row['children'] = $this->buildListItems($item['#item_children']);
+          $row['children'] = $row['children']['global']['children'];
         }
         else {
           $row['class'][] = 'collapsed';
@@ -81,7 +82,7 @@ class C4mSearchWidgetLinksContentTypes extends FacetapiWidgetLinks {
 
       // Themes the link, adds row to items.
       $row['data'] = theme($item['#theme'], $variables);
-      if (in_array('group', $item['#class'])) {
+      if (!empty($item['#class']) && in_array('group', $item['#class'])) {
         $items['group'][] = $row;
       }
       else {
