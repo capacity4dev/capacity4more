@@ -352,16 +352,9 @@ function c4m_search_form($form, &$form_state) {
     ),
   );
 
-  if (c4m_og_current_group()) {
-    $default_value = 'search_api_views_c4m_search_og';
-  }
-  else {
-    $default_value = 'search_api_views_c4m_search_nodes';
-  }
-
   $form['basic']['search_page'] = array(
     '#type' => 'hidden',
-    '#value' => $default_value,
+    '#value' => 'search_api_views_c4m_search_nodes',
   );
 
   // Search input.
