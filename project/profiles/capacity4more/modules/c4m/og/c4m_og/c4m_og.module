@@ -453,7 +453,7 @@ function _c4m_og_group_type_getter_callback($item) {
 function c4m_og_get_gid_from_entity($entity) {
   // Check if entity has the "type" property.
   if (!property_exists($entity, 'type')) {
-    return;
+    return NULL;
   }
 
   if (og_is_group_type('node', $entity->type)) {
