@@ -1,0 +1,25 @@
+.view-mode-activity_global {
+  .field-name-c4m-field-og-group {
+    @extend .text-copy--muted;
+
+    margin: -1em 0 1em 0;
+
+    a {
+      @extend .text-copy--muted;
+    }
+  }
+}
+
+.activity-stream--operator {
+  @extend .text-copy--muted;
+
+  a {
+    @extend .text-copy--muted;
+  }
+
+  margin-bottom: 1em;
+}
+
+.field-name-c4m-ds-content-footer-stats {
+  @extend .text-copy--muted;
+}
