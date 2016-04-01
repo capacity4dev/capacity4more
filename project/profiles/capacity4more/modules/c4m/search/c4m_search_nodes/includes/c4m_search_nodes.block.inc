@@ -81,7 +81,6 @@ function _c4m_search_nodes_block_search_overview() {
     );
   }
 
-
   return array(
     'subject' => NULL,
     'content' => $content,
