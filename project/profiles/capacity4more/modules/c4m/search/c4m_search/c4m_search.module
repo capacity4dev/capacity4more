@@ -378,12 +378,6 @@ function c4m_search_form($form, &$form_state) {
     ),
   );
 
-  // Get the proper ID for the current search.
-  $search = search_api_autocomplete_search_load($default_value);
-  if ($search && $search->enabled) {
-    $search->alterElement($form['basic']['keys']);
-  }
-
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
