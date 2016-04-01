@@ -231,29 +231,6 @@ function c4m_search_custom_search(array $filters, $options = array()) {
 }
 
 /**
- * Implements hook_views_data_alter().
- *
- * Provide a views bulk operations checkbox to search api index views.
- * See https://www.drupal.org/node/1123454#comment-9554163
- */
-function c4m_search_views_data_alter(&$data) {
-  if (isset($data['search_api_index'])) {
-    foreach (search_api_index_load_multiple(FALSE) as $index) {
-      $data['search_api_index_' . $index->machine_name]['views_bulk_operations'] = array(
-        'title' => t('Bulk operations'),
-        'help' => t('Provide a checkbox to select the row for bulk operations.'),
-        'real field' => 'id',
-        'field' => array(
-          'handler' => 'c4m_search_vbo_handler_field_operations',
-          'item_type' => $index->item_type,
-          'click sortable' => FALSE,
-        ),
-      );
-    }
-  }
-}
-
-/**
  * Implements hook_facetapi_url_processors().
  */
 function c4m_search_facetapi_url_processors() {
@@ -455,5 +432,68 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
         $build[$key]['#class'][] = 'global';
       }
     }
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Add required inputs to the form.
+ * Alter the #info data so that the widgets are altered.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+  if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
+    return;
+  }
+
+  $form['#info']['filter-search_api_views_fulltext']['label'] = '';
+  $form['text']['#type'] = 'hidden';
+
+  $form['search_within_results'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Search within search results',
+    '#weight' => -5,
+  );
+  $form['#info']['search_within_results'] = array(
+    'value' => 'search_within_results',
+  );
+  $form['#info']['search'] = array(
+    'value' => 'search',
+    'label' => 'Search',
+  );
+  $form['search'] = array(
+    '#type' => 'textfield',
+    '#weight' => -10,
+  );
+
+  $form['search_params'] = array(
+    '#type' => 'hidden',
+    '#value' => serialize(drupal_get_query_parameters()),
+  );
+
+  $form['#submit'][] = 'c4m_search_submit_handler_search_within_results';
+}
+
+/**
+ * Submit callback for exposed filters forms.
+ */
+function c4m_search_submit_handler_search_within_results($form, &$form_state) {
+  if ($form_state['values']['search_within_results'] == 1) {
+    $new_value = $form_state['values']['search'];
+    $path = drupal_get_query_parameters();
+    $params = unserialize($path['search_params']);
+    $params['text'] .= ' ' . $new_value;
+
+    drupal_goto(current_path(), array('query' => $params));
+  }
+  elseif (!empty($form_state['values']['search'])) {
+    $new_value = $form_state['values']['search'];
+
+    $params = array(
+      'text' => $new_value,
+    );
+    drupal_goto(current_path(), array('query' => $params));
   }
 }
