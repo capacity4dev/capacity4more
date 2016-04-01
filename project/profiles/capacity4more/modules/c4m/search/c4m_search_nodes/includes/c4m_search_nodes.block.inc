@@ -65,23 +65,3 @@ function _c4m_search_nodes_block_search_overview() {
     'content' => $content,
   );
 }
-
-/**
- * Returns the search overview info for a content type.
- *
- * @param string $type
- *   Content type.
- *
- * @return string
- *   Overview info.
- */
-function _c4m_search_nodes_get_overview_info($type) {
-  $query = new EntityFieldQuery();
-  $result = $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', $type)
-    ->entityCondition('published', NODE_PUBLISHED)
-    ->count()
-    ->execute();
-
-  return format_plural($result, "1 {$type}", "@count {$type}s");
-}
