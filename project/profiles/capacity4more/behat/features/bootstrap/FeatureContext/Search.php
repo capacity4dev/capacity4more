@@ -29,7 +29,7 @@ trait Search {
    */
   public function iShouldSeeTheSidebarSearch() {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '.region-sidebar-first #edit-text');
+    $el = $page->find('css', '.region-sidebar-first #edit-search');
     if ($el === null) {
       throw new \Exception('The Sidebar Search block is not visible.');
     }
