@@ -469,6 +469,9 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
  */
 function _c4m_search_remove_facet_param(&$facet_item, $param_name) {
   $params = &$facet_item['#query']['f'];
+  if (!isset($params)) {
+    return;
+  }
   foreach ($params as $key => $value) {
     if (strpos($value, $param_name) === 0) {
       array_splice($params, $key, 1);
