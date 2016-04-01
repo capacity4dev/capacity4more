@@ -41,7 +41,7 @@ function _c4m_search_nodes_block_search_overview() {
   $content['info'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('bg-info'),
+      'class' => array('well', 'well-sm', 'bg-info'),
     ),
   );
 
