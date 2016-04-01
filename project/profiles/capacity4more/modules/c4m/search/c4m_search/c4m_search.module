@@ -488,7 +488,7 @@ function _c4m_search_remove_facet_param(&$facet_item, $param_name) {
  * @return array
  *   List of facet items.
  */
-function _c4m_search_get_facet_items($field_name){
+function _c4m_search_get_facet_items($field_name) {
   $adapter = facetapi_adapter_load('search_api@c4m_search_nodes');
   $facets = new FacetapiFacet($adapter, facetapi_facet_load($field_name, 'search_api@c4m_search_nodes'));
 
