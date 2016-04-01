@@ -10,7 +10,7 @@
 function c4m_content_article_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'c4m_has_video'
+  // Exported field_base: 'c4m_has_video'.
   $field_bases['c4m_has_video'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -35,7 +35,7 @@ function c4m_content_article_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'c4m_intro_text'
+  // Exported field_base: 'c4m_intro_text'.
   $field_bases['c4m_intro_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -54,7 +54,7 @@ function c4m_content_article_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'c4m_related_articles'
+  // Exported field_base: 'c4m_related_articles'.
   $field_bases['c4m_related_articles'] = array(
     'active' => 1,
     'cardinality' => -1,

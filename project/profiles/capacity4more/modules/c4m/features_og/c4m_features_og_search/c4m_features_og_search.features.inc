@@ -29,6 +29,7 @@ function c4m_features_og_search_default_search_api_autocomplete_search() {
     "machine_name" : "search_api_views_c4m_search_og",
     "name" : "Search Group",
     "index_id" : "c4m_search_nodes",
+    "suggester_id" : "",
     "type" : "search_api_views",
     "enabled" : "1",
     "options" : { "result count" : true, "fields" : [] },

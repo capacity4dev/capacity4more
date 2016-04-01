@@ -6,7 +6,7 @@ markup_debug "SOLR Host : ${SOLR_HOST}"
 markup_debug "SOLR Port : ${SOLR_PORT}"
 markup_debug "SOLR Path : ${SOLR_PATH}"
 
-if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" !== "" ]; then
+if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" != "" ]; then
   drupal_sites_default_unprotect
   cat << EOF >> "$DIR_WEB/sites/default/settings.php"
 
@@ -17,12 +17,12 @@ if [ "$SOLR_HOST" != "" ] && [ "$SOLR_PORT" != "" ] && [ "$SOLR_PATH" !== "" ]; 
   'c4m_solr' => array(
     'name' => t('Solr Server'),
     'options' => array(
-      'host' => '"$SOLR_HOST"',
+      'host' => "$SOLR_HOST",
       'port' => "$SOLR_PORT",
-      'path' => '"$SOLR_PATH"',
+      'path' => "$SOLR_PATH",
     ),
   ),
-)
+);
 EOF
   drupal_sites_default_protect
   message_success "Solr configuration added."
@@ -62,8 +62,8 @@ if [ "$MEMCACHE_HOST" != "" ] && [ "$MEMCACHE_PORT" != "" ]; then
  * Memcache settings
  */
 // Memcache settings.
-\$conf["cache_backends"][] = "sites/all/modules/memcache/memcache.inc";
-\$conf["lock_inc"] = "sites/all/modules/memcache/memcache-lock.inc";
+\$conf["cache_backends"][] = "sites/all/modules/contrib/memcache/memcache.inc";
+\$conf["lock_inc"] = "sites/all/modules/contrib/memcache/memcache-lock.inc";
 \$conf["memcache_stampede_protection"] = TRUE;
 \$conf["cache_default_class"] = "MemCacheDrupal";
 

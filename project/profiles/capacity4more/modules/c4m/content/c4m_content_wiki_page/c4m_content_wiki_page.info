@@ -65,4 +65,5 @@ features[variable][] = menu_parent_wiki_page
 features[variable][] = node_options_wiki_page
 features[variable][] = node_preview_wiki_page
 features[variable][] = node_submitted_wiki_page
+features[variable][] = pathauto_node_wiki_page_pattern
 features_exclude[field_base][comment_body] = comment_body

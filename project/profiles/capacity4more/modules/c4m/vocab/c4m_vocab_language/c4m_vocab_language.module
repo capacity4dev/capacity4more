@@ -1,5 +1,7 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Language vocabulary feature.
  */
+
+include_once 'c4m_vocab_language.features.inc';

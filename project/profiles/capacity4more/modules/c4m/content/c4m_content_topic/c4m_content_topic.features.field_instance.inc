@@ -10,7 +10,7 @@
 function c4m_content_topic_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-topic-c4m_banner'
+  // Exported field_instance: 'node-topic-c4m_banner'.
   $field_instances['node-topic-c4m_banner'] = array(
     'bundle' => 'topic',
     'deleted' => 0,
@@ -36,7 +36,7 @@ function c4m_content_topic_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => '',
@@ -52,7 +52,7 @@ function c4m_content_topic_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
           'image_style' => 'banner',
@@ -126,7 +126,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_body'
+  // Exported field_instance: 'node-topic-c4m_body'.
   $field_instances['node-topic-c4m_body'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
@@ -261,7 +261,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_media'
+  // Exported field_instance: 'node-topic-c4m_media'.
   $field_instances['node-topic-c4m_media'] = array(
     'bundle' => 'topic',
     'deleted' => 0,
@@ -317,7 +317,7 @@ function c4m_content_topic_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => 'content',
           'image_style' => 'medium',
@@ -373,7 +373,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_related_articles'
+  // Exported field_instance: 'node-topic-c4m_related_articles'.
   $field_instances['node-topic-c4m_related_articles'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
@@ -471,7 +471,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_related_group_unlimited'
+  // Exported field_instance: 'node-topic-c4m_related_group_unlimited'.
   $field_instances['node-topic-c4m_related_group_unlimited'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
@@ -569,7 +569,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_related_projects_unlimited'
+  // Exported field_instance: 'node-topic-c4m_related_projects_unlimited'.
   $field_instances['node-topic-c4m_related_projects_unlimited'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
@@ -667,7 +667,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_vocab_theme'
+  // Exported field_instance: 'node-topic-c4m_vocab_theme'.
   $field_instances['node-topic-c4m_vocab_theme'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
@@ -763,7 +763,7 @@ function c4m_content_topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-topic-c4m_vocab_topic_mapping'
+  // Exported field_instance: 'node-topic-c4m_vocab_topic_mapping'.
   $field_instances['node-topic-c4m_vocab_topic_mapping'] = array(
     'bundle' => 'topic',
     'default_value' => NULL,
