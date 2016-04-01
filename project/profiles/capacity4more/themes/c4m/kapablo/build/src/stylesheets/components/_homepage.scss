@@ -42,12 +42,15 @@
 
 #content-top-wrapper {
   @include grey_bar;
+  @include grain;
 
   border-top: none;
 }
 
 .pane-voices-views-carousel {
   @include grey_box;
+  @include grain;
+
   margin-bottom: 2rem;
 }
 
@@ -59,6 +62,8 @@
   .col-sm-4 {
     a {
       @include grey_box;
+      @include grain;
+      
       color: $color-text;
       display: block;
       text-decoration: none;
