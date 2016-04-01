@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Homepage Intro block  feature.
+ */
+
+include_once 'c4m_features_homepage_intro_block.features.inc';

@@ -70,6 +70,9 @@ function c4m_content_page_element_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
   $export['intro_block'] = $view;
 
   return $export;

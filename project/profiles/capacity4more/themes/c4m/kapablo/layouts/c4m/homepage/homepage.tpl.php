@@ -77,28 +77,24 @@
  */
 ?>
 
-<div class="main-container container">
-
-  <div class="row">
+<div class="row">
     <div class="col-md-12">
       <?php print $content['top']; ?>
     </div>
-  </div>
+</div>
 
-  <div class="row">
-    <aside class="col-md-7" role="complementary">
+<div class="row">
+    <aside class="col-md-8" role="complementary">
       <?php print $content['left']; ?>
     </aside>  <!-- /#sidebar-first -->
 
-    <aside class="col-md-5" role="complementary">
+    <aside class="col-md-4" role="complementary">
       <?php print $content['right']; ?>
     </aside>  <!-- /#sidebar-first -->
-  </div>
+</div>
 
-  <div class="row">
+<div class="row">
     <div class="col-md-12">
       <?php print $content['bottom']; ?>
     </div>
-  </div>
-
 </div>

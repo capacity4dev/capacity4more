@@ -137,6 +137,10 @@ function c4m_content_event_strongarm() {
             'weight' => '10',
             'visible' => FALSE,
           ),
+          'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

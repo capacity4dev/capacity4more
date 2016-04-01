@@ -1,0 +1,18 @@
+@media (min-width: 992px) {
+  .container {
+    width: 960px + $grid-gutter-width;
+  }
+}
+
+#main-wrapper {
+  padding: 2rem 0;
+}
+
+.page-header {
+  border-bottom: none;
+  margin: 2rem 0;
+}
+
+.nav-tabs {
+  margin-bottom: 1rem;
+}

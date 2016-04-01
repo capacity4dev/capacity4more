@@ -17,7 +17,8 @@ regions[content]        = 'Content'
 regions[sidebar_first]  = 'Primary'
 regions[sidebar_second] = 'Secondary'
 regions[content_bottom] = 'Page bottom'
-regions[footer]         = 'Footer'
+regions[footer_top]     = 'Footer top'
+regions[footer_bottom]  = 'Footer bottom'
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Overlay regions

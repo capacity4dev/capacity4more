@@ -232,19 +232,3 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . "</li>\n";
 }
-
-/**
- * Overrides theme_menu_link() for footer menu.
- */
-function kapablo_menu_link__c4m_footer(array $variables) {
-  $delimiter = '<span class="delimiter">|</span>';
-
-  $element = $variables['element'];
-  $sub_menu = '';
-
-  if ($element['#below']) {
-    $sub_menu = drupal_render($element['#below']);
-  }
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . $delimiter . "</li>\n";
-}
