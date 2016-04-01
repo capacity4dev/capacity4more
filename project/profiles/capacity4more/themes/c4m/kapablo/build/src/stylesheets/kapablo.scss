@@ -2,12 +2,13 @@
 
 @import "bootstrap";
 
+@import "base/global";
+@import "base/icomoon";
 @import "base/mixins";
 @import "base/typography";
-@import "base/global";
 
-@import "components/header";
-@import "components/footer";
-@import "components/homepage";
 @import "components/activity_stream";
+@import "components/footer";
 @import "components/forms";
+@import "components/header";
+@import "components/homepage";
