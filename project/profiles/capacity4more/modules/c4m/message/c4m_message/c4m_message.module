@@ -207,9 +207,13 @@ function c4m_messages_group_info(Message $message) {
   $handler = og_purl_og_context_handler();
   if (((drupal_is_front_page() || !empty($get_query['homepage']))
     && empty($handler) || (isset($get_query['group'])
-      && is_array($get_query['group'])))) {
+      && is_array($get_query['group'])))
+  ) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
-      $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
+      $wrapper = entity_metadata_wrapper(
+        'node',
+        $message->field_group_node[LANGUAGE_NONE][0]['target_id']
+      );
       $link = l($wrapper->label(), $wrapper->value()->purl);
       $group_info = t('Group: !link', array('!link' => $link));
     }
@@ -569,7 +573,11 @@ function c4m_message_format_rendered_node(Message $message) {
  */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $view = comment_view($wrapper->field_comment->value(), $wrapper->field_node->value(), 'activity_stream');
+  $view = comment_view(
+    $wrapper->field_comment->value(),
+    $wrapper->field_node->value(),
+    'activity_stream'
+  );
   return drupal_render($view);
 }
 
@@ -710,7 +718,11 @@ function c4m_message__update__node($node, $account = NULL) {
         'uid' => $account->uid,
         'timestamp' => $node->timestamp,
       );
-      $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
+      $message = message_create(
+        'c4m_insert__node__' . $node->type,
+        $values,
+        $account
+      );
     }
   }
   else {
@@ -719,7 +731,11 @@ function c4m_message__update__node($node, $account = NULL) {
       'uid' => $account->uid,
       'timestamp' => $node->timestamp,
     );
-    $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
+    $message = message_create(
+      'c4m_insert__node__' . $node->type,
+      $values,
+      $account
+    );
   }
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
@@ -737,7 +753,11 @@ function c4m_message__update__node($node, $account = NULL) {
  * @param object $entity
  *    The Entity for we create/update message.
  */
-function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
+function c4m_message_prepare_insert_entity(
+  Message &$message,
+  $entity_type,
+  $entity
+) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
   if ($entity_type != 'node') {
     return;
@@ -756,7 +776,9 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
     return;
   }
 
-  $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(
+    array('identifier' => TRUE)
+  );
   $message_wrapper->field_group_node->set($group_id);
 }
 
@@ -823,10 +845,17 @@ function c4m_message_preprocess_node__document(&$variables) {
 
   $file_uri = file_load($document['fid']);
   $download = file_entity_download_uri($file_uri);
-  $variables['download_link'] = l(t('Download this Document'), $download['path'], $download['options']);
+  $variables['download_link'] = l(
+    t('Download this Document'),
+    $download['path'],
+    $download['options']
+  );
   $file_size = format_size($document['filesize']);
   $file_type = $document['type'];
-  $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
+  $variables['file_info'] = t(
+    'Filetype: @filetype | Filesize: @filesize',
+    array('@filetype' => $file_type, '@filesize' => $file_size)
+  );
 }
 
 /**
@@ -849,10 +878,13 @@ function c4m_message_preprocess_node__event(&$variables) {
 
   $start_date_time = format_date($start, 'custom', 'd/m/Y H:i');
   $end_date_time = $start_date == $end_date
-                  ? format_date($end, 'custom', 'H:i')
-                  : format_date($end, 'custom', 'd/m/Y H:i');
+    ? format_date($end, 'custom', 'H:i')
+    : format_date($end, 'custom', 'd/m/Y H:i');
 
-  $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
+  $variables['event_info'] = t(
+    'From @start to @end',
+    array('@start' => $start_date_time, '@end' => $end_date_time)
+  );
 }
 
 /**
@@ -967,7 +999,10 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
   $query->condition($or);
 
   foreach ($conditions as $key => $condition) {
-    if (isset($condition['field']) && !is_object($condition['field']) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
+    if (isset($condition['field']) && !is_object(
+        $condition['field']
+      ) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id'
+    ) {
       unset($conditions[$key]);
     }
   }
@@ -979,7 +1014,9 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
  * @param \SelectQuery $query
  *    The query to be altered.
  */
-function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery &$query) {
+function c4m_message_query_activity_stream_entity_field_access_alter(
+  SelectQuery &$query
+) {
   $query->addMetaData('base_table', 'field_data_field_group_node');
 
   global $user;
@@ -1027,9 +1064,10 @@ function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery
       // to the node for the specified operation.
       foreach ($grants as $realm => $gids) {
         foreach ($gids as $gid) {
-          $grant_conditions->condition(db_and()
-            ->condition('na.gid', $gid)
-            ->condition('na.realm', $realm)
+          $grant_conditions->condition(
+            db_and()
+              ->condition('na.gid', $gid)
+              ->condition('na.realm', $realm)
           );
         }
       }

@@ -16,7 +16,9 @@ include_once 'c4m_search.facetapi_sorts.inc';
  */
 function c4m_search_default_search_api_server() {
   $items = array();
-  $items['c4m_solr'] = entity_import('search_api_server', '{
+  $items['c4m_solr'] = entity_import(
+    'search_api_server',
+    '{
     "name" : "Solr",
     "machine_name" : "c4m_solr",
     "description" : "",
@@ -39,7 +41,8 @@ function c4m_search_default_search_api_server() {
     },
     "enabled" : "1",
     "rdf_mapping" : []
-  }');
+  }'
+  );
   return $items;
 }
 
@@ -94,7 +97,10 @@ function c4m_search_search_api_server_load($servers) {
 
       // Check for if the field is an array.
       if (is_array($field)) {
-        $servers[$id]->$key = array_merge($servers[$id]->$key, $override[$key]);
+        $servers[$id]->$key = array_merge(
+          $servers[$id]->$key,
+          $override[$key]
+        );
       }
       // Else its a value.
       else {
@@ -112,7 +118,7 @@ function c4m_search_search_api_server_load($servers) {
 function c4m_search_block_view_alter(&$data, $block) {
   // Only for blocks provided by the facetapi module.
   if ($block->module === 'facetapi') {
-    module_load_include('inc', 'c4m_search', 'c4m_search.block');
+    module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
     return _c4m_search_block_facetapi_view_alter($data, $block);
   }
 }
@@ -211,13 +217,19 @@ function c4m_search_custom_search(array $filters, $options = array()) {
   foreach ($filters as $filter) {
     if (empty($base_filter)) {
       $base_filter = $query->createFilter($filter['conjunction']);
-      $base_filter->condition($filter['condition']['field'],
-        $filter['condition']['value'], $filter['condition']['operator']);
+      $base_filter->condition(
+        $filter['condition']['field'],
+        $filter['condition']['value'],
+        $filter['condition']['operator']
+      );
     }
     else {
       $subfilter = $query->createFilter($filter['conjunction']);
-      $subfilter->condition($filter['condition']['field'],
-        $filter['condition']['value'], $filter['condition']['operator']);
+      $subfilter->condition(
+        $filter['condition']['field'],
+        $filter['condition']['value'],
+        $filter['condition']['operator']
+      );
       $base_filter->filter($subfilter);
     }
   }
@@ -266,7 +278,8 @@ function c4m_search_search_api_sorts_alter(&$block, $view) {
   if (empty($params['text'])) {
     foreach ($block['content']['#items'] as $key => $item) {
       if (isset($item['#options']['query']['sort'])
-        && $item['#options']['query']['sort'] === 'search_api_relevance') {
+        && $item['#options']['query']['sort'] === 'search_api_relevance'
+      ) {
         unset($block['content']['#items'][$key]);
       }
     }
@@ -279,7 +292,11 @@ function c4m_search_search_api_sorts_alter(&$block, $view) {
  * Make sort by relevance the default sort when a term is entered
  * without a manual sort being selected.
  */
-function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
+function c4m_search_search_api_sorts_get_default_sort_alter(
+  &$default_sort,
+  $search_sorts,
+  $keys
+) {
   $params = drupal_get_query_parameters();
 
   if (empty($params['sort']) && !empty($params['text'])) {
@@ -506,7 +523,11 @@ function _c4m_search_get_facet_items($field_name) {
  *
  * @see template_preprocess_views_exposed_form()
  */
-function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+function c4m_search_form_views_exposed_form_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }
@@ -543,9 +564,10 @@ function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id
  * Submit callback for exposed filters forms.
  */
 function c4m_search_submit_handler_search_within_results($form, &$form_state) {
+  $path = drupal_get_query_parameters();
+
   if ($form_state['values']['search_within_results'] == 1) {
     $new_value = $form_state['values']['search'];
-    $path = drupal_get_query_parameters();
     $params = unserialize($path['search_params']);
     $params['text'] .= ' ' . $new_value;
 
@@ -557,6 +579,13 @@ function c4m_search_submit_handler_search_within_results($form, &$form_state) {
     $params = array(
       'text' => $new_value,
     );
+    drupal_goto(current_path(), array('query' => $params));
+  }
+  // Empty search string: remove search term.
+  elseif (empty($form_state['values']['search']) && !empty($path['search_params'])) {
+    $params = unserialize($path['search_params']);
+    $params['text'] = '';
+
     drupal_goto(current_path(), array('query' => $params));
   }
 }
