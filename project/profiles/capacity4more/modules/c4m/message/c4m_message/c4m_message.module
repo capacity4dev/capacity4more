@@ -716,11 +716,13 @@ function c4m_message_format_node_icon(Message $message) {
 
   try {
     if ($wrapper->getPropertyInfo('field_comment')) {
-//      $icon_tag['#value_prefix'] = '<i class="fa fa-comments-o"></i>';
+      // $icon_tag['#value_prefix'] = '<i class="fa fa-comments-o"></i>';.
       $icon_class = "fa-comments-o";
     }
   }
-  catch (EntityMetadataWrapperException $e) { }
+  catch (EntityMetadataWrapperException $e) {
+
+  }
 
   $icon_tag = array(
     '#type' => 'html_tag',
