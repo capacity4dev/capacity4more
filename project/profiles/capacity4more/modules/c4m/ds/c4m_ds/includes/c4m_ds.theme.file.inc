@@ -13,7 +13,7 @@
  */
 function theme_c4m_ds_formatter_link_and_size($variables) {
   $output = '';
-  if ('file' != $variables['entity_type']
+  if (!isset($variables['entity_type']) || 'file' != $variables['entity_type']
     || empty($variables['entity']->fid)
   ) {
     return $output;

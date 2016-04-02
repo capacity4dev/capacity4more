@@ -12,9 +12,12 @@
 @import "components/forms";
 @import "components/header";
 @import "components/homepage";
+<<<<<<< HEAD
 @import "components/images";
-@import "components/search";
 
 @import "states/activity_global";
 @import "states/activity_group";
 @import "states/block_list";
+=======
+@import "components/search";
+>>>>>>> develop

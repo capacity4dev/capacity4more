@@ -32,6 +32,12 @@ function c4m_search_nodes_context_default_contexts() {
           'region' => 'content_top',
           'weight' => '-10',
         ),
+        'c4m_search_nodes-search_overview' => array(
+          'module' => 'c4m_search_nodes',
+          'delta' => 'search_overview',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_search_nodes-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_search_nodes-page',

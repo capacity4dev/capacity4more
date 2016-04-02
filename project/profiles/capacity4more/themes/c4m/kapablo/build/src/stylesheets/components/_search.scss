@@ -1,0 +1,11 @@
+.list-inline {
+  margin-bottom: 0;
+}
+
+.search--refine {
+  display: inline-block;
+
+  & + .item-list {
+    display: inline-block;
+  }
+}
