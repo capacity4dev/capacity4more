@@ -136,5 +136,11 @@
         tooltips.tooltip();
       }
     };
+
+    Drupal.behaviors.initDropdowns = {
+      attach: function (context, settings) {
+        $('.dropdown-toggle').dropdown()
+      }
+    };
   }
 )(jQuery);

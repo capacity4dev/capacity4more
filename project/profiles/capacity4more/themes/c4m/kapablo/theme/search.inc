@@ -62,6 +62,7 @@ function kapablo_search_api_sorts_list(array $variables) {
 
   $options = $variables['options'];
   $options['attributes']['class'][] = 'dropdown-menu';
+  $options['hide_wrapper'] = TRUE;
 
   $output = '';
   if ($items) {

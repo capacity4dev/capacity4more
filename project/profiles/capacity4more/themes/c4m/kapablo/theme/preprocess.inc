@@ -38,7 +38,8 @@ function kapablo_preprocess_message(&$variables) {
     if ($icon_name == 'discussion') {
       $message_wrapper = entity_metadata_wrapper('message', $message);
       // Icon image file name is the discussion type of the discussion node.
-      $icon_name = 'discussion-' . $message_wrapper->field_node->c4m_discussion_type->value();
+      $icon_name = 'discussion-' . $message_wrapper->field_node->c4m_discussion_type->value(
+        );
     }
   }
 
@@ -49,8 +50,8 @@ function kapablo_preprocess_message(&$variables) {
  * Implements theme_preprocess_block().
  */
 function kapablo_preprocess_block(&$variables) {
-  $block_id        = $variables['block']->module . '-' . $variables['block']->delta;
-  $classes         = & $variables['classes_array'];
+  $block_id = $variables['block']->module . '-' . $variables['block']->delta;
+  $classes = &$variables['classes_array'];
 
   // Add classes based on the block delta.
   switch ($block_id) {
@@ -139,7 +140,7 @@ function kapablo_preprocess_field(&$variables, $hook) {
 
     case 'c4m_ds_group_members_count':
       foreach ($element['#items'] as $key => $item) {
-        $variables['items'][$key]['#markup'] = '<i class="fa fa-user"></i> ' . $variables['items'][$key]['#markup'];
+        $variables['items'][$key]['#markup'] = '<i class="fa fa-user"></i>' . $variables['items'][$key]['#markup'];
       }
 
       break;
@@ -185,42 +186,42 @@ function kapablo_preprocess_facetapi_link_active(&$variables) {
  */
 function _kapablo_help_facetapi_link_replace($text_orig) {
   $replace = array();
-  $text    = $text_orig;
-  $class   = '';
+  $text = $text_orig;
+  $class = '';
 
   switch ($text_orig) {
     case t('Ask a Question'):
-      $text  = t('Question');
+      $text = t('Question');
       $class = 'fl-question';
       break;
 
     case t('Share an Idea'):
-      $text  = t('Idea');
+      $text = t('Idea');
       $class = 'fl-idea';
       break;
 
     case t('Share Information'):
-      $text  = t('Information');
+      $text = t('Information');
       $class = 'fl-info';
       break;
 
     case t('Start a Debate'):
-      $text  = t('Debate');
+      $text = t('Debate');
       $class = 'fl-debate';
       break;
 
     case t('Public'):
-      $text  = t('Public');
+      $text = t('Public');
       $class = 'fl-public';
       break;
 
     case t('Private'):
-      $text  = t('Private');
+      $text = t('Private');
       $class = 'fl-private';
       break;
 
     case t('Restricted'):
-      $text  = t('Restricted');
+      $text = t('Restricted');
       $class = 'fl-restricted';
       break;
   }
@@ -287,11 +288,20 @@ function kapablo_breadcrumb($variables) {
 
   // Determine if we are to display the breadcrumb.
   $bootstrap_breadcrumb = theme_get_setting('bootstrap_breadcrumb');
-  if (($bootstrap_breadcrumb == 1 || ($bootstrap_breadcrumb == 2 && arg(0) == 'admin')) && !empty($breadcrumb)) {
+  if (($bootstrap_breadcrumb == 1 || ($bootstrap_breadcrumb == 2 && arg(
+          0
+        ) == 'admin')) && !empty($breadcrumb)
+  ) {
 
-    $output = "<ol" . drupal_attributes(array('class' => array('breadcrumb'))) . '>';
+    $output = "<ol" . drupal_attributes(
+        array('class' => array('breadcrumb'))
+      ) . '>';
 
-    array_unshift($breadcrumb, l(t('EUROPA'), 'http://ec.europa.eu'), l(t('capacity4dev'), '<front>'));
+    array_unshift(
+      $breadcrumb,
+      l(t('EUROPA'), 'http://ec.europa.eu'),
+      l(t('capacity4dev'), '<front>')
+    );
 
     $num_items = count($breadcrumb);
 
@@ -324,7 +334,9 @@ function kapablo_breadcrumb($variables) {
         $data .= '<i class="fa fa-chevron-right"></i>';
       }
 
-      $output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+      $output .= '<li' . drupal_attributes(
+          $attributes
+        ) . '>' . $data . "</li>\n";
     }
 
     $output .= '</ol>';
@@ -346,7 +358,7 @@ function kapablo_item_list($variables) {
   // Only output the list container and title, if there are any list items.
   // Check to see whether the block title exists before adding a header.
   // Empty headers are not semantic and present accessibility challenges.
-  $output = '<div class="item-list">';
+  $output = isset($variables['hide_wrapper']) ? '' : '<div class="item-list">';
   if (isset($title) && $title !== '') {
     $output .= '<h3>' . $title . '</h3>';
   }
@@ -378,12 +390,14 @@ function kapablo_item_list($variables) {
       }
       if (count($children) > 0) {
         // Render nested list.
-        $data .= theme_item_list(array(
-          'items' => $children,
-          'title' => NULL,
-          'type' => $type,
-          'attributes' => $attributes,
-        ));
+        $data .= theme_item_list(
+          array(
+            'items' => $children,
+            'title' => NULL,
+            'type' => $type,
+            'attributes' => $attributes,
+          )
+        );
       }
       if ($i == 1) {
         $attributes['class'][] = 'first';
@@ -391,11 +405,13 @@ function kapablo_item_list($variables) {
       if ($i == $num_items) {
         $attributes['class'][] = 'last';
       }
-      $output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+      $output .= '<li' . drupal_attributes(
+          $attributes
+        ) . '>' . $data . "</li>\n";
     }
     $output .= "</$type>";
   }
-  $output .= '</div>';
+  $output .= isset($variables['hide_wrapper']) ? '' : '</div>';
   return $output;
 }
 
