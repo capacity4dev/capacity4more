@@ -5,6 +5,7 @@
 
 (
   function ($) {
+
     Drupal.behaviors.discussionFormClasses = {
       attach: function (context, settings) {
         $('#edit-c4m-discussion-type-und').addClass('row');
@@ -126,6 +127,13 @@
           groupRight.removeClass('col-sm-11').addClass('col-sm-8');
           sidebarContent.show();
         }
+      }
+    };
+
+    Drupal.behaviors.initTooltips = {
+      attach: function (context, settings) {
+        var tooltips = $('[data-toggle="tooltip"]');
+        tooltips.tooltip();
       }
     };
   }
