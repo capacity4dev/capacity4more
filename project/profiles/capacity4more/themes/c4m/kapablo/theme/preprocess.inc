@@ -136,6 +136,13 @@ function kapablo_preprocess_field(&$variables, $hook) {
         unset($variables['ds-config']['fis-cl']);
       }
       break;
+
+    case 'c4m_ds_group_members_count':
+      foreach ($element['#items'] as $key => $item) {
+        $variables['items'][$key]['#markup'] = '<i class="fa fa-user"></i> ' . $variables['items'][$key]['#markup'];
+      }
+
+      break;
   }
 }
 
