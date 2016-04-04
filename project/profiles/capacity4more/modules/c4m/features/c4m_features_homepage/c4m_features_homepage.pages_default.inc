@@ -83,13 +83,13 @@ function c4m_features_homepage_default_page_manager_pages() {
       'default' => NULL,
       'left' => array(
         'column_type' => 'col-sm',
-        'column_size' => '7',
+        'column_size' => '8',
         'offset_type' => 'col-lg-offset',
         'offset_size' => '0',
       ),
       'right' => array(
         'column_type' => 'col-sm',
-        'column_size' => '5',
+        'column_size' => '4',
         'offset_type' => 'col-lg-offset',
         'offset_size' => '0',
       ),

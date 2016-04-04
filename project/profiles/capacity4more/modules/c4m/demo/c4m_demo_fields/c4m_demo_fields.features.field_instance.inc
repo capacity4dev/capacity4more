@@ -1157,54 +1157,6 @@ This field can have a WYSIWYG rich text editor interface.',
     ),
   );
 
-  // Exported field_instance: 'node-demo_fields-c4m_related_tasklist'
-  $field_instances['node-demo_fields-c4m_related_tasklist'] = array(
-    'bundle' => 'demo_fields',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 12,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'c4m_related_tasklist',
-    'label' => 'c4m_related_tasklist',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'entityreference',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
-      ),
-      'type' => 'entityreference_autocomplete',
-      'weight' => 15,
-    ),
-  );
   // Exported field_instance: 'node-article-c4m_vocab_topic'
   $field_instances['node-article-c4m_vocab_topic'] = array(
     'bundle' => 'article',
@@ -1472,7 +1424,6 @@ This field can have a WYSIWYG rich text editor interface.');
   t('c4m_media');
   t('c4m_money');
   t('c4m_related_document');
-  t('c4m_related_tasklist');
   t('c4m_vocab_topic');
   t('c4m_vocab_topic_expertise');
   t('c4m_related_user');

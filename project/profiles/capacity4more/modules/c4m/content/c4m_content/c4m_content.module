@@ -230,18 +230,6 @@ function c4m_content_theme() {
 }
 
 /**
- * Implements hook_entity_info_alter().
- *
- * Add "Related" view mode.
- */
-function c4m_content_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['c4m_related'] = array(
-    'label' => t('Related'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
  * Helper to determine the current context.
  *
  * @return string

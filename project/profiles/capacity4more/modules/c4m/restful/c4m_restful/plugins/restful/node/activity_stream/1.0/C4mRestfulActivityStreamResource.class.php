@@ -39,7 +39,7 @@ class C4mRestfulActivityStreamResource extends \RestfulDataProviderDbQuery imple
 
     if (!empty($request['html'])) {
       $message = message_load($row->mid);
-      $output = $message->view('activity_group');
+      $output = $message->view($request['group_context'] ? 'activity_group' : 'activity_global');
       $return['id'] = $row->mid;
       $return['html'] = drupal_render($output);
     }

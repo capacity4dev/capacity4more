@@ -67,18 +67,6 @@ function c4m_content_featured_query_random_alter($query) {
 }
 
 /**
- * Implements hook_entity_info_alter().
- *
- * Add "Featured block" view mode.
- */
-function c4m_content_featured_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['featured_block'] = array(
-    'label' => t('Featured block'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
  * Node preprocess.
  */
 function c4m_content_featured_preprocess_node(&$variables) {

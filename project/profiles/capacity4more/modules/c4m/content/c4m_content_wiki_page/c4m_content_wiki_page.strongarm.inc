@@ -110,6 +110,33 @@ function c4m_content_wiki_page_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'featured_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'library' => array(
+        'custom_settings' => FALSE,
+      ),
+      'upcoming_event' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'c4m_teaser_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_table' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -130,6 +157,26 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'activity_global' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '29',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '29',
+            'visible' => FALSE,
+          ),
+          'activity_group' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'block_list' => array(
             'weight' => '10',
             'visible' => FALSE,
           ),

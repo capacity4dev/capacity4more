@@ -35,11 +35,11 @@ function c4m_content_banner_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'image_style' => 'banner',
         ),
         'type' => 'image',
         'weight' => 6,

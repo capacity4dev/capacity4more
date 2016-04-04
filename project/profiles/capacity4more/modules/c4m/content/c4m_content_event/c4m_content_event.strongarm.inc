@@ -90,7 +90,7 @@ function c4m_content_event_strongarm() {
         'custom_settings' => FALSE,
       ),
       'library' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
         'custom_settings' => TRUE,
@@ -103,6 +103,27 @@ function c4m_content_event_strongarm() {
       ),
       'revision' => array(
         'custom_settings' => FALSE,
+      ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'featured_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'upcoming_event' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'c4m_teaser_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(
@@ -123,6 +144,30 @@ function c4m_content_event_strongarm() {
             'weight' => '8',
             'visible' => TRUE,
           ),
+          'default' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'teaser_group' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'activity_global' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
@@ -139,6 +184,22 @@ function c4m_content_event_strongarm() {
           ),
           'activity_global' => array(
             'weight' => '10',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '25',
+            'visible' => FALSE,
+          ),
+          'teaser_group' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'activity_group' => array(
+            'weight' => '25',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '25',
             'visible' => FALSE,
           ),
         ),

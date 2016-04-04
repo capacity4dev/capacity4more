@@ -101,10 +101,13 @@ trait Homepage {
    */
   public function iShouldSeeOnlyOneEvent($events_no) {
     $page = $this->getSession()->getPage();
-    $blocks = $page->findAll('css', '.view-mode-upcoming_event');
+    $blocks = $page->findAll('css', '.node-event.view-mode-block_list');
 
-    if (count($blocks) <> $events_no) {
-      throw new \Exception('There\'s more than one Upcoming event showing.');
+    if (count($blocks) > $events_no) {
+      throw new \Exception(sprintf('There\'s more than %d Upcoming event showing.', $events_no));
+    }
+    elseif (count($blocks) < $events_no) {
+      throw new \Exception(sprintf('There\'s less than %d Upcoming event showing.', $events_no));
     }
   }
 

@@ -1,29 +1,31 @@
 <?php
 /**
  * @file
- * c4m_content_tasklist.ds.inc
+ * c4m_content_page_element.ds.inc
  */
 
 /**
  * Implements hook_ds_field_settings_info().
  */
-function c4m_content_tasklist_ds_field_settings_info() {
+function c4m_content_page_element_ds_field_settings_info() {
   $export = array();
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
-  $ds_fieldsetting->id = 'comment|comment_node_tasklist|activity_stream';
-  $ds_fieldsetting->entity_type = 'comment';
-  $ds_fieldsetting->bundle = 'comment_node_tasklist';
-  $ds_fieldsetting->view_mode = 'activity_stream';
+  $ds_fieldsetting->id = 'node|page_element|default';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'page_element';
+  $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
-    'comment_body' => array(
+    'c4m_body' => array(
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
       ),
     ),
   );
-  $export['comment|comment_node_tasklist|activity_stream'] = $ds_fieldsetting;
+  $export['node|page_element|default'] = $ds_fieldsetting;
 
   return $export;
 }
@@ -31,24 +33,24 @@ function c4m_content_tasklist_ds_field_settings_info() {
 /**
  * Implements hook_ds_layout_settings_info().
  */
-function c4m_content_tasklist_ds_layout_settings_info() {
+function c4m_content_page_element_ds_layout_settings_info() {
   $export = array();
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
-  $ds_layout->id = 'comment|comment_node_tasklist|activity_stream';
-  $ds_layout->entity_type = 'comment';
-  $ds_layout->bundle = 'comment_node_tasklist';
-  $ds_layout->view_mode = 'activity_stream';
+  $ds_layout->id = 'node|page_element|default';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'page_element';
+  $ds_layout->view_mode = 'default';
   $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'comment_body',
+        0 => 'c4m_body',
       ),
     ),
     'fields' => array(
-      'comment_body' => 'ds_content',
+      'c4m_body' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -59,8 +61,9 @@ function c4m_content_tasklist_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
-  $export['comment|comment_node_tasklist|activity_stream'] = $ds_layout;
+  $export['node|page_element|default'] = $ds_layout;
 
   return $export;
 }

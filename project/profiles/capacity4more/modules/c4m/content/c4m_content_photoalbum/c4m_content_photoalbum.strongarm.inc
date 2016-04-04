@@ -64,7 +64,62 @@ function c4m_content_photoalbum_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__photoalbum';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => TRUE,
+      ),
+      'teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'rss' => array(
+        'custom_settings' => FALSE,
+      ),
+      'print' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'featured_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'library' => array(
+        'custom_settings' => FALSE,
+      ),
+      'upcoming_event' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_teaser_table' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
@@ -80,11 +135,27 @@ function c4m_content_photoalbum_strongarm() {
       'display' => array(
         'node_gallery_view' => array(
           'activity_group' => array(
-            'weight' => '2',
+            'weight' => '0',
             'visible' => TRUE,
           ),
           'activity_global' => array(
-            'weight' => '2',
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'default' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+          'full' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser_group' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),

@@ -72,22 +72,22 @@ function c4m_content_topic_strongarm() {
         'custom_settings' => TRUE,
       ),
       'featured_block' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'inthe_picture_block' => array(
         'custom_settings' => TRUE,
       ),
       'library' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'upcoming_event' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
@@ -111,6 +111,15 @@ function c4m_content_topic_strongarm() {
         'custom_settings' => FALSE,
       ),
       'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+      'c4m_related' => array(
+        'custom_settings' => FALSE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'block_list' => array(
         'custom_settings' => FALSE,
       ),
     ),
