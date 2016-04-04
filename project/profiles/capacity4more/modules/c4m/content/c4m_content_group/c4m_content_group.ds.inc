@@ -36,9 +36,9 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
-          'prefix' => '<span class="group-members-count">',
-          'suffix' => '</span>',
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<div class="group-members-count">',
+          'suffix' => '</div>',
         ),
       ),
     ),

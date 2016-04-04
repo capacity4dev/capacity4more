@@ -1,4 +1,11 @@
 .view-mode-activity_global {
+  .group-left, .group-footer {
+    padding-left: 0;
+  }
+  .group-right, .group-footer {
+    padding-right: 0;
+  }
+
   .field-name-c4m-field-og-group {
     @extend .text-copy--muted;
 
