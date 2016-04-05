@@ -139,17 +139,17 @@ function kapablo_pager(array $variables) {
       'item_list',
       array(
         'items'      => $items,
-        'attributes' => array('class' => array('pager')),
+        'attributes' => array('class' => array('pager', 'list-inline', 'text-center')),
       )
     );
     $output = array(
-      '<div class="row">',
+      '<div class="row pager--wrapper">',
       '  <h2 class="element-invisible">' . t('Pages') . '</h2>',
-      '  <div class="col-md-2 pager-first">' . $li_first . '</div>',
-      '  <div class="col-md-2 pager-previous">' . $li_previous . '</div>',
-      '  <div class="col-md-4 pager-content">' . $list . '</div>',
-      '  <div class="col-md-2 pager-next">' . $li_next . '</div>',
-      '  <div class="col-md-2 pager-last">' . $li_last . '</div>',
+      '  <div class="hidden-xs hidden-sm col-md-2 pager-first">' . $li_first . '</div>',
+      '  <div class="col-xs-2 col-md-2 pager-previous">' . $li_previous . '</div>',
+      '  <div class="col-xs-8 col-md-4 pager-content">' . $list . '</div>',
+      '  <div class="col-xs-2 col-md-2 pager-next">' . $li_next . '</div>',
+      '  <div class="hidden-xs hidden-sm col-md-2 pager-last">' . $li_last . '</div>',
       '</div>',
     );
 

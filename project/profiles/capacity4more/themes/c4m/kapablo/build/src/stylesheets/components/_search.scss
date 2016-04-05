@@ -75,3 +75,22 @@
     float: right;
   }
 }
+
+.pager--wrapper {
+  border-top: 1px solid $color-gray-light;
+  margin-top: 1rem;
+  padding-top: 1rem;
+
+  .pager {
+    margin: 0;
+  }
+
+  .pager-item a {
+    border: 0;
+    padding: 0;
+
+    &:hover {
+      background: none;
+    }
+  }
+}

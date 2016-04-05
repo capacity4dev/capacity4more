@@ -105,7 +105,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '4';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
 
   /* Display: Image Thumbnail Strip with AJAX Pager */
   $handler = $view->new_display('embed', 'Image Thumbnail Strip with AJAX Pager', 'embed_3');
@@ -117,7 +117,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '4';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
 
   /* Display: Image Strip without Pager */
   $handler = $view->new_display('embed', 'Image Strip without Pager', 'embed_6');
