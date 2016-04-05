@@ -17,7 +17,7 @@ trait MainMenu {
    */
   public function mainMenuItemShouldBeActive($label) {
     $page = $this->getSession()->getPage();
-    $el = $page->find('css', '#navbar ul.menu a.active');
+    $el = $page->find('css', '.navigation--primary ul.menu a.active');
     if ($el === null) {
       throw new \Exception('The main menu has no active items.');
     }
