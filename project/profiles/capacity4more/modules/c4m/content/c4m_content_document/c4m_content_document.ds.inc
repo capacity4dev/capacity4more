@@ -21,6 +21,10 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
@@ -349,6 +353,10 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_creation_date' => array(
       'weight' => '4',
