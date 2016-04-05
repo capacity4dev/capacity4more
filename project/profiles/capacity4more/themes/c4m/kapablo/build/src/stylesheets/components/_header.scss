@@ -97,29 +97,51 @@
   }
 }
 
-#navbar {
+.navigation--primary {
   border-bottom: 1px solid $color-gray-light;
 
-  .navbar-collapse {
-    padding: 1rem 0;
+  li a:hover {
+    background-color: $color-background;
+  }
 
-    ul.menu {
-      @include horizontal_menu;
+  @media (min-width: $grid-float-breakpoint) {
 
-      li {
-        padding: 0 2rem;
+    .navbar-collapse {
+      padding: 1rem 0;
 
-        a {
-          line-height: 1rem;
-          padding: 0;
-          text-transform: uppercase;
+      ul.menu {
+        @include horizontal_menu;
 
-          &:hover {
-            background: none;
-            color: $color-gray-dark;
+        li {
+          padding: 0 1rem;
+
+          @media (min-width: $screen-md-min) {
+            padding: 0 2rem;
+          }
+
+          a {
+            line-height: 1rem;
+            padding: 0;
+            text-transform: uppercase;
+
+            &:hover {
+              background: none;
+              color: $color-gray-dark;
+            }
           }
         }
       }
     }
+  }
+}
+
+.navbar-toggle {
+  border-color: $color-gray-light;
+  &:hover,
+  &:focus {
+    background-color: $color-background;
+  }
+  .icon-bar {
+    background-color: $color-gray-light;
   }
 }

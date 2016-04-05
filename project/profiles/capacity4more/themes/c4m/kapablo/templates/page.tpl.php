@@ -130,8 +130,8 @@
   <?php endif; ?>
 
   <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-    <div class="container">
-      <nav class="navbar navbar-default" role="navigation">
+    <div class="navigation--primary">
+      <nav class="container navbar" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -142,15 +142,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+        </div>
 
-          <div class="navbar-collapse collapse">
-            <?php if (!empty($primary_nav)): ?>
-              <?php print render($primary_nav); ?>
-            <?php endif; ?>
-            <?php if (!empty($page['navigation'])): ?>
-              <?php print render($page['navigation']); ?>
-            <?php endif; ?>
-          </div>
+        <div class="navbar-collapse collapse">
+          <?php if (!empty($primary_nav)): ?>
+            <?php print render($primary_nav); ?>
+          <?php endif; ?>
+          <?php if (!empty($page['navigation'])): ?>
+            <?php print render($page['navigation']); ?>
+          <?php endif; ?>
         </div>
       </nav>
     </div>
