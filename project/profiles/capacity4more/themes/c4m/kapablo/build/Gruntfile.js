@@ -99,7 +99,7 @@ module.exports = function (grunt) {
                 },
               files: {
                   '<%= project.dst %>/js/bootstrap.concat.js': [
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',.
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
@@ -107,10 +107,10 @@ module.exports = function (grunt) {
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',.
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'.
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js'
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
                 },
               files: {
                   '<%= project.dst %>/js/bootstrap.concat.js': [
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',.
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/affix.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/alert.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/button.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/carousel.js',
@@ -132,10 +132,10 @@ module.exports = function (grunt) {
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/dropdown.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/modal.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/tooltip.js',
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',.
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/popover.js',
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/scrollspy.js',
                       '<%= bootstrapDir %>/assets/javascripts/bootstrap/tab.js',
-                      // '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'.
+                      '<%= bootstrapDir %>/assets/javascripts/bootstrap/transition.js'
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js'
