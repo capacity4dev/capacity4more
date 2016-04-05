@@ -8,6 +8,7 @@
  */
 ?>
 
-<span class="row-entity-count count-comments fa fa-comments-o">
+<span class="row-entity-count count-comments">
+  <i class="fa fa-comments-o"></i>
   <?php print $count; ?>
 </span>
