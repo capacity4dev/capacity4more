@@ -93,7 +93,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'medium',
+    'image_style' => 'c4m_image_medium',
     'image_link' => 'content',
   );
 
@@ -221,7 +221,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'medium',
+    'image_style' => 'c4m_image_medium',
     'image_link' => 'content',
   );
   $export['c4m_photoalbum_item_views'] = $view;
