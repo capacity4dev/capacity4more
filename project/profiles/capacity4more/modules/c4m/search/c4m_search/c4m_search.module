@@ -516,11 +516,7 @@ function _c4m_search_get_facet_items($field_name) {
  *
  * @see template_preprocess_views_exposed_form()
  */
-function c4m_search_form_views_exposed_form_alter(
-  &$form,
-  &$form_state,
-  $form_id
-) {
+function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }
@@ -545,9 +541,12 @@ function c4m_search_form_views_exposed_form_alter(
     '#weight' => -10,
   );
 
+  // Do not keep page in the search params.
+  $search_params = drupal_get_query_parameters();
+  unset($search_params['page']);
   $form['search_params'] = array(
     '#type' => 'hidden',
-    '#value' => serialize(drupal_get_query_parameters()),
+    '#value' => serialize($search_params),
   );
 
   $form['#submit'][] = 'c4m_search_submit_handler_search_within_results';
@@ -559,26 +558,33 @@ function c4m_search_form_views_exposed_form_alter(
 function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   $path = drupal_get_query_parameters();
 
-  if ($form_state['values']['search_within_results'] == 1) {
-    $new_value = $form_state['values']['search'];
-    $params = unserialize($path['search_params']);
-    $params['text'] .= ' ' . $new_value;
-
-    drupal_goto(current_path(), array('query' => $params));
+  if (!isset($path['search_params'])) {
+    return;
   }
-  elseif (!empty($form_state['values']['search'])) {
-    $new_value = $form_state['values']['search'];
+  $params = unserialize($path['search_params']);
 
+  // When pager is clicked search_within_results are present in query params
+  // with value 0.
+  if (isset($path['search_within_results']) && $path['search_within_results'] === '0') {
+    if (isset($path['page'])) {
+      $params['page'] = $path['page'];
+    }
+  }
+  // If the pager was not clicked then the form was submitted.
+  elseif ($form_state['values']['search_within_results'] === 1) {
+    $new_value = $form_state['values']['search'];
+    if ($params['text'] === '') {
+      $params['text'] = $new_value;
+    }
+    else {
+      $params['text'] .= ' ' . $new_value;
+    }
+  }
+  // Simple form submission. No pager and no search within results.
+  else {
     $params = array(
-      'text' => $new_value,
+      'text' => $form_state['values']['search'],
     );
-    drupal_goto(current_path(), array('query' => $params));
   }
-  // Empty search string: remove search term.
-  elseif (empty($form_state['values']['search']) && !empty($path['search_params'])) {
-    $params = unserialize($path['search_params']);
-    $params['text'] = '';
-
-    drupal_goto(current_path(), array('query' => $params));
-  }
+  drupal_goto(current_path(), array('query' => $params));
 }
