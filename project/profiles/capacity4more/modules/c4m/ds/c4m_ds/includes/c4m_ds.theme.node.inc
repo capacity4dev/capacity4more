@@ -236,10 +236,10 @@ function theme_c4m_ds_group_access_info(array $field) {
   }
 
   $group_access   = c4m_og_get_access_type($field['entity']);
+
   $tag['element'] = array(
-    '#tag'   => 'h5',
+    '#tag'   => 'span',
     '#value' => $group_access['title'],
-    '#class' => array('col-md-6'),
   );
 
   return theme_html_tag($tag);
@@ -291,7 +291,7 @@ function theme_c4m_ds_group_posts_count(array $field) {
 
   $tag['element'] = array(
     '#tag'   => 'span',
-    '#value' => format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
+    '#value' => '<i class="fa fa-comments-o"></i> ' . format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
   );
 
   return theme_html_tag($tag);
@@ -373,9 +373,14 @@ function theme_c4m_ds_group_membership_type(array $field) {
   $group = node_load($field['entity']->nid);
   $group_membership_type = c4m_user_og_get_role_in_group_human($user, $group);
 
+  if (!$group_membership_type) {
+    return;
+  }
+
   $tag['element'] = array(
     '#tag'   => 'span',
     '#value' => $group_membership_type,
+    '#attributes' => array('class' => array('membership-indicator')),
   );
 
   return theme_html_tag($tag);

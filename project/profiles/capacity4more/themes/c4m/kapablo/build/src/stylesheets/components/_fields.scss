@@ -1,3 +1,7 @@
+.label-inline {
+  display: inline-block;
+}
+
 .group-members-count {
   i {
     color: $color-gray-light;
@@ -11,5 +15,20 @@
 
   .popover-content > ul {
     padding-left: 0;
+  }
+}
+
+.group-teaser-header-inline {
+  position: relative;
+
+  .membership-indicator {
+    @extend .text-xsmall;
+    border: 1px solid $color-text-alternative;
+    border-radius: 5px;
+    color: $color-text-alternative;
+    padding: .5em;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
