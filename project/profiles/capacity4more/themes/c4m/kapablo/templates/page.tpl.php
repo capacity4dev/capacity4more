@@ -168,6 +168,17 @@
     </div>
   </div>
 <?php endif; ?>
+<?php if (!empty($page['content_above'])): ?>
+  <div id="content-above-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 content-above">
+          <?php print render($page['content_above']); ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
 
 <div id="main-wrapper">
   <div class="container">

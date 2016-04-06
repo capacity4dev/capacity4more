@@ -94,3 +94,24 @@
     }
   }
 }
+
+#c4m-search-filter-search-filter-form, #c4m-features-homepage-filter-form-create {
+  @extend .form-inline;
+  border-bottom: 1px dashed $color-gray-light;
+  margin: 2em 0;
+  padding-bottom: 2em;
+
+  .form-item {
+    label {
+      margin-right: 1em;
+    }
+
+    input {
+      margin-right: .5em;
+    }
+
+    label, div {
+      display:  inline-block;
+    }
+  }
+}
