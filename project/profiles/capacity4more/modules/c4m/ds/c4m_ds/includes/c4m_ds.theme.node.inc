@@ -102,6 +102,11 @@ function theme_c4m_ds_content_type_icon(array $field) {
     $icon_name .= '-' . $object_wrapper->$field_name->value();
   }
 
+  if (og_is_group('node', $object)) {
+    $al = c4m_og_get_access_type($object);
+    $icon_name .= '-' . $al['type'];
+  }
+
   $tag['element'] = array(
     '#tag'       => 'span',
     '#attributes' => array(
