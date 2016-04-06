@@ -4,3 +4,12 @@
     margin-right: 3px;
   }
 }
+
+.popover {
+  display: block;
+  min-width: 250px;
+
+  .popover-content > ul {
+    padding-left: 0;
+  }
+}
