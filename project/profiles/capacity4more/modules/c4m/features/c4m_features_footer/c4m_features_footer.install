@@ -33,6 +33,14 @@ function c4m_features_footer_update_7001() {
 }
 
 /**
+ * Update the footer social links.
+ */
+function c4m_features_footer_update_7002() {
+  // Set URLs for social links.
+  c4m_features_footer_set_social_media();
+}
+
+/**
  * Add the c4m_footer menu.
  */
 function c4m_features_footer_c4m_footer_menu() {
@@ -88,11 +96,11 @@ function c4m_features_footer_set_social_media() {
   $socialmedia_links = array(
     'twitter' => array(
       'title' => 'Twitter',
-      'url'   => 'http://twitter.com',
+      'url'   => 'https://twitter.com/capacity4dev',
     ),
     'facebook' => array(
       'title' => 'Facebook',
-      'url'   => 'http://facebook.com',
+      'url'   => 'https://www.facebook.com/capacity4dev.eu/',
     ),
     'rss' => array(
       'title' => 'Rss',
@@ -100,7 +108,7 @@ function c4m_features_footer_set_social_media() {
     ),
     'youtube' => array(
       'title' => 'Youtube',
-      'url'   => 'http://youtube.com',
+      'url'   => 'https://www.youtube.com/user/capacity4dev',
     ),
   );
 
