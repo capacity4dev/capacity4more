@@ -18,12 +18,18 @@ function c4m_content_article_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'activity_global';
   $ds_fieldsetting->settings = array(
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => '',
+          'ow-def-cl' => TRUE,
+          'ow-at' => '',
+          'ow-def-at' => TRUE,
           'fis' => TRUE,
           'fis-el' => 'div',
           'fis-cl' => 'pull-right',
@@ -209,26 +215,30 @@ function c4m_content_article_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'article';
   $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
-        0 => 'c4m_body',
-        1 => 'c4m_ds_content_footer_stats',
-      ),
       'left' => array(
-        2 => 'c4m_media',
+        0 => 'c4m_media',
+      ),
+      'right' => array(
+        1 => 'c4m_body',
+      ),
+      'footer' => array(
+        2 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
-      'c4m_body' => 'right',
-      'c4m_ds_content_footer_stats' => 'right',
       'c4m_media' => 'left',
+      'c4m_body' => 'right',
+      'c4m_ds_content_footer_stats' => 'footer',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

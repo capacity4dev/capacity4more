@@ -39,10 +39,12 @@
 }
 
 #header-content-wrapper {
-  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green.png') repeat-x;
+  background: url('../images/header/background-green.png') repeat-x;
+  background-size: contain;
 
   .intro-banner & {
-    background: url('/profiles/capacity4more/themes/c4m/kapablo/images/header/background-green-white.png') repeat-x;
+    background: url('../images/header/background-green-white.png') repeat-x;
+    background-size: contain;
   }
 }
 
@@ -57,6 +59,7 @@
 
   .form-group {
     margin: 0;
+    position: relative;
   }
 
   .form-submit {
@@ -95,29 +98,55 @@
   }
 }
 
-#navbar {
+.navigation--primary {
   border-bottom: 1px solid $color-gray-light;
 
-  .navbar-collapse {
-    padding: 1rem 0;
+  li a:hover {
+    background-color: $color-background;
+  }
 
-    ul.menu {
-      @include horizontal_menu;
+  @media (min-width: $grid-float-breakpoint) {
 
-      li {
-        padding: 0 2rem;
+    .navbar {
+      margin-bottom: 0;
+    }
 
-        a {
-          line-height: 1rem;
-          padding: 0;
-          text-transform: uppercase;
+    .navbar-collapse {
+      padding: 1rem 0;
 
-          &:hover {
-            background: none;
-            color: $color-gray-dark;
+      ul.menu {
+        @include horizontal_menu;
+
+        li {
+          padding: 0 1rem;
+
+          @media (min-width: $screen-md-min) {
+            padding: 0 2rem;
+          }
+
+          a {
+            line-height: 1rem;
+            padding: 0;
+            text-transform: uppercase;
+
+            &:hover {
+              background: none;
+              color: $color-gray-dark;
+            }
           }
         }
       }
     }
+  }
+}
+
+.navbar-toggle {
+  border-color: $color-gray-light;
+  &:hover,
+  &:focus {
+    background-color: $color-background;
+  }
+  .icon-bar {
+    background-color: $color-gray-light;
   }
 }

@@ -8,7 +8,7 @@
   <?php print render($image); ?>
   <div class="justifier">
     <button type="button" class="btn btn-primary btn-lg" id="c4m-play-video">
-      <span class="icon-play2"></span>
+      <span class="i-play"></span>
       <span><?php print $video_title ?></span>
     </button>
   </div>

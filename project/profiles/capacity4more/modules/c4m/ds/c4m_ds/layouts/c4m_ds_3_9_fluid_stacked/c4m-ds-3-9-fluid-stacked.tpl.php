@@ -22,8 +22,6 @@
 <?php print $right; ?>
 </<?php print $right_wrapper; ?>>
 </div>
-</<?php print $layout_wrapper ?>>
-
 
 <!-- Needed to activate display suite support on forms -->
 <?php if (!empty($drupal_render_children)): ?>

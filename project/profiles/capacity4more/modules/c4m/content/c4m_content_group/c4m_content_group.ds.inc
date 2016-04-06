@@ -36,9 +36,9 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'default',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
-          'prefix' => '<span class="group-members-count">',
-          'suffix' => '</span>',
+          'func' => 'theme_ds_field_expert',
+          'prefix' => '<div class="group-members-count">',
+          'suffix' => '</div>',
         ),
       ),
     ),
@@ -123,7 +123,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'teaser';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -133,19 +133,10 @@ function c4m_content_group_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
-      'label' => 'inline',
-      'format' => 'linked_user',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Owned by',
-          'lb-col' => TRUE,
-          'prefix' => '<span class="owner">',
-          'suffix' => '</span>',
-        ),
-      ),
+    'c4m_ds_submitted_by_and_on' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'j F Y',
     ),
     'c4m_ds_group_members_count' => array(
       'weight' => '4',
@@ -163,20 +154,6 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-        ),
-      ),
-    ),
-    'c4m_og_status' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb-def-at' => TRUE,
-          'lb-col' => TRUE,
-          'fis' => TRUE,
-          'fis-el' => 'div',
-          'fis-cl' => 'group-status',
-          'fis-at' => '',
-          'fis-def-at' => TRUE,
         ),
       ),
     ),
@@ -289,28 +266,31 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'group';
   $ds_layout->view_mode = 'teaser';
-  $ds_layout->layout = 'c4m_ds_3_9_fluid';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
+      'header' => array(
+        0 => 'title',
+        1 => 'c4m_ds_submitted_by_and_on',
+      ),
       'left' => array(
-        0 => 'c4m_media',
+        2 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'title',
-        2 => 'c4m_og_status',
-        3 => 'c4m_user_first_and_last_name',
-        4 => 'c4m_ds_group_members_count',
+        3 => 'c4m_ds_group_members_count',
+        4 => 'c4m_body',
       ),
     ),
     'fields' => array(
+      'title' => 'header',
+      'c4m_ds_submitted_by_and_on' => 'header',
       'c4m_media' => 'left',
-      'title' => 'right',
-      'c4m_og_status' => 'right',
-      'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',
+      'c4m_body' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
     ),
@@ -319,6 +299,7 @@ function c4m_content_group_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|group|teaser'] = $ds_layout;
 
