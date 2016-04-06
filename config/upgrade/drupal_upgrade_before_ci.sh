@@ -4,4 +4,4 @@
 ################################################################################
 
 
-source "$DIR_CONFIG/install/drupal_install_before_prd.sh"
+source "$DIR_CONFIG/install/drupal_upgrade_before_prd.sh"
