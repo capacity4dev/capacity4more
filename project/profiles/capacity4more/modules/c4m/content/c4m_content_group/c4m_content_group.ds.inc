@@ -134,7 +134,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '5',
+      'weight' => '4',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -148,7 +148,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '6',
+      'weight' => '5',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -169,7 +169,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_access_info' => array(
-      'weight' => '4',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -181,7 +181,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '8',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -193,7 +193,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_posts_count' => array(
-      'weight' => '22',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -337,35 +337,39 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'header' => array(
-        0 => 'c4m_ds_content_type_icon',
-        1 => 'title',
-        2 => 'c4m_ds_group_membership_type',
-        10 => 'group_teaser_header_inline',
+        0 => 'group_teaser_header_inline',
+        1 => 'c4m_ds_content_type_icon',
+        2 => 'title',
+        4 => 'c4m_ds_group_membership_type',
       ),
       'left' => array(
         3 => 'c4m_media',
       ),
       'right' => array(
-        4 => 'c4m_ds_group_access_info',
-        5 => 'c4m_user_first_and_last_name',
-        6 => 'c4m_ds_creation_date',
-        7 => 'c4m_body',
-        8 => 'c4m_ds_group_members_count',
-        9 => 'c4m_ds_group_posts_count',
+        5 => 'group_teaser_author_information',
+        6 => 'c4m_body',
+        7 => 'c4m_ds_group_access_info',
+        8 => 'group_iconbar_comments_views',
+        9 => 'c4m_user_first_and_last_name',
+        10 => 'c4m_ds_creation_date',
+        11 => 'c4m_ds_group_members_count',
+        12 => 'c4m_ds_group_posts_count',
       ),
     ),
     'fields' => array(
+      'group_teaser_header_inline' => 'header',
       'c4m_ds_content_type_icon' => 'header',
       'title' => 'header',
-      'c4m_ds_group_membership_type' => 'header',
       'c4m_media' => 'left',
+      'c4m_ds_group_membership_type' => 'header',
+      'group_teaser_author_information' => 'right',
+      'c4m_body' => 'right',
       'c4m_ds_group_access_info' => 'right',
+      'group_iconbar_comments_views' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
-      'c4m_body' => 'right',
       'c4m_ds_group_members_count' => 'right',
       'c4m_ds_group_posts_count' => 'right',
-      'group_teaser_header_inline' => 'header',
     ),
     'classes' => array(),
     'wrappers' => array(

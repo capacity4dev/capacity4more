@@ -2,9 +2,19 @@
   display: inline-block;
 }
 
-.group-members-count {
+.group-teaser-author-information {
+  margin-bottom: 1rem;
+
+  span + div {
+    &:before {
+      content: ' | ';
+    }
+  }
+}
+
+.group-iconbar-comments-views {
+  color: $color-gray-light;
   i {
-    color: $color-gray-light;
     margin-right: 3px;
   }
 }
