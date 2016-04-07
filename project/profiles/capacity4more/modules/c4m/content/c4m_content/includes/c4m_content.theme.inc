@@ -22,11 +22,14 @@ function theme_c4m_website_statistics_summary(array $variables) {
   $list = array();
   $icons_table = array(
     'article' => 'fa-bullhorn',
+    'discussion' => 'fa-comments-o',
+    'document' => 'fa-file-o',
     'group' => 'fa-users',
     'project' => 'fa-flag-checkered',
     'posts' => 'fa-comments-o',
-    'event' => 'fa-bullhorn',
+    'event' => 'fa-calendar',
     'user' => 'fa-user',
+    'wiki_page' => 'fa-wikipedia-w',
   );
 
   foreach ($statistics as $key => $stat) {
@@ -45,7 +48,9 @@ function theme_c4m_website_statistics_summary(array $variables) {
     if (!empty($stat['link']['path'])) {
       $options = isset($stat['link']['options'])
         ? $stat['link']['options']
-        : array('attributes' => array('class' => array('text-copy', 'text-small')));
+        : array();
+
+      $options = array_merge($options, array('attributes' => array('class' => array('text-copy', 'text-small'))));
 
       $text = l($text, $stat['link']['path'], $options);
     }

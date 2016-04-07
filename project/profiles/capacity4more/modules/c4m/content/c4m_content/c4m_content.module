@@ -21,16 +21,16 @@ function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
   if (empty($params['destination'])) {
     // Use javascript history.go(-1) when destination is not set.
     $form['actions']['cancel'] = array(
-      '#type'   => 'button',
-      '#value'  => t('Cancel'),
+      '#type' => 'button',
+      '#value' => t('Cancel'),
       '#attributes' => array('onClick' => 'history.go(-1); return true;'),
       '#weight' => 14,
     );
   }
   else {
     $form['actions']['cancel'] = array(
-      '#type'   => 'submit',
-      '#value'  => t('Cancel'),
+      '#type' => 'submit',
+      '#value' => t('Cancel'),
       '#submit' => array('c4m_content_cancel_button_callback'),
       '#limit_validation_errors' => array(),
       '#weight' => 14,
@@ -82,6 +82,7 @@ function c4m_content_block_view($delta = '') {
  *   Supported contexts:
  *   - global.
  *   - group.
+ *   - topic.
  *
  * @return array
  *   Configuration as collected through the implemented
@@ -123,6 +124,32 @@ function c4m_content_statistics_info($context) {
  */
 function c4m_content_get_global_statistics() {
   $list = c4m_content_statistics_info('global');
+  $data = _c4m_content_statistics_collect_data($list);
+  return $data;
+}
+
+/**
+ * Get the topic statistics.
+ *
+ * @return array
+ *   The collected statistics.
+ */
+function c4m_content_get_topic_statistics() {
+  $list = c4m_content_statistics_info('topic');
+
+  $node = menu_get_object('node');
+
+  if (!$node || $node->type != 'topic') {
+    return array();
+  }
+
+  $topic_wrapper = entity_metadata_wrapper('node', $node);
+  $topic_term = $topic_wrapper->c4m_vocab_topic_mapping->value();
+
+  foreach ($list as $key => &$info) {
+    $info['topic'] = $topic_term->tid;
+  }
+
   $data = _c4m_content_statistics_collect_data($list);
   return $data;
 }
@@ -179,6 +206,9 @@ function _c4m_content_statistics_collect_data(array $list) {
     $og_id = isset($info['og_id'])
       ? $info['og_id']
       : NULL;
+    $topic = isset($info['topic'])
+      ? $info['topic']
+      : NULL;
     $status = isset($info['c4m_status'])
       ? $info['c4m_status']
       : NULL;
@@ -188,6 +218,7 @@ function _c4m_content_statistics_collect_data(array $list) {
       'bundles' => $info['bundles'],
       'state' => $info['state'],
       'og_id' => $og_id,
+      'topic' => $topic,
       'c4m_status' => $status,
     );
     $count = c4m_helper_entity_get_number_of_entities($arguments);
@@ -195,6 +226,10 @@ function _c4m_content_statistics_collect_data(array $list) {
     $link = isset($info['link'])
       ? $info['link']
       : FALSE;
+
+    if (isset($link['options']['query']) && $topic) {
+      $link['options']['query']['f'] = str_replace('@TOPIC_ID', $topic, $link['options']['query']['f']);
+    }
 
     if (!isset($data[$type])) {
       $data[$type] = array(
@@ -222,8 +257,8 @@ function c4m_content_theme() {
     'variables' => array(
       'data' => array(),
     ),
-    'file'  => 'c4m_content.theme.inc',
-    'path'  => drupal_get_path('module', 'c4m_content') . '/includes',
+    'file' => 'c4m_content.theme.inc',
+    'path' => drupal_get_path('module', 'c4m_content') . '/includes',
   );
 
   return $theme;

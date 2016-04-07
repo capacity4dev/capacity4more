@@ -67,6 +67,11 @@ function c4m_content_topic_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
+    'c4m_ds_topic_content_stats' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_vocab_topic_mapping' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -256,37 +261,39 @@ function c4m_content_topic_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'header' => array(
-        0 => 'c4m_banner',
-        1 => 'c4m_header_meta',
-        2 => 'c4m_header_bottom',
-        3 => 'title',
-        5 => 'c4m_body',
-        11 => 'c4m_vocab_topic_mapping',
+        0 => 'c4m_ds_topic_content_stats',
+        1 => 'c4m_banner',
+        2 => 'c4m_header_meta',
+        3 => 'c4m_vocab_topic_mapping',
+        4 => 'title',
+        5 => 'c4m_header_bottom',
+        6 => 'c4m_body',
       ),
       'left' => array(
-        4 => 'activity_stream_by_topic',
+        7 => 'activity_stream_by_topic',
       ),
       'right' => array(
-        6 => 'related_events_by_topic',
-        7 => 'related_groups_by_topic',
-        8 => 'related_projects_by_topic',
-        9 => 'related_articles_by_topic',
-        10 => 'expert_users_by_topic',
+        8 => 'related_events_by_topic',
+        9 => 'related_groups_by_topic',
+        10 => 'related_projects_by_topic',
+        11 => 'related_articles_by_topic',
+        12 => 'expert_users_by_topic',
       ),
     ),
     'fields' => array(
+      'c4m_ds_topic_content_stats' => 'header',
       'c4m_banner' => 'header',
       'c4m_header_meta' => 'header',
-      'c4m_header_bottom' => 'header',
+      'c4m_vocab_topic_mapping' => 'header',
       'title' => 'header',
-      'activity_stream_by_topic' => 'left',
+      'c4m_header_bottom' => 'header',
       'c4m_body' => 'header',
+      'activity_stream_by_topic' => 'left',
       'related_events_by_topic' => 'right',
       'related_groups_by_topic' => 'right',
       'related_projects_by_topic' => 'right',
       'related_articles_by_topic' => 'right',
       'expert_users_by_topic' => 'right',
-      'c4m_vocab_topic_mapping' => 'header',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -299,6 +306,7 @@ function c4m_content_topic_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
     'hide_page_title' => '1',
     'page_option_title' => '',
   );

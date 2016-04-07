@@ -95,6 +95,33 @@ function hook_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_discussions' => array(
+        'type'          => 'discussion',
+        'entity_type'   => 'node',
+        'bundles'       => array('discussion'),
+        'singular'      => 'Discussion',
+        'plural'        => 'Discussions',
+        'state'         => NULL,
+        'c4m_status'    => array('published', 'archived'),
+        'aggregate'     => array(),
+        'weight'        => 1,
+        'attributes'    => array(
+          'class' => array('topic-discussions'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+                'type:discussion',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }
 

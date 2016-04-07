@@ -437,5 +437,30 @@ function c4m_user_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_user' => array(
+        'type'        => 'user',
+        'entity_type' => 'user',
+        'bundles'     => NULL,
+        'singular'    => 'Expert',
+        'plural'      => 'Experts',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 10,
+        'attributes'  => array(
+          'class' => array('topic-users'),
+        ),
+        'link' => array(
+          'path' => 'people',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic_expertise:@TOPIC_ID',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

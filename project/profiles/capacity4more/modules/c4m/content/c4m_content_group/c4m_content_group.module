@@ -680,6 +680,32 @@ function c4m_content_group_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_groups' => array(
+        'type'        => 'group',
+        'entity_type' => 'node',
+        'bundles'     => array('group'),
+        'singular'    => 'Group',
+        'plural'      => 'Groups',
+        'state'       => NULL,
+        'c4m_status'  => array('published', 'archived'),
+        'aggregate'   => array(),
+        'weight'      => 0,
+        'attributes'  => array(
+          'class' => array('topic-groups'),
+        ),
+        'link' => array(
+          'path' => 'groups',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }
 

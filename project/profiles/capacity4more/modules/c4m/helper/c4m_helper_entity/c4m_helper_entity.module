@@ -15,7 +15,10 @@
  * @return mixed
  *    Returns array with the entity type label.
  */
-function c4m_helper_entity_get_entity_type_label($entity, $entity_type = 'node') {
+function c4m_helper_entity_get_entity_type_label(
+  $entity,
+  $entity_type = 'node'
+) {
   $variables = array(
     'entity' => $entity,
     'entity_type' => $entity_type,
@@ -73,11 +76,12 @@ function c4m_sort_object_by_title($a, $b) {
 function c4m_helper_entity_get_number_of_entities(array $variables) {
   $amount = 0;
 
-  $entity_type  = $variables['entity_type'];
-  $bundles      = $variables['bundles'];
-  $state        = $variables['state'];
-  $og_id        = $variables['og_id'];
-  $c4m_status   = $variables['c4m_status'];
+  $entity_type = $variables['entity_type'];
+  $bundles = $variables['bundles'];
+  $state = $variables['state'];
+  $og_id = $variables['og_id'];
+  $topic = $variables['topic'];
+  $c4m_status = $variables['c4m_status'];
 
   if ($entity_type) {
     switch ($entity_type) {
@@ -98,7 +102,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
             $query->condition('n.status', $state, '=');
           }
         }
-        $query  = $query->addTag('node_access');
+        $query = $query->addTag('node_access');
         break;
 
       case 'comment':
@@ -108,7 +112,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
         if (!is_null($state)) {
           $query->condition('n.status', $state, '=');
         }
-        $query  = $query->addTag('node_access');
+        $query = $query->addTag('node_access');
         break;
     }
 
@@ -138,6 +142,32 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
       $query->condition('og.gid', $og_id, '=');
     }
 
+    // Add topic condition if given.
+    if ($topic) {
+      switch ($entity_type) {
+        case 'user':
+          $query->join(
+            'field_data_c4m_vocab_topic_expertise',
+            'td',
+            'u.uid = td.entity_id'
+          );
+          $query->condition('td.c4m_vocab_topic_expertise_tid', $topic);
+          break;
+
+        case 'node':
+          $query->join(
+            'field_data_c4m_vocab_topic',
+            'td',
+            'n.nid = td.entity_id'
+          );
+          $query->condition('td.c4m_vocab_topic_tid', $topic);
+          break;
+
+        default:
+          return $amount;
+      }
+    }
+
     // Add condition on c4m status.
     if (!empty($c4m_status)) {
       if ($entity_type == 'node') {
@@ -149,7 +179,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
       }
     }
 
-    $query  = $query->execute();
+    $query = $query->execute();
     $amount = $query->rowCount();
   }
 

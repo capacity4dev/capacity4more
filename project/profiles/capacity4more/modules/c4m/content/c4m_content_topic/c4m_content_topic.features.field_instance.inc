@@ -691,7 +691,7 @@ function c4m_content_topic_field_default_field_instances() {
           'wrap' => 'none',
         ),
         'type' => 'term_reference_tree_children_expanded',
-        'weight' => 30,
+        'weight' => 1,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
