@@ -5,7 +5,6 @@ package = capacity4more - Content
 dependencies[] = c4m_content_article
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_project
-dependencies[] = c4m_content_topic
 dependencies[] = c4m_field_banner
 dependencies[] = c4m_field_body
 dependencies[] = c4m_field_media

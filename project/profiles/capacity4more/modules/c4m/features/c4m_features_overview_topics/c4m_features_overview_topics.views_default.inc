@@ -30,15 +30,9 @@ function c4m_features_overview_topics_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['grouping'] = array(
-    0 => array(
-      'field' => 'c4m_vocab_theme',
-      'rendered' => 0,
-      'rendered_strip' => 0,
-    ),
-  );
-  $handler->display->display_options['style_options']['row_class'] = 'col-md-3 col-sm-3 col-xs-6';
-  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['style_options']['row_class'] = 'col-md-4 col-sm-4 col-xs-6 no-border';
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
