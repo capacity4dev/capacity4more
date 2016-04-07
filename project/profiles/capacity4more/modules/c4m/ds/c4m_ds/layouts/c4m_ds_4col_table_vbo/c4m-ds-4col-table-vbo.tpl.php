@@ -11,19 +11,21 @@
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
 
-<div class="row">
-  <<?php print $first_wrapper; ?> class="content-first <?php print $first_classes; ?>">
-    <?php print $first; ?>
-  </<?php print $first_wrapper; ?>>
-  <<?php print $second_wrapper; ?> class="content-second <?php print $second_classes; ?>">
-    <?php print $second; ?>
-  </<?php print $second_wrapper; ?>>
-  <<?php print $third_wrapper; ?> class="content-third <?php print $third_classes; ?>">
-    <?php print $third; ?>
-  </<?php print $third_wrapper; ?>>
-  <<?php print $fourth_wrapper; ?> class="content-fourth <?php print $fourth_classes; ?>">
-    <?php print $fourth; ?>
-  </<?php print $fourth_wrapper; ?>>
+<div class="content">
+  <div class="row">
+    <<?php print $first_wrapper; ?> class="content-first <?php print $first_classes; ?>">
+      <?php print $first; ?>
+    </<?php print $first_wrapper; ?>>
+    <<?php print $second_wrapper; ?> class="content-second <?php print $second_classes; ?>">
+      <?php print $second; ?>
+    </<?php print $second_wrapper; ?>>
+    <<?php print $third_wrapper; ?> class="content-third <?php print $third_classes; ?>">
+      <?php print $third; ?>
+    </<?php print $third_wrapper; ?>>
+    <<?php print $fourth_wrapper; ?> class="content-fourth <?php print $fourth_classes; ?>">
+      <?php print $fourth; ?>
+    </<?php print $fourth_wrapper; ?>>
+  </div>
 </div>
 
 </<?php print $layout_wrapper ?>>
