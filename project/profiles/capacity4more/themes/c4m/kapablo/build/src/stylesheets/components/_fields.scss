@@ -14,8 +14,13 @@
 
 .group-iconbar-comments-views, .group-members-count {
   color: $color-gray-light;
-  i {
-    margin-right: 3px;
+
+  .group-statistic {
+    padding-right: 1rem;
+
+    i {
+      margin-right: .2rem;
+    }
   }
 }
 
@@ -32,11 +37,7 @@
   position: relative;
 
   .membership-indicator {
-    @extend .text-xsmall;
-    border: 1px solid $color-text-alternative;
-    border-radius: 5px;
-    color: $color-text-alternative;
-    padding: .5em;
+    line-height: 1rem;
     position: absolute;
     right: 0;
     top: 0;

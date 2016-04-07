@@ -296,7 +296,7 @@ function theme_c4m_ds_group_posts_count(array $field) {
 
   $tag['element'] = array(
     '#tag'   => 'span',
-    '#value' => '<i class="fa fa-comments-o"></i> ' . format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
+    '#value' => format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
   );
 
   return theme_html_tag($tag);
@@ -385,7 +385,7 @@ function theme_c4m_ds_group_membership_type(array $field) {
   $tag['element'] = array(
     '#tag'   => 'span',
     '#value' => $group_membership_type,
-    '#attributes' => array('class' => array('membership-indicator')),
+    '#attributes' => array('class' => array('membership-indicator', 'label', 'label-primary')),
   );
 
   return theme_html_tag($tag);
