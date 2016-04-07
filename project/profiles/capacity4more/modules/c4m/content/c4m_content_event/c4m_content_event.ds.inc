@@ -21,6 +21,10 @@ function c4m_content_event_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
@@ -312,9 +316,10 @@ function c4m_content_event_ds_field_settings_info() {
     ),
     'c4m_field_og_group' => array(
       'weight' => '2',
-      'label' => 'inline',
+      'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
+        'show_group_type' => 1,
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'lb' => 'Group',
@@ -427,6 +432,64 @@ function c4m_content_event_ds_field_settings_info() {
  */
 function c4m_content_event_ds_layout_settings_info() {
   $export = array();
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_event|activity_global';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_event';
+  $ds_layout->view_mode = 'activity_global';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_related_document',
+        1 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'c4m_related_document' => 'ds_content',
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_event|activity_global'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_event|activity_group';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_event';
+  $ds_layout->view_mode = 'activity_group';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'c4m_related_document',
+        1 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'c4m_related_document' => 'ds_content',
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_event|activity_group'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
@@ -689,6 +752,7 @@ function c4m_content_event_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['node|event|teaser'] = $ds_layout;
 

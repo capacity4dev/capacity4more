@@ -23,10 +23,33 @@ function c4m_field_og_ds_fields_info($entity_type) {
       'formatters' => array(
         'default' => t('Default'),
       ),
+      'settings' => array(
+        'show_group_type' => array(
+          'type' => 'checkbox',
+          'title' => t('Show group type'),
+        ),
+      ),
+      'default' => array(
+        'show_group_type' => '0',
+      ),
     ),
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_ds_field_settings_form().
+ */
+function c4m_field_og_ds_field_settings_form($field) {
+  return ds_ds_field_settings_form($field);
+}
+
+/**
+ * Implements hook_ds_field_format_summary().
+ */
+function c4m_field_og_ds_field_format_summary($field) {
+  return ds_ds_field_format_summary($field);
 }
 
 /**

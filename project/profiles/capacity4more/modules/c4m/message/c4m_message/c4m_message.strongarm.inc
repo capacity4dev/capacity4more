@@ -26,10 +26,10 @@ function c4m_message_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
     ),
     'extra_fields' => array(
@@ -70,10 +70,10 @@ function c4m_message_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
     ),
     'extra_fields' => array(
@@ -105,10 +105,10 @@ function c4m_message_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'full' => array(
         'custom_settings' => FALSE,
@@ -158,10 +158,10 @@ function c4m_message_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
     ),
     'extra_fields' => array(
@@ -202,10 +202,10 @@ function c4m_message_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
     ),
     'extra_fields' => array(
@@ -246,10 +246,10 @@ function c4m_message_strongarm() {
         'custom_settings' => FALSE,
       ),
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
     ),
     'extra_fields' => array(
@@ -281,10 +281,10 @@ function c4m_message_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'activity_global' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'activity_group' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'full' => array(
         'custom_settings' => FALSE,
@@ -323,10 +323,33 @@ function c4m_message_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__c4m_insert__node__wiki_page';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => FALSE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(),
+      'display' => array(
+        'message__message_text__0' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_message__c4m_insert__node__wiki_page'] = $strongarm;
