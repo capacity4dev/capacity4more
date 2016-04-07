@@ -19,7 +19,7 @@ function kapablo_search_api_sorts_list(array $variables) {
   $items_array = $variables['items'];
 
   if (!module_exists('c4m_search')) {
-    $items   = array_map('render', $items_array);
+    $items = array_map('render', $items_array);
     $options = $variables['options'];
 
     return $items
@@ -30,7 +30,7 @@ function kapablo_search_api_sorts_list(array $variables) {
   $active_item = NULL;
   foreach ($items_array as $key => $item) {
     if ($item['#active'] === TRUE &&
-        isset($items_array[$key]['#order_options'])
+      isset($items_array[$key]['#order_options'])
     ) {
       $options_key = '#order_options';
       $active_item = $item;
@@ -52,7 +52,7 @@ function kapablo_search_api_sorts_list(array $variables) {
     $items_array[$key][$options_key]['attributes']['title'] = t(
       'Sort by @name (@order)',
       array(
-        '@name'  => $item['#name'],
+        '@name' => $item['#name'],
         '@order' => $order_human,
       )
     );
@@ -62,13 +62,14 @@ function kapablo_search_api_sorts_list(array $variables) {
 
   $options = $variables['options'];
   $options['attributes']['class'][] = 'dropdown-menu';
+  $options['hide_wrapper'] = TRUE;
 
   $output = '';
   if ($items) {
     $output = theme(
       'c4m_search_dropdown_sort_filters',
       array(
-        'list'   => theme('item_list', array('items' => $items) + $options),
+        'list' => theme('item_list', array('items' => $items) + $options),
         'active' => $active_item,
       )
     );
@@ -91,7 +92,9 @@ function kapablo_facetapi_link_active($variables) {
 
   // Sanitizes the link text if necessary.
   $sanitize = empty($variables['options']['html']);
-  $link_text = ($sanitize) ? check_plain($variables['text']) : $variables['text'];
+  $link_text = ($sanitize) ? check_plain(
+    $variables['text']
+  ) : $variables['text'];
 
   // Theme function variables fro accessible markup.
   // @see http://drupal.org/node/1316580
@@ -103,17 +106,63 @@ function kapablo_facetapi_link_active($variables) {
   // Builds link, passes through t() which gives us the ability to change the
   // position of the widget on a per-language basis.
   $replacements = array(
-    '!facetapi_deactivate_widget' => theme('facetapi_deactivate_widget', $variables),
-    '!facetapi_accessible_markup' => theme('facetapi_accessible_markup', $accessible_vars),
+    '!facetapi_deactivate_widget' => theme(
+      'facetapi_deactivate_widget',
+      $variables
+    ),
+    '!facetapi_accessible_markup' => theme(
+      'facetapi_accessible_markup',
+      $accessible_vars
+    ),
   );
-  $variables['text'] = $link_text . t('!facetapi_deactivate_widget !facetapi_accessible_markup', $replacements);
+  $variables['text'] = $link_text . t(
+      '!facetapi_deactivate_widget !facetapi_accessible_markup',
+      $replacements
+    );
   $variables['options']['html'] = TRUE;
   return theme_link($variables);
 }
 
 /**
- * Implements theme_tablesort_indicator().
+ * Theme a single sort item.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - name: The name to display for the item.
+ *   - path: The destination path when the sort link is clicked.
+ *   - options: An array of options to pass to l().
+ *   - active: A boolean telling whether this sort filter is active or not.
+ *   - order_options: If active, a set of options to reverse the order.
+ *
+ * @return string
+ *   Sort options in HTML format.
  */
-function kapablo_tablesort_indicator($variables) {
-  return '';
+function kapablo_search_api_sorts_sort(array $variables) {
+  $name = $variables['name'];
+  $path = $variables['path'];
+  $options = $variables['options'] + array('attributes' => array());
+  $options['attributes'] += array('class' => array());
+
+  $order_options = $variables['order_options'] + array(
+    'query' => array(),
+    'attributes' => array(),
+    'html' => TRUE,
+  );
+  $order_options['attributes'] += array('class' => array());
+
+  if ($variables['active']) {
+    $return_html = l(
+      $name . theme(
+        'tablesort_indicator',
+        array('style' => $order_options['query']['order'])
+      ),
+      $path,
+      $order_options
+    );
+  }
+  else {
+    $return_html = l($name, $path, $options);
+  }
+
+  return $return_html;
 }

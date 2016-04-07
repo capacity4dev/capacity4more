@@ -227,7 +227,7 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'medium',
+          'image_style' => 'c4m_image_medium',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -237,7 +237,7 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'medium',
+          'image_style' => 'c4m_image_medium',
         ),
         'type' => 'image',
         'weight' => 1,

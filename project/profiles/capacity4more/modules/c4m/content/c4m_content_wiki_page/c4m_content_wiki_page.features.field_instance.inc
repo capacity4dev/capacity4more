@@ -275,7 +275,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 29,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -383,7 +383,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 28,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -480,7 +480,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 24,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -578,7 +578,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 27,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -674,7 +674,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -778,7 +778,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 25,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -910,7 +910,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 26,
       ),
       'activity_group' => array(
         'label' => 'above',

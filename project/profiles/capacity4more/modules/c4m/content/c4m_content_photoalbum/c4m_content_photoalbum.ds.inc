@@ -279,7 +279,7 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photoalbum';
   $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
@@ -317,7 +317,7 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photoalbum';
   $ds_layout->view_mode = 'activity_group';
-  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
@@ -421,7 +421,7 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photoalbum';
   $ds_layout->view_mode = 'teaser';
-  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
@@ -461,7 +461,7 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photoalbum';
   $ds_layout->view_mode = 'teaser_group';
-  $ds_layout->layout = 'c4m_ds_4_8_fluid';
+  $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(

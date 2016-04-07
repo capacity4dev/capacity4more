@@ -33,9 +33,9 @@ function kapablo_pager(array $variables) {
     t('Last'),
   );
 
-  $element    = $variables['element'];
+  $element = $variables['element'];
   $parameters = $variables['parameters'];
-  $quantity   = $variables['quantity'];
+  $quantity = $variables['quantity'];
   global $pager_page_array, $pager_total;
 
   // Calculate various markers within this pager piece:
@@ -54,37 +54,49 @@ function kapablo_pager(array $variables) {
   $i = $pager_first;
   if ($pager_last > $pager_max) {
     // Adjust "center" if at end of query.
-    $i          = $i + ($pager_max - $pager_last);
+    $i = $i + ($pager_max - $pager_last);
     $pager_last = $pager_max;
   }
   if ($i <= 0) {
     // Adjust "center" if at start of query.
     $pager_last = $pager_last + (1 - $i);
-    $i          = 1;
+    $i = 1;
   }
 
-  $li_first = theme('pager_first', array(
-    'text' => (isset($tags[0]) ? $tags[0] : t('« first')),
-    'element' => $element,
-    'parameters' => $parameters,
-  ));
-  $li_previous = theme('pager_previous', array(
-    'text'       => (isset($tags[1]) ? $tags[1] : t('previous')),
-    'element'    => $element,
-    'interval'   => 1,
-    'parameters' => $parameters,
-  ));
-  $li_next     = theme('pager_next', array(
-    'text'       => (isset($tags[2]) ? $tags[2] : t('next')),
-    'element'    => $element,
-    'interval'   => 1,
-    'parameters' => $parameters,
-  ));
-  $li_last = theme('pager_last', array(
-    'text' => (isset($tags[3]) ? $tags[3] : t('last »')),
-    'element' => $element,
-    'parameters' => $parameters,
-  ));
+  $li_first = theme(
+    'pager_first',
+    array(
+      'text' => (isset($tags[0]) ? $tags[0] : t('« first')),
+      'element' => $element,
+      'parameters' => $parameters,
+    )
+  );
+  $li_previous = theme(
+    'pager_previous',
+    array(
+      'text' => (isset($tags[1]) ? $tags[1] : t('previous')),
+      'element' => $element,
+      'interval' => 1,
+      'parameters' => $parameters,
+    )
+  );
+  $li_next = theme(
+    'pager_next',
+    array(
+      'text' => (isset($tags[2]) ? $tags[2] : t('next')),
+      'element' => $element,
+      'interval' => 1,
+      'parameters' => $parameters,
+    )
+  );
+  $li_last = theme(
+    'pager_last',
+    array(
+      'text' => (isset($tags[3]) ? $tags[3] : t('last »')),
+      'element' => $element,
+      'parameters' => $parameters,
+    )
+  );
 
   if ($pager_total[$element] > 1) {
     // When there is more than one page, create the pager list.
@@ -92,7 +104,7 @@ function kapablo_pager(array $variables) {
       if ($i > 1) {
         $items[] = array(
           'class' => array('pager-ellipsis'),
-          'data'  => '…',
+          'data' => '…',
         );
       }
 
@@ -101,36 +113,42 @@ function kapablo_pager(array $variables) {
         if ($i < $pager_current) {
           $items[] = array(
             'class' => array('pager-item'),
-            'data'  => theme('pager_previous', array(
-              'text'       => $i,
-              'element'    => $element,
-              'interval'   => ($pager_current - $i),
-              'parameters' => $parameters,
-            )),
+            'data' => theme(
+              'pager_previous',
+              array(
+                'text' => $i,
+                'element' => $element,
+                'interval' => ($pager_current - $i),
+                'parameters' => $parameters,
+              )
+            ),
           );
         }
         if ($i == $pager_current) {
           $items[] = array(
             'class' => array('pager-current'),
-            'data'  => $i,
+            'data' => $i,
           );
         }
         if ($i > $pager_current) {
           $items[] = array(
             'class' => array('pager-item'),
-            'data'  => theme('pager_next', array(
-              'text'       => $i,
-              'element'    => $element,
-              'interval'   => ($i - $pager_current),
-              'parameters' => $parameters,
-            )),
+            'data' => theme(
+              'pager_next',
+              array(
+                'text' => $i,
+                'element' => $element,
+                'interval' => ($i - $pager_current),
+                'parameters' => $parameters,
+              )
+            ),
           );
         }
       }
       if ($i < $pager_max) {
         $items[] = array(
           'class' => array('pager-ellipsis'),
-          'data'  => '…',
+          'data' => '…',
         );
       }
     }
@@ -138,18 +156,24 @@ function kapablo_pager(array $variables) {
     $list = theme(
       'item_list',
       array(
-        'items'      => $items,
-        'attributes' => array('class' => array('pager')),
+        'items' => $items,
+        'attributes' => array(
+          'class' => array(
+            'pager',
+            'list-inline',
+            'text-center',
+          ),
+        ),
       )
     );
     $output = array(
-      '<div class="row">',
+      '<div class="row pager--wrapper">',
       '  <h2 class="element-invisible">' . t('Pages') . '</h2>',
-      '  <div class="col-md-2 pager-first">' . $li_first . '</div>',
-      '  <div class="col-md-2 pager-previous">' . $li_previous . '</div>',
-      '  <div class="col-md-4 pager-content">' . $list . '</div>',
-      '  <div class="col-md-2 pager-next">' . $li_next . '</div>',
-      '  <div class="col-md-2 pager-last">' . $li_last . '</div>',
+      '  <div class="hidden-xs hidden-sm col-md-2 pager-first">' . $li_first . '</div>',
+      '  <div class="col-xs-2 col-md-2 pager-previous">' . $li_previous . '</div>',
+      '  <div class="col-xs-8 col-md-4 pager-content">' . $list . '</div>',
+      '  <div class="col-xs-2 col-md-2 pager-next">' . $li_next . '</div>',
+      '  <div class="hidden-xs hidden-sm col-md-2 pager-last">' . $li_last . '</div>',
       '</div>',
     );
 

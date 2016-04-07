@@ -160,7 +160,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
  *   The Message entity.
  */
 function c4m_message_load_general_arguments(Message $message) {
-  $message->arguments['@date'] = array(
+  $message->arguments['!date'] = array(
     'callback' => 'c4m_message_format_date_for_message',
     'pass message' => TRUE,
   );
@@ -181,8 +181,11 @@ function c4m_message_load_general_arguments(Message $message) {
  *   The formatted date.
  */
 function c4m_message_format_date_for_message(Message $message) {
-  $format = variable_get('date_format_c4m_long_without_time', 'j F Y');
-  return c4m_helper_date_time_ago($message->timestamp, $format);
+  $format = variable_get('date_format_c4m_long_without_time', 'j F Y H:i');
+  $rel_date = c4m_helper_date_time_ago($message->timestamp, $format, 16070400);
+  $abs_date = format_date($message->timestamp, 'custom', $format);
+
+  return '<span data-toggle="tooltip" data-placement="bottom" title="' . $abs_date . '">' . $rel_date . '</span>';
 }
 
 /**

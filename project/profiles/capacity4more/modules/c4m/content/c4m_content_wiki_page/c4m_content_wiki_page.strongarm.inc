@@ -186,7 +186,7 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '10',
+            'weight' => '23',
             'visible' => FALSE,
           ),
           'default' => array(

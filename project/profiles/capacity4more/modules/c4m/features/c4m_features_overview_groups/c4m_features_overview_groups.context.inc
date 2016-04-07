@@ -35,7 +35,7 @@ function c4m_features_overview_groups_context_default_contexts() {
         'c4m_search_filter-search_filter' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter',
-          'region' => 'content_top',
+          'region' => 'content_above',
           'weight' => '-9',
         ),
         'views--exp-c4m_overview_groups-page' => array(

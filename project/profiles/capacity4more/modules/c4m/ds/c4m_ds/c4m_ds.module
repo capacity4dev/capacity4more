@@ -52,6 +52,19 @@ function c4m_ds_ds_layout_info() {
     'image'   => TRUE,
   );
 
+  $layouts['c4m_ds_4_8_fluid_stacked'] = array(
+    'label'   => t('Fluid 4-8 stacked.'),
+    'path'    => $path . '/c4m_ds_4_8_fluid_stacked',
+    'regions' => array(
+      'header' => t('Header'),
+      'left'  => t('Left'),
+      'right' => t('Right'),
+      'footer' => t('Footer'),
+    ),
+    'form'    => TRUE,
+    'image'   => FALSE,
+  );
+
   $layouts['c4m_ds_8_4_fluid'] = array(
     'label'    => t('Fluid 8-4 stacked.'),
     'path'     => $path . '/c4m_ds_8_4_fluid',

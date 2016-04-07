@@ -1,0 +1,23 @@
+.node-icon {
+  background-size: contain;
+  display: inline-block;
+  float: left;
+  height: 1em;
+  line-height: 100%;
+  vertical-align: baseline;
+  width: 25px;
+
+  &[class*="as-group-"] {
+    margin: 2px;
+  }
+
+  &.as-group-public {
+    background: url('../images/icons/group-access-public.png') no-repeat center center;
+  }
+  &.as-group-restricted {
+    background: url('../images/icons/group-access-restricted.png') no-repeat center center;
+  }
+  &.as-group-private {
+    background: url('../images/icons/group-access-private.png') no-repeat center center;
+  }
+}
