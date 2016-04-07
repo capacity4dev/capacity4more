@@ -1,5 +1,17 @@
-.group-left img {
-  border: 1px solid $color-gray-light;
-  border-radius: 5px;
-  padding: 2px;
+.region-content {
+  img {
+    border: 1px solid $color-gray-light;
+    border-radius: 5px;
+    padding: 2px;
+  }
+}
+
+// Exceptions.
+
+.pane-featured-block {
+  img {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
 }

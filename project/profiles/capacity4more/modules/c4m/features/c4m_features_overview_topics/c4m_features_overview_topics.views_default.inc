@@ -37,8 +37,12 @@ function c4m_features_overview_topics_views_default_views() {
       'rendered_strip' => 0,
     ),
   );
-  $handler->display->display_options['style_options']['row_class'] = 'col-md-3 col-sm-3 col-xs-6';
+  $handler->display->display_options['style_options']['row_class'] = 'col-md-4 col-sm-4 col-xs-6 no-border';
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+    'c4m_media' => 'c4m_media',
+    'title' => 'title',
+  );
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
@@ -53,25 +57,17 @@ function c4m_features_overview_topics_views_default_views() {
   $handler->display->display_options['fields']['c4m_vocab_theme']['exclude'] = TRUE;
   $handler->display->display_options['fields']['c4m_vocab_theme']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_vocab_theme']['type'] = 'taxonomy_term_reference_plain';
-  /* Field: Field: Image */
-  $handler->display->display_options['fields']['c4m_media']['id'] = 'c4m_media';
-  $handler->display->display_options['fields']['c4m_media']['table'] = 'field_data_c4m_media';
-  $handler->display->display_options['fields']['c4m_media']['field'] = 'c4m_media';
-  $handler->display->display_options['fields']['c4m_media']['label'] = '';
-  $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'c4m_image_medium',
-    'image_link' => 'content',
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Content: Rendered Node */
+  $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['label'] = '';
+  $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['rendered_entity']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 0;
+  $handler->display->display_options['fields']['rendered_entity']['display'] = 'view';
+  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'teaser';
+  $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
