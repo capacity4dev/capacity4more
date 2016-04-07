@@ -12,6 +12,36 @@ function c4m_content_photoalbum_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_photoalbum|default';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_photoalbum';
+  $ds_fieldsetting->view_mode = 'default';
+  $ds_fieldsetting->settings = array(
+    'links' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'post_date' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'ds_post_date_c4m_long_without_time',
+    ),
+    'c4m_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'banner',
+    ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'user',
+    ),
+  );
+  $export['comment|comment_node_photoalbum|default'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|photoalbum|activity_global';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'photoalbum';
@@ -21,6 +51,10 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
@@ -143,6 +177,64 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_photoalbum|activity_global';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_photoalbum';
+  $ds_layout->view_mode = 'activity_global';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_photoalbum|activity_global'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_photoalbum|activity_group';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_photoalbum';
+  $ds_layout->view_mode = 'activity_group';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_photoalbum|activity_group'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'comment|comment_node_photoalbum|default';
   $ds_layout->entity_type = 'comment';
   $ds_layout->bundle = 'comment_node_photoalbum';
@@ -155,17 +247,17 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'c4m_user_first_and_last_name',
-        2 => 'post_date',
+        2 => 'links',
         3 => 'comment_body',
-        4 => 'links',
+        4 => 'post_date',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
       'c4m_user_first_and_last_name' => 'right',
-      'post_date' => 'right',
-      'comment_body' => 'right',
       'links' => 'right',
+      'comment_body' => 'right',
+      'post_date' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
@@ -177,6 +269,7 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
   );
   $export['comment|comment_node_photoalbum|default'] = $ds_layout;
 
