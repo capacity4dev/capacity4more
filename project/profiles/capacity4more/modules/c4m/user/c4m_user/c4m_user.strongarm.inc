@@ -20,7 +20,7 @@ function c4m_user_strongarm() {
         'custom_settings' => TRUE,
       ),
       'full' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -38,6 +38,9 @@ function c4m_user_strongarm() {
         'custom_settings' => TRUE,
       ),
       'c4m_user_teaser_table_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
         'custom_settings' => TRUE,
       ),
     ),
@@ -69,6 +72,14 @@ function c4m_user_strongarm() {
             'weight' => '23',
             'visible' => FALSE,
           ),
+          'full' => array(
+            'weight' => '11',
+            'visible' => FALSE,
+          ),
+          'block_list' => array(
+            'weight' => '24',
+            'visible' => FALSE,
+          ),
         ),
         'mimemail' => array(
           'c4m_user_teaser_table' => array(
@@ -89,6 +100,14 @@ function c4m_user_strongarm() {
           ),
           'c4m_user_teaser_table_global' => array(
             'weight' => '15',
+            'visible' => FALSE,
+          ),
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'block_list' => array(
+            'weight' => '20',
             'visible' => FALSE,
           ),
         ),

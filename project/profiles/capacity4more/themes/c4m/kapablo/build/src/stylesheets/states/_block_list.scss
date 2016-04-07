@@ -8,4 +8,15 @@
       padding: 0 $grid-gutter-width / 4;
     }
   }
+
+  .icon-col {
+    float: left;
+    width: 75px;
+  }
+
+  .content-col {
+    display:table-cell;
+    height: 65px;
+    vertical-align:middle;
+  }
 }
