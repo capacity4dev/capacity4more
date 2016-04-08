@@ -92,13 +92,10 @@ function c4m_content_event_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_content_type_icon' => array(
+    'c4m_ds_event_start_icon' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
     'c4m_event_type' => array(
       'formatter_settings' => array(
@@ -574,21 +571,19 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_content_type_icon',
+        0 => 'c4m_ds_event_start_icon',
       ),
       'right' => array(
         1 => 'title',
-      ),
-      'footer' => array(
         2 => 'c4m_field_og_group',
         3 => 'c4m_event_type',
       ),
     ),
     'fields' => array(
-      'c4m_ds_content_type_icon' => 'left',
+      'c4m_ds_event_start_icon' => 'left',
       'title' => 'right',
-      'c4m_field_og_group' => 'footer',
-      'c4m_event_type' => 'footer',
+      'c4m_field_og_group' => 'right',
+      'c4m_event_type' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

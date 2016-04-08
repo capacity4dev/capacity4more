@@ -228,7 +228,7 @@ function c4m_content_event_strongarm() {
             'visible' => TRUE,
           ),
           'block_list' => array(
-            'weight' => '34',
+            'weight' => '35',
             'visible' => FALSE,
           ),
         ),
