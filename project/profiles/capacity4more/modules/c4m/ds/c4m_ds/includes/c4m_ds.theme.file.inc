@@ -58,7 +58,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
     '#attributes' => array(
       'class' => "download-link",
     ),
-    '#value' => l($variables['text'], $uri['path'], $uri['options']),
+    '#value' => '<i class="fa fa-download"></i> ' . l($variables['text'], $uri['path'], $uri['options']),
   );
   $inner = theme_html_tag($tag);
 

@@ -107,6 +107,10 @@
     display: table-cell;
     height: 65px;
     vertical-align: middle;
+
+    .label-inline {
+      margin-right: .3em;
+    }
   }
 
   .user-name + .creation-date {

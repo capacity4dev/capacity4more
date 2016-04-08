@@ -5,7 +5,9 @@
       line-height: .92857rem;
       margin-right: 1em;
     }
+  }
 
+  &.node-discussion, &.node-document {
     .field-name-title {
       display: inline;
 
@@ -32,6 +34,21 @@
       li {
         margin: 0;
       }
+    }
+  }
+
+
+  &.node-document {
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+
+    .field-name-c4m-document {
+      display: table-cell;
+      height: 60px;
+      padding-left: 1em;
+      vertical-align: middle;
     }
   }
 }
