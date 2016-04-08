@@ -75,7 +75,16 @@ function c4m_content_topic_ds_field_settings_info() {
     'c4m_vocab_topic_mapping' => array(
       'formatter_settings' => array(
         'ft' => array(
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Topics and Sub-Topics',
+          'lb-el' => 'span',
+          'lb-cl' => 'text-muted',
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'topic-subtopics',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),
