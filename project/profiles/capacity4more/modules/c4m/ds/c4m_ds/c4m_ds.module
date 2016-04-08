@@ -187,6 +187,17 @@ function c4m_ds_ds_view_modes_info() {
   );
   $ds_view_modes['block_list'] = $ds_view_mode;
 
+  // User Image.
+  $ds_view_mode                 = new stdClass();
+  $ds_view_mode->disabled       = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version    = 1;
+  $ds_view_mode->view_mode      = 'user_picture';
+  $ds_view_mode->label          = 'User Picture';
+  $ds_view_mode->entities       = array(
+    'user' => 'user',
+  );
+  $ds_view_modes['user_picture'] = $ds_view_mode;
+
   // Prevent using default preview view mode because certain modules
   // depend on it. We introduce a custom preview view mode.
   $ds_view_mode                 = new stdClass();

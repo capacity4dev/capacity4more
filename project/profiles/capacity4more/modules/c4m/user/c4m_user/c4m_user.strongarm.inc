@@ -43,6 +43,9 @@ function c4m_user_strongarm() {
       'block_list' => array(
         'custom_settings' => TRUE,
       ),
+      'user_picture' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(),
@@ -80,6 +83,10 @@ function c4m_user_strongarm() {
             'weight' => '24',
             'visible' => FALSE,
           ),
+          'user_picture' => array(
+            'weight' => '11',
+            'visible' => FALSE,
+          ),
         ),
         'mimemail' => array(
           'c4m_user_teaser_table' => array(
@@ -108,6 +115,10 @@ function c4m_user_strongarm() {
           ),
           'block_list' => array(
             'weight' => '20',
+            'visible' => FALSE,
+          ),
+          'user_picture' => array(
+            'weight' => '0',
             'visible' => FALSE,
           ),
         ),
