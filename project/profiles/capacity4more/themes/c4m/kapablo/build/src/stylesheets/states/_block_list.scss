@@ -33,4 +33,12 @@
       float: right;
     }
   }
+
+  &.user-profile {
+    .content {
+      border-bottom: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
 }

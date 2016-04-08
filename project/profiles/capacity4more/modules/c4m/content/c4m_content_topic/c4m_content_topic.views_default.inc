@@ -265,7 +265,6 @@ function c4m_content_topic_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Related Groups';
-  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Show all';
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -275,8 +274,9 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'no-border';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_related';
+  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
   /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_c4m_related_group_unlimited_node']['id'] = 'reverse_c4m_related_group_unlimited_node';
   $handler->display->display_options['relationships']['reverse_c4m_related_group_unlimited_node']['table'] = 'node';

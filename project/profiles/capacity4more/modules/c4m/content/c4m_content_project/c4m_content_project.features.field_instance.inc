@@ -743,7 +743,7 @@ function c4m_content_project_field_default_field_instances() {
         'weight' => 0,
       ),
       'block_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
           'image_link' => '',

@@ -63,3 +63,26 @@
   height: 1em;
   text-align: center;
 }
+
+.group-c4m-header-meta {
+  background-color: $color-white;
+  border: 1px solid $color-gray-light;
+  border-radius: 5px;
+  margin: 0 auto -2rem auto;
+  padding: 1rem;
+  position: relative;
+  top: -3rem;
+  width: 90%;
+
+  h2, p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.topic-subtopics {
+  @extend .text-copy;
+  @extend .text-small;
+
+  margin-top: 1em;
+}
