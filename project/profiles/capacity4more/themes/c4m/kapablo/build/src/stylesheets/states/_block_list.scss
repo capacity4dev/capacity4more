@@ -1,11 +1,15 @@
 .view-mode-block_list {
-  .row {
+  .content {
     border-bottom: 1px dashed $color-gray-light;
     margin: 0 0 1rem 0;
     padding: 0 0 1rem 0;
 
-    .group-left, .group-right {
-      padding: 0 $grid-gutter-width / 4;
+    .group-left {
+      padding-right: $grid-gutter-width / 4;
+
+    }
+    .group-right {
+      padding-left: $grid-gutter-width / 4;
     }
   }
 
@@ -21,12 +25,6 @@
   }
 
   &.node-event {
-    .row {
-      border-bottom: none;
-      margin: 0;
-      padding: 0;
-    }
-
     .group-left {
       text-align: center;
     }
