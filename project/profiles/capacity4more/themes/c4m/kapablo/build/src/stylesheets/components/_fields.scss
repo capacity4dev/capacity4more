@@ -87,3 +87,10 @@
 
   margin-top: 1em;
 }
+
+.user-name + .creation-date {
+  &:before {
+    content: '|';
+    margin: 0 .5em;
+  }
+}

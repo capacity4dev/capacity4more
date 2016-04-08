@@ -92,6 +92,15 @@ function theme_c4m_ds_content_type_icon(array $field) {
   if (empty($field['entity'])) {
     return;
   }
+
+  $icons = array(
+    'discussion-info' => 'fa-info-circle',
+    'discussion-debate' => 'fa-comments',
+    'discussion-question' => 'fa-question-circle',
+    'discussion-idea' => 'fa-lightbulb-o',
+
+  );
+
   $object = $field['entity'];
 
   $icon_name = $object->type;
@@ -109,10 +118,14 @@ function theme_c4m_ds_content_type_icon(array $field) {
     $icon_name .= '-' . $al['type'];
   }
 
+  if (!isset($icons[$icon_name])) {
+    return;
+  }
+
   $tag['element'] = array(
-    '#tag' => 'span',
+    '#tag' => 'i',
     '#attributes' => array(
-      'class' => array('node-icon', 'as-' . $icon_name),
+      'class' => array('fa', $icons[$icon_name]),
     ),
     '#value' => '',
   );
