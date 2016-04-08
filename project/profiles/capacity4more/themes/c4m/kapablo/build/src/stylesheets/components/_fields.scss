@@ -33,13 +33,20 @@
   }
 }
 
-.group-teaser-header-inline {
+.group-teaser-header-inline, .group-footer {
   position: relative;
 
-  .membership-indicator {
-    line-height: 1rem;
+  .field-name-title {
+    margin: 0 9rem 0 30px;
+  }
+
+  .label {
     position: absolute;
     right: 0;
     top: 0;
   }
+}
+
+.label {
+  line-height: 1rem;
 }

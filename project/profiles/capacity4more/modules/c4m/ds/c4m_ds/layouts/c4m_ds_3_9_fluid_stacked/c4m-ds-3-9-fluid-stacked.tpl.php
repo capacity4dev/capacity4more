@@ -13,7 +13,7 @@ print $layout_attributes; ?> class="<?php print $classes; ?>">
 
 <div class="content">
   <div class="row">
-    <<?php print $header_wrapper; ?> class="group-header col-sm-12 <?php print $header_classes; ?>">
+    <<?php print $header_wrapper; ?> class="group-header <?php print $header_classes; ?>">
       <?php print $header; ?>
     </<?php print $header_wrapper; ?>>
   </div>
@@ -24,6 +24,11 @@ print $layout_attributes; ?> class="<?php print $classes; ?>">
     <<?php print $right_wrapper; ?> class="group-right col-sm-9 <?php print $right_classes; ?>">
       <?php print $right; ?>
     </<?php print $right_wrapper; ?>>
+  </div>
+  <div class="row">
+    <<?php print $footer_wrapper; ?> class="group-footer <?php print $footer_classes; ?>">
+    <?php print $footer; ?>
+  </<?php print $footer_wrapper; ?>>
   </div>
 </div>
 

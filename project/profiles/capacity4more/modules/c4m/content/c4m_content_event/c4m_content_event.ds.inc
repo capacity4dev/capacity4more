@@ -73,13 +73,22 @@ function c4m_content_event_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
         'link' => 'purl_auto',
         'wrapper' => '',
         'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_field_og_group' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
         'ft' => array(),
       ),
     ),
@@ -91,17 +100,17 @@ function c4m_content_event_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_datetime_end' => array(
+    'c4m_event_type' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
-    ),
-    'og_group_ref' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'span',
+          'fi-cl' => 'label label-primary',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
         ),
       ),
     ),
@@ -561,7 +570,7 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'event';
   $ds_layout->view_mode = 'block_list';
-  $ds_layout->layout = 'c4m_ds_3_9_fluid';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
@@ -569,20 +578,24 @@ function c4m_content_event_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_datetime_end',
-        3 => 'og_group_ref',
+      ),
+      'footer' => array(
+        2 => 'c4m_field_og_group',
+        3 => 'c4m_event_type',
       ),
     ),
     'fields' => array(
       'c4m_ds_content_type_icon' => 'left',
       'title' => 'right',
-      'c4m_datetime_end' => 'right',
-      'og_group_ref' => 'right',
+      'c4m_field_og_group' => 'footer',
+      'c4m_event_type' => 'footer',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

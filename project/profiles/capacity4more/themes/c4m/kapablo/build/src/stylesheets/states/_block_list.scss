@@ -19,4 +19,16 @@
     height: 65px;
     vertical-align: middle;
   }
+
+  &.node-event {
+    .row {
+      border-bottom: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .field-name-c4m-field-og-group {
+      margin-right: 6rem;
+    }
+  }
 }
