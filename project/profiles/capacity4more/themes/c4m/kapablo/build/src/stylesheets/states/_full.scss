@@ -18,4 +18,20 @@
   .field-name-c4m-body {
     margin-top: 1em;
   }
+
+  .group-right {
+    section {
+      margin-bottom: 2em;
+    }
+  }
+
+  .group-node-details {
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        margin: 0;
+      }
+    }
+  }
 }
