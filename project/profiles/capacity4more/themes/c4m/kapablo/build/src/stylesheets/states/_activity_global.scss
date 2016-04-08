@@ -29,4 +29,8 @@
 
 .field-name-c4m-ds-content-footer-stats {
   @extend .text-copy--muted;
+
+  .node & {
+    text-align: right;
+  }
 }

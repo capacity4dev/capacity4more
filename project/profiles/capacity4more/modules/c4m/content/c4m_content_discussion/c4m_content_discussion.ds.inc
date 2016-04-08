@@ -132,20 +132,32 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_content_type_icon' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_actions' => array(
       'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_discussion_type' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'span',
+          'fi-cl' => 'label label-primary',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
     ),
     'c4m_related_document' => array(
       'formatter_settings' => array(
@@ -552,7 +564,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_content_type_icon',
+        0 => 'c4m_discussion_type',
         2 => 'title',
         3 => 'c4m_ds_content_footer_stats',
         4 => 'c4m_body',
@@ -570,13 +582,13 @@ function c4m_content_discussion_ds_layout_settings_info() {
         13 => 'og_vocabulary',
         14 => 'c4m_user_first_and_last_name',
         15 => 'c4m_vocab_date',
-        16 => 'c4m_ds_creation_date',
-        17 => 'c4m_vocab_language',
+        16 => 'c4m_vocab_language',
+        17 => 'c4m_ds_creation_date',
         18 => 'c4m_vocab_geo',
       ),
     ),
     'fields' => array(
-      'c4m_ds_content_type_icon' => 'left',
+      'c4m_discussion_type' => 'left',
       'c4m_vocab_topic' => 'right',
       'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
@@ -592,8 +604,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'og_vocabulary' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_vocab_date' => 'right',
-      'c4m_ds_creation_date' => 'right',
       'c4m_vocab_language' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_vocab_geo' => 'right',
     ),
     'classes' => array(),
@@ -607,6 +619,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'layout_attributes_merge' => 1,
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
     'hide_page_title' => '1',
     'page_option_title' => '',
   );

@@ -22,6 +22,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
   $list = array();
   $icons_table = array(
     'article' => 'fa-bullhorn',
+    'comment' => 'fa-comments-o',
     'discussion' => 'fa-comments-o',
     'document' => 'fa-file-o',
     'group' => 'fa-users',

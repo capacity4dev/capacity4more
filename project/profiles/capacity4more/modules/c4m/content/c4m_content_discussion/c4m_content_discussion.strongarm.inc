@@ -170,7 +170,7 @@ function c4m_content_discussion_strongarm() {
       'display' => array(
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '19',
+            'weight' => '20',
             'visible' => FALSE,
           ),
           'teaser' => array(

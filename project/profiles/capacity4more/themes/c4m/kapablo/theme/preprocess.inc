@@ -148,6 +148,20 @@ function kapablo_preprocess_field(&$variables, $hook) {
       foreach ($element['#items'] as $key => $item) {
         $variables['items'][$key]['#markup'] = '<span class="group-statistic"><i class="fa fa-comments-o"></i> ' . $variables['items'][$key]['#markup'] . '</span>';
       }
+      break;
+
+    case 'c4m_discussion_type':
+      switch ($element['#view_mode']) {
+        case 'full':
+          foreach ($element['#items'] as $key => $item) {
+            $markup = c4m_content_discussion_simple_label(
+              $variables['items'][$key]['#markup']
+            );
+
+            $variables['items'][$key]['#markup'] = '<i class="fa ' . $markup['class'] . '"></i> ' . $markup['label'];
+          }
+          break;
+      }
   }
 }
 

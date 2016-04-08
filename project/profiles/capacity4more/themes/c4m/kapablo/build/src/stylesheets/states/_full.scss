@@ -1,0 +1,17 @@
+.view-mode-full {
+  &.node-discussion {
+    .label {
+      float: left;
+      line-height: .92857rem;
+      margin-right: 1em;
+    }
+
+    .field-name-title {
+      display: inline;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+}
