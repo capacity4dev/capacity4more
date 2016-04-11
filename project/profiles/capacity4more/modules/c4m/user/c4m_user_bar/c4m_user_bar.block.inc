@@ -17,20 +17,20 @@ function _c4m_user_bar_block_user_signup_login() {
   $block['subject'] = '';
 
   if (user_is_anonymous()) {
-    $links = array(
-      l(t('Sign up'), 'user/register', array('attributes' => array('class' => array('text-link--cta')))),
-      l(t('Log in'), 'user/login', array('attributes' => array('class' => array('text-link--blue')))),
-    );
+    $text = t('<strong>!login</strong> or <strong>!register</strong>', array(
+      '!login' => l(t('Log in'), 'user/login', array('attributes' => array('class' => array('text-link--blue')))),
+      '!register' => l(t('Register'), 'user/register', array('attributes' => array('class' => array('text-link--cta')))),
+    ));
   }
   else {
-    $links = array(
-      l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('text-link--blue')))),
-    );
+    $text = l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('text-link--blue'))));
   }
 
   $output = array(
-    '#theme'      => 'item_list',
-    '#items'      => $links,
+    '#type'      => 'container',
+    'links' => array(
+      '#markup' => $text,
+    ),
     '#attributes' => array(
       'class' => array(
         'text-small',
