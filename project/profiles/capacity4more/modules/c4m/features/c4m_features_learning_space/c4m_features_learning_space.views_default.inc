@@ -102,6 +102,8 @@ function c4m_features_learning_space_views_default_views() {
   $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['table'] = 'field_data_c4m_vocab_document_type';
   $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['field'] = 'c4m_vocab_document_type_tid';
   $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['value'] = array(
+    311 => '311',
+    313 => '313',
     310 => '310',
   );
   $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['type'] = 'select';
