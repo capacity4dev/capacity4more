@@ -122,6 +122,14 @@ function c4m_user_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['user']['c4m_user_contact_link'] = array(
+    'title'      => t('C4M User contact link'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('*|*'),
+    'file'       => $path . '/includes/c4m_user.theme.inc',
+    'function'   => 'theme_c4m_user_contact_link',
+  );
+
   // User related fields for entity type node.
   $fields['node']['c4m_user_picture'] = $fields['user']['c4m_user_picture'];
   $fields['node']['c4m_user_first_and_last_name']
@@ -437,5 +445,16 @@ function c4m_user_c4m_content_statistics_info() {
         ),
       ),
     ),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Make the user/%user/contact page just a callback.
+ */
+function c4m_user_menu_alter(&$items) {
+  $items['user/%user/contact'] = array(
+    'type' => MENU_CALLBACK,
   );
 }
