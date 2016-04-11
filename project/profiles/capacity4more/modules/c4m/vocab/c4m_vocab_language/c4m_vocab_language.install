@@ -23,7 +23,6 @@ function c4m_vocab_language_uninstall() {
   }
 }
 
-
 /**
  * Create language vocabulary.
  */

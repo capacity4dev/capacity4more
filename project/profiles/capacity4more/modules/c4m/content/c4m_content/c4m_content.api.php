@@ -5,11 +5,6 @@
  */
 
 /**
- * @addtogroup hooks
- * @{
- */
-
-/**
  * Define the available content statistics.
  *
  * You need to implement the hook_c4m_content_statistics_info() hook to define
@@ -124,8 +119,3 @@ function hook_c4m_content_statistics_info() {
     ),
   );
 }
-
-
-/**
- * @} End of "addtogroup hooks".
- */
