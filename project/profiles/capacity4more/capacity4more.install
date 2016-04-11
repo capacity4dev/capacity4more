@@ -240,7 +240,7 @@ function _capacity4more_install_save_default_permissions($default_html_format, $
     'view own files',
     'access media browser',
     'access overlay',
-    // 'save draft',
+    // 'save draft',.
     'access user contact forms',
   );
   // Enable default permissions for authenticated users.
@@ -278,7 +278,7 @@ function _capacity4more_install_save_default_menu() {
     'link_title' => st('Home'),
     'link_path' => '<front>',
     'menu_name' => 'main-menu',
-    'weight'    => -50,
+    'weight'    => 0,
   );
   menu_link_save($item);
 }
