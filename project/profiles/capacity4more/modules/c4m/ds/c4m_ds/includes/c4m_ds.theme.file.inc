@@ -39,6 +39,7 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
   $uri['options']['attributes']['type'] = $file->filemime . '; length=' .
     $file->filesize;
 
+  /*
   // Provide the default link text.
   if (!isset($variables['text'])) {
     $variables['text'] = t('Download');
@@ -51,6 +52,9 @@ function theme_c4m_ds_formatter_link_and_size($variables) {
     array('file' => $file),
     array('clear' => TRUE, 'sanitize' => !empty($uri['options']['html']))
   );
+  */
+
+  $variables['text'] = t('Download');
 
   // Download link.
   $tag['element'] = array(
