@@ -26,6 +26,12 @@ function c4m_features_learning_space_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'c4m_features_learning_space-learning_intro' => array(
+          'module' => 'c4m_features_learning_space',
+          'delta' => 'learning_intro',
+          'region' => 'content_above',
+          'weight' => '-10',
+        ),
         'views-c4m_learning_content-block' => array(
           'module' => 'views',
           'delta' => 'c4m_learning_content-block',

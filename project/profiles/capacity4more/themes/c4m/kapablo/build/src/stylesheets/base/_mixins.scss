@@ -46,3 +46,14 @@
     }
   }
 }
+
+@mixin image-overlay-bottom {
+  background-color: #FFFFFF;
+  border: 1px solid #C5C7C8;
+  border-radius: 5px;
+  margin: 0 auto -2rem auto;
+  padding: 1rem;
+  position: relative;
+  top: -3rem;
+  width: 90%;
+}

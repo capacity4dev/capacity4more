@@ -79,6 +79,7 @@ dependencies[] = wysiwyg_filter
 ; capacity4more ---------------------------------------------------------------
 
 ; Admin Management
+dependencies[] = c4m_admin
 dependencies[] = c4m_admin_groups
 dependencies[] = c4m_admin_organisations
 

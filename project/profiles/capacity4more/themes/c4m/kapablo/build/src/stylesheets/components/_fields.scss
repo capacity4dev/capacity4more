@@ -66,14 +66,7 @@
 }
 
 .group-c4m-header-meta {
-  background-color: $color-white;
-  border: 1px solid $color-gray-light;
-  border-radius: 5px;
-  margin: 0 auto -2rem auto;
-  padding: 1rem;
-  position: relative;
-  top: -3rem;
-  width: 90%;
+  @include image-overlay-bottom();
 
   h2, p {
     margin: 0;
@@ -119,4 +112,8 @@
       margin: 0;
     }
   }
+}
+
+.image-overlay-bottom {
+  @include image-overlay-bottom();
 }
