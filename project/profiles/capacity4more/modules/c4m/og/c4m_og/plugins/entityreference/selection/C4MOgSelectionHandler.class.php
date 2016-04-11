@@ -8,10 +8,16 @@
  * OG selection handler.
  */
 class C4MOgSelectionHandler extends OgSelectionHandler {
+
   /**
    * {@inheritdoc}
    */
-  public static function getInstance($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
+  public static function getInstance(
+    $field,
+    $instance = NULL,
+    $entity_type = NULL,
+    $entity = NULL
+  ) {
     return new C4MOgSelectionHandler($field, $instance, $entity_type, $entity);
   }
 
@@ -31,12 +37,20 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
   /**
    * {@inheritdoc}
    */
-  public function buildEntityFieldQuery($match = NULL, $match_operator = 'CONTAINS') {
+  public function buildEntityFieldQuery(
+    $match = NULL,
+    $match_operator = 'CONTAINS'
+  ) {
     parent::buildEntityFieldQuery();
 
     global $user;
 
-    $handler = EntityReference_SelectionHandler_Generic::getInstance($this->field, $this->instance, $this->entity_type, $this->entity);
+    $handler = EntityReference_SelectionHandler_Generic::getInstance(
+      $this->field,
+      $this->instance,
+      $this->entity_type,
+      $this->entity
+    );
     $query = $handler->buildEntityFieldQuery($match, $match_operator);
 
     // FIXME: http://drupal.org/node/1325628.
@@ -63,7 +77,12 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $account = user_load($user->uid);
     if (user_access('administer site configuration', $account)) {
       // Site administrator can choose also groups he is not member of.
-      $query->fieldCondition('c4m_og_status', 'value', array('deleted'), 'NOT IN');
+      $query->fieldCondition(
+        'c4m_og_status',
+        'value',
+        array('deleted'),
+        'NOT IN'
+      );
       return $query;
     }
 
@@ -71,7 +90,11 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
     $user_groups = $user_groups ? $user_groups : array();
 
     if ($user_groups) {
-      $query->propertyCondition($entity_info['entity keys']['id'], $user_groups, 'IN');
+      $query->propertyCondition(
+        $entity_info['entity keys']['id'],
+        $user_groups,
+        'IN'
+      );
     }
     else {
       // User doesn't have permission to select any group so falsify this
@@ -85,7 +108,12 @@ class C4MOgSelectionHandler extends OgSelectionHandler {
       'rejected',
       'deleted',
     );
-    $query->fieldCondition('c4m_og_status', 'value', $unallowed_values, 'NOT IN');
+    $query->fieldCondition(
+      'c4m_og_status',
+      'value',
+      $unallowed_values,
+      'NOT IN'
+    );
 
     return $query;
   }

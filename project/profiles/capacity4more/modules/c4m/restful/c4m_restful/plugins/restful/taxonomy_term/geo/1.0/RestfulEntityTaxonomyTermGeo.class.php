@@ -8,6 +8,7 @@
  * Class RestfulEntityTaxonomyTermGeo.
  */
 class RestfulEntityTaxonomyTermGeo extends \C4mRestfulEntityBaseTaxonomyTerm {
+
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */

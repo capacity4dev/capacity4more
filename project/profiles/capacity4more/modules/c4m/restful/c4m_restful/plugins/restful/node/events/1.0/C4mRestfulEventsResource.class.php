@@ -8,6 +8,7 @@
  * Class C4mRestfulEventsResource.
  */
 class C4mRestfulEventsResource extends C4mRestfulEntityBaseNode {
+
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */

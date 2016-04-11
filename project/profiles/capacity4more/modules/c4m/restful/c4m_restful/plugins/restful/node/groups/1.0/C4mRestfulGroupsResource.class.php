@@ -8,6 +8,7 @@
  * Class C4mRestfulGroupsResource.
  */
 class C4mRestfulGroupsResource extends RestfulEntityBaseNode {
+
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */

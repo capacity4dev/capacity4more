@@ -8,6 +8,7 @@
  * Class C4mRestfulDocumentsResource.
  */
 class C4mRestfulDocumentsResource extends C4mRestfulEntityBaseNode {
+
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */
