@@ -49,6 +49,17 @@ function c4m_features_learning_space_theme() {
   return $theme;
 }
 
+/**
+ * Theme function to return the image preview in the backend form.
+ *
+ * @param array $variables
+ *   Variables array.
+ *
+ * @return string
+ *   Rendered output string.
+ *
+ * @throws \Exception
+ */
 function theme_c4m_features_learning_space_admin_image($variables) {
   $element = $variables['element'];
   $output = '';

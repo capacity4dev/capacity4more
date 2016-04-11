@@ -7,4 +7,4 @@ Feature: Learning space
     When I visit the learning page
     Then I should have access to the page
     Then I should see only "1" events
-    Then I should see only "2" documents
+    Then I should see only "3" documents
