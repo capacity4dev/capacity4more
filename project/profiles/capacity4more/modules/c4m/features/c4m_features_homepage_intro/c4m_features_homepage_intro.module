@@ -5,10 +5,6 @@
  */
 
 include_once 'c4m_features_homepage_intro.features.inc';
-/**
- * @file
- * Provides a block to show an intro video about capacity4more.
- */
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -73,9 +69,6 @@ function c4m_features_homepage_intro_block_view($delta = '') {
  *
  * @return FALSE|string
  *   The callback name will only be returned if it exists.
- */
-/**
- * Implements hook_action_info().
  */
 function _c4m_features_homepage_intro_block_callback($delta, $type) {
   module_load_include(

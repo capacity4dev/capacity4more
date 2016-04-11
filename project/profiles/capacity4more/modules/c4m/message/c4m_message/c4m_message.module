@@ -223,7 +223,6 @@ function c4m_messages_group_info(Message $message) {
   return $group_info;
 }
 
-
 /**
  * Delegated hook_entity_load() for node of "discussion" bundle.
  *

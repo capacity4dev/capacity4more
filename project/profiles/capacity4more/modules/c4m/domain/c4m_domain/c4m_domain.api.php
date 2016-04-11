@@ -5,12 +5,6 @@
  */
 
 /**
- * @addtogroup hooks
- * @{
- */
-
-
-/**
  * Define validation types for the email domain.
  */
 function hook_c4m_domain_validators_info() {
@@ -22,8 +16,3 @@ function hook_c4m_domain_validators_info() {
     ),
   );
 }
-
-
-/**
- * @} End of "addtogroup hooks".
- */

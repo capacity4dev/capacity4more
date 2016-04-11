@@ -62,7 +62,6 @@ function c4m_document_widget_module_implements_alter(&$implementations, $hook) {
   }
 }
 
-
 /**
  * Implements hook_field_widget_form().
  */

@@ -36,7 +36,6 @@ function c4m_og_vocab_node_insert($node) {
   c4m_og_vocab_trigger_create_group_vocabularies($node);
 }
 
-
 /**
  * Load and cache all vocabularies info from implemented info_vocabulary hooks.
  *
@@ -68,7 +67,6 @@ function c4m_og_vocab_info($type) {
 
   return $info;
 }
-
 
 /**
  * Load the group vocabulary by the given vocabulary name.
