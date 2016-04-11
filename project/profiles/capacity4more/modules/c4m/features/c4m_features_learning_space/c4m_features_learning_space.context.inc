@@ -17,13 +17,24 @@ function c4m_features_learning_space_context_default_contexts() {
   $context->description = 'The Learning Space Context';
   $context->tag = 'cap4more - Learning';
   $context->conditions = array(
-    'menu' => array(
+    'path' => array(
       'values' => array(
-        'node/1' => 'node/1',
+        'learning' => 'learning',
       ),
     ),
   );
-  $context->reactions = array();
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'views-c4m_learning_content-block' => array(
+          'module' => 'views',
+          'delta' => 'c4m_learning_content-block',
+          'region' => 'sidebar_second',
+          'weight' => '-10',
+        ),
+      ),
+    ),
+  );
   $context->condition_mode = 0;
 
   // Translatables
