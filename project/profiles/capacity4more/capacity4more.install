@@ -34,10 +34,14 @@ function capacity4more_install() {
   module_enable(array('c4m_wysiwyg_ckeditor'));
 
   // ROLES & PERMISSIONS.
-  _capacity4more_install_save_default_permissions($default_html_format, $filtered_html_format);
+  _capacity4more_install_save_default_permissions(
+    $default_html_format,
+    $filtered_html_format
+  );
 
   // MENU.
   _capacity4more_install_save_default_menu();
+  _capacity4more_install_append_default_menu();
   menu_rebuild();
 
   // THEMES.
@@ -59,7 +63,9 @@ function capacity4more_install() {
   $admin_blocks = _capacity4more_install_get_admin_theme_blocks($theme_admin);
   _capacity4more_install_save_theme_blocks($admin_blocks);
 
-  $capacity4more_blocks = _capacity4more_install_get_capacity4more_theme_blocks($theme_capacity4more);
+  $capacity4more_blocks = _capacity4more_install_get_capacity4more_theme_blocks(
+    $theme_capacity4more
+  );
   _capacity4more_install_save_theme_blocks($capacity4more_blocks);
 
   _capacity4more_install_set_default_date_formats();
@@ -98,8 +104,8 @@ function _capacity4more_install_get_default_html_format() {
     'filters' => array(
       // URL filter.
       'filter_url' => array(
-        'weight'    => 0,
-        'status'    => 1,
+        'weight' => 0,
+        'status' => 1,
       ),
       // Wysiwyg filter.
       'wysiwyg' => array(
@@ -208,7 +214,10 @@ function _capacity4more_install_get_full_html_format() {
  * @param object $filtered_html_format
  *    The filtered_html text format.
  */
-function _capacity4more_install_save_default_permissions($default_html_format, $filtered_html_format) {
+function _capacity4more_install_save_default_permissions(
+  $default_html_format,
+  $filtered_html_format
+) {
   // Only admins can create new members.
   variable_set('user_register', USER_REGISTER_ADMINISTRATOS_ONLY);
 
@@ -278,9 +287,100 @@ function _capacity4more_install_save_default_menu() {
     'link_title' => st('Home'),
     'link_path' => '<front>',
     'menu_name' => 'main-menu',
-    'weight'    => 0,
+    'weight' => 0,
   );
   menu_link_save($item);
+}
+
+/**
+ * Create empty default pages.
+ */
+function _capacity4more_install_append_default_menu() {
+  $main_menu_items = array(
+    'learning' => array(
+      'title' => 'The Learning Space',
+      'menu' => 'main-menu',
+      'menu_title' => 'Learning',
+      'weight' => 5,
+    ),
+    'about' => array(
+      'title' => 'About Us',
+      'menu' => 'main-menu',
+      'menu_title' => 'About Us',
+      'weight' => 8,
+    ),
+  );
+
+  foreach ($main_menu_items as $path => $item) {
+    _capacity4more_install_create_page_node(
+      'book',
+      $item['title'],
+      $path,
+      $item['menu'],
+      $item['menu_title'],
+      $item['weight']
+    );
+  }
+}
+
+/**
+ * Programmatically create a node and attach to a menu (if provided).
+ *
+ * @param string $type
+ *   Content bundle type.
+ * @param string $title
+ *   Node title.
+ * @param string|NULL $path
+ *   Optionally: Path alias.
+ * @param srtring|NULL $menu
+ *   Optionally: Menu to attach node to.
+ * @param string $menu_title
+ *   Optionally: Title in the menu.
+ * @param int $weight
+ *   Optionally: Weight in the menu.
+ */
+function _capacity4more_install_create_page_node(
+  $type,
+  $title,
+  $path = NULL,
+  $menu = NULL,
+  $menu_title = '',
+  $weight = 0
+) {
+  $values = array(
+    'type' => $type,
+    'status' => 1,
+    'comment' => 0,
+    'promote' => 0,
+  );
+
+  if ($path) {
+    $values['path'] = array(
+      'alias' => $path,
+      'pathauto' => FALSE,
+    );
+  }
+
+  if ($menu) {
+    if (!$menu_title) {
+      $menu_title = $title;
+    }
+
+    $values['menu'] = array(
+      'link_title' => $menu_title,
+      'menu_name' => $menu,
+      'plid' => 0,
+      'enabled' => 1,
+      'weight' => $weight,
+    );
+  }
+
+  $node = entity_create('node', $values);
+  $entity = entity_metadata_wrapper('node', $node);
+
+  $entity->title->set($title);
+  $entity->save();
+
 }
 
 /******************************************************************************
@@ -462,14 +562,14 @@ function _capacity4more_install_get_capacity4more_theme_blocks($theme) {
 function _capacity4more_install_set_default_date_formats() {
   $formats = array(
     // Default.
-    'long'         => 'l, j F, Y - H:i',
-    'medium'       => 'D, d/m/Y - H:i',
-    'short'        => 'd/m/Y - H:i',
+    'long' => 'l, j F, Y - H:i',
+    'medium' => 'D, d/m/Y - H:i',
+    'short' => 'd/m/Y - H:i',
 
     // Reldate module.
-    'day'          => 'l, j M',
-    'time'         => 'H:i',
-    'month_after'  => 'H:i j M, Y',
+    'day' => 'l, j M',
+    'time' => 'H:i',
+    'month_after' => 'H:i j M, Y',
     'month_within' => 'H:i D j M',
   );
 
@@ -491,33 +591,33 @@ function _set_eu_cookie_compliance() {
   $lang = ($language->language) ? $language->language : 'en';
 
   $settings = array(
-    'popup_enabled'                   => TRUE,
-    'popup_clicking_confirmation'     => FALSE,
-    'popup_agree_button_message'      => 'OK, I agree',
-    'popup_disagree_button_message'   => 'No, give me more info',
-    'popup_info'                      => array(
+    'popup_enabled' => TRUE,
+    'popup_clicking_confirmation' => FALSE,
+    'popup_agree_button_message' => 'OK, I agree',
+    'popup_disagree_button_message' => 'No, give me more info',
+    'popup_info' => array(
       'value' => '<h2>We use cookies on this site to enhance your user experience</h2><p>By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
-    'popup_agreed_enabled'            => TRUE,
-    'popup_hide_agreed'               => TRUE,
-    'popup_find_more_button_message'  => 'More info',
-    'popup_hide_button_message'       => 'Hide',
-    'popup_agreed'                    => array(
+    'popup_agreed_enabled' => TRUE,
+    'popup_hide_agreed' => TRUE,
+    'popup_find_more_button_message' => 'More info',
+    'popup_hide_button_message' => 'Hide',
+    'popup_agreed' => array(
       'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
       'format' => 'full_html',
     ),
-    'popup_link'                      => 'privacy',
-    'popup_link_new_window'           => FALSE,
-    'popup_position'                  => FALSE,
-    'popup_height'                    => '',
-    'popup_width'                     => '100%',
-    'popup_delay'                     => 1,
-    'popup_bg_hex'                    => '374E5A',
-    'popup_text_hex'                  => 'ffffff',
-    'domains_option'                  => 1,
-    'domains_list'                    => '',
-    'exclude_paths'                   => '',
+    'popup_link' => 'privacy',
+    'popup_link_new_window' => FALSE,
+    'popup_position' => FALSE,
+    'popup_height' => '',
+    'popup_width' => '100%',
+    'popup_delay' => 1,
+    'popup_bg_hex' => '374E5A',
+    'popup_text_hex' => 'ffffff',
+    'domains_option' => 1,
+    'domains_list' => '',
+    'exclude_paths' => '',
   );
 
   variable_set('eu_cookie_compliance_' . $lang, $settings);
