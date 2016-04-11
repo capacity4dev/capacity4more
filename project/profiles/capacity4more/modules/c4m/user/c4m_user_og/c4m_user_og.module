@@ -161,7 +161,6 @@ function c4m_user_og_get_human_role_name($role, $group = NULL) {
   return $role_human;
 }
 
-
 /**
  * Get the number of posts (nodes) for the given user within the given group.
  *

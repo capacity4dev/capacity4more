@@ -42,7 +42,6 @@ function c4m_search_og_og_role_revoke($entity_type, $gid, $uid, $rid) {
   c4m_search_og_og_role_track_change($entity_type, $uid);
 }
 
-
 /******************************************************************************
  * Track changes on the group memberships.
  ******************************************************************************/

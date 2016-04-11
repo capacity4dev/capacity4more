@@ -24,7 +24,6 @@ function c4m_vocab_geo_uninstall() {
   }
 }
 
-
 /**
  * Create Countries & Regions vocabulary.
  *

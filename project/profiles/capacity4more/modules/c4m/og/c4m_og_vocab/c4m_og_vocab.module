@@ -11,7 +11,6 @@ define('C4M_OG_VOCAB_INFO_VOCABULARIES', 'vocabularies');
 define('C4M_OG_VOCAB_INFO_GROUPS', 'groups');
 define('C4M_OG_VOCAB_INFO_CONTENT', 'content');
 
-
 /**
  * Implements hook_node_insert().
  *
@@ -330,6 +329,7 @@ function c4m_og_vocab_validate(array $element, array &$form_state, array &$form)
     'type' => 'setting',
   );
 }
+
 /**
  * Implements hook_theme().
  */
