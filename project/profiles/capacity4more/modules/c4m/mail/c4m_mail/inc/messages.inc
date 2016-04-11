@@ -22,7 +22,6 @@ class C4mMailMessages {
    */
   protected $list;
 
-
   /**
    * Constructor.
    */

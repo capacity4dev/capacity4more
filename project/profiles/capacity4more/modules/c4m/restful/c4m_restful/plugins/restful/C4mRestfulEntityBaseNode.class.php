@@ -8,6 +8,7 @@
  * Class C4mRestfulEntityBaseNode.
  */
 class C4mRestfulEntityBaseNode extends RestfulEntityBaseNode {
+
   /**
    * Overrides \RestfulEntityBase::checkEntityAccess().
    *

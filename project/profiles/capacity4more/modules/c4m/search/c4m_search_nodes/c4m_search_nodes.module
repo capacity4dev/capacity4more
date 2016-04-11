@@ -6,7 +6,6 @@
 
 include_once 'c4m_search_nodes.features.inc';
 
-
 /**
  * Implements hook_c4m_search_page_info().
  */
