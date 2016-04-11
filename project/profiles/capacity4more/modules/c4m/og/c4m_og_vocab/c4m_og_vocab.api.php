@@ -5,12 +5,6 @@
  */
 
 /**
- * @addtogroup hooks
- * @{
- */
-
-
-/**
  * Define the vocabularies available as group vocabulary.
  *
  * You need to implement the hook_c4m_og_vocab_info_groups() hook to define
@@ -80,7 +74,6 @@ function hook_c4m_og_vocab_info_vocabularies() {
   );
 }
 
-
 /**
  * Define group vocabularies per node type.
  *
@@ -106,7 +99,6 @@ function hook_c4m_og_vocab_info_groups() {
     ),
   );
 }
-
 
 /**
  * Define per content type what group vocabularies it can refer to.
@@ -146,8 +138,3 @@ function hook_c4m_og_vocab_info_content() {
     ),
   );
 }
-
-
-/**
- * @} End of "addtogroup hooks".
- */

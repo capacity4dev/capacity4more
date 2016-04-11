@@ -22,6 +22,7 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
       drupal_html_class($group_access['type']);
   }
 }
+
 /**
  * The group name.
  */
