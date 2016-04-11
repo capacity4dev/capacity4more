@@ -85,6 +85,34 @@ function c4m_features_learning_space_views_default_views() {
   $handler->display->display_options['filters']['c4m_event_type_value']['value'] = array(
     'learning' => 'learning',
   );
+
+  /* Display: Documents Block */
+  $handler = $view->new_display('block', 'Documents Block', 'block_1');
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type of Document (c4m_vocab_document_type) */
+  $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['id'] = 'c4m_vocab_document_type_tid';
+  $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['table'] = 'field_data_c4m_vocab_document_type';
+  $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['field'] = 'c4m_vocab_document_type_tid';
+  $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['value'] = array(
+    310 => '310',
+  );
+  $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['c4m_vocab_document_type_tid']['vocabulary'] = 'c4m_vocab_document_type';
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'document' => 'document',
+  );
   $export['c4m_learning_content'] = $view;
 
   return $export;

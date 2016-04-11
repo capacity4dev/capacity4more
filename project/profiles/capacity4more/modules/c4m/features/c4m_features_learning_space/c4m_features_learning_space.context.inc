@@ -32,6 +32,12 @@ function c4m_features_learning_space_context_default_contexts() {
           'region' => 'sidebar_second',
           'weight' => '-10',
         ),
+        'views-c4m_learning_content-block_1' => array(
+          'module' => 'views',
+          'delta' => 'c4m_learning_content-block_1',
+          'region' => 'sidebar_second',
+          'weight' => '-9',
+        ),
       ),
     ),
   );
