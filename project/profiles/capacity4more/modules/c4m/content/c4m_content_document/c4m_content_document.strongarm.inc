@@ -189,11 +189,11 @@ function c4m_content_document_strongarm() {
             'visible' => FALSE,
           ),
           'activity_group' => array(
-            'weight' => '10',
+            'weight' => '23',
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '10',
+            'weight' => '23',
             'visible' => FALSE,
           ),
           'default' => array(

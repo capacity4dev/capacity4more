@@ -15,22 +15,17 @@
       @extend .text-copy--muted;
     }
   }
-}
 
-.activity-stream--operator {
-  @extend .text-copy--muted;
-
-  a {
-    @extend .text-copy--muted;
+  &.node-document {
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
   }
 
-  margin-bottom: 1em;
-}
-
-.field-name-c4m-ds-content-footer-stats {
-  @extend .text-copy--muted;
-
-  .node & {
-    text-align: right;
+  .field-name-c4m-content-document-icon {
+    display: inline-block;
+    float: left;
+    width: 75px;
   }
 }
