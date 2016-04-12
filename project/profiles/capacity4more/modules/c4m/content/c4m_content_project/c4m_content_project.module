@@ -45,3 +45,32 @@ function c4m_content_project_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_content_project_block_info() {
+  $blocks = array();
+
+  $blocks['c4m_block_create_project'] = array(
+    'info' => t('Project: Create project'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_content_project_block_view($delta) {
+  $module = 'c4m_content_project';
+
+  module_load_include('inc', $module, $module . '.block');
+  $callback = "_{$module}_block_" . $delta;
+  if (function_exists($callback)) {
+    return $callback();
+  }
+
+  return array();
+}
