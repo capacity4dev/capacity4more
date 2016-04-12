@@ -392,13 +392,11 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'title',
-        1 => 'node_gallery_view',
-        2 => 'c4m_body',
+        0 => 'node_gallery_view',
+        1 => 'c4m_body',
       ),
     ),
     'fields' => array(
-      'title' => 'ds_content',
       'node_gallery_view' => 'ds_content',
       'c4m_body' => 'ds_content',
     ),
@@ -412,6 +410,8 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
+    'hide_page_title' => '0',
+    'page_option_title' => '',
   );
   $export['node|photoalbum|full'] = $ds_layout;
 
