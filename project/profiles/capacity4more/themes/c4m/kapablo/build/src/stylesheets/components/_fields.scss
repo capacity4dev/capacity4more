@@ -114,6 +114,12 @@
   }
 }
 
+.download-link {
+  i {
+    color: $color-gray-light;
+  }
+}
+
 .image-overlay-bottom {
   @include image-overlay-bottom();
 }
