@@ -56,4 +56,8 @@
   position: relative;
   top: -3rem;
   width: 90%;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }

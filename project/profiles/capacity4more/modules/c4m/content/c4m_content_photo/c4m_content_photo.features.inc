@@ -24,12 +24,12 @@ function c4m_content_photo_image_default_styles() {
 
   // Exported image style: fullwidth.
   $styles['fullwidth'] = array(
-    'label' => 'Fullwidth (940px)',
+    'label' => 'Fullwidth (960px)',
     'effects' => array(
       1 => array(
         'name' => 'image_scale',
         'data' => array(
-          'width' => 940,
+          'width' => 960,
           'height' => '',
           'upscale' => 0,
         ),

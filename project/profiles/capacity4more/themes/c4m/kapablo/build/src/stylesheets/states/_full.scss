@@ -51,4 +51,10 @@
       vertical-align: middle;
     }
   }
+
+  &.node-photo {
+    .field-name-c4m-body {
+      @include image-overlay-bottom();
+    }
+  }
 }
