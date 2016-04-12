@@ -142,7 +142,7 @@ function c4m_content_document_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -306,16 +306,22 @@ function c4m_content_document_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 24,
+        'label' => 'hidden',
+        'module' => 'c4m_ds',
+        'settings' => array(
+          'text' => 'Download [file:name]',
+        ),
+        'type' => 'c4m_ds_formatter_link_and_size',
+        'weight' => 3,
       ),
       'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 24,
+        'label' => 'hidden',
+        'module' => 'c4m_ds',
+        'settings' => array(
+          'text' => 'Download [file:name]',
+        ),
+        'type' => 'c4m_ds_formatter_link_and_size',
+        'weight' => 2,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -447,13 +453,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 24,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 24,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -552,13 +558,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 30,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 30,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -655,13 +661,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 29,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 29,
       ),
       'block_list' => array(
         'label' => 'hidden',
@@ -758,13 +764,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 28,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 28,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -861,13 +867,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 25,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 19,
+        'weight' => 25,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -963,13 +969,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 18,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1068,13 +1074,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 26,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => 26,
       ),
       'block_list' => array(
         'label' => 'above',
@@ -1206,13 +1212,13 @@ function c4m_content_document_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 27,
       ),
       'activity_group' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 27,
       ),
       'block_list' => array(
         'label' => 'above',

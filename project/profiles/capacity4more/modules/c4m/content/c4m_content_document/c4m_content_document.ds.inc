@@ -27,7 +27,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '2',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -47,6 +47,11 @@ function c4m_content_document_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_content_document_icon' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
   );
   $export['node|document|activity_global'] = $ds_fieldsetting;
 
@@ -58,7 +63,7 @@ function c4m_content_document_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'activity_group';
   $ds_fieldsetting->settings = array(
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -71,6 +76,11 @@ function c4m_content_document_ds_field_settings_info() {
           'fis-def-at' => FALSE,
         ),
       ),
+    ),
+    'c4m_content_document_icon' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
   );
   $export['node|document|activity_group'] = $ds_fieldsetting;
@@ -509,12 +519,16 @@ function c4m_content_document_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'c4m_field_og_group',
         1 => 'c4m_body',
-        2 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_content_document_icon',
+        3 => 'c4m_document',
+        4 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
+      'c4m_content_document_icon' => 'ds_content',
+      'c4m_document' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
     'classes' => array(),
@@ -541,11 +555,15 @@ function c4m_content_document_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'c4m_body',
-        1 => 'c4m_ds_content_footer_stats',
+        1 => 'c4m_content_document_icon',
+        2 => 'c4m_document',
+        3 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_body' => 'ds_content',
+      'c4m_content_document_icon' => 'ds_content',
+      'c4m_document' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
     'classes' => array(),

@@ -114,6 +114,7 @@
   }
 }
 
+<<<<<<< HEAD
 .download-link {
   i {
     color: $color-gray-light;
@@ -122,12 +123,12 @@
 
 .image-overlay-bottom {
   @include image-overlay-bottom();
-}
-
+=======
 .field-name-c4m-ds-content-footer-stats {
   @extend .text-copy--muted;
 
   .node & {
     text-align: right;
   }
+>>>>>>> feature/CFM-1091-Document_detail_page
 }
