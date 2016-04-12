@@ -21,6 +21,10 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '2',
@@ -349,6 +353,10 @@ function c4m_content_document_ds_field_settings_info() {
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
     ),
     'c4m_ds_creation_date' => array(
       'weight' => '4',
@@ -411,6 +419,60 @@ function c4m_content_document_ds_field_settings_info() {
  */
 function c4m_content_document_ds_layout_settings_info() {
   $export = array();
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_document|activity_global';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_document';
+  $ds_layout->view_mode = 'activity_global';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_document|activity_global'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'comment|comment_node_document|activity_group';
+  $ds_layout->entity_type = 'comment';
+  $ds_layout->bundle = 'comment_node_document';
+  $ds_layout->view_mode = 'activity_group';
+  $ds_layout->layout = 'ds_reset';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'comment_body',
+      ),
+    ),
+    'fields' => array(
+      'comment_body' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+    'layout_disable_css' => FALSE,
+  );
+  $export['comment|comment_node_document|activity_group'] = $ds_layout;
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;

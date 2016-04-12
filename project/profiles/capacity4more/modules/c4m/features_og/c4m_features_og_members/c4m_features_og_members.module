@@ -214,7 +214,6 @@ function c4m_features_og_members_theme() {
   return $theme;
 }
 
-
 /**
  * Load and cache all actionable links to administer users in a group.
  *
@@ -292,7 +291,6 @@ function c4m_features_og_members_get_administer_links_for_user_in_group(
 
   return $links;
 }
-
 
 /**
  * Implements hook_c4m_features_og_members_administer_links().

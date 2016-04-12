@@ -8,6 +8,7 @@
  * Class C4mRestfulTopicsResource.
  */
 class C4mRestfulTopicsResource extends RestfulEntityBaseNode {
+
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
    */

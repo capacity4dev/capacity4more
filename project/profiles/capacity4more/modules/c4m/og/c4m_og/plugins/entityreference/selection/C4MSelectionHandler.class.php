@@ -8,10 +8,16 @@
  * OG selection handler.
  */
 class C4MSelectionHandler extends C4MOgSelectionHandler {
+
   /**
    * {@inheritdoc}
    */
-  public static function getInstance($field, $instance = NULL, $entity_type = NULL, $entity = NULL) {
+  public static function getInstance(
+    $field,
+    $instance = NULL,
+    $entity_type = NULL,
+    $entity = NULL
+  ) {
     return new C4MSelectionHandler($field, $instance, $entity_type, $entity);
   }
 
@@ -25,7 +31,10 @@ class C4MSelectionHandler extends C4MOgSelectionHandler {
   /**
    * {@inheritdoc}
    */
-  public function buildEntityFieldQuery($match = NULL, $match_operator = 'CONTAINS') {
+  public function buildEntityFieldQuery(
+    $match = NULL,
+    $match_operator = 'CONTAINS'
+  ) {
     return parent::buildEntityFieldQuery();
   }
 

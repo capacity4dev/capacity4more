@@ -24,7 +24,6 @@ class C4mDemoContentCreatePhotoComments extends C4mDemoContentCreateComments {
       ->sourceMigration('C4mDemoContentCreatePhotoComments');
   }
 
-
   /**
    * Prepare the row data loaded from the CSV.
    *

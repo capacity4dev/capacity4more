@@ -21,7 +21,6 @@ function c4m_vocab_widget_field_widget_info() {
   return $widgets;
 }
 
-
 /**
  * Implements hook_field_widget_form().
  */

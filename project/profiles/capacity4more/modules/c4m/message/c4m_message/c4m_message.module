@@ -223,7 +223,6 @@ function c4m_messages_group_info(Message $message) {
   return $group_info;
 }
 
-
 /**
  * Delegated hook_entity_load() for node of "discussion" bundle.
  *
@@ -751,7 +750,7 @@ function c4m_message_format_rendered_comment(Message $message) {
   $view = comment_view(
     $wrapper->field_comment->value(),
     $wrapper->field_node->value(),
-    'activity_stream'
+    'activity_global'
   );
   return drupal_render($view);
 }

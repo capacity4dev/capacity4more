@@ -23,7 +23,6 @@ function c4m_vocab_date_uninstall() {
   }
 }
 
-
 /**
  * Create date vocabulary.
  */

@@ -71,7 +71,6 @@ class C4mDemoContentCreateTopicTerms extends C4mDemoContentCreateEntity {
     }
   }
 
-
   /**
    * Create stub terms (when creating users), who will be replaced afterwards.
    *

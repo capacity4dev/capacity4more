@@ -24,7 +24,6 @@ function c4m_vocab_document_type_uninstall() {
   }
 }
 
-
 /**
  * Create Document type vocabulary.
  *

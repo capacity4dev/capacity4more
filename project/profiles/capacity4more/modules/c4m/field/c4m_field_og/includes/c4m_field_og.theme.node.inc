@@ -5,7 +5,7 @@
  */
 
 /**
- * DS function field.
+ * DS field callback for Group name field.
  *
  * Renders a link to the group the current group node belongs to.
  *
@@ -15,7 +15,7 @@
  * @return mixed
  *   A string with a HTML link to the node's group or NULL if not a group node.
  */
-function theme_c4m_field_og_group(array $field) {
+function theme_c4m_field_og_group($field) {
   if (empty($field['entity'])) {
     return;
   }
@@ -48,5 +48,9 @@ function theme_c4m_field_og_group(array $field) {
   c4m_og_purl_alter_uri_info_purl_dashboard($uri_info);
 
   // Return a link to the group dashboard.
-  return l($group->title, $uri_info['path'], $uri_info['options']);
+  $output = l($group->title, $uri_info['path'], $uri_info['options']);
+  if (!empty($field['formatter_settings']['show_group_type'])) {
+    $output = ucfirst($group->type) . ': ' . $output;
+  }
+  return $output;
 }
