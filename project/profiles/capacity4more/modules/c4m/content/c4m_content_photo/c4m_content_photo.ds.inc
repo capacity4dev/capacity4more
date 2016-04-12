@@ -37,10 +37,12 @@ function c4m_content_photo_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'photo';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'title' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
+    'c4m_media' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
   );
   $export['node|photo|full'] = $ds_fieldsetting;
@@ -146,31 +148,23 @@ function c4m_content_photo_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photo';
   $ds_layout->view_mode = 'full';
-  $ds_layout->layout = 'c4m_ds_8_4_fluid';
+  $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
     'regions' => array(
-      'header' => array(
-        0 => 'title',
-      ),
-      'left' => array(
+      'ds_content' => array(
+        0 => 'node_gallery_navigation',
         1 => 'c4m_media',
-      ),
-      'right' => array(
         2 => 'c4m_body',
-        3 => 'node_gallery_navigation',
       ),
     ),
     'fields' => array(
-      'title' => 'header',
-      'c4m_media' => 'left',
-      'c4m_body' => 'right',
-      'node_gallery_navigation' => 'right',
+      'node_gallery_navigation' => 'ds_content',
+      'c4m_media' => 'ds_content',
+      'c4m_body' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
-      'header' => 'div',
-      'left' => 'div',
-      'right' => 'div',
+      'ds_content' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
