@@ -406,7 +406,7 @@ function theme_c4m_ds_group_type_icon(array $field) {
   $tag['element'] = array(
     '#tag' => 'span',
     '#attributes' => array(
-      'class' => array('group-icon', 'group-' . $group_type['type']),
+      'class' => array('group-icon', 'group-' . $group_type['type'], 'node-icon', 'as-group-' . $group_type['type']),
     ),
     '#value' => '',
   );
