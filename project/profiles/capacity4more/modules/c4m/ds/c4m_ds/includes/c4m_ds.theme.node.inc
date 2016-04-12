@@ -406,7 +406,12 @@ function theme_c4m_ds_group_type_icon(array $field) {
   $tag['element'] = array(
     '#tag' => 'span',
     '#attributes' => array(
-      'class' => array('group-icon', 'group-' . $group_type['type'], 'node-icon', 'as-group-' . $group_type['type']),
+      'class' => array(
+        'group-icon',
+        'group-' . $group_type['type'],
+        'node-icon',
+        'as-group-' . $group_type['type'],
+      ),
     ),
     '#value' => '',
   );
@@ -508,12 +513,17 @@ function theme_c4m_ds_event_start_icon(array $field) {
   }
   $entity_wrapper = entity_metadata_wrapper('node', $field['entity']);
   $date_wrapper = $entity_wrapper->c4m_datetime_end->value();
-  $start_date = new DateTime($date_wrapper['value'], new DateTimeZone($date_wrapper['timezone']));
+  $start_date = new DateTime(
+    $date_wrapper['value'],
+    new DateTimeZone($date_wrapper['timezone'])
+  );
 
   $tag['element'] = array(
     '#tag' => 'div',
     '#value' => '<i class="fa fa-calendar-o fa-stack-2x"></i>
-  <span class="fa-stack-1x calendar-text">' . $start_date->format('d') . '</span>',
+  <span class="fa-stack-1x calendar-text">' . $start_date->format(
+        'd'
+      ) . '</span>',
     '#attributes' => array(
       'class' => array(
         'fa-stack',
@@ -538,6 +548,53 @@ function theme_c4m_ds_event_start_icon(array $field) {
   $month = theme_html_tag($tag);
 
   return $icon_day . $month;
+}
+
+/**
+ * DS function field.
+ *
+ * Render Cover image if set, otherwise first picture of album.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_photoalbum_cover_image(array $field) {
+  $output = '';
+
+  if (empty($field['entity'])) {
+    return $output;
+  }
+  $relationships = node_gallery_api_get_relationships($field['entity']->nid);
+
+  foreach ($relationships as $relationship) {
+    $cover_nid = node_gallery_api_get_cover_nid($relationship->ngid);
+  }
+
+  if (empty($cover_nid)) {
+    $first = array_shift($relationships);
+    $cover_nid = $first->nid;
+  }
+
+  // Load cover node.
+  $cover_image_node = entity_metadata_wrapper('node', $cover_nid);
+  $file = $cover_image_node->c4m_media->value();
+
+  $style = $field['formatter'];
+
+  if (empty($file)) {
+    $output = '';
+  }
+  else {
+    $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
+    $file['path'] = $file['uri'];
+    $file['attributes'] = array('class' => 'user-image');
+    $output = theme_image_style($file);
+  }
+
+  return $output;
 }
 
 /**

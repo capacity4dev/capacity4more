@@ -165,11 +165,11 @@ function c4m_content_photoalbum_strongarm() {
         'node_gallery_view' => array(
           'activity_group' => array(
             'weight' => '0',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'activity_global' => array(
             'weight' => '0',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'default' => array(
             'weight' => '1',
@@ -181,11 +181,11 @@ function c4m_content_photoalbum_strongarm() {
           ),
           'teaser' => array(
             'weight' => '0',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'teaser_group' => array(
             'weight' => '0',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
         ),
       ),
