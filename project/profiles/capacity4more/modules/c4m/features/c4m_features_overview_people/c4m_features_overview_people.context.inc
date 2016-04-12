@@ -32,6 +32,12 @@ function c4m_features_overview_people_context_default_contexts() {
           'region' => 'content_top',
           'weight' => '-10',
         ),
+        'c4m_user-c4m_block_contact_members' => array(
+          'module' => 'c4m_user',
+          'delta' => 'c4m_block_contact_members',
+          'region' => 'sidebar_first_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_people-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_people-page',

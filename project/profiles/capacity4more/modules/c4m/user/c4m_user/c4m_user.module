@@ -458,3 +458,32 @@ function c4m_user_menu_alter(&$items) {
     'type' => MENU_CALLBACK,
   );
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_user_block_info() {
+  $blocks = array();
+
+  $blocks['c4m_block_contact_members'] = array(
+    'info' => t('User: contact members'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_user_block_view($delta) {
+  $module = 'c4m_user';
+
+  module_load_include('inc', $module, $module . '.block');
+  $callback = "_{$module}_block_" . $delta;
+  if (function_exists($callback)) {
+    return $callback();
+  }
+
+  return array();
+}
