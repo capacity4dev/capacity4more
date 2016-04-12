@@ -423,13 +423,13 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'node_gallery_view',
-        1 => 'c4m_body',
+        0 => 'c4m_body',
+        1 => 'node_gallery_view',
       ),
     ),
     'fields' => array(
-      'node_gallery_view' => 'ds_content',
       'c4m_body' => 'ds_content',
+      'node_gallery_view' => 'ds_content',
     ),
     'classes' => array(),
     'wrappers' => array(
