@@ -113,7 +113,6 @@ function c4m_content_document_field_group_info() {
     'children' => array(
       0 => 'c4m_user_picture',
       1 => 'c4m_ds_type_posted_by',
-      2 => 'group_meta_author',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
