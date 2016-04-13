@@ -49,6 +49,7 @@
 
 .label {
   line-height: 1rem;
+  padding: .25rem .6rem .25rem;
 }
 
 .field-name-c4m-ds-event-start-icon {
@@ -93,4 +94,33 @@
   @extend .text-small;
 
   margin-top: 1em;
+}
+
+.user-name + .creation-date {
+  &:before {
+    content: '|';
+    margin: 0 .5em;
+  }
+}
+
+.group-node-meta {
+  .field-name-c4m-user-picture {
+    display: inline-block;
+    float: left;
+    height: 65px;
+    width: 75px;
+  }
+
+  .group-meta-author {
+    display: table-cell;
+    height: 65px;
+    vertical-align: middle;
+  }
+
+  .user-name + .creation-date {
+    &:before {
+      content: '';
+      margin: 0;
+    }
+  }
 }

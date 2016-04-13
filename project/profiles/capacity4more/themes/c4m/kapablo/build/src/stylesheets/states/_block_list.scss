@@ -41,4 +41,15 @@
       margin: 0;
     }
   }
+
+  &.node-document {
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
 }
