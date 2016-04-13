@@ -78,7 +78,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'attributes'  => array(
           'class' => array('posts'),
         ),
-        'link'          => array(
+        'link'        => array(
           'path' => 'search',
         ),
       ),
@@ -94,7 +94,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'attributes'  => array(
           'class' => array('events'),
         ),
-        'link'          => array(
+        'link'        => array(
           'path' => 'events',
         ),
       ),

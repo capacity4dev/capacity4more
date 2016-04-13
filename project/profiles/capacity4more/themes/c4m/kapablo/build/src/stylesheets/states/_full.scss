@@ -1,9 +1,7 @@
 .view-mode-full {
   &.node-discussion {
     .label {
-      float: left;
       line-height: .92857rem;
-      margin-right: 1em;
     }
 
     .field-name-title {
@@ -26,11 +24,15 @@
   }
 
   .group-node-details {
-    ul {
-      list-style: none;
-      padding: 0;
-      li {
-        margin: 0;
+    .group-detail-element {
+      padding-bottom: 1rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          margin: 0;
+        }
       }
     }
   }

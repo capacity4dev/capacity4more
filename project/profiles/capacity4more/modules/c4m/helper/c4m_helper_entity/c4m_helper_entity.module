@@ -152,6 +152,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
             'u.uid = td.entity_id'
           );
           $query->condition('td.c4m_vocab_topic_expertise_tid', $topic);
+          $query->condition('td.entity_type', 'user');
           break;
 
         case 'node':
@@ -161,6 +162,7 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
             'n.nid = td.entity_id'
           );
           $query->condition('td.c4m_vocab_topic_tid', $topic);
+          $query->condition('td.entity_type', 'node');
           break;
 
         default:

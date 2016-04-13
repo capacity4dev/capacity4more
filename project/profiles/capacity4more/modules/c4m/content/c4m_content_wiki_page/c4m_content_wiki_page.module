@@ -421,7 +421,7 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
         'attributes'    => array(
           'class' => array('topic-wiki-pages'),
         ),
-        'link' => array(
+        'link'          => array(
           'path' => 'search',
           'options' => array(
             'query' => array(
