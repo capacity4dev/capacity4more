@@ -168,7 +168,7 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => TRUE,
           ),
           'activity_global' => array(
-            'weight' => '0',
+            'weight' => '1',
             'visible' => TRUE,
           ),
           'default' => array(
