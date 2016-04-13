@@ -103,7 +103,7 @@ function c4m_content_event_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'fi' => TRUE,
           'fi-el' => 'span',
-          'fi-cl' => 'label label-primary',
+          'fi-cl' => 'label label-default',
           'fi-at' => '',
           'fi-def-at' => FALSE,
           'fi-odd-even' => FALSE,
