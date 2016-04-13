@@ -469,7 +469,7 @@ function c4m_search_default_search_api_sort() {
     "weight" : "0",
     "identifier" : "c4m_search_users__c4m_last_name",
     "default_sort" : "1",
-    "default_sort_no_terms" : "0",
+    "default_sort_no_terms" : "1",
     "default_order" : "asc",
     "options" : { "field_name" : "Last Name" },
     "rdf_mapping" : []
