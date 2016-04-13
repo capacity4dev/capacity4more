@@ -238,6 +238,7 @@ function c4m_search_default_search_api_index() {
         "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
         "c4m_organisation" : { "type" : "string" },
         "c4m_organisation_type" : { "type" : "string" },
+        "c4m_user_contributions" : { "type" : "integer" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic_expertise" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
@@ -473,10 +474,23 @@ function c4m_search_default_search_api_sort() {
     "options" : { "field_name" : "Last Name" },
     "rdf_mapping" : []
   }');
+  $items['c4m_search_users__c4m_user_contributions'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "c4m_user_contributions",
+    "name" : "Number of activity",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__c4m_user_contributions",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Total number of contributions of the user (posts + comments)" },
+    "rdf_mapping" : []
+  }');
   $items['c4m_search_users__created'] = entity_import('search_api_sort', '{
     "index_id" : "c4m_search_users",
     "field" : "created",
-    "name" : "Creation Date",
+    "name" : "Date of registration",
     "enabled" : "1",
     "weight" : "0",
     "identifier" : "c4m_search_users__created",

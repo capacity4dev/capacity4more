@@ -59,6 +59,7 @@ features[search_api_sort][] = c4m_search_nodes__search_api_relevance
 features[search_api_sort][] = c4m_search_nodes__views
 features[search_api_sort][] = c4m_search_users__c4m_first_name
 features[search_api_sort][] = c4m_search_users__c4m_last_name
+features[search_api_sort][] = c4m_search_users__c4m_user_contributions
 features[search_api_sort][] = c4m_search_users__created
 files[] = plugins/facetapi/widget_links_content_types.inc
 files[] = plugins/facetapi/widget_links_grouped.inc
