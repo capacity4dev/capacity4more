@@ -156,6 +156,19 @@ function c4m_user_profile_theme() {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ *
+ * Our implementation needs to fire after legal module.
+ */
+function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_user_profile'])) {
+    $c4m_user_profile = $implementations['c4m_user_profile'];
+    unset($implementations['c4m_user_profile']);
+    $implementations['c4m_user_profile'] = $c4m_user_profile;
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
@@ -172,6 +185,10 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     '#type' => 'markup',
     '#markup' => l(t('Cancel'), '<front>', array('attributes' => array('class' => array('btn', 'btn-default')))),
   );
+
+  $form['legal'] = $form['legal']['legal_accept'];
+  $form['legal']['#type'] = 'markup';
+  $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 }
 
 /**
