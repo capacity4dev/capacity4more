@@ -241,6 +241,7 @@ function c4m_search_default_search_api_index() {
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic_expertise" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "created" : { "type" : "date" },
         "mail" : { "type" : "text" },
         "name" : { "type" : "text" },
         "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
@@ -470,6 +471,19 @@ function c4m_search_default_search_api_sort() {
     "default_sort_no_terms" : "1",
     "default_order" : "asc",
     "options" : { "field_name" : "Last Name" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__created'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "created",
+    "name" : "Creation Date",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__created",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Created" },
     "rdf_mapping" : []
   }');
   return $items;
