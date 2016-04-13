@@ -38,3 +38,11 @@
     }
   }
 }
+
+@mixin looped_backgrounds($extensions, $background) {
+  @each $extension in $extensions {
+    &.as-document-#{$extension} {
+      background: url($background) no-repeat center center;
+    }
+  }
+}

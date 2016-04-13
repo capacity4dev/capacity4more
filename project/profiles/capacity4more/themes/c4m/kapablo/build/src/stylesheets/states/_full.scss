@@ -1,0 +1,39 @@
+.view-mode-full {
+  &.node-discussion {
+    .label {
+      line-height: .92857rem;
+    }
+
+    .field-name-title {
+      display: inline;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+
+  .field-name-c4m-body {
+    margin-top: 1em;
+  }
+
+  .group-right {
+    section {
+      margin-bottom: 2em;
+    }
+  }
+
+  .group-node-details {
+    .group-detail-element {
+      padding-bottom: 1rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

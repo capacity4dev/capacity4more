@@ -319,8 +319,11 @@ function c4m_content_document_field_default_field_instances() {
       ),
       'block_list' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_ds',
+        'settings' => array(
+          'text' => 'Download [file:name]',
+        ),
+        'type' => 'c4m_ds_formatter_link_and_size',
         'weight' => 21,
       ),
       'c4m_related' => array(

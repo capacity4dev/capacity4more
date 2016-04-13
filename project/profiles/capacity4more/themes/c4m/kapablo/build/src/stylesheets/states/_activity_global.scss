@@ -29,4 +29,16 @@
 
 .field-name-c4m-ds-content-footer-stats {
   @extend .text-copy--muted;
+
+  .node & {
+    text-align: right;
+  }
+
+  .row-entity-count {
+    margin-left: 1rem;
+
+    i {
+      @extend .text-medium;
+    }
+  }
 }

@@ -12,4 +12,12 @@
       padding: 3px 0 0 1rem;
     }
   }
+
+  .fa, .user-name, .creation-date, .posted-by, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
+    color: $color-gray-light;
+  }
+
+  .field-name-c4m-body {
+    margin-top: 1em;
+  }
 }
