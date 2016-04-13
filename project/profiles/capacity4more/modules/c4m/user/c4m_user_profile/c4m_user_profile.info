@@ -14,6 +14,7 @@ dependencies[] = image
 dependencies[] = list
 dependencies[] = media
 dependencies[] = options
+dependencies[] = c4m_helper_captcha
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text

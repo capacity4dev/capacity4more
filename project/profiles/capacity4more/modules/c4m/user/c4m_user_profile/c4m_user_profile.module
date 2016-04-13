@@ -173,3 +173,10 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     '#markup' => l(t('Cancel'), '<front>', array('attributes' => array('class' => array('btn', 'btn-default')))),
   );
 }
+
+/**
+ * Implements hook_c4m_captcha_form_info().
+ */
+function c4m_user_profile_c4m_captcha_form_info() {
+  return array('user_register_form');
+}
