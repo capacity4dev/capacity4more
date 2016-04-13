@@ -107,6 +107,12 @@ function c4m_content_discussion_ds_field_settings_info() {
       'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => '',
+        'ft' => array(),
+      ),
     ),
     'comments' => array(
       'weight' => '5',
@@ -518,7 +524,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'right' => array(
         0 => 'c4m_ds_type_posted_by',
         2 => 'c4m_vocab_topic',
-        4 => 'c4m_user_picture',
+        3 => 'c4m_user_picture',
         5 => 'group_meta_author',
         10 => 'group_node_meta',
         11 => 'group_node_actions',
@@ -533,7 +539,7 @@ function c4m_content_discussion_ds_layout_settings_info() {
       ),
       'left' => array(
         1 => 'c4m_discussion_type',
-        3 => 'title',
+        4 => 'title',
         6 => 'c4m_ds_content_footer_stats',
         7 => 'c4m_body',
         8 => 'c4m_related_document',
@@ -544,8 +550,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'c4m_ds_type_posted_by' => 'right',
       'c4m_discussion_type' => 'left',
       'c4m_vocab_topic' => 'right',
-      'title' => 'left',
       'c4m_user_picture' => 'right',
+      'title' => 'left',
       'group_meta_author' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_body' => 'left',
