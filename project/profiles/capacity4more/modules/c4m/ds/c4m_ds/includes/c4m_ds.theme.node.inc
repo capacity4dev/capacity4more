@@ -210,11 +210,6 @@ function theme_c4m_ds_content_footer_stats(array $field) {
         'c4m_ds_entity_downloads_count',
         array('count' => (!empty($file_object->download_count) ? $file_object->download_count : 0))
       );
-
-      $items['download_link'] = theme(
-        'c4m_ds_formatter_link_and_size',
-        array('entity_type' => 'file', 'entity' => $file_object)
-      );
     }
 
   }

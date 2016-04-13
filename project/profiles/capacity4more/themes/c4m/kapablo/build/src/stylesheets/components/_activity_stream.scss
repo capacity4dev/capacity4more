@@ -25,3 +25,13 @@
 .show-more-wrapper {
   margin-top: 2rem;
 }
+
+.activity-stream--operator {
+  @extend .text-copy--muted;
+
+  a {
+    @extend .text-copy--muted;
+  }
+
+  margin-bottom: 1em;
+}

@@ -115,6 +115,10 @@
     display: table-cell;
     height: 65px;
     vertical-align: middle;
+
+    .label-inline {
+      margin-right: .3em;
+    }
   }
 
   .user-name + .creation-date {
@@ -122,5 +126,21 @@
       content: '';
       margin: 0;
     }
+  }
+}
+
+.field-name-c4m-ds-content-footer-stats {
+  @extend .text-copy--muted;
+  
+  .row-entity-count {
+    margin-left: 1rem;
+
+    i {
+      @extend .text-medium;
+    }
+  }
+
+  .node & {
+    text-align: right;
   }
 }

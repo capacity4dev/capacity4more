@@ -119,7 +119,6 @@ trait Document {
     $steps[] = new Step\When('I should see a "Author" field');
     $steps[] = new Step\When('I should see a "Comment" field');
     $steps[] = new Step\When('I should see a "Title" field');
-    $steps[] = new Step\When('I should see a "Preview" field');
     $steps[] = new Step\When('I should see a "Download" field');
     $steps[] = new Step\When('I should see a "Details" field group');
 
