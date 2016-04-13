@@ -36,11 +36,11 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['row_class'] = 'col-xs-4 align-center';
+  $handler->display->display_options['style_options']['row_class'] = 'col-12';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_picture';
+  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
   /* Relationship: User: Topics of Expertise (c4m_vocab_topic_expertise) */
   $handler->display->display_options['relationships']['c4m_vocab_topic_expertise_tid']['id'] = 'c4m_vocab_topic_expertise_tid';
   $handler->display->display_options['relationships']['c4m_vocab_topic_expertise_tid']['table'] = 'field_data_c4m_vocab_topic_expertise';
@@ -84,6 +84,7 @@ function c4m_content_topic_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['link_url'] = 'people?f[0]=c4m_vocab_topic_expertise:!1';
+  $handler->display->display_options['block_caching'] = '4';
   $export['c4m_expert_users'] = $view;
 
   $view = new view();
@@ -194,8 +195,9 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'no-border';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_related';
+  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -263,7 +265,6 @@ function c4m_content_topic_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Related Groups';
-  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Show all';
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -273,8 +274,9 @@ function c4m_content_topic_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'no-border';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_related';
+  $handler->display->display_options['row_options']['view_mode'] = 'block_list';
   /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_c4m_related_group_unlimited_node']['id'] = 'reverse_c4m_related_group_unlimited_node';
   $handler->display->display_options['relationships']['reverse_c4m_related_group_unlimited_node']['table'] = 'node';

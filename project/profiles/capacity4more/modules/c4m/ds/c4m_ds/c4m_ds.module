@@ -36,6 +36,7 @@ function c4m_ds_ds_layout_info() {
       'header' => t('Header'),
       'left'   => t('Left'),
       'right'  => t('Right'),
+      'footer' => t('Footer'),
     ),
     'form'     => TRUE,
     'image'    => FALSE,
@@ -187,6 +188,17 @@ function c4m_ds_ds_view_modes_info() {
   );
   $ds_view_modes['block_list'] = $ds_view_mode;
 
+  // User Image.
+  $ds_view_mode                 = new stdClass();
+  $ds_view_mode->disabled       = FALSE; /* Edit this to true to make a default ds_view_mode disabled initially */
+  $ds_view_mode->api_version    = 1;
+  $ds_view_mode->view_mode      = 'user_picture';
+  $ds_view_mode->label          = 'User Picture';
+  $ds_view_mode->entities       = array(
+    'user' => 'user',
+  );
+  $ds_view_modes['user_picture'] = $ds_view_mode;
+
   // Prevent using default preview view mode because certain modules
   // depend on it. We introduce a custom preview view mode.
   $ds_view_mode                 = new stdClass();
@@ -299,6 +311,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_topic_content_stats'] = array(
+    'title'      => t('Number of content per Topic'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('topic|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_topic_content_stats',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   // Fields for Group nodes
   // A field to give list of all members of a group node with a particular role.
   foreach (c4m_og_get_group_bundles() as $group_bundle => $og_roles) {
@@ -396,6 +421,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'ui_limit'   => array('group|*'),
     'file'       => $path . '/includes/c4m_ds.theme.node.inc',
     'function'   => 'theme_c4m_ds_group_membership_type',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
+  $fields['node']['c4m_ds_event_start_icon'] = array(
+    'title'      => t('Event Icon with date in it'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit'   => array('event|*'),
+    'file'       => $path . '/includes/c4m_ds.theme.node.inc',
+    'function'   => 'theme_c4m_ds_event_start_icon',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

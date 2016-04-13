@@ -33,13 +33,64 @@
   }
 }
 
-.group-teaser-header-inline {
+.group-teaser-header-inline, .group-footer {
   position: relative;
 
-  .membership-indicator {
-    line-height: 1rem;
+  .field-name-title {
+    margin: 0 9rem 0 30px;
+  }
+
+  .label {
     position: absolute;
     right: 0;
     top: 0;
   }
+}
+
+.label {
+  line-height: 1rem;
+}
+
+.field-name-c4m-ds-event-start-icon {
+  color: $color-gray-dark;
+  font-size: 0.6em;
+
+  .calendar-text-month {
+    @extend .text-small;
+    height: 1em;
+    line-height: 1em;
+    margin-top: 0.3rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .fa-stack {
+    .calendar-text {
+      @extend .text-normal;
+      margin-top: .25em;
+    }
+  }
+}
+
+.group-c4m-header-meta {
+  background-color: $color-white;
+  border: 1px solid $color-gray-light;
+  border-radius: 5px;
+  margin: 0 auto -2rem auto;
+  padding: 1rem;
+  position: relative;
+  top: -3rem;
+  width: 90%;
+
+  h2, p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.topic-subtopics {
+  @extend .text-copy;
+  @extend .text-small;
+
+  margin-top: 1em;
 }

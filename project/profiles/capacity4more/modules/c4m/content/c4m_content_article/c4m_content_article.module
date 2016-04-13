@@ -29,5 +29,30 @@ function c4m_content_article_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_articles' => array(
+        'type'        => 'article',
+        'entity_type' => 'node',
+        'bundles'     => array('article'),
+        'singular'    => 'Article',
+        'plural'      => 'Articles',
+        'state'       => NULL,
+        'aggregate'   => array(),
+        'weight'      => 2,
+        'attributes'  => array(
+          'class' => array('topic-articles'),
+        ),
+        'link' => array(
+          'path' => 'articles',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

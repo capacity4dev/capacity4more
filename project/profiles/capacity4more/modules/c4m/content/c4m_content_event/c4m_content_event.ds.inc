@@ -73,7 +73,7 @@ function c4m_content_event_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -83,25 +83,31 @@ function c4m_content_event_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_content_type_icon' => array(
-      'weight' => '0',
+    'c4m_field_og_group' => array(
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
+        'show_group_type' => 1,
         'ft' => array(),
       ),
     ),
-    'c4m_datetime_end' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
+    'c4m_ds_event_start_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
-    'og_group_ref' => array(
+    'c4m_event_type' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
+          'func' => 'theme_ds_field_expert',
+          'fi' => TRUE,
+          'fi-el' => 'span',
+          'fi-cl' => 'label label-default',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
         ),
       ),
     ),
@@ -441,18 +447,10 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->view_mode = 'activity_global';
   $ds_layout->layout = 'ds_reset';
   $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'c4m_related_document',
-        1 => 'comment_body',
-      ),
-    ),
-    'fields' => array(
-      'c4m_related_document' => 'ds_content',
-      'comment_body' => 'ds_content',
-    ),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => TRUE,
@@ -561,28 +559,30 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'event';
   $ds_layout->view_mode = 'block_list';
-  $ds_layout->layout = 'c4m_ds_3_9_fluid';
+  $ds_layout->layout = 'c4m_ds_3_9_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
       'left' => array(
-        0 => 'c4m_ds_content_type_icon',
+        0 => 'c4m_ds_event_start_icon',
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_datetime_end',
-        3 => 'og_group_ref',
+        2 => 'c4m_field_og_group',
+        3 => 'c4m_event_type',
       ),
     ),
     'fields' => array(
-      'c4m_ds_content_type_icon' => 'left',
+      'c4m_ds_event_start_icon' => 'left',
       'title' => 'right',
-      'c4m_datetime_end' => 'right',
-      'og_group_ref' => 'right',
+      'c4m_field_og_group' => 'right',
+      'c4m_event_type' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

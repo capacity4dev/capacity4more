@@ -72,12 +72,12 @@ function c4m_content_topic_get_term_from_node($nid = NULL) {
 function c4m_content_topic_field_formatter_info() {
   return array(
     'term_reference_tree_children_expanded' => array(
-      'label'       => t('Term reference tree with all children'),
+      'label' => t('Term reference tree with all children'),
       'field types' => array('taxonomy_term_reference'),
-      'settings'    => array(
-        'display'   => 'all',
-        'link'      => '',
-        'wrap'      => 'none',
+      'settings' => array(
+        'display' => 'all',
+        'link' => '',
+        'wrap' => 'none',
         'separator' => ' » ',
       ),
     ),
@@ -87,8 +87,12 @@ function c4m_content_topic_field_formatter_info() {
 /**
  * Implements hook_field_formatter_settings_form().
  */
-function c4m_content_topic_field_formatter_settings_form($field, $instance,
-  $view_mode, $form, &$form_state
+function c4m_content_topic_field_formatter_settings_form(
+  $field,
+  $instance,
+  $view_mode,
+  $form,
+  &$form_state
 ) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
@@ -96,22 +100,22 @@ function c4m_content_topic_field_formatter_settings_form($field, $instance,
   $element = array();
 
   $element['link'] = array(
-    '#title'         => t('Link each term'),
-    '#description'   => t(
+    '#title' => t('Link each term'),
+    '#description' => t(
       'If checked, the terms will link to the search page, filtered by this term.'
     ),
-    '#type'          => 'checkbox',
+    '#type' => 'checkbox',
     '#default_value' => $settings['link'],
   );
   $element['separator'] = array(
-    '#title'         => t('Separator'),
-    '#description'   => t(
+    '#title' => t('Separator'),
+    '#description' => t(
       'Enter some text or markup that will separate each term in the hierarchy. Leave blank for no separator. Example: <em>»</em>'
     ),
-    '#type'          => 'textfield',
-    '#size'          => 20,
+    '#type' => 'textfield',
+    '#size' => 20,
     '#default_value' => $settings['separator'],
-    '#required'      => FALSE,
+    '#required' => FALSE,
   );
 
   return $element;
@@ -120,7 +124,9 @@ function c4m_content_topic_field_formatter_settings_form($field, $instance,
 /**
  * Implements hook_field_formatter_settings_summary().
  */
-function c4m_content_topic_field_formatter_settings_summary($field, $instance,
+function c4m_content_topic_field_formatter_settings_summary(
+  $field,
+  $instance,
   $view_mode
 ) {
   $display = $instance['display'][$view_mode];
@@ -143,19 +149,37 @@ function c4m_content_topic_field_formatter_settings_summary($field, $instance,
 /**
  * Implements hook_field_formatter_prepare_view().
  */
-function c4m_content_topic_field_formatter_prepare_view($entity_type, $entities,
-  $field, $instances, $langcode, &$items, $displays
+function c4m_content_topic_field_formatter_prepare_view(
+  $entity_type,
+  $entities,
+  $field,
+  $instances,
+  $langcode,
+  &$items,
+  $displays
 ) {
   taxonomy_field_formatter_prepare_view(
-    $entity_type, $entities, $field, $instances, $langcode, $items, $displays
+    $entity_type,
+    $entities,
+    $field,
+    $instances,
+    $langcode,
+    $items,
+    $displays
   );
 }
 
 /**
  * Implements hook_field_formatter_view().
  */
-function c4m_content_topic_field_formatter_view($entity_type, $entity, $field,
-  $instance, $langcode, $items, $display
+function c4m_content_topic_field_formatter_view(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $display
 ) {
   $element = $used = array();
   $settings = $display['settings'];
@@ -170,9 +194,13 @@ function c4m_content_topic_field_formatter_view($entity_type, $entity, $field,
     else {
       // Build an array representing the term hierarchy.
       $term_tree = array($item['taxonomy_term']);
-      $term_tree = array_merge($term_tree, taxonomy_get_tree(
-        $item['taxonomy_term']->vid, $item['taxonomy_term']->tid
-      ));
+      $term_tree = array_merge(
+        $term_tree,
+        taxonomy_get_tree(
+          $item['taxonomy_term']->vid,
+          $item['taxonomy_term']->tid
+        )
+      );
 
       // Remove empty elements caused by discarded items.
       $term_tree = array_filter($term_tree);
@@ -190,19 +218,19 @@ function c4m_content_topic_field_formatter_view($entity_type, $entity, $field,
           );
 
           $link = array(
-            '#type'    => 'link',
-            '#title'   => $term->name,
-            '#href'    => 'search',
+            '#type' => 'link',
+            '#title' => $term->name,
+            '#href' => 'search',
             '#options' => $options,
           );
           $terms[] = array(
-            'tid'     => $term->tid,
+            'tid' => $term->tid,
             'content' => drupal_render($link),
           );
         }
         else {
           $terms[] = array(
-            'tid'     => $term->tid,
+            'tid' => $term->tid,
             'content' => check_plain($term->name),
           );
         }
@@ -213,13 +241,14 @@ function c4m_content_topic_field_formatter_view($entity_type, $entity, $field,
     if (count($terms)) {
       // Prepare theme variables.
       $variables = array(
-        'terms'     => $terms,
+        'terms' => $terms,
         'separator' => $settings['separator'],
       );
 
       $element[$delta] = array(
         '#markup' => theme(
-          'c4m_content_topic_term_reference_tree_children_expanded', $variables
+          'c4m_content_topic_term_reference_tree_children_expanded',
+          $variables
         ),
       );
     }
@@ -234,7 +263,7 @@ function c4m_content_topic_theme($existing, $type, $theme, $path) {
   return array(
     'c4m_content_topic_term_reference_tree_children_expanded' => array(
       'variables' => array(
-        'terms'     => array(),
+        'terms' => array(),
         'separator' => '',
       ),
     ),
@@ -244,7 +273,8 @@ function c4m_content_topic_theme($existing, $type, $theme, $path) {
 /**
  * Theme the term hierarchy.
  */
-function theme_c4m_content_topic_term_reference_tree_children_expanded($variables
+function theme_c4m_content_topic_term_reference_tree_children_expanded(
+  $variables
 ) {
   $items = array();
   $separator = filter_xss_admin($variables['separator']);

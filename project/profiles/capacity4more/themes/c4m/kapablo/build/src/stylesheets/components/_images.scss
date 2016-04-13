@@ -15,3 +15,99 @@
     padding: 0;
   }
 }
+
+.field-name-c4m-user-picture img {
+  border-radius: 50%;
+}
+
+.initials {
+  border: 1px solid $color-gray-light;
+  border-radius: 50%;
+  padding: 2px;
+  height: 60px;
+  width: 60px;
+
+  a {
+    border-radius: 50%;
+    color: $color-text;
+    display: table-cell;
+    height: 54px; // 60px - 2 x padding (2px) and 2 x border (1px).
+    text-align: center;
+    vertical-align: middle;
+    width: 54px;
+  }
+
+  &.bg-dark-navy {
+    a {
+      background: #000080;
+      color: $color-white;
+    }
+  }
+
+  &.bg-pastel-pink {
+    a {
+      background: #FFD8D8;
+    }
+  }
+
+  &.bg-beige {
+    a {
+      background: #F5F5DC;
+    }
+  }
+
+  &.bg-brown {
+    a {
+      background: #964B00;
+      color: $color-white;
+    }
+  }
+
+  &.bg-brown-light {
+    a {
+      background: #964B00;
+      color: $color-white;
+    }
+  }
+
+  &.bg-blue {
+    a {
+      background: #00CCFF;
+      color: $color-white;
+    }
+  }
+
+  &.bg-salmon {
+    a {
+      background: #FA8072;
+      color: $color-white;
+    }
+  }
+
+  &.bg-pastel-orange {
+    a {
+      background: #FFB347;
+      color: $color-white;
+    }
+  }
+
+  &.bg-green {
+    a {
+      background: #006400;
+      color: $color-white;
+    }
+  }
+
+  &.bg-green-light {
+    a {
+      background: #90EE90;
+    }
+  }
+
+  &.bg-pink-dark {
+    a {
+      background: #800080;
+      color: $color-white;
+    }
+  }
+}

@@ -74,7 +74,3 @@ features[variable][] = node_options_project
 features[variable][] = node_preview_project
 features[variable][] = node_submitted_project
 features[variable][] = pathauto_node_project_pattern
-features_exclude[field_group][c4m_metadata|node|project|form] = c4m_metadata|node|project|form
-features_exclude[field_group][c4m_project_cris|node|project|form] = c4m_project_cris|node|project|form
-features_exclude[field_group][c4m_project_details|node|project|form] = c4m_project_details|node|project|form
-features_exclude[field_group][c4m_related_content|node|project|form] = c4m_related_content|node|project|form

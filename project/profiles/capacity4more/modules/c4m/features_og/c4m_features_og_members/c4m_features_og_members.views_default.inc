@@ -148,10 +148,13 @@ function c4m_features_og_members_views_default_views() {
   $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'col-xs-4';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_user_picture';
+  $handler->display->display_options['row_options']['view_mode'] = 'user_picture';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
@@ -171,8 +174,8 @@ function c4m_features_og_members_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => '',
-    'image_link' => '',
+    'image_style' => 'thumbnail',
+    'image_link' => 'content',
   );
 
   /* Display: Page */
