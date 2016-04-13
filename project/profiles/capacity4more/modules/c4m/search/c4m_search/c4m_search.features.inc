@@ -239,7 +239,7 @@ function c4m_search_default_search_api_index() {
         "c4m_is_spammer" : { "type" : "boolean" },
         "c4m_last_name" : { "type" : "string" },
         "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
-        "c4m_organisation" : { "type" : "text" },
+        "c4m_organisation" : { "type" : "string" },
         "c4m_organisation_type" : { "type" : "string" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
@@ -258,6 +258,7 @@ function c4m_search_default_search_api_index() {
           "weight" : "-10",
           "settings" : { "default" : "1", "roles" : [] }
         },
+        "search_api_alter_user_status" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_attachments_alter_settings" : {
           "status" : 0,
           "weight" : "0",
@@ -269,6 +270,8 @@ function c4m_search_default_search_api_index() {
           }
         },
         "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_aggregation" : {
           "status" : 1,
           "weight" : "0",
@@ -280,9 +283,7 @@ function c4m_search_default_search_api_index() {
               }
             }
           }
-        },
-        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } }
+        }
       },
       "processors" : {
         "search_api_case_ignore" : {
@@ -291,14 +292,14 @@ function c4m_search_default_search_api_index() {
           "settings" : { "fields" : {
               "name" : true,
               "mail" : true,
+              "c4m_vocab_geo" : true,
+              "c4m_vocab_topic" : true,
+              "c4m_vocab_topic_expertise" : true,
               "c4m_country" : true,
               "c4m_first_name" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true,
-              "c4m_vocab_topic" : true,
-              "c4m_vocab_topic_expertise" : true,
-              "c4m_vocab_geo" : true
+              "c4m_organisation_type" : true
             }
           }
         },
@@ -333,7 +334,7 @@ function c4m_search_default_search_api_index() {
           }
         },
         "search_api_tokenizer" : {
-          "status" : 1,
+          "status" : 0,
           "weight" : "20",
           "settings" : {
             "fields" : { "name" : true, "mail" : true, "c4m_organisation" : true },
