@@ -85,6 +85,7 @@ dependencies[] = c4m_admin_organisations
 
 ; Helpers
 dependencies[] = c4m_helper_comment
+dependencies[] = c4m_helper_cron
 dependencies[] = c4m_helper_date
 dependencies[] = c4m_helper_entity
 
