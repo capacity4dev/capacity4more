@@ -103,7 +103,7 @@ function c4m_content_event_ds_field_settings_info() {
           'func' => 'theme_ds_field_expert',
           'fi' => TRUE,
           'fi-el' => 'span',
-          'fi-cl' => 'label label-primary',
+          'fi-cl' => 'label label-default',
           'fi-at' => '',
           'fi-def-at' => FALSE,
           'fi-odd-even' => FALSE,
@@ -447,18 +447,10 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->view_mode = 'activity_global';
   $ds_layout->layout = 'ds_reset';
   $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'c4m_related_document',
-        1 => 'comment_body',
-      ),
-    ),
-    'fields' => array(
-      'c4m_related_document' => 'ds_content',
-      'comment_body' => 'ds_content',
-    ),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => TRUE,

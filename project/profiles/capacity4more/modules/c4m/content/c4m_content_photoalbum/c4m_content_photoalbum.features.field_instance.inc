@@ -152,7 +152,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'activity_group' => array(
         'label' => 'hidden',
@@ -553,7 +553,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 20,
       ),
       'activity_group' => array(
         'label' => 'above',

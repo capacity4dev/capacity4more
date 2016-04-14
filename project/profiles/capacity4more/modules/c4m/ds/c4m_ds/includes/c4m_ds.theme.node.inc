@@ -98,7 +98,6 @@ function theme_c4m_ds_content_type_icon(array $field) {
     'discussion-debate' => 'fa-comments',
     'discussion-question' => 'fa-question-circle',
     'discussion-idea' => 'fa-lightbulb-o',
-
   );
 
   $object = $field['entity'];
@@ -119,16 +118,23 @@ function theme_c4m_ds_content_type_icon(array $field) {
   }
 
   if (!isset($icons[$icon_name])) {
-    return;
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('node-icon', 'as-' . $icon_name),
+      ),
+      '#value' => '',
+    );
   }
-
-  $tag['element'] = array(
-    '#tag' => 'i',
-    '#attributes' => array(
-      'class' => array('fa', $icons[$icon_name]),
-    ),
-    '#value' => '',
-  );
+  else {
+    $tag['element'] = array(
+      '#tag' => 'i',
+      '#attributes' => array(
+        'class' => array('fa', $icons[$icon_name]),
+      ),
+      '#value' => '',
+    );
+  }
 
   return theme_html_tag($tag);
 }

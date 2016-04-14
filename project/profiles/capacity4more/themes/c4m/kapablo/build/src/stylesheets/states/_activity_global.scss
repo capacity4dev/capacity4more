@@ -28,4 +28,12 @@
     float: left;
     width: 75px;
   }
+
+  .row-entity-count {
+    margin-left: 1rem;
+
+    i {
+      @extend .text-medium;
+    }
+  }
 }
