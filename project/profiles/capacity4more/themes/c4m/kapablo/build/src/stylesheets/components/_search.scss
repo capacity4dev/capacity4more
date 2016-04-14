@@ -17,6 +17,12 @@
   box-shadow: none;
 }
 
+.facetapi-facetapi-links {
+  a {
+    text-transform: capitalize;
+  }
+}
+
 .search-api-sort {
   img {
     display: inline;
@@ -24,6 +30,7 @@
   }
 
   .dropdown-menu {
+    min-width: 200px;
     right: 0;
   }
 }
