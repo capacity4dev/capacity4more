@@ -581,14 +581,19 @@ function theme_c4m_ds_photoalbum_cover_image(array $field) {
 
   if (empty($cover_nid)) {
     $first = array_shift($relationships);
-    $cover_nid = $first->nid;
+
+    if ($first) {
+      $cover_nid = $first->nid;
+    }
   }
 
-  // Load cover node.
-  $cover_image_node = entity_metadata_wrapper('node', $cover_nid);
-  $file = $cover_image_node->c4m_media->value();
+  if (!empty($cover_nid)) {
+    // Load cover node.
+    $cover_image_node = entity_metadata_wrapper('node', $cover_nid);
+    $file = $cover_image_node->c4m_media->value();
 
-  $style = $field['formatter'];
+    $style = $field['formatter'];
+  }
 
   if (empty($file)) {
     $output = '';
