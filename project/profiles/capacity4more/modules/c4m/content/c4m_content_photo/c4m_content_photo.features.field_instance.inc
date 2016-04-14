@@ -71,7 +71,7 @@ function c4m_content_photo_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
@@ -139,7 +139,7 @@ function c4m_content_photo_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -268,11 +268,11 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'c4m_field_media',
         'settings' => array(
-          'image_link' => '',
-          'image_style' => 'large',
+          'image_link' => 'file',
+          'image_style' => 'fullwidth',
         ),
         'type' => 'image',
-        'weight' => 3,
+        'weight' => 1,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -288,20 +288,22 @@ function c4m_content_photo_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'above',
-        'module' => 'c4m_ds',
+        'module' => 'c4m_field_media',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'image_link' => 'content',
+          'image_style' => 'c4m_image_medium',
         ),
-        'type' => 'c4m_ds_formatter_link_and_size',
+        'type' => 'image',
         'weight' => 0,
       ),
       'teaser_group' => array(
         'label' => 'above',
-        'module' => 'c4m_ds',
+        'module' => 'c4m_field_media',
         'settings' => array(
-          'text' => 'Download [file:name]',
+          'image_link' => '',
+          'image_style' => 'c4m_image_medium',
         ),
-        'type' => 'c4m_ds_formatter_link_and_size',
+        'type' => 'image',
         'weight' => 0,
       ),
       'upcoming_event' => array(
@@ -391,7 +393,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 22,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -481,7 +483,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 23,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -674,7 +676,7 @@ function c4m_content_photo_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

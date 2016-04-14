@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Administration functionality.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_admin_menu() {
+  $items = array();
+
+  $items['admin/config/c4m'] = array(
+    'title' => 'capacity4more',
+    'description' => 'capacity4more admin configuration.',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'position' => 'right',
+  );
+
+  return $items;
+}

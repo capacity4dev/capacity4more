@@ -6,7 +6,10 @@
 @import "base/mixins";
 @import "base/typography";
 
+@import "layout/region-content-above";
+
 @import "components/activity_stream";
+@import "components/blocks";
 @import "components/comments";
 @import "components/fields";
 @import "components/footer";

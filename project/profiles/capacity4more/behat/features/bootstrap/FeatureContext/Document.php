@@ -137,4 +137,19 @@ trait Document {
       throw new \Exception("No $icon_type overview icon found.");
     }
   }
+
+  /**
+   * @Then /^I should see only "([^"]*)" documents/
+   */
+  public function iShouldSeeOnlyOneDocument($documents_no) {
+    $page = $this->getSession()->getPage();
+    $blocks = $page->findAll('css', '.node-document.view-mode-block_list');
+
+    if (count($blocks) > $documents_no) {
+      throw new \Exception(sprintf('There\'s more than %d document(s) showing.', $documents_no));
+    }
+    elseif (count($blocks) < $documents_no) {
+      throw new \Exception(sprintf('There\'s less than %d document(s) showing.', $documents_no));
+    }
+  }
 }

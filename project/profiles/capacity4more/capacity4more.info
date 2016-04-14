@@ -79,6 +79,7 @@ dependencies[] = wysiwyg_filter
 ; capacity4more ---------------------------------------------------------------
 
 ; Admin Management
+dependencies[] = c4m_admin
 dependencies[] = c4m_admin_groups
 dependencies[] = c4m_admin_organisations
 
@@ -142,6 +143,7 @@ dependencies[] = c4m_features_homepage
 dependencies[] = c4m_features_homepage_intro
 dependencies[] = c4m_features_homepage_intro_block
 dependencies[] = c4m_features_homepage_banner
+dependencies[] = c4m_features_learning_space
 
 ; RESTful
 dependencies[] = c4m_restful_quick_post

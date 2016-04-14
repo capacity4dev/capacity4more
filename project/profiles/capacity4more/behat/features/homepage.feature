@@ -78,7 +78,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
     Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
-    And   I should see only "2" events
+    And   I should see only "3" events
 
   @api
   Scenario: Check featured block is displayed correctly.

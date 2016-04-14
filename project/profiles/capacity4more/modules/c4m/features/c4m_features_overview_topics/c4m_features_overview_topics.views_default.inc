@@ -97,6 +97,7 @@ function c4m_features_overview_topics_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Topics';
   $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['weight'] = '2';
   $export['c4m_overview_topics'] = $view;
 
   return $export;
