@@ -521,7 +521,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 11,
+        'weight' => 1,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -612,7 +612,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 13,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -703,7 +703,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 12,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1014,7 +1014,7 @@ function c4m_content_discussion_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 10,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

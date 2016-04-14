@@ -38,7 +38,8 @@ function c4m_content_topic_views_pre_render(&$view) {
           break;
       }
 
-      $view->display_handler->set_option('link_url', url($link, $options));
+      $view->display_handler->set_option('link_url', url($link));
+      $view->exposed_raw_input = $options['query'];
       break;
   }
 }

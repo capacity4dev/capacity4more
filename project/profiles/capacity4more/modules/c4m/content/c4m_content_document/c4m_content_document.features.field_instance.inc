@@ -601,7 +601,7 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -807,7 +807,7 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 6,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -910,7 +910,7 @@ function c4m_content_document_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1257,7 +1257,7 @@ function c4m_content_document_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
