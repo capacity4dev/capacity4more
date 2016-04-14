@@ -52,7 +52,8 @@ projects[mefibs][subdir] = "contrib"
 projects[mefibs][version] = "1.x-dev"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.7"
+projects[plupload][version] = "2.x-dev"
+projects[plupload][patch][] = https://www.drupal.org/files/issues/plupload-218update-2098555-35-7.x.patch
 
 projects[save_draft][subdir] = "contrib"
 projects[save_draft][version] = "1.4"

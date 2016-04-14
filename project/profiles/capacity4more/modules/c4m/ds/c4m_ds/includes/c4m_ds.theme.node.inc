@@ -22,18 +22,18 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
   }
 
   $entity = $field['entity'];
-  $user   = user_load($entity->uid);
-  $name   = c4m_user_name($user);
+  $user = user_load($entity->uid);
+  $name = c4m_user_name($user);
   $options = array('attributes' => array('class' => array('user-name')));
 
   $name = l($name, 'user/' . $user->uid, $options);
 
   $tag['element'] = array(
-    '#tag'       => 'span',
+    '#tag' => 'span',
     '#attributes' => array(
       'class' => array('creation-date'),
     ),
-    '#value'     => c4m_helper_date_time_ago($entity->created, $field['formatter']),
+    '#value' => c4m_helper_date_time_ago($entity->created, $field['formatter']),
   );
 
   return $name . theme_html_tag($tag);
@@ -64,12 +64,14 @@ function theme_c4m_ds_creation_date(array $field) {
   }
 
   $tag['element'] = array(
-    '#tag'       => 'span',
+    '#tag' => 'span',
     '#attributes' => array(
       'class' => array('creation-date'),
     ),
-    '#value'     => c4m_helper_date_time_ago($field['entity']->created,
-      $field['formatter']),
+    '#value' => c4m_helper_date_time_ago(
+      $field['entity']->created,
+      $field['formatter']
+    ),
   );
 
   return theme_html_tag($tag);
@@ -90,6 +92,14 @@ function theme_c4m_ds_content_type_icon(array $field) {
   if (empty($field['entity'])) {
     return;
   }
+
+  $icons = array(
+    'discussion-info' => 'fa-info-circle',
+    'discussion-debate' => 'fa-comments',
+    'discussion-question' => 'fa-question-circle',
+    'discussion-idea' => 'fa-lightbulb-o',
+  );
+
   $object = $field['entity'];
 
   $icon_name = $object->type;
@@ -107,13 +117,24 @@ function theme_c4m_ds_content_type_icon(array $field) {
     $icon_name .= '-' . $al['type'];
   }
 
-  $tag['element'] = array(
-    '#tag'       => 'span',
-    '#attributes' => array(
-      'class' => array('node-icon', 'as-' . $icon_name),
-    ),
-    '#value'     => '',
-  );
+  if (!isset($icons[$icon_name])) {
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('node-icon', 'as-' . $icon_name),
+      ),
+      '#value' => '',
+    );
+  }
+  else {
+    $tag['element'] = array(
+      '#tag' => 'i',
+      '#attributes' => array(
+        'class' => array('fa', $icons[$icon_name]),
+      ),
+      '#value' => '',
+    );
+  }
 
   return theme_html_tag($tag);
 }
@@ -138,11 +159,18 @@ function theme_c4m_ds_type_posted_by(array $field) {
   $entity = $field['entity'];
 
   $tag['element'] = array(
-    '#tag'   => 'span',
+    '#tag' => 'span',
     '#attributes' => array(
       'class' => array('posted-by'),
     ),
-    '#value' => t('@entity_label', array('@entity_label' => ucfirst(c4m_helper_entity_get_entity_type_label($entity)))),
+    '#value' => t(
+      '@entity_label',
+      array(
+        '@entity_label' => ucfirst(
+          c4m_helper_entity_get_entity_type_label($entity)
+        ),
+      )
+    ),
   );
 
   return theme_html_tag($tag);
@@ -188,13 +216,38 @@ function theme_c4m_ds_content_footer_stats(array $field) {
         'c4m_ds_entity_downloads_count',
         array('count' => (!empty($file_object->download_count) ? $file_object->download_count : 0))
       );
-
-      $items['download_link'] = theme('c4m_ds_formatter_link_and_size', array('entity_type' => 'file', 'entity' => $file_object));
     }
 
   }
 
   return implode($items);
+}
+
+/**
+ * Get number of content items per topic.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return NULL|string
+ *   The rendered field.
+ */
+function theme_c4m_ds_topic_content_stats(array $field) {
+  if (!isset($field['entity'])) {
+    return NULL;
+  }
+  $entity = $field['entity'];
+
+  if (!module_exists('c4m_content_topic')) {
+    return NULL;
+  }
+
+  $stats_summary = array(
+    '#theme' => 'c4m_website_statistics_summary',
+    '#data' => c4m_content_get_topic_statistics(),
+  );
+
+  return render($stats_summary);
 }
 
 /**
@@ -217,7 +270,7 @@ function theme_c4m_ds_content_status(array $field) {
   }
 
   $tag['element'] = array(
-    '#tag'   => 'span',
+    '#tag' => 'span',
     '#value' => t('Draft'),
   );
 
@@ -240,10 +293,10 @@ function theme_c4m_ds_group_access_info(array $field) {
     return NULL;
   }
 
-  $group_access   = c4m_og_get_access_type($field['entity']);
+  $group_access = c4m_og_get_access_type($field['entity']);
 
   $tag['element'] = array(
-    '#tag'   => 'span',
+    '#tag' => 'span',
     '#value' => $group_access['title'],
   );
 
@@ -269,8 +322,13 @@ function theme_c4m_ds_group_members_count(array $field) {
   $members = c4m_og_get_members_count($field['entity']);
 
   $tag['element'] = array(
-    '#tag'   => 'span',
-    '#value' => format_plural($members, '1 member', '@count members', array('@count' => $members)),
+    '#tag' => 'span',
+    '#value' => format_plural(
+      $members,
+      '1 member',
+      '@count members',
+      array('@count' => $members)
+    ),
   );
 
   return theme_html_tag($tag);
@@ -295,8 +353,13 @@ function theme_c4m_ds_group_posts_count(array $field) {
   $posts = c4m_og_get_posts_count($field['entity']);
 
   $tag['element'] = array(
-    '#tag'   => 'span',
-    '#value' => format_plural($posts, '1 post', '@count posts', array('@count' => $posts)),
+    '#tag' => 'span',
+    '#value' => format_plural(
+      $posts,
+      '1 post',
+      '@count posts',
+      array('@count' => $posts)
+    ),
   );
 
   return theme_html_tag($tag);
@@ -321,7 +384,7 @@ function theme_c4m_ds_group_type(array $field) {
   $group_type = c4m_og_get_access_type($field['entity']);
 
   $tag['element'] = array(
-    '#tag'   => 'span',
+    '#tag' => 'span',
     '#value' => $group_type['title'],
   );
 
@@ -347,11 +410,11 @@ function theme_c4m_ds_group_type_icon(array $field) {
   $group_type = c4m_og_get_access_type($field['entity']);
 
   $tag['element'] = array(
-    '#tag'       => 'span',
+    '#tag' => 'span',
     '#attributes' => array(
-      'class' => array('group-icon', 'group-' . $group_type['type']),
+      'class' => array('group-icon', 'group-' . $group_type['type'], 'node-icon', 'as-group-' . $group_type['type']),
     ),
-    '#value'     => '',
+    '#value' => '',
   );
 
   return theme_html_tag($tag);
@@ -383,9 +446,15 @@ function theme_c4m_ds_group_membership_type(array $field) {
   }
 
   $tag['element'] = array(
-    '#tag'   => 'span',
+    '#tag' => 'span',
     '#value' => $group_membership_type,
-    '#attributes' => array('class' => array('membership-indicator', 'label', 'label-primary')),
+    '#attributes' => array(
+      'class' => array(
+        'membership-indicator',
+        'label',
+        'label-primary',
+      ),
+    ),
   );
 
   return theme_html_tag($tag);
@@ -410,7 +479,10 @@ function theme_c4m_ds_group_role_members(array $field) {
   }
   $entity = $field['entity'];
 
-  $members = c4m_og_get_users_by_roles($entity->nid, array($field['formatter']));
+  $members = c4m_og_get_users_by_roles(
+    $entity->nid,
+    array($field['formatter'])
+  );
 
   foreach ($members as $member) {
     // Don't list the group owner twice.
@@ -421,6 +493,62 @@ function theme_c4m_ds_group_role_members(array $field) {
   }
 
   return ltrim($output, ', ');
+}
+
+/**
+ * DS function field.
+ *
+ * Render start date of an event inside a calendar icon.
+ *
+ * @param array $field
+ *   The field that needs to be rendered.
+ *
+ * @return mixed
+ *   The rendered field.
+ */
+function theme_c4m_ds_event_start_icon(array $field) {
+  $output = '';
+
+  if (empty($field['entity'])) {
+    return $output;
+  }
+  $entity_wrapper = entity_metadata_wrapper('node', $field['entity']);
+  $date_wrapper = $entity_wrapper->c4m_datetime_end->value();
+  $start_date = new DateTime(
+    $date_wrapper['value'],
+    new DateTimeZone($date_wrapper['timezone'])
+  );
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => '<i class="fa fa-calendar-o fa-stack-2x"></i>
+  <span class="fa-stack-1x calendar-text">' . $start_date->format(
+        'd'
+      ) . '</span>',
+    '#attributes' => array(
+      'class' => array(
+        'fa-stack',
+        'fa-2x',
+      ),
+    ),
+  );
+
+  $icon_day = theme_html_tag($tag);
+
+  $tag['element'] = array(
+    '#tag' => 'div',
+    '#value' => $start_date->format('M'),
+    '#attributes' => array(
+      'class' => array(
+        'fa-2x',
+        'calendar-text-month',
+      ),
+    ),
+  );
+
+  $month = theme_html_tag($tag);
+
+  return $icon_day . $month;
 }
 
 /**
@@ -441,8 +569,12 @@ function theme_c4m_ds_group_administer_link(array $field) {
 
   if (og_user_access('node', $entity->nid, 'administer group', $user)) {
     return l(
-      '<i class="fa fa-cog"></i> ' . t('Manage this @group_type', array('@group_type' => $entity->type)),
+      '<i class="fa fa-cog"></i> ' . t(
+        'Manage this @group_type',
+        array('@group_type' => $entity->type)
+      ),
       'manage',
-      array('html' => TRUE));
+      array('html' => TRUE)
+    );
   }
 }

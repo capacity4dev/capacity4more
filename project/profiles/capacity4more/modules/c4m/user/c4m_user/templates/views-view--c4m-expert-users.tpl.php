@@ -29,12 +29,10 @@
   <?php endif; ?>
 
   <?php if ($rows): ?>
-    <div class="view-content row">
+    <div class="view-content">
       <?php print $rows; ?>
     </div>
-  <?php endif; ?>
-
-  <?php if ($empty): ?>
+  <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
     </div>

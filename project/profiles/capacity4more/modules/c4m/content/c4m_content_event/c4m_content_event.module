@@ -78,7 +78,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'attributes'  => array(
           'class' => array('posts'),
         ),
-        'link'          => array(
+        'link'        => array(
           'path' => 'search',
         ),
       ),
@@ -94,7 +94,7 @@ function c4m_content_event_c4m_content_statistics_info() {
         'attributes'  => array(
           'class' => array('events'),
         ),
-        'link'          => array(
+        'link'        => array(
           'path' => 'events',
         ),
       ),
@@ -115,6 +115,31 @@ function c4m_content_event_c4m_content_statistics_info() {
         ),
         'link'          => array(
           'path' => 'calendar',
+        ),
+      ),
+    ),
+    'topic' => array(
+      'c4m_topic_events' => array(
+        'type'          => 'event',
+        'entity_type'   => 'node',
+        'bundles'       => array('event'),
+        'singular'      => 'Event',
+        'plural'        => 'Events',
+        'state'         => 1,
+        'aggregate'     => NULL,
+        'weight'        => 6,
+        'attributes'    => array(
+          'class' => array('topic-events'),
+        ),
+        'link'          => array(
+          'path' => 'events',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+              ),
+            ),
+          ),
         ),
       ),
     ),

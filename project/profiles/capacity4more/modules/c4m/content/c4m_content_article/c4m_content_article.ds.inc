@@ -217,16 +217,10 @@ function c4m_content_article_ds_layout_settings_info() {
   $ds_layout->view_mode = 'activity_global';
   $ds_layout->layout = 'ds_reset';
   $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'comment_body',
-      ),
-    ),
-    'fields' => array(
-      'comment_body' => 'ds_content',
-    ),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => TRUE,

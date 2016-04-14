@@ -43,5 +43,30 @@ function c4m_content_project_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_projects' => array(
+        'type'        => 'project',
+        'entity_type' => 'node',
+        'bundles'     => array('project'),
+        'singular'    => 'Project',
+        'plural'      => 'Projects',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 1,
+        'attributes'  => array(
+          'class' => array('topic-projects'),
+        ),
+        'link' => array(
+          'path' => 'projects',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

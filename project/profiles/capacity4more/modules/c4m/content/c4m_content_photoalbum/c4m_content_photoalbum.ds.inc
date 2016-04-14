@@ -57,7 +57,7 @@ function c4m_content_photoalbum_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -282,25 +282,27 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_4_8_fluid_stacked';
   $ds_layout->settings = array(
     'regions' => array(
-      'right' => array(
+      'left' => array(
         0 => 'c4m_field_og_group',
+        1 => 'node_gallery_view',
+      ),
+      'right' => array(
         2 => 'c4m_body',
         3 => 'c4m_ds_content_footer_stats',
       ),
-      'left' => array(
-        1 => 'node_gallery_view',
-      ),
     ),
     'fields' => array(
-      'c4m_field_og_group' => 'right',
+      'c4m_field_og_group' => 'left',
       'node_gallery_view' => 'left',
       'c4m_body' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
+      'header' => 'div',
       'left' => 'div',
       'right' => 'div',
+      'footer' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',

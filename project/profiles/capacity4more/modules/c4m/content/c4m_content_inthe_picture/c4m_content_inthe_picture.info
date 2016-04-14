@@ -19,6 +19,7 @@ dependencies[] = text
 features[ctools][] = ds:ds:1
 features[ctools][] = strongarm:strongarm:1
 features[ds_layout_settings][] = node|inthe_picture|default
+features[ds_layout_settings][] = node|inthe_picture|teaser
 features[features_api][] = api:2
 features[field_base][] = c4m_heading
 features[field_base][] = c4m_overview_page

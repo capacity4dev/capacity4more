@@ -33,13 +33,127 @@
   }
 }
 
-.group-teaser-header-inline {
+.group-teaser-header-inline, .group-footer {
   position: relative;
 
-  .membership-indicator {
-    line-height: 1rem;
+  .field-name-title {
+    margin: 0 9rem 0 30px;
+  }
+
+  .label {
     position: absolute;
     right: 0;
     top: 0;
+  }
+}
+
+.label {
+  line-height: 1rem;
+  padding: .25rem .6rem .25rem;
+}
+
+.field-name-c4m-ds-event-start-icon {
+  color: $color-gray-dark;
+  font-size: 0.6em;
+
+  .calendar-text-month {
+    @extend .text-small;
+    height: 1em;
+    line-height: 1em;
+    margin-top: 0.3rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .fa-stack {
+    .calendar-text {
+      @extend .text-normal;
+      margin-top: .25em;
+    }
+  }
+}
+
+.group-c4m-header-meta {
+  @include image-overlay-bottom();
+
+  h2, p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.topic-subtopics {
+  @extend .text-copy;
+  @extend .text-small;
+
+  margin-top: 1em;
+}
+
+.user-name + .creation-date {
+  &:before {
+    content: '|';
+    margin: 0 .5em;
+  }
+}
+
+.group-node-meta {
+  .field-name-c4m-user-picture {
+    display: inline-block;
+    float: left;
+    height: 65px;
+    width: 75px;
+  }
+
+  .group-meta-author {
+    display: table-cell;
+    height: 65px;
+    vertical-align: middle;
+
+    .label-inline {
+      margin-right: .3em;
+    }
+  }
+
+  .user-name + .creation-date {
+    &:before {
+      content: '';
+      margin: 0;
+    }
+  }
+}
+
+.download-link {
+  i {
+    color: $color-gray-light;
+  }
+}
+
+.image-overlay-bottom {
+  @include image-overlay-bottom();
+}
+
+.field-name-c4m-ds-content-footer-stats {
+  @extend .text-copy--muted;
+  
+  .row-entity-count {
+    margin-left: 1rem;
+
+    i {
+      @extend .text-medium;
+    }
+  }
+
+  .node & {
+    text-align: right;
+  }
+}
+
+.node-photo {
+  img {
+    margin: 0 auto;
+  }
+
+  .photoalbum-navigator {
+    margin-bottom: 1rem;
   }
 }

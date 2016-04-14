@@ -11,6 +11,7 @@
     margin: 2px;
   }
 
+  // Group icons.
   &.as-group-public {
     background: url('../images/icons/group-access-public.png') no-repeat center center;
   }
@@ -20,4 +21,27 @@
   &.as-group-private {
     background: url('../images/icons/group-access-private.png') no-repeat center center;
   }
+
+  // Document extensions.
+  &.as-document {
+    background: url('../images/icons/document-unknown.svg') no-repeat center center;
+  }
+
+  $excel: xls, xlt, xlsx, xltx;
+  @include looped_backgrounds($excel, '../images/icons/document-excel.svg');
+
+  $image: jpg, jpeg, bmp, svg, png, gif;
+  @include looped_backgrounds($image, '../images/icons/document-image.svg');
+
+  $pdf: pdf;
+  @include looped_backgrounds($pdf, '../images/icons/document-pdf.svg');
+
+  $powerpoint: pps, ppsx, ppt, pptx;
+  @include looped_backgrounds($powerpoint, '../images/icons/document-powerpoint.svg');
+
+  $word: doc, docx, docm, docmx, txt;
+  @include looped_backgrounds($word, '../images/icons/document-word.svg');
+
+  $archive: zip, rar, rarx, gz, tar;
+  @include looped_backgrounds($archive, '../images/icons/document-zip.svg');
 }

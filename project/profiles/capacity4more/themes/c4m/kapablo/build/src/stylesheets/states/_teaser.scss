@@ -1,5 +1,4 @@
 .view-mode-teaser {
-
   .content {
     @extend .text-small;
   }
@@ -10,6 +9,27 @@
     .group-right {
       // 3px = align with image (1px border and 2px padding).
       padding: 3px 0 0 1rem;
+    }
+  }
+
+  &:not(.node-group) {
+    .fa, .user-name, .creation-date, .posted-by, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
+      color: $color-gray-light;
+    }
+  }
+
+  .field-name-c4m-body {
+    margin-top: 1em;
+  }
+
+  &.node-document {
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+    .icon-col {
+      float: left;
+      width: 75px;
     }
   }
 }
