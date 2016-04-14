@@ -36,6 +36,9 @@ projects[context_og][version] = "2.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[elysia_cron][subdir] = "contrib"
+projects[elysia_cron][version] = "2.1"
+
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.6"
 
