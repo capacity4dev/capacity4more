@@ -845,9 +845,9 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 17,
     ),
   );
@@ -907,9 +907,9 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'options',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 15,
     ),
   );
@@ -969,9 +969,9 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 0,
-      'module' => 'options',
+      'module' => 'c4m_vocab_widget',
       'settings' => array(),
-      'type' => 'options_buttons',
+      'type' => 'c4m_taxonomy_reference',
       'weight' => 16,
     ),
   );
