@@ -19,6 +19,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
   public $csvColumns = array(
     array('id', 'ID'),
     array('title', 'Title'),
+    array('event_type', 'Type'),
     array('field_date', 'Date'),
     array('organizer', 'Organizer'),
     array('event_website', 'Event website'),
@@ -46,6 +47,8 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     parent::__construct();
 
     $this->addFieldMapping('c4m_body', 'body');
+
+    $this->addFieldMapping('c4m_event_type', 'event_type');
 
     $this->addFieldMapping('field_date', 'field_date');
 

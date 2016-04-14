@@ -17,6 +17,31 @@ function c4m_content_photo_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_image_default_styles().
+ */
+function c4m_content_photo_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: fullwidth.
+  $styles['fullwidth'] = array(
+    'label' => 'Fullwidth (960px)',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 960,
+          'height' => '',
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
  * Implements hook_node_info().
  */
 function c4m_content_photo_node_info() {

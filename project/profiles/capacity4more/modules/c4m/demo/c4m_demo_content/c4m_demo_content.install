@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the C4M Demo content module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_demo_content_install() {
+  c4m_demo_content_update_7001();
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function c4m_demo_content_update_7001(&$sandbox) {
+  $path = __DIR__ . '/files/learning-banner2.jpg';
+  $filename = 'learning-banner2.jpg';
+
+  $file_temp = file_get_contents($path);
+
+  $dir = 'public://learning_space/';
+  file_prepare_directory($dir, FILE_CREATE_DIRECTORY);
+
+  $file_temp = file_save_data(
+    $file_temp,
+    $dir . $filename,
+    FILE_EXISTS_OVERWRITE
+  );
+
+  variable_set('learning_image', $file_temp->fid);
+  variable_set(
+    'learning_intro',
+    array(
+      'value' => '<h3>Welcome to the Learning Space!</h3><p>EuropeAid offers on Capacity4dev, a wide variety of learning content (Learning material, e-Learning, discussion groups…). The aim of these courses is to provide expertise through training and dialogue on key areas of international development.</p><p style="margin-bottom: 10px; text-align: justify;">On this page you will find course material from EuropeAid training courses as well as background information, documents and useful links. You can also find links to further learning possibilities on specific fields in the different existing groups.</p>',
+      'format' => 'filtered_html',
+    )
+  );
+}

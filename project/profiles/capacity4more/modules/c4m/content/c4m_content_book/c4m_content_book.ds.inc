@@ -32,11 +32,6 @@ function c4m_content_book_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'book';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
-    'title' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'comments' => array(
       'weight' => '2',
       'label' => 'hidden',
@@ -95,13 +90,11 @@ function c4m_content_book_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'title',
-        1 => 'c4m_body',
-        2 => 'comments',
+        0 => 'c4m_body',
+        1 => 'comments',
       ),
     ),
     'fields' => array(
-      'title' => 'ds_content',
       'c4m_body' => 'ds_content',
       'comments' => 'ds_content',
     ),
