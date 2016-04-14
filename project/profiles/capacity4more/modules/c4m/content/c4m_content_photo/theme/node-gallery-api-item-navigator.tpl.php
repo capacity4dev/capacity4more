@@ -22,10 +22,12 @@
   </div>
   <div class="col-xs-4 text-center">
     <?php if ($gallery_link): ?>
-      <?php print l(t("Back to gallery"), $gallery_link) ?>
+      <div class="back-link">
+        <?php print l(t("Back to gallery"), $gallery_link) ?>
+      </div>
     <?php endif; ?>
     <?php if ($navigator['total'] > 0): ?>
-      <br/>
+      <div class="indicator label label-primary">
       <?php print t(
         "Photo %current of %total",
         array(
@@ -34,6 +36,7 @@
         )
       );
       ?>
+      </div>
     <?php endif; ?>
   </div>
   <div class="col-xs-4 text-left">
