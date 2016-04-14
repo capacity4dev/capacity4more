@@ -459,22 +459,26 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->entity_type = 'comment';
   $ds_layout->bundle = 'comment_node_document';
   $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'ds_reset';
+  $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'comment_body',
+        0 => 'c4m_field_og_group',
+        1 => 'comment_body',
       ),
     ),
     'fields' => array(
+      'c4m_field_og_group' => 'ds_content',
       'comment_body' => 'ds_content',
     ),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
-    'layout_attributes_merge' => TRUE,
-    'layout_link_attribute' => FALSE,
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
   );
