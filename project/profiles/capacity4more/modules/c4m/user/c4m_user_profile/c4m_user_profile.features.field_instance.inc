@@ -155,7 +155,7 @@ function c4m_user_profile_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 11,
+      'weight' => 8,
     ),
   );
 
@@ -401,7 +401,7 @@ function c4m_user_profile_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 18,
+      'weight' => 10,
     ),
   );
 
@@ -485,7 +485,7 @@ function c4m_user_profile_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 19,
+      'weight' => 11,
     ),
   );
 
@@ -728,7 +728,7 @@ function c4m_user_profile_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 9,
+      'weight' => 13,
     ),
   );
 
@@ -801,7 +801,7 @@ function c4m_user_profile_field_default_field_instances() {
     'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'c4m_organisation',
-    'label' => 'Organisation name',
+    'label' => 'Organisation',
     'required' => 1,
     'settings' => array(
       'better_formats' => array(
@@ -844,7 +844,7 @@ function c4m_user_profile_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 6,
+      'weight' => 5,
     ),
   );
 
@@ -956,7 +956,7 @@ function c4m_user_profile_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -1034,7 +1034,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 17,
+      'weight' => 12,
     ),
   );
 
@@ -1108,14 +1108,14 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Topics of Interest',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 0,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 15,
+      'weight' => 11,
     ),
   );
 
@@ -1189,14 +1189,14 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Topics of Expertise',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 0,
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 16,
+      'weight' => 10,
     ),
   );
 
@@ -1210,7 +1210,7 @@ function c4m_user_profile_field_default_field_instances() {
   t('Is spammer');
   t('Job title');
   t('Last Name');
-  t('Organisation name');
+  t('Organisation');
   t('Organisation type');
   t('Picture');
   t('Regions & Countries');
