@@ -14,7 +14,7 @@ function c4m_demo_content_install() {
 /**
  * Implements hook_update_N().
  */
-function c4m_demo_content_update_7001(&$sandbox) {
+function c4m_demo_content_update_7001() {
   $path = __DIR__ . '/files/learning-banner2.jpg';
   $filename = 'learning-banner2.jpg';
 
