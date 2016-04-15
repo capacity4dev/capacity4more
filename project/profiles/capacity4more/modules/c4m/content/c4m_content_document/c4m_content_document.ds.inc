@@ -12,6 +12,25 @@ function c4m_content_document_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_document|activity_global';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_document';
+  $ds_fieldsetting->view_mode = 'activity_global';
+  $ds_fieldsetting->settings = array(
+    'c4m_field_og_group' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['comment|comment_node_document|activity_global'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|document|activity_global';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'document';
