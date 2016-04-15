@@ -44,9 +44,11 @@ abstract class C4mDemoContentCreateEntity extends Migration {
 
     // Make sure we can use it for node and term only.
     if (!$this->isEntityTypeSupported($this->entityType)) {
-      throw new Exception(format_string(
-        'C4mDemoContentCreateEntity does not support @type',
-        array('@type' => $this->entityType))
+      throw new Exception(
+        format_string(
+          'C4mDemoContentCreateEntity does not support @type',
+          array('@type' => $this->entityType)
+        )
       );
     }
 
@@ -389,26 +391,33 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       $settings = $field['settings'];
     }
 
-    $settings['display_settings'] = getlocations_fields_get_display_settings($instance['display']['default']['settings']);
+    $settings['display_settings'] = getlocations_fields_get_display_settings(
+      $instance['display']['default']['settings']
+    );
 
     $locations = array(
       array(
-        'name'        => $location[0] ? $location[0] : '',
-        'street'      => $location[1] ? $location[1] : '',
-        'additional'  => $location[2] ? $location[2] : '',
-        'city'        => $location[3] ? $location[3] : '',
-        'province'    => $location[4] ? $location[4] : '',
+        'name' => $location[0] ? $location[0] : '',
+        'street' => $location[1] ? $location[1] : '',
+        'additional' => $location[2] ? $location[2] : '',
+        'city' => $location[3] ? $location[3] : '',
+        'province' => $location[4] ? $location[4] : '',
         'postal_code' => $location[5] ? $location[5] : '',
-        'country'     => $location[6] ? $location[6] : '',
-        'address'     => $location[7] ? $location[7] : '',
-        'latitude'    => $location[8] ? $location[8] : '',
-        'longitude'   => $location[9] ? $location[9] : '',
-        'marker'      => $location[10] ? $location[10] : '',
-        'data'        => $location[11] ? $location[11] : '',
+        'country' => $location[6] ? $location[6] : '',
+        'address' => $location[7] ? $location[7] : '',
+        'latitude' => $location[8] ? $location[8] : '',
+        'longitude' => $location[9] ? $location[9] : '',
+        'marker' => $location[10] ? $location[10] : '',
+        'data' => $location[11] ? $location[11] : '',
       ),
     );
 
-    $items = getlocations_fields_save_locations($locations, $criteria, $settings, 'insert');
+    $items = getlocations_fields_save_locations(
+      $locations,
+      $criteria,
+      $settings,
+      'insert'
+    );
 
     if (is_array($items)) {
       $entity->c4m_location[LANGUAGE_NONE][0] = $items[0];
@@ -418,6 +427,38 @@ abstract class C4mDemoContentCreateEntity extends Migration {
       return TRUE;
     }
     return FALSE;
+  }
+
+  /**
+   * Helper method to turn a CSV address into a getlocation field.
+   *
+   * Will explode the CSV semi-colon separated address field and fill
+   * all properties of the getlocation field. It is important that all 11
+   * indices are present in the source file (even if empty).
+   *
+   * @param object $row
+   *   The source row we are processing.
+   *
+   * @return array
+   *   Parts of the address.
+   */
+  public function explodeAddress($row) {
+    $location = explode(';', $row->location);
+    if (count($location) <= 1) {
+      return FALSE;
+    }
+
+    $location_array = array(
+      'name' => $location[0] ? $location[0] : '',
+      'street' => $location[1] ? $location[1] : '',
+      'additional' => $location[2] ? $location[2] : '',
+      'city' => $location[3] ? $location[3] : '',
+      'province' => $location[4] ? $location[4] : '',
+      'postal_code' => $location[5] ? $location[5] : '',
+      'country' => $location[6] ? $location[6] : '',
+    );
+
+    return $location_array;
   }
 
   /**
@@ -496,7 +537,10 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     $all_tids = array();
     foreach ($tids as $tid) {
       $parents = taxonomy_get_parents_all($tid);
-      $parent_tids = array_map(create_function('$term', 'return $term->tid;'), $parents);
+      $parent_tids = array_map(
+        create_function('$term', 'return $term->tid;'),
+        $parents
+      );
       // $tid is included in $parent_tids array.
       $all_tids = array_merge($all_tids, $parent_tids);
     }
