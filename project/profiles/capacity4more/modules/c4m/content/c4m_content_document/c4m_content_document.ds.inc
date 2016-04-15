@@ -12,6 +12,25 @@ function c4m_content_document_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_document|activity_global';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_document';
+  $ds_fieldsetting->view_mode = 'activity_global';
+  $ds_fieldsetting->settings = array(
+    'c4m_field_og_group' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['comment|comment_node_document|activity_global'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|document|activity_global';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'document';
@@ -155,7 +174,7 @@ function c4m_content_document_ds_field_settings_info() {
       'format' => 'linked_thumbnail',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '11',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -165,7 +184,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '12',
+      'weight' => '11',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -459,22 +478,26 @@ function c4m_content_document_ds_layout_settings_info() {
   $ds_layout->entity_type = 'comment';
   $ds_layout->bundle = 'comment_node_document';
   $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'ds_reset';
+  $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'comment_body',
+        0 => 'c4m_field_og_group',
+        1 => 'comment_body',
       ),
     ),
     'fields' => array(
+      'c4m_field_og_group' => 'ds_content',
       'comment_body' => 'ds_content',
     ),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
-    'layout_attributes_merge' => TRUE,
-    'layout_link_attribute' => FALSE,
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
   );
@@ -660,11 +683,11 @@ function c4m_content_document_ds_layout_settings_info() {
       'right' => array(
         0 => 'c4m_vocab_topic',
         3 => 'c4m_vocab_document_type',
-        6 => 'og_vocabulary',
-        8 => 'c4m_vocab_date',
+        4 => 'c4m_vocab_geo',
+        7 => 'c4m_vocab_date',
         9 => 'c4m_vocab_language',
-        11 => 'group_node_meta',
-        12 => 'c4m_vocab_geo',
+        11 => 'og_vocabulary',
+        12 => 'group_node_meta',
         13 => 'group_node_actions',
         14 => 'group_node_details',
         15 => 'c4m_ds_type_posted_by',
@@ -676,9 +699,9 @@ function c4m_content_document_ds_layout_settings_info() {
       'left' => array(
         1 => 'title',
         2 => 'c4m_ds_content_footer_stats',
-        4 => 'c4m_body',
-        5 => 'c4m_content_document_icon',
-        7 => 'c4m_document',
+        5 => 'c4m_body',
+        6 => 'c4m_content_document_icon',
+        8 => 'c4m_document',
         10 => 'comments',
       ),
     ),
@@ -687,15 +710,15 @@ function c4m_content_document_ds_layout_settings_info() {
       'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
       'c4m_vocab_document_type' => 'right',
+      'c4m_vocab_geo' => 'right',
       'c4m_body' => 'left',
       'c4m_content_document_icon' => 'left',
-      'og_vocabulary' => 'right',
-      'c4m_document' => 'left',
       'c4m_vocab_date' => 'right',
+      'c4m_document' => 'left',
       'c4m_vocab_language' => 'right',
       'comments' => 'left',
+      'og_vocabulary' => 'right',
       'group_node_meta' => 'right',
-      'c4m_vocab_geo' => 'right',
       'group_node_actions' => 'right',
       'group_node_details' => 'right',
       'c4m_ds_type_posted_by' => 'right',

@@ -265,6 +265,7 @@ function c4m_content_topic_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Related Groups';
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Show all';
   $handler->display->display_options['link_display'] = 'custom_url';

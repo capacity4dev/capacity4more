@@ -49,4 +49,16 @@ class C4mDemoContentCreatePhotoComments extends C4mDemoContentCreateComments {
     return TRUE;
   }
 
+  /**
+   * The entity has been created but not yet saved.
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
+   */
+  public function prepare($entity, $row) {
+    $entity->_skip_message = TRUE;
+  }
+
 }
