@@ -7,7 +7,7 @@
 <div ng-show="data.field_info.<?php print $vocabulary_machine_name ?>.description">
   {{data.field_info.<?php print $vocabulary_machine_name ?>.description}}
 </div>
-<div class="form-group btn-group <?php print $vocabulary_machine_name; ?>">
+<div class="form-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>
       <button name="<?php print $vocabulary_machine_name ?>" type="button" ng-click="togglePopover('<?php print $vocabulary_machine_name; ?>', $event)" class="btn btn-primary fa fa-plus">&nbsp;<?php print t('Select @name', array('@name' => $vocabulary_label)); ?></button>
