@@ -172,6 +172,7 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact_info']['contact'] = array(
     '#type' => 'checkbox',
@@ -186,15 +187,18 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['mail']['#weight'] = -100;
   unset($form['account']['mail']);
 
+  // Add Cancel button.
   $form['actions']['cancel'] = array(
     '#type' => 'markup',
     '#markup' => l(t('Cancel'), '<front>', array('attributes' => array('class' => array('btn', 'btn-default')))),
   );
 
+  // Adjust legal information.
   $form['legal'] = $form['legal']['legal_accept'];
   $form['legal']['#type'] = 'markup';
   $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 
+  // Adjust validators. Remove default one and replace it with a custom one.
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
