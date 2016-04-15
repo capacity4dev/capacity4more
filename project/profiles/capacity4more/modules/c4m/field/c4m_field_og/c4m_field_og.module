@@ -12,8 +12,7 @@ function c4m_field_og_ds_fields_info($entity_type) {
 
   $path = drupal_get_path('module', 'c4m_field_og');
 
-  // A field to indicate the group a group node belongs to.
-  $fields['node']['c4m_field_og_group'] = array(
+  $c4m_field_og_group = array(
     'title'      => t('Group'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit'   => array('*|*'),
@@ -34,6 +33,12 @@ function c4m_field_og_ds_fields_info($entity_type) {
       ),
     ),
   );
+
+  // A field to indicate the group a group node belongs to.
+  $fields['node']['c4m_field_og_group'] = $c4m_field_og_group;
+
+  // A field to indicate the group a group comment belongs to.
+  $fields['comment']['c4m_field_og_group'] = $c4m_field_og_group;
 
   return $fields;
 }

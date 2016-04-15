@@ -26,6 +26,7 @@ dependencies[] = text
 features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1
+features[ds_field_settings][] = comment|comment_node_wiki_page|activity_global
 features[ds_field_settings][] = node|wiki_page|activity_global
 features[ds_field_settings][] = node|wiki_page|activity_group
 features[ds_field_settings][] = node|wiki_page|block_list

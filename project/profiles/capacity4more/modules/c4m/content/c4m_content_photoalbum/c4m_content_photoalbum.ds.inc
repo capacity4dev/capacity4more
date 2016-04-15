@@ -12,6 +12,25 @@ function c4m_content_photoalbum_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'comment|comment_node_photoalbum|activity_global';
+  $ds_fieldsetting->entity_type = 'comment';
+  $ds_fieldsetting->bundle = 'comment_node_photoalbum';
+  $ds_fieldsetting->view_mode = 'activity_global';
+  $ds_fieldsetting->settings = array(
+    'c4m_field_og_group' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
+    ),
+  );
+  $export['comment|comment_node_photoalbum|activity_global'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'comment|comment_node_photoalbum|default';
   $ds_fieldsetting->entity_type = 'comment';
   $ds_fieldsetting->bundle = 'comment_node_photoalbum';
@@ -210,14 +229,16 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'comment';
   $ds_layout->bundle = 'comment_node_photoalbum';
   $ds_layout->view_mode = 'activity_global';
-  $ds_layout->layout = 'ds_reset';
+  $ds_layout->layout = 'ds_1col';
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'comment_body',
+        0 => 'c4m_field_og_group',
+        1 => 'comment_body',
       ),
     ),
     'fields' => array(
+      'c4m_field_og_group' => 'ds_content',
       'comment_body' => 'ds_content',
     ),
     'classes' => array(),
@@ -226,8 +247,8 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
-    'layout_attributes_merge' => TRUE,
-    'layout_link_attribute' => FALSE,
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
   );
