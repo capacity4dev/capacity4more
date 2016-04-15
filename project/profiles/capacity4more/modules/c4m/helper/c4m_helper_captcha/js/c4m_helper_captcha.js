@@ -21,7 +21,7 @@
             event.preventDefault();
           }
           else {
-            $captcha_error.addClass('hidden').prev().addClass('has-error');
+            $captcha_error.addClass('hidden').prev().removeClass('has-error');
           }
         });
       }
