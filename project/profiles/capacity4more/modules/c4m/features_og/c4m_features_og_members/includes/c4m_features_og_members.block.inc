@@ -15,7 +15,7 @@
 function _c4m_features_og_members_block_view_alter(&$data, $block) {
   $info = array(
     'Facet API: Search service: Search Users : OG membership type' => 'Group membership type',
-    'Facet API: Search service: Search Users : Type of Organisation' => 'Type of Organisation',
+    'Facet API: Search service: Search Users : Organisation type' => 'Organisation type',
     'Facet API: Search service: Search Users : Organisation' => 'Organisation',
     'Facet API: Search service: Search Users : Topics of Expertise' => 'Specialist in one of these topics',
     'Facet API: Search service: Search Users : Based in' => 'Country of residence',
