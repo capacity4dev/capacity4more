@@ -21,7 +21,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Documents',
-    'weight' => '9',
+    'weight' => '10',
     'children' => array(
       0 => 'c4m_document_agenda',
       1 => 'c4m_document_presentation',
@@ -50,7 +50,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '13',
+    'weight' => '12',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_language',
@@ -81,7 +81,7 @@ function c4m_content_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Groups',
-    'weight' => '14',
+    'weight' => '13',
     'children' => array(
       0 => 'og_group_ref',
     ),
@@ -169,8 +169,9 @@ function c4m_content_event_field_group_info() {
     'weight' => '9',
     'children' => array(
       0 => 'c4m_location',
-      1 => 'c4m_field_location_city_country',
-      2 => 'c4m_content_event_link_to_gmap',
+      1 => 'field_location_map',
+      2 => 'c4m_field_location_city_country',
+      3 => 'c4m_content_event_link_to_osm',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

@@ -161,9 +161,12 @@ function c4m_content_event_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '10',
+          'weight' => '11',
         ),
         'locations' => array(
+          'weight' => '14',
+        ),
+        'redirect' => array(
           'weight' => '15',
         ),
       ),
