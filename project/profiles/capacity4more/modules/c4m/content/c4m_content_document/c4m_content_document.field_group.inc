@@ -112,7 +112,9 @@ function c4m_content_document_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'c4m_user_picture',
-      1 => 'c4m_ds_type_posted_by',
+      1 => 'c4m_user_first_and_last_name',
+      2 => 'c4m_ds_creation_date',
+      3 => 'c4m_ds_type_posted_by',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
