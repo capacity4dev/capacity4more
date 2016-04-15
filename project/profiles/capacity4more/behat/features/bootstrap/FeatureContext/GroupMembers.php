@@ -45,7 +45,7 @@ trait GroupMembers {
     $steps[] = new Step\When('I should see the sidebar facet with title "Group membership type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Organisation type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics of Expertise"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "Country of residence"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Country"');
 
     return $steps;
   }
@@ -62,7 +62,7 @@ trait GroupMembers {
     $steps[] = new Step\When('I should see the sidebar facet with title "Group membership type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Organisation type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics of Expertise"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "Country of residence"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Country"');
 
     return $steps;
   }
