@@ -96,8 +96,8 @@ function c4m_content_wiki_page_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Do more through capacity4dev');
   t('Details');
+  t('Do more through capacity4dev');
   t('Group pages');
 
   return $field_groups;

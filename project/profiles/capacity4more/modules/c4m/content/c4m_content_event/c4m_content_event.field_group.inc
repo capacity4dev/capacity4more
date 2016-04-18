@@ -269,8 +269,8 @@ function c4m_content_event_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Do more through capacity4dev');
   t('Details');
+  t('Do more through capacity4dev');
   t('Documents');
   t('Groups');
   t('Location');
