@@ -68,7 +68,10 @@
 
     .date {
       color: $color-gray-dark;
+      display: table-cell;
+      height: 40px;
       line-height: 1.1;
+      vertical-align: middle
     }
 
     .field-name-c4m-body {
