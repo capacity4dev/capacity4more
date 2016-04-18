@@ -16,14 +16,16 @@ print $layout_attributes; ?> class="<?php print $classes; ?>">
 <?php print $header; ?>
 </<?php print $header_wrapper; ?>>
 
-<div class="icon-wrapper clearfix">
-  <<?php print $left_wrapper; ?> class="icon-col <?php print $left_classes; ?>">
-    <?php print $left; ?>
-  </<?php print $left_wrapper; ?>>
+<div class="content clearfix">
+  <div class="icon-wrapper clearfix">
+    <<?php print $left_wrapper; ?> class="icon-col <?php print $left_classes; ?>">
+      <?php print $left; ?>
+    </<?php print $left_wrapper; ?>>
 
-  <<?php print $right_wrapper; ?> class="content-col <?php print $right_classes; ?>">
-    <?php print $right; ?>
-  </<?php print $right_wrapper; ?>>
+    <<?php print $right_wrapper; ?> class="content-col <?php print $right_classes; ?>">
+      <?php print $right; ?>
+    </<?php print $right_wrapper; ?>>
+  </div>
 </div>
 
 
