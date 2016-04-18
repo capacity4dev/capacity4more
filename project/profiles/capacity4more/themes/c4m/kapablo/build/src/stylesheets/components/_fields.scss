@@ -176,3 +176,15 @@
     margin-bottom: 1em;
   }
 }
+
+.term-tree-list {
+  .selected {
+    font-weight: normal;
+  }
+
+  .term {
+    .term {
+      margin-left: 1em;
+    }
+  }
+}

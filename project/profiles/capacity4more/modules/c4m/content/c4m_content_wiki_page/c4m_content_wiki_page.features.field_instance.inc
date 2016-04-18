@@ -417,9 +417,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
         'weight' => 2,
       ),
       'inthe_picture_block' => array(
@@ -514,9 +517,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
         'weight' => 4,
       ),
       'inthe_picture_block' => array(
@@ -612,9 +618,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
         'weight' => 3,
       ),
       'inthe_picture_block' => array(
@@ -708,14 +717,12 @@ function c4m_content_wiki_page_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
+        'module' => 'term_reference_tree',
         'settings' => array(
-          'display' => 'all',
-          'link' => '',
-          'separator' => ' » ',
-          'wrap' => 'none',
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
         ),
-        'type' => 'term_reference_tree_children_expanded',
+        'type' => 'term_reference_tree',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(

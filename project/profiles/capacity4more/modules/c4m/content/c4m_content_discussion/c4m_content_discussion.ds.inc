@@ -208,16 +208,8 @@ function c4m_content_discussion_ds_field_settings_info() {
     ),
     'c4m_ds_content_actions' => array(
       'weight' => '9',
-      'label' => 'above',
+      'label' => 'hidden',
       'format' => 'default',
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb' => 'Share this page',
-          'lb-el' => 'h3',
-          'lb-col' => TRUE,
-        ),
-      ),
     ),
     'c4m_discussion_type' => array(
       'formatter_settings' => array(
@@ -616,11 +608,11 @@ function c4m_content_discussion_ds_layout_settings_info() {
     'regions' => array(
       'right' => array(
         0 => 'c4m_ds_type_posted_by',
-        1 => 'c4m_vocab_topic',
+        2 => 'c4m_vocab_topic',
         3 => 'c4m_user_picture',
-        4 => 'c4m_vocab_date',
-        7 => 'c4m_vocab_language',
-        8 => 'group_meta_author',
+        5 => 'c4m_vocab_date',
+        7 => 'group_meta_author',
+        8 => 'c4m_vocab_language',
         9 => 'c4m_vocab_geo',
         11 => 'og_vocabulary',
         15 => 'group_node_meta',
@@ -631,8 +623,8 @@ function c4m_content_discussion_ds_layout_settings_info() {
         20 => 'c4m_ds_creation_date',
       ),
       'left' => array(
-        2 => 'c4m_discussion_type',
-        5 => 'c4m_ds_content_status',
+        1 => 'c4m_discussion_type',
+        4 => 'c4m_ds_content_status',
         6 => 'title',
         10 => 'c4m_ds_content_footer_stats',
         12 => 'c4m_body',
@@ -642,14 +634,14 @@ function c4m_content_discussion_ds_layout_settings_info() {
     ),
     'fields' => array(
       'c4m_ds_type_posted_by' => 'right',
-      'c4m_vocab_topic' => 'right',
       'c4m_discussion_type' => 'left',
+      'c4m_vocab_topic' => 'right',
       'c4m_user_picture' => 'right',
-      'c4m_vocab_date' => 'right',
       'c4m_ds_content_status' => 'left',
+      'c4m_vocab_date' => 'right',
       'title' => 'left',
-      'c4m_vocab_language' => 'right',
       'group_meta_author' => 'right',
+      'c4m_vocab_language' => 'right',
       'c4m_vocab_geo' => 'right',
       'c4m_ds_content_footer_stats' => 'left',
       'og_vocabulary' => 'right',
