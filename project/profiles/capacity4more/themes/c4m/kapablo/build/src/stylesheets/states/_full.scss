@@ -59,4 +59,33 @@
       @include image-overlay-bottom();
     }
   }
+
+  &.node-event {
+    .field-name-c4m-ds-event-start-icon {
+      float: left;
+      text-align: center;
+      width: 50px;
+    }
+
+    .date {
+      color: $color-gray-dark;
+      line-height: 1.1;
+    }
+
+    .field-name-c4m-body {
+      margin-top: 2em;
+    }
+
+    .node {
+      .field-name-c4m-body {
+        margin-top: 0;
+      }
+    }
+  }
+  
+  .view-mode-teaser {
+    .field-name-c4m-ds-content-footer-stats {
+      display: none;
+    }
+  }
 }

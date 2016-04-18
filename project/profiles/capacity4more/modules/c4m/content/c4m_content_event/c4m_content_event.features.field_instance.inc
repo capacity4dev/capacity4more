@@ -233,7 +233,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -385,7 +385,7 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'date',
         'settings' => array(
           'format_type' => 'c4m_long_with_time',
@@ -396,7 +396,7 @@ function c4m_content_event_field_default_field_instances() {
           'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -756,10 +756,11 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 27,
+        'type' => 'list_default',
+        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1085,7 +1086,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1668,7 +1669,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 17,
+        'weight' => 1,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1771,7 +1772,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 16,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1873,7 +1874,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'c4m_content_topic',
         'settings' => array(
           'display' => 'all',
-          'link' => '',
+          'link' => 0,
           'separator' => ' » ',
           'wrap' => 'none',
         ),
@@ -1982,7 +1983,7 @@ function c4m_content_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 29,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -2117,13 +2118,13 @@ function c4m_content_event_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'og_vocab',
         'settings' => array(
           'concatenate' => 0,
         ),
         'type' => 'og_vocab',
-        'weight' => 15,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
