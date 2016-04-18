@@ -50,14 +50,14 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->mode = 'full';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Actions',
+    'label' => 'Do more through capacity4dev',
     'weight' => '2',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Actions',
+      'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
         'classes' => 'group-node-actions field-group-fieldset',
         'description' => '',
@@ -96,8 +96,8 @@ function c4m_content_wiki_page_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Actions');
   t('Details');
+  t('Do more through capacity4dev');
   t('Group pages');
 
   return $field_groups;

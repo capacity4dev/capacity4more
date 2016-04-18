@@ -158,3 +158,33 @@
     margin-bottom: 1rem;
   }
 }
+
+.group-node-organiser {
+  .c4m-social-media-item {
+    margin-bottom: 0.25em;
+    margin-right: 0.75em;
+    padding: 0;
+
+    i {
+      margin-right: 0.35em;
+    }
+  }
+}
+
+.group-node-documents {
+  .node {
+    margin-bottom: 1em;
+  }
+}
+
+.term-tree-list {
+  .selected {
+    font-weight: normal;
+  }
+
+  .term {
+    .term {
+      margin-left: 1em;
+    }
+  }
+}

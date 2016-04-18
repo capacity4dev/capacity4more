@@ -53,14 +53,14 @@ function c4m_content_discussion_field_group_info() {
   $field_group->mode = 'full';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Actions',
-    'weight' => '7',
+    'label' => 'Do more through capacity4dev',
+    'weight' => '8',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
-      'label' => 'Actions',
+      'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
         'id' => '',
         'classes' => 'group-node-actions field-group-html5',
@@ -81,7 +81,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_vocab_date',
       1 => 'c4m_vocab_geo',
@@ -112,7 +112,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group meta',
-    'weight' => '6',
+    'weight' => '7',
     'children' => array(
       0 => 'c4m_user_picture',
       1 => 'c4m_ds_type_posted_by',
@@ -132,8 +132,8 @@ function c4m_content_discussion_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Actions');
   t('Details');
+  t('Do more through capacity4dev');
   t('Group meta');
   t('Group meta author');
 
