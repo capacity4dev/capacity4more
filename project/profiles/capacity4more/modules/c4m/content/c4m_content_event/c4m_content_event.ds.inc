@@ -250,9 +250,10 @@ function c4m_content_event_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'prefix' => '<i class="fa fa-facebook"></i>',
           'ow' => TRUE,
           'ow-el' => 'div',
-          'ow-cl' => 'facebook-page',
+          'ow-cl' => 'c4m-social-media-item',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
@@ -285,9 +286,10 @@ function c4m_content_event_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'prefix' => '<i class="fa fa-twitter"></i>',
           'ow' => TRUE,
           'ow-el' => 'div',
-          'ow-cl' => 'twitter-page',
+          'ow-cl' => 'c4m-social-media-item',
           'ow-def-cl' => FALSE,
           'ow-at' => '',
           'ow-def-at' => FALSE,
