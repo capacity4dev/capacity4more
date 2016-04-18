@@ -20,6 +20,10 @@
           margin: 0;
         }
       }
+
+      .item-list + .item-list {
+        margin-top: 20px;
+      }
     }
   }
 
