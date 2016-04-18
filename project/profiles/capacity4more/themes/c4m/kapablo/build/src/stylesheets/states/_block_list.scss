@@ -1,4 +1,16 @@
 .view-mode-block_list {
+  .label {
+    font-size: 0.7em;
+  }
+
+  .field-name-c4m-field-og-group {
+    @extend .text-copy--muted;
+
+    a {
+      @extend .text-copy--muted;
+    }
+  }
+
   .content {
     border-bottom: 1px dashed $color-gray-light;
     margin: 0 0 1rem 0;
