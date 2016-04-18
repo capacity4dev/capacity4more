@@ -30,27 +30,40 @@ function theme_c4m_field_location_city_country(array $field) {
   $country = !empty($location['country']) ? $location['country'] : '';
 
   if (module_exists('countries')) {
-    $countries = countries_get_countries('name', array('enabled' => COUNTRIES_ENABLED));
+    $countries = countries_get_countries(
+      'name',
+      array('enabled' => COUNTRIES_ENABLED)
+    );
   }
   else {
     require_once DRUPAL_ROOT . '/includes/locale.inc';
     $countries = country_get_list();
   }
 
-  $country = array_key_exists($country, $countries) ? $countries[$country] : $country;
+  $country = array_key_exists(
+    $country,
+    $countries
+  ) ? $countries[$country] : $country;
+
+  if (empty($name) && empty($city) && empty($country)) {
+    return;
+  }
+
+  $element_value = format_string(
+    $field['formatter'],
+    array(
+      '@name' => $name,
+      '@city' => $city,
+      '@country' => $country,
+    )
+  );
 
   $tag['element'] = array(
-    '#tag'   => 'span',
+    '#tag' => 'div',
     '#attributes' => array(
-      'class' => 'c4m-location',
+      'class' => 'event-location',
     ),
-    '#value' => format_string($field['formatter'],
-      array(
-        '@name' => $name,
-        '@city' => $city,
-        '@country' => $country,
-      )
-    ),
+    '#value' => $element_value,
   );
 
   return theme_html_tag($tag);

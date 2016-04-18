@@ -32,13 +32,22 @@
       width: 60px;
     }
 
-    .icon-col {
-      float: left;
-      width: 75px;
-    }
-
     .content-col {
       margin-left: 75px;
+    }
+  }
+
+  &.node-event {
+    .icon-wrapper {
+      margin-top: 1em;
+
+      .fa {
+        color: $color-gray-dark;
+      }
+    }
+
+    .date-display-range {
+      display: inline-block;
     }
   }
 }

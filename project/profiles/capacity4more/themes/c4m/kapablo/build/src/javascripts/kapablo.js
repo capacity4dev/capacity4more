@@ -138,14 +138,16 @@
 
     Drupal.behaviors.initDropdowns = {
         attach: function (context, settings) {
-            $('.dropdown-toggle').dropdown()
+            $('.dropdown-toggle').dropdown();
         }
   };
 
     Drupal.behaviors.fixLeafletMaps = {
         attach: function (context, settings) {
             setTimeout(function () {
-                settings.leaflet[0].lMap.invalidateSize(false)
+              if (typeof settings.leaflet != 'undefined' && settings.leaflet instanceof Array) {
+                  settings.leaflet[0].lMap.invalidateSize(false);
+              }
             }, 100);
         }
   }
