@@ -69,7 +69,6 @@ features[field_group][] = group_documents|node|event|full
 features[field_group][] = group_location|node|event|full
 features[field_group][] = group_node_actions|node|event|full
 features[field_group][] = group_organiser|node|event|full
-features[field_instance][] = comment-comment_node_event-c4m_related_document
 features[field_instance][] = comment-comment_node_event-comment_body
 features[field_instance][] = node-event-c4m_body
 features[field_instance][] = node-event-c4m_datetime_end

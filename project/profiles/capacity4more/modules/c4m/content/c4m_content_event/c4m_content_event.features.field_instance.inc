@@ -10,65 +10,6 @@
 function c4m_content_event_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_event-c4m_related_document'.
-  $field_instances['comment-comment_node_event-c4m_related_document'] = array(
-    'bundle' => 'comment_node_event',
-    'default_value' => NULL,
-    'default_value_function' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 1,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 1,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'comment',
-    'field_name' => 'c4m_related_document',
-    'label' => 'Documents',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'prepopulate' => array(
-          'status' => 0,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'c4m_document_widget',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
-      ),
-      'type' => 'c4m_add_document',
-      'weight' => 2,
-    ),
-  );
-
   // Exported field_instance: 'comment-comment_node_event-comment_body'.
   $field_instances['comment-comment_node_event-comment_body'] = array(
     'bundle' => 'comment_node_event',
@@ -2184,7 +2125,6 @@ function c4m_content_event_field_default_field_instances() {
   t('Comment');
   t('Date');
   t('Description');
-  t('Documents');
   t('Enter the address here. Note: we are using http://nominatim.openstreetmap.org to translate the address into coordinates to show on a map. If no map shows, please verify the address is correct/complete and known by nominatim.');
   t('Event website');
   t('Facebook page');
