@@ -514,16 +514,16 @@ function c4m_content_event_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'c4m_related_document',
-        1 => 'comment_body',
+        0 => 'comment_body',
       ),
     ),
     'fields' => array(
-      'c4m_related_document' => 'ds_content',
       'comment_body' => 'ds_content',
     ),
     'classes' => array(),
-    'wrappers' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
     'layout_attributes_merge' => TRUE,
