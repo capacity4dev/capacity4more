@@ -210,14 +210,14 @@ function c4m_content_event_field_group_info() {
   $field_group->mode = 'full';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Actions',
+    'label' => 'Do more through capacity4dev',
     'weight' => '9',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'Actions',
+      'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
         'id' => '',
         'classes' => 'group-node-actions field-group-fieldset',
@@ -269,7 +269,7 @@ function c4m_content_event_field_group_info() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Actions');
+  t('Do more through capacity4dev');
   t('Details');
   t('Documents');
   t('Groups');
