@@ -406,8 +406,6 @@ function c4m_content_event_ds_field_settings_info() {
     'og_vocabulary' => array(
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_expert',
-          'lb-el' => 'h3',
           'lb-col' => TRUE,
         ),
       ),
