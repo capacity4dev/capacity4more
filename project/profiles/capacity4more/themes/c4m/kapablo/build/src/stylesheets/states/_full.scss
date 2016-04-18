@@ -1,26 +1,10 @@
 .view-mode-full {
-  &.node-discussion {
-    .label {
-      line-height: .92857rem;
-    }
-  }
-
-  &.node-discussion, &.node-document {
-    .field-name-title {
-      display: inline;
-
-      h2 {
-        margin: 0;
-      }
-    }
-  }
-
   .field-name-c4m-body {
     margin-top: 1em;
   }
 
   .group-right {
-    section {
+    > section, > div {
       margin-bottom: 2em;
     }
   }
@@ -39,6 +23,21 @@
     }
   }
 
+  &.node-discussion {
+    .label {
+      line-height: .92857rem;
+    }
+  }
+
+  &.node-discussion, &.node-document {
+    .field-name-title {
+      display: inline;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
 
   &.node-document {
     .node-icon {

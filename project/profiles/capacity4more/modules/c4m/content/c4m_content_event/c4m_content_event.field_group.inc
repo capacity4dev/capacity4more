@@ -123,7 +123,7 @@ function c4m_content_event_field_group_info() {
         'id' => '',
         'classes' => 'group-node-details field-group-fieldset',
         'description' => '',
-        'show_label' => '1',
+        'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
