@@ -168,7 +168,7 @@ function c4m_content_discussion_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -420,7 +420,7 @@ function c4m_content_discussion_field_default_field_instances() {
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

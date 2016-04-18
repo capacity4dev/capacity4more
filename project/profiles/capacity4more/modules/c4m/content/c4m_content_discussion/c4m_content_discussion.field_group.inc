@@ -54,7 +54,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Do more through capacity4dev',
-    'weight' => '7',
+    'weight' => '8',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
@@ -81,7 +81,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '8',
+    'weight' => '9',
     'children' => array(
       0 => 'c4m_vocab_date',
       1 => 'c4m_vocab_geo',
@@ -112,7 +112,7 @@ function c4m_content_discussion_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group meta',
-    'weight' => '6',
+    'weight' => '7',
     'children' => array(
       0 => 'c4m_user_picture',
       1 => 'c4m_ds_type_posted_by',

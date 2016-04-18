@@ -39,7 +39,14 @@
     }
   }
 
+  &.node-document, &.node-wiki-page {
+    .label-default.pull-right {
+      margin-top: 20px;
+    }
+  }
+
   &.node-document {
+
     .node-icon {
       height: 60px;
       width: 60px;
