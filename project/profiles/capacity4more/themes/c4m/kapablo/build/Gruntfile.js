@@ -261,4 +261,9 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
         'build'
     ]);
+
+  grunt.registerTask('dev-watch', [
+        'dev',
+        'watch'
+    ]);
 }

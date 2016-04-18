@@ -162,6 +162,23 @@ function kapablo_preprocess_field(&$variables, $hook) {
           }
           break;
       }
+      break;
+
+    case 'og_vocabulary':
+      foreach ($variables['items'] as $key => $item) {
+        if (is_array($variables['items'][$key])) {
+          foreach ($variables['items'][$key] as $subkey => $list) {
+            $list['#title'] = str_replace(
+              'Categories',
+              'Group Categories',
+              $list['#title']
+            );
+
+            $variables['items'][$key][$subkey] = $list;
+          }
+        }
+      }
+      break;
   }
 }
 

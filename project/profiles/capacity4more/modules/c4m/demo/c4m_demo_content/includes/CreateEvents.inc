@@ -53,7 +53,7 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     $this->addFieldMapping('field_date', 'field_date');
 
     $this->addFieldMapping('c4m_organised_by', 'organizer')
-         ->separator(';');
+      ->separator(';');
 
     $this->addFieldMapping('c4m_link', 'event_website');
 
@@ -74,9 +74,9 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
 
     // Can't abstract categories and tags since not all content types have them.
     $this->addFieldMapping('c4m_vocab_categories', 'categories')
-         ->sourceMigration('C4mDemoContentCreateCategories')
-         ->arguments(array('source_type' => 'tid'))
-         ->separator('|');
+      ->sourceMigration('C4mDemoContentCreateCategories')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_topic', 'topics')
       ->sourceMigration('C4mDemoContentCreateTopicTerms')
@@ -84,12 +84,41 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_tag', 'tags')
-         ->sourceMigration('C4mDemoContentCreateTags')
-         ->arguments(array('source_type' => 'tid'))
-         ->separator('|');
+      ->sourceMigration('C4mDemoContentCreateTags')
+      ->arguments(array('source_type' => 'tid'))
+      ->separator('|');
 
     $this->addFieldMapping('c4m_vocab_language', 'lang_entries')
-         ->arguments(array('source_type' => 'tid'));
+      ->arguments(array('source_type' => 'tid'));
+
+    $this->addFieldMapping(
+      'c4m_location_address',
+      'c4m_location_address_country'
+    );
+    $this->addFieldMapping(
+      'c4m_location_address:thoroughfare',
+      'c4m_location_address_street'
+    );
+    $this->addFieldMapping(
+      'c4m_location_address:premise',
+      'c4m_location_address_additional'
+    );
+    $this->addFieldMapping(
+      'c4m_location_address:postal_code',
+      'c4m_location_address_postal'
+    );
+    $this->addFieldMapping(
+      'c4m_location_address:locality',
+      'c4m_location_address_city'
+    );
+    $this->addFieldMapping(
+      'c4m_location_address:administrative_area',
+      'c4m_location_address_state'
+    );
+    $this->addFieldMapping(
+      'c4m_location_address:name_line',
+      'c4m_location_address_name'
+    );
   }
 
   /**
@@ -149,10 +178,23 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       $unfiltered_ids
     );
 
-    $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
+    $row->lang_entries = $this->mapTaxonomyVocab(
+      $row->lang,
+      'c4m_vocab_language'
+    );
     $row->geo_entries = $this->mapTaxonomyVocabWithParent(
       $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
     );
+
+    $address = $this->explodeAddress($row);
+
+    $row->c4m_location_address_country = $address['country'];
+    $row->c4m_location_address_street = $address['street'];
+    $row->c4m_location_address_additional = $address['additional'];
+    $row->c4m_location_address_postal = $address['postal_code'];
+    $row->c4m_location_address_city = $address['city'];
+    $row->c4m_location_address_state = $address['province'];
+    $row->c4m_location_address_name = $address['name'];
 
     return TRUE;
   }
@@ -169,32 +211,6 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
     $this->extractDateTimeEnd($entity, $row, 'field_date');
 
     $this->assignTags($entity, $row);
-  }
-
-  /**
-   * The entity has been created and saved.
-   *
-   * @param object $entity
-   *   The entity object that was created.
-   * @param object $row
-   *   The CSV row we are manipulating.
-   */
-  public function complete($entity, $row) {
-    parent::complete($entity, $row);
-
-    $entity->_skip_message = TRUE;
-
-    $this->extractAddress($entity, $row);
-    // Save events with locationns again and simulate an 'active' location to
-    // ensure correct node vid in table getlocations_fields_entities.
-    // Module getlocations_fields assumes a location is a demo one if not
-    // set 'active' which happens on node form.
-    if (!empty($entity->c4m_location[LANGUAGE_NONE])) {
-      foreach ($entity->c4m_location[LANGUAGE_NONE] as $key => $item) {
-        $entity->c4m_location[LANGUAGE_NONE][$key]['active'] = TRUE;
-      }
-      entity_save('node', $entity);
-    }
   }
 
 }
