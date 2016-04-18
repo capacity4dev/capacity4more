@@ -20,7 +20,7 @@ function theme_c4m_content_event_link_to_osm(array $field) {
 
   $entity = $field['entity'];
   $wrapper = entity_metadata_wrapper('node', $entity);
-  $location = $wrapper->field_location_address->value();
+  $location = $wrapper->c4m_location_address->value();
 
   $address = geocoder_widget_parse_addressfield($location);
   $api_url = 'http://nominatim.openstreetmap.org/';

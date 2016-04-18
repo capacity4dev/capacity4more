@@ -169,9 +169,9 @@ function c4m_content_event_field_group_info() {
     'weight' => '9',
     'children' => array(
       0 => 'c4m_location',
-      1 => 'field_location_map',
+      1 => 'c4m_location_map',
       2 => 'c4m_field_location_city_country',
-      3 => 'c4m_content_event_link_to_osm',
+      3 => 'c4m_content_event_link_to_gmap',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

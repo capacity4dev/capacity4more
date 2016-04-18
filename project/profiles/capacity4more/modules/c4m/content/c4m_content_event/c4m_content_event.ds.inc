@@ -180,7 +180,7 @@ function c4m_content_event_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_content_event_link_to_osm' => array(
+    'c4m_content_event_link_to_gmap' => array(
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
@@ -318,7 +318,7 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'field_location_map' => array(
+    'c4m_location_map' => array(
       'formatter_settings' => array(
         'ft' => array(),
       ),
@@ -671,9 +671,9 @@ function c4m_content_event_ds_layout_settings_info() {
         0 => 'c4m_field_location_city_country',
         2 => 'c4m_vocab_topic',
         4 => 'c4m_location',
-        5 => 'c4m_content_event_link_to_osm',
+        5 => 'c4m_content_event_link_to_gmap',
         7 => 'c4m_organised_by',
-        9 => 'field_location_map',
+        9 => 'c4m_location_map',
         13 => 'group_organiser',
         14 => 'group_node_actions',
         15 => 'group_location',
@@ -705,11 +705,11 @@ function c4m_content_event_ds_layout_settings_info() {
       'c4m_vocab_topic' => 'right',
       'title' => 'left',
       'c4m_location' => 'right',
-      'c4m_content_event_link_to_osm' => 'right',
+      'c4m_content_event_link_to_gmap' => 'right',
       'links' => 'left',
       'c4m_organised_by' => 'right',
       'c4m_datetime_end' => 'left',
-      'field_location_map' => 'right',
+      'c4m_location_map' => 'right',
       'c4m_body' => 'left',
       'group_documents' => 'left',
       'comments' => 'left',

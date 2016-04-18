@@ -92,32 +92,32 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
       ->arguments(array('source_type' => 'tid'));
 
     $this->addFieldMapping(
-      'field_location_address',
-      'field_location_address_country'
+      'c4m_location_address',
+      'c4m_location_address_country'
     );
     $this->addFieldMapping(
-      'field_location_address:thoroughfare',
-      'field_location_address_street'
+      'c4m_location_address:thoroughfare',
+      'c4m_location_address_street'
     );
     $this->addFieldMapping(
-      'field_location_address:premise',
-      'field_location_address_additional'
+      'c4m_location_address:premise',
+      'c4m_location_address_additional'
     );
     $this->addFieldMapping(
-      'field_location_address:postal_code',
-      'field_location_address_postal'
+      'c4m_location_address:postal_code',
+      'c4m_location_address_postal'
     );
     $this->addFieldMapping(
-      'field_location_address:locality',
-      'field_location_address_city'
+      'c4m_location_address:locality',
+      'c4m_location_address_city'
     );
     $this->addFieldMapping(
-      'field_location_address:administrative_area',
-      'field_location_address_state'
+      'c4m_location_address:administrative_area',
+      'c4m_location_address_state'
     );
     $this->addFieldMapping(
-      'field_location_address:name_line',
-      'field_location_address_name'
+      'c4m_location_address:name_line',
+      'c4m_location_address_name'
     );
   }
 
@@ -188,13 +188,13 @@ class C4mDemoContentCreateEvents extends C4mDemoContentCreateOgContent {
 
     $address = $this->explodeAddress($row);
 
-    $row->field_location_address_country = $address['country'];
-    $row->field_location_address_street = $address['street'];
-    $row->field_location_address_additional = $address['additional'];
-    $row->field_location_address_postal = $address['postal_code'];
-    $row->field_location_address_city = $address['city'];
-    $row->field_location_address_state = $address['province'];
-    $row->field_location_address_name = $address['name'];
+    $row->c4m_location_address_country = $address['country'];
+    $row->c4m_location_address_street = $address['street'];
+    $row->c4m_location_address_additional = $address['additional'];
+    $row->c4m_location_address_postal = $address['postal_code'];
+    $row->c4m_location_address_city = $address['city'];
+    $row->c4m_location_address_state = $address['province'];
+    $row->c4m_location_address_name = $address['name'];
 
     return TRUE;
   }
