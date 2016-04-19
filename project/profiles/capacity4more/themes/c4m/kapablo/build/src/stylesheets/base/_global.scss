@@ -16,3 +16,17 @@
 .nav-tabs {
   margin-bottom: 1rem;
 }
+
+.label {
+  &.label-default {
+    background: none;
+    border: 1px dotted $color-text;
+    color: $color-text;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+}
+
+div.contextual-links-wrapper {
+  font-size: 0.9rem;
+}

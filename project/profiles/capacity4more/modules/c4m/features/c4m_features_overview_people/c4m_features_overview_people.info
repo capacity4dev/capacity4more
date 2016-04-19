@@ -8,7 +8,6 @@ dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = views
 features[context][] = c4m_overview_people_list
-features[context][] = c4m_overview_people_table
 features[ctools][] = context:context:3
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2

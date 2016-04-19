@@ -10,22 +10,18 @@
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
 
-<div class="content">
-  <?php if (!empty($header)): ?>
-    <div class="row">
-      <<?php print $header_wrapper; ?> class="group-header col-sm-12 <?php print $header_classes; ?>">
-        <?php print $header; ?>
-      </<?php print $header_wrapper; ?>>
-    </div>
-  <?php endif; ?>
-  <div class="row">
-    <<?php print $left_wrapper; ?> class="group-left col-sm-8 <?php print $left_classes; ?>">
-      <?php print $left; ?>
-    </<?php print $left_wrapper; ?>>
-    <<?php print $right_wrapper; ?> class="group-right col-sm-4 <?php print $right_classes; ?>">
-      <?php print $right; ?>
-    </<?php print $right_wrapper; ?>>
-  </div>
+<div class="content clearfix">
+<?php if (!empty($header)): ?>
+    <<?php print $header_wrapper; ?> class="group-header col-sm-12 <?php print $header_classes; ?>">
+      <?php print $header; ?>
+    </<?php print $header_wrapper; ?>>
+<?php endif; ?>
+  <<?php print $left_wrapper; ?> class="group-left col-sm-8 <?php print $left_classes; ?>">
+    <?php print $left; ?>
+  </<?php print $left_wrapper; ?>>
+  <<?php print $right_wrapper; ?> class="group-right col-sm-4 <?php print $right_classes; ?>">
+    <?php print $right; ?>
+  </<?php print $right_wrapper; ?>>
 </div>
 
 </<?php print $layout_wrapper ?>>

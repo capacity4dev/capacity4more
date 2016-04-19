@@ -87,37 +87,37 @@ function c4m_user_ds_fields_info($entity_type) {
   );
 
   $fields['user']['c4m_user_picture'] = array(
-    'title'      => t('C4M user picture'),
+    'title' => t('C4M user picture'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user.theme.inc',
-    'function'   => 'theme_c4m_user_picture',
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_picture',
     'properties' => array('formatters' => $image_styles),
   );
 
   $fields['user']['c4m_user_first_and_last_name'] = array(
-    'title'      => t('C4M User first and last name'),
+    'title' => t('C4M User first and last name'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user.theme.inc',
-    'function'   => 'theme_c4m_user_first_and_last_name',
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_first_and_last_name',
     'properties' => array(
       'formatters' => array(
-        'user'      => 'User first and last name',
+        'user' => 'User first and last name',
         'linked_user' => 'User first and last name linked to profile',
       ),
     ),
   );
 
   $fields['user']['c4m_user_country'] = array(
-    'title'      => t('C4M User country'),
+    'title' => t('C4M User country'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user.theme.inc',
-    'function'   => 'theme_c4m_user_country',
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_country',
     'properties' => array(
       'formatters' => array(
-        'default'      => t('Default'),
+        'default' => t('Default'),
       ),
     ),
   );
@@ -155,15 +155,15 @@ function c4m_user_ds_fields_info($entity_type) {
  *    Rendered link with image inside.
  */
 function c4m_user_image($user, $style = NULL) {
-  $output  = '';
+  $output = '';
   $wrapper = entity_metadata_wrapper('user', $user);
-  $file    = $wrapper->c4m_media->value();
+  $file = $wrapper->c4m_media->value();
   if (!empty($file)) {
     $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
-    $file['path']       = $file['uri'];
+    $file['path'] = $file['uri'];
     $file['attributes'] = array('class' => 'user-image');
-    $img                = theme_image_style($file);
-    $output             = l($img, 'user/' . $user->uid, array('html' => 'TRUE'));
+    $img = theme_image_style($file);
+    $output = l($img, 'user/' . $user->uid, array('html' => 'TRUE'));
   }
 
   return $output;
@@ -195,6 +195,11 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
     $output = $initials;
   }
 
+  // Map initials to an array index (0 - 10).
+  // Hash it so they ALWAYS map on the same color.
+  $crc_hash = crc32($initials);
+  $crc_rest = $crc_hash % 11;
+
   $tag = array(
     'element' => array(
       '#tag' => 'div',
@@ -202,7 +207,7 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
         'class' => array(
           'no-avatar',
           'initials',
-          'bg-' . $colors[mt_rand(0, count($colors) - 1)],
+          'bg-' . $colors[$crc_rest],
         ),
       ),
       '#value' => $output,
@@ -324,7 +329,10 @@ function c4m_user_views_api() {
   return array(
     'api' => 3,
     'path' => drupal_get_path('module', 'c4m_user'),
-    'template path' => drupal_get_path('module', 'c4m_user') . DIRECTORY_SEPARATOR . 'templates',
+    'template path' => drupal_get_path(
+        'module',
+        'c4m_user'
+    ) . DIRECTORY_SEPARATOR . 'templates',
   );
 }
 
@@ -347,10 +355,14 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
   $rows = $variables['rows'];
   $items = array();
   // Load the entities from the current page, and show their titles.
-  $entities = _views_bulk_operations_entity_load($entity_type, array_values($rows), $vbo->revision);
+  $entities = _views_bulk_operations_entity_load(
+    $entity_type,
+    array_values($rows),
+    $vbo->revision
+  );
   foreach ($entities as $entity) {
     $items[] = 'user' == $entity_type ? c4m_user_name($entity) :
-       check_plain(_views_bulk_operations_entity_label($entity_type, $entity));
+      check_plain(_views_bulk_operations_entity_label($entity_type, $entity));
   }
   // All rows on all pages have been selected,
   // so show a count of additional items.
@@ -360,7 +372,11 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
   }
   $item_text = 'user' == $entity_type ? t('user') : t('item');
 
-  $count = format_plural(count($entities), $item_text, '@count ' . $item_text . 's');
+  $count = format_plural(
+    count($entities),
+    $item_text,
+    '@count ' . $item_text . 's'
+  );
 
   $title = '';
   switch ($variables['operation']->id()) {
@@ -429,15 +445,15 @@ function c4m_user_c4m_content_statistics_info() {
   return array(
     'global' => array(
       'c4m_user' => array(
-        'type'        => 'user',
+        'type' => 'user',
         'entity_type' => 'user',
-        'bundles'     => NULL,
-        'singular'    => 'Member',
-        'plural'      => 'Members',
-        'state'       => 1,
-        'aggregate'   => array(),
-        'weight'      => 5,
-        'attributes'  => array(
+        'bundles' => NULL,
+        'singular' => 'Member',
+        'plural' => 'Members',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 5,
+        'attributes' => array(
           'class' => array('users'),
         ),
         'link' => array(
@@ -445,7 +461,107 @@ function c4m_user_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_user' => array(
+        'type'        => 'user',
+        'entity_type' => 'user',
+        'bundles'     => NULL,
+        'singular'    => 'Expert',
+        'plural'      => 'Experts',
+        'state'       => 1,
+        'aggregate'   => array(),
+        'weight'      => 10,
+        'attributes'  => array(
+          'class' => array('topic-users'),
+        ),
+        'link' => array(
+          'path' => 'people',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic_expertise:@TOPIC_ID',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_user_entity_property_info_alter(&$info) {
+  $info['user']['properties']['c4m_user_contributions'] = array(
+    'type' => 'integer',
+    'label' => t(
+      'Total number of contributions of the user (posts + comments)'
+    ),
+    'sanitized' => TRUE,
+    'getter callback' => '_c4m_user_contributions_getter_callback',
+  );
+}
+
+/**
+ * Getter callback for `c4m_user_contributions` user property.
+ *
+ * @param object $item
+ *   Drupal user entity object.
+ *
+ * @return int
+ *   Total number of contributions of the user.
+ */
+function _c4m_user_contributions_getter_callback($item) {
+  $comments = _c4m_user_get_comment_count($item);
+  $nodes = _c4m_user_get_node_count($item);
+
+  return $comments + $nodes;
+}
+
+/**
+ * Helper function to retrieve the number of comments a user made.
+ *
+ * @param object $user
+ *   Drupal user entity object.
+ *
+ * @return int
+ *   Number of comments by this user.
+ */
+function _c4m_user_get_comment_count($user) {
+  $query = db_select('comment', 'c');
+  $query->condition('uid', $user->uid, '=');
+  $query->addExpression('COUNT(cid)', 'comments_count');
+  $result = $query->execute();
+
+  if ($record = $result->fetchAssoc()) {
+    return $record['comments_count'];
+  }
+
+  return 0;
+}
+
+/**
+ * Helper function to retrieve the number of nodes a user created.
+ *
+ * @param object $user
+ *   Drupal user entity object.
+ *
+ * @return int
+ *   Number of posts by this user.
+ */
+function _c4m_user_get_node_count($user) {
+  $query = db_select('node', 'n');
+  $query->condition('uid', $user->uid);
+  $query->condition('status', 1);
+  $query->addExpression('COUNT(nid)', 'posts_count');
+  $result = $query->execute();
+
+  if ($record = $result->fetchAssoc()) {
+    return $record['posts_count'];
+  }
+
+  return 0;
 }
 
 /**

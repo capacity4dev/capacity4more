@@ -1,11 +1,66 @@
 .view-mode-block_list {
-  .row {
+  .label {
+    font-size: 0.7em;
+  }
+
+  .field-name-c4m-field-og-group {
+    @extend .text-copy--muted;
+
+    a {
+      @extend .text-copy--muted;
+    }
+  }
+
+  .content {
     border-bottom: 1px dashed $color-gray-light;
     margin: 0 0 1rem 0;
     padding: 0 0 1rem 0;
 
-    .group-left, .group-right {
-      padding: 0 $grid-gutter-width / 4;
+    .group-left {
+      padding-right: $grid-gutter-width / 4;
+
     }
+    .group-right {
+      padding-left: $grid-gutter-width / 4;
+    }
+  }
+
+  .content-col {
+    display: table-cell;
+    height: 65px;
+    vertical-align: middle;
+  }
+
+  &.node-event {
+    .group-left {
+      text-align: center;
+    }
+
+    .label {
+      float: right;
+    }
+  }
+
+  &.user-profile {
+    .content {
+      border-bottom: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &.node-document {
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  .field-name-c4m-ds-group-membership-type {
+    float: right;
   }
 }

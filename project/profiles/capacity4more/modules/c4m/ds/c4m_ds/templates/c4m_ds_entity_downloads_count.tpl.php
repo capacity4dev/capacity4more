@@ -9,5 +9,6 @@
 ?>
 
 <span class="row-entity-count count-downloads">
+  <i class="fa fa-download"></i>
   <?php print $count; ?>
 </span>

@@ -17,10 +17,7 @@ function c4m_search_ctools_plugin_api($module = NULL, $api = NULL) {
  * Implements hook_views_api().
  */
 function c4m_search_views_api($module = NULL, $api = NULL) {
-  return array(
-    'api' => '3.0',
-    'path' => drupal_get_path('module', 'c4m_search') . '/views',
-  );
+  return array("api" => "3.0");
 }
 
 /**
@@ -239,11 +236,13 @@ function c4m_search_default_search_api_index() {
         "c4m_is_spammer" : { "type" : "boolean" },
         "c4m_last_name" : { "type" : "string" },
         "c4m_og_membership_type" : { "type" : "list\\u003Cstring\\u003E" },
-        "c4m_organisation" : { "type" : "text" },
+        "c4m_organisation" : { "type" : "string" },
         "c4m_organisation_type" : { "type" : "string" },
+        "c4m_user_contributions" : { "type" : "integer" },
         "c4m_vocab_geo" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "c4m_vocab_topic_expertise" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "created" : { "type" : "date" },
         "mail" : { "type" : "text" },
         "name" : { "type" : "text" },
         "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
@@ -258,6 +257,7 @@ function c4m_search_default_search_api_index() {
           "weight" : "-10",
           "settings" : { "default" : "1", "roles" : [] }
         },
+        "search_api_alter_user_status" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_attachments_alter_settings" : {
           "status" : 0,
           "weight" : "0",
@@ -269,6 +269,8 @@ function c4m_search_default_search_api_index() {
           }
         },
         "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_aggregation" : {
           "status" : 1,
           "weight" : "0",
@@ -280,9 +282,7 @@ function c4m_search_default_search_api_index() {
               }
             }
           }
-        },
-        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } }
+        }
       },
       "processors" : {
         "search_api_case_ignore" : {
@@ -291,14 +291,14 @@ function c4m_search_default_search_api_index() {
           "settings" : { "fields" : {
               "name" : true,
               "mail" : true,
+              "c4m_vocab_geo" : true,
+              "c4m_vocab_topic" : true,
+              "c4m_vocab_topic_expertise" : true,
               "c4m_country" : true,
               "c4m_first_name" : true,
               "c4m_last_name" : true,
               "c4m_organisation" : true,
-              "c4m_organisation_type" : true,
-              "c4m_vocab_topic" : true,
-              "c4m_vocab_topic_expertise" : true,
-              "c4m_vocab_geo" : true
+              "c4m_organisation_type" : true
             }
           }
         },
@@ -333,7 +333,7 @@ function c4m_search_default_search_api_index() {
           }
         },
         "search_api_tokenizer" : {
-          "status" : 1,
+          "status" : 0,
           "weight" : "20",
           "settings" : {
             "fields" : { "name" : true, "mail" : true, "c4m_organisation" : true },
@@ -416,8 +416,8 @@ function c4m_search_default_search_api_sort() {
     "enabled" : "1",
     "weight" : "0",
     "identifier" : "c4m_search_nodes__created",
-    "default_sort" : "1",
-    "default_sort_no_terms" : "0",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "1",
     "default_order" : "desc",
     "options" : { "field_name" : "Date created" },
     "rdf_mapping" : []
@@ -429,7 +429,7 @@ function c4m_search_default_search_api_sort() {
     "enabled" : "1",
     "weight" : "0",
     "identifier" : "c4m_search_nodes__search_api_relevance",
-    "default_sort" : "0",
+    "default_sort" : "1",
     "default_sort_no_terms" : "0",
     "default_order" : "desc",
     "options" : { "field_name" : "search_api_relevance" },
@@ -469,9 +469,35 @@ function c4m_search_default_search_api_sort() {
     "weight" : "0",
     "identifier" : "c4m_search_users__c4m_last_name",
     "default_sort" : "1",
-    "default_sort_no_terms" : "0",
+    "default_sort_no_terms" : "1",
     "default_order" : "asc",
     "options" : { "field_name" : "Last Name" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__c4m_user_contributions'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "c4m_user_contributions",
+    "name" : "Number of activity",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__c4m_user_contributions",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Total number of contributions of the user (posts + comments)" },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_search_users__created'] = entity_import('search_api_sort', '{
+    "index_id" : "c4m_search_users",
+    "field" : "created",
+    "name" : "Date of registration",
+    "enabled" : "1",
+    "weight" : "0",
+    "identifier" : "c4m_search_users__created",
+    "default_sort" : "0",
+    "default_sort_no_terms" : "0",
+    "default_order" : "desc",
+    "options" : { "field_name" : "Created" },
     "rdf_mapping" : []
   }');
   return $items;

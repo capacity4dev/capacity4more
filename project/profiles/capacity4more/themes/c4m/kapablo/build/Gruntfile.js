@@ -172,7 +172,7 @@ module.exports = function (grunt) {
               files: [{
                   expand: true,
                   cwd: '<%= project.src %>/images',
-                  src: ['**/*.{png,jpg,gif}'],
+                  src: ['**/*.{png,jpg,gif,svg}'],
                   dest: '<%= project.dst %>/images',
                 }]
             }
@@ -260,5 +260,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
         'build'
+    ]);
+
+  grunt.registerTask('dev-watch', [
+        'dev',
+        'watch'
     ]);
 }

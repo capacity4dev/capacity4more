@@ -26,8 +26,13 @@ function theme_c4m_field_og_group($field) {
     return;
   }
 
-  // Only show this field for group node types.
   $entity = $field['entity'];
+  // If this is a comment, get the node of the comment.
+  if (isset($entity->node_type)) {
+    $entity = node_load($entity->nid);
+  }
+
+  // Only show this field for group node types.
   if (!og_is_group_content_type('node', $entity->type)) {
     return;
   }

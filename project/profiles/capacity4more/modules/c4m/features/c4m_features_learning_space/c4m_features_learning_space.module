@@ -1,0 +1,145 @@
+<?php
+/**
+ * @file
+ * Code for the Learning Space feature.
+ */
+
+include_once 'c4m_features_learning_space.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_features_learning_space_menu() {
+  $items = array();
+
+  $items['admin/config/c4m/learning'] = array(
+    'title' => 'Manage learning info image',
+    'description' => 'Manage info text and image for learning page overview.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_learning_space_admin_settings'),
+    'access arguments' => array('administer products'),
+    'file' => 'c4m_features_learning_space.admin.inc',
+    'weight' => -10,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_features_learning_space_theme() {
+  $theme['c4m_features_learning_space_admin_image'] = array(
+    'render element' => 'element',
+    'file' => 'c4m_features_learning_space.module',
+  );
+
+  $theme['c4m_features_learning_space_learning_intro'] = array(
+    'template' => 'learning-space-intro',
+    'path' => drupal_get_path(
+        'module',
+        'c4m_features_learning_space'
+    ) . '/templates',
+    'variables' => array(
+      'image' => NULL,
+      'intro' => '',
+    ),
+  );
+
+  return $theme;
+}
+
+/**
+ * Theme function to return the image preview in the backend form.
+ *
+ * @param array $variables
+ *   Variables array.
+ *
+ * @return string
+ *   Rendered output string.
+ *
+ * @throws \Exception
+ */
+function theme_c4m_features_learning_space_admin_image($variables) {
+  $element = $variables['element'];
+  $output = '';
+  $output .= '<div class="image-widget form-managed-file clearfix">';
+
+  // If image is uploaded show its thumbnail to the output HTML.
+  if ($element['fid']['#value'] != 0) {
+    $output .= '<div class="image-preview">';
+
+    $output .= theme(
+      'image_style',
+      array(
+        'style_name' => 'banner',
+        'path' => file_load($element['fid']['#value'])->uri,
+        'getsize' => FALSE,
+      )
+    );
+
+    $output .= '</div>';
+  }
+
+  $output .= '<div class="image-widget-data">';
+
+  if ($element['fid']['#value'] != 0) {
+    $element['filename']['#markup'] .= ' <span class="file-size">(' . format_size(
+        $element['#file']->filesize
+      ) . ')</span> ';
+  }
+
+  $output .= drupal_render_children($element);
+
+  $output .= '</div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Helper to include the blocks include and to create the proper callback.
+ *
+ * @param string $delta
+ *   The delta of the block.
+ * @param string $type
+ *   The block hook name (configure, save, view).
+ *
+ * @return FALSE|string
+ *   The callback name will only be returned if it exists.
+ */
+function _c4m_features_learning_space_block_callback($delta, $type) {
+  module_load_include(
+    'inc',
+    'c4m_features_learning_space',
+    'c4m_features_learning_space.blocks'
+  );
+
+  $callback = '_c4m_features_learning_space_' . $delta . '_' . $type;
+  if (!function_exists($callback)) {
+    return FALSE;
+  }
+
+  return $callback;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_learning_space_block_info() {
+  $blocks['learning_intro'] = array(
+    'info' => t('Learning Space introduction'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_learning_space_block_view($delta = '') {
+  $callback = _c4m_features_learning_space_block_callback($delta, 'view');
+  if ($callback) {
+    return $callback();
+  }
+}

@@ -148,6 +148,37 @@ function kapablo_preprocess_field(&$variables, $hook) {
       foreach ($element['#items'] as $key => $item) {
         $variables['items'][$key]['#markup'] = '<span class="group-statistic"><i class="fa fa-comments-o"></i> ' . $variables['items'][$key]['#markup'] . '</span>';
       }
+      break;
+
+    case 'c4m_discussion_type':
+      switch ($element['#view_mode']) {
+        case 'full':
+          foreach ($element['#items'] as $key => $item) {
+            $markup = c4m_content_discussion_simple_label(
+              $variables['items'][$key]['#markup']
+            );
+
+            $variables['items'][$key]['#markup'] = '<i class="fa ' . $markup['class'] . '"></i> ' . $markup['label'];
+          }
+          break;
+      }
+      break;
+
+    case 'og_vocabulary':
+      foreach ($variables['items'] as $key => $item) {
+        if (is_array($variables['items'][$key])) {
+          foreach ($variables['items'][$key] as $subkey => $list) {
+            $list['#title'] = str_replace(
+              'Categories',
+              'Group Categories',
+              $list['#title']
+            );
+
+            $variables['items'][$key][$subkey] = $list;
+          }
+        }
+      }
+      break;
   }
 }
 
@@ -249,31 +280,33 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
  * @see views-view--c4m-overview-inthe-picture-blocks--block.tpl.php
  */
 function kapablo_preprocess_views_view(&$vars) {
-  if ($vars['name'] != 'c4m_overview_inthe_picture_blocks') {
-    return;
-  }
+  switch ($vars['name']) {
+    case 'c4m_overview_inthe_picture_blocks':
 
-  $items = $vars['view']->result;
-  $carousels = array();
-  foreach ($items as $node) {
-    $wrapper = entity_metadata_wrapper('node', $node->nid);
-    $banner = $wrapper->c4m_media->value();
-    $link = $wrapper->c4m_link->value();
-    $body = $wrapper->c4m_body->value();
-    $carousels[] = array(
-      'id' => $wrapper->getIdentifier(),
-      'title' => $wrapper->c4m_heading->value(),
-      'text' => $body['value'],
-      'image' => file_create_url($banner['uri']),
-      'alias' => $link['url'],
-    );
-  }
+      $items = $vars['view']->result;
+      $carousels = array();
+      foreach ($items as $node) {
+        $wrapper = entity_metadata_wrapper('node', $node->nid);
+        $banner = $wrapper->c4m_media->value();
+        $link = $wrapper->c4m_link->value();
+        $body = $wrapper->c4m_body->value();
+        $carousels[] = array(
+          'id' => $wrapper->getIdentifier(),
+          'title' => $wrapper->c4m_heading->value(),
+          'text' => $body['value'],
+          'image' => file_create_url($banner['uri']),
+          'alias' => $link['url'],
+        );
+      }
 
-  // Pass info via Drupal.settings.
-  $settings['c4m'] = array(
-    'carousels' => $carousels,
-  );
-  drupal_add_js($settings, 'setting');
+      // Pass info via Drupal.settings.
+      $settings['c4m'] = array(
+        'carousels' => $carousels,
+      );
+      drupal_add_js($settings, 'setting');
+
+      break;
+  }
 }
 
 /**

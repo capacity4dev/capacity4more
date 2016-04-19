@@ -32,11 +32,19 @@ function c4m_content_project_ds_field_settings_info() {
     ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '2',
-      'label' => 'hidden',
+      'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'Owned by',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'text-muted',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
     ),

@@ -24,6 +24,7 @@ function c4m_content_topic_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'c4m_vocab_topic_mapping',
+      1 => 'c4m_ds_topic_content_stats',
     ),
     'format_type' => 'div',
     'format_settings' => array(

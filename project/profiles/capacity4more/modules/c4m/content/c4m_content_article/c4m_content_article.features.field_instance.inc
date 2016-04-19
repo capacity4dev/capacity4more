@@ -19,20 +19,9 @@ function c4m_content_article_field_default_field_instances() {
     'display' => array(
       'activity_global' => array(
         'label' => 'hidden',
-        'module' => 'smart_trim',
-        'settings' => array(
-          'more_link' => FALSE,
-          'more_text' => 'Read more',
-          'summary_handler' => 'full',
-          'trim_length' => 300,
-          'trim_link' => FALSE,
-          'trim_options' => array(),
-          'trim_preserve_tags' => '',
-          'trim_suffix' => '...',
-          'trim_type' => 'chars',
-        ),
-        'type' => 'smart_trim_format',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -933,9 +922,12 @@ function c4m_content_article_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
         'weight' => 13,
       ),
       'inthe_picture_block' => array(
@@ -1018,14 +1010,12 @@ function c4m_content_article_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'c4m_content_topic',
+        'module' => 'term_reference_tree',
         'settings' => array(
-          'display' => 'all',
-          'link' => '',
-          'separator' => ' » ',
-          'wrap' => 'none',
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
         ),
-        'type' => 'term_reference_tree_children_expanded',
+        'type' => 'term_reference_tree',
         'weight' => 0,
       ),
       'inthe_picture_block' => array(

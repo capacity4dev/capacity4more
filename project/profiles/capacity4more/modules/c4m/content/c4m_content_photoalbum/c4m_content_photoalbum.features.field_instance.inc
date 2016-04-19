@@ -152,7 +152,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 1,
+        'weight' => 3,
       ),
       'activity_group' => array(
         'label' => 'hidden',
@@ -187,7 +187,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -313,7 +313,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 26,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -343,7 +343,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 25,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -392,6 +392,67 @@ function c4m_content_photoalbum_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-photoalbum-c4m_vocab_geo'.
+  $field_instances['node-photoalbum-c4m_vocab_geo'] = array(
+    'bundle' => 'photoalbum',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 26,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_vocab_geo',
+    'label' => 'Regions & Countries',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'c4m_vocab_widget',
+      'settings' => array(),
+      'type' => 'c4m_taxonomy_reference',
+      'weight' => 3,
+    ),
+  );
+
   // Exported field_instance: 'node-photoalbum-c4m_vocab_language'.
   $field_instances['node-photoalbum-c4m_vocab_language'] = array(
     'bundle' => 'photoalbum',
@@ -403,7 +464,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 25,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -433,7 +494,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 24,
+        'weight' => 26,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -492,7 +553,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 22,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -522,7 +583,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -584,7 +645,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 24,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -614,7 +675,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 23,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -717,7 +778,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 21,
+        'weight' => 23,
       ),
       'activity_group' => array(
         'label' => 'above',
@@ -747,7 +808,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
+        'weight' => 24,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -812,6 +873,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
   t('Groups');
   t('Language');
   t('Metadata');
+  t('Regions & Countries');
   t('Topics');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 

@@ -173,7 +173,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 29,
+        'weight' => 30,
       ),
       'c4m_dashboard' => array(
         'label' => 'hidden',
@@ -560,7 +560,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 32,
       ),
       'c4m_dashboard' => array(
         'label' => 'above',
@@ -680,7 +680,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 31,
       ),
       'c4m_dashboard' => array(
         'label' => 'above',
@@ -1270,7 +1270,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
+        'weight' => 29,
       ),
       'c4m_dashboard' => array(
         'label' => 'above',
