@@ -145,6 +145,10 @@
         }
       }
 
+      .active {
+        color: $text-color;
+      }
+
       &.collapsed {
         .field-group-format-toggler {
           a {
