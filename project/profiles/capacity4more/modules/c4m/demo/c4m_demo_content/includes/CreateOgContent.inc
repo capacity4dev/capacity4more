@@ -139,7 +139,7 @@ abstract class C4mDemoContentCreateOgContent extends C4mDemoContentCreateEntity 
    *   The source data of the migrated entity.
    */
   public function messageUpdateSave($node, $row) {
-    if (!module_exists('c4m_message')) {
+    if (!module_exists('c4m_message') || empty($node->_skip_message)) {
       return;
     }
 
