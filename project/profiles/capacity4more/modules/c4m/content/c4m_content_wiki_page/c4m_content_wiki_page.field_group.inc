@@ -51,7 +51,7 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Do more through capacity4dev',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),

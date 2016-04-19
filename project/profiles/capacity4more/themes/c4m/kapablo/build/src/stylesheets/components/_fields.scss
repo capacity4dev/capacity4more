@@ -94,10 +94,19 @@
   margin-top: 1em;
 }
 
-.user-name + .creation-date {
-  &:before {
-    content: '|';
-    margin: 0 .5em;
+.user-name {
+  + .creation-date {
+    &:before {
+      content: '|';
+      margin: 0 .5em;
+    }
+  }
+
+  + .field-name-c4m-ds-creation-date {
+    &:before {
+      content: '|';
+      margin: 0 .5em;
+    }
   }
 }
 
@@ -139,7 +148,7 @@
 
 .field-name-c4m-ds-content-footer-stats {
   @extend .text-copy--muted;
-  
+
   .row-entity-count {
     margin-left: 1rem;
 
