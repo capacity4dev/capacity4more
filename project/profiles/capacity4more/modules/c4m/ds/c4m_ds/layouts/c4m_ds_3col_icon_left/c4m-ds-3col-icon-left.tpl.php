@@ -10,7 +10,7 @@
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
 
-<div class="content">
+<div class="content clearfix">
   <div class="icon-wrapper clearfix">
     <<?php print $left_wrapper; ?> class="icon-col <?php print $left_classes; ?>">
       <?php print $left; ?>

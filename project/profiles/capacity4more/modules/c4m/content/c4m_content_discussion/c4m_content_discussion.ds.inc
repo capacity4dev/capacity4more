@@ -210,6 +210,11 @@ function c4m_content_discussion_ds_field_settings_info() {
       'weight' => '9',
       'label' => 'hidden',
       'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb-col' => TRUE,
+        ),
+      ),
     ),
     'c4m_discussion_type' => array(
       'formatter_settings' => array(

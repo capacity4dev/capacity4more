@@ -1,7 +1,5 @@
 .view-mode-teaser {
-  .content {
-    @extend .text-small;
-  }
+  @extend .text-small;
 
   &.node-topic {
     margin-bottom: 2rem;

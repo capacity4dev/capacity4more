@@ -67,7 +67,7 @@ function theme_c4m_content_wiki_page_navigation(array $field) {
 function theme_c4m_content_wiki_page_collapse(array $field) {
   $element['collapse_button'] = array(
     '#type' => 'button',
-    '#value' => '<i class="fa fa-chevron-circle-left"></i>',
+    '#value' => '<i class="fa fa-chevron-circle-left"></i> Hide sidebar',
     '#attributes' => array(
       'class' => array(
         'btn btn-default',
@@ -113,12 +113,13 @@ function theme_c4m_content_wiki_page_add_links(array $field) {
     'attributes' => array(
       'class' => 'add-more',
     ),
+    'html' => TRUE,
   );
 
   // Links to add new book pages.
   $links = array(
-    l(t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page, $options),
-    $depth <= 5 ? l(t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options) : '',
+    l('<i class="fa fa-plus-square-o"></i> ' . t('Add page on same level'), $purl . '/node/add/wiki-page?parent=' . $parent_page, $options),
+    $depth <= 5 ? l('<i class="fa fa-plus-square-o"></i> ' . t('Add child page'), $purl . '/node/add/wiki-page?parent=' . $current_page, $options) : '',
   );
 
   $markup = theme('item_list', array('items' => $links, 'attributes' => array('class' => 'add-links')));
