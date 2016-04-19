@@ -102,7 +102,7 @@
                 var sidebarContent = $('.collapsible');
                 button.addClass('collapsed');
                 button.html('<i class="fa fa-chevron-circle-right"></i>');
-                groupLeft.removeClass('col-sm-4').addClass('col-sm-1');
+                groupLeft.removeClass('col-sm-4').addClass('col-sm-1 sidebar-collapsed');
                 groupRight.removeClass('col-sm-8').addClass('col-sm-11');
                 sidebarContent.hide();
             }
@@ -121,8 +121,8 @@
                 var groupRight = $('.group-right');
                 var sidebarContent = $('.collapsible');
                 button.removeClass('collapsed');
-                button.html('<i class="fa fa-chevron-circle-left"></i>');
-                groupLeft.removeClass('col-sm-1').addClass('col-sm-4');
+                button.html('<i class="fa fa-chevron-circle-left"></i> ' + Drupal.t('Hide sidebar'));
+                groupLeft.removeClass('col-sm-1 sidebar-collapsed').addClass('col-sm-4');
                 groupRight.removeClass('col-sm-11').addClass('col-sm-8');
                 sidebarContent.show();
             }

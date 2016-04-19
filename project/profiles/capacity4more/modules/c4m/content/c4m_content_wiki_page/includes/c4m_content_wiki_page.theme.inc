@@ -67,7 +67,7 @@ function theme_c4m_content_wiki_page_navigation(array $field) {
 function theme_c4m_content_wiki_page_collapse(array $field) {
   $element['collapse_button'] = array(
     '#type' => 'button',
-    '#value' => '<i class="fa fa-chevron-circle-left"></i>',
+    '#value' => '<i class="fa fa-chevron-circle-left"></i> Hide sidebar',
     '#attributes' => array(
       'class' => array(
         'btn btn-default',
