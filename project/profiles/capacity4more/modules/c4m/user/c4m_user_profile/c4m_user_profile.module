@@ -156,6 +156,49 @@ function c4m_user_profile_theme() {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ *
+ * Our implementation needs to fire after legal module.
+ */
+function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_user_profile'])) {
+    $c4m_user_profile = $implementations['c4m_user_profile'];
+    unset($implementations['c4m_user_profile']);
+    $implementations['c4m_user_profile'] = $c4m_user_profile;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  $form['subscribe_to_mailinglist'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send me the monthly C4DEV newsletter (see !samples)', array(
+      '!samples' => l(t('samples'), 'samples'),
+    )),
+    '#weight' => 50,
+  );
+  $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
+}
+
+/**
+ * Submit callback for user_register_form form.
+ */
+function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
+  if (empty($form_state['values']['subscribe_to_mailinglist'])) {
+    return;
+  }
+  $email = $form_state['values']['mail'];
+  $name = $form_state['values']['c4m_first_name'][LANGUAGE_NONE][0] . ' ' . $form_state['values']['c4m_last_name'][LANGUAGE_NONE][0];
+  if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
+    drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try using this !page.", array(
+      '!page' => l(t('page'), 'page'),
+    )));
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_campaignmonitor_admin_settings_general_alter(&$form, &$form_state, $form_id) {
