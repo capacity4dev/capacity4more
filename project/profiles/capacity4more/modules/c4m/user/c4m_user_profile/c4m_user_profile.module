@@ -261,6 +261,13 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
   elseif ($other_user->c4m_is_spammer->value()) {
     return array(0 => t('This account has been blocked. Contact site administrator for more information.'));
   }
+  elseif ($other_user->c4m_is_deleted->value()) {
+    return array(
+      0 => t('There is a problem with your account, please !contact the site administrators.', array(
+        '!contact' => l(t('contact'), 'contact'),
+      )),
+    );
+  }
 
   $account = $form['#user'];
   if ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', $account->uid, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
