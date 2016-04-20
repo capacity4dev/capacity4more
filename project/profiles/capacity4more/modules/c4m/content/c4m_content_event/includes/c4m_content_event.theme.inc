@@ -13,39 +13,23 @@
  * @return string
  *   The rendered version of the field.
  */
-function theme_c4m_content_event_link_to_gmap(array $field) {
+function theme_c4m_content_event_link_to_osm(array $field) {
   if (empty($field['entity'])) {
     return NULL;
   }
 
   $entity = $field['entity'];
   $wrapper = entity_metadata_wrapper('node', $entity);
-  $location = $wrapper->c4m_location->value();
+  $location = $wrapper->c4m_location_address->value();
 
-  // In any case we need latitude and longitude.
-  if (empty($location['latitude']) ||
-      empty($location['longitude'])) {
-    return;
-  }
+  $address = geocoder_widget_parse_addressfield($location);
+  $api_url = 'http://nominatim.openstreetmap.org/';
 
-  $url = 'https://www.google.com/maps';
-  $zoom = !empty($location['mapzoom']) ? $location['mapzoom'] : 12;
-
-  // Do a location search if we have an address.
-  if (!empty($location['street']) &&
-      !empty($location['city']) &&
-      !empty($location['country_name'])) {
-    $url .= '/place/' . $location['street'] . ',' . $location['city'] . ',' .
-            $location['country_name'];
-  }
-
-  $url .= '/@' . $location['latitude'] . ',' . $location['longitude'] . ',' .
-        $zoom . 'z';
-
-  $options = array(
+  $params = array(
+    'query' => array('q' => $address),
     'html' => TRUE,
     'attributes' => array('target' => '_blank'),
   );
-  $text = t('View on Google Maps');
-  return l($text, $url, $options);
+  $text = t('View on OpenStreetMap.org');
+  return l($text, $api_url, $params);
 }

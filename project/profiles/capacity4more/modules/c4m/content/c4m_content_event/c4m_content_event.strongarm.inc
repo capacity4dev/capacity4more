@@ -161,9 +161,12 @@ function c4m_content_event_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '10',
+          'weight' => '11',
         ),
         'locations' => array(
+          'weight' => '14',
+        ),
+        'redirect' => array(
           'weight' => '15',
         ),
       ),
@@ -200,19 +203,19 @@ function c4m_content_event_strongarm() {
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '25',
+            'weight' => '28',
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '8',
-            'visible' => TRUE,
+            'weight' => '23',
+            'visible' => FALSE,
           ),
           'c4m_related' => array(
             'weight' => '10',
             'visible' => FALSE,
           ),
           'activity_global' => array(
-            'weight' => '10',
+            'weight' => '24',
             'visible' => FALSE,
           ),
           'default' => array(
@@ -220,12 +223,12 @@ function c4m_content_event_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '8',
-            'visible' => TRUE,
+            'weight' => '23',
+            'visible' => FALSE,
           ),
           'activity_group' => array(
             'weight' => '25',
-            'visible' => TRUE,
+            'visible' => FALSE,
           ),
           'block_list' => array(
             'weight' => '35',
