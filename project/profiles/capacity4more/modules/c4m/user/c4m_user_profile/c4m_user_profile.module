@@ -251,11 +251,15 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     return array();
   }
 
-  if ($other_user->status) {
+  $other_user = entity_metadata_wrapper('user', $other_user);
+  if ($other_user->status->value()) {
     return array(0 => t('This account is already in use. If this is you, please log in.'));
   }
-  elseif (!$other_user->login && !$other_user->access) {
+  elseif (!$other_user->last_login->value() && !$other_user->last_access->value()) {
     return array(0 => t('This email address is already in use. Please activate your account, or re-send activation mail.'));
+  }
+  elseif ($other_user->c4m_is_spammer->value()) {
+    return array(0 => t('This account has been blocked. Contact site administrator for more information.'));
   }
 
   $account = $form['#user'];
