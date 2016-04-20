@@ -154,3 +154,65 @@ function c4m_user_profile_theme() {
 
   return $theme;
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_profile_form_campaignmonitor_admin_settings_general_alter(&$form, &$form_state, $form_id) {
+  $form['campaignmonitor_account']['#weight'] = -2;
+  $form['campaignmonitor_list'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'List settings',
+    '#collapsible' => TRUE,
+    '#collapsed' => !$form['campaignmonitor_account']['#collapsed'] || !empty(variable_get('campaignmonitor_list_title')),
+    '#weight' => -1,
+  );
+  $form['campaignmonitor_list']['campaignmonitor_list_title'] = array(
+    '#type' => 'textfield',
+    '#title' => 'List Title',
+    '#default_value' => variable_get('campaignmonitor_list_title'),
+  );
+  $form['#submit'][] = 'c4m_user_profile_form_campaignmonitor_admin_settings_general_submit';
+}
+
+/**
+ * Submit callback for campaignmonitor_admin_settings_general form.
+ */
+function c4m_user_profile_form_campaignmonitor_admin_settings_general_submit($form, &$form_state) {
+  if (isset($form_state['values'])) {
+    variable_set('campaignmonitor_list_title', $form_state['values']['campaignmonitor_list_title']);
+  }
+}
+
+/**
+ * Subscribe email address to mailing list.
+ *
+ * @param string $email_address
+ *   Email address.
+ * @param string $name
+ *   User's name.
+ *
+ * @return bool
+ *   TRUE if the subscribe process succeeded.
+ */
+function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
+  if (!$list_title = variable_get('campaignmonitor_list_title')) {
+    return FALSE;
+  }
+
+  // Get connected to the API and get lists.
+  $cm = CampaignMonitor::getConnector();
+  $lists_info = $cm->getLists();
+  $list_id = 0;
+  foreach ($lists_info as $list_id => $list) {
+    if ($list['name'] == $list_title) {
+      break;
+    }
+  }
+
+  if (!$list_id || $cm->isSubscribed($list_id, $email_address)) {
+    return FALSE;
+  }
+
+  return $cm->subscribe($list_id, $email_address, $name);
+}
