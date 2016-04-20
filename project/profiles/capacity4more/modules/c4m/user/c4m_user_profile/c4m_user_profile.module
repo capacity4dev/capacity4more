@@ -247,6 +247,11 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     return array(0 => t('The e-mail address %mail is not valid.', array('%mail' => $mail)));
   }
 
+  $other_user = user_load_by_mail($mail);
+  if ($other_user->status) {
+    return array(0 => t('This account is already in use. If this is you, please log in'));
+  }
+
   $account = $form['#user'];
   if ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', $account->uid, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
     // Format error message dependent on whether the user is logged in or not.
