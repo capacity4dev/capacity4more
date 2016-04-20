@@ -44,6 +44,6 @@ projects[weight][subdir] = "contrib"
 projects[weight][version] = "3.1"
 
 libraries[leaflet][download][type]= "get"
-libraries[leaflet][download][url] = "https://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.zip"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
