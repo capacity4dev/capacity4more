@@ -9,4 +9,5 @@
  */
 function c4m_helper_comment_form_comment_form_alter(&$form, &$form_state) {
   $form['actions']['submit']['#value'] = t('Comment');
+  $form['actions']['submit']['#attributes']['class'] = array('btn-primary');
 }

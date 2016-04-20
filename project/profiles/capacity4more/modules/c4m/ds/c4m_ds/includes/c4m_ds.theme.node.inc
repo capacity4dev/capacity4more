@@ -98,6 +98,9 @@ function theme_c4m_ds_content_type_icon(array $field) {
     'discussion-debate' => 'fa-comments',
     'discussion-question' => 'fa-question-circle',
     'discussion-idea' => 'fa-lightbulb-o',
+    'event-event' => 'fa-calendar',
+    'event-meeting' => 'fa-users',
+    'event-learning' => 'fa-university',
   );
 
   $object = $field['entity'];

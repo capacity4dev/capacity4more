@@ -1,3 +1,13 @@
+.icon-col {
+  float: left;
+  text-align: center;
+  width: 75px;
+
+  & + .content-col {
+    margin-left: 75px;
+  }
+}
+
 .node-icon {
   background-size: contain;
   display: inline-block;

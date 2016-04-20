@@ -9,9 +9,9 @@
   <div class="col-md-12 right">
     <div class="my-groups panel-pane">
       <h2 class="pane-title"><?php print t('My Groups') ?></h2>
-      <?php print $first_groups ?>
+      <?php print $first_groups; ?>
       <div class="collapse" id="allGroups">
-        <?php print $extra_groups ?>
+        <?php print $extra_groups; ?>
       </div>
       <?php if ($show_all_link) : ?>
         <a class="see-more-link" id="toggleMyGroups" href="javascript://" data-toggle="collapse" data-target="#allGroups" aria-expanded="false" aria-controls="allGroups">

@@ -89,6 +89,19 @@ function c4m_ds_ds_layout_info() {
     'image' => TRUE,
   );
 
+  $layouts['c4m_ds_2col_icon_left_stacked'] = array(
+    'label' => t('Two columns with the content icon left, stacked.'),
+    'path' => $path . '/c4m_ds_2col_icon_left_stacked',
+    'regions' => array(
+      'header' => t('Header'),
+      'left' => t('Icon'),
+      'right' => t('Content'),
+      'footer' => t('Footer'),
+    ),
+    'form' => TRUE,
+    'image' => TRUE,
+  );
+
   $layouts['c4m_ds_3col_icon_left'] = array(
     'label' => t('Three columns with the content icon left.'),
     'path' => $path . '/c4m_ds_3col_icon_left',

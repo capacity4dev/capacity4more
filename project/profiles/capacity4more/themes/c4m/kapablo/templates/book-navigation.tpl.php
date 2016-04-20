@@ -35,29 +35,32 @@
   <div id="book-navigation-<?php print $book_id; ?>" class="book-navigation">
 
     <?php if ($has_links): ?>
-    <ul class="pager clearfix">
-      <?php if ($prev_url): ?>
-        <li class="previous">
-          <a href="<?php print $prev_url; ?>" class="page-previous" title="<?php print t('Go to previous page'); ?>">
-            <?php print t('‹'); ?> <?php print $prev_title; ?>
-          </a>
-        </li>
-      <?php endif; ?>
-      <?php if ($parent_url): ?>
-        <li>
-          <a href="<?php print $parent_url; ?>" class="page-up" title="<?php print t('Go to parent page'); ?>">
-            <?php print t('up'); ?>
-          </a>
-        </li>
-      <?php endif; ?>
-      <?php if ($next_url): ?>
-        <li class="next">
-          <a href="<?php print $next_url; ?>" class="page-next" title="<?php print t('Go to next page'); ?>">
-            <?php print $next_title; ?> <?php print t('›'); ?>
-          </a>
-        </li>
-      <?php endif; ?>
-    </ul>
+      <div class="row">
+        <div class="previous col-xs-4 text-left">
+          <?php if ($prev_url): ?>
+            <a href="<?php print $prev_url; ?>" class="page-previous"
+               title="<?php print t('Go to previous page'); ?>">
+              <i class="fa fa-chevron-circle-left"></i>  <span class="hidden-xs"><?php print $prev_title; ?></span>
+            </a>
+          <?php endif; ?>
+        </div>
+        <div class="col-xs-4 text-center">
+          <?php if ($parent_url): ?>
+            <a href="<?php print $parent_url; ?>" class="page-up"
+               title="<?php print t('Go to parent page'); ?>">
+              <?php print t('up'); ?>
+            </a>
+          <?php endif; ?>
+        </div>
+        <div class="next col-xs-4 text-right">
+          <?php if ($next_url): ?>
+            <a href="<?php print $next_url; ?>" class="page-next"
+               title="<?php print t('Go to next page'); ?>">
+              <span class="hidden-xs"><?php print $next_title; ?></span> <i class="fa fa-chevron-circle-right"></i>
+            </a>
+          <?php endif; ?>
+        </div>
+      </div>
     <?php endif; ?>
 
   </div>
