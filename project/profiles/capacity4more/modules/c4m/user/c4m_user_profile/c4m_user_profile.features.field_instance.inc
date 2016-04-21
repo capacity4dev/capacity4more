@@ -965,7 +965,7 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'The regions & Countries you are interested in.',
+    'description' => 'The Regions & Countries you are interested in.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1216,7 +1216,7 @@ function c4m_user_profile_field_default_field_instances() {
   t('Regions & Countries');
   t('Select one or more topics you are an expert in.');
   t('Select one or more topics you are interested in.');
-  t('The regions & Countries you are interested in.');
+  t('The Regions & Countries you are interested in.');
   t('Topics of Expertise');
   t('Topics of Interest');
 
