@@ -205,7 +205,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 5,
+        'weight' => 3,
       ),
       'teaser_group' => array(
         'label' => 'hidden',
