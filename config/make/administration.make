@@ -78,6 +78,7 @@ projects[flag][version] = "3.7"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
+projects[node_gallery][patch][] = https://www.drupal.org/files/issues/node_gallery-entity-delete-exception-2006772-1.patch
 
 projects[restful][download][type] = "git"
 projects[restful][download][url] = "https://github.com/Gizra/restful.git"
