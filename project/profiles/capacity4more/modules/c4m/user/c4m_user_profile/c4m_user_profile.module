@@ -10,8 +10,8 @@ include_once 'c4m_user_profile.features.inc';
  * Implements hook_field_extra_fields_alter().
  */
 function c4m_user_profile_field_extra_fields_alter(&$info) {
-  // Make sure that the Account fields are always at the top of the
-  // user profile.
+  // Make sure that the Account fields are always at the top of the user
+  // profile.
   if (isset($info['user']['user']['form']['account']['weight'])) {
     $info['user']['user']['form']['account']['weight'] = -100;
   }
@@ -156,6 +156,52 @@ function c4m_user_profile_theme() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  // Add checkbox for contact options.
+  // @see contact_form_user_profile_form_alter().
+  $form['contact_info']['contact'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
+    '#default_value' => variable_get('contact_default_status', 1),
+    '#weight' => 20,
+  );
+  $form['contact_info']['#weight'] = 20;
+
+  // Move the email input first.
+  $form['mail'] = $form['account']['mail'];
+  $form['mail']['#weight'] = -100;
+  unset($form['account']['mail']);
+
+  // Add Cancel button.
+  $form['actions']['cancel'] = array(
+    '#type' => 'markup',
+    '#markup' => l(t('Cancel'), '<front>', array('attributes' => array('class' => array('btn', 'btn-default')))),
+  );
+
+  // Adjust legal information.
+  $form['legal'] = $form['legal']['legal_accept'];
+  $form['legal']['#type'] = 'markup';
+  $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
+
+  // Adjust validators. Remove default one and replace it with a custom one.
+  // Add validator for the email field.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+  if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
+    unset($form['#validate'][$key]);
+  }
+  array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
+}
+
+/**
+ * Implements hook_c4m_captcha_form_info().
+ */
+function c4m_user_profile_c4m_captcha_form_info() {
+  return array('user_register_form');
+}
+
+/**
  * Implements hook_module_implements_alter().
  *
  * Our implementation needs to fire after legal module.
@@ -166,18 +212,6 @@ function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
     unset($implementations['c4m_user_profile']);
     $implementations['c4m_user_profile'] = $c4m_user_profile;
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
-  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
-
-  if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
-    unset($form['#validate'][$key]);
-  }
-  array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
 }
 
 /**

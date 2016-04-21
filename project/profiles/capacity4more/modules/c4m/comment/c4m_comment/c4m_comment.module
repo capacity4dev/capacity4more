@@ -59,3 +59,34 @@ function c4m_comment_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * @see comment_node_view()
+ * @see comment_node_page_additions()
+ */
+function c4m_comment_node_view_alter(&$build) {
+  $node = $build['#node'];
+  $view_mode = $build['#view_mode'];
+  // Only append comments when we are building a node on its own node detail
+  // page. We compare $node and $page_node to ensure that comments are not
+  // appended to other nodes shown on the page, for example a node_reference
+  // displayed in 'full' view mode within another node.
+  if ($node->comment && $view_mode == 'full' && node_is_page($node) && empty($node->in_preview)) {
+    // There are no comments yet but comments are enabled.
+    if (user_is_anonymous() && empty($build['comments']) && $node->comment == COMMENT_NODE_OPEN) {
+      $register_link = l(t('Register'), 'user/register');
+      $login_link = l(t('log in'), 'user/login');
+
+      $text = t('!register or !login to comment', array(
+        '!register' => $register_link,
+        '!login' => $login_link,
+      ));
+
+      $build['comments'] = array(
+        '#markup' => $text,
+      );
+    }
+  }
+}

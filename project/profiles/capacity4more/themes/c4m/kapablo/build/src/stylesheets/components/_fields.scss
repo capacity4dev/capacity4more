@@ -162,6 +162,29 @@
   }
 }
 
+.field-name-c4m-content-wiki-page-navigation {
+  li {
+    position: relative;
+
+    i.fa {
+      color: $color-link;
+      font-size: 75%;
+    }
+
+    a.active {
+      > i.fa {
+        color: $gray-dark;
+      }
+    }
+  }
+}
+
+.wiki-add-links {
+  border-top: 1px dashed $color-gray-light;
+  margin-top: 0.5em;
+  padding-top: 0.5em
+}
+
 .node-photo {
   img {
     margin: 0 auto;

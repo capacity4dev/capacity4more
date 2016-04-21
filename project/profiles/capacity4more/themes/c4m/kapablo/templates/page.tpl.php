@@ -191,8 +191,9 @@
       </header>
       <!-- /#page-header -->
 
-      <?php if (!empty($page['sidebar_first'])): ?>
+      <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
         <aside class="col-md-4" role="complementary">
+          <?php print render($page['sidebar_first_top']); ?>
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
       <?php endif; ?>
