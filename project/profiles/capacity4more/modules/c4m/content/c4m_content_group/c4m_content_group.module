@@ -50,6 +50,10 @@ function c4m_content_group_block_info() {
     'info' => t('Group header'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
+  $blocks['c4m_block_create_group'] = array(
+    'info' => t('Group: Create group'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
   return $blocks;
 }
 
