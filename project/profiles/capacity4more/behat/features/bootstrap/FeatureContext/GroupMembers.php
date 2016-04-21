@@ -43,9 +43,9 @@ trait GroupMembers {
     $steps[] = new Step\When('I should be able to sort the overview');
     $steps[] = new Step\When('I should see the sidebar search');
     $steps[] = new Step\When('I should see the sidebar facet with title "Group membership type"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "Type of Organisation"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Organisation type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics of Expertise"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "Country of residence"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Country"');
 
     return $steps;
   }
@@ -60,9 +60,9 @@ trait GroupMembers {
     $steps[] = new Step\When('I should be able to sort the overview');
     $steps[] = new Step\When('I should see the sidebar search');
     $steps[] = new Step\When('I should see the sidebar facet with title "Group membership type"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "Type of Organisation"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Organisation type"');
     $steps[] = new Step\When('I should see the sidebar facet with title "Topics of Expertise"');
-    $steps[] = new Step\When('I should see the sidebar facet with title "Country of residence"');
+    $steps[] = new Step\When('I should see the sidebar facet with title "Country"');
 
     return $steps;
   }

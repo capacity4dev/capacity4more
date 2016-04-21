@@ -1,0 +1,15 @@
+.captcha {
+  display: block;
+  // As .form-item class.
+  margin-bottom: 15px;
+  .form-control {
+    max-width: 300px;
+  }
+}
+
+.captcha_error {
+  // Compensate for .captcha margin.
+  margin-top: -15px;
+  // Add .captcha margin.
+  margin-bottom: 15px;
+}

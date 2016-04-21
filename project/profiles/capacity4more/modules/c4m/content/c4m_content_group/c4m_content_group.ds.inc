@@ -18,7 +18,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'block_list';
   $ds_fieldsetting->settings = array(
     'title' => array(
-      'weight' => '1',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -31,7 +31,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'inline',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -49,7 +49,7 @@ function c4m_content_group_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_group_members_count' => array(
-      'weight' => '3',
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -59,6 +59,11 @@ function c4m_content_group_ds_field_settings_info() {
           'suffix' => '</div>',
         ),
       ),
+    ),
+    'c4m_ds_group_membership_type' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
     'c4m_media' => array(
       'formatter_settings' => array(
@@ -267,13 +272,15 @@ function c4m_content_group_ds_layout_settings_info() {
         0 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'title',
-        2 => 'c4m_user_first_and_last_name',
-        3 => 'c4m_ds_group_members_count',
+        1 => 'c4m_ds_group_membership_type',
+        2 => 'title',
+        3 => 'c4m_user_first_and_last_name',
+        4 => 'c4m_ds_group_members_count',
       ),
     ),
     'fields' => array(
       'c4m_media' => 'left',
+      'c4m_ds_group_membership_type' => 'right',
       'title' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_group_members_count' => 'right',

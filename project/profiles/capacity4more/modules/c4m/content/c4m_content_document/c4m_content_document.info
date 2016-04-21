@@ -33,6 +33,7 @@ dependencies[] = options
 dependencies[] = smart_trim
 dependencies[] = strongarm
 dependencies[] = taxonomy
+dependencies[] = term_reference_tree
 dependencies[] = text
 features[ctools][] = ds:ds:1
 features[ctools][] = field_group:field_group:1

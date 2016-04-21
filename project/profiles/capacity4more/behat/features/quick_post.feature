@@ -14,9 +14,3 @@ Feature: Test quick post
     Given I am logged in as user "mariecurie"
     When  I create a discussion quick post with title "New discussion" and body "Some text in the body" in "Tennis Group"
     Then  I should see "New discussion"
-
-  @javascript
-  Scenario: Check Quick post "event" submit.
-    Given I am logged in as user "mariecurie"
-    When  I create an event quick post with title "New event" and body "Some text in the body" that starts at "25/12/2018" and ends at "26/12/2018" in "Tennis Group"
-    Then  I should see "New event"
