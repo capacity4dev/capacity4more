@@ -56,4 +56,13 @@
 // ========================================================================== //
 .checkboxes-wrapper {
   position: relative;
+
+  ul {
+    list-style-type: none;
+  }
+}
+
+.popover-content {
+  max-height: 400px;
+  overflow-y: scroll;
 }
