@@ -442,17 +442,25 @@ function c4m_user_profile_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'c4m_organisation_type',
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
+      'value' => array(
+        0 => 'value',
       ),
     ),
     'locked' => 0,
-    'module' => 'text',
+    'module' => 'list',
     'settings' => array(
-      'max_length' => 255,
+      'allowed_values' => array(
+        'european_institutions' => 'European Institutions',
+        'government' => 'Government',
+        'international_organisation' => 'International Organisation',
+        'civil_society_ngo' => 'Civil Society / NGO',
+        'academic' => 'Academic',
+        'private_sector' => 'Private Sector',
+      ),
+      'allowed_values_function' => '',
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'list_text',
   );
 
   return $field_bases;

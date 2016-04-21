@@ -38,6 +38,12 @@ function c4m_features_overview_projects_context_default_contexts() {
           'region' => 'content_top',
           'weight' => '-9',
         ),
+        'c4m_content_project-c4m_block_create_project' => array(
+          'module' => 'c4m_content_project',
+          'delta' => 'c4m_block_create_project',
+          'region' => 'sidebar_first_top',
+          'weight' => '-10',
+        ),
         'views--exp-c4m_overview_projects-page' => array(
           'module' => 'views',
           'delta' => '-exp-c4m_overview_projects-page',

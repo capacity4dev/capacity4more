@@ -53,10 +53,10 @@ function c4m_user_profile_field_group_info() {
     'children' => array(
       0 => 'c4m_country',
       1 => 'c4m_first_name',
-      2 => 'c4m_last_name',
-      3 => 'c4m_organisation',
-      4 => 'c4m_organisation_type',
-      5 => 'c4m_job_title',
+      2 => 'c4m_job_title',
+      3 => 'c4m_last_name',
+      4 => 'c4m_organisation',
+      5 => 'c4m_organisation_type',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -84,9 +84,9 @@ function c4m_user_profile_field_group_info() {
     'label' => 'Your public profile',
     'weight' => '2',
     'children' => array(
-      0 => 'c4m_media',
-      1 => 'c4m_vocab_geo',
-      2 => 'c4m_about_you',
+      0 => 'c4m_about_you',
+      1 => 'c4m_media',
+      2 => 'c4m_vocab_geo',
       3 => 'c4m_vocab_topic',
       4 => 'c4m_vocab_topic_expertise',
     ),
