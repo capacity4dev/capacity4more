@@ -17,5 +17,6 @@ MAKE_FILES=(
   "panels.make"
   "performance.make"
   "search.make"
+  "users.make"
   "views.make"
 )
