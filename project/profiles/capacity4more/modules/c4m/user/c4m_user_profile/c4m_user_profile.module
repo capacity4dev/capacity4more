@@ -195,6 +195,34 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  // Add checkbox for contact options.
+  // @see contact_form_user_profile_form_alter().
+  $form['contact_info']['contact'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
+    '#default_value' => variable_get('contact_default_status', 1),
+    '#weight' => 20,
+  );
+  $form['contact_info']['#weight'] = 20;
+
+  // Move the email input first.
+  $form['mail'] = $form['account']['mail'];
+  $form['mail']['#weight'] = -100;
+  unset($form['account']['mail']);
+
+  // Adjust validators. Remove default one and replace it with a custom one.
+  // Add validator for the email field.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+  if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
+    unset($form['#validate'][$key]);
+  }
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+}
+
+/**
  * Implements hook_c4m_captcha_form_info().
  */
 function c4m_user_profile_c4m_captcha_form_info() {
@@ -258,14 +286,17 @@ function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
   // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
   // warnings often caused by cutting and pasting.
   $mail = trim($form_state['values']['mail']);
-  form_set_value($form['account']['mail'], $mail, $form_state);
+  form_set_value($form['mail'], $mail, $form_state);
 
   $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  uasort($errors, 'element_sort');
 
   if ($errors) {
+    $messages = array();
     foreach ($errors as $error) {
-      form_error($element, $error);
+      $messages[] = $error['message'];
     }
+    form_error($element, implode("<br>", $messages));
   }
 }
 
@@ -273,49 +304,48 @@ function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
  * Implements hook_c4m_user_profile_validate_email().
  */
 function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $form) {
-  if (!$mail) {
-    return array(0 => t('You must enter an e-mail address.'));
-  }
-
   if (!valid_email_address($mail)) {
-    return array(0 => t('The e-mail address %mail is not valid.', array('%mail' => $mail)));
+    return array(
+      array(
+        'message' => t('The e-mail address %mail is not valid.', array('%mail' => $mail)),
+        '#weight' => 0,
+      ),
+    );
   }
 
-  if (!($other_user = user_load_by_mail($mail))) {
+  if (!($other_user = user_load_by_mail($mail)) || $other_user->uid == $GLOBALS['user']->uid) {
     return array();
   }
 
   $other_user = entity_metadata_wrapper('user', $other_user);
+  $errors = array();
   if ($other_user->status->value()) {
-    return array(0 => t('This account is already in use. If this is you, please log in.'));
-  }
-  elseif (!$other_user->last_login->value() && !$other_user->last_access->value()) {
-    return array(0 => t('This email address is already in use. Please activate your account, or re-send activation mail.'));
-  }
-  elseif ($other_user->c4m_is_spammer->value()) {
-    return array(0 => t('This account has been blocked. Contact site administrator for more information.'));
-  }
-  elseif ($other_user->c4m_is_deleted->value()) {
-    return array(
-      0 => t('There is a problem with your account, please !contact the site administrators.', array(
-        '!contact' => l(t('contact'), 'contact'),
-      )),
+    $errors[] = array(
+      'message' => t('This account is already in use. If this is you, please log in.'),
+      '#weight' => 0,
     );
   }
-
-  $account = $form['#user'];
-  if ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', $account->uid, '<>')->condition('mail', db_like($form_state['values']['mail']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
-    // Format error message dependent on whether the user is logged in or not.
-    if ($GLOBALS['user']->uid) {
-      return array(0 => t('The e-mail address %email is already taken.', array('%email' => $form_state['values']['mail'])));
+  else {
+    if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
+      $errors[] = array(
+        'message' => t('This email address is already in use. Please activate your account, or re-send activation mail.'),
+        '#weight' => 0,
+      );
     }
-    else {
-      return array(
-        0 => t('The e-mail address %email is already registered. <a href="@password">Have you forgotten your password?</a>', array(
-          '%email' => $form_state['values']['mail'],
-          '@password' => url('user/password'),
+    if ($other_user->c4m_is_spammer->value()) {
+      $errors[] = array(
+        'message' => t('This account has been blocked. Contact site administrator for more information.'),
+        '#weight' => 1,
+      );
+    }
+    if ($other_user->c4m_is_deleted->value()) {
+      $errors[] = array(
+        'message' => t('There is a problem with your account, please !contact the site administrators.', array(
+          '!contact' => l(t('contact'), 'contact'),
         )),
+        '#weight' => 2,
       );
     }
   }
+  return $errors;
 }
