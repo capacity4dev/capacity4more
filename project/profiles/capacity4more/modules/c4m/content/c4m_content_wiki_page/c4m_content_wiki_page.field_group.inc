@@ -93,7 +93,7 @@ function c4m_content_wiki_page_field_group_info() {
     'format_settings' => array(
       'label' => 'Group pages',
       'instance_settings' => array(
-        'id' => '',
+        'id' => 'group-pages-navigation-left',
         'classes' => 'group-pages field-group-fieldset',
         'description' => '',
         'show_label' => '1',
