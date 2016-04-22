@@ -156,19 +156,6 @@ function c4m_user_profile_theme() {
 }
 
 /**
- * Implements hook_module_implements_alter().
- *
- * Our implementation needs to fire after legal module.
- */
-function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'form_alter' && isset($implementations['c4m_user_profile'])) {
-    $c4m_user_profile = $implementations['c4m_user_profile'];
-    unset($implementations['c4m_user_profile']);
-    $implementations['c4m_user_profile'] = $c4m_user_profile;
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
@@ -187,6 +174,14 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['mail']['#weight'] = -100;
   unset($form['account']['mail']);
 
+  $form['mail']['#ajax'] = array(
+    'callback' => 'c4m_user_profile_element_validate_mail_ajax',
+    'event' => 'blur',
+    'method' => 'replace',
+    'wrapper' => 'user-form-mail-validation-message',
+  );
+  $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+
   // Add Cancel button.
   $form['actions']['cancel'] = array(
     '#type' => 'markup',
@@ -199,6 +194,8 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 
   // Adjust validators. Remove default one and replace it with a custom one.
+  // Add validator for the email field.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
@@ -215,42 +212,61 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
 }
 
 /**
- * Validate callback for user_register_form.
- *
- * Replaces user_account_form_validate(). From the original code the email
- * validation was removed.
+ * Implements hook_form_FORM_ID_alter().
  */
-function c4m_user_profile_account_form_validate(&$form, &$form_state) {
-  if ($form['#user_category'] == 'account' || $form['#user_category'] == 'register') {
-    $account = $form['#user'];
-    // Validate new or changing username.
-    if (isset($form_state['values']['name'])) {
-      if ($error = user_validate_name($form_state['values']['name'])) {
-        form_set_error('name', $error);
-      }
-      elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', $account->uid, '<>')->condition('name', db_like($form_state['values']['name']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
-        form_set_error('name', t('The name %name is already taken.', array('%name' => $form_state['values']['name'])));
-      }
+function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  // Add checkbox for contact options.
+  // @see contact_form_user_profile_form_alter().
+  $form['contact_info']['contact'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
+    '#default_value' => variable_get('contact_default_status', 1),
+    '#weight' => 20,
+  );
+  $form['contact_info']['#weight'] = 20;
+
+  // Move the email input first.
+  $form['mail'] = $form['account']['mail'];
+  $form['mail']['#weight'] = -100;
+  unset($form['account']['mail']);
+
+  $form['mail']['#ajax'] = array(
+    'callback' => 'c4m_user_profile_element_validate_mail_ajax',
+    'event' => 'blur',
+    'method' => 'replace',
+    'wrapper' => 'user-form-mail-validation-message',
+  );
+  $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+
+  // Adjust validators. Remove default one and replace it with a custom one.
+  // Add validator for the email field.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+  if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
+    unset($form['#validate'][$key]);
+  }
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+}
+
+/**
+ * AJAX callback for mail field validation.
+ */
+function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
+  // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
+  // warnings often caused by cutting and pasting.
+  $mail = trim($form_state['values']['mail']);
+
+  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  uasort($errors, 'element_sort');
+
+  if ($errors) {
+    $messages = array();
+    foreach ($errors as $error) {
+      $messages[] = $error['message'];
     }
-
-    // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
-    // warnings often caused by cutting and pasting.
-    $mail = trim($form_state['values']['mail']);
-    form_set_value($form['mail'], $mail, $form_state);
-
-    // Make sure the signature isn't longer than the size of the database field.
-    // Signatures are disabled by default, so make sure it exists first.
-    if (isset($form_state['values']['signature'])) {
-      // Move text format for user signature into 'signature_format'.
-      $form_state['values']['signature_format'] = $form_state['values']['signature']['format'];
-      // Move text value for user signature into 'signature'.
-      $form_state['values']['signature'] = $form_state['values']['signature']['value'];
-
-      $user_schema = drupal_get_schema('users');
-      if (drupal_strlen($form_state['values']['signature']) > $user_schema['fields']['signature']['length']) {
-        form_set_error('signature', t('The signature is too long: it must be %max characters or less.', array('%max' => $user_schema['fields']['signature']['length'])));
-      }
-    }
+    return '<div id="user-form-mail-validation-message" class="text-danger">' . implode("<br>", $messages) . '</div>';
+  }
+  else {
+    return '<div id="user-form-mail-validation-message" class="hidden"></div>';
   }
 }
 
@@ -335,4 +351,129 @@ function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
   }
 
   return $cm->subscribe($list_id, $email_address, $name);
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Our implementation needs to fire after legal module.
+ */
+function c4m_user_profile_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['c4m_user_profile'])) {
+    $c4m_user_profile = $implementations['c4m_user_profile'];
+    unset($implementations['c4m_user_profile']);
+    $implementations['c4m_user_profile'] = $c4m_user_profile;
+  }
+}
+
+/**
+ * Validator callback c4m_user_profile_account_form_validate().
+ *
+ * Replaces user_account_form_validate() and removes the code related to email
+ * validation.
+ */
+function c4m_user_profile_account_form_validate($form, &$form_state) {
+  if ($form['#user_category'] != 'account' && $form['#user_category'] != 'register') {
+    return;
+  }
+
+  $account = $form['#user'];
+  // Validate new or changing username.
+  if (isset($form_state['values']['name'])) {
+    if ($error = user_validate_name($form_state['values']['name'])) {
+      form_set_error('name', $error);
+    }
+    elseif ((bool) db_select('users')->fields('users', array('uid'))->condition('uid', $account->uid, '<>')->condition('name', db_like($form_state['values']['name']), 'LIKE')->range(0, 1)->execute()->fetchField()) {
+      form_set_error('name', t('The name %name is already taken.', array('%name' => $form_state['values']['name'])));
+    }
+  }
+
+  // Make sure the signature isn't longer than the size of the database field.
+  // Signatures are disabled by default, so make sure it exists first.
+  if (isset($form_state['values']['signature'])) {
+    // Move text format for user signature into 'signature_format'.
+    $form_state['values']['signature_format'] = $form_state['values']['signature']['format'];
+    // Move text value for user signature into 'signature'.
+    $form_state['values']['signature'] = $form_state['values']['signature']['value'];
+
+    $user_schema = drupal_get_schema('users');
+    if (drupal_strlen($form_state['values']['signature']) > $user_schema['fields']['signature']['length']) {
+      form_set_error('signature', t('The signature is too long: it must be %max characters or less.', array('%max' => $user_schema['fields']['signature']['length'])));
+    }
+  }
+}
+
+/**
+ * Validator callback for mail field.
+ */
+function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
+  // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
+  // warnings often caused by cutting and pasting.
+  $mail = trim($form_state['values']['mail']);
+  form_set_value($form['mail'], $mail, $form_state);
+
+  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  uasort($errors, 'element_sort');
+
+  if ($errors) {
+    $messages = array();
+    foreach ($errors as $error) {
+      $messages[] = $error['message'];
+    }
+    form_error($element, implode("<br>", $messages));
+  }
+}
+
+/**
+ * Implements hook_c4m_user_profile_validate_email().
+ */
+function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $form) {
+  if (!valid_email_address($mail)) {
+    return array(
+      array(
+        'message' => t('The e-mail address %mail is not valid.', array('%mail' => $mail)),
+        '#weight' => 0,
+      ),
+    );
+  }
+
+  if (!($other_user = user_load_by_mail($mail)) || $other_user->uid == $GLOBALS['user']->uid) {
+    return array();
+  }
+
+  $other_user = entity_metadata_wrapper('user', $other_user);
+  $errors = array();
+  if ($other_user->status->value()) {
+    $errors[] = array(
+      'message' => t('This account is already in use. If this is you, please !login</a>.', array(
+        '!login' => l(t('log in'), 'user/login'),
+      )),
+      '#weight' => 0,
+    );
+  }
+  else {
+    if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
+      $errors[] = array(
+        'message' => t('This email address is already in use. Please activate your account, or re-send activation mail.'),
+        '#weight' => 0,
+      );
+    }
+    if ($other_user->c4m_is_spammer->value()) {
+      $errors[] = array(
+        'message' => t('This account has been blocked. !contact site administrator for more information.', array(
+          '!contact' => l(t('Contact'), 'contact'),
+        )),
+        '#weight' => 1,
+      );
+    }
+    if ($other_user->c4m_is_deleted->value()) {
+      $errors[] = array(
+        'message' => t('There is a problem with your account, please !contact the site administrators.', array(
+          '!contact' => l(t('contact'), 'contact'),
+        )),
+        '#weight' => 2,
+      );
+    }
+  }
+  return $errors;
 }
