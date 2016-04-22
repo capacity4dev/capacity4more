@@ -51,6 +51,11 @@ MIGRATION_USER=""
 MIGRATION_PASS=""
 MIGRATION_FILES=""
 
+# Campaign Monitor related settings.
+CAMPAIGNMONITOR_API_KEY="Some hash"
+CAMPAIGNMONITOR_CLIENT_ID="Some hash"
+CAMPAIGNMONITOR_LIST_TITLE="Title of the list"
+
 ################################################################################
 # Druleton configuration.
 ################################################################################

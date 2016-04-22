@@ -126,3 +126,11 @@ if [ $dummy_content -eq 1 ]; then
   source "$DIR_CONFIG_SRC/dummy.sh"
   dummy_content
 fi
+
+if [ "$CAMPAIGNMONITOR_CLIENT_ID" != "" ] && [ "$CAMPAIGNMONITOR_API_KEY" != "" ]; then
+  # Set campaign monitor related variables.
+  markup_h1 "Set campaign monitor related variables"
+  php -r "print json_encode(array('client_id' => '$CAMPAIGNMONITOR_CLIENT_ID', 'api_key' => '$CAMPAIGNMONITOR_API_KEY'));" | drupal_drush vset --format=json campaignmonitor_account -
+  drupal_drush vset campaignmonitor_list_title "$CAMPAIGNMONITOR_LIST_TITLE"
+  echo
+fi
