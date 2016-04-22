@@ -66,6 +66,12 @@ $messages = array(
     'subject' => 'user_registrationpassword_register_subject',
     'body' => 'user_registrationpassword_register_body',
   ),
+  array(
+    'module' => 'user',
+    'title' => 'Welcome',
+    'subject' => 'user_registrationpassword_status_activated_subject',
+    'body' => 'user_registrationpassword_status_activated_body',
+  ),
 
   // Group status request & approvals.
   array(
