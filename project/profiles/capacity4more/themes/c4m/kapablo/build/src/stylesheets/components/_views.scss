@@ -18,3 +18,12 @@
 .see-more-link, .more-link {
   text-align: right;
 }
+
+.pager-load-more {
+  list-style: none;
+  text-align: right;
+  
+  &.pager-load-more-empty {
+    display: none;
+  }
+}
