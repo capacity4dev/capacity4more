@@ -122,6 +122,20 @@ function c4m_content_document_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_field_og_group' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'show_group_type' => 1,
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_submitted_by_and_on' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'j F Y',
+    ),
     'c4m_content_document_icon' => array(
       'weight' => '0',
       'label' => 'hidden',
@@ -625,13 +639,15 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_document',
+        2 => 'c4m_ds_submitted_by_and_on',
+        3 => 'c4m_field_og_group',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
-      'c4m_document' => 'right',
+      'c4m_ds_submitted_by_and_on' => 'right',
+      'c4m_field_og_group' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(

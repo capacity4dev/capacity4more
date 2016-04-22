@@ -3,6 +3,7 @@ description = The Learning Space feature
 core = 7.x
 package = capacity4more - Features
 dependencies[] = context
+dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = views
 dependencies[] = views_load_more
