@@ -174,6 +174,14 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['mail']['#weight'] = -100;
   unset($form['account']['mail']);
 
+  $form['mail']['#ajax'] = array(
+    'callback' => 'c4m_user_profile_element_validate_mail_ajax',
+    'event' => 'blur',
+    'method' => 'replace',
+    'wrapper' => 'user-form-mail-validation-message',
+  );
+  $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+
   // Add Cancel button.
   $form['actions']['cancel'] = array(
     '#type' => 'markup',
@@ -213,6 +221,14 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $form['mail']['#weight'] = -100;
   unset($form['account']['mail']);
 
+  $form['mail']['#ajax'] = array(
+    'callback' => 'c4m_user_profile_element_validate_mail_ajax',
+    'event' => 'blur',
+    'method' => 'replace',
+    'wrapper' => 'user-form-mail-validation-message',
+  );
+  $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+
   // Adjust validators. Remove default one and replace it with a custom one.
   // Add validator for the email field.
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
@@ -220,6 +236,29 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     unset($form['#validate'][$key]);
   }
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+}
+
+/**
+ * AJAX callback for mail field validation.
+ */
+function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
+  // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
+  // warnings often caused by cutting and pasting.
+  $mail = trim($form_state['values']['mail']);
+
+  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  uasort($errors, 'element_sort');
+
+  if ($errors) {
+    $messages = array();
+    foreach ($errors as $error) {
+      $messages[] = $error['message'];
+    }
+    return '<div id="user-form-mail-validation-message" class="text-danger">' . implode("<br>", $messages) . '</div>';
+  }
+  else {
+    return '<div id="user-form-mail-validation-message" class="hidden"></div>';
+  }
 }
 
 /**
