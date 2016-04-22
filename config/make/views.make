@@ -11,6 +11,7 @@ projects[views_bulk_operations][version] = "3.3"
 
 projects[views_load_more][subdir] = "contrib"
 projects[views_load_more][version] = "1.5"
+projects[views_load_more][patch][] = "https://www.drupal.org/files/1330574_different_item_count_on_first_page_refactored_1.patch"
 
 projects[draggableviews][subdir] = "contrib"
 projects[draggableviews][version] = "2.1"
