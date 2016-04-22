@@ -71,24 +71,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
-  /* Header: Add list view */
-  $handler->display->display_options['header']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
-  $handler->display->display_options['header']['c4m_views_switch_page']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
-  $handler->display->display_options['header']['c4m_views_switch_page']['ui_name'] = 'Add list view';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'documents';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'List view';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'list-teaser-view';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_icon'] = 'fa-list';
-  /* Header: Add table view */
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['id'] = 'c4m_views_switch_page_1';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['field'] = 'c4m_views_switch_page';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['ui_name'] = 'Add table view';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_path'] = 'documents/table';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'Table view';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'table-teaser-view';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_icon'] = 'fa-table';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
@@ -172,28 +154,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'c4m-og-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '30';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '5';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '«';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
-  $handler->display->display_options['pager']['options']['tags']['next'] = '›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = '»';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_teaser_table';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'documents/table';
 
   /* Display: Page 2 */
   $handler = $view->new_display('page', 'Page 2', 'page_2');

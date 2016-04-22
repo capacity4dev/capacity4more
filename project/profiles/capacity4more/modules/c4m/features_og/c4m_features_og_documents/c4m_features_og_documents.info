@@ -8,6 +8,7 @@ dependencies[] = context
 dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = facetapi
+dependencies[] = strongarm
 dependencies[] = views
 features[context][] = c4m_detail_og_documents
 features[context][] = c4m_overview_og_documents
