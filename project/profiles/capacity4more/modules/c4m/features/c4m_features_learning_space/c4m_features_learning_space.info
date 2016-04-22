@@ -6,6 +6,7 @@ dependencies[] = context
 dependencies[] = ctools
 dependencies[] = entity
 dependencies[] = views
+dependencies[] = views_load_more
 features[context][] = c4m_detail_learning
 features[ctools][] = context:context:3
 features[ctools][] = views:views_default:3.0

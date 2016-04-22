@@ -200,6 +200,15 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
     unset($form['#validate'][$key]);
   }
   array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
+
+  $form['subscribe_to_mailinglist'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send me the monthly C4DEV newsletter (see !samples)', array(
+      '!samples' => l(t('samples'), 'newsletters'),
+    )),
+    '#weight' => 50,
+  );
+  $form['#submit'][] = 'c4m_user_profile_form_user_register_form_submit';
 }
 
 /**
@@ -266,6 +275,82 @@ function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
  */
 function c4m_user_profile_c4m_captcha_form_info() {
   return array('user_register_form');
+}
+
+/**
+ * Submit callback for user_register_form form.
+ */
+function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
+  if (empty($form_state['values']['subscribe_to_mailinglist'])) {
+    return;
+  }
+  $email = $form_state['values']['mail'];
+  $name = $form_state['values']['c4m_first_name'][LANGUAGE_NONE][0]['value'] . ' ' . $form_state['values']['c4m_last_name'][LANGUAGE_NONE][0]['value'];
+  if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
+    drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try again later."));
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_profile_form_campaignmonitor_admin_settings_general_alter(&$form, &$form_state, $form_id) {
+  $form['campaignmonitor_account']['#weight'] = -2;
+  $form['campaignmonitor_list'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'List settings',
+    '#collapsible' => TRUE,
+    '#collapsed' => !$form['campaignmonitor_account']['#collapsed'] || !empty(variable_get('campaignmonitor_list_title')),
+    '#weight' => -1,
+  );
+  $form['campaignmonitor_list']['campaignmonitor_list_title'] = array(
+    '#type' => 'textfield',
+    '#title' => 'List Title',
+    '#default_value' => variable_get('campaignmonitor_list_title'),
+  );
+  $form['#submit'][] = 'c4m_user_profile_form_campaignmonitor_admin_settings_general_submit';
+}
+
+/**
+ * Submit callback for campaignmonitor_admin_settings_general form.
+ */
+function c4m_user_profile_form_campaignmonitor_admin_settings_general_submit($form, &$form_state) {
+  if (isset($form_state['values'])) {
+    variable_set('campaignmonitor_list_title', $form_state['values']['campaignmonitor_list_title']);
+  }
+}
+
+/**
+ * Subscribe email address to mailing list.
+ *
+ * @param string $email_address
+ *   Email address.
+ * @param string $name
+ *   User's name.
+ *
+ * @return bool
+ *   TRUE if the subscribe process succeeded.
+ */
+function c4m_user_profile_subscribe_to_mailing_list($email_address, $name) {
+  if (!$list_title = variable_get('campaignmonitor_list_title')) {
+    return FALSE;
+  }
+
+  // Get connected to the API and get lists.
+  $cm = CampaignMonitor::getConnector();
+  $lists_info = $cm->getLists();
+  $list_id = 0;
+  foreach ($lists_info as $list_id => $list) {
+    if ($list['name'] == $list_title) {
+      break;
+    }
+  }
+
+  if (!$list_id || $cm->isSubscribed($list_id, $email_address)) {
+    return FALSE;
+  }
+
+  return $cm->subscribe($list_id, $email_address, $name);
 }
 
 /**
@@ -360,7 +445,9 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
   $errors = array();
   if ($other_user->status->value()) {
     $errors[] = array(
-      'message' => t('This account is already in use. If this is you, please log in.'),
+      'message' => t('This account is already in use. If this is you, please !login</a>.', array(
+        '!login' => l(t('log in'), 'user/login'),
+      )),
       '#weight' => 0,
     );
   }
@@ -373,7 +460,9 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     }
     if ($other_user->c4m_is_spammer->value()) {
       $errors[] = array(
-        'message' => t('This account has been blocked. Contact site administrator for more information.'),
+        'message' => t('This account has been blocked. !contact site administrator for more information.', array(
+          '!contact' => l(t('Contact'), 'contact'),
+        )),
         '#weight' => 1,
       );
     }

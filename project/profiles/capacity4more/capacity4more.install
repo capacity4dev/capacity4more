@@ -41,8 +41,9 @@ function capacity4more_install() {
 
   // MENU.
   _capacity4more_install_save_default_menu();
-  _capacity4more_install_append_default_menu();
+  _capacity4more_install_add_default_pages();
   menu_rebuild();
+
 
   // THEMES.
   $theme_default = variable_get('theme_default', 'bootstrap');
@@ -293,10 +294,10 @@ function _capacity4more_install_save_default_menu() {
 }
 
 /**
- * Create empty default pages.
+ * Adds empty default pages.
  */
-function _capacity4more_install_append_default_menu() {
-  $main_menu_items = array(
+function _capacity4more_install_add_default_pages() {
+  $pages = array(
     'learning' => array(
       'title' => 'The Learning Space',
       'menu' => 'main-menu',
@@ -309,9 +310,15 @@ function _capacity4more_install_append_default_menu() {
       'menu_title' => 'About Us',
       'weight' => 8,
     ),
+    'newsletters' => array(
+      'title' => 'Newsletters',
+      'menu' => NULL,
+      'menu_title' => NULL,
+      'weight' => NULL,
+    ),
   );
 
-  foreach ($main_menu_items as $path => $item) {
+  foreach ($pages as $path => $item) {
     _capacity4more_install_create_page_node(
       'book',
       $item['title'],
@@ -380,7 +387,6 @@ function _capacity4more_install_create_page_node(
 
   $entity->title->set($title);
   $entity->save();
-
 }
 
 /******************************************************************************

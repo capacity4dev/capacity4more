@@ -63,4 +63,18 @@
   .field-name-c4m-ds-group-membership-type {
     float: right;
   }
+
+  .field-name-c4m-ds-submitted-by-and-on, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
+    @extend .text-small;
+  }
+
+  &:not(.node-group) {
+    .field-name-c4m-ds-submitted-by-and-on, .field-name-c4m-field-og-group {
+      color: $color-gray-light;
+
+      a {
+        color: $color-gray-light;
+      }
+    }
+  }
 }
