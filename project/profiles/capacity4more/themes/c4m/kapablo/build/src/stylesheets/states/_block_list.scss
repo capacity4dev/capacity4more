@@ -1,4 +1,16 @@
 .view-mode-block_list {
+  .label {
+    font-size: 0.7em;
+  }
+
+  .field-name-c4m-field-og-group {
+    @extend .text-copy--muted;
+
+    a {
+      @extend .text-copy--muted;
+    }
+  }
+
   .content {
     border-bottom: 1px dashed $color-gray-light;
     margin: 0 0 1rem 0;
@@ -11,11 +23,6 @@
     .group-right {
       padding-left: $grid-gutter-width / 4;
     }
-  }
-
-  .icon-col {
-    float: left;
-    width: 75px;
   }
 
   .content-col {
@@ -50,6 +57,24 @@
 
     h3 {
       margin: 0;
+    }
+  }
+
+  .field-name-c4m-ds-group-membership-type {
+    float: right;
+  }
+
+  .field-name-c4m-ds-submitted-by-and-on, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
+    @extend .text-small;
+  }
+
+  &:not(.node-group) {
+    .field-name-c4m-ds-submitted-by-and-on, .field-name-c4m-field-og-group {
+      color: $color-gray-light;
+
+      a {
+        color: $color-gray-light;
+      }
     }
   }
 }

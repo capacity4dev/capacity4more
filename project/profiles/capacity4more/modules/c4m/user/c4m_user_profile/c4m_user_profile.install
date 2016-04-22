@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Install file for c4m_user_profile module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_user_profile_install() {
+  $text = 'A whacked Sierra Nevada gives lectures on morality to a beer. Furthermore, a gravy like crank case prays, and a blotched bud light thoroughly brainwashes a Lone Star related to a shot. A blood clot inside a bull ice goes to sleep, and a mating ritual near the PBR beams with joy; however, a psychotic Pilsner intoxicatedly makes love to a Keystone light over some crank case. The ridiculously mitochondrial Budweiser gives lectures on morality to the pin ball machine of a Brewers Reserve . The freight train related to a bull ice sweeps the floor, and a Miller eagerly finds much coolness with a familiar ESB.';
+  db_insert('legal_conditions')
+    ->fields(array(
+      'version'    => 1,
+      'revision'   => 1,
+      'language'   => 'en',
+      'conditions' => $text,
+      'date'       => time(),
+      'extras'     => serialize(array()),
+      'changes'    => '',
+    ))
+    ->execute();
+}

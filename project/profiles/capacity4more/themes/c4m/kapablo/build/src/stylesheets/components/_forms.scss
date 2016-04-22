@@ -29,3 +29,40 @@
     float: left;
   }
 }
+
+// ========================================================================== //
+// Password input
+// ========================================================================== //
+.form-type-password {
+  .control-label {
+    .label:not(:empty) {
+      // Override display: block.
+      display: inline !important;
+      margin-left: 5px;
+    }
+  }
+  .progress {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
+}
+
+.password-help {
+  @include make-md-column(4);
+}
+
+// ========================================================================== //
+// Checkboxes
+// ========================================================================== //
+.checkboxes-wrapper {
+  position: relative;
+
+  ul {
+    list-style-type: none;
+  }
+}
+
+.popover-content {
+  max-height: 400px;
+  overflow-y: scroll;
+}

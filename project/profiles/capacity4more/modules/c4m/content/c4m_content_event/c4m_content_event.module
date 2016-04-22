@@ -42,12 +42,12 @@ function c4m_content_event_ds_fields_info($entity_type) {
 
   $path = drupal_get_path('module', 'c4m_content_event');
 
-  $fields['node']['c4m_content_event_link_to_gmap'] = array(
-    'title' => t('Link to Gmap'),
+  $fields['node']['c4m_content_event_link_to_osm'] = array(
+    'title' => t('Link to OSM map'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('event|*'),
     'file' => $path . '/includes/c4m_content_event.theme.inc',
-    'function' => 'theme_c4m_content_event_link_to_gmap',
+    'function' => 'theme_c4m_content_event_link_to_osm',
     'properties' => array(
       'formatters' => array(
         'default' => t('Default'),

@@ -49,7 +49,7 @@ function c4m_og_vocab_node_insert($node) {
  *   hook_c4m_og_vocab_info_<$type> hooks.
  */
 function c4m_og_vocab_info($type) {
-  $cache_key  = 'c4m_og_vocab:info_' . $type;
+  $cache_key = 'c4m_og_vocab:info_' . $type;
   $info = &drupal_static($cache_key);
 
   // Retrieve from Cache if not loaded before.
@@ -101,12 +101,28 @@ function c4m_og_vocab_field_widget_info_alter(&$info) {
 }
 
 /**
+ * Implements hook_field_formatter_info_alter().
+ */
+function c4m_og_vocab_field_formatter_info_alter(&$info) {
+  $info['og_vocab']['module'] = 'c4m_og_vocab';
+}
+
+/**
  * Implements hook_field_widget_form().
  *
  * Code taken from og_vocab, altered to display only the vocabularies of the
  * group we are currently in.
  */
-function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+function c4m_og_vocab_field_widget_form(
+  &$form,
+  &$form_state,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $delta,
+  $element
+) {
   $entity_type = $instance['entity_type'];
   $entity = isset($element['#entity']) ? $element['#entity'] : NULL;
   $field_name = $field['field_name'];
@@ -133,7 +149,9 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   if (empty($context['gid'])) {
     $element['no_group_context'] = array(
       '#type' => 'markup',
-      '#markup' => t('There is no group context available. Please save your group content first and then edit it.'),
+      '#markup' => t(
+        'There is no group context available. Please save your group content first and then edit it.'
+      ),
       '#prefix' => '<span class="description">',
       '#suffix' => '</span>',
     );
@@ -149,7 +167,11 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   foreach ($all_group_vocabularies[$group->type] as $vocabulary) {
     // Load vocabulary.
     $group_vocab = c4m_og_vocab_load_group_vocabulary($group, $vocabulary);
-    $og_vocab = og_vocab_load_og_vocab($group_vocab->vid, $entity_type, $bundle);
+    $og_vocab = og_vocab_load_og_vocab(
+      $group_vocab->vid,
+      $entity_type,
+      $bundle
+    );
     if ($vocabulary == 'c4m_vocab_category') {
       $terms['categories'] = taxonomy_get_tree($og_vocab->vid);
     }
@@ -157,7 +179,12 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
       $terms['tags'] = taxonomy_get_tree($og_vocab->vid);
       $tags_id = $group_vocab->vid;
     }
-    $element[$group_vocab->vid] = $og_vocab->getFormElement($entity_type, $entity, $form, $form_state);
+    $element[$group_vocab->vid] = $og_vocab->getFormElement(
+      $entity_type,
+      $entity,
+      $form,
+      $form_state
+    );
   }
 
   // AngularJs widgets:
@@ -181,7 +208,9 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['data']['tags_id'] = $tags_id;
 
   // For the "taxonomy" widget.
-  $settings['c4m']['data']['vocabularies']['categories'] = c4m_vocab_widget_prepare_taxonomy_tree($terms['categories']);
+  $settings['c4m']['data']['vocabularies']['categories'] = c4m_vocab_widget_prepare_taxonomy_tree(
+    $terms['categories']
+  );
 
   // Send the tags to the AngularJs if we have values (On edit page).
   $tags = array();
@@ -203,7 +232,10 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
   $settings['c4m']['data']['tags'] = $tags;
 
   if (!empty($entity->og_vocabulary)) {
-    $categories = c4m_vocab_widget_get_selected_values($entity, 'og_vocabulary');
+    $categories = c4m_vocab_widget_get_selected_values(
+      $entity,
+      'og_vocabulary'
+    );
     // Exclude tags from categories.
     foreach ($categories as $key => $value) {
       $keep_value = TRUE;
@@ -249,7 +281,11 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
     '#weight' => $form['directive-c4m_vocab_geo']['#weight'] + 1,
   );
 
-  $fieldset = c4m_document_widget_get_field_parent_fieldset($instance['bundle'], $field['field_name']);
+  $fieldset = c4m_document_widget_get_field_parent_fieldset(
+    'node',
+    $instance['bundle'],
+    $field['field_name']
+  );
   $form['directive-categories']['#parent_fieldset'] = $fieldset;
   $form['directive-tags']['#parent_fieldset'] = $form['directive-c4m_vocab_geo']['#parent_fieldset'];
 
@@ -272,7 +308,11 @@ function c4m_og_vocab_field_widget_form(&$form, &$form_state, $field, $instance,
  * @param array $form
  *    The from that is validating.
  */
-function c4m_og_vocab_validate(array $element, array &$form_state, array &$form) {
+function c4m_og_vocab_validate(
+  array $element,
+  array &$form_state,
+  array &$form
+) {
   // Submitted values for the og vocab field.
   $values = $form_state['values']['og_vocabulary'][LANGUAGE_NONE][0];
 
@@ -295,7 +335,11 @@ function c4m_og_vocab_validate(array $element, array &$form_state, array &$form)
           else {
             // This is the existing tag.
             $term = taxonomy_term_load($term_array['target_id']);
-            if (is_object($term) && preg_match('/tag/i', $term->vocabulary_machine_name)) {
+            if (is_object($term) && preg_match(
+                '/tag/i',
+                $term->vocabulary_machine_name
+              )
+            ) {
               $tags[] = array(
                 'isNew' => FALSE,
                 'text' => $term->name,
@@ -373,7 +417,10 @@ function c4m_og_vocab_facetapi_facet_info(array $searcher_info) {
         'field type' => 'taxonomy_term',
         'field api name' => 'og_vocabulary',
         'hierarchy callback' => 'search_api_facetapi_get_taxonomy_hierarchy',
-        'allowed operators' => array(FACETAPI_OPERATOR_AND => TRUE, FACETAPI_OPERATOR_OR => TRUE),
+        'allowed operators' => array(
+          FACETAPI_OPERATOR_AND => TRUE,
+          FACETAPI_OPERATOR_OR => TRUE,
+        ),
         'dependency plugins' => array('role', 'bundle'),
         'facet missing allowed' => TRUE,
         'facet mincount allowed' => TRUE,
@@ -409,7 +456,11 @@ function c4m_og_vocab_facetapi_facet_info(array $searcher_info) {
  * @param array $settings
  *   Teh facet settings.
  */
-function c4m_og_vocab_alter_callback(array &$data, FacetapiAdapter $adapter, array $settings) {
+function c4m_og_vocab_alter_callback(
+  array &$data,
+  FacetapiAdapter $adapter,
+  array $settings
+) {
   // Group vocabulary is only possible within a group.
   $group = c4m_og_current_group();
   if (!$group) {
@@ -429,4 +480,123 @@ function c4m_og_vocab_alter_callback(array &$data, FacetapiAdapter $adapter, arr
       unset($data[$term->tid]);
     }
   }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * @todo Allow limiting by group visibilty.
+ * @todo Deal with taxonomy_select_nodes() not showing our nodes as they
+ * are not inside Taxonomy terms' tables.
+ */
+function c4m_og_vocab_field_formatter_view(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $display
+) {
+  global $user;
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  if (!og_vocab_is_og_vocab_field(
+    $entity_type,
+    $field['field_name'],
+    $bundle
+  )
+  ) {
+    return array(
+      '#markup' => t(
+        'OG Vocabulary formatter should be used only on "Entity reference" fields with "OG complex" widgets.'
+      ),
+    );
+  }
+
+  if (!$items) {
+    return;
+  }
+
+  $tids = array();
+  foreach ($items as $item) {
+    $tids[] = $item['target_id'];
+  }
+
+  $terms = taxonomy_term_load_multiple($tids);
+  $ordered_terms = array();
+
+  foreach ($terms as $term) {
+    $vocabulary = taxonomy_vocabulary_load($term->vid);
+    $ordered_terms[] = array(
+      'term' => $term,
+      'weight' => $vocabulary->weight,
+      'vid' => $vocabulary->vid,
+    );
+  }
+
+  uasort($ordered_terms, 'og_vocab_sort_weight');
+
+  // Re-build the terms array, as it is now ordered.
+  $terms = array();
+  foreach ($ordered_terms as $info) {
+    $terms[] = $info['term'];
+  }
+
+  $settings = $display['settings'];
+
+  if ($settings['concatenate']) {
+    $values = array();
+    foreach ($terms as $term) {
+      $url = entity_uri('taxonomy_term', $term);
+      $values[] = l($term->name, $url['path']);
+    }
+
+    $element[0] = array('#markup' => implode(', ', $values));
+    return $element;
+  }
+
+  // Iterate over each term and group by vocabulary.
+  $data = array();
+  foreach ($terms as $term) {
+    if (empty($data['vocabulary'][$term->vid])) {
+      $vocab = taxonomy_vocabulary_load($term->vid);
+      $data['vocabulary'][$term->vid] = check_plain($vocab->name);
+    }
+    $url = entity_uri('taxonomy_term', $term);
+
+    $parents = taxonomy_get_parents($term->tid);
+    if ($parents) {
+      foreach ($parents as $parent_tid => $parent_term) {
+        if (!isset($data['term'][$term->vid][$parent_tid])) {
+          $data['term'][$term->vid][$parent_tid] = array(
+            'data' => '<h4>' . $parent_term->name . '</h4>',
+            'children' => array(),
+          );
+        }
+
+        $data['term'][$term->vid][$parent_tid]['children'][] = l(
+          $term->name,
+          $url['path']
+        );
+      }
+    }
+    else {
+      $data['term'][$term->vid][] = l($term->name, $url['path']);
+    }
+  }
+
+  if (!$data) {
+    return;
+  }
+
+  $element = array();
+  foreach ($data['term'] as $vid => $values) {
+    $element[0][$vid] = array(
+      '#theme' => 'item_list',
+      '#items' => $values,
+      '#title' => $data['vocabulary'][$vid],
+    );
+  }
+
+  return $element;
 }

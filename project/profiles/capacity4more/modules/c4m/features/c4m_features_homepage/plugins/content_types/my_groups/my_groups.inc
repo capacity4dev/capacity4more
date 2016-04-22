@@ -45,7 +45,7 @@ function c4m_features_homepage_my_groups_content_type_render($subtype, $conf, $a
     if ($group->type != 'group') {
       continue;
     }
-    $node_view = node_view($group, 'teaser');
+    $node_view = node_view($group, 'block_list');
     if ($count < 3) {
       $first_groups .= drupal_render($node_view);
     }

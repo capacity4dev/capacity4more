@@ -15,8 +15,9 @@ function c4m_helper_captcha_form_alter(&$form, &$form_state, $form_id) {
 
   $form['captcha_element'] = array(
     '#type' => 'markup',
-    '#markup' => '<span class="captcha"></span>',
-    // See _captcha_get_captcha_placement() if this is not ok.
+    '#markup' => '<span class="captcha"></span><p class="captcha_error text-danger hidden">' . t('Captcha validation error') . '</p>',
+    // See _captcha_get_captcha_placement() for more advanced settings if this
+    // is not ok.
     '#weight' => 50,
     '#attached' => array(
       'js' => array(

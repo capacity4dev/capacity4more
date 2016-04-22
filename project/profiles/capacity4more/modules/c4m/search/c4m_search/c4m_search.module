@@ -286,30 +286,6 @@ function c4m_search_search_api_sorts_alter(&$block, $view) {
 }
 
 /**
- * Implements hook_search_api_sorts_get_default_sort_alter().
- *
- * Make sort by relevance the default sort when a term is entered
- * without a manual sort being selected.
- */
-function c4m_search_search_api_sorts_get_default_sort_alter(
-  &$default_sort,
-  $search_sorts,
-  $keys
-) {
-  $params = drupal_get_query_parameters();
-
-  if (empty($params['sort']) && !empty($params['text'])) {
-    foreach ($search_sorts as $search_sort) {
-      if ($search_sort->field === 'search_api_relevance') {
-        $search_sort->default_order = 'desc';
-        $default_sort = $search_sort;
-        break;
-      }
-    }
-  }
-}
-
-/**
  * Load all search pages info from implemented hook_c4m_search_page_info hooks.
  *
  * @param string $page
@@ -455,14 +431,24 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
       }
 
       $build['discussion']['#item_children'] = $discussion_items;
-      _c4m_search_remove_facet_param($build['discussion'], 'c4m_discussion_type');
+      _c4m_search_remove_facet_param(
+        $build['discussion'],
+        'c4m_discussion_type'
+      );
     }
     if (isset($build['document']['#active'])) {
-      $build['document']['#item_children'] = _c4m_search_get_facet_items('c4m_vocab_document_type');
-      _c4m_search_remove_facet_param($build['document'], 'c4m_vocab_document_type');
+      $build['document']['#item_children'] = _c4m_search_get_facet_items(
+        'c4m_vocab_document_type'
+      );
+      _c4m_search_remove_facet_param(
+        $build['document'],
+        'c4m_vocab_document_type'
+      );
     }
     if (isset($build['event']['#active'])) {
-      $build['event']['#item_children'] = _c4m_search_get_facet_items('c4m_event_type');
+      $build['event']['#item_children'] = _c4m_search_get_facet_items(
+        'c4m_event_type'
+      );
       _c4m_search_remove_facet_param($build['event'], 'c4m_event_type');
     }
   }
@@ -494,7 +480,10 @@ function _c4m_search_remove_facet_param(&$facet_item, $param_name) {
  */
 function _c4m_search_get_facet_items($field_name) {
   $adapter = facetapi_adapter_load('search_api@c4m_search_nodes');
-  $facets = new FacetapiFacet($adapter, facetapi_facet_load($field_name, 'search_api@c4m_search_nodes'));
+  $facets = new FacetapiFacet(
+    $adapter,
+    facetapi_facet_load($field_name, 'search_api@c4m_search_nodes')
+  );
 
   $processor = new FacetapiFacetProcessor($facets);
   $processor->process();
@@ -515,7 +504,11 @@ function _c4m_search_get_facet_items($field_name) {
  *
  * @see template_preprocess_views_exposed_form()
  */
-function c4m_search_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+function c4m_search_form_views_exposed_form_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
   if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
     return;
   }

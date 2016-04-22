@@ -21,7 +21,7 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_vocab_date',
       1 => 'c4m_vocab_geo',
@@ -29,12 +29,13 @@ function c4m_content_wiki_page_field_group_info() {
       3 => 'c4m_vocab_topic',
       4 => 'og_vocabulary',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'html5',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Details',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-details field-group-fieldset',
+        'id' => '',
+        'classes' => 'group-node-details field-group-fieldset',
+        'wrapper' => 'section',
       ),
     ),
   );
@@ -50,19 +51,24 @@ function c4m_content_wiki_page_field_group_info() {
   $field_group->mode = 'full';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Actions',
+    'label' => 'Do more through capacity4dev',
     'weight' => '2',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'Actions',
+      'label' => 'Do more through capacity4dev',
       'instance_settings' => array(
+        'id' => '',
         'classes' => 'group-node-actions field-group-fieldset',
         'description' => '',
+        'show_label' => '1',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
       ),
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_node_actions|node|wiki_page|full'] = $field_group;
@@ -83,21 +89,27 @@ function c4m_content_wiki_page_field_group_info() {
       0 => 'c4m_content_wiki_page_navigation',
       1 => 'c4m_content_wiki_page_add_links',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Group pages',
       'instance_settings' => array(
-        'description' => '',
+        'id' => '',
         'classes' => 'group-pages field-group-fieldset',
+        'description' => '',
+        'show_label' => '1',
+        'label_element' => 'h3',
+        'effect' => 'blind',
+        'speed' => 'fast',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $field_groups['group_pages|node|wiki_page|full'] = $field_group;
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Actions');
   t('Details');
+  t('Do more through capacity4dev');
   t('Group pages');
 
   return $field_groups;

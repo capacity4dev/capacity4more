@@ -3,6 +3,10 @@
   margin-right: .25em;
 }
 
+.group-header {
+  margin-bottom: 1em;
+}
+
 .group-teaser-author-information {
   margin-bottom: 1rem;
 
@@ -90,10 +94,19 @@
   margin-top: 1em;
 }
 
-.user-name + .creation-date {
-  &:before {
-    content: '|';
-    margin: 0 .5em;
+.user-name {
+  + .creation-date {
+    &:before {
+      content: '|';
+      margin: 0 .5em;
+    }
+  }
+
+  + .field-name-c4m-ds-creation-date {
+    &:before {
+      content: '|';
+      margin: 0 .5em;
+    }
   }
 }
 
@@ -135,7 +148,7 @@
 
 .field-name-c4m-ds-content-footer-stats {
   @extend .text-copy--muted;
-  
+
   .row-entity-count {
     margin-left: 1rem;
 
@@ -149,6 +162,29 @@
   }
 }
 
+.field-name-c4m-content-wiki-page-navigation {
+  li {
+    position: relative;
+
+    i.fa {
+      color: $color-link;
+      font-size: 75%;
+    }
+
+    a.active {
+      > i.fa {
+        color: $gray-dark;
+      }
+    }
+  }
+}
+
+.wiki-add-links {
+  border-top: 1px dashed $color-gray-light;
+  margin-top: 0.5em;
+  padding-top: 0.5em
+}
+
 .node-photo {
   img {
     margin: 0 auto;
@@ -156,5 +192,35 @@
 
   .photoalbum-navigator {
     margin-bottom: 1rem;
+  }
+}
+
+.group-node-organiser {
+  .c4m-social-media-item {
+    margin-bottom: 0.25em;
+    margin-right: 0.75em;
+    padding: 0;
+
+    i {
+      margin-right: 0.35em;
+    }
+  }
+}
+
+.group-node-documents {
+  .node {
+    margin-bottom: 1em;
+  }
+}
+
+.term-tree-list {
+  .selected {
+    font-weight: normal;
+  }
+
+  .term {
+    .term {
+      margin-left: 1em;
+    }
   }
 }

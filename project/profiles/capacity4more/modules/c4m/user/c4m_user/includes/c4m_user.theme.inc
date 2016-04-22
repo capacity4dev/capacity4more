@@ -262,3 +262,56 @@ function theme_c4m_user_country(array $field) {
   );
   return theme_html_tag($tag);
 }
+
+/**
+ * Callback for c4m_user_contact_link DS field.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return NULL|string
+ *   The rendered output.
+ *
+ * @see _contact_personal_tab_access()
+ */
+function theme_c4m_user_contact_link(array $field) {
+  global $user;
+
+  $account = $field['entity'];
+
+  // Anonymous users cannot have contact forms.
+  if (!$account->uid) {
+    return NULL;
+  }
+
+  // Users may not contact themselves.
+  if ($user->uid == $account->uid) {
+    return NULL;
+  }
+
+  // If the requested user has disabled their contact form, or this preference
+  // has not yet been saved, do not allow users to contact them.
+  if (empty($account->data['contact'])) {
+    return NULL;
+  }
+
+  // If requested user has been blocked, do not allow users to contact them.
+  if (empty($account->status)) {
+    return NULL;
+  }
+
+  // User administrators should always have access to personal contact forms.
+  if (user_access('administer users') || user_access('access user contact forms')) {
+    return l(t('Contact this person'), "user/{$account->uid}/contact", array(
+      'attributes' => array(
+        'class' => array('btn', 'btn-default'),
+      ),
+    ));
+  }
+  else {
+    return t('!register or !login to contact a member', array(
+      '!register' => l(t('Register'), 'user/register'),
+      '!login' => l(t('log in'), 'user/login'),
+    ));
+  }
+}
