@@ -281,11 +281,29 @@ function c4m_user_profile_c4m_captcha_form_info() {
  * Submit callback for user_register_form form.
  */
 function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
+  // Alter the default welcome message from user_registrationpassword module.
+  // See user_registrationpassword_form_user_register_submit() to see how it
+  // does it too.
+  $message = t('A welcome message with further instructions has been sent to your e-mail address.');
+
+  // Unset all messages that contain the $message.
+  foreach ($_SESSION['messages']['status'] as $status => $statusmessage) {
+    if ($message == $statusmessage) {
+      unset($_SESSION['messages']['status'][$status]);
+    }
+  }
+  $_SESSION['messages']['status'] = array_values($_SESSION['messages']['status']);
+
+  $name = $form_state['values']['c4m_first_name'][LANGUAGE_NONE][0]['value'] . ' ' . $form_state['values']['c4m_last_name'][LANGUAGE_NONE][0]['value'];
+
+  // Set success message.
+  drupal_set_message(t('Hey @name, it seems like you tried to register. Please activate your account via the link sent to your mail.', array('@name' => $name)));
+
+  // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
     return;
   }
   $email = $form_state['values']['mail'];
-  $name = $form_state['values']['c4m_first_name'][LANGUAGE_NONE][0]['value'] . ' ' . $form_state['values']['c4m_last_name'][LANGUAGE_NONE][0]['value'];
   if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
     drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try again later."));
   }
