@@ -218,8 +218,8 @@ function _capacity4more_install_save_default_permissions(
   $default_html_format,
   $filtered_html_format
 ) {
-  // Only admins can create new members.
-  variable_set('user_register', USER_REGISTER_ADMINISTRATOS_ONLY);
+  // Visitors can register accounts.
+  variable_set('user_register', 1);
 
   // Enable default permissions for system roles.
   $default_html_permission = filter_permission_name($default_html_format);
