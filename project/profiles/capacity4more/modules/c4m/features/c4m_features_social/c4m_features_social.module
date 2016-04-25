@@ -41,7 +41,7 @@ function c4m_features_social_actions_share($node) {
             <!--{"to":"' . $media . '","text":"","size":24,"lang":"' . $lang . '"}//--></div>';
   }
 
-  $output = '<div class="social-actions-share">' . $items . '</div>';
+  $output = '<div class="social-actions-share"><h3>' . t('Share this page') . '</h3>' . $items . '</div>';
   drupal_add_js('//ec.europa.eu/wel/socialbookmark/share.js', 'external');
   return $output;
 }

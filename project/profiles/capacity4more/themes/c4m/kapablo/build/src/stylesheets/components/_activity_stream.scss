@@ -1,0 +1,44 @@
+.activity-stream {
+  .activities {
+    border-top: 1px dashed $color-gray-light;
+    margin-top: 2rem;
+    padding-top: 2rem;
+
+    &.first {
+      border-top: none;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .row {
+      margin: 0;
+
+      .node.view-mode-activity_global {
+        .field-name-title {
+          font-size: $font-size-h3;
+        }
+      }
+    }
+  }
+}
+
+.view-mode-activity_global,
+.view-mode-activity_group {
+  .row {
+    margin: 0;
+  }
+}
+
+.show-more-wrapper {
+  margin-top: 2rem;
+}
+
+.activity-stream--operator {
+  @extend .text-copy--muted;
+
+  a {
+    @extend .text-copy--muted;
+  }
+
+  margin-bottom: 1em;
+}

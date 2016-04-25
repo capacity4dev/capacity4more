@@ -119,7 +119,6 @@ trait Document {
     $steps[] = new Step\When('I should see a "Author" field');
     $steps[] = new Step\When('I should see a "Comment" field');
     $steps[] = new Step\When('I should see a "Title" field');
-    $steps[] = new Step\When('I should see a "Preview" field');
     $steps[] = new Step\When('I should see a "Download" field');
     $steps[] = new Step\When('I should see a "Details" field group');
 
@@ -136,6 +135,21 @@ trait Document {
 
     if (!count($icon)) {
       throw new \Exception("No $icon_type overview icon found.");
+    }
+  }
+
+  /**
+   * @Then /^I should see only "([^"]*)" documents/
+   */
+  public function iShouldSeeOnlyOneDocument($documents_no) {
+    $page = $this->getSession()->getPage();
+    $blocks = $page->findAll('css', '.node-document.view-mode-block_list');
+
+    if (count($blocks) > $documents_no) {
+      throw new \Exception(sprintf('There\'s more than %d document(s) showing.', $documents_no));
+    }
+    elseif (count($blocks) < $documents_no) {
+      throw new \Exception(sprintf('There\'s less than %d document(s) showing.', $documents_no));
     }
   }
 }

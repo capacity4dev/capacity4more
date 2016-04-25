@@ -36,6 +36,9 @@ projects[context_og][version] = "2.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[elysia_cron][subdir] = "contrib"
+projects[elysia_cron][version] = "2.1"
+
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.6"
 
@@ -52,7 +55,8 @@ projects[mefibs][subdir] = "contrib"
 projects[mefibs][version] = "1.x-dev"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.7"
+projects[plupload][version] = "2.x-dev"
+projects[plupload][patch][] = https://www.drupal.org/files/issues/plupload-218update-2098555-35-7.x.patch
 
 projects[save_draft][subdir] = "contrib"
 projects[save_draft][version] = "1.4"
@@ -74,6 +78,7 @@ projects[flag][version] = "3.7"
 
 projects[node_gallery][subdir] = "contrib"
 projects[node_gallery][version] = "1.1"
+projects[node_gallery][patch][] = https://www.drupal.org/files/issues/node_gallery-entity-delete-exception-2006772-1.patch
 
 projects[restful][download][type] = "git"
 projects[restful][download][url] = "https://github.com/Gizra/restful.git"

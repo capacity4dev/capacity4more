@@ -1,0 +1,166 @@
+.view-mode-full {
+  .field-name-c4m-body {
+    margin-top: 1em;
+  }
+
+  &:not(.node-wiki-page) > .content > .group-right {
+    > section, > div {
+      margin-bottom: 2em;
+    }
+  }
+
+  .group-node-details {
+    .group-detail-element, .field-name-og-vocabulary {
+      padding-bottom: 1rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          margin: 0;
+        }
+      }
+
+      .item-list + .item-list {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  &.node-discussion {
+    .label {
+      line-height: .92857rem;
+    }
+  }
+
+  &.node-discussion, &.node-document {
+    .field-name-title {
+      display: inline;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+
+  &.node-document, &.node-wiki-page {
+    .label-default.pull-right {
+      margin-top: 20px;
+    }
+  }
+
+  &.node-document {
+
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+
+    .field-name-c4m-document {
+      display: table-cell;
+      height: 60px;
+      padding-left: 1em;
+      vertical-align: middle;
+    }
+  }
+
+  &.node-photo {
+    .field-name-c4m-body {
+      @include image-overlay-bottom();
+    }
+  }
+
+  &.node-event {
+    .field-name-c4m-ds-event-start-icon {
+      float: left;
+      text-align: center;
+      width: 50px;
+    }
+
+    .date {
+      color: $color-gray-dark;
+      display: table-cell;
+      height: 40px;
+      line-height: 1.1;
+      vertical-align: middle
+    }
+
+    .field-name-c4m-body {
+      clear: both;
+      margin-top: 2em;
+    }
+
+    .node {
+      .field-name-c4m-body {
+        display: none;
+      }
+    }
+  }
+
+  &.node-wiki-page {
+    ul {
+      list-style: none;
+      padding: 0;
+
+      ul {
+        margin-left: 1em;
+      }
+    }
+
+    .field-name-c4m-content-wiki-page-collapse {
+      .btn {
+        box-shadow: none;
+        padding: 0.25em;
+
+        &:hover {
+          background: transparent;
+        }
+      }
+    }
+
+    .group-left {
+      > section, > div {
+        margin-bottom: 2em;
+      }
+
+      &.sidebar-collapsed {
+        > div, > section {
+          display: none;
+
+          &.field-name-c4m-content-wiki-page-collapse {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .group-pages {
+      .field-group-format-toggler {
+        a {
+          background: url(../images/icons/chevron-up.png) no-repeat center right;
+          color: $color-text;
+          display: block;
+          width: 100%;
+        }
+      }
+
+      .active {
+        color: $text-color;
+      }
+
+      &.collapsed {
+        .field-group-format-toggler {
+          a {
+            background-image: url(../images/icons/chevron-down.png);
+          }
+        }
+      }
+    }
+  }
+
+  .view-mode-teaser {
+    .field-name-c4m-ds-content-footer-stats {
+      display: none;
+    }
+  }
+}

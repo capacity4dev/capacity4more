@@ -1,0 +1,51 @@
+.view-mode-teaser {
+  @extend .text-small;
+
+  &.node-topic {
+    margin-bottom: 2rem;
+
+    .group-right {
+      // 3px = align with image (1px border and 2px padding).
+      padding: 3px 0 0 1rem;
+    }
+  }
+
+  &:not(.node-group) {
+    .fa, .user-name, .creation-date, .posted-by, .field-name-c4m-field-og-group, .field-name-c4m-field-og-group a {
+      color: $color-gray-light;
+    }
+  }
+
+  .field-name-c4m-body {
+    margin-top: 1em;
+  }
+
+  &.node-document {
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+
+    .content-col {
+      margin-left: 75px;
+    }
+  }
+
+  &.node-event {
+    .icon-wrapper {
+      margin-top: 1em;
+
+      .fa {
+        color: $color-gray-dark;
+      }
+    }
+
+    .date-display-range {
+      display: inline-block;
+    }
+  }
+}

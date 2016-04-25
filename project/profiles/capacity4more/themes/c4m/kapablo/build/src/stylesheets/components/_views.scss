@@ -1,0 +1,29 @@
+.views-row + .views-row {
+  &:not(.no-border) {
+    border-top: 1px dashed $color-gray-light;
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+}
+
+.view-id-c4m_photoalbum_item_views {
+  clear: both;
+  overflow: hidden;
+
+  .views-row {
+    margin-bottom: 36px;
+  }
+}
+
+.see-more-link, .more-link {
+  text-align: right;
+}
+
+.pager-load-more {
+  list-style: none;
+  text-align: right;
+  
+  &.pager-load-more-empty {
+    display: none;
+  }
+}

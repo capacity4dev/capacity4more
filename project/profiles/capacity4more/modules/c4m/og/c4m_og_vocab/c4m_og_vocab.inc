@@ -78,7 +78,6 @@ function c4m_og_vocab_create_group_vocabularies($group, array $vocabularies) {
   return $vocabs;
 }
 
-
 /**
  * Create a group vocabulary.
  *
@@ -120,7 +119,6 @@ function c4m_og_vocab_create_group_vocabulary(
   return $vocab;
 }
 
-
 /**
  * Create link between group content and group vocabularies.
  *
@@ -155,7 +153,6 @@ function c4m_og_vocab_enable_group_vocabulary_on_group_content_types(
   }
 }
 
-
 /**
  * Get all content types on which the given vocabulary type should be enabled.
  *
@@ -180,7 +177,6 @@ function c4m_og_vocab_get_info_content_types_by_vocabulary_name($name) {
 
   return $types;
 }
-
 
 /**
  * Helper to fill in the node variables into a string.

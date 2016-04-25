@@ -62,7 +62,6 @@ function c4m_document_widget_module_implements_alter(&$implementations, $hook) {
   }
 }
 
-
 /**
  * Implements hook_field_widget_form().
  */
@@ -108,7 +107,7 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
     '#weight' => $instance['widget']['weight'],
   );
 
-  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field['field_name']);
+  $fieldset = c4m_document_widget_get_field_parent_fieldset('node', $entity_type, $field['field_name']);
   $form['add_document-' . $field_name]['#parent_fieldset'] = $fieldset;
 
   // URL options.
@@ -166,16 +165,18 @@ function c4m_document_widget_field_widget_form(&$form, &$form_state, $field, $in
  *
  * @param string $entity_type
  *    The entity type.
+ * @param string $bundle
+ *    The bundle.
  * @param string $field_name
  *    The name of the field.
  *
  * @return string
  *    Return fieldset name.
  */
-function c4m_document_widget_get_field_parent_fieldset($entity_type, $field_name) {
+function c4m_document_widget_get_field_parent_fieldset($entity_type, $bundle, $field_name) {
   $fieldset_name = NULL;
   // Get parent fieldset name and add it as a property to the widget.
-  $field_groups = field_group_info_groups('node', $entity_type);
+  $field_groups = field_group_info_groups($entity_type, $bundle);
   if (!empty($field_groups['form'])) {
     foreach ($field_groups['form'] as $group) {
       $children = $group->children;
@@ -452,16 +453,6 @@ function c4m_document_widget_add_document_file($file_id) {
   drupal_add_js($settings, 'setting');
 
   return theme('c4m_document_widget_add_document', $variables);
-}
-
-/**
- * Implements hook_entity_info_alter().
- */
-function c4m_document_widget_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['library'] = array(
-    'label' => t('Library'),
-    'custom settings' => TRUE,
-  );
 }
 
 /**

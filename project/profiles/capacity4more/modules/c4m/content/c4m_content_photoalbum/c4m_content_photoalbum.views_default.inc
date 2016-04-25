@@ -28,7 +28,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '6';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '0';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'grid';
   $handler->display->display_options['row_plugin'] = 'node';
@@ -76,9 +76,12 @@ function c4m_content_photoalbum_views_default_views() {
 
   /* Display: Image Thumbnail Grid */
   $handler = $view->new_display('embed', 'Image Thumbnail Grid', 'embed_1');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'row';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'grid';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'col-xs-6 col-md-3 no-border';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -93,7 +96,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'medium',
+    'image_style' => 'c4m_image_medium',
     'image_link' => 'content',
   );
 
@@ -105,7 +108,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '4';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
 
   /* Display: Image Thumbnail Strip with AJAX Pager */
   $handler = $view->new_display('embed', 'Image Thumbnail Strip with AJAX Pager', 'embed_3');
@@ -117,7 +120,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '4';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
 
   /* Display: Image Strip without Pager */
   $handler = $view->new_display('embed', 'Image Strip without Pager', 'embed_6');
@@ -207,6 +210,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'grid';
+  $handler->display->display_options['style_options']['row_class'] = 'col-md-4';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -221,7 +225,7 @@ function c4m_content_photoalbum_views_default_views() {
   $handler->display->display_options['fields']['c4m_media']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['c4m_media']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['c4m_media']['settings'] = array(
-    'image_style' => 'medium',
+    'image_style' => 'c4m_image_medium',
     'image_link' => 'content',
   );
   $export['c4m_photoalbum_item_views'] = $view;

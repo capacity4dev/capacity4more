@@ -7,17 +7,20 @@ base theme = bootstrap
 ;; Regions
 ;;;;;;;;;;;;;;;;;;;;;
 
-regions[navigation]     = 'Navigation'
-regions[user_bar]       = 'User Bar'
-regions[header]         = 'Top Bar'
-regions[content_top]    = 'Page top'
-regions[highlighted]    = 'Highlighted'
-regions[help]           = 'Help'
-regions[content]        = 'Content'
-regions[sidebar_first]  = 'Primary'
-regions[sidebar_second] = 'Secondary'
-regions[content_bottom] = 'Page bottom'
-regions[footer]         = 'Footer'
+regions[navigation]         = 'Navigation'
+regions[user_bar]           = 'User Bar'
+regions[header]             = 'Top Bar'
+regions[content_top]        = 'Page top'
+regions[content_above]      = 'Above Content'
+regions[highlighted]        = 'Highlighted'
+regions[help]               = 'Help'
+regions[content]            = 'Content'
+regions[sidebar_first_top]  = 'Primary top'
+regions[sidebar_first]      = 'Primary'
+regions[sidebar_second]     = 'Secondary'
+regions[content_bottom]     = 'Page bottom'
+regions[footer_top]         = 'Footer top'
+regions[footer_bottom]      = 'Footer bottom'
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Overlay regions

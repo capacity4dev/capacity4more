@@ -1,0 +1,39 @@
+.view-mode-activity_global {
+  .group-left, .group-footer {
+    padding-left: 0;
+  }
+  .group-right, .group-footer {
+    padding-right: 0;
+  }
+
+  .field-name-c4m-field-og-group {
+    @extend .text-copy--muted;
+
+    margin: -1em 0 1em 0;
+
+    a {
+      @extend .text-copy--muted;
+    }
+  }
+
+  &.node-document {
+    .node-icon {
+      height: 60px;
+      width: 60px;
+    }
+  }
+
+  .field-name-c4m-content-document-icon {
+    display: inline-block;
+    float: left;
+    width: 75px;
+  }
+
+  .row-entity-count {
+    margin-left: 1rem;
+
+    i {
+      @extend .text-medium;
+    }
+  }
+}

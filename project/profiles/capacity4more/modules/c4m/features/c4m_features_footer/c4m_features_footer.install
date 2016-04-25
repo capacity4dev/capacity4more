@@ -19,6 +19,28 @@ function c4m_features_footer_install() {
 }
 
 /**
+ * Update the footer navigation links.
+ */
+function c4m_features_footer_update_7001() {
+  // Set footer navigation links.
+  c4m_features_footer_set_navigation_links();
+
+  // Delete old variable.
+  variable_del('c4m_footer_navigation_links');
+
+  // Reorder social links.
+  c4m_features_footer_set_social_media();
+}
+
+/**
+ * Update the footer social links.
+ */
+function c4m_features_footer_update_7002() {
+  // Set URLs for social links.
+  c4m_features_footer_set_social_media();
+}
+
+/**
  * Add the c4m_footer menu.
  */
 function c4m_features_footer_c4m_footer_menu() {
@@ -42,25 +64,29 @@ function c4m_features_footer_c4m_footer_menu() {
  * Set footer navigation links.
  */
 function c4m_features_footer_set_navigation_links() {
-  $navigation_links = array(
+  $navigation_links_1 = array(
     array(
-      'title'       => 'EUROPEAID WEBSITE',
+      'title'       => 'EuropeAid website',
       'url'         => 'https://ec.europa.eu/europeaid/home_en',
       'attributes'  => array(
-        'class'   => array(),
+        'class'   => array('text-uppercase'),
         'target'  => '_blank',
       ),
     ),
+  );
+  $navigation_links_2 = array(
     array(
-      'title' => 'SIGN UP FOR THE NEWSLETTER',
-      'url'   => '/',
+      'title'       => 'Visit the commissioner\'s blog',
+      'url'         => 'https://blogs.ec.europa.eu',
       'attributes'  => array(
-        'class'   => array('orange'),
+        'class'   => array('text-uppercase'),
+        'target'  => '_blank',
       ),
     ),
   );
 
-  variable_set('c4m_footer_navigation_links', $navigation_links);
+  variable_set('c4m_footer_navigation_links_1', $navigation_links_1);
+  variable_set('c4m_footer_navigation_links_2', $navigation_links_2);
 }
 
 /**
@@ -68,21 +94,21 @@ function c4m_features_footer_set_navigation_links() {
  */
 function c4m_features_footer_set_social_media() {
   $socialmedia_links = array(
+    'twitter' => array(
+      'title' => 'Twitter',
+      'url'   => 'https://twitter.com/capacity4dev',
+    ),
     'facebook' => array(
       'title' => 'Facebook',
-      'url'   => 'http://facebook.com',
+      'url'   => 'https://www.facebook.com/capacity4dev.eu/',
     ),
     'rss' => array(
       'title' => 'Rss',
       'url' => '/rss',
     ),
-    'twitter' => array(
-      'title' => 'Twitter',
-      'url'   => 'http://twitter.com',
-    ),
     'youtube' => array(
       'title' => 'Youtube',
-      'url'   => 'http://youtube.com',
+      'url'   => 'https://www.youtube.com/user/capacity4dev',
     ),
   );
 

@@ -7,7 +7,6 @@
 include_once 'c4m_search.features.inc';
 include_once 'c4m_search.facetapi_sorts.inc';
 
-
 /**
  * Implements hook_default_search_api_server().
  *
@@ -16,7 +15,9 @@ include_once 'c4m_search.facetapi_sorts.inc';
  */
 function c4m_search_default_search_api_server() {
   $items = array();
-  $items['c4m_solr'] = entity_import('search_api_server', '{
+  $items['c4m_solr'] = entity_import(
+    'search_api_server',
+    '{
     "name" : "Solr",
     "machine_name" : "c4m_solr",
     "description" : "",
@@ -39,7 +40,8 @@ function c4m_search_default_search_api_server() {
     },
     "enabled" : "1",
     "rdf_mapping" : []
-  }');
+  }'
+  );
   return $items;
 }
 
@@ -94,7 +96,10 @@ function c4m_search_search_api_server_load($servers) {
 
       // Check for if the field is an array.
       if (is_array($field)) {
-        $servers[$id]->$key = array_merge($servers[$id]->$key, $override[$key]);
+        $servers[$id]->$key = array_merge(
+          $servers[$id]->$key,
+          $override[$key]
+        );
       }
       // Else its a value.
       else {
@@ -112,7 +117,7 @@ function c4m_search_search_api_server_load($servers) {
 function c4m_search_block_view_alter(&$data, $block) {
   // Only for blocks provided by the facetapi module.
   if ($block->module === 'facetapi') {
-    module_load_include('inc', 'c4m_search', 'c4m_search.block');
+    module_load_include('inc', 'c4m_search', 'includes/c4m_search.block');
     return _c4m_search_block_facetapi_view_alter($data, $block);
   }
 }
@@ -211,13 +216,19 @@ function c4m_search_custom_search(array $filters, $options = array()) {
   foreach ($filters as $filter) {
     if (empty($base_filter)) {
       $base_filter = $query->createFilter($filter['conjunction']);
-      $base_filter->condition($filter['condition']['field'],
-        $filter['condition']['value'], $filter['condition']['operator']);
+      $base_filter->condition(
+        $filter['condition']['field'],
+        $filter['condition']['value'],
+        $filter['condition']['operator']
+      );
     }
     else {
       $subfilter = $query->createFilter($filter['conjunction']);
-      $subfilter->condition($filter['condition']['field'],
-        $filter['condition']['value'], $filter['condition']['operator']);
+      $subfilter->condition(
+        $filter['condition']['field'],
+        $filter['condition']['value'],
+        $filter['condition']['operator']
+      );
       $base_filter->filter($subfilter);
     }
   }
@@ -228,29 +239,6 @@ function c4m_search_custom_search(array $filters, $options = array()) {
   }
 
   return $query->execute();
-}
-
-/**
- * Implements hook_views_data_alter().
- *
- * Provide a views bulk operations checkbox to search api index views.
- * See https://www.drupal.org/node/1123454#comment-9554163
- */
-function c4m_search_views_data_alter(&$data) {
-  if (isset($data['search_api_index'])) {
-    foreach (search_api_index_load_multiple(FALSE) as $index) {
-      $data['search_api_index_' . $index->machine_name]['views_bulk_operations'] = array(
-        'title' => t('Bulk operations'),
-        'help' => t('Provide a checkbox to select the row for bulk operations.'),
-        'real field' => 'id',
-        'field' => array(
-          'handler' => 'c4m_search_vbo_handler_field_operations',
-          'item_type' => $index->item_type,
-          'click sortable' => FALSE,
-        ),
-      );
-    }
-  }
 }
 
 /**
@@ -289,28 +277,9 @@ function c4m_search_search_api_sorts_alter(&$block, $view) {
   if (empty($params['text'])) {
     foreach ($block['content']['#items'] as $key => $item) {
       if (isset($item['#options']['query']['sort'])
-        && $item['#options']['query']['sort'] === 'search_api_relevance') {
+        && $item['#options']['query']['sort'] === 'search_api_relevance'
+      ) {
         unset($block['content']['#items'][$key]);
-      }
-    }
-  }
-}
-
-/**
- * Implements hook_search_api_sorts_get_default_sort_alter().
- *
- * Make sort by relevance the default sort when a term is entered
- * without a manual sort being selected.
- */
-function c4m_search_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
-  $params = drupal_get_query_parameters();
-
-  if (empty($params['sort']) && !empty($params['text'])) {
-    foreach ($search_sorts as $search_sort) {
-      if ($search_sort->field === 'search_api_relevance') {
-        $search_sort->default_order = 'desc';
-        $default_sort = $search_sort;
-        break;
       }
     }
   }
@@ -371,20 +340,13 @@ function c4m_search_form($form, &$form_state) {
   $form['basic'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('container-inline'),
+      'class' => array('container-inline', 'pull-right'),
     ),
   );
 
-  if (c4m_og_current_group()) {
-    $default_value = 'search_api_views_c4m_search_og';
-  }
-  else {
-    $default_value = 'search_api_views_c4m_search_nodes';
-  }
-
   $form['basic']['search_page'] = array(
     '#type' => 'hidden',
-    '#value' => $default_value,
+    '#value' => 'search_api_views_c4m_search_nodes',
   );
 
   // Search input.
@@ -397,19 +359,14 @@ function c4m_search_form($form, &$form_state) {
     '#maxlength' => 255,
     '#attributes' => array(
       'title' => t('Enter the terms you wish to search for.'),
+      'placeholder' => t('search capacity4dev...'),
     ),
   );
-
-  // Get the proper ID for the current search.
-  $search = search_api_autocomplete_search_load($default_value);
-  if ($search && $search->enabled) {
-    $search->alterElement($form['basic']['keys']);
-  }
 
   // Submit button.
   $form['basic']['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Search'),
+    '#value' => '<i class="fa fa-search"></i>',
   );
 
   return $form;
@@ -456,4 +413,170 @@ function c4m_search_facet_items_alter(&$build, &$settings) {
       }
     }
   }
+  if ($settings->settings['widget'] == 'c4m_search_links_content_type') {
+    if (isset($build['discussion']['#active'])) {
+      $discussion_items = _c4m_search_get_facet_items('c4m_discussion_type');
+      $list = array(
+        'info' => t('Information'),
+        'idea' => t('Idea'),
+        'question' => t('Question'),
+        'debate' => t('Debate'),
+
+      );
+      foreach ($discussion_items as $key => $item) {
+        if (isset($list[$item['#indexed_value']])) {
+          $item['#markup'] = $list[$item['#indexed_value']];
+        }
+        $discussion_items[$key] = $item;
+      }
+
+      $build['discussion']['#item_children'] = $discussion_items;
+      _c4m_search_remove_facet_param(
+        $build['discussion'],
+        'c4m_discussion_type'
+      );
+    }
+    if (isset($build['document']['#active'])) {
+      $build['document']['#item_children'] = _c4m_search_get_facet_items(
+        'c4m_vocab_document_type'
+      );
+      _c4m_search_remove_facet_param(
+        $build['document'],
+        'c4m_vocab_document_type'
+      );
+    }
+    if (isset($build['event']['#active'])) {
+      $build['event']['#item_children'] = _c4m_search_get_facet_items(
+        'c4m_event_type'
+      );
+      _c4m_search_remove_facet_param($build['event'], 'c4m_event_type');
+    }
+  }
+}
+
+/**
+ * Removes a query param from a facet item link.
+ */
+function _c4m_search_remove_facet_param(&$facet_item, $param_name) {
+  $params = &$facet_item['#query']['f'];
+  if (!isset($params)) {
+    return;
+  }
+  foreach ($params as $key => $value) {
+    if (strpos($value, $param_name) === 0) {
+      array_splice($params, $key, 1);
+    }
+  }
+}
+
+/**
+ * Retrieves facet items for field.
+ *
+ * @param string $field_name
+ *   Machine name of the field.
+ *
+ * @return array
+ *   List of facet items.
+ */
+function _c4m_search_get_facet_items($field_name) {
+  $adapter = facetapi_adapter_load('search_api@c4m_search_nodes');
+  $facets = new FacetapiFacet(
+    $adapter,
+    facetapi_facet_load($field_name, 'search_api@c4m_search_nodes')
+  );
+
+  $processor = new FacetapiFacetProcessor($facets);
+  $processor->process();
+
+  $realm = facetapi_realm_load('block');
+  $facets->build($realm, $processor);
+
+  $build_list = $facets->getBuild();
+
+  return $build_list;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Add required inputs to the form.
+ * Alter the #info data so that the widgets are altered.
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+function c4m_search_form_views_exposed_form_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
+  if (!isset($form['#info']['filter-search_api_views_fulltext'])) {
+    return;
+  }
+
+  $form['#info']['filter-search_api_views_fulltext']['label'] = '';
+  $form['text']['#type'] = 'hidden';
+
+  $form['search_within_results'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Search within search results',
+    '#weight' => -5,
+  );
+  $form['#info']['search_within_results'] = array(
+    'value' => 'search_within_results',
+  );
+  $form['#info']['search'] = array(
+    'value' => 'search',
+    'label' => 'Search',
+  );
+  $form['search'] = array(
+    '#type' => 'textfield',
+    '#weight' => -10,
+  );
+
+  // Do not keep page in the search params.
+  $search_params = drupal_get_query_parameters();
+  unset($search_params['page']);
+  $form['search_params'] = array(
+    '#type' => 'hidden',
+    '#value' => serialize($search_params),
+  );
+
+  $form['#submit'][] = 'c4m_search_submit_handler_search_within_results';
+}
+
+/**
+ * Submit callback for exposed filters forms.
+ */
+function c4m_search_submit_handler_search_within_results($form, &$form_state) {
+  $path = drupal_get_query_parameters();
+
+  if (!isset($path['search_params'])) {
+    return;
+  }
+  $params = unserialize($path['search_params']);
+
+  // When pager is clicked search_within_results are present in query params
+  // with value 0.
+  if (isset($path['search_within_results']) && $path['search_within_results'] === '0') {
+    if (isset($path['page'])) {
+      $params['page'] = $path['page'];
+    }
+  }
+  // If the pager was not clicked then the form was submitted.
+  elseif ($form_state['values']['search_within_results'] === 1) {
+    $new_value = $form_state['values']['search'];
+    if ($params['text'] === '') {
+      $params['text'] = $new_value;
+    }
+    else {
+      $params['text'] .= ' ' . $new_value;
+    }
+  }
+  // Simple form submission. No pager and no search within results.
+  else {
+    $params = array(
+      'text' => $form_state['values']['search'],
+    );
+  }
+  drupal_goto(current_path(), array('query' => $params));
 }

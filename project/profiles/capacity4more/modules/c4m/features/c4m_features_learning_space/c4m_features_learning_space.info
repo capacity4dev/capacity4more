@@ -1,0 +1,14 @@
+name = Learning Space
+description = The Learning Space feature
+core = 7.x
+package = capacity4more - Features
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = entity
+dependencies[] = views
+dependencies[] = views_load_more
+features[context][] = c4m_detail_learning
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = c4m_learning_content

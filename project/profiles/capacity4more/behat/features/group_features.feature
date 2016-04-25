@@ -23,7 +23,6 @@ Feature: Group features
     And   I disable the group feature "discussions"
     And   I disable the group feature "documents"
     And   I disable the group feature "events"
-    And   I disable the group feature "tasklists"
     And   I disable the group feature "members"
     And   I press "Save configuration"
     And   I wait
@@ -31,7 +30,6 @@ Feature: Group features
     Then  I should not see the "Discussions" link on the group menu
     Then  I should not see the "Library" link on the group menu
     Then  I should not see the "Events" link on the group menu
-    Then  I should not see the "Tasks" link on the group menu
     Then  I should not see the "Members" link on the group menu
 
   @api
@@ -43,7 +41,6 @@ Feature: Group features
     And   I enable the group feature "discussions"
     And   I enable the group feature "documents"
     And   I enable the group feature "events"
-    And   I enable the group feature "tasklists"
     And   I enable the group feature "members"
     And   I press "Save configuration"
     And   I wait
@@ -51,5 +48,4 @@ Feature: Group features
     Then  I should see the "Discussions" link on the group menu
     Then  I should see the "Library" link on the group menu
     Then  I should see the "Events" link on the group menu
-    Then  I should see the "Tasks" link on the group menu
     Then  I should see the "Members" link on the group menu

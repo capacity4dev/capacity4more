@@ -11,7 +11,7 @@
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
 
-<div class="row">
+<div class="content clearfix">
   <<?php print $first_wrapper; ?> class="content-first <?php print $first_classes; ?>">
     <?php print $first; ?>
   </<?php print $first_wrapper; ?>>

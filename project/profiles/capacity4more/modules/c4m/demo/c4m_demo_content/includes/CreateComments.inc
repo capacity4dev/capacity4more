@@ -129,7 +129,6 @@ abstract class C4mDemoContentCreateComments extends Migration {
     }
   }
 
-
   /**
    * Filter the destiny field ID.
    *
@@ -161,7 +160,6 @@ abstract class C4mDemoContentCreateComments extends Migration {
 
     return $filtered_ids;
   }
-
 
   /**
    * Actions after the data is saved in the database.

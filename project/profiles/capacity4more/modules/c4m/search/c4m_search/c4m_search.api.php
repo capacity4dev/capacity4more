@@ -9,7 +9,6 @@
  * @{
  */
 
-
 /**
  * Define the available search pages.
  *
@@ -43,7 +42,6 @@ function hook_c4m_search_page_info() {
     ),
   );
 }
-
 
 /**
  * @} End of "addtogroup hooks".

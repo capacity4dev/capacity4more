@@ -5,3 +5,10 @@
  */
 
 include_once 'c4m_content_photo.features.inc';
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function c4m_content_photo_theme_registry_alter(&$theme_registry) {
+  $theme_registry['node_gallery_api_item_navigator']['path'] = drupal_get_path('module', 'c4m_content_photo') . "/theme";
+}

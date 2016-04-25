@@ -107,7 +107,6 @@ function c4m_helper_date_time_ago($timestamp, $format = 'j F Y', $switch = 86400
   return format_date($timestamp, 'custom', $format);
 }
 
-
 /**
  * Formats a time interval with the requested granularity.
  *

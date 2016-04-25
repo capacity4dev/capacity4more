@@ -105,7 +105,6 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   $valid_node_types = array(
     'discussion',
     'event',
-    'photo',
     'photoalbum',
     'document',
     'wiki_page',
@@ -161,7 +160,7 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
  *   The Message entity.
  */
 function c4m_message_load_general_arguments(Message $message) {
-  $message->arguments['@date'] = array(
+  $message->arguments['!date'] = array(
     'callback' => 'c4m_message_format_date_for_message',
     'pass message' => TRUE,
   );
@@ -182,8 +181,11 @@ function c4m_message_load_general_arguments(Message $message) {
  *   The formatted date.
  */
 function c4m_message_format_date_for_message(Message $message) {
-  $format = variable_get('date_format_c4m_long_without_time', 'j F Y');
-  return c4m_helper_date_time_ago($message->timestamp, $format);
+  $format = variable_get('date_format_c4m_long_without_time', 'j F Y H:i');
+  $rel_date = c4m_helper_date_time_ago($message->timestamp, $format, 16070400);
+  $abs_date = format_date($message->timestamp, 'custom', $format);
+
+  return '<span data-toggle="tooltip" data-placement="bottom" title="' . $abs_date . '">' . $rel_date . '</span>';
 }
 
 /**
@@ -207,16 +209,19 @@ function c4m_messages_group_info(Message $message) {
   $handler = og_purl_og_context_handler();
   if (((drupal_is_front_page() || !empty($get_query['homepage']))
     && empty($handler) || (isset($get_query['group'])
-      && is_array($get_query['group'])))) {
+      && is_array($get_query['group'])))
+  ) {
     if (isset($message->field_group_node) && !empty($message->field_group_node)) {
-      $wrapper = entity_metadata_wrapper('node', $message->field_group_node[LANGUAGE_NONE][0]['target_id']);
+      $wrapper = entity_metadata_wrapper(
+        'node',
+        $message->field_group_node[LANGUAGE_NONE][0]['target_id']
+      );
       $link = l($wrapper->label(), $wrapper->value()->purl);
       $group_info = t('Group: !link', array('!link' => $link));
     }
   }
   return $group_info;
 }
-
 
 /**
  * Delegated hook_entity_load() for node of "discussion" bundle.
@@ -235,6 +240,11 @@ function c4m_message_load__c4m_insert__node__discussion(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
   );
 }
@@ -259,6 +269,11 @@ function c4m_message_load__c4m_insert__node__article(Message $message) {
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -279,6 +294,11 @@ function c4m_message_load__c4m_insert__node__wiki_page(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
   );
 }
@@ -303,6 +323,11 @@ function c4m_message_load__c4m_insert__node__document(Message $message) {
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -323,6 +348,11 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
 
   $message->arguments['@operation'] = array(
     'callback' => 'c4m_message_format_operation',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
   );
 }
@@ -347,6 +377,11 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
     'callback' => 'c4m_message_format_operation',
     'pass message' => TRUE,
   );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
+    'pass message' => TRUE,
+  );
 }
 
 /**
@@ -360,13 +395,18 @@ function c4m_message_load__c4m_insert__node__photoalbum(Message $message) {
 function c4m_message_load__c4m_insert__node__event(Message $message) {
   c4m_message_load_general_arguments($message);
 
+  $message->arguments['@type'] = array(
+    'callback' => 'c4m_message_format_node_event_type',
+    'pass message' => TRUE,
+  );
+
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_node',
     'pass message' => TRUE,
   );
 
-  $message->arguments['@operation'] = array(
-    'callback' => 'c4m_message_format_operation',
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
   );
 }
@@ -389,6 +429,11 @@ function c4m_message_load__c4m_insert__comment(Message $message) {
 
   $message->arguments['!content'] = array(
     'callback' => 'c4m_message_format_rendered_comment',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon',
     'pass message' => TRUE,
   );
 }
@@ -427,6 +472,40 @@ function c4m_message_format_node_discussion_type(Message $message) {
       return $operation == 'insert'
         ? t('started a Debate')
         : t('updated the Debate');
+  }
+}
+
+/**
+ * Return the formatted event type.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The event type.
+ */
+function c4m_message_format_node_event_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $event_type = $wrapper->field_node->c4m_event_type->value();
+  $operation = $wrapper->field_operation->value();
+
+  switch ($event_type) {
+    case 'learning':
+      return $operation == 'insert'
+        ? t('created a Learning Event')
+        : t('updated the Learning Event');
+
+    case 'meeting':
+      return $operation == 'insert'
+        ? t('posted a Meeting') :
+        t('updated the Meeting');
+
+    case 'event':
+    default:
+      return $operation == 'insert'
+        ? t('created an Event')
+        : t('updated the Event');
+
   }
 }
 
@@ -521,9 +600,6 @@ function c4m_message_format_comment(Message $message) {
       case 'photo':
         return t('Photo');
 
-      case 'task':
-        return t('Task');
-
       case 'article':
         return t('Article');
     }
@@ -559,6 +635,108 @@ function c4m_message_format_rendered_node(Message $message) {
 }
 
 /**
+ * Return the formatted body and image.
+ *
+ * Retrieve proper icon for a content type (and maybe subtype).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_node_icon(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node_type = $wrapper->field_node->type->value();
+  $icon_class = '';
+
+  switch ($node_type) {
+    case 'article':
+      $icon_class = 'fa-bullhorn';
+      break;
+
+    case 'event':
+      $event_type = $wrapper->field_node->c4m_event_type->value();
+
+      switch ($event_type) {
+        case 'learning':
+          $icon_class = 'fa-university';
+          break;
+
+        case 'meeting':
+          $icon_class = 'fa-calendar-check-o';
+          break;
+
+        case 'event':
+        default:
+          $icon_class = 'fa-calendar';
+          break;
+      }
+      break;
+
+    case 'discussion':
+      $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
+
+      switch ($discussion_type) {
+        case 'info':
+          $icon_class = 'fa-info-circle';
+          break;
+
+        case 'idea':
+          $icon_class = 'fa-lightbulb-o';
+          break;
+
+        case 'question':
+          $icon_class = 'fa-question-circle';
+          break;
+
+        case 'debate':
+        default:
+          $icon_class = 'fa-comments';
+          break;
+
+      }
+      break;
+
+    case 'document':
+      $icon_class = 'fa-file-o';
+      break;
+
+    case 'photoalbum':
+    case 'photo':
+      $icon_class = 'fa-file-picture-o';
+      break;
+
+    case 'wiki_page':
+      $icon_class = 'fa-wikipedia-w';
+      break;
+
+    default:
+      break;
+  }
+
+  try {
+    if ($wrapper->getPropertyInfo('field_comment')) {
+      // $icon_tag['#value_prefix'] = '<i class="fa fa-comments-o"></i>';.
+      $icon_class = "fa-comments-o";
+    }
+  }
+  catch (EntityMetadataWrapperException $e) {
+
+  }
+
+  $icon_tag = array(
+    '#type' => 'html_tag',
+    '#tag' => 'i',
+    '#value' => '',
+    '#attributes' => array('class' => array('fa', $icon_class)),
+  );
+
+  return drupal_render($icon_tag);
+}
+
+/**
  * Return the body of the comment.
  *
  * @param Message $message
@@ -569,7 +747,11 @@ function c4m_message_format_rendered_node(Message $message) {
  */
 function c4m_message_format_rendered_comment(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $view = comment_view($wrapper->field_comment->value(), $wrapper->field_node->value(), 'activity_stream');
+  $view = comment_view(
+    $wrapper->field_comment->value(),
+    $wrapper->field_node->value(),
+    'activity_global'
+  );
   return drupal_render($view);
 }
 
@@ -710,7 +892,11 @@ function c4m_message__update__node($node, $account = NULL) {
         'uid' => $account->uid,
         'timestamp' => $node->timestamp,
       );
-      $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
+      $message = message_create(
+        'c4m_insert__node__' . $node->type,
+        $values,
+        $account
+      );
     }
   }
   else {
@@ -719,7 +905,11 @@ function c4m_message__update__node($node, $account = NULL) {
       'uid' => $account->uid,
       'timestamp' => $node->timestamp,
     );
-    $message = message_create('c4m_insert__node__' . $node->type, $values, $account);
+    $message = message_create(
+      'c4m_insert__node__' . $node->type,
+      $values,
+      $account
+    );
   }
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
@@ -737,7 +927,11 @@ function c4m_message__update__node($node, $account = NULL) {
  * @param object $entity
  *    The Entity for we create/update message.
  */
-function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $entity) {
+function c4m_message_prepare_insert_entity(
+  Message &$message,
+  $entity_type,
+  $entity
+) {
   $message_wrapper = entity_metadata_wrapper('message', $message);
   if ($entity_type != 'node') {
     return;
@@ -756,35 +950,10 @@ function c4m_message_prepare_insert_entity(Message &$message, $entity_type, $ent
     return;
   }
 
-  $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(array('identifier' => TRUE));
+  $group_id = $node_wrapper->{OG_AUDIENCE_FIELD}->value(
+    array('identifier' => TRUE)
+  );
   $message_wrapper->field_group_node->set($group_id);
-}
-
-/**
- * Implements hook_entity_info_alter().
- *
- * Add "Activity stream" view mode.
- */
-function c4m_message_entity_info_alter(&$entity_info) {
-  $entity_info['message']['view modes']['activity_group'] = array(
-    'label' => t('Activity group'),
-    'custom settings' => TRUE,
-  );
-
-  $entity_info['node']['view modes']['activity_group'] = array(
-    'label' => t('Activity group'),
-    'custom settings' => TRUE,
-  );
-
-  $entity_info['message']['view modes']['activity_global'] = array(
-    'label' => t('Activity global'),
-    'custom settings' => TRUE,
-  );
-
-  $entity_info['node']['view modes']['activity_global'] = array(
-    'label' => t('Activity global'),
-    'custom settings' => TRUE,
-  );
 }
 
 /**
@@ -823,10 +992,17 @@ function c4m_message_preprocess_node__document(&$variables) {
 
   $file_uri = file_load($document['fid']);
   $download = file_entity_download_uri($file_uri);
-  $variables['download_link'] = l(t('Download this Document'), $download['path'], $download['options']);
+  $variables['download_link'] = l(
+    t('Download this Document'),
+    $download['path'],
+    $download['options']
+  );
   $file_size = format_size($document['filesize']);
   $file_type = $document['type'];
-  $variables['file_info'] = t('Filetype: @filetype | Filesize: @filesize', array('@filetype' => $file_type, '@filesize' => $file_size));
+  $variables['file_info'] = t(
+    'Filetype: @filetype | Filesize: @filesize',
+    array('@filetype' => $file_type, '@filesize' => $file_size)
+  );
 }
 
 /**
@@ -849,10 +1025,13 @@ function c4m_message_preprocess_node__event(&$variables) {
 
   $start_date_time = format_date($start, 'custom', 'd/m/Y H:i');
   $end_date_time = $start_date == $end_date
-                  ? format_date($end, 'custom', 'H:i')
-                  : format_date($end, 'custom', 'd/m/Y H:i');
+    ? format_date($end, 'custom', 'H:i')
+    : format_date($end, 'custom', 'd/m/Y H:i');
 
-  $variables['event_info'] = t('From @start to @end', array('@start' => $start_date_time, '@end' => $end_date_time));
+  $variables['event_info'] = t(
+    'From @start to @end',
+    array('@start' => $start_date_time, '@end' => $end_date_time)
+  );
 }
 
 /**
@@ -875,6 +1054,7 @@ function c4m_message_load_homepage_activity_stream() {
   $hide_articles = $filter == 'groups'
     ? 1
     : 0;
+  $group_context = (bool) og_context();
 
   if ($user->uid) {
     // This is an Authenticated user.
@@ -922,6 +1102,7 @@ function c4m_message_load_homepage_activity_stream() {
     'sort' => '-timestamp',
     'homepage' => 1,
     'hide_articles' => $hide_articles,
+    'group_context' => $group_context,
   );
 
   $activities = $activity_stream_handler->get('', $request);
@@ -967,7 +1148,10 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
   $query->condition($or);
 
   foreach ($conditions as $key => $condition) {
-    if (isset($condition['field']) && !is_object($condition['field']) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id') {
+    if (isset($condition['field']) && !is_object(
+        $condition['field']
+      ) && $condition['field'] == 'field_data_field_group_node1.field_group_node_target_id'
+    ) {
       unset($conditions[$key]);
     }
   }
@@ -979,7 +1163,9 @@ function c4m_message_query_activity_stream_homepage_alter(SelectQuery &$query) {
  * @param \SelectQuery $query
  *    The query to be altered.
  */
-function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery &$query) {
+function c4m_message_query_activity_stream_entity_field_access_alter(
+  SelectQuery &$query
+) {
   $query->addMetaData('base_table', 'field_data_field_group_node');
 
   global $user;
@@ -1027,9 +1213,10 @@ function c4m_message_query_activity_stream_entity_field_access_alter(SelectQuery
       // to the node for the specified operation.
       foreach ($grants as $realm => $gids) {
         foreach ($gids as $gid) {
-          $grant_conditions->condition(db_and()
-            ->condition('na.gid', $gid)
-            ->condition('na.realm', $realm)
+          $grant_conditions->condition(
+            db_and()
+              ->condition('na.gid', $gid)
+              ->condition('na.realm', $realm)
           );
         }
       }

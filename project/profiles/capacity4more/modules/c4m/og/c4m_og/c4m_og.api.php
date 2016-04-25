@@ -5,12 +5,6 @@
  */
 
 /**
- * @addtogroup hooks
- * @{
- */
-
-
-/**
  * Define the features available for groups.
  *
  * You need to implement the hook_c4m_og_feature() hook to define
@@ -41,8 +35,3 @@ function hook_c4m_og_feature_info() {
     ),
   );
 }
-
-
-/**
- * @} End of "addtogroup hooks".
- */

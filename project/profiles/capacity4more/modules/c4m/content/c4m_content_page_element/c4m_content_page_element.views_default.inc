@@ -31,7 +31,7 @@ function c4m_content_page_element_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_plugin'] = 'entity';
   /* Field: Field: Description */
   $handler->display->display_options['fields']['c4m_body']['id'] = 'c4m_body';
   $handler->display->display_options['fields']['c4m_body']['table'] = 'field_data_c4m_body';
@@ -70,6 +70,9 @@ function c4m_content_page_element_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
   $export['intro_block'] = $view;
 
   return $export;

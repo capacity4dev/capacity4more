@@ -24,7 +24,6 @@ class C4mDemoContentCreatePhotoComments extends C4mDemoContentCreateComments {
       ->sourceMigration('C4mDemoContentCreatePhotoComments');
   }
 
-
   /**
    * Prepare the row data loaded from the CSV.
    *
@@ -48,6 +47,18 @@ class C4mDemoContentCreatePhotoComments extends C4mDemoContentCreateComments {
     );
 
     return TRUE;
+  }
+
+  /**
+   * The entity has been created but not yet saved.
+   *
+   * @param object $entity
+   *   The entity object that was created.
+   * @param object $row
+   *   The CSV row we are manipulating.
+   */
+  public function prepare($entity, $row) {
+    $entity->_skip_message = TRUE;
   }
 
 }

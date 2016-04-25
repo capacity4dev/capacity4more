@@ -174,12 +174,18 @@ class C4mDemoContentCreateUsers extends Migration {
   /**
    * Granting a role to the user from the CSV.
    *
+   * Accept legal terms and conditions.
+   *
    * @param object $entity
    *   The entity to create.
    * @param object $row
    *   The data from the CSV file.
    */
   public function complete($entity, $row) {
+    if (function_exists('legal_save_accept')) {
+      legal_save_accept(1, 1, 'en', $entity->uid);
+    }
+
     if (!$row->role) {
       return;
     }

@@ -63,7 +63,7 @@ dependencies[] = pluggable_node_access
 dependencies[] = redirect
 dependencies[] = reldate
 dependencies[] = restful
-dependencies[] = save_draft
+; dependencies[] = save_draft
 dependencies[] = strongarm
 dependencies[] = smart_trim
 dependencies[] = term_reference_tree
@@ -79,11 +79,13 @@ dependencies[] = wysiwyg_filter
 ; capacity4more ---------------------------------------------------------------
 
 ; Admin Management
+dependencies[] = c4m_admin
 dependencies[] = c4m_admin_groups
 dependencies[] = c4m_admin_organisations
 
 ; Helpers
 dependencies[] = c4m_helper_comment
+dependencies[] = c4m_helper_cron
 dependencies[] = c4m_helper_date
 dependencies[] = c4m_helper_entity
 
@@ -119,8 +121,6 @@ dependencies[] = c4m_content_page_element
 dependencies[] = c4m_content_photo
 dependencies[] = c4m_content_photoalbum
 dependencies[] = c4m_content_project
-dependencies[] = c4m_content_task
-dependencies[] = c4m_content_tasklist
 dependencies[] = c4m_content_topic
 dependencies[] = c4m_content_wiki_page
 dependencies[] = c4m_content_organisation
@@ -142,6 +142,9 @@ dependencies[] = c4m_features_overview_projects
 dependencies[] = c4m_features_overview_topics
 dependencies[] = c4m_features_homepage
 dependencies[] = c4m_features_homepage_intro
+dependencies[] = c4m_features_homepage_intro_block
+dependencies[] = c4m_features_homepage_banner
+dependencies[] = c4m_features_learning_space
 
 ; RESTful
 dependencies[] = c4m_restful_quick_post
@@ -158,8 +161,6 @@ dependencies[] = c4m_features_og_manage
 dependencies[] = c4m_features_og_members
 dependencies[] = c4m_features_og_photoalbums
 dependencies[] = c4m_features_og_search
-dependencies[] = c4m_features_og_tasklists
-dependencies[] = c4m_features_og_overview_tasks
 dependencies[] = c4m_features_og_wiki
 
 ; Search
@@ -183,8 +184,14 @@ dependencies[] = c4m_domain
 ; Contact
 dependencies[] = c4m_contact
 
+; Header
+dependencies[] = c4m_features_header
+
 ; Footer
 dependencies[] = c4m_features_footer
+
+; Theming
+dependencies[] = c4m_features_theme
 
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor

@@ -1,0 +1,35 @@
+ul.statistics-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  /* Graceful degradation */
+  display: table;
+  table-layout: fixed;
+
+  /* Flexbox */
+  align-content: unset;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  li {
+    color: $color-gray-dark;
+    text-align: left;
+
+    /* Graceful degradation */
+    display: table-cell;
+
+    /* Flexbox */
+    display: flex;
+
+    &.last {
+      text-align: right;
+    }
+
+    a {
+      color: $color-gray-dark;
+      padding-left: 1rem;
+    }
+  }
+}

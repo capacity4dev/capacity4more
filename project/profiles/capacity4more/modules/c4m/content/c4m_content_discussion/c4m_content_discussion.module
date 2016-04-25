@@ -12,8 +12,8 @@ include_once 'c4m_content_discussion.features.inc';
 function c4m_content_discussion_c4m_og_vocab_info_content() {
   return array(
     'discussion' => array(
-      'entity_type'  => 'node',
-      'bundle'       => 'discussion',
+      'entity_type' => 'node',
+      'bundle' => 'discussion',
       'vocabularies' => array(
         'c4m_vocab_category',
         'c4m_vocab_tag',
@@ -27,10 +27,50 @@ function c4m_content_discussion_c4m_og_vocab_info_content() {
  */
 function c4m_content_discussion_entity_type_label_alter(&$variables) {
   if (empty($variables['entity']->type) ||
-      'discussion' !== $variables['entity']->type) {
+    'discussion' !== $variables['entity']->type
+  ) {
     return;
   }
   $variables['label'] .= ' ' . ('posted by');
+}
+
+/**
+ * Retrieve a simple label for a discussion type.
+ *
+ * @param string $label
+ *   Original text label.
+ *
+ * @return array
+ *   Simple label and icon class.
+ */
+function c4m_content_discussion_simple_label($label) {
+  $replace = array();
+  $text = $label;
+  $class = '';
+
+  switch ($label) {
+    case t('Ask a Question'):
+      $text = t('Question');
+      $class = 'fa-question-circle';
+      break;
+
+    case t('Share an Idea'):
+      $text = t('Idea');
+      $class = 'fa-lightbulb-o';
+      break;
+
+    case t('Share Information'):
+      $text = t('Information');
+      $class = 'fa-info-circle';
+      break;
+
+    case t('Start a Debate'):
+      $text = t('Debate');
+      $class = 'fa-comments';
+      break;
+  }
+
+  return array('label' => $text, 'class' => $class);
 }
 
 /**
@@ -40,17 +80,17 @@ function c4m_content_discussion_c4m_content_statistics_info() {
   return array(
     'global' => array(
       'c4m_discussions' => array(
-        'type'        => 'discussion',
+        'type' => 'discussion',
         'entity_type' => 'node',
-        'bundles'     => array('discussion'),
-        'singular'    => 'Post',
-        'plural'      => 'Posts',
-        'state'       => 1,
-        'aggregate'   => array(
+        'bundles' => array('discussion'),
+        'singular' => 'Post',
+        'plural' => 'Posts',
+        'state' => 1,
+        'aggregate' => array(
           'type' => 'posts',
         ),
-        'weight'      => 1,
-        'attributes'  => array(
+        'weight' => 1,
+        'attributes' => array(
           'class' => array('posts'),
         ),
         'link' => array(
@@ -60,20 +100,46 @@ function c4m_content_discussion_c4m_content_statistics_info() {
     ),
     'group' => array(
       'c4m_og_discussions' => array(
-        'type'          => 'discussion',
-        'entity_type'   => 'node',
-        'bundles'       => array('discussion'),
-        'singular'      => 'Discussion',
-        'plural'        => 'Discussions',
-        'state'         => 1,
-        'aggregate'     => array(),
-        'weight'        => 1,
-        'feature_name'  => 'c4m_features_og_discussions',
-        'attributes'    => array(
+        'type' => 'discussion',
+        'entity_type' => 'node',
+        'bundles' => array('discussion'),
+        'singular' => 'Discussion',
+        'plural' => 'Discussions',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 1,
+        'feature_name' => 'c4m_features_og_discussions',
+        'attributes' => array(
           'class' => array('og-discussions'),
         ),
-        'link'          => array(
+        'link' => array(
           'path' => 'discussions',
+        ),
+      ),
+    ),
+    'topic' => array(
+      'c4m_topic_discussions' => array(
+        'type' => 'discussion',
+        'entity_type' => 'node',
+        'bundles' => array('discussion'),
+        'singular' => 'Discussion',
+        'plural' => 'Discussions',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 4,
+        'attributes' => array(
+          'class' => array('topic-discussions'),
+        ),
+        'link' => array(
+          'path' => 'search',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+                'type:discussion',
+              ),
+            ),
+          ),
         ),
       ),
     ),

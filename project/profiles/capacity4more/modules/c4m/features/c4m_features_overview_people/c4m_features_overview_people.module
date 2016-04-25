@@ -7,51 +7,6 @@
 include_once 'c4m_features_overview_people.features.inc';
 
 /**
- * Implements hook_theme().
- */
-function c4m_features_overview_people_theme() {
-  $path = drupal_get_path('module', 'c4m_features_overview_people') . '/templates';
-
-  $theme['c4m_features_overview_people_table_header'] = array(
-    'template' => 'c4m_features_overview_people_table_header',
-    'path' => $path,
-    'variables' => array(
-      'first' => NULL,
-      'second' => NULL,
-      'third' => NULL,
-      'fourth' => NULL,
-    ),
-  );
-
-  return $theme;
-}
-
-/**
- * Implements template_preprocess_views_view_table().
- *
- * Adds the missing header parts to the header of the "table".
- */
-function c4m_features_overview_people_preprocess_views_view_table(&$vars) {
-  if ($vars['view']->name !== 'c4m_overview_people') {
-    return;
-  }
-
-  if ($vars['view']->current_display !== 'page_1') {
-    return;
-  }
-
-  $vars['header']['rendered_entity'] = theme(
-    'c4m_features_overview_people_table_header',
-    array(
-      'first' => t('Name'),
-      'second' => t('Member since'),
-      'third' => t('Activity'),
-      'fourth' => NULL,
-    )
-  );
-}
-
-/**
  * Implements hook_c4m_search_page_info().
  */
 function c4m_features_overview_people_c4m_search_page_info() {

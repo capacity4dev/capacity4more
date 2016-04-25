@@ -17,6 +17,14 @@ function c4m_features_homepage_intro_context_default_contexts() {
   $context->description = 'Adds the capacity4more intro video to the header of the homepage for anonymous users.';
   $context->tag = 'cap4more - Homepage';
   $context->conditions = array(
+    'context_og_condition_group_type' => array(
+      'values' => array(
+        '_none_' => '_none_',
+      ),
+      'options' => array(
+        'node_form' => 1,
+      ),
+    ),
     'path' => array(
       'values' => array(
         '<front>' => '<front>',

@@ -21,7 +21,6 @@ function c4m_vocab_widget_field_widget_info() {
   return $widgets;
 }
 
-
 /**
  * Implements hook_field_widget_form().
  */
@@ -31,13 +30,12 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   if (!$entity) {
     return FALSE;
   }
-  $entity_type = $entity->type;
 
   // Get taxonomy vocabulary and send it to the app.
-  $vocabulary = taxonomy_vocabulary_machine_name_load($field['field_name']);
+  $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
 
   // Send field info.
-  $field_info = field_info_instance('node', $field['field_name'], $entity_type);
+  $field_info = field_info_instance($element['#entity_type'], $field['field_name'], $element['#bundle']);
   $settings['c4m']['data']['vocabularies']['field_info'][$field['field_name']] = $field_info;
 
   // If $vocabulary is empty,
@@ -80,7 +78,7 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   );
 
   // Get parent fieldset name and add it as a property to the widget.
-  $fieldset = c4m_document_widget_get_field_parent_fieldset($entity_type, $field['field_name']);
+  $fieldset = c4m_document_widget_get_field_parent_fieldset($element['#entity_type'], $element['#bundle'], $field['field_name']);
   $form['directive-' . $vocabulary_machine_name]['#parent_fieldset'] = $fieldset;
 
   $form['#attributes']['ng-controller'] = 'DrupalFormCtrl';

@@ -84,7 +84,9 @@
     <section id="user-bar">
       <div class="container">
         <div class="row">
-          <?php print render($page['user_bar']); ?>
+          <div class="col-sm-12 col-md-12 text-right">
+            <?php print render($page['user_bar']); ?>
+          </div>
         </div>
       </div>
     </section>
@@ -93,131 +95,169 @@
   <div id="header-ec-wrapper">
     <div class="container">
       <div class="row">
-
-        <div class="col-sm-12 col-md-8 header-logo">
+        <div class="col-sm-9 col-md-9 header-logo">
           <?php if ($logo): ?>
-            <a class="logo pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+            <a class="logo pull-left" href="<?php print $front_page; ?>"
+               title="<?php print t('Home'); ?>">
               <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>"/>
             </a>
           <?php endif; ?>
         </div>
 
-        <div class="col-sm-12 col-md-4 header-search">
+        <div class="col-sm-3 col-md-3 header-search">
           <!-- SEARCH-->
           <?php print render($search_form); ?>
         </div>
-
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 header-breadcrumb">
+          <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
+        </div>
       </div>
     </div>
   </div><!-- /banner-ec -->
 
-  <div id="header-content-wrapper">
-    <div class="container">
-      <div class="row">
-
-        <div class="col-sm-12 col-md-12 header-content">
-          <?php print render($page['header']); ?>
+  <?php if ($page['header']): ?>
+    <div id="header-content-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 header-content">
+            <?php print render($page['header']); ?>
+          </div>
         </div>
-
       </div>
-    </div>
-  </div><!-- /header-content-wrapper -->
+    </div><!-- /header-content-wrapper -->
+  <?php endif; ?>
 
   <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-    <div id="navbar">
-      <div class="container">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
+    <div class="navigation--primary">
+      <nav class="container navbar" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse"
+                  data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
         <div class="navbar-collapse collapse">
-          <nav role="navigation">
-            <?php if (!empty($primary_nav)): ?>
-              <?php print render($primary_nav); ?>
-            <?php endif; ?>
-            <?php if (!empty($secondary_nav)): ?>
-              <?php print render($secondary_nav); ?>
-            <?php endif; ?>
-            <?php if (!empty($page['navigation'])): ?>
-              <?php print render($page['navigation']); ?>
-            <?php endif; ?>
-          </nav>
+          <?php if (!empty($primary_nav)): ?>
+            <?php print render($primary_nav); ?>
+          <?php endif; ?>
+          <?php if (!empty($page['navigation'])): ?>
+            <?php print render($page['navigation']); ?>
+          <?php endif; ?>
         </div>
-      </div>
+      </nav>
     </div>
   <?php endif; ?>
 </header>
 
-<div class="main-container container">
-
-  <header role="banner" id="page-header">
-    <?php if (!empty($site_slogan)): ?>
-      <p class="lead"><?php print $site_slogan; ?></p>
-    <?php endif; ?>
-  </header>
-  <!-- /#page-header -->
-
-  <?php if (!empty($page['content_top'])): ?>
-    <?php print render($page['content_top']); ?>
-  <?php endif; ?>
-
-  <div class="row">
-
-    <?php if (!empty($page['sidebar_first'])): ?>
-      <aside class="col-md-4" role="complementary">
-        <?php print render($page['sidebar_first']); ?>
-      </aside>  <!-- /#sidebar-first -->
-    <?php endif; ?>
-
-    <section<?php print $content_column_class_kapablo; ?>>
-      <?php if (!empty($page['highlighted'])): ?>
-        <div class="highlighted well"><?php print render($page['highlighted']); ?></div>
-      <?php endif; ?>
-      <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
-      <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php if (!empty($title)): ?>
-        <h1 class="page-header"><?php print $title; ?></h1>
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
-      <?php print $messages; ?>
-      <?php if (!empty($tabs)): ?>
-        <?php print render($tabs); ?>
-      <?php endif; ?>
-      <?php if (!empty($page['help'])): ?>
-        <?php print render($page['help']); ?>
-      <?php endif; ?>
-      <?php if (!empty($action_links)): ?>
-        <ul class="action-links"><?php print render($action_links); ?></ul>
-      <?php endif; ?>
-      <?php print render($page['content']); ?>
-    </section>
-
-    <?php if (!empty($page['sidebar_second'])): ?>
-      <aside class="col-md-4" role="complementary">
-        <?php print render($page['sidebar_second']); ?>
-      </aside>  <!-- /#sidebar-second -->
-    <?php endif; ?>
-
-  </div>
-
-  <?php if (!empty($page['content_bottom'])): ?>
-    <div class="row content-bottom">
-      <div class="col-sm-12">
-        <?php print render($page['content_bottom']); ?>
+<?php if (!empty($page['content_top'])): ?>
+  <div id="content-top-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 content-top">
+          <?php print render($page['content_top']); ?>
+        </div>
       </div>
     </div>
-  <?php endif; ?>
+  </div>
+<?php endif; ?>
+<?php if (!empty($page['content_above'])): ?>
+  <div id="content-above-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 content-above">
+          <?php print render($page['content_above']); ?>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
+
+<div id="main-wrapper">
+  <div class="container">
+    <div class="row">
+
+      <header role="banner" id="page-header">
+        <?php if (!empty($site_slogan)): ?>
+          <p class="lead"><?php print $site_slogan; ?></p>
+        <?php endif; ?>
+      </header>
+      <!-- /#page-header -->
+
+      <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
+        <aside class="col-md-4" role="complementary">
+          <?php print render($page['sidebar_first_top']); ?>
+          <?php print render($page['sidebar_first']); ?>
+        </aside>  <!-- /#sidebar-first -->
+      <?php endif; ?>
+
+      <section<?php print $content_column_class_kapablo; ?>>
+        <?php if (!empty($page['highlighted'])): ?>
+          <div class="highlighted well"><?php print render(
+              $page['highlighted']
+            ); ?></div>
+        <?php endif; ?>
+        <a id="main-content"></a>
+        <?php print render($title_prefix); ?>
+        <?php if (!empty($title)): ?>
+          <h1 class="page-header"><?php print $title; ?></h1>
+        <?php endif; ?>
+        <?php print render($title_suffix); ?>
+        <?php print $messages; ?>
+        <?php if (!empty($tabs)): ?>
+          <?php print render($tabs); ?>
+        <?php endif; ?>
+        <?php if (!empty($page['help'])): ?>
+          <?php print render($page['help']); ?>
+        <?php endif; ?>
+        <?php if (!empty($action_links)): ?>
+          <ul class="action-links"><?php print render($action_links); ?></ul>
+        <?php endif; ?>
+        <?php print render($page['content']); ?>
+      </section>
+
+      <?php if (!empty($page['sidebar_second'])): ?>
+        <aside class="col-md-4" role="complementary">
+          <?php print render($page['sidebar_second']); ?>
+        </aside>  <!-- /#sidebar-second -->
+      <?php endif; ?>
+    </div>
+  </div>
 </div>
 
-<footer class="footer container">
-  <div class="container footer-wrapper">
-    <section>
-      <?php print render($page['footer']); ?>
-    </section>
+<?php if (!empty($page['content_bottom'])): ?>
+  <div class="row content-bottom">
+    <div class="col-sm-12">
+      <?php print render($page['content_bottom']); ?>
+    </div>
   </div>
-</footer>
+<?php endif; ?>
+
+
+<div id="footer-top-wrapper">
+  <div class="container">
+    <div class="row">
+      <section class="col-md-12">
+        <?php print render($page['footer_top']); ?>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<div id="footer-bottom-wrapper">
+  <div class="container">
+    <div class="row">
+      <section class="col-md-12">
+        <?php print render($page['footer_bottom']); ?>
+      </section>
+    </div>
+  </div>
+</div>

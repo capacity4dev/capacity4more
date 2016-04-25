@@ -185,6 +185,7 @@ function c4m_restful_quick_post_form($group_id) {
     // Sort the activity stream by timestamp descending.
     'sort' => '-timestamp',
     'hide_articles' => 1,
+    'group_context' => TRUE,
   );
   $activities = $activity_stream_handler->get('', $request);
 
@@ -236,16 +237,6 @@ function c4m_restful_quick_post_form($group_id) {
       'description' => t('Add Photo album'),
       'quick_post' => 0,
     ),
-    'task' => array(
-      'bundle' => 'task',
-      'description' => t('Start Task list'),
-      'quick_post' => 0,
-    ),
-    'tasklist' => array(
-      'bundle' => 'tasklist',
-      'description' => t('Add Task to Task list'),
-      'quick_post' => 0,
-    ),
   );
 
   // Don't load the quick post form or it's components for anonymous user
@@ -284,31 +275,6 @@ function c4m_restful_quick_post_form($group_id) {
 
   // Theme function adds the Quick post form.
   return theme('c4m_restful_quick_post_angular_form', array('show_resources' => $show_resources));
-}
-
-/**
- * Implements hook_field_info_alter().
- *
- * Adding entity metadata wrapper support for the image field crop module.
- */
-function c4m_restful_quick_post_field_info_alter(&$info) {
-  $info['getlocations_fields'] += array(
-    'property_type' => 'getlocations',
-    'property_callbacks' => array('c4m_restful_quick_post_c4m_location_field_entity_property_info'),
-  );
-}
-
-/**
- * Additional callback to adapt the property info for file fields.
- *
- * @see entity_metadata_field_entity_property_info()
- */
-function c4m_restful_quick_post_c4m_location_field_entity_property_info(&$info, $entity_type, $field, $instance, $field_type) {
-  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
-  // Define a data structure so it's possible to deal with files and their
-  // descriptions.
-  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
-  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
 }
 
 /**
@@ -415,7 +381,7 @@ function c4m_restful_quick_post_needs_app() {
     'node/%',
     'comment/reply/%',
     'comment/%/edit',
-
+    'user/register',
   );
   // If we are on a group edit form, the app should be loaded.
   if (in_array($path, $allowed_paths)) {

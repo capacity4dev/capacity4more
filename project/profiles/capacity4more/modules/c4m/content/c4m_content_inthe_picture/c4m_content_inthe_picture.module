@@ -5,15 +5,3 @@
  */
 
 include_once 'c4m_content_inthe_picture.features.inc';
-
-/**
- * Implements hook_entity_info_alter().
- *
- * Add "In the Picture block" view mode.
- */
-function c4m_content_inthe_picture_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['inthe_picture_block'] = array(
-    'label' => t('In the Picture block'),
-    'custom settings' => TRUE,
-  );
-}

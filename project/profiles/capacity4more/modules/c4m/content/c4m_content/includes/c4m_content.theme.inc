@@ -19,15 +19,24 @@ function theme_c4m_website_statistics_summary(array $variables) {
     return;
   }
 
-  $flip = array('even' => 'odd', 'odd' => 'even');
-  $class = 'even';
   $list = array();
+  $icons_table = array(
+    'article' => 'fa-bullhorn',
+    'comment' => 'fa-comments-o',
+    'discussion' => 'fa-comments-o',
+    'document' => 'fa-file-o',
+    'group' => 'fa-users',
+    'project' => 'fa-flag-checkered',
+    'posts' => 'fa-comments-o',
+    'event' => 'fa-calendar',
+    'user' => 'fa-user',
+    'wiki_page' => 'fa-wikipedia-w',
+  );
+
   foreach ($statistics as $key => $stat) {
     if (!$stat) {
       continue;
     }
-
-    $class = $flip[$class];
 
     // Format single/plural text.
     $text = $stat['count'] . ' ' . format_plural(
@@ -41,6 +50,8 @@ function theme_c4m_website_statistics_summary(array $variables) {
       $options = isset($stat['link']['options'])
         ? $stat['link']['options']
         : array();
+
+      $options = array_merge($options, array('attributes' => array('class' => array('text-copy', 'text-small'))));
 
       $text = l($text, $stat['link']['path'], $options);
     }
@@ -56,7 +67,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
       'class' => array(
         'statistics-item',
         'stats-' . $key,
-        $class,
+        'fa ' . $icons_table[$key],
         implode(',', $stat_classes),
       ),
     );

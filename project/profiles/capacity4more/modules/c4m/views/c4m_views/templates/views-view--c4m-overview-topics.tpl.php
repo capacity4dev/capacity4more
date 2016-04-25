@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Override the default views-view.tpl.php.
@@ -32,9 +33,7 @@
     <div class="view-content row">
       <?php print $rows; ?>
     </div>
-  <?php endif; ?>
-
-  <?php if ($empty): ?>
+  <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
     </div>

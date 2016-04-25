@@ -147,5 +147,31 @@ function c4m_content_document_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_documents' => array(
+        'type'          => 'document',
+        'entity_type'   => 'node',
+        'bundles'       => array('document'),
+        'singular'      => 'Document',
+        'plural'        => 'Documents',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 5,
+        'attributes'    => array(
+          'class' => array('topic-documents'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+                'type:document',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Installation hooks for the header module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_features_header_install() {
+  // Add c4m_header menu.
+  c4m_features_header_c4m_header_menu();
+}
+
+/**
+ * Add the c4m_header menu.
+ */
+function c4m_features_header_c4m_header_menu() {
+  $menu_name = 'c4m-header';
+
+  // Check if the menu not already exists.
+  if (function_exists('menu_load') &&  menu_load($menu_name)) {
+    return;
+  }
+
+  // Create the menu itself.
+  $header_menu = array(
+    'menu_name'   => $menu_name,
+    'title'       => 'C4M Header',
+    'description' => 'The C4M Header menu.',
+  );
+  menu_save($header_menu);
+}

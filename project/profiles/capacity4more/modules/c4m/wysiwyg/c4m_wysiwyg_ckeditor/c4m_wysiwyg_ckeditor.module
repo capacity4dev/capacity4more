@@ -4,6 +4,8 @@
  * Code for the Wysiwyg Ckeditor module.
  */
 
+include_once 'c4m_wysiwyg_ckeditor.features.inc';
+
 /**
  * Implements hook_ckeditor_plugin().
  */

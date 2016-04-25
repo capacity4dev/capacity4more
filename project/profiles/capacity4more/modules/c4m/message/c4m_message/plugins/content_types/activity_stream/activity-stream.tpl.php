@@ -20,8 +20,8 @@
   <div ng-repeat="activity in existingActivities" ng-class="{'first': $first, 'last': $last}" ng-bind-html="activity.html" class="activities" id="activity-{{activity.id}}"></div>
 
   <div class="show-more-wrapper" ng-if="showMoreButton">
-    <p class="show-more">
-      <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()"><?php print t('show more') ?></a>
+    <p class="show-more text-center">
+      <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()" class="btn btn-primary"><?php print t('show more') ?></a>
     </p>
   </div>
 </div>

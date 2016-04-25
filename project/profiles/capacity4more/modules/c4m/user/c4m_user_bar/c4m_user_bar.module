@@ -5,3 +5,33 @@
  */
 
 include_once 'c4m_user_bar.features.inc';
+
+/******************************************************************************
+ * BLOCK
+ ******************************************************************************/
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_user_bar_block_info() {
+  $blocks['user_signup_login'] = array(
+    'info' => t('Sign up / Log in links'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_user_bar_block_view($delta = '') {
+  $module_name = 'c4m_user_bar';
+  module_load_include('inc', $module_name, "{$module_name}.block");
+  $callback = "_{$module_name}_block_" . $delta;
+  if (!function_exists($callback)) {
+    return NULL;
+  }
+
+  return $callback();
+}

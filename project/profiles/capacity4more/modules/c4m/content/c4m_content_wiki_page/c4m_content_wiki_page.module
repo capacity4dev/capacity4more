@@ -408,5 +408,31 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
         ),
       ),
     ),
+    'topic' => array(
+      'c4m_topic_wiki_pages' => array(
+        'type'          => 'wiki_page',
+        'entity_type'   => 'node',
+        'bundles'       => array('wiki_page'),
+        'singular'      => 'Page',
+        'plural'        => 'Pages',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 3,
+        'attributes'    => array(
+          'class' => array('topic-wiki-pages'),
+        ),
+        'link'          => array(
+          'path' => 'search',
+          'options' => array(
+            'query' => array(
+              'f' => array(
+                'c4m_vocab_topic:@TOPIC_ID',
+                'type:wiki_page',
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
 }

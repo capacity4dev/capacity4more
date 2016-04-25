@@ -1,0 +1,12 @@
+.captcha {
+  display: block;
+  margin-bottom: $form-item-spacing;
+  .form-control {
+    max-width: 300px;
+  }
+}
+
+.captcha_error {
+  margin-top: -$form-item-spacing;
+  margin-bottom: $form-item-spacing;
+}

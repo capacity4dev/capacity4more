@@ -29,6 +29,9 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['access']['feature'] = 'c4m_features_og_documents';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['search_api_bypass_access'] = 0;
+  $handler->display->display_options['query']['options']['entity_access'] = 0;
+  $handler->display->display_options['query']['options']['parse_mode'] = 'direct';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
   $handler->display->display_options['pager']['type'] = 'full';
@@ -43,6 +46,11 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  /* Header: Search: Spellcheck */
+  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
   /* Header: Add document link */
   $handler->display->display_options['header']['c4m_views_node_add_1']['id'] = 'c4m_views_node_add_1';
   $handler->display->display_options['header']['c4m_views_node_add_1']['table'] = 'views';
@@ -63,24 +71,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['field'] = 'c4m_views_search_api_sorts';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['ui_name'] = 'Sort results';
   $handler->display->display_options['header']['c4m_views_search_api_sorts']['empty'] = TRUE;
-  /* Header: Add list view */
-  $handler->display->display_options['header']['c4m_views_switch_page']['id'] = 'c4m_views_switch_page';
-  $handler->display->display_options['header']['c4m_views_switch_page']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_switch_page']['field'] = 'c4m_views_switch_page';
-  $handler->display->display_options['header']['c4m_views_switch_page']['ui_name'] = 'Add list view';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_path'] = 'documents';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_text'] = 'List view';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_class'] = 'list-teaser-view';
-  $handler->display->display_options['header']['c4m_views_switch_page']['link_icon'] = 'fa-list';
-  /* Header: Add table view */
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['id'] = 'c4m_views_switch_page_1';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['table'] = 'views';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['field'] = 'c4m_views_switch_page';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['ui_name'] = 'Add table view';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_path'] = 'documents/table';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_text'] = 'Table view';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_class'] = 'table-teaser-view';
-  $handler->display->display_options['header']['c4m_views_switch_page_1']['link_icon'] = 'fa-table';
   /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_c4m_search_nodes';
@@ -165,28 +155,6 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '30';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '5';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '«';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
-  $handler->display->display_options['pager']['options']['tags']['next'] = '›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = '»';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'c4m_teaser_table';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['path'] = 'documents/table';
-
   /* Display: Page 2 */
   $handler = $view->new_display('page', 'Page 2', 'page_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -199,6 +167,11 @@ function c4m_features_og_documents_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Search: Spellcheck */
+  $handler->display->display_options['header']['search_api_spellcheck']['id'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['table'] = 'search_api_index_c4m_search_nodes';
+  $handler->display->display_options['header']['search_api_spellcheck']['field'] = 'search_api_spellcheck';
+  $handler->display->display_options['header']['search_api_spellcheck']['empty'] = TRUE;
   /* Header: Number of items */
   $handler->display->display_options['header']['result']['id'] = 'result';
   $handler->display->display_options['header']['result']['table'] = 'views';

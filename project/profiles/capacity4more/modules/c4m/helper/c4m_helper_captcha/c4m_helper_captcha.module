@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Code for c4m_helper_captcha module.
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function c4m_helper_captcha_form_alter(&$form, &$form_state, $form_id) {
+  $forms = module_invoke_all('c4m_captcha_form_info');
+  if (!in_array($form_id, $forms)) {
+    return;
+  }
+
+  $form['captcha_element'] = array(
+    '#type' => 'markup',
+    '#markup' => '<span class="captcha"></span><p class="captcha_error text-danger hidden">' . t('Captcha validation error') . '</p>',
+    // See _captcha_get_captcha_placement() for more advanced settings if this
+    // is not ok.
+    '#weight' => 50,
+    '#attached' => array(
+      'js' => array(
+        array(
+          'data' => '//webtools.ec.europa.eu/captcha/js/captcha.js',
+          'type' => 'external',
+        ),
+        array(
+          'data' => drupal_get_path('module', 'c4m_helper_captcha') . '/js/c4m_helper_captcha.js',
+          'type' => 'file',
+        ),
+        array(
+          'data' => array(
+            'c4m_captcha_forms' => array(
+              $form_id,
+            ),
+          ),
+          'type' => 'setting',
+        ),
+      ),
+    ),
+  );
+}

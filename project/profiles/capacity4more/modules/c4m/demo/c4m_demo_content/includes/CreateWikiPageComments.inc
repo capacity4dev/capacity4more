@@ -24,7 +24,6 @@ class C4mDemoContentCreateWikiPageComments extends C4mDemoContentCreateComments 
       ->sourceMigration('C4mDemoContentCreateWikiPageComments');
   }
 
-
   /**
    * Prepare the row data loaded from the CSV.
    *

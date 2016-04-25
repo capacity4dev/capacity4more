@@ -22,6 +22,7 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
       drupal_html_class($group_access['type']);
   }
 }
+
 /**
  * The group name.
  */
@@ -85,6 +86,30 @@ function _c4m_content_group_block_header_name_banner() {
         $markup .= theme_image_style($file);
       }
     }
+  }
+
+  return array(
+    'subject' => '',
+    'content' => $markup,
+  );
+}
+
+/**
+ * Callback for the c4m_block_create_group block.
+ */
+function _c4m_content_group_block_c4m_block_create_group() {
+  global $user;
+
+  if ($user->uid) {
+    if (user_access('create group content')) {
+      $markup = l(t('Create a group'), 'node/add/group', array('attributes' => array('class' => array('btn', 'btn-default'))));
+    }
+  }
+  else {
+    $markup = t('!register or !login to create or join groups', array(
+      '!register' => l(t('Register'), 'user/register'),
+      '!login' => l(t('log in'), 'user/login'),
+    ));
   }
 
   return array(

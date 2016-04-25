@@ -42,7 +42,7 @@ function c4m_features_og_events_ctools_plugin_directory($module, $plugin) {
  * Unfortunately search_api_sorts module provides one sort block and not a
  * block per view, so we need to alter some stuff. Here the default sort.
  */
-function c4m_features_og_events_search_api_sorts_get_default_sort_alter(&$default_sort, $search_sorts, $keys) {
+function c4m_features_og_events_search_api_sorts_default_sort_alter(&$default_sort, $search_sorts, $keys) {
   // Change default sort into 'Sort by Start Date' for events overviews.
   if (FALSE === strpos(current_path(), 'calendar', 0)) {
     return;
@@ -145,18 +145,6 @@ function c4m_features_og_events_block_view($delta = '') {
 }
 
 /**
- * Implements hook_entity_info_alter().
- *
- * Add "Upcoming event" view mode.
- */
-function c4m_features_og_events_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['upcoming_event'] = array(
-    'label' => t('Upcoming event'),
-    'custom settings' => TRUE,
-  );
-}
-
-/**
  * Get rendered events for loggedin user.
  *
  * @return string
@@ -237,7 +225,7 @@ function c4m_features_og_events_upcoming_events_get_events($range, $topics = arr
 
   // Render events.
   foreach ($result['node'] as $event) {
-    $node = node_view(node_load($event->nid), 'upcoming_event');
+    $node = node_view(node_load($event->nid), 'block_list');
     $events .= drupal_render($node);
   }
 

@@ -21,11 +21,12 @@ Feature: Test homepage content and blocks
     When I visit the site homepage
     Then I should see the site homepage
 
-  @api
-  Scenario: Logged in user should see group owner in "My Groups" block.
-    Given I am logged in as user "isaacnewton"
-    When  I visit the site homepage
-    Then  I should see an "span.owner" element
+    # My Groups not implemented yet.
+#  @api
+#  Scenario: Logged in user should see group owner in "My Groups" block.
+#    Given I am logged in as user "isaacnewton"
+#    When  I visit the site homepage
+#    Then  I should see "My Groups"
 
   @api
   Scenario: Anonymous user should see button to open the introduction video.
@@ -77,7 +78,7 @@ Feature: Test homepage content and blocks
     Given I am logged in as user "mariecurie"
     When  I visit the site homepage
     Then  I should see "Upcoming events" in the "div.pane-upcoming-events" element
-    And   I should see only "2" events
+    And   I should see only "3" events
 
   @api
   Scenario: Check featured block is displayed correctly.

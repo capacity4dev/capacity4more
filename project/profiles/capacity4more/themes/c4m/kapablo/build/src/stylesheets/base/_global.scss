@@ -1,0 +1,32 @@
+@media (min-width: 992px) {
+  .container {
+    width: 960px + $grid-gutter-width;
+  }
+}
+
+#main-wrapper {
+  padding: 2rem 0;
+}
+
+.page-header {
+  border-bottom: none;
+  margin: 2rem 0;
+}
+
+.nav-tabs {
+  margin-bottom: 1rem;
+}
+
+.label {
+  &.label-default {
+    background: none;
+    border: 1px dotted $color-text;
+    color: $color-text;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+}
+
+div.contextual-links-wrapper {
+  font-size: 0.9rem;
+}

@@ -48,6 +48,13 @@ function c4m_content_feed_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
+      ),
       'inthe_picture_block' => array(
         'label' => 'above',
         'settings' => array(),
@@ -135,6 +142,18 @@ function c4m_content_feed_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
@@ -142,12 +161,6 @@ function c4m_content_feed_field_default_field_instances() {
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 4,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -238,6 +251,18 @@ function c4m_content_feed_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 23,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
@@ -245,12 +270,6 @@ function c4m_content_feed_field_default_field_instances() {
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 5,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -341,6 +360,18 @@ function c4m_content_feed_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 21,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'full' => array(
+        'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
@@ -348,12 +379,6 @@ function c4m_content_feed_field_default_field_instances() {
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 3,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -379,11 +404,8 @@ function c4m_content_feed_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'inline',
-        'module' => 'c4m_og_purl',
-        'settings' => array(
-          'link' => 'purl_disabled',
-        ),
-        'type' => 'c4m_og_purl_entityreference_link',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 3,
       ),
       'upcoming_event' => array(

@@ -10,6 +10,7 @@
  * The links are grouped by the highest level.
  */
 class C4mSearchWidgetLinksGrouped extends FacetapiWidgetLinks {
+
   /**
    * Transforms the render array for use with theme_item_list().
    *
