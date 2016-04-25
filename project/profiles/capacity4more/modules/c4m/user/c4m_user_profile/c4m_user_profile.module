@@ -455,7 +455,7 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     );
   }
 
-  if (!($other_user = user_load_by_mail($mail)) || $other_user->uid == $GLOBALS['user']->uid) {
+  if (!($other_user = user_load_by_mail($mail)) || $other_user->uid == $form_state['user']->uid) {
     return array();
   }
 
