@@ -84,7 +84,6 @@ function c4m_comment_node_view_alter(&$build) {
         '!login' => $login_link,
       )) . '</p>';
 
-
       if (empty($build['comments'])) {
         $build['comments'] = array(
           '#markup' => $text,
