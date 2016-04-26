@@ -25,12 +25,12 @@ function c4m_content_book_ds_field_settings_info() {
     'c4m_user_picture' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'c4m_user_author_thumb_image',
+      'format' => 'linked_c4m_user_author_thumb_image',
     ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '1',
       'label' => 'hidden',
-      'format' => 'user',
+      'format' => 'linked_user',
     ),
   );
   $export['comment|comment_node_book|default'] = $ds_fieldsetting;
