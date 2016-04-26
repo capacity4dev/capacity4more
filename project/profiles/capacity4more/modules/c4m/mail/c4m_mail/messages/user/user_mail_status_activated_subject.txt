@@ -1,1 +1,1 @@
-Account details for [user:name] at [site:name] (approved)
+Welcome to [site:name]
