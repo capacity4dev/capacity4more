@@ -5,3 +5,11 @@
  */
 
 include_once 'c4m_user_admin.features.inc';
+
+/**
+ * Implements hook_action_info().
+ */
+function c4m_user_admin_action_info() {
+  module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
+  return _c4m_user_admin_action_info();
+}
