@@ -82,6 +82,9 @@ function capacity4more_install() {
   // EU Cookie Compliance.
   _set_eu_cookie_compliance();
 
+  // Set default mail messages.
+  _capacity4more_install_set_default_mail_messages();
+
   // Path aliases.
   variable_set('pathauto_update_action', '2');
 }
@@ -586,6 +589,14 @@ function _capacity4more_install_set_default_date_formats() {
     'success' => TRUE,
     'query' => st('Default date formats are set.'),
   );
+}
+
+/**
+ * Sets default mail messages.
+ */
+function _capacity4more_install_set_default_mail_messages() {
+  module_load_include('install', 'c4m_mail');
+  c4m_mail_install_update_messages();
 }
 
 /**

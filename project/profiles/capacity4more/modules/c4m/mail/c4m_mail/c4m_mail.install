@@ -8,13 +8,13 @@
  * Implements hook_install().
  */
 function c4m_mail_install() {
-  _c4m_mail_install_update_messages();
+  c4m_mail_install_update_messages();
 }
 
 /**
  * Helper to update all messages as defined in messages/list.inc.
  */
-function _c4m_mail_install_update_messages() {
+function c4m_mail_install_update_messages() {
   $messages = new C4mMailMessages();
   $messages->update();
 }
