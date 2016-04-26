@@ -122,6 +122,9 @@ function c4m_content_topic_strongarm() {
       'block_list' => array(
         'custom_settings' => FALSE,
       ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
