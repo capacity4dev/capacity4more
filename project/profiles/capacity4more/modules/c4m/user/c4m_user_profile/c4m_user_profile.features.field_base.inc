@@ -45,7 +45,6 @@ function c4m_user_profile_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        '' => '- Choose country or region -',
         'AF' => 'AFGHANISTAN',
         'AX' => 'ÅLAND ISLANDS',
         'AL' => 'ALBANIA',

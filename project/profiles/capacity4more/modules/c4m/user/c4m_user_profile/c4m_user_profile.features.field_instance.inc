@@ -921,7 +921,7 @@ function c4m_user_profile_field_default_field_instances() {
     'entity_type' => 'user',
     'field_name' => 'c4m_organisation_type',
     'label' => 'Organisation type',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => 1,
     ),
