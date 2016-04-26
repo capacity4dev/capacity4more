@@ -26,10 +26,8 @@ function _c4m_user_admin_action_info() {
  *
  * @param object $user
  *   The user object.
- * @param array $context
- *   The form context.
  */
-function c4m_user_admin_activate_action(&$user, array $context) {
+function c4m_user_admin_activate_action($user) {
   $edit['status'] = 1;
   $edit['c4m_is_spammer'] = 0;
   $edit['c4m_is_deleted'] = 0;
