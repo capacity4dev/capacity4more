@@ -4,6 +4,8 @@
  * Definition of views_handler_field_user_link_activate.
  */
 
+// @codingStandardsIgnoreFile
+
 /**
  * Field handler to present a link to activate user.
  *
