@@ -281,6 +281,12 @@ function c4m_user_profile_c4m_captcha_form_info() {
  * Submit callback for user_register_form form.
  */
 function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
+  global $language;
+
+  // Accept legal terms and conditions.
+  $conditions = legal_get_conditions($language->language);
+  legal_save_accept($conditions['version'], $conditions['revision'], $conditions['language'], $form['#user']->uid);
+
   // Alter the default welcome message from user_registrationpassword module.
   // See user_registrationpassword_form_user_register_submit() to see how it
   // does it too.
@@ -455,7 +461,7 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     );
   }
 
-  if (!($other_user = user_load_by_mail($mail)) || $other_user->uid == $form_state['user']->uid) {
+  if (!($other_user = user_load_by_mail($mail)) || isset($form_state['user']->uid) && $other_user->uid == $form_state['user']->uid) {
     return array();
   }
 
