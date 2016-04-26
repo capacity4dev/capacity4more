@@ -10,6 +10,39 @@
 function c4m_content_group_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'comment-comment_node_group-comment_body'.
+  $field_instances['comment-comment_node_group-comment_body'] = array(
+    'bundle' => 'comment_node_group',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'comment',
+    'field_name' => 'comment_body',
+    'label' => 'Comment',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'node-group-c4m_banner'.
   $field_instances['node-group-c4m_banner'] = array(
     'bundle' => 'group',
@@ -1507,6 +1540,7 @@ function c4m_content_group_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Banner image');
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
+  t('Comment');
   t('Determine if this is an OG group.');
   t('Group');
   t('Group description');

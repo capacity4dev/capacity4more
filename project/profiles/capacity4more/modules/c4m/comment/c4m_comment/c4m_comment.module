@@ -75,18 +75,25 @@ function c4m_comment_node_view_alter(&$build) {
   // displayed in 'full' view mode within another node.
   if ($node->comment && $view_mode == 'full' && node_is_page($node) && empty($node->in_preview)) {
     // There are no comments yet but comments are enabled.
-    if (user_is_anonymous() && empty($build['comments']) && $node->comment == COMMENT_NODE_OPEN) {
+    if (user_is_anonymous() && $node->comment == COMMENT_NODE_OPEN) {
       $register_link = l(t('Register'), 'user/register');
       $login_link = l(t('log in'), 'user/login');
 
-      $text = t('!register or !login to comment', array(
+      $text = '<p>' . t('!register or !login to comment', array(
         '!register' => $register_link,
         '!login' => $login_link,
-      ));
+      )) . '</p>';
 
-      $build['comments'] = array(
-        '#markup' => $text,
-      );
+      if (empty($build['comments'])) {
+        $build['comments'] = array(
+          '#markup' => $text,
+        );
+      }
+      else {
+        $build['comments']['comments'][] = array(
+          '#markup' => $text,
+        );
+      }
     }
   }
 }

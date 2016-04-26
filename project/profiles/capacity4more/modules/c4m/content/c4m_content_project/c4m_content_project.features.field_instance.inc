@@ -10,6 +10,39 @@
 function c4m_content_project_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'comment-comment_node_project-comment_body'.
+  $field_instances['comment-comment_node_project-comment_body'] = array(
+    'bundle' => 'comment_node_project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'comment',
+    'field_name' => 'comment_body',
+    'label' => 'Comment',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'node-project-c4m_banner'.
   $field_instances['node-project-c4m_banner'] = array(
     'bundle' => 'project',
@@ -1893,6 +1926,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Banner');
   t('CRIS Contract Number');
   t('CRIS Decision number');
+  t('Comment');
   t('Contract numbers from the CRIS platform.');
   t('Decision numbers from the CRIS platform.');
   t('Description');

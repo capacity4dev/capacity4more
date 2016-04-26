@@ -52,11 +52,11 @@ function c4m_content_discussion_field_default_field_instances() {
         'weight' => 1,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 3,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -1021,7 +1021,7 @@ function c4m_content_discussion_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'og_vocab',
+        'module' => 'c4m_og_vocab',
         'settings' => array(
           'concatenate' => FALSE,
         ),
