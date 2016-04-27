@@ -609,9 +609,25 @@ function c4m_user_block_view($delta) {
  */
 function c4m_user_form_user_pass_reset_alter(&$form, &$form_state, $form_id) {
   $uid = $form_state['build_info']['args'][0];
-  $user = user_load($uid);
-  $user = entity_metadata_wrapper('user', $user);
-  if ($user->c4m_is_deleted->value() || $user->c4m_is_spammer->value()) {
+  $account = user_load($uid);
+  $account = entity_metadata_wrapper('user', $account);
+  if ($account->c4m_is_deleted->value() || $account->c4m_is_spammer->value()) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+}
+
+/**
+ * Implements hook_user_presave().
+ *
+ * Prevent activating blocked (deleted or spammer) users.
+ */
+function c4m_user_user_presave(&$edit, $account, $category) {
+  $account = entity_metadata_wrapper('user', $account);
+  $blocked = $account->c4m_is_deleted->value() || $account->c4m_is_spammer->value();
+  // When accessing the one time login link these fields are updated.
+  // @see user_registrationpassword_confirm_account().
+  if ($blocked && !empty($edit['status']) && !empty($edit['access']) && !empty($edit['login'])) {
     drupal_access_denied();
     drupal_exit();
   }
