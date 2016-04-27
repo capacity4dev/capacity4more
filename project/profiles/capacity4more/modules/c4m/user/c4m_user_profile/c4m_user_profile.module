@@ -156,9 +156,22 @@ function c4m_user_profile_theme() {
 }
 
 /**
+ * Implements hook_preprocess_page().
+ *
+ * Remove tabs for registration page.
+ */
+function c4m_user_profile_preprocess_page(&$variables) {
+  if (request_path() == 'user/register') {
+    unset($variables['tabs']);
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  drupal_set_title(t('Registration'));
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact_info']['contact'] = array(
