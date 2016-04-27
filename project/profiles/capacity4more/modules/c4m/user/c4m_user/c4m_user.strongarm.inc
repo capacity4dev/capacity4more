@@ -76,7 +76,7 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '29',
+            'weight' => '26',
             'visible' => FALSE,
           ),
           'block_list' => array(
@@ -110,7 +110,7 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '11',
+            'weight' => '20',
             'visible' => FALSE,
           ),
           'block_list' => array(
