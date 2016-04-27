@@ -603,3 +603,16 @@ function c4m_user_block_view($delta) {
 
   return array();
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_form_user_pass_reset_alter(&$form, &$form_state, $form_id) {
+  $uid = $form_state['build_info']['args'][0];
+  $user = user_load($uid);
+  $user = entity_metadata_wrapper('user', $user);
+  if ($user->c4m_is_deleted->value() || $user->c4m_is_spammer->value()) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+}
