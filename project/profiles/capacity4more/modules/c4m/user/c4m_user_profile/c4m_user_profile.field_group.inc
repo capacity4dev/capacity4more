@@ -125,14 +125,13 @@ function c4m_user_profile_field_group_info() {
       'instance_settings' => array(
         'id' => '',
         'classes' => 'group-user-about field-group-html5',
-        'wrapper' => 'section',
         'description' => '',
-        'show_label' => 1,
-        'label_element' => 'h3',
+        'show_label' => '1',
+        'label_element' => 'h2',
         'effect' => 'none',
-        'speed' => 'fast',
+        'speed' => 'none',
       ),
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_user_about|user|user|full'] = $field_group;
