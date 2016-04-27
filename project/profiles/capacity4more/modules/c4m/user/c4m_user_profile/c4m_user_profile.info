@@ -55,5 +55,6 @@ features[image][] = c4m_user_author_thumb_image
 features[user_permission][] = administer Terms and Conditions
 features[user_permission][] = view Terms and Conditions
 features[variable][] = legal_display
+features[variable][] = pathauto_user_pattern
 features[variable][] = user_register
 features[variable][] = user_registrationpassword_registration
