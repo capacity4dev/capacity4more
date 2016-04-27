@@ -1177,13 +1177,15 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 19,
       ),
       'full' => array(
-        'label' => 'hidden',
-        'module' => 'term_reference_tree',
+        'label' => 'inline',
+        'module' => 'c4m_content_topic',
         'settings' => array(
-          'token_display_selected' => '',
-          'token_display_unselected' => '',
+          'display' => 'all',
+          'link' => 1,
+          'separator' => ', ',
+          'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree',
+        'type' => 'term_reference_only_parents',
         'weight' => 3,
       ),
       'user_picture' => array(

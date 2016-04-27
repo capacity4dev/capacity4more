@@ -82,8 +82,18 @@ function c4m_content_topic_field_formatter_info() {
         'separator' => ' » ',
       ),
     ),
-    'term_reference_only_parents' => array(
+    'term_reference_only_checked' => array(
       'label' => t('Term reference tree - Only level 1 terms'),
+      'field types' => array('taxonomy_term_reference'),
+      'settings' => array(
+        'display' => 'all',
+        'link' => '',
+        'wrap' => 'none',
+        'separator' => ', ',
+      ),
+    ),
+    'term_reference_only_parents' => array(
+      'label' => t('Term reference tree - All checked terms inline'),
       'field types' => array('taxonomy_term_reference'),
       'settings' => array(
         'display' => 'all',
@@ -270,6 +280,64 @@ function c4m_content_topic_field_formatter_view(
         }
       }
 
+      break;
+
+    case 'term_reference_only_checked':
+      $terms = array();
+      foreach ($items as $delta => $item) {
+        if ($item['tid'] == 'autocreate') {
+          $element[$delta] = array(
+            '#markup' => check_plain($item['name']),
+          );
+        }
+        else {
+          $term = $item['taxonomy_term'];
+
+          // Get the vocabulary to create a filter on vocab facet.
+          $vocab = taxonomy_vocabulary_load($item['taxonomy_term']->vid);
+
+          if ($settings['link']) {
+            $options = array(
+              'query' => array(
+                'f' => array($vocab->machine_name . ':' . $term->tid),
+              ),
+            );
+
+            $link = array(
+              '#type' => 'link',
+              '#title' => $term->name,
+              '#href' => 'search',
+              '#options' => $options,
+            );
+            $terms[$term->tid] = array(
+              'tid' => $term->tid,
+              'content' => drupal_render($link),
+            );
+          }
+          else {
+            $terms[$term->tid] = array(
+              'tid' => $term->tid,
+              'content' => check_plain($term->name),
+            );
+          }
+        }
+      }
+
+      // Make sure there are terms before adding to $element.
+      if (count($terms)) {
+        // Prepare theme variables.
+        $variables = array(
+          'terms' => $terms,
+          'separator' => $settings['separator'],
+        );
+
+        $element[$delta] = array(
+          '#markup' => theme(
+            'c4m_content_topic_term_reference_tree_children_expanded',
+            $variables
+          ),
+        );
+      }
       break;
 
     case 'term_reference_only_parents':
