@@ -224,3 +224,15 @@
     }
   }
 }
+
+.privacy-level {
+  &--private {
+    color: $brand-danger;
+  }
+  &--public {
+    color: $brand-success;
+  }
+  &--restricted {
+    color: $brand-warning;
+  }
+}
