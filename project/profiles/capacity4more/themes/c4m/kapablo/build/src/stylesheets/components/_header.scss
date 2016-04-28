@@ -81,6 +81,8 @@
     padding: 0;
 
     li {
+      @extend .text-small;
+      
       a {
         @extend .text-breadcrumb;
       }
