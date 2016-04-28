@@ -225,6 +225,14 @@
   }
 }
 
+.field-name-c4m-content-article-disclaimer {
+  @extend .text-copy--muted;
+
+  border-top: 1px dashed $color-gray-light;;
+  margin-top: 1em;
+  padding-top: 1em;
+}
+
 .privacy-level {
   &--private {
     color: $brand-danger;

@@ -116,7 +116,7 @@ function c4m_content_article_strongarm() {
         'custom_settings' => FALSE,
       ),
       'block_list' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'revision' => array(
         'custom_settings' => FALSE,
@@ -125,6 +125,9 @@ function c4m_content_article_strongarm() {
         'custom_settings' => TRUE,
       ),
       'activity_group' => array(
+        'custom_settings' => FALSE,
+      ),
+      'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
     ),

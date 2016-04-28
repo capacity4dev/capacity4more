@@ -9,8 +9,8 @@
     }
   }
 
-  .group-node-details {
-    .group-detail-element, .field-name-og-vocabulary {
+  .group-right {
+    .detail-element, .field-name-og-vocabulary {
       padding-bottom: 1rem;
 
       ul {
@@ -156,6 +156,19 @@
         }
       }
     }
+  }
+
+  &.node-article {
+    .field-name-c4m-ds-type-posted-by {
+      display: inline-block;
+
+      & + .field-name-c4m-ds-creation-date {
+        display: inline-block;
+        margin-left: 0.3em;
+      }
+    }
+
+
   }
 
   .view-mode-teaser {
