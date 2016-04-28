@@ -22,12 +22,13 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     array('title', 'Title'),
     array('body', 'Body'),
     array('image', 'Image'),
-    array('video', 'Video'),
     array('topics', 'Topics'),
     array('geo', 'Geo'),
     array('intro', 'Intro text'),
     array('banner', 'Banner'),
     array('uid', 'UID'),
+    array('related_users', 'Contributors'),
+    array('contributors', 'External Contributors'),
   );
 
   /**
@@ -56,8 +57,6 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
 
-    $this->addFieldMapping('c4m_has_video', 'video');
-
     $this->addFieldMapping('c4m_vocab_topic', 'topics')
       ->sourceMigration('C4mDemoContentCreateTopicTerms')
       ->arguments(array('source_type' => 'tid'))
@@ -76,6 +75,13 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
+
+    $this->addFieldMapping('c4m_related_user', 'related_users')
+      ->sourceMigration('C4mDemoContentCreateUsers')
+      ->separator('|');
+
+    $this->addFieldMapping('c4m_link_multiple', 'contributors_url');
+    $this->addFieldMapping('c4m_link_multiple:title', 'contributors_name');
   }
 
   /**
@@ -93,6 +99,12 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $row->geo_entries = $this->mapTaxonomyVocabWithParent(
       $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
     );
+
+    if (!empty($row->contributors)) {
+      $split_contributors = explode(';', $row->contributors);
+      $row->contributors_url = $split_contributors[0];
+      $row->contributors_name = $split_contributors[1];
+    }
 
     return TRUE;
   }
