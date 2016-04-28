@@ -605,19 +605,6 @@ function c4m_user_block_view($delta) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- */
-function c4m_user_form_user_pass_reset_alter(&$form, &$form_state, $form_id) {
-  $uid = $form_state['build_info']['args'][0];
-  $account = user_load($uid);
-  $account = entity_metadata_wrapper('user', $account);
-  if ($account->c4m_is_deleted->value() || $account->c4m_is_spammer->value()) {
-    drupal_access_denied();
-    drupal_exit();
-  }
-}
-
-/**
  * Implements hook_user_presave().
  *
  * Prevent activating blocked (deleted or spammer) users.
