@@ -11,6 +11,7 @@ require 'vendor/autoload.php';
 
 // Split FeatureContext in smaller chunks.
 require __DIR__ . '/FeatureContext/Activity.php';
+require __DIR__ . '/FeatureContext/Article.php';
 require __DIR__ . '/FeatureContext/Debug.php';
 require __DIR__ . '/FeatureContext/Discussion.php';
 require __DIR__ . '/FeatureContext/Document.php';
@@ -54,6 +55,7 @@ class FeatureContext extends DrupalContext {
    * Split context file in smaller parts to make merging easier.
    */
   use FeatureContext\Activity;
+  use FeatureContext\Article;
   use FeatureContext\Debug;
   use FeatureContext\Discussion;
   use FeatureContext\Document;
