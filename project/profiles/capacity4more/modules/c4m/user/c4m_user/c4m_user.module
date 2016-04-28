@@ -603,3 +603,16 @@ function c4m_user_block_view($delta) {
 
   return array();
 }
+
+/**
+ * Implements hook_user_presave().
+ *
+ * Force a user to be blocked if it's deleted or spammer.
+ */
+function c4m_user_user_presave(&$edit, $account, $category) {
+  $spammer = isset($edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value']) ? $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] : $account->c4m_is_spammer[LANGUAGE_NONE][0]['value'];
+  $deleted = isset($edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value']) ? $edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value'] : $account->c4m_is_deleted[LANGUAGE_NONE][0]['value'];
+  if (!empty($deleted) || !empty($spammer)) {
+    $edit['status'] = 0;
+  }
+}
