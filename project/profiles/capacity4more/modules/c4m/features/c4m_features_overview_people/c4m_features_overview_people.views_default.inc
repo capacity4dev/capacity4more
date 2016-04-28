@@ -53,6 +53,14 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['fields']['c4m_last_name']['field'] = 'c4m_last_name';
   $handler->display->display_options['fields']['c4m_last_name']['label'] = '';
   $handler->display->display_options['fields']['c4m_last_name']['element_label_colon'] = FALSE;
+  /* Sort criterion: User: First Name (c4m_first_name) */
+  $handler->display->display_options['sorts']['c4m_first_name_value']['id'] = 'c4m_first_name_value';
+  $handler->display->display_options['sorts']['c4m_first_name_value']['table'] = 'field_data_c4m_first_name';
+  $handler->display->display_options['sorts']['c4m_first_name_value']['field'] = 'c4m_first_name_value';
+  /* Sort criterion: User: Last Name (c4m_last_name) */
+  $handler->display->display_options['sorts']['c4m_last_name_value']['id'] = 'c4m_last_name_value';
+  $handler->display->display_options['sorts']['c4m_last_name_value']['table'] = 'field_data_c4m_last_name';
+  $handler->display->display_options['sorts']['c4m_last_name_value']['field'] = 'c4m_last_name_value';
   /* Filter criterion: User: Active */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
