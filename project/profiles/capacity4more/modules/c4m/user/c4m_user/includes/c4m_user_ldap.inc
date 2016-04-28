@@ -26,9 +26,15 @@ class C4mLDAPUser {
    * Constructor.
    */
   public function __construct() {
-    // @todo Add configuration page.
-    $this->url = variable_get('c4m_user_ldap_url', 'http://capacity4dev.ec.europa.eu/services/ldap.php');
-    $this->apiKey = variable_get('c4m_user_ldap_apikey', '9b4e117f-6734-41a4-9a18-4c09433bffb7');
+    $url = variable_get('c4m_ldap_url');
+    $apiKey = variable_get('c4m_ldap_apikey');
+    if ($url && $apiKey) {
+      $this->url = variable_get('c4m_ldap_url');
+      $this->apiKey = variable_get('c4m_ldap_apikey');
+    }
+    else {
+      throw new Exception('LDAP configuration not available.');
+    }
   }
 
   /**
