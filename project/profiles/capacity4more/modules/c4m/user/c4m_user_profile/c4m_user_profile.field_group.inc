@@ -139,37 +139,6 @@ function c4m_user_profile_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_user_activity|user|user|full';
-  $field_group->group_name = 'group_user_activity';
-  $field_group->entity_type = 'user';
-  $field_group->bundle = 'user';
-  $field_group->mode = 'full';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Latest Activity',
-    'weight' => '7',
-    'children' => array(),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Latest Activity',
-      'instance_settings' => array(
-        'id' => '',
-        'classes' => 'group-user-activity field-group-html5',
-        'wrapper' => 'section',
-        'description' => '',
-        'show_label' => 1,
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'collapsible',
-    ),
-  );
-  $field_groups['group_user_activity|user|user|full'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_user_contributions|user|user|full';
   $field_group->group_name = 'group_user_contributions';
   $field_group->entity_type = 'user';
@@ -197,6 +166,41 @@ function c4m_user_profile_field_group_info() {
     ),
   );
   $field_groups['group_user_contributions|user|user|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_user_data|user|user|full';
+  $field_group->group_name = 'group_user_data';
+  $field_group->entity_type = 'user';
+  $field_group->bundle = 'user';
+  $field_group->mode = 'full';
+  $field_group->parent_name = 'group_user_meta';
+  $field_group->data = array(
+    'label' => '',
+    'weight' => '2',
+    'children' => array(
+      0 => 'c4m_user_first_and_last_name',
+      1 => 'c4m_user_country',
+      2 => 'c4m_user_organisation_full',
+      3 => 'c4m_user_contact_link',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => '',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-user-data field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_user_data|user|user|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -277,18 +281,14 @@ function c4m_user_profile_field_group_info() {
     'weight' => '0',
     'children' => array(
       0 => 'c4m_media',
-      1 => 'c4m_organisation',
-      2 => 'c4m_organisation_type',
-      3 => 'c4m_user_first_and_last_name',
-      4 => 'c4m_user_country',
-      5 => 'c4m_user_contact_link',
+      1 => 'group_user_data',
     ),
     'format_type' => 'div',
     'format_settings' => array(
       'label' => '',
       'instance_settings' => array(
         'id' => '',
-        'classes' => 'group-user-meta field-group-html5',
+        'classes' => 'group-user-meta field-group-html5 clearfix',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -304,7 +304,6 @@ function c4m_user_profile_field_group_info() {
   // Included for use with string extractors like potx.
   t('About');
   t('Expertise');
-  t('Latest Activity');
   t('Notable Contributions');
   t('Professional Interests');
   t('Your account');

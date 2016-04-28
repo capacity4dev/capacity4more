@@ -843,10 +843,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'user_picture' => array(
         'label' => 'above',
@@ -927,10 +926,9 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'user_picture' => array(
         'label' => 'above',
