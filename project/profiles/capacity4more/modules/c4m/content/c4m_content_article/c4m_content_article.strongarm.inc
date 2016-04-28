@@ -134,10 +134,13 @@ function c4m_content_article_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '11',
         ),
         'locations' => array(
           'weight' => '6',
+        ),
+        'redirect' => array(
+          'weight' => '10',
         ),
       ),
       'display' => array(),

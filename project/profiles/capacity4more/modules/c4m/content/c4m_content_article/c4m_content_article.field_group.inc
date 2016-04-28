@@ -21,7 +21,7 @@ function c4m_content_article_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_topic',
