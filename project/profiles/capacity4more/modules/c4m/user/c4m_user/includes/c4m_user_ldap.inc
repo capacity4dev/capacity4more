@@ -71,13 +71,27 @@ class C4mLDAPUser {
    * @return bool
    *   Email is valid.
    */
-  public function validateEmail($email) {
+  public function isValidEmail($email) {
+    $data = $this->getInfo($email);
+    return !empty($data['valid']);
+  }
+
+  /**
+   * Get LDAP information for an email address.
+   *
+   * @param string $email
+   *   Email address to be validated.
+   *
+   * @return array
+   *   LDAP information.
+   */
+  public function getInfo($email) {
     $response = $this->queryService($email);
     if (!isset($response->data)) {
       return FALSE;
     }
-    $data = simplexml_load_string($response->data);
-    return !empty($data->valid);
+    $data = (array) simplexml_load_string($response->data);
+    return $data;
   }
 
 }
