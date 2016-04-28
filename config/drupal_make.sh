@@ -12,6 +12,7 @@ MAKE_FILES=(
   "configuration.make"
   "fields.make"
   "media.make"
+  "navigation.make"
   "notifications.make"
   "og.make"
   "panels.make"
