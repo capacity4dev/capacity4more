@@ -122,6 +122,19 @@ function c4m_user_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['user']['c4m_user_organisation_full'] = array(
+    'title' => t('User organisation with organisation type'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_organisation_full',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   $fields['user']['c4m_user_contact_link'] = array(
     'title'      => t('C4M User contact link'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,

@@ -264,6 +264,35 @@ function theme_c4m_user_country(array $field) {
 }
 
 /**
+ * DS function field.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return mixed
+ *   The rendered output.
+ */
+function theme_c4m_user_organisation_full(array $field) {
+  if (empty($field['entity']->uid)) {
+    return;
+  }
+
+  // Check if this is a user or node entity.
+  $user = 'user' === $field['entity_type'] ? $field['entity'] :
+    user_load($field['entity']->uid);
+
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $organisation = check_plain($wrapper->c4m_organisation->value());
+  $organisation_type = check_plain($wrapper->c4m_organisation_type->value());
+
+  $tag['element'] = array(
+    '#tag'       => 'div',
+    '#value'     => $organisation . ($organisation_type ? ' (' . $organisation_type . ')' : ''),
+  );
+  return theme_html_tag($tag);
+}
+
+/**
  * Callback for c4m_user_contact_link DS field.
  *
  * @param array $field
@@ -302,11 +331,7 @@ function theme_c4m_user_contact_link(array $field) {
 
   // User administrators should always have access to personal contact forms.
   if (user_access('administer users') || user_access('access user contact forms')) {
-    return l(t('Contact this person'), "user/{$account->uid}/contact", array(
-      'attributes' => array(
-        'class' => array('btn', 'btn-default'),
-      ),
-    ));
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact");
   }
   else {
     return t('!register or !login to contact a member', array(
