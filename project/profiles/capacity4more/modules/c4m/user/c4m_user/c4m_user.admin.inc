@@ -91,4 +91,3 @@ function c4m_user_admin_ldap_test_submit($form, &$form_state) {
     '!info' => implode('<br />', $info_message),
   )));
 }
-
