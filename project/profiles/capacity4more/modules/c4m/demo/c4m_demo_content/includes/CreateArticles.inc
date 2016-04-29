@@ -122,6 +122,7 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
       NULL,
       $this
     );
+
     $row->articles_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
