@@ -722,3 +722,10 @@ function c4m_user_c4m_captcha_form_info() {
     'user_pass',
   );
 }
+
+/**
+ * Implements hook_user_login().
+ */
+function c4m_user_user_login(&$edit, $account) {
+  c4m_user_update_information($account);
+}
