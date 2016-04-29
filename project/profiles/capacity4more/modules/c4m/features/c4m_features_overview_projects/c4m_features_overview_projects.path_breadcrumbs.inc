@@ -1,23 +1,23 @@
 <?php
 /**
  * @file
- * c4m_features_homepage.path_breadcrumbs.inc
+ * c4m_features_overview_projects.path_breadcrumbs.inc
  */
 
 /**
  * Implements hook_path_breadcrumbs_settings_info().
  */
-function c4m_features_homepage_path_breadcrumbs_settings_info() {
+function c4m_features_overview_projects_path_breadcrumbs_settings_info() {
   $export = array();
 
   $path_breadcrumb = new stdClass();
   $path_breadcrumb->api_version = 1;
-  $path_breadcrumb->machine_name = 'home';
-  $path_breadcrumb->name = 'Home';
-  $path_breadcrumb->path = 'node';
+  $path_breadcrumb->machine_name = 'projects';
+  $path_breadcrumb->name = 'Projects';
+  $path_breadcrumb->path = 'projects';
   $path_breadcrumb->data = array(
     'titles' => array(
-      0 => 'Home',
+      0 => 'Projects',
     ),
     'paths' => array(
       0 => '<none>',
@@ -27,8 +27,8 @@ function c4m_features_homepage_path_breadcrumbs_settings_info() {
     'arguments' => array(),
     'access' => array(),
   );
-  $path_breadcrumb->weight = -86;
-  $export['home'] = $path_breadcrumb;
+  $path_breadcrumb->weight = -96;
+  $export['projects'] = $path_breadcrumb;
 
   return $export;
 }

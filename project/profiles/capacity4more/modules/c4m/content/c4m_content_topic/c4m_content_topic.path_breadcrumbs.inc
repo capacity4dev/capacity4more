@@ -51,7 +51,7 @@ function c4m_content_topic_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = 0;
+  $path_breadcrumb->weight = -93;
   $export['topic'] = $path_breadcrumb;
 
   return $export;

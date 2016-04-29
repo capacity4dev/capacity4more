@@ -11,6 +11,9 @@ function c4m_features_overview_events_ctools_plugin_api($module = NULL, $api = N
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
+  if ($module == "path_breadcrumbs" && $api == "path_breadcrumbs") {
+    return array("version" => "1");
+  }
 }
 
 /**

@@ -16,6 +16,6 @@ features[ctools][] = context:context:3
 features[ctools][] = path_breadcrumbs:path_breadcrumbs:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
-features[path_breadcrumbs][] = og_events
+features[path_breadcrumbs][] = og_event
 features[views_view][] = c4m_overview_og_events
 features[views_view][] = c4m_overview_og_events_landing
