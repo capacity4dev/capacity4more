@@ -86,7 +86,7 @@ class C4mOrganisationUser {
    * @return array
    *   Array of Organisation node objects.
    */
-  public function getOrganisations($brand = FALSE) {
+  protected function getOrganisations($brand = FALSE) {
     if (!$this->validEmail) {
       return FALSE;
     }
@@ -94,9 +94,9 @@ class C4mOrganisationUser {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'organisation')
-      ->fieldCondition('c4m_domain', 'domain', $this->domain);
+      ->fieldCondition('c4m_domain', 'domain', $this->domain, '=', 0);
     if ($brand) {
-      $query->fieldCondition('c4m_domain', 'icon', 1);
+      $query->fieldCondition('c4m_domain', 'icon', 1, '=', 0);
     }
     $result = $query->execute();
     if ($result) {
