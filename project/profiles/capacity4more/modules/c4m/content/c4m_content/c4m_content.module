@@ -10,34 +10,6 @@
  * Add a cancel button to all node forms.
  */
 function c4m_content_form_node_form_alter(&$form, &$form_state, $form_id) {
-  $hide_tab_elements = array(
-    'book' => array(
-      'article_node_form',
-      'banner_node_form',
-      'discussion_node_form',
-      'document_node_form',
-      'event_node_form',
-      'featured_node_form',
-      'feed_node_form',
-      'group_node_form',
-      'inthe_picture_node_form',
-      'organisation_node_form',
-      'page_element_node_form',
-      'photo_node_form',
-      'photoalbum_node_form',
-      'project_node_form',
-      'topic_node_form',
-    ),
-  );
-
-  foreach ($hide_tab_elements as $tab_element => $node_types) {
-    foreach ($node_types as $node_type) {
-      if ($form_id === $node_type) {
-        $form[$tab_element]['#access'] = FALSE;
-      }
-    }
-  }
-
   // Check if a cancel button should be added to node forms.
   $cancel = variable_get('c4m_content_cancel_button', FALSE);
   if (!$cancel) {
