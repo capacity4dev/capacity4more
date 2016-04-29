@@ -19,3 +19,4 @@ features[features_api][] = api:2
 features[field_base][] = og_user_node
 features[field_instance][] = user-user-og_user_node
 features[variable][] = field_bundle_settings_user__user
+files[] = includes/c4m_user_organisation.inc
