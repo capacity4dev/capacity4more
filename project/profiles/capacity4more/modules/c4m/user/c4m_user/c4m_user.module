@@ -643,3 +643,12 @@ function c4m_user_block_view($delta) {
 
   return array();
 }
+
+/**
+ * Implements hook_c4m_captcha_form_info().
+ */
+function c4m_user_c4m_captcha_form_info() {
+  return array(
+    'user_pass',
+  );
+}
