@@ -568,6 +568,29 @@ function _c4m_user_get_node_count($user) {
  * Implements hook_menu().
  */
 function c4m_user_menu() {
+  $items['admin/config/c4m/ldap'] = array(
+    'title' => 'Manage LDAP',
+    'description' => 'Manage LDAP service and integration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_ldap_configuration'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_user.admin.inc',
+  );
+
+  $items['admin/config/c4m/ldap/configuration'] = array(
+    'title' => 'Configuration',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items['admin/config/c4m/ldap/test'] = array(
+    'title' => 'Test',
+    'description' => 'Test LDAP service and integration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_ldap_test'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_user.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
 
   $items['admin/config/c4m/organisation-validator'] = array(
     'title' => 'Test email domain',

@@ -25,9 +25,17 @@ markup_li_value "Hostname" "${INIT_CONFIG_SOLR_HOST:--}"
 markup_li_value "Port" "${INIT_CONFIG_SOLR_PORT:--}"
 markup_li_value "Path" "${INIT_CONFIG_SOLR_PATH:--}"
 
+markup
+
 markup_h2 "TIKA file configuration"
 markup_li_value "File path" "${INIT_CONFIG_TIKA_PATH:--}"
 markup_li_value "File name" "${INIT_CONFIG_TIKA_FILE:--}"
+
+markup
+
+markup_h2 "LDAP configuration"
+markup_li_value "LDAP URL" "${INIT_CONFIG_LDAP_URL:--}"
+markup_li_value "LDAP API" "${INIT_CONFIG_LDAP_API:--}"
 
 markup
 
