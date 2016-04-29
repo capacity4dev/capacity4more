@@ -134,3 +134,12 @@ if [ "$CAMPAIGNMONITOR_CLIENT_ID" != "" ] && [ "$CAMPAIGNMONITOR_API_KEY" != "" 
   drupal_drush vset campaignmonitor_list_title "$CAMPAIGNMONITOR_LIST_TITLE"
   echo
 fi
+
+if [ "$LDAP_URL" != "" ] && [ "$LDAP_API" != "" ]; then
+  # Set LDAP configuration.
+  markup_h1 "Set LDAP configuration"
+  php -r "print json_encode(array('client_id' => '$LDAP_URL', 'api_key' => '$LDAP_API'));"
+  drupal_drush vset c4m_ldap_url "$LDAP_URL"
+  drupal_drush vset c4m_ldap_apikey "$LDAP_API"
+  echo
+fi

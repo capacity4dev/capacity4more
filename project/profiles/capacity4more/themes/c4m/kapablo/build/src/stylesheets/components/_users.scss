@@ -12,5 +12,12 @@
     margin-bottom: $form-item-spacing;
     margin-top: -$form-item-spacing;
   }
+
+  .form-item-contact {
+    // Mimics fieldset behaviour.
+    border-bottom: 1px solid $legend-border-color;
+    margin-bottom: $line-height-computed;
+    padding-bottom: $line-height-computed;
+  }
 }
 
