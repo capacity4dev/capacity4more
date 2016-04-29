@@ -54,7 +54,10 @@ function c4m_user_admin_ldap_test($form, &$form_state) {
   );
 
   $form['actions']['#type'] = 'actions';
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Test'));
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Test'),
+  );
 
   return $form;
 }
@@ -86,8 +89,21 @@ function c4m_user_admin_ldap_test_submit($form, &$form_state) {
     $info_message[] = check_plain($index) . ': ' . check_plain($value);
   }
 
-  drupal_set_message(t('<p>LDAP information for @email<br />!info</p>', array(
-    '@email' => $email,
-    '!info' => implode('<br />', $info_message),
-  )));
+  if ($ldap->isValidEmail($email)) {
+    $message_type = 'status';
+  }
+  else {
+    $message_type = 'warning';
+  }
+
+  drupal_set_message(
+    t(
+      '<p>LDAP information for @email<br />!info</p>',
+      array(
+        '@email' => $email,
+        '!info' => implode('<br />', $info_message),
+      )
+    ),
+    $message_type
+  );
 }
