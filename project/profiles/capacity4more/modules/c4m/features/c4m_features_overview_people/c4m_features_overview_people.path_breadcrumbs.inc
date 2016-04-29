@@ -27,7 +27,7 @@ function c4m_features_overview_people_path_breadcrumbs_settings_info() {
     'arguments' => array(),
     'access' => array(),
   );
-  $path_breadcrumb->weight = 0;
+  $path_breadcrumb->weight = -97;
   $export['people'] = $path_breadcrumb;
 
   return $export;

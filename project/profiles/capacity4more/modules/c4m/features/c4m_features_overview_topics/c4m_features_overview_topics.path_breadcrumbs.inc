@@ -27,7 +27,7 @@ function c4m_features_overview_topics_path_breadcrumbs_settings_info() {
     'arguments' => array(),
     'access' => array(),
   );
-  $path_breadcrumb->weight = 0;
+  $path_breadcrumb->weight = -95;
   $export['topics'] = $path_breadcrumb;
 
   return $export;

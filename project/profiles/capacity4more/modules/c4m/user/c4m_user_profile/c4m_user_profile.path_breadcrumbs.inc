@@ -37,7 +37,7 @@ function c4m_user_profile_path_breadcrumbs_settings_info() {
     ),
     'access' => array(),
   );
-  $path_breadcrumb->weight = 0;
+  $path_breadcrumb->weight = -87;
   $export['user_profile'] = $path_breadcrumb;
 
   return $export;
