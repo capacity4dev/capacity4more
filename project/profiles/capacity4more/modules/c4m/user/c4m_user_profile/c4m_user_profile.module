@@ -501,3 +501,37 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
   }
   return $errors;
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Replace the user_login_name_validate() from the user_login form.
+ */
+function c4m_user_profile_form_user_login_alter(&$form, &$form_state, $form_id) {
+  if (($key = array_search('user_login_name_validate', $form['#validate'])) !== FALSE) {
+    unset($form['#validate'][$key]);
+  }
+  array_unshift($form['#validate'], 'c4m_user_profile_user_login_validate');
+}
+
+/**
+ * Validate callback for user_login form.
+ *
+ * @see user_login_name_validate()
+ */
+function c4m_user_profile_user_login_validate($form, &$form_state) {
+  if (empty($form_state['values']['name'])) {
+    return;
+  }
+  $account = user_load_by_name($form_state['values']['name']);
+  if (!empty($account->status)) {
+    return;
+  }
+  $account = entity_metadata_wrapper('user', $account);
+  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value() && !$account->last_login->value()) {
+    form_set_error('name', t('You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.', array('!password_recovery' => l(t('password recovery'), 'password-recovery'))));
+  }
+  else {
+    form_set_error('name', t('The username %name has not been activated or is blocked.', array('%name' => $form_state['values']['name'])));
+  }
+}
