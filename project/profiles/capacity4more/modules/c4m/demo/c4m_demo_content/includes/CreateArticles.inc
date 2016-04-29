@@ -80,6 +80,8 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_related_group', 'groups_list');
 
+    $this->addFieldMapping('c4m_related_articles', 'articles_list');
+
     $this->addFieldMapping('c4m_related_user', 'related_users')
       ->sourceMigration('C4mDemoContentCreateUsers')
       ->separator('|');
@@ -110,8 +112,17 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
       NULL,
       $this
     );
-
     $row->groups_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateArticles',
+      explode('|', $row->articles),
+      NULL,
+      $this
+    );
+    $row->articles_list = $this->filterDestid2FromEntityReference(
       $unfiltered_ids
     );
 

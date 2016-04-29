@@ -156,10 +156,6 @@ abstract class C4mDemoContentCreateEntity extends Migration {
   protected function filterDestid2FromEntityReference($dest_field) {
     $filtered_ids = array();
 
-    if (!$dest_field) {
-      return array();
-    }
-
     if (!empty($dest_field['destid1'])) {
       $filtered_ids = array('destid1' => $dest_field['destid1']);
       if (!empty($dest_field['destid2'])) {
