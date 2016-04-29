@@ -601,7 +601,19 @@ function c4m_user_menu() {
     'file' => 'c4m_user.admin.inc',
   );
 
+  $items['test-adfasdfasdfasdfsd'] = array(
+    'title' => 'Manage LDAP',
+    'description' => 'Manage LDAP service and integration.',
+    'page callback' => 'adfasdfasdfasdfsd',
+    'access callback' => TRUE,
+  );
+
   return $items;
+}
+
+function adfasdfasdfasdfsd() {
+  $account = user_load_by_mail('jean@ec.europa.eu');
+  c4m_user_update_information($account);
 }
 
 /**
@@ -642,6 +654,56 @@ function c4m_user_block_view($delta) {
   }
 
   return array();
+}
+
+/**
+ * Updates the user information based on LDAP and Organisation information.
+ *
+ * @param object $account
+ *   User account.
+ */
+function c4m_user_update_information($account) {
+  $country = '';
+  $organisation_name = '';
+  $organisation_type = '';
+
+  $domain_user = new C4mDomainUser($account->mail);
+  if ($domain_user->hasEmailDomain()) {
+    $ldap = new C4mLDAPUser();
+    if ($ldap->isUp()) {
+      $info = $ldap->getInfo($account->mail);
+      if ($info && !empty($info['valid'])) {
+        $country = $info['country'];
+        $organisation_name = $info['organisation_name'];
+      }
+      elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
+        $organisation_name = $result->organisation_name;
+      }
+    }
+  }
+
+  $organisation_user = new C4mOrganisationUser($account->mail);
+  if ($organisations = $organisation_user->getOrganisationsInfo()) {
+    $organisation = array_shift($organisations);
+    $organisation = entity_metadata_wrapper('node', $organisation);
+    $organisation_type = $organisation->c4m_organisation_type->value();
+    if (!$organisation_name) {
+      $organisation_name = $organisation->title->value();
+    }
+  }
+
+  $edit = array();
+  if ($country) {
+    $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $country;
+  }
+  if ($organisation_name) {
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation_name;
+  }
+  if ($organisation_type) {
+    $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation_type;
+  }
+
+  user_save($account, $edit);
 }
 
 /**

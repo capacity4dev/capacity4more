@@ -48,14 +48,28 @@ class C4mDomainUser {
    *   TRUE if the email address has a corresponding email domain.
    */
   public function hasEmailDomain() {
+    $result = $this->getEmailDomainByName();
+    return !empty($result);
+  }
+
+  /**
+   * Get the Email domain for this email address.
+   *
+   * @return bool|object
+   *   Email domain object or FALSE.
+   */
+  public function getEmailDomainByName() {
     if (!$this->validEmail) {
       return FALSE;
     }
 
-    $result = db_query('SELECT name FROM {c4m_domain} WHERE name = :name', array(
+    $result = db_query('SELECT id FROM {c4m_domain} WHERE name = :name', array(
       ':name' => $this->domain,
     ))->fetchCol();
-    return !empty($result);
+    if (empty($result)) {
+      return FALSE;
+    }
+    return $this->getEmailDomain($result[0]);
   }
 
   /**
@@ -65,14 +79,39 @@ class C4mDomainUser {
    *   TRUE if the email address has a corresponding email domain.
    */
   public function isWhiteListed() {
+    $result = $this->getEmailDomainByWhitelist();
+    return !empty($result);
+  }
+
+  /**
+   * Get the domain in which this email is whitelisted.
+   *
+   * @return bool|object
+   *   Email domain object or FALSE.
+   */
+  public function getEmailDomainByWhitelist() {
     if (!$this->validEmail) {
       return FALSE;
     }
 
-    $result = db_query("SELECT name FROM {c4m_domain} WHERE whitelist LIKE :pattern", array(
+    $result = db_query("SELECT id FROM {c4m_domain} WHERE whitelist LIKE :pattern", array(
       ':pattern' => '%' . db_like($this->email) . '%',
     ))->fetchCol();
-    return !empty($result);
+    if (empty($result)) {
+      return FALSE;
+    }
+    return $this->getEmailDomain($result[0]);
+  }
+
+  /**
+   * Loads the domain.
+   *
+   * @return bool|object
+   *   Email domain object or FALSE.
+   */
+  protected function getEmailDomain($id) {
+    $domain = entity_load('c4m_domain', array(intval($id)));
+    return array_shift($domain);
   }
 
 }
