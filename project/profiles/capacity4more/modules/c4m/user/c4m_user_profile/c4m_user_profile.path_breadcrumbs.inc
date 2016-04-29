@@ -24,7 +24,7 @@ function c4m_user_profile_path_breadcrumbs_settings_info() {
       0 => 'people',
       1 => '<none>',
     ),
-    'home' => 1,
+    'home' => 0,
     'translatable' => 0,
     'arguments' => array(
       'useridnumber' => array(

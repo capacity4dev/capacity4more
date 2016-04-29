@@ -24,7 +24,7 @@ function c4m_content_topic_path_breadcrumbs_settings_info() {
       0 => 'topics',
       1 => '<none>',
     ),
-    'home' => 1,
+    'home' => 0,
     'translatable' => 0,
     'arguments' => array(
       'nodeidnumber' => array(
