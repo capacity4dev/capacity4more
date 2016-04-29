@@ -37,6 +37,10 @@ SOLR_PATH=""
 TIKA_PATH=""
 TIKA_FILE=""
 
+# LDAP Config.
+LDAP_URL=""
+LDAP_API=""
+
 # Memcache settings. Fill in ONLY if there is a working memcache environment!
 MEMCACHE_HOST=""
 MEMCACHE_PORT=""
