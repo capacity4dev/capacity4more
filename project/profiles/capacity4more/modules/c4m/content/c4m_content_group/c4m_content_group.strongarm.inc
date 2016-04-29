@@ -205,7 +205,7 @@ function c4m_content_group_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_group_pattern';
-  $strongarm->value = 'group/[node:title]';
+  $strongarm->value = 'groups/[node:title]';
   $export['pathauto_node_group_pattern'] = $strongarm;
 
   return $export;
