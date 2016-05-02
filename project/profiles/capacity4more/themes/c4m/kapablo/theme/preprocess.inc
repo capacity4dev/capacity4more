@@ -94,7 +94,10 @@ function _set_og_breadcrumbs() {
   $path_elements = explode('/', request_path());
 
   // If the current path contains 2 or less parts and the first part is a Persistent URL.
-  if (count($path_elements) <= 2 && $purl = purl_load(array('provider' => 'og_purl|node', 'value' => $path_elements[0]))) {
+  if (count($path_elements) <= 2 && $purl = purl_load(array(
+      'provider' => 'og_purl|node',
+      'value' => $path_elements[0]
+    ))) {
     $breadcrumb = array();
 
     // We need to load the group to get the group title to use in the breadcrumb.
