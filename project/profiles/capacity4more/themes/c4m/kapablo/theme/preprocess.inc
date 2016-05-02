@@ -93,14 +93,16 @@ function _set_og_breadcrumbs() {
   // We use the raw path (purl pages do not have system paths).
   $path_elements = explode('/', request_path());
 
-  // If the current path contains 2 or less parts and the first part is a Persistent URL.
+  // If the current path contains 2 or less parts and
+  // the first part is a Persistent URL.
   if (count($path_elements) <= 2 && $purl = purl_load(array(
       'provider' => 'og_purl|node',
-      'value' => $path_elements[0]
+      'value' => $path_elements[0],
     ))) {
     $breadcrumb = array();
 
-    // We need to load the group to get the group title to use in the breadcrumb.
+    // We need to load the group to get the
+    // group title to use in the breadcrumb.
     $group = node_load($purl['id']);
 
     // Just have the group title displayed on group pages.
