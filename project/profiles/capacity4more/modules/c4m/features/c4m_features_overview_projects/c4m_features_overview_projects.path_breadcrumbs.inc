@@ -27,7 +27,7 @@ function c4m_features_overview_projects_path_breadcrumbs_settings_info() {
     'arguments' => array(),
     'access' => array(),
   );
-  $path_breadcrumb->weight = -96;
+  $path_breadcrumb->weight = -94;
   $export['projects'] = $path_breadcrumb;
 
   return $export;

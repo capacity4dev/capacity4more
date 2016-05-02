@@ -51,8 +51,28 @@ function c4m_content_article_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -94;
+  $path_breadcrumb->weight = -100;
   $export['article'] = $path_breadcrumb;
+
+  $path_breadcrumb = new stdClass();
+  $path_breadcrumb->api_version = 1;
+  $path_breadcrumb->machine_name = 'voices_views';
+  $path_breadcrumb->name = 'Voices & Views';
+  $path_breadcrumb->path = 'articles';
+  $path_breadcrumb->data = array(
+    'titles' => array(
+      0 => 'Voices & Views',
+    ),
+    'paths' => array(
+      0 => '<none>',
+    ),
+    'home' => 0,
+    'translatable' => 0,
+    'arguments' => array(),
+    'access' => array(),
+  );
+  $path_breadcrumb->weight = -90;
+  $export['voices_views'] = $path_breadcrumb;
 
   return $export;
 }

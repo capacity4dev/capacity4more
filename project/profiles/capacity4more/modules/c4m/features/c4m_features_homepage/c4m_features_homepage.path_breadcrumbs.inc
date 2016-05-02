@@ -27,7 +27,7 @@ function c4m_features_homepage_path_breadcrumbs_settings_info() {
     'arguments' => array(),
     'access' => array(),
   );
-  $path_breadcrumb->weight = -86;
+  $path_breadcrumb->weight = -81;
   $export['home'] = $path_breadcrumb;
 
   return $export;

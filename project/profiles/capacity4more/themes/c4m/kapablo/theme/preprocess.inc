@@ -108,7 +108,7 @@ function _set_og_breadcrumbs() {
     else {
       // We use the menu trail to get the titles for the breadcrumb.
       $trail = menu_get_active_trail();
-      if ($trail[1]['menu_name'] == 'c4m-og-menu') {
+      if (isset($trail[1]['menu_name']) && $trail[1]['menu_name'] == 'c4m-og-menu') {
         // Breadcrumb element linking to the group page.
         $breadcrumb[] = l($group->title, $path_elements[0]);
         $breadcrumb[] = $trail[1]['link_title'];

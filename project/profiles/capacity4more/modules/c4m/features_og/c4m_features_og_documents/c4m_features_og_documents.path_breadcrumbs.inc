@@ -59,7 +59,7 @@ function c4m_features_og_documents_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -90;
+  $path_breadcrumb->weight = -88;
   $export['og_document'] = $path_breadcrumb;
 
   return $export;

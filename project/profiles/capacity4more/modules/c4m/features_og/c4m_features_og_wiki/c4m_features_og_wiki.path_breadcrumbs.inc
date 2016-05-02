@@ -59,7 +59,7 @@ function c4m_features_og_wiki_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -88;
+  $path_breadcrumb->weight = -85;
   $export['og_wiki'] = $path_breadcrumb;
 
   return $export;

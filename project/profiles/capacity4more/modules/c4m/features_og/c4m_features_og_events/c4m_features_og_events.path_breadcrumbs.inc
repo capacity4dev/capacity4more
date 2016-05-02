@@ -59,7 +59,7 @@ function c4m_features_og_events_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -94;
+  $path_breadcrumb->weight = -87;
   $export['og_event'] = $path_breadcrumb;
 
   return $export;

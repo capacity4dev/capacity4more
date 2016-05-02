@@ -59,7 +59,7 @@ function c4m_features_og_discussions_path_breadcrumbs_settings_info() {
       'logic' => 'and',
     ),
   );
-  $path_breadcrumb->weight = -91;
+  $path_breadcrumb->weight = -89;
   $export['og_discussion'] = $path_breadcrumb;
 
   return $export;

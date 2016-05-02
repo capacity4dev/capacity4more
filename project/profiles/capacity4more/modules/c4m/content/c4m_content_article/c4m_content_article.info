@@ -66,6 +66,7 @@ features[field_instance][] = node-article-c4m_vocab_geo
 features[field_instance][] = node-article-c4m_vocab_topic
 features[node][] = article
 features[path_breadcrumbs][] = article
+features[path_breadcrumbs][] = voices_views
 features[variable][] = comment_anonymous_article
 features[variable][] = comment_article
 features[variable][] = comment_default_mode_article
