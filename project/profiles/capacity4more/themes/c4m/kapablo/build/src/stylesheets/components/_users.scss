@@ -21,3 +21,11 @@
   }
 }
 
+.userbar-userprofile {
+  .profile-picture {
+    border: 1px solid $color-link;
+  }
+  .profile-picture, .fullname {
+    display: inline-block;
+  }
+}

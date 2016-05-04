@@ -21,7 +21,7 @@ function theme_c4m_user_profile_picture_fullname(array $variables) {
 
   $user         = $variables['user'];
   $user_wrapper = entity_metadata_wrapper('user', $user);
-  $fullname   = '<div class="fullname">' . c4m_user_name($user) . '</div>';
+  $fullname   = '<div class="fullname">' . t('Hello !name', array('!name' => c4m_user_name($user))) . '</div>';
 
   $picture    = $user_wrapper->c4m_media->value();
   if (empty($picture)) {
@@ -31,10 +31,10 @@ function theme_c4m_user_profile_picture_fullname(array $variables) {
   else {
     $picture = array(
       '#theme'      => 'image_style',
-      '#style_name' => 'media_thumbnail',
+      '#style_name' => 'icon_small',
       '#path'       => $picture['uri'],
       '#attributes' => array(
-        'class' => array('profile-picture'),
+        'class' => array('profile-picture img-circle'),
       ),
     );
     $picture = render($picture);
