@@ -29,3 +29,21 @@
     display: inline-block;
   }
 }
+
+#user-bar {
+  background-color: $color-text-alternative;
+  padding: 0.4rem 0;
+
+  .fullname-picture {
+    .fullname {
+      color: $color-white;
+      margin-right: 0.5rem;
+    }
+    .fa-chevron-down {
+      color: $color-white;
+    }
+    .profile-picture {
+      margin-right: 0.5rem;
+    }
+  }
+}

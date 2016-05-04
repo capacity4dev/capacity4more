@@ -44,7 +44,7 @@ function theme_c4m_user_profile_picture_fullname(array $variables) {
   $profile = array(
     '#theme'      => 'html_tag',
     '#tag'        => 'div',
-    '#value'      => $picture . $fullname,
+    '#value'      => $picture . $fullname . '<i class="fa fa-chevron-down"></i>',
     '#attributes' => array(
       'class' => array('fullname-picture'),
     ),
