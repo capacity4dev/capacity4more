@@ -714,7 +714,7 @@ function c4m_user_user_presave(&$edit, $account, $category)
   }
 }
 
-/*
+/**
  * Implements hook_c4m_captcha_form_info().
  */
 function c4m_user_c4m_captcha_form_info() {
