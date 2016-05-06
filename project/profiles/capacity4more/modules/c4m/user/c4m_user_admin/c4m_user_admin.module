@@ -25,6 +25,15 @@ function c4m_user_admin_views_data() {
       'handler' => 'views_handler_field_user_link_activate',
     ),
   );
+
+  $data['users']['resend_activation_email'] = array(
+    'field' => array(
+      'title' => t('Resend activation email link'),
+      'help' => t('Provide a simple link to resend activation email.'),
+      'handler' => 'views_handler_field_user_link_resend_activation_email',
+    ),
+  );
+
   return $data;
 }
 
@@ -36,6 +45,14 @@ function c4m_user_admin_menu() {
     'title' => 'Activate user',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_user_activate_form', 1),
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
+  $items['user/%user/resend-activation-email'] = array(
+    'title' => 'Resend activation email',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_resend_activation_email_form', 1),
     'access arguments' => array('administer users'),
     'file' => 'c4m_user_admin.pages.inc',
   );

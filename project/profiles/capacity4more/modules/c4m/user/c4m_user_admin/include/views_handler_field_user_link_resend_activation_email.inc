@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Definition of views_handler_field_user_link_activate.
+ * Definition of views_handler_field_user_link_resend_activation_email.
  */
 
 // @codingStandardsIgnoreFile
@@ -11,7 +11,7 @@
  *
  * @ingroup views_field_handlers
  */
-class views_handler_field_user_link_activate extends views_handler_field_user_link {
+class views_handler_field_user_link_resend_activation_email extends views_handler_field_user_link {
 
   /**
    * @inheritdoc
@@ -25,9 +25,9 @@ class views_handler_field_user_link_activate extends views_handler_field_user_li
     if (!$account->status->value() && !$account->c4m_is_spammer->value() && !$account->c4m_is_deleted->value() && user_access('administer users')) {
       $this->options['alter']['make_link'] = TRUE;
 
-      $text = t('Activate user');
+      $text = t('Resend activation email');
 
-      $this->options['alter']['path'] = "user/$uid/activate";
+      $this->options['alter']['path'] = "user/$uid/resend-activation-email";
       $this->options['alter']['query'] = drupal_get_destination();
 
       return $text;
