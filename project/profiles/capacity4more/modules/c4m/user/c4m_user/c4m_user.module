@@ -699,8 +699,7 @@ function c4m_user_update_information($account) {
  *
  * Force a user to be blocked if it's deleted or spammer.
  */
-function c4m_user_user_presave(&$edit, $account, $category)
-{
+function c4m_user_user_presave(&$edit, $account, $category) {
   global $user;
 
   $spammer = isset($edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value']) ? $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] : $account->c4m_is_spammer[LANGUAGE_NONE][0]['value'];
