@@ -601,19 +601,7 @@ function c4m_user_menu() {
     'file' => 'c4m_user.admin.inc',
   );
 
-  $items['test-adfasdfasdfasdfsd'] = array(
-    'title' => 'Manage LDAP',
-    'description' => 'Manage LDAP service and integration.',
-    'page callback' => 'adfasdfasdfasdfsd',
-    'access callback' => TRUE,
-  );
-
   return $items;
-}
-
-function adfasdfasdfasdfsd() {
-  $account = user_load_by_mail('jean@ec.europa.eu');
-  c4m_user_update_information($account);
 }
 
 /**
@@ -707,6 +695,26 @@ function c4m_user_update_information($account) {
 }
 
 /**
+ * Implements hook_user_presave().
+ *
+ * Force a user to be blocked if it's deleted or spammer.
+ */
+function c4m_user_user_presave(&$edit, $account, $category)
+{
+  global $user;
+
+  $spammer = isset($edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value']) ? $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] : $account->c4m_is_spammer[LANGUAGE_NONE][0]['value'];
+  $deleted = isset($edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value']) ? $edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value'] : $account->c4m_is_deleted[LANGUAGE_NONE][0]['value'];
+  if (!empty($deleted) || !empty($spammer)) {
+    // Show alert if an admin editing an user and his status is active.
+    if ($user->uid != $account->uid && !empty($edit['status'])) {
+      drupal_set_message(t('Deleted users or spammers cannot have active accounts.'), 'error');
+    }
+    $edit['status'] = 0;
+  }
+}
+
+/*
  * Implements hook_c4m_captcha_form_info().
  */
 function c4m_user_c4m_captcha_form_info() {
