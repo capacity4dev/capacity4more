@@ -21,15 +21,6 @@
   }
 }
 
-.userbar-userprofile {
-  .profile-picture {
-    border: 1px solid $color-link;
-  }
-  .profile-picture, .fullname {
-    display: inline-block;
-  }
-}
-
 #user-bar {
   background-color: $color-text-alternative;
   padding: 0.4rem 0;
@@ -37,13 +28,37 @@
   .fullname-picture {
     .fullname {
       color: $color-white;
+      display: inline-block;
       margin-right: 0.5rem;
     }
     .fa-chevron-down {
       color: $color-white;
     }
     .profile-picture {
+      border: 1px solid $color-link;
+      display: inline-block;
       margin-right: 0.5rem;
+    }
+  }
+
+  .user-profile-menu {
+    @include grain_dark;
+    border: 1px solid $color-link;
+    margin-top: -35px;
+    padding-top: 40px;
+
+    li {
+      margin: 0 10px;
+
+      a {
+        color: $color-white;
+        padding: 5px 25px;
+        padding-right: 70px;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
     }
   }
 }
