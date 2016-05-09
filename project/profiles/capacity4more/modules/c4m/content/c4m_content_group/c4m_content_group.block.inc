@@ -108,7 +108,9 @@ function _c4m_content_group_block_c4m_block_create_group() {
   else {
     $markup = t('!register or !login to create or join groups', array(
       '!register' => l(t('Register'), 'user/register'),
-      '!login' => l(t('log in'), 'user/login'),
+      '!login' => l(t('log in'), 'user/login', array(
+        'query' => drupal_get_destination(),
+      )),
     ));
   }
 

@@ -41,6 +41,15 @@ function _c4m_user_profile_block_user_welcome() {
 
   // User profile menu.
   $menu_list = array(
+    'view_profile' => array(
+      'title'   => t('View Profile'),
+      'url'     => 'user',
+      'options' => array(
+        'purl'  => array(
+          'disabled' => TRUE,
+        ),
+      ),
+    ),
     'edit_profile' => array(
       'title'   => t('Edit Profile'),
       'url'     => 'user/' . $user->uid . '/edit/',
@@ -126,7 +135,7 @@ function c4m_user_profile_render_user_profile($theme_function, $user) {
           'url'     => 'user/' . $user->uid,
           'options' => array(
             'attributes'  => array(
-              'class'         => array('dropdown-toggle'),
+              'class'         => array('fullname-picture-wrapper', 'dropdown-toggle'),
               'data-toggle'   => array('dropdown'),
               'data-disabled' => TRUE,
             ),
