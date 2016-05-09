@@ -18,7 +18,9 @@ function _c4m_content_project_block_c4m_block_create_project() {
   else {
     $markup = t('!register or !login to create or join projects', array(
       '!register' => l(t('Register'), 'user/register'),
-      '!login' => l(t('log in'), 'user/login'),
+      '!login' => l(t('log in'), 'user/login', array(
+        'query' => drupal_get_destination(),
+      )),
     ));
   }
 
