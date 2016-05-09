@@ -34,6 +34,14 @@ function c4m_user_admin_views_data() {
     ),
   );
 
+  $data['users']['mark_spammer'] = array(
+    'field' => array(
+      'title' => t('Mark as spammer link'),
+      'help' => t('Provide a simple link to mark user as spammer.'),
+      'handler' => 'views_handler_field_user_link_mark_spammer',
+    ),
+  );
+
   return $data;
 }
 
@@ -57,5 +65,47 @@ function c4m_user_admin_menu() {
     'file' => 'c4m_user_admin.pages.inc',
   );
 
+  $items['user/%user/mark-as-spammer'] = array(
+    'title' => 'Mark user as spammer',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_mark_spammer_form', 1),
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function c4m_user_admin_admin_paths() {
+  $paths = array(
+    'user/*/activate' => TRUE,
+    'user/*/resend-activation-email' => TRUE,
+    'user/*/mark-as-spammer' => TRUE,
+  );
+  return $paths;
+}
+
+/**
+ * Adds the options for the mark as spammer form.
+ *
+ * @param array $form
+ *   Form.
+ */
+function c4m_user_admin_mark_spammer_form_add_options(&$form) {
+  $options = array(
+    'as_is' => t('Leave content as is'),
+    'reassign' => t('Anonymize content'),
+    'delete' => t('Delete all content'),
+  );
+
+  $form['method'] = array(
+    '#title' => t('When marking as spammer account'),
+    '#type' => 'radios',
+    '#options' => $options,
+    '#required' => TRUE,
+    '#default_value' => 'as_is',
+  );
 }
