@@ -11,7 +11,7 @@ include_once 'c4m_content_feed.features.inc';
  */
 function c4m_content_feed_menu() {
   $items = array();
-  $items['feed/%/rss'] = array(
+  $items['feeds/%/rss'] = array(
     'title' => 'RSS',
     'description' => 'RSS feed',
     'page callback' => 'c4m_content_feed_rss',

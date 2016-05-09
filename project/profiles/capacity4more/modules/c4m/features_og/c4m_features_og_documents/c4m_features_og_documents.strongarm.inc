@@ -14,7 +14,7 @@ function c4m_features_og_documents_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_document_pattern';
-  $strongarm->value = 'document/[node:title]';
+  $strongarm->value = 'documents/[node:title]';
   $export['pathauto_node_document_pattern'] = $strongarm;
 
   return $export;

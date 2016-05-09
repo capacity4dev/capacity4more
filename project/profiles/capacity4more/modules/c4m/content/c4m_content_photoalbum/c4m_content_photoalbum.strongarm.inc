@@ -235,7 +235,7 @@ function c4m_content_photoalbum_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_photoalbum_pattern';
-  $strongarm->value = 'photo-album/[node:title]';
+  $strongarm->value = 'photo-albums/[node:title]';
   $export['pathauto_node_photoalbum_pattern'] = $strongarm;
 
   return $export;
