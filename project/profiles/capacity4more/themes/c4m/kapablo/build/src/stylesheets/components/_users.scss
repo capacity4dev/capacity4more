@@ -46,6 +46,7 @@
   .user-profile-menu {
     @include grain_dark;
     border: 1px solid $color-link;
+    border-radius: 2px;
 
     li {
       margin: 0 10px;
