@@ -18,7 +18,10 @@ function _c4m_user_bar_block_user_signup_login() {
 
   if (user_is_anonymous()) {
     $text = t('<strong>!login</strong> or <strong>!register</strong>', array(
-      '!login' => l(t('Log in'), 'user/login', array('attributes' => array('class' => array('text-link--blue')))),
+      '!login' => l(t('Log in'), 'user/login', array(
+        'attributes' => array('class' => array('text-link--blue')),
+        'query' => drupal_get_destination(),
+      )),
       '!register' => l(t('Register'), 'user/register', array('attributes' => array('class' => array('text-link--cta')))),
     ));
   }
