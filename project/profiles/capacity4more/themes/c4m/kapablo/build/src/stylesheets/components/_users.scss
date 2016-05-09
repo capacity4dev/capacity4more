@@ -25,6 +25,12 @@
   background-color: $color-text-alternative;
   padding: 0.4rem 0;
 
+  .userbar-userprofile {
+    &.open > .item-list > .dropdown-menu {
+      display: block;
+    }
+  }
+
   .fullname-picture-wrapper {
     text-decoration: none;
 
