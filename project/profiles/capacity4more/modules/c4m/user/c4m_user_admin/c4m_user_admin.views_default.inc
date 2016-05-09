@@ -184,6 +184,13 @@ function c4m_user_admin_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
+    'action::c4m_user_resend_activation_email_action' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
   );
   /* Field: User: Uid */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
@@ -331,13 +338,20 @@ Last access : [access]';
   $handler->display->display_options['fields']['activate_user']['label'] = '';
   $handler->display->display_options['fields']['activate_user']['exclude'] = TRUE;
   $handler->display->display_options['fields']['activate_user']['element_label_colon'] = FALSE;
+  /* Field: User: Resend activation email link */
+  $handler->display->display_options['fields']['resend_activation_email']['id'] = 'resend_activation_email';
+  $handler->display->display_options['fields']['resend_activation_email']['table'] = 'users';
+  $handler->display->display_options['fields']['resend_activation_email']['field'] = 'resend_activation_email';
+  $handler->display->display_options['fields']['resend_activation_email']['label'] = '';
+  $handler->display->display_options['fields']['resend_activation_email']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['resend_activation_email']['element_label_colon'] = FALSE;
   /* Field: User: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'users';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
   $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[edit_node] [activate_user] [cancel_node]';
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '[edit_node] [activate_user] [resend_activation_email] [cancel_node]';
   /* Sort criterion: User: First Name (c4m_first_name) */
   $handler->display->display_options['sorts']['c4m_first_name_value']['id'] = 'c4m_first_name_value';
   $handler->display->display_options['sorts']['c4m_first_name_value']['table'] = 'field_data_c4m_first_name';
