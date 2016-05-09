@@ -93,10 +93,21 @@ class C4mLDAPUser {
    */
   public function getInfo($email) {
     $response = $this->queryService($email);
-    if (!isset($response->data)) {
+
+    // Check if it's a successful request.
+    if ($response->status_message != 'OK') {
       return FALSE;
     }
+
     $data = (array) simplexml_load_string($response->data);
+    // We expect to have the valid field.
+    if (!isset($data['valid'])) {
+      return FALSE;
+    }
+
+    // Country is a special case: '<country iso="BE"/>'.
+    $data['country'] = (array) $data['country']['iso'];
+    $data['country'] = array_shift($data['country']);
     return $data;
   }
 

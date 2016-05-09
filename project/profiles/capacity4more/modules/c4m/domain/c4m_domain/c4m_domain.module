@@ -157,6 +157,15 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#maxlength' => 255,
   );
 
+  $form['organisation_name'] = array(
+    '#title' => t('Organisation name'),
+    '#description' => t('The organisation.'),
+    '#type' => 'textfield',
+    '#default_value' => isset($domain->organisation_name) ? $domain->organisation_name : '',
+    '#required' => TRUE,
+    '#maxlength' => 255,
+  );
+
   $form['description'] = array(
     '#title' => t('Description'),
     '#description' => t('Short description explaining what the domain is about.'),
@@ -258,6 +267,12 @@ function c4m_domain_entity_property_info() {
     'description' => t('The domain part of the email address.'),
     'type' => 'text',
     'schema field' => 'name',
+  );
+  $info['c4m_domain']['properties']['organisation_name'] = array(
+    'label' => t('Organisation name'),
+    'description' => t('The organisation.'),
+    'type' => 'text',
+    'schema field' => 'organisation_name',
   );
   $info['c4m_domain']['properties']['description'] = array(
     'label' => t('Description'),
