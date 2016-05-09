@@ -25,21 +25,25 @@
   background-color: $color-text-alternative;
   padding: 0.4rem 0;
 
-  .fullname-picture {
-    .fullname {
-      color: $color-white;
-      display: inline-block;
-      margin-right: 0.5rem;
-    }
-    .fa-chevron-down {
-      color: $color-white;
-    }
-    .profile-picture, .initials {
-      background-color: $color-white;
-      border: 1px solid $color-link;
-      display: inline-block;
-      margin-right: 0.5rem;
-      text-align: center;
+  .fullname-picture-wrapper {
+    text-decoration: none;
+
+    .fullname-picture {
+      .fullname {
+        color: $color-white;
+        display: inline-block;
+        margin-right: 0.5rem;
+      }
+      .fa-chevron-down {
+        color: $color-white;
+      }
+      .profile-picture, .initials {
+        background-color: $color-white;
+        border: 1px solid $color-link;
+        display: inline-block;
+        margin-right: 0.5rem;
+        text-align: center;
+      }
     }
   }
 
