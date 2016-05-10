@@ -55,11 +55,14 @@ class C4mOrganisationUser {
   /**
    * Returns the list of Organisations the user belongs to.
    *
-   * @return array
-   *   Array of Organisation node objects.
+   * @return bool|array
+   *   Array of Organisation node objects. FALSE if no organisations available.
    */
   public function getOrganisationsInfo() {
     $list = $this->getOrganisations();
+    if (!$list) {
+      return FALSE;
+    }
     $list = node_load_multiple(array_keys($list));
     return $list;
   }
