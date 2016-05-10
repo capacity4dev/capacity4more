@@ -67,10 +67,16 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
   // Remove the option to disable account and unpublish existing content.
   unset($methods['user_cancel_block_unpublish']);
 
-  // Add the option to disable account assign existing content to anonymous user.
+  // Add the option to disable account assign existing
+  // content to anonymous user.
   $methods['c4m_user_admin_block_anonymous'] = array(
-    'title' => t('Disable the account and make its content belong to the Anonymous user.'),
-    'description' => t('Your account will be blocked and you will no longer be able to log in. All of your content will be assigned to the Anonymous user.'),
+    'title' => t(
+      'Disable the account and make its content belong to the Anonymous user.'
+    ),
+    'description' => t(
+      'Your account will be blocked and you will no longer be able to log in.
+      All of your content will be assigned to the Anonymous user.'
+    ),
     'access' => user_access('administer users'),
   );
 }
