@@ -742,3 +742,32 @@ function c4m_user_c4m_captcha_form_info() {
 function c4m_user_user_login(&$edit, $account) {
   c4m_user_update_information($account);
 }
+
+/**
+ * Implements hook_cron().
+ */
+function c4m_user_cron() {
+  module_load_include('inc', 'c4m_user', 'c4m_user.cron');
+  _c4m_user_cron();
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function c4m_user_cron_queue_info() {
+  $queues = array();
+  $queues['c4m_user'] = array(
+    'worker callback' => 'c4m_user_queue_process_user',
+    'time' => 30,
+  );
+
+  return $queues;
+}
+
+/**
+ * Callback for c4m_user Drupal Queue.
+ */
+function c4m_user_queue_process_user($item) {
+  $account = user_load($item);
+  c4m_user_update_information($account);
+}
