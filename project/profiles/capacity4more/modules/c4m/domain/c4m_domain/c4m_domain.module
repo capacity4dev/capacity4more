@@ -78,7 +78,6 @@ function c4m_domain_entity_info() {
       'path' => 'admin/c4m/domains',
       'controller class' => 'EntityDefaultUIController',
     ),
-    'fieldable' => TRUE,
     'bundles' => array(
       'c4m_domain' => array(
         'label' => t('Domain'),
@@ -224,7 +223,7 @@ function c4m_domain_form_validate($form, &$form_state) {
   }
   $whitelist = preg_split('/\r\n|[\r\n]/', $form_state['values']['whitelist']);
   foreach ($whitelist as $key => $email) {
-    if (valid_email_address($email)) {
+    if (valid_email_address($email) || empty(trim($email))) {
       unset($whitelist[$key]);
     }
   }

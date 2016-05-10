@@ -765,6 +765,17 @@ function c4m_user_c4m_domain_presave($entity) {
     $email_list = preg_split('/\r\n|[\r\n]/', $entity->whitelist);
   }
 
+  // Remove empty items.
+  foreach ($email_list as $key => $email) {
+    if (empty(trim($email))) {
+      unset($email_list[$key]);
+    }
+  }
+
+  if (!$email_list) {
+    return;
+  }
+
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'user')
     ->propertyCondition('mail', $email_list, 'IN')
