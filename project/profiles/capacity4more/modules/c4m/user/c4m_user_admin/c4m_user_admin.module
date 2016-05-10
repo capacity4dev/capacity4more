@@ -107,6 +107,18 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ->condition('uid', $account->uid)
         ->execute();
 
+      // Set the flag "Is deleted" for this user.
+      $changes = array(
+        'c4m_is_deleted' => array(
+          'und' => array(
+            0 => array(
+              'value' => 1,
+            ),
+          ),
+        ),
+      );
+      user_save($account, $changes);
+
       break;
   }
 }
