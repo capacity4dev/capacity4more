@@ -757,7 +757,7 @@ function c4m_user_cron() {
 function c4m_user_cron_queue_info() {
   $queues = array();
   $queues['c4m_user'] = array(
-    'worker callback' => 'c4m_user_queue_process_item',
+    'worker callback' => 'c4m_user_queue_process_user',
     'time' => 30,
   );
 
