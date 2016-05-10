@@ -656,18 +656,18 @@ function c4m_user_update_information($account) {
   $organisation_type = '';
 
   $domain_user = new C4mDomainUser($account->mail);
-  if ($domain_user->hasEmailDomain()) {
+  if ($result = $domain_user->getEmailDomainByName()) {
     $ldap = new C4mLDAPUser();
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
       if ($info && !empty($info['valid'])) {
         $country = $info['country'];
-        $organisation_name = $info['organisation_name'];
-      }
-      elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
         $organisation_name = $result->organisation_name;
       }
     }
+  }
+  elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
+    $organisation_name = $result->organisation_name;
   }
 
   $organisation_user = new C4mOrganisationUser($account->mail);
