@@ -51,7 +51,7 @@ function _c4m_user_profile_block_user_welcome() {
       ),
     ),
     'user_logout' => array(
-      'title'   => t('Logout'),
+      'title'   => t('Log out'),
       'url'     => 'user/logout',
       'options' => array(
         'purl'  => array(
