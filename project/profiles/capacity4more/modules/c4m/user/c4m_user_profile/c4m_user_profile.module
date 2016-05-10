@@ -228,6 +228,8 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact_info']['contact'] = array(
@@ -258,6 +260,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     unset($form['#validate'][$key]);
   }
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+
+  // Hide the spammer/deleted checkbox for non-admins.
+  if (!in_array('administrator', $user->roles)) {
+    $form['c4m_is_deleted']['#access'] = FALSE;
+    $form['c4m_is_spammer']['#access'] = FALSE;
+  }
 }
 
 /**
