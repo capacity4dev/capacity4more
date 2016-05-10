@@ -754,15 +754,15 @@ function c4m_user_c4m_domain_presave($entity) {
   if (isset($entity->original) && $entity->whitelist != $entity->original->whitelist) {
     // When editing, the list contains the addresses new or deleted to / from
     // the whitelist.
-    $new_whitelist = preg_split('/\r\n|[\r\n]/', $entity->whitelist);
-    $old_whitelist = preg_split('/\r\n|[\r\n]/', $entity->original->whitelist);
+    $new_whitelist = $entity->whitelist;
+    $old_whitelist = $entity->original->whitelist;
     $email_list = array_merge(
       array_diff($new_whitelist, $old_whitelist),
       array_diff($old_whitelist, $new_whitelist)
     );
   }
   else {
-    $email_list = preg_split('/\r\n|[\r\n]/', $entity->whitelist);
+    $email_list = $entity->whitelist;
   }
 
   // Remove empty items.

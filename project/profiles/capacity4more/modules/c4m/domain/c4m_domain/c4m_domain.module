@@ -187,7 +187,7 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#title' => t('Whitelist'),
     '#description' => t('List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.'),
     '#type' => 'textarea',
-    '#default_value' => isset($domain->whitelist) ? $domain->whitelist : '',
+    '#default_value' => isset($domain->whitelist) ? implode("\r\n", $domain->whitelist) : '',
     '#maxlength' => 4096,
   );
 
@@ -222,12 +222,18 @@ function c4m_domain_form_validate($form, &$form_state) {
     form_set_error('description', t('The whitelist contains more than 4096 characters.'));
   }
   $whitelist = preg_split('/\r\n|[\r\n]/', $form_state['values']['whitelist']);
+  $invalid_emails = array();
+  $form_state['values']['whitelist'] = array();
   foreach ($whitelist as $key => $email) {
-    if (valid_email_address($email) || empty(trim($email))) {
+    if (empty(trim($email))) {
       unset($whitelist[$key]);
     }
+    elseif (!valid_email_address($email)) {
+      $invalid_emails[] = $email;
+    }
   }
-  if (count($whitelist)) {
+  $form_state['values']['whitelist'] = $whitelist;
+  if (count($invalid_emails)) {
     $error_message = format_plural(count($whitelist),
       'The whitelist contains an invalid email address: %email.',
       'The whitelist contains invalid email addresses: %email.',
