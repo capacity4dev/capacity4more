@@ -123,11 +123,11 @@ function c4m_user_ds_fields_info($entity_type) {
   );
 
   $fields['user']['c4m_user_contact_link'] = array(
-    'title'      => t('C4M User contact link'),
+    'title' => t('C4M User contact link'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user.theme.inc',
-    'function'   => 'theme_c4m_user_contact_link',
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_contact_link',
   );
 
   // User related fields for entity type node.
@@ -463,15 +463,15 @@ function c4m_user_c4m_content_statistics_info() {
     ),
     'topic' => array(
       'c4m_topic_user' => array(
-        'type'        => 'user',
+        'type' => 'user',
         'entity_type' => 'user',
-        'bundles'     => NULL,
-        'singular'    => 'Expert',
-        'plural'      => 'Experts',
-        'state'       => 1,
-        'aggregate'   => array(),
-        'weight'      => 10,
-        'attributes'  => array(
+        'bundles' => NULL,
+        'singular' => 'Expert',
+        'plural' => 'Experts',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 10,
+        'attributes' => array(
           'class' => array('topic-users'),
         ),
         'link' => array(
@@ -721,7 +721,10 @@ function c4m_user_user_presave(&$edit, $account, $category) {
   if (!empty($deleted) || !empty($spammer)) {
     // Show alert if an admin editing an user and his status is active.
     if ($user->uid != $account->uid && !empty($edit['status'])) {
-      drupal_set_message(t('Deleted users or spammers cannot have active accounts.'), 'error');
+      drupal_set_message(
+        t('Deleted users or spammers cannot have active accounts.'),
+        'error'
+      );
     }
     $edit['status'] = 0;
   }
@@ -743,7 +746,6 @@ function c4m_user_user_login(&$edit, $account) {
   c4m_user_update_information($account);
 }
 
-
 /**
  * Implements hook_entity_type_presave().
  */
@@ -754,7 +756,10 @@ function c4m_user_c4m_domain_presave($entity) {
     // the whitelist.
     $new_whitelist = preg_split('/\r\n|[\r\n]/', $entity->whitelist);
     $old_whitelist = preg_split('/\r\n|[\r\n]/', $entity->original->whitelist);
-    $email_list = array_merge(array_diff($new_whitelist, $old_whitelist), array_diff($old_whitelist, $new_whitelist));
+    $email_list = array_merge(
+      array_diff($new_whitelist, $old_whitelist),
+      array_diff($old_whitelist, $new_whitelist)
+    );
   }
   else {
     $email_list = preg_split('/\r\n|[\r\n]/', $entity->whitelist);
