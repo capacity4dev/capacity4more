@@ -266,6 +266,12 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     $form['c4m_is_deleted']['#access'] = FALSE;
     $form['c4m_is_spammer']['#access'] = FALSE;
   }
+
+  $form['actions']['submit']['#submit'][] = 'c4m_user_profile_form_user_profile_form_submit';
+  //die(var_dump($form_state));
+  /*if ($form_state['c4m_is_spammer'] && !$form['c4m_is_spammer']) {
+    $form['#redirect'] = url('user/' . $user->uid . '/mark-as-spammer');
+  }*/
 }
 
 /**
@@ -333,6 +339,19 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   $email = $form_state['values']['mail'];
   if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
     drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try again later."));
+  }
+}
+
+/**
+ * Submit callback for user_profile_form form.
+ */
+function c4m_user_profile_form_user_profile_form_submit($form, &$form_state) {
+  global $user;
+
+  $original = entity_load_unchanged('user', $user->uid)->c4m_is_spammer;
+  if ($original[LANGUAGE_NONE][0]['value'] == 0 && $form_state['values']['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] == 1) {
+    unset($_GET['destination']);
+    $form_state['redirect'] = 'user/' . $user->uid . '/mark-as-spammer';
   }
 }
 
