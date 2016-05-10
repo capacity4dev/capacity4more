@@ -183,11 +183,20 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#required' => TRUE,
   );
 
+  $whitelist = '';
+  if (isset($domain->whitelist)) {
+    if (is_array($domain->whitelist)) {
+      $whitelist = implode("\r\n", $domain->whitelist);
+    }
+    else {
+      $whitelist = $domain->whitelist;
+    }
+  }
   $form['whitelist'] = array(
     '#title' => t('Whitelist'),
     '#description' => t('List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.'),
     '#type' => 'textarea',
-    '#default_value' => isset($domain->whitelist) ? implode("\r\n", $domain->whitelist) : '',
+    '#default_value' => $whitelist,
     '#maxlength' => 4096,
   );
 

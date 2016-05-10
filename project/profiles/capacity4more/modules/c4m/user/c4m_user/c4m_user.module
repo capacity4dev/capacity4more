@@ -751,7 +751,7 @@ function c4m_user_user_login(&$edit, $account) {
  */
 function c4m_user_c4m_domain_presave($entity) {
   // Construct the list of emails to be updated in $email_list.
-  if (isset($entity->original) && $entity->whitelist != $entity->original->whitelist) {
+  if (isset($entity->original)) {
     // When editing, the list contains the addresses new or deleted to / from
     // the whitelist.
     $new_whitelist = $entity->whitelist;
@@ -763,13 +763,6 @@ function c4m_user_c4m_domain_presave($entity) {
   }
   else {
     $email_list = $entity->whitelist;
-  }
-
-  // Remove empty items.
-  foreach ($email_list as $key => $email) {
-    if (empty(trim($email))) {
-      unset($email_list[$key]);
-    }
   }
 
   if (!$email_list) {
