@@ -656,18 +656,18 @@ function c4m_user_update_information($account) {
   $organisation_type = '';
 
   $domain_user = new C4mDomainUser($account->mail);
-  if ($domain_user->hasEmailDomain()) {
+  if ($result = $domain_user->getEmailDomainByName()) {
     $ldap = new C4mLDAPUser();
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
       if ($info && !empty($info['valid'])) {
         $country = $info['country'];
-        $organisation_name = $info['organisation_name'];
-      }
-      elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
         $organisation_name = $result->organisation_name;
       }
     }
+  }
+  elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
+    $organisation_name = $result->organisation_name;
   }
 
   $organisation_user = new C4mOrganisationUser($account->mail);
@@ -743,6 +743,35 @@ function c4m_user_c4m_captcha_form_info() {
  * Implements hook_user_login().
  */
 function c4m_user_user_login(&$edit, $account) {
+  c4m_user_update_information($account);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function c4m_user_cron() {
+  module_load_include('inc', 'c4m_user', 'c4m_user.cron');
+  _c4m_user_cron();
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function c4m_user_cron_queue_info() {
+  $queues = array();
+  $queues['c4m_user'] = array(
+    'worker callback' => 'c4m_user_queue_process_user',
+    'time' => 30,
+  );
+
+  return $queues;
+}
+
+/**
+ * Callback for c4m_user Drupal Queue.
+ */
+function c4m_user_queue_process_user($item) {
+  $account = user_load($item);
   c4m_user_update_information($account);
 }
 
