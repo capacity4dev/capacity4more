@@ -65,3 +65,9 @@
     margin-bottom: 0;
   }
 }
+
+@mixin dashed_separator($position: 'bottom') {
+  border-#{$position}: 1px dashed $color-gray-light;
+  margin-#{$position}: 1rem;
+  padding-#{$position}: 1rem;
+}
