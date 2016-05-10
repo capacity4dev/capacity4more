@@ -189,7 +189,6 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#description' => t('List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.'),
     '#type' => 'textarea',
     '#default_value' => isset($domain->whitelist) ? $domain->whitelist : '',
-    '#required' => TRUE,
     '#maxlength' => 4096,
   );
 
