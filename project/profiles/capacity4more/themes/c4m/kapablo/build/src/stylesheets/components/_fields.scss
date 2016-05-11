@@ -224,3 +224,10 @@
     }
   }
 }
+
+.group-user-interests, .group-user-expertise {
+  .field-label {
+    color: $color-gray-dark;
+    font-weight: normal;
+  }
+}
