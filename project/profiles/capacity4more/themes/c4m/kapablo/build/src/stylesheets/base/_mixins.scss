@@ -2,6 +2,10 @@
   background: url('/profiles/capacity4more/themes/c4m/kapablo/images/grain.png');
 }
 
+@mixin grain_dark {
+  background: url('/profiles/capacity4more/themes/c4m/kapablo/images/grain-dark.png');
+}
+
 @mixin grey_bar {
   background-color: $color-background;
   border-top: 1px solid $color-gray-light;

@@ -38,6 +38,12 @@ INIT_CONFIG_TIKA_PATH="${REPLY}"
 prompt "Jar file name" "$INIT_CONFIG_TIKA_FILE"
 INIT_CONFIG_TIKA_FILE="${REPLY}"
 
+markup_h2 "LDAP configuration"
+prompt "Path to jar file" "$INIT_CONFIG_LDAP_URL"
+INIT_CONFIG_LDAP_URL="${REPLY}"
+prompt "Jar file name" "$INIT_CONFIG_LDAP_API"
+INIT_CONFIG_LDAP_API="${REPLY}"
+
 markup_h2 "Memcached server ${GREY}(Leave values empty if no memcache in use)"
 prompt "Host name" "$INIT_CONFIG_MEMCACHE_HOST"
 INIT_CONFIG_MEMCACHE_HOST="${REPLY}"

@@ -16,7 +16,9 @@ function _c4m_user_block_c4m_block_contact_members() {
 
   $markup = t('!register or !login to contact a member', array(
     '!register' => l(t('Register'), 'user/register'),
-    '!login' => l(t('log in'), 'user/login'),
+    '!login' => l(t('log in'), 'user/login', array(
+      'query' => drupal_get_destination(),
+    )),
   ));
 
   return array(

@@ -84,8 +84,19 @@
     <section id="user-bar">
       <div class="container">
         <div class="row">
+          <?php print render($page['user_bar']); ?>
+        </div>
+      </div>
+    </section>
+  <?php endif; ?>
+
+  <!--  TOP MENU -->
+  <?php if (!empty($page['top_menu'])): ?>
+    <section id="top-menu">
+      <div class="container">
+        <div class="row">
           <div class="col-sm-12 col-md-12 text-right">
-            <?php print render($page['user_bar']); ?>
+            <?php print render($page['top_menu']); ?>
           </div>
         </div>
       </div>

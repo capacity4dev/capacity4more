@@ -81,6 +81,47 @@ function kapablo_preprocess_page(&$variables) {
 
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
+
+  // Take care of the breadcrumb for OG content.
+  _set_og_breadcrumbs();
+}
+
+/**
+ * Helper function to set the breadcrumb for OG content.
+ */
+function _set_og_breadcrumbs() {
+  // We use the raw path (purl pages do not have system paths).
+  $path_elements = explode('/', request_path());
+
+  // If the current path contains 2 or less parts and
+  // the first part is a Persistent URL.
+  if (count($path_elements) <= 2 && $purl = purl_load(array(
+    'provider' => 'og_purl|node',
+    'value' => $path_elements[0],
+  ))) {
+    $breadcrumb = array();
+
+    // We need to load the group to get the
+    // group title to use in the breadcrumb.
+    $group = node_load($purl['id']);
+
+    // Just have the group title displayed on group pages.
+    if (count($path_elements) == 1) {
+      $breadcrumb[] = $group->title;
+    }
+    // This deals with the direct menu items in the group menu.
+    else {
+      // We use the menu trail to get the titles for the breadcrumb.
+      $trail = menu_get_active_trail();
+      if (isset($trail[1]['menu_name']) && $trail[1]['menu_name'] == 'c4m-og-menu') {
+        // Breadcrumb element linking to the group page.
+        $breadcrumb[] = l($group->title, $path_elements[0]);
+        $breadcrumb[] = $trail[1]['link_title'];
+      }
+    }
+
+    drupal_set_breadcrumb($breadcrumb);
+  }
 }
 
 /**
@@ -357,7 +398,7 @@ function kapablo_breadcrumb($variables) {
     array_unshift(
       $breadcrumb,
       l(t('EUROPA'), 'http://ec.europa.eu'),
-      l(t('capacity4dev'), '<front>')
+      l(t('capacity4dev'), '<front>', array('purl' => array('disabled' => TRUE)))
     );
 
     $num_items = count($breadcrumb);
