@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Code for the C4m widget vocabulary.
+ * Code for the Vocabulary widget feature.
  */
+
+include_once 'c4m_vocab_widget.features.inc';
 
 /**
  * Implements hook_field_widget_info().

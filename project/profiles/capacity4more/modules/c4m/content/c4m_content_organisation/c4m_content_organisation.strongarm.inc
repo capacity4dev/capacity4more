@@ -71,10 +71,13 @@ function c4m_content_organisation_strongarm() {
           'weight' => '30',
         ),
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '2',
+        ),
+        'redirect' => array(
+          'weight' => '1',
         ),
       ),
       'display' => array(),

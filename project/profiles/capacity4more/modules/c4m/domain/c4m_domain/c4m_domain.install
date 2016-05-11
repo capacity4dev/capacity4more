@@ -25,6 +25,12 @@ function c4m_domain_schema() {
         'length' => 255,
         'not null' => TRUE,
       ),
+      'organisation_name' => array(
+        'description' => 'The organisation.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
       'description' => array(
         'description' => 'Short description explaining what the domain is about.',
         'type' => 'varchar',

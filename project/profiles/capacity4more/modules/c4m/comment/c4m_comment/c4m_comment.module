@@ -77,7 +77,9 @@ function c4m_comment_node_view_alter(&$build) {
     // There are no comments yet but comments are enabled.
     if (user_is_anonymous() && $node->comment == COMMENT_NODE_OPEN) {
       $register_link = l(t('Register'), 'user/register');
-      $login_link = l(t('log in'), 'user/login');
+      $login_link = l(t('log in'), 'user/login', array(
+        'query' => drupal_get_destination(),
+      ));
 
       $text = '<p>' . t('!register or !login to comment', array(
         '!register' => $register_link,

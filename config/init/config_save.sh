@@ -25,6 +25,10 @@ init_config_save_variable "SOLR_PATH" "${INIT_CONFIG_SOLR_PATH}"
 init_config_save_variable "TIKA_PATH" "${INIT_CONFIG_TIKA_PATH}"
 init_config_save_variable "TIKA_FILE" "${INIT_CONFIG_TIKA_FILE}"
 
+# Save the LDAP configuration
+init_config_save_variable "LDAP_URL" "${INIT_CONFIG_LDAP_URL}"
+init_config_save_variable "LDAP_API" "${INIT_CONFIG_LDAP_API}"
+
 # Save the memcached settings.
 init_config_save_variable "MEMCACHE_HOST" "${INIT_CONFIG_MEMCACHE_HOST}"
 init_config_save_variable "MEMCACHE_PORT" "${INIT_CONFIG_MEMCACHE_PORT}"
