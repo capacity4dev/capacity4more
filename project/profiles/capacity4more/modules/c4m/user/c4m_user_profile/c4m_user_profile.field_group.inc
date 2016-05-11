@@ -148,21 +148,22 @@ function c4m_user_profile_field_group_info() {
   $field_group->data = array(
     'label' => 'Notable Contributions',
     'weight' => '5',
-    'children' => array(),
+    'children' => array(
+      0 => 'c4m_ds_article_notable_contribution',
+    ),
     'format_type' => 'div',
     'format_settings' => array(
       'label' => 'Notable Contributions',
       'instance_settings' => array(
         'id' => '',
         'classes' => 'group-user-contributions field-group-html5',
-        'wrapper' => 'section',
         'description' => '',
-        'show_label' => 1,
-        'label_element' => 'h3',
+        'show_label' => '1',
+        'label_element' => 'h2',
         'effect' => 'none',
-        'speed' => 'fast',
+        'speed' => 'none',
       ),
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_user_contributions|user|user|full'] = $field_group;
