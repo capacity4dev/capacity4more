@@ -267,11 +267,9 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     $form['c4m_is_spammer']['#access'] = FALSE;
   }
 
-  $form['actions']['submit']['#submit'][] = 'c4m_user_profile_form_user_profile_form_submit';
-  //die(var_dump($form_state));
-  /*if ($form_state['c4m_is_spammer'] && !$form['c4m_is_spammer']) {
-    $form['#redirect'] = url('user/' . $user->uid . '/mark-as-spammer');
-  }*/
+  // Attach submit handler to redirect in case of spammer is activated.
+  //$form['actions']['submit']['#submit'][] = 'c4m_user_profile_form_user_profile_form_submit';
+  $form['#submit'][] = 'c4m_user_profile_form_user_profile_form_submit';
 }
 
 /**
@@ -344,14 +342,18 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
 
 /**
  * Submit callback for user_profile_form form.
+ * If the "Is spammer" checkbox was activated, redirect the user to the appropriate admin page.
  */
 function c4m_user_profile_form_user_profile_form_submit($form, &$form_state) {
-  global $user;
+  drupal_set_message('My submit handler');
+  // Load the original field value.
+  $original_value = entity_load_unchanged('user', $form_state['user']->uid)->c4m_is_spammer;
 
-  $original = entity_load_unchanged('user', $user->uid)->c4m_is_spammer;
-  if ($original[LANGUAGE_NONE][0]['value'] == 0 && $form_state['values']['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] == 1) {
+  // If the checkbox was activated, set redirect.
+  if ($original_value[LANGUAGE_NONE][0]['value'] == 0 && $form_state['values']['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] == 1) {
+    $dest = $_GET['destination'];
     unset($_GET['destination']);
-    $form_state['redirect'] = 'user/' . $user->uid . '/mark-as-spammer';
+    $form_state['redirect'] = array('user/' . $form_state['user']->uid . '/mark-as-spammer', array('query' => array('destination' => $dest)));
   }
 }
 
