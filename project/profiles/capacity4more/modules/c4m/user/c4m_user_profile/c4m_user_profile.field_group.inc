@@ -280,7 +280,7 @@ function c4m_user_profile_field_group_info() {
     'label' => '',
     'weight' => '1',
     'children' => array(
-      0 => 'c4m_media',
+      0 => 'c4m_user_picture',
       1 => 'group_user_data',
     ),
     'format_type' => 'div',
