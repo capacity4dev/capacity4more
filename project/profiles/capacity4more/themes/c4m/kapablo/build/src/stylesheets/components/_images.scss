@@ -32,7 +32,7 @@ img {
   height: 60px;
   width: 60px;
 
-  a {
+  a, .inner-initials {
     border-radius: 50%;
     color: $color-text;
     display: table-cell;
@@ -43,74 +43,74 @@ img {
   }
 
   &.bg-dark-navy {
-    a {
+    a, .inner-initials {
       background: #000080;
       color: $color-white;
     }
   }
 
   &.bg-pastel-pink {
-    a {
+    a, .inner-initials {
       background: #FFD8D8;
     }
   }
 
   &.bg-beige {
-    a {
+    a, .inner-initials {
       background: #F5F5DC;
     }
   }
 
   &.bg-brown {
-    a {
+    a, .inner-initials {
       background: #964B00;
       color: $color-white;
     }
   }
 
   &.bg-brown-light {
-    a {
+    a, .inner-initials {
       background: #964B00;
       color: $color-white;
     }
   }
 
   &.bg-blue {
-    a {
+    a, .inner-initials {
       background: #00CCFF;
       color: $color-white;
     }
   }
 
   &.bg-salmon {
-    a {
+    a, .inner-initials {
       background: #FA8072;
       color: $color-white;
     }
   }
 
   &.bg-pastel-orange {
-    a {
+    a, .inner-initials {
       background: #FFB347;
       color: $color-white;
     }
   }
 
   &.bg-green {
-    a {
+    a, .inner-initials {
       background: #006400;
       color: $color-white;
     }
   }
 
   &.bg-green-light {
-    a {
+    a, .inner-initials {
       background: #90EE90;
     }
   }
 
   &.bg-pink-dark {
-    a {
+    a, .inner-initials {
       background: #800080;
       color: $color-white;
     }

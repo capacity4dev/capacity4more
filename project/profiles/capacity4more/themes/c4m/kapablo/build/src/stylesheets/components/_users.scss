@@ -36,14 +36,22 @@
 
     .fullname-picture {
       .initials {
-        padding: 4px;
         height: 30px;
+        padding-top: 6px;
+        vertical-align: middle;
         width: 30px;
+
+        .inner-initials {
+          @extend .text-small;
+          height: auto;
+          background-color: $color-white;
+        }
       }
       .fullname {
         color: $color-white;
         display: inline-block;
         margin-right: 0.5rem;
+        vertical-align: middle;
       }
       .fa-chevron-down {
         color: $color-white;
