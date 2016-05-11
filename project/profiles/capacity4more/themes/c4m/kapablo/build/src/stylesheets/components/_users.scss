@@ -35,6 +35,11 @@
     text-decoration: none;
 
     .fullname-picture {
+      .initials {
+        padding: 4px;
+        height: 30px;
+        width: 30px;
+      }
       .fullname {
         color: $color-white;
         display: inline-block;
