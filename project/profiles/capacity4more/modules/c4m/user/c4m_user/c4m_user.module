@@ -697,11 +697,23 @@ function c4m_user_update_information($account) {
 /**
  * Implements hook_user_presave().
  *
+ * Prevent activating blocked (deleted or spammer) users.
  * Force a user to be blocked if it's deleted or spammer.
  */
 function c4m_user_user_presave(&$edit, $account, $category) {
   global $user;
 
+  // Prevent activating blocked (deleted or spammer) users.
+  $account_wrapper = entity_metadata_wrapper('user', $account);
+  $blocked = $account_wrapper->c4m_is_deleted->value() || $account_wrapper->c4m_is_spammer->value();
+  // When accessing the one time login link these fields are updated.
+  // @see user_registrationpassword_confirm_account().
+  if ($blocked && !empty($edit['status']) && !empty($edit['access']) && !empty($edit['login'])) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+
+  // Force a user to be blocked if it's deleted or spammer.
   $spammer = FALSE;
   if (isset($edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'])) {
     $spammer = $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'];
@@ -808,21 +820,5 @@ function c4m_user_c4m_domain_presave($entity) {
   $accounts = array_keys($result['user']);
   foreach ($accounts as $account_id) {
     c4m_user_update_information(user_load($account_id));
-  }
-}
-
-/**
- * Implements hook_user_presave().
- *
- * Prevent activating blocked (deleted or spammer) users.
- */
-function c4m_user_user_presave(&$edit, $account, $category) {
-  $account = entity_metadata_wrapper('user', $account);
-  $blocked = $account->c4m_is_deleted->value() || $account->c4m_is_spammer->value();
-  // When accessing the one time login link these fields are updated.
-  // @see user_registrationpassword_confirm_account().
-  if ($blocked && !empty($edit['status']) && !empty($edit['access']) && !empty($edit['login'])) {
-    drupal_access_denied();
-    drupal_exit();
   }
 }
