@@ -17,6 +17,11 @@ function c4m_user_profile_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'user';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'c4m_user_picture' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'c4m_user_author_thumb_image',
+    ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '3',
       'label' => 'hidden',
@@ -85,8 +90,8 @@ function c4m_user_profile_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'group_user_meta',
-        1 => 'c4m_media',
+        0 => 'c4m_user_picture',
+        1 => 'group_user_meta',
         2 => 'group_user_data',
         3 => 'group_user_interests',
         4 => 'c4m_vocab_topic',
@@ -104,8 +109,8 @@ function c4m_user_profile_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
+      'c4m_user_picture' => 'ds_content',
       'group_user_meta' => 'ds_content',
-      'c4m_media' => 'ds_content',
       'group_user_data' => 'ds_content',
       'group_user_interests' => 'ds_content',
       'c4m_vocab_topic' => 'ds_content',
