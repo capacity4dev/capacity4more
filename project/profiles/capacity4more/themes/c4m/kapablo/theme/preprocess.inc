@@ -351,6 +351,26 @@ function kapablo_preprocess_views_view(&$vars) {
 }
 
 /**
+ * Overrides template_preprocess_views_view_fields().
+ */
+function kapablo_preprocess_views_view_fields(&$vars) {
+  $view = $vars['view'];
+
+  switch ($view->name) {
+    case 'c4m_er_groups':
+      $node = node_load($vars['row']->nid);
+      $access = c4m_og_get_access_type($node);
+
+      $object = new stdClass();
+      $object->content = '<span class="er--field-access privacy-level--' . $access['type'] . '">[' . $access['type'] . ']</span>';
+
+      $vars['fields']['access'] = $object;
+
+      break;
+  }
+}
+
+/**
  * Overrides theme_breadcrumb() and bootstrap_breadcrumb().
  *
  * Print breadcrumbs as an ordered list.

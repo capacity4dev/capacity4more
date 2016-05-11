@@ -34,6 +34,9 @@ projects[leaflet][version] = "1.3"
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
 
+projects[maxlength][subdir] = "contrib"
+projects[maxlength][version] = "3.2"
+
 projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"
 

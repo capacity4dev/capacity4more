@@ -228,7 +228,11 @@ function _c4m_content_statistics_collect_data(array $list) {
       : FALSE;
 
     if (isset($link['options']['query']) && $topic) {
-      $link['options']['query']['f'] = str_replace('@TOPIC_ID', $topic, $link['options']['query']['f']);
+      $link['options']['query']['f'] = str_replace(
+        '@TOPIC_ID',
+        $topic,
+        $link['options']['query']['f']
+      );
     }
 
     if (!isset($data[$type])) {

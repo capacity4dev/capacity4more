@@ -21,7 +21,7 @@ function c4m_content_article_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_topic',
@@ -50,7 +50,7 @@ function c4m_content_article_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Do more through capacity4dev',
-    'weight' => '8',
+    'weight' => '11',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
@@ -77,14 +77,12 @@ function c4m_content_article_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group meta',
-    'weight' => '9',
+    'weight' => '12',
     'children' => array(
-      0 => 'c4m_link_multiple',
-      1 => 'c4m_related_articles',
-      2 => 'c4m_related_group',
-      3 => 'c4m_related_user',
-      4 => 'c4m_vocab_geo',
-      5 => 'c4m_vocab_topic',
+      0 => 'c4m_related_articles',
+      1 => 'c4m_related_group',
+      2 => 'c4m_vocab_geo',
+      3 => 'c4m_vocab_topic',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
