@@ -205,7 +205,7 @@ function c4m_user_initials_themed($account, $linked = TRUE) {
     $output = l($initials, 'user/' . $account->uid);
   }
   else {
-    $output = $initials;
+    $output = '<span class="inner-initials">' . $initials . '</span>';
   }
 
   // Map initials to an array index (0 - 10).
