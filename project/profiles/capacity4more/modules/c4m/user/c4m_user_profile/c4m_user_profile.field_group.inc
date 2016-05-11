@@ -114,7 +114,7 @@ function c4m_user_profile_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'About',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(
       0 => 'c4m_body',
       1 => 'c4m_job_title',
@@ -147,7 +147,7 @@ function c4m_user_profile_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Notable Contributions',
-    'weight' => '6',
+    'weight' => '5',
     'children' => array(),
     'format_type' => 'div',
     'format_settings' => array(
@@ -213,7 +213,7 @@ function c4m_user_profile_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Expertise',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_vocab_topic_expertise',
     ),
@@ -245,7 +245,7 @@ function c4m_user_profile_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Professional Interests',
-    'weight' => '1',
+    'weight' => '2',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_topic',
@@ -278,7 +278,7 @@ function c4m_user_profile_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => '',
-    'weight' => '0',
+    'weight' => '1',
     'children' => array(
       0 => 'c4m_media',
       1 => 'group_user_data',
