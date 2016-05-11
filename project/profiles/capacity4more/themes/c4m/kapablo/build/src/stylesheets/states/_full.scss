@@ -158,6 +158,32 @@
     }
   }
 
+  &.user-profile {
+    .field-label {
+      font-weight: normal;
+    }
+
+    .user-name {
+      @extend h1;
+    }
+
+    .field-name-c4m-media {
+      float: left;
+
+      img {
+        border-radius: 50%;
+      }
+    }
+
+    .group-user-data {
+      margin-left: 90px;
+    }
+
+    .field-name-c4m-user-contact-link {
+      margin-top: 1em;
+    }
+  }
+
   .view-mode-teaser {
     .field-name-c4m-ds-content-footer-stats {
       display: none;
