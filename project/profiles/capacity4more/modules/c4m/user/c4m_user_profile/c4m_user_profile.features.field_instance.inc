@@ -746,12 +746,8 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'c4m_field_media',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => 'c4m_user_author_thumb_image',
-        ),
-        'type' => 'image',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 1,
       ),
       'user_picture' => array(
