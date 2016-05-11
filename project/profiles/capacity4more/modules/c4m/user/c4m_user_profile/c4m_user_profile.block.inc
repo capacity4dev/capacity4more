@@ -7,27 +7,16 @@
 /**
  * Block definition for the top bar (user region).
  *
- * Welcomes the user by name + sub-menu or CTA to login.
+ * Shows user menu (dropdown).
  *
  * @return array
  *   The block definition.
  */
-function _c4m_user_profile_block_user_welcome() {
+function _c4m_user_profile_block_user_menu() {
   $block = array();
   $block['subject'] = '';
 
-  $content = array(
-    t('Welcome.'),
-    t('Please <a href="@register">register</a> or <a href="@login">login.</a>',
-      array(
-        '@register' => url('user/register'),
-        '@login' => url('user/login'),
-      )
-    ),
-  );
-
   if (user_is_anonymous()) {
-    $block['content'] = '<div class="userbar-user-login">' . implode(' ', $content) . '</div>';
     return $block;
   }
 
