@@ -281,7 +281,7 @@ function c4m_content_event_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_event_pattern';
-  $strongarm->value = 'event/[node:title]';
+  $strongarm->value = 'events/[node:title]';
   $export['pathauto_node_event_pattern'] = $strongarm;
 
   return $export;

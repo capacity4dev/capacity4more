@@ -58,6 +58,7 @@ dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = page_manager
 dependencies[] = panels
+dependencies[] = path_breadcrumbs
 dependencies[] = pathauto
 dependencies[] = pluggable_node_access
 dependencies[] = redirect
@@ -73,6 +74,7 @@ dependencies[] = views
 dependencies[] = date_views
 dependencies[] = views_content
 dependencies[] = views_bulk_operations
+dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
 
 

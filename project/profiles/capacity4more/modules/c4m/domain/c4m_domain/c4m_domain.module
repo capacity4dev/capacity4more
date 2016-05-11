@@ -78,7 +78,6 @@ function c4m_domain_entity_info() {
       'path' => 'admin/c4m/domains',
       'controller class' => 'EntityDefaultUIController',
     ),
-    'fieldable' => TRUE,
     'bundles' => array(
       'c4m_domain' => array(
         'label' => t('Domain'),
@@ -157,6 +156,15 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#maxlength' => 255,
   );
 
+  $form['organisation_name'] = array(
+    '#title' => t('Organisation name'),
+    '#description' => t('The organisation.'),
+    '#type' => 'textfield',
+    '#default_value' => isset($domain->organisation_name) ? $domain->organisation_name : '',
+    '#required' => TRUE,
+    '#maxlength' => 255,
+  );
+
   $form['description'] = array(
     '#title' => t('Description'),
     '#description' => t('Short description explaining what the domain is about.'),
@@ -175,12 +183,20 @@ function c4m_domain_form($form, &$form_state, $domain = NULL) {
     '#required' => TRUE,
   );
 
+  $whitelist = '';
+  if (isset($domain->whitelist)) {
+    if (is_array($domain->whitelist)) {
+      $whitelist = implode("\r\n", $domain->whitelist);
+    }
+    else {
+      $whitelist = $domain->whitelist;
+    }
+  }
   $form['whitelist'] = array(
     '#title' => t('Whitelist'),
     '#description' => t('List email addresses that will be indicated as valid without validating them trough the validator. Add one email address per line.'),
     '#type' => 'textarea',
-    '#default_value' => isset($domain->whitelist) ? $domain->whitelist : '',
-    '#required' => TRUE,
+    '#default_value' => $whitelist,
     '#maxlength' => 4096,
   );
 
@@ -215,12 +231,18 @@ function c4m_domain_form_validate($form, &$form_state) {
     form_set_error('description', t('The whitelist contains more than 4096 characters.'));
   }
   $whitelist = preg_split('/\r\n|[\r\n]/', $form_state['values']['whitelist']);
+  $invalid_emails = array();
+  $form_state['values']['whitelist'] = array();
   foreach ($whitelist as $key => $email) {
-    if (valid_email_address($email)) {
+    if (empty(trim($email))) {
       unset($whitelist[$key]);
     }
+    elseif (!valid_email_address($email)) {
+      $invalid_emails[] = $email;
+    }
   }
-  if (count($whitelist)) {
+  $form_state['values']['whitelist'] = $whitelist;
+  if (count($invalid_emails)) {
     $error_message = format_plural(count($whitelist),
       'The whitelist contains an invalid email address: %email.',
       'The whitelist contains invalid email addresses: %email.',
@@ -258,6 +280,12 @@ function c4m_domain_entity_property_info() {
     'description' => t('The domain part of the email address.'),
     'type' => 'text',
     'schema field' => 'name',
+  );
+  $info['c4m_domain']['properties']['organisation_name'] = array(
+    'label' => t('Organisation name'),
+    'description' => t('The organisation.'),
+    'type' => 'text',
+    'schema field' => 'organisation_name',
   );
   $info['c4m_domain']['properties']['description'] = array(
     'label' => t('Description'),

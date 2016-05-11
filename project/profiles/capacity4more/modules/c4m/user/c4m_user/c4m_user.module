@@ -136,11 +136,11 @@ function c4m_user_ds_fields_info($entity_type) {
   );
 
   $fields['user']['c4m_user_contact_link'] = array(
-    'title'      => t('C4M User contact link'),
+    'title' => t('C4M User contact link'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
-    'ui_limit'   => array('*|*'),
-    'file'       => $path . '/includes/c4m_user.theme.inc',
-    'function'   => 'theme_c4m_user_contact_link',
+    'ui_limit' => array('*|*'),
+    'file' => $path . '/includes/c4m_user.theme.inc',
+    'function' => 'theme_c4m_user_contact_link',
   );
 
   // User related fields for entity type node.
@@ -476,15 +476,15 @@ function c4m_user_c4m_content_statistics_info() {
     ),
     'topic' => array(
       'c4m_topic_user' => array(
-        'type'        => 'user',
+        'type' => 'user',
         'entity_type' => 'user',
-        'bundles'     => NULL,
-        'singular'    => 'Expert',
-        'plural'      => 'Experts',
-        'state'       => 1,
-        'aggregate'   => array(),
-        'weight'      => 10,
-        'attributes'  => array(
+        'bundles' => NULL,
+        'singular' => 'Expert',
+        'plural' => 'Experts',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 10,
+        'attributes' => array(
           'class' => array('topic-users'),
         ),
         'link' => array(
@@ -578,6 +578,46 @@ function _c4m_user_get_node_count($user) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_user_menu() {
+  $items['admin/config/c4m/ldap'] = array(
+    'title' => 'Manage LDAP',
+    'description' => 'Manage LDAP service and integration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_ldap_configuration'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_user.admin.inc',
+  );
+
+  $items['admin/config/c4m/ldap/configuration'] = array(
+    'title' => 'Configuration',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items['admin/config/c4m/ldap/test'] = array(
+    'title' => 'Test',
+    'description' => 'Test LDAP service and integration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_ldap_test'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_user.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['admin/config/c4m/organisation-validator'] = array(
+    'title' => 'Test email domain',
+    'description' => "Test email address' domains.",
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_email_domain_organisation_test'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_user.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_menu_alter().
  *
  * Make the user/%user/contact page just a callback.
@@ -615,4 +655,171 @@ function c4m_user_block_view($delta) {
   }
 
   return array();
+}
+
+/**
+ * Updates the user information based on LDAP and Organisation information.
+ *
+ * @param object $account
+ *   User account.
+ */
+function c4m_user_update_information($account) {
+  $country = '';
+  $organisation_name = '';
+  $organisation_type = '';
+
+  $domain_user = new C4mDomainUser($account->mail);
+  if ($result = $domain_user->getEmailDomainByName()) {
+    $ldap = new C4mLDAPUser();
+    if ($ldap->isUp()) {
+      $info = $ldap->getInfo($account->mail);
+      if ($info && !empty($info['valid'])) {
+        $country = $info['country'];
+        $organisation_name = $result->organisation_name;
+      }
+    }
+  }
+  elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
+    $organisation_name = $result->organisation_name;
+  }
+
+  $organisation_user = new C4mOrganisationUser($account->mail);
+  if ($organisations = $organisation_user->getOrganisationsInfo()) {
+    $organisation = array_shift($organisations);
+    $organisation = entity_metadata_wrapper('node', $organisation);
+    $organisation_type = $organisation->c4m_organisation_type->value();
+    if (!$organisation_name) {
+      $organisation_name = $organisation->title->value();
+    }
+  }
+
+  $edit = array();
+  if ($country) {
+    $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $country;
+  }
+  if ($organisation_name) {
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation_name;
+  }
+  if ($organisation_type) {
+    $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation_type;
+  }
+
+  user_save($account, $edit);
+}
+
+/**
+ * Implements hook_user_presave().
+ *
+ * Force a user to be blocked if it's deleted or spammer.
+ */
+function c4m_user_user_presave(&$edit, $account, $category) {
+  global $user;
+
+  $spammer = FALSE;
+  if (isset($edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'])) {
+    $spammer = $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'];
+  }
+  elseif (isset($account->c4m_is_spammer[LANGUAGE_NONE][0]['value'])) {
+    $spammer = $account->c4m_is_spammer[LANGUAGE_NONE][0]['value'];
+  }
+
+  $deleted = FALSE;
+  if (isset($edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value'])) {
+    $deleted = $edit['c4m_is_deleted'][LANGUAGE_NONE][0]['value'];
+  }
+  elseif (isset($account->c4m_is_deleted[LANGUAGE_NONE][0]['value'])) {
+    $deleted = $account->c4m_is_deleted[LANGUAGE_NONE][0]['value'];
+  }
+
+  if (!empty($deleted) || !empty($spammer)) {
+    // Show alert if an admin editing an user and his status is active.
+    if ($user->uid != $account->uid && !empty($edit['status'])) {
+      drupal_set_message(
+        t('Deleted users or spammers cannot have active accounts.'),
+        'error'
+      );
+    }
+    $edit['status'] = 0;
+  }
+}
+
+/**
+ * Implements hook_c4m_captcha_form_info().
+ */
+function c4m_user_c4m_captcha_form_info() {
+  return array(
+    'user_pass',
+  );
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function c4m_user_user_login(&$edit, $account) {
+  c4m_user_update_information($account);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function c4m_user_cron() {
+  module_load_include('inc', 'c4m_user', 'c4m_user.cron');
+  _c4m_user_cron();
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function c4m_user_cron_queue_info() {
+  $queues = array();
+  $queues['c4m_user'] = array(
+    'worker callback' => 'c4m_user_queue_process_user',
+    'time' => 30,
+  );
+
+  return $queues;
+}
+
+/**
+ * Callback for c4m_user Drupal Queue.
+ */
+function c4m_user_queue_process_user($item) {
+  $account = user_load($item);
+  c4m_user_update_information($account);
+}
+
+/**
+ * Implements hook_entity_type_presave().
+ */
+function c4m_user_c4m_domain_presave($entity) {
+  // Construct the list of emails to be updated in $email_list.
+  if (isset($entity->original)) {
+    // When editing, the list contains the addresses new or deleted to / from
+    // the whitelist.
+    $new_whitelist = $entity->whitelist;
+    $old_whitelist = $entity->original->whitelist;
+    $email_list = array_merge(
+      array_diff($new_whitelist, $old_whitelist),
+      array_diff($old_whitelist, $new_whitelist)
+    );
+  }
+  else {
+    $email_list = $entity->whitelist;
+  }
+
+  if (!$email_list) {
+    return;
+  }
+
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'user')
+    ->propertyCondition('mail', $email_list, 'IN')
+    ->execute();
+  if (!isset($result['user'])) {
+    return;
+  }
+  $accounts = array_keys($result['user']);
+  foreach ($accounts as $account_id) {
+    c4m_user_update_information(user_load($account_id));
+  }
 }

@@ -8,3 +8,6 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[views_view][] = c4m_admin_users
 features_exclude[dependencies][ctools] = ctools
+files[] = include/views_handler_field_user_link_activate.inc
+files[] = include/views_handler_field_user_link_resend_activation_email.inc
+files[] = include/views_handler_field_user_link_mark_spammer.inc

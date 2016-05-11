@@ -12,5 +12,64 @@
     margin-bottom: $form-item-spacing;
     margin-top: -$form-item-spacing;
   }
+
+  .form-item-contact {
+    // Mimics fieldset behaviour.
+    border-bottom: 1px solid $legend-border-color;
+    margin-bottom: $line-height-computed;
+    padding-bottom: $line-height-computed;
+  }
 }
 
+#user-bar {
+  background-color: $color-text-alternative;
+  padding: 0.4rem 0;
+
+  .userbar-userprofile {
+    &.open > .item-list > .dropdown-menu {
+      display: block;
+    }
+  }
+
+  .fullname-picture-wrapper {
+    text-decoration: none;
+
+    .fullname-picture {
+      .fullname {
+        color: $color-white;
+        display: inline-block;
+        margin-right: 0.5rem;
+      }
+      .fa-chevron-down {
+        color: $color-white;
+      }
+      .profile-picture, .initials {
+        background-color: $color-white;
+        border: 1px solid $color-link;
+        display: inline-block;
+        margin-right: 0.5rem;
+        text-align: center;
+      }
+    }
+  }
+
+  .user-profile-menu {
+    @include grain_dark;
+    border: 1px solid $color-link;
+    border-radius: 2px;
+
+    li {
+      margin: 0 10px;
+
+      a {
+        color: $color-white;
+        padding: 5px 25px;
+        padding-right: 70px;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}

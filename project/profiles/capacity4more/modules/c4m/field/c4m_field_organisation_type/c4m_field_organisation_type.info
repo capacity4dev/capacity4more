@@ -1,0 +1,8 @@
+name = Organisation type field
+description = Provides an "Organisation type" field.
+core = 7.x
+package = capacity4more - Fields
+dependencies[] = features
+dependencies[] = list
+features[features_api][] = api:2
+features[field_base][] = c4m_organisation_type

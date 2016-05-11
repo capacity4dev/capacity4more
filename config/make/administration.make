@@ -89,6 +89,9 @@ projects[restful][type] = "module"
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 
+projects[views_data_export][subdir] = "contrib"
+projects[views_data_export][version] = "3.0-beta9"
+
 ; Themes to upgrade the admin backend.
 
 projects[adminimal_theme][subdir] = "contrib"
