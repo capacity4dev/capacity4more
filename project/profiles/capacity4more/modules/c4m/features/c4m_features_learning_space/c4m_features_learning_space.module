@@ -44,7 +44,8 @@ function c4m_features_learning_space_theme() {
   $theme['c4m_features_learning_space_learning_intro'] = array(
     'template' => 'learning-space-intro',
     'path' => drupal_get_path(
-        'module', 'c4m_features_learning_space'
+      'module',
+      'c4m_features_learning_space'
     ) . '/templates',
     'variables' => array(
       'image' => NULL,
