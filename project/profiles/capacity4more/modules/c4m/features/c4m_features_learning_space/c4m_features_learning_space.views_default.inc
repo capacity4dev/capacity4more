@@ -58,7 +58,7 @@ function c4m_features_learning_space_views_default_views() {
   $handler = $view->new_display('block', 'Events Block', 'block');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Upcoming Events';
-  $handler->display->display_options['link_url'] = 'search?f[0]=type%3Aevent&f[1]=c4m_event_type%3Alearning';
+  $handler->display->display_options['link_url'] = 'learning/events';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -93,7 +93,7 @@ function c4m_features_learning_space_views_default_views() {
 
   /* Display: Documents Block */
   $handler = $view->new_display('block', 'Documents Block', 'block_1');
-  $handler->display->display_options['link_url'] = 'node/documents/learning';
+  $handler->display->display_options['link_url'] = 'learning/documents';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
