@@ -193,6 +193,12 @@
     .field-name-c4m-user-contact-link {
       margin-top: 1em;
     }
+
+    .node-article.view-mode-block_list {
+      .field-name-c4m-media {
+        margin-bottom: 0;
+      }
+    }
   }
 
   .view-mode-teaser {

@@ -31,6 +31,7 @@ function c4m_content_article_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['row_class'] = 'no-border';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'block_list';
   /* Field: Content: Title */

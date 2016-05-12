@@ -23,7 +23,12 @@ function theme_c4m_ds_article_notable_contribution(array $field) {
 
   $entity = $field['entity'];
 
-  $view = views_embed_view('notable_contributions', 'block', $entity->uid);
-
-  return $view;
+  return theme(
+    'c4m_ds_embed_view',
+    array(
+      'view' => 'notable_contributions',
+      'display' => 'block',
+      'args' => array($entity->uid),
+    )
+  );
 }
