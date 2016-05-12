@@ -34,6 +34,14 @@ function c4m_user_admin_views_data() {
     ),
   );
 
+  $data['users']['mark_spammer'] = array(
+    'field' => array(
+      'title' => t('Mark as spammer link'),
+      'help' => t('Provide a simple link to mark user as spammer.'),
+      'handler' => 'views_handler_field_user_link_mark_spammer',
+    ),
+  );
+
   return $data;
 }
 
@@ -57,5 +65,110 @@ function c4m_user_admin_menu() {
     'file' => 'c4m_user_admin.pages.inc',
   );
 
+  $items['user/%user/mark-as-spammer'] = array(
+    'title' => 'Mark user as spammer',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_admin_mark_spammer_form', 1),
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_user_cancel_methods_alter().
+ */
+function c4m_user_admin_user_cancel_methods_alter(&$methods) {
+  // Remove the option to disable account and unpublish existing content.
+  unset($methods['user_cancel_block_unpublish']);
+
+  // Add the option to disable account assign existing
+  // content to anonymous user.
+  $methods['c4m_user_admin_block_anonymous'] = array(
+    'title' => t(
+      'Disable the account and make its content belong to the Anonymous user.'
+    ),
+    'description' => t(
+      'Your account will be blocked and you will no longer be able to log in.
+      All of your content will be assigned to the Anonymous user.'
+    ),
+    'access' => user_access('administer users'),
+  );
+}
+
+/**
+ * Implements hook_user_cancel().
+ *
+ * @see node_user_cancel()
+ */
+function c4m_user_admin_user_cancel($edit, $account, $method) {
+  switch ($method) {
+    case 'c4m_user_admin_block_anonymous':
+      // Anonymize nodes (current revisions).
+      module_load_include('inc', 'node', 'node.admin');
+      $nodes = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->condition('uid', $account->uid)
+        ->execute()
+        ->fetchCol();
+      node_mass_update($nodes, array('uid' => 0));
+      // Anonymize old revisions.
+      db_update('node_revision')
+        ->fields(array('uid' => 0))
+        ->condition('uid', $account->uid)
+        ->execute();
+      // Clean history.
+      db_delete('history')
+        ->condition('uid', $account->uid)
+        ->execute();
+
+      // Set the flag "Is deleted" for this user.
+      $changes = array(
+        'c4m_is_deleted' => array(
+          'und' => array(
+            0 => array(
+              'value' => 1,
+            ),
+          ),
+        ),
+      );
+      user_save($account, $changes);
+
+      break;
+  }
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function c4m_user_admin_admin_paths() {
+  $paths = array(
+    'user/*/activate' => TRUE,
+    'user/*/resend-activation-email' => TRUE,
+    'user/*/mark-as-spammer' => TRUE,
+  );
+  return $paths;
+}
+
+/**
+ * Adds the options for the mark as spammer form.
+ *
+ * @param array $form
+ *   Form.
+ */
+function c4m_user_admin_mark_spammer_form_add_options(&$form) {
+  $options = array(
+    'as_is' => t('Leave content as is'),
+    'reassign' => t('Anonymize content'),
+    'delete' => t('Delete all content'),
+  );
+
+  $form['method'] = array(
+    '#title' => t('When marking as spammer account'),
+    '#type' => 'radios',
+    '#options' => $options,
+    '#required' => TRUE,
+    '#default_value' => 'as_is',
+  );
 }

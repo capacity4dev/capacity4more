@@ -55,6 +55,9 @@ trait Field {
       case 'Topics':
         $locator = '.region-content .field-name-c4m-vocab-topic';
         break;
+      case 'Topics of Expertise':
+        $locator = '.region-content .field-name-c4m-vocab-topic-expertise';
+        break;
       case 'Related Topics':
         $locator = '.region-content .field-name-c4m-related-topic';
         break;
@@ -62,7 +65,13 @@ trait Field {
         $locator = '.region-content .field-name-c4m-related-articles';
         break;
       case 'Groups':
-        $locator = '.region-content .field-name-c4m-related-group-unlimited';
+        $locator = '.region-content .field-name-c4m-related-group-unlimited, .region-content .field-name-c4m-related-group';
+        break;
+      case 'External Contributors':
+        $locator = '.region-content .field-name-c4m-link-multiple';
+        break;
+      case 'Internal Contributors':
+        $locator = '.region-content .field-name-c4m-related-user';
         break;
     }
 

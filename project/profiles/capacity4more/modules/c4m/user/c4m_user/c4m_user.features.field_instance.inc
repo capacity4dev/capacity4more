@@ -32,10 +32,9 @@ function c4m_user_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'og_ui',
         'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 0,
+        'type' => 'hidden',
+        'weight' => 21,
       ),
       'user_picture' => array(
         'label' => 'above',

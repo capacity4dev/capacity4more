@@ -25,8 +25,8 @@ function c4m_user_profile_field_extra_fields_alter(&$info) {
  * Implements hook_block_info().
  */
 function c4m_user_profile_block_info() {
-  $blocks['user_welcome'] = array(
-    'info' => t('Welcome the user in the top bar'),
+  $blocks['user_menu'] = array(
+    'info' => t('Display user menu in the top bar'),
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
