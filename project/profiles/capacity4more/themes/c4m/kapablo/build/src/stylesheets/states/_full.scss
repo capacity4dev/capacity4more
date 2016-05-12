@@ -176,6 +176,16 @@
 
     .user-name {
       @extend h1;
+
+      .organisation-icon {
+        float: right;
+
+        img {
+          display: inline-block;
+          height: 1em;
+          width: 1em;
+        }
+      }
     }
 
     .field-name-c4m-user-picture {

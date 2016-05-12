@@ -203,7 +203,7 @@ function theme_c4m_user_first_and_last_name(array $field) {
     }
 
     $tag['element'] = array(
-      '#tag' => 'span',
+      '#tag' => 'div',
       '#attributes' => array(
         'class' => array('user-name', implode(',', $classes)),
       ),
@@ -214,7 +214,7 @@ function theme_c4m_user_first_and_last_name(array $field) {
     $entity_name = !empty($entity->name) ? $entity->name
       : variable_get('anonymous', t('Anonymous'));
     $tag['element'] = array(
-      '#tag' => 'span',
+      '#tag' => 'div',
       '#attributes' => array(
         'class' => array('user-name', 'anonymous'),
       ),

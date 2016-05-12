@@ -153,6 +153,7 @@ function c4m_user_profile_field_group_info() {
       1 => 'c4m_user_country',
       2 => 'c4m_user_organisation_full',
       3 => 'c4m_user_contact_link',
+      4 => 'c4m_ds_organisation_icon',
     ),
     'format_type' => 'div',
     'format_settings' => array(
