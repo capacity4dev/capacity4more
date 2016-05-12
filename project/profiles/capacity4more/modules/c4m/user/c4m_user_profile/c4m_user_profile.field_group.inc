@@ -139,6 +139,38 @@ function c4m_user_profile_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_user_contributions|user|user|full';
+  $field_group->group_name = 'group_user_contributions';
+  $field_group->entity_type = 'user';
+  $field_group->bundle = 'user';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Notable Contributions',
+    'weight' => '4',
+    'children' => array(
+      0 => 'c4m_ds_article_notable_contribution',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Notable Contributions',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-user-contributions field-group-html5',
+        'description' => '',
+        'show_label' => '1',
+        'label_element' => 'h2',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_user_contributions|user|user|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_user_data|user|user|full';
   $field_group->group_name = 'group_user_data';
   $field_group->entity_type = 'user';
@@ -153,7 +185,6 @@ function c4m_user_profile_field_group_info() {
       1 => 'c4m_user_country',
       2 => 'c4m_user_organisation_full',
       3 => 'c4m_user_contact_link',
-      4 => 'c4m_ds_organisation_icon',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -274,6 +305,7 @@ function c4m_user_profile_field_group_info() {
   // Included for use with string extractors like potx.
   t('About');
   t('Expertise');
+  t('Notable Contributions');
   t('Professional Interests');
   t('Your account');
   t('Your personal info');
