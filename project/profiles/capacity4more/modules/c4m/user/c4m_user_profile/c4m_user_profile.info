@@ -46,7 +46,6 @@ features[field_group][] = group_account_info|user|user|form
 features[field_group][] = group_personal_info|user|user|form
 features[field_group][] = group_public_profile|user|user|form
 features[field_group][] = group_user_about|user|user|full
-features[field_group][] = group_user_contributions|user|user|full
 features[field_group][] = group_user_data|user|user|full
 features[field_group][] = group_user_expertise|user|user|full
 features[field_group][] = group_user_interests|user|user|full
