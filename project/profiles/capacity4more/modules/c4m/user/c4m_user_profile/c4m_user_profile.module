@@ -167,6 +167,42 @@ function c4m_user_profile_preprocess_page(&$variables) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_user_profile_menu() {
+  $items = array();
+
+  $items['user/change-mail-resend'] = array(
+    'title' => 'Change e-mail',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_resend_email_change_confirmation_email_form'),
+    'access callback' => TRUE,
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_user_login().
+ *
+ * It uses the same checks as email_confirm module.
+ */
+function c4m_user_profile_user_login(&$edit, $user) {
+  if (!isset($user->data['email_confirm'])) {
+    return;
+  }
+  if (!isset($user->data['email_confirm']['pending_email']) || $user->data['email_confirm']['expiration_time'] <= REQUEST_TIME) {
+    return;
+  }
+  drupal_set_message(t('You currently have a pending change of your e-mail address to %email. !link to resend the email.', array(
+    '%email' => $user->data['email_confirm']['pending_email'],
+    '!link' => l(t('Click here'), 'user/change-mail-resend'),
+  )), 'warning');
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {

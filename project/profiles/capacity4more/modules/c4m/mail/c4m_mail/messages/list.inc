@@ -7,6 +7,18 @@
 $messages = array(
   // Account Settings (/admin/config/people/accounts).
   array(
+    'module' => 'email_confirm',
+    'title' => 'Email address change request email body',
+    'subject' => 'email_confirm_confirmation_email_subject',
+    'body' => 'email_confirm_confirmation_email_body',
+  ),
+  array(
+    'module' => 'email_confirm',
+    'title' => 'Email address change request email body (Original)',
+    'subject' => 'email_confirm_confirmation_original_email_subject',
+    'body' => 'email_confirm_confirmation_original_email_body',
+  ),
+  array(
     'module' => 'user',
     'title' => 'Welcome (new user created by administrator)',
     'subject' => 'user_mail_register_admin_created_subject',
