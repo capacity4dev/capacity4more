@@ -598,6 +598,14 @@ function c4m_ds_theme() {
       'path' => $path,
       'template' => 'c4m_ds_entity_downloads_count',
     ),
+    'c4m_ds_embed_view' => array(
+      'variables' => array(
+        'view' => '',
+        'display' => '',
+        'args' => array(),
+      ),
+      'file' => 'includes/c4m_ds.theme.inc',
+    ),
   );
 }
 
