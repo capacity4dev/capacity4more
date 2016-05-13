@@ -100,7 +100,8 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
 /**
  * Implements hook_user_cancel().
  *
- * @see node_user_cancel() and comment_user_cancel().
+ * @see node_user_cancel()
+ * @see comment_user_cancel()
  */
 function c4m_user_admin_user_cancel($edit, $account, $method) {
   switch ($method) {
