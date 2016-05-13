@@ -660,27 +660,34 @@ function c4m_user_block_view($delta) {
 /**
  * Updates the user information based on LDAP and Organisation information.
  *
+ * Callers might provide the email domain so that we don't have to query the db
+ * to get the email domain either by domain or whitelist.
+ *
  * @param object $account
  *   User account.
+ * @param object $domain
+ *   (optional) Email domain object.
+ * @param object $whitelist_domain
+ *   (optional) Email domain object.
  */
-function c4m_user_update_information($account) {
+function c4m_user_update_information($account, $domain = NULL, $whitelist_domain = NULL) {
   $country = '';
   $organisation_name = '';
   $organisation_type = '';
 
   $domain_user = new C4mDomainUser($account->mail);
-  if ($result = $domain_user->getEmailDomainByName()) {
+  if ($domain || $domain = $domain_user->getEmailDomainByName()) {
     $ldap = new C4mLDAPUser();
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
       if ($info && !empty($info['valid'])) {
         $country = $info['country'];
-        $organisation_name = $result->organisation_name;
+        $organisation_name = $domain->organisation_name;
       }
     }
   }
-  elseif ($result = $domain_user->getEmailDomainByWhitelist()) {
-    $organisation_name = $result->organisation_name;
+  if (empty($organisation_name) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
+    $organisation_name = $whitelist_domain->organisation_name;
   }
 
   $organisation_user = new C4mOrganisationUser($account->mail);
@@ -796,30 +803,39 @@ function c4m_user_c4m_domain_presave($entity) {
   if (isset($entity->original)) {
     // When editing, the list contains the addresses new or deleted to / from
     // the whitelist.
-    $new_whitelist = $entity->whitelist;
-    $old_whitelist = $entity->original->whitelist;
-    $email_list = array_merge(
-      array_diff($new_whitelist, $old_whitelist),
-      array_diff($old_whitelist, $new_whitelist)
-    );
+    $new_emails = array_diff($entity->whitelist, $entity->original->whitelist);
+    $deleted_emails = array_diff($entity->original->whitelist, $entity->whitelist);
   }
   else {
-    $email_list = $entity->whitelist;
+    $new_emails = $entity->whitelist;
+    $deleted_emails = array();
   }
 
-  if (!$email_list) {
-    return;
+  if ($new_emails) {
+    $query = new EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'user')
+      ->propertyCondition('mail', $new_emails, 'IN')
+      ->execute();
+    if (!isset($result['user'])) {
+      return;
+    }
+    $accounts = array_keys($result['user']);
+    foreach ($accounts as $account_id) {
+      c4m_user_update_information(user_load($account_id), NULL, $entity);
+    }
   }
 
-  $query = new EntityFieldQuery();
-  $result = $query->entityCondition('entity_type', 'user')
-    ->propertyCondition('mail', $email_list, 'IN')
-    ->execute();
-  if (!isset($result['user'])) {
-    return;
-  }
-  $accounts = array_keys($result['user']);
-  foreach ($accounts as $account_id) {
-    c4m_user_update_information(user_load($account_id));
+  if ($deleted_emails) {
+    $query = new EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'user')
+      ->propertyCondition('mail', $deleted_emails, 'IN')
+      ->execute();
+    if (!isset($result['user'])) {
+      return;
+    }
+    $accounts = array_keys($result['user']);
+    foreach ($accounts as $account_id) {
+      c4m_user_update_information(user_load($account_id));
+    }
   }
 }
