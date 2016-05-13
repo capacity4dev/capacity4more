@@ -101,6 +101,7 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
  * Implements hook_user_cancel().
  *
  * @see node_user_cancel()
+ * @see comment_user_cancel()
  */
 function c4m_user_admin_user_cancel($edit, $account, $method) {
   switch ($method) {
@@ -134,6 +135,14 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ),
       );
       user_save($account, $changes);
+
+      // Anonymize comments.
+      $comments = comment_load_multiple(array(), array('uid' => $account->uid));
+      foreach ($comments as $comment) {
+        $comment->uid = 0;
+        unset($comment->name);
+        comment_save($comment);
+      }
 
       break;
   }

@@ -21,11 +21,11 @@ function theme_c4m_user_member_since(array $field) {
   }
 
   $tag['element'] = array(
-    '#tag' => 'span',
+    '#tag'       => 'span',
     '#attributes' => array(
       'class' => array('member-since'),
     ),
-    '#value' => c4m_helper_date_time_ago($field['entity']->created),
+    '#value'     => c4m_helper_date_time_ago($field['entity']->created),
   );
   return theme_html_tag($tag);
 }
@@ -111,12 +111,12 @@ function theme_c4m_user_activity_comments(array $field) {
  *   Rendered data.
  */
 function theme_c4m_user_picture(array $field) {
-  if (empty($field['entity']->uid)) {
-    return;
-  }
+  // Check if this is a user or node entity.
+  $user = 'user' === $field['entity_type'] ? $field['entity'] :
+    user_load($field['entity']->uid);
 
   // Check if image needs to be linked to user profile.
-  if (FALSE !== strpos($field['formatter'], 'linked_', 0)) {
+  if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0) {
     $linked = TRUE;
     $style = substr($field['formatter'], 7);
   }
@@ -124,10 +124,6 @@ function theme_c4m_user_picture(array $field) {
     $linked = FALSE;
     $style = $field['formatter'];
   }
-
-  // Check if this is a user or node entity.
-  $user = 'user' === $field['entity_type'] ? $field['entity'] :
-    user_load($field['entity']->uid);
 
   // Check if we have an image.
   $wrapper = entity_metadata_wrapper('user', $user);
@@ -139,13 +135,17 @@ function theme_c4m_user_picture(array $field) {
   }
   else {
     $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
-    $file['path'] = $file['uri'];
+    $file['path']       = $file['uri'];
     $file['attributes'] = array('class' => 'user-image');
-    $output = l(
-      theme_image_style($file),
-      'user/' . $user->uid,
-      array('html' => 'TRUE')
-    );
+
+    // Only link user picture if user is active.
+    if ($user->status) {
+      $output = l(theme_image_style($file), 'user/' . $user->uid,
+        array('html' => 'TRUE'));
+    }
+    else {
+      $output = theme_image_style($file);
+    }
   }
 
   return $output;
@@ -172,53 +172,47 @@ function theme_c4m_user_first_and_last_name(array $field) {
   $entity = $field['entity'];
 
   if ($entity->uid != 0) {
-    $user = user_load($entity->uid);
-    $name = c4m_user_name($user);
-    $classes = array();
+    $user     = user_load($entity->uid);
+    $name     = c4m_user_name($user);
+    $classes  = array();
 
-    if (in_array(
-      $field['formatter'],
-      array('linked_user', 'linked_user_with_icon')
-    )) {
+    if ($user->status && in_array($field['formatter'], array(
+      'linked_user', 'linked_user_with_icon',
+    ))) {
       $name = l($name, 'user/' . $user->uid);
     }
 
     $output .= $name;
 
     // Add organisation icon.
-    if (in_array(
-      $field['formatter'],
-      array('user_with_icon', 'linked_user_with_icon')
-    )) {
+    if (in_array($field['formatter'], array('user_with_icon', 'linked_user_with_icon'))) {
       if (module_exists('c4m_content_organisation')) {
         $user_mail = $field['entity']->mail;
         $icon = c4m_content_organisation_get_icon_by_email($user_mail);
         if ($icon) {
           $classes[] = 'icon';
-          $output .= '<div class="organisation-icon">' . render(
-              $icon
-            ) . '</div>';
+          $output .= '<div class="organisation-icon">' . render($icon) . '</div>';
         }
       }
     }
 
     $tag['element'] = array(
-      '#tag' => 'div',
+      '#tag'       => 'span',
       '#attributes' => array(
         'class' => array('user-name', implode(',', $classes)),
       ),
-      '#value' => $output,
+      '#value'     => $output,
     );
   }
   else {
     $entity_name = !empty($entity->name) ? $entity->name
-      : variable_get('anonymous', t('Anonymous'));
+                                         : variable_get('anonymous', t('Anonymous'));
     $tag['element'] = array(
-      '#tag' => 'div',
+      '#tag'       => 'span',
       '#attributes' => array(
         'class' => array('user-name', 'anonymous'),
       ),
-      '#value' => $entity_name,
+      '#value'     => $entity_name,
     );
   }
 
@@ -265,11 +259,11 @@ function theme_c4m_user_country(array $field) {
   // @codingStandardsIgnoreEnd
 
   $tag['element'] = array(
-    '#tag' => 'span',
+    '#tag'       => 'span',
     '#attributes' => array(
       'class' => array('country'),
     ),
-    '#value' => $value,
+    '#value'     => $value,
   );
   return theme_html_tag($tag);
 }
@@ -294,12 +288,11 @@ function theme_c4m_user_organisation_full(array $field) {
 
   $wrapper = entity_metadata_wrapper('user', $user);
   $organisation = check_plain($wrapper->c4m_organisation->value());
-
   $organisation_type = check_plain($wrapper->c4m_organisation_type->value());
 
   $tag['element'] = array(
-    '#tag' => 'div',
-    '#value' => $organisation . ($organisation_type ? ' (' . c4m_content_organisation_type_value($organisation_type) . ')' : ''),
+    '#tag'       => 'div',
+    '#value'     => $organisation . ($organisation_type ? ' (' . $organisation_type . ')' : ''),
   );
   return theme_html_tag($tag);
 }
@@ -342,28 +335,15 @@ function theme_c4m_user_contact_link(array $field) {
   }
 
   // User administrators should always have access to personal contact forms.
-  if (user_access('administer users') || user_access(
-      'access user contact forms'
-    )
-  ) {
-    return '<i class="fa fa-envelope-o"></i> ' . l(
-      t('Contact this person'),
-      "user/{$account->uid}/contact"
-    );
+  if (user_access('administer users') || user_access('access user contact forms')) {
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact");
   }
   else {
-    return t(
-      '!register or !login to contact a member',
-      array(
-        '!register' => l(t('Register'), 'user/register'),
-        '!login' => l(
-          t('log in'),
-          'user/login',
-          array(
-            'query' => drupal_get_destination(),
-          )
-        ),
-      )
-    );
+    return t('!register or !login to contact a member', array(
+      '!register' => l(t('Register'), 'user/register'),
+      '!login' => l(t('log in'), 'user/login', array(
+        'query' => drupal_get_destination(),
+      )),
+    ));
   }
 }
