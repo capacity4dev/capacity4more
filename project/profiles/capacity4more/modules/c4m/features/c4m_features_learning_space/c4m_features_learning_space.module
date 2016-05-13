@@ -22,17 +22,10 @@ function c4m_features_learning_space_menu() {
     'weight' => -10,
   );
 
-  $items['learning/documents'] = array(
+  $items['node/documents/learning'] = array(
     'description' => 'Dynamic link to the search page filtered by learning documents.',
     'title' => 'Link to the learning documents',
     'page callback' => 'c4m_features_learning_space_learning_documents',
-    'access arguments' => array('access content'),
-  );
-
-  $items['learning/events'] = array(
-    'description' => 'Dynamic link to the search page filtered by learning events.',
-    'title' => 'Link to the learning events',
-    'page callback' => 'c4m_features_learning_space_learning_events',
     'access arguments' => array('access content'),
   );
 
@@ -51,9 +44,9 @@ function c4m_features_learning_space_theme() {
   $theme['c4m_features_learning_space_learning_intro'] = array(
     'template' => 'learning-space-intro',
     'path' => drupal_get_path(
-        'module',
-        'c4m_features_learning_space'
-      ) . '/templates',
+      'module',
+      'c4m_features_learning_space'
+    ) . '/templates',
     'variables' => array(
       'image' => NULL,
       'intro' => '',
@@ -189,28 +182,6 @@ function c4m_features_learning_space_learning_documents() {
       'absolute' => TRUE,
     );
   }
-
-  $url = url('/search', $options);
-
-  drupal_goto($url);
-}
-
-/**
- * Page callback to the search page, filtered by learning events.
- */
-function c4m_features_learning_space_learning_events() {
-  $options = array(
-    'query' => array(
-      'f' => array(
-        'type:event',
-        'c4m_event_type:learning',
-      ),
-    ),
-    'purl' => array(
-      'disabled' => TRUE,
-    ),
-    'absolute' => TRUE,
-  );
 
   $url = url('/search', $options);
 
