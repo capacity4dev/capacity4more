@@ -26,6 +26,7 @@ trait Field {
         $locator = '.region-content .comment-wrapper';
         break;
       case 'Description':
+      case 'About You':
         $locator = '.region-content .field-name-c4m-body';
         break;
       case 'Download':
@@ -72,6 +73,12 @@ trait Field {
         break;
       case 'Internal Contributors':
         $locator = '.region-content .field-name-c4m-related-user';
+        break;
+      case 'Notable Contributions':
+        $locator = '.region-content .field-name-c4m-ds-article-notable-contribution';
+        break;
+      case 'Country':
+        $locator = '.region-content .field-name-c4m-user-country';
         break;
     }
 
