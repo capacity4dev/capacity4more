@@ -127,5 +127,12 @@ function c4m_user_strongarm() {
   );
   $export['field_bundle_settings_user__user'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'site_403';
+  $strongarm->value = 'user';
+  $export['site_403'] = $strongarm;
+
   return $export;
 }
