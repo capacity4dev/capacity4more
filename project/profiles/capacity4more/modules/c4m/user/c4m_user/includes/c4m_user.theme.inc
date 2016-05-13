@@ -111,12 +111,12 @@ function theme_c4m_user_activity_comments(array $field) {
  *   Rendered data.
  */
 function theme_c4m_user_picture(array $field) {
-  if (empty($field['entity']->uid)) {
-    return;
-  }
+  // Check if this is a user or node entity.
+  $user = 'user' === $field['entity_type'] ? $field['entity'] :
+    user_load($field['entity']->uid);
 
   // Check if image needs to be linked to user profile.
-  if (FALSE !== strpos($field['formatter'], 'linked_', 0)) {
+  if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0) {
     $linked = TRUE;
     $style = substr($field['formatter'], 7);
   }
@@ -124,10 +124,6 @@ function theme_c4m_user_picture(array $field) {
     $linked = FALSE;
     $style = $field['formatter'];
   }
-
-  // Check if this is a user or node entity.
-  $user = 'user' === $field['entity_type'] ? $field['entity'] :
-    user_load($field['entity']->uid);
 
   // Check if we have an image.
   $wrapper = entity_metadata_wrapper('user', $user);
@@ -141,8 +137,15 @@ function theme_c4m_user_picture(array $field) {
     $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
     $file['path']       = $file['uri'];
     $file['attributes'] = array('class' => 'user-image');
-    $output             = l(theme_image_style($file), 'user/' . $user->uid,
-      array('html' => 'TRUE'));
+
+    // Only link user picture if user is active.
+    if ($user->status) {
+      $output = l(theme_image_style($file), 'user/' . $user->uid,
+        array('html' => 'TRUE'));
+    }
+    else {
+      $output = theme_image_style($file);
+    }
   }
 
   return $output;
@@ -173,7 +176,9 @@ function theme_c4m_user_first_and_last_name(array $field) {
     $name     = c4m_user_name($user);
     $classes  = array();
 
-    if (in_array($field['formatter'], array('linked_user', 'linked_user_with_icon'))) {
+    if ($user->status && in_array($field['formatter'], array(
+      'linked_user', 'linked_user_with_icon',
+    ))) {
       $name = l($name, 'user/' . $user->uid);
     }
 

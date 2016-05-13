@@ -90,7 +90,7 @@
 
     <aside class="col-md-4" role="complementary">
       <?php print $content['right']; ?>
-    </aside>  <!-- /#sidebar-first -->
+    </aside>  <!-- /#sidebar-second -->
 </div>
 
 <div class="row">

@@ -12,9 +12,7 @@
   }
 
   .content {
-    border-bottom: 1px dashed $color-gray-light;
-    margin: 0 0 1rem 0;
-    padding: 0 0 1rem 0;
+    @include dashed_separator;
 
     .group-left, .group-right {
       padding: 0;
