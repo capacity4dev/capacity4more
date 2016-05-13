@@ -125,8 +125,6 @@ function theme_c4m_user_picture(array $field) {
     $style = $field['formatter'];
   }
 
-
-
   // Check if we have an image.
   $wrapper = entity_metadata_wrapper('user', $user);
   $file = $wrapper->c4m_media->value();
@@ -179,7 +177,8 @@ function theme_c4m_user_first_and_last_name(array $field) {
     $classes  = array();
 
     if ($user->status && in_array($field['formatter'], array(
-        'linked_user', 'linked_user_with_icon'))) {
+      'linked_user', 'linked_user_with_icon',
+    ))) {
       $name = l($name, 'user/' . $user->uid);
     }
 
