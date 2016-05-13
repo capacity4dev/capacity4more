@@ -686,7 +686,7 @@ function c4m_user_update_information($account, $domain = NULL, $whitelist_domain
       }
     }
   }
-  elseif ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
+  if (empty($organisation_name) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
     $organisation_name = $whitelist_domain->organisation_name;
   }
 
