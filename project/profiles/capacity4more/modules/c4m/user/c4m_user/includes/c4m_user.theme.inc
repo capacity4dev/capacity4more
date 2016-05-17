@@ -292,7 +292,7 @@ function theme_c4m_user_organisation_full(array $field) {
 
   $tag['element'] = array(
     '#tag'       => 'div',
-    '#value'     => $organisation . ($organisation_type ? ' (' . $organisation_type . ')' : ''),
+    '#value'     => $organisation . ($organisation_type ? ' (' . c4m_content_organisation_type_value($organisation_type) . ')' : ''),
   );
   return theme_html_tag($tag);
 }
