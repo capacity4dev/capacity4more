@@ -34,14 +34,6 @@ function c4m_user_admin_views_data() {
     ),
   );
 
-  $data['users']['mark_spammer'] = array(
-    'field' => array(
-      'title' => t('Mark as spammer link'),
-      'help' => t('Provide a simple link to mark user as spammer.'),
-      'handler' => 'views_handler_field_user_link_mark_spammer',
-    ),
-  );
-
   return $data;
 }
 
@@ -61,14 +53,6 @@ function c4m_user_admin_menu() {
     'title' => 'Resend activation email',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_resend_activation_email_form', 1),
-    'access arguments' => array('administer users'),
-    'file' => 'c4m_user_admin.pages.inc',
-  );
-
-  $items['user/%user/mark-as-spammer'] = array(
-    'title' => 'Mark user as spammer',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_user_admin_mark_spammer_form', 1),
     'access arguments' => array('administer users'),
     'file' => 'c4m_user_admin.pages.inc',
   );
@@ -155,29 +139,38 @@ function c4m_user_admin_admin_paths() {
   $paths = array(
     'user/*/activate' => TRUE,
     'user/*/resend-activation-email' => TRUE,
-    'user/*/mark-as-spammer' => TRUE,
   );
   return $paths;
 }
 
 /**
- * Adds the options for the mark as spammer form.
- *
- * @param array $form
- *   Form.
+ * Implements hook_form_FORM_ID_alter().
  */
-function c4m_user_admin_mark_spammer_form_add_options(&$form) {
-  $options = array(
-    'as_is' => t('Leave content as is'),
-    'reassign' => t('Anonymize content'),
-    'delete' => t('Delete all content'),
-  );
+function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
 
-  $form['method'] = array(
-    '#title' => t('When marking as spammer account'),
-    '#type' => 'radios',
-    '#options' => $options,
-    '#required' => TRUE,
-    '#default_value' => 'as_is',
+  if ($form['_account']['#value']->uid == $user->uid) {
+    return;
+  }
+
+  $form['description']['#weight'] = 10;
+  $form['c4m_is_spammer'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Mark user as spammer'),
+    '#weight' => 1,
   );
+  $form['#submit'][] = 'c4m_user_admin_form_user_cancel_confirm_form_submit';
+}
+
+/**
+ * Submit handler for user_cancel_confirm_form().
+ */
+function c4m_user_admin_form_user_cancel_confirm_form_submit($form, &$form_state) {
+  if (empty($form_state['values']['c4m_is_spammer'])) {
+    return;
+  }
+
+  $account = $form_state['values']['_account'];
+  $edit['c4m_is_spammer'][LANGUAGE_NONE][0]['value'] = 1;
+  user_save($account, $edit);
 }
