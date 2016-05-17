@@ -35,7 +35,8 @@
             <i
               ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')"
               class="fa fa-times remove-taxonomy"></i>
-            {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}
+            {{ findLabel(data.<?php print $vocabulary_machine_name; ?>,
+            child.id) }}
           </div>
         </div>
       </div>
@@ -56,6 +57,13 @@
         <ul ng-if="categoriesLength">
           <li class="checkbox table-display"
               ng-repeat="item in filteredTerms.<?php print $vocabulary_machine_name; ?>">
+            <label ng-show="{{item.children.length}}"
+                   ng-click="updateSelected(item);"
+                   class="parent-select">
+              <i class="fa fa-angle-down" ng-show="item.selected"></i>
+              <i class="fa fa-angle-right" ng-show="!item.selected"></i>
+              {{item.label}}
+            </label>
             <ul ng-show="item.selected == true" class="indent">
               <li ng-repeat="child in item.children">
                 <label>
@@ -67,10 +75,6 @@
                 </label>
               </li>
             </ul>
-            <label ng-show="{{item.children.length}}"
-                   ng-click="updateSelected(item);" class="parent-select">
-              {{item.label}}
-            </label>
           </li>
         </ul>
       </div>
