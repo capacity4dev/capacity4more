@@ -3,37 +3,6 @@
 ################################################################################
 
 ##
-# Create settings.php with appropriate includes.
-##
-function drupal_sites_default_create_settings {
-  if [ -d "$DIR_WEB/sites/default" ]; then
-    markup_h1 "Write config to settings file."
-    drupal_sites_default_unprotect
-
-    cat << EOF >> "$DIR_WEB/sites/default/settings.php"
-
-    /**
-     * Include configuration files to override or complement
-     * the configuration above.
-     ******************************************************************************/
-    \$settings_path = dirname(__FILE__);
-
-    \$files = array(
-      \$settings_path . '/config.inc',
-      \$settings_path . '/config.local.inc',
-    );
-
-    foreach (\$files as \$filename) {
-      if (file_exists(\$filename)) {
-        include \$filename;
-      }
-    }
-
-    EOF
-  fi
-}
-
-##
 # Copy the config.inc and the config.ENVIRONMENT.inc files.
 ##
 function drupal_sites_default_config_copy {

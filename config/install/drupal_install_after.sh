@@ -1,7 +1,29 @@
-source "$DIR_CONFIG/install/drupal_install_config.sh"
+# Write config to settings file.
+markup_h1 "Write config to settings file."
+drupal_sites_default_unprotect
 
-markup_h1 "Create settings.php file."
-drupal_sites_default_create_settings
+cat << EOF >> "$DIR_WEB/sites/default/settings.php"
+
+/**
+ * Include configuration files to override or complement
+ * the configuration above.
+ ******************************************************************************/
+\$settings_path = dirname(__FILE__);
+
+\$files = array(
+  \$settings_path . '/config.inc',
+  \$settings_path . '/config.local.inc',
+);
+
+foreach (\$files as \$filename) {
+  if (file_exists(\$filename)) {
+    include \$filename;
+  }
+}
+
+EOF
+
+source "$DIR_CONFIG/install/drupal_install_config.sh"
 
 markup_h1 "Copy config files and protect them."
 drupal_sites_default_config_link

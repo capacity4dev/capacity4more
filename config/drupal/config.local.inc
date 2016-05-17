@@ -74,3 +74,20 @@ $conf["search_api_attachments_tika_jar"] = "tika-app-1.11.jar";
  * Overrides
  ******************************************************************************/
 $conf['theme_debug'] = TRUE;
+
+/**
+ * Include an optional local configuration file to override or complement
+ * the configuration above which is already specific to this environment.
+ *
+ * It allows you to override the configuration on your local machine
+ * without having to override the default configuration file.
+ *
+ * Note that the file "/config/drupal/config.local.override.inc"
+ * is not versioned.
+ ******************************************************************************/
+$settings_path = dirname(__FILE__);
+$filename = $settings_path . '/config.local.override.inc';
+
+if (file_exists($filename)) {
+  include $filename;
+}
