@@ -111,12 +111,12 @@ function theme_c4m_user_activity_comments(array $field) {
  *   Rendered data.
  */
 function theme_c4m_user_picture(array $field) {
-  if (empty($field['entity']->uid)) {
-    return;
-  }
+  // Check if this is a user or node entity.
+  $user = 'user' === $field['entity_type'] ? $field['entity'] :
+    user_load($field['entity']->uid);
 
   // Check if image needs to be linked to user profile.
-  if (FALSE !== strpos($field['formatter'], 'linked_', 0)) {
+  if (FALSE !== strpos($field['formatter'], 'linked_', 0) && $user->uid > 0) {
     $linked = TRUE;
     $style = substr($field['formatter'], 7);
   }
@@ -124,10 +124,6 @@ function theme_c4m_user_picture(array $field) {
     $linked = FALSE;
     $style = $field['formatter'];
   }
-
-  // Check if this is a user or node entity.
-  $user = 'user' === $field['entity_type'] ? $field['entity'] :
-    user_load($field['entity']->uid);
 
   // Check if we have an image.
   $wrapper = entity_metadata_wrapper('user', $user);
@@ -141,8 +137,15 @@ function theme_c4m_user_picture(array $field) {
     $file['style_name'] = empty($style) ? 'media_thumbnail' : $style;
     $file['path']       = $file['uri'];
     $file['attributes'] = array('class' => 'user-image');
-    $output             = l(theme_image_style($file), 'user/' . $user->uid,
-      array('html' => 'TRUE'));
+
+    // Only link user picture if user is active.
+    if ($user->status) {
+      $output = l(theme_image_style($file), 'user/' . $user->uid,
+        array('html' => 'TRUE'));
+    }
+    else {
+      $output = theme_image_style($file);
+    }
   }
 
   return $output;
@@ -173,7 +176,9 @@ function theme_c4m_user_first_and_last_name(array $field) {
     $name     = c4m_user_name($user);
     $classes  = array();
 
-    if (in_array($field['formatter'], array('linked_user', 'linked_user_with_icon'))) {
+    if ($user->status && in_array($field['formatter'], array(
+      'linked_user', 'linked_user_with_icon',
+    ))) {
       $name = l($name, 'user/' . $user->uid);
     }
 
@@ -264,6 +269,35 @@ function theme_c4m_user_country(array $field) {
 }
 
 /**
+ * DS function field.
+ *
+ * @param array $field
+ *   The field info.
+ *
+ * @return mixed
+ *   The rendered output.
+ */
+function theme_c4m_user_organisation_full(array $field) {
+  if (empty($field['entity']->uid)) {
+    return;
+  }
+
+  // Check if this is a user or node entity.
+  $user = 'user' === $field['entity_type'] ? $field['entity'] :
+    user_load($field['entity']->uid);
+
+  $wrapper = entity_metadata_wrapper('user', $user);
+  $organisation = check_plain($wrapper->c4m_organisation->value());
+  $organisation_type = check_plain($wrapper->c4m_organisation_type->value());
+
+  $tag['element'] = array(
+    '#tag'       => 'div',
+    '#value'     => $organisation . ($organisation_type ? ' (' . $organisation_type . ')' : ''),
+  );
+  return theme_html_tag($tag);
+}
+
+/**
  * Callback for c4m_user_contact_link DS field.
  *
  * @param array $field
@@ -302,11 +336,7 @@ function theme_c4m_user_contact_link(array $field) {
 
   // User administrators should always have access to personal contact forms.
   if (user_access('administer users') || user_access('access user contact forms')) {
-    return l(t('Contact this person'), "user/{$account->uid}/contact", array(
-      'attributes' => array(
-        'class' => array('btn', 'btn-default'),
-      ),
-    ));
+    return '<i class="fa fa-envelope-o"></i> ' . l(t('Contact this person'), "user/{$account->uid}/contact");
   }
   else {
     return t('!register or !login to contact a member', array(

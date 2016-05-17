@@ -496,6 +496,19 @@ function c4m_ds_ds_fields_info($entity_type) {
     'function' => 'theme_c4m_ds_document_preview',
   );
 
+  $fields['user']['c4m_ds_article_notable_contribution'] = array(
+    'title' => t('Notable contributions (V&V)'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('user|*'),
+    'file' => $path . '/includes/c4m_ds.theme.user.inc',
+    'function' => 'theme_c4m_ds_article_notable_contribution',
+    'properties' => array(
+      'formatters' => array(
+        'default' => t('Default'),
+      ),
+    ),
+  );
+
   return $fields;
 }
 
@@ -584,6 +597,14 @@ function c4m_ds_theme() {
       'variables' => array('count' => 0),
       'path' => $path,
       'template' => 'c4m_ds_entity_downloads_count',
+    ),
+    'c4m_ds_embed_view' => array(
+      'variables' => array(
+        'view' => '',
+        'display' => '',
+        'args' => array(),
+      ),
+      'file' => 'includes/c4m_ds.theme.inc',
     ),
   );
 }

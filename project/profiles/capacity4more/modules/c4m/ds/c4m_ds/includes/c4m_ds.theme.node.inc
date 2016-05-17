@@ -26,7 +26,20 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
   $name = c4m_user_name($user);
   $options = array('attributes' => array('class' => array('user-name')));
 
-  $name = l($name, 'user/' . $user->uid, $options);
+  // If user is not anonymous, set link on user name.
+  if ($entity->uid > 0) {
+    $name = l($name, 'user/' . $user->uid, $options);
+  }
+  else {
+    $plain_user_name['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('user-name'),
+      ),
+      '#value' => $name,
+    );
+    $name = theme_html_tag($plain_user_name);
+  }
 
   $tag['element'] = array(
     '#tag' => 'span',

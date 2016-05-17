@@ -35,10 +35,24 @@
     text-decoration: none;
 
     .fullname-picture {
+      .initials {
+        height: 30px;
+        padding-top: 6px;
+        vertical-align: middle;
+        width: 30px;
+
+        .inner-initials {
+          @extend .text-small;
+          color: $color-text;
+          height: auto;
+          background-color: $color-white;
+        }
+      }
       .fullname {
         color: $color-white;
         display: inline-block;
         margin-right: 0.5rem;
+        vertical-align: middle;
       }
       .fa-chevron-down {
         color: $color-white;
@@ -72,4 +86,8 @@
       }
     }
   }
+}
+
+.field-name-c4m-job-title {
+  margin-bottom: 0.5rem;
 }

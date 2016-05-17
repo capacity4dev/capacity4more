@@ -103,3 +103,16 @@
     }
   }
 }
+
+#c4m-features-homepage-newsletter-form {
+  @include dashed_separator('top');
+  .btn {
+    width: 100%;
+  }
+  .more-info {
+    // Replicate the space between email field and button.
+    margin-top: $form-group-margin-bottom;
+    margin-bottom: 0;
+    text-align: right;
+  }
+}

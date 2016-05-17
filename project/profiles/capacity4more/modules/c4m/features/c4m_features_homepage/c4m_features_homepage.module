@@ -165,3 +165,101 @@ function c4m_features_homepage_voices_views_carousel() {
   // Theme function adds the carousel.
   return theme('c4m_voices_views_carousel', $variables);
 }
+
+/**
+ * Implements hook_block_info().
+ */
+function c4m_features_homepage_block_info() {
+  $blocks = array();
+
+  $blocks['c4m_features_homepage_newsletter'] = array(
+    'info' => t('Homepage: Subscribe to newsletter'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function c4m_features_homepage_block_view($delta) {
+  $module = 'c4m_features_homepage';
+
+  module_load_include('inc', $module, $module . '.block');
+  $callback = "_{$module}_block_" . $delta;
+  if (function_exists($callback)) {
+    return $callback();
+  }
+
+  return array();
+}
+
+/**
+ * Form constructor for the newsletter form.
+ *
+ * @see c4m_features_homepage_newsletter_form_validate()
+ * @see c4m_features_homepage_newsletter_form_submit()
+ *
+ * @ingroup forms
+ */
+function c4m_features_homepage_newsletter_form($form, &$form_state) {
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#attributes' => array('placeholder' => t('Type your email address...')),
+    '#maxlength' => 200,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Subscribe to our newsletter'),
+    '#attributes' => array(
+      'class' => array('btn-warning'),
+    ),
+    '#suffix' => '<p class="more-info">' . l(t('Look at a sample newsletter >'), 'newsletters') . '</p>',
+  );
+
+  return $form;
+}
+
+/**
+ * Form validation handler for c4m_features_homepage_newsletter_form().
+ *
+ * @see c4m_features_homepage_newsletter_form_submit()
+ */
+function c4m_features_homepage_newsletter_form_validate($form, &$form_state) {
+  if (!valid_email_address($form_state['values']['email'])) {
+    form_set_error('email', t('Please provide a valid email address.'));
+  }
+}
+
+/**
+ * Form submission handler for c4m_features_homepage_newsletter_form_form().
+ *
+ * @see c4m_features_homepage_newsletter_form_validate()
+ */
+function c4m_features_homepage_newsletter_form_submit($form, &$form_state) {
+  if ($list_title = variable_get('campaignmonitor_list_title')) {
+    $email_address = $form_state['values']['email'];
+
+    // Get connected to the API and get lists.
+    $cm = CampaignMonitor::getConnector();
+    $lists_info = $cm->getLists();
+    $list_id = 0;
+    foreach ($lists_info as $list_id => $list) {
+      if ($list['name'] == $list_title) {
+        break;
+      }
+    }
+
+    if ($list_id && !$cm->isSubscribed($list_id, $email_address)) {
+      if ($cm->subscribe($list_id, $email_address, $email_address)) {
+        drupal_set_message(t('Thank you for subscribing to our newsletter!'));
+        return;
+      }
+    }
+  }
+
+  drupal_set_message(t('We could not subscribe you to the newsletter, please try again later or !contact_us!', array('!contact_us' => l(t('contact_us'), 'about'))));
+}

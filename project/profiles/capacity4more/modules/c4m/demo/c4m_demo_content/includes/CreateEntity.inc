@@ -164,9 +164,15 @@ abstract class C4mDemoContentCreateEntity extends Migration {
     }
     elseif (is_array($dest_field)) {
       foreach ($dest_field as $key => $dest) {
-        $filtered_ids[$key] = array('destid1' => $dest['destid1']);
-        if (!empty($dest['destid2'])) {
-          $filtered_ids[$key]['destid2'] = $dest['destid2'];
+        // Random case for 1 migration.
+        if (is_numeric($dest)) {
+          $filtered_ids[$key] = array('destid1' => $dest);
+        }
+        if (is_array($dest)) {
+          $filtered_ids[$key] = array('destid1' => $dest['destid1']);
+          if (!empty($dest['destid2'])) {
+            $filtered_ids[$key]['destid2'] = $dest['destid2'];
+          }
         }
       }
     }

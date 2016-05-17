@@ -22,12 +22,15 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     array('title', 'Title'),
     array('body', 'Body'),
     array('image', 'Image'),
-    array('video', 'Video'),
     array('topics', 'Topics'),
     array('geo', 'Geo'),
     array('intro', 'Intro text'),
     array('banner', 'Banner'),
     array('uid', 'UID'),
+    array('groups', 'Groups'),
+    array('articles', 'Articles'),
+    array('related_users', 'Contributors'),
+    array('contributors', 'External Contributors'),
   );
 
   /**
@@ -56,8 +59,6 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('c4m_body', 'body');
 
-    $this->addFieldMapping('c4m_has_video', 'video');
-
     $this->addFieldMapping('c4m_vocab_topic', 'topics')
       ->sourceMigration('C4mDemoContentCreateTopicTerms')
       ->arguments(array('source_type' => 'tid'))
@@ -76,6 +77,17 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $this->addFieldMapping('uid', 'uid')
       ->sourceMigration('C4mDemoContentCreateUsers');
+
+    $this->addFieldMapping('c4m_related_group', 'groups_list');
+
+    $this->addFieldMapping('c4m_related_articles', 'articles_list');
+
+    $this->addFieldMapping('c4m_related_user', 'related_users')
+      ->sourceMigration('C4mDemoContentCreateUsers')
+      ->separator('|');
+
+    $this->addFieldMapping('c4m_link_multiple', 'contributors_url');
+    $this->addFieldMapping('c4m_link_multiple:title', 'contributors_name');
   }
 
   /**
@@ -93,6 +105,33 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
     $row->geo_entries = $this->mapTaxonomyVocabWithParent(
       $this->mapTaxonomyVocab($row->geo, 'c4m_vocab_geo')
     );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateGroups',
+      explode('|', $row->groups),
+      NULL,
+      $this
+    );
+    $row->groups_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    $unfiltered_ids = $this->handleSourceMigration(
+      'C4mDemoContentCreateArticles',
+      explode('|', $row->articles),
+      NULL,
+      $this
+    );
+
+    $row->articles_list = $this->filterDestid2FromEntityReference(
+      $unfiltered_ids
+    );
+
+    if (!empty($row->contributors)) {
+      $split_contributors = explode(';', $row->contributors);
+      $row->contributors_url = $split_contributors[0];
+      $row->contributors_name = $split_contributors[1];
+    }
 
     return TRUE;
   }
@@ -174,6 +213,33 @@ class C4mDemoContentCreateArticles extends C4mDemoContentCreateEntity {
 
     $message->timestamp = $row->changed;
     message_save($message);
+  }
+
+  /**
+   * Create stub Articles (when possible as related articles).
+   *
+   * @param Migration $migration
+   *   The migration that is being done to create this stub.
+   * @param array $source_id
+   *   Array of strings with the source id(s).
+   *
+   * @return array|bool
+   *   Array with node id if article created, else FALSE.
+   */
+  public function createStub(Migration $migration, array $source_id) {
+    $node = new stdClass();
+    $node->title = t('Stub for @id', array('@id' => $source_id[0]));
+    $node->body[LANGUAGE_NONE][0] = t('Stub article');
+    $node->type = $this->destination->getBundle();
+    $node->uid = 1;
+    $node->status = 0;
+    node_save($node);
+    if (isset($node->nid)) {
+      return array($node->nid);
+    }
+    else {
+      return FALSE;
+    }
   }
 
 }
