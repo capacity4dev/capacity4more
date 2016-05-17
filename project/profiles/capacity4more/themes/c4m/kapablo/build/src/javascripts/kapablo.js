@@ -232,9 +232,18 @@
               }
             }, 100);
         }
-  }
+  };
 
-    /**
+  // Disable form buttons on AJAX calls.
+  $(document)
+    .ajaxStart(function () {
+      $('.form-submit').addClass('drupal-ajax-disabled').attr('disabled', 'disabled');
+    })
+    .ajaxComplete(function () {
+      $('.drupal-ajax-disabled').removeAttr('disabled');
+    });
+
+  /**
      * Remove a parameter from an URL string.
      *
      * @param url
@@ -347,5 +356,6 @@
         }
       }
     };
+
 })
 (jQuery);
