@@ -43,6 +43,7 @@
 
         .inner-initials {
           @extend .text-small;
+          color: $color-text;
           height: auto;
           background-color: $color-white;
         }
