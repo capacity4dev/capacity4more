@@ -74,3 +74,13 @@
     }
   }
 }
+
+.popover {
+  &.right {
+    top: -1em;
+
+    > .arrow {
+      top: 2em;
+    }
+  }
+}
