@@ -382,6 +382,7 @@ function c4m_restful_quick_post_needs_app() {
     'comment/reply/%',
     'comment/%/edit',
     'user/register',
+    'user/%/edit',
   );
   // If we are on a group edit form, the app should be loaded.
   if (in_array($path, $allowed_paths)) {
