@@ -25,3 +25,9 @@ file_copy_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
 
 echo
+
+source "$DIR_CONFIG/build/drupal_install_config.sh"
+
+markup_h1 "Copy config files and protect them."
+drupal_sites_default_config_copy
+echo
