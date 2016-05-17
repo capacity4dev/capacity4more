@@ -294,6 +294,9 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     unset($form['#validate'][$key]);
   }
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+
+  $form['c4m_is_ldap_user']['#access'] = FALSE;
+  $form['c4m_is_organisation_user']['#access'] = FALSE;
 }
 
 /**
