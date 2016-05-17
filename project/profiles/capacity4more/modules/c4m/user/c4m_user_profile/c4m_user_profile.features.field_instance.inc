@@ -1134,7 +1134,7 @@ function c4m_user_profile_field_default_field_instances() {
           'separator' => ', ',
           'wrap' => 'none',
         ),
-        'type' => 'term_reference_tree_children_expanded',
+        'type' => 'term_reference_only_parents',
         'weight' => 4,
       ),
       'user_picture' => array(
