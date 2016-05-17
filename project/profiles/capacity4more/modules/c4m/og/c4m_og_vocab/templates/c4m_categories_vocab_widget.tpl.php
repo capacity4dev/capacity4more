@@ -24,7 +24,7 @@
         </div>
         <div class="child col-xs-12 col-sm-9">
           <span ng-show="model.<?php print $vocabulary_machine_name; ?>[child.id] === true" ng-repeat="(childkey, child) in data.<?php print $vocabulary_machine_name; ?>[key].children">
-            <i ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times"></i>
+            <i ng-click="removeTaxonomyValue(child.id, '<?php print $vocabulary_machine_name; ?>')" class="fa fa-times remove-taxonomy"></i>
             {{ findLabel(data.<?php print $vocabulary_machine_name; ?>, child.id) }}
           </span>
         </div>
