@@ -665,18 +665,18 @@ function c4m_user_block_view($delta) {
  *
  * @param object $account
  *   User account.
- * @param object $domain
- *   (optional) Email domain object.
- * @param object $whitelist_domain
- *   (optional) Email domain object.
+ * @param string|object $domain
+ *   (optional) Email domain object. If NULL LDAP info should be removed.
+ * @param string|object $whitelist_domain
+ *   (optional) Email domain object. If NULL LDAP info should be removed.
  */
-function c4m_user_update_information($account, $domain = NULL, $whitelist_domain = NULL) {
+function c4m_user_update_information($account, $domain = '', $whitelist_domain = '') {
   $edit = array();
 
   $domain_user = new C4mDomainUser($account->mail);
   // Whitelist addresses should be found in domains list but may not be present
   // in LDAP.
-  if ($domain || $domain = $domain_user->getEmailDomainByName()) {
+  if (isset($domain) && ($domain || $domain = $domain_user->getEmailDomainByName())) {
     $ldap = new C4mLDAPUser();
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
@@ -686,7 +686,7 @@ function c4m_user_update_information($account, $domain = NULL, $whitelist_domain
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
-      elseif ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
+      elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
         $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
@@ -830,7 +830,7 @@ function c4m_user_c4m_domain_presave($entity) {
     }
     $accounts = array_keys($result['user']);
     foreach ($accounts as $account_id) {
-      c4m_user_update_information(user_load($account_id), NULL, $entity);
+      c4m_user_update_information(user_load($account_id), '', $entity);
     }
   }
 
@@ -844,7 +844,7 @@ function c4m_user_c4m_domain_presave($entity) {
     }
     $accounts = array_keys($result['user']);
     foreach ($accounts as $account_id) {
-      c4m_user_update_information(user_load($account_id));
+      c4m_user_update_information(user_load($account_id), '', NULL);
     }
   }
 }
