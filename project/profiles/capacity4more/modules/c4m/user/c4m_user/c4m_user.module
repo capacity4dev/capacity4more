@@ -616,7 +616,7 @@ function c4m_user_menu() {
 
   // Callbacks to provide tailored access denied behaviour.
   $items['access-denied'] = array(
-    'title' => t('Please log in to continue'),
+    'title' => 'Please log in to continue',
     'page callback' => 'c4m_user_access_denied',
     'access callback' => 'user_is_anonymous',
   );
