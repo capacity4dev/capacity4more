@@ -326,13 +326,13 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'c4m_is_email_invalid'.
-  $field_bases['c4m_is_email_invalid'] = array(
+  // Exported field_base: 'c4m_is_invalid_email'.
+  $field_bases['c4m_is_invalid_email'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m_is_email_invalid',
+    'field_name' => 'c4m_is_invalid_email',
     'indexes' => array(
       'value' => array(
         0 => 'value',

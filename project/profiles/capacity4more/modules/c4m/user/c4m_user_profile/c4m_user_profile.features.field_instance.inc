@@ -388,8 +388,8 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_is_email_invalid'.
-  $field_instances['user-user-c4m_is_email_invalid'] = array(
+  // Exported field_instance: 'user-user-c4m_is_invalid_email'.
+  $field_instances['user-user-c4m_is_invalid_email'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
@@ -422,8 +422,8 @@ function c4m_user_profile_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'user',
-    'field_name' => 'c4m_is_email_invalid',
-    'label' => 'Is email invalid',
+    'field_name' => 'c4m_is_invalid_email',
+    'label' => 'Is invalid email',
     'required' => FALSE,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1331,7 +1331,7 @@ function c4m_user_profile_field_default_field_instances() {
   t('Is LDAP User');
   t('Is Organisation User');
   t('Is deleted');
-  t('Is email invalid');
+  t('Is invalid email');
   t('Is spammer');
   t('Job title');
   t('Last Name');
