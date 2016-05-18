@@ -773,6 +773,14 @@ function c4m_user_c4m_captcha_form_info() {
  */
 function c4m_user_user_login(&$edit, $account) {
   c4m_user_update_information($account);
+
+  if (!empty($account->c4m_is_invalid_email[LANGUAGE_NONE][0]['value'])) {
+    // $edit is the actual $form_state.
+    $edit['redirect'] = 'user/' . $account->uid . '/edit';
+    // We always have destination set for the login form and this overrides in
+    // drupal_goto the path set above so we have to unset the destination.
+    unset($_GET['destination']);
+  }
 }
 
 /**
