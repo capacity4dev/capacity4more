@@ -71,3 +71,29 @@
   margin-#{$position}: 1rem;
   padding-#{$position}: 1rem;
 }
+
+@mixin label_style {
+  border: none;
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: $color-gray-dark;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  margin: 3px 0 3px 5px;
+  padding: 0 20px 0 1em;
+  position: relative;
+  text-decoration: none;
+
+  &:after {
+    background: #fff;
+    border-bottom: 13px solid transparent;
+    border-left: 10px solid #eee;
+    border-top: 13px solid transparent;
+    content: '';
+    font-style: normal;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
