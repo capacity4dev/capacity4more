@@ -44,4 +44,4 @@ Feature: Group Wiki pages
   Scenario: Check if anonymous user can see unpublished WIKI page
     Given I am an anonymous user
     When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Tennis)" with status "unpublished"
-    Then I should see "Access denied"
+    Then I should see "Please log in to continue"

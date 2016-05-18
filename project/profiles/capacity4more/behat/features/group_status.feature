@@ -249,36 +249,36 @@ Feature: Group Status
   Scenario: Check Requested group access by anonymous user
     Given I am an anonymous user
     When  I visit "Requested group" node of type "group"
-    Then  I should see "Access denied"
+    Then  I should see "Please log in to continue"
 
   @api
   Scenario: Check Draft group access by anonymous user
     Given I am an anonymous user
     When  I visit "Draft group" node of type "group"
-    Then  I should see "Access denied"
+    Then  I should see "Please log in to continue"
 
   @api
   Scenario: Check Published group access by anonymous user
     Given I am an anonymous user
     When  I visit "Published group" node of type "group"
-    Then  I should not see "Access denied"
+    Then  I should not see "Please log in to continue"
     And   I should not be allowed to edit a group "Published group"
 
   @api
   Scenario: Check Archived group access by anonymous user
     Given I am an anonymous user
     When  I visit "Archived group" node of type "group"
-    Then  I should not see "Access denied"
+    Then  I should not see "Please log in to continue"
     And   I should not be allowed to edit a group "Archived group"
 
   @api
   Scenario: Check Rejected group access by anonymous user
     Given I am an anonymous user
     When  I visit "Rejected group" node of type "group"
-    Then  I should see "Access denied"
+    Then  I should see "Please log in to continue"
 
   @api
   Scenario: Check Deleted group access by anonymous user
     Given I am an anonymous user
     When  I visit "Deleted group" node of type "group"
-    Then  I should see "Access denied"
+    Then  I should see "Please log in to continue"
