@@ -9,7 +9,7 @@ Feature: Group content access
     And   I change access of group "My test group" to "Private"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
-    And   I should see "User account"
+    And   I should see "Please log in to continue"
 
   @javascript
   Scenario: Check group privacy from private to public
@@ -17,7 +17,7 @@ Feature: Group content access
     And   I change access of group "My test group" to "Public"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
-    And   I should not see "User account"
+    And   I should not see "Please log in to continue"
     And   I should see "Test content"
 
   @javascript
@@ -26,7 +26,7 @@ Feature: Group content access
     And   I change access of group "My test group" to "Restricted"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
-    And   I should see "User account"
+    And   I should see "Please log in to continue"
 
   @javascript
   Scenario: Check group privacy from restricted to private
@@ -34,4 +34,4 @@ Feature: Group content access
     And   I change access of group "My test group" to "Private"
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
-    And   I should see "User account"
+    And   I should see "Please log in to continue"

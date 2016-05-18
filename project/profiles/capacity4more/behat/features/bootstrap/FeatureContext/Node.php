@@ -57,7 +57,7 @@ trait Node {
 
     return array(
       new Step\When('I go to "node/add/'.$type.'"'),
-      new Step\Then('I should see "User account"'),
+      new Step\Then('I should see "Please log in to continue"'),
     );
   }
 
@@ -68,7 +68,7 @@ trait Node {
 
     return array(
       new Step\When('I go to "node/add/'.$type.'"'),
-      new Step\Then('I should not see "User account"'),
+      new Step\Then('I should not see "Please log in to continue"'),
     );
   }
 
