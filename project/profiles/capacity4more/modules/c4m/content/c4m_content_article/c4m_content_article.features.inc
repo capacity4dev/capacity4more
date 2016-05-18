@@ -14,9 +14,19 @@ function c4m_content_article_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
+  if ($module == "path_breadcrumbs" && $api == "path_breadcrumbs") {
+    return array("version" => "1");
+  }
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function c4m_content_article_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
 }
 
 /**

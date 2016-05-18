@@ -225,20 +225,12 @@ function c4m_field_media_image_default_styles() {
     ),
   );
 
-  // Exported image style: icon_small.
   $styles['icon_small'] = array(
     'name' => 'icon_small',
     'label' => 'Icon (30x30)',
     'effects' => array(
       1 => array(
-        'label' => 'Scale',
-        'help' => 'Scale will maintain the aspect-ratio of the original image.',
-        'effect callback' => 'image_scale_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
-        'name' => 'image_scale',
+        'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 30,
           'height' => 30,

@@ -24,19 +24,17 @@ function c4m_features_learning_space_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Learning Content';
   $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'Show more';
+  $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'load_more';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '99';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['more_button_text'] = 'Show more';
-  $handler->display->display_options['pager']['options']['items_on_first_page'] = '1';
-  $handler->display->display_options['pager']['options']['effects']['speed'] = 'slow';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'no-border';
   $handler->display->display_options['row_plugin'] = 'entity';
@@ -48,6 +46,10 @@ function c4m_features_learning_space_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Sort criterion: Content: Date -  start date (c4m_datetime_end) */
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['id'] = 'c4m_datetime_end_value';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['table'] = 'field_data_c4m_datetime_end';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['field'] = 'c4m_datetime_end_value';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -60,6 +62,12 @@ function c4m_features_learning_space_views_default_views() {
   $handler = $view->new_display('block', 'Events Block', 'block');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Upcoming Events';
+  $handler->display->display_options['link_url'] = 'learning/events';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Date -  start date (c4m_datetime_end) */
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['id'] = 'c4m_datetime_end_value';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['table'] = 'field_data_c4m_datetime_end';
+  $handler->display->display_options['sorts']['c4m_datetime_end_value']['field'] = 'c4m_datetime_end_value';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -94,15 +102,16 @@ function c4m_features_learning_space_views_default_views() {
 
   /* Display: Documents Block */
   $handler = $view->new_display('block', 'Documents Block', 'block_1');
+  $handler->display->display_options['link_url'] = 'learning/documents';
   $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'load_more';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '99';
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['more_button_text'] = 'Show more';
-  $handler->display->display_options['pager']['options']['items_on_first_page'] = '5';
-  $handler->display->display_options['pager']['options']['effects']['speed'] = 'slow';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */

@@ -1,0 +1,86 @@
+
+.taxonomy-term-selected {
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.c4m_vocab_geo, .c4m_vocab_topic, .c4m_vocab_topic_expertise {
+  .taxonomy-term-selected {
+    display: block;
+  }
+}
+
+.selected-values {
+  margin-top: 1em;
+
+  .level-1 {
+    @include label_style;
+  }
+
+  .level-2, .level-3 {
+    border-left: 1px dashed $color-gray-light;
+    margin: 0.5em 0 0.5em 1em;
+    padding-left: 1em;
+  }
+
+  .level-3 {
+    border-color: #eee;
+  }
+}
+
+.remove-taxonomy {
+  &:before {
+    color: $gray;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.select2-container-multi .select2-choices {
+  .select2-search-choice {
+    @include label_style;
+
+    font-style: normal;
+    padding-left: 30px;
+
+    a {
+      color: $color-gray-dark;
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      left: 14px;
+      top: 5px;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+
+      &:before {
+        content: "\f00d";
+      }
+    }
+  }
+}
+
+.categories {
+  .popover-content {
+    .parent-select {
+      padding: 0;
+    }
+
+    ul {
+      padding: 0;
+    }
+  }
+}
+
+.popover {
+  &.right {
+    top: -1em;
+
+    > .arrow {
+      top: 2em;
+    }
+  }
+}

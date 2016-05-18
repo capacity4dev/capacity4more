@@ -13,7 +13,9 @@ function c4m_content_organisation_field_info() {
   return array(
     'c4m_domain' => array(
       'label' => t('Domain'),
-      'description' => t('Define the domain name and optional if it should be used to brand the users.'),
+      'description' => t(
+        'Define the domain name and optional if it should be used to brand the users.'
+      ),
       'default_widget' => 'c4m_domain_field',
       'default_formatter' => 'c4m_domain_default',
 
@@ -28,7 +30,13 @@ function c4m_content_organisation_field_info() {
  *
  * @see entity_metadata_field_entity_property_info()
  */
-function c4m_content_organisation_domain_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+function c4m_content_organisation_domain_field_property_info_callback(
+  &$info,
+  $entity_type,
+  $field,
+  $instance,
+  $field_type
+) {
   $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
 
   $property['getter callback'] = 'entity_metadata_field_verbatim_get';
@@ -37,7 +45,8 @@ function c4m_content_organisation_domain_field_property_info_callback(&$info, $e
   // Auto-create the field item as soon as a property is set.
   $property['auto creation'] = 'c4m_content_organisation_domain_field_create';
 
-  $property['property info'] = c4m_content_organisation_domain_field_property_info();
+  $property['property info'] = c4m_content_organisation_domain_field_property_info(
+  );
   $property['property info']['icon']['required'] = FALSE;
   $property['property info']['domain']['required'] = TRUE;
 
@@ -70,7 +79,9 @@ function c4m_content_organisation_domain_field_create() {
 function c4m_content_organisation_domain_field_property_info() {
   $properties['icon'] = array(
     'type' => 'int',
-    'label' => t('Should the domain be used to add an icon to the user profile.'),
+    'label' => t(
+      'Should the domain be used to add an icon to the user profile.'
+    ),
     'setter callback' => 'entity_property_verbatim_set',
   );
   $properties['domain'] = array(
@@ -97,7 +108,11 @@ function c4m_content_organisation_field_widget_info() {
 /**
  * Implements hook_field_settings_form().
  */
-function c4m_content_organisation_field_settings_form($field, $instance, $has_data) {
+function c4m_content_organisation_field_settings_form(
+  $field,
+  $instance,
+  $has_data
+) {
   $settings = $field['settings'];
   // Add your global settings fields here.
   $form = array();
@@ -107,7 +122,16 @@ function c4m_content_organisation_field_settings_form($field, $instance, $has_da
 /**
  * Implements hook_field_widget_form().
  */
-function c4m_content_organisation_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+function c4m_content_organisation_field_widget_form(
+  &$form,
+  &$form_state,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $delta,
+  $element
+) {
   switch ($instance['widget']['type']) {
     case 'c4m_domain_field':
       $element['c4m_domain'] = array(
@@ -134,7 +158,14 @@ function c4m_content_organisation_field_widget_form(&$form, &$form_state, $field
 /**
  * Implements hook_field_presave().
  */
-function c4m_content_organisation_field_presave($entity_type, $entity, $field, $instance, $langcode, &$items) {
+function c4m_content_organisation_field_presave(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  &$items
+) {
   foreach ($items as $delta => $item) {
     if (isset($item['c4m_domain']['domain'])) {
       $items[$delta]['domain'] = $item['c4m_domain']['domain'];
@@ -172,7 +203,15 @@ function c4m_content_organisation_field_formatter_info() {
 /**
  * Implements hook_field_formatter_view().
  */
-function c4m_content_organisation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+function c4m_content_organisation_field_formatter_view(
+  $entity_type,
+  $entity,
+  $field,
+  $instance,
+  $langcode,
+  $items,
+  $display
+) {
   $element = array();
   switch ($display['type']) {
     case 'c4m_domain_default':
@@ -191,12 +230,18 @@ function c4m_content_organisation_field_formatter_view($entity_type, $entity, $f
           if ($item['icon'] && isset($entity->c4m_icon)) {
             $icons = field_get_items('node', $entity, 'c4m_icon');
             if (!empty($icons)) {
-              $icon = field_view_value('node', $entity, 'c4m_icon', $icons[0], array(
-                'type' => 'image',
-                'settings' => array(
-                  'image_style' => 'thumbnail',
-                ),
-              ));
+              $icon = field_view_value(
+                'node',
+                $entity,
+                'c4m_icon',
+                $icons[0],
+                array(
+                  'type' => 'image',
+                  'settings' => array(
+                    'image_style' => 'thumbnail',
+                  ),
+                )
+              );
             }
             $element[$delta]['#markup'] = render($icon);
           }
@@ -213,7 +258,8 @@ function c4m_content_organisation_field_formatter_view($entity_type, $entity, $f
  */
 function c4m_content_organisation_ds_fields_info_alter(&$fields, $entity_type) {
   if (isset($fields['c4m_user_first_and_last_name']) &&
-      $user_fullname = &$fields['c4m_user_first_and_last_name']) {
+    $user_fullname = &$fields['c4m_user_first_and_last_name']
+  ) {
     $fields['c4m_user_first_and_last_name']['properties']['formatters']['user_with_icon'] = 'User first and last name with icon';
     $fields['c4m_user_first_and_last_name']['properties']['formatters']['linked_user_with_icon'] = 'User first and last name with icon linked to profile';
   }
@@ -263,12 +309,18 @@ function c4m_content_organisation_get_icon($organisation) {
     return array();
   }
 
-  $icon = field_view_value('node', $organisation, 'c4m_icon', $icons[0], array(
-    'type' => 'image',
-    'settings' => array(
-      'image_style' => 'icon_small',
-    ),
-  ));
+  $icon = field_view_value(
+    'node',
+    $organisation,
+    'c4m_icon',
+    $icons[0],
+    array(
+      'type' => 'image',
+      'settings' => array(
+        'image_style' => 'icon_small',
+      ),
+    )
+  );
 
   return $icon;
 }
@@ -289,4 +341,28 @@ function c4m_content_organisation_get_icon_by_email($email) {
   }
 
   return c4m_content_organisation_get_icon($organisation);
+}
+
+/**
+ * Get organisation type label.
+ *
+ * @param string $organisation_key
+ *   Key of the organisation type.
+ *
+ * @return string
+ *   Label of the organisation type.
+ */
+function c4m_content_organisation_type_value($organisation_key) {
+  $fields = &drupal_static(__FUNCTION__);
+
+  if (!isset($fields)) {
+    $fields = field_info_fields();
+    $allowed_values = list_allowed_values($fields['c4m_organisation_type']);
+  }
+
+  if (isset($allowed_values[$organisation_key])) {
+    return $allowed_values[$organisation_key];
+  }
+
+  return NULL;
 }

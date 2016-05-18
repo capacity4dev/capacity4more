@@ -12,16 +12,10 @@
   }
 
   .content {
-    border-bottom: 1px dashed $color-gray-light;
-    margin: 0 0 1rem 0;
-    padding: 0 0 1rem 0;
+    @include dashed_separator;
 
-    .group-left {
-      padding-right: $grid-gutter-width / 4;
-
-    }
-    .group-right {
-      padding-left: $grid-gutter-width / 4;
+    .group-left, .group-right {
+      padding: 0;
     }
   }
 
@@ -75,6 +69,13 @@
       a {
         color: $color-gray-light;
       }
+    }
+  }
+
+  &.node-article {
+    .field-name-c4m-media {
+      float: left;
+      margin: 0 1em 1em 0;
     }
   }
 }

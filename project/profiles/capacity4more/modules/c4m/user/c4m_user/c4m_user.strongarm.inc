@@ -76,7 +76,7 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '11',
+            'weight' => '26',
             'visible' => FALSE,
           ),
           'block_list' => array(
@@ -110,8 +110,8 @@ function c4m_user_strongarm() {
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '0',
-            'visible' => TRUE,
+            'weight' => '20',
+            'visible' => FALSE,
           ),
           'block_list' => array(
             'weight' => '20',
@@ -126,6 +126,13 @@ function c4m_user_strongarm() {
     ),
   );
   $export['field_bundle_settings_user__user'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'site_403';
+  $strongarm->value = 'access-denied';
+  $export['site_403'] = $strongarm;
 
   return $export;
 }

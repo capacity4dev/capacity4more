@@ -15,7 +15,7 @@ Feature: Global People overview
     When I visit the people list overview
     Then I should see the people list overview
 
-  @api2
+  @api
   Scenario: Check sorting options on the people overview
     Given I am an anonymous user
     When I visit the people list overview

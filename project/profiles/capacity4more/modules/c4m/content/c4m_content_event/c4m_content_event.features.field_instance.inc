@@ -56,7 +56,7 @@ function c4m_content_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
     ),
     'ds_extras_field_template' => '',
@@ -2008,7 +2008,7 @@ function c4m_content_event_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'og_vocab',
+        'module' => 'c4m_og_vocab',
         'settings' => array(
           'concatenate' => 0,
         ),

@@ -10,6 +10,39 @@
 function c4m_content_organisation_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'comment-comment_node_organisation-comment_body'.
+  $field_instances['comment-comment_node_organisation-comment_body'] = array(
+    'bundle' => 'comment_node_organisation',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'comment',
+    'field_name' => 'comment_body',
+    'label' => 'Comment',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'node-organisation-c4m_body'.
   $field_instances['node-organisation-c4m_body'] = array(
     'bundle' => 'organisation',
@@ -93,7 +126,7 @@ function c4m_content_organisation_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 33,
+      'weight' => 4,
     ),
   );
 
@@ -173,7 +206,7 @@ function c4m_content_organisation_field_default_field_instances() {
       'module' => 'c4m_content_organisation',
       'settings' => array(),
       'type' => 'c4m_domain_field',
-      'weight' => 35,
+      'weight' => 6,
     ),
   );
 
@@ -274,15 +307,49 @@ function c4m_content_organisation_field_default_field_instances() {
         'browser_plugins' => array(),
       ),
       'type' => 'media_generic',
-      'weight' => 34,
+      'weight' => 5,
+    ),
+  );
+
+  // Exported field_instance: 'node-organisation-c4m_organisation_type'.
+  $field_instances['node-organisation-c4m_organisation_type'] = array(
+    'bundle' => 'organisation',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 4,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_organisation_type',
+    'label' => 'Organisation type',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 3,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Comment');
   t('Description');
   t('Domain');
   t('Icon');
+  t('Organisation type');
 
   return $field_instances;
 }

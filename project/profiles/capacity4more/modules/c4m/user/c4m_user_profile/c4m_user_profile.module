@@ -25,8 +25,8 @@ function c4m_user_profile_field_extra_fields_alter(&$info) {
  * Implements hook_block_info().
  */
 function c4m_user_profile_block_info() {
-  $blocks['user_welcome'] = array(
-    'info' => t('Welcome the user in the top bar'),
+  $blocks['user_menu'] = array(
+    'info' => t('Display user menu in the top bar'),
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
@@ -156,9 +156,58 @@ function c4m_user_profile_theme() {
 }
 
 /**
+ * Implements hook_preprocess_page().
+ *
+ * Remove tabs for registration page.
+ */
+function c4m_user_profile_preprocess_page(&$variables) {
+  if (request_path() == 'user/register') {
+    unset($variables['tabs']);
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_user_profile_menu() {
+  $items = array();
+
+  $items['user/change-mail-resend'] = array(
+    'title' => 'Change e-mail',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_profile_resend_email_change_confirmation_email_form'),
+    'access callback' => TRUE,
+    'file' => 'c4m_user_profile.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_user_login().
+ *
+ * It uses the same checks as email_confirm module.
+ */
+function c4m_user_profile_user_login(&$edit, $user) {
+  if (!isset($user->data['email_confirm'])) {
+    return;
+  }
+  if (!isset($user->data['email_confirm']['pending_email']) || $user->data['email_confirm']['expiration_time'] <= REQUEST_TIME) {
+    return;
+  }
+  drupal_set_message(t('You currently have a pending change of your e-mail address to %email. !link to resend the email.', array(
+    '%email' => $user->data['email_confirm']['pending_email'],
+    '!link' => l(t('Click here'), 'user/change-mail-resend'),
+  )), 'warning');
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+  drupal_set_title(t('Registration'));
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact_info']['contact'] = array(
@@ -215,6 +264,8 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact_info']['contact'] = array(
@@ -245,6 +296,17 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     unset($form['#validate'][$key]);
   }
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+
+  // Hide the spammer/deleted checkbox for non-admins.
+  if (!in_array('administrator', $user->roles)) {
+    $form['c4m_is_deleted']['#access'] = FALSE;
+    $form['c4m_is_spammer']['#access'] = FALSE;
+  }
+  else {
+    $form['c4m_is_deleted']['#disabled'] = TRUE;
+    $form['c4m_is_spammer']['#disabled'] = TRUE;
+    $form['account']['status']['#disabled'] = TRUE;
+  }
 }
 
 /**
@@ -281,6 +343,12 @@ function c4m_user_profile_c4m_captcha_form_info() {
  * Submit callback for user_register_form form.
  */
 function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
+  global $language;
+
+  // Accept legal terms and conditions.
+  $conditions = legal_get_conditions($language->language);
+  legal_save_accept($conditions['version'], $conditions['revision'], $conditions['language'], $form['#user']->uid);
+
   // Alter the default welcome message from user_registrationpassword module.
   // See user_registrationpassword_form_user_register_submit() to see how it
   // does it too.
@@ -297,7 +365,7 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   $name = $form_state['values']['c4m_first_name'][LANGUAGE_NONE][0]['value'] . ' ' . $form_state['values']['c4m_last_name'][LANGUAGE_NONE][0]['value'];
 
   // Set success message.
-  drupal_set_message(t('Hey @name, it seems like you tried to register. Please activate your account via the link sent to your mail.', array('@name' => $name)));
+  drupal_set_message(t('Hey @name, thank you for submitting your details. Please activate your account by clicking the link sent to your e-mail.', array('@name' => $name)));
 
   // Process subscription to mailing list.
   if (empty($form_state['values']['subscribe_to_mailinglist'])) {
@@ -455,7 +523,7 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     );
   }
 
-  if (!($other_user = user_load_by_mail($mail)) || $other_user->uid == $form_state['user']->uid) {
+  if (!($other_user = user_load_by_mail($mail)) || isset($form_state['user']->uid) && $other_user->uid == $form_state['user']->uid) {
     return array();
   }
 
@@ -494,4 +562,46 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     }
   }
   return $errors;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Replace the user_login_name_validate() from the user_login form.
+ */
+function c4m_user_profile_form_user_login_alter(&$form, &$form_state, $form_id) {
+  if (($key = array_search('user_login_name_validate', $form['#validate'])) !== FALSE) {
+    unset($form['#validate'][$key]);
+  }
+  array_unshift($form['#validate'], 'c4m_user_profile_user_login_validate');
+}
+
+/**
+ * Validate callback for user_login form.
+ *
+ * @see user_login_name_validate()
+ */
+function c4m_user_profile_user_login_validate($form, &$form_state) {
+  if (empty($form_state['values']['name'])) {
+    return;
+  }
+  $account = user_load_by_name($form_state['values']['name']);
+
+  // Username not found.
+  if (!$account) {
+    return;
+  }
+
+  // User is active.
+  if (!empty($account->status)) {
+    return;
+  }
+
+  $account = entity_metadata_wrapper('user', $account);
+  if (!$account->c4m_is_deleted->value() && !$account->c4m_is_spammer->value() && !$account->last_login->value()) {
+    form_set_error('name', t('You used valid credentials but your account is not activated yet. Use the !password_recovery form to resend the activation email.', array('!password_recovery' => l(t('password recovery'), 'user/password'))));
+  }
+  else {
+    form_set_error('name', t('The username %name has not been activated or is blocked.', array('%name' => $form_state['values']['name'])));
+  }
 }

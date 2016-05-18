@@ -90,7 +90,7 @@ function c4m_content_group_ds_field_settings_info() {
     'c4m_user_picture' => array(
       'weight' => '37',
       'label' => 'hidden',
-      'format' => 'banner',
+      'format' => 'linked_c4m_user_author_thumb_image',
     ),
     'c4m_user_first_and_last_name' => array(
       'weight' => '38',
@@ -122,11 +122,6 @@ function c4m_content_group_ds_field_settings_info() {
       'weight' => '41',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'c4m_body' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
     'c4m_og_status' => array(
       'formatter_settings' => array(

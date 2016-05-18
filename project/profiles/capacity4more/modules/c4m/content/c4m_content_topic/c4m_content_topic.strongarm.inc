@@ -122,6 +122,9 @@ function c4m_content_topic_strongarm() {
       'block_list' => array(
         'custom_settings' => FALSE,
       ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -181,7 +184,7 @@ function c4m_content_topic_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_topic_pattern';
-  $strongarm->value = 'topic/[node:title]';
+  $strongarm->value = 'topics/[node:title]';
   $export['pathauto_node_topic_pattern'] = $strongarm;
 
   return $export;

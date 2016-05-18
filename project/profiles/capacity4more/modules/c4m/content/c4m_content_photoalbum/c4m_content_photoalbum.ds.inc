@@ -36,25 +36,20 @@ function c4m_content_photoalbum_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'comment_node_photoalbum';
   $ds_fieldsetting->view_mode = 'default';
   $ds_fieldsetting->settings = array(
-    'links' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'post_date' => array(
-      'weight' => '0',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'ds_post_date_c4m_long_without_time',
     ),
     'c4m_user_picture' => array(
       'weight' => '0',
       'label' => 'hidden',
-      'format' => 'banner',
+      'format' => 'linked_c4m_user_author_thumb_image',
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'hidden',
-      'format' => 'user',
+      'format' => 'linked_user',
     ),
   );
   $export['comment|comment_node_photoalbum|default'] = $ds_fieldsetting;
@@ -297,17 +292,15 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'c4m_user_first_and_last_name',
-        2 => 'links',
+        2 => 'post_date',
         3 => 'comment_body',
-        4 => 'post_date',
       ),
     ),
     'fields' => array(
       'c4m_user_picture' => 'left',
       'c4m_user_first_and_last_name' => 'right',
-      'links' => 'right',
-      'comment_body' => 'right',
       'post_date' => 'right',
+      'comment_body' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
