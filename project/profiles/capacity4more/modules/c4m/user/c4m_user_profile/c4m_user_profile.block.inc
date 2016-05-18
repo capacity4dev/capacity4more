@@ -104,6 +104,27 @@ function _c4m_user_profile_block_user_notifications() {
 }
 
 /**
+ * Block definition for the user_is_invalid_email block.
+ *
+ * @return array
+ *   The block definition.
+ */
+function _c4m_user_profile_block_user_is_invalid_email() {
+  global $user;
+
+  $block = array();
+  $block['subject'] = '';
+
+  $block['content'] = t('<div class="well alert"><h3>Your email is no longer valid</h3><p>It seems that the email you used to register on !site !mail is no longer valid.</p><p>Please udpate your profile accordingly.</p><p>Please !contact_us if you think this is a mistake.</div>', array(
+    '!site' => variable_get('site_name'),
+    '!mail' => l($user->mail, 'mailto:' . $user->mail, array('absolute' => TRUE)),
+    '!contact_us' => l(t('contact us'), 'mailto:capacity4dev@ec.europa.eu', array('absolute' => TRUE)),
+  ));
+
+  return $block;
+}
+
+/**
  * Helper function to render user profile.
  *
  * @param string $theme_function
