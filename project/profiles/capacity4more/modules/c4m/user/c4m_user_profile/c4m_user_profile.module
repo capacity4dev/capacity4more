@@ -278,6 +278,7 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
+  $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
   $form['mail']['#weight'] = -100;
   unset($form['account']['mail']);
 
