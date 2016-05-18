@@ -7,9 +7,9 @@ Feature: Group access
       And a discussion "My content 111" in group "My bad hair day new group 111" is created
      When I am logged in as user "isaacnewton"
      Then I visit "My bad hair day new group 111" node of type "group"
-      And I should not see "Access denied"
+      And I should not see "User account"
       And I visit "My content 111" node of type "discussion"
-      And I should not see "Access denied"
+      And I should not see "User account"
 
   @javascript
   Scenario: Check private group
@@ -17,9 +17,9 @@ Feature: Group access
       And a discussion "My content 2" in group "My bad hair day new group 2" is created
      When I am logged in as user "isaacnewton"
      Then I visit "My bad hair day new group 2" node of type "group"
-      And I should see "Access denied"
+      And I should see "User account"
       And I visit "My content 2" node of type "discussion"
-      And I should see "Access denied"
+      And I should see "User account"
 
   @javascript
   Scenario: Check restricted group accessed by accepted user
@@ -27,14 +27,14 @@ Feature: Group access
       And a discussion "My content 3" in group "My bad hair day new group 3" is created
      When I am logged in as user "isaacnewton"
      Then I visit "My bad hair day new group 3" node of type "group"
-      And I should not see "Access denied"
+      And I should not see "User account"
       And I visit "My content 3" node of type "discussion"
-      And I should not see "Access denied"
+      And I should not see "User account"
       And I am logged in as user "badhairday"
       And I visit "My bad hair day new group 3" node of type "group"
-      And I should see "Access denied"
+      And I should see "User account"
       And I visit "My content 3" node of type "discussion"
-      And I should see "Access denied"
+      And I should see "User account"
 
   @javascript
   Scenario: Check restricted group accessed by accepted organization user
@@ -42,14 +42,14 @@ Feature: Group access
       And a discussion "My content 5" in group "My bad hair day new group 5" is created
      When I am logged in as user "president"
      Then I visit "My bad hair day new group 5" node of type "group"
-      And I should not see "Access denied"
+      And I should not see "User account"
       And I visit "My content 5" node of type "discussion"
-      And I should not see "Access denied"
+      And I should not see "User account"
       And I am logged in as user "isaacnewton"
       And I visit "My bad hair day new group 5" node of type "group"
-      And I should see "Access denied"
+      And I should see "User account"
       And I visit "My content 5" node of type "discussion"
-      And I should see "Access denied"
+      And I should see "User account"
 
   @api
   Scenario: Check hidden fields for an authorized user while creating a new group.
