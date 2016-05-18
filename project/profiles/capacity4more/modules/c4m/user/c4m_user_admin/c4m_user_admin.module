@@ -66,6 +66,20 @@ function c4m_user_admin_menu() {
 function c4m_user_admin_user_cancel_methods_alter(&$methods) {
   // Remove the option to disable account and unpublish existing content.
   unset($methods['user_cancel_block_unpublish']);
+  unset($methods['user_cancel_reassign']);
+
+  // Replace the stock user_cancel_reassign method with our own
+  // to prevent messages being created.
+  $methods['c4m_user_admin_delete_anonymous'] = array(
+    'title' => t(
+      'Delete the account and make its content belong to the Anonymous user.'
+    ),
+    'description' => t(
+      'Your account will be deleted and you will no longer be able to log in.
+      All of your content will be assigned to the Anonymous user.'
+    ),
+    'access' => user_access('administer users'),
+  );
 
   // Add the option to disable account assign existing
   // content to anonymous user.
@@ -89,6 +103,7 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
  */
 function c4m_user_admin_user_cancel($edit, $account, $method) {
   switch ($method) {
+    case 'c4m_user_admin_delete_anonymous':
     case 'c4m_user_admin_block_anonymous':
       // Anonymize nodes (current revisions).
       module_load_include('inc', 'node', 'node.admin');
@@ -97,7 +112,7 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ->condition('uid', $account->uid)
         ->execute()
         ->fetchCol();
-      node_mass_update($nodes, array('uid' => 0));
+      node_mass_update($nodes, array('uid' => 0, '_skip_message' => TRUE));
       // Anonymize old revisions.
       db_update('node_revision')
         ->fields(array('uid' => 0))
@@ -124,11 +139,22 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
       $comments = comment_load_multiple(array(), array('uid' => $account->uid));
       foreach ($comments as $comment) {
         $comment->uid = 0;
+        $comment->_skip_message = TRUE;
         unset($comment->name);
         comment_save($comment);
       }
 
       break;
+  }
+
+  if ($method == 'c4m_user_admin_delete_anonymous') {
+    // Send account canceled notification if option was checked.
+    if (!empty($edit['user_cancel_notify'])) {
+      _user_mail_notify('status_canceled', $account);
+    }
+    user_delete($account->uid);
+    drupal_set_message(t('%name has been deleted.', array('%name' => $account->name)));
+    watchdog('user', 'Deleted user: %name %email.', array('%name' => $account->name, '%email' => '<' . $account->mail . '>'), WATCHDOG_NOTICE);
   }
 }
 
