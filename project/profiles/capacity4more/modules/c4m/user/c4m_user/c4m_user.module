@@ -614,7 +614,51 @@ function c4m_user_menu() {
     'file' => 'c4m_user.admin.inc',
   );
 
+  // Callbacks to provide tailored access denied behaviour.
+  $items['access-denied'] = array(
+    'title' => t('Please log in to continue'),
+    'page callback' => 'c4m_user_access_denied',
+    'access callback' => 'user_is_anonymous',
+  );
+  $items['access-denied/login'] = array(
+    'title' => 'Log in',
+    'access callback' => 'user_is_anonymous',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['access-denied/register'] = array(
+    'title' => 'Create new account',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_register_form'),
+    'access callback' => 'user_register_access',
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['access-denied/password'] = array(
+    'title' => 'Request new password',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_pass'),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'file path' => drupal_get_path('module', 'user'),
+    'file' => 'user.pages.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Callback providing tailored access denied behaviour.
+ */
+function c4m_user_access_denied() {
+  if (user_is_anonymous()) {
+    // Display login form for anonymous users.
+    $form = drupal_get_form('user_login');
+    return $form;
+  }
+  else {
+    // Access denied message for authenticated users.
+    drupal_access_denied();
+    drupal_exit();
+  }
 }
 
 /**
@@ -623,6 +667,9 @@ function c4m_user_menu() {
  * Make the user/%user/contact page just a callback.
  */
 function c4m_user_menu_alter(&$items) {
+  $items['user/login'] = array(
+    'title' => t('Please log in to continue'),
+  );
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
   );
