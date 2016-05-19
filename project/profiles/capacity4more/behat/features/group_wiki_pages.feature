@@ -38,10 +38,10 @@ Feature: Group Wiki pages
   Scenario: Check if non-member can see unpublished WIKI page
     Given I am logged in as user "alfrednobel"
     When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Popcorn)" with status "unpublished"
-    Then I should see "User account"
+    Then I should see "Access denied"
 
   @api
   Scenario: Check if anonymous user can see unpublished WIKI page
     Given I am an anonymous user
     When I visit the group "wiki_page" detail page "Unpublished Wiki Page (Tennis)" with status "unpublished"
-    Then I should see "User account"
+    Then I should see "Please log in to continue"

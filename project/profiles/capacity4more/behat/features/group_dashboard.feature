@@ -15,7 +15,7 @@ Feature: Group dashboard
     When  I change access of group "Movie Popcorn Corner" to "Private"
     And   I am logged in as user "president"
     And   I visit the dashboard of group "Movie Popcorn Corner"
-    Then  I should see "User account"
+    Then  I should see "Access denied"
 
   @api
   Scenario: Check dashboard is not accessable for not member of the group with restricted access.
@@ -23,7 +23,7 @@ Feature: Group dashboard
     When  I change access of group "Movie Popcorn Corner" to "Restricted"
     And   I am logged in as user "president"
     And   I visit the dashboard of group "Movie Popcorn Corner"
-    Then  I should see "User account"
+    Then  I should see "Access denied"
 
   @api
   Scenario: Check dashboard is accessable for not member of the group with restricted access.
