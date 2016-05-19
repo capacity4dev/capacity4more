@@ -264,9 +264,10 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  drupal_set_title(t('Edit profile'));
-
   global $user;
+
+  // Custom title for edit form.
+  drupal_set_title(t('Edit profile'));
 
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
@@ -292,6 +293,7 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   );
   $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
 
+  // Make fieldsets incollapsible.
   $form['contact']['#collapsible'] = FALSE;
   $form['timezone']['#collapsible'] = FALSE;
   $form['mimemail']['#collapsible'] = FALSE;
