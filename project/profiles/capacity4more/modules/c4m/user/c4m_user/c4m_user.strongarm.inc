@@ -50,22 +50,22 @@ function c4m_user_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'ckeditor' => array(
-          'weight' => '10',
+          'weight' => '8',
         ),
         'mimemail' => array(
-          'weight' => '0',
+          'weight' => '4',
         ),
         'redirect' => array(
-          'weight' => '30',
+          'weight' => '11',
         ),
         'account' => array(
           'weight' => '-100',
         ),
         'timezone' => array(
-          'weight' => '6',
+          'weight' => '7',
         ),
         'contact' => array(
-          'weight' => '5',
+          'weight' => '3',
         ),
       ),
       'display' => array(
