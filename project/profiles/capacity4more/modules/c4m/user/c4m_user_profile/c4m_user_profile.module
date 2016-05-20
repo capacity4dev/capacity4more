@@ -308,6 +308,10 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     $form['c4m_is_spammer']['#disabled'] = TRUE;
     $form['account']['status']['#disabled'] = TRUE;
   }
+
+  $form['c4m_is_ldap_user']['#access'] = FALSE;
+  $form['c4m_is_organisation_user']['#access'] = FALSE;
+  $form['c4m_is_invalid_email']['#access'] = FALSE;
 }
 
 /**
