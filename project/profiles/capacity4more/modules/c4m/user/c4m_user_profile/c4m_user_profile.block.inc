@@ -140,3 +140,18 @@ function c4m_user_profile_render_user_profile($theme_function, $user) {
 
   return render($user_profile);
 }
+
+/**
+ * Block definition for the user_confirm_email block.
+ *
+ * @return array
+ *   The block definition.
+ */
+function _c4m_user_profile_block_user_confirm_email() {
+  $block = array();
+  $block['subject'] = '';
+
+  $block['content'] = t('<div class="well bg-warning"><h3>Your email needs to be confirmed</h3><p>Please check your inbox to confirm your new email address.</p></div>');
+
+  return $block;
+}
