@@ -171,7 +171,8 @@ function c4m_content_article_strongarm() {
   $strongarm->name = 'node_options_article';
   $strongarm->value = array(
     0 => 'status',
-    1 => 'revision',
+    1 => 'promote',
+    2 => 'revision',
   );
   $export['node_options_article'] = $strongarm;
 
