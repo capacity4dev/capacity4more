@@ -323,6 +323,7 @@ function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
   $mail = trim($form_state['values']['mail']);
 
   $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  $errors = array_merge($errors, module_invoke_all('c4m_user_profile_validate_email_ajax', $mail, $form_state, $form));
   uasort($errors, 'element_sort');
 
   if ($errors) {
@@ -523,7 +524,7 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     return array(
       array(
         'message' => t('The e-mail address %mail is not valid.', array('%mail' => $mail)),
-        '#weight' => 0,
+        '#weight' => -6,
       ),
     );
   }
@@ -539,14 +540,14 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
       'message' => t('This account is already in use. If this is you, please !login</a>.', array(
         '!login' => l(t('log in'), 'user/login'),
       )),
-      '#weight' => 0,
+      '#weight' => -5,
     );
   }
   else {
     if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
       $errors[] = array(
         'message' => t('This email address is already in use. Please activate your account, or re-send activation mail.'),
-        '#weight' => 0,
+        '#weight' => -4,
       );
     }
     if ($other_user->c4m_is_spammer->value()) {
@@ -567,6 +568,32 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     }
   }
   return $errors;
+}
+
+/**
+ * Implements hook_c4m_user_profile_validate_email_ajax().
+ */
+function c4m_user_profile_c4m_user_profile_validate_email_ajax($mail, $form_state, $form) {
+  $messages = array();
+  $organisation_user = new C4mOrganisationUser($mail);
+  if ($organisations = $organisation_user->getOrganisationsInfo()) {
+    $organisation = array_shift($organisations);
+    $organisation = entity_metadata_wrapper('node', $organisation);
+
+    $messages[] = array(
+      'message' => t('<p>You are recognized as member of !logo - %name<br />If you do not want to be associated with this organization, please !use_another_email.</p>', array(
+        '!logo' => theme('image_style', array('path' => $organisation->c4m_icon->value()['uri'], 'style_name' => 'icon_small')),
+        '%name' => $organisation->title->value(),
+        '!use_another_email' => l(t('use another email address'), '', array(
+          'fragment' => ' ',
+          'external' => TRUE,
+          'attributes' => array('class' => array('use-another-email')),
+        )),
+      )),
+      '#weight' => 4,
+    );
+  }
+  return $messages;
 }
 
 /**
