@@ -82,11 +82,6 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'group';
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
-    'node_link' => array(
-      'weight' => '4',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_user_picture' => array(
       'weight' => '37',
       'label' => 'hidden',
@@ -308,16 +303,15 @@ function c4m_content_group_ds_layout_settings_info() {
         1 => 'c4m_og_status',
         2 => 'c4m_body',
         3 => 'group_access_info',
-        4 => 'node_link',
-        5 => 'group_details',
-        6 => 'c4m_ds_group_access_info',
-        7 => 'c4m_ds_group_administer_link',
-        8 => 'group_extra_info',
-        9 => 'c4m_user_picture',
-        10 => 'c4m_user_first_and_last_name',
-        11 => 'c4m_vocab_topic',
-        12 => 'c4m_vocab_geo',
-        13 => 'c4m_content_group_statistics',
+        4 => 'group_details',
+        5 => 'c4m_ds_group_access_info',
+        6 => 'c4m_ds_group_administer_link',
+        7 => 'group_extra_info',
+        8 => 'c4m_user_picture',
+        9 => 'c4m_user_first_and_last_name',
+        10 => 'c4m_vocab_topic',
+        11 => 'c4m_vocab_geo',
+        12 => 'c4m_content_group_statistics',
       ),
     ),
     'fields' => array(
@@ -325,7 +319,6 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_og_status' => 'ds_content',
       'c4m_body' => 'ds_content',
       'group_access_info' => 'ds_content',
-      'node_link' => 'ds_content',
       'group_details' => 'ds_content',
       'c4m_ds_group_access_info' => 'ds_content',
       'c4m_ds_group_administer_link' => 'ds_content',
