@@ -13,6 +13,13 @@ include_once 'c4m_og.access.inc';
 define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
 
 /**
+ * The values of the groups access level as defined on its field base
+ * "field_membership_open_request".
+ */
+define('C4M_OG_MODERATED_GROUP', 0);
+define('C4M_OG_OPEN_GROUP', 1);
+
+/**
  * Helper to get the current active group (based on og_context()).
  *
  * @return object|FALSE
@@ -684,4 +691,73 @@ function c4m_og_get_user_group_nodes_by_bundle(
     }
   }
   return $groups;
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function c4m_og_node_update($node) {
+  if ($node->type != 'group') {
+    return;
+  }
+
+  c4m_og_open_group_access_activate_pending_members($node);
+}
+
+/**
+ * When changing the access level from 'Moderated' to 'Open', all pending
+ * members should become active group members.
+ *
+ * @param $node
+ *  The node object from the "hook_node_update".
+ */
+function c4m_og_open_group_access_activate_pending_members($node) {
+  require_once DRUPAL_ROOT . '/sites/all/modules/contrib/og/includes/actions/set_state.action.inc';
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $original_wrapper = entity_metadata_wrapper('node', $node->original);
+
+  if ($wrapper->field_membership_open_request->value() == C4M_OG_OPEN_GROUP && $original_wrapper->field_membership_open_request->value() == C4M_OG_MODERATED_GROUP) {
+    // Activate all pending members of this group.
+
+    $context['state'] = OG_STATE_ACTIVE;
+    foreach (c4m_og_get_all_group_members_by_state($wrapper->getIdentifier(), OG_STATE_PENDING) as $membership_uid) {
+      $membership = og_membership_load($membership_uid);
+      og_set_state_action($membership, $context);
+    }
+  }
+}
+
+/**
+ * Get the group membership entity by user, group and state.
+ *
+ * @param $gid
+ *  The group ID.
+ * @param $state
+ *  The user current state.
+ *
+ * @return array
+ *   Array of members UIDs, or an empty array.
+ */
+function c4m_og_get_all_group_members_by_state($gid, $state) {
+  $return = &drupal_static(__FUNCTION__, array());
+  $identifier = 'c4m:node:' . $gid . ':user:' . $state;
+  if (!isset($return[$identifier])) {
+    $return[$identifier] = array();
+
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'og_membership')
+      ->propertyCondition('gid', $gid)
+      ->propertyCondition('state', $state)
+      ->propertyCondition('group_type', 'node')
+      ->propertyCondition('entity_type', 'user')
+      ->execute();
+
+    if (!empty($result['og_membership'])) {
+      $return[$identifier] = array_keys($result['og_membership']);
+    }
+  }
+
+  return $return[$identifier];
 }
