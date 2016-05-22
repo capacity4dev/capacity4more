@@ -83,7 +83,6 @@ function c4m_content_group_field_group_info() {
     'weight' => '20',
     'children' => array(
       0 => 'c4m_ds_group_access_info',
-      1 => 'c4m_ds_group_administer_link',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
