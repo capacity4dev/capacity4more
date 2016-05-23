@@ -12,7 +12,7 @@
  */
 ?>
 
-<nav class="photoalbum-navigator row">
+<nav class="photoalbum-navigator clearfix">
   <div class="navigator--left">
     <?php print isset($prev_link) ? l(
       '<i class="fa fa-chevron-left"></i>',

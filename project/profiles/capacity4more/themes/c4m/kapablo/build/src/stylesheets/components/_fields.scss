@@ -191,7 +191,7 @@
   }
 
   .photoalbum-navigator {
-    margin-bottom: 1rem;
+    margin: 1em 0 2px 0;
   }
 
   > .content {
@@ -228,17 +228,14 @@
       margin-bottom: 2em;
     }
 
-    .back-link, .indicator {
-      position: absolute;
-      top: 0;
-    }
-
     .back-link {
-      left: 0;
+      float: left;
+      margin-left: 5%;
     }
 
     .indicator {
-      right: 0;
+      float: right;
+      margin-right: 5%;
     }
   }
 

@@ -651,3 +651,24 @@ function theme_c4m_ds_group_administer_link(array $field) {
     );
   }
 }
+
+/**
+ * DS function field.
+ *
+ * Render download link of a photo.
+ *
+ * @param array $field
+ *   The field definition.
+ *
+ * @return string
+ *   The rendered version.
+ */
+function theme_c4m_ds_photo_download(array $field) {
+  if (isset($field['entity'])) {
+    $entity = entity_metadata_wrapper('node', $field['entity']);
+    $file = $entity->c4m_media->file->value();
+    $link = l(t('View original photo'), file_create_url($file->uri));
+
+    return $link . ' (' . format_size($file->filesize) . ')';
+  }
+}
