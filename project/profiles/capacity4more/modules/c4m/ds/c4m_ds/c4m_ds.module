@@ -602,6 +602,7 @@ function c4m_ds_theme() {
       'variables' => array(
         'view' => '',
         'display' => '',
+        'header' => '',
         'args' => array(),
       ),
       'file' => 'includes/c4m_ds.theme.inc',

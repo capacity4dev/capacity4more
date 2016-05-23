@@ -225,6 +225,12 @@
   }
 }
 
+.group-user-contributions {
+  h2 {
+    text-decoration: underline;
+  }
+}
+
 .field-name-c4m-content-article-disclaimer {
   @extend .text-copy--muted;
 

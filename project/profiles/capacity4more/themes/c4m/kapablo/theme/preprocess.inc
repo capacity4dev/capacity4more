@@ -323,7 +323,6 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
 function kapablo_preprocess_views_view(&$vars) {
   switch ($vars['name']) {
     case 'c4m_overview_inthe_picture_blocks':
-
       $items = $vars['view']->result;
       $carousels = array();
       foreach ($items as $node) {
