@@ -13,17 +13,17 @@
 ?>
 
 <nav class="photoalbum-navigator row">
-  <div class="col-xs-4 text-right">
+  <div class="navigator--left">
     <?php print isset($prev_link) ? l(
-      '<i class="fa fa-arrow-circle-o-left"></i> ' . t('Previous'),
+      '<i class="fa fa-chevron-left"></i>',
       $prev_link,
       array('html' => TRUE)
     ) : ''; ?>
   </div>
-  <div class="col-xs-4 text-center">
+  <div class="navigator--center">
     <?php if ($gallery_link): ?>
       <div class="back-link">
-        <?php print l(t("Back to gallery"), $gallery_link) ?>
+        <?php print l(t("Back to photo album"), $gallery_link) ?>
       </div>
     <?php endif; ?>
     <?php if ($navigator['total'] > 0): ?>
@@ -39,9 +39,9 @@
       </div>
     <?php endif; ?>
   </div>
-  <div class="col-xs-4 text-left">
+  <div class="navigator--right">
     <?php print isset($next_link) ? l(
-      t('Next') . ' <i class="fa fa-arrow-circle-o-right"></i>',
+      '<i class="fa fa-chevron-right"></i>',
       $next_link,
       array('html' => TRUE)
     ) : ''; ?>
