@@ -13,8 +13,7 @@ include_once 'c4m_og.access.inc';
 define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
 
 /**
- * The values of the groups access level as defined on its field base
- * "field_membership_open_request".
+ * The values of the groups access level as defined on its field base.
  */
 define('C4M_OG_MODERATED_GROUP', 0);
 define('C4M_OG_OPEN_GROUP', 1);
@@ -708,8 +707,8 @@ function c4m_og_node_update($node) {
  * When changing the access level from 'Moderated' to 'Open', all pending
  * members should become active group members.
  *
- * @param $node
- *  The node object from the "hook_node_update".
+ * @param object $node
+ *   The node object from the "hook_node_update".
  */
 function c4m_og_open_group_access_activate_pending_members($node) {
   require_once DRUPAL_ROOT . '/sites/all/modules/contrib/og/includes/actions/set_state.action.inc';
@@ -717,10 +716,11 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $original_wrapper = entity_metadata_wrapper('node', $node->original);
 
+  // Group access level has been changed from 'Moderated' to 'Open'.
   if ($wrapper->field_membership_open_request->value() == C4M_OG_OPEN_GROUP && $original_wrapper->field_membership_open_request->value() == C4M_OG_MODERATED_GROUP) {
-    // Activate all pending members of this group.
-
     $context['state'] = OG_STATE_ACTIVE;
+
+    // Activate all pending members of this group.
     foreach (c4m_og_get_all_group_members_by_state($wrapper->getIdentifier(), OG_STATE_PENDING) as $membership_uid) {
       $membership = og_membership_load($membership_uid);
       og_set_state_action($membership, $context);
@@ -731,10 +731,10 @@ function c4m_og_open_group_access_activate_pending_members($node) {
 /**
  * Get the group membership entity by user, group and state.
  *
- * @param $gid
- *  The group ID.
+ * @param integer $gid
+ *   The group ID.
  * @param $state
- *  The user current state.
+ *   The user current state.
  *
  * @return array
  *   Array of members UIDs, or an empty array.
