@@ -704,6 +704,8 @@ function c4m_og_node_update($node) {
 }
 
 /**
+ * Activate pending members when access level of a group is changed.
+ *
  * When changing the access level from 'Moderated' to 'Open', all pending
  * members should become active group members.
  *
@@ -731,9 +733,9 @@ function c4m_og_open_group_access_activate_pending_members($node) {
 /**
  * Get the group membership entity by user, group and state.
  *
- * @param integer $gid
+ * @param int $gid
  *   The group ID.
- * @param $state
+ * @param int $state
  *   The user current state.
  *
  * @return array
