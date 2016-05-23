@@ -668,7 +668,7 @@ function c4m_user_access_denied() {
  */
 function c4m_user_menu_alter(&$items) {
   $items['user/login'] = array(
-    'title' => t('Please log in to continue'),
+    'title' => 'Please log in to continue',
   );
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
