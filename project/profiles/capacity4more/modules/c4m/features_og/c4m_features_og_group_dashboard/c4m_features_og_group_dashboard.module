@@ -154,7 +154,7 @@ function c4m_features_og_group_dashboard_action_promote($node) {
  */
 function c4m_features_og_group_dashboard_action_recommend($node) {
   $flag_link = flag_create_link('c4m_og_content_recommend', $node->nid);
-  $output = '<div class="group-actions-recommend">' . $flag_link . '</div> hello';
+  $output = '<div class="group-actions-recommend">' . $flag_link . '</div>';
   return $output;
 }
 
