@@ -111,19 +111,19 @@ function c4m_message_load__c4m_member_welcome_message(Message $message) {
   );
 
   //Add
-  $message->arguments[!'!go_public_profile_url'] = array(
+  $message->arguments['!go_public_profile_url'] = array(
     'callback' => 'c4m_message_format_go_public_profile_url',
     'pass message' => TRUE,
   );
 
   //Add
-  $message->arguments[!'@go_first_name'] = array(
+  $message->arguments['@go_first_name'] = array(
     'callback' => 'c4m_message_format_go_first_name',
     'pass message' => TRUE,
   );
 
   //Add
-  $message->arguments[!'@go_last_name'] = array(
+  $message->arguments['@go_last_name'] = array(
     'callback' => 'c4m_message_format_go_last_name',
     'pass message' => TRUE,
   );

@@ -739,13 +739,13 @@ function c4m_og_open_group_access_activate_pending_members($node) {
     $membership->state = OG_STATE_ACTIVE;
     $membership->save();
 
-    // function to send message to member
+    // Send activation message to member.
     $variables = array();
     $account = user_load($membership->etid);
     $message = message_create('c4m_member_welcome_message', $variables, $account);
 
     $wrapper = entity_metadata_wrapper('message', $message);
-    $wrapper->save();
+   // $wrapper->save();
     message_notify_send_message($wrapper->value(), array('mail' => $account->mail));
   }
 }
