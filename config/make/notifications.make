@@ -13,5 +13,8 @@ projects[message][patch][] = "https://www.drupal.org/files/message-primary_nulla
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
 
+projects[message_notify][subdir] = "contrib"
+projects[message_notify][version] = "7.x-1.4"
+
 projects[mimemail][version] = "1.0-beta4"
 projects[mimemail][subdir] = "contrib"

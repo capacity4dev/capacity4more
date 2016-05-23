@@ -201,5 +201,27 @@ function c4m_message_default_message_type() {
     },
     "rdf_mapping" : []
   }');
+  $items['c4m_member_welcome_mesage'] = entity_import('message_type', '{
+    "name" : "c4m_member_welcome_mesage",
+    "description" : "c4m Member welcome mesage",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Cp\\u003EDear @first_name @last_name,\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\nThank you for joining \\u003Cstrong\\u003E\\u003Ca href=\\u0022!group_dashboard_url\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E at @site_name.\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E@group_welcome_message\\u003C\\/p\\u003E\\r\\n\\r\\n\\u003Cp\\u003E\\u003Cbr \\/\\u003E\\r\\n\\u003Ca href=\\u0022!go_public_profile_url\\u0022\\u003E@go_first_name @go_last_name\\u003C\\/a\\u003E,\\u003Cbr \\/\\u003E\\r\\n@group_node_type Administrator - @group_node_title\\u003C\\/p\\u003E\\r\\n",
+          "format" : "default_html",
+          "safe_value" : "\\u003Cp\\u003EDear @first_name @last_name,\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\nThank you for joining \\u003Cstrong\\u003E\\u003Ca href=\\u0022!group_dashboard_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@group_node_title\\u003C\\/a\\u003E\\u003C\\/strong\\u003E at @site_name.\\u003C\\/p\\u003E\\n\\u003Cp\\u003E@group_welcome_message\\u003C\\/p\\u003E\\n\\u003Cp\\u003E\\n\\u003Ca href=\\u0022!go_public_profile_url\\u0022 rel=\\u0022nofollow\\u0022\\u003E@go_first_name @go_last_name\\u003C\\/a\\u003E,\\u003Cbr \\/\\u003E\\n@group_node_type Administrator - @group_node_title\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
   return $items;
 }
