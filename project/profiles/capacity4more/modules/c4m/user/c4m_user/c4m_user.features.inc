@@ -25,7 +25,7 @@ function c4m_user_ctools_plugin_api($module = NULL, $api = NULL) {
 function c4m_user_flag_default_flags() {
   $flags = array();
   // Exported flag: "Recommendation".
-  $flags['recommendation'] = array(
+  $flags['c4m_og_content_recommend'] = array(
     'entity_type' => 'node',
     'title' => 'Recommendation',
     'global' => 0,
@@ -51,7 +51,7 @@ function c4m_user_flag_default_flags() {
     'flag_short' => 'Recommend this item',
     'flag_long' => '',
     'flag_message' => '',
-    'unflag_short' => 'Remove recommendation this item',
+    'unflag_short' => 'Unrecommend this item',
     'unflag_long' => '',
     'unflag_message' => '',
     'unflag_denied_text' => '',
