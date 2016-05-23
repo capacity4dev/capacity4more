@@ -472,6 +472,14 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
+  $fields['node']['c4m_ds_photo_download'] = array(
+    'title' => t('Download photo link'),
+    'field_type' => DS_FIELD_TYPE_FUNCTION,
+    'ui_limit' => array('photo|*'),
+    'file' => $path . '/includes/c4m_ds.theme.node.inc',
+    'function' => 'theme_c4m_ds_photo_download',
+  );
+
   // Fields for entity type file.
   $fields['file']['c4m_ds_download_link'] = array(
     'title' => t('C4M file download link'),

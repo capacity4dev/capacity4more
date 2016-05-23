@@ -146,6 +146,172 @@ function c4m_content_photoalbum_ds_field_settings_info() {
 
   $ds_fieldsetting = new stdClass();
   $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|photoalbum|full';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'photoalbum';
+  $ds_fieldsetting->view_mode = 'full';
+  $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_user_picture' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'linked_thumbnail',
+    ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '6',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '7',
+      'label' => 'inline',
+      'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb' => 'on ',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_actions' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_vocab_date' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'detail-element',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+          'fis' => TRUE,
+          'fis-el' => 'ul',
+          'fis-cl' => '',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+          'fi' => TRUE,
+          'fi-el' => 'li',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_vocab_geo' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'detail-element',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+          'fis' => TRUE,
+          'fis-el' => 'ul',
+          'fis-cl' => '',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+          'fi' => TRUE,
+          'fi-el' => 'li',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_vocab_language' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'detail-element',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+          'fis' => TRUE,
+          'fis-el' => 'ul',
+          'fis-cl' => '',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+          'fi' => TRUE,
+          'fi-el' => 'li',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+    'c4m_vocab_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-el' => 'h3',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'detail-element',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
+          'fis' => TRUE,
+          'fis-el' => 'ul',
+          'fis-cl' => '',
+          'fis-at' => '',
+          'fis-def-at' => FALSE,
+          'fi' => TRUE,
+          'fi-el' => 'li',
+          'fi-cl' => '',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
+        ),
+      ),
+    ),
+  );
+  $export['node|photoalbum|full'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
   $ds_fieldsetting->id = 'node|photoalbum|teaser';
   $ds_fieldsetting->entity_type = 'node';
   $ds_fieldsetting->bundle = 'photoalbum';
@@ -402,20 +568,8 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photoalbum';
   $ds_layout->view_mode = 'default';
-  $ds_layout->layout = 'ds_1col';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
-    'regions' => array(
-      'ds_content' => array(
-        0 => 'title',
-        1 => 'node_gallery_view',
-        2 => 'c4m_body',
-      ),
-    ),
-    'fields' => array(
-      'title' => 'ds_content',
-      'node_gallery_view' => 'ds_content',
-      'c4m_body' => 'ds_content',
-    ),
     'classes' => array(),
     'wrappers' => array(
       'ds_content' => 'div',
@@ -426,6 +580,18 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
+    'regions' => array(
+      'left' => array(
+        0 => 'title',
+        1 => 'node_gallery_view',
+        2 => 'c4m_body',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'left',
+      'node_gallery_view' => 'left',
+      'c4m_body' => 'left',
+    ),
   );
   $export['node|photoalbum|default'] = $ds_layout;
 
@@ -435,21 +601,51 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photoalbum';
   $ds_layout->view_mode = 'full';
-  $ds_layout->layout = 'ds_1col';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'ds_content' => array(
-        0 => 'c4m_body',
-        1 => 'node_gallery_view',
+      'left' => array(
+        0 => 'title',
+        1 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_body',
+        3 => 'node_gallery_view',
+      ),
+      'right' => array(
+        4 => 'group_node_meta',
+        5 => 'c4m_ds_content_actions',
+        6 => 'c4m_user_picture',
+        7 => 'c4m_user_first_and_last_name',
+        8 => 'c4m_ds_creation_date',
+        9 => 'group_node_actions',
+        10 => 'c4m_vocab_topic',
+        11 => 'c4m_vocab_date',
+        12 => 'c4m_vocab_language',
+        13 => 'c4m_vocab_geo',
+        14 => 'og_vocabulary',
       ),
     ),
     'fields' => array(
-      'c4m_body' => 'ds_content',
-      'node_gallery_view' => 'ds_content',
+      'title' => 'left',
+      'c4m_ds_content_footer_stats' => 'left',
+      'c4m_body' => 'left',
+      'node_gallery_view' => 'left',
+      'group_node_meta' => 'right',
+      'c4m_ds_content_actions' => 'right',
+      'c4m_user_picture' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_creation_date' => 'right',
+      'group_node_actions' => 'right',
+      'c4m_vocab_topic' => 'right',
+      'c4m_vocab_date' => 'right',
+      'c4m_vocab_language' => 'right',
+      'c4m_vocab_geo' => 'right',
+      'og_vocabulary' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
-      'ds_content' => 'div',
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -457,7 +653,7 @@ function c4m_content_photoalbum_ds_layout_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
-    'hide_page_title' => '0',
+    'hide_page_title' => '1',
     'page_option_title' => '',
   );
   $export['node|photoalbum|full'] = $ds_layout;
