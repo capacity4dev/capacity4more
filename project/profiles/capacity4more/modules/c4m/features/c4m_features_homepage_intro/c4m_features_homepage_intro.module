@@ -7,6 +7,22 @@
 include_once 'c4m_features_homepage_intro.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_features_homepage_intro_menu() {
+  $items['admin/config/c4m/homepage-intro-video'] = array(
+    'title' => 'Manage homepage intro video',
+    'description' => 'Manage the settings related to the homepage intro video.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_features_homepage_intro_video_configure'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_features_homepage_intro.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function c4m_features_homepage_intro_ctools_plugin_directory($module, $plugin) {
@@ -108,6 +124,27 @@ function c4m_features_homepage_intro_theme() {
 }
 
 /**
+ * Helper function to extract the YouTube video ID from a YouTube video URL.
+ *
+ * @param $youtube_video_url
+ *   The YouTube video URL.
+ *
+ * @return string $video_id
+ *   Returns the video ID or FALSE if it's not a match.
+ */
+function c4m_features_homepage_intro_extract_youtube_video_id($youtube_video_url) {
+  // Extract the video ID from the URL.
+  if (preg_match('/youtu.be\/([a-z1-9.-_]+)/', $youtube_video_url, $matches)) {
+    return $matches[1];
+  }
+  elseif (preg_match("/youtube.com(.+)v=([^&]+)/", $youtube_video_url, $matches)) {
+    return $matches[2];
+  }
+
+  return FALSE;
+}
+
+/**
  * Preprocess function for the video rendering.
  *
  * @param array $vars
@@ -126,14 +163,9 @@ function template_preprocess_c4m_features_homepage_intro_video(array &$vars) {
   }
 
   // Extract the video ID from the URL.
-  if (preg_match('/youtu.be\/([a-z1-9.-_]+)/', $vars['video_url'], $matches)) {
-    $vars['video_id'] = $matches[1];
-  }
-  elseif (preg_match("/youtube.com(.+)v=([^&]+)/", $vars['video_url'], $matches)) {
-    $vars['video_id'] = $matches[2];
-  }
+  $vars['video_id'] = c4m_features_homepage_intro_extract_youtube_video_id($vars['video_url']);
 
-  // This js will enable communication with YouTube's API.
+  // This JS will enable communication with YouTube's API.
   $path = drupal_get_path('module', 'c4m_features_homepage_intro');
   drupal_add_js($path . '/js/video_overlay.js');
 }
@@ -147,7 +179,7 @@ function template_preprocess_c4m_features_homepage_intro_video(array &$vars) {
 function template_preprocess_c4m_features_homepage_intro_banner(array &$vars) {
   // Image.
   $vars['image'] = array(
-    '#theme'    => 'image',
-    '#path'     => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-user.png',
+    '#theme' => 'image',
+    '#path'  => drupal_get_path('theme', 'kapablo') . '/images/header/homepage-user.png',
   );
 }
