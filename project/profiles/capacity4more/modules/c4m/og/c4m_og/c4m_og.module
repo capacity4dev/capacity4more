@@ -185,7 +185,7 @@ function c4m_og_replace_owner_build_form_validate($form, &$form_state) {
 /**
  * Replacing the owner of a group.
  *
- * After replacing the owner of the group we grant "group administrator  member"
+ * After replacing the owner of the group we grant "group administrator member"
  * role to the old owner and revoke this role from the new one.
  *
  * @param string $group_type
