@@ -16,5 +16,6 @@ features[ctools][] = page_manager:pages_default:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[flag][] = c4m_og_content_highlight
+features[flag][] = c4m_og_content_recommend
 features[views_view][] = og_dashboard
 features_exclude[dependencies][flag] = flag
