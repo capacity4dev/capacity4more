@@ -123,7 +123,9 @@ function c4m_og_menu() {
 }
 
 /**
- * Form builder; OG manager change page.
+ * Form builder;
+ *
+ * Group owner replace form.
  */
 function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid) {
   og_set_breadcrumb($entity_type, $etid, array(l(t('Group'), "$entity_type/$etid/group")));
@@ -160,7 +162,9 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
 }
 
 /**
- * Submit handler; Change the manager.
+ * Submit handler;
+ *
+ * Replacing the owner of a group.
  */
 function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
   $new_owner = array(
@@ -279,11 +283,6 @@ function c4m_og_get_group_admins($gid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
-    if ($admin->uid === 0) {
-      // In case anonymous user has been granted with admin role.
-      unset($admin);
-      continue;
-    }
     $admin = $admin->uid;
   }
 
