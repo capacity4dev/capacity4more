@@ -81,7 +81,7 @@ trait Node {
     $steps[] = new Step\When('I fill in "title" with "' . $title . '"');
     $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "Some text"');
     $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Publish"');
     $steps[] = new Step\When('I should see "has been created."');
     return $steps;
   }
@@ -96,7 +96,7 @@ trait Node {
     $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "Some text"');
     $steps[] = new Step\When('I select "' . $group . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I check the related topic checkbox with "' . $topic . '"');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Publish"');
     $steps[] = new Step\When('I should see "has been created."');
     return $steps;
   }
@@ -128,7 +128,7 @@ trait Node {
 
     $steps[] = new Step\When('I visit "node/' .  $nid . '/edit"');
     $steps[] = new Step\When('I fill in "title" with "' . $new_title . '"');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Publish"');
     return $steps;
   }
 
@@ -167,7 +167,7 @@ trait Node {
         $steps[] = new Step\When('I fill in "title" with "Some new title' . $i . '"');
       }
 
-      $steps[] = new Step\When('I press "Save"');
+      $steps[] = new Step\When('I press "Publish"');
     }
     return $steps;
   }
