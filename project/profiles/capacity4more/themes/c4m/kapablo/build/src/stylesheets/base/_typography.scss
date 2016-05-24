@@ -184,11 +184,7 @@ html {
 }
 
 .text--inline {
-  display: inline;
-
-  & + .text--inline {
-    margin-left: .5em;
-  }
+  display: inline-block;
 }
 
 /**

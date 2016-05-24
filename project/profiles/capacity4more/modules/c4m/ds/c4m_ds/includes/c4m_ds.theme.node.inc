@@ -155,6 +155,29 @@ function theme_c4m_ds_content_type_icon(array $field) {
   return theme_html_tag($tag);
 }
 
+function theme_c4m_ds_content_type_label(array $field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $entity = $field['entity'];
+
+  $type = strtoupper($entity->type);
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#value' => $type,
+    '#attributes' => array(
+      'class' => array(
+        'label',
+        'label-primary',
+      ),
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
 /**
  * DS function field.
  *

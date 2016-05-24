@@ -232,7 +232,7 @@ function kapablo_preprocess_field(&$variables, $hook) {
         }
 
         foreach ($element['#items'] as $key => $item) {
-          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album->title . '</h1><h2 class="text--inline">&gt; ' . $node->title . '</h2>';
+          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album->title . '</h1><h2 class="text--inline">&nbsp;&gt; ' . $node->title . '</h2>';
         }
       }
 
