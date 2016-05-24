@@ -76,7 +76,7 @@ function c4m_message_entity_load($entities, $entity_type) {
   }
 }
 
-function c4m_message_load__c4m_member_welcome_message(Message $message) {
+function c4m_message_load__c4m_welcome_to_group(Message $message) {
   $message->arguments['@member_first_name'] = array(
     'callback' => 'c4m_message_format_member_first_name',
     'pass message' => TRUE,
@@ -107,6 +107,12 @@ function c4m_message_load__c4m_member_welcome_message(Message $message) {
   //Add
   $message->arguments['@group_node_type'] = array(
     'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  //Add
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
     'pass message' => TRUE,
   );
 
@@ -142,9 +148,14 @@ function c4m_message_load__c4m_member_welcome_message(Message $message) {
  * @return string
  */
 function c4m_message_format_member_first_name(Message $message) {
-  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
+/*  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
   $first_name = $account_wrapper->field_first_name->value();
-  return $first_name ? $first_name : $account_wrapper->label();
+  return $first_name ? $first_name : $account_wrapper->label();*/
+
+  $user = user_load($message->uid);
+  $first_name =$user->c4m_first_name['und'][0]['value'];
+
+  return $first_name;
 }
 
 /**
@@ -154,9 +165,14 @@ function c4m_message_format_member_first_name(Message $message) {
  * @return string
  */
 function c4m_message_format_member_last_name(Message $message) {
-  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
+/*  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
   $first_name = $account_wrapper->field_last_name->value();
-  return $first_name ? $first_name : $account_wrapper->label();
+  return $first_name ? $first_name : $account_wrapper->label();*/
+
+  $user = user_load($message->uid);
+  $last_name =$user->c4m_last_name['und'][0]['value'];
+
+  return $last_name;
 }
 
 /**
@@ -164,12 +180,15 @@ function c4m_message_format_member_last_name(Message $message) {
  *
  * @param \Message $message
  * @return string
- */function c4m_message_format_group_url(Message $message) {
+ */
+function c4m_message_format_group_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_group_node->value();
 
-  $url = $wrapper->field_path->value();
-  return $url ? $url : "";
+/*  $url = $wrapper->field_path->value();
+  return $url ? $url : "";*/
+
+  return '3';
 }
 
 
