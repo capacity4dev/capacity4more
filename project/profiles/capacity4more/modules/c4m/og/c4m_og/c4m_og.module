@@ -177,6 +177,9 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
  * Validation function.
  */
 function c4m_og_replace_owner_build_form_validate($form, &$form_state) {
+  if (!$form_state['values']['new_owner']) {
+    form_set_error('c4m_og_replace_owner', t('Must select a new owner from the list.'));
+  }
 }
 
 /**
@@ -276,6 +279,11 @@ function c4m_og_get_group_admins($gid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
   $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
   foreach ($admins as &$admin) {
+    if ($admin->uid === 0) {
+      // In case anonymous user has been granted with admin role.
+      unset($admin);
+      continue;
+    }
     $admin = $admin->uid;
   }
 
