@@ -148,14 +148,10 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
  * @return string
  */
 function c4m_message_format_member_first_name(Message $message) {
-/*  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
-  $first_name = $account_wrapper->field_first_name->value();
-  return $first_name ? $first_name : $account_wrapper->label();*/
+  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
+  $first_name = $account_wrapper->c4m_first_name->value();
+  return $first_name ? $first_name : $account_wrapper->label();
 
-  $user = user_load($message->uid);
-  $first_name =$user->c4m_first_name['und'][0]['value'];
-
-  return $first_name;
 }
 
 /**
@@ -165,14 +161,9 @@ function c4m_message_format_member_first_name(Message $message) {
  * @return string
  */
 function c4m_message_format_member_last_name(Message $message) {
-/*  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
-  $first_name = $account_wrapper->field_last_name->value();
-  return $first_name ? $first_name : $account_wrapper->label();*/
-
-  $user = user_load($message->uid);
-  $last_name =$user->c4m_last_name['und'][0]['value'];
-
-  return $last_name;
+  $account_wrapper = entity_metadata_wrapper('user', $message->uid);
+  $last_name = $account_wrapper->c4m_last_name->value();
+  return $last_name ? $last_name : '';
 }
 
 /**
@@ -183,17 +174,15 @@ function c4m_message_format_member_last_name(Message $message) {
  */
 function c4m_message_format_group_url(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_group_node->value();
+  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
 
-/*  $url = $wrapper->field_path->value();
-  return $url ? $url : "";*/
-
-  return '3';
+  return url('node/' . $nid);
 }
 
 
 function c4m_message_format_group_node_title(Message $message) {
-  return "c4m_message_format_group_node_title";
+  $wrapper = entity_metadata_wrapper('message', $message);
+  return $wrapper->field_group_node->label();
 }
 
 
@@ -210,7 +199,12 @@ function c4m_message_format_go_public_profile_url(Message $message) {
 }
 
 function c4m_message_format_go_first_name(Message $message) {
-  return "c4m_message_format_go_first_name";
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $author = $wrapper->field_group_node->author->value();
+  /*  $account_wrapper = entity_metadata_wrapper('user', $author->uid);
+   $first_name = $account_wrapper->c4m_first_name->value();*/
+
+  return ''; //? $first_name : $account_wrapper->label();
 }
 
 
