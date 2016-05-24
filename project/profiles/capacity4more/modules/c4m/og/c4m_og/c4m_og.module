@@ -108,6 +108,181 @@ function c4m_og_form_alter(&$form, $form_state) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_og_menu() {
+  $items['group/%/%/admin/owner'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => array(1,2),
+    'title' => t('Replace Owner'),
+  );
+
+  return $items;
+}
+
+/**
+ * Form builder; OG manager change page.
+ */
+function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid) {
+  og_set_breadcrumb($entity_type, $etid, array(l(t('Group'), "$entity_type/$etid/group")));
+
+  $admins = array();
+  // Setting the list of the group admins.
+  foreach(c4m_og_get_group_admins($etid) as $admin) {
+    $admins[$admin->uid] = c4m_user_name($admin);
+  }
+
+  $form['new_owner'] = array(
+    '#type' => 'select',
+    '#options' => $admins,
+    '#title' => t('Select new owner'),
+    '#description' => t('Select the name of the member you wish to be the new owner.'),
+  );
+
+  $form['group'] = array(
+    '#type' => 'value',
+    '#value' => $etid,
+  );
+
+  $form['type'] = array(
+    '#type' => 'value',
+    '#value' => $entity_type,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Replace'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler; Change the manager.
+ */
+function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
+  $new_owner = array(
+    'uid' => $form_state['values']['new_owner'],
+    'name' => $form['new_owner']['#options'][$form_state['values']['new_owner']],
+  );
+  c4m_og_replace_owner($form_state['values']['type'], $form_state['values']['group'], $new_owner);
+
+  // Redirect back to the group page.
+  $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/group';
+}
+
+/**
+ * Validation function.
+ */
+function c4m_og_replace_owner_build_form_validate($form, &$form_state) {
+}
+
+/**
+ * Replacing the owner of a group.
+ *
+ * After replacing the owner of the group we grant "group administrator  member"
+ * role to the old owner and revoke this role from the new one.
+ *
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ * @param array $new_owner
+ *   An array containing the ID and the name of the new owner.
+ */
+function c4m_og_replace_owner($group_type, $gid, $new_owner) {
+  $group = entity_load_single($group_type, $gid);
+  $old_owner_id = $group->uid;
+
+  // Update the uid on the entity.
+  $group->uid = $new_owner['uid'];
+
+  // Save the entity.
+  if (entity_save($group_type, $group)) {
+    drupal_set_message(t('Failed to change manager to @user.', array('@user' => $new_owner['name'])), 'error');
+  }
+  else {
+    drupal_set_message(t('Owner changed to @user.', array('@user' => $new_owner['name'])));
+
+    $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+    // Grant admin role to the old owner.
+    og_role_grant($group_type, $gid, $old_owner_id, $group_admin_role->rid);
+    // Revoke admin role from the new owner.
+    og_role_revoke($group_type, $gid, $new_owner['uid'], $group_admin_role->rid);
+  }
+}
+
+/**
+ * Access callback for the "Replace owner" form.
+ *
+ * @param $group_type
+ * @param $gid
+ * @return bool
+ */
+function c4m_og_user_is_owner($group_type, $gid) {
+  global $user;
+
+  if ($user->uid == 1) {
+    return TRUE;
+  }
+
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Make sure the current user is the group manager.
+  return $user->uid == $group->uid;
+}
+
+/**
+ * Fetches an og user role by its name and group bundle.
+ *
+ * @param string $role_name
+ *   A string representing the role name.
+ * @param string $group_bundle
+ *   A string representing the group bundle.
+ *
+ * @return
+ *   A fully-loaded og role object if a role with the given name and group
+ *   bundle exists, or FALSE otherwise.
+ */
+function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
+  $cache = &drupal_static(__FUNCTION__);
+  if (!isset($cache)) {
+    $cache = db_select('og_role', 'r')
+      ->fields('r')
+      ->condition('name', $role_name)
+      ->condition('group_bundle', $group_bundle)
+      ->execute()
+      ->fetchObject();
+  }
+
+  return $cache;
+}
+
+/**
+ * Fetch all group admins.
+ *
+ * @param $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_admins($gid) {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+  $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
+  foreach ($admins as &$admin) {
+    $admin = $admin->uid;
+  }
+
+  return user_load_multiple($admins);
+}
+
+/**
  * Implements hook_module_implements_alter().
  */
 function c4m_og_module_implements_alter(&$implementations, $hook) {
