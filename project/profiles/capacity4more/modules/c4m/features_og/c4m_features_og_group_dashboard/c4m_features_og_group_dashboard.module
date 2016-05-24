@@ -52,7 +52,7 @@ function c4m_features_og_group_dashboard_flag_access($flag, $entity_id, $action,
 
   $group = c4m_og_current_group();
   if (!isset($group->nid)) {
-    return FALSE;
+    return;
   }
 
   if ($action == 'flag') {
@@ -121,7 +121,7 @@ function c4m_features_og_group_dashboard_c4m_content_actions_info() {
     ),
 
     'action_recommend' => array(
-      'context'   => array('group'),
+      'context'   => array('group', 'global'),
       'callback'  => 'c4m_features_og_group_dashboard_action_recommend',
       'weight'    => '3',
     ),
