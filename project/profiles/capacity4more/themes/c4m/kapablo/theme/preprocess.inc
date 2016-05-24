@@ -220,6 +220,23 @@ function kapablo_preprocess_field(&$variables, $hook) {
         }
       }
       break;
+
+    case 'title':
+      if ($element['#object']->type == 'photo') {
+        $node = $element['#object'];
+        $galleries = node_gallery_api_get_relationships(NULL, $node->nid);
+
+        if (!empty($galleries)) {
+          $gallery = array_pop($galleries);
+          $album = node_load($gallery->ngid);
+        }
+
+        foreach ($element['#items'] as $key => $item) {
+          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album->title . '</h1><h2 class="text--inline">&gt; ' . $node->title . '</h2>';
+        }
+      }
+
+      break;
   }
 }
 

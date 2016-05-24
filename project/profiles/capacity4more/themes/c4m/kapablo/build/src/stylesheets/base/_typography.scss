@@ -183,6 +183,14 @@ html {
   font-family: $font-verdana;
 }
 
+.text--inline {
+  display: inline;
+
+  & + .text--inline {
+    margin-left: .5em;
+  }
+}
+
 /**
  * FONT DEFINITIONS.
  */
