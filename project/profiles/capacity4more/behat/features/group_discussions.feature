@@ -36,7 +36,7 @@ Feature: Group Discussions
     When  I start creating "discussion" "Some new discussion1" in group "Architecture" with file field "c4m-related-document"
     And   I check the related topic checkbox
     And   I should not see an "edit-og-group-ref-und-0-default" element
-    And   I press "Save"
+    And   I press "Publish"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"
 
   @javascript
