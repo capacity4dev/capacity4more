@@ -352,7 +352,7 @@ trait Group {
     $steps[] = new Step\When('I select the radio button "Restricted"');
     $steps[] = new Step\When('I fill in "restricted_by_domain" with "' . $domain . '"');
     $steps[] = new Step\When('I select the radio button "Moderated - Any member of capacity4dev who has access to this Group can request membership. The Group owner or one of the Group administrators needs to approve the request."');
-    $steps[] = new Step\When('I press "Publish"');
+    $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I wait');
     $steps[] = new Step\When('I should not see "Group access"');
@@ -562,7 +562,7 @@ trait Group {
     $steps[] = new Step\When('I am logged in as user "admin"');
     $steps[] = new Step\When('I visit "/node/' . $group->nid . '/edit"');
     $steps[] = new Step\When('I select "' . $status . '" from "edit-c4m-og-status-und"');
-    $steps[] = new Step\When('I press "Publish"');
+    $steps[] = new Step\When('I press "Save"');
     $steps[] = new Step\When('I wait');
     return $steps;
   }
@@ -675,7 +675,7 @@ trait Group {
     $steps = array();
     $steps[] = new Step\When('I click "edit-new-category"');
     $steps[] = new Step\When('I fill in "name" with "' . $type_name . '"');
-    $steps[] = new Step\When('I press "Publish"');
+    $steps[] = new Step\When('I press "Save"');
 
     return $steps;
   }
