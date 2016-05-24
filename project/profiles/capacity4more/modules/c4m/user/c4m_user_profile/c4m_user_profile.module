@@ -6,6 +6,9 @@
 
 include_once 'c4m_user_profile.features.inc';
 
+define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE', 1);
+define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR', 2);
+
 /**
  * Implements hook_field_extra_fields_alter().
  */
@@ -322,14 +325,15 @@ function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
   // warnings often caused by cutting and pasting.
   $mail = trim($form_state['values']['mail']);
 
-  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
-  $errors = array_merge($errors, module_invoke_all('c4m_user_profile_validate_email_ajax', $mail, $form_state, $form));
-  uasort($errors, 'element_sort');
+  $validation_messages = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  uasort($validation_messages, 'element_sort');
 
-  if ($errors) {
+  if ($validation_messages) {
     $messages = array();
-    foreach ($errors as $error) {
-      $messages[] = $error['message'];
+    foreach ($validation_messages as $validation_message) {
+      if ($validation_message['type'] >= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
+        $messages[] = $validation_message['message'];
+      }
     }
     return '<div id="user-form-mail-validation-message" class="text-danger">' . implode("<br>", $messages) . '</div>';
   }
@@ -504,13 +508,15 @@ function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
   $mail = trim($form_state['values']['mail']);
   form_set_value($form['mail'], $mail, $form_state);
 
-  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
-  uasort($errors, 'element_sort');
+  $validation_messages = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
+  uasort($validation_messages, 'element_sort');
 
-  if ($errors) {
+  if ($validation_messages) {
     $messages = array();
-    foreach ($errors as $error) {
-      $messages[] = $error['message'];
+    foreach ($validation_messages as $validation_message) {
+      if ($validation_message['type'] >= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR) {
+        $messages[] = $validation_message['message'];
+      }
     }
     form_error($element, implode("<br>", $messages));
   }
@@ -524,57 +530,14 @@ function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $f
     return array(
       array(
         'message' => t('The e-mail address %mail is not valid.', array('%mail' => $mail)),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => -6,
       ),
     );
   }
 
-  if (!($other_user = user_load_by_mail($mail)) || isset($form_state['user']->uid) && $other_user->uid == $form_state['user']->uid) {
-    return array();
-  }
-
-  $other_user = entity_metadata_wrapper('user', $other_user);
-  $errors = array();
-  if ($other_user->status->value()) {
-    $errors[] = array(
-      'message' => t('This account is already in use. If this is you, please !login</a>.', array(
-        '!login' => l(t('log in'), 'user/login'),
-      )),
-      '#weight' => -5,
-    );
-  }
-  else {
-    if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
-      $errors[] = array(
-        'message' => t('This email address is already in use. Please activate your account, or re-send activation mail.'),
-        '#weight' => -4,
-      );
-    }
-    if ($other_user->c4m_is_spammer->value()) {
-      $errors[] = array(
-        'message' => t('This account has been blocked. !contact site administrator for more information.', array(
-          '!contact' => l(t('Contact'), 'contact'),
-        )),
-        '#weight' => 1,
-      );
-    }
-    if ($other_user->c4m_is_deleted->value()) {
-      $errors[] = array(
-        'message' => t('There is a problem with your account, please !contact the site administrators.', array(
-          '!contact' => l(t('contact'), 'contact'),
-        )),
-        '#weight' => 2,
-      );
-    }
-  }
-  return $errors;
-}
-
-/**
- * Implements hook_c4m_user_profile_validate_email_ajax().
- */
-function c4m_user_profile_c4m_user_profile_validate_email_ajax($mail, $form_state, $form) {
   $messages = array();
+
   $organisation_user = new C4mOrganisationUser($mail);
   if ($organisations = $organisation_user->getOrganisationsInfo()) {
     $organisation = array_shift($organisations);
@@ -590,9 +553,69 @@ function c4m_user_profile_c4m_user_profile_validate_email_ajax($mail, $form_stat
           'attributes' => array('class' => array('use-another-email')),
         )),
       )),
+      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
       '#weight' => 4,
     );
   }
+
+  $ldap = new C4mLDAPUser();
+  if ($ldap->isUp()) {
+    $info = $ldap->getInfo($mail);
+    if ($info && !empty($info['valid'])) {
+      $message = t('<p>Your email address is validated in LDAP.</p>');
+    }
+    else {
+      $message = t('<p>Your email address is not validated in LDAP.</p>');
+    }
+    $messages[] = array(
+      'message' => $message,
+      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
+      '#weight' => 4,
+    );
+  }
+
+  if (!($other_user = user_load_by_mail($mail)) || isset($form_state['user']->uid) && $other_user->uid == $form_state['user']->uid) {
+    return $messages;
+  }
+
+  $other_user = entity_metadata_wrapper('user', $other_user);
+  if ($other_user->status->value()) {
+    $messages[] = array(
+      'message' => t('This account is already in use. If this is you, please !login</a>.', array(
+        '!login' => l(t('log in'), 'user/login'),
+      )),
+      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+      '#weight' => -5,
+    );
+  }
+  else {
+    if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
+      $messages[] = array(
+        'message' => t('This email address is already in use. Please activate your account, or re-send activation mail.'),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -4,
+      );
+    }
+    if ($other_user->c4m_is_spammer->value()) {
+      $messages[] = array(
+        'message' => t('This account has been blocked. !contact site administrator for more information.', array(
+          '!contact' => l(t('Contact'), 'contact'),
+        )),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => 1,
+      );
+    }
+    if ($other_user->c4m_is_deleted->value()) {
+      $messages[] = array(
+        'message' => t('There is a problem with your account, please !contact the site administrators.', array(
+          '!contact' => l(t('contact'), 'contact'),
+        )),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => 2,
+      );
+    }
+  }
+
   return $messages;
 }
 
