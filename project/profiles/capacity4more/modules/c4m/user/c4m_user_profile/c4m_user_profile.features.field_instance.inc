@@ -391,7 +391,11 @@ function c4m_user_profile_field_default_field_instances() {
   // Exported field_instance: 'user-user-c4m_is_invalid_email'.
   $field_instances['user-user-c4m_is_invalid_email'] = array(
     'bundle' => 'user',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -421,17 +425,19 @@ function c4m_user_profile_field_default_field_instances() {
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'user',
     'field_name' => 'c4m_is_invalid_email',
     'label' => 'Is invalid email',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
-      'user_register_form' => FALSE,
+      'user_register_form' => 1,
     ),
     'widget' => array(
+      'active' => 1,
       'module' => 'options',
       'settings' => array(
-        'display_label' => 0,
+        'display_label' => 1,
       ),
       'type' => 'options_onoff',
       'weight' => 33,
@@ -481,7 +487,7 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Is LDAP User',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
@@ -537,7 +543,7 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Is Organisation User',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
