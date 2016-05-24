@@ -55,7 +55,6 @@ function c4m_content_action_get_actions() {
   $actions = c4m_content_actions_info($context);
   $node = menu_get_object();
 
-
   foreach ($actions as $key => $action) {
     if (!isset($action['callback']) || !function_exists($action['callback'])) {
       continue;
