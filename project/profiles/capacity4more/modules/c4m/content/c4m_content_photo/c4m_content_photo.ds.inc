@@ -73,6 +73,11 @@ function c4m_content_photo_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_ds_content_type_label' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_ds_content_footer_stats' => array(
       'weight' => '1',
       'label' => 'hidden',
@@ -312,19 +317,21 @@ function c4m_content_photo_ds_layout_settings_info() {
     'regions' => array(
       'right' => array(
         0 => 'c4m_ds_content_actions',
-        7 => 'group_node_actions',
+        8 => 'group_node_actions',
       ),
       'left' => array(
-        1 => 'title',
-        2 => 'c4m_ds_content_footer_stats',
-        3 => 'node_gallery_navigation',
-        4 => 'c4m_media',
-        5 => 'c4m_body',
-        6 => 'c4m_ds_photo_download',
+        1 => 'c4m_ds_content_type_label',
+        2 => 'title',
+        3 => 'c4m_ds_content_footer_stats',
+        4 => 'node_gallery_navigation',
+        5 => 'c4m_media',
+        6 => 'c4m_body',
+        7 => 'c4m_ds_photo_download',
       ),
     ),
     'fields' => array(
       'c4m_ds_content_actions' => 'right',
+      'c4m_ds_content_type_label' => 'left',
       'title' => 'left',
       'c4m_ds_content_footer_stats' => 'left',
       'node_gallery_navigation' => 'left',
