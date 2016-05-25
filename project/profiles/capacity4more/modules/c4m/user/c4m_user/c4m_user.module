@@ -755,6 +755,7 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
     if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
       $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
     }
+    $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 1;
   }
   elseif (!empty($account->c4m_is_organisation_user[LANGUAGE_NONE]['0']['value'])) {
     $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 0;
