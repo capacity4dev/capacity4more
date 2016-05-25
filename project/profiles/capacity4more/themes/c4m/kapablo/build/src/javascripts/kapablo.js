@@ -55,9 +55,9 @@
 
   Drupal.behaviors.youTubeVideo = {
     attach: function (context, settings) {
-      // Inject YouTube API script.
+      // Inject YouTube IFrame API script.
       var tag = document.createElement('script');
-      tag.src = "//www.youtube.com/player_api";
+      tag.src = "https://www.youtube.com/iframe_api";
       var firstScriptTag = document.getElementsByTagName('script')[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }

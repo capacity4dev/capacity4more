@@ -13,6 +13,6 @@
         <span><?php print $video_title ?></span>
       </button>
     </div>
-    <iframe id="c4m-intro-video" allowfullscreen="true" width="100%" height="298" src="https://www.youtube.com/embed/<?php print $video_id; ?>?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>
+    <div id="c4m-intro-video" data-youtube-video-id="<?php print $video_id; ?>"></div>
   </div>
 <?php endif; ?>
