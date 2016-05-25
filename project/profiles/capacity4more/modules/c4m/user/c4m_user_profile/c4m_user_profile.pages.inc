@@ -40,6 +40,7 @@ function c4m_user_profile_resend_email_change_confirmation_email_form_validate($
  */
 function c4m_user_profile_resend_email_change_confirmation_email_form_submit($form, &$form_state) {
   global $user;
-  email_confirm_build_mail(array('mail' => $user->data['email_confirm']['pending_email']), $user);
+  $account = user_load($user->uid);
+  email_confirm_build_mail(array('mail' => $account->data['email_confirm']['pending_email']), $account);
   $form_state['redirect'] = 'user';
 }
