@@ -250,7 +250,7 @@ function theme_c4m_user_country(array $field) {
   }
   // Check if we have an image.
   $wrapper = entity_metadata_wrapper('user', $user);
-  $country = $allowed_values[$wrapper->c4m_country->value()];
+  $country = !empty($wrapper->c4m_country->value()) ? $allowed_values[$wrapper->c4m_country->value()] : '';
 
   if (empty($country)) {
     return NULL;
