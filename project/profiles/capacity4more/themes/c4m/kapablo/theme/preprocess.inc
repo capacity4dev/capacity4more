@@ -379,6 +379,9 @@ function kapablo_preprocess_views_view_fields(&$vars) {
 
       $object = new stdClass();
       $object->content = '<span class="er--field-access privacy-level--' . $access['type'] . '">[' . $access['type'] . ']</span>';
+      $object->wrapper_prefix = '';
+      $object->wrapper_suffix = '';
+      $object->label_html = '';
 
       $vars['fields']['access'] = $object;
 
