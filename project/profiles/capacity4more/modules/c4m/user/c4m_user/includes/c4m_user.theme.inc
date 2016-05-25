@@ -188,7 +188,8 @@ function theme_c4m_user_first_and_last_name(array $field) {
     if (in_array($field['formatter'], array('user_with_icon', 'linked_user_with_icon'))) {
       if (module_exists('c4m_content_organisation')) {
         // Don't display for users that are marked invalid.
-        if (!isset($entity->c4m_is_invalid_email)) {
+        $entity_wrapper = entity_metadata_wrapper('user', $entity);
+        if ($entity_wrapper->c4m_is_invalid_email->value() != 1) {
           $user_mail = $entity->mail;
           $icon = c4m_content_organisation_get_icon_by_email($user_mail);
           if ($icon) {
