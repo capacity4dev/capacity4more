@@ -738,13 +738,16 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
-      elseif (!empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = '';
-        $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = '';
-      }
     }
+  }
+
+  // If the user is not validated in LDAP and had previous LDAP validation add
+  // the flag.
+  if (empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value']) && !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
+    $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
+    $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = '';
+    $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = '';
   }
 
   $organisation_user = new C4mOrganisationUser($account->mail);
@@ -755,6 +758,7 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
     if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
       $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
     }
+    $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 1;
   }
   elseif (!empty($account->c4m_is_organisation_user[LANGUAGE_NONE]['0']['value'])) {
     $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 0;
