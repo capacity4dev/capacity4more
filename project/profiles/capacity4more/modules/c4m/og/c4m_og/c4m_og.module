@@ -116,7 +116,7 @@ function c4m_og_menu() {
     'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
     'access callback' => 'c4m_og_user_is_owner',
     'access arguments' => array(1,2),
-    'title' => t('Replace Owner'),
+    'title' => 'Replace Owner',
   );
 
   return $items;
@@ -155,6 +155,7 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
 
   $form['new_owner'] = array(
     '#type' => 'select',
+    '#required' => TRUE,
     '#options' => $admins,
     '#title' => t('Select new owner'),
     '#description' => t('Select the name of the member you wish to be the new owner.'),
