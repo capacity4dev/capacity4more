@@ -729,7 +729,6 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   }
 
   if ($original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
-    //
     // Previous group setting was not "Moderated".
     return;
   }
