@@ -196,11 +196,6 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
 }
 
 /**
- * Validation function.
- */
-function c4m_og_replace_owner_build_form_validate($form, &$form_state) { }
-
-/**
  * Replacing the owner of a group.
  *
  * After replacing the owner of the group we grant "group administrator member"
@@ -244,7 +239,7 @@ function c4m_og_replace_owner($group_type, $gid, $new_owner) {
  *   The ID of the group.
  *
  * @return bool
- *  TRUE if the current user has access to the group, FALSE otherwise.
+ *   TRUE if the current user has access to the group, FALSE otherwise.
  */
 function c4m_og_user_is_owner($group_type, $gid) {
   global $user;
@@ -266,7 +261,7 @@ function c4m_og_user_is_owner($group_type, $gid) {
  * @param string $group_bundle
  *   A string representing the group bundle.
  *
- * @return
+ * @return mixed
  *   A fully-loaded og role object if a role with the given name and group
  *   bundle exists, or FALSE otherwise.
  */
