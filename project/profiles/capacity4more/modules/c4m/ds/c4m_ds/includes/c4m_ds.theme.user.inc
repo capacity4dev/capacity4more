@@ -28,6 +28,7 @@ function theme_c4m_ds_article_notable_contribution(array $field) {
     array(
       'view' => 'notable_contributions',
       'display' => 'block',
+      'header' => 'h3',
       'args' => array($entity->uid),
     )
   );
