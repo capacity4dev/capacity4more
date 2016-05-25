@@ -43,7 +43,7 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
   $message_type = $message_entity->type;
 
-  if($message_type != 'c4m_welcome_to_group') {
+  if ($message_type != 'c4m_welcome_to_group') {
     // For message type other than c4m_welcome_to_group, return early.
     return;
   }
@@ -58,10 +58,10 @@ function _format_c4m_welcome_to_group_from_field(&$message, $message_entity)
 {
   // Set the 'From' format.
   $wrapper = entity_metadata_wrapper('message', $message_entity);
-  $author =  $wrapper->field_group_node->author->value();
+  $author = $wrapper->field_group_node->author->value();
   $mail = $author->mail;
   $site_name = variable_get('site_name');
-  $from = '"' .  c4m_user_name($author) . ' at ' . $site_name . '"<' . $mail . '>';
+  $from = '"' . c4m_user_name($author) . ' at ' . $site_name . '"<' . $mail . '>';
 
   $message['from'] = $from;
 }
@@ -160,6 +160,7 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
  * Resolves member full name toke.
  *
  * @param \Message $message
+ *
  * @return string
  *   Returns a member's full name.
  */
@@ -173,6 +174,7 @@ function c4m_message_format_member_full_name(Message $message) {
  * Resolves group owner full name token.
  *
  * @param \Message $message
+ *
  * @return string
  *   Return group owner full name.
  * */
@@ -187,6 +189,7 @@ function c4m_message_format_group_owner_full_name(Message $message) {
  * Resolves group url token.
  *
  * @param \Message $message
+ *
  * @return string
  *   Return group url.
  */
@@ -202,6 +205,7 @@ function c4m_message_format_group_url(Message $message) {
  * Resolves group title token.
  *
  * @param \Message $message
+ *
  * @return string
  *   Return group title.
  */
@@ -215,6 +219,7 @@ function c4m_message_format_group_node_title(Message $message) {
  * Resolves group welcome message token.
  *
  * @param \Message $message
+ *
  * @return string
  *   Return group welcome message.
  */
@@ -230,6 +235,7 @@ function c4m_message_format_group_welcome_message(Message $message) {
  * Resolves group node type token.
  *
  * @param \Message $message
+ *
  * @return string
  *   Return group node type.
  */
@@ -244,6 +250,7 @@ function c4m_message_format_group_node_type(Message $message) {
  * Resolves group owner url token.
  *
  * @param \Message $message
+ *
  * @return string
  *   Return group owner url.
  */

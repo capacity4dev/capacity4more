@@ -757,7 +757,7 @@ function c4m_og_open_group_access_activate_pending_members($node) {
  * @param $gid
  *  The group ID.
  * @param $state
- *  The user current state.
+ *   The user current state.
  *
  * @return array
  *   Array of members UIDs, or an empty array.
