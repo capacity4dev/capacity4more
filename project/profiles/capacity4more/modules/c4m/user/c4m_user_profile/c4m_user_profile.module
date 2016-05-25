@@ -40,6 +40,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['user_confirm_email'] = array(
+    'info' => t('Engage user to confirm his email'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
@@ -271,15 +276,18 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
 function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   global $user;
 
+  // Custom title for edit form.
+  drupal_set_title(t('Edit profile'));
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
-  $form['contact_info']['contact'] = array(
+  $form['contact'] = array(
     '#type' => 'checkbox',
     '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
     '#default_value' => variable_get('contact_default_status', 1),
-    '#weight' => 20,
+    '#weight' => 14,
+    '#group' => 'group_public_profile',
   );
-  $form['contact_info']['#weight'] = 20;
 
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
@@ -294,6 +302,11 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     'wrapper' => 'user-form-mail-validation-message',
   );
   $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+
+  // Make fieldsets incollapsible.
+  $form['contact']['#collapsible'] = FALSE;
+  $form['timezone']['#collapsible'] = FALSE;
+  $form['mimemail']['#collapsible'] = FALSE;
 
   // Adjust validators. Remove default one and replace it with a custom one.
   // Add validator for the email field.

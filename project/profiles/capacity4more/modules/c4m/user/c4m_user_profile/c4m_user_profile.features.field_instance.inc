@@ -134,7 +134,7 @@ function c4m_user_profile_field_default_field_instances() {
         'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
         'maxlength_js_summary' => '',
         'maxlength_js_truncate_html' => 0,
-        'rows' => 20,
+        'rows' => 10,
         'summary_display' => 'default',
         'summary_rows' => 5,
       ),
@@ -384,7 +384,7 @@ function c4m_user_profile_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 10,
+      'weight' => 9,
     ),
   );
 
@@ -632,7 +632,7 @@ function c4m_user_profile_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 11,
+      'weight' => 10,
     ),
   );
 
