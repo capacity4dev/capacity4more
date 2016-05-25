@@ -926,6 +926,57 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-group-c4m_group_welcome_message'.
+  $field_instances['node-group-c4m_group_welcome_message'] = array(
+    'bundle' => 'group',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 16,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'c4m_group_welcome_message',
+    'label' => 'Group welcome message',
+    'required' => FALSE,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-group-field_membership_open_request'.
   $field_instances['node-group-field_membership_open_request'] = array(
     'bundle' => 'group',
@@ -1545,6 +1596,7 @@ function c4m_content_group_field_default_field_instances() {
   t('Group');
   t('Group description');
   t('Group visibility');
+  t('Group welcome message');
   t('How should membership requests be handled in this Group ?');
   t('Membership requests');
   t('Message to the site administrator');
