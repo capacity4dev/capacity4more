@@ -252,7 +252,6 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state) {
   $form['#prefix'] = '<div id="user-register-form-wrapper">';
   $form['#suffix'] = '</div>';
 
-  // @todo Check default values on edit profile.
   $form['c4m_is_ldap_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
@@ -567,15 +566,11 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
           $country = $info['country'];
           $organisation_name = $domain->organisation_name;
           $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['value'] = 1;
-          // @todo
-          // $data['form']['c4m_is_invalid_email'][LANGUAGE_NONE]['value'] = 0;
           $message = t('<p>Your email address is validated in LDAP.</p>');
         }
         elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
           $organisation_name = $whitelist_domain->organisation_name;
           $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['value'] = 1;
-          // @todo
-          // $data['form']['c4m_is_invalid_email'][LANGUAGE_NONE]['value'] = 0;
           $message = t('<p>Your email address is validated in LDAP.</p>');
         }
         else {
