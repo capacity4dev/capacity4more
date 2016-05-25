@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function c4m_features_homepage_intro_uninstall() {
+  variable_del('c4m_features_homepage_intro_video_title');
+  variable_del('c4m_features_homepage_intro_video_url');
+}
