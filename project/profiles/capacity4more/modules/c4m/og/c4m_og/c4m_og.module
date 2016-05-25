@@ -198,11 +198,7 @@ function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
 /**
  * Validation function.
  */
-function c4m_og_replace_owner_build_form_validate($form, &$form_state) {
-  if (!$form_state['values']['new_owner']) {
-    form_set_error('c4m_og_replace_owner', t('Must select a new owner from the list.'));
-  }
-}
+function c4m_og_replace_owner_build_form_validate($form, &$form_state) { }
 
 /**
  * Replacing the owner of a group.
@@ -249,17 +245,13 @@ function c4m_og_replace_owner($group_type, $gid, $new_owner) {
 function c4m_og_user_is_owner($group_type, $gid) {
   global $user;
 
-  if ($user->uid == 1) {
-    return TRUE;
-  }
-
   $group = entity_load_single($group_type, $gid);
   if (!$group || !og_is_group($group_type, $group)) {
     return FALSE;
   }
 
   // Make sure the current user is the group manager.
-  return $user->uid == $group->uid;
+  return user_access('administer groups', $user) || $user->uid == $group->uid;
 }
 
 /**
