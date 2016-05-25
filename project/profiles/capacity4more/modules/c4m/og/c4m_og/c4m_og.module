@@ -123,6 +123,23 @@ function c4m_og_menu() {
 }
 
 /**
+ * Implements hook_og_ui_get_group_admin_alter().
+ *
+ * Adding a link to the replace owner page.
+ */
+function c4m_og_og_ui_get_group_admin_alter(&$data, $context) {
+  if (!c4m_og_user_is_owner($context['entity_type'], $context['etid'])) {
+    return;
+  }
+
+  $data['replace_owner'] = array(
+    'title' => t('Replace Owner'),
+    'description' => t('Replacing the owner of the group.'),
+    'href' => 'admin/owner',
+  );
+}
+
+/**
  * Form builder;
  *
  * Group owner replace form.
