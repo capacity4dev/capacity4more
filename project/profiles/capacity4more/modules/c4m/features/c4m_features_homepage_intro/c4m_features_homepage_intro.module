@@ -126,10 +126,10 @@ function c4m_features_homepage_intro_theme() {
 /**
  * Helper function to extract the YouTube video ID from a YouTube video URL.
  *
- * @param $youtube_video_url
+ * @param string $youtube_video_url
  *   The YouTube video URL.
  *
- * @return string $video_id
+ * @return string | boolean
  *   Returns the video ID or FALSE if it's not a match.
  */
 function c4m_features_homepage_intro_extract_youtube_video_id($youtube_video_url) {
