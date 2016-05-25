@@ -115,7 +115,7 @@ function c4m_og_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
     'access callback' => 'c4m_og_user_is_owner',
-    'access arguments' => array(1,2),
+    'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
 
@@ -140,7 +140,7 @@ function c4m_og_og_ui_get_group_admin_alter(&$data, $context) {
 }
 
 /**
- * Form builder;
+ * Form builder.
  *
  * Group owner replace form.
  */
@@ -149,7 +149,7 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
 
   $admins = array();
   // Setting the list of the group admins.
-  foreach(c4m_og_get_group_admins($etid) as $admin) {
+  foreach (c4m_og_get_group_admins($etid) as $admin) {
     $admins[$admin->uid] = c4m_user_name($admin);
   }
 
@@ -180,7 +180,7 @@ function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid
 }
 
 /**
- * Submit handler;
+ * Submit handler.
  *
  * Replacing the owner of a group.
  */
@@ -238,9 +238,13 @@ function c4m_og_replace_owner($group_type, $gid, $new_owner) {
 /**
  * Access callback for the "Replace owner" form.
  *
- * @param $group_type
- * @param $gid
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ *
  * @return bool
+ *  TRUE if the current user has access to the group, FALSE otherwise.
  */
 function c4m_og_user_is_owner($group_type, $gid) {
   global $user;
@@ -283,7 +287,7 @@ function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
 /**
  * Fetch all group admins.
  *
- * @param $gid
+ * @param int $gid
  *   The ID of the group.
  *
  * @return array
