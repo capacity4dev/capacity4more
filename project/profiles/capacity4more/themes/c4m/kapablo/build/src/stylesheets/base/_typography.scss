@@ -62,6 +62,20 @@ html {
   font-family: $font-gill;
 }
 
+.header-3 {
+  @extend .text-medium;
+  color: $color-gray-dark;
+  font-family: $font-gill;
+  margin-top: 0;
+}
+
+.header-4 {
+  @extend .text-normal;
+  color: $color-gray-dark;
+  font-family: $font-gill;
+  margin-top: 0;
+}
+
 .header-sub {
   @extend .text-medium;
   color: $color-text;
@@ -169,6 +183,10 @@ html {
   font-family: $font-verdana;
 }
 
+.text--inline {
+  display: inline-block;
+}
+
 /**
  * FONT DEFINITIONS.
  */
@@ -178,9 +196,9 @@ h1 {
 }
 
 h2 {
-  @extend .header-2
+  @extend .header-2;
 }
 
 h3 {
-  margin-top: 0;
+  @extend .header-3;
 }

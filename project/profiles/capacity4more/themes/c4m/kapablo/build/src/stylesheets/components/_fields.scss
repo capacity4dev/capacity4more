@@ -191,7 +191,61 @@
   }
 
   .photoalbum-navigator {
-    margin-bottom: 1rem;
+    margin: 1em 0 2px 0;
+  }
+
+  > .content {
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    .navigator--left, .navigator--right {
+      position: absolute;
+      top: 3em;
+
+      @media (min-width: $screen-sm-min) {
+        top: 40%;
+      }
+
+      a {
+        font-size: 1.5em;
+
+        &:hover {
+          color: $text-color;
+        }
+      }
+    }
+
+    .navigator--left {
+      left: 0;
+    }
+
+    .navigator--right {
+      right: 0;
+    }
+
+    .navigator--center {
+      margin-bottom: 2em;
+    }
+
+    .back-link {
+      float: left;
+      //margin-left: 5%;
+    }
+
+    .indicator {
+      float: right;
+      //margin-right: 5%;
+    }
+  }
+
+  .group-left {
+    > a {
+      @extend .clearfix;
+
+      display: block;
+      margin: 0 1.5em 1.5em 1.5em;
+    }
   }
 }
 
@@ -222,6 +276,12 @@
     .term {
       margin-left: 1em;
     }
+  }
+}
+
+.group-user-contributions {
+  h2 {
+    text-decoration: underline;
   }
 }
 

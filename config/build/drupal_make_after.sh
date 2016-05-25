@@ -23,5 +23,9 @@ markup_h2 "Libraries"
 mkdir -p "$DIR_WEB/sites/all/libraries"
 file_copy_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
+markup_h2 "Settings file"
+cp -a "$DIR_ROOT/config/build/settings/settings.php" "$DIR_WEB/sites/default"
+message_success "Master Settings file copied to build"
+
 
 echo

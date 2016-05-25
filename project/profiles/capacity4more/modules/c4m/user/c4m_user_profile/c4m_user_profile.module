@@ -35,6 +35,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['user_confirm_email'] = array(
+    'info' => t('Engage user to confirm his email'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
@@ -267,15 +272,18 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
 function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   global $user;
 
+  // Custom title for edit form.
+  drupal_set_title(t('Edit profile'));
+
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
-  $form['contact_info']['contact'] = array(
+  $form['contact'] = array(
     '#type' => 'checkbox',
     '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
     '#default_value' => variable_get('contact_default_status', 1),
-    '#weight' => 20,
+    '#weight' => 14,
+    '#group' => 'group_public_profile',
   );
-  $form['contact_info']['#weight'] = 20;
 
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
@@ -291,8 +299,14 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   );
   $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
 
+  // Make fieldsets incollapsible.
+  $form['contact']['#collapsible'] = FALSE;
+  $form['timezone']['#collapsible'] = FALSE;
+  $form['mimemail']['#collapsible'] = FALSE;
+
   // Adjust validators.
   // Remove default one and replace it with a custom one.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
@@ -309,6 +323,10 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     $form['c4m_is_spammer']['#disabled'] = TRUE;
     $form['account']['status']['#disabled'] = TRUE;
   }
+
+  $form['c4m_is_ldap_user']['#access'] = FALSE;
+  $form['c4m_is_organisation_user']['#access'] = FALSE;
+  $form['c4m_is_invalid_email']['#access'] = FALSE;
 }
 
 /**
@@ -605,5 +623,44 @@ function c4m_user_profile_user_login_validate($form, &$form_state) {
   }
   else {
     form_set_error('name', t('The username %name has not been activated or is blocked.', array('%name' => $form_state['values']['name'])));
+  }
+}
+
+/**
+ * Implements hook_context_registry().
+ */
+function c4m_user_profile_context_registry() {
+  $registry['conditions'] = array(
+    'c4m_user' => array(
+      'title' => t('C4M User Profile'),
+      'plugin' => 'c4m_user_profile_context_user',
+    ),
+  );
+  return $registry;
+}
+
+/**
+ * Implements hook_context_plugins().
+ */
+function c4m_user_profile_context_plugins() {
+  $plugins['c4m_user_profile_context_user'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'c4m_user_profile') . '/plugins',
+      'file' => 'c4m_user_profile_context_user.inc',
+      'class' => 'c4m_user_profile_context_user',
+      'parent' => 'context_condition',
+    ),
+  );
+  return $plugins;
+}
+
+/**
+ * Implements hook_init().
+ */
+function c4m_user_profile_init() {
+  global $user;
+
+  if ($user->uid && $plugin = context_get_plugin('condition', 'c4m_user')) {
+    $plugin->execute($user);
   }
 }
