@@ -47,7 +47,8 @@ function c4m_message_mail_alter(&$message) {
     $wrapper = entity_metadata_wrapper('message', $message_entity);
     $author =  $wrapper->field_group_node->author->value();
     $mail = $author->mail;
-    $from = '"' .  c4m_user_name($author) . ' at capacity4more"<' . $mail . '>';
+    $site_name = variable_get('site_name');
+    $from = '"' .  c4m_user_name($author) . ' at ' . $site_name . '"<' . $mail . '>';
 
     $message['from'] = $from;
   }
@@ -152,12 +153,6 @@ function c4m_message_load__c4m_welcome_to_group(Message $message) {
   //Add
   $message->arguments['@go_full_name'] = array(
     'callback' => 'c4m_message_format_go_full_name',
-    'pass message' => TRUE,
-  );
-
-  //Add
-  $message->arguments['@site_name'] = array(
-    'callback' => 'c4m_message_format_site_name',
     'pass message' => TRUE,
   );
 }
@@ -269,19 +264,6 @@ function c4m_message_format_go_full_name(Message $message) {
 
   return c4m_user_name($author);
 }
-
-/**
- * Return site name.
- *
- * @param \Message $message
- * @return string
- */
-function c4m_message_format_site_name(Message $message) {
-  return "capacity4more";
-}
-
-
-
 
 /**
  * Delegate message CRUD to message type specific functions.
