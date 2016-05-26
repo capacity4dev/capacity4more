@@ -753,9 +753,9 @@ function c4m_og_open_group_access_activate_pending_members($node) {
 /**
  * Get the group membership entity by user, group and state.
  *
- * @param $gid
- *  The group ID.
- * @param $state
+ * @param int $gid
+ *   The group ID.
+ * @param int $state
  *   The user current state.
  *
  * @return array

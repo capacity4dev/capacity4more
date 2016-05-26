@@ -8,10 +8,10 @@
 
 
 # Do we need to run the coder review?
-#if [ "$CODE_REVIEW" != 1 ]; then
-#  exit 0
-#fi
-TRAVIS_BUILD_DIR="."
+if [ "$CODE_REVIEW" != 1 ]; then
+  exit 0
+fi
+
 HAS_ERRORS=0
 
 ##
