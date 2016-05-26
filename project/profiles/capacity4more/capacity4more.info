@@ -194,6 +194,7 @@ dependencies[] = c4m_features_footer
 
 ; Theming
 dependencies[] = c4m_features_theme
+dependencies[] = c4m_features_responsive
 
 ; Content Authoring
 ;dependencies[] = c4m_wysiwyg_ckeditor
