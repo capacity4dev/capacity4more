@@ -13,8 +13,7 @@ include_once 'c4m_og.access.inc';
 define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
 
 /**
- * The values of the groups access level as defined on its field base
- * "field_membership_open_request".
+ * The values of the groups access level as defined on its field base.
  */
 define('C4M_OG_MODERATED_GROUP', 0);
 define('C4M_OG_OPEN_GROUP', 1);
@@ -705,6 +704,8 @@ function c4m_og_node_update($node) {
 }
 
 /**
+ * Activate pending members when access level of a group is changed.
+ *
  * When changing the access level from 'Moderated' to 'Open', all pending
  * members should become active group members.
  *

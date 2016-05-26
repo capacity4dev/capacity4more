@@ -63,11 +63,12 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
   // Set the 'From' format.
   $wrapper = entity_metadata_wrapper('message', $message_entity);
   $author = $wrapper->field_group_node->author->value();
-  $mail = $author->mail;
-  $site_name = variable_get('site_name');
-  $from = '"' . c4m_user_name($author) . ' at ' . $site_name . '"<' . $mail . '>';
 
-  $message['from'] = $from;
+  $message['from'] = format_string('"@name at @site"<@mail>', array(
+    '@name' => c4m_user_name($author),
+    '@site' => variable_get('site_name'),
+    '@mail' => $author->mail,
+  ));
 }
 
 /**
