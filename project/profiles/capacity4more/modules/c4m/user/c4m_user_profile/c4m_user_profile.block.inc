@@ -112,6 +112,11 @@ function _c4m_user_profile_block_user_notifications() {
 function _c4m_user_profile_block_user_is_invalid_email() {
   global $user;
 
+  $edit_path = 'user/' . $user->uid . '/edit';
+  if (current_path() !== $edit_path) {
+    drupal_goto($edit_path);
+  }
+
   $block = array();
   $block['subject'] = '';
 

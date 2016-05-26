@@ -36,7 +36,7 @@ function c4m_user_profile_block_info() {
   );
 
   $blocks['user_is_invalid_email'] = array(
-    'info' => t('Dispaly the invalid email alert'),
+    'info' => t('Display the invalid email alert'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
