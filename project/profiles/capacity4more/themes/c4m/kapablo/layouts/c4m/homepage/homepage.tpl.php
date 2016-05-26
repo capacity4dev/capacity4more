@@ -79,19 +79,7 @@
 
 <div class="row">
     <div class="col-md-12">
-
-      <div class="owl-carousel">
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        <div> Your Content </div>
-        ...
-      </div>
-
-<!--      --><?php //print $content['top']; ?>
+      <?php print $content['top']; ?>
       <?php dpm($content['top']); ?>
     </div>
 </div>
