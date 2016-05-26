@@ -35,6 +35,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['user_is_invalid_email'] = array(
+    'info' => t('Display the invalid email alert'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   $blocks['user_confirm_email'] = array(
     'info' => t('Engage user to confirm his email'),
     'cache' => DRUPAL_NO_CACHE,
