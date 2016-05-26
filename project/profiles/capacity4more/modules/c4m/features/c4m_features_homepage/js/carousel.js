@@ -4,6 +4,24 @@
  */
 
 
-function onCarouselReady() {
-  jQuery(".owl-carousel").owlCarousel();
-}
+
+(function ($) {
+
+  Drupal.behaviors.nodeFieldsetSummaries = {
+    attach: function (context) {
+      $(".owl-carousel").owlCarousel({
+        // Show next and prev buttons
+        navigation : true,
+        slideSpeed : 300,
+        paginationSpeed : 400,
+        singleItem:true,
+        navigationText: [
+          "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>",
+          "<i class='fa fa-arrow-circle-right' aria-hidden='true'></i>"
+        ],
+      });
+    }
+  };
+
+})(jQuery);
+

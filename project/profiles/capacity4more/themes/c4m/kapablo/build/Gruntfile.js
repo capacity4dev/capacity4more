@@ -35,7 +35,13 @@ module.exports = function (grunt) {
                   src: ['*.scss'],
                   dest: '<%= project.dst %>/css',
                   ext: '.concat.css'
-                }]
+                }],
+              copy: {
+                  expand: true,
+                  cwd: '<%= project.src %>/vendor',
+                  src: '**/*',
+                  dest: '<%= project.dst %>/css'
+              }
             },
           build: {
               options: {
@@ -50,7 +56,13 @@ module.exports = function (grunt) {
                   src: ['*.scss'],
                   dest: '<%= project.dst %>/css',
                   ext: '.concat.css'
-                }]
+                }],
+              copy: {
+                  expand: true,
+                  cwd: '<%= project.src %>/vendor',
+                  src: ['*.scss'],
+                  dest: '<%= project.dst %>/css'
+              }
             }
         },
 
@@ -114,6 +126,9 @@ module.exports = function (grunt) {
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js'
+                  ],
+                  '<%= project.dst %>/js/owl.carousel.js': [
+                      '<%= project.src %>/javascripts/owl.carousel.js'
                   ]
                 }
             },
@@ -139,6 +154,9 @@ module.exports = function (grunt) {
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js'
+                  ],
+                  '<%= project.dst %>/js/owl.carousel.js': [
+                      '<%= project.src %>/javascripts/owl.carousel.js'
                   ]
                 }
             }
