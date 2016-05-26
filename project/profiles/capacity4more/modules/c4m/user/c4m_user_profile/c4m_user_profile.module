@@ -247,13 +247,14 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['legal']['#type'] = 'markup';
   $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 
-  // Adjust validators. Remove default one and replace it with a custom one.
-  // Add validator for the email field.
-  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+  // Adjust validators.
+  // Remove default one and replace it with a custom one.
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
   array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
+  // Add validator for the email field.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
 
   $form['subscribe_to_mailinglist'] = array(
     '#type' => 'checkbox',
@@ -303,12 +304,13 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $form['timezone']['#collapsible'] = FALSE;
   $form['mimemail']['#collapsible'] = FALSE;
 
-  // Adjust validators. Remove default one and replace it with a custom one.
-  // Add validator for the email field.
+  // Adjust validators.
+  // Remove default one and replace it with a custom one.
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
+  // Add validator for the email field.
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
 
   // Hide the spammer/deleted checkbox for non-admins.
