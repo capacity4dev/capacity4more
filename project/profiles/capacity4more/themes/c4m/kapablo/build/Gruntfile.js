@@ -35,13 +35,7 @@ module.exports = function (grunt) {
                   src: ['*.scss'],
                   dest: '<%= project.dst %>/css',
                   ext: '.concat.css'
-                }],
-              copy: {
-                  expand: true,
-                  cwd: '<%= project.src %>/vendor',
-                  src: '**/*',
-                  dest: '<%= project.dst %>/css'
-              }
+                }]
             },
           build: {
               options: {
@@ -56,13 +50,7 @@ module.exports = function (grunt) {
                   src: ['*.scss'],
                   dest: '<%= project.dst %>/css',
                   ext: '.concat.css'
-                }],
-              copy: {
-                  expand: true,
-                  cwd: '<%= project.src %>/vendor',
-                  src: ['*.scss'],
-                  dest: '<%= project.dst %>/css'
-              }
+                }]
             }
         },
 
