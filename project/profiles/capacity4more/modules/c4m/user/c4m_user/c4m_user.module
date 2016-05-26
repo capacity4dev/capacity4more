@@ -606,8 +606,8 @@ function c4m_user_menu() {
   );
 
   $items['admin/config/c4m/organisation-validator'] = array(
-    'title' => 'Test email domain',
-    'description' => "Test email address' domains.",
+    'title' => 'Test organisation mails',
+    'description' => "Test email addresses vs organisations.",
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_email_domain_organisation_test'),
     'access arguments' => array('administer site configuration'),
