@@ -538,3 +538,11 @@ function kapablo_item_list($variables) {
 function kapablo_menu_tree__small(&$variables) {
   return '<ul class="text-small">' . $variables['tree'] . '</ul>';
 }
+
+/**
+ * Overrides template_process_html().
+ */
+function kapablo_preprocess_html(&$variables) {
+  // Render off_canvas into top level variables.
+  $variables['off_canvas'] = drupal_render($variables['page']['off_canvas']);
+}
