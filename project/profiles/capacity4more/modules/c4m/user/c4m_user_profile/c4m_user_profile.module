@@ -302,9 +302,13 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
     if ($validation_messages) {
       $messages = array();
       foreach ($validation_messages as $validation_message) {
-        $messages[] = $validation_message['message'];
+        $type = $validation_message['type'] === C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE ? 'info' : 'danger';
+        $messages[] = '<div class="text-' . $type . '">' . $validation_message['message'] . '</div>';
       }
-      $suffix = '<div id="user-form-mail-validation-message" class="text-danger">' . implode("<br>", $messages) . '</div>';
+      $suffix = '<div id="user-form-mail-validation-message">' . implode(
+          "",
+          $messages
+        ) . '</div>';
     }
     else {
       $suffix = '<div id="user-form-mail-validation-message" class="hidden"></div>';
@@ -587,18 +591,21 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
           $organisation_name = $domain->organisation_name;
           $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
           $message = t('<p>Your email address is validated in LDAP.</p>');
+          $type = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE;
         }
         elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
           $organisation_name = $whitelist_domain->organisation_name;
           $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
           $message = t('<p>Your email address is validated in LDAP.</p>');
+          $type = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE;
         }
         else {
           $message = t('<p>Your email address is not validated in LDAP.</p>');
+          $type = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR;
         }
         $data['validation_messages'][] = array(
           'message' => $message,
-          'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
+          'type' => $type,
           '#weight' => 4,
         );
       }
