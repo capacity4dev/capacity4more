@@ -391,7 +391,11 @@ function c4m_user_profile_field_default_field_instances() {
   // Exported field_instance: 'user-user-c4m_is_invalid_email'.
   $field_instances['user-user-c4m_is_invalid_email'] = array(
     'bundle' => 'user',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
     'deleted' => 0,
     'description' => 'Set if the user lost his LDAP validation.',
     'display' => array(
@@ -427,7 +431,7 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Is invalid email',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
@@ -483,7 +487,7 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Is LDAP User',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
@@ -539,7 +543,7 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Is Organisation User',
     'required' => 0,
     'settings' => array(
-      'user_register_form' => 0,
+      'user_register_form' => 1,
     ),
     'widget' => array(
       'active' => 1,
