@@ -575,42 +575,37 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     return;
   }
 
-  if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
-    $country = '';
-    $organisation_name = '';
-    $organisation_type = '';
+  $country = '';
+  $organisation_name = '';
+  $organisation_type = '';
 
-    $domain_user = new C4mDomainUser($data['mail']);
-    if ($domain = $domain_user->getEmailDomainByName()) {
-      $ldap = new C4mLDAPUser();
-      if ($ldap->isUp()) {
-        $country = 'BE';
-        $info = $ldap->getInfo($data['mail']);
-        if ($info && !empty($info['valid'])) {
-          $country = $info['country'];
-          $organisation_name = $domain->organisation_name;
-          $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
-          $message = t('<p>Your email address is validated in LDAP.</p>');
-          $type = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE;
-        }
-        elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
-          $organisation_name = $whitelist_domain->organisation_name;
-          $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
-          $message = t('<p>Your email address is validated in LDAP.</p>');
-          $type = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE;
-        }
-        else {
-          $message = t('<p>Your email address is not validated in LDAP.</p>');
-          $type = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR;
-        }
-        $data['validation_messages'][] = array(
-          'message' => $message,
-          'type' => $type,
-          '#weight' => 4,
-        );
+  $domain_user = new C4mDomainUser($data['mail']);
+  if ($domain = $domain_user->getEmailDomainByName()) {
+    $ldap = new C4mLDAPUser();
+    $is_ldap_user = FALSE;
+    if ($ldap->isUp()) {
+      $info = $ldap->getInfo($data['mail']);
+      if ($info && !empty($info['valid'])) {
+        $country = $info['country'];
+        $organisation_name = $domain->organisation_name;
+        $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
+        $is_ldap_user = TRUE;
       }
-    }
+      elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
+        $organisation_name = $whitelist_domain->organisation_name;
+        $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
+        $is_ldap_user = FALSE;
+      }
 
+      $data['validation_messages'][] = array(
+        'message' => $is_ldap_user ? t('<p>Your email address is validated in LDAP.</p>') : t('<p>Your email address is not validated in LDAP.</p>'),
+        'type' => $is_ldap_user ? C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE : C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => 4,
+      );
+    }
+  }
+
+  if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
     $organisation_user = new C4mOrganisationUser($data['mail']);
     if ($organisations = $organisation_user->getOrganisationsInfo()) {
       $organisation = array_shift($organisations);
@@ -637,20 +632,20 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
         '#weight' => 4,
       );
     }
+  }
 
-    if ($data['alter_form']) {
-      if ($country) {
-        $data['form']['c4m_country'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
-        $data['form']['c4m_country'][LANGUAGE_NONE]['#value'] = $country;
-      }
-      if ($organisation_name) {
-        $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['readonly'] = 'readonly';
-        $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#value'] = $organisation_name;
-      }
-      if ($organisation_type) {
-        $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
-        $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#value'] = $organisation_type;
-      }
+  if ($data['alter_form']) {
+    if ($country) {
+      $data['form']['c4m_country'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_country'][LANGUAGE_NONE]['#value'] = $country;
+    }
+    if ($organisation_name) {
+      $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#value'] = $organisation_name;
+    }
+    if ($organisation_type) {
+      $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#value'] = $organisation_type;
     }
   }
 
