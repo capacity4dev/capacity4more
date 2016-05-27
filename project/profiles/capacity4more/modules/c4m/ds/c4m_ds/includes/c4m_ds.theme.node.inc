@@ -704,6 +704,9 @@ function theme_c4m_ds_photo_download(array $field) {
     $file = $entity->c4m_media->file->value();
     $link = l(t('View original photo'), file_create_url($file->uri));
 
-    return $link . ' (' . format_size($file->filesize) . ')';
+    $tag['element'] = array(
+      '#tag' => 'p',
+      '#value' => $link . ' (' . format_size($file->filesize) . ')',
+    );
   }
 }
