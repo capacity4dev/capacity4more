@@ -4,13 +4,15 @@
  * Prints out the video overlay.
  */
 ?>
-<div class="button-wrapper">
-  <?php print render($image); ?>
-  <div class="justifier">
-    <button type="button" class="btn btn-primary btn-lg" id="c4m-play-video">
-      <span class="i-play"></span>
-      <span><?php print $video_title ?></span>
-    </button>
+<?php if ($video_id): ?>
+  <div class="button-wrapper">
+    <?php print render($image); ?>
+    <div class="justifier">
+      <button type="button" class="btn btn-primary btn-lg" id="c4m-play-video">
+        <span class="i-play"></span>
+        <span><?php print $video_title ?></span>
+      </button>
+    </div>
+    <div id="c4m-intro-video" data-youtube-video-id="<?php print $video_id; ?>"></div>
   </div>
-  <iframe id="c4m-intro-video" allowfullscreen="true" width="100%" height="298" src="https://www.youtube.com/embed/<?php print $video_id; ?>?rel=0&amp;showinfo=0&amp;autoplay=0&amp;enablejsapi=1" frameborder="0"></iframe>
-</div>
+<?php endif; ?>

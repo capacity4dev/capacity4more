@@ -38,6 +38,11 @@ function c4m_user_profile_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['user_is_invalid_email'] = array(
+    'info' => t('Display the invalid email alert'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   $blocks['user_confirm_email'] = array(
     'info' => t('Engage user to confirm his email'),
     'cache' => DRUPAL_NO_CACHE,
@@ -268,6 +273,7 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
 
   // Move the email input first.
   $form['mail'] = $form['account']['mail'];
+  $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
   $form['mail']['#weight'] = -100;
   unset($form['account']['mail']);
 
@@ -313,13 +319,14 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
   $form['timezone']['#collapsible'] = FALSE;
   $form['mimemail']['#collapsible'] = FALSE;
 
-  // Adjust validators. Remove default one and replace it with a custom one.
-  // Add validator for the email field.
-  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+  // Adjust validators.
+  // Remove default one and replace it with a custom one.
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
   array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
+  // Add validator for the email field.
+  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
 }
 
 /**
