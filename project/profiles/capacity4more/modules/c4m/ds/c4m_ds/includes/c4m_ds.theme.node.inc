@@ -160,13 +160,25 @@ function theme_c4m_ds_content_type_label(array $field) {
     return;
   }
 
+  $icons = array(
+    'photoalbum' => 'fa-picture-o',
+    'photo' => 'fa-file-picture-o',
+  );
+
   $entity = $field['entity'];
 
-  $type = strtoupper($entity->type);
+  $type = $entity->type;
+  $icon_html = '';
+
+  if (!empty($icons[$entity->type])) {
+    // Add icon.
+    $icon = $icons[$entity->type];
+    $icon_html .= '<i class="fa ' . $icon . '"></i> ';
+  }
 
   $tag['element'] = array(
     '#tag' => 'span',
-    '#value' => $type,
+    '#value' => $icon_html . $type,
     '#attributes' => array(
       'class' => array(
         'label',
