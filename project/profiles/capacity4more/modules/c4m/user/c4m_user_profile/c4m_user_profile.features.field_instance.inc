@@ -393,7 +393,7 @@ function c4m_user_profile_field_default_field_instances() {
     'bundle' => 'user',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Set if the user lost his LDAP validation.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -449,7 +449,7 @@ function c4m_user_profile_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Set if the user has LDAP validation.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -505,7 +505,7 @@ function c4m_user_profile_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -1343,6 +1343,9 @@ function c4m_user_profile_field_default_field_instances() {
   t('Regions & Countries');
   t('Select one or more topics you are an expert in.');
   t('Select one or more topics you are interested in.');
+  t('Set if the user has LDAP validation.');
+  t('Set if the user lost his LDAP validation.');
+  t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
   t('The Regions & Countries you are interested in.');
   t('Topics of Expertise');
   t('Topics of Interest');
