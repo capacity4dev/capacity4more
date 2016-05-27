@@ -79,6 +79,8 @@ function kapablo_preprocess_page(&$variables) {
     $variables['content_column_class_kapablo'] = ' class="col-md-12"';
   }
 
+  $variables['front_page'] = url('<front>', array('purl' => array('disabled' => TRUE)));
+
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
 
