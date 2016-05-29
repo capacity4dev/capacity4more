@@ -3,8 +3,6 @@
  * Activate carousel.
  */
 
-
-
 (function ($) {
 
   Drupal.behaviors.nodeFieldsetSummaries = {
