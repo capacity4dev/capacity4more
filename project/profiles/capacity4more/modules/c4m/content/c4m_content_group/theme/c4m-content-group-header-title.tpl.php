@@ -2,8 +2,9 @@
 
 /**
  * @file
- * Template for presenting additional information fields (type, status and
- * access) at content group header title.
+ * Template for presenting additional information fields.
+ *
+ * Type, Status and Access at content group header title.
  */
 ?>
 <div class="row" id="content-group-header-title">
