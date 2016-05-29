@@ -234,11 +234,10 @@ function c4m_message_format_group_node_title(Message $message) {
  *   Return group welcome message.
  */
 function c4m_message_format_group_welcome_message(Message $message) {
-  /*  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper = entity_metadata_wrapper('message', $message);
   $group_message = $wrapper->field_group_node->field_c4m_welcome_message->value();
 
-  return $group_message ? $group_message : '';*/
-  return '';
+  return $group_message ? $group_message : '';
 }
 
 /**
