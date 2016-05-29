@@ -38,8 +38,6 @@ overlay_regions[] = content_bottom
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/kapablo.concat.css
-stylesheets[all][] = css/owl.carousel.css
-stylesheets[all][] = css/owl.theme.css
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts
