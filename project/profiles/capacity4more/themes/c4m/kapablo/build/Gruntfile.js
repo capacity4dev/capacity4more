@@ -114,9 +114,6 @@ module.exports = function (grunt) {
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js'
-                  ],
-                  '<%= project.dst %>/js/owl.carousel.js': [
-                      '<%= project.src %>/javascripts/owl.carousel.js'
                   ]
                 }
             },
@@ -142,9 +139,6 @@ module.exports = function (grunt) {
                   ],
                   '<%= project.dst %>/js/kapablo.concat.js': [
                       '<%= project.src %>/javascripts/kapablo.js'
-                  ],
-                  '<%= project.dst %>/js/owl.carousel.js': [
-                      '<%= project.src %>/javascripts/owl.carousel.js'
                   ]
                 }
             }

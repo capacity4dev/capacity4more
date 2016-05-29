@@ -1,12 +1,11 @@
-//.pane-content .owl-carousel .owl-controls .owl-buttons > div {
-//  /*color: inherit;*/
-//  color: black;
-//  background: inherit;
-//  display: inline-block;
-//}
-//
-//.owl-theme .owl-wrapper-outer .owl-wrapper .owl-item{
-//  display: block;
+.pane-content .owl-carousel .owl-controls .owl-buttons > div {
+  color: inherit;
+  background: inherit;
+  display: inline-block;
+}
+
+.owl-theme .owl-wrapper-outer .owl-wrapper .owl-item{
+  display: block;
 //  padding: 30px 0;
 //  margin: 5px;
 //  color: #FFF;
@@ -14,27 +13,26 @@
 //  -moz-border-radius: 3px;
 //  border-radius: 3px;
 //  text-align: center;
-//}
-//.owl-theme .owl-controls .owl-buttons > div {
-//  padding: 5px 9px;
-//}
-//
-//.owl-theme .owl-buttons i{
-//  margin-top: 2px;
-//}
-//
-////To move navigation buttons outside use these settings:
-//
-//.owl-theme .owl-controls .owl-buttons div {
-//  position: absolute;
-//}
-//
-//.owl-theme .owl-controls .owl-buttons .owl-prev{
-//  left: -45px;
-//  top: 55px;
-//}
-//
-//.owl-theme .owl-controls .owl-buttons .owl-next{
-//  right: -45px;
-//  top: 55px;
-//}
+}
+
+.owl-theme .owl-controls .owl-buttons > div {
+  padding: 5px 9px;
+}
+
+.owl-theme .owl-buttons i{
+  margin-top: 2px;
+}
+
+.owl-theme .owl-controls .owl-buttons div {
+  position: absolute;
+}
+
+.owl-theme .owl-controls .owl-buttons .owl-prev{
+  left: -45px;
+  top: 55px;
+}
+
+.owl-theme .owl-controls .owl-buttons .owl-next{
+  right: -45px;
+  top: 55px;
+}
