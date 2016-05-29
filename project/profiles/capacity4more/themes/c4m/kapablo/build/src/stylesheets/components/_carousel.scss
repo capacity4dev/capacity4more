@@ -4,15 +4,12 @@
   display: inline-block;
 }
 
-.owl-theme .owl-wrapper-outer .owl-wrapper .owl-item{
-  display: block;
-//  padding: 30px 0;
-//  margin: 5px;
-//  color: #FFF;
-//  -webkit-border-radius: 3px;
-//  -moz-border-radius: 3px;
-//  border-radius: 3px;
-//  text-align: center;
+.owl-theme .owl-wrapper-outer {
+  margin: 0 10px;
+
+  .owl-wrapper .owl-item {
+    display: block;
+  }
 }
 
 .owl-theme .owl-controls .owl-buttons > div {
@@ -28,11 +25,11 @@
 }
 
 .owl-theme .owl-controls .owl-buttons .owl-prev{
-  left: -20px;
-  top: 55px;
+  left: -40px;
+  top: 115px;
 }
 
 .owl-theme .owl-controls .owl-buttons .owl-next{
-  right: -20px;
-  top: 55px;
+  right: -35px;
+  top: 115px;
 }
