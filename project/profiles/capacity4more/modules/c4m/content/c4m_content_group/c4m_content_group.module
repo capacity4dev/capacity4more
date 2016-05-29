@@ -730,3 +730,20 @@ function c4m_content_group_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_group_theme() {
+  $theme['c4m_content_group_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'group_access' => '',
+      'group_status' => ''
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/theme',
+    'template' => 'c4m-content-group-header-title',
+  );
+
+  return $theme;
+}

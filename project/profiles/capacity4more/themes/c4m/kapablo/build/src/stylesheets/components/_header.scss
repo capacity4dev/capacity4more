@@ -155,3 +155,74 @@
     background-color: $color-gray-light;
   }
 }
+
+
+#content-group-header-title {
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .top-buffer {
+    margin-top: 10px;
+  }
+
+  .indication {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 5px;
+    color:black;
+
+    &.indication-type {
+      border-style: dotted;
+      border-width: 1px;
+    }
+
+    &.indication-access {
+      color: white;
+      border-width: 1px;
+      border-style: solid;
+
+      &.public {
+        background-color: #B0C35A;
+        border-color: #B0C35A;
+      }
+
+      &.private {
+        background-color: #D0021B;
+        border-color: #D0021B;
+      }
+
+      &.restricted {
+        background-color: #FFBB6D;
+        border-color: #FFBB6D;
+      }
+    }
+
+    &.indication-status {
+      border-style: dotted;
+      border-width: 1px;
+    }
+  }
+
+  .group-icon {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    height: 25px;
+
+    &.group-public {
+      border-color: #B0C35A;
+    }
+
+    &.group-private {
+      border-color: #D0021B;
+    }
+
+    &.group-restricted {
+      border-color: #FFBB6D;
+    }
+  }
+}
