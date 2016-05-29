@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * @file
+ * Template for presenting additional information fields (type, status and
+ * access) at content group header title.
+ */
+?>
 <div class="row" id="content-group-header-title">
   <div class="col-sm-12 col-md-8">
     <h1><?php print $title;?></h1>

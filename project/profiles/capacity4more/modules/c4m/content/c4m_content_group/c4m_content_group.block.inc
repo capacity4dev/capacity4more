@@ -36,7 +36,7 @@ function _c4m_content_group_block_header_name_banner() {
   }
   // Determine access per group_access parameter.
   else {
-    $group_access = $wrapper->group_access->value() == false ? 'public' : 'private';
+    $group_access = $wrapper->group_access->value() == FALSE ? 'public' : 'private';
   }
 
   $title = $wrapper->title->value();
@@ -44,7 +44,7 @@ function _c4m_content_group_block_header_name_banner() {
   $variables = array(
     'title' => $title,
     'group_access' => $group_access,
-    'group_status' => $status
+    'group_status' => $status,
   );
   $title = theme('c4m_content_group_header_title', $variables);
 

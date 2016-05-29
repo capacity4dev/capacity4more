@@ -739,7 +739,7 @@ function c4m_content_group_theme() {
     'variables' => array(
       'title' => '',
       'group_access' => '',
-      'group_status' => ''
+      'group_status' => '',
     ),
     'path' => drupal_get_path('module', 'c4m_content_group') . '/theme',
     'template' => 'c4m-content-group-header-title',
