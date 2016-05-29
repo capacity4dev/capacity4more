@@ -328,6 +328,11 @@ function c4m_search_forms($form_id, $args) {
   $forms['c4m_search_form'] = array(
     'callback' => 'c4m_search_form',
   );
+
+  $forms['c4m_search_redirect_form'] = array(
+    'callback' => 'c4m_search_redirect_form',
+  );
+
   return $forms;
 }
 
@@ -397,6 +402,74 @@ function c4m_search_form_submit($form, &$form_state) {
 
   // Set redirect target.
   $form_state['redirect'] = url($search_page['path'], $options);
+}
+
+/**
+ * Create search redirect form.
+ */
+function c4m_search_redirect_form($form, &$form_state, $redirect_url, $title = NULL, $placeholder = NULL) {
+  $form = array();
+  $form['#attributes']['class'][] = 'search-form';
+  $form['basic'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('container-inline'),
+    ),
+  );
+
+  $form['basic']['search_page'] = array(
+    '#type' => 'hidden',
+    '#value' => $redirect_url,
+  );
+
+  // Search input.
+  $form['basic']['keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search'),
+    '#title_display' => 'invisible',
+    '#default_value' => '',
+    '#size' => 15,
+    '#maxlength' => 255,
+    '#attributes' => array(
+      'title' => $title ? $title : t('Enter the terms you wish to search for.'),
+      'placeholder' => $placeholder ? $placeholder : t('search capacity4dev...'),
+    ),
+  );
+
+  // Submit button.
+  $form['basic']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => '<i class="fa fa-search"></i>',
+  );
+
+  return $form;
+}
+
+/**
+ * Search redirect form submit handler.
+ *
+ * Redirects to the selected search page.
+ */
+function c4m_search_redirect_form_submit($form, &$form_state) {
+  // Get destination search page.
+  $search_page = $form_state['values']['search_page'];
+  $options = array(
+    'query' => array(
+      'text' => $form_state['values']['keys'],
+    ),
+    'purl' => array(
+      'disabled' => TRUE,
+    ),
+    'absolute' => TRUE,
+  );
+
+  // Force redirect on 404 pages.
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  // Set redirect target.
+  $form_state['redirect'] = url($search_page, $options);
 }
 
 /**

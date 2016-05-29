@@ -155,6 +155,41 @@ function theme_c4m_ds_content_type_icon(array $field) {
   return theme_html_tag($tag);
 }
 
+function theme_c4m_ds_content_type_label(array $field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $icons = array(
+    'photoalbum' => 'fa-picture-o',
+    'photo' => 'fa-file-picture-o',
+  );
+
+  $entity = $field['entity'];
+
+  $type = $entity->type;
+  $icon_html = '';
+
+  if (!empty($icons[$entity->type])) {
+    // Add icon.
+    $icon = $icons[$entity->type];
+    $icon_html .= '<i class="fa ' . $icon . '"></i> ';
+  }
+
+  $tag['element'] = array(
+    '#tag' => 'span',
+    '#value' => $icon_html . $type,
+    '#attributes' => array(
+      'class' => array(
+        'label',
+        'label-primary',
+      ),
+    ),
+  );
+
+  return theme_html_tag($tag);
+}
+
 /**
  * DS function field.
  *
@@ -648,6 +683,30 @@ function theme_c4m_ds_group_administer_link(array $field) {
       ),
       'manage',
       array('html' => TRUE)
+    );
+  }
+}
+
+/**
+ * DS function field.
+ *
+ * Render download link of a photo.
+ *
+ * @param array $field
+ *   The field definition.
+ *
+ * @return string
+ *   The rendered version.
+ */
+function theme_c4m_ds_photo_download(array $field) {
+  if (isset($field['entity'])) {
+    $entity = entity_metadata_wrapper('node', $field['entity']);
+    $file = $entity->c4m_media->file->value();
+    $link = l(t('View original photo'), file_create_url($file->uri));
+
+    $tag['element'] = array(
+      '#tag' => 'p',
+      '#value' => $link . ' (' . format_size($file->filesize) . ')',
     );
   }
 }

@@ -77,7 +77,7 @@ function c4m_user_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 7,
+      'weight' => 5,
     ),
   );
 

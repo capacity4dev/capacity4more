@@ -341,7 +341,10 @@ function c4m_user_profile_field_default_field_bases() {
     'locked' => 0,
     'module' => 'list',
     'settings' => array(
-      'allowed_values' => array(),
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
       'allowed_values_function' => '',
     ),
     'translatable' => 0,

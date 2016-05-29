@@ -27,13 +27,14 @@ function c4m_user_profile_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Your account',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-account-info field-group-fieldset',
         'required_fields' => 1,
         'id' => '',
+        'classes' => 'group-account-info field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_account_info|user|user|form'] = $field_group;
@@ -60,13 +61,14 @@ function c4m_user_profile_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Your personal info',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-personal-info field-group-fieldset',
         'required_fields' => 1,
         'id' => '',
+        'classes' => 'group-personal-info field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_personal_info|user|user|form'] = $field_group;
@@ -92,13 +94,14 @@ function c4m_user_profile_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Your public profile',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-public-profile field-group-fieldset',
         'required_fields' => 1,
         'id' => '',
+        'classes' => 'group-public-profile field-group-fieldset',
+        'description' => '',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_public_profile|user|user|form'] = $field_group;
