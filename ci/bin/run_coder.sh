@@ -11,6 +11,7 @@
 if [ "$CODE_REVIEW" != 1 ]; then
   exit 0
 fi
+
 HAS_ERRORS=0
 
 ##
