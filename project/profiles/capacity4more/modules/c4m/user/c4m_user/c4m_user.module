@@ -606,8 +606,8 @@ function c4m_user_menu() {
   );
 
   $items['admin/config/c4m/organisation-validator'] = array(
-    'title' => 'Test email domain',
-    'description' => "Test email address' domains.",
+    'title' => 'Test organisation mails',
+    'description' => "Test email addresses vs organisations.",
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_email_domain_organisation_test'),
     'access arguments' => array('administer site configuration'),
@@ -668,7 +668,7 @@ function c4m_user_access_denied() {
  */
 function c4m_user_menu_alter(&$items) {
   $items['user/login'] = array(
-    'title' => t('Please log in to continue'),
+    'title' => 'Please log in to continue',
   );
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
@@ -738,13 +738,16 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
-      elseif (!empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
-        $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
-        $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
-        $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = '';
-        $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = '';
-      }
     }
+  }
+
+  // If the user is not validated in LDAP and had previous LDAP validation add
+  // the flag.
+  if (empty($edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value']) && !empty($account->c4m_is_ldap_user[LANGUAGE_NONE]['0']['value'])) {
+    $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 0;
+    $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 1;
+    $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = '';
+    $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = '';
   }
 
   $organisation_user = new C4mOrganisationUser($account->mail);
@@ -755,6 +758,7 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
     if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
       $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
     }
+    $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 1;
   }
   elseif (!empty($account->c4m_is_organisation_user[LANGUAGE_NONE]['0']['value'])) {
     $edit['c4m_is_organisation_user'][LANGUAGE_NONE]['0']['value'] = 0;
@@ -820,6 +824,14 @@ function c4m_user_c4m_captcha_form_info() {
  */
 function c4m_user_user_login(&$edit, $account) {
   c4m_user_update_information($account);
+
+  if (!empty($account->c4m_is_invalid_email[LANGUAGE_NONE][0]['value'])) {
+    // $edit is the actual $form_state.
+    $edit['redirect'] = 'user/' . $account->uid . '/edit';
+    // We always have destination set for the login form and this overrides in
+    // drupal_goto the path set above so we have to unset the destination.
+    unset($_GET['destination']);
+  }
 }
 
 /**

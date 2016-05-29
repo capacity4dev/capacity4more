@@ -69,7 +69,7 @@ trait Discussion {
     $steps[] = new Step\When('I fill in ckeditor field "edit-c4m-body-und-0-value" with "This is default discussion."');
     $steps[] = new Step\When('I select "' . $group_title . '" from "edit-og-group-ref-und-0-default"');
     $steps[] = new Step\When('I check the related topic checkbox');
-    $steps[] = new Step\When('I press "Save"');
+    $steps[] = new Step\When('I press "Publish"');
 
     // Check there was no error.
     $steps[] = new Step\When('I should not see "There was an error"');

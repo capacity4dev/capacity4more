@@ -36,7 +36,7 @@ Feature: Group Discussions
     When  I start creating "discussion" "Some new discussion1" in group "Architecture" with file field "c4m-related-document"
     And   I check the related topic checkbox
     And   I should not see an "edit-og-group-ref-und-0-default" element
-    And   I press "Save"
+    And   I press "Publish"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"
 
   @javascript
@@ -52,3 +52,10 @@ Feature: Group Discussions
     And   I start editing "discussion" "Some new discussion3" in group "Tennis Group"
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
+
+  @javascript
+  Scenario: Check unpublish button on node edit forms as an authenticated user
+    Given I am logged in as user "alfrednobel"
+    And   a discussion "Edit this discussion" in group "Nobel Prize" is created
+    When  I start editing "discussion" "Edit this discussion" in group "Nobel Prize"
+    Then  I should see "Unpublish" in the "#edit-draft" element
