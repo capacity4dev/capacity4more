@@ -318,7 +318,7 @@ function c4m_restful_quick_post_preprocess_html(&$vars) {
   drupal_add_css($bower_path . '/angular-carousel/dist/angular-carousel.min.css');
   drupal_add_js($bower_path . '/angular-carousel/dist/angular-carousel.min.js');
 
-  // Angular-Carousel.
+  // Owl Carousel.
   drupal_add_css($bower_path . '/owl-carousel/owl-carousel/owl-carousel.min.css');
   drupal_add_css($bower_path . '/owl-carousel/owl-carousel/owl-theme.css');
   drupal_add_js($bower_path . '/owl-carousel/owl-carousel/owl.carousel.js');

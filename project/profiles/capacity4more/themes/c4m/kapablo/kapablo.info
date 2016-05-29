@@ -49,7 +49,6 @@ scripts[] = js/bootstrap.concat.js
 ;scripts[] = js/dist/modernizr.js
 ;
 scripts[] = js/kapablo.concat.js
-scripts[] = js/owl.carousel.js
 
 ; Disable BootstrapCDN so the compiled SASS source files can be used.
 settings[bootstrap_cdn] = ''
