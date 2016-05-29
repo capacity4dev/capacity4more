@@ -16,8 +16,8 @@
         paginationSpeed : 400,
         singleItem:true,
         navigationText: [
-          "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>",
-          "<i class='fa fa-arrow-circle-right' aria-hidden='true'></i>"
+          "<i class='fa fa-3x fa-arrow-circle-left' aria-hidden='true'></i>",
+          "<i class='fa fa-3x fa-arrow-circle-right' aria-hidden='true'></i>"
         ],
       });
     }

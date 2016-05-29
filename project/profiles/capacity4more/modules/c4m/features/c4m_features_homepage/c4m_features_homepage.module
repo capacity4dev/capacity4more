@@ -152,6 +152,13 @@ function c4m_features_homepage_voices_views_carousel() {
 
   // This js will enable the owl carousel.
   $path = drupal_get_path('module', 'c4m_features_homepage');
+
+  // Load Owl Carousel
+  $bower_path = libraries_get_path('bower_components');
+  drupal_add_css($bower_path . '/owl-carousel/owl.carousel.css');
+  drupal_add_css($bower_path . '/owl-carousel/owl.theme.css');
+  drupal_add_js($bower_path . '/owl-carousel/owl.carousel.min.js');
+
   drupal_add_js($path . '/js/carousel.js');
 
   // Render "see more" link.
