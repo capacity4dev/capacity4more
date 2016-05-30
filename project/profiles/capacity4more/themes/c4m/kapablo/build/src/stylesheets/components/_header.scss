@@ -156,7 +156,6 @@
   }
 }
 
-
 #content-group-header-title {
 
   h1 {
@@ -186,18 +185,18 @@
       border-style: solid;
 
       &.public {
-        background-color: #B0C35A;
-        border-color: #B0C35A;
+        background-color: #b0c35a;
+        border-color: #b0c35a;
       }
 
       &.private {
-        background-color: #D0021B;
-        border-color: #D0021B;
+        background-color: #d0021b;
+        border-color: #d0021b;
       }
 
       &.restricted {
-        background-color: #FFBB6D;
-        border-color: #FFBB6D;
+        background-color: #ffbb6D;
+        border-color: #ffbb6D;
       }
     }
 
@@ -214,15 +213,15 @@
     height: 25px;
 
     &.group-public {
-      border-color: #B0C35A;
+      border-color: #b0c35a;
     }
 
     &.group-private {
-      border-color: #D0021B;
+      border-color: #d0021b;
     }
 
     &.group-restricted {
-      border-color: #FFBB6D;
+      border-color: #ffbb6D;
     }
   }
 }

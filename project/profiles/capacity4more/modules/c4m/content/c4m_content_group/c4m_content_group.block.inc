@@ -30,12 +30,12 @@ function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
-  // If pluggable_node_access is set, then access is restricted.
   if (!empty($wrapper->pluggable_node_access->value())) {
+    // If pluggable_node_access is set, then access is restricted.
     $group_access = 'restricted';
   }
-  // Determine access per group_access parameter.
   else {
+    // Determine access per group_access parameter.
     $group_access = $wrapper->group_access->value() == FALSE ? 'public' : 'private';
   }
 
