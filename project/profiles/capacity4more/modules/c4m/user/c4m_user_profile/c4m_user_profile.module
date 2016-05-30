@@ -322,6 +322,15 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
   $form['timezone']['#collapsible'] = FALSE;
   $form['mimemail']['#collapsible'] = FALSE;
 
+  // Introduce simple Cancel button (goes to user profile)
+  $form['actions']['cancel']['#access'] = FALSE;
+  $form['actions']['simple_cancel'] = array(
+    '#type' => 'button',
+    '#submit' => array('c4m_user_profile_simple_cancel'),
+    "#executes_submit_callback" => TRUE,
+    '#value' => t('Cancel'),
+  );
+
   // Adjust validators.
   // Remove default one and replace it with a custom one.
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
@@ -330,6 +339,13 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
   array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
   // Add validator for the email field.
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+}
+
+/**
+ * Simple callback to redirect to user profile.
+ */
+function c4m_user_profile_simple_cancel(&$form, &$form_state) {
+  $form_state['redirect'] = 'user';
 }
 
 /**
