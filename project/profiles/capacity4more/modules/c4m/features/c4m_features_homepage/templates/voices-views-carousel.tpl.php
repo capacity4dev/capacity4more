@@ -13,7 +13,7 @@
         <div class="item">
           <img class="" src="<?print $carousel['image']; ?>">
           <h2><?php print $carousel['title']; ?></h2>
-          <p><?php print $carousel['text']; ?></p>
+          <p class="intro-text"><?php print $carousel['text']; ?></p>
           <p><?php print $carousel['link']; ?></p>
         </div>
       <?php endforeach; ?>

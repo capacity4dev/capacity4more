@@ -75,8 +75,8 @@ trait Homepage {
   public function iShouldSeeFunctioningCarousel() {
     $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
     $steps[] = new Step\When('I should see "See more"');
-    $steps[] = new Step\When('I should see an "#carousel1" element');
-    $steps[] = new Step\When('I should see an "div.intro-text" element');
+    $steps[] = new Step\When('I should see an ".owl-carousel" element');
+    $steps[] = new Step\When('I should see an "p.intro-text" element');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
     $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
