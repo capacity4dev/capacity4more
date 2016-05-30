@@ -139,7 +139,10 @@ function c4m_features_homepage_voices_views_carousel() {
       'title' => $wrapper->label(),
       'text' => $wrapper->c4m_intro_text->value(),
       'date' => c4m_helper_date_time_ago($wrapper->created->value()),
-      'image' => theme('image_style', array('style_name' => 'banner', 'path' => $banner['uri'])),
+      'image' => theme('image_style', array(
+        'style_name' => 'banner',
+        'path' => $banner['uri'])
+      ),
       'alias' => drupal_get_path_alias('node/' . $article->nid),
       'link' => l(t('See more'), 'node/' . $article->nid, array('attributes' => array('class' => 'see-more-link'))),
     );

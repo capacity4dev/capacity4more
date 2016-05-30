@@ -11,7 +11,7 @@
     <div class="owl-carousel">
       <?php foreach ($carousels as $carousel): ?>
         <div class="item">
-          <?print $carousel['image']; ?>
+          <?php print $carousel['image']; ?>
           <h2><?php print $carousel['title']; ?></h2>
           <p class="intro-text"><?php print $carousel['text']; ?></p>
           <p><?php print $carousel['link']; ?></p>
