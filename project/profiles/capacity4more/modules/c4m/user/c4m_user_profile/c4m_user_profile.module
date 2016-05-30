@@ -264,7 +264,7 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = array(
     '#type' => 'checkbox',
-    '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
+    '#title' => t('Members are allowed to contact you through your personal contact form'),
     '#default_value' => variable_get('contact_default_status', 1),
     '#weight' => 14,
     '#group' => 'group_public_profile',
