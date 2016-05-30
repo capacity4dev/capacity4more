@@ -36,13 +36,13 @@ function _c4m_content_group_block_header_name_banner() {
   }
   else {
     // Determine access per group_access parameter.
-    $group_access = $wrapper->group_access->value() == FALSE ? 'public' : 'private';
+    $group_access = $wrapper->group_access->value() ? 'private' : 'public';
   }
 
   $title = $wrapper->title->value();
   $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
   $variables = array(
-    'title' => $title,
+    'title' => check_plain($title),
     'group_access' => $group_access,
     'group_status' => $status,
   );
