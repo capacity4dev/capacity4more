@@ -745,7 +745,6 @@ function c4m_og_open_group_access_activate_pending_members($node) {
 
     $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_group_node->set($membership->gid);
-
     // Message will be saved in message_notify_send_message().
     message_notify_send_message($wrapper->value());
   }
