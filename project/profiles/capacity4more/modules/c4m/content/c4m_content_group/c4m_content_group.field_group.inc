@@ -21,7 +21,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => '',
-    'weight' => '3',
+    'weight' => '2',
     'children' => array(
       0 => 'group_extra_info',
     ),
@@ -48,7 +48,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'More details',
-    'weight' => '5',
+    'weight' => '3',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_topic',
@@ -82,8 +82,7 @@ function c4m_content_group_field_group_info() {
     'label' => '',
     'weight' => '20',
     'children' => array(
-      0 => 'c4m_ds_group_access_info',
-      1 => 'c4m_ds_group_administer_link',
+      0 => 'c4m_ds_group_administer_link',
     ),
     'format_type' => 'html5',
     'format_settings' => array(
