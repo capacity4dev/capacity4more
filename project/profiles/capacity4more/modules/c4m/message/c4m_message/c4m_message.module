@@ -49,7 +49,38 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_process_email_body($message);
 }
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_message_theme() {
+
+  $theme['c4m_message_email_body'] = array(
+    'variables' => array(
+      'body' => '',
+    ),
+    'path' => drupal_get_path('theme', 'kapablo') . '/templates',
+    'template' => 'mimemail-message-orig',
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function _c4m_message_process_email_body(&$message) {
+  $body = $message['body'][0];
+  $variables = array(
+    'body' => $body,
+  );
+
+  $body[0] = theme('c4m_message_email_body', $variables);
+  $message['body']  = $body;
+}
+
 
 /**
  * Formats 'c4m_welcome_to_group' message From field, per template requirement.
