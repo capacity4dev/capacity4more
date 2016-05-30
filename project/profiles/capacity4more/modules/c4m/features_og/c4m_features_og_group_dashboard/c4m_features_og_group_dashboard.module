@@ -56,12 +56,11 @@ function c4m_features_og_group_dashboard_flag_access($flag, $entity_id, $action,
   }
 
   if ($action == 'flag') {
-    $op = $flag->name == 'c4m_og_content_highlight' ? 'c4m_og_content_promote' : 'c4m_og_content_recommend';
-
+    $flag->name == 'c4m_og_content_highlight' ? 'c4m_og_content_promote' : 'c4m_og_content_recommend';
     return og_user_access('node', $group->nid, 'c4m_og_content_promote', $account);
   }
 
-  $op = $flag->name == 'c4m_og_content_highlight' ? 'c4m_og_content_depromote' : 'c4m_og_content_unrecommend';
+  $flag->name == 'c4m_og_content_highlight' ? 'c4m_og_content_depromote' : 'c4m_og_content_unrecommend';
   return og_user_access('node', $group->nid, 'c4m_og_content_depromote', $account);
 }
 
@@ -154,6 +153,10 @@ function c4m_features_og_group_dashboard_action_promote($node) {
  */
 function c4m_features_og_group_dashboard_action_recommend($node) {
   $flag_link = flag_create_link('c4m_og_content_recommend', $node->nid);
+  if (!$flag_link) {
+    return '';
+  }
+
   $output = theme('html_tag', array(
     'element' => array(
       '#tag' => 'div',
