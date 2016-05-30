@@ -738,6 +738,15 @@ function c4m_og_open_group_access_activate_pending_members($node) {
   foreach (og_membership_load_multiple($ids) as $membership) {
     $membership->state = OG_STATE_ACTIVE;
     $membership->save();
+
+    // Send activation message to member.
+    $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
+    c4m_message_load__c4m_welcome_to_group($message);
+
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_group_node->set($membership->gid);
+    // Message will be saved in message_notify_send_message().
+    message_notify_send_message($wrapper->value());
   }
 }
 
