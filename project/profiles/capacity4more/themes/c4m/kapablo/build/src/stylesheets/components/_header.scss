@@ -36,6 +36,10 @@
 #header-ec-wrapper {
   @include grey_bar;
   border-bottom: none;
+
+
+
+
 }
 
 #header-content-wrapper {
@@ -74,6 +78,7 @@
 }
 
 .header-breadcrumb {
+  display: none;
   margin-top: 1rem;
 
   ol {
@@ -83,7 +88,7 @@
 
     li {
       @extend .text-small;
-      
+
       a {
         @extend .text-breadcrumb;
       }
@@ -99,6 +104,10 @@
       }
     }
   }
+
+  @media (min-width: $grid-float-breakpoint) {
+    display: block;
+  }
 }
 
 .navigation--primary {
@@ -109,6 +118,7 @@
   }
 
   @media (min-width: $grid-float-breakpoint) {
+    display: block;
 
     .navbar {
       margin-bottom: 0;
@@ -153,5 +163,26 @@
   }
   .icon-bar {
     background-color: $color-gray-light;
+  }
+}
+
+.header-search {
+  display: none;
+
+  @media (min-width: $grid-float-breakpoint) {
+    display: block;
+  }
+
+}
+
+.header-logo,
+.header-search {
+
+
+
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
   }
 }
