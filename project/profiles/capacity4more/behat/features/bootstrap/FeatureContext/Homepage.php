@@ -79,7 +79,7 @@ trait Homepage {
     $steps[] = new Step\When('I should see an "p.intro-text" element');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
-    $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
+    $this->getSession()->getPage()->find('css', '.owl-next')->press();
 
     return $steps;
   }
