@@ -904,7 +904,7 @@ function c4m_user_profile_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 13,
+      'weight' => 14,
     ),
   );
 
@@ -1153,7 +1153,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -1239,7 +1239,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -1325,7 +1325,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 10,
+      'weight' => 11,
     ),
   );
 
