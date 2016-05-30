@@ -108,7 +108,7 @@
   <div id="header-ec-wrapper">
     <div class="container">
       <div class="row">
-        <div class="col-sm-9 col-md-9 header-logo">
+        <div class="col-xs-9 col-sm-8 col-md-9 header-logo">
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>"
                title="<?php print t('Home'); ?>">
@@ -117,12 +117,32 @@
           <?php endif; ?>
         </div>
 
-        <div class="col-sm-3 col-md-3 header-search">
+        <div class="col-xs-3 col-sm-4 col-md-3">
+
+          <div class="header-actions">
+
+            <span class="header-actions--wrapper">
+              <span class="header-actions--search fa fa-search"></span>
+            </span>
+            <span class="header-actions--wrapper">
+              <div class="header-actions--navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </div>
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="col-xs-4 col-sm-4 col-md-3 header-search">
           <!-- SEARCH-->
           <?php print render($search_form); ?>
         </div>
       </div>
-      
+
       <div class="row">
         <div class="col-sm-12 col-md-12 header-breadcrumb">
           <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
