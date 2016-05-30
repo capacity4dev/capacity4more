@@ -14,7 +14,7 @@
   <div class="col-sm-12 col-md-4" id="content-group-header-title-right-div">
     <div class="row">
       <div class="col-xs-offset-7 col-xs-5">
-        <div class="top-buffer indication indication-type">
+        <div class="top-buffer indication label label-default">
           group
         </div>
       </div>
@@ -24,12 +24,12 @@
         <span class="top-buffer group-icon group-<?php print $group_access; ?> node-icon as-group-<?php print $group_access; ?>"></span>
       </div>
       <div class="col-xs-5">
-        <div class="top-buffer indication indication-access <?php print $group_access; ?>">
+        <div class="top-buffer indication label label-access <?php print $group_access; ?>">
           <?php print $group_access; ?>
         </div>
       </div>
       <div class="col-xs-5">
-        <div class="top-buffer indication indication-status">
+        <div class="top-buffer indication label label-default">
           <?php print $group_status; ?>
         </div>
       </div>

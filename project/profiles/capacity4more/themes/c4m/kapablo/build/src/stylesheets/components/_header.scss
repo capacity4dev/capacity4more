@@ -169,59 +169,28 @@
 
   .indication {
     font-size: 12px;
-    text-transform: uppercase;
     text-align: center;
     padding: 5px;
-    color:black;
-
-    &.indication-type {
-      border-style: dotted;
-      border-width: 1px;
-    }
-
-    &.indication-access {
-      color: white;
-      border-width: 1px;
-      border-style: solid;
-
-      &.public {
-        background-color: #b0c35a;
-        border-color: #b0c35a;
-      }
-
-      &.private {
-        background-color: #d0021b;
-        border-color: #d0021b;
-      }
-
-      &.restricted {
-        background-color: #ffbb6d;
-        border-color: #ffbb6d;
-      }
-    }
-
-    &.indication-status {
-      border-style: dotted;
-      border-width: 1px;
-    }
+    color: black;
+    display: block;
   }
 
   .group-icon {
     border-style: solid;
     border-width: 1px;
-    border-radius: 5px;
+    border-radius: 6px;
     height: 25px;
 
     &.group-public {
-      border-color: #b0c35a;
+      border-color: $color-green;
     }
 
     &.group-private {
-      border-color: #d0021b;
+      border-color: $color-red;
     }
 
     &.group-restricted {
-      border-color: #ffbb6d;
+      border-color: $color-accent;
     }
   }
 }

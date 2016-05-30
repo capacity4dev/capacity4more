@@ -18,12 +18,37 @@
 }
 
 .label {
+
   &.label-default {
     background: none;
     border: 1px dotted $color-text;
     color: $color-text;
     font-weight: normal;
     text-transform: uppercase;
+    border-radius: 6px;
+  }
+
+  &.label-access {
+    color: $color-white;
+    border: 1px solid $color-white;
+    border-radius: 6px;
+    font-weight: normal;
+    text-transform: uppercase;
+
+    &.public {
+      background-color: $color-green;
+      border-color: $color-green;
+    }
+
+    &.private {
+      background-color: $color-red;
+      border-color: $color-red;
+    }
+
+    &.restricted {
+      background-color: $color-accent;
+      border-color: $color-accent;
+    }
   }
 }
 
