@@ -47,10 +47,10 @@ function c4m_content_photo_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_media' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
   );
   $export['node|photo|default'] = $ds_fieldsetting;
@@ -62,6 +62,37 @@ function c4m_content_photo_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'photo';
   $ds_fieldsetting->view_mode = 'full';
   $ds_fieldsetting->settings = array(
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'link' => '0',
+        'wrapper' => 'h1',
+        'class' => '',
+        'ft' => array(),
+      ),
+    ),
+    'c4m_ds_content_type_label' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_footer_stats' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_photo_download' => array(
+      'weight' => '5',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'c4m_ds_content_actions' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
     'c4m_media' => array(
       'formatter_settings' => array(
         'ft' => array(
@@ -241,18 +272,20 @@ function c4m_content_photo_ds_layout_settings_info() {
   $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
+      'header' => array(
+        0 => 'c4m_ds_content_type_icon',
+        4 => 'title',
+      ),
       'left' => array(
-        0 => 'c4m_media',
+        1 => 'c4m_media',
       ),
       'right' => array(
-        1 => 'c4m_body',
-        2 => 'node_gallery_navigation',
-      ),
-      'header' => array(
-        3 => 'title',
+        2 => 'c4m_body',
+        3 => 'node_gallery_navigation',
       ),
     ),
     'fields' => array(
+      'c4m_ds_content_type_icon' => 'header',
       'c4m_media' => 'left',
       'c4m_body' => 'right',
       'node_gallery_navigation' => 'right',
@@ -279,23 +312,39 @@ function c4m_content_photo_ds_layout_settings_info() {
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'photo';
   $ds_layout->view_mode = 'full';
-  $ds_layout->layout = 'ds_1col';
+  $ds_layout->layout = 'c4m_ds_8_4_fluid';
   $ds_layout->settings = array(
     'regions' => array(
-      'ds_content' => array(
-        0 => 'node_gallery_navigation',
-        1 => 'c4m_media',
-        2 => 'c4m_body',
+      'right' => array(
+        0 => 'c4m_ds_content_actions',
+        8 => 'group_node_actions',
+      ),
+      'left' => array(
+        1 => 'c4m_ds_content_type_label',
+        2 => 'title',
+        3 => 'c4m_ds_content_footer_stats',
+        4 => 'node_gallery_navigation',
+        5 => 'c4m_media',
+        6 => 'c4m_body',
+        7 => 'c4m_ds_photo_download',
       ),
     ),
     'fields' => array(
-      'node_gallery_navigation' => 'ds_content',
-      'c4m_media' => 'ds_content',
-      'c4m_body' => 'ds_content',
+      'c4m_ds_content_actions' => 'right',
+      'c4m_ds_content_type_label' => 'left',
+      'title' => 'left',
+      'c4m_ds_content_footer_stats' => 'left',
+      'node_gallery_navigation' => 'left',
+      'c4m_media' => 'left',
+      'c4m_body' => 'left',
+      'c4m_ds_photo_download' => 'left',
+      'group_node_actions' => 'right',
     ),
     'classes' => array(),
     'wrappers' => array(
-      'ds_content' => 'div',
+      'header' => 'div',
+      'left' => 'div',
+      'right' => 'div',
     ),
     'layout_wrapper' => 'div',
     'layout_attributes' => '',
@@ -303,7 +352,7 @@ function c4m_content_photo_ds_layout_settings_info() {
     'layout_link_attribute' => '',
     'layout_link_custom' => '',
     'layout_disable_css' => FALSE,
-    'hide_page_title' => '0',
+    'hide_page_title' => '1',
     'page_option_title' => '',
   );
   $export['node|photo|full'] = $ds_layout;

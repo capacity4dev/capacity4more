@@ -32,7 +32,7 @@ function theme_c4m_ds_embed_view(array $variables) {
   }
 
   $header['element'] = array(
-    '#tag' => 'h2',
+    '#tag' => $variables['header'],
     '#value' => $title,
   );
 

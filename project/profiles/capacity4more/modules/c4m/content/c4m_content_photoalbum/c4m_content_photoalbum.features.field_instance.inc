@@ -187,7 +187,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -329,8 +329,14 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => '',
+          'separator' => ' » ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
         'weight' => 23,
       ),
       'featured_block' => array(
@@ -341,9 +347,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 25,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 10,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -419,9 +429,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 17,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 12,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -480,8 +494,14 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => '',
+          'separator' => ' » ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
         'weight' => 24,
       ),
       'featured_block' => array(
@@ -492,9 +512,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 26,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -569,8 +593,14 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_content_topic',
+        'settings' => array(
+          'display' => 'all',
+          'link' => '',
+          'separator' => ' » ',
+          'wrap' => 'none',
+        ),
+        'type' => 'term_reference_tree_children_expanded',
         'weight' => 25,
       ),
       'featured_block' => array(
@@ -581,9 +611,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 27,
+        'module' => 'term_reference_tree',
+        'settings' => array(
+          'token_display_selected' => '',
+          'token_display_unselected' => '',
+        ),
+        'type' => 'term_reference_tree',
+        'weight' => 9,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -661,8 +695,11 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_auto',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
         'weight' => 16,
       ),
       'featured_block' => array(
@@ -675,7 +712,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -794,8 +831,11 @@ function c4m_content_photoalbum_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_auto',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
         'weight' => 22,
       ),
       'featured_block' => array(
@@ -805,10 +845,13 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'weight' => 0,
       ),
       'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 24,
+        'label' => 'hidden',
+        'module' => 'c4m_og_vocab',
+        'settings' => array(
+          'concatenate' => FALSE,
+        ),
+        'type' => 'og_vocab',
+        'weight' => 13,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
