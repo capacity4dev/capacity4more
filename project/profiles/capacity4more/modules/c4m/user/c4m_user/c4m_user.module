@@ -375,7 +375,7 @@ function theme_c4m_user_views_bulk_operations_confirmation($variables) {
   );
   foreach ($entities as $entity) {
     $items[] = 'user' == $entity_type ? c4m_user_name($entity) :
-      check_plain(_views_bulk_operations_entity_label($entity_type, $entity));
+      check_plain(entity_label($entity_type, $entity));
   }
   // All rows on all pages have been selected,
   // so show a count of additional items.
