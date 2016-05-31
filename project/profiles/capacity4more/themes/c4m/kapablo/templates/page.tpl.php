@@ -122,7 +122,7 @@
           <div class="header-actions">
 
             <span class="header-actions--wrapper">
-              <span class="header-actions--search fa fa-search"></span>
+              <span class="header-actions--search fa fa-search" data-toggle="collapse" data-target="#search"></span>
             </span>
             <span class="header-actions--wrapper">
               <div class="header-actions--navigation js-navigationButton" data-effect="animation--push">
@@ -136,7 +136,7 @@
         </div>
 
 
-        <div class="col-xs-4 col-sm-4 col-md-3 header-search">
+        <div id="search" class="col-xs-4 col-sm-4 col-md-3 header-search collapse">
           <!-- SEARCH-->
           <?php print render($search_form); ?>
         </div>

@@ -57,7 +57,6 @@
   position: relative;
 
   input {
-    width: 17rem;
     padding-right: 3rem;
   }
 
@@ -237,10 +236,27 @@
 }
 
 .header-search {
-  display: none;
+  width: 100%;
 
-  @media (min-width: $grid-float-breakpoint) {
+  @media (min-width: $screen-sm-min) {
     display: block;
+    width: 33.33%;
+  }
+
+  @media (min-width: $screen-md-min) {
+    width: 25%;
+  }
+}
+
+.header-search .form-wrapper {
+  float: none!important;
+}
+
+.header-search .form-text {
+  width: 100%;
+
+  @media (min-width: $screen-sm-min) {
+    width: 17rem;
   }
 }
 
