@@ -30,3 +30,16 @@
 div.contextual-links-wrapper {
   font-size: 0.9rem;
 }
+
+.page-container {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.page-container.offCanvasNavigation--visible {
+  position: fixed;
+  height: 100%;
+  overflow: hidden;
+}
+

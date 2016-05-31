@@ -1,0 +1,110 @@
+/**
+  off-canvas menu
+**/
+
+.container--push {
+  position: relative;
+  left: 0;
+
+  z-index: 99;
+  height: 100%;
+  perspective: 1000px;
+
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+
+.container--push::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  content: '';
+  width: 0;
+  height: 0;
+  background: rgba(0,0,0,0.2);
+  opacity: 0;
+
+  -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+  transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+}
+
+.offCanvasNavigation--visible .container--push::after {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+}
+
+.offCanvasNavigation {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  visibility: hidden;
+  z-index: 100;
+  width: 300px;
+  height: 100%;
+  overflow-y: scroll;
+
+  background: #48a770;
+
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.offCanvasNavigation::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.2);
+
+  opacity: 1;
+
+  -webkit-transition: opacity 0.5s;
+  transition: opacity 0.5s;
+}
+
+.offCanvasNavigation--visible .offCanvasNavigation::after {
+  width: 0;
+  height: 0;
+  opacity: 0;
+
+  -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+  transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+}
+
+/**
+  Navigation effect
+**/
+
+.animation--push.offCanvasNavigation--visible .container--push {
+  -webkit-transform: translate3d(-300px, 0, 0);
+  transform: translate3d(-300px, 0, 0);
+}
+
+.animation--push.offCanvasNavigation {
+  right: 0;
+  left: initial;
+
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+}
+
+.animation--push.offCanvasNavigation--visible .animation--push.offCanvasNavigation {
+  visibility: visible;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.5s;
+}
+
+.animation--push.offCanvasNavigation::after {
+  display: none;
+}
+
+

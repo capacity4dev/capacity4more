@@ -125,13 +125,12 @@
               <span class="header-actions--search fa fa-search"></span>
             </span>
             <span class="header-actions--wrapper">
-              <div class="header-actions--navigation">
+              <div class="header-actions--navigation js-navigationButton" data-effect="animation--push">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </div>
             </span>
-
           </div>
 
         </div>

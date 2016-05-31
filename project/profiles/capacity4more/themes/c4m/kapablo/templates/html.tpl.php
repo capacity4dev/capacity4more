@@ -76,17 +76,21 @@
     ); ?></a>
 </div>
 
-<section class="page--main">
-  <?php print $page_top; ?>
-  <?php print $page; ?>
-  <?php print $page_bottom; ?>
+<section class="page-container">
+  <div class="container--push">
+    <?php print $page_top; ?>
+    <?php print $page; ?>
+    <?php print $page_bottom; ?>
+
+    <?php if ($off_canvas): ?>
+      <nav class="offCanvasNavigation animation--push">
+        <?php print $off_canvas; ?>
+      </nav>
+    <?php endif; ?>
+  </div>
 </section>
 
-<?php if ($off_canvas): ?>
-  <aside class="page--offcanvas">
-    <?php print $off_canvas; ?>
-  </aside>
-<?php endif; ?>
+
 
 </body>
 </html>
