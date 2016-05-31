@@ -69,7 +69,10 @@ function c4m_features_og_manage_menu() {
 
   $items['manage/categories/term/%/delete'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_features_og_manage_categories_term_delete_confirm_form', 3),
+    'page arguments' => array(
+      'c4m_features_og_manage_categories_term_delete_confirm_form',
+      3,
+    ),
     'access callback' => array('c4m_features_og_manage_categories_terms_access'),
     'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
@@ -77,7 +80,10 @@ function c4m_features_og_manage_menu() {
 
   $items['manage/categories/type/%/delete'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_features_og_manage_categories_type_delete_confirm_form', 3),
+    'page arguments' => array(
+      'c4m_features_og_manage_categories_type_delete_confirm_form',
+      3,
+    ),
     'access callback' => array('c4m_features_og_manage_categories_terms_access'),
     'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
@@ -85,7 +91,10 @@ function c4m_features_og_manage_menu() {
 
   $items['manage/categories/term/%/term-order'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_features_og_manage_categories_term_order_confirm_form', 3),
+    'page arguments' => array(
+      'c4m_features_og_manage_categories_term_order_confirm_form',
+      3,
+    ),
     'access callback' => array('c4m_features_og_manage_categories_terms_access'),
     'access arguments' => array(3),
     'file' => 'c4m_manage_categories.inc',
@@ -93,7 +102,10 @@ function c4m_features_og_manage_menu() {
 
   $items['manage/categories/type/%/term-order'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_features_og_manage_categories_type_order_confirm_form', 3),
+    'page arguments' => array(
+      'c4m_features_og_manage_categories_type_order_confirm_form',
+      3,
+    ),
     'access callback' => array('c4m_features_og_manage_categories_access'),
     'file' => 'c4m_manage_categories.inc',
   );
@@ -136,11 +148,20 @@ function c4m_features_og_manage_categories_terms_access($tid) {
     return FALSE;
   }
 
-  $vocabulary = c4m_og_vocab_load_group_vocabulary($group, 'c4m_vocab_category');
+  $vocabulary = c4m_og_vocab_load_group_vocabulary(
+    $group,
+    'c4m_vocab_category'
+  );
   // Validate if the given category type belongs to the current group
   // (The group vocab).
   if (!_og_vocab_term_exists_in_vocab($term->name, $vocabulary->vid)) {
-    drupal_set_message(t('The term "%name" does not belong to the current group.', array('%name' => $term->name)), 'error');
+    drupal_set_message(
+      t(
+        'The term "%name" does not belong to the current group.',
+        array('%name' => $term->name)
+      ),
+      'error'
+    );
     return FALSE;
   }
 
@@ -198,12 +219,29 @@ function c4m_features_og_manage_group_details() {
   // Info about the membership request field.
   $membership_field = field_info_field('field_membership_open_request');
 
+  $purl = array(
+    'provider' => "og_purl|node",
+    'id' => $group->nid,
+  );
+  $options = array('purl' => $purl, 'absolute' => TRUE);
+
   $details = array(
-    'edit_link' => url('node/' . $group->nid . '/edit', array('absolute' => TRUE)),
+    'edit_link' => url(
+      'node/' . $group->nid . '/edit',
+      array('absolute' => TRUE)
+    ),
+    'owner' => c4m_user_name(user_load($group->uid)),
+    'owner_edit' => url(
+      'group/node/' . $group->nid . '/admin/owner',
+      array('absolute' => TRUE)
+    ),
+    'admins' => t('No administrators'),
+    'admins_edit' => url('members', $options),
     'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
     'title' => '<strong>' . $wrapper->label() . '</strong>',
     'description' => $wrapper->c4m_body->value(),
-    'membership_open_request' => $membership_field['settings']['allowed_values'][$wrapper->field_membership_open_request->value()],
+    'membership_open_request' => $membership_field['settings']['allowed_values'][$wrapper->field_membership_open_request->value(
+    )],
     'group_access' => c4m_og_get_access_type($group),
     'topics' => t('No Group Topics'),
     'locations' => t('No Group Regions & Countries'),
@@ -259,6 +297,23 @@ function c4m_features_og_manage_group_details() {
     $details['locations'] = theme_item_list($geo_list);
   }
 
+  // Administrators.
+  $admins = c4m_og_get_group_admins($group->nid);
+  if (!empty($admins)) {
+    $admin_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($admins as $admin) {
+      $admin_list['items'][] = c4m_user_name($admin);
+    }
+
+    $details['admins'] = theme_item_list($admin_list);
+  }
+
   // List of related groups.
   if ($related_groups = $wrapper->c4m_related_group->value()) {
     $related_groups_list = array(
@@ -285,7 +340,11 @@ function c4m_features_og_manage_group_details() {
           ),
         ),
       );
-      $related_groups_list['items'][] = l($related_group->title, url($related_group->purl, $url_options), $link_options);
+      $related_groups_list['items'][] = l(
+        $related_group->title,
+        url($related_group->purl, $url_options),
+        $link_options
+      );
     }
 
     $details['related_groups'] = theme_item_list($related_groups_list);
@@ -317,15 +376,26 @@ function c4m_features_og_manage_group_details() {
           ),
         ),
       );
-      $related_projects_list['items'][] = l($related_project->title, url($related_project->purl, $url_options), $link_options);
+      $related_projects_list['items'][] = l(
+        $related_project->title,
+        url($related_project->purl, $url_options),
+        $link_options
+      );
     }
 
     $details['related_projects'] = theme_item_list($related_projects_list);
   }
 
   // Get categories and terms count for current group.
-  $og_vocab = c4m_restful_get_og_vocab_by_name('node', $group->nid, 'Categories');
-  $details['taxonomy_manage_link'] = l(t('Edit'), url('manage/categories', array('absolute' => TRUE)));
+  $og_vocab = c4m_restful_get_og_vocab_by_name(
+    'node',
+    $group->nid,
+    'Categories'
+  );
+  $details['taxonomy_manage_link'] = l(
+    t('Edit'),
+    url('manage/categories', array('absolute' => TRUE))
+  );
   $categories = taxonomy_get_tree($og_vocab[0]->vid);
   $categories_count = 0;
   $terms_count = 0;
@@ -342,7 +412,10 @@ function c4m_features_og_manage_group_details() {
 
   // Get features settings.
   $details['features_available'] = c4m_og_feature_info();
-  $details['features_manage_link'] = l(t('Edit'), url('manage/features', array('absolute' => TRUE)));
+  $details['features_manage_link'] = l(
+    t('Edit'),
+    url('manage/features', array('absolute' => TRUE))
+  );
   $details['features_enabled'] = variable_get('c4m_og_features_group', array());
 
   return $details;
@@ -371,9 +444,12 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
   $wrapper = entity_metadata_wrapper('node', $group);
 
   // Pending memberships count link.
-  $pending_memberships_count_text = t('@count Group membership requests', array(
-    '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
-  ));
+  $pending_memberships_count_text = t(
+    '@count Group membership requests',
+    array(
+      '@count' => c4m_og_get_members_count($group, OG_STATE_PENDING),
+    )
+  );
   $link_options = array(
     'absolute' => TRUE,
     'query' => array(
@@ -382,7 +458,10 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
   );
   $info = array(
     'status' => $wrapper->c4m_og_status->value(),
-    'pending_members_link' => l($pending_memberships_count_text, url('members', $link_options)),
+    'pending_members_link' => l(
+      $pending_memberships_count_text,
+      url('members', $link_options)
+    ),
   );
 
   // Group thumbnail image with edit link.
@@ -407,11 +486,21 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
     $file['style_name'] = 'medium';
     $file['path'] = $file['uri'];
     $file['attributes'] = array('class' => 'group-thumbnail');
-    $info['thumbnail_image'] = l(theme_image_style($file) . theme_html_tag($edit_link), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-list')), $options);
+    $info['thumbnail_image'] = l(
+      theme_image_style($file) . theme_html_tag($edit_link),
+      url(
+        'node/' . $group->nid . '/edit',
+        array('absolute' => TRUE, 'fragment' => 'edit-image-list')
+      ),
+      $options
+    );
   }
 
   // Archive group link (If group is not archived already).
-  $info['archive_link'] = $info['status'] != 'archived' ? l(t('Archive group'), url('node/' . $group->nid . '/edit', array('absolute' => TRUE))) : '';
+  $info['archive_link'] = $info['status'] != 'archived' ? l(
+    t('Archive group'),
+    url('node/' . $group->nid . '/edit', array('absolute' => TRUE))
+  ) : '';
 
   return $info;
 }
@@ -421,11 +510,17 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
  *
  * Alter variable manage form layout.
  */
-function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$form, &$form_state, $form_id) {
+function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
   // Don't use vertical tabs.
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
-  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t('Enable or disable features for this group.');
+  $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t(
+    'Enable or disable features for this group.'
+  );
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsed'] = FALSE;
@@ -433,7 +528,10 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$
   // Attach CSS/JavaScript.
   $form['variables']['#attached'] = array(
     'js' => array(
-      drupal_get_path('module', 'c4m_features_og_manage') . '/js/manage_features.js',
+      drupal_get_path(
+        'module',
+        'c4m_features_og_manage'
+      ) . '/js/manage_features.js',
     ),
   );
 }
@@ -443,7 +541,10 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(&$
  *
  * Add anchors to the following elements by adding an ID on their elements.
  */
-function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state) {
+function c4m_features_og_manage_form_group_node_form_alter(
+  &$form,
+  &$form_state
+) {
   $form_elements = array(
     'title' => 'edit-details',
     'c4m_related_group' => 'edit-related-content',
@@ -462,7 +563,10 @@ function c4m_features_og_manage_form_group_node_form_alter(&$form, &$form_state)
  * Prevent access to the "description" and "relations" fields for non
  * platform-administrators.
  */
-function c4m_features_og_manage_form_taxonomy_form_term_alter(&$form, &$form_state) {
+function c4m_features_og_manage_form_taxonomy_form_term_alter(
+  &$form,
+  &$form_state
+) {
   global $user;
   if (!in_array('administrator', $user->roles)) {
     $form['description']['#access'] = FALSE;
