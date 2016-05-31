@@ -1,0 +1,5 @@
+name = Notifications
+description = This module provides functionality for the email notifications.
+core = 7.x
+package = capacity4more - Notifications
+files[] = includes/c4m_notifications_handlers.inc
