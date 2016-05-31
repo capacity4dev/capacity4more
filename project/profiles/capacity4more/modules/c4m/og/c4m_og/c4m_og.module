@@ -392,10 +392,19 @@ function c4m_og_get_members_count($group, $state = OG_STATE_ACTIVE) {
     // Get only the active members.
     ->propertyCondition('state', $state)
     ->propertyCondition('entity_type', 'user')
+    ->addTag('user_not_blocked')
     ->count()
     ->execute();
 
   return $result;
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function c4m_og_query_user_not_blocked_alter(QueryAlterableInterface $query) {
+  // Make sure to count only user who are not blocked.
+  $query->innerjoin("users", "u", "u.uid = og_membership.etid AND u.status = '1'");
 }
 
 /**
