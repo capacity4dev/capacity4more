@@ -218,6 +218,8 @@
 
   background: none;
   border: transparent;
+
+  cursor: pointer;
 }
 
 .header-actions--navigation .icon-bar {
@@ -240,14 +242,10 @@
   @media (min-width: $grid-float-breakpoint) {
     display: block;
   }
-
 }
 
 .header-logo,
 .header-search {
-
-
-
   &::after {
     content: "";
     clear: both;
