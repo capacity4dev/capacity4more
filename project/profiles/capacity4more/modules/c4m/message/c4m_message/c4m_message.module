@@ -62,7 +62,7 @@ function c4m_message_theme() {
       'body' => '',
     ),
     'path' => drupal_get_path('theme', 'kapablo') . '/templates',
-    'template' => 'mimemail-message-orig',
+    'template' => 'mimemail-message',
   );
 
   return $theme;
@@ -70,15 +70,11 @@ function c4m_message_theme() {
 
 /**
  * Implements hook_theme().
+ *
+ * Wraps email body with master template.
  */
 function _c4m_message_process_email_body(&$message) {
-  $body = $message['body'][0];
-  $variables = array(
-    'body' => $body,
-  );
-
-  $body[0] = theme('c4m_message_email_body', $variables);
-  $message['body']  = $body;
+  $message['body'][0] = theme('c4m_message_email_body', array('body' => $message['body'][0]));
 }
 
 
