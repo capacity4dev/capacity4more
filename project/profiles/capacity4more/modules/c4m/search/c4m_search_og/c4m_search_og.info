@@ -2,5 +2,6 @@ name = Search OG
 description = Provides the missing parts in the integration between OG and Search API.
 core = 7.x
 package = capacity4more - Search
+dependencies[] = c4m_search
 dependencies[] = og_access
 dependencies[] = search_api

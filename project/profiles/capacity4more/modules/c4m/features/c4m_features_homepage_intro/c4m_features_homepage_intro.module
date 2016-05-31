@@ -159,7 +159,7 @@ function template_preprocess_c4m_features_homepage_intro_video(array &$vars) {
 
   // Video title fallback.
   if (empty($vars['video_title'])) {
-    $vars['video_title'] = t('Watch what is capacity4dev');
+    $vars['video_title'] = t('What is capacity4dev');
   }
 
   // Extract the video ID from the URL.

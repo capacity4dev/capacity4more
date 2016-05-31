@@ -234,6 +234,15 @@
     }
   };
 
+  Drupal.behaviors.registration = {
+    attach: function (context, settings) {
+      $('.use-another-email', context).click(function () {
+        $('input[name="mail"]').val('').focus();
+        return false;
+      });
+    }
+  };
+
   // Disable form buttons on AJAX calls.
   $(document)
     .ajaxStart(function () {

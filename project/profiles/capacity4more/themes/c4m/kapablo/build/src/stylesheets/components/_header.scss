@@ -52,18 +52,16 @@
   }
 }
 
-#c4m-search-form {
-  margin-top: 1.8rem;
-  position: relative;
-
+#c4m-search-form, #c4m-search-redirect-form {
   input {
-    width: 17rem;
     padding-right: 3rem;
+    width: 100%;
   }
 
   .form-group {
     margin: 0;
     position: relative;
+    width: 100%;
   }
 
   .form-submit {
@@ -74,6 +72,19 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+}
+
+#c4m-search-form {
+  margin-top: 1.8rem;
+  position: relative;
+
+  input {
+    width: 17rem;
+  }
+
+  .form-group {
+    width: auto;
   }
 }
 

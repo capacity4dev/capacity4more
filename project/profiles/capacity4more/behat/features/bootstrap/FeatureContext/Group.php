@@ -374,7 +374,6 @@ trait Group {
     $steps = array();
 
     $steps[] = new Step\When('I should see a "Description" field');
-    $steps[] = new Step\When('I should see a "Group type" field');
     $steps[] = new Step\When('I should see a "Group dashboard details" field group');
     $steps[] = new Step\When('I should see a "Author" field');
     $steps[] = new Step\When('I should see a "Topics" field');

@@ -6,6 +6,9 @@
 
 include_once 'c4m_user_profile.features.inc';
 
+define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE', 1);
+define('C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR', 2);
+
 /**
  * Implements hook_field_extra_fields_alter().
  */
@@ -218,28 +221,7 @@ function c4m_user_profile_user_login(&$edit, $user) {
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
   drupal_set_title(t('Registration'));
 
-  // Add checkbox for contact options.
-  // @see contact_form_user_profile_form_alter().
-  $form['contact_info']['contact'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
-    '#default_value' => variable_get('contact_default_status', 1),
-    '#weight' => 20,
-  );
-  $form['contact_info']['#weight'] = 20;
-
-  // Move the email input first.
-  $form['mail'] = $form['account']['mail'];
-  $form['mail']['#weight'] = -100;
-  unset($form['account']['mail']);
-
-  $form['mail']['#ajax'] = array(
-    'callback' => 'c4m_user_profile_element_validate_mail_ajax',
-    'event' => 'blur',
-    'method' => 'replace',
-    'wrapper' => 'user-form-mail-validation-message',
-  );
-  $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+  c4m_user_profile_alter_user_form($form, $form_state, TRUE);
 
   // Add Cancel button.
   $form['actions']['cancel'] = array(
@@ -252,15 +234,6 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['legal']['#type'] = 'markup';
   $form['legal']['#markup'] = '<p>' . $form['legal']['#title'] . '</p>';
 
-  // Adjust validators.
-  // Remove default one and replace it with a custom one.
-  if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
-    unset($form['#validate'][$key]);
-  }
-  array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
-  // Add validator for the email field.
-  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
-
   $form['subscribe_to_mailinglist'] = array(
     '#type' => 'checkbox',
     '#title' => t('Send me the monthly C4DEV newsletter (see !samples)', array(
@@ -272,19 +245,26 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Alters user register / edit profile form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
  */
-function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
+function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration) {
+  $form['#prefix'] = '<div id="user-register-form-wrapper">';
+  $form['#suffix'] = '</div>';
 
-  // Custom title for edit form.
-  drupal_set_title(t('Edit profile'));
+  $form['c4m_is_ldap_user'][LANGUAGE_NONE]['#type'] = 'hidden';
+  $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
+  $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
   // Add checkbox for contact options.
   // @see contact_form_user_profile_form_alter().
   $form['contact'] = array(
     '#type' => 'checkbox',
-    '#title' => t('I allow C4Dev users to contact me directly by E-mail through the platform'),
+    '#title' => t('Members are allowed to contact you through your personal contact form'),
     '#default_value' => variable_get('contact_default_status', 1),
     '#weight' => 14,
     '#group' => 'group_public_profile',
@@ -300,9 +280,42 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     'callback' => 'c4m_user_profile_element_validate_mail_ajax',
     'event' => 'blur',
     'method' => 'replace',
-    'wrapper' => 'user-form-mail-validation-message',
+    'wrapper' => 'user-register-form-wrapper',
   );
-  $form['mail']['#suffix'] = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+
+  if (isset($form_state['values']['mail'])) {
+    // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
+    // warnings often caused by cutting and pasting.
+    $mail = trim($form_state['values']['mail']);
+    $validation_messages = array();
+
+    $data['mail'] = $mail;
+    $data['minimum_error_level'] = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE;
+    $data['form'] = &$form;
+    $data['form_state'] = &$form_state;
+    $data['alter_form'] = $is_registration;
+    $data['validation_messages'] = &$validation_messages;
+
+    drupal_alter('c4m_user_profile_validate_email', $data);
+    uasort($validation_messages, 'element_sort');
+
+    if ($validation_messages) {
+      $messages = array();
+      foreach ($validation_messages as $validation_message) {
+        $type = $validation_message['type'] === C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE ? 'info' : 'danger';
+        $messages[] = '<div class="text-' . $type . '">' . $validation_message['message'] . '</div>';
+      }
+      $suffix = '<div id="user-form-mail-validation-message">' . implode(
+          "",
+          $messages
+        ) . '</div>';
+    }
+    else {
+      $suffix = '<div id="user-form-mail-validation-message" class="hidden"></div>';
+    }
+
+    $form['mail']['#suffix'] = $suffix;
+  }
 
   // Make fieldsets incollapsible.
   $form['contact']['#collapsible'] = FALSE;
@@ -311,12 +324,48 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
 
   // Adjust validators.
   // Remove default one and replace it with a custom one.
-  $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
   if (($key = array_search('user_account_form_validate', $form['#validate'])) !== FALSE) {
     unset($form['#validate'][$key]);
   }
+  array_unshift($form['#validate'], 'c4m_user_profile_account_form_validate');
   // Add validator for the email field.
   $form['mail']['#element_validate'][] = 'c4m_user_profile_element_validate_mail';
+
+  // Add custom submit handler.
+  $form['#submit'][] = 'c4m_user_profile_form_user_profile_form_submit';
+}
+
+/**
+ * Simple callback to redirect to user profile.
+ */
+function c4m_user_profile_simple_cancel(&$form, &$form_state) {
+  $form_state['redirect'] = 'user';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  // Custom title for edit form.
+  drupal_set_title(t('Edit profile'));
+  $account = $form['#user'];
+  $account_wrapper = entity_metadata_wrapper('user', $account);
+
+  if ($account_wrapper->c4m_is_ldap_user->value() && !empty($form['c4m_country'][LANGUAGE_NONE]['#default_value'])) {
+    $form['c4m_country'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+  }
+  if ($account_wrapper->c4m_organisation->value() && !empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
+    $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['readonly'] = 'readonly';
+  }
+  if ($account_wrapper->c4m_organisation_type->value() && !empty($form['c4m_organisation_type'][LANGUAGE_NONE]['#default_value'])) {
+    $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+  }
+
+  c4m_user_profile_alter_user_form($form, $form_state, FALSE);
+
+  $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
   // Hide the spammer/deleted checkbox for non-admins.
   if (!in_array('administrator', $user->roles)) {
@@ -329,32 +378,21 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
     $form['account']['status']['#disabled'] = TRUE;
   }
 
-  $form['c4m_is_ldap_user']['#access'] = FALSE;
-  $form['c4m_is_organisation_user']['#access'] = FALSE;
-  $form['c4m_is_invalid_email']['#access'] = FALSE;
+  // Introduce simple Cancel button (goes to user profile)
+  $form['actions']['cancel']['#access'] = FALSE;
+  $form['actions']['simple_cancel'] = array(
+    '#type' => 'button',
+    '#submit' => array('c4m_user_profile_simple_cancel'),
+    "#executes_submit_callback" => TRUE,
+    '#value' => t('Cancel'),
+  );
 }
 
 /**
  * AJAX callback for mail field validation.
  */
 function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
-  // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
-  // warnings often caused by cutting and pasting.
-  $mail = trim($form_state['values']['mail']);
-
-  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
-  uasort($errors, 'element_sort');
-
-  if ($errors) {
-    $messages = array();
-    foreach ($errors as $error) {
-      $messages[] = $error['message'];
-    }
-    return '<div id="user-form-mail-validation-message" class="text-danger">' . implode("<br>", $messages) . '</div>';
-  }
-  else {
-    return '<div id="user-form-mail-validation-message" class="hidden"></div>';
-  }
+  return $form;
 }
 
 /**
@@ -400,6 +438,24 @@ function c4m_user_profile_form_user_register_form_submit($form, &$form_state) {
   if (!c4m_user_profile_subscribe_to_mailing_list($email, $name)) {
     drupal_set_message(t("We couldn't subscribe you to the mailing list. Please try again later."));
   }
+
+  // Set contact flag.
+  if (isset($form_state['user'])) {
+    variable_set('contact_default_status', $form_state['user']->contact);
+  }
+}
+
+/**
+ * Submit callback for user_register_form form.
+ */
+function c4m_user_profile_form_user_profile_form_submit($form, &$form_state) {
+  // Set contact flag.
+  if (isset($form_state['user'])) {
+    variable_set('contact_default_status', $form_state['user']->contact);
+  }
+
+  // Redirect to user profile after submit.
+  $form_state['redirect'] = 'user';
 }
 
 /**
@@ -522,71 +578,155 @@ function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
   // warnings often caused by cutting and pasting.
   $mail = trim($form_state['values']['mail']);
   form_set_value($form['mail'], $mail, $form_state);
+  $validation_messages = array();
 
-  $errors = module_invoke_all('c4m_user_profile_validate_email', $mail, $form_state, $form);
-  uasort($errors, 'element_sort');
+  $data['mail'] = $mail;
+  $data['minimum_error_level'] = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR;
+  $data['form'] = &$form;
+  $data['alter_form'] = FALSE;
+  $data['form_state'] = &$form_state;
+  $data['validation_messages'] = &$validation_messages;
 
-  if ($errors) {
+  drupal_alter('c4m_user_profile_validate_email', $data);
+  uasort($validation_messages, 'element_sort');
+
+  if ($validation_messages) {
     $messages = array();
-    foreach ($errors as $error) {
-      $messages[] = $error['message'];
+    foreach ($validation_messages as $validation_message) {
+      $messages[] = $validation_message['message'];
     }
     form_error($element, implode("<br>", $messages));
   }
 }
 
 /**
- * Implements hook_c4m_user_profile_validate_email().
+ * Implements hook_c4m_user_profile_validate_email_alter().
  */
-function c4m_user_profile_c4m_user_profile_validate_email($mail, $form_state, $form) {
-  if (!valid_email_address($mail)) {
-    return array(
-      array(
-        'message' => t('The e-mail address %mail is not valid.', array('%mail' => $mail)),
-        '#weight' => 0,
-      ),
+function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
+  if (!valid_email_address($data['mail'])) {
+    $data['validation_messages'][] = array(
+      'message' => t('The e-mail address %mail is not valid.', array('%mail' => $data['mail'])),
+      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+      '#weight' => -6,
     );
+    return;
   }
 
-  if (!($other_user = user_load_by_mail($mail)) || isset($form_state['user']->uid) && $other_user->uid == $form_state['user']->uid) {
-    return array();
+  $country = '';
+  $organisation_name = '';
+  $organisation_type = '';
+
+  $domain_user = new C4mDomainUser($data['mail']);
+  if ($domain = $domain_user->getEmailDomainByName()) {
+    $ldap = new C4mLDAPUser();
+    $is_ldap_user = FALSE;
+    if ($ldap->isUp()) {
+      $info = $ldap->getInfo($data['mail']);
+      if ($info && !empty($info['valid'])) {
+        $country = $info['country'];
+        $organisation_name = $domain->organisation_name;
+        $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
+        $is_ldap_user = TRUE;
+      }
+      elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
+        $organisation_name = $whitelist_domain->organisation_name;
+        $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
+        $is_ldap_user = FALSE;
+      }
+
+      $data['validation_messages'][] = array(
+        'message' => $is_ldap_user ? t('<p>Your email address is validated in LDAP.</p>') : t('<p>Your email address is not validated in LDAP.</p>'),
+        'type' => $is_ldap_user ? C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE : C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => 4,
+      );
+    }
+  }
+
+  if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
+    $organisation_user = new C4mOrganisationUser($data['mail']);
+    if ($organisations = $organisation_user->getOrganisationsInfo()) {
+      $organisation = array_shift($organisations);
+      $organisation = entity_metadata_wrapper('node', $organisation);
+
+      $organisation_type = $organisation->c4m_organisation_type->value();
+      if (empty($organisation_name)) {
+        $organisation_name = $organisation->title->value();
+      }
+
+      $data['alter_form'] && $data['form']['c4m_is_organisation_user'][LANGUAGE_NONE]['#value'] = 1;
+
+      $data['validation_messages'][] = array(
+        'message' => t('<p>You are recognized as member of !logo - %name<br />If you do not want to be associated with this organization, please !use_another_email.</p>', array(
+          '!logo' => theme('image_style', array('path' => $organisation->c4m_icon->value()['uri'], 'style_name' => 'icon_small')),
+          '%name' => $organisation->title->value(),
+          '!use_another_email' => l(t('use another email address'), '', array(
+            'fragment' => ' ',
+            'external' => TRUE,
+            'attributes' => array('class' => array('use-another-email')),
+          )),
+        )),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE,
+        '#weight' => 4,
+      );
+    }
+  }
+
+  if ($data['alter_form']) {
+    if ($country) {
+      $data['form']['c4m_country'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_country'][LANGUAGE_NONE]['#value'] = $country;
+    }
+    if ($organisation_name) {
+      $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#value'] = $organisation_name;
+    }
+    if ($organisation_type) {
+      $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#value'] = $organisation_type;
+    }
+  }
+
+  if (!($other_user = user_load_by_mail($data['mail'])) || isset($data['form_state']['user']->uid) && $other_user->uid == $data['form_state']['user']->uid) {
+    return;
   }
 
   $other_user = entity_metadata_wrapper('user', $other_user);
-  $errors = array();
   if ($other_user->status->value()) {
-    $errors[] = array(
+    $data['validation_messages'][] = array(
       'message' => t('This account is already in use. If this is you, please !login</a>.', array(
         '!login' => l(t('log in'), 'user/login'),
       )),
-      '#weight' => 0,
+      'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+      '#weight' => -5,
     );
   }
   else {
     if (!$other_user->last_login->value() && !$other_user->last_access->value()) {
-      $errors[] = array(
+      $data['validation_messages'][] = array(
         'message' => t('This email address is already in use. Please activate your account, or re-send activation mail.'),
-        '#weight' => 0,
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
+        '#weight' => -4,
       );
     }
     if ($other_user->c4m_is_spammer->value()) {
-      $errors[] = array(
+      $data['validation_messages'][] = array(
         'message' => t('This account has been blocked. !contact site administrator for more information.', array(
           '!contact' => l(t('Contact'), 'contact'),
         )),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => 1,
       );
     }
     if ($other_user->c4m_is_deleted->value()) {
-      $errors[] = array(
+      $data['validation_messages'][] = array(
         'message' => t('There is a problem with your account, please !contact the site administrators.', array(
           '!contact' => l(t('contact'), 'contact'),
         )),
+        'type' => C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
         '#weight' => 2,
       );
     }
   }
-  return $errors;
 }
 
 /**
