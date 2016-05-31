@@ -13,6 +13,12 @@ include_once 'c4m_og.access.inc';
 define('C4M_OG_ACCESS_REALM', 'c4m_og_access');
 
 /**
+ * The values of the groups access level as defined on its field base.
+ */
+define('C4M_OG_MODERATED_GROUP', 0);
+define('C4M_OG_OPEN_GROUP', 1);
+
+/**
  * Helper to get the current active group (based on og_context()).
  *
  * @return object|FALSE
@@ -105,6 +111,197 @@ function c4m_og_form_alter(&$form, $form_state) {
     'replace' => '-',
     'replace_pattern' => '[^a-z0-9_-]+',
   );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_og_menu() {
+  $items['group/%/%/admin/owner'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => array(1, 2),
+    'title' => 'Replace Owner',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_og_ui_get_group_admin_alter().
+ *
+ * Adding a link to the replace owner page.
+ */
+function c4m_og_og_ui_get_group_admin_alter(&$data, $context) {
+  if (!c4m_og_user_is_owner($context['entity_type'], $context['etid'])) {
+    return;
+  }
+
+  $data['replace_owner'] = array(
+    'title' => t('Replace Owner'),
+    'description' => t('Replacing the owner of the group.'),
+    'href' => 'admin/owner',
+  );
+}
+
+/**
+ * Form builder.
+ *
+ * Group owner replace form.
+ */
+function c4m_og_replace_owner_build_form($form, $form_state, $entity_type, $etid) {
+  og_set_breadcrumb($entity_type, $etid, array(l(t('Group'), "$entity_type/$etid/group")));
+
+  $admins = array();
+  // Setting the list of the group admins.
+  foreach (c4m_og_get_group_admins($etid) as $admin) {
+    $admins[$admin->uid] = c4m_user_name($admin);
+  }
+
+  $form['new_owner'] = array(
+    '#type' => 'select',
+    '#required' => TRUE,
+    '#options' => $admins,
+    '#title' => t('Select new owner'),
+    '#description' => t('Select the name of the member you wish to be the new owner.'),
+  );
+
+  $form['group'] = array(
+    '#type' => 'value',
+    '#value' => $etid,
+  );
+
+  $form['type'] = array(
+    '#type' => 'value',
+    '#value' => $entity_type,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Replace'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler.
+ *
+ * Replacing the owner of a group.
+ */
+function c4m_og_replace_owner_build_form_submit($form, &$form_state) {
+  $new_owner = array(
+    'uid' => $form_state['values']['new_owner'],
+    'name' => $form['new_owner']['#options'][$form_state['values']['new_owner']],
+  );
+  c4m_og_replace_owner($form_state['values']['type'], $form_state['values']['group'], $new_owner);
+
+  // Redirect back to the group page.
+  $form_state['redirect'] = $form_state['values']['type'] . '/' . $form_state['values']['group'] . '/group';
+}
+
+/**
+ * Replacing the owner of a group.
+ *
+ * After replacing the owner of the group we grant "group administrator member"
+ * role to the old owner and revoke this role from the new one.
+ *
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ * @param array $new_owner
+ *   An array containing the ID and the name of the new owner.
+ */
+function c4m_og_replace_owner($group_type, $gid, $new_owner) {
+  $group = entity_load_single($group_type, $gid);
+  $old_owner_id = $group->uid;
+
+  // Update the uid on the entity.
+  $group->uid = $new_owner['uid'];
+
+  // Save the entity.
+  if (entity_save($group_type, $group)) {
+    drupal_set_message(t('Failed to change manager to @user.', array('@user' => $new_owner['name'])), 'error');
+  }
+  else {
+    drupal_set_message(t('Owner changed to @user.', array('@user' => $new_owner['name'])));
+
+    $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+    // Grant admin role to the old owner.
+    og_role_grant($group_type, $gid, $old_owner_id, $group_admin_role->rid);
+    // Revoke admin role from the new owner.
+    og_role_revoke($group_type, $gid, $new_owner['uid'], $group_admin_role->rid);
+  }
+}
+
+/**
+ * Access callback for the "Replace owner" form.
+ *
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return bool
+ *   TRUE if the current user has access to the group, FALSE otherwise.
+ */
+function c4m_og_user_is_owner($group_type, $gid) {
+  global $user;
+
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Make sure the current user is the group manager.
+  return user_access('administer groups', $user) || $user->uid == $group->uid;
+}
+
+/**
+ * Fetches an og user role by its name and group bundle.
+ *
+ * @param string $role_name
+ *   A string representing the role name.
+ * @param string $group_bundle
+ *   A string representing the group bundle.
+ *
+ * @return mixed
+ *   A fully-loaded og role object if a role with the given name and group
+ *   bundle exists, or FALSE otherwise.
+ */
+function c4m_og_user_role_load_by_name($role_name, $group_bundle) {
+  $cache = &drupal_static(__FUNCTION__);
+  if (!isset($cache)) {
+    $cache = db_select('og_role', 'r')
+      ->fields('r')
+      ->condition('name', $role_name)
+      ->condition('group_bundle', $group_bundle)
+      ->execute()
+      ->fetchObject();
+  }
+
+  return $cache;
+}
+
+/**
+ * Fetch all group admins.
+ *
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return array
+ *   An array of all group admins.
+ */
+function c4m_og_get_group_admins($gid) {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+  $admins = c4m_og_get_users_by_roles($gid, array($group_admin_role->rid));
+  foreach ($admins as &$admin) {
+    $admin = $admin->uid;
+  }
+
+  return user_load_multiple($admins);
 }
 
 /**
@@ -386,10 +583,19 @@ function c4m_og_get_members_count($group, $state = OG_STATE_ACTIVE) {
     // Get only the active members.
     ->propertyCondition('state', $state)
     ->propertyCondition('entity_type', 'user')
+    ->addTag('user_not_blocked')
     ->count()
     ->execute();
 
   return $result;
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function c4m_og_query_user_not_blocked_alter(QueryAlterableInterface $query) {
+  // Make sure to count only user who are not blocked.
+  $query->innerjoin("users", "u", "u.uid = og_membership.etid AND u.status = '1'");
 }
 
 /**
@@ -684,4 +890,114 @@ function c4m_og_get_user_group_nodes_by_bundle(
     }
   }
   return $groups;
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function c4m_og_node_update($node) {
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  _c4m_og_handle_pending_members_when_going_private($node);
+  c4m_og_open_group_access_activate_pending_members($node);
+}
+
+/**
+ * Delete all pending memberships from a group the go private.
+ *
+ * @param object $node
+ *   The node object of the group.
+ */
+function _c4m_og_handle_pending_members_when_going_private($node) {
+  $access = c4m_og_get_access_type($node);
+  if ($access['type'] != 'private') {
+    return;
+  }
+
+  // Delete all pending memberships of this group.
+  $ids = c4m_og_get_all_group_memberships_by_state($node->nid, OG_STATE_PENDING);
+  og_membership_delete_multiple($ids);
+}
+
+/**
+ * Activate pending members when access level of a group is changed.
+ *
+ * When changing the access level from 'Moderated' to 'Open', all pending
+ * members should become active group members.
+ *
+ * @param object $node
+ *   The node object while being updated.
+ *
+ * @throws \Exception
+ *   When the node object doesn't contain the 'original' property.
+ */
+function c4m_og_open_group_access_activate_pending_members($node) {
+  if (empty($node->original)) {
+    throw new Exception('Node object must contain the original property.');
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $original_wrapper = entity_metadata_wrapper('node', $node->original);
+
+  if ($wrapper->field_membership_open_request->value() != C4M_OG_OPEN_GROUP) {
+    // Group is not "Open".
+    return;
+  }
+
+  if ($original_wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+    // Previous group setting was not "Moderated".
+    return;
+  }
+
+  // Activate all pending members of this group.
+  $ids = c4m_og_get_all_group_memberships_by_state($node->nid, OG_STATE_PENDING);
+  foreach (og_membership_load_multiple($ids) as $membership) {
+    $membership->state = OG_STATE_ACTIVE;
+    $membership->save();
+
+    // Send activation message to member.
+    $message = message_create('c4m_welcome_to_group', array('uid' => $membership->etid));
+    c4m_message_load__c4m_welcome_to_group($message);
+
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_group_node->set($membership->gid);
+    // Message will be saved in message_notify_send_message().
+    message_notify_send_message($wrapper->value());
+  }
+}
+
+/**
+ * Get the group membership entity by user, group and state.
+ *
+ * @param int $gid
+ *   The group ID.
+ * @param int $state
+ *   The user current state.
+ *
+ * @return array
+ *   Array of members UIDs, or an empty array.
+ */
+function c4m_og_get_all_group_memberships_by_state($gid, $state) {
+  $cache = &drupal_static(__FUNCTION__, array());
+
+  $identifier = $gid . ':' . $state;
+
+  if (isset($cache[$identifier])) {
+    return $cache[$identifier];
+  }
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('gid', $gid)
+    ->propertyCondition('state', $state)
+    ->propertyCondition('group_type', 'node')
+    ->propertyCondition('entity_type', 'user')
+    ->execute();
+
+  $cache[$identifier] = !empty($result['og_membership']) ? array_keys($result['og_membership']) : array();
+
+  return $cache[$identifier];
 }

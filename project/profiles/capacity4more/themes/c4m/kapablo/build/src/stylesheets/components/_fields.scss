@@ -201,11 +201,7 @@
 
     .navigator--left, .navigator--right {
       position: absolute;
-      top: 3em;
-
-      @media (min-width: $screen-sm-min) {
-        top: 40%;
-      }
+      bottom: 50%;
 
       a {
         font-size: 1.5em;

@@ -17,6 +17,7 @@ MODULES_ENABLE=(
   "entityreference"
   "jquery_update"
   "libraries"
+  "message_notify"
   "pathauto"
   "redirect"
   "token"

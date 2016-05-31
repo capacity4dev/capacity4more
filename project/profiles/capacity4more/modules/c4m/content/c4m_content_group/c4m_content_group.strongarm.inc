@@ -143,6 +143,9 @@ function c4m_content_group_strongarm() {
         'locations' => array(
           'weight' => '11',
         ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(),
     ),
