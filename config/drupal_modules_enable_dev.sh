@@ -10,5 +10,6 @@ MODULES_ENABLE=(
   "devel_generate"
   "context_ui"
   "field_ui"
+  "message_notify"
   "views_ui"
 )
