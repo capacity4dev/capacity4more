@@ -31,7 +31,6 @@
           return elem.classList.contains(c);
       };
       addClass = function (elem, c) {
-          console.log("add class (classList exist: " + elem);
           elem.classList.add(c);
       };
       removeClass = function (elem, c) {
@@ -43,7 +42,6 @@
           return classReg(c).test(elem.className);
       };
       addClass = function (elem, c) {
-          console.log("add class: " + c);
         if (!hasClass(elem, c)) {
             elem.className = elem.className + ' ' + c;
         }
