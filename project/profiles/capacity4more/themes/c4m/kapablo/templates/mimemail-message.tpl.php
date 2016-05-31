@@ -374,7 +374,7 @@
                       <table style="border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top;">
                         <tbody>
                         <tr style="padding: 0; text-align: left; vertical-align: top;">
-                          <th style="Margin: 0; color: #0a0a0a; font-family: 'GillSans-Light', Verdana, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 19px; margin: 0; padding: 0; text-align: left;"> <img src="https://www.dropbox.com/s/n8d2yo4rktoslfn/logo.png?dl=0" style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 55%; outline: none; text-decoration: none; width: auto;">                                      </th>
+                          <th style="Margin: 0; color: #0a0a0a; font-family: 'GillSans-Light', Verdana, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 19px; margin: 0; padding: 0; text-align: left;"> <img src="https://www.dropbox.com/s/n8d2yo4rktoslfn/logo.png?dl=1" style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 55%; outline: none; text-decoration: none; width: auto;">                                      </th>
                         </tr>
                         </tbody>
                       </table>
