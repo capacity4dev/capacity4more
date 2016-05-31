@@ -53,10 +53,9 @@ function c4m_message_mail_alter(&$message) {
 }
 
 /**
- * Implements hook_theme().
+ * Theme definition for master template wrapper.
  */
 function c4m_message_theme() {
-
   $theme['c4m_message_email_body'] = array(
     'variables' => array(
       'body' => '',
@@ -69,7 +68,7 @@ function c4m_message_theme() {
 }
 
 /**
- * Implements hook_theme().
+ * Wraps email body with master template.
  */
 function _c4m_message_process_email_body(&$message) {
   $body = $message['body'][0];
@@ -80,7 +79,6 @@ function _c4m_message_process_email_body(&$message) {
   $body[0] = theme('c4m_message_email_body', $variables);
   $message['body']  = $body;
 }
-
 
 /**
  * Formats 'c4m_welcome_to_group' message From field, per template requirement.
