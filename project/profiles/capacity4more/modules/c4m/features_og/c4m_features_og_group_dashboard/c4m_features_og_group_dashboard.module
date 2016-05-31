@@ -47,12 +47,12 @@ function c4m_features_og_group_dashboard_og_permission() {
 function c4m_features_og_group_dashboard_flag_access($flag, $entity_id, $action, $account) {
   if (!in_array($flag->name, array('c4m_og_content_highlight', 'c4m_og_content_recommend'))) {
     // Flags we don't care about.
-    return FALSE;
+    return;
   }
 
   $group = c4m_og_current_group();
   if (!isset($group->nid)) {
-    return FALSE;
+    return;
   }
 
   if ($action == 'flag') {
