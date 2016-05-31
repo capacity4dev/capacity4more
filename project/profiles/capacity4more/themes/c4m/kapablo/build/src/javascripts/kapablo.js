@@ -237,8 +237,8 @@
   Drupal.behaviors.registration = {
     attach: function (context, settings) {
       $('.use-another-email', context).click(function () {
-        console.log($('#edit-email'));
-        $('#edit-mail').val('').focus();
+        $('input[name="mail"]').val('').focus();
+        return false;
       });
     }
   };
