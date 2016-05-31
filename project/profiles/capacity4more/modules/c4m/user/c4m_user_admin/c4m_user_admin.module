@@ -179,12 +179,20 @@ function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state
     return;
   }
 
+  // Move description text to the bottom.
   $form['description']['#weight'] = 10;
+
+  // Hide user confirmation control.
+  $form['user_cancel_confirm']['#access'] = FALSE;
+
+  // Add checkbox to indicate spammer.
   $form['c4m_is_spammer'] = array(
     '#type' => 'checkbox',
     '#title' => t('Mark user as spammer'),
     '#weight' => 1,
   );
+
+  // Custom submit handler.
   $form['#submit'][] = 'c4m_user_admin_form_user_cancel_confirm_form_submit';
 }
 
