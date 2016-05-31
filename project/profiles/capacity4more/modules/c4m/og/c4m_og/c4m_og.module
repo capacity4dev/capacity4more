@@ -908,7 +908,7 @@ function c4m_og_node_update($node) {
  * Delete all pending memberships from a group the go private.
  *
  * @param object $node
- *  The node object of the group.
+ *   The node object of the group.
  */
 function _c4m_og_handle_pending_members_when_going_private($node) {
   $access = c4m_og_get_access_type($node);
