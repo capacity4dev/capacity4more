@@ -105,7 +105,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 34,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -252,7 +252,7 @@ function c4m_content_group_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 2,
+        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -353,6 +353,93 @@ function c4m_content_group_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-group-c4m_group_welcome_message'.
+  $field_instances['node-group-c4m_group_welcome_message'] = array(
+    'bundle' => 'group',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'This personalised message is added to the mail new group members will receive upon joining.',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 16,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 22,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_group_welcome_message',
+    'label' => 'Group welcome message',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => '',
+        'maxlength_js_enforce' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'maxlength_js_truncate_html' => 0,
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'node-group-c4m_media'.
   $field_instances['node-group-c4m_media'] = array(
     'bundle' => 'group',
@@ -427,7 +514,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 39,
+        'weight' => 37,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -535,10 +622,9 @@ function c4m_content_group_field_default_field_instances() {
       ),
       'group_dashboard' => array(
         'label' => 'hidden',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 1,
+        'type' => 'hidden',
+        'weight' => 28,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -568,6 +654,127 @@ function c4m_content_group_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_select',
       'weight' => 17,
+    ),
+  );
+
+  // Exported field_instance: 'node-group-c4m_related_group'.
+  $field_instances['node-group-c4m_related_group'] = array(
+    'bundle' => 'group',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => 'Select up to 3 groups that are related to this project. You can only select groups you are member of.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 32,
+      ),
+      'c4m_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 25,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
+      'c4m_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 5,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 5,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_related_group',
+    'label' => 'Subgroup of',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 9,
     ),
   );
 
@@ -869,7 +1076,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 32,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -979,7 +1186,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 33,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1097,7 +1304,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 31,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1155,6 +1362,139 @@ function c4m_content_group_field_default_field_instances() {
       'weight' => 15,
     ),
     'widget_type' => 'options_select',
+  );
+
+  // Exported field_instance: 'node-group-group_group'.
+  $field_instances['node-group-group_group'] = array(
+    'bundle' => 'group',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Determine if this is an OG group.',
+    'display' => array(
+      'activity_global' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'activity_group' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'block_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
+      'c4m_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 31,
+      ),
+      'c4m_related' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 35,
+      ),
+      'c4m_teaser_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 34,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_ui',
+        'settings' => array(
+          'field_name' => FALSE,
+        ),
+        'type' => 'og_group_subscribe',
+        'weight' => 0,
+      ),
+      'featured_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 36,
+      ),
+      'inthe_picture_block' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'library' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 34,
+      ),
+      'teaser_group' => array(
+        'label' => 'above',
+        'module' => 'og_ui',
+        'settings' => array(
+          'field_name' => FALSE,
+        ),
+        'type' => 'og_group_subscribe',
+        'weight' => 0,
+      ),
+      'upcoming_event' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'display_label' => 1,
+    'entity_type' => 'node',
+    'field_name' => 'group_group',
+    'label' => 'Group',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_group_subscribe',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_group_subscribe',
+      ),
+    ),
+    'widget' => array(
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+        'og_hide' => TRUE,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 12,
+    ),
   );
 
   // Exported field_instance: 'node-group-pluggable_node_access'.
@@ -1220,7 +1560,7 @@ function c4m_content_group_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 30,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1287,8 +1627,11 @@ function c4m_content_group_field_default_field_instances() {
   t('Banner image');
   t('Choose at least one region that fits with this group. You can also add individual countries from the regions you have selected.');
   t('Comment');
+  t('Determine if this is an OG group.');
+  t('Group');
   t('Group description');
   t('Group visibility');
+  t('Group welcome message');
   t('How should membership requests be handled in this Group ?');
   t('Membership requests');
   t('Message to the site administrator');
@@ -1297,8 +1640,11 @@ function c4m_content_group_field_default_field_instances() {
   t('Reference to Pluggable node access entities.');
   t('Region & Countries');
   t('Select an image, photo that will be displayed in the header of the group page');
+  t('Select up to 3 groups that are related to this project. You can only select groups you are member of.');
   t('Status');
+  t('Subgroup of');
   t('The image, photo or logo, is used in the group overview page.');
+  t('This personalised message is added to the mail new group members will receive upon joining.');
   t('Thumbnail Image');
   t('Topics');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
