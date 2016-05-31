@@ -87,4 +87,3 @@ features[variable][] = node_options_group
 features[variable][] = node_preview_group
 features[variable][] = node_submitted_group
 features[variable][] = pathauto_node_group_pattern
-features_exclude[field_group][group_details|node|group|c4m_dashboard] = group_details|node|group|c4m_dashboard
