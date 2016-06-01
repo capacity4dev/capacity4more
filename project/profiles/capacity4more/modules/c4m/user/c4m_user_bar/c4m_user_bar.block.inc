@@ -41,7 +41,7 @@ function _c4m_user_bar_block_user_signup_login() {
 
   $output = array(
     'links' => array(
-      '#markup' => $text,
+      '#markup' => $text
     )
   );
 
