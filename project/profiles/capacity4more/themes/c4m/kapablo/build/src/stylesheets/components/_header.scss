@@ -241,14 +241,13 @@
 
 .header-search {
   width: 100%;
-  padding-right: 3rem;
 
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: $screen-tablet) {
     display: block;
     width: 33.33%;
   }
 
-  @media (min-width: $screen-md-min) {
+  @media (min-width: $screen-desktop) {
     width: 25%;
   }
 }
@@ -260,7 +259,7 @@
 .header-search .form-text {
   width: 100%;
 
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: $screen-tablet) {
     width: 17rem;
   }
 }
