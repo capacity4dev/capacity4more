@@ -16,11 +16,18 @@ function c4m_content_share_menu() {
     'title' => 'Share content to another group',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_content_share_form'),
-    // @TODO Change access callback!
-    'access callback' => TRUE,
+    'access callback' => 'c4m_og_user_is_member',
     'file' => 'c4m_content_share.pages.inc',
     'type' => MENU_CALLBACK,
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_content_share_menu_alter(&$items) {
+  // Don't allow direct shares.
+  $items['node/add/share']['access callback'] = FALSE;
 }

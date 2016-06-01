@@ -260,6 +260,33 @@ function c4m_og_user_is_owner($group_type, $gid) {
 }
 
 /**
+ * Access callback checks if the current user is group member.
+ *
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return bool
+ *   TRUE if the current user is group member, FALSE otherwise.
+ */
+function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
+  if (empty($gid)) {
+    $context = og_context('node');
+    $gid = $context['gid'];
+    $group_type = $context['group_type'];
+  }
+
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Make sure the current user is the group manager.
+  return user_access('administer groups') || og_is_member($gid);
+}
+
+/**
  * Fetches an og user role by its name and group bundle.
  *
  * @param string $role_name
