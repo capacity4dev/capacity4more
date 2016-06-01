@@ -10,13 +10,13 @@
 function c4m_content_share_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_c4m_source_entity'.
-  $field_bases['field_c4m_source_entity'] = array(
+  // Exported field_base: 'c4m_source_entity'.
+  $field_bases['c4m_source_entity'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_c4m_source_entity',
+    'field_name' => 'c4m_source_entity',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

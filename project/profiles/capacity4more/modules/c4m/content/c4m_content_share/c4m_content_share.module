@@ -5,3 +5,22 @@
  */
 
 include_once 'c4m_content_share.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_share_menu() {
+  $items = array();
+
+  $items['node/%node/share'] = array(
+    'title' => 'Share content to another group',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_content_share_form'),
+    // @TODO Change access callback!
+    'access callback' => TRUE,
+    'file' => 'c4m_content_share.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}

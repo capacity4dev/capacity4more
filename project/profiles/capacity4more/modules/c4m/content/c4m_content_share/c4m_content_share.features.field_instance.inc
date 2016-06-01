@@ -91,8 +91,8 @@ function c4m_content_share_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-share-field_c4m_source_entity'.
-  $field_instances['node-share-field_c4m_source_entity'] = array(
+  // Exported field_instance: 'node-share-c4m_source_entity'.
+  $field_instances['node-share-c4m_source_entity'] = array(
     'bundle' => 'share',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -117,7 +117,7 @@ function c4m_content_share_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_c4m_source_entity',
+    'field_name' => 'c4m_source_entity',
     'label' => 'Source Content',
     'required' => 0,
     'settings' => array(
