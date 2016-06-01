@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Share content type feature.
+ */
+
+include_once 'c4m_content_share.features.inc';
