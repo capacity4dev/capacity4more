@@ -6,3 +6,37 @@
  */
 
 
+/**
+ * Triggers email notification for different states of membership update.
+ *
+ * Notified states:
+ *   Pending -> Accepted
+ *   Pending -> Rejected
+ *
+ * Implements hook_entity_update.
+ */
+function c4m_notifications_entity_update($entity, $type) {
+  if ($type != 'og_membership') {
+    return;
+  }
+
+  if (empty($entity->original)) {
+    // Must have original state.
+    return;
+  }
+
+  if($entity->original->state != OG_STATE_PENDING) {
+    // State change has to be initiated when state is Pending.
+    return;
+  }
+
+  switch($entity->state)
+  {
+    case OG_STATE_ACTIVE:
+      c4m_notifications_notify_membership_accepted($entity);
+      break;
+    case OG_STATE_BLOCKED:
+      c4m_notifications_notify_membership_rejected($entity);
+      break;
+  }
+}

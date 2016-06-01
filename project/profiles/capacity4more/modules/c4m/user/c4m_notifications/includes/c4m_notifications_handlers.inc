@@ -6,3 +6,10 @@
  */
 
 
+function c4m_notifications_notify_membership_accepted($entity) {
+  return;
+}
+
+function c4m_notifications_notify_membership_rejected($entity) {
+  return;
+}
