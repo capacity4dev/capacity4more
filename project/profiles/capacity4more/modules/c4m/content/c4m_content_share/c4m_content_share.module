@@ -31,3 +31,42 @@ function c4m_content_share_menu_alter(&$items) {
   // Don't allow direct shares.
   $items['node/add/share']['access callback'] = FALSE;
 }
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_content_share_c4m_content_actions_info() {
+  return array(
+    'action_share' => array(
+      'context' => array('group'),
+      'callback' => 'c4m_content_share_action_share',
+      'weight' => '5',
+    ),
+  );
+}
+
+/**
+ * Callback to show the share link.
+ *
+ * @param object $node
+ *    The node object.
+ *
+ * @return string
+ *    Rendered output of the share link.
+ */
+function c4m_content_share_action_share($node) {
+  if (!c4m_og_user_is_member()) {
+    return '';
+  }
+
+  $url = url(
+    'node/' . $node->nid . '/share',
+    array(
+      'absolute' => TRUE,
+      'purl' => array('disabled' => FALSE),
+    )
+  );
+
+  $output = '<div class="group-actions-share">' . l(t('Share to your groups'), $url) . '</div>';
+  return $output;
+}
