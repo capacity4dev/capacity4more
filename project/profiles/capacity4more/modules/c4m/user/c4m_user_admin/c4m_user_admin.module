@@ -143,7 +143,7 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
 /**
  * Helper function to anonymize messages.
  *
- * @param $account
+ * @param object $account
  *   User account for which to anonymize messages.
  */
 function anonymize_messages_for_user($account) {
@@ -187,7 +187,7 @@ function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state
     '#weight' => 1,
     '#states' => array(
       'visible' => array(
-        array (
+        array(
           ':input[name=user_cancel_method]' => array('value' => 'c4m_user_admin_block_anonymous'),
         ),
         array(
