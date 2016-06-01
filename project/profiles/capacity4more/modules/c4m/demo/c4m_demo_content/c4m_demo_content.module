@@ -33,7 +33,7 @@ function c4m_demo_content_migrate_api() {
     'C4mDemoContentCreatePageElements',
     'C4mDemoContentCreatePhotoalbums',
     'C4mDemoContentCreatePhotos',
-    'C4mDemoContentCreatePhotoComments',
+  // 'C4mDemoContentCreatePhotoComments',.
     'C4mDemoContentCreateEvents',
     'C4mDemoContentCreateEventComments',
     'C4mDemoContentCreateFeatured',
