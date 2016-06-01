@@ -63,7 +63,6 @@ features[field_instance][] = node-group-c4m_body
 features[field_instance][] = node-group-c4m_group_welcome_message
 features[field_instance][] = node-group-c4m_media
 features[field_instance][] = node-group-c4m_og_status
-features[field_instance][] = node-group-c4m_related_group
 features[field_instance][] = node-group-c4m_vocab_geo
 features[field_instance][] = node-group-c4m_vocab_topic
 features[field_instance][] = node-group-field_membership_open_request
