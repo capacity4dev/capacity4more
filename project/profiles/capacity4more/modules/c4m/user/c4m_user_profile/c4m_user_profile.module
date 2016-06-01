@@ -631,9 +631,10 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
         $organisation_name = $whitelist_domain->organisation_name;
         $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
-        $is_ldap_user = FALSE;
+        $is_ldap_user = TRUE;
       }
-
+    }
+    if (!$is_ldap_user || $data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
       $data['validation_messages'][] = array(
         'message' => $is_ldap_user ? t('<p>Your email address is validated in LDAP.</p>') : t('<p>Your email address is not validated in LDAP.</p>'),
         'type' => $is_ldap_user ? C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE : C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR,
