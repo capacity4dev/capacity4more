@@ -45,14 +45,14 @@ function c4m_features_og_group_dashboard_og_permission() {
  * Implements hook_flag_access().
  */
 function c4m_features_og_group_dashboard_flag_access($flag, $entity_id, $action, $account) {
-  if (!in_array($flag->name, array('c4m_og_content_highlight', 'c4m_og_content_recommend'))) {
-    // Flags we don't care about.
-    return;
+  if ($flag->name == 'c4m_og_content_recommend') {
+    // Show recommend flag to everyone.
+    return TRUE;
   }
 
-  if (in_array($flag->name, array('c4m_og_content_recommend'))) {
-    // Show recommend flag to anonymous users.
-    return TRUE;
+  if (!in_array($flag->name, array('c4m_og_content_highlight'))) {
+    // Flags we don't care about.
+    return;
   }
 
   $group = c4m_og_current_group();
