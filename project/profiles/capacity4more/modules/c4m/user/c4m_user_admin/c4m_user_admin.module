@@ -66,20 +66,6 @@ function c4m_user_admin_menu() {
 function c4m_user_admin_user_cancel_methods_alter(&$methods) {
   // Remove the option to disable account and unpublish existing content.
   unset($methods['user_cancel_block_unpublish']);
-  unset($methods['user_cancel_reassign']);
-
-  // Replace the stock user_cancel_reassign method with our own
-  // to prevent messages being created.
-  $methods['c4m_user_admin_delete_anonymous'] = array(
-    'title' => t(
-      'Delete the account and make its content belong to the Anonymous user.'
-    ),
-    'description' => t(
-      'Your account will be deleted and you will no longer be able to log in.
-      All of your content will be assigned to the Anonymous user.'
-    ),
-    'access' => user_access('administer users'),
-  );
 
   // Add the option to disable account assign existing
   // content to anonymous user.
@@ -103,7 +89,6 @@ function c4m_user_admin_user_cancel_methods_alter(&$methods) {
  */
 function c4m_user_admin_user_cancel($edit, $account, $method) {
   switch ($method) {
-    case 'c4m_user_admin_delete_anonymous':
     case 'c4m_user_admin_block_anonymous':
       // Anonymize nodes (current revisions).
       module_load_include('inc', 'node', 'node.admin');
@@ -123,6 +108,18 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ->condition('uid', $account->uid)
         ->execute();
 
+      // Anonymize comments.
+      $comments = comment_load_multiple(array(), array('uid' => $account->uid));
+      foreach ($comments as $comment) {
+        $comment->uid = 0;
+        $comment->_skip_message = TRUE;
+        unset($comment->name);
+        comment_save($comment);
+      }
+
+      // Anonymize messages.
+      anonymize_messages_for_user($account);
+
       // Set the flag "Is deleted" for this user.
       $changes = array(
         'c4m_is_deleted' => array(
@@ -134,28 +131,26 @@ function c4m_user_admin_user_cancel($edit, $account, $method) {
         ),
       );
       user_save($account, $changes);
+      break;
 
-      // Anonymize comments.
-      $comments = comment_load_multiple(array(), array('uid' => $account->uid));
-      foreach ($comments as $comment) {
-        $comment->uid = 0;
-        $comment->_skip_message = TRUE;
-        unset($comment->name);
-        comment_save($comment);
-      }
-
+    case 'user_cancel_reassign':
+      // Anonymize messages.
+      anonymize_messages_for_user($account);
       break;
   }
+}
 
-  if ($method == 'c4m_user_admin_delete_anonymous') {
-    // Send account canceled notification if option was checked.
-    if (!empty($edit['user_cancel_notify'])) {
-      _user_mail_notify('status_canceled', $account);
-    }
-    user_delete($account->uid);
-    drupal_set_message(t('%name has been deleted.', array('%name' => $account->name)));
-    watchdog('user', 'Deleted user: %name %email.', array('%name' => $account->name, '%email' => '<' . $account->mail . '>'), WATCHDOG_NOTICE);
-  }
+/**
+ * Helper function to anonymize messages.
+ *
+ * @param $account
+ *   User account for which to anonymize messages.
+ */
+function anonymize_messages_for_user($account) {
+  db_update('message')
+    ->fields(array('uid' => 0))
+    ->condition('uid', $account->uid)
+    ->execute();
 }
 
 /**
@@ -190,6 +185,16 @@ function c4m_user_admin_form_user_cancel_confirm_form_alter(&$form, &$form_state
     '#type' => 'checkbox',
     '#title' => t('Mark user as spammer'),
     '#weight' => 1,
+    '#states' => array(
+      'visible' => array(
+        array (
+          ':input[name=user_cancel_method]' => array('value' => 'c4m_user_admin_block_anonymous'),
+        ),
+        array(
+          ':input[name=user_cancel_method]' => array('value' => 'user_cancel_block'),
+        ),
+      ),
+    ),
   );
 
   // Custom submit handler.
