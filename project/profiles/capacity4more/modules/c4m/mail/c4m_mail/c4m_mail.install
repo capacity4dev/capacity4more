@@ -19,6 +19,13 @@ function c4m_mail_update_7001() {
 }
 
 /**
+ * Update mail messages texts.
+ */
+function c4m_mail_update_7002() {
+  c4m_mail_install_update_messages();
+}
+
+/**
  * Helper to update all messages as defined in messages/list.inc.
  */
 function c4m_mail_install_update_messages() {
