@@ -48,6 +48,7 @@ dependencies[] = libraries
 dependencies[] = message
 dependencies[] = link
 ;dependencies[] = message
+dependencies[] = session_api
 
 dependencies[] = module_filter
 dependencies[] = og
