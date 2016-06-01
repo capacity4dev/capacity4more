@@ -6,3 +6,9 @@ Feature: Content Forms
     Given I am logged in as user "alfrednobel"
      When I visit the page "node/add/event" in the group "Nobel Prize"
      Then I should see "Cancel" in the "#edit-cancel" element
+
+  @api
+  Scenario: Check save draft button on node forms as an authenticated user
+    Given I am logged in as user "alfrednobel"
+     When I visit the page "node/add/event" in the group "Nobel Prize"
+     Then I should see "Save as draft" in the "#edit-draft" element

@@ -67,16 +67,15 @@ class C4mDemoContentCreatePhotos extends C4mDemoContentCreateOgContent {
     $row->lang_entries = $this->mapTaxonomyVocab($row->lang, 'c4m_vocab_language');
   }
 
-  /**
-   * The entity has been created but not yet saved.
-   *
-   * @param object $entity
-   *   The entity object that was created.
-   * @param object $row
-   *   The CSV row we are manipulating.
-   */
-  public function prepare($entity, $row) {
-    $entity->_skip_message = TRUE;
-  }
-
+  // /**
+  // * The entity has been created but not yet saved.
+  // *
+  // * @param object $entity
+  // *   The entity object that was created.
+  // * @param object $row
+  // *   The CSV row we are manipulating.
+  // */
+  // public function prepare($entity, $row) {
+  // $entity->_skip_message = TRUE;
+  // }.
 }

@@ -82,11 +82,6 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'group';
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
-    'node_link' => array(
-      'weight' => '4',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_user_picture' => array(
       'weight' => '37',
       'label' => 'hidden',
@@ -98,20 +93,22 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'user',
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Group created on',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'c4m-created-on-date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
-    ),
-    'c4m_ds_group_access_info' => array(
-      'weight' => '14',
-      'label' => 'hidden',
-      'format' => 'default',
     ),
     'c4m_ds_group_administer_link' => array(
       'weight' => '15',
@@ -122,18 +119,6 @@ function c4m_content_group_ds_field_settings_info() {
       'weight' => '41',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'c4m_ds_content_actions' => array(
-      'weight' => '0',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
-    'c4m_og_status' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
     ),
   );
   $export['node|group|group_dashboard'] = $ds_fieldsetting;
@@ -333,7 +318,6 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_og_status' => 'ds_content',
       'c4m_body' => 'ds_content',
       'group_access_info' => 'ds_content',
-      'node_link' => 'ds_content',
       'group_details' => 'ds_content',
       'group_node_actions' => 'ds_content',
       'c4m_ds_group_access_info' => 'ds_content',

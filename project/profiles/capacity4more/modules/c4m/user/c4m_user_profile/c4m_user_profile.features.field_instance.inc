@@ -134,7 +134,7 @@ function c4m_user_profile_field_default_field_instances() {
         'maxlength_js_label_summary' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
         'maxlength_js_summary' => '',
         'maxlength_js_truncate_html' => 0,
-        'rows' => 20,
+        'rows' => 10,
         'summary_display' => 'default',
         'summary_rows' => 5,
       ),
@@ -384,7 +384,175 @@ function c4m_user_profile_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 10,
+      'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-c4m_is_invalid_email'.
+  $field_instances['user-user-c4m_is_invalid_email'] = array(
+    'bundle' => 'user',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Set if the user lost his LDAP validation.',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 25,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_is_invalid_email',
+    'label' => 'Is invalid email',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 1,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 33,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-c4m_is_ldap_user'.
+  $field_instances['user-user-c4m_is_ldap_user'] = array(
+    'bundle' => 'user',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Set if the user has LDAP validation.',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 23,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_is_ldap_user',
+    'label' => 'Is LDAP User',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 1,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 31,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-c4m_is_organisation_user'.
+  $field_instances['user-user-c4m_is_organisation_user'] = array(
+    'bundle' => 'user',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 24,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_is_organisation_user',
+    'label' => 'Is Organisation User',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 1,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 32,
     ),
   );
 
@@ -468,7 +636,7 @@ function c4m_user_profile_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 11,
+      'weight' => 10,
     ),
   );
 
@@ -736,7 +904,7 @@ function c4m_user_profile_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 13,
+      'weight' => 14,
     ),
   );
 
@@ -985,7 +1153,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -1071,7 +1239,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -1157,7 +1325,7 @@ function c4m_user_profile_field_default_field_instances() {
       'module' => 'c4m_vocab_widget',
       'settings' => array(),
       'type' => 'c4m_taxonomy_reference',
-      'weight' => 10,
+      'weight' => 11,
     ),
   );
 
@@ -1166,7 +1334,10 @@ function c4m_user_profile_field_default_field_instances() {
   t('About You');
   t('Country');
   t('First Name');
+  t('Is LDAP User');
+  t('Is Organisation User');
   t('Is deleted');
+  t('Is invalid email');
   t('Is spammer');
   t('Job title');
   t('Last Name');
@@ -1176,6 +1347,9 @@ function c4m_user_profile_field_default_field_instances() {
   t('Regions & Countries');
   t('Select one or more topics you are an expert in.');
   t('Select one or more topics you are interested in.');
+  t('Set if the user has LDAP validation.');
+  t('Set if the user lost his LDAP validation.');
+  t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
   t('The Regions & Countries you are interested in.');
   t('Topics of Expertise');
   t('Topics of Interest');

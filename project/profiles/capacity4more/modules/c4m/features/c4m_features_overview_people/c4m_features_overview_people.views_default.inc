@@ -173,15 +173,17 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['filters']['c4m_is_deleted']['id'] = 'c4m_is_deleted';
   $handler->display->display_options['filters']['c4m_is_deleted']['table'] = 'search_api_index_c4m_search_users';
   $handler->display->display_options['filters']['c4m_is_deleted']['field'] = 'c4m_is_deleted';
+  $handler->display->display_options['filters']['c4m_is_deleted']['operator'] = '<>';
   $handler->display->display_options['filters']['c4m_is_deleted']['value'] = array(
-    0 => '0',
+    1 => '1',
   );
   /* Filter criterion: Indexed User: Is spammer */
   $handler->display->display_options['filters']['c4m_is_spammer']['id'] = 'c4m_is_spammer';
   $handler->display->display_options['filters']['c4m_is_spammer']['table'] = 'search_api_index_c4m_search_users';
   $handler->display->display_options['filters']['c4m_is_spammer']['field'] = 'c4m_is_spammer';
+  $handler->display->display_options['filters']['c4m_is_spammer']['operator'] = '<>';
   $handler->display->display_options['filters']['c4m_is_spammer']['value'] = array(
-    0 => '0',
+    1 => '1',
   );
   /* Filter criterion: Indexed User: Status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -190,6 +192,12 @@ function c4m_features_overview_people_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = array(
     1 => '1',
   );
+  /* Filter criterion: Indexed User: User ID */
+  $handler->display->display_options['filters']['uid']['id'] = 'uid';
+  $handler->display->display_options['filters']['uid']['table'] = 'search_api_index_c4m_search_users';
+  $handler->display->display_options['filters']['uid']['field'] = 'uid';
+  $handler->display->display_options['filters']['uid']['operator'] = '<>';
+  $handler->display->display_options['filters']['uid']['value'] = '1';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
