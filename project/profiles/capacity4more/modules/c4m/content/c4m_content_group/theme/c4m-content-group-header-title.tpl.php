@@ -9,7 +9,7 @@
 ?>
 <div class="row" id="content-group-header-title">
   <div class="col-sm-12 col-md-8">
-    <h1><?php print $title;?></h1>
+    <?php print $title;?>
   </div>
   <div class="col-sm-12 col-md-4" id="content-group-header-title-right-div">
     <div class="row">
