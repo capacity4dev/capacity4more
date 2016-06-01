@@ -36,10 +36,6 @@
 #header-ec-wrapper {
   @include grey_bar;
   border-bottom: none;
-
-
-
-
 }
 
 #header-content-wrapper {
@@ -52,12 +48,12 @@
   }
 }
 
-#c4m-search-form, #c4m-search-redirect-form {
-  input {
-    padding-right: 3rem;
-    width: 100%;
-  }
+#c4m-search-redirect-form input {
+  padding-right: 3rem;
+  width: 100%;
+}
 
+#c4m-search-form, #c4m-search-redirect-form {
   .form-group {
     margin: 0;
     position: relative;
@@ -78,10 +74,6 @@
 #c4m-search-form {
   margin-top: 1.8rem;
   position: relative;
-
-  input {
-    width: 17rem;
-  }
 
   .form-group {
     width: auto;
@@ -249,6 +241,7 @@
 
 .header-search {
   width: 100%;
+  padding-right: 3rem;
 
   @media (min-width: $screen-sm-min) {
     display: block;

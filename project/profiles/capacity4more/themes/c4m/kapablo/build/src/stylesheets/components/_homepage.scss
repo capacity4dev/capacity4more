@@ -71,26 +71,59 @@
       position: absolute;
 
       .btn {
+        position: relative;
+        left: -50%;
+        bottom: 2rem;
+
+        width: 44px;
+        height: 44px;
+        padding-left: 0;
+        padding-right: 0;
         background-color: $color-blue-dark;
         border: 5px solid $color-text-alternative;
         border-radius: 30px;
-        bottom: 2rem;
+
         font-size: 1.1rem;
-        left: -50%;
-        padding-left: 6rem;
-        padding-right: 4rem;
-        position: relative;
+
+        @media (min-width: $screen-sm-min) {
+          width: auto;
+          height: auto;
+          padding-left: 6rem;
+          padding-right: 4rem;
+        }
 
         .i-play {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+
+          display: inline-block;
+          width: 20px;
+          height: 20px;
           background: url('../images/icons/i-play.png') no-repeat center center;
           background-size: 90%;
-          bottom: 0;
-          display: inline-block;
+
           font-size: 2rem;
-          height: 100%;
-          left: 5px;
-          position: absolute;
-          width: 32px;
+
+          @include translate(-50%, -50%);
+
+          @media (min-width: $screen-sm-min) {
+            left: 2%;
+
+            width: 32px;
+            height: 100%;
+
+            @include translate(0, -50%);
+          }
+
+        }
+
+        .button-text {
+          display: none;
+
+          @media (min-width: $screen-sm-min) {
+            display: block;
+          }
         }
       }
     }
