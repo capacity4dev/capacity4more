@@ -1,35 +1,49 @@
+.panel-pane.pane-voices-views-carousel {
+  background-color: #f1f6f9;
+}
+
 .pane-content .owl-carousel .owl-controls .owl-buttons > div {
   color: inherit;
   background: inherit;
   display: inline-block;
 }
 
-.owl-theme .owl-wrapper-outer {
-  margin: 0 10px;
+.owl-theme {
+  .owl-wrapper-outer {
+    margin: 0 10px;
 
-  .owl-wrapper .owl-item {
-    display: block;
+    .owl-wrapper .owl-item {
+      display: block;
+    }
   }
-}
 
-.owl-theme .owl-controls .owl-buttons > div {
-  padding: 5px 9px;
-}
+  .owl-controls {
+    .owl-buttons > div {
+      padding: 5px 9px;
+    }
 
-.owl-theme .owl-buttons i{
-  margin-top: 2px;
-}
+    .owl-buttons div {
+      position: absolute;
+      opacity: 1;
+    }
 
-.owl-theme .owl-controls .owl-buttons div {
-  position: absolute;
-}
+    .owl-prev{
+      left: 0;
+      top: 115px;
+    }
 
-.owl-theme .owl-controls .owl-buttons .owl-prev{
-  left: -20px;
-  top: 115px;
-}
+    .owl-next{
+      right: -20px;
+      top: 115px;
+    }
 
-.owl-theme .owl-controls .owl-buttons .owl-next{
-  right: -40px;
-  top: 115px;
+    i {
+      margin-top: 2px;
+      color: #ffffff;
+    }
+
+    .owl-pagination {
+      float: right;
+    }
+  }
 }
