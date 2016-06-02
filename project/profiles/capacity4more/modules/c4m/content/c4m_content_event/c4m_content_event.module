@@ -154,6 +154,7 @@ function c4m_content_event_c4m_content_share_fields_info() {
     'event' => array(
       'type',
       'c4m_event_type',
+      'c4m_datetime_end',
     ),
   );
 }

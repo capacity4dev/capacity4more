@@ -283,7 +283,7 @@ function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
   }
 
   // Make sure the current user is the group manager.
-  return user_access('administer groups') || og_is_member($gid);
+  return user_access('administer groups') || og_is_member('node', $gid);
 }
 
 /**
