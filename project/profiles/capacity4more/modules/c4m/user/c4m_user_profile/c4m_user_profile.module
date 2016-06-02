@@ -284,6 +284,8 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
   );
 
   // Add wrappers for AJAX replacement.
+  $form['mail']['#prefix'] = '<div id="edit-mail-wrapper">';
+  $form['mail']['#suffix'] = '</div>';
   $form['c4m_country']['#prefix'] = '<div id="edit-c4m-country-wrapper">';
   $form['c4m_country']['#suffix'] = '</div>';
   $form['c4m_organisation']['#prefix'] = '<div id="edit-c4m-organisation-wrapper">';
@@ -403,6 +405,7 @@ function c4m_user_profile_element_validate_mail_ajax($form, $form_state) {
   $ajax = array(
     '#type' => 'ajax',
     '#commands' => array(
+      ajax_command_replace('#edit-mail-wrapper', render($form['mail'])),
       ajax_command_replace('#edit-c4m-country-wrapper', render($form['c4m_country'])),
       ajax_command_replace('#edit-c4m-organisation-wrapper', render($form['c4m_organisation'])),
       ajax_command_replace('#edit-c4m-organisation-type-wrapper', render($form['c4m_organisation_type'])),
