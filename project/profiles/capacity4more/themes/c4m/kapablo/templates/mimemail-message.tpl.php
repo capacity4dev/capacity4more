@@ -16,6 +16,9 @@
  * - $key: The message identifier
  *
  * @see template_preprocess_mimemail_message()
+ *
+ * NEVER ALTER THIS FILE DIRECTLY. ALWAYS USE THE METHOD DESCRIBED IN
+ * https://wiki.amplexor.com/confluence/display/C4DNG/Foundation+email+template
  */
 ?>
 
@@ -483,7 +486,7 @@
         <div class="header text-center" align="center">
           <table class="container" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: inherit; width: 810px; background: #f1f6f9; margin: 0 auto; padding: 16px 0; border: 1px solid #c5c7c8;" bgcolor="#f1f6f9"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><td style="word-break: break-all; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; text-align: left; color: #0a0a0a; font-family: 'GillSans-Light', Verdana, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; line-height: 19px; font-size: 16px; margin: 0; padding: 16px 64px;" align="left" valign="top">
                 <table class="row collapse" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;"><tbody><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><th class="small-12 large-12" style="width: 580px; color: #0a0a0a; font-family: 'GillSans-Light', Verdana, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 16px; margin: 0; padding: 0;" align="left">
-                      <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><th style="color: #0a0a0a; font-family: 'GillSans-Light', Verdana, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 16px; margin: 0; padding: 0;" align="left"> <img src="http://s33.postimg.org/n1fzibsqn/unspecified.png" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 55%; clear: both; display: block;" /></th>
+                      <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; padding: 0;"><tr style="vertical-align: top; text-align: left; padding: 0;" align="left"><th style="color: #0a0a0a; font-family: 'GillSans-Light', Verdana, 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 16px; margin: 0; padding: 0;" align="left"> <img src="http://s33.postimg.org/vtp7ch06n/logo_2.png" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 55%; clear: both; display: block;" /></th>
                         </tr></table></th>
                   </tr></tbody></table></td>
             </tr></tbody></table></div>
