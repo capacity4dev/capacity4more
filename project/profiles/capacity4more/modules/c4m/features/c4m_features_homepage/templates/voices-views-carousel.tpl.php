@@ -13,7 +13,10 @@
         <?php foreach ($carousels as $carousel): ?>
           <div class="item">
             <?php print $carousel['image']; ?>
-            <h2><?php print $carousel['title']; ?></h2>
+            <div class="item-header">
+              <h2><?php print $carousel['title']; ?></h2>
+              <p class="pull-right"><?php print $carousel['date'] ?></p>
+            </div>
             <p class="intro-text"><?php print $carousel['text'] . ' | ' . $carousel['link']; ?></p>
           </div>
         <?php endforeach; ?>

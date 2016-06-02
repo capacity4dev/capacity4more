@@ -14,9 +14,21 @@
   }
 }
 
-.pane-content .owl-carousel .owl-controls .owl-buttons > div {
-  color: inherit;
-  display: inline-block;
+.pane-content .owl-carousel {
+  .owl-controls .owl-buttons > div {
+    color: inherit;
+    display: inline-block;
+  }
+
+  .item-header {
+    h2 {
+      display: inline-block;
+    }
+
+    * {
+      margin-top: 10px;
+    }
+  }
 }
 
 .owl-theme {
