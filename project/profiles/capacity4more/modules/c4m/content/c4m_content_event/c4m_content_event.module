@@ -145,3 +145,15 @@ function c4m_content_event_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_event_c4m_content_share_fields_info() {
+  return array(
+    'event' => array(
+      'type',
+      'c4m_event_type',
+    ),
+  );
+}

@@ -12,3 +12,14 @@ include_once 'c4m_content_photo.features.inc';
 function c4m_content_photo_theme_registry_alter(&$theme_registry) {
   $theme_registry['node_gallery_api_item_navigator']['path'] = drupal_get_path('module', 'c4m_content_photo') . "/theme";
 }
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_photo_c4m_content_share_fields_info() {
+  return array(
+    'photo' => array(
+      'type',
+    ),
+  );
+}

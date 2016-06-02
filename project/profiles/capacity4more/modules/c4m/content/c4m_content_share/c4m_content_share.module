@@ -67,6 +67,69 @@ function c4m_content_share_action_share($node) {
     )
   );
 
-  $output = '<div class="group-actions-share">' . l(t('Share to your groups'), $url) . '</div>';
+  $output = '<div class="group-actions-share">' . l(
+      t('Share to your groups'),
+      $url
+    ) . '</div>';
   return $output;
+}
+
+/**
+ * Implements hook_search_api_index_items_alter().
+ */
+function c4m_content_share_search_api_index_items_alter(
+  array &$items,
+  SearchApiIndex $index
+) {
+  foreach ($items as $index => $item) {
+    if ($item->type == 'share') {
+      // Do stuff.
+      $node = entity_metadata_wrapper('node', $item);
+
+      // Retrieve original node.
+      $original_node = $node->c4m_source_entity->value();
+      $index_fields = c4m_content_share_fields_info($original_node->type);
+
+      foreach ($index_fields as $field) {
+        $item->{$field} = $original_node->{$field};
+      }
+
+      $items[$index] = $item;
+    }
+  }
+}
+
+/**
+ * Load all group features info from implemented c4m_og_feature hooks.
+ *
+ * @param string $bundle
+ *   Only return data for a given content type (node bundle).
+ *
+ * @return array
+ *   Configuration as collected trough the implemented
+ *   hook_c4m_share_content_fields_info hooks.
+ */
+function c4m_content_share_fields_info($bundle = NULL) {
+  $cache_key = 'c4m_content_share:fields_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'c4m_content_share_fields_info';
+      $data = module_invoke_all($hook);
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Only return data for a given feature.
+  if (isset($data[$bundle])) {
+    return $data[$bundle];
+  }
+
+  // Return all data.
+  return $data;
 }
