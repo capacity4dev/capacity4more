@@ -187,3 +187,14 @@ function c4m_user_notifications_user_delete($account) {
   c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_admins_user_deleted($account);
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Triggers email notification for when user is invited to group by admin.
+ */
+function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
+}
+
+

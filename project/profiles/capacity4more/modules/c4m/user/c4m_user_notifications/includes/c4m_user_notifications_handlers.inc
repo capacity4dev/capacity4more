@@ -5,7 +5,6 @@
  * Code for the C4M notifications handler.
  */
 
-
 function c4m_user_notifications_moderated_group_new_membership_request($entity) {
   return;
 }
@@ -66,6 +65,7 @@ function c4m_user_notifications_group_status_set_republished($node) {
 function c4m_user_notifications_group_status_set_unpublished($node) {
   return;
 }
+
 function c4m_user_notifications_group_status_set_archived($node) {
   return;
 }
@@ -80,4 +80,9 @@ function c4m_user_notifications_group_hard_deleted($node) {
 
 function c4m_user_notifications_notify_user_commented($comment) {
   return;
+}
+
+function c4m_user_notifications_notify_user_invited_by_admin(&$form, &$form_state) {
+  dpm($form);
+  dpm($form_state);
 }
