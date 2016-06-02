@@ -364,13 +364,13 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
   if ($account_wrapper->c4m_is_ldap_user->value() && !empty($form['c4m_country'][LANGUAGE_NONE]['#default_value'])) {
-    $form['c4m_country'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+    $form['c4m_country'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
   }
   if ($account_wrapper->c4m_organisation->value() && !empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
-    $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['readonly'] = 'readonly';
+    $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
   }
   if ($account_wrapper->c4m_organisation_type->value() && !empty($form['c4m_organisation_type'][LANGUAGE_NONE]['#default_value'])) {
-    $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+    $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
   }
 
   c4m_user_profile_alter_user_form($form, $form_state, FALSE);
@@ -693,15 +693,15 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
 
   if ($data['alter_form']) {
     if ($country) {
-      $data['form']['c4m_country'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_country'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
       $data['form']['c4m_country'][LANGUAGE_NONE]['#value'] = $country;
     }
     if ($organisation_name) {
-      $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
       $data['form']['c4m_organisation'][LANGUAGE_NONE][0]['value']['#value'] = $organisation_name;
     }
     if ($organisation_type) {
-      $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['readonly'] = 'readonly';
+      $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
       $data['form']['c4m_organisation_type'][LANGUAGE_NONE]['#value'] = $organisation_type;
     }
   }
