@@ -133,3 +133,17 @@ function c4m_content_share_fields_info($bundle = NULL) {
   // Return all data.
   return $data;
 }
+
+/**
+ * Implements hook_node_view().
+ */
+function c4m_content_share_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'share' && $view_mode == 'full' && node_is_page($node)) {
+    $host_entity = entity_metadata_wrapper('node', $node);
+    $source_entity = entity_metadata_wrapper('node', $host_entity->c4m_source_entity->value());
+
+    $redirect = 'node/' . $source_entity->nid->value();
+
+    drupal_goto($redirect, array('purl' => array('disabled' => FALSE)), 301);
+  }
+}
