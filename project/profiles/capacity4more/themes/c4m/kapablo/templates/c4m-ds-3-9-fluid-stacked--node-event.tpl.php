@@ -22,7 +22,7 @@ print $layout_attributes; ?> class="<?php print $classes; ?>">
         </div>
   </div>
 
-  <div class="event-group">
+  <div class="event-groups">
     <?php print $footer; ?>
   </div>
 
