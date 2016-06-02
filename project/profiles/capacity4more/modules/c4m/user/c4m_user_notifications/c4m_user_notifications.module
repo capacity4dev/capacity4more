@@ -64,10 +64,11 @@ function c4m_user_notifications_entity_update($entity, $type) {
 /**
  * Implements hook_node_update.
  *
- * Triggers email notification for group status update.
+ * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
-  if ($node->type != 'group') {
+  if ($node->type != 'group' || $node->type != 'project') {
+    // Return early, if node type is not group/project.
     return;
   }
 
@@ -100,4 +101,17 @@ function c4m_user_notifications_node_update($node) {
 }
 
 
+/**
+ * Implements hook_node_delete.
+ *
+ * Triggers email notification for node (group/project) delete.
+ */
+function c4m_user_notifications_node_delete($node) {
+  if ($node->type != 'group' || $node->type != 'project') {
+    // Return early, if node type is not group/project.
+    return;
+  }
 
+  c4m_user_notifications_load_includes();
+  c4m_user_notifications_group_hard_deleted($node);
+}

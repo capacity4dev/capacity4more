@@ -60,3 +60,8 @@ function c4m_user_notifications_group_status_set_archived($node) {
 function c4m_user_notifications_group_status_set_softdeleted($node) {
   return;
 }
+
+``function c4m_user_notifications_group_hard_deleted($node) {
+  return;
+}
+
