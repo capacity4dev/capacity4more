@@ -56,6 +56,9 @@ projects[mefibs][version] = "1.x-dev"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "2.x-dev"
+projects[plupload][download][type] = "git"
+projects[plupload][download][url] = "https://git.drupal.org/project/plupload.git"
+projects[plupload][download][revision] = "985490d8371d26516a426a22ae7d4529d923e28b"
 projects[plupload][patch][] = https://www.drupal.org/files/issues/plupload-218update-2098555-35-7.x.patch
 
 projects[save_draft][subdir] = "contrib"
