@@ -131,12 +131,28 @@ function c4m_content_share_form_submit($form, &$form_state) {
   $node = new stdClass();
   $node->title = $values['title'];
   $node->type = 'share';
+
   node_object_prepare($node);
+
+  // If this is a book page, we need an extra step.
+  $original_node = entity_metadata_wrapper(
+    'node',
+    $values['c4m_source_entity']
+  );
+
+  if ($original_node->getBundle() === 'wiki_page') {
+    $bid = c4m_content_wiki_page_get_bid_by_nid($values['og_group_ref']);
+    $book = $node->book;
+    $book['bid'] = $bid;
+    $book['original_bid'] = $bid;
+    $node->book = $book;
+  }
 
   $node_wrapper = entity_metadata_wrapper('node', $node);
 
   $node_wrapper->og_group_ref = $values['og_group_ref'];
   $node_wrapper->c4m_source_entity = $values['c4m_source_entity'];
+
   $node_wrapper->save();
 
   $group = node_load($values['og_group_ref']);

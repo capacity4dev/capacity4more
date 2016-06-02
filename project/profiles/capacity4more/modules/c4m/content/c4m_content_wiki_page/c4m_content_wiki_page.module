@@ -227,6 +227,29 @@ function c4m_content_wiki_page_get_mlid_by_nid($nid) {
 }
 
 /**
+ * Helper function to retrieve the menu bid from a node id.
+ *
+ * @param int $nid
+ *   Entity node id.
+ *
+ * @return int|null
+ *   Book ID if found, else NULL.
+ */
+function c4m_content_wiki_page_get_bid_by_nid($nid) {
+  $q = db_select('book', 'book')
+    ->fields('book', array('bid'))
+    ->condition('book.nid', $nid, '=')
+    ->range(0, 1);
+  $res = $q->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  if (!empty($res[0])) {
+    return $res[0]['bid'];
+  }
+
+  return NULL;
+}
+
+/**
  * Implements hook_theme_registry_alter().
  *
  * Change the default preprocessing book module executes on the book navigation.
