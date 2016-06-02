@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file
+ * Code for the C4M notifications feature.
+ */
+
+
+function c4m_user_notifications_load_includes() {
+  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
+}
+
+/**
+ * Triggers email notification for different states of membership update.
+ *
+ * Notified states:
+ *   Pending -> Accepted
+ *   Pending -> Rejected
+ *
+ * Implements hook_entity_update.
+ */
+function c4m_user_notifications_entity_update($entity, $type) {
+  if ($type != 'og_membership') {
+    return;
+  }
+
+  if (empty($entity->original)) {
+    // Must have original state.
+    return;
+  }
+
+  if ($entity->original->state != OG_STATE_PENDING) {
+    // State change has to be initiated when state is Pending.
+    return;
+  }
+
+  // Loading group/project to resolve it's membership type - moderated/open
+  $node = node_load($entity->gid);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $moderated = $wrapper->field_membership_open_request->value();
+
+  c4m_user_notifications_load_includes();
+
+  switch($entity->state) {
+    case OG_STATE_ACTIVE:
+      if ($moderated == C4M_OG_MODERATED_GROUP ) {
+        c4m_user_notifications_moderated_group_notify_user_membership_accepted($entity);
+        c4m_user_notifications_moderated_group_notify_admins_membership_accepted($entity);
+
+      } else if ($moderated == C4M_OG_OPEN_GROUP) {
+        c4m_user_notifications_open_group_notify_user_membership_accepted($entity);
+        c4m_user_notifications_open_group_notify_admins_membership_accepted($entity);
+      }
+      break;
+
+    case OG_STATE_BLOCKED:
+      if ($moderated == C4M_OG_MODERATED_GROUP ) {
+        c4m_user_notifications_moderated_group_notify_user_membership_rejected($entity);
+        c4m_user_notifications_moderated_group_notify_admins_membership_rejected($entity);
+
+      } else if ($moderated == C4M_OG_OPEN_GROUP) {
+        c4m_user_notifications_open_group_notify_user_membership_rejected($entity);
+        c4m_user_notifications_open_group_notify_admins_membership_rejected($entity);
+      }
+      break;
+  }
+}
+
+
+
