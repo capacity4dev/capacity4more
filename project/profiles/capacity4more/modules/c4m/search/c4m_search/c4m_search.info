@@ -55,6 +55,7 @@ features[search_api_index][] = c4m_search_users
 features[search_api_sort][] = c4m_search_nodes__c4m_datetime_end:value
 features[search_api_sort][] = c4m_search_nodes__comment_count
 features[search_api_sort][] = c4m_search_nodes__created
+features[search_api_sort][] = c4m_search_nodes__flag_c4m_og_content_recommend_count
 features[search_api_sort][] = c4m_search_nodes__search_api_relevance
 features[search_api_sort][] = c4m_search_nodes__views
 features[search_api_sort][] = c4m_search_users__c4m_first_name
