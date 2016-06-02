@@ -5,9 +5,30 @@
  * Code for the C4M notifications feature.
  */
 
-
 function c4m_user_notifications_load_includes() {
   module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
+}
+
+/**
+ * Implements hook_entity_insert.
+ *
+ * Triggers email notification on new membership request for moderated groups.
+ */
+function c4m_user_notifications_entity_insert($entity, $type) {
+  if ($type != 'og_membership') {
+    return;
+  }
+
+  // Loading group/project to resolve it's membership type - moderated/open
+  $node = node_load($entity->gid);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+    // If not moderated group, return early
+    return;
+  }
+
+  c4m_user_notifications_load_includes();
+  c4m_user_notifications_moderated_group_new_membership_request($entity);
 }
 
 /**
@@ -62,6 +83,38 @@ function c4m_user_notifications_entity_update($entity, $type) {
 }
 
 /**
+ * Implements hook_entity_delete.
+ *
+ * Triggers email notification on membership cancelation request.
+ */
+function c4m_user_notifications_entity_delete($entity, $type) {
+  if ($type != 'og_membership') {
+    return;
+  }
+
+  // Loading group/project to resolve it's membership type - moderated/open
+  $node = node_load($entity->gid);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
+    // If not moderated group, return early
+    return;
+  }
+
+  // Loading current user.
+  global $user;
+  c4m_user_notifications_load_includes();
+
+  if ($user->uid == $entity->etid) {
+    // If current user is the one that's being removed.
+    c4m_user_notifications_notify_admins_membership_canceled($entity);
+  }
+  else {
+    // Membership was canceled by someone else -> group / site admin
+    c4m_user_notifications_notify_user_membership_canceled($entity);
+  }
+}
+
+/**
  * Implements hook_node_update.
  *
  * Triggers email notification for node (group/project) status update.
@@ -100,7 +153,6 @@ function c4m_user_notifications_node_update($node) {
   return;
 }
 
-
 /**
  * Implements hook_node_delete.
  *
@@ -124,4 +176,14 @@ function c4m_user_notifications_node_delete($node) {
 function c4m_user_notifications_comment_insert($comment) {
   c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_user_commented($comment);
+}
+
+/**
+ * Implements hook_user_delete.
+ *
+ * Triggers email notification for node (group/project) delete.
+ */
+function c4m_user_notifications_user_delete($account) {
+  c4m_user_notifications_load_includes();
+  c4m_user_notifications_notify_admins_user_deleted($account);
 }

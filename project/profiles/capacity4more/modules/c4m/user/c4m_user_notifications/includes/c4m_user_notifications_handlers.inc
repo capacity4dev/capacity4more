@@ -5,6 +5,11 @@
  * Code for the C4M notifications handler.
  */
 
+
+function c4m_user_notifications_moderated_group_new_membership_request($entity) {
+  return;
+}
+
 /*
  * Handlers implementation for c4m_user_notifications_entity_update.
  */
@@ -35,6 +40,14 @@ function c4m_user_notifications_open_group_notify_admins_membership_accepted($me
 }
 
 function c4m_user_notifications_moderated_group_notify_user_membership_rejected($membership) {
+  return;
+}
+
+function c4m_user_notifications_notify_admins_membership_canceled($entity) {
+  return;
+}
+
+function c4m_user_notifications_notify_user_membership_canceled($entity) {
   return;
 }
 
