@@ -1,0 +1,9 @@
+.row.features {
+  background: url("/profiles/capacity4more/themes/c4m/kapablo/images/grain.png");
+  border-bottom: 1px solid $color-gray-light;
+
+  @media (min-width: $screen-tablet) {
+   background: none;
+    border-bottom: none;
+  }
+}

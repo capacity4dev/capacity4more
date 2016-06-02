@@ -93,8 +93,10 @@
     </aside>  <!-- /#sidebar-second -->
 </div>
 
-<div class="row">
+<div class="row features">
     <div class="col-md-12">
       <?php print $content['bottom']; ?>
     </div>
 </div>
+
+<!-- put global statistics here -->
