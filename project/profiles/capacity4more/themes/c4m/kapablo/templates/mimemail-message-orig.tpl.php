@@ -1,9 +1,3 @@
-<?php
-/**
- * @file
- * Full mail notification template.
- */
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -1434,7 +1428,7 @@
                     <th class="small-12 large-12">
                       <table>
                         <tr>
-                          <th> <img src="https://www.dropbox.com/s/n8d2yo4rktoslfn/logo.png?dl=1"> </th>
+                          <th> <img src="http://s33.postimg.org/vtp7ch06n/logo_2.png"> </th>
                         </tr>
                       </table>
                     </th>
