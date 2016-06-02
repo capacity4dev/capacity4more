@@ -60,6 +60,11 @@ CAMPAIGNMONITOR_API_KEY="Some hash"
 CAMPAIGNMONITOR_CLIENT_ID="Some hash"
 CAMPAIGNMONITOR_LIST_TITLE="Title of the list"
 
+# Piwik Web Analytics settings.
+PIWIK_SITE_ID="1"
+PIWIK_URL_HTTP="http://capacity4more-piwik.dev.amplexor.com/"
+PIWIK_URL_HTTPS=""
+
 ################################################################################
 # Druleton configuration.
 ################################################################################

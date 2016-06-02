@@ -143,3 +143,13 @@ if [ "$LDAP_URL" != "" ] && [ "$LDAP_API" != "" ]; then
   drupal_drush vset c4m_ldap_apikey "$LDAP_API"
   echo
 fi
+
+if [ "$PIWIK_SITE_ID" != "" ] && [ "$PIWIK_URL_HTTP" != "" ] && [ "$PIWIK_URL_HTTPS" != "" ]; then
+  # Set Piwik Web Analytics related variables.
+  markup_h1 "Set Piwik Web Analytics related variables"
+  php -r "print json_encode(array('piwik_site_id' => '$PIWIK_SITE_ID', 'piwik_url_http' => '$PIWIK_URL_HTTP', 'piwik_url_https' => '$PIWIK_URL_HTTPS'));"
+  drupal_drush vset piwik_site_id "$PIWIK_SITE_ID"
+  drupal_drush vset piwik_url_http "$PIWIK_URL_HTTP"
+  drupal_drush vset piwik_url_https "$PIWIK_URL_HTTPS"
+  echo
+fi
