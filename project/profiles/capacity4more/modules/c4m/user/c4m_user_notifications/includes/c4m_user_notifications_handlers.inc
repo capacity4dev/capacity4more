@@ -38,14 +38,25 @@ function c4m_user_notifications_moderated_group_notify_user_membership_rejected(
   return;
 }
 
-function c4m_user_notifications_moderated_group_notify_admins_membership_rejected($membership) {
+/*
+ * Handlers implementation for c4m_user_notifications_node_update.
+ */
+
+function c4m_user_notifications_group_status_set_published($node) {
   return;
 }
 
-function c4m_user_notifications_open_group_notify_user_membership_rejected($membership) {
+function c4m_user_notifications_group_status_set_republished($node) {
   return;
 }
 
-function c4m_user_notifications_open_group_notify_admins_membership_rejected($membership) {
+function c4m_user_notifications_group_status_set_unpublished($node) {
+  return;
+}
+function c4m_user_notifications_group_status_set_archived($node) {
+  return;
+}
+
+function c4m_user_notifications_group_status_set_softdeleted($node) {
   return;
 }

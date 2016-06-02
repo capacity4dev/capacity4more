@@ -11,13 +11,13 @@ function c4m_user_notifications_load_includes() {
 }
 
 /**
- * Triggers email notification for different states of membership update.
+ * Implements hook_entity_update.
+ *
+ * Triggers email notification for membership update.
  *
  * Notified states:
  *   Pending -> Accepted
  *   Pending -> Rejected
- *
- * Implements hook_entity_update.
  */
 function c4m_user_notifications_entity_update($entity, $type) {
   if ($type != 'og_membership') {
@@ -46,8 +46,8 @@ function c4m_user_notifications_entity_update($entity, $type) {
       if ($moderated == C4M_OG_MODERATED_GROUP ) {
         c4m_user_notifications_moderated_group_notify_user_membership_accepted($entity);
         c4m_user_notifications_moderated_group_notify_admins_membership_accepted($entity);
-
-      } else if ($moderated == C4M_OG_OPEN_GROUP) {
+      }
+      else if ($moderated == C4M_OG_OPEN_GROUP) {
         c4m_user_notifications_open_group_notify_user_membership_accepted($entity);
         c4m_user_notifications_open_group_notify_admins_membership_accepted($entity);
       }
@@ -56,14 +56,47 @@ function c4m_user_notifications_entity_update($entity, $type) {
     case OG_STATE_BLOCKED:
       if ($moderated == C4M_OG_MODERATED_GROUP ) {
         c4m_user_notifications_moderated_group_notify_user_membership_rejected($entity);
-        c4m_user_notifications_moderated_group_notify_admins_membership_rejected($entity);
-
-      } else if ($moderated == C4M_OG_OPEN_GROUP) {
-        c4m_user_notifications_open_group_notify_user_membership_rejected($entity);
-        c4m_user_notifications_open_group_notify_admins_membership_rejected($entity);
       }
       break;
   }
+}
+
+/**
+ * Implements hook_node_update.
+ *
+ * Triggers email notification for group status update.
+ */
+function c4m_user_notifications_node_update($node) {
+  if ($node->type != 'group') {
+    return;
+  }
+
+  $status = $node->c4m_og_status->value();
+  c4m_user_notifications_load_includes();
+  switch ($status) {
+    case 'published':
+      if (empty($node->original)) {
+        c4m_user_notifications_group_status_set_published($node);
+      }
+      else {
+        $prev_status = $node->original->c4m_og_status->value();
+        if ($prev_status == 'archived' || $prev_status == 'unpublished' || $prev_status == 'deleted') {
+          c4m_user_notifications_group_status_set_republished($node);
+        }
+      }
+    break;
+
+    case 'unpublished': c4m_user_notifications_group_status_set_unpublished($node);
+    break;
+
+    case 'archived': c4m_user_notifications_group_status_set_archived($node);
+    break;
+    // Soft delete.
+    case 'delete': c4m_user_notifications_group_status_set_softdeleted($node);
+    break;
+  }
+
+  return;
 }
 
 
