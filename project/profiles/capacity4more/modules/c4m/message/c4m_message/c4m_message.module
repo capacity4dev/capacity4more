@@ -54,7 +54,10 @@ function c4m_message_mail_alter(&$message) {
 /**
  * Formats 'c4m_welcome_to_group' message From field, per template requirement.
  */
-function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
+function _c4m_message_format_welcome_to_group_from_field(
+  &$message,
+  $message_entity
+) {
   if ($message_entity->type != 'c4m_welcome_to_group') {
     // For message type other than c4m_welcome_to_group - return early.
     return;
@@ -64,11 +67,14 @@ function _c4m_message_format_welcome_to_group_from_field(&$message, $message_ent
   $wrapper = entity_metadata_wrapper('message', $message_entity);
   $author = $wrapper->field_group_node->author->value();
 
-  $message['from'] = format_string('"@name at @site"<@mail>', array(
-    '@name' => c4m_user_name($author),
-    '@site' => variable_get('site_name'),
-    '@mail' => $author->mail,
-  ));
+  $message['from'] = format_string(
+    '"@name at @site"<@mail>',
+    array(
+      '@name' => c4m_user_name($author),
+      '@site' => variable_get('site_name'),
+      '@mail' => $author->mail,
+    )
+  );
 }
 
 /**
@@ -235,7 +241,8 @@ function c4m_message_format_group_node_title(Message $message) {
  */
 function c4m_message_format_group_welcome_message(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
+  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value(
+  );
 
   return $group_message ? $group_message : '';
 }
@@ -301,7 +308,9 @@ function c4m_message_crud_message($entity_type, $entity, $op) {
   $valid_node_types = array(
     'discussion',
     'event',
+    'photo',
     'photoalbum',
+    'share',
     'document',
     'wiki_page',
   );
@@ -554,6 +563,42 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
 }
 
 /**
+ * Delegated hook_entity_load() for node of "share" bundle.
+ *
+ * Add Message arguments callbacks.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_insert__node__share(Message $message) {
+  c4m_message_load_general_arguments($message);
+
+  $message->arguments['!content'] = array(
+    'callback' => 'c4m_message_format_rendered_node',
+    'pass message' => TRUE,
+  );
+  $message->arguments['!icon'] = array(
+    'callback' => 'c4m_message_format_node_icon_share',
+    'pass message' => FALSE,
+  );
+
+  $message->arguments['@operation'] = array(
+    'callback' => 'c4m_message_format_node_share',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group'] = array(
+    'callback' => 'c4m_message_format_group_share',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_original'] = array(
+    'callback' => 'c4m_message_format_original_group_share',
+    'pass message' => TRUE,
+  );
+}
+
+/**
  * Delegated hook_entity_load() for node of "photoalbum" bundle.
  *
  * Add Message arguments callbacks.
@@ -779,6 +824,20 @@ function c4m_message_format_comment(Message $message) {
         return t('Debate');
     }
   }
+  elseif ($node_type == 'event') {
+    $event_type = $wrapper->field_node->c4m_event_type->value();
+    switch ($event_type) {
+      case 'learning':
+        return t('Learning event');
+
+      case 'meeting':
+        return t('Meeting');
+
+      case 'event':
+      default:
+        return t('Event');
+    }
+  }
   else {
     switch ($node_type) {
       case 'document':
@@ -843,17 +902,58 @@ function c4m_message_format_rendered_node(Message $message) {
  */
 function c4m_message_format_node_icon(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+  $node = entity_metadata_wrapper('node', $wrapper->field_node->value());
 
-  $node_type = $wrapper->field_node->type->value();
+  $icon_class = _c4m_message_format_node_icon($node);
+
+  $icon_tag = array(
+    '#type' => 'html_tag',
+    '#tag' => 'i',
+    '#value' => '',
+    '#attributes' => array('class' => array('fa', $icon_class)),
+  );
+
+  return drupal_render($icon_tag);
+}
+
+/**
+ * Return the formatted stacked icon.
+ *
+ * Retrieve proper icon for a shared content type (and maybe subtype).
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_node_icon_share() {
+  $icon_tag = array(
+    '#type' => 'html_tag',
+    '#tag' => 'i',
+    '#value' => '',
+    '#attributes' => array('class' => array('fa', 'fa-retweet')),
+  );
+
+  return drupal_render($icon_tag);
+}
+
+/**
+ * Helper function to abstract getting the icon class.
+ *
+ * @param EntityMetadataWrapper $wrapper
+ *   Metadata wrapper object.
+ *
+ * @return string
+ *   Icon class.
+ */
+function _c4m_message_format_node_icon(EntityMetadataWrapper $wrapper) {
+  $node_type = $wrapper->getBundle();
   $icon_class = '';
-
   switch ($node_type) {
     case 'article':
       $icon_class = 'fa-bullhorn';
       break;
 
     case 'event':
-      $event_type = $wrapper->field_node->c4m_event_type->value();
+      $event_type = $wrapper->c4m_event_type->value();
 
       switch ($event_type) {
         case 'learning':
@@ -872,7 +972,7 @@ function c4m_message_format_node_icon(Message $message) {
       break;
 
     case 'discussion':
-      $discussion_type = $wrapper->field_node->c4m_discussion_type->value();
+      $discussion_type = $wrapper->c4m_discussion_type->value();
 
       switch ($discussion_type) {
         case 'info':
@@ -908,28 +1008,155 @@ function c4m_message_format_node_icon(Message $message) {
       $icon_class = 'fa-wikipedia-w';
       break;
 
+    case 'comment':
+      $icon_class = "fa-comments-o";
+
     default:
       break;
   }
 
-  try {
-    if ($wrapper->getPropertyInfo('field_comment')) {
-      // $icon_tag['#value_prefix'] = '<i class="fa fa-comments-o"></i>';.
-      $icon_class = "fa-comments-o";
-    }
-  }
-  catch (EntityMetadataWrapperException $e) {
+  return $icon_class;
+}
 
-  }
+/**
+ * Return the formatted "shared to" group info.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_group_share(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
 
-  $icon_tag = array(
-    '#type' => 'html_tag',
-    '#tag' => 'i',
-    '#value' => '',
-    '#attributes' => array('class' => array('fa', $icon_class)),
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->og_group_ref->value()
   );
 
-  return drupal_render($icon_tag);
+  return ucfirst($group_wrapper->getBundle()) . ' ' . l(
+    $group_wrapper->title->value(),
+    url(
+      'node/' . $group_wrapper->get('nid')->value(),
+      array('purl' => array('disabled' => FALSE))
+    )
+  );
+}
+
+/**
+ * Return the formatted "original group".
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_original_group_share(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_entity = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->c4m_source_entity->value()
+  );
+  $group_wrapper = entity_metadata_wrapper(
+    'node',
+    $original_entity->og_group_ref->value()
+  );
+
+  return l(
+    $group_wrapper->title->value(),
+    url(
+      'node/' . $group_wrapper->get('nid')->value(),
+      array('purl' => array('disabled' => FALSE))
+
+    )
+  );
+}
+
+/**
+ * Return the formatted share operation.
+ *
+ * Retrieve proper icon for a content type (and maybe subtype).
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   The icon class.
+ */
+function c4m_message_format_node_share(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_node = entity_metadata_wrapper(
+    'node',
+    $wrapper->field_node->c4m_source_entity->value()
+  );
+  $node_type = $original_node->getBundle();
+
+  $type = ucfirst($node_type);
+
+  switch ($node_type) {
+    case 'event':
+      $event_type = $original_node->c4m_event_type->value();
+      switch ($event_type) {
+        case 'learning':
+          $type = t('shared a Learning Event');
+          break;
+
+        case 'meeting':
+          $type = t('shared a Meeting');
+          break;
+
+        case 'event':
+        default:
+          $type = t('shared an Event');
+          break;
+
+      }
+      break;
+
+    case 'discussion':
+      $discussion_type = $original_node->c4m_discussion_type->value();
+
+      switch ($discussion_type) {
+        case 'info':
+          $type = t('shared Information');
+          break;
+
+        case 'idea':
+          $type = t('shared an Idea');
+          break;
+
+        case 'question':
+          $type = t('shared a Question');
+          break;
+
+        case 'debate':
+          $type = t('shared a Debate');
+          break;
+      }
+      break;
+
+    case 'wiki_page':
+      $type = t('shared a Wiki page');
+      break;
+
+    case 'photoalbum':
+      $type = t('shared a Photo album');
+      break;
+
+    case 'photo':
+      $type = t('shared a Photo');
+      break;
+
+    case 'article':
+      $type = t('shared an Article');
+      break;
+  }
+
+  return $type;
 }
 
 /**

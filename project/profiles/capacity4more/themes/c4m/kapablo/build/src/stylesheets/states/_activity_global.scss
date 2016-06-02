@@ -36,4 +36,16 @@
       @extend .text-medium;
     }
   }
+
+  &.node-share {
+    .field-name-c4m-source-entity {
+      background: $color-background;
+      margin-left: 60px;
+      padding: 1em;
+
+      h2 {
+        margin-top: 0;
+      }
+    }
+  }
 }
