@@ -145,7 +145,7 @@ function c4m_features_homepage_voices_views_carousel() {
       )),
       'date' => format_date($wrapper->changed->value(), 'c4m_long_without_time'),
       'alias' => drupal_get_path_alias('node/' . $article->nid),
-      'link' => l(t('Read more about this article'), 'node/' . $article->nid, array('attributes' => array('class' => 'see-more-link'))),
+      'link' => l(t('Read more about this article.'), 'node/' . $article->nid, array('attributes' => array('class' => 'see-more-link'))),
     );
   }
 
