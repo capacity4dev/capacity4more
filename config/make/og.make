@@ -29,3 +29,6 @@ projects[purl][version] = "1.x-dev"
 projects[purl][patch][] = https://www.drupal.org/files/purl-1693984-10.patch
 projects[purl][patch][] = https://www.drupal.org/files/issues/purl_modifiers_xx_cache-2419261-1.patch
 projects[purl][patch][] = https://www.drupal.org/files/808956-14-purl-menu-behavior.patch
+
+projects[session_api][subdir] = "contrib"
+projects[session_api][version] = "1.0-rc1"

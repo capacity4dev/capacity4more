@@ -48,7 +48,7 @@ function c4m_content_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'More details',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(
       0 => 'c4m_vocab_geo',
       1 => 'c4m_vocab_topic',
