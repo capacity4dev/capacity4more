@@ -1,7 +1,13 @@
 .pane-c4m-content-global-statistics-summary {
-  border-top: 1px dashed $color-gray-light;
-  margin: 2rem 0;
-  padding: 2rem 0;
+  margin: 2rem -18px 2rem;
+  padding: 0;
+  background: $color-white;
+
+  @media (min-width: $screen-tablet) {
+    border-top: 1px dashed $color-gray-light;
+    padding: 2rem 0;
+    margin: 2rem 0;
+  }
 }
 
 #content-top-wrapper {
@@ -64,8 +70,6 @@
           left: 0;
           transform: translate(0, 0);
         }
-
-
       }
 
       &:hover {
@@ -74,14 +78,17 @@
 
       @media (min-width: $screen-tablet) {
         @include grey_box;
-        border-bottom: none;
-        padding: 0;
       }
     }
 
     &:last-of-type {
       a {
         border-bottom: 0;
+
+        @media (min-width: $screen-tablet) {
+          border-bottom: 1px solid $color-gray-light;
+
+        }
       }
     }
   }

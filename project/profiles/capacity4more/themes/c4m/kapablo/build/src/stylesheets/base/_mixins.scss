@@ -8,20 +8,13 @@
 
 @mixin grey_bar {
   background-color: $color-background;
-  border-top: 1px solid $color-gray-light;
-  border-bottom: 1px solid $color-gray-light;
-  padding: 0.7rem 0;
-
-  @media (min-width: 768px) {
-    padding: 2rem 0;
-  }
 }
 
 @mixin grey_box {
   @include grey_bar;
   border: 1px solid $color-gray-light;
   border-radius: 5px;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 @mixin horizontal_menu {
