@@ -49,6 +49,29 @@ function c4m_message_mail_alter(&$message) {
   $message_entity = $message['params']['message_entity'];
 
   _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_process_email_body($message);
+}
+
+/**
+ * Theme definition for master template wrapper.
+ */
+function c4m_message_theme() {
+  $theme['c4m_message_email_body'] = array(
+    'variables' => array(
+      'body' => '',
+    ),
+    'path' => drupal_get_path('theme', 'kapablo') . '/templates',
+    'template' => 'mimemail-message',
+  );
+
+  return $theme;
+}
+
+/**
+ * Wraps email body with master template.
+ */
+function _c4m_message_process_email_body(&$message) {
+  $message['body'][0] = theme('c4m_message_email_body', array('body' => $message['body'][0]));
 }
 
 /**
@@ -286,6 +309,11 @@ function c4m_message_format_group_owner_public_profile_url(Message $message) {
  *   The saved message object, or NULL if not created or updated.
  */
 function c4m_message_crud_message($entity_type, $entity, $op) {
+  // Do not create a message if no user is associated with the entity.
+  if (!isset($entity->uid) || (isset($entity->uid) && $entity->uid < 1)) {
+    $entity->_skip_message = TRUE;
+  }
+
   if (!empty($entity->_skip_message)) {
     // Entity should not create a message.
     return FALSE;

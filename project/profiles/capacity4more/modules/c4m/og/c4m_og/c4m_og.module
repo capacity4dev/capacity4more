@@ -896,11 +896,29 @@ function c4m_og_get_user_group_nodes_by_bundle(
  * Implements hook_node_update().
  */
 function c4m_og_node_update($node) {
-  if ($node->type != 'group') {
+  if (!og_is_group_type('node', $node->type)) {
     return;
   }
 
+  _c4m_og_handle_pending_members_when_going_private($node);
   c4m_og_open_group_access_activate_pending_members($node);
+}
+
+/**
+ * Delete all pending memberships from a group the go private.
+ *
+ * @param object $node
+ *   The node object of the group.
+ */
+function _c4m_og_handle_pending_members_when_going_private($node) {
+  $access = c4m_og_get_access_type($node);
+  if ($access['type'] != 'private') {
+    return;
+  }
+
+  // Delete all pending memberships of this group.
+  $ids = c4m_og_get_all_group_memberships_by_state($node->nid, OG_STATE_PENDING);
+  og_membership_delete_multiple($ids);
 }
 
 /**
