@@ -11,6 +11,7 @@ dependencies[] = flag_actions
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = panels_bootstrap_layouts
+dependencies[] = session_api
 dependencies[] = views
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = views:views_default:3.0
