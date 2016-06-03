@@ -12,7 +12,8 @@
 }
 
 .event-title {
-  float: right;
+  float: left;
+  margin-left: 15px;
 
   @include clearfix;
 }
