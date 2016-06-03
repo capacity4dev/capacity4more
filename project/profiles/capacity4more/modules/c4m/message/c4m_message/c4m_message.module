@@ -34,6 +34,67 @@ function c4m_message_entity_update($entity, $entity_type) {
 }
 
 /**
+ * Implements hook_mail_alter().
+ *
+ * Adds ability to alter message fields per message type.
+ * Example:
+ *   On the 'c4m_welcome_to_group' message type we set a special format at the
+ *   'From' field.
+ */
+function c4m_message_mail_alter(&$message) {
+  if (empty($message['params']['message_entity'])) {
+    // There's no message entity inside - return early.
+    return;
+  }
+  $message_entity = $message['params']['message_entity'];
+
+  _c4m_message_format_welcome_to_group_from_field($message, $message_entity);
+  _c4m_message_process_email_body($message);
+}
+
+/**
+ * Theme definition for master template wrapper.
+ */
+function c4m_message_theme() {
+  $theme['c4m_message_email_body'] = array(
+    'variables' => array(
+      'body' => '',
+    ),
+    'path' => drupal_get_path('theme', 'kapablo') . '/templates',
+    'template' => 'mimemail-message',
+  );
+
+  return $theme;
+}
+
+/**
+ * Wraps email body with master template.
+ */
+function _c4m_message_process_email_body(&$message) {
+  $message['body'][0] = theme('c4m_message_email_body', array('body' => $message['body'][0]));
+}
+
+/**
+ * Formats 'c4m_welcome_to_group' message From field, per template requirement.
+ */
+function _c4m_message_format_welcome_to_group_from_field(&$message, $message_entity) {
+  if ($message_entity->type != 'c4m_welcome_to_group') {
+    // For message type other than c4m_welcome_to_group - return early.
+    return;
+  }
+
+  // Set the 'From' format.
+  $wrapper = entity_metadata_wrapper('message', $message_entity);
+  $author = $wrapper->field_group_node->author->value();
+
+  $message['from'] = format_string('"@name at @site"<@mail>', array(
+    '@name' => c4m_user_name($author),
+    '@site' => variable_get('site_name'),
+    '@mail' => $author->mail,
+  ));
+}
+
+/**
  * Implements hook_entity_delete().
  *
  * @todo: Push item to queue.
@@ -77,6 +138,164 @@ function c4m_message_entity_load($entities, $entity_type) {
 }
 
 /**
+ * Add callbacks to c4m_welcome_to_group message arguments.
+ *
+ * @param Message $message
+ *   The Message entity.
+ */
+function c4m_message_load__c4m_welcome_to_group(Message $message) {
+  $message->arguments['@member_full_name'] = array(
+    'callback' => 'c4m_message_format_member_full_name',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_title'] = array(
+    'callback' => 'c4m_message_format_group_node_title',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_welcome_message'] = array(
+    'callback' => 'c4m_message_format_group_welcome_message',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@group_node_type'] = array(
+    'callback' => 'c4m_message_format_group_node_type',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!group_dashboard_url'] = array(
+    'callback' => 'c4m_message_format_group_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['!go_public_profile_url'] = array(
+    'callback' => 'c4m_message_format_group_owner_public_profile_url',
+    'pass message' => TRUE,
+  );
+
+  $message->arguments['@go_full_name'] = array(
+    'callback' => 'c4m_message_format_group_owner_full_name',
+    'pass message' => TRUE,
+  );
+}
+
+/**
+ * Resolves member full name toke.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Returns a member's full name.
+ */
+function c4m_message_format_member_full_name(Message $message) {
+  $user = user_load($message->uid);
+
+  return c4m_user_name($user);
+}
+
+/**
+ * Resolves group owner full name token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group owner full name.
+ * */
+function c4m_message_format_group_owner_full_name(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $author = $wrapper->field_group_node->author->value();
+
+  return c4m_user_name($author);
+}
+
+/**
+ * Resolves group url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group url.
+ */
+function c4m_message_format_group_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $nid = $wrapper->field_group_node->value(array('identifier' => TRUE));
+
+  return url('node/' . $nid);
+}
+
+/**
+ * Resolves group title token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group title.
+ */
+function c4m_message_format_group_node_title(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  return $wrapper->field_group_node->label();
+}
+
+/**
+ * Resolves group welcome message token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group welcome message.
+ */
+function c4m_message_format_group_welcome_message(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $group_message = $wrapper->field_group_node->c4m_group_welcome_message->value();
+
+  return $group_message ? $group_message : '';
+}
+
+/**
+ * Resolves group node type token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group node type.
+ */
+function c4m_message_format_group_node_type(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $group_type = $wrapper->field_group_node->getBundle();
+
+  return $group_type ? $group_type : '';
+}
+
+/**
+ * Resolves group owner url token.
+ *
+ * @param Message $message
+ *   The Message entity.
+ *
+ * @return string
+ *   Return group owner url.
+ */
+function c4m_message_format_group_owner_public_profile_url(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $author_id = $wrapper->field_group_node->author->getIdentifier();
+
+  return url('user/' . $author_id);
+}
+
+/**
  * Delegate message CRUD to message type specific functions.
  *
  * @param string $entity_type
@@ -90,6 +309,11 @@ function c4m_message_entity_load($entities, $entity_type) {
  *   The saved message object, or NULL if not created or updated.
  */
 function c4m_message_crud_message($entity_type, $entity, $op) {
+  // Do not create a message if no user is associated with the entity.
+  if (!isset($entity->uid) || (isset($entity->uid) && $entity->uid < 1)) {
+    $entity->_skip_message = TRUE;
+  }
+
   if (!empty($entity->_skip_message)) {
     // Entity should not create a message.
     return FALSE;
@@ -191,7 +415,7 @@ function c4m_message_format_date_for_message(Message $message) {
 /**
  * Get group info for activity stream.
  *
- * @param \Message $message
+ * @param Message $message
  *    The message object.
  *
  * @return string

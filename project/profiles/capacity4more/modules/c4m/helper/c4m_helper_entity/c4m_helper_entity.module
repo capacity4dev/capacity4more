@@ -187,3 +187,72 @@ function c4m_helper_entity_get_number_of_entities(array $variables) {
 
   return $amount;
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function c4m_helper_entity_entity_property_info_alter(&$info) {
+  foreach (flag_get_flags() as $flag) {
+    if (count($flag->types)) {
+      // Bundle specific property.
+      foreach ($flag->types as $type) {
+        $info[$flag->entity_type]['bundles'][$type]['properties']['flag_' . $flag->name . '_count'] = c4m_helper_entity_entity_property_flag_count_entity_definition($type, $flag);
+      }
+    }
+    else {
+      // Generic property, applies for all bundles.
+      $info[$flag->entity_type]['properties']['flag_' . $flag->name . '_count'] = c4m_helper_entity_entity_property_flag_count_entity_definition($flag->entity_type, $flag);
+    }
+  }
+}
+
+/**
+ * Returns entity property definition for the flag count of a certain entity.
+ *
+ * @param string $type
+ *   The type can either be the bundle or the entity type.
+ * @param object $flag
+ *   The flag object.
+ *
+ * @return array
+ *   An array containing the property information.
+ */
+function c4m_helper_entity_entity_property_flag_count_entity_definition($type, $flag) {
+  return array(
+    'label' => t('The flag count of type @flag for an @type entity', array('@type' => $type, '@flag' => $flag->name)),
+    'description' => t('Returns the flag count of the type @flag of an entity.', array('@flag' => $flag->name)),
+    'type' => 'integer',
+    'getter callback' => 'c4m_helper_entity_entity_get_properties',
+    'computed' => TRUE,
+    'flag_name' => $flag->name,
+  );
+}
+
+/**
+ * Callback for getting entity properties.
+ *
+ * @param object $entity
+ *   The entity object.
+ * @param array $options
+ *   The options array.
+ * @param string $name
+ *   The name of the entity property.
+ * @param string $entity_type
+ *   The entity type of the entity.
+ * @param array $property_info
+ *   An array with other properites of the entity.
+ *
+ * @return integer | NULL
+ *   Returns the amount of flags for the entity or NULL if not appropriate.
+ */
+function c4m_helper_entity_entity_get_properties($entity, array $options, $name, $entity_type, $property_info) {
+  $flag_name = $property_info['flag_name'];
+  $flag = flag_get_flag($flag_name);
+  $count = flag_get_counts($entity_type, $flag->get_entity_id($entity));
+
+  if (count($count) && isset($count[$flag_name]) && is_numeric($count[$flag_name])) {
+    return $count[$flag_name];
+  }
+
+  return NULL;
+}

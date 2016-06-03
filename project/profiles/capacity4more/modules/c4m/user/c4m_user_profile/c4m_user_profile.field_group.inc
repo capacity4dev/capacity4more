@@ -88,9 +88,7 @@ function c4m_user_profile_field_group_info() {
     'children' => array(
       0 => 'c4m_body',
       1 => 'c4m_media',
-      2 => 'c4m_vocab_geo',
-      3 => 'c4m_vocab_topic',
-      4 => 'c4m_vocab_topic_expertise',
+      2 => 'group_your_interests',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -304,6 +302,39 @@ function c4m_user_profile_field_group_info() {
   );
   $field_groups['group_user_meta|user|user|full'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_your_interests|user|user|form';
+  $field_group->group_name = 'group_your_interests';
+  $field_group->entity_type = 'user';
+  $field_group->bundle = 'user';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_public_profile';
+  $field_group->data = array(
+    'label' => 'Your interests',
+    'weight' => '10',
+    'children' => array(
+      0 => 'c4m_vocab_geo',
+      1 => 'c4m_vocab_topic',
+      2 => 'c4m_vocab_topic_expertise',
+    ),
+    'format_type' => 'html-element',
+    'format_settings' => array(
+      'label' => 'Your interests',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'id' => '',
+        'classes' => '',
+        'element' => 'div',
+        'show_label' => '1',
+        'label_element' => 'label',
+        'attributes' => '',
+      ),
+    ),
+  );
+  $field_groups['group_your_interests|user|user|form'] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
   t('About');
@@ -311,6 +342,7 @@ function c4m_user_profile_field_group_info() {
   t('Notable Contributions');
   t('Professional Interests');
   t('Your account');
+  t('Your interests');
   t('Your personal info');
   t('Your public profile');
 

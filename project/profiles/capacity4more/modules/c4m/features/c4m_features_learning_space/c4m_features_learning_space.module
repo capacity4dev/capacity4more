@@ -17,7 +17,7 @@ function c4m_features_learning_space_menu() {
     'description' => 'Manage info text and image for learning page overview.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_features_learning_space_admin_settings'),
-    'access arguments' => array('administer products'),
+    'access arguments' => array('administer site configuration'),
     'file' => 'c4m_features_learning_space.admin.inc',
     'weight' => -10,
   );

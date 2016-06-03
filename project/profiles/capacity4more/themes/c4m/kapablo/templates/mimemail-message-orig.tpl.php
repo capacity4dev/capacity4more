@@ -68,7 +68,7 @@
       border-collapse: collapse; }
 
     td {
-      word-wrap: break-word;
+      word-break: break-all;
       -webkit-hyphens: auto;
       -moz-hyphens: auto;
       hyphens: auto;
@@ -1434,7 +1434,7 @@
                     <th class="small-12 large-12">
                       <table>
                         <tr>
-                          <th> <img src="http://dev.capacity4dev.eu/profiles/capacity4more/themes/c4m/kapablo/logo.png"> </th>
+                          <th> <img src="http://s33.postimg.org/vtp7ch06n/logo_2.png"> </th>
                         </tr>
                       </table>
                     </th>
@@ -1457,7 +1457,7 @@
                     <table>
                       <tr>
                         <th> <br>
-                          <?php print $body ?>
+                          PRINT_BODY_HERE
                         </th>
                       </tr>
                     </table>

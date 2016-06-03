@@ -79,6 +79,8 @@ function kapablo_preprocess_page(&$variables) {
     $variables['content_column_class_kapablo'] = ' class="col-md-12"';
   }
 
+  $variables['front_page'] = url('<front>', array('purl' => array('disabled' => TRUE)));
+
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
 
@@ -379,6 +381,9 @@ function kapablo_preprocess_views_view_fields(&$vars) {
 
       $object = new stdClass();
       $object->content = '<span class="er--field-access privacy-level--' . $access['type'] . '">[' . $access['type'] . ']</span>';
+      $object->wrapper_prefix = '';
+      $object->wrapper_suffix = '';
+      $object->label_html = '';
 
       $vars['fields']['access'] = $object;
 
@@ -534,4 +539,22 @@ function kapablo_item_list($variables) {
  */
 function kapablo_menu_tree__small(&$variables) {
   return '<ul class="text-small">' . $variables['tree'] . '</ul>';
+}
+
+/**
+ * Pre-processes variables for the "image" theme hook.
+ *
+ * See theme function for list of available variables.
+ *
+ * @see theme_image()
+ *
+ * @ingroup theme_preprocess
+ */
+function kapablo_preprocess_image(&$variables) {
+  // Remove .img-responsive class for icon_small styled images.
+  if (!empty($variables['style_name']) && $variables['style_name'] == 'icon_small') {
+    if (($key = array_search('img-responsive', $variables['attributes']['class'])) !== FALSE) {
+      unset($variables['attributes']['class'][$key]);
+    }
+  }
 }

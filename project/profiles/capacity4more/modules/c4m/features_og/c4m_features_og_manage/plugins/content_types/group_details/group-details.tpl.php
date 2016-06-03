@@ -7,6 +7,19 @@
 
 <div class="row group-management-dashboard">
   <div class="col-md-12 group-management-wrapper">
+    <div class="group-administration">
+      <div class="title">
+        <h2><?php print t('Group administration') ?></h2>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><?php print t('Owner') ?> (<a href="<?php print $details['owner_edit']; ?>"><?php print t('Edit') ?></a>)</div>
+        <div class="col-md-9"><?php print $details['owner']; ?></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><?php print t('Administrators') ?> (<a href="<?php print $details['admins_edit']; ?>"><?php print t('Edit') ?></a>)</div>
+        <div class="col-md-9"><?php print $details['admins']; ?></div>
+      </div>
+    </div>
     <div class="group-details">
       <div class="title">
         <h2><?php print t('Group details') ?></h2>
