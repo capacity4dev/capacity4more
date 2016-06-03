@@ -728,13 +728,19 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
     if ($ldap->isUp()) {
       $info = $ldap->getInfo($account->mail);
       if ($info && !empty($info['valid'])) {
-        $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
-        $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
+        if ($info['country']) {
+          $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
+        }
+        if ($domain->organisation_name) {
+          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
+        }
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
       elseif (isset($whitelist_domain) && ($whitelist_domain || $whitelist_domain = $domain_user->getEmailDomainByWhitelist())) {
-        $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
+        if ($whitelist_domain->organisation_name) {
+          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $whitelist_domain->organisation_name;
+        }
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
         $edit['c4m_is_invalid_email'][LANGUAGE_NONE]['0']['value'] = 0;
       }
@@ -754,7 +760,9 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
   if ($organisations = $organisation_user->getOrganisationsInfo()) {
     $organisation = array_shift($organisations);
     $organisation = entity_metadata_wrapper('node', $organisation);
-    $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value();
+    if ($organisation->c4m_organisation_type->value()) {
+      $edit['c4m_organisation_type'][LANGUAGE_NONE]['0']['value'] = $organisation->c4m_organisation_type->value();
+    }
     if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'])) {
       $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $organisation->title->value();
     }

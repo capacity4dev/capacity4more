@@ -1434,7 +1434,7 @@
                     <th class="small-12 large-12">
                       <table>
                         <tr>
-                          <th> <img src="https://www.dropbox.com/s/n8d2yo4rktoslfn/logo.png?dl=1"> </th>
+                          <th> <img src="http://s33.postimg.org/vtp7ch06n/logo_2.png"> </th>
                         </tr>
                       </table>
                     </th>
