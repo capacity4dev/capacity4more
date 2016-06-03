@@ -4,6 +4,7 @@
   @media (min-width: $screen-tablet) {
     padding: 1rem 0;
     @include grey_bar;
+    border-top: 1px solid $color-gray-light;
   }
 }
 
