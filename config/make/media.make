@@ -4,7 +4,7 @@ api = 2
 ; Media
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "2.0-beta1"
+projects[media][version] = "2.0-beta2"
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "2.x-dev"

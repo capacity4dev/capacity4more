@@ -4,7 +4,7 @@ api = 2
 ; Organic Groups and friends.
 
 projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/HelenaEksler/og.git"
+projects[og][download][url] = "https://github.com/capacity4dev/og.git"
 projects[og][download][branch] = og_context_check_access
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
@@ -21,11 +21,8 @@ projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 projects[og_vocab][patch][] = https://www.drupal.org/files/issues/og_vocab-fix_strict_warning.patch
 
-projects[pluggable_node_access][download][type] = "git"
-projects[pluggable_node_access][download][url] = "https://github.com/Gizra/pluggable_node_access.git"
-projects[pluggable_node_access][download][branch] = 7.x-1.x
 projects[pluggable_node_access][subdir] = "contrib"
-projects[pluggable_node_access][type] = "module"
+projects[pluggable_node_access][version] = "1.x-dev"
 
 projects[purl][subdir] = "contrib"
 projects[purl][version] = "1.x-dev"

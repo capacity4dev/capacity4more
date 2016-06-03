@@ -7,7 +7,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.7"
+projects[features][version] = "2.10"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
