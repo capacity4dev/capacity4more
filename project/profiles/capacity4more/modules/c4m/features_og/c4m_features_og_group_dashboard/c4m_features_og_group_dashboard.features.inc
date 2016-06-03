@@ -100,10 +100,10 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
       15 => 'topic',
       16 => 'wiki_page',
     ),
-    'flag_short' => '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>',
+    'flag_short' => '<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Recommend',
     'flag_long' => '',
     'flag_message' => '',
-    'unflag_short' => '<i class="fa fa-thumbs-o-down" aria-hidden="true"></i>',
+    'unflag_short' => '<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Unrecommend',
     'unflag_long' => '',
     'unflag_message' => '',
     'unflag_denied_text' => '',
@@ -128,11 +128,11 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     'access_author' => '',
     'show_contextual_link' => 0,
     'i18n' => 0,
-    'api_version' => 3,
     'module' => 'c4m_features_og_group_dashboard',
     'locked' => array(
       0 => 'name',
     ),
+    'api_version' => 3,
   );
   return $flags;
 
