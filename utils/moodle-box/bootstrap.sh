@@ -72,9 +72,6 @@ sudo ln -s ../sites-available/${PROJECT_SERVER_NAME}.conf /etc/apache2/sites-ena
 # Enable mod_rewrite
 sudo a2enmod rewrite
 
-# Restart Apache
-sudo service apache2 restart
-
 # Git
 sudo apt-get install git -y
 
@@ -125,3 +122,9 @@ php admin/cli/install.php \
   --adminemail=${ADMIN_EMAIL} \
   --non-interactive \
   --agree-license
+
+# File permissions of Moodle platform
+sudo chown -R www-data:www-data "/var/www/${PROJECT_FOLDER}"
+
+# Restart Apache
+sudo service apache2 restart
