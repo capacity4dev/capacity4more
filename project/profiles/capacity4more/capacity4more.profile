@@ -155,6 +155,9 @@ function capacity4more_setup_set_og_permissions() {
   $og_flag_perms = array(
     'c4m_og_content_promote',
     'c4m_og_content_depromote',
+
+    'c4m_og_content_recommend',
+    'c4m_og_content_unrecommend',
   );
   $permissions = array_merge($permissions, $og_flag_perms);
 

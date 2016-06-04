@@ -11,6 +11,7 @@ include_once 'c4m_features_og_group_dashboard.features.inc';
  */
 function c4m_features_og_group_dashboard_og_permission() {
   return array(
+    // Promote flag.
     'c4m_og_content_promote' => array(
       'title'         => t('Promote group content'),
       'description'   => t("Allow user to promote content of the group he's a member of."),
@@ -23,6 +24,20 @@ function c4m_features_og_group_dashboard_og_permission() {
       'roles'         => array(OG_AUTHENTICATED_ROLE),
       'default role'  => array(OG_ADMINISTRATOR_ROLE),
     ),
+
+    // Recommend flag.
+    'c4m_og_content_recommend' => array(
+      'title'         => t('Recommend group content'),
+      'description'   => t("Allow user to recommend content of the group he's a member of."),
+      'roles'         => array(OG_AUTHENTICATED_ROLE),
+      'default role'  => array(OG_ADMINISTRATOR_ROLE),
+    ),
+    'c4m_og_content_unrecommend' => array(
+      'title'         => t('Unrecommend group content'),
+      'description'   => t("Allow user to unrecommend content of the group he's a member of."),
+      'roles'         => array(OG_AUTHENTICATED_ROLE),
+      'default role'  => array(OG_ADMINISTRATOR_ROLE),
+    ),
   );
 }
 
@@ -30,19 +45,27 @@ function c4m_features_og_group_dashboard_og_permission() {
  * Implements hook_flag_access().
  */
 function c4m_features_og_group_dashboard_flag_access($flag, $entity_id, $action, $account) {
-  if ($flag->name !== 'c4m_og_content_highlight') {
-    return FALSE;
+  if ($flag->name == 'c4m_og_content_recommend') {
+    // Show recommend flag to everyone.
+    return TRUE;
+  }
+
+  if (!in_array($flag->name, array('c4m_og_content_highlight'))) {
+    // Flags we don't care about.
+    return;
   }
 
   $group = c4m_og_current_group();
   if (!isset($group->nid)) {
-    return FALSE;
+    return;
   }
 
   if ($action == 'flag') {
+    $flag->name == 'c4m_og_content_highlight' ? 'c4m_og_content_promote' : 'c4m_og_content_recommend';
     return og_user_access('node', $group->nid, 'c4m_og_content_promote', $account);
   }
 
+  $flag->name == 'c4m_og_content_highlight' ? 'c4m_og_content_depromote' : 'c4m_og_content_unrecommend';
   return og_user_access('node', $group->nid, 'c4m_og_content_depromote', $account);
 }
 
@@ -100,6 +123,12 @@ function c4m_features_og_group_dashboard_c4m_content_actions_info() {
       'callback'  => 'c4m_features_og_group_dashboard_action_promote',
       'weight'    => '2',
     ),
+
+    'action_recommend' => array(
+      'context'   => array('group', 'global'),
+      'callback'  => 'c4m_features_og_group_dashboard_action_recommend',
+      'weight'    => '3',
+    ),
   );
 }
 
@@ -115,6 +144,33 @@ function c4m_features_og_group_dashboard_c4m_content_actions_info() {
 function c4m_features_og_group_dashboard_action_promote($node) {
   $flag_link = flag_create_link('c4m_og_content_highlight', $node->nid);
   $output = '<div class="group-actions-promote">' . $flag_link . '</div>';
+  return $output;
+}
+
+/**
+ * Callback to show the recomendation link.
+ *
+ * @param object $node
+ *    The node object.
+ *
+ * @return string
+ *    Rendered output of the promote link.
+ */
+function c4m_features_og_group_dashboard_action_recommend($node) {
+  $flag_link = flag_create_link('c4m_og_content_recommend', $node->nid);
+  if (!$flag_link) {
+    return '';
+  }
+
+  $output = theme('html_tag', array(
+    'element' => array(
+      '#tag' => 'div',
+      '#attributes' => array(
+        'class' => 'group-actions-recommend',
+      ),
+      '#value' => $flag_link,
+    ),
+  ));
   return $output;
 }
 

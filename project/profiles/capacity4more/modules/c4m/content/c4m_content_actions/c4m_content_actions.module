@@ -55,6 +55,15 @@ function c4m_content_action_get_actions() {
   $actions = c4m_content_actions_info($context);
   $node = menu_get_object();
 
+  if (empty($node)) {
+    // Check if group dashboard.
+    $og = og_context();
+
+    if (!empty($og)) {
+      $node = node_load($og['gid']);
+    }
+  }
+
   foreach ($actions as $key => $action) {
     if (!isset($action['callback']) || !function_exists($action['callback'])) {
       continue;
