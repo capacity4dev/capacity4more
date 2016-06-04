@@ -13,5 +13,5 @@ echo
 
 # Set the administration theme.
 markup_h1 "Set the administration menu"
-drush vset admin_theme adminimal
+drupal_drush vset admin_theme adminimal
 echo

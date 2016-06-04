@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Piwik Analytics install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function c4m_analytics_install() {
+  // Set the scope of the Piwik JS to "footer".
+  variable_set('piwik_js_scope', 'footer');
+  // Set the Piwik custom variables.
+  variable_set('piwik_custom_var', array(
+    'slots' => array(
+      1 => array(
+        'slot' => 1,
+        'name' => 'Current page - unaliased path',
+        'value' => '[current-page:url:unaliased:path]',
+        'scope' => 'page',
+      ),
+    ),
+  ));
+}
