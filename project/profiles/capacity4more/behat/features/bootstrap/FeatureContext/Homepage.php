@@ -33,8 +33,12 @@ trait Homepage {
    * @Then /^I should see the suggested groups video block$/
    */
   public function iShouldEmbeddedVideoBlock() {
-    $steps[] = new Step\When('I should see "You\'re not yet a member of any group." in the "div.video-preview-wrapper" element');
-    $steps[] = new Step\When('I should see "Learn how to learn and share knowledge by joining a group" in the "div.video-preview-wrapper" element');
+    $steps[] = new Step\When(
+      'I should see "You\'re not yet a member of any group." in the "div.video-preview-wrapper" element'
+    );
+    $steps[] = new Step\When(
+      'I should see "Learn how to learn and share knowledge by joining a group" in the "div.video-preview-wrapper" element'
+    );
 
     return $steps;
   }
@@ -54,7 +58,9 @@ trait Homepage {
    */
   public function iShouldWaitNotToSeeInElement($text, $element) {
     $steps[] = new Step\When('I wait');
-    $steps[] = new Step\When('I should not see "' . $text . '" in the "' . $element . '" element');
+    $steps[] = new Step\When(
+      'I should not see "' . $text . '" in the "' . $element . '" element'
+    );
 
     return $steps;
   }
@@ -73,13 +79,13 @@ trait Homepage {
    * @Then /^I should see the carousel and all the slides$/
    */
   public function iShouldSeeFunctioningCarousel() {
-    $steps[] = new Step\When('I should wait to see "VOICES & VIEWS"');
-    $steps[] = new Step\When('I should see "See more"');
-    $steps[] = new Step\When('I should see an "#carousel1" element');
-    $steps[] = new Step\When('I should see an "div.intro-text" element');
+    $steps[] = new Step\When('I should wait to see "Latest Articles"');
+    $steps[] = new Step\When('I should see "Read more articles"');
+    $steps[] = new Step\When('I should see an "div.owl-carousel" element');
+    $steps[] = new Step\When('I should see an "p.intro-text" element');
 
     // Flip to the next slide (If the test can't execute the function, an error will appear).
-    $this->getSession()->executeScript("angular.element('.rn-carousel-control').scope().nextSlide()");
+    $this->getSession()->executeScript("jQuery('.owl-carousel').trigger('owl.next')");
 
     return $steps;
   }
@@ -104,10 +110,14 @@ trait Homepage {
     $blocks = $page->findAll('css', '.node-event.view-mode-block_list');
 
     if (count($blocks) > $events_no) {
-      throw new \Exception(sprintf('There\'s more than %d Upcoming event showing.', $events_no));
+      throw new \Exception(
+        sprintf('There\'s more than %d Upcoming event showing.', $events_no)
+      );
     }
     elseif (count($blocks) < $events_no) {
-      throw new \Exception(sprintf('There\'s less than %d Upcoming event showing.', $events_no));
+      throw new \Exception(
+        sprintf('There\'s less than %d Upcoming event showing.', $events_no)
+      );
     }
   }
 
