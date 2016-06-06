@@ -918,6 +918,7 @@ function c4m_user_c4m_domain_presave($entity) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Using hook_form_user_login_alter().
  */
 function c4m_user_form_user_login_alter(&$form, &$form_state, $form_id) {
@@ -926,6 +927,7 @@ function c4m_user_form_user_login_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
  * Using hook_form_user_login_block_alter().
  */
 function c4m_user_form_user_login_block_alter(&$form, &$form_state, $form_id) {
@@ -939,7 +941,9 @@ function c4m_user_form_user_login_block_alter(&$form, &$form_state, $form_id) {
  * must contact an administrator.
  *
  * @param array $form
+ *   Form array.
  * @param array $form_state
+ *   Form state array.
  */
 function c4m_user_login_validate_spammer_check($form, &$form_state) {
   if (!isset($form_state['uid']) || !is_numeric($form_state['uid'])) {
@@ -964,7 +968,7 @@ function c4m_user_login_validate_spammer_check($form, &$form_state) {
  * @param object | integer $user
  *   The user object or user ID.
  *
- * @return boolean
+ * @return bool
  *   Returns whether a user is marked as spammer or not.
  */
 function c4m_user_is_spammer($user) {
