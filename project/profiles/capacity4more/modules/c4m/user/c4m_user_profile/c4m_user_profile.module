@@ -829,3 +829,41 @@ function c4m_user_profile_init() {
     $plugin->execute($user);
   }
 }
+
+/**
+ * Render a hash for a specific user.
+ *
+ * @param null $account
+ *   A user account.
+ *
+ * @return string
+ *   The hash string.
+ */
+function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
+
+  $full_name = c4m_user_name($account);
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $username = $wrapper->name->value();
+  $mail = $wrapper->mail->value();
+  $organisation = $wrapper->c4m_organisation->value();
+
+  return md5($username . $mail . $full_name . $organisation . REQUEST_TIME);
+}
+
+/**
+ * Implements hook_user_presave().
+ *
+ * Adding the unsubscribe hash to the user profile when it is not a new profile.
+ */
+function c4m_user_profile_user_presave(&$edit, $account, $category) {
+  if (!$account->is_new) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $wrapper->c4m_unsubscribe_hash->set(c4m_user_profile_render_user_unsubscribe_hash($account));
+}
