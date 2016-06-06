@@ -147,10 +147,10 @@ function c4m_user_notifications_node_update($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   $wrapper_original = entity_metadata_wrapper('node', $node->original);
+  c4m_user_notifications_load_includes();
+
   $status = $wrapper->c4m_og_status->value();
   $prev_status = $wrapper_original->c4m_og_status->value();
-
-  c4m_user_notifications_load_includes();
   if ($status != $prev_status) {
     // If group status has changed
     switch ($status) {
@@ -159,20 +159,25 @@ function c4m_user_notifications_node_update($node) {
           c4m_user_notifications_group_status_set_republished($node);
         }
         break;
-      case 'unpublished': c4m_user_notifications_group_status_set_unpublished($node);
+      // Published -> Draft => Unpublished.
+      case 'draft':
+        if ($prev_status == 'published') {
+          c4m_user_notifications_group_status_set_unpublished($node);
+        }
         break;
 
-      case 'archived': c4m_user_notifications_group_status_set_archived($node);
+      case 'archived':
+        c4m_user_notifications_group_status_set_archived($node);
         break;
       // Soft delete.
-      case 'deleted': c4m_user_notifications_group_status_set_softdeleted($node);
+      case 'deleted':
+        c4m_user_notifications_group_status_set_softdeleted($node);
         break;
     }
   }
 
   $group_access = $wrapper->group_access->value();
   $prev_group_access = $wrapper_original->group_access->value();
-
   if ($group_access != $prev_group_access) {
     // if group access has changed (switch between Public and Private/Restricted).
     c4m_user_notifications_group_access_changed($node);
@@ -194,6 +199,14 @@ function c4m_user_notifications_node_update($node) {
         c4m_user_notifications_group_access_changed($node);
       }
     }
+  }
+
+  $group_owner = $wrapper->author->value();
+  $prev_group_owner = $wrapper_original->author->value();
+  if ($group_owner != $prev_group_owner) {
+    c4m_user_notifications_notify_prev_owner_owner_update($node);
+    c4m_user_notifications_notify_new_owner_owner_update($node);
+    c4m_user_notifications_notify_admins_owner_update($node);
   }
 }
 

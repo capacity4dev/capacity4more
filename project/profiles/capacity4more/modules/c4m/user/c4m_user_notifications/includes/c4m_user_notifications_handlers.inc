@@ -74,11 +74,23 @@ function c4m_user_notifications_group_status_set_softdeleted($node) {
   return;
 }
 
+function c4m_user_notifications_group_hard_deleted($node) {
+  return;
+}
+
 function c4m_user_notifications_group_access_changed($node) {
   return;
 }
 
-function c4m_user_notifications_group_hard_deleted($node) {
+function c4m_user_notifications_notify_prev_owner_owner_update($node) {
+  return;
+}
+
+function c4m_user_notifications_notify_new_owner_owner_update($node) {
+  return;
+}
+
+function c4m_user_notifications_notify_admins_owner_update($node) {
   return;
 }
 
@@ -87,6 +99,5 @@ function c4m_user_notifications_notify_user_commented($comment) {
 }
 
 function c4m_user_notifications_notify_user_invited_by_admin(&$form, &$form_state) {
-  dpm($form);
-  dpm($form_state);
+  return;
 }
