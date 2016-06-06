@@ -115,42 +115,86 @@ function c4m_user_notifications_entity_delete($entity, $type) {
 }
 
 /**
+ * Implements hook_node_insert.
+ *
+ * Triggers email notification for new node (group/project), for status 'published'.
+ */
+function c4m_user_notifications_node_insert($node) {
+  if ($node->type != 'group' && $node->type != 'project') {
+    // Return early, if node type is not group/project.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $status = $wrapper->c4m_og_status->value();
+
+  if ($status == 'published') {
+    c4m_user_notifications_group_status_set_published($node);
+  }
+
+}
+
+/**
  * Implements hook_node_update.
  *
  * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
-  if ($node->type != 'group' || $node->type != 'project') {
+  if ($node->type != 'group' && $node->type != 'project') {
     // Return early, if node type is not group/project.
     return;
   }
 
-  $status = $node->c4m_og_status->value();
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper_original = entity_metadata_wrapper('node', $node->original);
+  $status = $wrapper->c4m_og_status->value();
+  $prev_status = $wrapper_original->c4m_og_status->value();
+
   c4m_user_notifications_load_includes();
-  switch ($status) {
-    case 'published':
-      if (empty($node->original)) {
-        c4m_user_notifications_group_status_set_published($node);
-      }
-      else {
-        $prev_status = $node->original->c4m_og_status->value();
+  if ($status != $prev_status) {
+    // If group status has changed
+    switch ($status) {
+      case 'published':
         if ($prev_status == 'archived' || $prev_status == 'unpublished' || $prev_status == 'deleted') {
           c4m_user_notifications_group_status_set_republished($node);
         }
-      }
-    break;
+        break;
+      case 'unpublished': c4m_user_notifications_group_status_set_unpublished($node);
+        break;
 
-    case 'unpublished': c4m_user_notifications_group_status_set_unpublished($node);
-    break;
-
-    case 'archived': c4m_user_notifications_group_status_set_archived($node);
-    break;
-    // Soft delete.
-    case 'delete': c4m_user_notifications_group_status_set_softdeleted($node);
-    break;
+      case 'archived': c4m_user_notifications_group_status_set_archived($node);
+        break;
+      // Soft delete.
+      case 'deleted': c4m_user_notifications_group_status_set_softdeleted($node);
+        break;
+    }
   }
 
-  return;
+  $group_access = $wrapper->group_access->value();
+  $prev_group_access = $wrapper_original->group_access->value();
+
+  if ($group_access != $prev_group_access) {
+    // if group access has changed (switch between Public and Private/Restricted).
+    c4m_user_notifications_group_access_changed($node);
+  }
+  else if ($group_access == TRUE) {
+    // Possible switch between Private and Restricted.
+    $plug_node_access = empty($wrapper->pluggable_node_access->value());
+    $prev_plug_node_access = empty($wrapper_original->pluggable_node_access->value());
+
+    if ($plug_node_access != $prev_plug_node_access) {
+      c4m_user_notifications_group_access_changed($node);
+    }
+    else {
+      // Check if 'membership open' state was changed - part of group access as well.
+      $membership_open = $wrapper->field_membership_open_request ->value();
+      $prev_membership_open = $wrapper_original->field_membership_open_request ->value();
+
+      if ($membership_open != $prev_membership_open) {
+        c4m_user_notifications_group_access_changed($node);
+      }
+    }
+  }
 }
 
 /**
@@ -159,7 +203,7 @@ function c4m_user_notifications_node_update($node) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_node_delete($node) {
-  if ($node->type != 'group' || $node->type != 'project') {
+  if ($node->type != 'group' && $node->type != 'project') {
     // Return early, if node type is not group/project.
     return;
   }
@@ -191,7 +235,7 @@ function c4m_user_notifications_user_delete($account) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Triggers email notification for when user is invited to group by admin.
+ * Triggers email notification when user is invited to group by admin.
  */
 function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state) {
   $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
