@@ -27,6 +27,7 @@
     "filesize": "~2.0.4",
     "angular-animate": "1.2.16",
     "angular-carousel": "https://github.com/dcjohnston/angular-carousel.git#master",
+    "owl-carousel": "https://github.com/OwlFonk/OwlCarousel.git#master",
     "angular-touch": "1.2.16"
   },
   "devDependencies": {

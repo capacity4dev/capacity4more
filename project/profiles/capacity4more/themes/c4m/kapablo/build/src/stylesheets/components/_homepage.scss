@@ -20,13 +20,6 @@
   border-top: none;
 }
 
-.pane-voices-views-carousel {
-  @include grey_box;
-  @include grain;
-
-  margin-bottom: 2rem;
-}
-
 .pane-featured-block {
 
   @media (min-width: $screen-tablet) {

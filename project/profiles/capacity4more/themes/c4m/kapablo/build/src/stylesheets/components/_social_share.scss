@@ -3,6 +3,11 @@
 }
 
 .social-actions-share {
+  > h3 {
+    font-size: 1.2em;
+    margin-bottom: 0.2em;
+  }
+
   .ec-widget-share-item {
     display: inline-block;
   }
