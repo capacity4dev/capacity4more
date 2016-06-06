@@ -98,7 +98,7 @@ function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $o
 
         case 'url-with-name':
           $name = c4m_user_name($account);
-          $replacements[$original] = !empty($account->uid) ? l(
+          $replacements[$original] = !empty($account->uid) && $account->status ? l(
             $name, "user/$account->uid", $url_options
           ) : $name;
           break;
