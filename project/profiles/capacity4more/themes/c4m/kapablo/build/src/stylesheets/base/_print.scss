@@ -20,7 +20,7 @@
   .header-breadcrumb ol.breadcrumb {
     float: right;
     margin-top: -1cm;
-    font-size: 0.5rem;
+    width: 10cm;
   }
 
   #header-ec-wrapper, #content-top-wrapper, #page-header, .navigation--primary {
@@ -32,17 +32,51 @@
     content: "";
   }
 
+  *[role=complementary] {
+    display: none;
+  }
+  *[role=main] {
+    width: 100% !important;
+  }
+
   // Hide unnecessary elements.
   #articles-panel .block-title,
+  #block-c4m-features-learning-space-learning-intro img,
+  #block-c4m-search-filter-search-filter,
+  #block-c4m-search-filter-search-filter-interests,
   #c4m-search-form,
   #footer-bottom-wrapper,
   #footer-top-wrapper,
   #header-content-wrapper,
   #top-menu,
+  .book-navigation,
+  .field-name-c4m-content-wiki-page-collapse,
+  .field-name-c4m-ds-content-actions,
+  .group-banner,
+  .group-details,
+  .group-node-actions,
+  .pane-c4m-search-og-c4m-search-group-form,
   .pane-featured-block,
+  .pager--wrapper,
+  .search-api-sort,
   .see-more-link,
-  .show-more-wrapper {
+  .show-more-wrapper,
+  .view-c4m-overview-inthe-picture-blocks,
+  .view-footer {
     display: none;
+  }
+
+  #group-pages-navigation-left .field-group-format-wrapper {
+    display: block !important;
+  }
+
+
+  .group-c4m-header-meta, .image-overlay-bottom {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    padding: 3rem 0;
   }
 
   // Show all items in carousels.

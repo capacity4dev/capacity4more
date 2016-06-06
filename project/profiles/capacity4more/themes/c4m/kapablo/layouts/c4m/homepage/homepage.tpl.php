@@ -84,7 +84,7 @@
 </div>
 
 <div class="row">
-    <aside class="col-md-8" role="complementary">
+    <section class="col-md-8" role="main">
       <?php print $content['left']; ?>
     </aside>  <!-- /#sidebar-first -->
 
