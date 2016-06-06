@@ -1,0 +1,96 @@
+@media print {
+  // Print layout.
+  @page {
+    margin: 2cm;
+  }
+
+  html {
+    font-size: 10px;
+  }
+
+  // Print-friendly colors.
+  body {
+    background: $color-white;
+  }
+
+  .header-logo {
+    width: 6cm;
+  }
+
+  .header-breadcrumb ol.breadcrumb {
+    float: right;
+    margin-top: -1cm;
+    font-size: 0.5rem;
+  }
+
+  #header-ec-wrapper, #content-top-wrapper, #page-header, .navigation--primary {
+    border: 0;
+  }
+
+  // Prevent URLs being displayed (Bootstrap).
+  a[href]:after {
+    content: "";
+  }
+
+  // Hide unnecessary elements.
+  #articles-panel .block-title,
+  #c4m-search-form,
+  #footer-bottom-wrapper,
+  #footer-top-wrapper,
+  #header-content-wrapper,
+  #top-menu,
+  .pane-featured-block,
+  .see-more-link,
+  .show-more-wrapper {
+    display: none;
+  }
+
+  // Show all items in carousels.
+  .owl-carousel {
+    .owl-controls {
+      display: none !important;
+    }
+    .owl-wrapper {
+      width: 100% !important;
+
+      .owl-item {
+        margin-bottom: 1cm;
+      }
+    }
+  }
+  .row.carousel {
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    .col-md-12 {
+      padding: 0;
+
+      .owl-wrapper-outer {
+        margin: 0;
+      }
+    }
+  }
+
+  // Content region and sidebar under each other.
+  #block-system-main {
+    .col-md-8, .col-md-4 {
+      width: 100%;
+    }
+  }
+
+  // Prevent images to bleed over the edge of the page.
+  img {
+    max-width: 100% !important;
+  }
+
+  // Avoid selected elements to appear right before page breaks.
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  // Prevent large elements to be split across pages.
+  ul, img {
+    page-break-inside: avoid;
+  }
+}
