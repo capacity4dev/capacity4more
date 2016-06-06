@@ -194,6 +194,14 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%/unsubscribe/%'] = array(
+    'title' => 'Unsubscribe user',
+    'page callback' => 'c4m_user_profile_unsubscribe_user',
+    'page arguments' => array(1, 3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -866,4 +874,27 @@ function c4m_user_profile_user_presave(&$edit, $account, $category) {
 
   $wrapper = entity_metadata_wrapper('user', $account);
   $wrapper->c4m_unsubscribe_hash->set(c4m_user_profile_render_user_unsubscribe_hash($account));
+}
+
+/**
+ * A callback function; Unsubscribe a user.
+ *
+ * @param string $uid
+ *   The user ID.
+ * @param string $hash
+ *   The unsubscribe hash string.
+ */
+function c4m_user_profile_unsubscribe_user($uid, $hash) {
+  $wrapper = entity_metadata_wrapper('user', $uid);
+  if (!$wrapper->value()) {
+    return;
+  }
+
+  if ($wrapper->c4m_unsubscribe_hash->value() != $hash) {
+    return;
+  }
+
+  // Set the indication that this user want to unsubscribe from notifications.
+  $wrapper->c4m_optout->set(TRUE);
+  $wrapper->save();
 }
