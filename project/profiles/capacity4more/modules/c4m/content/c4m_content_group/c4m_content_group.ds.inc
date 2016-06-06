@@ -82,11 +82,6 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'group';
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
-    'node_link' => array(
-      'weight' => '4',
-      'label' => 'hidden',
-      'format' => 'default',
-    ),
     'c4m_user_picture' => array(
       'weight' => '37',
       'label' => 'hidden',
@@ -98,20 +93,22 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'user',
     ),
     'c4m_ds_creation_date' => array(
-      'weight' => '0',
+      'weight' => '1',
       'label' => 'inline',
       'format' => 'j F Y',
       'formatter_settings' => array(
         'ft' => array(
-          'func' => 'theme_ds_field_reset',
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Group created on',
+          'lb-col' => TRUE,
+          'ow' => TRUE,
+          'ow-el' => 'div',
+          'ow-cl' => 'c4m-created-on-date',
+          'ow-def-cl' => FALSE,
+          'ow-at' => '',
+          'ow-def-at' => FALSE,
         ),
       ),
-    ),
-    'c4m_ds_group_access_info' => array(
-      'weight' => '14',
-      'label' => 'hidden',
-      'format' => 'default',
     ),
     'c4m_ds_group_administer_link' => array(
       'weight' => '15',
@@ -123,12 +120,10 @@ function c4m_content_group_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_og_status' => array(
-      'formatter_settings' => array(
-        'ft' => array(
-          'func' => 'theme_ds_field_reset',
-        ),
-      ),
+    'c4m_ds_content_actions' => array(
+      'weight' => '15',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
   );
   $export['node|group|group_dashboard'] = $ds_fieldsetting;
@@ -304,30 +299,28 @@ function c4m_content_group_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'c4m_ds_creation_date',
-        1 => 'c4m_og_status',
-        2 => 'c4m_body',
-        3 => 'group_access_info',
-        4 => 'node_link',
-        5 => 'group_details',
-        6 => 'c4m_ds_group_access_info',
-        7 => 'c4m_ds_group_administer_link',
-        8 => 'group_extra_info',
-        9 => 'c4m_user_picture',
-        10 => 'c4m_user_first_and_last_name',
-        11 => 'c4m_vocab_topic',
-        12 => 'c4m_vocab_geo',
-        13 => 'c4m_content_group_statistics',
+        0 => 'c4m_body',
+        1 => 'c4m_ds_creation_date',
+        2 => 'group_access_info',
+        3 => 'group_actions',
+        4 => 'group_details',
+        5 => 'c4m_ds_content_actions',
+        6 => 'c4m_ds_group_administer_link',
+        7 => 'group_extra_info',
+        8 => 'c4m_user_picture',
+        9 => 'c4m_user_first_and_last_name',
+        10 => 'c4m_vocab_topic',
+        11 => 'c4m_vocab_geo',
+        12 => 'c4m_content_group_statistics',
       ),
     ),
     'fields' => array(
-      'c4m_ds_creation_date' => 'ds_content',
-      'c4m_og_status' => 'ds_content',
       'c4m_body' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
-      'node_link' => 'ds_content',
+      'group_actions' => 'ds_content',
       'group_details' => 'ds_content',
-      'c4m_ds_group_access_info' => 'ds_content',
+      'c4m_ds_content_actions' => 'ds_content',
       'c4m_ds_group_administer_link' => 'ds_content',
       'group_extra_info' => 'ds_content',
       'c4m_user_picture' => 'ds_content',

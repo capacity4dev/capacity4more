@@ -122,6 +122,7 @@
           <?php print render($search_form); ?>
         </div>
       </div>
+      
       <div class="row">
         <div class="col-sm-12 col-md-12 header-breadcrumb">
           <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>

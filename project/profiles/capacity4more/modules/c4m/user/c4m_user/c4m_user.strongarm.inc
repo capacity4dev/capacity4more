@@ -48,7 +48,26 @@ function c4m_user_strongarm() {
       ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'ckeditor' => array(
+          'weight' => '8',
+        ),
+        'mimemail' => array(
+          'weight' => '4',
+        ),
+        'redirect' => array(
+          'weight' => '11',
+        ),
+        'account' => array(
+          'weight' => '-100',
+        ),
+        'timezone' => array(
+          'weight' => '7',
+        ),
+        'contact' => array(
+          'weight' => '3',
+        ),
+      ),
       'display' => array(
         'summary' => array(
           'default' => array(

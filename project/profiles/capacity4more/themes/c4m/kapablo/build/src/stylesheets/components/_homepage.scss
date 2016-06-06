@@ -11,13 +11,6 @@
   border-top: none;
 }
 
-.pane-voices-views-carousel {
-  @include grey_box;
-  @include grain;
-
-  margin-bottom: 2rem;
-}
-
 .pane-featured-block {
   border-top: 1px dashed $color-gray-light;
   margin-top: 2rem;
@@ -40,7 +33,7 @@
         span {
           display: block;
           font-weight: bold;
-          padding: 0.5rem 0;
+          padding: 0.65rem 0 0.5rem;
         }
       }
     }

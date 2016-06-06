@@ -79,6 +79,8 @@ function kapablo_preprocess_page(&$variables) {
     $variables['content_column_class_kapablo'] = ' class="col-md-12"';
   }
 
+  $variables['front_page'] = url('<front>', array('purl' => array('disabled' => TRUE)));
+
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
 
@@ -220,6 +222,23 @@ function kapablo_preprocess_field(&$variables, $hook) {
         }
       }
       break;
+
+    case 'title':
+      if ($element['#object']->type == 'photo') {
+        $node = $element['#object'];
+        $galleries = node_gallery_api_get_relationships(NULL, $node->nid);
+
+        if (!empty($galleries)) {
+          $gallery = array_pop($galleries);
+          $album = node_load($gallery->ngid);
+        }
+
+        foreach ($element['#items'] as $key => $item) {
+          $variables['items'][$key]['#markup'] = '<h1 class="text--inline">' . $album->title . '</h1><h2 class="text--inline">&nbsp;&gt; ' . $node->title . '</h2>';
+        }
+      }
+
+      break;
   }
 }
 
@@ -323,7 +342,6 @@ function _kapablo_help_facetapi_link_replace($text_orig) {
 function kapablo_preprocess_views_view(&$vars) {
   switch ($vars['name']) {
     case 'c4m_overview_inthe_picture_blocks':
-
       $items = $vars['view']->result;
       $carousels = array();
       foreach ($items as $node) {
@@ -363,6 +381,9 @@ function kapablo_preprocess_views_view_fields(&$vars) {
 
       $object = new stdClass();
       $object->content = '<span class="er--field-access privacy-level--' . $access['type'] . '">[' . $access['type'] . ']</span>';
+      $object->wrapper_prefix = '';
+      $object->wrapper_suffix = '';
+      $object->label_html = '';
 
       $vars['fields']['access'] = $object;
 
@@ -518,4 +539,22 @@ function kapablo_item_list($variables) {
  */
 function kapablo_menu_tree__small(&$variables) {
   return '<ul class="text-small">' . $variables['tree'] . '</ul>';
+}
+
+/**
+ * Pre-processes variables for the "image" theme hook.
+ *
+ * See theme function for list of available variables.
+ *
+ * @see theme_image()
+ *
+ * @ingroup theme_preprocess
+ */
+function kapablo_preprocess_image(&$variables) {
+  // Remove .img-responsive class for icon_small styled images.
+  if (!empty($variables['style_name']) && $variables['style_name'] == 'icon_small') {
+    if (($key = array_search('img-responsive', $variables['attributes']['class'])) !== FALSE) {
+      unset($variables['attributes']['class'][$key]);
+    }
+  }
 }

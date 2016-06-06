@@ -138,10 +138,13 @@ function c4m_content_group_strongarm() {
           'weight' => '1',
         ),
         'path' => array(
-          'weight' => '13',
+          'weight' => '11',
         ),
         'locations' => array(
           'weight' => '11',
+        ),
+        'redirect' => array(
+          'weight' => '16',
         ),
       ),
       'display' => array(),

@@ -4,7 +4,8 @@
  * Integration between Search API and OG.
  */
 
-include_once 'c4m_search_og.users.inc';
+module_load_include('inc', 'c4m_search_og', 'c4m_search_og.blocks');
+module_load_include('inc', 'c4m_search_og', 'c4m_search_og.users');
 
 /**
  * Implements hook_batch_alter().
