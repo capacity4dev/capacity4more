@@ -128,6 +128,7 @@ function c4m_user_notifications_node_insert($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $status = $wrapper->c4m_og_status->value();
 
+  c4m_user_notifications_load_includes();
   if ($status == 'published') {
     c4m_user_notifications_group_status_set_published($node);
   }
@@ -142,6 +143,11 @@ function c4m_user_notifications_node_insert($node) {
 function c4m_user_notifications_node_update($node) {
   if ($node->type != 'group' && $node->type != 'project') {
     // Return early, if node type is not group/project.
+    return;
+  }
+
+  if (empty($node->original)) {
+    // On node update, there must be $node->original
     return;
   }
 
@@ -201,8 +207,8 @@ function c4m_user_notifications_node_update($node) {
     }
   }
 
-  $group_owner = $wrapper->author->value();
-  $prev_group_owner = $wrapper_original->author->value();
+  $group_owner = $node->uid;
+  $prev_group_owner = $node->original->uid;
   if ($group_owner != $prev_group_owner) {
     c4m_user_notifications_notify_prev_owner_owner_update($node);
     c4m_user_notifications_notify_new_owner_owner_update($node);
