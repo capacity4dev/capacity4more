@@ -1,6 +1,6 @@
-html {
-  overflow-y: scroll;
-  min-height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 @media (min-width: 992px) {
@@ -38,12 +38,13 @@ div.contextual-links-wrapper {
 
 .page-container {
   position: relative;
-  overflow: hidden;
   height: 100%;
+  overflow: hidden;
 }
 
-.page-container.offCanvasNavigation--visible {
-  position: fixed;
+.page-content {
+  position: relative;
   height: 100%;
-  overflow: hidden;
+  overflow-y: scroll;
 }
+
