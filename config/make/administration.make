@@ -19,7 +19,7 @@ projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta2"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.6"
+projects[context][version] = "3.7"
 
 projects[context_block_disable][subdir] = "contrib"
 projects[context_block_disable][version] = "2.1"
@@ -43,13 +43,13 @@ projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.6"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta2"
+projects[file_entity][version] = "2.0-beta3"
 
 projects[file_download_count][subdir] = "contrib"
 projects[file_download_count][version] = "1.0-rc1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[mefibs][subdir] = "contrib"
 projects[mefibs][version] = "1.x-dev"
@@ -74,7 +74,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.13"
+projects[ds][version] = "2.14"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.7"
