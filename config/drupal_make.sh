@@ -7,6 +7,7 @@
 MAKE_FILES=(
   "minimal.make"
   "administration.make"
+  "analytics.make"
   "bootstrap.make"
   "ckeditor.make"
   "configuration.make"
