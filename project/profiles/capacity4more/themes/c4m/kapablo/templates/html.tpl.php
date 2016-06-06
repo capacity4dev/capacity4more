@@ -78,10 +78,11 @@
 
 <section class="page-container">
   <div class="container--push">
-    <?php print $page_top; ?>
-    <?php print $page; ?>
-    <?php print $page_bottom; ?>
-
+    <div class="page-content">
+      <?php print $page_top; ?>
+      <?php print $page; ?>
+      <?php print $page_bottom; ?>
+    </div>
     <?php if ($off_canvas): ?>
       <nav class="offCanvasNavigation animation--push">
         <?php print $off_canvas; ?>
