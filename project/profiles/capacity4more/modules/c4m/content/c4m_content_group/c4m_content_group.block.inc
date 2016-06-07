@@ -30,29 +30,7 @@ function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
-
-  $title = $wrapper->title->value();
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
-  $tag['title']['element'] = array(
-    '#tag' => 'h1',
-    '#attributes' => array(
-      'class' => array('group-title'),
-    ),
-    '#value' => $title,
-  );
-
-  $markup = theme_html_tag($tag['title']);
-
-  if ($status != 'published') {
-    $tag['status']['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('group-status'),
-      ),
-      '#value' => $status,
-    );
-    $markup .= theme_html_tag($tag['status']);
-  }
+  $markup = '';
 
   $menu_item = menu_get_item();
   if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
@@ -86,6 +64,29 @@ function _c4m_content_group_block_header_name_banner() {
         $markup .= theme_image_style($file);
       }
     }
+  }
+
+  $title = $wrapper->title->value();
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+  $tag['title']['element'] = array(
+    '#tag' => 'h1',
+    '#attributes' => array(
+      'class' => array('group-title'),
+    ),
+    '#value' => $title,
+  );
+
+  $markup .= theme_html_tag($tag['title']);
+
+  if ($status != 'published') {
+    $tag['status']['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('group-status'),
+      ),
+      '#value' => $status,
+    );
+    $markup .= theme_html_tag($tag['status']);
   }
 
   return array(
