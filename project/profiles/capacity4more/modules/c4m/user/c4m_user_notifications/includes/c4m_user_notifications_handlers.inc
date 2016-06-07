@@ -101,3 +101,19 @@ function c4m_user_notifications_notify_user_commented($comment) {
 function c4m_user_notifications_notify_user_invited_by_admin(&$form, &$form_state) {
   return;
 }
+
+function c4m_user_notifications_notify_user_admin_granted($gid, $uid) {
+  return;
+}
+
+function c4m_user_notifications_notify_admins_admin_granted($gid, $uid) {
+  return;
+}
+
+function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
+  return;
+}
+
+function c4m_user_notifications_notify_admins_admin_revoked($gid, $uid) {
+  return;
+}

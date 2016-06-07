@@ -14,13 +14,18 @@ function c4m_user_notifications_load_includes() {
  *
  * Triggers email notification on new membership request for moderated groups.
  */
-function c4m_user_notifications_entity_insert($entity, $type) {
-  if ($type != 'og_membership') {
+function c4m_user_notifications_og_membership_insert($og_membership) {
+  if(!isset($og_membership->entity_type)) {
+    // If membership type is not for 'user'.
+    return;
+  }
+
+  if ($og_membership->entity_type != 'user') {
     return;
   }
 
   // Loading group/project to resolve it's membership type - moderated/open
-  $node = node_load($entity->gid);
+  $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
     // If not moderated group, return early
@@ -28,7 +33,7 @@ function c4m_user_notifications_entity_insert($entity, $type) {
   }
 
   c4m_user_notifications_load_includes();
-  c4m_user_notifications_moderated_group_new_membership_request($entity);
+  c4m_user_notifications_moderated_group_new_membership_request($og_membership);
 }
 
 /**
@@ -40,43 +45,48 @@ function c4m_user_notifications_entity_insert($entity, $type) {
  *   Pending -> Accepted
  *   Pending -> Rejected
  */
-function c4m_user_notifications_entity_update($entity, $type) {
-  if ($type != 'og_membership') {
+function c4m_user_notifications_og_membership_update($og_membership) {
+  if (empty($og_membership->original)) {
+    // Must have original state, as we're performing update.
     return;
   }
 
-  if (empty($entity->original)) {
-    // Must have original state.
+  if(!isset($og_membership->entity_type)) {
+    // If membership type is not for 'user'.
     return;
   }
 
-  if ($entity->original->state != OG_STATE_PENDING) {
+  if ($og_membership->entity_type != 'user') {
+    return;
+  }
+
+  if ($og_membership->original->state != OG_STATE_PENDING) {
     // State change has to be initiated when state is Pending.
     return;
   }
 
   // Loading group/project to resolve it's membership type - moderated/open
-  $node = node_load($entity->gid);
+  $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
   $moderated = $wrapper->field_membership_open_request->value();
 
   c4m_user_notifications_load_includes();
 
-  switch($entity->state) {
+  switch($og_membership->state) {
     case OG_STATE_ACTIVE:
       if ($moderated == C4M_OG_MODERATED_GROUP ) {
-        c4m_user_notifications_moderated_group_notify_user_membership_accepted($entity);
-        c4m_user_notifications_moderated_group_notify_admins_membership_accepted($entity);
+        c4m_user_notifications_moderated_group_notify_user_membership_accepted($og_membership);
+        c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
       }
       else if ($moderated == C4M_OG_OPEN_GROUP) {
-        c4m_user_notifications_open_group_notify_user_membership_accepted($entity);
-        c4m_user_notifications_open_group_notify_admins_membership_accepted($entity);
+        c4m_user_notifications_open_group_notify_user_membership_accepted($og_membership);
+        c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
       }
       break;
 
     case OG_STATE_BLOCKED:
       if ($moderated == C4M_OG_MODERATED_GROUP ) {
-        c4m_user_notifications_moderated_group_notify_user_membership_rejected($entity);
+        c4m_user_notifications_moderated_group_notify_user_membership_rejected($og_membership);
       }
       break;
   }
@@ -87,13 +97,18 @@ function c4m_user_notifications_entity_update($entity, $type) {
  *
  * Triggers email notification on membership cancelation request.
  */
-function c4m_user_notifications_entity_delete($entity, $type) {
-  if ($type != 'og_membership') {
+function c4m_user_notifications_og_membership_delete($og_membership) {
+  if(!isset($og_membership->entity_type)) {
+    // If membership type is not for 'user'.
+    return;
+  }
+
+  if ($og_membership->entity_type != 'user') {
     return;
   }
 
   // Loading group/project to resolve it's membership type - moderated/open
-  $node = node_load($entity->gid);
+  $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
     // If not moderated group, return early
@@ -104,13 +119,13 @@ function c4m_user_notifications_entity_delete($entity, $type) {
   global $user;
   c4m_user_notifications_load_includes();
 
-  if ($user->uid == $entity->etid) {
+  if ($user->uid == $og_membership->etid) {
     // If current user is the one that's being removed.
-    c4m_user_notifications_notify_admins_membership_canceled($entity);
+    c4m_user_notifications_notify_admins_membership_canceled($og_membership);
   }
   else {
     // Membership was canceled by someone else -> group / site admin
-    c4m_user_notifications_notify_user_membership_canceled($entity);
+    c4m_user_notifications_notify_user_membership_canceled($og_membership);
   }
 }
 
@@ -249,6 +264,38 @@ function c4m_user_notifications_comment_insert($comment) {
 function c4m_user_notifications_user_delete($account) {
   c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_admins_user_deleted($account);
+}
+
+/**
+ * Implements hook_og_role_grant.
+ *
+ * Triggers email notification when user is promoted to administrator.
+ */
+function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+
+  if ($group_admin_role->rid == $rid) {
+    // If administrator role is granted
+    c4m_user_notifications_load_includes();
+    c4m_user_notifications_notify_user_admin_granted($gid, $uid);
+    c4m_user_notifications_notify_admins_admin_granted($gid, $uid);
+  }
+}
+
+/**
+ * Implements hook_og_role_revoke.
+ *
+ * Triggers email notification when user is revoked administrator role.
+ */
+function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
+  $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
+
+  if ($group_admin_role->rid == $rid) {
+    // If administrator role is granted
+    c4m_user_notifications_load_includes();
+    c4m_user_notifications_notify_user_admin_revoked($gid, $uid);
+    c4m_user_notifications_notify_admins_admin_revoked($gid, $uid);
+  }
 }
 
 /**
