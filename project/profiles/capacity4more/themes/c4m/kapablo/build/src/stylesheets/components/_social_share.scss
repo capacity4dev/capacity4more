@@ -12,3 +12,12 @@
     display: inline-block;
   }
 }
+
+#c4m-print {
+  display: inline-block;
+  vertical-align: top;
+
+  a {
+    background-position: 0 -1400px;
+  }
+}
