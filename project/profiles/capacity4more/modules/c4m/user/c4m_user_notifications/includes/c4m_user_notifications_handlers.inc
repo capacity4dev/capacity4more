@@ -117,3 +117,11 @@ function c4m_user_notifications_notify_user_admin_revoked($gid, $uid) {
 function c4m_user_notifications_notify_admins_admin_revoked($gid, $uid) {
   return;
 }
+
+function c4m_user_notifications_new_node_published($node) {
+  return;
+}
+
+function c4m_user_notifications_existing_node_updated($node) {
+  return;
+}

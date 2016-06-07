@@ -5,6 +5,14 @@
  * Code for the C4M notifications feature.
  */
 
+/*
+function c4m_user_notifications_entity_insert($entity, $type){
+  return;
+}*/
+
+/**
+ * Loads module includes.
+ */
 function c4m_user_notifications_load_includes() {
   module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
 }
@@ -148,6 +156,7 @@ function c4m_user_notifications_node_insert($node) {
     c4m_user_notifications_group_status_set_published($node);
   }
 
+  _c4m_user_notifications_process_flag_triggers($node, 'insert');
 }
 
 /**
@@ -156,6 +165,11 @@ function c4m_user_notifications_node_insert($node) {
  * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
+  _c4m_user_notifications_process_general_triggers($node);
+  _c4m_user_notifications_process_flag_triggers($node, 'update');
+}
+
+function _c4m_user_notifications_process_general_triggers($node) {
   if ($node->type != 'group' && $node->type != 'project') {
     // Return early, if node type is not group/project.
     return;
@@ -228,6 +242,34 @@ function c4m_user_notifications_node_update($node) {
     c4m_user_notifications_notify_prev_owner_owner_update($node);
     c4m_user_notifications_notify_new_owner_owner_update($node);
     c4m_user_notifications_notify_admins_owner_update($node);
+  }
+}
+
+function _c4m_user_notifications_process_flag_triggers($node, $mode) {
+  if ($node->type != 'group' && $node->type != 'project'
+      && $node->type != 'event' && $node->type != 'article') {
+    // Return early, if node type is not group/project/event/article.
+    return;
+  }
+
+  if (empty($node->original)) {
+    // On node update, there must be $node->original
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $status = $wrapper->c4m_og_status->value();
+
+  if ($status == 'published') {
+    c4m_user_notifications_load_includes();
+    switch ($mode) {
+      case 'insert':
+        c4m_user_notifications_new_node_published($node);
+        break;
+      case 'update':
+        c4m_user_notifications_existing_node_updated($node);
+        break;
+    }
   }
 }
 
