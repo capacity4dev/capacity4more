@@ -1,5 +1,6 @@
 #footer-top-wrapper {
   padding-top: 1.43rem;
+  border-top: 1px solid $color-gray-light;
 
   @media (min-width: $screen-tablet) {
     padding: 1rem 0;

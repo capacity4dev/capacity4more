@@ -12,7 +12,7 @@
   background: none;
 }
 
-.og-context .group-header {
+.group-header {
   margin: 0 -18px;
 
   @media (min-width: $screen-tablet) {
@@ -20,8 +20,102 @@
   }
 }
 
+.group-title {
+  margin: 20px 18px 10px;
+}
+
+.group-navigation {
+
+  padding: 1.43rem 0;
+
+  .label {
+    display: inline-block;
+    border: 1px dotted $color-gray-dark;
+
+    color: $color-gray-dark;
+    font-size: 0.8rem;
+    font-weight: normal;
+  }
+
+  nav {
+    background: $color-text-alternative;
+    margin: 20px -18px 0px;
+    padding: 30px 18px;
+
+    @include box-shadow(inset  0  8px 8px -8px #696868, inset  0 -8px 8px -8px #696868);
+
+    ul {
+      margin: 0;
+    }
+
+    li {
+
+      width: 100%;
+
+      &:not(:last-of-type) {
+        border-bottom: 1px dotted $color-gray-light;
+      }
+
+      a {
+        color: $color-white;
+
+        &:hover {
+          background: $color-text-alternative;
+
+        }
+      }
+    }
+  }
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.og-context .block-menu {
+  border-bottom: 1px dashed $color-gray-light;
+
+  @media (min-width: $screen-tablet) {
+    border-bottom: none;
+  }
+}
+
+.og-context .header-actions--navigation {
+  position: relative;
+  top: initial;
+  left: initial;
+  float: right;
+
+  margin-top: 0;
+  padding: 0;
+
+
+  transform: translate(0, 0);
+
+  .icon-bar {
+    height: 4px;
+    background-color: $color-link;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+}
+
+.og-context .trigger {
+  padding: 10px;
+  margin-bottom: 20px;
+
+}
+
 .og-context .trigger.trigger--groupInfo,
 .og-context .trigger.trigger--membership {
   display: block;
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+
 }
 
