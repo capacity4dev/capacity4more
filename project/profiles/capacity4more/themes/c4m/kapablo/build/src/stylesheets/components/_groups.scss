@@ -6,8 +6,22 @@
 .user-group .group-members-count {
   margin-top: 20px;
   color: $color-gray-dark;
-
 }
 
+.og-context #content-top-wrapper {
+  background: none;
+}
 
+.og-context .group-header {
+  margin: 0 -18px;
+
+  @media (min-width: $screen-tablet) {
+    margin: 0;
+  }
+}
+
+.og-context .trigger.trigger--groupInfo,
+.og-context .trigger.trigger--membership {
+  display: block;
+}
 

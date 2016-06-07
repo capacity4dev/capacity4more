@@ -196,6 +196,14 @@
       <div class="row">
         <div class="col-sm-12 col-md-12 content-top">
           <?php print render($page['content_top']); ?>
+
+          <div class="trigger trigger--groupInfo">
+            <span class="fa fa-info"></span>Group info
+          </div>
+          <div class="trigger trigger--membership">
+            <span class="fa fa-info"></span>Request membership
+          </div>
+
         </div>
       </div>
     </div>

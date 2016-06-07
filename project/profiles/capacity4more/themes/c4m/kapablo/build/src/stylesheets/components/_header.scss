@@ -210,7 +210,6 @@
   @include translate(-50%, -50%);
 }
 
-
 .header-actions--search {
   color: $color-white;
 }
@@ -254,7 +253,7 @@
 }
 
 .header-search .form-wrapper {
-  float: none!important;
+  float: none !important;
 }
 
 .header-search .form-text {
@@ -272,4 +271,14 @@
     clear: both;
     display: table;
   }
+}
+
+// specific header actions on group pages
+
+.og-context .header-actions {
+  width: 40px;
+}
+
+.og-context .header-actions--wrapper:nth-of-type(2) {
+  display: none;
 }
