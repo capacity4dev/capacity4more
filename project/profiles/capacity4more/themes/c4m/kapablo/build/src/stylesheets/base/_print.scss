@@ -20,7 +20,12 @@
   .header-breadcrumb ol.breadcrumb {
     float: right;
     margin-top: -1cm;
+    text-align: right;
     width: 10cm;
+  }
+
+  .icon-col + .content-col {
+    margin-left: 100px;
   }
 
   #header-ec-wrapper, #content-top-wrapper, #page-header, .navigation--primary {
@@ -30,6 +35,10 @@
   // Prevent URLs being displayed (Bootstrap).
   a[href]:after {
     content: "";
+
+    .field-name-c4m-body & {
+      content: " <" attr(href) "> ";
+    }
   }
 
   *[role=complementary] {
@@ -55,9 +64,11 @@
   .group-banner,
   .group-details,
   .group-node-actions,
+  .not-front #content-top-wrapper,
   .pane-c4m-search-og-c4m-search-group-form,
   .pane-featured-block,
   .pager--wrapper,
+  .register-login-links,
   .search-api-sort,
   .see-more-link,
   .show-more-wrapper,
@@ -68,6 +79,16 @@
 
   #group-pages-navigation-left .field-group-format-wrapper {
     display: block !important;
+  }
+
+  h1.page-header {
+    font-size: 4rem !important;
+  }
+  h2 {
+    font-size: 2.5rem !important;
+  }
+  h3 {
+    font-size: 2rem !important;
   }
 
 
@@ -84,11 +105,15 @@
     .owl-controls {
       display: none !important;
     }
-    .owl-wrapper {
-      width: 100% !important;
+    .owl-wrapper-outer {
+      overflow: visible;
 
-      .owl-item {
-        margin-bottom: 1cm;
+      .owl-wrapper {
+        width: 100% !important;
+
+        .owl-item {
+          margin-bottom: 1cm;
+        }
       }
     }
   }
@@ -120,6 +145,7 @@
 
   // Avoid selected elements to appear right before page breaks.
   h1, h2, h3, h4, h5, h6 {
+    max-width: 100% !important;
     page-break-after: avoid;
   }
 
