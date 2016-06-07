@@ -48,3 +48,21 @@ function c4m_content_group_details() {
 
   return drupal_render($node_view);
 }
+
+/**
+ * Implements hook_preprocess().
+ */
+function c4m_content_group_preprocess_node(&$variables) {
+  if ($variables['view_mode'] != 'group_dashboard') {
+    return;
+  }
+
+  $variables['theme_hook_suggestions'] = ['node__' . $variables['node']->type . '__group_dashboard'];
+  $node = $variables['node'];
+  $admins = c4m_og_get_group_admins($node->nid);
+
+//  dpm($admins, 'ADMINS');
+//  dpm($variables['content'], 'preprocess');
+
+  $variables['nir'] = 'THIS IS ME';
+}
