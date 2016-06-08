@@ -26,7 +26,16 @@ the variable `PROJECT_SERVER_NAME` in the file `bootstrap.sh` accordingly.
 
 ## Moodle platform installation
 
+Because vagrant needs to communicate with our host machine, we need to create an entry in the guest hosts file with our host machine's IP.
+
+```
+192.168.2.51   cap4more.dev
+```
+
+This way the Moodle environment can access our drupal installation on `http://cap4more.dev`. Of course you need to adapt the IP and URL to your local machine's settings.
+
 The Moodle platform installation is also automatically initiated when the Vagrant box is provisioned.
+
 Also the DrupalServices plugin for Moodle is downloaded and extracted in the right folder.
 Normally the Moodle platform installation also installs the DrupalServices module right away.
 
