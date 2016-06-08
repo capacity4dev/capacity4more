@@ -141,22 +141,19 @@
   &:focus {
     outline: none;
   }
-
 }
 
 .og-context .trigger {
   padding: 10px;
   margin-bottom: 20px;
-
 }
 
 .og-context .trigger.trigger--groupInfo,
 .og-context .trigger.trigger--membership {
   display: block;
+  cursor: pointer;
 
   @media (min-width: $screen-tablet) {
     display: none;
   }
-
 }
-

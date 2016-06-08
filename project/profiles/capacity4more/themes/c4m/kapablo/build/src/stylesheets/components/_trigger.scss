@@ -35,3 +35,18 @@
   float: left;
   margin: 0 15px;
 }
+
+.trigger--groupInfo::after {
+  float: right;
+
+  display: inline-block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin: 6px 0 0 0;
+  border-top: 2px solid $color-text-alternative;
+  border-right: 2px solid $color-text-alternative;
+
+  @include rotate(45deg);
+
+}
