@@ -422,6 +422,349 @@ function c4m_features_og_manage_group_details() {
 }
 
 /**
+ * Gets the project details.
+ *
+ * For the project management dashboard,
+ * this function gets a specific information about the current project.
+ *
+ * @return array|bool
+ *   An array of the current project's info OR false if there's no project in
+ *   current context.
+ */
+function c4m_features_og_manage_project_details() {
+  $project = c4m_og_current_group();
+  if (!$project) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $project);
+
+  $purl = array(
+    'provider' => "og_purl|node",
+    'id' => $project->nid,
+  );
+  $options = array('purl' => $purl, 'absolute' => TRUE);
+
+  $details = array(
+    'edit_link' => url(
+      'node/' . $project->nid . '/edit',
+      array('absolute' => TRUE)
+    ),
+    'owner' => c4m_user_name(user_load($project->uid)),
+    'owner_edit' => url(
+      'project/node/' . $project->nid . '/admin/owner',
+      array('absolute' => TRUE)
+    ),
+    'admins' => t('No administrators'),
+    'admins_edit' => url('members', $options),
+    'purl' => url($wrapper->value()->purl, array('absolute' => TRUE)),
+    'title' => '<strong>' . $wrapper->label() . '</strong>',
+    'description' => $wrapper->c4m_body->value(),
+    'duration' => t('No duration'),
+    'total_budget' => t('No total budget'),
+    'source_funding' => t('No source of funding'),
+    'partners' => t('No partners'),
+    'implemented_by' => t('No implementator'),
+    'cris_decision_number' => t('No CRIS Decision number'),
+    'cris_contact_number' => t('No CRIS Contact number'),
+    'topics' => t('No Group Topics'),
+    'locations' => t('No Group Regions & Countries'),
+    'related_groups' => t('No Related Groups'),
+    'related_projects' => t('No Related Projects'),
+  );
+
+  // List of related topics.
+  if ($topics = $wrapper->c4m_vocab_topic->value()) {
+    $topic_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+    foreach ($topics as $topic) {
+      $options = array(
+        'purl' => array(
+          'disabled' => TRUE,
+        ),
+        'absolute' => TRUE,
+        'query' => array(
+          'f[0]' => 'c4m_vocab_topic:' . $topic->tid,
+        ),
+      );
+      $topic_list['items'][] = l($topic->name, url('search', $options));
+    }
+
+    $details['topics'] = theme_item_list($topic_list);
+  }
+
+  // List of regions & countries.
+  if ($geo = $wrapper->c4m_vocab_geo->value()) {
+    $geo_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+    foreach ($geo as $location) {
+      $options = array(
+        'purl' => array(
+          'disabled' => TRUE,
+        ),
+        'absolute' => TRUE,
+        'query' => array(
+          'f[0]' => 'c4m_vocab_geo:' . $location->tid,
+        ),
+      );
+      $geo_list['items'][] = l($location->name, url('search', $options));
+    }
+
+    $details['locations'] = theme_item_list($geo_list);
+  }
+
+  // Administrators.
+  $admins = c4m_og_get_group_admins($project->nid);
+  if (!empty($admins)) {
+    $admin_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($admins as $admin) {
+      $admin_list['items'][] = c4m_user_name($admin);
+    }
+
+    $details['admins'] = theme_item_list($admin_list);
+  }
+
+  // Duration.
+  $duration = $wrapper->c4m_date_end->value();
+  if (!empty($duration)) {
+    $duration = field_view_field('node', $project, 'c4m_date_end');
+    $details['duration'] = $duration[0]['#markup'];
+  }
+
+  // Total budget.
+  $total_budget = $wrapper->c4m_money->value();
+  if (!empty($total_budget)) {
+    $total_budget = field_view_field('node', $project, 'c4m_money');
+    $details['total_budget'] = $total_budget[0]['#markup'];
+  }
+
+  // Source of funding.
+  $c4m_sources_of_funding = $wrapper->c4m_source_of_funding->value();
+  if (!empty($c4m_sources_of_funding)) {
+    $source_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($c4m_sources_of_funding as $c4m_source_of_funding) {
+      if ($c4m_source_of_funding) {
+        $source_list['items'][] = $c4m_source_of_funding;
+      }
+    }
+
+    if (count($source_list['items']) > 0) {
+      $details['source_funding'] = theme_item_list($source_list);
+    }
+  }
+
+  // Partners.
+  $partners = $wrapper->c4m_partner->value();
+  if (!empty($partners)) {
+    $partner_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($partners as $partner) {
+      if ($partner) {
+        $partner_list['items'][] = $partner;
+      }
+    }
+
+    if (count($partner_list['items']) > 0) {
+      $details['partners'] = theme_item_list($partner_list);
+    }
+  }
+
+  // Implemented by.
+  $implementers = $wrapper->c4m_implemented_by->value();
+  if (!empty($implementers)) {
+    $implementer_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($implementers as $implementer) {
+      if ($implementer) {
+        $implementer_list['items'][] = $implementer;
+      }
+    }
+
+    if (count($implementer_list['items']) > 0) {
+      $details['implemented_by'] = theme_item_list($implementer_list);
+    }
+  }
+
+  // CRIS Decision numbers.
+  $cris_decision_numbers = $wrapper->c4m_cris_decision_number->value();
+  if (!empty($cris_decision_numbers)) {
+    $cris_decision_numbers_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($cris_decision_numbers as $cris_decision_number) {
+      if ($cris_decision_number) {
+        $cris_decision_numbers_list['items'][] = $cris_decision_number;
+      }
+    }
+
+    if (count($cris_decision_numbers_list['items']) > 0) {
+      $details['cris_decision_number'] = theme_item_list($cris_decision_numbers_list);
+    }
+  }
+
+  // CRIS Contact numbers.
+  $cris_contract_numbers = $wrapper->c4m_cris_contract_number->value();
+  if (!empty($cris_contract_numbers)) {
+    $cris_contract_numbers_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    foreach ($cris_contract_numbers as $cris_contract_number) {
+      if ($cris_contract_number) {
+        $cris_contract_numbers_list['items'][] = $cris_contract_number;
+      }
+    }
+
+    if (count($cris_contract_numbers_list['items']) > 0) {
+      $details['cris_contract_number'] = theme_item_list($cris_contract_numbers_list);
+    }
+  }
+
+  // List of related groups.
+  if ($related_groups = $wrapper->c4m_related_group->value()) {
+    $related_groups_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    $url_options = array(
+      'purl' => array(
+        'disabled' => TRUE,
+      ),
+      'absolute' => TRUE,
+    );
+
+    foreach ($related_groups as $related_group) {
+      $access_type = c4m_og_get_access_type($related_group);
+      $link_options = array(
+        'attributes' => array(
+          'class' => array(
+            'access-title',
+            $access_type['type'],
+          ),
+        ),
+      );
+      $related_groups_list['items'][] = l(
+        $related_group->title,
+        url($related_group->purl, $url_options),
+        $link_options
+      );
+    }
+
+    $details['related_groups'] = theme_item_list($related_groups_list);
+  }
+
+  // List of related projects.
+  if ($related_projects = $wrapper->c4m_related_projects->value()) {
+    $related_projects_list = array(
+      'title' => NULL,
+      'type' => 'ul',
+      'items' => array(),
+      'attributes' => array(),
+    );
+
+    $url_options = array(
+      'purl' => array(
+        'disabled' => TRUE,
+      ),
+      'absolute' => TRUE,
+    );
+
+    foreach ($related_projects as $related_project) {
+      $access_type = c4m_og_get_access_type($related_project);
+      $link_options = array(
+        'attributes' => array(
+          'class' => array(
+            'access-title',
+            $access_type['type'],
+          ),
+        ),
+      );
+      $related_projects_list['items'][] = l(
+        $related_project->title,
+        url($related_project->purl, $url_options),
+        $link_options
+      );
+    }
+
+    $details['related_projects'] = theme_item_list($related_projects_list);
+  }
+
+  // Get categories and terms count for current group.
+  $og_vocab = c4m_restful_get_og_vocab_by_name(
+    'node',
+    $project->nid,
+    'Categories'
+  );
+  $details['taxonomy_manage_link'] = l(
+    t('Edit'),
+    url('manage/categories', array('absolute' => TRUE))
+  );
+  $categories = taxonomy_get_tree($og_vocab[0]->vid);
+  $categories_count = 0;
+  $terms_count = 0;
+  foreach ($categories as $category) {
+    if ($category->parents[0]) {
+      $terms_count++;
+    }
+    else {
+      $categories_count++;
+    }
+  }
+  $details['categories_count'] = $categories_count;
+  $details['terms_count'] = $terms_count;
+
+  // Get features settings.
+  $details['features_available'] = c4m_og_feature_info();
+  $details['features_manage_link'] = l(
+    t('Edit'),
+    url('manage/features', array('absolute' => TRUE))
+  );
+  $details['features_enabled'] = variable_get('c4m_og_features_group', array());
+
+  return $details;
+}
+
+/**
  * Gets the group status and thumbnail.
  *
  * For the group management dashboard,
@@ -506,6 +849,67 @@ function c4m_features_og_manage_group_status_and_thumbnail() {
 }
 
 /**
+ * Gets the project thumbnail.
+ *
+ * For the group management dashboard,
+ * This function gets a thumbnail image of the group with an edit
+ * link.
+ *
+ * @return array|bool
+ *   An array of current group's thumbnail image OR false if there's
+ *   no group in current context.
+ */
+function c4m_features_og_manage_project_thumbnail() {
+  $project = c4m_og_current_group();
+  if (!$project) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $project);
+
+  // Project thumbnail image with edit link.
+  $info['thumbnail_image'] = NULL;
+  $file = $wrapper->c4m_media->value();
+  if (!empty($file)) {
+    $options = array(
+      'html' => TRUE,
+      'attributes' => array(
+        'class' => array(
+          'edit-thumbnail',
+        ),
+      ),
+    );
+    $edit_link['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('edit-link'),
+      ),
+      '#value' => t('Edit'),
+    );
+    $file['style_name'] = 'medium';
+    $file['path'] = $file['uri'];
+    $file['attributes'] = array('class' => 'group-thumbnail');
+    $info['thumbnail_image'] = l(
+      theme_image_style($file) . theme_html_tag($edit_link),
+      url(
+        'node/' . $project->nid . '/edit',
+        array('absolute' => TRUE, 'fragment' => 'edit-image-list')
+      ),
+      $options
+    );
+  }
+
+  // Archive project link (If project is not archived already).
+  // TODO: add archive link when ready.
+  /*$info['archive_link'] = $info['status'] != 'archived' ? l(
+    t('Archive project'),
+    url('node/' . $project->nid . '/edit', array('absolute' => TRUE))
+  ) : '';*/
+
+  return $info;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Alter variable manage form layout.
@@ -541,19 +945,18 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
  *
  * Add anchors to the following elements by adding an ID on their elements.
  */
-function c4m_features_og_manage_form_group_node_form_alter(
-  &$form,
-  &$form_state
-) {
-  $form_elements = array(
-    'title' => 'edit-details',
-    'c4m_related_group' => 'edit-related-content',
-    'c4m_banner' => 'edit-image-banner',
-    'c4m_media' => 'edit-image-list',
-  );
-  foreach ($form_elements as $element => $id) {
-    $form[$element]['#prefix'] = "<div id='$id'>";
-    $form[$element]['#suffix'] = '</div>';
+function c4m_features_og_manage_form_alter(&$form, &$form_state, $form_id) {
+  if (in_array($form_id, array('group_node_form', 'project_node_form'))) {
+    $form_elements = array(
+      'title' => 'edit-details',
+      'c4m_related_group' => 'edit-related-content',
+      'c4m_banner' => 'edit-image-banner',
+      'c4m_media' => 'edit-image-list',
+    );
+    foreach ($form_elements as $element => $id) {
+      $form[$element]['#prefix'] = "<div id='$id'>";
+      $form[$element]['#suffix'] = '</div>';
+    }
   }
 }
 
