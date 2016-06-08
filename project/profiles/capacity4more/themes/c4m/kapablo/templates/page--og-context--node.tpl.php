@@ -79,7 +79,28 @@
 <section class="page-container">
   <?php if ($off_canvas): ?>
     <nav class="offCanvasNavigation offCanvasNavigation--fullWidth animation--slideOn group-info">
-      <button id="closeMenu" class="group-info--close">Close menu</button>
+      <div class="groupInfo-header">
+        <span id="closeMenu">Close group info</span>
+      </div>
+
+      <div class="row">
+        <div class="container">
+          <div class="col-md-12">
+
+            <div class="groupInfo-membership">
+              <span class="membership-state">You're a member of this group</span>
+
+              <div class="membership-actions">
+                <span class="membership-edit">edit membership</span><span class="membership-invite">Invite a member</span>
+              </div>
+
+            </div>
+
+          </div><!-- end col 12 -->
+        </div>
+
+      </div>
+
 
       <?php print $off_canvas; ?>
 
