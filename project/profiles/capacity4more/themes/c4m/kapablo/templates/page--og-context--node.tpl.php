@@ -78,8 +78,11 @@
 
 <section class="page-container">
   <?php if ($off_canvas): ?>
-    <nav class="offCanvasNavigation animation--slide-on">
+    <nav class="offCanvasNavigation offCanvasNavigation--fullWidth animation--slideOn group-info">
+      <button id="closeMenu" class="group-info--close">Close menu</button>
+
       <?php print $off_canvas; ?>
+
     </nav>
   <?php endif; ?>
   <div class="container--push">

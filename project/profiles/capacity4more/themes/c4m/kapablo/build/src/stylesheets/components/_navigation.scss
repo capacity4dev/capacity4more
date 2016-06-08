@@ -1,5 +1,5 @@
 /**
-  off-canvas menu
+  Off-canvas menu
 **/
 
 .container--push {
@@ -57,6 +57,10 @@
   -webkit-box-shadow: inset 20px -1px 48px -27px rgba(0,0,0,0.75);
   -moz-box-shadow: inset 20px -1px 48px -27px rgba(0,0,0,0.75);
   box-shadow: inset 20px -1px 48px -27px rgba(0,0,0,0.75);
+}
+
+.offCanvasNavigation--fullWidth {
+  width: 100%;
 }
 
 .offCanvasNavigation::after {
@@ -121,9 +125,7 @@
   transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
 }
 
-/**
-  Navigation effect
-**/
+// Navigation effect push
 
 .offCanvasNavigation--visible.animation--push .container--push {
   -webkit-transform: translate3d(-225px, 0, 0);
@@ -148,4 +150,21 @@
   display: none;
 }
 
+// Navigation effect slideOn
+
+.offCanvasNavigation.animation--slideOn {
+  visibility: visible;
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+}
+
+.offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation.animation--slideOn {
+  visibility: visible;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.animation--slideOn.offCanvasNavigation::after {
+  display: none;
+}
 
