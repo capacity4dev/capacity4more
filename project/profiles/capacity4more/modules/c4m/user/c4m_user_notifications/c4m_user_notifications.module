@@ -13,7 +13,7 @@ function c4m_user_notifications_load_includes() {
 }
 
 /**
- * Implements hook_entity_insert.
+ * Implements hook_og_membership_insert().
  *
  * Triggers email notification on new membership request for moderated groups.
  */
@@ -40,7 +40,7 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
 }
 
 /**
- * Implements hook_entity_update.
+ * Implements hook_og_membership_update().
  *
  * Triggers email notification for membership update.
  *
@@ -96,7 +96,7 @@ function c4m_user_notifications_og_membership_update($og_membership) {
 }
 
 /**
- * Implements hook_entity_delete.
+ * Implements hook_entity_delete().
  *
  * Triggers email notification on membership cancelation request.
  */
@@ -133,9 +133,10 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
 }
 
 /**
- * Implements hook_node_insert.
+ * Implements hook_node_insert().
  *
- * Triggers email notification for new node (group/project), for status 'published'.
+ * Triggers email notification for new node (group/project), for status
+ * 'published'.
  */
 function c4m_user_notifications_node_insert($node) {
   _c4m_user_notifications_process_general_triggers_insert($node);
@@ -144,7 +145,7 @@ function c4m_user_notifications_node_insert($node) {
 }
 
 /**
- * Implements hook_node_update.
+ * Implements hook_node_update().
  *
  * Triggers email notification for node (group/project) status update.
  */
@@ -155,7 +156,7 @@ function c4m_user_notifications_node_update($node) {
 }
 
 /**
- * Implements hook_node_delete.
+ * Implements hook_node_delete().
  *
  * Triggers email notification for node (group/project) delete.
  */
@@ -170,7 +171,7 @@ function c4m_user_notifications_node_delete($node) {
 }
 
 /**
- * Implements hook_comment_insert.
+ * Implements hook_comment_insert().
  *
  * Triggers email notification for comment insert.
  */
@@ -180,7 +181,7 @@ function c4m_user_notifications_comment_insert($comment) {
 }
 
 /**
- * Implements hook_user_delete.
+ * Implements hook_user_delete().
  *
  * Triggers email notification for node (group/project) delete.
  */
@@ -190,7 +191,7 @@ function c4m_user_notifications_user_delete($account) {
 }
 
 /**
- * Implements hook_og_role_grant.
+ * Implements hook_og_role_grant().
  *
  * Triggers email notification when user is promoted to administrator.
  */
@@ -206,7 +207,7 @@ function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
 }
 
 /**
- * Implements hook_og_role_revoke.
+ * Implements hook_og_role_revoke().
  *
  * Triggers email notification when user is revoked administrator role.
  */
@@ -320,7 +321,8 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   $group_access = $wrapper->group_access->value();
   $prev_group_access = $wrapper_original->group_access->value();
   if ($group_access != $prev_group_access) {
-    // If group access has changed (switch between Public and Private/Restricted).
+    // If group access has changed (switch between Public
+    // and Private/Restricted).
     c4m_user_notifications_group_access_changed($node);
   }
   elseif ($group_access == TRUE) {
@@ -332,7 +334,8 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
       c4m_user_notifications_group_access_changed($node);
     }
     else {
-      // Check if 'membership open' state was changed - part of group access as well.
+      // Check if 'membership open' state was changed - part of group access
+      // as well.
       $membership_open = $wrapper->field_membership_open_request->value();
       $prev_membership_open = $wrapper_original->field_membership_open_request->value();
 
