@@ -147,7 +147,14 @@ function c4m_content_group_strongarm() {
           'weight' => '16',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'group_admins' => array(
+          'group_dashboard' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__group'] = $strongarm;

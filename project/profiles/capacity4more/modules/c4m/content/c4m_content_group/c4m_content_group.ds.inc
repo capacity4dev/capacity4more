@@ -82,6 +82,16 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->bundle = 'group';
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
+    'author' => array(
+      'weight' => '4',
+      'label' => 'above',
+      'format' => 'author',
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Group Owner',
+        ),
+      ),
+    ),
     'c4m_ds_creation_date' => array(
       'weight' => '1',
       'label' => 'inline',
@@ -111,9 +121,16 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
-      'weight' => '6',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
+    ),
+    'c4m_vocab_geo' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'lb' => 'Reigens',
+        ),
+      ),
     ),
   );
   $export['node|group|group_dashboard'] = $ds_fieldsetting;
@@ -293,11 +310,13 @@ function c4m_content_group_ds_layout_settings_info() {
         1 => 'c4m_ds_creation_date',
         2 => 'group_access_info',
         3 => 'c4m_content_group_statistics',
-        4 => 'c4m_vocab_topic',
-        5 => 'c4m_vocab_geo',
-        6 => 'c4m_ds_content_actions',
-        7 => 'c4m_ds_group_administer_link',
-        8 => 'group_extra_info',
+        4 => 'author',
+        5 => 'group_admins',
+        6 => 'c4m_vocab_topic',
+        7 => 'c4m_vocab_geo',
+        8 => 'c4m_ds_content_actions',
+        9 => 'c4m_ds_group_administer_link',
+        10 => 'group_extra_info',
       ),
     ),
     'fields' => array(
@@ -305,6 +324,8 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
+      'author' => 'ds_content',
+      'group_admins' => 'ds_content',
       'c4m_vocab_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
       'c4m_ds_content_actions' => 'ds_content',
