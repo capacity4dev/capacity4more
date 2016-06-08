@@ -77,6 +77,9 @@ dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
 
+dependencies[] = services
+dependencies[] = user_revision
+dependencies[] = moodle_sso
 
 ; capacity4more ---------------------------------------------------------------
 
