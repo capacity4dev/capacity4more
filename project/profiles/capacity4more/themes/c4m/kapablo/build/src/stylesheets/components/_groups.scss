@@ -157,3 +157,68 @@
     display: none;
   }
 }
+
+// Group info slide over
+
+.groupInfo-header {
+  height: 50px;
+  line-height: 50px;
+  padding-left: 15px;
+  background-color: $color-text-alternative;
+
+  color: $color-white;
+  cursor: pointer;
+
+  &::before {
+    display: inline-block;
+    content: "";
+    width: 10px;
+    height: 10px;
+    margin: 6px 0 0 0;
+    border-top: 2px solid $color-white;
+    border-left: 2px solid $color-white;
+
+    @include rotate(-45deg);
+
+  }
+}
+
+// group membership
+
+.groupInfo-membership {
+  margin-top: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px dotted $color-gray-light;
+}
+
+.membership-state {
+  color: $color-gray-dark;
+  font-size: 1.1rem;
+}
+
+.membership-actions {
+  margin-top: 30px;
+  color: $color-text-alternative;
+}
+
+.membership-invite {
+  float: right;
+
+  &:before {
+    display: inline-block;
+    content: "\f234";
+    margin-right: 15px;
+
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+  }
+}
+
+.membership-edit::before {
+  display: inline-block;
+  content: "\f044";
+  margin-right: 15px;
+
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+}
