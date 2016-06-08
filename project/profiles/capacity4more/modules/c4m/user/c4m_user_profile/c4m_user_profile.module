@@ -371,21 +371,25 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
-  if ($account_wrapper->c4m_is_ldap_user->value() && !empty($form['c4m_country'][LANGUAGE_NONE]['#default_value'])) {
-    $form['c4m_country'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
-  }
-  if ($account_wrapper->c4m_organisation->value() && !empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
-    $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
-  }
-  if ($account_wrapper->c4m_organisation_type->value() && !empty($form['c4m_organisation_type'][LANGUAGE_NONE]['#default_value'])) {
-    $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+  // Disable fields if the user is a LDAP user and the field has a default
+  // value.
+  if ($account_wrapper->c4m_is_ldap_user->value()) {
+    if (!empty($form['c4m_country'][LANGUAGE_NONE]['#default_value'])) {
+      $form['c4m_country'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+    }
+    if (!empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
+      $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
+    }
+    if (!empty($form['c4m_organisation_type'][LANGUAGE_NONE]['#default_value'])) {
+      $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+    }
   }
 
   c4m_user_profile_alter_user_form($form, $form_state, FALSE);
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
-  // Hide the spammer/deleted checkbox for non-admins.
+  // Hide the spammer / deleted checkbox for non-admins.
   if (!in_array('administrator', $user->roles)) {
     $form['c4m_is_deleted']['#access'] = FALSE;
     $form['c4m_is_spammer']['#access'] = FALSE;
