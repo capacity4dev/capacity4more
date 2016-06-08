@@ -4,6 +4,34 @@
 }
 
 .trigger {
-  border:1px solid $color-link;
+  border:1px solid $color-text-alternative;
 }
 
+.trigger--groupInfo {
+  color: $color-link;
+}
+
+.trigger--groupInfo .trigger-label span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  color: $color-white;
+
+  @include translate(-50%,-50%);
+}
+
+.trigger--membership {
+  background: $color-text-alternative;
+  color: $color-white;
+}
+
+.trigger--membership .trigger-label {
+  font-size: 1.3rem;
+}
+
+.trigger--groupInfo .trigger-label,
+.trigger--membership .trigger-label{
+  float: left;
+  margin: 0 15px;
+}

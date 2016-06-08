@@ -219,10 +219,14 @@
       <div class="col-sm-12 col-md-12">
 
         <div class="trigger trigger--groupInfo js-navigationButton" data-effect="animation--slideOn">
-          <span class="fa fa-info" ></span>Group info
+          <span class="trigger-label circle circle--green">
+            <span class="fa fa-info" ></span>
+          </span>
+          <span class="trigger-text">Group info</span>
         </div>
         <div class="trigger trigger--membership">
-          <span class="fa fa-info"></span>Request membership
+          <span class="fa fa-unlock-alt trigger-label"></span>
+          <span class="trigger-text">Request membership</span>
         </div>
       </div>
 
