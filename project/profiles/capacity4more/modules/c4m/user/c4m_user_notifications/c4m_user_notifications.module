@@ -8,6 +8,10 @@
 /*
 function c4m_user_notifications_entity_insert($entity, $type){
   return;
+}
+
+function c4m_user_notifications_entity_update($entity, $type){
+  return;
 }*/
 
 /**
@@ -252,8 +256,11 @@ function _c4m_user_notifications_process_flag_triggers($node, $mode) {
     return;
   }
 
+  // Todo: Check here that 'Send Notification' checkbox is active. If not, return early.
+  // The checkbox is not implemented yet...
+
   if (empty($node->original)) {
-    // On node update, there must be $node->original
+    // On node update, there must be $node->original.
     return;
   }
 
@@ -349,4 +356,18 @@ function c4m_user_notifications_form_og_ui_add_users_alter(&$form, &$form_state)
   $form['#submit'][] = 'c4m_user_notifications_notify_user_invited_by_admin';
 }
 
+/**
+ * Implements hook_flag_flag().
+ *
+ * Triggers email notification when recommendation flag is set.
+ */
+function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging) {
+  if ($flag->name != 'subscribe_c4m_follow_node') {
+    // If not recommendation flag, return early.
+    return;
+  }
 
+  c4m_user_notifications_load_includes();
+  c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging);
+  c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging);
+}

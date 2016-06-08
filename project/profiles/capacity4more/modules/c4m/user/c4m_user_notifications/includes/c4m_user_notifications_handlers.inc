@@ -125,3 +125,11 @@ function c4m_user_notifications_new_node_published($node) {
 function c4m_user_notifications_existing_node_updated($node) {
   return;
 }
+
+function c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging){
+  return;
+}
+
+function c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging){
+  return;
+}
