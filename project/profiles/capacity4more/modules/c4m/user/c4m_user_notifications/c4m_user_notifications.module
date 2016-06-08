@@ -2,17 +2,8 @@
 
 /**
  * @file
- * Code for the C4M notifications feature.
+ * Code for the C4M notifications triggers.
  */
-
-/*
-function c4m_user_notifications_entity_insert($entity, $type){
-  return;
-}
-
-function c4m_user_notifications_entity_update($entity, $type){
-  return;
-}*/
 
 /**
  * Loads module includes.
@@ -27,7 +18,7 @@ function c4m_user_notifications_load_includes() {
  * Triggers email notification on new membership request for moderated groups.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
-  if(!isset($og_membership->entity_type)) {
+  if (!isset($og_membership->entity_type)) {
     // If membership type is not for 'user'.
     return;
   }
@@ -36,11 +27,11 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
     return;
   }
 
-  // Loading group/project to resolve it's membership type - moderated/open
+  // Loading group/project to resolve it's membership type - moderated/open.
   $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
-    // If not moderated group, return early
+    // If not moderated group, return early.
     return;
   }
 
@@ -63,7 +54,7 @@ function c4m_user_notifications_og_membership_update($og_membership) {
     return;
   }
 
-  if(!isset($og_membership->entity_type)) {
+  if (!isset($og_membership->entity_type)) {
     // If membership type is not for 'user'.
     return;
   }
@@ -77,27 +68,27 @@ function c4m_user_notifications_og_membership_update($og_membership) {
     return;
   }
 
-  // Loading group/project to resolve it's membership type - moderated/open
+  // Loading group/project to resolve it's membership type - moderated/open.
   $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
   $moderated = $wrapper->field_membership_open_request->value();
 
   c4m_user_notifications_load_includes();
 
-  switch($og_membership->state) {
+  switch ($og_membership->state) {
     case OG_STATE_ACTIVE:
-      if ($moderated == C4M_OG_MODERATED_GROUP ) {
+      if ($moderated == C4M_OG_MODERATED_GROUP) {
         c4m_user_notifications_moderated_group_notify_user_membership_accepted($og_membership);
         c4m_user_notifications_moderated_group_notify_admins_membership_accepted($og_membership);
       }
-      else if ($moderated == C4M_OG_OPEN_GROUP) {
+      elseif ($moderated == C4M_OG_OPEN_GROUP) {
         c4m_user_notifications_open_group_notify_user_membership_accepted($og_membership);
         c4m_user_notifications_open_group_notify_admins_membership_accepted($og_membership);
       }
       break;
 
     case OG_STATE_BLOCKED:
-      if ($moderated == C4M_OG_MODERATED_GROUP ) {
+      if ($moderated == C4M_OG_MODERATED_GROUP) {
         c4m_user_notifications_moderated_group_notify_user_membership_rejected($og_membership);
       }
       break;
@@ -110,7 +101,7 @@ function c4m_user_notifications_og_membership_update($og_membership) {
  * Triggers email notification on membership cancelation request.
  */
 function c4m_user_notifications_og_membership_delete($og_membership) {
-  if(!isset($og_membership->entity_type)) {
+  if (!isset($og_membership->entity_type)) {
     // If membership type is not for 'user'.
     return;
   }
@@ -119,11 +110,11 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
     return;
   }
 
-  // Loading group/project to resolve it's membership type - moderated/open
+  // Loading group/project to resolve it's membership type - moderated/open.
   $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_membership_open_request->value() != C4M_OG_MODERATED_GROUP) {
-    // If not moderated group, return early
+    // If not moderated group, return early.
     return;
   }
 
@@ -136,7 +127,7 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
     c4m_user_notifications_notify_admins_membership_canceled($og_membership);
   }
   else {
-    // Membership was canceled by someone else -> group / site admin
+    // Membership was canceled by someone else -> group / site admin.
     c4m_user_notifications_notify_user_membership_canceled($og_membership);
   }
 }
@@ -147,20 +138,9 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
  * Triggers email notification for new node (group/project), for status 'published'.
  */
 function c4m_user_notifications_node_insert($node) {
-  if ($node->type != 'group' && $node->type != 'project') {
-    // Return early, if node type is not group/project.
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $status = $wrapper->c4m_og_status->value();
-
-  c4m_user_notifications_load_includes();
-  if ($status == 'published') {
-    c4m_user_notifications_group_status_set_published($node);
-  }
-
-  _c4m_user_notifications_process_flag_triggers($node, 'insert');
+  _c4m_user_notifications_process_general_triggers_insert($node);
+  _c4m_user_notifications_process_og_alter($node, 'insert');
+  _c4m_user_notifications_process_og_content_alter($node, 'insert');
 }
 
 /**
@@ -169,115 +149,9 @@ function c4m_user_notifications_node_insert($node) {
  * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
-  _c4m_user_notifications_process_general_triggers($node);
-  _c4m_user_notifications_process_flag_triggers($node, 'update');
-}
-
-function _c4m_user_notifications_process_general_triggers($node) {
-  if ($node->type != 'group' && $node->type != 'project') {
-    // Return early, if node type is not group/project.
-    return;
-  }
-
-  if (empty($node->original)) {
-    // On node update, there must be $node->original
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $wrapper_original = entity_metadata_wrapper('node', $node->original);
-  c4m_user_notifications_load_includes();
-
-  $status = $wrapper->c4m_og_status->value();
-  $prev_status = $wrapper_original->c4m_og_status->value();
-  if ($status != $prev_status) {
-    // If group status has changed
-    switch ($status) {
-      case 'published':
-        if ($prev_status == 'archived' || $prev_status == 'unpublished' || $prev_status == 'deleted') {
-          c4m_user_notifications_group_status_set_republished($node);
-        }
-        break;
-      // Published -> Draft => Unpublished.
-      case 'draft':
-        if ($prev_status == 'published') {
-          c4m_user_notifications_group_status_set_unpublished($node);
-        }
-        break;
-
-      case 'archived':
-        c4m_user_notifications_group_status_set_archived($node);
-        break;
-      // Soft delete.
-      case 'deleted':
-        c4m_user_notifications_group_status_set_softdeleted($node);
-        break;
-    }
-  }
-
-  $group_access = $wrapper->group_access->value();
-  $prev_group_access = $wrapper_original->group_access->value();
-  if ($group_access != $prev_group_access) {
-    // if group access has changed (switch between Public and Private/Restricted).
-    c4m_user_notifications_group_access_changed($node);
-  }
-  else if ($group_access == TRUE) {
-    // Possible switch between Private and Restricted.
-    $plug_node_access = empty($wrapper->pluggable_node_access->value());
-    $prev_plug_node_access = empty($wrapper_original->pluggable_node_access->value());
-
-    if ($plug_node_access != $prev_plug_node_access) {
-      c4m_user_notifications_group_access_changed($node);
-    }
-    else {
-      // Check if 'membership open' state was changed - part of group access as well.
-      $membership_open = $wrapper->field_membership_open_request ->value();
-      $prev_membership_open = $wrapper_original->field_membership_open_request ->value();
-
-      if ($membership_open != $prev_membership_open) {
-        c4m_user_notifications_group_access_changed($node);
-      }
-    }
-  }
-
-  $group_owner = $node->uid;
-  $prev_group_owner = $node->original->uid;
-  if ($group_owner != $prev_group_owner) {
-    c4m_user_notifications_notify_prev_owner_owner_update($node);
-    c4m_user_notifications_notify_new_owner_owner_update($node);
-    c4m_user_notifications_notify_admins_owner_update($node);
-  }
-}
-
-function _c4m_user_notifications_process_flag_triggers($node, $mode) {
-  if ($node->type != 'group' && $node->type != 'project'
-      && $node->type != 'event' && $node->type != 'article') {
-    // Return early, if node type is not group/project/event/article.
-    return;
-  }
-
-  // Todo: Check here that 'Send Notification' checkbox is active. If not, return early.
-  // The checkbox is not implemented yet...
-
-  if (empty($node->original)) {
-    // On node update, there must be $node->original.
-    return;
-  }
-
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $status = $wrapper->c4m_og_status->value();
-
-  if ($status == 'published') {
-    c4m_user_notifications_load_includes();
-    switch ($mode) {
-      case 'insert':
-        c4m_user_notifications_new_node_published($node);
-        break;
-      case 'update':
-        c4m_user_notifications_existing_node_updated($node);
-        break;
-    }
-  }
+  _c4m_user_notifications_process_general_triggers_update($node);
+  _c4m_user_notifications_process_og_alter($node, 'update');
+  _c4m_user_notifications_process_og_content_alter($node, 'update');
 }
 
 /**
@@ -324,7 +198,7 @@ function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
   if ($group_admin_role->rid == $rid) {
-    // If administrator role is granted
+    // If administrator role is granted.
     c4m_user_notifications_load_includes();
     c4m_user_notifications_notify_user_admin_granted($gid, $uid);
     c4m_user_notifications_notify_admins_admin_granted($gid, $uid);
@@ -340,7 +214,7 @@ function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
   if ($group_admin_role->rid == $rid) {
-    // If administrator role is granted
+    // If administrator role is revoked.
     c4m_user_notifications_load_includes();
     c4m_user_notifications_notify_user_admin_revoked($gid, $uid);
     c4m_user_notifications_notify_admins_admin_revoked($gid, $uid);
@@ -370,4 +244,177 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
   c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging);
   c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging);
+}
+
+/**
+ * Helper function.
+ *
+ * Triggers email notification when organic group is published.
+ */
+function _c4m_user_notifications_process_general_triggers_insert($node) {
+  if ($node->type != 'group' && $node->type != 'project') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $status = $wrapper->c4m_og_status->value();
+
+  c4m_user_notifications_load_includes();
+  if ($status == 'published') {
+    c4m_user_notifications_group_status_set_published($node);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Triggers different email notifications when organic group is updated:
+ *   Status - group status changes (published/draft/etc...).
+ *   Access - group access changes.
+ *   Owner - group owner changes.
+ */
+function _c4m_user_notifications_process_general_triggers_update($node) {
+  if ($node->type != 'group' && $node->type != 'project') {
+    // Return early, if node type is not group/project.
+    return;
+  }
+
+  if (empty($node->original)) {
+    // On node update, there must be $node->original.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper_original = entity_metadata_wrapper('node', $node->original);
+  c4m_user_notifications_load_includes();
+
+  $status = $wrapper->c4m_og_status->value();
+  $prev_status = $wrapper_original->c4m_og_status->value();
+  if ($status != $prev_status) {
+    // If group status has changed.
+    switch ($status) {
+      case 'published':
+        if ($prev_status == 'archived' || $prev_status == 'unpublished' || $prev_status == 'deleted') {
+          c4m_user_notifications_group_status_set_republished($node);
+        }
+        break;
+
+      // Published -> Draft => Unpublished.
+      case 'draft':
+        if ($prev_status == 'published') {
+          c4m_user_notifications_group_status_set_unpublished($node);
+        }
+        break;
+
+      case 'archived':
+        c4m_user_notifications_group_status_set_archived($node);
+        break;
+
+      // Soft delete.
+      case 'deleted':
+        c4m_user_notifications_group_status_set_softdeleted($node);
+        break;
+    }
+  }
+
+  $group_access = $wrapper->group_access->value();
+  $prev_group_access = $wrapper_original->group_access->value();
+  if ($group_access != $prev_group_access) {
+    // If group access has changed (switch between Public and Private/Restricted).
+    c4m_user_notifications_group_access_changed($node);
+  }
+  elseif ($group_access == TRUE) {
+    // Possible switch between Private and Restricted.
+    $plug_node_access = empty($wrapper->pluggable_node_access->value());
+    $prev_plug_node_access = empty($wrapper_original->pluggable_node_access->value());
+
+    if ($plug_node_access != $prev_plug_node_access) {
+      c4m_user_notifications_group_access_changed($node);
+    }
+    else {
+      // Check if 'membership open' state was changed - part of group access as well.
+      $membership_open = $wrapper->field_membership_open_request->value();
+      $prev_membership_open = $wrapper_original->field_membership_open_request->value();
+
+      if ($membership_open != $prev_membership_open) {
+        c4m_user_notifications_group_access_changed($node);
+      }
+    }
+  }
+
+  $group_owner = $node->uid;
+  $prev_group_owner = $node->original->uid;
+  if ($group_owner != $prev_group_owner) {
+    c4m_user_notifications_notify_prev_owner_owner_update($node);
+    c4m_user_notifications_notify_new_owner_owner_update($node);
+    c4m_user_notifications_notify_admins_owner_update($node);
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Triggers email notification when organic group node is updated.
+ * Per subscribe_c4m_follow_term flag.
+ */
+function _c4m_user_notifications_process_og_alter($node, $mode) {
+  $allowed_og_types = array('group', 'project', 'event', 'article');
+  if (!in_array($node->type, $allowed_og_types)) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $status = $wrapper->c4m_og_status->value();
+
+  if ($status == 'published') {
+    c4m_user_notifications_load_includes();
+    switch ($mode) {
+      case 'insert':
+        c4m_user_notifications_new_node_published($node);
+        break;
+
+      case 'update':
+        c4m_user_notifications_existing_node_updated($node);
+        break;
+    }
+  }
+}
+
+/**
+ * Helper function.
+ *
+ * Triggers different email notifications when organic group content is updated.
+ * Per subscribe_c4m_follow_group flag.
+ */
+function _c4m_user_notifications_process_og_content_alter($node, $mode) {
+  if ($node->status != NODE_PUBLISHED) {
+    return;
+  }
+
+  $allowed_og_content_types = array(
+    'discussion',
+    'document',
+    'event',
+    'wiki_page',
+  );
+  if (!in_array($node->type, $allowed_og_content_types)) {
+    return;
+  }
+
+  // Load current node wrapper.
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  // If group is published.
+  if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() == 'published') {
+    c4m_user_notifications_load_includes();
+    switch ($mode) {
+      case 'insert':
+        c4m_user_notifications_new_group_content_published($node);
+        break;
+
+      case 'update':
+        c4m_user_notifications_existing_group_content_updated($node);
+        break;
+    }
+  }
 }
