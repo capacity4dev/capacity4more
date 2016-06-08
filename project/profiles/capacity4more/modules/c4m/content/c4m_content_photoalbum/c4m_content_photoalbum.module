@@ -21,3 +21,30 @@ function c4m_content_photoalbum_c4m_og_vocab_info_content() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_photoalbum_c4m_content_statistics_info() {
+  return array(
+    'group' => array(
+      'c4m_og_photoalbums' => array(
+        'type'          => 'photoalbum',
+        'entity_type'   => 'node',
+        'bundles'       => array('photoalbum'),
+        'singular'      => 'Photo album',
+        'plural'        => 'Photo albums',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_photoalbums',
+        'attributes'    => array(
+          'class' => array('og-photoalbums'),
+        ),
+        'link'          => array(
+          'path' => 'photoalbums',
+        ),
+      ),
+    ),
+  );
+}

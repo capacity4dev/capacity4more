@@ -12,3 +12,30 @@ include_once 'c4m_content_photo.features.inc';
 function c4m_content_photo_theme_registry_alter(&$theme_registry) {
   $theme_registry['node_gallery_api_item_navigator']['path'] = drupal_get_path('module', 'c4m_content_photo') . "/theme";
 }
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_content_photo_c4m_content_statistics_info() {
+  return array(
+    'group' => array(
+      'c4m_og_photos' => array(
+        'type'          => 'photo',
+        'entity_type'   => 'node',
+        'bundles'       => array('photo'),
+        'singular'      => 'Photo',
+        'plural'        => 'Photos',
+        'state'         => 1,
+        'aggregate'     => array(),
+        'weight'        => 2,
+        'feature_name'  => 'c4m_features_og_photos',
+        'attributes'    => array(
+          'class' => array('og-photos'),
+        ),
+        'link'          => array(
+          'path' => 'photos',
+        ),
+      ),
+    ),
+  );
+}

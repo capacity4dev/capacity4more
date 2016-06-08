@@ -292,6 +292,20 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_4']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_4']['c4m_admin_groups_group_statistic'] = 'event';
   /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_6']['id'] = 'group_metrics_6';
+  $handler->display->display_options['fields']['group_metrics_6']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_6']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_6']['label'] = 'Photo albums';
+  $handler->display->display_options['fields']['group_metrics_6']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_6']['c4m_admin_groups_group_statistic'] = 'photoalbum';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_7']['id'] = 'group_metrics_7';
+  $handler->display->display_options['fields']['group_metrics_7']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_7']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_7']['label'] = 'Photos';
+  $handler->display->display_options['fields']['group_metrics_7']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_7']['c4m_admin_groups_group_statistic'] = 'photo';
+  /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_5']['id'] = 'group_metrics_5';
   $handler->display->display_options['fields']['group_metrics_5']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_5']['field'] = 'group_metrics';

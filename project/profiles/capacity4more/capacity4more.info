@@ -162,6 +162,7 @@ dependencies[] = c4m_features_og_highlights
 dependencies[] = c4m_features_og_manage
 dependencies[] = c4m_features_og_members
 dependencies[] = c4m_features_og_photoalbums
+dependencies[] = c4m_features_og_photos
 dependencies[] = c4m_features_og_search
 dependencies[] = c4m_features_og_wiki
 

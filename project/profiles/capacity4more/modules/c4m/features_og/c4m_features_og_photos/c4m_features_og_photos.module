@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Code for the Group Photos feature.
+ */
+
+/**
+ * Implements hook_c4m_og_feature_info().
+ */
+function c4m_features_og_photos_c4m_og_feature_info() {
+  return array(
+    'c4m_features_og_photos' => array(
+      'name' => t('Photos'),
+      'description' => t('Photos.'),
+      'machine_name' => 'c4m_features_og_photos',
+      'weight' => 1,
+      'default' => TRUE,
+      'group_types' => array('group', 'project'),
+      'content_types' => array('photo'),
+    ),
+  );
+}
