@@ -734,7 +734,6 @@ function c4m_content_group_ds_fields_info($entity_type) {
  * Implements hook_field_extra_fields().
  */
 function c4m_content_group_field_extra_fields() {
-  dpm('a');
   $display_elements['group_admins'] = array(
     'label' => t('Group Admins'),
     'description' => t('Group Admins'),

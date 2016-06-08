@@ -83,7 +83,7 @@ function c4m_content_group_ds_field_settings_info() {
   $ds_fieldsetting->view_mode = 'group_dashboard';
   $ds_fieldsetting->settings = array(
     'author' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'above',
       'format' => 'author',
       'formatter_settings' => array(
@@ -310,8 +310,8 @@ function c4m_content_group_ds_layout_settings_info() {
         1 => 'c4m_ds_creation_date',
         2 => 'group_access_info',
         3 => 'c4m_content_group_statistics',
-        4 => 'author',
-        5 => 'group_admins',
+        4 => 'group_admins',
+        5 => 'author',
         6 => 'c4m_vocab_topic',
         7 => 'c4m_vocab_geo',
         8 => 'c4m_ds_content_actions',
@@ -324,8 +324,8 @@ function c4m_content_group_ds_layout_settings_info() {
       'c4m_ds_creation_date' => 'ds_content',
       'group_access_info' => 'ds_content',
       'c4m_content_group_statistics' => 'ds_content',
-      'author' => 'ds_content',
       'group_admins' => 'ds_content',
+      'author' => 'ds_content',
       'c4m_vocab_topic' => 'ds_content',
       'c4m_vocab_geo' => 'ds_content',
       'c4m_ds_content_actions' => 'ds_content',
