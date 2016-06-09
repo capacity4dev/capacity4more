@@ -24,5 +24,4 @@ MODULES_ENABLE=(
   "transliteration"
   "views"
   "views_bulk_operations"
-  "c4m_user_notifications"
 )
