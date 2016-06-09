@@ -213,29 +213,47 @@ function _c4m_content_statistics_collect_data(array $list) {
   $data = array();
 
   foreach ($list as $key => $info) {
+    $count = 0;
+
     $type = isset($info['aggregate']['type'])
       ? $info['aggregate']['type']
       : $info['type'];
 
+    $callback = isset($info['callback'])
+      ? $info['callback']
+      : NULL;
+
     $og_id = isset($info['og_id'])
       ? $info['og_id']
       : NULL;
-    $topic = isset($info['topic'])
-      ? $info['topic']
-      : NULL;
-    $status = isset($info['c4m_status'])
-      ? $info['c4m_status']
-      : NULL;
 
-    $arguments = array(
-      'entity_type' => $info['entity_type'],
-      'bundles' => $info['bundles'],
-      'state' => $info['state'],
-      'og_id' => $og_id,
-      'topic' => $topic,
-      'c4m_status' => $status,
-    );
-    $count = c4m_helper_entity_get_number_of_entities($arguments);
+    // In case a callback is defined.
+    if ($callback) {
+      $callback = empty($callback) ? '' : $callback;
+      if (function_exists($callback)) {
+        $count = $callback($og_id);
+      }
+    }
+    // In case no callback is defined.
+    else {
+      $topic = isset($info['topic'])
+        ? $info['topic']
+        : NULL;
+
+      $status = isset($info['c4m_status'])
+        ? $info['c4m_status']
+        : NULL;
+
+      $arguments = array(
+        'entity_type' => $info['entity_type'],
+        'bundles' => $info['bundles'],
+        'state' => $info['state'],
+        'og_id' => $og_id,
+        'topic' => $topic,
+        'c4m_status' => $status,
+      );
+      $count = c4m_helper_entity_get_number_of_entities($arguments);
+    }
 
     $link = isset($info['link'])
       ? $info['link']
