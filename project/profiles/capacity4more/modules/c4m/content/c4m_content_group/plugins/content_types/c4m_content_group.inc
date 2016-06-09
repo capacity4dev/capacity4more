@@ -59,10 +59,4 @@ function c4m_content_group_preprocess_node(&$variables) {
 
   $variables['theme_hook_suggestions'] = ['node__' . $variables['node']->type . '__group_dashboard'];
   $node = $variables['node'];
-  $admins = c4m_og_get_group_admins($node->nid);
-
-//  dpm($admins, 'ADMINS');
-//  dpm($variables['content'], 'preprocess');
-
-  $variables['nir'] = 'THIS IS ME';
 }
