@@ -157,7 +157,7 @@
   }
 }
 
-// Group info slide on
+// off-canvas group menu
 
 .groupInfo-header {
   height: 50px;
@@ -186,7 +186,7 @@
 
 .groupInfo-membership {
   margin-top: 20px;
-  padding-bottom: 15px;
+  padding-bottom: 20px;
   border-bottom: 1px dotted $color-gray-light;
 }
 
@@ -196,12 +196,16 @@
 }
 
 .membership-actions {
-  margin-top: 30px;
+  margin-top: 15px;
   color: $color-text-alternative;
+
+  span {
+    display: inline-block;
+  }
 }
 
 .membership-invite {
-  float: right;
+  margin-top: 10px;
 
   &:before {
     display: inline-block;
@@ -298,7 +302,7 @@
 
     .field-name-c4m-content-group-statistics {
 
-      margin-top: 15px;
+      margin-top: 25px;
 
       ul.statistics-list {
         flex-wrap: wrap;
@@ -320,6 +324,92 @@
             width: 20px;
           }
         }
+      }
+    }
+  }
+}
+
+.field-name-c4m-ds-content-actions {
+  margin: 15px 0 30px;
+
+  .social-actions-share {
+    text-align: center;
+
+    h3 {
+      margin-bottom: 25px;
+      text-align: left;
+    }
+  }
+
+  .group-actions-recommend {
+    margin-top: 20px;
+  }
+
+  .field-item {
+    display: flex;
+    flex-flow: column-reverse;
+  }
+}
+
+.groupInfo-messages {
+  padding: 20px 0;
+  border-bottom: 1px dotted $color-gray-light;
+
+  .message {
+    span {
+      color: $color-text-alternative;
+    }
+
+    &::before {
+      display: inline-block;
+      width: 20px;
+
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      color: $color-gray-dark;
+    }
+  }
+
+  .message--howto::before {
+    content: "\f0eb";
+  }
+
+  .message--content::before {
+    content: "\f071";
+  }
+
+  .message--notifications::before {
+    content: "\f0a2";
+  }
+
+  .message:not(:first-of-type) {
+    margin-top: 10px;
+  }
+
+}
+
+.groupInfo-members {
+
+  h3 {
+    margin-top: 30px;
+  }
+
+  ul {
+
+    margin: 0;
+    padding: 0;
+
+
+    li {
+      float: left;
+      list-style: none;
+
+      &:nth-child(4n + 1) {
+        clear: left;
+      }
+
+      img {
+        border-radius: 50%;
       }
     }
   }

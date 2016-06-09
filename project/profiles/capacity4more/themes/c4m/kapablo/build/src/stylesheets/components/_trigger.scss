@@ -5,6 +5,10 @@
 
 .trigger {
   border:1px solid $color-text-alternative;
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
 }
 
 .trigger--groupInfo {

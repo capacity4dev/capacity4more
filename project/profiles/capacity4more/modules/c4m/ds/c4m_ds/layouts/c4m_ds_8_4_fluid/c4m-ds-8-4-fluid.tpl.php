@@ -16,10 +16,16 @@
       <?php print $header; ?>
     </<?php print $header_wrapper; ?>>
 <?php endif; ?>
+
   <<?php print $left_wrapper; ?> class="group-left col-sm-8 <?php print $left_classes; ?>">
+
+    <div class="trigger js-navigationButton" data-effect="animation--slideOn">
+      <span class="trigger-text">Trigger off-canvas right</span>
+    </div>
+
     <?php print $left; ?>
   </<?php print $left_wrapper; ?>>
-  <<?php print $right_wrapper; ?> class="group-right col-sm-4 <?php print $right_classes; ?>">
+  <<?php print $right_wrapper; ?> class="group-right col-sm-4 <?php print $right_classes; ?> offCanvasNavigation--right">
     <?php print $right; ?>
   </<?php print $right_wrapper; ?>>
 </div>

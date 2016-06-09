@@ -238,7 +238,7 @@
       <!-- /#page-header -->
 
       <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
-        <aside class="col-md-4" role="complementary">
+        <aside class="col-md-4 off offCanvasNavigation--left" role="complementary">
           <?php print render($page['sidebar_first_top']); ?>
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
@@ -266,11 +266,25 @@
         <?php if (!empty($action_links)): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
+
+        <?php if (!empty($page['sidebar_first'])): ?>
+          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
+            <span class="trigger-text">Trigger off-canvas left</span>
+          </div>
+        <?php endif; ?>
+
+        <?php if (!empty($page['sidebar_second'])): ?>
+          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
+            <span class="trigger-text">Trigger off-canvas right</span>
+          </div>
+        <?php endif; ?>
+
+
         <?php print render($page['content']); ?>
       </section>
 
       <?php if (!empty($page['sidebar_second'])): ?>
-        <aside class="col-md-4" role="complementary">
+        <aside class="col-md-4 offCanvasNavigation--right" role="complementary">
           <?php print render($page['sidebar_second']); ?>
         </aside>  <!-- /#sidebar-second -->
       <?php endif; ?>
