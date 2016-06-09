@@ -18,6 +18,11 @@ function c4m_user_notifications_load_includes() {
  * Triggers email notification on new membership request for moderated groups.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
+  // Don't send notifications during migration.
+  if (!empty($og_membership->migrate)) {
+    return;
+  }
+
   if (!isset($og_membership->entity_type)) {
     // If membership type is not for 'user'.
     return;
@@ -49,6 +54,11 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
  *   Pending -> Rejected
  */
 function c4m_user_notifications_og_membership_update($og_membership) {
+  // Don't send notifications during migration.
+  if (!empty($og_membership->migrate)) {
+    return;
+  }
+
   if (empty($og_membership->original)) {
     // Must have original state, as we're performing update.
     return;
@@ -101,6 +111,11 @@ function c4m_user_notifications_og_membership_update($og_membership) {
  * Triggers email notification on membership cancelation request.
  */
 function c4m_user_notifications_og_membership_delete($og_membership) {
+  // Don't send notifications during migration.
+  if (!empty($og_membership->migrate)) {
+    return;
+  }
+
   if (!isset($og_membership->entity_type)) {
     // If membership type is not for 'user'.
     return;
@@ -139,6 +154,11 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
  * 'published'.
  */
 function c4m_user_notifications_node_insert($node) {
+  // Don't send notifications during migration.
+  if (!empty($node->migrate)) {
+    return;
+  }
+
   _c4m_user_notifications_process_general_triggers_insert($node);
   _c4m_user_notifications_process_og_alter($node, 'insert');
   _c4m_user_notifications_process_og_content_alter($node, 'insert');
@@ -150,6 +170,11 @@ function c4m_user_notifications_node_insert($node) {
  * Triggers email notification for node (group/project) status update.
  */
 function c4m_user_notifications_node_update($node) {
+  // Don't send notifications during migration.
+  if (!empty($node->migrate)) {
+    return;
+  }
+
   _c4m_user_notifications_process_general_triggers_update($node);
   _c4m_user_notifications_process_og_alter($node, 'update');
   _c4m_user_notifications_process_og_content_alter($node, 'update');
@@ -161,6 +186,11 @@ function c4m_user_notifications_node_update($node) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_node_delete($node) {
+  // Don't send notifications during migration.
+  if (!empty($node->migrate)) {
+    return;
+  }
+
   if ($node->type != 'group' && $node->type != 'project') {
     // Return early, if node type is not group/project.
     return;
@@ -176,6 +206,11 @@ function c4m_user_notifications_node_delete($node) {
  * Triggers email notification for comment insert.
  */
 function c4m_user_notifications_comment_insert($comment) {
+  // Don't send notifications during migration.
+  if (!empty($comment->migrate)) {
+    return;
+  }
+
   c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_user_commented($comment);
 }
@@ -186,6 +221,11 @@ function c4m_user_notifications_comment_insert($comment) {
  * Triggers email notification for node (group/project) delete.
  */
 function c4m_user_notifications_user_delete($account) {
+  // Don't send notifications during migration.
+  if (!empty($account->migrate)) {
+    return;
+  }
+
   c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_admins_user_deleted($account);
 }
