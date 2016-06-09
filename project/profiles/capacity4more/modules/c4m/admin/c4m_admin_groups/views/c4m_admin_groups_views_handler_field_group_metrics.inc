@@ -54,6 +54,7 @@ class c4m_admin_groups_views_handler_field_group_metrics extends c4m_admin_group
       if (isset($statistics[$statistic])) {
         return $statistics[$statistic]['count'];
       }
+      return 0;
     }
   }
 

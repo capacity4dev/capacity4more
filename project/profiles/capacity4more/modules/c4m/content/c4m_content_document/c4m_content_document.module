@@ -104,6 +104,35 @@ function c4m_content_document_entity_type_label_alter(&$variables) {
 }
 
 /**
+ * Returns the amount of document downloads.
+ *
+ * @param integer $og_id
+ *   The Organic Group ID to eventually limit the query for.
+ *
+ * @return integer
+ *   The amount of document downloads.
+ */
+function c4m_content_document_get_number_of_downloads($og_id = NULL) {
+  $query = db_select('file_download_count', 'dc');
+  $query->fields('dc');
+  $query->join('field_data_c4m_document', 'd', 'dc.fid = d.c4m_document_fid');
+  $query->join('node', 'n', 'n.nid = d.entity_id');
+  $query->condition('d.entity_type', 'node');
+  $query->condition('n.status', 1);
+  $query->addTag('node_access');
+
+  if ($og_id) {
+    $query->join('og_membership', 'og', 'n.nid = og.etid');
+    $query->condition('og.gid', $og_id);
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_content_document_c4m_content_statistics_info() {
@@ -145,6 +174,13 @@ function c4m_content_document_c4m_content_statistics_info() {
         'link'          => array(
           'path' => 'documents',
         ),
+      ),
+      'c4m_og_document_downloads' => array(
+        'type'          => 'document_download',
+        'callback'      => 'c4m_content_document_get_number_of_downloads',
+        'singular'      => 'Document download',
+        'plural'        => 'Document downloads',
+        'weight'        => 3,
       ),
     ),
     'topic' => array(
