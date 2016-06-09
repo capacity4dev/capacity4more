@@ -198,6 +198,15 @@ function c4m_features_og_manage_theme() {
   );
 }
 
+/**
+ * Transforms given values into themed HTML list.
+ *
+ * @param array $list
+ *   The list to transform.
+ *
+ * @return string
+ *   Rendered HTML list.
+ */
 function c4m_features_og_manage_list_simple($list) {
   if (!empty($list)) {
     $item_list = array(
@@ -221,6 +230,15 @@ function c4m_features_og_manage_list_simple($list) {
   return FALSE;
 }
 
+/**
+ * Transforms given values into themed HTML list.
+ *
+ * @param array $topics
+ *   The list to transform.
+ *
+ * @return string
+ *   Rendered HTML list.
+ */
 function c4m_features_og_manage_list_related_topics($topics) {
   if (!empty($topics)) {
     $topic_list = array(
@@ -250,6 +268,15 @@ function c4m_features_og_manage_list_related_topics($topics) {
   return FALSE;
 }
 
+/**
+ * Transforms given values into themed HTML list.
+ *
+ * @param array $geo
+ *   The list to transform.
+ *
+ * @return string
+ *   Rendered HTML list.
+ */
 function c4m_features_og_manage_list_regions_countries($geo) {
   if (!empty($geo)) {
     $geo_list = array(
@@ -279,6 +306,15 @@ function c4m_features_og_manage_list_regions_countries($geo) {
   return FALSE;
 }
 
+/**
+ * Transforms given values into themed HTML list.
+ *
+ * @param array $admins
+ *   The list to transform.
+ *
+ * @return string
+ *   Rendered HTML list.
+ */
 function c4m_features_og_manage_list_group_admins($admins) {
   if (!empty($admins)) {
     $admin_list = array(
@@ -300,6 +336,15 @@ function c4m_features_og_manage_list_group_admins($admins) {
   return FALSE;
 }
 
+/**
+ * Transforms given values into themed HTML list.
+ *
+ * @param array $related
+ *   The list to transform.
+ *
+ * @return string
+ *   Rendered HTML list.
+ */
 function c4m_features_og_manage_list_related($related) {
   if (!empty($related)) {
     $related_list = array(
@@ -341,6 +386,15 @@ function c4m_features_og_manage_list_related($related) {
   return FALSE;
 }
 
+/**
+ * Get details about a groups vocabularies/terms and render them.
+ *
+ * @param object $group
+ *   The group object.
+ *
+ * @param array $details
+ *   The array to which to append the info about vocabularies and terms.
+ */
 function c4m_features_og_manage_list_taxonomy($group, &$details) {
   $og_vocab = c4m_restful_get_og_vocab_by_name(
     'node',
