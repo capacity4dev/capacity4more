@@ -1,4 +1,9 @@
 .pane-c4m-content-group {
+  .form-item.form-type-item.form-group {
+    label {
+      display: block;
+    }
+  }
 
   .c4m-created-on-date {
     text-align: center;

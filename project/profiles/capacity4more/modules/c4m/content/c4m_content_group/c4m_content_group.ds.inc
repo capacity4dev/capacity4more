@@ -88,7 +88,9 @@ function c4m_content_group_ds_field_settings_info() {
       'format' => 'author',
       'formatter_settings' => array(
         'ft' => array(
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Group Owner',
+          'lb-col' => TRUE,
         ),
       ),
     ),
@@ -128,7 +130,17 @@ function c4m_content_group_ds_field_settings_info() {
     'c4m_vocab_geo' => array(
       'formatter_settings' => array(
         'ft' => array(
+          'func' => 'theme_ds_field_expert',
           'lb' => 'Reigens',
+          'lb-col' => TRUE,
+        ),
+      ),
+    ),
+    'c4m_vocab_topic' => array(
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_expert',
+          'lb-col' => TRUE,
         ),
       ),
     ),
