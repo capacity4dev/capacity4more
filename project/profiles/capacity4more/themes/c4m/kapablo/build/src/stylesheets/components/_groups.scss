@@ -42,7 +42,7 @@
     margin: 20px -18px 0px;
     padding: 30px 18px;
 
-    @include box-shadow(inset  0  8px 8px -8px #696868, inset  0 -8px 8px -8px #696868);
+    @include box-shadow(inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868);
 
     ul {
       margin: 0;
@@ -130,7 +130,6 @@
   margin-top: 0;
   padding: 0;
 
-
   transform: translate(0, 0);
 
   .icon-bar {
@@ -158,7 +157,7 @@
   }
 }
 
-// Group info slide over
+// Group info slide on
 
 .groupInfo-header {
   height: 50px;
@@ -221,4 +220,107 @@
 
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
+}
+
+.pane-c4m-search-og-c4m-search-group-form {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    display: block;
+  }
+}
+
+.og-context .pane-c4m-content-group {
+  color: $color-gray-dark;
+
+  .pane-title {
+    margin: 15px 0;
+  }
+
+  .c4m-created-on-date {
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+  }
+
+  .field-group-fieldset {
+
+    a.fieldset-legend {
+      direction: rtl;
+    }
+  }
+
+  .c4m-access-info {
+    margin: 15px 18px;
+  }
+
+  .group-details {
+
+    height: 100% !important;
+
+    .panel-collapse {
+      display: block;
+      height: 100%;
+      opacity: 1;
+    }
+
+    .panel-heading {
+      display: none;
+    }
+
+    .field-name-c4m-user-picture,
+    .field-name-c4m-user-first-and-last-name {
+      display: none;
+    }
+
+    .field-name-c4m-user-first-and-last-name {
+      @include clearfix;
+    }
+
+    .field-name-c4m-vocab-topic,
+    .field-name-c4m-vocab-geo {
+      .field-label {
+        margin: 15px 0;
+        font-weight: 100;
+      }
+
+      .field-items .field-item {
+        float: left;
+
+        &:not(:first-of-type) {
+          margin-left: 5px;
+        }
+      }
+
+      @include clearfix;
+    }
+
+    .field-name-c4m-content-group-statistics {
+
+      margin-top: 15px;
+
+      ul.statistics-list {
+        flex-wrap: wrap;
+
+        li {
+          border: none;
+          margin-bottom: 15px;
+          padding: 0;
+
+          text-align: left;
+          font-size: 1rem;
+
+          a {
+            margin-top: 0;
+          }
+
+          &::before {
+            display: inline-block;
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
 }
