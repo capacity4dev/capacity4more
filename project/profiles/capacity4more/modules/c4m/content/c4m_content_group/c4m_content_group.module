@@ -732,35 +732,36 @@ function c4m_content_group_ds_fields_info($entity_type) {
 }
 /**
  * Implements hook_field_extra_fields().
+ *
+ * Add the 'Group Admins' field in the group dashboard management.
  */
 function c4m_content_group_field_extra_fields() {
-  $display_elements['group_admins'] = array(
+  $extra_fields['node']['group']['display']['group_admins'] = array(
     'label' => t('Group Admins'),
     'description' => t('Group Admins'),
     'weight' => 0,
   );
-
-  // Since we have only one bundle type, we'll just provide the extra_fields
-  // for it here.
-  $extra_fields['node']['group']['display'] = $display_elements;
 
   return $extra_fields;
 }
 
 /**
  * Implements hook_node_view_alter().
+ *
+ * Adding the 'Group administrators' view for the group_admins field.
  */
 function c4m_content_group_node_view($node, $view_mode, $langcode) {
-  $admins = c4m_og_get_group_admins($node->nid);
+  $accounts = c4m_og_get_group_admins($node->nid);
 
-  $array_names = array();
-  foreach ($admins as $admin) {
-    $array_names[] = $admin->name;
+  $links = array();
+  foreach ($accounts as $account) {
+    $uri = entity_uri('user', $account);
+    $links[] = l($account->name, $uri['path']);
   }
 
   $node->content['group_admins'] = array(
     '#type' => 'item',
     '#title' => t('Group administrators'),
-    '#markup' => implode(",", $array_names),
+    '#markup' => implode(",", $links),
   );
 }
