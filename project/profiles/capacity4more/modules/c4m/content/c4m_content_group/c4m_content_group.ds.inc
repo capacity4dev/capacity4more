@@ -85,7 +85,7 @@ function c4m_content_group_ds_field_settings_info() {
     'author' => array(
       'weight' => '5',
       'label' => 'above',
-      'format' => 'author',
+      'format' => 'author_linked',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
