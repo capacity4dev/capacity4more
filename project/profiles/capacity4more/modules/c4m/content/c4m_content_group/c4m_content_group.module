@@ -453,7 +453,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 /**
  * Implements hook_node_access_records().
  *
- * Add grunts based on group status field.
+ * Add grants based on group status field.
  */
 function c4m_content_group_node_access_records($node) {
   // Only for group nodes.
