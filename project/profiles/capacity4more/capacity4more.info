@@ -171,6 +171,9 @@ dependencies[] = c4m_search
 dependencies[] = c4m_search_nodes
 dependencies[] = c4m_search_og
 
+; Utilities
+dependencies[] = c4m_analytics
+
 ; Message
 dependencies[] = c4m_mail
 dependencies[] = c4m_message

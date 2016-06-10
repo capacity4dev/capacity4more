@@ -3,7 +3,7 @@ api = 2
 
 ; Notifications stack.
 
-projects[mailsystem][version] = "2.34"
+projects[mailsystem][version] = "2.x-dev"
 projects[mailsystem][subdir] = "contrib"
 
 projects[message][subdir] = "contrib"

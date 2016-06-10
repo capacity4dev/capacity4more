@@ -44,3 +44,10 @@ function _c4m_og_install_og_variable_realm() {
   $og_realm[] = 'c4m_og_features_[group_type]';
   variable_set('variable_realm_list_og', $og_realm);
 }
+
+/**
+ * Enable session api module.
+ */
+function _c4m_og_update_7000() {
+  module_enable(array('session_api'));
+}
