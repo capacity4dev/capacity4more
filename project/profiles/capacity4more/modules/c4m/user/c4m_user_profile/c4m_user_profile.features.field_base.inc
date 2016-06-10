@@ -359,22 +359,12 @@ function c4m_user_profile_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'c4m_is_ldap_user',
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
+    'indexes' => array(),
     'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => '',
-        1 => '',
-      ),
-      'allowed_values_function' => '',
-    ),
+    'module' => 'number',
+    'settings' => array(),
     'translatable' => 0,
-    'type' => 'list_boolean',
+    'type' => 'number_integer',
   );
 
   // Exported field_base: 'c4m_is_organisation_user'.
