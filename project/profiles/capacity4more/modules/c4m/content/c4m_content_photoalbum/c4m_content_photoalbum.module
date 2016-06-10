@@ -32,3 +32,19 @@ function c4m_content_photoalbum_c4m_content_share_fields_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_photoalbum_c4m_helper_entity_label_info() {
+  return array(
+    'photoalbum' => array(
+      'article' => 'a',
+      'singular' => 'photo album',
+      'plural' => 'photo albums',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-picture-o',
+    ),
+  );
+}

@@ -207,3 +207,19 @@ function c4m_content_share_form_share_node_form_alter(
     $form['og_group_ref']['#access'] = FALSE;
   }
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_share_c4m_helper_entity_label_info() {
+  return array(
+    'share' => array(
+      'article' => 'a',
+      'singular' => 'share',
+      'plural' => 'shares',
+      'insert action' => 'shared',
+      'update action' => 'updated',
+      'icon' => 'fa-retweet',
+    ),
+  );
+}

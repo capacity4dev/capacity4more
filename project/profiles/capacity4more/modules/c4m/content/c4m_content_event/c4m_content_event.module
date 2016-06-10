@@ -158,3 +158,43 @@ function c4m_content_event_c4m_content_share_fields_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_event_c4m_helper_entity_label_info() {
+  return array(
+    'event' => array(
+      'article' => 'an',
+      'singular' => 'event',
+      'plural' => 'events',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-calendar',
+    ),
+    'event-event' => array(
+      'article' => 'an',
+      'singular' => 'event',
+      'plural' => 'events',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-calendar',
+    ),
+    'event-meeting' => array(
+      'article' => 'an',
+      'singular' => 'meeting',
+      'plural' => 'meetings',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-users',
+    ),
+    'event-learning' => array(
+      'article' => 'an',
+      'singular' => 'learning event',
+      'plural' => 'learning events',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-university',
+    ),
+  );
+}

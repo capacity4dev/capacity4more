@@ -23,3 +23,19 @@ function c4m_content_photo_c4m_content_share_fields_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_photo_c4m_helper_entity_label_info() {
+  return array(
+    'photo' => array(
+      'article' => 'a',
+      'singular' => 'photo',
+      'plural' => 'photos',
+      'insert action' => 'uploaded',
+      'update action' => 'updated',
+      'icon' => 'fa-file-picture-o',
+    ),
+  );
+}

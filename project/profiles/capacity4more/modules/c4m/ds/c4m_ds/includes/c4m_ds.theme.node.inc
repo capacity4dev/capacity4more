@@ -218,7 +218,7 @@ function theme_c4m_ds_type_posted_by(array $field) {
       '@entity_label',
       array(
         '@entity_label' => ucfirst(
-          c4m_helper_entity_get_entity_type_label($entity)
+          c4m_helper_entity_label_info($entity)
         ),
       )
     ),

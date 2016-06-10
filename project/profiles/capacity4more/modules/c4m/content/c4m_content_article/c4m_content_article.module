@@ -56,3 +56,19 @@ function c4m_content_article_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_article_c4m_helper_entity_label_info() {
+  return array(
+    'article' => array(
+      'article' => 'an',
+      'singular' => 'article',
+      'plural' => 'articles',
+      'insert action' => 'posted',
+      'update action' => 'updated',
+      'icon' => 'fa-bullhorn',
+    ),
+  );
+}

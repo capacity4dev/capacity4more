@@ -157,3 +157,51 @@ function c4m_content_discussion_c4m_content_share_fields_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_discussion_c4m_helper_entity_label_info() {
+  return array(
+    'discussion' => array(
+      'article' => 'a',
+      'singular' => 'discussion',
+      'plural' => 'discussions',
+      'insert action' => 'started',
+      'update action' => 'updated',
+      'icon' => 'fa-comments',
+    ),
+    'discussion-info' => array(
+      'article' => '',
+      'singular' => 'information',
+      'plural' => 'informations',
+      'insert action' => 'posted',
+      'update action' => 'updated',
+      'icon' => 'fa-info-circle',
+    ),
+    'discussion-debate' => array(
+      'article' => 'a',
+      'singular' => 'debate',
+      'plural' => 'debates',
+      'insert action' => 'started',
+      'update action' => 'updated',
+      'icon' => 'fa-comments',
+    ),
+    'discussion-question' => array(
+      'article' => 'a',
+      'singular' => 'question',
+      'plural' => 'question',
+      'insert action' => 'asked',
+      'update action' => 'updated',
+      'icon' => 'fa-question-circle',
+    ),
+    'discussion-idea' => array(
+      'article' => 'a',
+      'singular' => 'idea',
+      'plural' => 'ideas',
+      'insert action' => 'posted',
+      'update action' => 'updated',
+      'icon' => 'fa-lightbulb-o',
+    ),
+  );
+}
