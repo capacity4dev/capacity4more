@@ -24,5 +24,5 @@
     </div>
   </div>
 
-  <span class="block-title pull-right"><?php print l(t('Read more articles') . ' <i class="fa fa-chevron-right"></i>', 'articles', array('html' => TRUE)); ?></span>
+  <span class="block-title"><?php print l(t('Read more articles') . ' <i class="fa fa-chevron-right"></i>', 'articles', array('html' => TRUE)); ?></span>
 </div>

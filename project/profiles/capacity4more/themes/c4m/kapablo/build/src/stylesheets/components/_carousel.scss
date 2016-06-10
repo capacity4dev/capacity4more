@@ -1,9 +1,14 @@
 #articles-panel {
-  margin: 0 0 2rem 0;
+  margin: 0;
 
   .block-title {
+    display: inline-block;
     margin: 1em 0;
+    float: right;
   }
+
+  @include clearfix;
+
 }
 
 .row.carousel {
@@ -28,20 +33,41 @@
   }
 
   .item-header {
+
+    padding: 10px;
+
     h2 {
       display: inline-block;
     }
 
     * {
-      margin-top: 10px;
+      margin: 10px 0 0 0;
+    }
+
+    .item-date {
+      display: inline-block;
+
+      @media (min-width: $screen-tablet) {
+        float: right;
+      }
+    }
+  }
+
+  .intro-text {
+    padding: 10px;
+
+    a {
+      margin: 30px 0;
     }
   }
 }
 
 .owl-theme {
+  border: 1px solid $color-gray-light;
+  @include grain;
+
   .owl-wrapper-outer {
     margin: 0;
-    border: 1px solid $color-gray-light;
 
     .owl-wrapper .owl-item {
       display: block;
@@ -72,6 +98,10 @@
       }
     }
 
+    .owl-pagination {
+      margin-bottom: 10px;
+    }
+
     .owl-prev{
       top: 115px;
       left: 0;
@@ -82,8 +112,9 @@
       top: 115px;
     }
 
-    .owl-pagination {
-      float: right;
+    .owl-page.active span {
+      background: $color-text-alternative;
     }
+
   }
 }
