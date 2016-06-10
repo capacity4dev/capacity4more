@@ -65,10 +65,9 @@ function c4m_content_share_field_default_field_instances() {
         'weight' => 2,
       ),
       'block_list' => array(
-        'label' => 'above',
-        'module' => 'text',
+        'label' => 'hidden',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'hidden',
         'weight' => 2,
       ),
       'default' => array(
@@ -107,7 +106,7 @@ function c4m_content_share_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -206,13 +205,14 @@ function c4m_content_share_field_default_field_instances() {
         'weight' => 3,
       ),
       'block_list' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => FALSE,
+          'links' => 0,
+          'view_mode' => 'block_list',
         ),
-        'type' => 'entityreference_label',
-        'weight' => 3,
+        'type' => 'entityreference_entity_view',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
@@ -247,10 +247,10 @@ function c4m_content_share_field_default_field_instances() {
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
-          'view_mode' => 'teaser',
+          'view_mode' => 'teaser_group',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 1,
+        'weight' => 5,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -309,11 +309,13 @@ function c4m_content_share_field_default_field_instances() {
         'weight' => 0,
       ),
       'block_list' => array(
-        'label' => 'above',
-        'module' => 'og_ui',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'c4m_og_purl',
+        'settings' => array(
+          'link' => 'purl_auto',
+        ),
+        'type' => 'c4m_og_purl_entityreference_link',
+        'weight' => 1,
       ),
       'default' => array(
         'label' => 'above',
@@ -340,7 +342,7 @@ function c4m_content_share_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 21,
       ),
       'teaser_group' => array(
         'label' => 'above',

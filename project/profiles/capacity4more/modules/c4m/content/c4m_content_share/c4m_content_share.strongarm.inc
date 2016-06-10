@@ -66,7 +66,7 @@ function c4m_content_share_strongarm() {
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'teaser' => array(
         'custom_settings' => TRUE,
@@ -84,7 +84,7 @@ function c4m_content_share_strongarm() {
         'custom_settings' => TRUE,
       ),
       'group_dashboard' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,

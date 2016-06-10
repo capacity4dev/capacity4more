@@ -5,6 +5,7 @@ package = capacity4more - Content
 dependencies[] = c4m_comment
 dependencies[] = c4m_field_body
 dependencies[] = c4m_field_og
+dependencies[] = c4m_og_purl
 dependencies[] = ctools
 dependencies[] = ds
 dependencies[] = entityreference
