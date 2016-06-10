@@ -52,7 +52,7 @@ function c4m_content_share_form($form, &$form_state) {
   // Create form title.
   $form['info'] = array(
     '#markup' => t(
-      'You will share %node_type with title %node_title',
+      'You will share %node_type with title %node_title.',
       array('%node_type' => $human_name, '%node_title' => $node->title)
     ),
     '#prefix' => '<h2>',
@@ -80,8 +80,13 @@ function c4m_content_share_form($form, &$form_state) {
   $form['og_group_ref']['#weight'] = 3;
 
   // Create form element based on the original form['c4m_body'].
-  $form['c4m_body'] = $orig_form['c4m_body'];
-  $form['c4m_body']['#weight'] = 4;
+  $form['c4m_body'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Description'),
+    '#default_value' => '',
+    '#format' => filter_default_format(),
+    '#weight' => 4,
+  );
 
   // Create form submit button.
   $form['submit'] = array(
@@ -180,6 +185,7 @@ function c4m_content_share_form_submit($form, &$form_state) {
 
   $node_wrapper->og_group_ref = $values['og_group_ref'];
   $node_wrapper->c4m_source_entity = $values['c4m_source_entity'];
+  $node_wrapper->c4m_body = $values['c4m_body'];
 
   $node_wrapper->save();
 
