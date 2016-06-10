@@ -730,3 +730,19 @@ function c4m_content_group_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_group_c4m_helper_entity_label_info() {
+  return array(
+    'group' => array(
+      'article' => 'a',
+      'singular' => 'group',
+      'plural' => 'groups',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-users',
+    ),
+  );
+}

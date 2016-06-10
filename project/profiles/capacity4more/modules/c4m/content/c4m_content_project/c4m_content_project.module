@@ -99,3 +99,19 @@ function c4m_content_project_block_view($delta) {
 
   return array();
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_project_c4m_helper_entity_label_info() {
+  return array(
+    'project' => array(
+      'article' => 'a',
+      'singular' => 'project',
+      'plural' => 'projects',
+      'insert action' => 'created',
+      'update action' => 'updated',
+      'icon' => 'fa-users',
+    ),
+  );
+}

@@ -209,17 +209,20 @@ function theme_c4m_ds_type_posted_by(array $field) {
   }
   $entity = $field['entity'];
 
+  $label_info = c4m_helper_entity_label_info($entity);
+
   $tag['element'] = array(
     '#tag' => 'span',
     '#attributes' => array(
       'class' => array('posted-by'),
     ),
     '#value' => t(
-      '@entity_label',
+      '@entity_label @action by',
       array(
         '@entity_label' => ucfirst(
-          c4m_helper_entity_label_info($entity)
+          $label_info['singular']
         ),
+        '@action' => $label_info['insert action'],
       )
     ),
   );
@@ -239,7 +242,13 @@ function theme_c4m_ds_type_posted_by(array $field) {
 function theme_c4m_ds_content_footer_stats(array $field) {
   $entity = $field['entity'];
 
-  $recommends = c4m_helper_entity_entity_get_properties($entity, array(), '', 'node', array('flag_name' => 'c4m_og_content_recommend'));
+  $recommends = c4m_helper_entity_entity_get_properties(
+    $entity,
+    array(),
+    '',
+    'node',
+    array('flag_name' => 'c4m_og_content_recommend')
+  );
 
   $items['recommends'] = theme(
     'c4m_ds_entity_recommends_count',
