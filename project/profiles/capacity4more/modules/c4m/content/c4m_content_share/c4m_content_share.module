@@ -174,3 +174,15 @@ function c4m_content_share_node_access($node, $op, $account) {
     return node_access($op, $original_node, $account);
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_content_share_form_share_node_form_alter(&$form, &$form_state, $form_id) {
+  // Form ID covers both create/edit form,
+  // but in our hook_menu_alter we already restrict access to the creation form.
+  // Only allow access to update the description field.
+  $form['title']['#access'] = FALSE;
+  $form['c4m_source_entity']['#access'] = FALSE;
+  $form['og_group_ref']['#access'] = FALSE;
+}
