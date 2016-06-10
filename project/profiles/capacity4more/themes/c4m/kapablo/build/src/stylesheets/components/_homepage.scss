@@ -17,6 +17,8 @@
   @include grain;
 
   border-top: none;
+  border-bottom: 1px solid $color-gray-light;
+  padding: 15px;
 }
 
 .pane-featured-block {

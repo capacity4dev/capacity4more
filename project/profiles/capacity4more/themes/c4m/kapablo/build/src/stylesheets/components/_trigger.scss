@@ -1,14 +1,14 @@
-.trigger.trigger--groupInfo,
-.trigger.trigger--membership {
-  display: none;
-}
-
 .trigger {
   border:1px solid $color-text-alternative;
 
   @media (min-width: $screen-tablet) {
     display: none;
   }
+}
+
+.trigger.trigger--groupInfo,
+.trigger.trigger--membership {
+  display: none;
 }
 
 .trigger--groupInfo {

@@ -14,8 +14,8 @@
           <div class="item">
             <?php print $carousel['image']; ?>
             <div class="item-header">
+              <span class="item-date"><?php print $carousel['date'] ?></span>
               <h2><?php print $carousel['title']; ?></h2>
-              <p class="pull-right"><?php print $carousel['date'] ?></p>
             </div>
             <p class="intro-text"><?php print $carousel['text'] . ' | ' . $carousel['link']; ?></p>
           </div>

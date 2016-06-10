@@ -7,14 +7,17 @@
 }
 
 .row.carousel {
-  @include grey_box;
-  @include grain;
+  margin: 0;
+  padding: 0;
 
-  background-color: #f1f6f9;
-  padding: 25px;
+  .col-md-12 {
+    padding: 0;
+  }
 
   h3 {
-    text-align: center;
+    margin-bottom: 25px;
+    text-align: left;
+    color: $color-link;
   }
 }
 
@@ -37,11 +40,18 @@
 
 .owl-theme {
   .owl-wrapper-outer {
-    margin: 0 10px;
+    margin: 0;
+    border: 1px solid $color-gray-light;
 
     .owl-wrapper .owl-item {
       display: block;
     }
+  }
+
+  .owl-item img {
+    border: none;
+    border-radius: 0;
+    padding: 0;
   }
 
   .owl-controls {
@@ -50,6 +60,7 @@
       background: rgba(255,255,255, 0.2);
       border-radius: 5px;
       padding: 15% 2%;
+      margin: 0;
       opacity: 1;
     }
 
@@ -63,11 +74,11 @@
 
     .owl-prev{
       top: 115px;
-      left: 5px;
+      left: 0;
     }
 
     .owl-next{
-      right: -20px;
+      right: 0;
       top: 115px;
     }
 
