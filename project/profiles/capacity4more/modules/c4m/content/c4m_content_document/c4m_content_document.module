@@ -184,6 +184,7 @@ function c4m_content_document_c4m_content_share_fields_info() {
     'document' => array(
       'type',
       'c4m_vocab_document_type',
+      'c4m_document_add_to_library',
     ),
   );
 }
