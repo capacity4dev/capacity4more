@@ -447,13 +447,9 @@ function c4m_user_profile_field_default_field_instances() {
   // Exported field_instance: 'user-user-c4m_is_ldap_user'.
   $field_instances['user-user-c4m_is_ldap_user'] = array(
     'bundle' => 'user',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Set if the user has LDAP validation.',
+    'description' => '1 - User is validated in LDAP / 2 user is in a whitelist.',
     'display' => array(
       'block_list' => array(
         'label' => 'above',
@@ -463,10 +459,15 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 23,
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 26,
       ),
       'full' => array(
         'label' => 'above',
@@ -487,16 +488,18 @@ function c4m_user_profile_field_default_field_instances() {
     'label' => 'Is LDAP User',
     'required' => 0,
     'settings' => array(
+      'max' => 2,
+      'min' => 0,
+      'prefix' => '',
+      'suffix' => '',
       'user_register_form' => 1,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 0,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 31,
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 34,
     ),
   );
 
@@ -1347,7 +1350,7 @@ function c4m_user_profile_field_default_field_instances() {
   t('Regions & Countries');
   t('Select one or more topics you are an expert in.');
   t('Select one or more topics you are interested in.');
-  t('Set if the user has LDAP validation.');
+  t('1 - User is validated in LDAP / 2 user is in a whitelist.');
   t('Set if the user lost his LDAP validation.');
   t('Set if the user\'s email address has a domain mentioned in one of the "Organisation" nodes. ');
   t('The Regions & Countries you are interested in.');
