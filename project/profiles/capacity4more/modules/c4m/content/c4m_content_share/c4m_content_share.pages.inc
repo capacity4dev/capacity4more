@@ -33,15 +33,23 @@ function c4m_content_share_form($form, &$form_state) {
     return $form;
   }
 
+  // Retrieve the node we will share from the context.
   $node = menu_get_object();
+
+  // Create new form.
   $node_form = new stdClass();
   $node_form->type = 'share';
   $node_form->language = LANGUAGE_NONE;
+
+  // Retrieve the drupal "create node" form.
   module_load_include('inc', 'node', 'node.pages');
   $orig_form = drupal_get_form('share_node_form', $node_form);
+
+  // Get human readable name.
   $types = node_type_get_types();
   $human_name = $types[$node->type]->name;
 
+  // Create form title.
   $form['info'] = array(
     '#markup' => t(
       'You will share %node_type with title %node_title',
@@ -52,21 +60,41 @@ function c4m_content_share_form($form, &$form_state) {
     '#weight' => -5,
   );
 
+  // Retrieve all groups in our list we can share to.
+  $groups = $orig_form['og_group_ref'][LANGUAGE_NONE][0]['default']['#options'];
+
+  // Remove the group we're sharing FROM.
+  $og_context = og_context();
+  if (!empty($og_context)) {
+    if (!empty($groups[$og_context['gid']])) {
+      unset($groups[$og_context['gid']]);
+    }
+  }
+
+  // Re-assign groups options list.
+  $orig_form['og_group_ref'][LANGUAGE_NONE][0]['default']['#options'] = $groups;
+
+  // Create form element based on the original form['og_group_ref'].
   $form['og_group_ref'] = $orig_form['og_group_ref'];
   $form['og_group_ref'][LANGUAGE_NONE]['#title'] = t('Share to');
   $form['og_group_ref']['#weight'] = 3;
 
+  // Create form element based on the original form['c4m_body'].
   $form['c4m_body'] = $orig_form['c4m_body'];
   $form['c4m_body']['#weight'] = 4;
 
+  // Create form submit button.
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Share'),
     '#weight' => 10,
   );
 
+  // Assign default og ref + custom form validator.
   $form['#validate'][] = 'og_validate_widgets';
   $form['#validate'][] = 'c4m_content_share_form_validate';
+
+  // Asign custom form submit handler.
   $form['#submit'][] = 'c4m_content_share_form_submit';
 
   return $form;
