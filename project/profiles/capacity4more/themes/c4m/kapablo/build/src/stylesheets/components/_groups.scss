@@ -289,14 +289,6 @@
         font-weight: 100;
       }
 
-      .field-items .field-item {
-        float: left;
-
-        &:not(:first-of-type) {
-          margin-left: 5px;
-        }
-      }
-
       @include clearfix;
     }
 
