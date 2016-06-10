@@ -10,6 +10,7 @@
 
 .og-context #content-top-wrapper {
   background: none;
+  border-bottom: none;
 }
 
 .group-header {
@@ -151,10 +152,19 @@
 .og-context .trigger.trigger--membership {
   display: block;
   cursor: pointer;
+  background: $color-white;
 
   @media (min-width: $screen-tablet) {
     display: none;
   }
+}
+
+.og-context .trigger.trigger--groupInfo .trigger-text {
+  color: $color-text-alternative;
+}
+
+.og-context .trigger.trigger--membership {
+  background: $color-text-alternative;
 }
 
 // off-canvas group menu
