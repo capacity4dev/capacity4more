@@ -55,7 +55,7 @@ function c4m_content_share_c4m_content_actions_info() {
  *    Rendered output of the share link.
  */
 function c4m_content_share_action_share($node) {
-  if (!c4m_og_user_is_member()) {
+  if (!c4m_og_user_is_member() || !og_is_group_content_type('node', $node->type)) {
     return '';
   }
 
