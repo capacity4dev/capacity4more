@@ -211,6 +211,8 @@ function theme_c4m_ds_type_posted_by(array $field) {
 
   $label_info = c4m_helper_entity_label_info($entity);
 
+  drupal_alter('c4m_helper_entity_label_info', $label_info, $entity);
+
   $tag['element'] = array(
     '#tag' => 'span',
     '#attributes' => array(

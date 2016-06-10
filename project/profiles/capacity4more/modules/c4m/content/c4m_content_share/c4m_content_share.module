@@ -223,3 +223,20 @@ function c4m_content_share_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info_alter().
+ */
+function c4m_content_share_c4m_helper_entity_label_info_alter(
+  &$label_info,
+  $entity
+) {
+  if ($entity->type == 'share') {
+    $node = entity_metadata_wrapper('node', $entity);
+    $original_node = $node->c4m_source_entity->value();
+
+    $original_label_info = c4m_helper_entity_label_info($original_node);
+
+    $label_info['singular'] = $original_label_info['singular'];
+  }
+}
