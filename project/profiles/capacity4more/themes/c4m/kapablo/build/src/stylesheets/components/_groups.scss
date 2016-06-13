@@ -416,3 +416,11 @@
     }
   }
 }
+
+.pane-quick-form {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    display: block;
+  }
+}
