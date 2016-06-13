@@ -808,11 +808,22 @@ function c4m_message_format_group_share(Message $message) {
     $wrapper->field_node->og_group_ref->value()
   );
 
-  return $group_wrapper->getBundle() . ' ' . l(
-    $group_wrapper->title->value(),
-    url(
-      'node/' . $group_wrapper->get('nid')->value(),
-      array('purl' => array('disabled' => FALSE))
+  $url_options = array(
+    'absolute' => TRUE,
+    'purl' => array(
+      'provider' => 'og_purl|node',
+      'id' => $group_wrapper->nid->value(),
+    ),
+  );
+
+  return t(
+    '@group_type !group_url',
+    array(
+      '@group_type' => $group_wrapper->getBundle(),
+      '!group_url' => l(
+        $group_wrapper->title->value(),
+        url('<front>', $url_options)
+      ),
     )
   );
 }
