@@ -377,6 +377,13 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['count_1']['label'] = 'Group Recommendations';
   $handler->display->display_options['fields']['count_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['count_1']['separator'] = '';
+  /* Field: Content: Group metrics */
+  $handler->display->display_options['fields']['group_metrics_13']['id'] = 'group_metrics_13';
+  $handler->display->display_options['fields']['group_metrics_13']['table'] = 'node';
+  $handler->display->display_options['fields']['group_metrics_13']['field'] = 'group_metrics';
+  $handler->display->display_options['fields']['group_metrics_13']['label'] = 'Content Recommendations';
+  $handler->display->display_options['fields']['group_metrics_13']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_metrics_13']['c4m_admin_groups_group_statistic'] = 'group_content_recommendations';
   /* Field: Content: Related Topics */
   $handler->display->display_options['fields']['c4m_related_topic']['id'] = 'c4m_related_topic';
   $handler->display->display_options['fields']['c4m_related_topic']['table'] = 'field_data_c4m_related_topic';

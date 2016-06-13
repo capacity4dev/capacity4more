@@ -1001,3 +1001,48 @@ function c4m_og_get_all_group_memberships_by_state($gid, $state) {
 
   return $cache[$identifier];
 }
+
+/**
+ * Returns the total amount of recommendations on content of a group.
+ *
+ * @param integer $og_id
+ *   The Organic group ID to limit the query for.
+ *
+ * @return integer
+ *   The total amount of recommendations on the group content.
+ */
+function c4m_og_get_group_content_recommendations($og_id = NULL) {
+  if (!is_numeric($og_id)) {
+    return 0;
+  }
+
+  $query = db_select('node', 'n');
+  $query->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+  $query->join('flag_counts', 'fc', 'fc.entity_id = n.nid');
+  $query->join('flag', 'f', 'f.fid = fc.fid');
+  $query->condition('n.status', 1);
+  $query->condition('ogm.gid', (int) $og_id);
+  $query->condition('ogm.entity_type', 'node');
+  $query->condition('fc.entity_type', 'node');
+  $query->condition('f.name', 'c4m_og_content_recommend');
+  $query->addExpression('SUM(fc.count)', 'recommendations');
+
+  return $query->execute()->fetchField();
+}
+
+/**
+ * Implements hook_c4m_content_statistics_info().
+ */
+function c4m_og_c4m_content_statistics_info() {
+  return array(
+    'group' => array(
+      'c4m_og_group_content_recommendations' => array(
+        'type'     => 'group_content_recommendations',
+        'callback' => 'c4m_og_get_group_content_recommendations',
+        'singular' => 'Content Recommendations',
+        'plural'   => 'Content Recommendations',
+        'weight'   => 100,
+      ),
+    ),
+  );
+}
