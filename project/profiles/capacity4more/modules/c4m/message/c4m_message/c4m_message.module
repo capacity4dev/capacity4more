@@ -702,13 +702,13 @@ function c4m_message_format_operation(Message $message) {
   $info = c4m_helper_entity_label_info($node);
 
   switch ($operation) {
-    case 'update':
-      $op = $info['update action'];
+    case 'insert':
+      $op = $info['insert action'];
       break;
 
-    case 'insert':
+    case 'update':
     default:
-      $op = $info['insert action'];
+      $op = $info['update action'];
       break;
   }
 
@@ -730,7 +730,10 @@ function c4m_message_format_comment(Message $message) {
 
   $info = c4m_helper_entity_label_info($node);
 
-  return format_string('@article @node_type', array('@article' => $info['article'], '@node_type' => $info['singular']));
+  return format_string(
+    '@article @node_type',
+    array('@article' => $info['article'], '@node_type' => $info['singular'])
+  );
 }
 
 /**
@@ -863,7 +866,10 @@ function c4m_message_format_node_share(Message $message) {
 
   $info = c4m_helper_entity_label_info($original_node);
 
-  return t('Shared @article @node_type', array('@article' => $info['article'], '@node_type' => $info['singular']));
+  return t(
+    'shared @article @node_type',
+    array('@article' => $info['article'], '@node_type' => $info['singular'])
+  );
 }
 
 /**
