@@ -62,10 +62,12 @@
         position: relative;
         left: 50%;
         transform: translate(-50%, 0);
+        -webkit-transform: translate(-50%, 0);
 
         @media (min-width: $screen-tablet) {
           left: 0;
           transform: translate(0, 0);
+          -webkit-transform: translate(0, 0);
         }
       }
 
@@ -153,7 +155,8 @@
 
           font-size: 2rem;
 
-          @include translate(-50%, -50%);
+          transform: translate(-50%,-50%);
+          -webkit-transform: translate(-50%,-50%);
 
           @media (min-width: $screen-sm-min) {
             left: 2%;
@@ -161,9 +164,9 @@
             width: 32px;
             height: 100%;
 
-            @include translate(0, -50%);
+            transform: translate(0,-50%);
+            -webkit-transform: translate(0,-50%);
           }
-
         }
 
         .button-text {

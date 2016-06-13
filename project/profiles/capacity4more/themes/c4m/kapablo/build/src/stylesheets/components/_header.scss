@@ -37,6 +37,13 @@
   @include grey_bar;
   border-bottom: none;
   padding: 1rem;
+
+  & .col-xs-3,
+  & .col-sm-4,
+  & .col-md-3 {
+    padding-right: 0;
+  }
+
 }
 
 #header-content-wrapper {
@@ -172,6 +179,8 @@
 }
 
 .header-actions {
+  float: right;
+
   width: 80px;
   height: 30px;
   border-radius: 5px;
@@ -205,7 +214,8 @@
   top: 50%;
   left: 50%;
 
-  @include translate(-50%, -50%);
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
 }
 
 .header-actions--search {

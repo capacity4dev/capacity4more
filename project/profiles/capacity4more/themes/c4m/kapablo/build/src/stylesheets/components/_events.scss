@@ -26,7 +26,8 @@
   float: left;
 
   top: 50%;
-  @include translate(0, -50%);
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
 }
 
 .view-mode-block_list.node-event .field-name-c4m-field-og-group .field-item {

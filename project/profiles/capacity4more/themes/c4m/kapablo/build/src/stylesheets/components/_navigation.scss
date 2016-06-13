@@ -10,8 +10,8 @@
   height: 100%;
   perspective: 1000px;
 
-  @include transition-transform(0.5s);
-
+  transition: transform 0.5s;
+  -webkit-transition: -webkit-transform 0.5s;
 }
 
 .container--push::after,
@@ -27,7 +27,8 @@
     background: rgba(0,0,0,0.2);
     opacity: 0;
 
-    @include transition(opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s);
+    transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
+    -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
   }
 }
 
@@ -39,7 +40,8 @@
     height: 100%;
     opacity: 1;
 
-    @include transition(opacity 0.5s);
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
   }
 }
 
@@ -56,7 +58,9 @@
 
   background: $color-gray-lightTwo;
 
-  @include transition(all 0.5s);
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+
   @include box-shadow(inset 20px -1px 48px -27px rgba(0,0,0,0.75));
 }
 
@@ -84,7 +88,8 @@
 
   opacity: 1;
 
-  @include transition(opacity 0.5s);
+  transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s;
 }
 
 // main menu inside the off-canvas
@@ -138,14 +143,16 @@
 
 // Navigation effect push
 .offCanvasNavigation--visible.animation--push .container--push {
-  @include translate3d(-225px, 0, 0);
+  transform: translate3d(-225px, 0, 0);
+  -webkit-transform: translate3d(-225px, 0, 0);
 }
 
 .offCanvasNavigation.animation--push {
   right: 0;
   left: initial;
 
-  @include translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  -webkit-transform: translate3d(100%, 0, 0);
 }
 
 .offCanvasNavigation--visible.animation--push .offCanvasNavigation.animation--push {
@@ -175,8 +182,10 @@
     overflow-y: auto;
     background: $color-white;
 
-    @include transition(all 0.5s);
-    @include translate3d(100%, 0, 0);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    transform: translate3d(100%, 0, 0);
+    -webkit-transform: translate3d(100%, 0, 0);
   }
 }
 
@@ -193,8 +202,11 @@
     overflow-y: auto;
     background: $color-white;
 
-    @include transition(all 0.5s);
-    @include translate3d(-100%, 0, 0);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+
+    transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translate3d(-100%, 0, 0);
   }
 }
 
@@ -202,5 +214,6 @@
 .offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation--left,
 .offCanvasNavigation--visible.animation--slideOn .offCanvasNavigation--right {
   visibility: visible;
-  @include translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
