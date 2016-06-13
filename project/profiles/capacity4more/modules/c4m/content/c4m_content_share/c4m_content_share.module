@@ -240,3 +240,38 @@ function c4m_content_share_c4m_helper_entity_label_info_alter(
     $label_info['singular'] = $original_label_info['singular'];
   }
 }
+
+/**
+ * Get all the groups (nids) the node is shared to.
+ *
+ * @param object $node
+ *   The drupal node object.
+ *
+ * @return array
+ *   Array of group node ids the content is shared to.
+ */
+function c4m_content_share_get_shared_groups($node) {
+  $query = new EntityFieldQuery();
+
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'share')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_source_entity', 'target_id', $node->nid, '=');
+
+  $result = $query->execute();
+
+  $group_ids = array();
+
+  if (isset($result['node'])) {
+    $share_ids = array_keys($result['node']);
+
+    $shares = node_load_multiple($share_ids);
+
+    foreach ($shares as $share) {
+      $share = entity_metadata_wrapper('node', $share);
+      $group_ids[] = $share->og_group_ref->value()->nid;
+    }
+  }
+
+  return $group_ids;
+}

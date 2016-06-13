@@ -71,6 +71,27 @@ function c4m_content_share_form($form, &$form_state) {
     }
   }
 
+  // Remove groups already shared TO.
+  $node = menu_get_object();
+  $groups_shared = c4m_content_share_get_shared_groups($node);
+
+  foreach ($groups_shared as $id_shared) {
+    if (!empty($groups[$id_shared])) {
+      unset($groups[$id_shared]);
+    }
+  }
+
+  // If there are no groups left to share to, display a message.
+  if (empty($groups) || ((count($groups) === 1) && !empty($groups['_none']))) {
+    $form['info'] = array(
+      '#markup' => t(
+        'There are no groups you can share this content to.'
+      ),
+    );
+
+    return $form;
+  }
+
   // Re-assign groups options list.
   $orig_form['og_group_ref'][LANGUAGE_NONE][0]['default']['#options'] = $groups;
 
