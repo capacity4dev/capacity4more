@@ -23,6 +23,7 @@ dependencies[] = legal
 dependencies[] = list
 dependencies[] = media
 dependencies[] = og
+dependencies[] = number
 dependencies[] = options
 dependencies[] = path_breadcrumbs
 dependencies[] = smart_trim
