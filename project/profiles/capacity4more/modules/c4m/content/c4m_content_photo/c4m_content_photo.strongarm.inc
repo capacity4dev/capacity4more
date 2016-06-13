@@ -154,11 +154,11 @@ function c4m_content_photo_strongarm() {
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '16',
+            'weight' => '22',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '16',
+            'weight' => '22',
             'visible' => FALSE,
           ),
         ),
