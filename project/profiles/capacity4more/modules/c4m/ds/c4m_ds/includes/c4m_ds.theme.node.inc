@@ -47,7 +47,7 @@ function theme_c4m_ds_submitted_by_and_on(array $field) {
       'class' => array('creation-date'),
       'data-toggle' => 'tooltip',
       'data-placement' => 'bottom',
-      'title' => format_date($entity->created, 'custom', $field['formatter']),
+      'title' => format_date($entity->created, 'custom', 'd M Y H:i'),
     ),
     '#value' => c4m_helper_date_time_ago($entity->created, $field['formatter']),
   );
@@ -85,7 +85,7 @@ function theme_c4m_ds_creation_date(array $field) {
       'class' => array('creation-date'),
       'data-toggle' => 'tooltip',
       'data-placement' => 'bottom',
-      'title' => format_date($field['entity']->created, 'custom', $field['formatter']),
+      'title' => format_date($field['entity']->created, 'custom', 'd F Y - H:i'),
     ),
     '#value' => c4m_helper_date_time_ago(
       $field['entity']->created,
