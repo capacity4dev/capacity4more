@@ -85,11 +85,13 @@ function c4m_content_group_ds_field_settings_info() {
     'author' => array(
       'weight' => '5',
       'label' => 'above',
-      'format' => 'author',
+      'format' => 'author_linked',
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
           'lb' => 'Group Owner',
+          'lb-el' => 'h2',
+          'lb-cl' => 'pane-title',
           'lb-col' => TRUE,
         ),
       ),
@@ -131,8 +133,17 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
-          'lb' => 'Reigens',
+          'lb' => 'Regions',
+          'lb-el' => 'h2',
+          'lb-cl' => 'pane-title',
           'lb-col' => TRUE,
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'item',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
         ),
       ),
     ),
@@ -140,7 +151,17 @@ function c4m_content_group_ds_field_settings_info() {
       'formatter_settings' => array(
         'ft' => array(
           'func' => 'theme_ds_field_expert',
+          'lb' => 'Topics',
+          'lb-el' => 'h2',
+          'lb-cl' => 'pane-title',
           'lb-col' => TRUE,
+          'fi' => TRUE,
+          'fi-el' => 'div',
+          'fi-cl' => 'item',
+          'fi-at' => '',
+          'fi-def-at' => FALSE,
+          'fi-odd-even' => FALSE,
+          'fi-first-last' => FALSE,
         ),
       ),
     ),
