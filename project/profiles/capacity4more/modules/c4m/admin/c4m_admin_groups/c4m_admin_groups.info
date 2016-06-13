@@ -11,5 +11,7 @@ features[views_view][] = c4m_admin_groups_export
 features_exclude[dependencies][ctools] = ctools
 files[] = views/c4m_admin_groups_views_handler_field.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_admin.inc
+files[] = views/c4m_admin_groups_views_handler_field_group_domains.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_moderators.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_metrics.inc
+files[] = views/c4m_admin_groups_views_handler_field_group_organisations.inc

@@ -242,6 +242,16 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_access']['settings'] = array(
     'field_name' => '0',
   );
+  /* Field: Content: Group domains */
+  $handler->display->display_options['fields']['group_domains']['id'] = 'group_domains';
+  $handler->display->display_options['fields']['group_domains']['table'] = 'node';
+  $handler->display->display_options['fields']['group_domains']['field'] = 'group_domains';
+  $handler->display->display_options['fields']['group_domains']['element_label_colon'] = FALSE;
+  /* Field: Content: Group organisations */
+  $handler->display->display_options['fields']['group_organisations']['id'] = 'group_organisations';
+  $handler->display->display_options['fields']['group_organisations']['table'] = 'node';
+  $handler->display->display_options['fields']['group_organisations']['field'] = 'group_organisations';
+  $handler->display->display_options['fields']['group_organisations']['element_label_colon'] = FALSE;
   /* Field: Content: Status */
   $handler->display->display_options['fields']['c4m_og_status']['id'] = 'c4m_og_status';
   $handler->display->display_options['fields']['c4m_og_status']['table'] = 'field_data_c4m_og_status';
