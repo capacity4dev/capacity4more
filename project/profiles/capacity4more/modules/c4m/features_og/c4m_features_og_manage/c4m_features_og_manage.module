@@ -391,7 +391,6 @@ function c4m_features_og_manage_list_related($related) {
  *
  * @param object $group
  *   The group object.
- *
  * @param array $details
  *   The array to which to append the info about vocabularies and terms.
  */
@@ -785,8 +784,8 @@ function c4m_features_og_manage_project_thumbnail() {
   // Archive project link (If project is not archived already).
   // TODO: add archive link when ready.
   /*$info['archive_link'] = $info['status'] != 'archived' ? l(
-    t('Archive project'),
-    url('node/' . $project->nid . '/edit', array('absolute' => TRUE))
+  t('Archive project'),
+  url('node/' . $project->nid . '/edit', array('absolute' => TRUE))
   ) : '';*/
 
   return $info;
