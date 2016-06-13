@@ -779,7 +779,7 @@ function _c4m_content_group_node_view_alter_group_dashboard($node) {
 
   $node->content['group_admins'] = array(
     '#type' => 'item',
-    '#title' => t('Group administrators'),
+    '#title' => t('<h2>Group administrators</h2>'),
     '#markup' => implode(",", $array_names),
   );
 
