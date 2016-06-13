@@ -469,31 +469,6 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_optout'.
-  $field_bases['c4m_optout'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_optout',
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => '',
-        1 => '',
-      ),
-      'allowed_values_function' => '',
-    ),
-    'translatable' => 0,
-    'type' => 'list_boolean',
-  );
-
   // Exported field_base: 'c4m_organisation'.
   $field_bases['c4m_organisation'] = array(
     'active' => 1,
@@ -534,6 +509,218 @@ function c4m_user_profile_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
+  );
+
+  // Exported field_base: 'c4m_optout_commenting'.
+  $field_bases['c4m_optout_commenting'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_optout_commenting',
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'comment_node_article' => 'comment_node_article',
+          'comment_node_banner' => 'comment_node_banner',
+          'comment_node_book' => 'comment_node_book',
+          'comment_node_discussion' => 'comment_node_discussion',
+          'comment_node_document' => 'comment_node_document',
+          'comment_node_event' => 'comment_node_event',
+          'comment_node_featured' => 'comment_node_featured',
+          'comment_node_feed' => 'comment_node_feed',
+          'comment_node_group' => 'comment_node_group',
+          'comment_node_inthe_picture' => 'comment_node_inthe_picture',
+          'comment_node_organisation' => 'comment_node_organisation',
+          'comment_node_page_element' => 'comment_node_page_element',
+          'comment_node_photo' => 'comment_node_photo',
+          'comment_node_photoalbum' => 'comment_node_photoalbum',
+          'comment_node_project' => 'comment_node_project',
+          'comment_node_topic' => 'comment_node_topic',
+          'comment_node_wiki_page' => 'comment_node_wiki_page',
+        ),
+      ),
+      'target_type' => 'comment',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'c4m_optout_group'.
+  $field_bases['c4m_optout_group'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_optout_group',
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'group' => 'group',
+        ),
+      ),
+      'target_type' => 'node',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'c4m_optout_node'.
+  $field_bases['c4m_optout_node'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_optout_node',
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'article' => 'article',
+          'banner' => 'banner',
+          'book' => 'book',
+          'discussion' => 'discussion',
+          'document' => 'document',
+          'event' => 'event',
+          'featured' => 'featured',
+          'feed' => 'feed',
+          'inthe_picture' => 'inthe_picture',
+          'organisation' => 'organisation',
+          'page_element' => 'page_element',
+          'photo' => 'photo',
+          'photoalbum' => 'photoalbum',
+          'project' => 'project',
+          'topic' => 'topic',
+          'wiki_page' => 'wiki_page',
+        ),
+      ),
+      'target_type' => 'node',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'c4m_optout_term'.
+  $field_bases['c4m_optout_term'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_optout_term',
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'c4m_vocab_category_9' => 'c4m_vocab_category_9',
+          'c4m_vocab_category_10' => 'c4m_vocab_category_10',
+          'c4m_vocab_category_11' => 'c4m_vocab_category_11',
+          'c4m_vocab_category_12' => 'c4m_vocab_category_12',
+          'c4m_vocab_category_13' => 'c4m_vocab_category_13',
+          'c4m_vocab_category_14' => 'c4m_vocab_category_14',
+          'c4m_vocab_category_15' => 'c4m_vocab_category_15',
+          'c4m_vocab_category_16' => 'c4m_vocab_category_16',
+          'c4m_vocab_category_17' => 'c4m_vocab_category_17',
+          'c4m_vocab_category_18' => 'c4m_vocab_category_18',
+          'c4m_vocab_category_19' => 'c4m_vocab_category_19',
+          'c4m_vocab_category_20' => 'c4m_vocab_category_20',
+          'c4m_vocab_category_21' => 'c4m_vocab_category_21',
+          'c4m_vocab_category_22' => 'c4m_vocab_category_22',
+          'c4m_vocab_category_23' => 'c4m_vocab_category_23',
+          'c4m_vocab_category_24' => 'c4m_vocab_category_24',
+          'c4m_vocab_category_25' => 'c4m_vocab_category_25',
+          'c4m_vocab_category_31' => 'c4m_vocab_category_31',
+          'c4m_vocab_date' => 'c4m_vocab_date',
+          'c4m_vocab_document_type' => 'c4m_vocab_document_type',
+          'c4m_vocab_geo' => 'c4m_vocab_geo',
+          'c4m_vocab_language' => 'c4m_vocab_language',
+          'c4m_vocab_tag_9' => 'c4m_vocab_tag_9',
+          'c4m_vocab_tag_10' => 'c4m_vocab_tag_10',
+          'c4m_vocab_tag_11' => 'c4m_vocab_tag_11',
+          'c4m_vocab_tag_12' => 'c4m_vocab_tag_12',
+          'c4m_vocab_tag_13' => 'c4m_vocab_tag_13',
+          'c4m_vocab_tag_14' => 'c4m_vocab_tag_14',
+          'c4m_vocab_tag_15' => 'c4m_vocab_tag_15',
+          'c4m_vocab_tag_16' => 'c4m_vocab_tag_16',
+          'c4m_vocab_tag_17' => 'c4m_vocab_tag_17',
+          'c4m_vocab_tag_18' => 'c4m_vocab_tag_18',
+          'c4m_vocab_tag_19' => 'c4m_vocab_tag_19',
+          'c4m_vocab_tag_20' => 'c4m_vocab_tag_20',
+          'c4m_vocab_tag_21' => 'c4m_vocab_tag_21',
+          'c4m_vocab_tag_22' => 'c4m_vocab_tag_22',
+          'c4m_vocab_tag_23' => 'c4m_vocab_tag_23',
+          'c4m_vocab_tag_24' => 'c4m_vocab_tag_24',
+          'c4m_vocab_tag_25' => 'c4m_vocab_tag_25',
+          'c4m_vocab_tag_31' => 'c4m_vocab_tag_31',
+          'c4m_vocab_theme' => 'c4m_vocab_theme',
+          'c4m_vocab_topic' => 'c4m_vocab_topic',
+        ),
+      ),
+      'target_type' => 'taxonomy_term',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
   );
 
   return $field_bases;

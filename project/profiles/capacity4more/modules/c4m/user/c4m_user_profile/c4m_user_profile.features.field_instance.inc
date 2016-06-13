@@ -908,62 +908,6 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_optout'.
-  $field_instances['user-user-c4m_optout'] = array(
-    'bundle' => 'user',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'block_list' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 26,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'user_picture' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'user',
-    'field_name' => 'c4m_optout',
-    'label' => 'Unsubscribe from notifications',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => 0,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 34,
-    ),
-  );
-
   // Exported field_instance: 'user-user-c4m_organisation'.
   $field_instances['user-user-c4m_organisation'] = array(
     'bundle' => 'user',
@@ -1470,6 +1414,238 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'user-user-c4m_optout_commenting'.
+  $field_instances['user-user-c4m_optout_commenting'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 31,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_optout_commenting',
+    'label' => 'Unsubscribe from comment notifications',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 39,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-c4m_optout_group'.
+  $field_instances['user-user-c4m_optout_group'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 30,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_optout_group',
+    'label' => 'Unsubscribe from group notifications',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 38,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-c4m_optout_node'.
+  $field_instances['user-user-c4m_optout_node'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 28,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_optout_node',
+    'label' => 'Unsubscribe from node notifications',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 36,
+    ),
+  );
+
+  // Exported field_instance: 'user-user-c4m_optout_term'.
+  $field_instances['user-user-c4m_optout_term'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 29,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'user_picture' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'user',
+    'field_name' => 'c4m_optout_term',
+    'label' => 'Unsubscribe from terms notifications',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 37,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('About You');
@@ -1495,7 +1671,10 @@ function c4m_user_profile_field_default_field_instances() {
   t('Topics of Expertise');
   t('Topics of Interest');
   t('Unsubscribe Hash');
-  t('Unsubscribe from notifications');
+  t('Unsubscribe from comment notifications');
+  t('Unsubscribe from group notifications');
+  t('Unsubscribe from node notifications');
+  t('Unsubscribe from terms notifications');
 
   return $field_instances;
 }
