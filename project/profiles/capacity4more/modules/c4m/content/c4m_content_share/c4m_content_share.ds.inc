@@ -216,13 +216,11 @@ function c4m_content_share_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'ds_content' => array(
-        0 => 'og_group_ref',
-        1 => 'c4m_body',
-        2 => 'c4m_source_entity',
+        0 => 'c4m_body',
+        1 => 'c4m_source_entity',
       ),
     ),
     'fields' => array(
-      'og_group_ref' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_source_entity' => 'ds_content',
     ),

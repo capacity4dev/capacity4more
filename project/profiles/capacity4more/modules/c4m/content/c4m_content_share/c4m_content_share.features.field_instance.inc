@@ -208,8 +208,8 @@ function c4m_content_share_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'links' => TRUE,
-          'view_mode' => 'default',
+          'links' => 0,
+          'view_mode' => 'activity_global',
         ),
         'type' => 'entityreference_entity_view',
         'weight' => 3,
@@ -314,9 +314,8 @@ function c4m_content_share_field_default_field_instances() {
       ),
       'activity_group' => array(
         'label' => 'hidden',
-        'module' => 'og_ui',
         'settings' => array(),
-        'type' => 'og_list_default',
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'block_list' => array(
