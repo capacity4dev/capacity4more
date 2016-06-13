@@ -806,7 +806,7 @@ function c4m_features_og_manage_form_variable_realm_edit_variables_form_alter(
   $form['variables']['#type'] = 'div';
   $form['variables']['c4m_og']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['c4m_og_features_group']['#title'] = t(
-    'Enable or disable features for this group.'
+    'Enable or disable features below.'
   );
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#type'] = 'div';
   $form['variables']['c4m_og']['c4m_og_features_[group_type]']['#collapsible'] = FALSE;
