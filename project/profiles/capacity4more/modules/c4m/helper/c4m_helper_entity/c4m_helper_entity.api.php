@@ -23,19 +23,19 @@
 function hook_c4m_content_share_fields_info() {
   return array(
     'discussion' => array(
-      'article' => 'a',
-      'singular' => 'discussion',
-      'plural' => 'discussions',
-      'insert action' => 'started',
-      'update action' => 'updated',
+      'article' => t('a'),
+      'singular' => t('discussion'),
+      'plural' => t('discussions'),
+      'insert action' => t('started a new discussion'),
+      'update action' => t('updated the discussion'),
       'icon' => 'fa-comments',
     ),
     'event-learning' => array(
-      'article' => 'a',
-      'singular' => 'learning event',
-      'plural' => 'learning events',
-      'insert action' => 'posted',
-      'update action' => 'updated',
+      'article' => t('a'),
+      'singular' => t('learning event'),
+      'plural' => t('learning events'),
+      'insert action' => t('posted a new learning event'),
+      'update action' => t('updated the learning event'),
       'icon' => 'fa-university',
     ),
   );

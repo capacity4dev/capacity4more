@@ -737,11 +737,11 @@ function c4m_content_group_ds_fields_info($entity_type) {
 function c4m_content_group_c4m_helper_entity_label_info() {
   return array(
     'group' => array(
-      'article' => 'a',
-      'singular' => 'group',
-      'plural' => 'groups',
-      'insert action' => 'created',
-      'update action' => 'updated',
+      'article' => t('a'),
+      'singular' => t('group'),
+      'plural' => t('groups'),
+      'insert action' => t('created a new group'),
+      'update action' => t('updated the group'),
       'icon' => 'fa-users',
     ),
   );

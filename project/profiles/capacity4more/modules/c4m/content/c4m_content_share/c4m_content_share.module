@@ -214,11 +214,11 @@ function c4m_content_share_form_share_node_form_alter(
 function c4m_content_share_c4m_helper_entity_label_info() {
   return array(
     'share' => array(
-      'article' => 'a',
-      'singular' => 'share',
-      'plural' => 'shares',
-      'insert action' => 'shared',
-      'update action' => 'updated',
+      'article' => t('a'),
+      'singular' => t('share'),
+      'plural' => t('shares'),
+      'insert action' => t('shared'),
+      'update action' => t('updated'),
       'icon' => 'fa-retweet',
     ),
   );

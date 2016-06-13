@@ -477,11 +477,11 @@ function c4m_content_wiki_page_c4m_content_share_fields_info() {
 function c4m_content_wiki_page_c4m_helper_entity_label_info() {
   return array(
     'wiki_page' => array(
-      'article' => 'a',
-      'singular' => 'wiki page',
-      'plural' => 'wiki pages',
-      'insert action' => 'created',
-      'update action' => 'updated',
+      'article' => t('a'),
+      'singular' => t('wiki page'),
+      'plural' => t('wiki pages'),
+      'insert action' => t('created a new wiki page'),
+      'update action' => t('updated the wiki page'),
       'icon' => 'fa-wikipedia-w',
     ),
   );

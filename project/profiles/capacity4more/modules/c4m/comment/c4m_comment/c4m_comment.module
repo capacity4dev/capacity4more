@@ -116,11 +116,11 @@ function c4m_comment_node_view_alter(&$build) {
 function c4m_comment_c4m_helper_entity_label_info() {
   return array(
     'comment' => array(
-      'article' => 'a',
-      'singular' => 'comment',
-      'plural' => 'comments',
-      'insert action' => 'commented on',
-      'update action' => 'updated a comment',
+      'article' => t('a'),
+      'singular' => t('comment'),
+      'plural' => t('comments'),
+      'insert action' => t('commented on'),
+      'update action' => t('updated a comment'),
       'icon' => 'fa-comments',
     ),
   );

@@ -106,11 +106,11 @@ function c4m_content_project_block_view($delta) {
 function c4m_content_project_c4m_helper_entity_label_info() {
   return array(
     'project' => array(
-      'article' => 'a',
-      'singular' => 'project',
-      'plural' => 'projects',
-      'insert action' => 'created',
-      'update action' => 'updated',
+      'article' => t('a'),
+      'singular' => t('project'),
+      'plural' => t('projects'),
+      'insert action' => t('created a new project'),
+      'update action' => t('updated the project'),
       'icon' => 'fa-users',
     ),
   );
