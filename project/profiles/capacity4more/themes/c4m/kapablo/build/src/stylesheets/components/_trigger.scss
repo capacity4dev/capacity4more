@@ -1,7 +1,8 @@
 .trigger {
+  margin: 20px 0;
+  padding: 10px;
   background: $color-text-alternative;
   border:1px solid $color-text-alternative;
-  padding: 10px;
 
   @media (min-width: $screen-tablet) {
     display: none;

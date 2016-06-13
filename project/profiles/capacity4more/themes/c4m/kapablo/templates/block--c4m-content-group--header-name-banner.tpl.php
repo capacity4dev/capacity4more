@@ -1,6 +1,6 @@
 <?php
 /**
- * @file 
+ * @file
  * Custom group header.
  */
 ?>
