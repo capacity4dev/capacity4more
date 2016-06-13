@@ -501,13 +501,13 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m_optout_commenting'.
-  $field_bases['c4m_optout_commenting'] = array(
+  // Exported field_base: 'c4m_optout_comment'.
+  $field_bases['c4m_optout_comment'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m_optout_commenting',
+    'field_name' => 'c4m_optout_comment',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

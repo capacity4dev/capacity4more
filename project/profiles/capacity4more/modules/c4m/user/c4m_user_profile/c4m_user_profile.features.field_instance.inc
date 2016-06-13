@@ -1417,8 +1417,8 @@ function c4m_user_profile_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-c4m_optout_commenting'.
-  $field_instances['user-user-c4m_optout_commenting'] = array(
+  // Exported field_instance: 'user-user-c4m_optout_comment'.
+  $field_instances['user-user-c4m_optout_comment'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -1455,7 +1455,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'user',
-    'field_name' => 'c4m_optout_commenting',
+    'field_name' => 'c4m_optout_comment',
     'label' => 'Unsubscribe from comment notifications',
     'required' => 0,
     'settings' => array(
