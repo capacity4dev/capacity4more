@@ -199,6 +199,20 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = TRUE;
+  /* Relationship: Flags: c4m_og_content_highlight counter */
+  $handler->display->display_options['relationships']['flag_count_rel']['id'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_count_rel']['field'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel']['label'] = 'flag_promote_counter';
+  $handler->display->display_options['relationships']['flag_count_rel']['required'] = 0;
+  $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'c4m_og_content_highlight';
+  /* Relationship: Flags: c4m_og_content_recommend counter */
+  $handler->display->display_options['relationships']['flag_count_rel_1']['id'] = 'flag_count_rel_1';
+  $handler->display->display_options['relationships']['flag_count_rel_1']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_count_rel_1']['field'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel_1']['label'] = 'flag_recommendation_counter';
+  $handler->display->display_options['relationships']['flag_count_rel_1']['required'] = 0;
+  $handler->display->display_options['relationships']['flag_count_rel_1']['flag'] = 'c4m_og_content_recommend';
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -347,6 +361,22 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_11']['label'] = 'Contributors/Pending members';
   $handler->display->display_options['fields']['group_metrics_11']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_11']['c4m_admin_groups_group_statistic'] = 'contributors_vs_pending_members';
+  /* Field: Flags: Flag counter */
+  $handler->display->display_options['fields']['count']['id'] = 'count';
+  $handler->display->display_options['fields']['count']['table'] = 'flag_counts';
+  $handler->display->display_options['fields']['count']['field'] = 'count';
+  $handler->display->display_options['fields']['count']['relationship'] = 'flag_count_rel';
+  $handler->display->display_options['fields']['count']['label'] = 'Group Followers';
+  $handler->display->display_options['fields']['count']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['count']['separator'] = '';
+  /* Field: Flags: Flag counter */
+  $handler->display->display_options['fields']['count_1']['id'] = 'count_1';
+  $handler->display->display_options['fields']['count_1']['table'] = 'flag_counts';
+  $handler->display->display_options['fields']['count_1']['field'] = 'count';
+  $handler->display->display_options['fields']['count_1']['relationship'] = 'flag_count_rel_1';
+  $handler->display->display_options['fields']['count_1']['label'] = 'Group Recommendations';
+  $handler->display->display_options['fields']['count_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['count_1']['separator'] = '';
   /* Field: Content: Related Topics */
   $handler->display->display_options['fields']['c4m_related_topic']['id'] = 'c4m_related_topic';
   $handler->display->display_options['fields']['c4m_related_topic']['table'] = 'field_data_c4m_related_topic';
