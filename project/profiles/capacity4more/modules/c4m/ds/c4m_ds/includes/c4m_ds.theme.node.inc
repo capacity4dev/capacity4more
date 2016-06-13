@@ -106,51 +106,17 @@ function theme_c4m_ds_content_type_icon(array $field) {
     return;
   }
 
-  $icons = array(
-    'discussion-info' => 'fa-info-circle',
-    'discussion-debate' => 'fa-comments',
-    'discussion-question' => 'fa-question-circle',
-    'discussion-idea' => 'fa-lightbulb-o',
-    'event-event' => 'fa-calendar',
-    'event-meeting' => 'fa-users',
-    'event-learning' => 'fa-university',
-  );
-
   $object = $field['entity'];
 
-  $icon_name = $object->type;
+  $info = c4m_helper_entity_label_info($object);
 
-  $object_wrapper = entity_metadata_wrapper('node', $object);
-  $field_name = 'c4m_' . $icon_name . '_type';
-
-  // Check if there is a type field.
-  if (!empty($object_wrapper->$field_name)) {
-    $icon_name .= '-' . $object_wrapper->$field_name->value();
-  }
-
-  if (og_is_group('node', $object)) {
-    $al = c4m_og_get_access_type($object);
-    $icon_name .= '-' . $al['type'];
-  }
-
-  if (!isset($icons[$icon_name])) {
-    $tag['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('node-icon', 'as-' . $icon_name),
-      ),
-      '#value' => '',
-    );
-  }
-  else {
-    $tag['element'] = array(
-      '#tag' => 'i',
-      '#attributes' => array(
-        'class' => array('fa', $icons[$icon_name]),
-      ),
-      '#value' => '',
-    );
-  }
+  $tag['element'] = array(
+    '#tag' => 'i',
+    '#attributes' => array(
+      'class' => array('fa', $info['icon']),
+    ),
+    '#value' => '',
+  );
 
   return theme_html_tag($tag);
 }

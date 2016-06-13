@@ -44,7 +44,6 @@ function c4m_content_discussion_entity_type_label_alter(&$variables) {
  *   Simple label and icon class.
  */
 function c4m_content_discussion_simple_label($label) {
-  $replace = array();
   $text = $label;
   $class = '';
 
