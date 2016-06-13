@@ -234,7 +234,7 @@ function c4m_content_document_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_type_posted_by' => array(
+    'c4m_ds_type_insert_action' => array(
       'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
@@ -786,7 +786,7 @@ function c4m_content_document_ds_layout_settings_info() {
         11 => 'og_vocabulary',
         13 => 'group_node_meta',
         14 => 'group_node_actions',
-        15 => 'c4m_ds_type_posted_by',
+        15 => 'c4m_ds_type_insert_action',
         16 => 'c4m_user_picture',
         17 => 'group_node_details',
         18 => 'c4m_ds_content_actions',
@@ -810,7 +810,7 @@ function c4m_content_document_ds_layout_settings_info() {
       'comments' => 'left',
       'group_node_meta' => 'right',
       'group_node_actions' => 'right',
-      'c4m_ds_type_posted_by' => 'right',
+      'c4m_ds_type_insert_action' => 'right',
       'c4m_user_picture' => 'right',
       'group_node_details' => 'right',
       'c4m_ds_content_actions' => 'right',

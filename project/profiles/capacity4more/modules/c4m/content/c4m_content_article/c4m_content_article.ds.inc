@@ -134,7 +134,7 @@ function c4m_content_article_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_type_posted_by' => array(
+    'c4m_ds_type_insert_action' => array(
       'weight' => '2',
       'label' => 'hidden',
       'format' => 'default',
@@ -552,7 +552,7 @@ function c4m_content_article_ds_layout_settings_info() {
       ),
       'left' => array(
         2 => 'c4m_ds_content_status',
-        5 => 'c4m_ds_type_posted_by',
+        5 => 'c4m_ds_type_insert_action',
         6 => 'c4m_ds_creation_date',
         8 => 'c4m_ds_content_footer_stats',
         9 => 'c4m_intro_text',
@@ -567,7 +567,7 @@ function c4m_content_article_ds_layout_settings_info() {
       'c4m_ds_content_status' => 'left',
       'c4m_vocab_geo' => 'right',
       'c4m_related_group' => 'right',
-      'c4m_ds_type_posted_by' => 'left',
+      'c4m_ds_type_insert_action' => 'left',
       'c4m_ds_creation_date' => 'left',
       'c4m_related_articles' => 'right',
       'c4m_ds_content_footer_stats' => 'left',

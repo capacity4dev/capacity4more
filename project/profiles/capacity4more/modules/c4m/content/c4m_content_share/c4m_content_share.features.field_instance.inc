@@ -106,7 +106,7 @@ function c4m_content_share_field_default_field_instances() {
           'trim_type' => 'chars',
         ),
         'type' => 'smart_trim_format',
-        'weight' => 4,
+        'weight' => 6,
       ),
       'teaser_group' => array(
         'label' => 'above',
@@ -250,7 +250,7 @@ function c4m_content_share_field_default_field_instances() {
           'view_mode' => 'teaser_group',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 5,
+        'weight' => 7,
       ),
       'teaser_group' => array(
         'label' => 'above',

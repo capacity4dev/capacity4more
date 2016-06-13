@@ -167,7 +167,7 @@ function theme_c4m_ds_content_type_label(array $field) {
  * @return mixed
  *   The rendered field.
  */
-function theme_c4m_ds_type_posted_by(array $field) {
+function theme_c4m_ds_type_insert_action(array $field) {
   $output = '';
 
   if (empty($field['entity'])) {
@@ -179,21 +179,50 @@ function theme_c4m_ds_type_posted_by(array $field) {
 
   drupal_alter('c4m_helper_entity_label_info', $label_info, $entity);
 
-  $tag['element'] = array(
-    '#tag' => 'span',
-    '#attributes' => array(
-      'class' => array('posted-by'),
-    ),
-    '#value' => t(
-      '@entity_label @action by',
-      array(
-        '@entity_label' => ucfirst(
-          $label_info['singular']
-        ),
-        '@action' => $label_info['insert action'],
+  if ($entity->type == 'share') {
+    $node = entity_metadata_wrapper(
+      'node',
+      $entity
+    );
+    $group_wrapper = entity_metadata_wrapper(
+      'node',
+      $node->og_group_ref->value()
+    );
+
+    $group_type = $group_wrapper->getBundle();
+    $group_url = l(
+      $group_wrapper->title->value(),
+      url(
+        'node/' . $group_wrapper->get('nid')->value(),
+        array('purl' => array('disabled' => FALSE))
       )
-    ),
-  );
+    );
+
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('posted-by'),
+        '#html' => TRUE,
+      ),
+      '#value' => t(
+        'shared @original_type to the @group_type !group_link',
+        array(
+          '@original_type' => $label_info['singular'],
+          '@group_type' => $group_type,
+          '!group_link' => $group_url,
+        )
+      ),
+    );
+  }
+  else {
+    $tag['element'] = array(
+      '#tag' => 'span',
+      '#attributes' => array(
+        'class' => array('posted-by'),
+      ),
+      '#value' => $label_info['insert action'],
+    );
+  }
 
   return theme_html_tag($tag);
 }

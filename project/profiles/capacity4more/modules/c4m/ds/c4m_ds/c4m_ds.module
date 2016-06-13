@@ -275,12 +275,12 @@ function c4m_ds_ds_fields_info($entity_type) {
     ),
   );
 
-  $fields['node']['c4m_ds_type_posted_by'] = array(
-    'title' => t('Node type posted by'),
+  $fields['node']['c4m_ds_type_insert_action'] = array(
+    'title' => t('Content type specific insert string'),
     'field_type' => DS_FIELD_TYPE_FUNCTION,
     'ui_limit' => array('*|*'),
     'file' => $path . '/includes/c4m_ds.theme.node.inc',
-    'function' => 'theme_c4m_ds_type_posted_by',
+    'function' => 'theme_c4m_ds_type_insert_action',
     'properties' => array(
       'default' => 'Default',
     ),
