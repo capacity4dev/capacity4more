@@ -174,7 +174,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '20',
+            'weight' => '21',
             'visible' => FALSE,
           ),
           'activity_global' => array(
@@ -186,7 +186,7 @@ function c4m_content_discussion_strongarm() {
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '27',
+            'weight' => '28',
             'visible' => FALSE,
           ),
           'activity_group' => array(
