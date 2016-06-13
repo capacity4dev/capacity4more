@@ -53,8 +53,8 @@ function theme_c4m_field_og_group($field) {
     $output = l($group->title, $uri_info['path'], $uri_info['options']);
     if (!empty($field['formatter_settings']['show_group_type'])) {
       $output = t(
-        'Original @group_type: @output',
-        array('@group_type' => $group->type, '@output' => $output)
+        'Original @group_type: !output',
+        array('@group_type' => $group->type, '!output' => $output)
       );
     }
   }
