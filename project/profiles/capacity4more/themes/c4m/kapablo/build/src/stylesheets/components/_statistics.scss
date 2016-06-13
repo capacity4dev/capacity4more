@@ -1,31 +1,23 @@
 ul.statistics-list {
   list-style: none;
-  margin: 0;
+  margin: 10px 0;
   padding: 0;
+  display: inline-block;
 
-  /* Graceful degradation */
-  display: table;
   table-layout: fixed;
 
   /* Flexbox */
   align-content: unset;
-  display: flex;
   justify-content: space-between;
   width: 100%;
 
   li {
     color: $color-gray-dark;
     text-align: left;
+    display: inline-block;
+    width: 49%;
+    padding: 5px;
 
-    /* Graceful degradation */
-    display: table-cell;
-
-    /* Flexbox */
-    display: flex;
-
-    &.last {
-      text-align: right;
-    }
 
     a {
       color: $color-gray-dark;

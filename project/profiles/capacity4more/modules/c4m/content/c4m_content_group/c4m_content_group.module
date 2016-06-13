@@ -271,8 +271,7 @@ function c4m_content_group_block_view($delta = '') {
  */
 function c4m_content_group_preprocess_block(array &$variables) {
   module_load_include('inc', 'c4m_content_group', 'c4m_content_group.block');
-  if ($variables['block']->module == 'c4m_content_group' &&
-      !empty($variables['block']->delta)) {
+  if ($variables['block']->module == 'c4m_content_group' && !empty($variables['block']->delta)) {
     $callback = '_c4m_content_group_preprocess_' . $variables['block']->delta;
     if (function_exists($callback)) {
       $callback($variables);
@@ -729,4 +728,70 @@ function c4m_content_group_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+/**
+ * Implements hook_field_extra_fields().
+ */
+function c4m_content_group_field_extra_fields() {
+  $display_elements['group_admins'] = array(
+    'label' => t('Group Admins'),
+    'description' => t('Group Admins'),
+    'weight' => 0,
+  );
+
+  // Since we have only one bundle type, we'll just provide the extra_fields
+  // for it here.
+  $extra_fields['node']['group']['display'] = $display_elements;
+
+  return $extra_fields;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_group_theme() {
+  $theme['c4m_og_vocab'] = array(
+    'template' => 'c4m_og_vocab',
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/templates',
+    'variables' => array(),
+  );
+
+  return $theme;
+}
+
+/**
+ * Implements hook_node_view_alter().
+ */
+function c4m_content_group_node_view($node, $view_mode, $langcode) {
+  $callback = '_c4m_content_group_node_view_alter_' . $view_mode;
+  if (function_exists($callback)) {
+    $callback($node);
+  }
+}
+
+function _c4m_content_group_node_view_alter_group_dashboard($node) {
+  $admins = c4m_og_get_group_admins($node->nid);
+
+  $array_names = array();
+  foreach ($admins as $admin) {
+    $array_names[] = $admin->name;
+  }
+
+  $node->content['group_admins'] = array(
+    '#type' => 'item',
+    '#title' => t('Group administrators'),
+    '#markup' => implode(",", $array_names),
+  );
+
+  // Style the Topics and Regions vocab.
+  foreach($node->content['c4m_vocab_topic']['#items'] as $index => $term) {
+    $topic = $term['taxonomy_term'];
+
+    $variables = array(
+      'root' => $topic,
+      'tree' => hierarchical_taxonomy_get_tree($topic->vid, $topic->tid),
+    );
+    $node->content['c4m_vocab_topic'][$index]['#markup'] = theme('c4m_og_vocab', $variables);
+
+  }
 }
