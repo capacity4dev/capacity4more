@@ -661,6 +661,48 @@ function c4m_content_group_admin_paths_alter(&$paths) {
 }
 
 /**
+ * Returns the updated date of the latest updated content item (in a group).
+ *
+ * @param integer $og_id
+ *   The Organic group ID to eventually limit the query for.
+ *
+ * @return integer
+ *   The updated date of the latest updated content (in a group).
+ */
+function c4m_content_group_get_latest_activity($og_id = NULL) {
+  // Find last updated node.
+  $query_nodes = db_select('node', 'n');
+  $query_nodes->addField('n', 'changed');
+  $query_nodes->condition('n.status', 1);
+
+  if (is_numeric($og_id)) {
+    $query_nodes->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+    $query_nodes->condition('ogm.gid', (int) $og_id);
+    $query_nodes->condition('ogm.entity_type', 'node');
+  }
+
+  $latest_updated_node = $query_nodes->execute()->fetchField();
+
+  // Find last updated comment.
+  $query_comments = db_select('comment', 'c');
+  $query_comments->addField('c', 'changed');
+  $query_comments->join('node', 'n', 'n.nid = c.nid');
+  $query_comments->condition('c.status', 1);
+  $query_comments->condition('n.status', 1);
+
+  if (is_numeric($og_id)) {
+    $query_comments->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+    $query_comments->condition('ogm.gid', (int) $og_id);
+    $query_comments->condition('ogm.entity_type', 'node');
+  }
+
+  $latest_updated_comment = $query_comments->execute()->fetchField();
+
+  // Find and return latest activity by comparing latest update node & comment.
+  return max($latest_updated_node, $latest_updated_comment);
+}
+
+/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_content_group_c4m_content_statistics_info() {
@@ -681,6 +723,15 @@ function c4m_content_group_c4m_content_statistics_info() {
         'link' => array(
           'path' => 'groups',
         ),
+      ),
+    ),
+    'group' => array(
+      'c4m_groups_latest_activity' => array(
+        'type'     => 'latest_activity',
+        'callback' => 'c4m_content_group_get_latest_activity',
+        'singular' => 'Latest activity',
+        'plural'   => 'Latest activity',
+        'weight'   => 0,
       ),
     ),
     'topic' => array(
