@@ -194,11 +194,11 @@ function c4m_content_wiki_page_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '29',
+            'weight' => '30',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '29',
+            'weight' => '30',
             'visible' => FALSE,
           ),
           'activity_group' => array(

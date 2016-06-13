@@ -379,8 +379,18 @@ function c4m_content_wiki_page_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_field_og_group' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_field_og_group' => array(
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -388,13 +398,38 @@ function c4m_content_wiki_page_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '1',
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '4',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -419,23 +454,50 @@ function c4m_content_wiki_page_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '1',
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
-        'ft' => array(),
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_content_type_icon' => array(
+      'weight' => '1',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '4',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
-    ),
-    'c4m_body' => array(
-      'formatter_settings' => array(
-        'ft' => array(),
-      ),
     ),
   );
   $export['node|wiki_page|teaser_group'] = $ds_fieldsetting;
@@ -754,15 +816,21 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
-        1 => 'c4m_ds_submitted_by_and_on',
-        2 => 'c4m_field_og_group',
-        3 => 'c4m_body',
-        4 => 'c4m_ds_content_footer_stats',
+        1 => 'c4m_ds_content_type_icon',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_field_og_group',
+        6 => 'c4m_body',
+        7 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
-      'c4m_ds_submitted_by_and_on' => 'ds_content',
+      'c4m_ds_content_type_icon' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
+      'c4m_ds_type_insert_action' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
@@ -791,14 +859,20 @@ function c4m_content_wiki_page_ds_layout_settings_info() {
     'regions' => array(
       'ds_content' => array(
         0 => 'title',
-        1 => 'c4m_ds_submitted_by_and_on',
-        2 => 'c4m_body',
-        3 => 'c4m_ds_content_footer_stats',
+        1 => 'c4m_ds_content_type_icon',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_body',
+        6 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
-      'c4m_ds_submitted_by_and_on' => 'ds_content',
+      'c4m_ds_content_type_icon' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
+      'c4m_ds_type_insert_action' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),
