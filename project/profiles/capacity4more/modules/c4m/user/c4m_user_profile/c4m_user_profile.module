@@ -194,11 +194,12 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['user/%/unsubscribe/%'] = array(
+  $items['user/%user/unsubscribe/%/%/%'] = array(
     'title' => 'Unsubscribe user',
     'page callback' => 'c4m_user_profile_unsubscribe_user',
-    'page arguments' => array(1, 3),
-    'access callback' => TRUE,
+    'page arguments' => array(1, 3, 4, 5),
+    'access callback' => 'c4m_user_profile_unsubscribe_user_access',
+    'access arguments' => array(1, 3, 4, 5),
     'type' => MENU_CALLBACK,
   );
 
@@ -892,25 +893,69 @@ function c4m_user_profile_user_presave(&$edit, $account, $category) {
 }
 
 /**
- * A callback function; Unsubscribe a user.
+ * Access callback; Unsubscribe a user.
  *
- * @param string $uid
+ * @param object $account
  *   The user ID.
+ * @param string $entity_type
+ *   The flag suffix to unsubscribe from.
+ * @param string $entity_id
+ *   The ID of the entity to unsubscribe from.
  * @param string $hash
  *   The unsubscribe hash string.
+ *
+ * @return bool
+ *   TRUE if user has access.
  */
-function c4m_user_profile_unsubscribe_user($uid, $hash) {
-  $wrapper = entity_metadata_wrapper('user', $uid);
-  if (!$wrapper->value()) {
-    return;
+function c4m_user_profile_unsubscribe_user_access($account, $entity_type, $entity_id, $hash) {
+  if (!$account || c4m_user_is_spammer($account) || $account->status === 0) {
+    return FALSE;
   }
 
+  $wrapper = entity_metadata_wrapper('user', $account);
   if ($wrapper->c4m_unsubscribe_hash->value() != $hash) {
-    return;
+    return FALSE;
   }
 
-  // Set the indication that this user want to unsubscribe from notifications.
-  $wrapper->c4m_optout->set(TRUE);
+  if (!isset($wrapper->{"c4m_optout_{$entity_type}"})) {
+    return FALSE;
+  }
+
+  // Validate entity ID.
+  try {
+    $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
+    if (!$wrapper->value()) {
+      return FALSE;
+    }
+  }
+  catch (\EntityMetadataWrapperException $e) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Page callback; Unsubscribe a user.
+ *
+ * @param object $account
+ *   The user account.
+ * @param string $entity_type
+ *   The flag suffix to unsubscribe from.
+ * @param string $entity_id
+ *   The ID of the entity to unsubscribe from.
+ */
+function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $field = "c4m_optout_{$entity_type}";
+  foreach ($wrapper->$field->value(array('identifier' => TRUE)) as $existing_id) {
+    if ($existing_id == $entity_id) {
+      // User already unsubscribed from entity.
+      return;
+    }
+  }
+
+  $wrapper->{$field}[] = $entity_id;
   $wrapper->save();
 }
 
