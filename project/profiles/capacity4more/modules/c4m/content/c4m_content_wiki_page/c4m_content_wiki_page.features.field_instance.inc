@@ -174,7 +174,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -339,7 +339,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
           'view_mode' => 'block_list',
         ),
         'type' => 'entityreference_entity_view',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -846,7 +846,7 @@ function c4m_content_wiki_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

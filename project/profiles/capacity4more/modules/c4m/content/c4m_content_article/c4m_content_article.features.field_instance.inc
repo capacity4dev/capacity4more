@@ -623,7 +623,7 @@ function c4m_content_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 28,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

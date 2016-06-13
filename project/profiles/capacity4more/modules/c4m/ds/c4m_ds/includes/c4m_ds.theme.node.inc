@@ -728,3 +728,33 @@ function theme_c4m_ds_photo_download(array $field) {
     );
   }
 }
+
+
+/**
+ * DS function field.
+ *
+ * Render download link of a photo.
+ *
+ * @param array $field
+ *   The field definition.
+ *
+ * @return string
+ *   The rendered version.
+ */
+function theme_c4m_ds_content_shared_to(array $field) {
+  if (empty($field['entity'])) {
+    return;
+  }
+
+  $entity = $field['entity'];
+
+  return theme(
+    'c4m_ds_embed_view',
+    array(
+      'view' => 'c4m_content_share_overview',
+      'display' => 'block',
+      'header' => 'h3',
+      'args' => array($entity->nid),
+    )
+  );
+}

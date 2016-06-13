@@ -181,7 +181,7 @@ function c4m_content_document_strongarm() {
         ),
         'flag_c4m_og_content_highlight' => array(
           'full' => array(
-            'weight' => '21',
+            'weight' => '23',
             'visible' => FALSE,
           ),
           'teaser' => array(

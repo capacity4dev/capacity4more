@@ -187,7 +187,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -353,7 +353,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'token_display_unselected' => '',
         ),
         'type' => 'term_reference_tree',
-        'weight' => 10,
+        'weight' => 8,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -435,7 +435,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'token_display_unselected' => '',
         ),
         'type' => 'term_reference_tree',
-        'weight' => 12,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -518,7 +518,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'token_display_unselected' => '',
         ),
         'type' => 'term_reference_tree',
-        'weight' => 11,
+        'weight' => 9,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -617,7 +617,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'token_display_unselected' => '',
         ),
         'type' => 'term_reference_tree',
-        'weight' => 9,
+        'weight' => 7,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -712,7 +712,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 27,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -851,7 +851,7 @@ function c4m_content_photoalbum_field_default_field_instances() {
           'concatenate' => FALSE,
         ),
         'type' => 'og_vocab',
-        'weight' => 13,
+        'weight' => 11,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',

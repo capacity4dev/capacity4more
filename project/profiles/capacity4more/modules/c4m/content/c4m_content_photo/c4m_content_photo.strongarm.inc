@@ -150,7 +150,7 @@ function c4m_content_photo_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '2',
+            'weight' => '3',
             'visible' => TRUE,
           ),
           'teaser' => array(
