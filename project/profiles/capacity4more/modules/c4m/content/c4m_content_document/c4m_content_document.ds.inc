@@ -440,7 +440,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_user_first_and_last_name' => array(
-      'weight' => '3',
+      'weight' => '2',
       'label' => 'hidden',
       'format' => 'linked_user',
       'formatter_settings' => array(
@@ -450,7 +450,7 @@ function c4m_content_document_ds_field_settings_info() {
       ),
     ),
     'c4m_field_og_group' => array(
-      'weight' => '2',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -468,8 +468,18 @@ function c4m_content_document_ds_field_settings_info() {
         ),
       ),
     ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -493,13 +503,38 @@ function c4m_content_document_ds_field_settings_info() {
       'label' => 'hidden',
       'format' => 'default',
     ),
-    'c4m_ds_submitted_by_and_on' => array(
+    'c4m_user_first_and_last_name' => array(
       'weight' => '2',
       'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
+      'label' => 'hidden',
       'format' => 'j F Y',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '15',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -848,20 +883,22 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_field_og_group',
-        3 => 'c4m_user_first_and_last_name',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
         4 => 'c4m_ds_creation_date',
-        5 => 'c4m_body',
-        6 => 'c4m_document',
-        7 => 'c4m_ds_content_footer_stats',
+        5 => 'c4m_field_og_group',
+        6 => 'c4m_body',
+        7 => 'c4m_document',
+        8 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
-      'c4m_field_og_group' => 'right',
       'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_type_insert_action' => 'right',
       'c4m_ds_creation_date' => 'right',
+      'c4m_field_og_group' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
@@ -894,16 +931,20 @@ function c4m_content_document_ds_layout_settings_info() {
       ),
       'right' => array(
         1 => 'title',
-        2 => 'c4m_ds_submitted_by_and_on',
-        3 => 'c4m_body',
-        4 => 'c4m_document',
-        5 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_body',
+        6 => 'c4m_document',
+        7 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'c4m_content_document_icon' => 'left',
       'title' => 'right',
-      'c4m_ds_submitted_by_and_on' => 'right',
+      'c4m_user_first_and_last_name' => 'right',
+      'c4m_ds_type_insert_action' => 'right',
+      'c4m_ds_creation_date' => 'right',
       'c4m_body' => 'right',
       'c4m_document' => 'right',
       'c4m_ds_content_footer_stats' => 'right',
