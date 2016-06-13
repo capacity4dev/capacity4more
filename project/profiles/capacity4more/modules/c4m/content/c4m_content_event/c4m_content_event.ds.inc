@@ -456,8 +456,18 @@ function c4m_content_event_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_field_og_group' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -466,7 +476,7 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_field_location_city_country' => array(
-      'weight' => '8',
+      'weight' => '9',
       'label' => 'hidden',
       'format' => 'in @city (@country)',
       'formatter_settings' => array(
@@ -475,8 +485,8 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '3',
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -486,7 +496,7 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_type_insert_action' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -506,12 +516,12 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '10',
+      'weight' => '11',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_event_start_icon' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -568,8 +578,18 @@ function c4m_content_event_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_field_location_city_country' => array(
-      'weight' => '7',
+      'weight' => '8',
       'label' => 'hidden',
       'format' => 'in @city (@country)',
       'formatter_settings' => array(
@@ -578,8 +598,8 @@ function c4m_content_event_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '3',
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -589,7 +609,7 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_type_insert_action' => array(
-      'weight' => '2',
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -609,12 +629,12 @@ function c4m_content_event_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '9',
+      'weight' => '10',
       'label' => 'hidden',
       'format' => 'default',
     ),
     'c4m_ds_event_start_icon' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -1007,28 +1027,30 @@ function c4m_content_event_ds_layout_settings_info() {
       'header' => array(
         0 => 'title',
         1 => 'c4m_ds_content_type_icon',
-        2 => 'c4m_ds_type_insert_action',
-        3 => 'c4m_ds_submitted_by_and_on',
-        4 => 'c4m_field_og_group',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_field_og_group',
       ),
       'left' => array(
-        5 => 'c4m_ds_event_start_icon',
+        6 => 'c4m_ds_event_start_icon',
       ),
       'right' => array(
-        6 => 'c4m_organised_by',
-        7 => 'c4m_datetime_end',
-        8 => 'c4m_field_location_city_country',
+        7 => 'c4m_organised_by',
+        8 => 'c4m_datetime_end',
+        9 => 'c4m_field_location_city_country',
       ),
       'footer' => array(
-        9 => 'c4m_body',
-        10 => 'c4m_ds_content_footer_stats',
+        10 => 'c4m_body',
+        11 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'header',
       'c4m_ds_content_type_icon' => 'header',
+      'c4m_user_first_and_last_name' => 'header',
       'c4m_ds_type_insert_action' => 'header',
-      'c4m_ds_submitted_by_and_on' => 'header',
+      'c4m_ds_creation_date' => 'header',
       'c4m_field_og_group' => 'header',
       'c4m_ds_event_start_icon' => 'left',
       'c4m_organised_by' => 'right',
@@ -1065,27 +1087,29 @@ function c4m_content_event_ds_layout_settings_info() {
       'header' => array(
         0 => 'title',
         1 => 'c4m_ds_content_type_icon',
-        2 => 'c4m_ds_type_insert_action',
-        3 => 'c4m_ds_submitted_by_and_on',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
       ),
       'left' => array(
-        4 => 'c4m_ds_event_start_icon',
+        5 => 'c4m_ds_event_start_icon',
       ),
       'right' => array(
-        5 => 'c4m_organised_by',
-        6 => 'c4m_datetime_end',
-        7 => 'c4m_field_location_city_country',
+        6 => 'c4m_organised_by',
+        7 => 'c4m_datetime_end',
+        8 => 'c4m_field_location_city_country',
       ),
       'footer' => array(
-        8 => 'c4m_body',
-        9 => 'c4m_ds_content_footer_stats',
+        9 => 'c4m_body',
+        10 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'header',
       'c4m_ds_content_type_icon' => 'header',
+      'c4m_user_first_and_last_name' => 'header',
       'c4m_ds_type_insert_action' => 'header',
-      'c4m_ds_submitted_by_and_on' => 'header',
+      'c4m_ds_creation_date' => 'header',
       'c4m_ds_event_start_icon' => 'left',
       'c4m_organised_by' => 'right',
       'c4m_datetime_end' => 'right',
