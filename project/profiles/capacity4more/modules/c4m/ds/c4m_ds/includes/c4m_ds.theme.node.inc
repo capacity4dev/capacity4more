@@ -239,6 +239,13 @@ function theme_c4m_ds_type_posted_by(array $field) {
 function theme_c4m_ds_content_footer_stats(array $field) {
   $entity = $field['entity'];
 
+  $recommends = c4m_helper_entity_entity_get_properties($entity, array(), '', 'node', array('flag_name' => 'c4m_og_content_recommend'));
+
+  $items['recommends'] = theme(
+    'c4m_ds_entity_recommends_count',
+    array('count' => (!empty($recommends) ? $recommends : 0))
+  );
+
   // Only show comments if comments are enabled.
   if ($entity->comment == COMMENT_NODE_OPEN) {
     $items['comments'] = theme(
@@ -268,7 +275,6 @@ function theme_c4m_ds_content_footer_stats(array $field) {
         array('count' => (!empty($file_object->download_count) ? $file_object->download_count : 0))
       );
     }
-
   }
 
   return implode($items);
