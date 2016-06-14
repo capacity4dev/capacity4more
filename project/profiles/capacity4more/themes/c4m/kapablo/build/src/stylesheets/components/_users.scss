@@ -69,6 +69,14 @@
       }
       .fullname {
         display: none;
+
+        @media (min-width: $screen-tablet) {
+          display: inline-block;
+          margin-right: 0.5rem;
+
+          color: $color-white;
+          vertical-align: middle;
+        }
       }
       .fa-chevron-down {
         color: $color-white;
