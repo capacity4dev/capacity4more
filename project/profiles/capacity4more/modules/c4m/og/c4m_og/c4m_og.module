@@ -1216,5 +1216,6 @@ function c4m_og_get_content_recommendations($og_id = NULL) {
   $query->condition('f.name', 'c4m_og_content_recommend');
   $query->addExpression('SUM(fc.count)', 'recommendations');
 
-  return $query->execute()->fetchField();
+  $count = $query->execute()->fetchField();
+  return empty($count) ? 0 : $count;
 }
