@@ -275,3 +275,79 @@ function c4m_content_share_get_shared_groups($node) {
 
   return $group_ids;
 }
+
+/**
+ * Retrieve the total sum of content shares within a group.
+ *
+ * Retrieve the total sum of content shares within a group.
+ * If one node is shared multiple times, it is added to the sum multiple
+ * times as well.
+ *
+ * @param object $group
+ *   The group node object.
+ *
+ * @return int
+ *   Total sum of content shares within a group.
+ */
+function c4m_content_share_get_number_of_shared_content_per_group($group) {
+  $query = _c4m_content_share_get_shared_content_per_group_query($group);
+
+  $shares = $query->countQuery()->execute()->fetchField();
+
+  return $shares;
+}
+
+/**
+ * Retrieve all the content that is shared within a group (not unique).
+ *
+ * Retrieve all the content that is shared within a group.
+ * If one node is shared multiple times, it is added to the array multiple
+ * times as well.
+ *
+ * @param object $group
+ *   The group node object.
+ *
+ * @return array
+ *   Shared content (not unique) in an associative array.
+ */
+function c4m_content_share_get_shared_content_per_group($group) {
+  $query = _c4m_content_share_get_shared_content_per_group_query($group);
+
+  $result = $query->execute();
+
+  $shares = $result->fetchCol();
+
+  return $shares;
+}
+
+/**
+ * Helper function returns the selectquery to retrieve shared group content.
+ *
+ * @param object $group
+ *   The group node object.
+ *
+ * @return \SelectQuery
+ *   The selectquery object before execution.
+ */
+function _c4m_content_share_get_shared_content_per_group_query($group) {
+  $query = db_select('node', 'node_source');
+
+  $query->innerJoin(
+    'field_data_c4m_source_entity',
+    'field_source',
+    'field_source.c4m_source_entity_target_id = node_source.nid'
+  );
+
+  $query->innerJoin(
+    'node',
+    'node_share',
+    'field_source.entity_id = node_share.nid'
+  );
+
+  $query->innerJoin('og_membership', 'og', 'og.etid = node_source.nid');
+
+  $query->fields('node_source', array('nid'))
+    ->condition('og.gid', $group->nid, '=');
+
+  return $query;
+}
