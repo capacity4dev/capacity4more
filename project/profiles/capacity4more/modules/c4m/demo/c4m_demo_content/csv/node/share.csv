@@ -1,5 +1,5 @@
 ID,Title,Description,Group,Group Type,Source Entity,Source Migration,UID
 share_1,Nobel Prize ceremony,"I share this because I like it",group_6,group,doc_6,C4mDemoContentCreateDocuments,user_2
-share_2,Film Festival Ghent,"Somebody wanna go???",group_4,group,event_2,C4mDemoContentCreateEventss,user_4
+share_2,Film Festival Ghent,"Somebody wanna go???",group_4,group,event_2,C4mDemoContentCreateEvents,user_4
 share_3,Lusail History,,group_1,group,wiki_page_7,C4mDemoContentCreateWikiPages,user_6
 share_4,Lusail Soccer Stadium,"Pretty image!",group_2,group,photo_5,C4mDemoContentCreatePhotos,user_5
