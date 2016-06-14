@@ -1,7 +1,7 @@
 .activity-stream {
   .activities {
-    border-top: 1px dashed $color-gray-light;
-    margin-top: 1.43rem;
+    border-bottom: 1px dashed $color-gray-light;
+    padding-bottom: 1.43rem;
 
     .row {
       margin: 0;
@@ -12,6 +12,11 @@
         }
       }
     }
+
+    &.last {
+      border-bottom: none;
+    }
+
   }
 }
 
