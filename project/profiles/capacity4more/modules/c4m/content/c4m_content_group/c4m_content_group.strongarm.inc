@@ -153,6 +153,10 @@ function c4m_content_group_strongarm() {
             'weight' => '4',
             'visible' => TRUE,
           ),
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),

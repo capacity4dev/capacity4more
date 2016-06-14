@@ -11,7 +11,7 @@
   <?php print render($title_suffix['contextual_links']); ?>
 <?php endif; ?>
 
-<div class="content clearfix">
+<div class="content clearfix group-details">
   <?php print $ds_content; ?>
 </div>
 
