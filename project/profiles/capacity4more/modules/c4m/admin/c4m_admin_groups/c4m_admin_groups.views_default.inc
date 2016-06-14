@@ -162,11 +162,11 @@ function c4m_admin_groups_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'admin/c4m/groups';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Groups';
+  $handler->display->display_options['path'] = 'admin/c4m/groups/overview';
+  $handler->display->display_options['menu']['type'] = 'default tab';
+  $handler->display->display_options['menu']['title'] = 'Overview';
   $handler->display->display_options['menu']['description'] = 'Administration interface to manage groups & their status.';
-  $handler->display->display_options['menu']['weight'] = '6';
+  $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;

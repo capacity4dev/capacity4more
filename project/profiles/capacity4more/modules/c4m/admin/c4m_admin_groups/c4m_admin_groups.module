@@ -12,12 +12,24 @@ include_once 'c4m_admin_groups.features.inc';
 function c4m_admin_groups_menu() {
   $items = array();
 
+  $items['admin/c4m/groups'] = array(
+    'title' => 'Groups',
+    'description' => 'Administration interface to manage groups & their status.',
+    'page callback' => 'views_embed_view',
+    'page arguments' => array('c4m_admin_groups', 'page'),
+    'access arguments' => array('administer nodes'),
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'management',
+  );
+
   $items['admin/c4m/groups/export'] = array(
-    'title' => 'Groups export',
+    'title' => 'Export',
     'description' => 'Capacity4more groups export.',
     'page callback' => 'c4m_admin_groups_groups_export_page',
     'access arguments' => array('administer nodes'),
     'file' => 'c4m_admin_groups.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
   );
 
   return $items;
