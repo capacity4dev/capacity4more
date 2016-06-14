@@ -438,6 +438,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['style_options']['keep_html'] = 0;
   $handler->display->display_options['path'] = 'admin/c4m/groups/export/file';
   $handler->display->display_options['use_batch'] = 'batch';
+  $handler->display->display_options['return_path'] = 'admin/c4m/groups/export';
   $handler->display->display_options['segment_size'] = '100';
   $export['c4m_admin_groups_export'] = $view;
 
