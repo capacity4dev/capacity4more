@@ -134,11 +134,6 @@
     .owl-next {
       right: 0;
       top: 115px;
-
-      @media (min-width: $screen-tablet) {
-        right: -20px;
-        top: 115px;
-      }
     }
 
     .owl-page.active span {
