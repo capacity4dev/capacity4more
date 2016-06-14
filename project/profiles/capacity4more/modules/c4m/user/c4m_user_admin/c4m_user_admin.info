@@ -14,3 +14,5 @@ features[views_view][] = c4m_admin_users
 features_exclude[dependencies][ctools] = ctools
 files[] = include/views_handler_field_user_link_activate.inc
 files[] = include/views_handler_field_user_link_resend_activation_email.inc
+files[] = include/views_handler_field_user_metrics.inc
+files[] = include/views_handler_field_c4m_user_admin.inc

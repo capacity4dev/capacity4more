@@ -34,6 +34,15 @@ function c4m_user_admin_views_data() {
     ),
   );
 
+  $data['users']['user_metrics'] = array(
+    'title' => t('User metrics'),
+    'help' => t('Metrics about a user.'),
+    'field' => array(
+      'handler' => 'views_handler_field_user_metrics',
+      'group' => 'Content',
+    ),
+  );
+
   return $data;
 }
 
