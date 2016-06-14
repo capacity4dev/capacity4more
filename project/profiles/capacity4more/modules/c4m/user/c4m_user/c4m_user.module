@@ -1011,17 +1011,41 @@ function c4m_user_is_spammer($user) {
  */
 function c4m_user_get_organisations($uid) {
   $account = user_load($uid);
-  $organisation_user = new C4mOrganisationUser($account->mail);
 
-  if ($list = $organisation_user->getOrganisationsInfo()) {
-    $organisations = array();
-    foreach ($list as $organisation) {
-      $organisations[] = $organisation->title;
+  $show_organisations = FALSE;
+
+  $domain_user = new C4mDomainUser($account->mail);
+  // Show domains only if the user is validated in LDAP, or is present in a
+  // whitelist or the domain is not a registered email domain.
+  if ($domain = $domain_user->getEmailDomainByName()) {
+    $ldap = new C4mLDAPUser();
+    if ($ldap->isUp()) {
+      $info = $ldap->getInfo($account->mail);
+      if ($info && !empty($info['valid'])) {
+        $show_organisations = TRUE;
+      }
+      elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
+        $show_organisations = TRUE;
+      }
     }
-    return implode(', ', $organisations);
+  }
+  else {
+    $show_organisations = TRUE;
   }
 
-  return '';
+  $output = '';
+  if ($show_organisations) {
+    $organisation_user = new C4mOrganisationUser($account->mail);
+    if ($list = $organisation_user->getOrganisationsInfo()) {
+      $organisations = array();
+      foreach ($list as $organisation) {
+        $organisations[] = $organisation->title;
+      }
+      $output = implode(', ', $organisations);
+    }
+  }
+
+  return $output;
 }
 
 /**
