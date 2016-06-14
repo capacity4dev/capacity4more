@@ -23,7 +23,21 @@
     margin-bottom: 25px;
     text-align: left;
     color: $color-link;
+
+    @media (min-width: $screen-tablet) {
+      text-align: center;
+    }
   }
+
+  @media (min-width: $screen-tablet) {
+    @include grey_box;
+    @include grain;
+
+    background-color: #f1f6f9;
+    padding: 25px;
+  }
+
+
 }
 
 .pane-content .owl-carousel {
@@ -64,8 +78,6 @@
 }
 
 .owl-theme {
-  border: 1px solid $color-gray-light;
-  @include grain;
 
   .owl-wrapper-outer {
     margin: 0;
@@ -76,9 +88,11 @@
   }
 
   .owl-item img {
-    border: none;
-    border-radius: 0;
-    padding: 0;
+    @media (max-width: $screen-tablet) {
+      border: none;
+      border-radius: 0;
+      padding: 0;
+    }
   }
 
   .owl-controls {
@@ -101,21 +115,40 @@
 
     .owl-pagination {
       margin-bottom: 10px;
+
+      @media (min-width: $screen-tablet) {
+        float: right;
+      }
     }
 
-    .owl-prev{
+    .owl-prev {
       top: 115px;
       left: 0;
+
+      @media (min-width: $screen-tablet) {
+        top: 115px;
+        left: 5px;
+      }
     }
 
-    .owl-next{
+    .owl-next {
       right: 0;
       top: 115px;
+
+      @media (min-width: $screen-tablet) {
+        right: -20px;
+        top: 115px;
+      }
     }
 
     .owl-page.active span {
       background: $color-text-alternative;
     }
 
+  }
+
+  @media (max-width: $screen-tablet) {
+    border: 1px solid $color-gray-light;
+    @include grain;
   }
 }
