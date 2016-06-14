@@ -46,4 +46,5 @@ features[variable][] = menu_parent_share
 features[variable][] = node_options_share
 features[variable][] = node_preview_share
 features[variable][] = node_submitted_share
+features[variable][] = pathauto_node_share_pattern
 features[views_view][] = c4m_content_share_overview

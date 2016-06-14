@@ -177,15 +177,14 @@ function c4m_content_share_node_access_records_alter(&$grants, $node) {
 
     if (!empty($original_node)) {
       $original_node = entity_metadata_wrapper('node', $original_node);
-      $gid = $original_node->og_group_ref->nid->value();
-      $grants[] = array(
-        'realm' => 'og_access:node',
-        'gid' => $gid,
-        'grant_view' => 1,
-        'grant_update' => 0,
-        'grant_delete' => 0,
-        'priority' => 0,
-      );
+
+      $query = db_select('node_access', 'na');
+      $query->fields('na')
+        ->condition('na.nid', $original_node->nid->value());
+
+      $original_na = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_ASSOC);
+
+      $grants = array((array) $original_na[$original_node->nid->value()]);
     }
   }
 }

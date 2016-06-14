@@ -205,7 +205,7 @@ function c4m_content_share_field_default_field_instances() {
         'weight' => 1,
       ),
       'activity_group' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'entityreference',
         'settings' => array(
           'links' => 0,
