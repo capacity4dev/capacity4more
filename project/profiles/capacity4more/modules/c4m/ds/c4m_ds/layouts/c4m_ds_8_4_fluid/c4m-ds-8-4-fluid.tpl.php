@@ -12,7 +12,7 @@
 
 <div class="content clearfix">
 <?php if (!empty($header)): ?>
-    <<?php print $header_wrapper; ?> class="group-header col-sm-12 <?php print $header_classes; ?>">
+    <<?php print $header_wrapper; ?> class="group-header col-sm-12 <?php print $header_classes; ?>" role="main">
       <?php print $header; ?>
     </<?php print $header_wrapper; ?>>
 <?php endif; ?>

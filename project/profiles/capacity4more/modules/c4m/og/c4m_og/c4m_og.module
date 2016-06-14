@@ -124,6 +124,13 @@ function c4m_og_menu() {
     'access arguments' => array(1, 2),
     'title' => 'Replace Owner',
   );
+  $items['project/%/%/admin/owner'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_og_replace_owner_build_form', 1, 2),
+    'access callback' => 'c4m_og_user_is_owner',
+    'access arguments' => array(1, 2),
+    'title' => 'Replace Owner',
+  );
 
   return $items;
 }
@@ -140,7 +147,7 @@ function c4m_og_og_ui_get_group_admin_alter(&$data, $context) {
 
   $data['replace_owner'] = array(
     'title' => t('Replace Owner'),
-    'description' => t('Replacing the owner of the group.'),
+    'description' => t('Replacing the owner of the group or project.'),
     'href' => 'admin/owner',
   );
 }

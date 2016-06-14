@@ -68,11 +68,19 @@
       border-collapse: collapse; }
 
     td {
-      word-break: break-all;
       -webkit-hyphens: auto;
       -moz-hyphens: auto;
       hyphens: auto;
-      border-collapse: collapse !important; }
+      border-collapse: collapse !important;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      -ms-word-break: break-all;
+      word-break: break-all;
+      word-break: break-word;
+      -ms-hyphens: auto;
+      -moz-hyphens: auto;
+      -webkit-hyphens: auto;
+      hyphens: auto; }
 
     table, tr, td {
       padding: 0;

@@ -81,7 +81,7 @@ function c4m_comment_node_view_alter(&$build) {
         'query' => drupal_get_destination(),
       ));
 
-      $text = '<p>' . t('!register or !login to comment', array(
+      $text = '<p class="register-login-links">' . t('!register or !login to comment', array(
         '!register' => $register_link,
         '!login' => $login_link,
       )) . '</p>';
