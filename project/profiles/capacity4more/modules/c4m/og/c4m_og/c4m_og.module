@@ -1052,33 +1052,37 @@ function c4m_og_metrics_info() {
  *   The collected metrics.
  */
 function c4m_og_get_group_metrics($og_id) {
-  if (!is_numeric($og_id)) {
-    return array();
-  }
+  $data = &drupal_static(__FUNCTION__);
 
-  $data = array();
-  $list = c4m_og_metrics_info();
-
-  foreach ($list as $key => &$info) {
-    $type = isset($info['type'])
-      ? $info['type']
-      : NULL;
-
-    $callback = isset($info['callback'])
-      ? $info['callback']
-      : '';
-
-    $arguments = array($og_id);
-    if (isset($info['arguments'])) {
-      $arguments = array_merge($arguments, $info['arguments']);
+  if (!isset($data[$og_id])) {
+    if (!is_numeric($og_id)) {
+      return array();
     }
 
-    if ($type && $callback && function_exists($callback)) {
-      $data[$type] = call_user_func_array($callback, $arguments);
+    $data[$og_id] = array();
+    $list = c4m_og_metrics_info();
+
+    foreach ($list as $key => &$info) {
+      $type = isset($info['type'])
+        ? $info['type']
+        : NULL;
+
+      $callback = isset($info['callback'])
+        ? $info['callback']
+        : '';
+
+      $arguments = array($og_id);
+      if (isset($info['arguments'])) {
+        $arguments = array_merge($arguments, $info['arguments']);
+      }
+
+      if ($type && $callback && function_exists($callback)) {
+        $data[$og_id][$type] = call_user_func_array($callback, $arguments);
+      }
     }
   }
 
-  return $data;
+  return $data[$og_id];
 }
 
 /**
