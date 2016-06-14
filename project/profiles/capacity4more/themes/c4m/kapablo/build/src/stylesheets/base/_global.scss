@@ -3,6 +3,14 @@ body {
   height: 100%;
 }
 
+html {
+  font-size: 14px;
+}
+
+body {
+  font-size: inherit;
+}
+
 @media (min-width: 992px) {
   .container {
     width: 960px + $grid-gutter-width;
