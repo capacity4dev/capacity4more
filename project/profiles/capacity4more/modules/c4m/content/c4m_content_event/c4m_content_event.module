@@ -145,3 +145,17 @@ function c4m_content_event_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_og_metrics_info().
+ */
+function c4m_content_event_c4m_og_metrics_info() {
+  return array(
+    'c4m_og_events' => array(
+      'type'      => 'event',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('event')),
+      'weight'    => 0,
+    ),
+  );
+}

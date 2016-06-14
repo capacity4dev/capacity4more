@@ -14,28 +14,15 @@ function c4m_content_photo_theme_registry_alter(&$theme_registry) {
 }
 
 /**
- * Implements hook_c4m_content_statistics_info().
+ * Implements hook_c4m_og_metrics_info().
  */
-function c4m_content_photo_c4m_content_statistics_info() {
+function c4m_content_photo_c4m_og_metrics_info() {
   return array(
-    'group' => array(
-      'c4m_og_photos' => array(
-        'type'          => 'photo',
-        'entity_type'   => 'node',
-        'bundles'       => array('photo'),
-        'singular'      => 'Photo',
-        'plural'        => 'Photos',
-        'state'         => 1,
-        'aggregate'     => array(),
-        'weight'        => 2,
-        'feature_name'  => 'c4m_features_og_photos',
-        'attributes'    => array(
-          'class' => array('og-photos'),
-        ),
-        'link'          => array(
-          'path' => 'photos',
-        ),
-      ),
+    'c4m_og_photos' => array(
+      'type'      => 'photo',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('photo')),
+      'weight'    => 2,
     ),
   );
 }

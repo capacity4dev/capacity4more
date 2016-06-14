@@ -342,27 +342,6 @@ function c4m_user_og_get_number_of_contributors_vs_pending_members($og_id) {
 function c4m_user_og_c4m_content_statistics_info() {
   return array(
     'group' => array(
-      'c4m_og_contributors' => array(
-        'type'     => 'contributors',
-        'callback' => 'c4m_user_og_get_number_of_contributors',
-        'singular' => 'Contributor',
-        'plural'   => 'Contributors',
-        'weight'   => 9,
-      ),
-      'c4m_og_pending_members' => array(
-        'type'     => 'pending_members',
-        'callback' => 'c4m_user_og_get_number_of_pending_members',
-        'singular' => 'Pending member',
-        'plural'   => 'Pending members',
-        'weight'   => 11,
-      ),
-      'c4m_og_contributors_vs_pending_members' => array(
-        'type'     => 'contributors_vs_pending_members',
-        'callback' => 'c4m_user_og_get_number_of_contributors_vs_pending_members',
-        'singular' => 'Contributors/Pending members',
-        'plural'   => 'Contributors/Pending members',
-        'weight'   => 13,
-      ),
       'c4m_og_user' => array(
         'type'          => 'user',
         'entity_type'   => 'user',
@@ -382,6 +361,34 @@ function c4m_user_og_c4m_content_statistics_info() {
           'path' => 'members',
         ),
       ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_og_metrics_info().
+ */
+function c4m_user_og_c4m_og_metrics_info() {
+  return array(
+    'c4m_og_contributors' => array(
+      'type'     => 'contributors',
+      'callback' => 'c4m_user_og_get_number_of_contributors',
+      'weight'   => 9,
+    ),
+    'c4m_og_contributors_vs_pending_members' => array(
+      'type'     => 'contributors_vs_pending_members',
+      'callback' => 'c4m_user_og_get_number_of_contributors_vs_pending_members',
+      'weight'   => 13,
+    ),
+    'c4m_og_pending_members' => array(
+      'type'     => 'pending_members',
+      'callback' => 'c4m_user_og_get_number_of_pending_members',
+      'weight'   => 11,
+    ),
+    'c4m_og_users' => array(
+      'type'     => 'users',
+      'callback' => 'c4m_og_group_user_metric',
+      'weight'   => 7,
     ),
   );
 }

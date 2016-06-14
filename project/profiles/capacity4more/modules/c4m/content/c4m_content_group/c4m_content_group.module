@@ -725,15 +725,6 @@ function c4m_content_group_c4m_content_statistics_info() {
         ),
       ),
     ),
-    'group' => array(
-      'c4m_groups_latest_activity' => array(
-        'type'     => 'latest_activity',
-        'callback' => 'c4m_content_group_get_latest_activity',
-        'singular' => 'Latest activity',
-        'plural'   => 'Latest activity',
-        'weight'   => 0,
-      ),
-    ),
     'topic' => array(
       'c4m_topic_groups' => array(
         'type'        => 'group',
@@ -758,6 +749,19 @@ function c4m_content_group_c4m_content_statistics_info() {
           ),
         ),
       ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_og_metrics_info().
+ */
+function c4m_content_group_c4m_og_metrics_info() {
+  return array(
+    'c4m_groups_latest_activity' => array(
+      'type'     => 'latest_activity',
+      'callback' => 'c4m_content_group_get_latest_activity',
+      'weight'   => 0,
     ),
   );
 }

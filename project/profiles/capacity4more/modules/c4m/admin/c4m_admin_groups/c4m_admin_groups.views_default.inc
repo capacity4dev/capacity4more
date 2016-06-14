@@ -274,7 +274,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_12']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_12']['label'] = 'Date of latest activity';
   $handler->display->display_options['fields']['group_metrics_12']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_12']['c4m_admin_groups_group_statistic'] = 'latest_activity';
+  $handler->display->display_options['fields']['group_metrics_12']['c4m_admin_groups_group_metric'] = 'latest_activity';
   /* Field: Content: Group admin */
   $handler->display->display_options['fields']['group_admin']['id'] = 'group_admin';
   $handler->display->display_options['fields']['group_admin']['table'] = 'node';
@@ -293,84 +293,84 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics']['label'] = 'Members';
   $handler->display->display_options['fields']['group_metrics']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics']['c4m_admin_groups_group_statistic'] = 'user';
+  $handler->display->display_options['fields']['group_metrics']['c4m_admin_groups_group_metric'] = 'users';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_10']['id'] = 'group_metrics_10';
   $handler->display->display_options['fields']['group_metrics_10']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_10']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_10']['label'] = 'Pending members';
   $handler->display->display_options['fields']['group_metrics_10']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_10']['c4m_admin_groups_group_statistic'] = 'pending_members';
+  $handler->display->display_options['fields']['group_metrics_10']['c4m_admin_groups_group_metric'] = 'pending_members';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_1']['id'] = 'group_metrics_1';
   $handler->display->display_options['fields']['group_metrics_1']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_1']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_1']['label'] = 'Pages';
   $handler->display->display_options['fields']['group_metrics_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_1']['c4m_admin_groups_group_statistic'] = 'wiki_page';
+  $handler->display->display_options['fields']['group_metrics_1']['c4m_admin_groups_group_metric'] = 'wiki_page';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_2']['id'] = 'group_metrics_2';
   $handler->display->display_options['fields']['group_metrics_2']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_2']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_2']['label'] = 'Documents';
   $handler->display->display_options['fields']['group_metrics_2']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_2']['c4m_admin_groups_group_statistic'] = 'document';
+  $handler->display->display_options['fields']['group_metrics_2']['c4m_admin_groups_group_metric'] = 'document';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_3']['id'] = 'group_metrics_3';
   $handler->display->display_options['fields']['group_metrics_3']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_3']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_3']['label'] = 'Discussions';
   $handler->display->display_options['fields']['group_metrics_3']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_3']['c4m_admin_groups_group_statistic'] = 'discussion';
+  $handler->display->display_options['fields']['group_metrics_3']['c4m_admin_groups_group_metric'] = 'discussion';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_4']['id'] = 'group_metrics_4';
   $handler->display->display_options['fields']['group_metrics_4']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_4']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_4']['label'] = 'Events';
   $handler->display->display_options['fields']['group_metrics_4']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_4']['c4m_admin_groups_group_statistic'] = 'event';
+  $handler->display->display_options['fields']['group_metrics_4']['c4m_admin_groups_group_metric'] = 'event';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_6']['id'] = 'group_metrics_6';
   $handler->display->display_options['fields']['group_metrics_6']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_6']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_6']['label'] = 'Photo albums';
   $handler->display->display_options['fields']['group_metrics_6']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_6']['c4m_admin_groups_group_statistic'] = 'photoalbum';
+  $handler->display->display_options['fields']['group_metrics_6']['c4m_admin_groups_group_metric'] = 'photoalbum';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_7']['id'] = 'group_metrics_7';
   $handler->display->display_options['fields']['group_metrics_7']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_7']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_7']['label'] = 'Photos';
   $handler->display->display_options['fields']['group_metrics_7']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_7']['c4m_admin_groups_group_statistic'] = 'photo';
+  $handler->display->display_options['fields']['group_metrics_7']['c4m_admin_groups_group_metric'] = 'photo';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_8']['id'] = 'group_metrics_8';
   $handler->display->display_options['fields']['group_metrics_8']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_8']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_8']['label'] = 'Document downloads';
   $handler->display->display_options['fields']['group_metrics_8']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_8']['c4m_admin_groups_group_statistic'] = 'document_download';
+  $handler->display->display_options['fields']['group_metrics_8']['c4m_admin_groups_group_metric'] = 'document_download';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_5']['id'] = 'group_metrics_5';
   $handler->display->display_options['fields']['group_metrics_5']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_5']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_5']['label'] = 'Comments';
   $handler->display->display_options['fields']['group_metrics_5']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_5']['c4m_admin_groups_group_statistic'] = 'comment';
+  $handler->display->display_options['fields']['group_metrics_5']['c4m_admin_groups_group_metric'] = 'comment';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_9']['id'] = 'group_metrics_9';
   $handler->display->display_options['fields']['group_metrics_9']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_9']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_9']['label'] = 'Contributors';
   $handler->display->display_options['fields']['group_metrics_9']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_9']['c4m_admin_groups_group_statistic'] = 'contributors';
+  $handler->display->display_options['fields']['group_metrics_9']['c4m_admin_groups_group_metric'] = 'contributors';
   /* Field: Content: Group metrics */
   $handler->display->display_options['fields']['group_metrics_11']['id'] = 'group_metrics_11';
   $handler->display->display_options['fields']['group_metrics_11']['table'] = 'node';
   $handler->display->display_options['fields']['group_metrics_11']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_11']['label'] = 'Contributors/Pending members';
   $handler->display->display_options['fields']['group_metrics_11']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_11']['c4m_admin_groups_group_statistic'] = 'contributors_vs_pending_members';
+  $handler->display->display_options['fields']['group_metrics_11']['c4m_admin_groups_group_metric'] = 'contributors_vs_pending_members';
   /* Field: Flags: Flag counter */
   $handler->display->display_options['fields']['count']['id'] = 'count';
   $handler->display->display_options['fields']['count']['table'] = 'flag_counts';
@@ -393,7 +393,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_13']['field'] = 'group_metrics';
   $handler->display->display_options['fields']['group_metrics_13']['label'] = 'Content Recommendations';
   $handler->display->display_options['fields']['group_metrics_13']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_metrics_13']['c4m_admin_groups_group_statistic'] = 'group_content_recommendations';
+  $handler->display->display_options['fields']['group_metrics_13']['c4m_admin_groups_group_metric'] = 'content_recommendations';
   /* Field: Content: Related Topics */
   $handler->display->display_options['fields']['c4m_related_topic']['id'] = 'c4m_related_topic';
   $handler->display->display_options['fields']['c4m_related_topic']['table'] = 'field_data_c4m_related_topic';
