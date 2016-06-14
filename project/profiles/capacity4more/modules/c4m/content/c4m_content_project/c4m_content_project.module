@@ -101,6 +101,22 @@ function c4m_content_project_block_view($delta) {
 }
 
 /**
+ * Implements hook_FORM_ID_form_alter().
+ *
+ * Alter the Project creation form.
+ */
+function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
+  // Form changes on creation.
+  if (!$form['nid']['#value']) {
+    // Change title.
+    drupal_set_title('Request project');
+
+    // Change submit button on creation.
+    $form['actions']['submit']['#value'] = t('Request');
+  }
+}
+
+/**
  * Implements hook_c4m_helper_entity_label_info().
  */
 function c4m_content_project_c4m_helper_entity_label_info() {
