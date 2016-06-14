@@ -66,6 +66,13 @@ function c4m_user_admin_menu() {
     'file' => 'c4m_user_admin.pages.inc',
   );
 
+  $items['admin/config/c4m/user-report'] = array(
+    'title' => 'User report',
+    'page callback' => '_c4m_user_admin_page_user_report',
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
   return $items;
 }
 
