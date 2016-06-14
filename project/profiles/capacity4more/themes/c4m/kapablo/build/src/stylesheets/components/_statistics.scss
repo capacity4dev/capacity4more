@@ -8,7 +8,6 @@
     flex-wrap: wrap;
 
     @media (min-width: $screen-tablet) {
-      display: table;
       display: flex;
 
       width: 100%;
@@ -52,7 +51,7 @@
         border-right: 1px dashed $color-gray-light;
 
         @media (min-width: $screen-tablet) {
-          border-bottom: none;
+          border-right: none;
         }
       }
 
@@ -69,7 +68,6 @@
       }
 
       @media (min-width: $screen-tablet) {
-        display: table-cell;
         display: flex;
 
         padding: 0;
