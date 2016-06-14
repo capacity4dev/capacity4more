@@ -9,8 +9,6 @@
 
   <div class="taxonomy-item">
     <i class="fa fa-caret-right" aria-hidden="true"></i>
-    <?php foreach ($tree as $item => $data): ?>
-      <?php print l($data->name, "/taxonomy/term/" . $data->tid); ?>,
-    <?php endforeach; ?>
+    <?php print $tree; ?>
   </div>
 </div>

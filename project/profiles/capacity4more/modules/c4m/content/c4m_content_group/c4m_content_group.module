@@ -774,12 +774,14 @@ function _c4m_content_group_node_view_alter_group_dashboard($node) {
 
   $array_names = array();
   foreach ($admins as $admin) {
-    $array_names[] = $admin->name;
+    $array_names[] = l($admin->name, '/user/' . $admin->uid);
   }
 
   $node->content['group_admins'] = array(
     '#type' => 'item',
-    '#title' => t('<h2>Group administrators</h2>'),
+    '#title' => format_string('<h2>@title</h2>', array(
+      '@title' => t('Group administrators'),
+    )),
     '#markup' => implode(",", $array_names),
   );
 
@@ -787,9 +789,16 @@ function _c4m_content_group_node_view_alter_group_dashboard($node) {
   foreach($node->content['c4m_vocab_topic']['#items'] as $index => $term) {
     $topic = $term['taxonomy_term'];
 
+    // Create the topics tree.
+    $topic_names = array();
+    $tree = hierarchical_taxonomy_get_tree($topic->vid, $topic->tid);
+    foreach ($tree as $item => $data) {
+      $topic_names[] =  l($data->name, "/taxonomy/term/" . $data->tid);
+    }
+
     $variables = array(
       'root' => $topic,
-      'tree' => hierarchical_taxonomy_get_tree($topic->vid, $topic->tid),
+      'tree' => implode(', ', $topic_names),
     );
     $node->content['c4m_vocab_topic'][$index]['#markup'] = theme('c4m_og_vocab', $variables);
 
