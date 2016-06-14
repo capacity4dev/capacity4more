@@ -11,6 +11,6 @@ MODULES_ENABLE=(
   "context_ui"
   "field_ui"
   "message_notify"
-  "message_subscribe_ui"
+  "message_subscribe"
   "views_ui"
 )
