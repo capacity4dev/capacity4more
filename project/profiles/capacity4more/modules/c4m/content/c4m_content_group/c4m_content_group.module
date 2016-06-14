@@ -730,6 +730,7 @@ function c4m_content_group_ds_fields_info($entity_type) {
 
   return $fields;
 }
+
 /**
  * Implements hook_field_extra_fields().
  *
