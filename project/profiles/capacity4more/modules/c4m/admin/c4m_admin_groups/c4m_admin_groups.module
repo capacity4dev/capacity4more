@@ -7,6 +7,23 @@
 include_once 'c4m_admin_groups.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function c4m_admin_groups_menu() {
+  $items = array();
+
+  $items['admin/c4m/groups/export'] = array(
+    'title' => 'Groups export',
+    'description' => 'Capacity4more groups export.',
+    'page callback' => 'c4m_admin_groups_groups_export_page',
+    'access arguments' => array('administer nodes'),
+    'file' => 'c4m_admin_groups.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_form_alter().
  *
  * Add "machineName" empty array to the JS settings
