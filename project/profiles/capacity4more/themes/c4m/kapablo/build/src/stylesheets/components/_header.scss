@@ -143,11 +143,11 @@
         @include horizontal_menu;
 
         li {
-          font-size: 0.85em;
+          font-size: 0.85rem;
           padding: 0 0.75rem;
 
           @media (min-width: $screen-md-min) {
-            font-size: 1em;
+            font-size: 1rem;
             padding: 0 1.25rem;
           }
 
