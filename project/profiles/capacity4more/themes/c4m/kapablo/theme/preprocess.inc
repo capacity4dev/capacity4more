@@ -70,13 +70,13 @@ function kapablo_preprocess_block(&$variables) {
 function kapablo_preprocess_page(&$variables) {
   // Add information about the number of sidebars.
   if (!empty($variables['page']['sidebar_first']) && !empty($variables['page']['sidebar_second'])) {
-    $variables['content_column_class_kapablo'] = ' class="col-md-4"';
+    $variables['content_column_class_kapablo'] = ' class="col-sm-4"';
   }
   elseif (!empty($variables['page']['sidebar_first']) || !empty($variables['page']['sidebar_second'])) {
-    $variables['content_column_class_kapablo'] = ' class="col-md-8"';
+    $variables['content_column_class_kapablo'] = ' class="col-sm-8"';
   }
   else {
-    $variables['content_column_class_kapablo'] = ' class="col-md-12"';
+    $variables['content_column_class_kapablo'] = ' class="col-sm-12"';
   }
 
   $variables['front_page'] = url('<front>', array('purl' => array('disabled' => TRUE)));

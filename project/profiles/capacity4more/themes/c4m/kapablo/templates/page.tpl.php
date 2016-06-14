@@ -238,7 +238,7 @@
       <!-- /#page-header -->
 
       <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
-        <aside class="col-md-4 off offCanvasNavigation--left" role="complementary">
+        <aside class="col-sm-4 off offCanvasNavigation--left" role="complementary">
           <?php print render($page['sidebar_first_top']); ?>
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
@@ -284,7 +284,7 @@
       </section>
 
       <?php if (!empty($page['sidebar_second'])): ?>
-        <aside class="col-md-4 offCanvasNavigation--right" role="complementary">
+        <aside class="col-sm-4 offCanvasNavigation--right" role="complementary">
           <?php print render($page['sidebar_second']); ?>
         </aside>  <!-- /#sidebar-second -->
       <?php endif; ?>

@@ -84,17 +84,17 @@
 </div>
 
 <div class="row">
-    <aside class="col-md-8" role="complementary">
+    <aside class="col-sm-8" role="complementary">
       <?php print $content['left']; ?>
     </aside>  <!-- /#sidebar-first -->
 
-    <aside class="col-md-4" role="complementary">
+    <aside class="col-sm-4" role="complementary">
       <?php print $content['right']; ?>
     </aside>  <!-- /#sidebar-second -->
 </div>
 
 <div class="row features">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <?php print $content['bottom']; ?>
     </div>
 </div>
