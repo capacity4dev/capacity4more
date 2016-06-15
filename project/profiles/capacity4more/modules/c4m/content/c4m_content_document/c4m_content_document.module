@@ -106,10 +106,10 @@ function c4m_content_document_entity_type_label_alter(&$variables) {
 /**
  * Returns the amount of document downloads.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic Group ID to eventually limit the query for.
  *
- * @return integer
+ * @return int
  *   The amount of document downloads.
  */
 function c4m_content_document_get_number_of_downloads($og_id = NULL) {

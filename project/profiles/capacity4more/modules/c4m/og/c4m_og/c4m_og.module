@@ -1045,7 +1045,7 @@ function c4m_og_metrics_info() {
 /**
  * Get the metrics specific for the given group.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic Group ID to gather the metrics for.
  *
  * @return array
@@ -1088,12 +1088,12 @@ function c4m_og_get_group_metrics($og_id) {
 /**
  * Get a specific metric for the given group.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic Group ID to gather the metrics for.
  * @param string $type
  *   The metric type.
  *
- * @return string | integer
+ * @return string | int
  *   The value of the metric.
  */
 function c4m_og_get_group_metric_value($og_id, $type) {
@@ -1113,12 +1113,12 @@ function c4m_og_get_group_metric_value($og_id, $type) {
 /**
  * Returns the amount of nodes in the group of the specified bundles.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic Group ID to gather the metrics for.
  * @param array $bundles
  *   The bundles to query for.
  *
- * @return integer
+ * @return int
  *   The amount of nodes in the group.
  */
 function c4m_og_group_node_metric($og_id, $bundles) {
@@ -1137,10 +1137,10 @@ function c4m_og_group_node_metric($og_id, $bundles) {
 /**
  * Returns the amount of users in the group of the specified bundles.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic Group ID to gather the metrics for.
  *
- * @return integer
+ * @return int
  *   The amount of users in the group.
  */
 function c4m_og_group_user_metric($og_id) {
@@ -1159,10 +1159,10 @@ function c4m_og_group_user_metric($og_id) {
 /**
  * Returns the amount of comments in the group.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic Group ID to gather the metrics for.
  *
- * @return integer
+ * @return int
  *   The amount of comments in the group.
  */
 function c4m_og_group_comment_metric($og_id) {
@@ -1194,10 +1194,10 @@ function c4m_og_c4m_og_metrics_info() {
 /**
  * Returns the total amount of recommendations on content of a group.
  *
- * @param integer $og_id
+ * @param int $og_id
  *   The Organic group ID to limit the query for.
  *
- * @return integer
+ * @return int
  *   The total amount of recommendations on the group content.
  */
 function c4m_og_get_content_recommendations($og_id = NULL) {
