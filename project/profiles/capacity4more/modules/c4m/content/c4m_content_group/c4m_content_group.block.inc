@@ -32,6 +32,40 @@ function _c4m_content_group_block_header_name_banner() {
   $wrapper = entity_metadata_wrapper('node', $group);
   $markup = '';
 
+    // start
+      if (!empty($wrapper->pluggable_node_access->value())) {
+      // If pluggable_node_access is set, then access is restricted.
+      $group_access = 'restricted';
+    }
+  else {
+      // Determine access per group_access parameter.
+      $group_access = $wrapper->group_access->value() ? 'private' : 'public';
+    }
+
+  $title = $wrapper->title->value();
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+  $variables = array(
+  'title' => check_plain($title),
+  'group_access' => $group_access,
+  'group_status' => $status,
+  );
+  $title = theme('c4m_content_group_header_title', $variables);
+
+  $tag['title']['element'] = array(
+  '#tag' => 'h1',
+  '#attributes' => array(
+  'class' => array('group-title'),
+  ),
+  '#value' => $title,
+  );
+
+  $markup = theme_html_tag($tag['title']);
+
+
+  // end
+
+
+
   $menu_item = menu_get_item();
   if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
     // Add group image.
