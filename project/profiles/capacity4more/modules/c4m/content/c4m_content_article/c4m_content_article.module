@@ -56,3 +56,24 @@ function c4m_content_article_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_node_update().
+ * Subscribe notable contributors to the node.
+ */
+function c4m_content_article_node_update($node) {
+  $contributors_original = field_get_items('node', $node->original, 'c4m_related_user');
+  $contributors = field_get_items('node', $node, 'c4m_related_user');
+
+  foreach($contributors as $contributor) {
+    if (!in_array($contributor, $contributors_original)) {
+      flag('subscribe_c4m_follow_node', $node->nid, $contributor);
+    }
+  }
+
+  foreach($contributors_original as $contributor_original) {
+    if (!in_array($contributor_original, $contributors)) {
+      unflag('subscribe_c4m_follow_node', $node->nid, $contributor_original);
+    }
+  }
+}
