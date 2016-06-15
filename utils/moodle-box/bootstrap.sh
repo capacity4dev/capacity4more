@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DEV_IP_ADDRESS='10.1.10.56'
+DEV_SERVER_NAME='cap4more.dev'
+
 PROJECT_FOLDER='cap4more-moodle'
 PROJECT_SERVER_NAME='moodle.cap4more.dev'
 
@@ -125,6 +128,23 @@ php admin/cli/install.php \
 
 # File permissions of Moodle platform
 sudo chown -R www-data:www-data "/var/www/${PROJECT_FOLDER}"
+
+# Update /etc/hosts file with our DEV-server name & IP address
+MATCHES_IN_HOSTS="$(grep -n $host_name /etc/hosts | cut -f1 -d:)"
+HOST_ENTRY="${DEV_IP_ADDRESS} ${DEV_SERVER_NAME}"
+
+if [ ! -z "$MATCHES_IN_HOSTS" ]
+then
+    # Updating existing hosts entry
+    # Iterate over the line numbers on which matches were found
+    while read -r line_number; do
+        # replace the text of each line with the desired host entry
+        sudo sed -i '' "${line_number}s/.*/${HOST_ENTRY} /" /etc/hosts
+    done <<< "$MATCHES_IN_HOSTS"
+else
+    # Adding new hosts entry
+    echo "$HOST_ENTRY" | sudo tee -a /etc/hosts > /dev/null
+fi
 
 # Restart Apache
 sudo service apache2 restart
