@@ -738,6 +738,7 @@ function c4m_content_group_theme() {
   $theme['c4m_content_group_header_title'] = array(
     'variables' => array(
       'title' => '',
+      'group_type' => '',
       'group_access' => '',
       'group_status' => '',
     ),
