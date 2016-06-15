@@ -27,6 +27,12 @@ ACCOUNT_NAME="admin"
 ACCOUNT_PASS="drupal"
 ACCOUNT_MAIL="$ACCOUNT_NAME@$SITE_URL"
 
+# File path settings
+FILE_PATH_PUBLIC="sites/default/files"
+FILE_PATH_PRIVATE="sites/default/files/private"
+FILE_PATH_DEFAULT_METHOD="public"
+FILE_PATH_TEMP="/tmp"
+
 # Apache Solr configuration.
 SOLR_NAME=""
 SOLR_HOST=""
