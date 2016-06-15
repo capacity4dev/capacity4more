@@ -1564,8 +1564,8 @@ function c4m_user_profile_field_default_field_instances() {
     'widget' => array(),
   );
 
-  // Exported field_instance: 'user-user-c4m_optout_term'.
-  $field_instances['user-user-c4m_optout_term'] = array(
+  // Exported field_instance: 'user-user-c4m_optout_taxonomy_term'.
+  $field_instances['user-user-c4m_optout_taxonomy_term'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
     'default_value_function' => '',
@@ -1599,7 +1599,7 @@ function c4m_user_profile_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'user',
-    'field_name' => 'c4m_optout_term',
+    'field_name' => 'c4m_optout_taxonomy_term',
     'label' => 'Unsubscribe from terms notifications',
     'required' => 0,
     'settings' => array(

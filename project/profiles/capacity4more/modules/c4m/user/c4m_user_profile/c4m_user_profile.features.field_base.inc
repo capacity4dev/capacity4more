@@ -637,13 +637,13 @@ function c4m_user_profile_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'c4m_optout_term'.
-  $field_bases['c4m_optout_term'] = array(
+  // Exported field_base: 'c4m_optout_taxonomy_term'.
+  $field_bases['c4m_optout_taxonomy_term'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m_optout_term',
+    'field_name' => 'c4m_optout_taxonomy_term',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
