@@ -619,6 +619,11 @@ function c4m_ds_theme() {
       'path' => $path,
       'template' => 'c4m_ds_entity_downloads_count',
     ),
+    'c4m_ds_entity_recommends_count' => array(
+      'variables' => array('count' => 0),
+      'path' => $path,
+      'template' => 'c4m_ds_entity_recommends_count',
+    ),
     'c4m_ds_embed_view' => array(
       'variables' => array(
         'view' => '',
