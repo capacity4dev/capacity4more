@@ -752,6 +752,10 @@ function c4m_content_group_field_extra_fields() {
  * Adding the 'Group administrators' view for the group_admins field.
  */
 function c4m_content_group_node_view($node, $view_mode, $langcode) {
+  if ($view_mode != "group_dashboard") {
+    return;
+  }
+
   $accounts = c4m_og_get_group_admins($node->nid);
 
   $links = array();
