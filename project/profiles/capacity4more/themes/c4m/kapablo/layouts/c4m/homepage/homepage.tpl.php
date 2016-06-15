@@ -84,9 +84,9 @@
 </div>
 
 <div class="row">
-    <aside class="col-md-8" role="complementary">
+    <section class="col-md-8" role="main">
       <?php print $content['left']; ?>
-    </aside>  <!-- /#sidebar-first -->
+    </section>  <!-- /#sidebar-first -->
 
     <aside class="col-md-4" role="complementary">
       <?php print $content['right']; ?>
