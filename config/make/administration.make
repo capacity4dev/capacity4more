@@ -94,7 +94,7 @@ projects[term_reference_tree][version] = "1.10"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta9"
-projects[views_data_export][patch][] = https://www.drupal.org/files/issues/views_data_export-permanent-files-1875456-60-beta9-do-not-test.patch
+projects[views_data_export][patch][] = https://www.drupal.org/files/issues/views_data_export-permanent-files-1875456-61-beta9-do-not-test.patch
 
 ; Themes to upgrade the admin backend.
 
