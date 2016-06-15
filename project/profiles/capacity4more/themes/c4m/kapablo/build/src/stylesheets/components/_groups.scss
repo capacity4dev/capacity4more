@@ -11,6 +11,14 @@
 .og-context #content-top-wrapper {
   background: none;
   border-bottom: none;
+
+  @media (max-width: $screen-tablet) {
+    padding: 0;
+  }
+}
+
+.og-context #main-wrapper {
+  padding-top: 0;
 }
 
 .group-header {
@@ -36,81 +44,94 @@
     color: $color-gray-dark;
     font-size: 0.8rem;
     font-weight: normal;
+
+    @media (min-width: $screen-tablet) {
+      display: none;
+    }
   }
 
   nav {
-    background: $color-text-alternative;
-    margin: 20px -18px 0px;
-    padding: 30px 18px;
+    padding: 0;
 
-    @include box-shadow(inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868);
-
-    ul {
-      margin: 0;
+    .og-menu-link.calendar {
+      width: auto;
     }
 
-    li {
+    @media (max-width: $screen-tablet) {
 
-      width: 100%;
+      background: $color-text-alternative;
+      margin: 20px -18px 0px;
+      padding: 30px 18px;
 
-      &::before {
-        display: inline-block;
+      @include box-shadow(inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868);
 
-        color: $color-white;
-        font: normal normal normal 14px/1 FontAwesome;
-        font-size: inherit;
+      ul {
+        margin: 0;
       }
 
-      &.front::before {
-        content: "\f015";
-      }
+      li {
 
-      &.documents::before {
-        content: "\f0f6";
-      }
+        width: 100%;
 
-      &.wiki::before {
-        content: "\f266";
-      }
+        &::before {
+          display: inline-block;
 
-      &.media::before {
-        content: "\f03e";
-      }
+          color: $color-white;
+          font: normal normal normal 14px/1 FontAwesome;
+          font-size: inherit;
+        }
 
-      &.media::before {
-        content: "\f03e";
-      }
+        &.front::before {
+          content: "\f015";
+        }
 
-      &.discussions::before {
-        content: "\f040";
-      }
+        &.documents::before {
+          content: "\f0f6";
+        }
 
-      &.calendar::before {
-        content: "\f073";
-      }
+        &.wiki::before {
+          content: "\f266";
+        }
 
-      &.members::before {
-        content: "\f0c0";
-      }
+        &.media::before {
+          content: "\f03e";
+        }
 
-      &:not(:last-of-type) {
-        border-bottom: 1px dotted $color-gray-light;
-      }
+        &.media::before {
+          content: "\f03e";
+        }
 
-      a {
-        display: inline-block;
-        color: $color-white;
+        &.discussions::before {
+          content: "\f040";
+        }
 
-        &:hover {
-          background: $color-text-alternative;
+        &.calendar::before {
+          content: "\f073";
+        }
 
+        &.members::before {
+          content: "\f0c0";
+        }
+
+        &:not(:last-of-type) {
+          border-bottom: 1px dotted $color-gray-light;
+        }
+
+        a {
+          display: inline-block;
+          color: $color-white;
+
+          &:hover {
+            background: $color-text-alternative;
+
+          }
         }
       }
     }
   }
 
   @media (min-width: $screen-tablet) {
-    display: none;
+    padding: 0;
   }
 }
 
@@ -141,6 +162,10 @@
 
   &:focus {
     outline: none;
+  }
+
+  @media (min-width: $screen-tablet) {
+    display: none;
   }
 }
 
@@ -401,7 +426,6 @@
 
     margin: 0;
     padding: 0;
-
 
     li {
       float: left;
