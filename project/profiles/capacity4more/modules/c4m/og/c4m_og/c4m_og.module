@@ -736,9 +736,8 @@ function c4m_og_feature_enabled($feature) {
 
   // Check if the feature should be enabled for the current group.
   $group = og_context();
-  if (!empty($group)) {
-    $group_node = node_load($group['gid']);
-    if (!in_array($group_node->type, $og_feature['group_types'])) {
+  if ($group_type = c4m_og_get_group_type($group)) {
+    if (!in_array($group_type, $og_feature['group_types'])) {
       return FALSE;
     }
   }
