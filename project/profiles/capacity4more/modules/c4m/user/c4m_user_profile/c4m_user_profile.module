@@ -917,6 +917,7 @@ function c4m_user_profile_unsubscribe_user_access($account, $entity_type, $entit
     return FALSE;
   }
 
+  // Validate we have an optout field for the current entity type.
   if (!isset($wrapper->{"c4m_optout_{$entity_type}"})) {
     return FALSE;
   }
