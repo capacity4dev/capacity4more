@@ -30,9 +30,24 @@ function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
+  if (!empty($wrapper->pluggable_node_access->value())) {
+    // If pluggable_node_access is set, then access is restricted.
+    $group_access = 'restricted';
+  }
+  else {
+    // Determine access per group_access parameter.
+    $group_access = $wrapper->group_access->value() ? 'private' : 'public';
+  }
 
   $title = $wrapper->title->value();
   $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+  $variables = array(
+    'title' => check_plain($title),
+    'group_access' => $group_access,
+    'group_status' => $status,
+  );
+  $title = theme('c4m_content_group_header_title', $variables);
+
   $tag['title']['element'] = array(
     '#tag' => 'h1',
     '#attributes' => array(
@@ -42,17 +57,6 @@ function _c4m_content_group_block_header_name_banner() {
   );
 
   $markup = theme_html_tag($tag['title']);
-
-  if ($status != 'published') {
-    $tag['status']['element'] = array(
-      '#tag' => 'span',
-      '#attributes' => array(
-        'class' => array('group-status'),
-      ),
-      '#value' => $status,
-    );
-    $markup .= theme_html_tag($tag['status']);
-  }
 
   $menu_item = menu_get_item();
   if (drupal_is_front_page() || ($menu_item['path'] == 'manage' && og_user_access('node', $group->nid, 'administer group'))) {
