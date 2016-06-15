@@ -1433,9 +1433,12 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 31,
       ),
       'full' => array(
         'label' => 'above',
@@ -1463,7 +1466,13 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'user_register_form' => 0,
     ),
-    'widget' => array(),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 39,
+    ),
   );
 
   // Exported field_instance: 'user-user-c4m_optout_group'.
@@ -1482,9 +1491,12 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 30,
       ),
       'full' => array(
         'label' => 'above',
@@ -1512,7 +1524,13 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'user_register_form' => 0,
     ),
-    'widget' => array(),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 38,
+    ),
   );
 
   // Exported field_instance: 'user-user-c4m_optout_node'.
@@ -1531,9 +1549,12 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 28,
       ),
       'full' => array(
         'label' => 'above',
@@ -1561,7 +1582,13 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'user_register_form' => 0,
     ),
-    'widget' => array(),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 36,
+    ),
   );
 
   // Exported field_instance: 'user-user-c4m_optout_taxonomy_term'.
@@ -1580,9 +1607,12 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 29,
       ),
       'full' => array(
         'label' => 'above',
@@ -1610,7 +1640,13 @@ function c4m_user_profile_field_default_field_instances() {
       ),
       'user_register_form' => 0,
     ),
-    'widget' => array(),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
+      'weight' => 37,
+    ),
   );
 
   // Translatables
