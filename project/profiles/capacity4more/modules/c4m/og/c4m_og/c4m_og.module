@@ -1008,3 +1008,21 @@ function c4m_og_get_all_group_memberships_by_state($gid, $state) {
 
   return $cache[$identifier];
 }
+
+/**
+ * Helper function to get group type (project|group).
+ *
+ * @param array $group
+ *   The group to get the type from.
+ *
+ * @return string
+ *   Group type (project|group).
+ */
+function c4m_og_get_group_type($group) {
+  if (!empty($group)) {
+    if ($group_node = node_load($group['gid'])) {
+      return $group_node->type;
+    }
+  }
+  return FALSE;
+}
