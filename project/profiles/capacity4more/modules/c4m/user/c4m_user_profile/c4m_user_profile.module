@@ -965,42 +965,32 @@ function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
  * Remove unsubscribed users from the list when sending a notification.
  */
 function c4m_user_profile_message_subscribe_get_subscribers_alter(&$uids, $values) {
-  $entity_type = $values['entity_type'];
-  $entity_id = reset($values['context'][$entity_type]);
-  $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
+  $uids = c4m_user_profile_get_subscribed($uids);
 }
 
 /**
  * Check which of the given users are subscribed.
  *
- * A subscribed user is one who unsubscribed from a specific entity.
+ * A subscribed user is one who don't have "Unsubscribe" indication.
  *
- * @param $entity_type
- *   The entity type of the content.
- * @param $entity_id
- *   The entity ID of the content.
  * @param array $uids
  *   Array containing users IDs.
  *
  * @return array
  *   Array containing all subscribed users IDs.
  */
-function c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids = array()) {
-  if (!$uids) {
+function c4m_user_profile_get_subscribed($uids) {
+  if (empty($uids)) {
     return array();
   }
 
   // Using db_select instead of user_load_multiple to optimize the performance.
-  $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
+  $query = db_select('field_data_c4m_optout', 'o');
   $query
     ->fields('o', array('entity_id'))
     ->condition('entity_id', $uids, 'IN')
-    ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
+    // Returns only users that didn't indicate unsubscription.
+    ->condition('c4m_optout_value', 0);
 
-  $unsubscribers = $query->execute()->fetchAllKeyed(0 , 0);
-
-  return array_filter($uids, function($uid) use ($unsubscribers) {
-    // Removing all unsubscribed users.
-    return !in_array($uid, $unsubscribers);
-  });
+  return $query->execute()->fetchAllKeyed(0, 0);
 }
