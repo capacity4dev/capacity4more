@@ -975,9 +975,9 @@ function c4m_user_profile_message_subscribe_get_subscribers_alter(&$uids, $value
  *
  * A subscribed user is one who unsubscribed from a specific entity.
  *
- * @param $entity_type
+ * @param string $entity_type
  *   The entity type of the content.
- * @param $entity_id
+ * @param string $entity_id
  *   The entity ID of the content.
  * @param array $uids
  *   Array containing users IDs.
@@ -997,10 +997,28 @@ function c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids = array
     ->condition('entity_id', $uids, 'IN')
     ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
 
-  $unsubscribers = $query->execute()->fetchAllKeyed(0 , 0);
+  $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);
 
   return array_filter($uids, function($uid) use ($unsubscribers) {
     // Removing all unsubscribed users.
     return !in_array($uid, $unsubscribers);
   });
+}
+
+/**
+ * Implements hook_field_access().
+ *
+ * Deny access to all 'optout' fields.
+ */
+function c4m_user_profile_field_access($op, $field, $entity_type, $entity, $account) {
+  $optout_fields = array(
+    'c4m_optout_comment',
+    'c4m_optout_group',
+    'c4m_optout_node',
+    'c4m_optout_taxonomy_term',
+  );
+
+  if (in_array($field['field_name'], $optout_fields)) {
+    return FALSE;
+  }
 }
