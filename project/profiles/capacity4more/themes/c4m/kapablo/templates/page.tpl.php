@@ -107,7 +107,9 @@
 
   <div id="header-ec-wrapper">
     <div class="row background_banner">
-      <?php print $image_banner; ?>
+      <div class="col-sm-12 col-md-12">
+        <?php print $image_banner; ?>
+      </div>
     </div>
 
     <div class="container">
