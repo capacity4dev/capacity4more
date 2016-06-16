@@ -6,7 +6,6 @@
 
 namespace FeatureContext;
 
-
 trait User {
   /**
    * Authenticates a user with password from configuration.
@@ -18,5 +17,14 @@ trait User {
     $this->user->name = $username;
     $this->user->pass = $this->drupal_users[$username];
     $this->login();
+  }
+
+  /**
+   * Create a new user and associate with an organization by email domain.
+   *
+   * @Given /^I create a new user "([^"]*)" with the "([^"]*)" email domain$/
+   */
+  public function iCreateANewUser($username, $sld) {
+    return;
   }
 }

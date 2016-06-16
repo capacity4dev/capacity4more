@@ -35,3 +35,13 @@ Feature: Group content access
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
     And   I should see "Access denied"
+
+  @javascript
+  Scenario: A member of the organization should be able to see the group's content.
+    Given I am logged in as user "turing"
+    And   I create a new user "charlesbabbage" with the "@turingmachine.com" email domain
+    And   I change access of group "My test group" to "Restricted"
+    When  I am logged in as user "charlesbabbage"
+    Then  I visit "Test content" node of type "discussion"
+    And   I should not see "Access denied"
+    And   I should see "Test content"
