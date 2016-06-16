@@ -472,3 +472,24 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
     }
   }
 }
+
+/**
+ * Implements hook_cron().
+ *
+ * Activation reminder for inactive users.
+ */
+function c4m_user_notifications_cron() {
+  c4m_user_notifications_inactive();
+}
+
+/**
+ * WIP.
+ */
+function c4m_user_notifications_inactive() {
+  $interval = variable_get('c4m_inactive_users_reminder_interval', 7);
+  foreach(c4m_user_get_inactive_users() as $account) {
+    if ($account->created == REQUEST_TIME * $interval) {
+      // Notify.
+    }
+  }
+}

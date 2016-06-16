@@ -986,3 +986,32 @@ function c4m_user_is_spammer($user) {
 
   return FALSE;
 }
+
+/**
+ * Get all inactive users that has never logged in.
+ *
+ * Excluding the anonymous and admin users.
+ *
+ * @return array
+ *   All inactive users objects.
+ */
+function c4m_user_get_inactive_users() {
+  $query = db_select('users', 'u');
+  $query->fields('u', array('uid', 'status', 'login', 'created'))
+    // Inactive user.
+    ->condition('u.status', 0)
+    // Never logged in.
+    ->condition('u.login', 0)
+    // Not anonymous user.
+    ->condition('u.uid', 0, '<>')
+    // Not admin user.
+    ->condition('u.uid', 11, '<>');
+
+  $results = $query->execute()->fetchAllKeyed(0, 0);
+
+  if (!$results) {
+    return array();
+  }
+
+  return user_load_multiple($results);
+}
