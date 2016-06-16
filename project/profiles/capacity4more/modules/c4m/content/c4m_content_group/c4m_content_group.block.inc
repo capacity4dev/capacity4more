@@ -87,15 +87,71 @@ function _c4m_content_group_block_header_name_banner() {
 
   $variables['group_type'] = c4m_og_get_group_type_name($group);
 
-  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+  $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value(
+  ) : 'published';
 
   $variables['group_status'] = ($status !== 'published') ? $status : '';
+
+  $variables['organisations'] = array();
+  $variables['organisation_icons'] = array();
+  $variables['organisation_ellipsis'] = FALSE;
+  $variables['emails'] = array();
 
   if (!empty($wrapper->pluggable_node_access->value())) {
     // If pluggable_node_access is set, then access is restricted.
     $group_access = 'restricted';
 
-    $organisations = $wrapper->pluggable_node_access->value();
+    $restricted_info = c4m_og_get_restricted_info($group);
+
+    $organisations = array();
+    $emails = array();
+
+    if (!empty($restricted_info['organisations'])) {
+      $organisations = node_load_multiple(
+        array_values($restricted_info['organisations'])
+      );
+
+      // Load icon + title for all organisations.
+      $organisation_list = array();
+
+      // Load icon for the first three.
+      $organisation_icons = array();
+      $count = 0;
+
+      foreach ($organisations as $nid => $org) {
+        $icon = c4m_content_organisation_get_icon($org);
+        $icon['#item']["attributes"]["class"] = array('group-title-organisation-icon');
+        $icon['#item']["attributes"]["title"] = $org->title;
+
+        $icon_render = drupal_render($icon);
+
+        $organisation_list[] = $icon_render . $org->title;
+
+        if ($count++ < 3) {
+          $organisation_icons[] = $icon_render;
+        }
+      }
+
+      $variables['organisations'] = $organisation_list;
+      $variables['organisation_icons'] = $organisation_icons;
+
+      if (count($organisations) > 3) {
+        $variables['organisation_ellipsis'] = TRUE;
+      }
+    }
+
+    if (!empty($restricted_info['domains'])) {
+      $emails = array_values($restricted_info['domains']);
+      array_walk(
+        $emails,
+        function (&$value, $key) {
+          $value = trim($value, ', ');
+          $value = '@' . $value;
+        }
+      );
+    }
+
+    $variables['emails'] = $emails;
   }
   else {
     // Determine access per group_access parameter.
