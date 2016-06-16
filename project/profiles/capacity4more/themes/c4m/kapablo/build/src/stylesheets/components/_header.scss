@@ -44,11 +44,10 @@
 
     img {
       width: 100%;
-      height: 18rem;
-      margin-top: 12rem;
+      height: 200px
+      margin-top: 221px;
       -webkit-filter: blur(10px) grayscale(80%);
       filter: blur(10px) grayscale(80%);
-
       -webkit-mask-image: -webkit-gradient(linear, left 90%, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
       mask-image: -webkit-gradient(linear, left 90%, left top, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 
