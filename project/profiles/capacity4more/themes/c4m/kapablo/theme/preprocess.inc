@@ -85,7 +85,7 @@ function kapablo_preprocess_page(&$variables) {
   $variables['search_form'] = drupal_get_form('c4m_search_form');
 
   if (og_context()) {
-    $variables['image_banner'] = _group_image_banner(og_context());
+    $variables['image_banner'] = kapablo_group_image_banner(og_context());
   }
 
   // Take care of the breadcrumb for OG content.
@@ -563,7 +563,13 @@ function kapablo_preprocess_image(&$variables) {
   }
 }
 
-function _group_image_banner() {
+/**
+ * Create the image banner for groups.
+ *
+ * @return string
+ *  The image markup.
+ */
+function kapablo_group_image_banner() {
   // First establish the current group.
   $group = c4m_og_current_group();
   $wrapper = entity_metadata_wrapper('node', $group);
