@@ -1,98 +1,95 @@
 <?php
 /**
  * @file
- * c4m_content_photo.strongarm.inc
+ * c4m_content_share.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function c4m_content_photo_strongarm() {
+function c4m_content_share_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_anonymous_photo';
+  $strongarm->name = 'comment_anonymous_share';
   $strongarm->value = 0;
-  $export['comment_anonymous_photo'] = $strongarm;
+  $export['comment_anonymous_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_mode_photo';
+  $strongarm->name = 'comment_default_mode_share';
   $strongarm->value = 1;
-  $export['comment_default_mode_photo'] = $strongarm;
+  $export['comment_default_mode_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_photo';
+  $strongarm->name = 'comment_default_per_page_share';
   $strongarm->value = '50';
-  $export['comment_default_per_page_photo'] = $strongarm;
+  $export['comment_default_per_page_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_photo';
+  $strongarm->name = 'comment_form_location_share';
   $strongarm->value = 1;
-  $export['comment_form_location_photo'] = $strongarm;
+  $export['comment_form_location_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_photo';
+  $strongarm->name = 'comment_preview_share';
+  $strongarm->value = '1';
+  $export['comment_preview_share'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_share';
   $strongarm->value = '0';
-  $export['comment_photo'] = $strongarm;
+  $export['comment_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_photo';
-  $strongarm->value = '0';
-  $export['comment_preview_photo'] = $strongarm;
+  $strongarm->name = 'comment_subject_field_share';
+  $strongarm->value = 1;
+  $export['comment_subject_field_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_photo';
-  $strongarm->value = 0;
-  $export['comment_subject_field_photo'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_node__photo';
+  $strongarm->name = 'field_bundle_settings_node__share';
   $strongarm->value = array(
     'view_modes' => array(
       'full' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'teaser' => array(
         'custom_settings' => TRUE,
+      ),
+      'teaser_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_global' => array(
+        'custom_settings' => TRUE,
+      ),
+      'activity_group' => array(
+        'custom_settings' => TRUE,
+      ),
+      'block_list' => array(
+        'custom_settings' => TRUE,
+      ),
+      'group_dashboard' => array(
+        'custom_settings' => FALSE,
       ),
       'rss' => array(
         'custom_settings' => FALSE,
       ),
       'print' => array(
-        'custom_settings' => FALSE,
-      ),
-      'c4m_related' => array(
-        'custom_settings' => FALSE,
-      ),
-      'featured_block' => array(
-        'custom_settings' => FALSE,
-      ),
-      'library' => array(
-        'custom_settings' => FALSE,
-      ),
-      'upcoming_event' => array(
-        'custom_settings' => FALSE,
-      ),
-      'activity_group' => array(
-        'custom_settings' => FALSE,
-      ),
-      'activity_global' => array(
         'custom_settings' => FALSE,
       ),
       'diff_standard' => array(
@@ -101,25 +98,7 @@ function c4m_content_photo_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
-      'c4m_dashboard' => array(
-        'custom_settings' => FALSE,
-      ),
-      'c4m_teaser_list' => array(
-        'custom_settings' => FALSE,
-      ),
-      'c4m_teaser_table' => array(
-        'custom_settings' => FALSE,
-      ),
       'revision' => array(
-        'custom_settings' => FALSE,
-      ),
-      'teaser_group' => array(
-        'custom_settings' => TRUE,
-      ),
-      'block_list' => array(
-        'custom_settings' => FALSE,
-      ),
-      'group_dashboard' => array(
         'custom_settings' => FALSE,
       ),
     ),
@@ -129,88 +108,60 @@ function c4m_content_photo_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '5',
         ),
-        'locations' => array(
-          'weight' => '8',
-        ),
-      ),
-      'display' => array(
-        'node_gallery_navigation' => array(
-          'activity_group' => array(
-            'weight' => '17',
-            'visible' => FALSE,
-          ),
-          'activity_global' => array(
-            'weight' => '17',
-            'visible' => FALSE,
-          ),
-          'default' => array(
-            'weight' => '5',
-            'visible' => TRUE,
-          ),
-          'full' => array(
-            'weight' => '3',
-            'visible' => TRUE,
-          ),
-          'teaser' => array(
-            'weight' => '22',
-            'visible' => FALSE,
-          ),
-          'teaser_group' => array(
-            'weight' => '22',
-            'visible' => FALSE,
-          ),
+        'redirect' => array(
+          'weight' => '4',
         ),
       ),
+      'display' => array(),
     ),
   );
-  $export['field_bundle_settings_node__photo'] = $strongarm;
+  $export['field_bundle_settings_node__share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'menu_options_photo';
+  $strongarm->name = 'menu_options_share';
   $strongarm->value = array();
-  $export['menu_options_photo'] = $strongarm;
+  $export['menu_options_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'menu_parent_photo';
+  $strongarm->name = 'menu_parent_share';
   $strongarm->value = 'main-menu:0';
-  $export['menu_parent_photo'] = $strongarm;
+  $export['menu_parent_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_photo';
+  $strongarm->name = 'node_options_share';
   $strongarm->value = array(
     0 => 'status',
-    1 => 'revision',
   );
-  $export['node_options_photo'] = $strongarm;
+  $export['node_options_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_preview_photo';
-  $strongarm->value = '0';
-  $export['node_preview_photo'] = $strongarm;
+  $strongarm->name = 'node_preview_share';
+  $strongarm->value = '1';
+  $export['node_preview_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_submitted_photo';
-  $strongarm->value = 0;
-  $export['node_submitted_photo'] = $strongarm;
+  $strongarm->name = 'node_submitted_share';
+  $strongarm->value = 1;
+  $export['node_submitted_share'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_photo_pattern';
-  $strongarm->value = 'photo-album-image/[node:title]';
-  $export['pathauto_node_photo_pattern'] = $strongarm;
+  $strongarm->name = 'pathauto_node_share_pattern';
+  $strongarm->value = 'share/[node:title]';
+  $export['pathauto_node_share_pattern'] = $strongarm;
 
   return $export;
 }

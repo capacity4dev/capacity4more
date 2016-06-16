@@ -1,0 +1,352 @@
+<?php
+/**
+ * @file
+ * Code for the Share content type feature.
+ */
+
+include_once 'c4m_content_share.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_content_share_menu() {
+  $items = array();
+
+  $items['node/%node/share'] = array(
+    'title' => 'Share content to another group',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_content_share_form'),
+    'access callback' => 'c4m_og_user_is_member',
+    'file' => 'c4m_content_share.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function c4m_content_share_menu_alter(&$items) {
+  // Don't allow direct shares.
+  $items['node/add/share']['access callback'] = FALSE;
+}
+
+/**
+ * Implements hook_c4m_content_actions_info().
+ */
+function c4m_content_share_c4m_content_actions_info() {
+  return array(
+    'action_share' => array(
+      'context' => array('group'),
+      'callback' => 'c4m_content_share_action_share',
+      'weight' => '5',
+    ),
+  );
+}
+
+/**
+ * Callback to show the share link.
+ *
+ * @param object $node
+ *    The node object.
+ *
+ * @return string
+ *    Rendered output of the share link.
+ */
+function c4m_content_share_action_share($node) {
+  if (!c4m_og_user_is_member() || !og_is_group_content_type(
+      'node',
+      $node->type
+    )
+  ) {
+    return '';
+  }
+
+  $url = url(
+    'node/' . $node->nid . '/share',
+    array(
+      'absolute' => TRUE,
+      'purl' => array('disabled' => FALSE),
+    )
+  );
+
+  $output = '<div class="group-actions-share">' . l(
+      t('Share to your groups'),
+      $url
+    ) . '</div>';
+  return $output;
+}
+
+/**
+ * Implements hook_search_api_index_items_alter().
+ */
+function c4m_content_share_search_api_index_items_alter(
+  array &$items,
+  SearchApiIndex $index
+) {
+  foreach ($items as $index => $item) {
+    if ($item->type == 'share') {
+      // Do stuff.
+      $node = entity_metadata_wrapper('node', $item);
+
+      // Retrieve original node.
+      $original_node = $node->c4m_source_entity->value();
+      $index_fields = c4m_content_share_fields_info($original_node->type);
+
+      foreach ($index_fields as $field) {
+        $item->{$field} = $original_node->{$field};
+      }
+
+      $items[$index] = $item;
+    }
+  }
+}
+
+/**
+ * Load all group features info from implemented c4m_og_feature hooks.
+ *
+ * @param string $bundle
+ *   Only return data for a given content type (node bundle).
+ *
+ * @return array
+ *   Configuration as collected trough the implemented
+ *   hook_c4m_share_content_fields_info hooks.
+ */
+function c4m_content_share_fields_info($bundle = NULL) {
+  $cache_key = 'c4m_content_share:fields_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'c4m_content_share_fields_info';
+      $data = module_invoke_all($hook);
+      cache_set($cache_key, $data);
+    }
+  }
+
+  // Only return data for a given feature.
+  if (isset($data[$bundle])) {
+    return $data[$bundle];
+  }
+
+  // Return all data.
+  return $data;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function c4m_content_share_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'share' && $view_mode == 'full' && node_is_page($node)) {
+    $host_entity = entity_metadata_wrapper('node', $node);
+    $source_entity = entity_metadata_wrapper(
+      'node',
+      $host_entity->c4m_source_entity->value()
+    );
+
+    $redirect = 'node/' . $source_entity->nid->value();
+
+    $group_id = $source_entity->og_group_ref->nid->value();
+
+    drupal_goto(
+      $redirect,
+      array(
+        'purl' => array(
+          'disabled' => FALSE,
+          'provider' => "og_purl|node",
+          'id' => $group_id,
+        ),
+      ),
+      301
+    );
+  }
+}
+
+/**
+ * Implements hook_node_access_records_alter().
+ */
+function c4m_content_share_node_access_records_alter(&$grants, $node) {
+  if ($node->type == 'share') {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $original_node = $node_wrapper->c4m_source_entity->value();
+
+    if (!empty($original_node)) {
+      $original_node = entity_metadata_wrapper('node', $original_node);
+
+      $query = db_select('node_access', 'na');
+      $query->fields('na')
+        ->condition('na.nid', $original_node->nid->value());
+
+      $original_na = $query->execute()->fetchAllAssoc('nid', PDO::FETCH_ASSOC);
+
+      $grants = array((array) $original_na[$original_node->nid->value()]);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function c4m_content_share_form_share_node_form_alter(
+  &$form,
+  &$form_state,
+  $form_id
+) {
+  // Form ID covers both create/edit form,
+  // but in our hook_menu_alter we already restrict access to the creation form.
+  // Only allow access to update the description field.
+  if (arg(2) === 'edit' && !empty(arg(2) === 'edit')) {
+    $form['title']['#access'] = FALSE;
+    $form['c4m_source_entity']['#access'] = FALSE;
+    $form['og_group_ref']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_share_c4m_helper_entity_label_info() {
+  return array(
+    'share' => array(
+      'article' => t('a'),
+      'singular' => t('share'),
+      'plural' => t('shares'),
+      'insert action' => t('shared'),
+      'update action' => t('updated'),
+      'icon' => 'fa-retweet',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info_alter().
+ */
+function c4m_content_share_c4m_helper_entity_label_info_alter(
+  &$label_info,
+  $entity
+) {
+  if ($entity->type == 'share') {
+    $node = entity_metadata_wrapper('node', $entity);
+    $original_node = $node->c4m_source_entity->value();
+
+    $original_label_info = c4m_helper_entity_label_info($original_node);
+
+    $label_info['singular'] = $original_label_info['singular'];
+  }
+}
+
+/**
+ * Get all the groups (nids) the node is shared to.
+ *
+ * @param object $node
+ *   The drupal node object.
+ *
+ * @return array
+ *   Array of group node ids the content is shared to.
+ */
+function c4m_content_share_get_shared_groups($node) {
+  $query = new EntityFieldQuery();
+
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'share')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('c4m_source_entity', 'target_id', $node->nid, '=');
+
+  $result = $query->execute();
+
+  $group_ids = array();
+
+  if (isset($result['node'])) {
+    $share_ids = array_keys($result['node']);
+
+    $shares = node_load_multiple($share_ids);
+
+    foreach ($shares as $share) {
+      $share = entity_metadata_wrapper('node', $share);
+      $group_ids[] = $share->og_group_ref->value()->nid;
+    }
+  }
+
+  return $group_ids;
+}
+
+/**
+ * Retrieve the total sum of content shares within a group.
+ *
+ * Retrieve the total sum of content shares within a group.
+ * If one node is shared multiple times, it is added to the sum multiple
+ * times as well.
+ *
+ * @param object $group
+ *   The group node object.
+ *
+ * @return int
+ *   Total sum of content shares within a group.
+ */
+function c4m_content_share_get_number_of_shared_content_per_group($group) {
+  $query = _c4m_content_share_get_shared_content_per_group_query($group);
+
+  $shares = $query->countQuery()->execute()->fetchField();
+
+  return $shares;
+}
+
+/**
+ * Retrieve all the content that is shared within a group (not unique).
+ *
+ * Retrieve all the content that is shared within a group.
+ * If one node is shared multiple times, it is added to the array multiple
+ * times as well.
+ *
+ * @param object $group
+ *   The group node object.
+ *
+ * @return array
+ *   Shared content (not unique) in an associative array.
+ */
+function c4m_content_share_get_shared_content_per_group($group) {
+  $query = _c4m_content_share_get_shared_content_per_group_query($group);
+
+  $result = $query->execute();
+
+  $shares = $result->fetchCol();
+
+  return $shares;
+}
+
+/**
+ * Helper function returns the selectquery to retrieve shared group content.
+ *
+ * @param object $group
+ *   The group node object.
+ *
+ * @return \SelectQuery
+ *   The selectquery object before execution.
+ */
+function _c4m_content_share_get_shared_content_per_group_query($group) {
+  $query = db_select('node', 'node_source');
+
+  $query->innerJoin(
+    'field_data_c4m_source_entity',
+    'field_source',
+    'field_source.c4m_source_entity_target_id = node_source.nid'
+  );
+
+  $query->innerJoin(
+    'node',
+    'node_share',
+    'field_source.entity_id = node_share.nid'
+  );
+
+  $query->innerJoin('og_membership', 'og', 'og.etid = node_source.nid');
+
+  $query->fields('node_source', array('nid'))
+    ->condition('og.gid', $group->nid, '=');
+
+  return $query;
+}
