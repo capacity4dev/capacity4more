@@ -36,6 +36,14 @@
 #header-ec-wrapper {
   @include grey_bar;
   border-bottom: none;
+
+  .row.background_banner > img{
+    width: 100%;
+    height: 22%;
+    position: absolute;
+    -webkit-filter: blur(10px) grayscale(100%);
+    filter: blur(10px) grayscale(100%);
+  }
 }
 
 #header-content-wrapper {
@@ -90,7 +98,7 @@
   ol {
     background: none;
     margin: 0 0 0 6rem;
-    padding: 0;
+    padding: 1rem;
 
     li {
       @extend .text-small;

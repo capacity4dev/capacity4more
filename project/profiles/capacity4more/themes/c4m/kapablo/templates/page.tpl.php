@@ -106,6 +106,10 @@
   <?php endif; ?>
 
   <div id="header-ec-wrapper">
+    <div class="row background_banner">
+      <?php print $image_banner; ?>
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-sm-9 col-md-9 header-logo">
@@ -126,6 +130,12 @@
       <div class="row">
         <div class="col-sm-12 col-md-12 header-breadcrumb">
           <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <?php print $image_banner; ?>
         </div>
       </div>
     </div>
