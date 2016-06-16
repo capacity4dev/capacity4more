@@ -223,9 +223,10 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['label'] = 'Group Title';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -235,13 +236,10 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['path']['absolute'] = TRUE;
   /* Field: Content: Group visibility */
-  $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
-  $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
-  $handler->display->display_options['fields']['group_access']['field'] = 'group_access';
-  $handler->display->display_options['fields']['group_access']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_access']['settings'] = array(
-    'field_name' => '0',
-  );
+  $handler->display->display_options['fields']['group_visibility']['id'] = 'group_visibility';
+  $handler->display->display_options['fields']['group_visibility']['table'] = 'node';
+  $handler->display->display_options['fields']['group_visibility']['field'] = 'group_visibility';
+  $handler->display->display_options['fields']['group_visibility']['element_label_colon'] = FALSE;
   /* Field: Content: Group domains */
   $handler->display->display_options['fields']['group_domains']['id'] = 'group_domains';
   $handler->display->display_options['fields']['group_domains']['table'] = 'node';
@@ -394,15 +392,18 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['group_metrics_13']['label'] = 'Content Recommendations';
   $handler->display->display_options['fields']['group_metrics_13']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_metrics_13']['c4m_admin_groups_group_metric'] = 'group::content_recommendations';
-  /* Field: Content: Related Topics */
-  $handler->display->display_options['fields']['c4m_related_topic']['id'] = 'c4m_related_topic';
-  $handler->display->display_options['fields']['c4m_related_topic']['table'] = 'field_data_c4m_related_topic';
-  $handler->display->display_options['fields']['c4m_related_topic']['field'] = 'c4m_related_topic';
-  $handler->display->display_options['fields']['c4m_related_topic']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['c4m_related_topic']['settings'] = array(
+  /* Field: Field: Topics */
+  $handler->display->display_options['fields']['c4m_vocab_topic']['id'] = 'c4m_vocab_topic';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['table'] = 'field_data_c4m_vocab_topic';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['field'] = 'c4m_vocab_topic';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['label'] = 'Related Topics';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['c4m_vocab_topic']['type'] = 'term_reference_tree_children_expanded';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['settings'] = array(
     'link' => 0,
+    'separator' => ' » ',
   );
-  $handler->display->display_options['fields']['c4m_related_topic']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['c4m_vocab_topic']['delta_offset'] = '0';
   /* Field: Field: Regions & Countries */
   $handler->display->display_options['fields']['c4m_vocab_geo']['id'] = 'c4m_vocab_geo';
   $handler->display->display_options['fields']['c4m_vocab_geo']['table'] = 'field_data_c4m_vocab_geo';

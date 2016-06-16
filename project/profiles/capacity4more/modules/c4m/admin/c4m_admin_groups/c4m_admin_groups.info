@@ -15,3 +15,4 @@ files[] = views/c4m_admin_groups_views_handler_field_group_domains.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_moderators.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_metrics.inc
 files[] = views/c4m_admin_groups_views_handler_field_group_organisations.inc
+files[] = views/c4m_admin_groups_views_handler_field_group_visibility.inc

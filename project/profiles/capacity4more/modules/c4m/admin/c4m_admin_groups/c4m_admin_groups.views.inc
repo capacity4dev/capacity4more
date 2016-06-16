@@ -54,5 +54,14 @@ function c4m_admin_groups_views_data() {
     ),
   );
 
+  $data['node']['group_visibility'] = array(
+    'title' => t('Group visibility'),
+    'help' => t('Visibility information of a group.'),
+    'field' => array(
+      'handler' => 'c4m_admin_groups_views_handler_field_group_visibility',
+      'group' => 'Content',
+    ),
+  );
+
   return $data;
 }
