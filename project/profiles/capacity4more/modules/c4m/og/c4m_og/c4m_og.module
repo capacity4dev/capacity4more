@@ -267,6 +267,33 @@ function c4m_og_user_is_owner($group_type, $gid) {
 }
 
 /**
+ * Access callback checks if the current user is group member.
+ *
+ * @param string $group_type
+ *   The type of the group.
+ * @param int $gid
+ *   The ID of the group.
+ *
+ * @return bool
+ *   TRUE if the current user is group member, FALSE otherwise.
+ */
+function c4m_og_user_is_member($group_type = NULL, $gid = NULL) {
+  if (empty($gid)) {
+    $context = og_context('node');
+    $gid = $context['gid'];
+    $group_type = $context['group_type'];
+  }
+
+  $group = entity_load_single($group_type, $gid);
+  if (!$group || !og_is_group($group_type, $group)) {
+    return FALSE;
+  }
+
+  // Make sure the current user is the group manager.
+  return user_access('administer groups') || og_is_member('node', $gid);
+}
+
+/**
  * Fetches an og user role by its name and group bundle.
  *
  * @param string $role_name
@@ -1118,4 +1145,22 @@ function c4m_og_get_content_recommendations($og_id = NULL) {
 
   $count = $query->execute()->fetchField();
   return empty($count) ? 0 : $count;
+}
+
+/**
+ * Helper function to get group type (project|group).
+ *
+ * @param array $group
+ *   The group to get the type from.
+ *
+ * @return string
+ *   Group type (project|group).
+ */
+function c4m_og_get_group_type($group) {
+  if (!empty($group)) {
+    if ($group_node = node_load($group['gid'])) {
+      return $group_node->type;
+    }
+  }
+  return FALSE;
 }

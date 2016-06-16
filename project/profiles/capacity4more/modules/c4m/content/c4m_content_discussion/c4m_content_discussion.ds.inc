@@ -190,7 +190,7 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_type_posted_by' => array(
+    'c4m_ds_type_insert_action' => array(
       'weight' => '0',
       'label' => 'hidden',
       'format' => 'default',
@@ -230,6 +230,11 @@ function c4m_content_discussion_ds_field_settings_info() {
           'ow-def-at' => FALSE,
         ),
       ),
+    ),
+    'c4m_ds_content_shared_to' => array(
+      'weight' => '10',
+      'label' => 'hidden',
+      'format' => 'default',
     ),
     'c4m_ds_content_actions' => array(
       'weight' => '9',
@@ -393,8 +398,18 @@ function c4m_content_discussion_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
     'c4m_field_og_group' => array(
-      'weight' => '4',
+      'weight' => '5',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -402,8 +417,8 @@ function c4m_content_discussion_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '3',
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -412,8 +427,8 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_type_posted_by' => array(
-      'weight' => '2',
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -433,7 +448,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '6',
+      'weight' => '7',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -458,8 +473,18 @@ function c4m_content_discussion_ds_field_settings_info() {
         'ft' => array(),
       ),
     ),
-    'c4m_ds_submitted_by_and_on' => array(
-      'weight' => '3',
+    'c4m_user_first_and_last_name' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'linked_user',
+      'formatter_settings' => array(
+        'ft' => array(
+          'func' => 'theme_ds_field_reset',
+        ),
+      ),
+    ),
+    'c4m_ds_creation_date' => array(
+      'weight' => '4',
       'label' => 'hidden',
       'format' => 'j F Y',
       'formatter_settings' => array(
@@ -468,8 +493,8 @@ function c4m_content_discussion_ds_field_settings_info() {
         ),
       ),
     ),
-    'c4m_ds_type_posted_by' => array(
-      'weight' => '2',
+    'c4m_ds_type_insert_action' => array(
+      'weight' => '3',
       'label' => 'hidden',
       'format' => 'default',
       'formatter_settings' => array(
@@ -489,7 +514,7 @@ function c4m_content_discussion_ds_field_settings_info() {
       ),
     ),
     'c4m_ds_content_footer_stats' => array(
-      'weight' => '5',
+      'weight' => '6',
       'label' => 'hidden',
       'format' => 'default',
     ),
@@ -675,24 +700,25 @@ function c4m_content_discussion_ds_layout_settings_info() {
   $ds_layout->settings = array(
     'regions' => array(
       'right' => array(
-        0 => 'c4m_ds_type_posted_by',
-        2 => 'c4m_vocab_topic',
-        3 => 'c4m_user_picture',
-        5 => 'c4m_vocab_date',
+        0 => 'c4m_vocab_topic',
+        1 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_vocab_date',
+        5 => 'c4m_user_picture',
         7 => 'group_meta_author',
         8 => 'c4m_vocab_language',
         9 => 'c4m_vocab_geo',
         11 => 'og_vocabulary',
         15 => 'group_node_meta',
         16 => 'group_node_actions',
-        17 => 'group_node_details',
-        18 => 'c4m_ds_content_actions',
-        19 => 'c4m_user_first_and_last_name',
-        20 => 'c4m_ds_creation_date',
+        17 => 'c4m_ds_content_actions',
+        18 => 'group_node_details',
+        19 => 'c4m_ds_content_shared_to',
+        20 => 'c4m_user_first_and_last_name',
+        21 => 'c4m_ds_creation_date',
       ),
       'left' => array(
-        1 => 'c4m_discussion_type',
-        4 => 'c4m_ds_content_status',
+        2 => 'c4m_discussion_type',
+        3 => 'c4m_ds_content_status',
         6 => 'title',
         10 => 'c4m_ds_content_footer_stats',
         12 => 'c4m_body',
@@ -701,12 +727,12 @@ function c4m_content_discussion_ds_layout_settings_info() {
       ),
     ),
     'fields' => array(
-      'c4m_ds_type_posted_by' => 'right',
-      'c4m_discussion_type' => 'left',
       'c4m_vocab_topic' => 'right',
-      'c4m_user_picture' => 'right',
+      'c4m_ds_type_insert_action' => 'right',
+      'c4m_discussion_type' => 'left',
       'c4m_ds_content_status' => 'left',
       'c4m_vocab_date' => 'right',
+      'c4m_user_picture' => 'right',
       'title' => 'left',
       'group_meta_author' => 'right',
       'c4m_vocab_language' => 'right',
@@ -718,8 +744,9 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'comments' => 'left',
       'group_node_meta' => 'right',
       'group_node_actions' => 'right',
-      'group_node_details' => 'right',
       'c4m_ds_content_actions' => 'right',
+      'group_node_details' => 'right',
+      'c4m_ds_content_shared_to' => 'right',
       'c4m_user_first_and_last_name' => 'right',
       'c4m_ds_creation_date' => 'right',
     ),
@@ -752,18 +779,20 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'title',
         1 => 'c4m_ds_content_type_icon',
-        2 => 'c4m_ds_type_posted_by',
-        3 => 'c4m_ds_submitted_by_and_on',
-        4 => 'c4m_field_og_group',
-        5 => 'c4m_body',
-        6 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_field_og_group',
+        6 => 'c4m_body',
+        7 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
       'c4m_ds_content_type_icon' => 'ds_content',
-      'c4m_ds_type_posted_by' => 'ds_content',
-      'c4m_ds_submitted_by_and_on' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
+      'c4m_ds_type_insert_action' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'c4m_field_og_group' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
@@ -793,17 +822,19 @@ function c4m_content_discussion_ds_layout_settings_info() {
       'ds_content' => array(
         0 => 'title',
         1 => 'c4m_ds_content_type_icon',
-        2 => 'c4m_ds_type_posted_by',
-        3 => 'c4m_ds_submitted_by_and_on',
-        4 => 'c4m_body',
-        5 => 'c4m_ds_content_footer_stats',
+        2 => 'c4m_user_first_and_last_name',
+        3 => 'c4m_ds_type_insert_action',
+        4 => 'c4m_ds_creation_date',
+        5 => 'c4m_body',
+        6 => 'c4m_ds_content_footer_stats',
       ),
     ),
     'fields' => array(
       'title' => 'ds_content',
       'c4m_ds_content_type_icon' => 'ds_content',
-      'c4m_ds_type_posted_by' => 'ds_content',
-      'c4m_ds_submitted_by_and_on' => 'ds_content',
+      'c4m_user_first_and_last_name' => 'ds_content',
+      'c4m_ds_type_insert_action' => 'ds_content',
+      'c4m_ds_creation_date' => 'ds_content',
       'c4m_body' => 'ds_content',
       'c4m_ds_content_footer_stats' => 'ds_content',
     ),

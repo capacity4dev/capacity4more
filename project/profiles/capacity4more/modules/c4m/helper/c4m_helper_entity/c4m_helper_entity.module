@@ -258,6 +258,51 @@ function c4m_helper_entity_entity_get_properties($entity, array $options, $name,
 }
 
 /**
+ * Retrieve label information array for a given entity object.
+ *
+ * @param object $entity
+ *   Entity object to retrieve label info for.
+ *
+ * @return array
+ *   Mixed label information for the given entity.
+ */
+function c4m_helper_entity_label_info($entity) {
+  $cache_key = 'c4m_helper_entity:label_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from Cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $hook = 'c4m_helper_entity_label_info';
+      $data = module_invoke_all($hook);
+
+      cache_set($cache_key, $data);
+    }
+  }
+
+  $entity_type = $entity->type;
+
+  // Allow content types to define subtypes (e.g. c4m_event_type).
+  $field_name = 'c4m_' . $entity->type . '_type';
+
+  if (!empty($entity->$field_name)) {
+    $object_wrapper = entity_metadata_wrapper('node', $entity);
+    $entity_type .= '-' . $object_wrapper->$field_name->value();
+  }
+
+  // Only return data for a given feature.
+  if (isset($data[$entity_type])) {
+    return $data[$entity_type];
+  }
+
+  // Return all data.
+  return $data;
+}
+
+/**
  * Metrics info from implementations of hook_c4m_helper_entity_metrics_info().
  *
  * @return array

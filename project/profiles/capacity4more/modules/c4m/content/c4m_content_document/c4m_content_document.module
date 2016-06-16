@@ -225,3 +225,32 @@ function c4m_content_document_c4m_helper_entity_metrics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_document_c4m_content_share_fields_info() {
+  return array(
+    'document' => array(
+      'type',
+      'c4m_vocab_document_type',
+      'c4m_document_add_to_library',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_document_c4m_helper_entity_label_info() {
+  return array(
+    'document' => array(
+      'article' => t('a'),
+      'singular' => t('document'),
+      'plural' => t('documents'),
+      'insert action' => t('uploaded a new document'),
+      'update action' => t('updated the document'),
+      'icon' => 'fa-file-o',
+    ),
+  );
+}
