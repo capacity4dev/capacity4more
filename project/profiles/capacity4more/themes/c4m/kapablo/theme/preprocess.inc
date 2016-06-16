@@ -567,7 +567,7 @@ function kapablo_preprocess_image(&$variables) {
  * Create the image banner for groups.
  *
  * @return string
- *  The image markup.
+ *   The image markup.
  */
 function kapablo_group_image_banner() {
   // First establish the current group.
