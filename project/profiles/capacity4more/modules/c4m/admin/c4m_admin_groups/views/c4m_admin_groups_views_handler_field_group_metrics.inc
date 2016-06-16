@@ -25,12 +25,14 @@ class c4m_admin_groups_views_handler_field_group_metrics extends c4m_admin_group
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
-    $list = c4m_og_metrics_info();
+    $list = c4m_helper_entity_metrics_info();
     if (count($list)) {
       $options = array('' => t('- None -'));
 
       foreach ($list as $key => $info) {
-        $options[$info['type']] = $info['type'];
+        $option_key = $info['context'] . '::' . $info['type'];
+        $option_label = $info['type'] . ' (' . $info['context'] . ')';
+        $options[$option_key] = $option_label;
       }
 
       $form['c4m_admin_groups_group_metric'] = array(
@@ -48,10 +50,10 @@ class c4m_admin_groups_views_handler_field_group_metrics extends c4m_admin_group
    * @inheritdoc
    */
   function render($values) {
-    $metric = $this->options['c4m_admin_groups_group_metric'];
-    if (!empty($metric) && $group = $this->get_og_group_from_context($values)) {
+    $metric_key = $this->options['c4m_admin_groups_group_metric'];
+    if (!empty($metric_key) && $group = $this->get_og_group_from_context($values)) {
       $og_id = $group->nid;
-      return c4m_og_get_group_metric_value($og_id, $metric);
+      return c4m_helper_entity_get_group_metric_value($metric_key, $og_id);
     }
   }
 

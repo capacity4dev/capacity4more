@@ -438,12 +438,13 @@ function c4m_content_wiki_page_c4m_content_statistics_info() {
 }
 
 /**
- * Implements hook_c4m_og_metrics_info().
+ * Implements hook_c4m_helper_entity_metrics_info().
  */
-function c4m_content_wiki_page_c4m_og_metrics_info() {
+function c4m_content_wiki_page_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_og_wiki_pages' => array(
       'type'      => 'wiki_page',
+      'context'   => 'group',
       'callback'  => 'c4m_og_group_node_metric',
       'arguments' => array(array('wiki_page')),
       'weight'    => 0,

@@ -755,12 +755,13 @@ function c4m_content_group_c4m_content_statistics_info() {
 }
 
 /**
- * Implements hook_c4m_og_metrics_info().
+ * Implements hook_c4m_helper_entity_metrics_info().
  */
-function c4m_content_group_c4m_og_metrics_info() {
+function c4m_content_group_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_groups_latest_activity' => array(
       'type'     => 'latest_activity',
+      'context'  => 'group',
       'callback' => 'c4m_content_group_get_latest_activity',
       'weight'   => 0,
     ),

@@ -366,27 +366,31 @@ function c4m_user_og_c4m_content_statistics_info() {
 }
 
 /**
- * Implements hook_c4m_og_metrics_info().
+ * Implements hook_c4m_helper_entity_metrics_info().
  */
-function c4m_user_og_c4m_og_metrics_info() {
+function c4m_user_og_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_og_contributors' => array(
       'type'     => 'contributors',
+      'context'  => 'group',
       'callback' => 'c4m_user_og_get_number_of_contributors',
       'weight'   => 9,
     ),
     'c4m_og_contributors_vs_pending_members' => array(
       'type'     => 'contributors_vs_pending_members',
+      'context'  => 'group',
       'callback' => 'c4m_user_og_get_number_of_contributors_vs_pending_members',
       'weight'   => 13,
     ),
     'c4m_og_pending_members' => array(
       'type'     => 'pending_members',
+      'context'  => 'group',
       'callback' => 'c4m_user_og_get_number_of_pending_members',
       'weight'   => 11,
     ),
     'c4m_og_users' => array(
       'type'     => 'users',
+      'context'  => 'group',
       'callback' => 'c4m_og_group_user_metric',
       'weight'   => 7,
     ),

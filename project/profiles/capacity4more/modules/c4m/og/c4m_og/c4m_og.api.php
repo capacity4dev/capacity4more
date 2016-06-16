@@ -35,33 +35,3 @@ function hook_c4m_og_feature_info() {
     ),
   );
 }
-
-/**
- * Define the available group metrics.
- *
- * You need to implement the hook_c4m_og_metrics_info() hook to define
- * what metrics should be made available.
- *
- * @return array
- *   An array of metric lists and their settings.
- *
- *   Each list has the following data:
- *   - type:
- *       The identifier of the metrics list.
- *   - callback:
- *       The callback to retrieve the metrics.
- *   - arguments:
- *       The arguments to be passed to the callback function.
- *   - weight:
- *       The weight used to sort the lists.
- */
-function hook_c4m_og_metrics_info() {
-  return array(
-    'c4m_og' => array(
-      'type'      => 'c4m_og_my_metric',
-      'callback'  => 'c4m_og_my_callback_function',
-      'arguments' => array('my_first_argument', 'my_second_argument'),
-      'weight'    => 0,
-    ),
-  );
-}

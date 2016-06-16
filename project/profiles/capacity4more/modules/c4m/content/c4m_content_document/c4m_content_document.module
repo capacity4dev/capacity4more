@@ -206,18 +206,20 @@ function c4m_content_document_c4m_content_statistics_info() {
 }
 
 /**
- * Implements hook_c4m_og_metrics_info().
+ * Implements hook_c4m_helper_entity_metrics_info().
  */
-function c4m_content_document_c4m_og_metrics_info() {
+function c4m_content_document_c4m_helper_entity_metrics_info() {
   return array(
     'c4m_og_documents' => array(
       'type'      => 'document',
+      'context'   => 'group',
       'callback'  => 'c4m_og_group_node_metric',
       'arguments' => array(array('document')),
       'weight'    => 0,
     ),
     'c4m_og_document_downloads' => array(
       'type'     => 'document_download',
+      'context'  => 'group',
       'callback' => 'c4m_content_document_get_number_of_downloads',
       'weight'   => 3,
     ),
