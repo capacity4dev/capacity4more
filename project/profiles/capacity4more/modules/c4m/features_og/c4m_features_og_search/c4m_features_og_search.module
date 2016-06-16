@@ -26,6 +26,7 @@ function c4m_features_og_search_c4m_search_page_info() {
 
 /**
  * Implements hook_views_pre_render().
+ *
  * Alter the Views page title to match current group type.
  */
 function c4m_features_og_search_views_pre_render($view) {
