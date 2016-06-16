@@ -6,10 +6,34 @@
  */
 
 /**
- * Loads module includes.
+ * Include handlers.
  */
-function c4m_user_notifications_load_includes() {
-  module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
+module_load_include('inc', 'c4m_user_notifications', 'includes/c4m_user_notifications_handlers');
+
+/**
+ * Check if the current membership has access to the triggering system.
+ *
+ * An og_membership should get access to the triggering system if it is not
+ * within a migration process and its entity_type is "user".
+ *
+ * @param object $og_membership
+ *   The og_membership object.
+ *
+ * @return bool
+ *   TRUE if the the membership is valid for access.
+ */
+function c4m_user_notifications_og_membership_trigger_access($og_membership) {
+  // Don't send notifications during migration.
+  if (!empty($og_membership->migrate)) {
+    return FALSE;
+  }
+
+  // If the membership type is not 'user'.
+  if (!isset($og_membership->entity_type) || $og_membership->entity_type != 'user') {
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
@@ -18,17 +42,7 @@ function c4m_user_notifications_load_includes() {
  * Triggers email notification on new membership request for moderated groups.
  */
 function c4m_user_notifications_og_membership_insert($og_membership) {
-  // Don't send notifications during migration.
-  if (!empty($og_membership->migrate)) {
-    return;
-  }
-
-  if (!isset($og_membership->entity_type)) {
-    // If membership type is not for 'user'.
-    return;
-  }
-
-  if ($og_membership->entity_type != 'user') {
+  if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
     return;
   }
 
@@ -44,7 +58,6 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
     return;
   }
 
-  c4m_user_notifications_load_includes();
   c4m_user_notifications_moderated_group_new_membership_request($og_membership);
 }
 
@@ -58,22 +71,12 @@ function c4m_user_notifications_og_membership_insert($og_membership) {
  *   Pending -> Rejected
  */
 function c4m_user_notifications_og_membership_update($og_membership) {
-  // Don't send notifications during migration.
-  if (!empty($og_membership->migrate)) {
+  if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
     return;
   }
 
   if (empty($og_membership->original)) {
     // Must have original state, as we're performing update.
-    return;
-  }
-
-  if (!isset($og_membership->entity_type)) {
-    // If membership type is not for 'user'.
-    return;
-  }
-
-  if ($og_membership->entity_type != 'user') {
     return;
   }
 
@@ -90,8 +93,6 @@ function c4m_user_notifications_og_membership_update($og_membership) {
   }
 
   $moderated = $wrapper->field_membership_open_request->value();
-
-  c4m_user_notifications_load_includes();
 
   switch ($og_membership->state) {
     case OG_STATE_ACTIVE:
@@ -116,20 +117,10 @@ function c4m_user_notifications_og_membership_update($og_membership) {
 /**
  * Implements hook_entity_delete().
  *
- * Triggers email notification on membership cancelation request.
+ * Triggers email notification on membership cancellation request.
  */
 function c4m_user_notifications_og_membership_delete($og_membership) {
-  // Don't send notifications during migration.
-  if (!empty($og_membership->migrate)) {
-    return;
-  }
-
-  if (!isset($og_membership->entity_type)) {
-    // If membership type is not for 'user'.
-    return;
-  }
-
-  if ($og_membership->entity_type != 'user') {
+  if (!c4m_user_notifications_og_membership_trigger_access($og_membership)) {
     return;
   }
 
@@ -147,7 +138,6 @@ function c4m_user_notifications_og_membership_delete($og_membership) {
 
   // Loading current user.
   global $user;
-  c4m_user_notifications_load_includes();
 
   if ($user->uid == $og_membership->etid) {
     // If current user is the one that's being removed.
@@ -203,12 +193,10 @@ function c4m_user_notifications_node_delete($node) {
     return;
   }
 
-  if ($node->type != 'group' && $node->type != 'project') {
-    // Return early, if node type is not group/project.
+  if (!og_is_group('node', $node)) {
     return;
   }
 
-  c4m_user_notifications_load_includes();
   c4m_user_notifications_group_hard_deleted($node);
 }
 
@@ -223,7 +211,6 @@ function c4m_user_notifications_comment_insert($comment) {
     return;
   }
 
-  c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_user_commented($comment);
 }
 
@@ -238,7 +225,6 @@ function c4m_user_notifications_user_delete($account) {
     return;
   }
 
-  c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_admins_user_deleted($account);
 }
 
@@ -250,12 +236,13 @@ function c4m_user_notifications_user_delete($account) {
 function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
-  if ($group_admin_role->rid == $rid) {
-    // If administrator role is granted.
-    c4m_user_notifications_load_includes();
-    c4m_user_notifications_notify_user_admin_granted($gid, $uid);
-    c4m_user_notifications_notify_admins_admin_granted($gid, $uid);
+  // Administrator role is not granted.
+  if ($group_admin_role->rid != $rid) {
+    return;
   }
+
+  c4m_user_notifications_notify_user_admin_granted($gid, $uid);
+  c4m_user_notifications_notify_admins_admin_granted($gid, $uid);
 }
 
 /**
@@ -266,12 +253,13 @@ function c4m_user_notifications_og_role_grant($entity_type, $gid, $uid, $rid) {
 function c4m_user_notifications_og_role_revoke($entity_type, $gid, $uid, $rid) {
   $group_admin_role = c4m_og_user_role_load_by_name('administrator member', 'group');
 
+  // Administrator role is not revoked.
   if ($group_admin_role->rid == $rid) {
-    // If administrator role is revoked.
-    c4m_user_notifications_load_includes();
-    c4m_user_notifications_notify_user_admin_revoked($gid, $uid);
-    c4m_user_notifications_notify_admins_admin_revoked($gid, $uid);
+    return;
   }
+
+  c4m_user_notifications_notify_user_admin_revoked($gid, $uid);
+  c4m_user_notifications_notify_admins_admin_revoked($gid, $uid);
 }
 
 /**
@@ -294,7 +282,6 @@ function c4m_user_notifications_flag_flag($flag, $entity_id, $account, $flagging
     return;
   }
 
-  c4m_user_notifications_load_includes();
   c4m_user_notifications_notify_author_content_recommended($flag, $entity_id, $account, $flagging);
   c4m_user_notifications_notify_subscribed_editor_content_recommended($flag, $entity_id, $account, $flagging);
 }
@@ -316,7 +303,6 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
 
   $status = $wrapper->c4m_og_status->value();
 
-  c4m_user_notifications_load_includes();
   if ($status == 'published') {
     c4m_user_notifications_group_status_set_published($node);
   }
@@ -347,8 +333,6 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   if (empty($wrapper->c4m_og_status) || empty($wrapper_original->c4m_og_status)) {
     return;
   }
-
-  c4m_user_notifications_load_includes();
 
   $status = $wrapper->c4m_og_status->value();
   $prev_status = $wrapper_original->c4m_og_status->value();
@@ -439,7 +423,6 @@ function _c4m_user_notifications_process_og_alter($node, $mode) {
   $status = $wrapper->c4m_og_status->value();
 
   if ($status == 'published') {
-    c4m_user_notifications_load_includes();
     switch ($mode) {
       case 'insert':
         c4m_user_notifications_new_node_published($node);
@@ -481,7 +464,6 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
 
   // If group is published.
   if ($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status->value() == 'published') {
-    c4m_user_notifications_load_includes();
     switch ($mode) {
       case 'insert':
         c4m_user_notifications_new_group_content_published($node);
