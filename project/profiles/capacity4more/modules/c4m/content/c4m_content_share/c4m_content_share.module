@@ -200,7 +200,7 @@ function c4m_content_share_form_share_node_form_alter(
   // Form ID covers both create/edit form,
   // but in our hook_menu_alter we already restrict access to the creation form.
   // Only allow access to update the description field.
-  if (arg(2) === 'edit' && !empty(arg(2) === 'edit')) {
+  if (arg(2) === 'edit') {
     $form['title']['#access'] = FALSE;
     $form['c4m_source_entity']['#access'] = FALSE;
     $form['og_group_ref']['#access'] = FALSE;
