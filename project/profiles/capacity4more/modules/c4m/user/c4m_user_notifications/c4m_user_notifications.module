@@ -294,7 +294,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  if (empty($wrapper->c4m_og_status)) {
+  if (!isset($wrapper->c4m_og_status)) {
     return;
   }
 
