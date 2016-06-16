@@ -327,7 +327,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $wrapper_original = entity_metadata_wrapper('node', $node->original);
 
-  if (empty($wrapper->c4m_og_status) || empty($wrapper_original->c4m_og_status)) {
+  if (!isset($wrapper->c4m_og_status) || !isset($wrapper_original->c4m_og_status)) {
     return;
   }
 
@@ -360,7 +360,7 @@ function _c4m_user_notifications_process_general_triggers_update($node) {
     }
   }
 
-  if (empty($wrapper->group_access) || empty($wrapper_original->group_access)) {
+  if (!isset($wrapper->group_access) || !isset($wrapper_original->group_access)) {
     return;
   }
 
@@ -413,7 +413,7 @@ function _c4m_user_notifications_process_og_alter($node, $mode) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  if (empty($wrapper->c4m_og_status)) {
+  if (!isset($wrapper->c4m_og_status)) {
     return;
   }
 
@@ -455,7 +455,7 @@ function _c4m_user_notifications_process_og_content_alter($node, $mode) {
 
   // Load current node wrapper.
   $wrapper = entity_metadata_wrapper('node', $node);
-  if (empty($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status)) {
+  if (!isset($wrapper->{OG_AUDIENCE_FIELD}->c4m_og_status)) {
     return;
   }
 
