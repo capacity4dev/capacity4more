@@ -29,7 +29,6 @@ function c4m_user_notifications_moderated_group_notify_user_membership_accepted(
   $wrapper->field_group_node->set($membership->gid);
   // Message will be saved in message_notify_send_message().
   message_notify_send_message($wrapper->value());
-
 }
 
 /**
@@ -137,7 +136,7 @@ function c4m_user_notifications_notify_user_commented($comment) {
 /**
  * Email notification about user invitation to group, sent by admin.
  */
-function c4m_user_notifications_notify_user_invited_by_admin(&$form, &$form_state) {
+function c4m_user_notifications_notify_user_invited_by_admin($form, $form_state) {
 }
 
 /**
