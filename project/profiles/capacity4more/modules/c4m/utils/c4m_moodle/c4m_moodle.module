@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * C4M Moodle module file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_moodle_menu() {
+  $items = array();
+
+  $items['admin/config/c4m/moodle'] = array(
+    'title' => 'Moodle',
+    'description' => 'Configuration for integration with a Moodle platform.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_moodle_admin_moodle_configuration'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_moodle.admin.inc',
+  );
+
+  return $items;
+}
