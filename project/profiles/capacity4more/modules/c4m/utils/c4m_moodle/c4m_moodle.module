@@ -5,11 +5,20 @@
  * C4M Moodle module file.
  */
 
+module_load_include('inc', 'c4m_moodle', 'c4m_moodle.filters');
+
 /**
  * Implements hook_menu().
  */
 function c4m_moodle_menu() {
   $items = array();
+
+  $items['moodle/redirect'] = array(
+    'title' => 'Moodle redirect controller',
+    'description' => 'Redirect controller to the Moodle platform',
+    'page callback' => 'c4m_moodle_redirect_controller_page',
+    'access arguments' => array('access content'),
+  );
 
   $items['admin/config/c4m/moodle'] = array(
     'title' => 'Moodle',
