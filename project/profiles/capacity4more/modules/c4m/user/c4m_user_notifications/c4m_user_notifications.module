@@ -88,7 +88,7 @@ function c4m_user_notifications_og_membership_update($og_membership) {
   // Loading group/project to resolve it's membership type - moderated/open.
   $node = node_load($og_membership->gid);
   $wrapper = entity_metadata_wrapper('node', $node);
-  if (empty($wrapper->field_membership_open_request)) {
+  if (!isset($wrapper->field_membership_open_request)) {
     return;
   }
 
