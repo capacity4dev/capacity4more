@@ -583,8 +583,8 @@ function kapablo_group_image_banner() {
       $file['style_name'] = 'banner';
       $file['path'] = $file['uri'];
       $file['attributes'] = array('class' => 'group-banner');
-      // If current page is the Group Management page,
-      // Add an edit link to the banner.
+      // If current page is the 'Group Management' page,
+      // add an edit link to the banner.
       if ($menu_item['path'] == 'manage') {
         $edit_link['element'] = array(
           '#tag' => 'span',
