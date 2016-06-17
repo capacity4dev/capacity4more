@@ -25,24 +25,6 @@
 .group-header {
   margin: 0 -18px;
 
-  .group-status {
-    display: inline-block;
-    margin-left: 18px;
-    padding: .25rem .6rem .25rem;
-    border: 1px dotted $color-gray-dark;
-
-    color: $color-gray-dark;
-    font-size: 0.8rem;
-    font-weight: normal;
-    line-height: 1rem;
-    text-transform: uppercase;
-
-    @media (min-width: $screen-tablet) {
-      float: right;
-    }
-
-  }
-
   @media (min-width: $screen-tablet) {
     margin: 0;
   }
@@ -76,6 +58,10 @@
 
     ul {
       margin: 0;
+
+      @media (min-width: $screen-tablet) {
+        display: flex;
+      }
     }
 
     li {
@@ -176,6 +162,7 @@
 
         a {
           display: inline-block;
+          width: 85%;
           padding: 0 30px 0 10px;
           border-right: 1px solid $color-gray-light;
 
@@ -509,4 +496,132 @@
   @media (min-width: $screen-tablet) {
     display: block;
   }
+}
+
+.group-indications {
+  float: left;
+  margin: 0 0 0 18px;
+
+  .group-icon {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    padding: 5px;
+    border-radius: 6px;
+  }
+
+  .group-icon.as-group-public {
+    border: 1px solid $color-green;
+  }
+
+  .group-icon.as-group-private {
+    border: 1px solid $color-red;
+  }
+
+  .group-icon.as-group-restricted {
+    border: 1px solid $color-accent;
+  }
+
+  .node-icon[class*="as-group-"] {
+    margin-top: 0;
+  }
+
+  span {
+    height: 25px;
+  }
+
+  @media (min-width: $screen-tablet) {
+    float: right;
+    margin-top: 20px;
+  }
+}
+
+.group-indications--access {
+  position: relative;
+  float: left;
+}
+
+.group-type,
+.group-status {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.group-access {
+  display: none;
+  margin-left: 5px;
+
+  @media (min-width: $screen-tablet) {
+    display: inline-block;
+  }
+}
+
+.group-status {
+  @media (min-width: $screen-tablet) {
+    float: right;
+
+    display: block;
+    clear: left;
+    margin-top: 5px;
+  }
+}
+
+.restricted-organisation-icons {
+  display: none;
+
+  @media (min-width: $screen-tablet) {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    display: table;
+    width: 120px;
+    margin-top: 6px;
+    border-radius: 3px;
+    border: 1px solid $color-accent;
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      width: 20px;
+      height: 20px;
+
+      transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+    }
+
+    span {
+      position: relative;
+
+      display: table-cell;
+      height: 25px;
+      width: 25%;
+
+      &:not(:first-of-type) {
+        border-left: 1px solid $color-accent;
+      }
+    }
+
+    .group-organisation--more {
+      text-align: center;
+    }
+
+    .group-organisation--more span {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: red;
+
+      &:not(:first-of-type) {
+        margin-left: -3px;
+      }
+    }
+  }
+}
+
+.restricted-extra-wrapper {
+  display: none;
 }

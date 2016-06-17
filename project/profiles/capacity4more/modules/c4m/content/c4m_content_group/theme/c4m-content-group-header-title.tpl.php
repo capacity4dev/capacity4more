@@ -9,22 +9,21 @@
 ?>
 
 <?php if ($title): ?>
-  <h1>
+  <h1 class="group-title">
     <?php print $title; ?>
   </h1>
 <?php endif; ?>
 
-<?php if ($group_type): ?>
-  <span class="top-buffer indication label label-default">
-    <?php print $group_type; ?>
-  </span>
-<?php endif; ?>
+<div class="group-indications">
 
-<?php if ($group_access): ?>
+<div class="group-indications--access">
+  <?php if ($group_access): ?>
   <i class="top-buffer group-icon group-<?php print $group_access; ?> node-icon as-group-<?php print $group_access; ?>"></i>
-  <span class="top-buffer indication label label-access <?php print $group_access; ?>">
+  <span class="top-buffer indication label label-access <?php print $group_access; ?> group-access">
     <?php print $group_access; ?>
   </span>
+  <?php endif; ?>
+
 
   <?php if ($organisations): ?>
     <?php if ($organisation_icons): ?>
@@ -36,8 +35,10 @@
         <?php endforeach; ?>
 
         <?php if ($organisation_ellipsis): ?>
-          <span class="restricted-organisation-icon ellipsis">
-            ...
+          <span class="group-organisation--more">
+                <span></span>
+                <span></span>
+                <span></span>
           </span>
         <?php endif; ?>
       </div>
@@ -55,12 +56,9 @@
         <?php endforeach; ?>
       </div>
     </div>
-
   <?php endif; ?>
-<?php endif; ?>
-
-<?php if ($group_status): ?>
-  <span class="top-buffer indication label label-default">
-    <?php print $group_status; ?>
-  </span>
-<?php endif; ?>
+</div>
+<?php if ($group_type): ?>
+  <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span><?php endif; ?><?--php if ($group_status): --?><span class="top-buffer indication label label-default group-status"><?--php print $group_status; --?>DRAFT</span>
+<?--php endif; --?>
+</div>
