@@ -59,7 +59,7 @@ function _c4m_moodle_link_filter_tips($filter, $format, $long = FALSE) {
  *   an array from regex match of the link.
  *
  * @return string
- *   Redirect link with the original link as query destination parameter.
+ *   Redirect link with the original link as query moodle_destination parameter.
  */
 function _c4m_moodle_link_filter_process_matches($matches) {
   $url = $matches[1];
@@ -67,7 +67,7 @@ function _c4m_moodle_link_filter_process_matches($matches) {
 
   $moodle_redirect_url = l($label, 'moodle/redirect', array(
     'query' => array(
-      'destination' => rawurlencode($url),
+      'moodle_destination' => rawurlencode($url),
     ),
     // To make sure the links are rendered as the original.
     'html' => TRUE,
