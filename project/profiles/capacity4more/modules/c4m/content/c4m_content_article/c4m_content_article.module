@@ -58,11 +58,30 @@ function c4m_content_article_c4m_content_statistics_info() {
 }
 
 /**
+ * Implements hook_node_insert().
+ *
+ * Subscribe notable contributors when updating nodes.
+ */
+function c4m_content_article_node_insert($node) {
+  c4m_content_article_subscribe_contributors($node);
+}
+
+/**
  * Implements hook_node_update().
  *
- * Subscribe notable contributors to the node.
+ * Subscribe notable contributors when updating nodes.
  */
 function c4m_content_article_node_update($node) {
+  c4m_content_article_subscribe_contributors($node);
+}
+
+/**
+ * Helper function to subscribe contributors to a given node.
+ *
+ * @param object $node
+ *   The node object to act upon.
+ */
+function c4m_content_article_subscribe_contributors($node) {
   // Only for articles.
   if ($node->type != 'article') {
     return;
