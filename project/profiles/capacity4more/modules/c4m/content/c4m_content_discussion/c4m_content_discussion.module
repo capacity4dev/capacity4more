@@ -146,6 +146,21 @@ function c4m_content_discussion_c4m_content_statistics_info() {
 }
 
 /**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_discussion_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_discussions' => array(
+      'type'      => 'discussion',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('discussion')),
+      'weight'    => 0,
+    ),
+  );
+}
+
+/**
  * Implements hook_c4m_content_share_fields_info().
  */
 function c4m_content_discussion_c4m_content_share_fields_info() {

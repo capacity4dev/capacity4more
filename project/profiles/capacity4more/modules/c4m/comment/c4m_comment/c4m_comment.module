@@ -61,6 +61,20 @@ function c4m_comment_c4m_content_statistics_info() {
 }
 
 /**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_comment_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_comments' => array(
+      'type'      => 'comment',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_comment_metric',
+      'weight'    => 0,
+    ),
+  );
+}
+
+/**
  * Implements hook_node_view_alter().
  *
  * @see comment_node_view()

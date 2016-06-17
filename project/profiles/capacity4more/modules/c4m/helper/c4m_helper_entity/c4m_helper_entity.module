@@ -278,6 +278,7 @@ function c4m_helper_entity_label_info($entity) {
     else {
       $hook = 'c4m_helper_entity_label_info';
       $data = module_invoke_all($hook);
+
       cache_set($cache_key, $data);
     }
   }
@@ -299,4 +300,161 @@ function c4m_helper_entity_label_info($entity) {
 
   // Return all data.
   return $data;
+}
+
+/**
+ * Metrics info from implementations of hook_c4m_helper_entity_metrics_info().
+ *
+ * @return array
+ *   Configuration as collected through the implementations of
+ *   hook_c4m_helper_entity_metrics_info() hooks.
+ */
+function c4m_helper_entity_metrics_info() {
+  $cache_key = 'c4m_helper_entity:metrics_info';
+  $data = &drupal_static($cache_key);
+
+  // Retrieve from cache if not loaded before.
+  if (!isset($data)) {
+    if (($cache = cache_get($cache_key)) && !empty($cache->data)) {
+      $data = $cache->data;
+    }
+    else {
+      $data = module_invoke_all('c4m_helper_entity_metrics_info');
+
+      // Sort the contexts.
+      foreach ($data as $key => $info) {
+        // Exclude metrics info which don't have a type.
+        if (!isset($info['type']) || empty($info['type'])) {
+          continue;
+        }
+
+        // Exclude metrics info which don't have a callback.
+        if (!isset($info['callback']) || empty($info['callback'])) {
+          continue;
+        }
+
+        // Default context to "global".
+        if (!isset($info['context']) || empty($info['context'])) {
+          $info['context'] = 'global';
+        }
+
+        $metric_key = $info['context'] . '::' . $info['type'];
+
+        uasort($info, 'drupal_sort_weight');
+        $data[$metric_key] = $info;
+      }
+
+      // Save in cache.
+      cache_set($cache_key, $data);
+    }
+  }
+
+  return $data;
+}
+
+/**
+ * Load a specific metrics info.
+ *
+ * @return array | null
+ *   Configuration as collected through the implementations of
+ *   hook_c4m_helper_entity_metrics_info() hooks.
+ *
+ * @see c4m_helper_entity_metrics_info()
+ */
+function c4m_helper_entity_get_metric_info($metric_key) {
+  $metrics_info = c4m_helper_entity_metrics_info();
+
+  if (isset($metrics_info[$metric_key])) {
+    return $metrics_info[$metric_key];
+  }
+
+  return NULL;
+}
+
+/**
+ * Get the metrics.
+ *
+ * @param string $metric_key
+ *   The key of the metric value to call the function for.
+ * @param int $og_id
+ *   The Organic Group ID to filter the metrics for.
+ *
+ * @return array
+ *   The collected metrics.
+ */
+function c4m_helper_entity_get_metrics($metric_key, $og_id = NULL) {
+  $data = &drupal_static(__FUNCTION__);
+
+  if (!isset($data[$metric_key]) || (!empty($og_id) && !isset($data[$metric_key][$og_id]))) {
+    if ($info = c4m_helper_entity_get_metric_info($metric_key)) {
+      $context = $info['context'];
+      $callback = $info['callback'];
+      $arguments = ($context == 'group') ? array($og_id) : array();
+
+      if (isset($info['arguments'])) {
+        $arguments = array_merge($arguments, $info['arguments']);
+      }
+
+      if (function_exists($callback)) {
+        if ($context == 'group') {
+          $data[$metric_key][$og_id] = call_user_func_array($callback, $arguments);
+        }
+        else {
+          $data[$metric_key] = call_user_func_array($callback, $arguments);
+        }
+      }
+    }
+  }
+
+  return $data;
+}
+
+/**
+ * Get a specific metric.
+ *
+ * @param string $metric_key
+ *   The metric key.
+ * @param int $og_id
+ *   The Organic Group ID to filter the metrics for.
+ *
+ * @return string | int
+ *   The value of the metric.
+ */
+function c4m_helper_entity_get_metric_value($metric_key, $og_id = NULL) {
+  if (empty($metric_key)) {
+    return NULL;
+  }
+
+  $metrics = c4m_helper_entity_get_metrics($metric_key, $og_id);
+
+  if (isset($metrics[$metric_key])) {
+    return $metrics[$metric_key];
+  }
+
+  return NULL;
+}
+
+/**
+ * Get a specific metric in the context of a group.
+ *
+ * @param string $metric_key
+ *   The metric key.
+ * @param int $og_id
+ *   The Organic Group ID to gather the metrics for.
+ *
+ * @return string | int
+ *   The value of the metric.
+ */
+function c4m_helper_entity_get_group_metric_value($metric_key, $og_id) {
+  if (!is_numeric($og_id)) {
+    return c4m_helper_entity_get_metric_value($metric_key);
+  }
+
+  $metrics = c4m_helper_entity_get_metric_value($metric_key, $og_id);
+
+  if (isset($metrics[$og_id])) {
+    return $metrics[$og_id];
+  }
+
+  return NULL;
 }
