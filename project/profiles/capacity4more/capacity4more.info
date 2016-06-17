@@ -84,6 +84,7 @@ dependencies[] = wysiwyg_filter
 dependencies[] = c4m_admin
 dependencies[] = c4m_admin_groups
 dependencies[] = c4m_admin_organisations
+dependencies[] = c4m_admin_projects
 
 ; Helpers
 dependencies[] = c4m_helper_comment
