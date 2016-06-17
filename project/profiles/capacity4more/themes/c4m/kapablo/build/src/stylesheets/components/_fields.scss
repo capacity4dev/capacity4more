@@ -94,7 +94,7 @@
   margin-top: 1em;
 }
 
-.user-name {
+.user-name, .posted-by {
   + .creation-date {
     &:before {
       content: '|';

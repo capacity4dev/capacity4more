@@ -16,6 +16,7 @@ $plugin = array(
     'c4m_insert__node__document' => 'activity_group',
     'c4m_insert__node__event' => 'activity_group',
     'c4m_insert__node__photo' => 'activity_group',
+    'c4m_insert__node__share' => 'activity_group',
     'c4m_insert__node__wiki_page' => 'activity_group',
   ),
   'description' => t('Expose the "Activity stream" resource.'),

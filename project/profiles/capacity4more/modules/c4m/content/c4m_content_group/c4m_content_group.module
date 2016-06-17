@@ -453,7 +453,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 /**
  * Implements hook_node_access_records().
  *
- * Add grunts based on group status field.
+ * Add grants based on group status field.
  */
 function c4m_content_group_node_access_records($node) {
   // Only for group nodes.
@@ -661,6 +661,49 @@ function c4m_content_group_admin_paths_alter(&$paths) {
 }
 
 /**
+ * Returns the updated date of the latest updated content item (in a group).
+ *
+ * @param int $og_id
+ *   The Organic group ID to eventually limit the query for.
+ *
+ * @return int
+ *   The updated date of the latest updated content (in a group).
+ */
+function c4m_content_group_get_latest_activity($og_id = NULL) {
+  // Find last updated node.
+  $query_nodes = db_select('node', 'n');
+  $query_nodes->addField('n', 'changed');
+  $query_nodes->condition('n.status', 1);
+
+  if (is_numeric($og_id)) {
+    $query_nodes->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+    $query_nodes->condition('ogm.gid', (int) $og_id);
+    $query_nodes->condition('ogm.entity_type', 'node');
+  }
+
+  $latest_updated_node = $query_nodes->execute()->fetchField();
+
+  // Find last updated comment.
+  $query_comments = db_select('comment', 'c');
+  $query_comments->addField('c', 'changed');
+  $query_comments->join('node', 'n', 'n.nid = c.nid');
+  $query_comments->condition('c.status', 1);
+  $query_comments->condition('n.status', 1);
+
+  if (is_numeric($og_id)) {
+    $query_comments->join('og_membership', 'ogm', 'ogm.etid = n.nid');
+    $query_comments->condition('ogm.gid', (int) $og_id);
+    $query_comments->condition('ogm.entity_type', 'node');
+  }
+
+  $latest_updated_comment = $query_comments->execute()->fetchField();
+
+  // Find and return latest activity by comparing latest update node & comment.
+  $latest_activity = max($latest_updated_node, $latest_updated_comment);
+  return empty($latest_activity) ? 0 : $latest_activity;
+}
+
+/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_content_group_c4m_content_statistics_info() {
@@ -712,6 +755,20 @@ function c4m_content_group_c4m_content_statistics_info() {
 }
 
 /**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_group_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_groups_latest_activity' => array(
+      'type'     => 'latest_activity',
+      'context'  => 'group',
+      'callback' => 'c4m_content_group_get_latest_activity',
+      'weight'   => 0,
+    ),
+  );
+}
+
+/**
  * Implements hook_ds_fields_info().
  */
 function c4m_content_group_ds_fields_info($entity_type) {
@@ -729,4 +786,20 @@ function c4m_content_group_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_group_c4m_helper_entity_label_info() {
+  return array(
+    'group' => array(
+      'article' => t('a'),
+      'singular' => t('group'),
+      'plural' => t('groups'),
+      'insert action' => t('created a new group'),
+      'update action' => t('updated the group'),
+      'icon' => 'fa-users',
+    ),
+  );
 }
