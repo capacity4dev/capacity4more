@@ -6,7 +6,7 @@
     padding-right: 0;
   }
 
-  .field-name-c4m-field-og-group {
+  .field-name-c4m-field-og-group, .user-name {
     @extend .text-copy--muted;
 
     margin: -1em 0 1em 0;
@@ -34,6 +34,18 @@
 
     i {
       @extend .text-medium;
+    }
+  }
+
+  &.node-share {
+    .field-name-c4m-source-entity {
+      background: $color-background;
+      margin-left: 2em;
+      padding: 1em;
+
+      h2 {
+        margin-top: 0;
+      }
     }
   }
 }

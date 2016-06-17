@@ -115,3 +115,19 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
     $form['actions']['submit']['#value'] = t('Request');
   }
 }
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_project_c4m_helper_entity_label_info() {
+  return array(
+    'project' => array(
+      'article' => t('a'),
+      'singular' => t('project'),
+      'plural' => t('projects'),
+      'insert action' => t('created a new project'),
+      'update action' => t('updated the project'),
+      'icon' => 'fa-users',
+    ),
+  );
+}

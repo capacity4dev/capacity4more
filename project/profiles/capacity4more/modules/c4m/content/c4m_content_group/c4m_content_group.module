@@ -453,7 +453,7 @@ function c4m_content_group_node_grants($account = NULL, $op = 'view') {
 /**
  * Implements hook_node_access_records().
  *
- * Add grunts based on group status field.
+ * Add grants based on group status field.
  */
 function c4m_content_group_node_access_records($node) {
   // Only for group nodes.
@@ -729,4 +729,20 @@ function c4m_content_group_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_group_c4m_helper_entity_label_info() {
+  return array(
+    'group' => array(
+      'article' => t('a'),
+      'singular' => t('group'),
+      'plural' => t('groups'),
+      'insert action' => t('created a new group'),
+      'update action' => t('updated the group'),
+      'icon' => 'fa-users',
+    ),
+  );
 }

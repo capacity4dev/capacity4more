@@ -179,15 +179,15 @@ function c4m_content_photoalbum_strongarm() {
             'visible' => TRUE,
           ),
           'full' => array(
-            'weight' => '3',
+            'weight' => '4',
             'visible' => TRUE,
           ),
           'teaser' => array(
-            'weight' => '0',
+            'weight' => '20',
             'visible' => FALSE,
           ),
           'teaser_group' => array(
-            'weight' => '0',
+            'weight' => '20',
             'visible' => FALSE,
           ),
         ),
