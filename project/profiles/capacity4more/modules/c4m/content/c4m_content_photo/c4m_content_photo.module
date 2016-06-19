@@ -54,3 +54,30 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * If a photo was uploaded and if it is part of a photo album
+ * rename the file as Album name + number.
+ */
+function c4m_content_photo_node_insert($node) {
+  if ($node->type != 'photo') {
+    return;
+  }
+  if (empty($node->node_gallery_ref_1)) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  $source = file_load($wrapper->c4m_media->value()['fid']);
+  $gallery_title = $wrapper->node_gallery_ref_1->label();
+  $path = substr($source->uri, 0, strrpos($source->uri, "/"));
+  $destination = format_string('@path/@filename', array(
+    '@path' => $path,
+    '@filename' => transliteration_clean_filename($gallery_title),
+  ));
+
+  file_move($source, $destination, FILE_EXISTS_RENAME);
+}
