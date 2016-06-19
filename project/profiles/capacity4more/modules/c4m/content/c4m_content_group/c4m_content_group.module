@@ -843,4 +843,3 @@ function c4m_content_group_node_view($node, $view_mode, $langcode) {
     '#markup' => implode(",", $links),
   );
 }
-
