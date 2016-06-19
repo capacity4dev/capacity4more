@@ -98,7 +98,7 @@ function c4m_user_profile_tokens($type, $tokens, array $data = array(), array $o
 
         case 'url-with-name':
           $name = c4m_user_name($account);
-          $replacements[$original] = !empty($account->uid) ? l(
+          $replacements[$original] = !empty($account->uid) && $account->status ? l(
             $name, "user/$account->uid", $url_options
           ) : $name;
           break;
@@ -194,6 +194,15 @@ function c4m_user_profile_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['user/%user/unsubscribe/%/%/%'] = array(
+    'title' => 'Unsubscribe user',
+    'page callback' => 'c4m_user_profile_unsubscribe_user',
+    'page arguments' => array(1, 3, 4, 5),
+    'access callback' => 'c4m_user_profile_unsubscribe_user_access',
+    'access arguments' => array(1, 3, 4, 5),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -256,7 +265,7 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
   $form['#prefix'] = '<div id="user-register-form-wrapper">';
   $form['#suffix'] = '</div>';
 
-  $form['c4m_is_ldap_user'][LANGUAGE_NONE]['#type'] = 'hidden';
+  $form['c4m_is_ldap_user']['#type'] = 'hidden';
   $form['c4m_is_organisation_user'][LANGUAGE_NONE]['#type'] = 'hidden';
   $form['c4m_is_invalid_email'][LANGUAGE_NONE]['#type'] = 'hidden';
 
@@ -363,21 +372,36 @@ function c4m_user_profile_form_user_profile_form_alter(&$form, &$form_state, $fo
   $account = $form['#user'];
   $account_wrapper = entity_metadata_wrapper('user', $account);
 
-  if ($account_wrapper->c4m_is_ldap_user->value() && !empty($form['c4m_country'][LANGUAGE_NONE]['#default_value'])) {
-    $form['c4m_country'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+  // Disable fields if the user is a LDAP user and the field has a default
+  // value.
+  if ($account_wrapper->c4m_is_ldap_user->value()) {
+    if (!empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
+      $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
+    }
   }
-  if ($account_wrapper->c4m_organisation->value() && !empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
-    $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
+  // Disable the country only if the user is validated in LDAP service.
+  if ($account_wrapper->c4m_is_ldap_user->value() == 1) {
+    if (!empty($form['c4m_country'][LANGUAGE_NONE]['#default_value'])) {
+      $form['c4m_country'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+    }
   }
-  if ($account_wrapper->c4m_organisation_type->value() && !empty($form['c4m_organisation_type'][LANGUAGE_NONE]['#default_value'])) {
-    $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+
+  // Disable fields if the user is an organisation user and the field has a
+  // default value.
+  if ($account_wrapper->c4m_is_organisation_user->value()) {
+    if (!empty($form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#default_value'])) {
+      $form['c4m_organisation'][LANGUAGE_NONE][0]['value']['#attributes']['disabled'] = 'disabled';
+    }
+    if (!empty($form['c4m_organisation_type'][LANGUAGE_NONE]['#default_value'])) {
+      $form['c4m_organisation_type'][LANGUAGE_NONE]['#attributes']['disabled'] = 'disabled';
+    }
   }
 
   c4m_user_profile_alter_user_form($form, $form_state, FALSE);
 
   $form['mail']['#description'] = 'Please note you will have to provide your password and confirm your new address to change your e-mail address.';
 
-  // Hide the spammer/deleted checkbox for non-admins.
+  // Hide the spammer / deleted checkbox for non-admins.
   if (!in_array('administrator', $user->roles)) {
     $form['c4m_is_deleted']['#access'] = FALSE;
     $form['c4m_is_spammer']['#access'] = FALSE;
@@ -649,7 +673,7 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
       }
       elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
         $organisation_name = $whitelist_domain->organisation_name;
-        $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 1;
+        $data['alter_form'] && $data['form']['c4m_is_ldap_user'][LANGUAGE_NONE]['#value'] = 2;
         $is_ldap_user = TRUE;
       }
     }
@@ -827,5 +851,175 @@ function c4m_user_profile_init() {
 
   if ($user->uid && $plugin = context_get_plugin('condition', 'c4m_user')) {
     $plugin->execute($user);
+  }
+}
+
+/**
+ * Render a hash for a specific user.
+ *
+ * @param mixed $account
+ *   A user account.
+ *
+ * @return string
+ *   The hash string.
+ */
+function c4m_user_profile_render_user_unsubscribe_hash($account = NULL) {
+  if (empty($account)) {
+    global $user;
+    $account = $user;
+  }
+
+  $full_name = c4m_user_name($account);
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $username = $wrapper->name->value();
+  $mail = $wrapper->mail->value();
+  $organisation = $wrapper->c4m_organisation->value();
+
+  return md5($username . $mail . $full_name . $organisation . REQUEST_TIME);
+}
+
+/**
+ * Implements hook_user_presave().
+ *
+ * Adding the unsubscribe hash to the user profile when it is not a new profile.
+ */
+function c4m_user_profile_user_presave(&$edit, $account, $category) {
+  if (!$account->is_new) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $wrapper->c4m_unsubscribe_hash->set(c4m_user_profile_render_user_unsubscribe_hash($account));
+}
+
+/**
+ * Access callback; Unsubscribe a user.
+ *
+ * @param object $account
+ *   The user ID.
+ * @param string $entity_type
+ *   The flag suffix to unsubscribe from.
+ * @param string $entity_id
+ *   The ID of the entity to unsubscribe from.
+ * @param string $hash
+ *   The unsubscribe hash string.
+ *
+ * @return bool
+ *   TRUE if user has access.
+ */
+function c4m_user_profile_unsubscribe_user_access($account, $entity_type, $entity_id, $hash) {
+  if (!$account || c4m_user_is_spammer($account) || $account->status === 0) {
+    return FALSE;
+  }
+
+  $wrapper = entity_metadata_wrapper('user', $account);
+  if ($wrapper->c4m_unsubscribe_hash->value() != $hash) {
+    return FALSE;
+  }
+
+  // Validate we have an optout field for the current entity type.
+  if (!isset($wrapper->{"c4m_optout_{$entity_type}"})) {
+    return FALSE;
+  }
+
+  // Validate entity ID.
+  try {
+    $wrapper = entity_metadata_wrapper($entity_type, $entity_id);
+    if (!$wrapper->value()) {
+      return FALSE;
+    }
+  }
+  catch (\EntityMetadataWrapperException $e) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Page callback; Unsubscribe a user.
+ *
+ * @param object $account
+ *   The user account.
+ * @param string $entity_type
+ *   The flag suffix to unsubscribe from.
+ * @param string $entity_id
+ *   The ID of the entity to unsubscribe from.
+ */
+function c4m_user_profile_unsubscribe_user($account, $entity_type, $entity_id) {
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $field = "c4m_optout_{$entity_type}";
+  foreach ($wrapper->$field->value(array('identifier' => TRUE)) as $existing_id) {
+    if ($existing_id == $entity_id) {
+      // User already unsubscribed from entity.
+      return;
+    }
+  }
+
+  $wrapper->{$field}[] = $entity_id;
+  $wrapper->save();
+}
+
+/**
+ * Implements hook_message_subscribe_get_subscribers_alter().
+ *
+ * Remove unsubscribed users from the list when sending a notification.
+ */
+function c4m_user_profile_message_subscribe_get_subscribers_alter(&$uids, $values) {
+  $entity_type = $values['entity_type'];
+  $entity_id = reset($values['context'][$entity_type]);
+  $uids = c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids);
+}
+
+/**
+ * Check which of the given users are subscribed.
+ *
+ * A subscribed user is one who unsubscribed from a specific entity.
+ *
+ * @param string $entity_type
+ *   The entity type of the content.
+ * @param string $entity_id
+ *   The entity ID of the content.
+ * @param array $uids
+ *   Array containing users IDs.
+ *
+ * @return array
+ *   Array containing all subscribed users IDs.
+ */
+function c4m_user_profile_get_subscribed($entity_type, $entity_id, $uids = array()) {
+  if (!$uids) {
+    return array();
+  }
+
+  // Using db_select instead of user_load_multiple to optimize the performance.
+  $query = db_select("field_data_c4m_optout_{$entity_type}", 'o');
+  $query
+    ->fields('o', array('entity_id'))
+    ->condition('entity_id', $uids, 'IN')
+    ->condition("c4m_optout_{$entity_type}_target_id", $entity_id);
+
+  $unsubscribers = $query->execute()->fetchAllKeyed(0, 0);
+
+  return array_filter($uids, function($uid) use ($unsubscribers) {
+    // Removing all unsubscribed users.
+    return !in_array($uid, $unsubscribers);
+  });
+}
+
+/**
+ * Implements hook_field_access().
+ *
+ * Deny access to all 'optout' fields.
+ */
+function c4m_user_profile_field_access($op, $field, $entity_type, $entity, $account) {
+  $optout_fields = array(
+    'c4m_optout_comment',
+    'c4m_optout_group',
+    'c4m_optout_node',
+    'c4m_optout_taxonomy_term',
+  );
+
+  if (in_array($field['field_name'], $optout_fields)) {
+    return FALSE;
   }
 }

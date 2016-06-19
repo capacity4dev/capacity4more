@@ -111,6 +111,11 @@ markup
 
 # /END Update settings file ----------------------------------------------------
 
+drupal_drush vset file_public_path "$FILE_PATH_PUBLIC"
+drupal_drush vset file_private_path "$FILE_PATH_PRIVATE"
+drupal_drush vset file_temporary_path "$FILE_PATH_TEMP"
+drupal_drush vset file_default_scheme "$FILE_PATH_DEFAULT_METHOD"
+
 # Execute dummy content migration.
 migrate_content=$( option_is_set "--migrate-content" )
 if [ $migrate_content -eq 1 ]; then

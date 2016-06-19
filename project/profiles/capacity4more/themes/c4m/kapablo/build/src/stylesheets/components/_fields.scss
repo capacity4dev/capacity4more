@@ -59,7 +59,7 @@
 
 .field-name-c4m-ds-event-start-icon {
   color: $color-gray-dark;
-  font-size: 0.6em;
+  font-size: 0.6rem;
 
   .calendar-text-month {
     @extend .text-small;
@@ -94,7 +94,7 @@
   margin-top: 1em;
 }
 
-.user-name {
+.user-name, .posted-by {
   + .creation-date {
     &:before {
       content: '|';
@@ -168,7 +168,7 @@
 
     i.fa {
       color: $color-link;
-      font-size: 75%;
+      font-size: 0.75rem;
     }
 
     a.active {
@@ -204,7 +204,7 @@
       bottom: 50%;
 
       a {
-        font-size: 1.5em;
+        font-size: 1.5rem;
 
         &:hover {
           color: $text-color;

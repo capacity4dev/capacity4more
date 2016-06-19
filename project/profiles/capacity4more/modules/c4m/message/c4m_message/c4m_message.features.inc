@@ -39,9 +39,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] commented on a @node_type | !date\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] commented on @node_type | !date\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] commented on a @node_type | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-comment:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] commented on @node_type | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -61,9 +61,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Article | !date\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Article | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -83,9 +83,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @type | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @type | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -105,9 +105,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Document | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Document | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -127,9 +127,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @type | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @type | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -149,9 +149,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Photo | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Photo | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -171,9 +171,31 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Album | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Album | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+        }
+      ]
+    },
+    "rdf_mapping" : []
+  }');
+  $items['c4m_insert__node__share'] = entity_import('message_type', '{
+    "name" : "c4m_insert__node__share",
+    "description" : "c4m Insert Node Share",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation to the !group | !date\\r\\nOriginal group: !group_original\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "format" : "full_html",
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation to the !group | !date\\u003Cbr \\/\\u003E\\nOriginal group: !group_original\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
@@ -193,9 +215,9 @@ function c4m_message_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Wiki page | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
+          "value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\r\\n\\r\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\r\\n",
           "format" : "full_html",
-          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation Wiki page | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
+          "safe_value" : "\\u003Ch2\\u003E\\u003Ca href=\\u0022[message:field-node:url]\\u0022\\u003E[message:field-node:title]\\u003C\\/a\\u003E\\u003C\\/h2\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--operator\\u0022\\u003E!icon [message:user:url-with-name] @operation | !date\\u003C\\/div\\u003E\\n\\u003Cdiv class=\\u0022activity-stream--content\\u0022\\u003E!content\\u003C\\/div\\u003E\\n"
         }
       ]
     },
