@@ -202,24 +202,32 @@ function c4m_user_notifications_existing_group_content_updated($node) {
 /**
  * Email notification to inactive users.
  *
- * Loads inactive users and notifies once per interval, until user is activated.
- * Invoked once an hour by cron.
+ * Function is invoked once an hour by cron.
+ * It loads all inactive users, and for each one of them:
+ *   Calculates number of hours that have passed since users creation.
+ *   Calculates number of hours that have passed since previous notification,
+ *   assuming we're not within first interval.
+ *   In case notification full interval has passed (indication: modulo result
+ *   is 0), notifies user.
+ *
+ * Notification interval (in days), is set to value of variable
+ * 'c4m_inactive_users_reminder_days_interval', or default of 7.
  */
 function c4m_user_notifications_notify_inactive_users() {
   // Inactive users notification interval, in days.
-  $interval = variable_get('c4m_inactive_users_reminder_days_interval', 7);
+  $days_interval = variable_get('c4m_inactive_users_reminder_days_interval', 7);
   foreach (c4m_user_get_inactive_users() as $account) {
-    // Calculate how many hours passed from user creation.
-    $hours_created = (REQUEST_TIME - $account->created) / 3600;
-    // Within notification hour - hours from creation modulo interval, in hours.
-    $within_notification_hour = $hours_created % ($interval * 24);
+    // Calculate how many hours have passed since user was created.
+    $hours_from_creation = (REQUEST_TIME - $account->created) / 3600;
+    // Calculates how many hours have passed since previous notification.
+    $hours_since_previous_notification = $hours_from_creation % ($days_interval * 24);
 
-    if (!($hours_created > 0)) {
+    if (!($hours_from_creation > 0)) {
       // User was created less than an hour ago - no need to notify.
       continue;
     }
 
-    if ($within_notification_hour !== 0) {
+    if ($hours_since_previous_notification !== 0) {
       // Modulo result is not round - no need to notify.
       continue;
     }
