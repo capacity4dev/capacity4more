@@ -5,17 +5,17 @@
  */
 ?>
 <div
-  ng-show="data.field_info.<?php print $vocabulary_machine_name ?>.description">
-  {{data.field_info.<?php print $vocabulary_machine_name ?>.description}}
+  ng-show="data.field_info.<?php print $field_name ?>.description">
+  {{data.field_info.<?php print $field_name ?>.description}}
 </div>
 <div class="form-group <?php print $vocabulary_machine_name; ?>">
   <div class="checkboxes-wrapper">
     <div>
-      <button name="<?php print $vocabulary_machine_name ?>" type="button"
-              ng-click="togglePopover('<?php print $vocabulary_machine_name; ?>', $event)"
+      <button name="<?php print $field_name ?>" type="button"
+              ng-click="togglePopover('<?php print $field_name; ?>', $event)"
               class="btn btn-primary fa fa-plus">&nbsp;<?php print t(
           'Select @name',
-          array('@name' => $vocabulary_label)
+          array('@name' => $field_label)
         ); ?></button>
       <?php if ($required): ?>
         <label class="control-label">
@@ -70,7 +70,7 @@
     </div>
     <!-- Hidden checkboxes.-->
     <div class="popover right hidden-checkboxes"
-         ng-hide="popups.<?php print $vocabulary_machine_name; ?> != 1">
+         ng-hide="popups.<?php print $field_name; ?> != 1">
       <div class="arrow"></div>
       <div class="popover-content">
         <form action="#" class="search">
