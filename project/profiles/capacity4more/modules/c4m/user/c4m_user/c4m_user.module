@@ -1005,7 +1005,7 @@ function c4m_user_get_inactive_users() {
     // Not anonymous user.
     ->condition('u.uid', 0, '<>')
     // Not admin user.
-    ->condition('u.uid', 11, '<>');
+    ->condition('u.uid', 1, '<>');
 
   $results = $query->execute()->fetchAllKeyed(0, 0);
 
