@@ -206,7 +206,8 @@ function c4m_user_notifications_existing_group_content_updated($node) {
  * Invoked once an hour by cron.
  */
 function c4m_user_notifications_notify_inactive_users() {
-  $interval = variable_get('c4m_inactive_users_reminder_interval', 7);
+  // Inactive users notification interval, in days.
+  $interval = variable_get('c4m_inactive_users_reminder_days_interval', 7);
   foreach (c4m_user_get_inactive_users() as $account) {
     // Calculate how many hours passed from user creation.
     $hours_created = (REQUEST_TIME - $account->created) / 3600;
