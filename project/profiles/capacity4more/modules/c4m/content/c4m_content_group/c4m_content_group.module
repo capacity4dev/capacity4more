@@ -803,3 +803,43 @@ function c4m_content_group_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_field_extra_fields().
+ *
+ * Add the 'Group Admins' field in the group dashboard management.
+ */
+function c4m_content_group_field_extra_fields() {
+  $extra_fields['node']['group']['display']['group_admins'] = array(
+    'label' => t('Group Admins'),
+    'description' => t('Group Admins'),
+    'weight' => 0,
+  );
+
+  return $extra_fields;
+}
+
+/**
+ * Implements hook_node_view_alter().
+ *
+ * Adding the 'Group administrators' view for the group_admins field.
+ */
+function c4m_content_group_node_view($node, $view_mode, $langcode) {
+  if ($view_mode != "group_dashboard") {
+    return;
+  }
+
+  $accounts = c4m_og_get_group_admins($node->nid);
+
+  $links = array();
+  foreach ($accounts as $account) {
+    $uri = entity_uri('user', $account);
+    $links[] = l($account->name, $uri['path']);
+  }
+
+  $node->content['group_admins'] = array(
+    '#type' => 'item',
+    '#title' => t('Group administrators'),
+    '#markup' => implode(",", $links),
+  );
+}
