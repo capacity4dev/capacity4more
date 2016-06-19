@@ -53,17 +53,13 @@
         filter: blur(10px) grayscale(80%);
         -webkit-mask-image: -webkit-gradient(linear, left 90%, left top, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
         mask-image: -webkit-gradient(linear, left 90%, left top, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
-      }
 
-      @media (max-width: $screen-md) {
-        img {
+        @media (max-width: $screen-md) {
           height: 10rem;
           margin-top: 14.7rem;
         }
-      }
 
-      @media (max-width: $screen-xs) {
-        img {
+        @media (max-width: $screen-xs) {
           height: 5rem;
           margin-top: 16.05rem;
         }
