@@ -39,7 +39,7 @@ Feature: Group content access
   @javascript
   Scenario: A member of the organization should be able to see the group's content.
     Given I am logged in as user "turing"
-    And   I change access of group "My test group" to "Restricted"
+    And   I change access of group "My test group" to "Restricted" to domain "turingmachine.com"
     When  I am logged in as user "charlesbabbage"
     Then  I visit "Test content" node of type "discussion"
     And   I should not see "Access denied"
