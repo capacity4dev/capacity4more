@@ -8,7 +8,7 @@
  * Display function to display the group statistics.
  */
 function c4m_content_group_statistics($field) {
-  $data = c4m_content_get_group_statistics();
+  $data = c4m_content_get_current_group_statistics();
   if (empty($data)) {
     return;
   }

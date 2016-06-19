@@ -23,6 +23,30 @@ markup_h2 "Libraries"
 mkdir -p "$DIR_WEB/sites/all/libraries"
 file_symlink_subdirectories "$DIR_PROJECT/libraries" "$DIR_WEB/sites/all/libraries"
 
+markup_h2 "Files"
+mkdir -p "$DIR_WEB/$FILE_PATH_PUBLIC"
+mkdir -p "$DIR_WEB/$FILE_PATH_PRIVATE"
+
+drupal_sites_default_unprotect
+cat << EOF >> "$DIR_WEB/$FILE_PATH_PRIVATE/.htaccess"
+Deny from all                                                                                        [error]
+
+# Turn off all options we don't need.
+Options None
+Options +FollowSymLinks
+
+# Set the catch-all handler to prevent scripts from being executed.
+SetHandler Drupal_Security_Do_Not_Remove_See_SA_2006_006
+
+# Override the handler again if we're run later in the evaluation list.
+SetHandler Drupal_Security_Do_Not_Remove_See_SA_2013_003
+
+
+# If we know how to do it safely, disable the PHP engine entirely.
+
+php_flag engine off
+EOF
+
 if [ "$MIGRATION_MODULE" != "" ] || [ "$MIGRATION_SCRIPT" != "" ]; then
     markup_h2 "Migration module"
 
