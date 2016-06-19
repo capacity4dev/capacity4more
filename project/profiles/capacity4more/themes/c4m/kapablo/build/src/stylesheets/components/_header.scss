@@ -34,7 +34,7 @@
 }
 
 #header-ec-wrapper {
-  @include grey_bar;
+  @include grey_bar_base;
   border-bottom: none;
 
   .row.background_banner {
