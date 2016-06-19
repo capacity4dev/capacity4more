@@ -202,17 +202,28 @@ function c4m_user_notifications_existing_group_content_updated($node) {
 /**
  * Email notification to inactive users.
  *
- * Loads inactive users and sends notification once a week, until activated.
+ * Loads inactive users and notifies once per interval, until user is activated.
+ * Invoked once an hour by cron.
  */
 function c4m_user_notifications_notify_inactive_users() {
   $interval = variable_get('c4m_inactive_users_reminder_interval', 7);
   foreach (c4m_user_get_inactive_users() as $account) {
+    // Calculate how many hours passed from user creation.
     $hours_created = (REQUEST_TIME - $account->created) / 3600;
-    $notify = $hours_created % $interval * 24;
+    // Within notification hour - hours from creation modulo interval, in hours.
+    $within_notification_hour = $hours_created % ($interval * 24);
 
-    if ($hours_created > 0 && $notify == 0) {
-      // Notify.
+    if (!($hours_created > 0)) {
+      // User was created less than an hour ago - no need to notify.
+      continue;
     }
+
+    if ($within_notification_hour !== 0) {
+      // Modulo result is not round - no need to notify.
+      continue;
+    }
+
+    // Notify user.
   }
 }
 
