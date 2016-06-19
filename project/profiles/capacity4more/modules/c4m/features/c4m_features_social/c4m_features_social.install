@@ -38,6 +38,9 @@ function c4m_features_social_share_settings() {
     'email_link'  => array(
       'enabled' => TRUE,
     ),
+    'c4m_print'  => array(
+      'enabled' => TRUE,
+    ),
   );
 
   variable_set('c4m_social_share', $settings);

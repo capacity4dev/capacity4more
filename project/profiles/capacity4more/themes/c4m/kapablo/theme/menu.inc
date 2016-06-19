@@ -243,6 +243,25 @@ function kapablo_menu_link__book_toc(array $variables) {
 function kapablo_menu_link__book_c4m_og_menu(array $variables) {
   $element = $variables['element'];
 
+  // Add indicator for content that is a share.
+  $indicator = '';
+  $href_parts = explode('/', $element['#href']);
+  if ($href_parts[0] == 'node') {
+    $node = node_load($href_parts[1]);
+    if ($node->type == 'share') {
+      $tag['element'] = array(
+        '#tag' => 'i',
+        '#attributes' => array(
+          'class' => array('fa', 'fa-retweet'),
+          'title' => 'Shared from another group',
+        ),
+        '#value' => '',
+      );
+
+      $indicator = theme_html_tag($tag);
+    }
+  }
+
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
   if (($element['#href'] == current_path(
@@ -269,5 +288,5 @@ function kapablo_menu_link__book_c4m_og_menu(array $variables) {
 
   return '<li' . drupal_attributes(
     $element['#attributes']
-  ) . '>' . $link . "</li>\n";
+  ) . '>' . $link . " " . $indicator . "</li>\n";
 }

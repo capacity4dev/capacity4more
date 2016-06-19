@@ -39,3 +39,45 @@ function c4m_content_photo_node_insert($node) {
 
   file_move($source, $destination, FILE_EXISTS_RENAME);
 }
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_photo_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_photos' => array(
+      'type' => 'photo',
+      'context' => 'group',
+      'callback' => 'c4m_og_group_node_metric',
+      'arguments' => array(array('photo')),
+      'weight' => 2,
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_photo_c4m_content_share_fields_info() {
+  return array(
+    'photo' => array(
+      'type',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_photo_c4m_helper_entity_label_info() {
+  return array(
+    'photo' => array(
+      'article' => t('a'),
+      'singular' => t('photo'),
+      'plural' => t('photos'),
+      'insert action' => t('uploaded a new photo'),
+      'update action' => t('updated the photo'),
+      'icon' => 'fa-file-picture-o',
+    ),
+  );
+}
