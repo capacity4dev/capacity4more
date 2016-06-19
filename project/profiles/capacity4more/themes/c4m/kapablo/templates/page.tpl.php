@@ -107,10 +107,8 @@
 
   <div id="header-ec-wrapper">
     <?php if (isset($image_banner)): ?>
-      <div class="row background_banner">
-        <div class="col-sm-12 col-md-12">
-          <?php print $image_banner; ?>
-        </div>
+      <div class="row background-banner">
+        <?php print $image_banner; ?>
       </div>
     <?php endif; ?>
 
