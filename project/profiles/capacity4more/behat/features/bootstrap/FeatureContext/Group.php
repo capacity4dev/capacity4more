@@ -334,7 +334,7 @@ trait Group {
   }
 
   /**
-   * @When /^I change access of group "([^"]*)" to "([^"]*)" to domain "([^"]*)"$/
+   * @When /^I change access of group "([^"]*)" to "([^"]*)" with the domain "([^"]*)"$/
    */
   public function iChangeAccessOfGroupToDomain($title, $access, $domains) {
     return $this->iChangeAccessOfGroupTo($title, $access, $domains);
