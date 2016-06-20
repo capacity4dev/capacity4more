@@ -653,3 +653,14 @@ function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   }
   drupal_goto(current_path(), array('query' => $params));
 }
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_search_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'search') {
+    $trigger_label = t('Filter results');
+  }
+}

@@ -145,3 +145,14 @@ function c4m_content_event_c4m_content_statistics_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_content_event_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'events' && empty(arg(1))) {
+    $trigger_label = t('Filter results');
+  }
+}
