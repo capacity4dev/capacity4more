@@ -64,6 +64,9 @@ class C4mMoodleRedirectController extends stdClass {
     // Check if the user has an organisation.
     $organisation = $this->getUserOrganisation();
     if (empty($organisation)) {
+      drupal_set_message(
+        t('Please update your profile with all required fields before continuing to Moodle.')
+      );
       return $this->getRedirectProfile();
     }
 
