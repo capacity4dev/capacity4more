@@ -142,8 +142,8 @@ function c4m_content_project_field_group_info() {
     'label' => 'Project page content',
     'weight' => '10',
     'children' => array(
-      0 => 'field_c4m_left_column',
-      1 => 'field_c4m_right_column',
+      0 => 'c4m_left_column',
+      1 => 'c4m_right_column',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

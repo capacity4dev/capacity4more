@@ -1814,8 +1814,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-field_c4m_left_column'.
-  $field_instances['node-project-field_c4m_left_column'] = array(
+  // Exported field_instance: 'node-project-c4m_left_column'.
+  $field_instances['node-project-c4m_left_column'] = array(
     'bundle' => 'project',
     'default_value' => array(),
     'deleted' => 0,
@@ -1851,7 +1851,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_c4m_left_column',
+    'field_name' => 'c4m_left_column',
     'label' => 'Left column content',
     'required' => 0,
     'settings' => array(
@@ -1872,8 +1872,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-field_c4m_right_column'.
-  $field_instances['node-project-field_c4m_right_column'] = array(
+  // Exported field_instance: 'node-project-c4m_right_column'.
+  $field_instances['node-project-c4m_right_column'] = array(
     'bundle' => 'project',
     'default_value' => array(),
     'deleted' => 0,
@@ -1909,7 +1909,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'field_c4m_right_column',
+    'field_name' => 'c4m_right_column',
     'label' => 'Right column content',
     'required' => 0,
     'settings' => array(
