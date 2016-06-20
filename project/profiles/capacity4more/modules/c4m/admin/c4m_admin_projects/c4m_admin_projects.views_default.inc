@@ -13,7 +13,7 @@ function c4m_admin_projects_views_default_views() {
   $view = new view();
   $view->name = 'c4m_admin_projects_pending';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'C4M Admin';
   $view->base_table = 'node';
   $view->human_name = 'Admin : Projects - Pending';
   $view->core = 7;
