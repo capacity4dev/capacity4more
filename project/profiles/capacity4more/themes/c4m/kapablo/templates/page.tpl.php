@@ -267,18 +267,17 @@
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
 
-        <?php if (!empty($page['sidebar_first'])): ?>
+        <?php if (!empty($page['sidebar_first']) && !empty($offcanvas_trigger_label_left)): ?>
           <div class="trigger js-navigationButton" data-effect="animation--slideOn">
-            <span class="trigger-text">Trigger off-canvas left</span>
+            <span class="trigger-text"><?php print $offcanvas_trigger_label_left; ?></span>
           </div>
         <?php endif; ?>
 
-        <?php if (!empty($page['sidebar_second'])): ?>
+        <?php if (!empty($page['sidebar_second']) && !empty($offcanvas_trigger_label_right)): ?>
           <div class="trigger js-navigationButton" data-effect="animation--slideOn">
-            <span class="trigger-text">Trigger off-canvas right</span>
+            <span class="trigger-text"><?php print $offcanvas_trigger_label_right; ?></span>
           </div>
         <?php endif; ?>
-
 
         <?php print render($page['content']); ?>
       </section>
