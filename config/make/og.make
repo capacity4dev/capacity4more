@@ -5,7 +5,7 @@ api = 2
 
 projects[og][download][type] = "git"
 projects[og][download][url] = "https://github.com/capacity4dev/og.git"
-projects[og][download][branch] = og_context_check_access
+projects[og][download][branch] = 7.x-2.x
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
