@@ -508,7 +508,7 @@
     width: 25px;
     margin: 0;
     padding: 5px;
-    border-radius: 6px;
+    border-radius: 4px;
   }
 
   .group-icon.as-group-public {
@@ -527,9 +527,9 @@
     margin-top: 0;
   }
 
-  span {
+  /*span {
     height: 25px;
-  }
+  }*/
 
   @media (min-width: $screen-tablet) {
     float: right;
@@ -540,20 +540,24 @@
 .group-indications--access {
   position: relative;
   float: left;
+  height: 25px;
 }
 
 .group-type,
 .group-status {
   display: inline-block;
   margin-left: 10px;
+  height: 25px;
 }
 
 .group-access {
   display: none;
-  margin-left: 5px;
 
   @media (min-width: $screen-tablet) {
     display: inline-block;
+    margin-left: 5px;
+    height: 25px;
+    border-radius: 4px;
   }
 }
 
@@ -563,9 +567,10 @@
 
     display: block;
     clear: left;
-    margin-top: 5px;
+    margin-top: 6px;
   }
 }
+
 
 .restricted-organisation-icons {
   display: none;
@@ -578,7 +583,7 @@
     display: table;
     width: 120px;
     margin-top: 6px;
-    border-radius: 3px;
+    border-radius: 4px;
     border: 1px solid $color-accent;
 
     img {
@@ -597,7 +602,7 @@
       position: relative;
 
       display: table-cell;
-      height: 25px;
+      height: 23px;
       width: 25%;
 
       &:not(:first-of-type) {
@@ -607,13 +612,14 @@
 
     .group-organisation--more {
       text-align: center;
+      cursor: pointer;
     }
 
     .group-organisation--more span {
       display: inline-block;
       width: 4px;
       height: 4px;
-      background: red;
+      background: $color-link;
 
       &:not(:first-of-type) {
         margin-left: -3px;
@@ -624,4 +630,115 @@
 
 .restricted-extra-wrapper {
   display: none;
+
+  @media (min-width: $screen-tablet) {
+    position: absolute;
+
+    width: 300px;
+    z-index: 1;
+    background: $color-text-alternative;
+    border: 1px solid $color-link;
+    padding: 15px;
+    border-radius: 3px;
+    margin-top: 0;
+
+    color: $color-white;
+
+    transform: translateX(-105%);
+    -webkit-transform: translateX(-105%);
+  }
 }
+
+.restricted-extra-wrapper.collapse.in {
+  @media (max-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.extra-wrapper-close {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+
+  width: 30px;
+  height: 15px;
+  border-radius: 3px;
+
+  line-height: 18px;
+  font-size: 0;
+  text-align: center;
+}
+
+.extra-wrapper-close-background {
+  position: absolute;
+  right: 0;
+  z-index: -1;
+
+  width: 100%;
+  height: 100%;
+  background: $color-white;
+  opacity: 0.5;
+  border-radius: 3px;
+}
+
+.extra-wrapper-close-bullet {
+  background: $color-white;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+  &:nth-of-type(n+3) {
+    margin-left: 2px;
+  }
+}
+
+.restricted-organisations,
+.restricted-emails,
+.restricted-organisations ul,
+.restricted-emails ul {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  @include clearfix;
+}
+
+.restricted-organisations ul li,
+.restricted-emails ul li {
+  float: left;
+  width: 50%;
+  list-style: none;
+
+  &:nth-of-type(-n+2) {
+    margin-top: 0;
+  }
+}
+
+.restricted-organisations {
+  padding-bottom: 15px;
+
+  ul li {
+  margin-top: 15px;
+
+    img{
+      width: 25px;
+      height: 25px;
+      margin-right: 10px;
+      border: 1px solid $color-white;
+      border-radius: 4px;
+
+    }
+  }
+}
+
+.restricted-emails {
+  border-top: 1px dashed $color-gray-light;
+  padding-top: 15px;
+
+  ul li{
+    margin-top: 10px;
+  }
+}
+
