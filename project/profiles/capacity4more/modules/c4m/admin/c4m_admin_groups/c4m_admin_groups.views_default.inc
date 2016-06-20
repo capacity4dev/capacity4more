@@ -474,6 +474,7 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
+    'group_visibility' => 'group_visibility',
     'name' => 'name',
     'created' => 'created',
     'edit_node' => 'edit_node',
@@ -483,6 +484,11 @@ function c4m_admin_groups_views_default_views() {
     'title' => array(
       'sortable' => 1,
       'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'group_visibility' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -528,6 +534,12 @@ function c4m_admin_groups_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Content: Group visibility */
+  $handler->display->display_options['fields']['group_visibility']['id'] = 'group_visibility';
+  $handler->display->display_options['fields']['group_visibility']['table'] = 'node';
+  $handler->display->display_options['fields']['group_visibility']['field'] = 'group_visibility';
+  $handler->display->display_options['fields']['group_visibility']['label'] = 'Visibility';
+  $handler->display->display_options['fields']['group_visibility']['element_label_colon'] = FALSE;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
