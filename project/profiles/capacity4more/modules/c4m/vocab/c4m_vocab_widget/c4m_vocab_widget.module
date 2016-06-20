@@ -86,10 +86,8 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
 
   // Add the directive.
   $variables = array(
-    'field_label' => $field_label,
-    'field_name' => $field_name,
-    'vocabulary_label' => $vocabulary_label,
-    'vocabulary_machine_name' => $vocabulary_machine_name,
+    'vocabulary_label' => $field_label,
+    'vocabulary_machine_name' => $field_name,
     'required' => $element['#required'],
   );
   $directive = theme('c4m_vocab_widget_taxonomy_widget', $variables);

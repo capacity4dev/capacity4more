@@ -118,7 +118,7 @@ angular.module('c4mApp')
         }
         else {
           // Check up to 3 topics selected.
-          if (vocab == 'c4m_vocab_topic' || vocab == 'c4m_vocab_geo') {
+          if (vocab == 'c4m_vocab_topic' || vocab == 'c4m_vocab_topic_expertise' || vocab == 'c4m_vocab_geo') {
             var topicCount = 0;
             angular.forEach($scope.model[vocab], function(element, topicKey) {
               if (element === true && $scope.data[vocab][topicKey]) {
