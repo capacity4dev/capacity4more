@@ -21,16 +21,14 @@ $plugin = array(
  *   The block definition.
  */
 function c4m_content_project_page_right_render() {
+  $block = new stdClass();
   if ($group = og_context()) {
     if ($node = node_load($group['gid'])) {
-      $block = new stdClass();
-      $block->content = field_view_field('node', $node, 'c4m_right_column', array('label' => 'hidden'));
+      $block->id = 'project_page_right';
       $block->title = '';
-      $block->id = 'project_page_left';
-
-      return $block;
+      $block->content = field_view_field('node', $node, 'c4m_right_column', array('label' => 'hidden'));
     }
   }
 
-  return '';
+  return $block;
 }
