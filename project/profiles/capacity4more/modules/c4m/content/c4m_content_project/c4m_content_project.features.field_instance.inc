@@ -1910,72 +1910,6 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-field_c4m_partners'.
-  $field_instances['node-project-field_c4m_partners'] = array(
-    'bundle' => 'project',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'Names of organisations & companies who are the partners (stakeholders) of the Project.',
-    'display' => array(
-      'block_list' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'module' => 'paragraphs',
-        'settings' => array(
-          'view_mode' => 'full',
-        ),
-        'type' => 'paragraphs_view',
-        'weight' => 19,
-      ),
-      'group_dashboard' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'ds_extras_field_template' => '',
-    'entity_type' => 'node',
-    'field_name' => 'field_c4m_partners',
-    'label' => 'Partners',
-    'required' => 0,
-    'settings' => array(
-      'add_mode' => 'button',
-      'allowed_bundles' => array(
-        'c4m_paragraph_partner' => 'c4m_paragraph_partner',
-        'c4m_paragraph_system_block' => -1,
-        'c4m_paragraph_text' => -1,
-      ),
-      'bundle_weights' => array(
-        'c4m_paragraph_partner' => 2,
-        'c4m_paragraph_system_block' => -6,
-        'c4m_paragraph_text' => 4,
-      ),
-      'default_edit_mode' => 'preview',
-      'title' => 'Partner',
-      'title_multiple' => 'Partners',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'paragraphs',
-      'settings' => array(),
-      'type' => 'paragraphs_embed',
-      'weight' => 12,
-    ),
-  );
-
   // Exported field_instance: 'node-project-group_group'.
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
@@ -2549,7 +2483,6 @@ function c4m_content_project_field_default_field_instances() {
   t('Image');
   t('Implemented by');
   t('Left column content');
-  t('Names of organisations & companies who are the partners (stakeholders) of the Project.');
   t('Names of organisations & companies who fund the Project.');
   t('Names of organisations & companies who implement the project.');
   t('Partners');
