@@ -14,30 +14,31 @@ function c4m_content_photo_theme_registry_alter(&$theme_registry) {
 }
 
 /**
- * Implements hook_node_insert().
+ * Implements hook_node_presave().
  *
- * If a photo was uploaded and if it is part of a photo album
- * rename the file as Album name + number.
+ * If a photo was uploaded and if is part of a photo album rename Album name
+ * along with a numerical suffix.
  */
-function c4m_content_photo_node_insert($node) {
+function c4m_content_photo_node_presave($node) {
   if ($node->type != 'photo') {
-    return;
-  }
-  if (empty($node->node_gallery_ref_1)) {
+    // Node is not a photo.
     return;
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
 
+  if (!$wrapper->node_gallery_ref_1->getIdentifier()) {
+    // Photo is not part of an album.
+    return;
+  }
+
   $source = file_load($wrapper->c4m_media->value()['fid']);
   $gallery_title = $wrapper->node_gallery_ref_1->label();
-  $path = substr($source->uri, 0, strrpos($source->uri, "/"));
-  $destination = format_string('@path/@filename', array(
-    '@path' => $path,
-    '@filename' => transliteration_clean_filename($gallery_title),
-  ));
+  $destination = drupal_dirname($source->uri) . '/' . transliteration_clean_filename($gallery_title) . '.' . pathinfo($source->uri, PATHINFO_EXTENSION);
+  $new_file = file_move($source, $destination, FILE_EXISTS_RENAME);
 
-  file_move($source, $destination, FILE_EXISTS_RENAME);
+  // Set the title to be like the new given file name.
+  $wrapper->title->set(drupal_basename($new_file->uri));
 }
 
 /**
