@@ -587,23 +587,18 @@
     border: 1px solid $color-accent;
 
     img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-
+      display: inline-block;
       width: 20px;
       height: 20px;
-
-      transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
     }
 
     span {
       position: relative;
 
       display: table-cell;
-      height: 23px;
       width: 25%;
+      padding: 2px;
+      text-align: center;
 
       &:not(:first-of-type) {
         border-left: 1px solid $color-accent;
@@ -613,6 +608,8 @@
     .group-organisation--more {
       text-align: center;
       cursor: pointer;
+      vertical-align: middle;
+      font-size: 0;
     }
 
     .group-organisation--more span {
@@ -622,13 +619,14 @@
       background: $color-link;
 
       &:not(:first-of-type) {
-        margin-left: -3px;
+        margin-left: 2px;
       }
     }
 
     &::before,
     &::after {
       position: absolute;
+      top: -7px;
 
       display: inline-block;
       content: "";
@@ -638,15 +636,11 @@
 
     &::before {
       left: 15px;
-      top: -8px;
-
       height: 7px;
     }
 
     &::after {
       right: 15px;
-      top: -8px;
-
       height: 7px;
     }
   }
@@ -765,4 +759,3 @@
     margin-top: 10px;
   }
 }
-
