@@ -753,7 +753,7 @@ function c4m_content_project_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -800,9 +800,13 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'add_mode' => 'button',
       'allowed_bundles' => array(
-        'c4m_paragraph_text' => -1,
+        'c4m_paragraph_partner' => -1,
+        'c4m_paragraph_system_block' => 'c4m_paragraph_system_block',
+        'c4m_paragraph_text' => 'c4m_paragraph_text',
       ),
       'bundle_weights' => array(
+        'c4m_paragraph_partner' => 4,
+        'c4m_paragraph_system_block' => -6,
         'c4m_paragraph_text' => 2,
       ),
       'default_edit_mode' => 'preview',
@@ -1358,64 +1362,29 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m_partner'.
-  $field_instances['node-project-c4m_partner'] = array(
+  // Exported field_instance: 'node-project-c4m_partners'.
+  $field_instances['node-project-c4m_partners'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Names of organisations & companies who are the partners (stakeholders) of the Project.',
+    'description' => '',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'block_list' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 25,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 6,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'module' => 'paragraphs',
+        'settings' => array(
+          'view_mode' => 'full',
+        ),
+        'type' => 'paragraphs_view',
+        'weight' => 19,
       ),
       'group_dashboard' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 6,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1425,38 +1394,37 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 22,
-      ),
-      'teaser_group' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 6,
-      ),
-      'upcoming_event' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m_partner',
+    'field_name' => 'c4m_partners',
     'label' => 'Partners',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
+      'add_mode' => 'button',
+      'allowed_bundles' => array(
+        'c4m_paragraph_partner' => 'c4m_paragraph_partner',
+        'c4m_paragraph_partners' => -1,
+        'c4m_paragraph_text' => -1,
+      ),
+      'bundle_weights' => array(
+        'c4m_paragraph_partner' => 2,
+        'c4m_paragraph_partners' => 3,
+        'c4m_paragraph_text' => 4,
+      ),
+      'default_edit_mode' => 'preview',
+      'title' => 'Partner',
+      'title_multiple' => 'Partners',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 11,
+      'active' => 0,
+      'module' => 'paragraphs',
+      'settings' => array(),
+      'type' => 'paragraphs_embed',
+      'weight' => 12,
     ),
   );
 
@@ -1619,9 +1587,13 @@ function c4m_content_project_field_default_field_instances() {
     'settings' => array(
       'add_mode' => 'button',
       'allowed_bundles' => array(
-        'c4m_paragraph_text' => -1,
+        'c4m_paragraph_partner' => -1,
+        'c4m_paragraph_system_block' => 'c4m_paragraph_system_block',
+        'c4m_paragraph_text' => 'c4m_paragraph_text',
       ),
       'bundle_weights' => array(
+        'c4m_paragraph_partner' => 4,
+        'c4m_paragraph_system_block' => -6,
         'c4m_paragraph_text' => 2,
       ),
       'default_edit_mode' => 'preview',
@@ -1938,6 +1910,72 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-project-field_c4m_partners'.
+  $field_instances['node-project-field_c4m_partners'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Names of organisations & companies who are the partners (stakeholders) of the Project.',
+    'display' => array(
+      'block_list' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'paragraphs',
+        'settings' => array(
+          'view_mode' => 'full',
+        ),
+        'type' => 'paragraphs_view',
+        'weight' => 19,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'field_c4m_partners',
+    'label' => 'Partners',
+    'required' => 0,
+    'settings' => array(
+      'add_mode' => 'button',
+      'allowed_bundles' => array(
+        'c4m_paragraph_partner' => 'c4m_paragraph_partner',
+        'c4m_paragraph_system_block' => -1,
+        'c4m_paragraph_text' => -1,
+      ),
+      'bundle_weights' => array(
+        'c4m_paragraph_partner' => 2,
+        'c4m_paragraph_system_block' => -6,
+        'c4m_paragraph_text' => 4,
+      ),
+      'default_edit_mode' => 'preview',
+      'title' => 'Partner',
+      'title_multiple' => 'Partners',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'paragraphs',
+      'settings' => array(),
+      'type' => 'paragraphs_embed',
+      'weight' => 12,
+    ),
+  );
+
   // Exported field_instance: 'node-project-group_group'.
   $field_instances['node-project-group_group'] = array(
     'bundle' => 'project',
@@ -2040,6 +2078,280 @@ function c4m_content_project_field_default_field_instances() {
         'og_hide' => 1,
       ),
       'type' => 'options_onoff',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_partner-c4m_heading'.
+  $field_instances['paragraphs_item-c4m_paragraph_partner-c4m_heading'] = array(
+    'bundle' => 'c4m_paragraph_partner',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_heading',
+    'label' => 'Title',
+    'required' => 1,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'paragraphs_item-c4m_paragraph_partner-c4m_link'.
+  $field_instances['paragraphs_item-c4m_paragraph_partner-c4m_link'] = array(
+    'bundle' => 'c4m_paragraph_partner',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_link',
+    'label' => 'URL',
+    'required' => 0,
+    'settings' => array(
+      'absolute_url' => 1,
+      'attributes' => array(
+        'class' => '',
+        'configurable_class' => 0,
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => '_blank',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'rel_remove' => 'default',
+      'title' => 'none',
+      'title_label_use_field_label' => 0,
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+      'user_register_form' => FALSE,
+      'validate_url' => 1,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'paragraphs_item-c4m_paragraph_partner-c4m_media'.
+  $field_instances['paragraphs_item-c4m_paragraph_partner-c4m_media'] = array(
+    'bundle' => 'c4m_paragraph_partner',
+    'default_value' => array(),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'c4m_content_project',
+        'settings' => array(),
+        'type' => 'c4m_partner_formatter',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'hidden',
+        'module' => 'c4m_field_media',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_media',
+    'label' => 'Image',
+    'required' => 1,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => 'partners',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'private' => 0,
+          'public' => 'public',
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_2' => 0,
+          'media_default--media_browser_my_files' => 0,
+          'upload' => 'upload',
+        ),
+      ),
+      'type' => 'media_generic',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_system_block-c4m_block'.
+  $field_instances['paragraphs_item-c4m_paragraph_system_block-c4m_block'] = array(
+    'bundle' => 'c4m_paragraph_system_block',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'blockreference',
+        'settings' => array(
+          'show_empty_blocks' => FALSE,
+        ),
+        'type' => 'blockreference_default',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'hidden',
+        'module' => 'blockreference',
+        'settings' => array(
+          'show_empty_blocks' => FALSE,
+        ),
+        'type' => 'blockreference_title',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_block',
+    'label' => 'Block',
+    'required' => 1,
+    'settings' => array(
+      'blockreference_modules' => array(
+        'block' => 0,
+        'book' => 0,
+        'c4m_content' => 0,
+        'c4m_content_group' => 0,
+        'c4m_content_project' => 0,
+        'c4m_features_footer' => 0,
+        'c4m_features_header' => 0,
+        'c4m_features_homepage' => 0,
+        'c4m_features_homepage_intro' => 0,
+        'c4m_features_learning_space' => 0,
+        'c4m_features_og_events' => 0,
+        'c4m_features_overview_events' => 0,
+        'c4m_search_filter' => 0,
+        'c4m_search_nodes' => 0,
+        'c4m_search_og' => 0,
+        'c4m_user' => 0,
+        'c4m_user_bar' => 0,
+        'c4m_user_profile' => 0,
+        'campaignmonitor' => 0,
+        'comment' => 0,
+        'context_ui' => 0,
+        'devel' => 0,
+        'diff' => 0,
+        'facetapi' => 0,
+        'menu' => 0,
+        'node' => 0,
+        'search_api_sorts' => 0,
+        'statistics' => 0,
+        'system' => 0,
+        'user' => 0,
+        'views' => 0,
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
       'weight' => 1,
     ),
   );
@@ -2223,6 +2535,7 @@ function c4m_content_project_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('A picture to use on the Project dashboard and Project listings');
   t('Banner');
+  t('Block');
   t('Body');
   t('CRIS Contract Number');
   t('CRIS Decision number');
@@ -2248,6 +2561,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Title');
   t('Topics');
   t('Total budget');
+  t('URL');
   t('You can select up to 3 Topics and unlimited subtopics within these Topics.');
 
   return $field_instances;

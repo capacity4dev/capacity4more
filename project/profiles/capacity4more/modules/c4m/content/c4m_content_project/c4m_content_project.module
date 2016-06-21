@@ -91,6 +91,11 @@ function c4m_content_project_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );
 
+  $blocks['c4m_block_project_partners'] = array(
+    'info' => t('Project: Partners'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
@@ -159,7 +164,6 @@ function c4m_content_project_field_formatter_info() {
  */
 function c4m_content_project_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $element['#prefix'] = '<h2>' . t('Implementing partners') . '</h2>';
 
   foreach ($items as $delta => $item) {
     // Load title and url for the paragraph.
@@ -170,12 +174,45 @@ function c4m_content_project_field_formatter_view($entity_type, $entity, $field,
     $source = theme('image_style', array('style_name' => 'thumbnail', 'path' => $item['uri'], 'title' => $title['safe_value']));
 
     if ($url) {
-      $element[$delta]['#markup'] .= l($source, $url['display_url'], array('html' => TRUE, 'attributes' => array('target' => $url['attributes']['target'])));
+      $element[] = array('#markup' => l($source, $url['display_url'], array('html' => TRUE, 'attributes' => array('target' => $url['attributes']['target']))));
     }
     else {
-      $element[$delta]['#markup'] .= $source;
+      $element[] = array('#markup' => $source);
     }
   }
 
   return $element;
+}
+
+/**
+ * Alter referenceable blocks, BEFORE the autocomplete match.
+ *
+ * @see hook_blockreference_blocks_pre_alter()
+ */
+function c4m_content_project_blockreference_blocks_pre_alter(&$blocks, $context) {
+  $whitelist = module_invoke_all('c4m_content_project_blockreference_whitelist');
+
+  // Remove blocks which are not whitelisted.
+  foreach ($blocks as $id => $block) {
+    $block_string = $block->module . ':' . $block->delta;
+    if (!in_array($block_string, $whitelist) && !array_key_exists($block_string, $whitelist)) {
+      unset($blocks[$id]);
+    }
+    else {
+      if (array_key_exists($block_string, $whitelist)) {
+        $block->info = $whitelist[$block_string]['label'];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_pc_system_component_blockreference_whitelist().
+ */
+function c4m_content_project_c4m_content_project_blockreference_whitelist() {
+  return array(
+    'c4m_content_project:c4m_block_project_partners' => array(
+      'label' => t('Project partners'),
+    ),
+  );
 }

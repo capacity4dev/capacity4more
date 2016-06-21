@@ -27,6 +27,7 @@ dependencies[] = rdf
 dependencies[] = admin_menu_toolbar
 dependencies[] = admin_views
 dependencies[] = better_formats
+dependencies[] = blockreference
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date

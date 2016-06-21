@@ -86,6 +86,7 @@ function c4m_content_project_field_group_info() {
       2 => 'c4m_money',
       3 => 'c4m_partner',
       4 => 'c4m_source_of_funding',
+      5 => 'c4m_partners',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
