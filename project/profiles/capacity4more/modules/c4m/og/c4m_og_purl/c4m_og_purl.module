@@ -62,7 +62,6 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
   $options['alias'] = $path;
 }
 
-
 /**
  * Implements hook_field_formatter_info().
  */
