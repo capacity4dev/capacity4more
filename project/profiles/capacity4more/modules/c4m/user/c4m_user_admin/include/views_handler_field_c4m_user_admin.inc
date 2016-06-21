@@ -4,22 +4,25 @@
  * Helper class for C4M User Admin views field handler.
  */
 
+// @codingStandardsIgnoreFile
+
+/**
+ * Field handler to present a link to activate user.
+ *
+ * @ingroup views_field_handlers
+ */
 class views_handler_field_c4m_user_admin extends views_handler_field {
 
   /**
-   * @inheritdoc
-   *
    * Disable advanced rendering.
    */
-  function allow_advanced_render() {
+  public function allow_advanced_render() {
     return FALSE;
   }
 
   /**
-   * @inheritdoc
-   *
    * Disable query.
    */
-  function query() {}
+  public function query() {}
 
 }
