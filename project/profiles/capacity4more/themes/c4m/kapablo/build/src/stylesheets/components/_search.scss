@@ -123,3 +123,42 @@
     }
   }
 }
+
+#c4m-search-redirect-form {
+  display: none;
+}
+
+#block-menu-c4m-og-menu .search-form {
+  margin-bottom: 0.5rem;
+
+  input {
+    padding-right: 3rem;
+    width: 100%;
+  }
+
+  .form-group {
+    margin: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .form-submit {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $color-gray-dark;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+@media (min-width: $screen-tablet) {
+  #block-menu-c4m-og-menu .search-form {
+    display: none;
+  }
+
+  #c4m-search-redirect-form {
+    display: block;
+  }
+}
