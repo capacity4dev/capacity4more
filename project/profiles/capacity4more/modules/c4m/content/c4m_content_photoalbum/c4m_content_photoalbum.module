@@ -32,7 +32,10 @@ function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_i
     '#type' => 'submit',
     '#value' => t('Add photos'),
     '#weight' => 7,
-    '#submit' => array('c4m_content_photoalbum_add_photos_submit'),
+    '#submit' => array(
+      'node_form_submit',
+      'c4m_content_photoalbum_add_photos_submit',
+    ),
   );
 }
 
@@ -44,15 +47,7 @@ function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_i
  * 'Upload New Items' tab.
  */
 function c4m_content_photoalbum_add_photos_submit($form, &$form_state) {
-  // Publish the form by calling the default function.
-  node_form_submit($form, $form_state);
-  if (empty($form_state['nid'])) {
-    return;
-  }
-
-  $form_state['redirect'] = format_string('node/@nid/upload', array(
-    '@nid' => $form_state['nid'],
-  ));
+  $form_state['redirect'] = 'node/' . $form_state['nid'] . '/upload';
 }
 
 /**
