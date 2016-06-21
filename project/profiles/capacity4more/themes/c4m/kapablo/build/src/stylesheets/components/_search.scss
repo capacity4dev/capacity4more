@@ -172,4 +172,16 @@
   border-top: 1px dotted $color-gray-light;
 }
 
+.page-search .facetapi-deactivate {
+  width: 20px;
+  height: 20px;
+  border: 2px solid $color-gray-dark;
+  border-radius: 50%;
 
+  font-size: .7rem;
+  font-weight: bold;
+  color: $color-gray-dark;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 16px;
+}
