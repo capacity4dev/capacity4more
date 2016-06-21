@@ -134,10 +134,10 @@ function c4m_features_og_group_dashboard_flag_default_flags() {
     ),
     'api_version' => 3,
   );
-  // Exported flag: "C4M Follow Commenting".
-  $flags['subscribe_c4m_follow_commenting'] = array(
+  // Exported flag: "C4M Follow Comment".
+  $flags['subscribe_c4m_follow_comment'] = array(
     'entity_type' => 'comment',
-    'title' => 'C4M Follow Commenting',
+    'title' => 'C4M Follow Comment',
     'global' => 0,
     'types' => array(
       0 => 'comment_node_article',

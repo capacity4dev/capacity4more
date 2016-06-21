@@ -91,7 +91,7 @@ class C4mSearchWidgetLinksContentTypes extends FacetapiWidgetLinks {
     }
 
     // Within groups, only show content types.
-    if (c4m_og_current_group_id()) {
+    if (c4m_og_current_group_id() && isset($items['group'])) {
       return $items['group'];
     }
 

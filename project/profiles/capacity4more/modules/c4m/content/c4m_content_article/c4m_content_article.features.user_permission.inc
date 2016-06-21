@@ -13,7 +13,9 @@ function c4m_content_article_user_default_permissions() {
   // Exported permission: 'bypass maxlength'.
   $permissions['bypass maxlength'] = array(
     'name' => 'bypass maxlength',
-    'roles' => array(),
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
     'module' => 'maxlength',
   );
 
