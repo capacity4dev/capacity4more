@@ -13,6 +13,57 @@ include_once 'c4m_og_purl.ds_render_field.inc';
 include_once 'c4m_og_purl.uri_info.inc';
 
 /**
+ * Implements hook_init().
+ *
+ * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
+ */
+function c4m_og_purl_init() {
+  $item = menu_get_item();
+
+  if ($item['path'] != 'node/%') {
+    // We are not in node view.
+    return;
+  }
+
+  $node = $item['map'][1];
+
+  if (!og_is_group_type('node', $node->type)) {
+    // This is not a group.
+    return;
+  }
+
+  drupal_goto($node->purl);
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * Change the path of a group node to be empty, thus resulting with the expected
+ * url. For example when visiting /node/1 we should be redirected to /foo
+ * instead. Without this hook we would be redirected to /foo/groups/foo.
+ */
+function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
+  $item = menu_get_item($original_path);
+
+  if ($item['path'] != 'node/%') {
+    // Not a node view path.
+    return;
+  }
+
+  $node = $item['map'][1];
+
+  if (!og_is_group_type('node', $node->type)) {
+    // Node is not a group.
+    return;
+  }
+
+  // Reset the path to point to the root.
+  $path = '';
+  $options['alias'] = $path;
+}
+
+
+/**
  * Implements hook_field_formatter_info().
  */
 function c4m_og_purl_field_formatter_info() {
