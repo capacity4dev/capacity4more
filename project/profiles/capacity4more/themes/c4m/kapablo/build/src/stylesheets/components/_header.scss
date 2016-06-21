@@ -266,7 +266,7 @@
 .header-actions--navigation {
   display: inline-block;
   width: 18px;
-  height: 15px;
+  height: 20px;
 
   background: none;
   border: transparent;
@@ -279,7 +279,7 @@
 
   width: 20px;
   height: 3px;
-  border-radius: 1px;
+  border-radius: 0;
 
   background-color: $color-white;
 }

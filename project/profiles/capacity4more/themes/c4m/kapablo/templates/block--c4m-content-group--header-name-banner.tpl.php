@@ -8,7 +8,7 @@
   <div class="content"<?php print $content_attributes; ?>>
     <?php print $content ?>
 
-  <button type="button" class="navbar-toggle collapsed header-actions--navigation" data-toggle="collapse" data-target="#c4m-og-menu">
+  <button type="button" class="collapsed header-actions--navigation" data-toggle="collapse" data-target="#c4m-og-menu">
     <span class="sr-only">Toggle navigation</span>
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
