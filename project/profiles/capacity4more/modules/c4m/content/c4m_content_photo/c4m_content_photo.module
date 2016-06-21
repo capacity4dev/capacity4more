@@ -25,6 +25,11 @@ function c4m_content_photo_node_presave($node) {
     return;
   }
 
+  if (!empty($node->nid)) {
+    // Node is already saved.
+    return;
+  }
+
   $wrapper = entity_metadata_wrapper('node', $node);
 
   if (!$wrapper->node_gallery_ref_1->getIdentifier()) {
