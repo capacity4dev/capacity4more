@@ -58,10 +58,6 @@
 
     ul {
       margin: 0;
-
-      @media (min-width: $screen-tablet) {
-        display: flex;
-      }
     }
 
     li {
@@ -133,7 +129,14 @@
       border-top: 1px dotted $color-gray-light;
       border-bottom: 1px dotted $color-gray-light;
 
+      ul {
+        display: flex;
+        width: 100%;
+      }
+
+
       li {
+        flex: 1;
         width: auto;
         height: 50px;
         line-height: 50px;
@@ -170,7 +173,6 @@
 
           &:hover {
             background: none;
-
           }
         }
       }
