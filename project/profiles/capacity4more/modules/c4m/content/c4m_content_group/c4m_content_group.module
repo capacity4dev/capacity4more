@@ -24,7 +24,7 @@ include_once 'c4m_content_group.features.inc';
 /**
  * Implements hook_init().
  *
- * Redirect node/GROUP_ID path to the group dashboard /GROUP-TITLE.
+ * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
  */
 function c4m_content_group_init() {
   $item = menu_get_item();
@@ -40,6 +40,28 @@ function c4m_content_group_init() {
   }
 
   drupal_goto($node->purl);
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * Overrides the url_alias of /node/GROUP_ID.
+ */
+function c4m_content_group_url_outbound_alter(&$path, &$options, $original_path) {
+  $item = menu_get_item();
+
+  if ($item['path'] != 'node/%') {
+    return;
+  }
+
+  $node = $item['map'][1];
+
+  if (!og_is_group_type('node', $node->type)) {
+    return;
+  }
+
+  $path = $node->purl;
+  $options['alias'] = $path;
 }
 
 /**
