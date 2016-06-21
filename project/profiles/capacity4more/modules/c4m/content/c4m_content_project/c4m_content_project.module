@@ -131,3 +131,42 @@ function c4m_content_project_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function c4m_content_project_field_formatter_info() {
+  return array(
+    'c4m_partner_formatter' => array( //Machine name of the formatter
+      'label' => t('C4M Partner'),
+      'field types' => array('image'), //This will only be available to text fields
+      'settings'  => array(),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function c4m_content_project_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $element['#prefix'] = '<h2>' . t('Implementing partners') . '</h2>';
+
+  foreach ($items as $delta => $item) {
+    // Load title and url for the paragraph.
+    $title = $entity->c4m_heading[LANGUAGE_NONE][0];
+    $url = isset($entity->c4m_link[LANGUAGE_NONE][0]) ? $entity->c4m_link[LANGUAGE_NONE][0] : FALSE;
+
+    // Create image element + link if available.
+    $source = theme('image_style', array('style_name' => 'thumbnail', 'path' => $item['uri'], 'title' => $title['safe_value']));
+
+    if ($url) {
+      $element[$delta]['#markup'] .= l($source, $url['display_url'], array('html' => TRUE, 'attributes' => array('target' => $url['attributes']['target'])));
+    }
+    else {
+      $element[$delta]['#markup'] .= $source;
+    }
+  }
+
+  return $element;
+}
