@@ -4,6 +4,8 @@
  * Views integration for capacity4more.
  */
 
+module_load_include('inc', 'c4m_views', 'c4m_views.blocks');
+
 /**
  * Implements hook_views_api().
  */
