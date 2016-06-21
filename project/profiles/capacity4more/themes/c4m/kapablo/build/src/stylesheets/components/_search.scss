@@ -54,7 +54,7 @@
 
     li {
       padding: 0 0 0 1.5rem;
-      
+
       &.collapsed {
         &:before {
           content: '+';
@@ -123,3 +123,53 @@
     }
   }
 }
+
+/*
+* Search result page
+*/
+.page-search .offCanvasNavigation--left {
+  padding: 0;
+}
+
+.page-search .region-sidebar-first.well {
+  @include grain;
+
+  @media (max-width: $screen-tablet) {
+    margin-bottom: 0;
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+  }
+
+
+  @media (min-width: $screen-tablet) {
+    padding: 19px 10px;
+    border-radius: 0;
+  }
+}
+
+.views-widget-search label {
+  margin-bottom: 10px;
+
+  color: $color-gray-dark;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.page-search .views-submit-button {
+  float: none;
+  margin-top: 10px;
+  padding: 0;
+
+  button {
+    width: 100%;
+    background: $color-text-alternative;
+  }
+}
+
+.page-search .block-facetapi {
+  margin-top: 20px;
+  border-top: 1px dotted $color-gray-light;
+}
+
+
