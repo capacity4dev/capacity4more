@@ -42,9 +42,8 @@ function c4m_content_photoalbum_form_photoalbum_node_form_alter(&$form, &$form_i
 /**
  * Form submission handler for `Create Photo album`.
  *
- * Handles the 'Add photos' button on the Create Photo album form.
- * Clicking this button publishes the photo album and redirects to the
- * 'Upload New Items' tab.
+ * Redirects to the 'Upload New Items' tab when clicking the 'Add photos' button
+ * of the `Create Photo album` form.
  */
 function c4m_content_photoalbum_add_photos_submit($form, &$form_state) {
   $form_state['redirect'] = 'node/' . $form_state['nid'] . '/upload';
