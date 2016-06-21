@@ -299,7 +299,7 @@ function c4m_user_notifications_cron() {
  * Triggers email notification when organic group is published.
  */
 function _c4m_user_notifications_process_general_triggers_insert($node) {
-  if ($node->type != 'group' && $node->type != 'project') {
+  if (!og_is_group('node', $node)) {
     return;
   }
 
@@ -324,7 +324,7 @@ function _c4m_user_notifications_process_general_triggers_insert($node) {
  *   Owner - group owner changes.
  */
 function _c4m_user_notifications_process_general_triggers_update($node) {
-  if ($node->type != 'group' && $node->type != 'project') {
+  if (!og_is_group('node', $node)) {
     // Return early, if node type is not group/project.
     return;
   }
