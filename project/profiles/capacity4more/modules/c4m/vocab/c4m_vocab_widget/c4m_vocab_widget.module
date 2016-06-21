@@ -33,8 +33,6 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
     return FALSE;
   }
 
-  // $cache = &drupal_static(__FUNCTION__, array());
-
   // Get taxonomy vocabulary and send it to the app.
   $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
 
@@ -57,21 +55,9 @@ function c4m_vocab_widget_field_widget_form(&$form, &$form_state, $field, $insta
   }
 
   $field_label = $field_info['label'];
-  $field_name =  $field_info['field_name'];
+  $field_name = $field_info['field_name'];
 
   $settings['c4m']['data']['vocabularies'][$field_name] = c4m_vocab_widget_prepare_taxonomy_tree($terms);
-
-/*  if (empty($cache[$vocabulary_machine_name])) {
-    // As we may enter this function multiple times for the same vocabulary, and
-    // as drupal_add_js() appends the data, we want to prevent duplication.
-    // To do so we have a static cache the registers the vocabularies that were
-    // already added.
-    // So for example in the user register page, the fields for selecting
-    // "topics of expertise" and "topics of interests" that use the same
-    // "Topics" vocabulary don't have duplicated items.
-    $settings['c4m']['data']['vocabularies'][$vocabulary_machine_name] = c4m_vocab_widget_prepare_taxonomy_tree($terms);
-    $cache[$vocabulary_machine_name] = TRUE;
-  }*/
 
   // This is node/edit page. Need to send field values to the app.
   if (isset($entity->$vocabulary_machine_name) && !empty($entity->$vocabulary_machine_name)) {
