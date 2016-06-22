@@ -44,7 +44,14 @@ function c4m_views_block_view($delta = '') {
  */
 function _c4m_views_get_current_views_page_title() {
   if ($view = views_get_page_view()) {
-    return $view->get_title();
+    // Get the title of the view.
+    if ($title = $view->get_title()) {
+      // Set an empty page title, because Views will already have set it to be
+      // the title of the view.
+      drupal_set_title('');
+      // Return the title of the view.
+      return $title;
+    }
   }
 
   return FALSE;
