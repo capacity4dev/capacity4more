@@ -1023,3 +1023,37 @@ function c4m_user_profile_field_access($op, $field, $entity_type, $entity, $acco
     return FALSE;
   }
 }
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_user_profile_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_user_expertise_topics' => array(
+      'type' => 'expertise_topics',
+      'context'   => 'user',
+      'callback' => 'c4m_user_profile_get_expertise_topics',
+    ),
+  );
+}
+
+/**
+ * Returns the expertise topics count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_user_profile_get_expertise_topics($uid) {
+  $query = db_select('field_data_c4m_vocab_topic_expertise', 'e');
+  $query->fields('e', array('delta'));
+  $query->condition('entity_type', 'user');
+  $query->condition('entity_id', $uid);
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}

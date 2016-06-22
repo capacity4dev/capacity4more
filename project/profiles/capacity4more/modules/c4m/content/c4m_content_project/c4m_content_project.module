@@ -126,6 +126,19 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
 }
 
 /**
+ * Returns the administered groups count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_user_get_administered_projects_count($uid) {
+  return c4m_og_get_user_administered_groups_count($uid, 'project');
+}
+
+/**
  * Implements hook_c4m_helper_entity_label_info().
  */
 function c4m_content_project_c4m_helper_entity_label_info() {
@@ -137,6 +150,19 @@ function c4m_content_project_c4m_helper_entity_label_info() {
       'insert action' => t('created a new project'),
       'update action' => t('updated the project'),
       'icon' => 'fa-users',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_project_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_user_projects_administered' => array(
+      'type' => 'projects_administered',
+      'context'  => 'user',
+      'callback' => 'c4m_user_get_administered_projects_count',
     ),
   );
 }
