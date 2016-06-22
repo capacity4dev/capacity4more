@@ -653,3 +653,37 @@ function c4m_search_submit_handler_search_within_results($form, &$form_state) {
   }
   drupal_goto(current_path(), array('query' => $params));
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Using hook_preprocess_facetapi_link_active().
+ *
+ * @see _c4m_search_preprocess_facetapi_link()
+ */
+function c4m_search_preprocess_facetapi_link_active(&$vars) {
+  _c4m_search_preprocess_facetapi_link($vars);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Using hook_preprocess_facetapi_link_inactive().
+ *
+ * @see _c4m_search_preprocess_facetapi_link()
+ */
+function c4m_search_preprocess_facetapi_link_inactive(&$vars) {
+  _c4m_search_preprocess_facetapi_link($vars);
+}
+
+/**
+ * Helper function to assign a new class to a Facet API link.
+ *
+ * @param array $vars
+ *   Variables for the theming function.
+ */
+function _c4m_search_preprocess_facetapi_link(&$vars) {
+  if (isset($vars['text'])) {
+    $vars['options']['attributes']['class'][] = drupal_html_class('facetapi-link--' . $vars['text']);
+  }
+}
