@@ -169,7 +169,7 @@
 }
 
 .page-search .block-facetapi {
-  margin-top: 20px;
+  margin-top: 15px;
   border-top: 1px dotted $color-gray-light;
 }
 
@@ -221,10 +221,99 @@
   margin-left: 15px;
 }
 
-.page-search input[type="checkbox"] {
+.page-search .form-item-search-within-results {
 
-  &:checked {
-    background: red;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"]:checked ~ span::before {
+    content: "\f00c";
+
+    color: $color-white;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: .8rem;
+    line-height: 15px;
+    text-align: center;
+  }
+
+  label span {
+    padding: 0 0 0 5px;
+
+    &::before {
+      position: absolute;
+      top: 2px;
+      left: 0;
+
+      display: inline-block;
+      content: "";
+      width: 15px;
+      height: 15px;
+      border-radius: 3px;
+
+      background: $color-text-alternative;
+    }
   }
 }
+
+.facetapi-link {
+  display: inline-block;
+  margin-right: 10px;
+
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  color: $color-text-alternative;
+}
+
+.page-search .facetapi-link--article::before {
+  content: "\f1ea";
+
+  @extend .facetapi-link;
+}
+
+.page-search .facetapi-link--group::before {
+  content: "\f0c0";
+  @extend .facetapi-link;
+}
+
+.page-search .facetapi-link--project::before {
+  content: "\f11e";
+  @extend .facetapi-link;
+}
+
+.page-search .facetapi-link--discussion::before {
+  content: "\f040";
+  @extend .facetapi-link;
+}
+
+.page-search .facetapi-link--document::before {
+  content: "\f02d";
+  @extend .facetapi-link;
+}
+
+.page-search .facetapi-link--event::before {
+  content: "\f073";
+  @extend .facetapi-link;
+}
+
+.page-search .facetapi-link--wiki-page::before {
+  content: "\f266";
+  @extend .facetapi-link;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
