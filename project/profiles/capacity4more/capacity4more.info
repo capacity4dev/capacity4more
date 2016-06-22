@@ -58,6 +58,7 @@ dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = page_manager
 dependencies[] = panels
+dependencies[] = paragraphs
 dependencies[] = path_breadcrumbs
 dependencies[] = pathauto
 dependencies[] = pluggable_node_access

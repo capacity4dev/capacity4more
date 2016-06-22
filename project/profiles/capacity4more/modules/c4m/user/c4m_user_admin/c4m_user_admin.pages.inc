@@ -69,3 +69,42 @@ function c4m_user_admin_resend_activation_email_form_submit($form, &$form_state)
   module_load_include('inc', 'c4m_user_admin', 'actions/c4m_user_admin.action');
   c4m_user_admin_resend_activation_email_action($account);
 }
+
+/**
+ * Page callback for user report page.
+ */
+function _c4m_user_admin_page_user_report() {
+  $date = _c4m_user_admin_get_user_report_last_generated_date();
+  $content = array(
+    array(
+      '#markup' => t('<p>User report was last generated on @date.</p>', array('@date' => $date)),
+    ),
+    array(
+      '#markup' => l(t('Download report'), file_create_url('public://admin/user-report.csv'), array(
+        'attributes' => array('id' => 'edit-cancel'),
+      )),
+    ),
+    array(
+      '#markup' => l(t('Generate report'), 'admin/people/export/file', array(
+        'attributes' => array('class' => array('button')),
+      )),
+    ),
+  );
+  return $content;
+}
+
+/**
+ * Returns the time & date when the user report was last generated.
+ *
+ * @return string
+ *   Date & time.
+ */
+function _c4m_user_admin_get_user_report_last_generated_date() {
+  $timestamp = db_query("SELECT time_stamp FROM views_data_export WHERE view_name = 'c4m_admin_users' AND view_display_id = 'views_data_export' ORDER BY time_stamp DESC LIMIT 0, 1")->fetchCol();
+  if (!$timestamp) {
+    return t('Never');
+  }
+  else {
+    return date('Y-m-d H:i', $timestamp[0]);
+  }
+}
