@@ -554,7 +554,7 @@ function kapablo_preprocess_image(&$variables) {
   // Remove .img-responsive class for icon_small styled images.
   if (!empty($variables['style_name']) && $variables['style_name'] == 'icon_small') {
     if (($key = array_search('img-responsive', $variables['attributes']['class'])) !== FALSE) {
-      unset($variables['attributes']['class'][$key]);
+      unset($variables['attributes']['class'][$key]); 
     }
   }
 }
