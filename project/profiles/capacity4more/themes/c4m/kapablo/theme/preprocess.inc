@@ -84,7 +84,6 @@ function kapablo_preprocess_page(&$variables) {
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
 
-
   $variables['image_banner'] = kapablo_group_image_banner();
 
   // Take care of the breadcrumb for OG content.
