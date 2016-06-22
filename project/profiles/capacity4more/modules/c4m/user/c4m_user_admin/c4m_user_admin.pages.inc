@@ -85,7 +85,7 @@ function _c4m_user_admin_page_user_report() {
       )),
     ),
     array(
-      '#markup' => l(t('Generate report'), 'admin/config/c4m/user-report-view', array(
+      '#markup' => l(t('Generate report'), 'admin/people/export/file', array(
         'attributes' => array('class' => array('button')),
       )),
     ),

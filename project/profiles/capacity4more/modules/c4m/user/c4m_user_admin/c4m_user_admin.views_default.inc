@@ -722,9 +722,9 @@ Last access : [access]';
   $handler->display->display_options['fields']['user_metrics_10']['field'] = 'user_metrics';
   $handler->display->display_options['fields']['user_metrics_10']['label'] = 'Administered projects';
   $handler->display->display_options['fields']['user_metrics_10']['c4m_user_admin_user_metric'] = 'user::projects_administered';
-  $handler->display->display_options['path'] = 'admin/config/c4m/user-report-view';
+  $handler->display->display_options['path'] = 'admin/people/export/file';
   $handler->display->display_options['use_batch'] = 'batch';
-  $handler->display->display_options['return_path'] = 'admin/config/c4m/user-report';
+  $handler->display->display_options['return_path'] = 'admin/people/export';
   $handler->display->display_options['segment_size'] = '50';
   $export['c4m_admin_users'] = $view;
 
