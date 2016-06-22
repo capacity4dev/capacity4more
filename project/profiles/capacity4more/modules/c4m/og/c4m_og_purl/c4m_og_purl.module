@@ -18,10 +18,6 @@ include_once 'c4m_og_purl.uri_info.inc';
  * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
  */
 function c4m_og_purl_init() {
-  if (drupal_is_cli()) {
-    // The script is running in a command-line environment.
-    return;
-  }
   $item = menu_get_item();
 
   if ($item['path'] != 'node/%') {
