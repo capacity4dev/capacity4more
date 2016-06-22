@@ -33,26 +33,3 @@ function c4m_views_block_view($delta = '') {
 
   return $block;
 }
-
-/**
- * Returns the title of the current views page.
- *
- * This only works if the current page is a "views view page".
- *
- * @return string | bool
- *   Title of current views page.
- */
-function _c4m_views_get_current_views_page_title() {
-  if ($view = views_get_page_view()) {
-    // Get the title of the view.
-    if ($title = $view->get_title()) {
-      // Set an empty page title, because Views will already have set it to be
-      // the title of the view.
-      drupal_set_title('');
-      // Return the title of the view.
-      return $title;
-    }
-  }
-
-  return FALSE;
-}
