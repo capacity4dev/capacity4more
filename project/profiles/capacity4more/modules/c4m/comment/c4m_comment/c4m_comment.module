@@ -27,37 +27,74 @@ function c4m_comment_c4m_content_statistics_info() {
   return array(
     'global' => array(
       'c4m_comment' => array(
-        'type'        => 'comment',
+        'type' => 'comment',
         'entity_type' => 'comment',
-        'bundles'     => array(),
-        'singular'    => 'Post',
-        'plural'      => 'Posts',
-        'state'       => 1,
-        'aggregate'   => array(
+        'bundles' => array(),
+        'singular' => 'Post',
+        'plural' => 'Posts',
+        'state' => 1,
+        'aggregate' => array(
           'type' => 'posts',
         ),
-        'weight'      => 1,
-        'attributes'  => array(
+        'weight' => 1,
+        'attributes' => array(
           'class' => array('posts'),
         ),
       ),
     ),
     'group' => array(
       'c4m_og_comment' => array(
-        'type'        => 'comment',
+        'type' => 'comment',
         'entity_type' => 'comment',
-        'bundles'     => array(),
-        'singular'    => 'Comment',
-        'plural'      => 'Comments',
-        'state'       => 1,
-        'aggregate'   => array(),
-        'weight'      => 6,
-        'attributes'  => array(
+        'bundles' => array(),
+        'singular' => 'Comment',
+        'plural' => 'Comments',
+        'state' => 1,
+        'aggregate' => array(),
+        'weight' => 6,
+        'attributes' => array(
           'class' => array('og-comments'),
         ),
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_comment_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_comments' => array(
+      'type'      => 'comment',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_comment_metric',
+      'weight'    => 0,
+    ),
+    'c4m_user_comments' => array(
+      'type' => 'comments',
+      'context'   => 'user',
+      'callback'  => 'c4m_comment_get_comments_by_user',
+    ),
+  );
+}
+
+/**
+ * Returns the number of comments for a particular user.
+ *
+ * @param int $uid
+ *   User ID.
+ *
+ * @return int
+ *   Number of comments.
+ */
+function c4m_comment_get_comments_by_user($uid) {
+  $arguments = array(
+    'entity_type' => 'comment',
+    'uid' => $uid,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
 }
 
 /**
@@ -73,18 +110,28 @@ function c4m_comment_node_view_alter(&$build) {
   // page. We compare $node and $page_node to ensure that comments are not
   // appended to other nodes shown on the page, for example a node_reference
   // displayed in 'full' view mode within another node.
-  if ($node->comment && $view_mode == 'full' && node_is_page($node) && empty($node->in_preview)) {
+  if ($node->comment && $view_mode == 'full' && node_is_page(
+      $node
+    ) && empty($node->in_preview)
+  ) {
     // There are no comments yet but comments are enabled.
     if (user_is_anonymous() && $node->comment == COMMENT_NODE_OPEN) {
       $register_link = l(t('Register'), 'user/register');
-      $login_link = l(t('log in'), 'user/login', array(
-        'query' => drupal_get_destination(),
-      ));
+      $login_link = l(
+        t('log in'),
+        'user/login',
+        array(
+          'query' => drupal_get_destination(),
+        )
+      );
 
-      $text = '<p>' . t('!register or !login to comment', array(
-        '!register' => $register_link,
-        '!login' => $login_link,
-      )) . '</p>';
+      $text = '<p>' . t(
+          '!register or !login to comment',
+          array(
+            '!register' => $register_link,
+            '!login' => $login_link,
+          )
+        ) . '</p>';
 
       if (empty($build['comments'])) {
         $build['comments'] = array(
@@ -98,4 +145,20 @@ function c4m_comment_node_view_alter(&$build) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_comment_c4m_helper_entity_label_info() {
+  return array(
+    'comment' => array(
+      'article' => t('a'),
+      'singular' => t('comment'),
+      'plural' => t('comments'),
+      'insert action' => t('commented on'),
+      'update action' => t('updated a comment'),
+      'icon' => 'fa-comments',
+    ),
+  );
 }

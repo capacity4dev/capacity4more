@@ -104,6 +104,35 @@ function c4m_content_document_entity_type_label_alter(&$variables) {
 }
 
 /**
+ * Returns the amount of document downloads.
+ *
+ * @param int $og_id
+ *   The Organic Group ID to eventually limit the query for.
+ *
+ * @return int
+ *   The amount of document downloads.
+ */
+function c4m_content_document_get_number_of_downloads($og_id = NULL) {
+  $query = db_select('file_download_count', 'dc');
+  $query->fields('dc');
+  $query->join('field_data_c4m_document', 'd', 'dc.fid = d.c4m_document_fid');
+  $query->join('node', 'n', 'n.nid = d.entity_id');
+  $query->condition('d.entity_type', 'node');
+  $query->condition('n.status', 1);
+  $query->addTag('node_access');
+
+  if ($og_id) {
+    $query->join('og_membership', 'og', 'n.nid = og.etid');
+    $query->condition('og.gid', $og_id);
+  }
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
  * Implements hook_c4m_content_statistics_info().
  */
 function c4m_content_document_c4m_content_statistics_info() {
@@ -172,6 +201,62 @@ function c4m_content_document_c4m_content_statistics_info() {
           ),
         ),
       ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_content_document_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_og_documents' => array(
+      'type'      => 'document',
+      'context'   => 'group',
+      'callback'  => 'c4m_og_group_node_metric',
+      'arguments' => array(array('document')),
+      'weight'    => 0,
+    ),
+    'c4m_og_document_downloads' => array(
+      'type'     => 'document_download',
+      'context'  => 'group',
+      'callback' => 'c4m_content_document_get_number_of_downloads',
+      'weight'   => 3,
+    ),
+    'c4m_user_documents' => array(
+      'type' => 'documents',
+      'context'  => 'user',
+      'callback'  => 'c4m_user_get_node_metric',
+      'arguments' => array(array('document')),
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_content_share_fields_info().
+ */
+function c4m_content_document_c4m_content_share_fields_info() {
+  return array(
+    'document' => array(
+      'type',
+      'c4m_vocab_document_type',
+      'c4m_document_add_to_library',
+    ),
+  );
+}
+
+/**
+ * Implements hook_c4m_helper_entity_label_info().
+ */
+function c4m_content_document_c4m_helper_entity_label_info() {
+  return array(
+    'document' => array(
+      'article' => t('a'),
+      'singular' => t('document'),
+      'plural' => t('documents'),
+      'insert action' => t('uploaded a new document'),
+      'update action' => t('updated the document'),
+      'icon' => 'fa-file-o',
     ),
   );
 }

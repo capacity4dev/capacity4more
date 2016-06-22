@@ -40,6 +40,9 @@ projects[maxlength][version] = "3.2"
 projects[money][subdir] = "contrib"
 projects[money][version] = "1.x-dev"
 
+projects[paragraphs][subdir] = "contrib"
+projects[paragraphs][version] = "1.0-rc4"
+
 projects[reldate][subdir] = "contrib"
 projects[reldate][version] = "1.x-dev"
 

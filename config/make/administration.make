@@ -11,6 +11,9 @@ projects[admin_views][version] = "1.5"
 
 projects[adminimal_admin_menu][subdir] = "contrib"
 projects[adminimal_admin_menu][version] = "1.7"
+; https://www.drupal.org/node/2598278
+projects[adminimal_admin_menu][patch][] = https://www.drupal.org/files/issues/adminimal_admin_menu-js-error-2407007-3-no-whitespace-changes.patch
+projects[adminimal_admin_menu][patch][] = https://www.drupal.org/files/issues/adminimal_admin_menu-js-error-2407007-3.patch
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "2.0"
@@ -94,6 +97,7 @@ projects[term_reference_tree][version] = "1.10"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta9"
+projects[views_data_export][patch][] = https://www.drupal.org/files/issues/views_data_export-permanent-files-1875456-61-beta9-do-not-test.patch
 
 ; Themes to upgrade the admin backend.
 
