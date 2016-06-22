@@ -302,18 +302,90 @@
   @extend .facetapi-link;
 }
 
+.page-search .block-c4m-search-nodes {
+  margin-bottom: 20px;
 
+  .search--refine {
+    display: none;
+  }
 
+  .well {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+  }
 
+  .item-list {
+    margin: 0;
+    width: 100%;
+    border: 1px solid $color-gray-light;
+  }
 
+  ul {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    height: 40px;
+    margin: 0;
 
+    line-height: 40px;
+    text-align: center;
 
+    li {
+      display: table-cell;
 
+      &:not(:first-of-type) {
+        border-left: 1px solid $color-gray-light;
+      }
 
+      &:nth-of-type(1)::before {
+        content: "\f1ea";
+        @extend .facetapi-link;
+      }
 
+      &:nth-of-type(2)::before {
+        content: "\f0c0";
+        @extend .facetapi-link;
+      }
 
+      &:nth-of-type(3)::before {
+        content: "\f11e";
+        @extend .facetapi-link;
+      }
+    }
+  }
+}
 
+.page-search .view-c4m-search-nodes {
+  .view-content {
+    margin: 25px 0;
+  }
 
+  .view-header {
+    padding-bottom: 15px;
+    border-bottom: 1px dotted $color-gray-light;
+  }
+
+  .view-content .views-row:last-of-type {
+    padding-bottom: 28px;
+    border-bottom: 1px dotted $color-gray-light;
+  }
+
+  .pager--wrapper {
+    border-top: none;
+    margin: 20px 0;
+    padding: 0;
+
+    text-align: center;
+  }
+
+  .item-list {
+    margin-top: 0;
+  }
+}
 
 
 
