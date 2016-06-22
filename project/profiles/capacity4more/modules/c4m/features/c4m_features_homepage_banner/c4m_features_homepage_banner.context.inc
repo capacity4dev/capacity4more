@@ -17,6 +17,12 @@ function c4m_features_homepage_banner_context_default_contexts() {
   $context->description = 'Adds the capacity4more intro banner to the header of the homepage for logged in users.';
   $context->tag = 'cap4more - Homepage';
   $context->conditions = array(
+    'context' => array(
+      'values' => array(
+        '~c4m_overview_groups' => '~c4m_overview_groups',
+        '~c4m_search_og' => '~c4m_search_og',
+      ),
+    ),
     'context_og_condition_group_type' => array(
       'values' => array(
         '_none_' => '_none_',
