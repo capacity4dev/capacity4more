@@ -48,4 +48,3 @@ function _c4m_admin_groups_get_group_report_last_generated_date() {
     return date('Y-m-d H:i', $timestamp[0]);
   }
 }
-
