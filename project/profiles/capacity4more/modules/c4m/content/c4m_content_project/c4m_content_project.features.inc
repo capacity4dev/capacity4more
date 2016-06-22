@@ -36,17 +36,3 @@ function c4m_content_project_node_info() {
   drupal_alter('node_info', $items);
   return $items;
 }
-
-/**
- * Implements hook_paragraphs_info().
- */
-function c4m_content_project_paragraphs_info() {
-  $items = array(
-    'c4m_paragraph_text' => array(
-      'name' => 'Text',
-      'bundle' => 'c4m_paragraph_text',
-      'locked' => '1',
-    ),
-  );
-  return $items;
-}
