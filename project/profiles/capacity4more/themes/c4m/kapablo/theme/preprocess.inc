@@ -85,7 +85,7 @@ function kapablo_preprocess_page(&$variables) {
   $variables['search_form'] = drupal_get_form('c4m_search_form');
 
   if (og_context()) {
-    $variables['image_banner'] = kapablo_group_image_banner(og_context());
+    $variables['image_banner'] = kapablo_group_image_banner();
   }
 
   // Take care of the breadcrumb for OG content.
@@ -604,7 +604,7 @@ function kapablo_group_image_banner() {
         $markup .= l(theme_html_tag($edit_link) . theme_image_style($file), url('node/' . $group->nid . '/edit', array('absolute' => TRUE, 'fragment' => 'edit-image-banner')), $options);
       }
       else {
-        $markup .= theme_image_style($file);
+        $markup .= theme('image_style',$file);
       }
     }
   }
