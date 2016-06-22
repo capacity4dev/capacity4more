@@ -82,7 +82,7 @@ function kapablo_search_api_sorts_list(array $variables) {
  * Implements theme_facetapi_deactivate_widget().
  */
 function kapablo_facetapi_deactivate_widget($variables) {
-  return '<span class="facetapi-deactivate">x</span>';
+  return '<span class="facetapi-deactivate"></span>';
 }
 
 /**
