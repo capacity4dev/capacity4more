@@ -65,8 +65,21 @@
   }
 
   &.node-photo {
+    .field-name-c4m-ds-content-footer-stats {
+      text-align: left;
+
+      .row-entity-count {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+
     .field-name-c4m-body {
       //@include image-overlay-bottom();
+    }
+
+    .field-name-c4m-ds-photo-download {
+      margin-top: 2em;
     }
   }
 
