@@ -366,12 +366,13 @@
 
   .view-header {
     padding-bottom: 15px;
-    border-bottom: 1px dotted $color-gray-light;
+    border-bottom: 1px dashed $color-gray-light;
+    min-height: 30px;
   }
 
   .view-content .views-row:last-of-type {
     padding-bottom: 28px;
-    border-bottom: 1px dotted $color-gray-light;
+    border-bottom: 1px dashed $color-gray-light;
   }
 
   .pager--wrapper {
@@ -388,5 +389,22 @@
 }
 
 .page-search .group-header {
-  margin: 0;
+  margin: 0 0 15px 0;
+}
+
+.page-search .icon-wrapper {
+  display: none;
+}
+
+.page-search .node-teaser .field-name-c4m-field-og-group {
+  display: none;
+}
+
+.page-search .view-mode-teaser .user-name a,
+.page-search .view-mode-teaser .fa,
+.page-search .view-mode-teaser .posted-by,
+.page-search .view-mode-teaser .creation-date,
+.page-search .view-mode-teaser .row-entity-count,
+.page-search .view-mode-teaser .group-iconbar-comments-views {
+  color: $color-gray-dark!important;
 }
