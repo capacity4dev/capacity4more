@@ -38,7 +38,8 @@
             window.classie.remove(container, 'offCanvasNavigation--visible');
           },
           bodyClickFn = function(evt) {
-            if (!hasParentClass(evt.target, 'offCanvasNavigation')) {
+            if (!hasParentClass(evt.target, 'offCanvasNavigation')
+              && !hasParentClass(evt.target, 'offCanvasNavigation--left') ) {
               resetMenu();
               document.removeEventListener(eventtype, bodyClickFn);
             }
