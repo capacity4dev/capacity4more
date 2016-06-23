@@ -316,6 +316,10 @@
     background: none;
     margin: 0;
     padding: 0;
+
+    div:first-of-type {
+      margin-bottom: 15px;
+    }
   }
 
   .item-list {
@@ -392,9 +396,6 @@
   margin: 0 0 15px 0;
 }
 
-.page-search .icon-wrapper {
-  display: none;
-}
 
 .page-search .node-teaser .field-name-c4m-field-og-group {
   display: none;
@@ -408,3 +409,4 @@
 .page-search .view-mode-teaser .group-iconbar-comments-views {
   color: $color-gray-dark!important;
 }
+
