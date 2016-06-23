@@ -238,7 +238,7 @@
       <!-- /#page-header -->
 
       <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
-        <aside class="col-sm-4 off offCanvasNavigation--left" role="complementary">
+        <aside class="col-sm-4 offCanvasNavigation--left" role="complementary">
           <?php print render($page['sidebar_first_top']); ?>
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
