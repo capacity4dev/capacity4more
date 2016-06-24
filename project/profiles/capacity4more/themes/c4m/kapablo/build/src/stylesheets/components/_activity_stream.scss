@@ -27,7 +27,8 @@
   }
 }
 
-.show-more-wrapper {
+.show-more-wrapper,
+.pager-load-more {
   margin: 2rem 0 3.57rem 0;
 }
 
@@ -39,7 +40,8 @@
   }
 }
 
-.show-more a {
+.show-more a,
+.pager-load-more a {
   text-transform: uppercase;
 }
 
