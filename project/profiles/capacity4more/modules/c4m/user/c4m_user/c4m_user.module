@@ -744,7 +744,10 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
         if ($info['country']) {
           $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
         }
-        if ($domain->organisation_name) {
+        if ($info['dg']) {
+          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
+        }
+        if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value']) && $domain->organisation_name) {
           $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
         }
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
