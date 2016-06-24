@@ -332,7 +332,7 @@ function c4m_user_profile_alter_user_form(&$form, &$form_state, $is_registration
       $suffix = '<div id="user-form-mail-validation-message" class="hidden"></div>';
     }
 
-    $form['mail']['#suffix'] = $suffix;
+    $form['mail']['#suffix'] = $suffix . $form['mail']['#suffix'];
   }
 
   // Make fieldsets incollapsible.
