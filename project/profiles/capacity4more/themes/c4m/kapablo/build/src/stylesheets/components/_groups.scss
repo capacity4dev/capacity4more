@@ -179,6 +179,50 @@
     }
   }
 
+  .nav .open > a {
+    background: none;
+  }
+
+  .dropdown-menu {
+
+    padding: 0;
+
+    ul {
+      padding-left: 40px;
+
+      li {
+        list-style: none;
+        padding: 10px 0;
+
+        &:first-of-type {
+          padding-top: 0;
+        }
+
+        @media (min-width: $screen-tablet) {
+          margin: 0;
+          padding: 10px;
+          line-height: 25px;
+
+          &:first-of-type {
+            padding-top: 10px;
+          }
+
+          a {
+            padding: 0;
+            width: auto;
+            border-right: none;
+          }
+
+        }
+      }
+
+      @media (min-width: $screen-tablet) {
+        display: inline-block;
+        padding-left: 0;
+      }
+    }
+  }
+
   @media (min-width: $screen-tablet) {
     padding: 0;
   }
