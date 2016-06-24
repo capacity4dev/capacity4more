@@ -761,3 +761,17 @@
     margin-top: 10px;
   }
 }
+
+.pane-c4m-overview-og-highlights .pane-title {
+  margin-bottom: 10px;
+}
+
+.pane-c4m-overview-og-highlights .views-row:first-of-type {
+  margin-top: 0;
+}
+
+.pane-c4m-overview-og-highlights .views-row,
+.pane-c4m-overview-og-highlights .views-row  + .views-row {
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
