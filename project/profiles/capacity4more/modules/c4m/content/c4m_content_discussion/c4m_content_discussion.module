@@ -157,6 +157,12 @@ function c4m_content_discussion_c4m_helper_entity_metrics_info() {
       'arguments' => array(array('discussion')),
       'weight'    => 0,
     ),
+    'c4m_user_discussions' => array(
+      'type' => 'discussions',
+      'context'   => 'user',
+      'callback'  => 'c4m_user_get_node_metric',
+      'arguments' => array(array('discussion')),
+    ),
   );
 }
 

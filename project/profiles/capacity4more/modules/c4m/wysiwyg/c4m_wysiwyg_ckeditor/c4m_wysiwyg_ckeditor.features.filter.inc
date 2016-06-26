@@ -19,14 +19,19 @@ function c4m_wysiwyg_ckeditor_filter_default_formats() {
     'weight' => 0,
     'filters' => array(
       'filter_url' => array(
-        'weight' => 0,
+        'weight' => -45,
         'status' => 1,
         'settings' => array(
           'filter_url_length' => 72,
         ),
       ),
+      'c4m_moodle_link_filter' => array(
+        'weight' => -44,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'wysiwyg' => array(
-        'weight' => 1,
+        'weight' => -43,
         'status' => 1,
         'settings' => array(
           'valid_elements' => '@[class|style|title],
@@ -113,14 +118,19 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
     'weight' => 0,
     'filters' => array(
       'filter_url' => array(
-        'weight' => 0,
+        'weight' => -45,
         'status' => 1,
         'settings' => array(
           'filter_url_length' => 72,
         ),
       ),
+      'c4m_moodle_link_filter' => array(
+        'weight' => -44,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'wysiwyg' => array(
-        'weight' => 1,
+        'weight' => -43,
         'status' => 1,
         'settings' => array(
           'valid_elements' => '@[class|style|title],
@@ -207,14 +217,19 @@ iframe[allowfullscreen|allowscriptaccess|frameborder|height|scrolling|src|width]
     'weight' => 1,
     'filters' => array(
       'filter_url' => array(
-        'weight' => 0,
+        'weight' => -45,
         'status' => 1,
         'settings' => array(
           'filter_url_length' => 72,
         ),
       ),
+      'c4m_moodle_link_filter' => array(
+        'weight' => -44,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'filter_autop' => array(
-        'weight' => 1,
+        'weight' => -42,
         'status' => 1,
         'settings' => array(),
       ),
