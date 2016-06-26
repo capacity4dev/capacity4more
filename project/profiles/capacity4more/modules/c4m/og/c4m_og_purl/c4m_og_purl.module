@@ -18,21 +18,24 @@ include_once 'c4m_og_purl.uri_info.inc';
  * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
  */
 function c4m_og_purl_init() {
-  $item = menu_get_item();
+  $item = menu_get_object();
 
-  if ($item['path'] != 'node/%') {
+  if (!is_object($item)) {
+    // menu_get_object() did not return an object.
+    return;
+  }
+
+  if ($item->book['router_path'] != 'node/%') {
     // We are not in node view.
     return;
   }
 
-  $node = $item['map'][1];
-
-  if (!og_is_group_type('node', $node->type)) {
+  if (!og_is_group_type('node', $item->type)) {
     // This is not a group.
     return;
   }
 
-  drupal_goto($node->purl);
+  drupal_goto($item->purl);
 }
 
 /**
@@ -47,22 +50,26 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     // The script is running in a command-line environment.
     return;
   }
-  $item = menu_get_item($original_path);
 
-  if ($item['path'] != 'node/%') {
-    // Not a node view path.
+  $item = menu_get_object();
+
+  if (!is_object($item)) {
+    // menu_get_object() did not return an object.
     return;
   }
 
-  $node = $item['map'][1];
-
-  if (!og_is_group_type('node', $node->type)) {
-    // Node is not a group.
+  if ($item->book['router_path'] != 'node/%') {
+    // We are not in node view.
     return;
   }
 
-  // Reset the path to point to the root.
-  $path = '';
+  if (!og_is_group_type('node', $item->type)) {
+    // This is not a group.
+    return;
+  }
+
+  // Set the path alias
+  $path = $item->purl;
   $options['alias'] = $path;
 }
 
@@ -115,10 +122,10 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
     $options[C4M_OG_PURL_LINK_DASHBOARD] = t('To group dashboard');
 
     $element['link'] = array(
-      '#title'          => t('Link label to the referenced entity'),
-      '#type'           => 'select',
-      '#options'        => $options,
-      '#default_value'  => $settings['link'],
+      '#title' => t('Link label to the referenced entity'),
+      '#type' => 'select',
+      '#options' => $options,
+      '#default_value' => $settings['link'],
     );
   }
 
