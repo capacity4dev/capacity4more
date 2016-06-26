@@ -18,17 +18,14 @@ include_once 'c4m_og_purl.uri_info.inc';
  * Redirect /node/GROUP_ID path to the group dashboard /GROUP-TITLE.
  */
 function c4m_og_purl_init() {
-  $node = menu_get_object();
+  $item = menu_get_item();
 
-  if (!is_object($node)) {
-    // menu_get_object() did not return an object.
-    return;
-  }
-
-  if ($node->book['router_path'] != 'node/%') {
+  if ($item['path'] != 'node/%') {
     // We are not in node view.
     return;
   }
+
+  $node = $item['map'][1];
 
   if (!og_is_group_type('node', $node->type)) {
     // This is not a group.
@@ -51,17 +48,14 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
-  $node = menu_get_object();
+  $item = menu_get_item();
 
-  if (!is_object($node)) {
-    // menu_get_object() did not return an object.
-    return;
-  }
-
-  if ($node->book['router_path'] != 'node/%') {
+  if ($item['path'] != 'node/%') {
     // We are not in node view.
     return;
   }
+
+  $node = $item['map'][1];
 
   if (!og_is_group_type('node', $node->type)) {
     // This is not a group.
