@@ -34,6 +34,15 @@ function c4m_user_admin_views_data() {
     ),
   );
 
+  $data['users']['user_metrics'] = array(
+    'title' => t('User metrics'),
+    'help' => t('Metrics about a user.'),
+    'field' => array(
+      'handler' => 'views_handler_field_user_metrics',
+      'group' => 'Content',
+    ),
+  );
+
   return $data;
 }
 
@@ -53,6 +62,13 @@ function c4m_user_admin_menu() {
     'title' => 'Resend activation email',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_admin_resend_activation_email_form', 1),
+    'access arguments' => array('administer users'),
+    'file' => 'c4m_user_admin.pages.inc',
+  );
+
+  $items['admin/people/export'] = array(
+    'title' => 'User report',
+    'page callback' => '_c4m_user_admin_page_user_report',
     'access arguments' => array('administer users'),
     'file' => 'c4m_user_admin.pages.inc',
   );
