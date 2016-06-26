@@ -41,9 +41,9 @@ function c4m_og_purl_init() {
 /**
  * Implements hook_url_outbound_alter().
  *
- * Change the path of a group node to be empty, thus resulting with the expected
- * url. For example when visiting /node/1 we should be redirected to /foo
- * instead. Without this hook we would be redirected to /foo/groups/foo.
+ * Change the path of a group node to be the expected url.
+ * For example when visiting /node/1 we should be redirected to /foo instead.
+ * Without this hook we would be redirected to /foo/groups/foo.
  */
 function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
   if (drupal_is_cli()) {
@@ -68,7 +68,7 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
     return;
   }
 
-  // Set the path alias
+  // Set the path alias.
   $path = $item->purl;
   $options['alias'] = $path;
 }
