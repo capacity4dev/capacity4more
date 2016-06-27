@@ -177,9 +177,9 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
  */
 function c4m_content_project_field_formatter_info() {
   return array(
-    'c4m_partner_formatter' => array( //Machine name of the formatter
+    'c4m_partner_formatter' => array(
       'label' => t('C4M Partner'),
-      'field types' => array('image'), //This will only be available to text fields
+      'field types' => array('image'),
       'settings'  => array(),
     ),
   );
@@ -200,7 +200,9 @@ function c4m_content_project_field_formatter_view($entity_type, $entity, $field,
     $source = theme('image_style', array('style_name' => 'thumbnail', 'path' => $item['uri'], 'title' => $title['safe_value']));
 
     if ($url) {
-      $element[] = array('#markup' => l($source, $url['display_url'], array('html' => TRUE, 'attributes' => array('target' => $url['attributes']['target']))));
+      $element[] = array('#markup' => l($source, $url['display_url'], array(
+        'html' => TRUE,
+        'attributes' => array('target' => $url['attributes']['target']))));
     }
     else {
       $element[] = array('#markup' => $source);
