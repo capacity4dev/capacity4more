@@ -3,7 +3,7 @@ api = 2
 
 ; Organic Groups and friends.
 
-projects[og][version] = "7.x-2.9"
+projects[og][version] = "2.9"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
 
