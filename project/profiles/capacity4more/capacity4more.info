@@ -122,6 +122,7 @@ dependencies[] = c4m_content_featured
 dependencies[] = c4m_content_feed
 dependencies[] = c4m_content_group
 dependencies[] = c4m_content_inthe_picture
+dependencies[] = c4m_content_news_item
 dependencies[] = c4m_content_banner
 dependencies[] = c4m_content_page_element
 dependencies[] = c4m_content_photo
