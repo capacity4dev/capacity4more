@@ -97,7 +97,7 @@ function c4m_content_project_field_default_field_instances() {
           'image_style' => 'large',
         ),
         'type' => 'image',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -222,7 +222,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -370,7 +370,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 9,
+        'weight' => 7,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -472,7 +472,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 6,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -587,7 +587,7 @@ function c4m_content_project_field_default_field_instances() {
           'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
-        'weight' => 4,
+        'weight' => 0,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -680,7 +680,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 25,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -789,7 +789,7 @@ function c4m_content_project_field_default_field_instances() {
           'image_style' => 'large',
         ),
         'type' => 'image',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -918,7 +918,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'money',
         'settings' => array(),
         'type' => 'money_default',
-        'weight' => 14,
+        'weight' => 10,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1290,7 +1290,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 31,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1340,7 +1340,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 30,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1425,7 +1425,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 29,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1476,7 +1476,7 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 27,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1556,7 +1556,7 @@ function c4m_content_project_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 13,
+        'weight' => 9,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1769,7 +1769,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 11,
+        'weight' => 8,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1867,7 +1867,7 @@ function c4m_content_project_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 16,
+        'weight' => 12,
       ),
       'inthe_picture_block' => array(
         'label' => 'above',
@@ -1918,68 +1918,27 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-group_group'.
-  $field_instances['node-project-group_group'] = array(
+  // Exported field_instance: 'node-project-c4m_partners'.
+  $field_instances['node-project-c4m_partners'] = array(
     'bundle' => 'project',
-    'default_value' => array(
-      0 => array(
-        'value' => 1,
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'activity_global' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'activity_group' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
       'block_list' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
-      ),
-      'c4m_related' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 27,
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 15,
-      ),
-      'featured_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_default',
+        'weight' => 24,
       ),
       'group_dashboard' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 15,
-      ),
-      'inthe_picture_block' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'library' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1989,38 +1948,143 @@ function c4m_content_project_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 0,
       ),
-      'teaser_group' => array(
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'node',
+    'field_name' => 'c4m_partners',
+    'label' => 'Partners',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 11,
+    ),
+  );
+
+  // Exported field_instance: 'node-project-c4m_project_url'.
+  $field_instances['node-project-c4m_project_url'] = array(
+    'bundle' => 'project',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'block_list' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 15,
+        'type' => 'hidden',
+        'weight' => 0,
       ),
-      'upcoming_event' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 25,
+      ),
+      'group_dashboard' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
       ),
     ),
+    'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'group_group',
-    'label' => 'Group',
-    'required' => 1,
+    'field_name' => 'c4m_project_url',
+    'label' => 'Project url',
+    'required' => 0,
     'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'default_html' => 'default_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'mail' => 'mail',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'default_html' => array(
+              'weight' => 0,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'mail' => array(
+              'weight' => 0,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'text',
       'settings' => array(
-        'display_label' => 0,
-        'og_hide' => 1,
+        'maxlength_js' => 0,
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'size' => 60,
       ),
-      'type' => 'options_onoff',
-      'weight' => 1,
+      'type' => 'text_textfield',
+      'weight' => 27,
     ),
   );
 
@@ -2122,14 +2186,15 @@ function c4m_content_project_field_default_field_instances() {
   t('Description');
   t('Description about the Project.');
   t('Duration');
-  t('Group');
   t('Image');
   t('Names of organisations & companies who fund the Project.');
+  t('Partners');
   t('Project geodata');
   t('Project stage');
   t('Project stakeholders');
   t('Project tag line');
   t('Project type');
+  t('Project url');
   t('Regions & Countries');
   t('Related Projects');
   t('Source of funding');
