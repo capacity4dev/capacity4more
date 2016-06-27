@@ -221,7 +221,17 @@
     });
 
   function collapsibleNavigation(element) {
-    $(element).find('[data-toggle="collapse"]').on('click', function (e) {
+    var element = $(element);
+
+    element.find('li.expanded').each(function (index, el) {
+      var el = $(el);
+      var subnav = el.find('> .collapse');
+      if (subnav.hasClass('in')) {
+        el.find('> a > i').removeClass('fa-plus').addClass('fa-minus');
+      }
+    });
+
+    element.find('[data-toggle="collapse"]').on('click', function (e) {
       e.preventDefault();
 
       var $this = $(this);
@@ -229,7 +239,7 @@
       var target = $this.data('target');
       var sub_navigation = $(target);
 
-      sub_navigation.toggleClass('collapse');
+      sub_navigation.toggleClass('in');
 
       if ($this.hasClass('fa-plus')) {
         $this.removeClass('fa-plus');
