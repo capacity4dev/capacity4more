@@ -3,10 +3,7 @@ api = 2
 
 ; Organic Groups and friends.
 
-projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/Gizra/og.git"
-projects[og][download][branch] = 7.x-2.x
-projects[og][type] = "module"
+projects[mailsystem][version] = "7.x-2.9"
 projects[og][subdir] = "contrib"
 projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
 
