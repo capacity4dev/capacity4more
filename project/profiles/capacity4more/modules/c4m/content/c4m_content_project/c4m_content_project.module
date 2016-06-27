@@ -242,5 +242,8 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
     'c4m_content_project:c4m_block_project_partners' => array(
       'label' => t('Project partners'),
     ),
+    'views:c4m_project_news-block' => array(
+      'label' => t('Project news'),
+    ),
   );
 }
