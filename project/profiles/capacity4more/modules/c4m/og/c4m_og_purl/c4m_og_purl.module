@@ -64,7 +64,7 @@ function c4m_og_purl_url_outbound_alter(&$path, &$options, $original_path) {
 
   // Set the path alias.
   $path = $node->purl;
-  $options['alias'] = $path;
+  $options['alias'] = $node->purl;
 }
 
 /**
@@ -116,10 +116,10 @@ function c4m_og_purl_field_formatter_settings_form($field, $instance, $view_mode
     $options[C4M_OG_PURL_LINK_DASHBOARD] = t('To group dashboard');
 
     $element['link'] = array(
-      '#title' => t('Link label to the referenced entity'),
-      '#type' => 'select',
-      '#options' => $options,
-      '#default_value' => $settings['link'],
+      '#title'          => t('Link label to the referenced entity'),
+      '#type'           => 'select',
+      '#options'        => $options,
+      '#default_value'  => $settings['link'],
     );
   }
 
