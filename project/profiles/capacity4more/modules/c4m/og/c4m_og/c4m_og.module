@@ -1117,6 +1117,16 @@ function c4m_og_c4m_helper_entity_metrics_info() {
       'callback' => 'c4m_og_get_content_recommendations',
       'weight'   => 100,
     ),
+    'c4m_user_group_memberships' => array(
+      'type' => 'group_memberships',
+      'context'  => 'user',
+      'callback' => 'c4m_og_get_user_group_memberships_count',
+    ),
+    'c4m_user_group_pending_memberships' => array(
+      'type' => 'group_pending_memberships',
+      'context'  => 'user',
+      'callback' => 'c4m_og_get_user_group_pending_memberships_count',
+    ),
   );
 }
 
@@ -1165,4 +1175,64 @@ function c4m_og_get_group_type($group) {
     }
   }
   return FALSE;
+}
+
+/**
+ * Returns the group memberships count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param int $state
+ *   Node type.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_group_memberships_count($uid, $state = OG_STATE_ACTIVE) {
+  $query = db_select('og_membership', 'm');
+  $query->fields('m', array('id'));
+  $query->condition('entity_type', 'user');
+  $query->condition('etid', $uid);
+  $query->condition('state', $state);
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
+}
+
+/**
+ * Returns the group memberships count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_group_pending_memberships_count($uid) {
+  return c4m_og_get_user_group_memberships_count($uid, OG_STATE_PENDING);
+}
+
+/**
+ * Returns the administered groups count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ * @param string $node_type
+ *   Node type.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_og_get_user_administered_groups_count($uid, $node_type) {
+  $query = db_select('og_users_roles', 'ur');
+  $query->fields('ur');
+  $query->join('og_role', 'r', "ur.rid = r.rid AND name = 'administrator member' AND ur.uid = $uid");
+  $query->join('node', 'n', "ur.gid = n.nid AND ur.group_type = 'node' AND n.type = '$node_type'");
+
+  $query = $query->execute();
+  $amount = $query->rowCount();
+
+  return $amount;
 }

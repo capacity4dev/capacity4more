@@ -765,6 +765,17 @@ function c4m_content_group_c4m_helper_entity_metrics_info() {
       'callback' => 'c4m_content_group_get_latest_activity',
       'weight'   => 0,
     ),
+    'c4m_user_groups' => array(
+      'type' => 'groups',
+      'context'  => 'user',
+      'callback'  => 'c4m_user_get_node_metric',
+      'arguments' => array(array('group')),
+    ),
+    'c4m_user_groups_administered' => array(
+      'type' => 'groups_administered',
+      'context'  => 'user',
+      'callback' => 'c4m_user_get_administered_groups_count',
+    ),
   );
 }
 
@@ -786,6 +797,19 @@ function c4m_content_group_ds_fields_info($entity_type) {
   );
 
   return $fields;
+}
+
+/**
+ * Returns the administered groups count for an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return int
+ *   Count.
+ */
+function c4m_user_get_administered_groups_count($uid) {
+  return c4m_og_get_user_administered_groups_count($uid, 'group');
 }
 
 /**
