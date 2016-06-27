@@ -5,6 +5,7 @@ api = 2
 
 projects[og][version] = "2.9"
 projects[og][subdir] = "contrib"
+projects[og][patch][] = "https://www.drupal.org/files/issues/access_check_when_getting_groups.patch"
 
 projects[og_purl][subdir] = "contrib"
 projects[og_purl][version] = "1.x-dev"
