@@ -246,7 +246,7 @@ function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $f
   $form['subscribe_to_mailinglist'] = array(
     '#type' => 'checkbox',
     '#title' => t('Send me the monthly capacity4dev newsletter (see !samples)', array(
-      '!samples' => l(t('samples'), 'newsletters'),
+      '!samples' => l(t('samples'), 'newsletters', array('attributes' => array('target' => '_blank'))),
     )),
     '#weight' => 50,
   );
