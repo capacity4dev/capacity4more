@@ -1072,3 +1072,14 @@ function c4m_user_get_node_metric($uid, $bundles) {
 
   return c4m_helper_entity_get_number_of_entities($arguments);
 }
+
+/**
+ * Implements hook_ckeditor_settings_alter().
+ *
+ * Remove media button for anonymous users.
+ */
+function c4m_user_ckeditor_settings_alter(&$settings, $conf) {
+  if (user_is_anonymous() && isset($settings['loadPlugins']['media'])) {
+    unset($settings['loadPlugins']['media']);
+  }
+}
