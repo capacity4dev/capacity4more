@@ -4,7 +4,7 @@ api = 2
 ; Organic Groups and friends.
 
 projects[og][download][type] = "git"
-projects[og][download][url] = "https://github.com/capacity4dev/og.git"
+projects[og][download][url] = "https://github.com/Gizra/og.git"
 projects[og][download][branch] = 7.x-2.x
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
