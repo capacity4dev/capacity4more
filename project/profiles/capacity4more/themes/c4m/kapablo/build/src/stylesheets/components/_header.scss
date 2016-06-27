@@ -112,57 +112,65 @@
   }
 }
 
-.navigation--primary {
-  border-bottom: 1px solid $color-gray-light;
 
-  li a:hover {
-    background-color: $color-background;
-  }
 
-  @media (min-width: $grid-float-breakpoint) {
+  .navigation--primary {
+    border-bottom: 1px solid $color-gray-light;
 
-    .navbar {
-      margin-bottom: 0;
+    li a:hover {
+      background-color: $color-background;
     }
 
-    .navbar-collapse {
-      padding: 1rem 0;
+    @media (min-width: $grid-float-breakpoint) {
 
-      ul.menu {
-        @include horizontal_menu;
+      .navbar {
+        margin-bottom: 0;
+      }
 
-        li {
-          font-size: 0.85rem;
-          padding: 0 0.75rem;
+      .navbar-collapse {
+        padding: 1rem 0;
 
-          @media (min-width: $screen-md-min) {
-            font-size: 1rem;
-            padding: 0 1.25rem;
-          }
+        ul.menu {
+          @include horizontal_menu;
 
-          a {
-            line-height: 1rem;
-            padding: 0;
-            text-transform: uppercase;
+          li {
+            font-size: 0.85rem;
+            padding: 0 0.75rem;
 
-            &:hover {
-              background: none;
-              color: $color-gray-dark;
+            @media (min-width: $screen-md-min) {
+              font-size: 1rem;
+              padding: 0 1.25rem;
+            }
+
+            a {
+              line-height: 1rem;
+              padding: 0;
+              text-transform: uppercase;
+
+              &:hover {
+                background: none;
+                color: $color-gray-dark;
+              }
             }
           }
         }
       }
     }
   }
-}
 
-.navbar-toggle {
-  border-color: $color-gray-light;
-  &:hover,
-  &:focus {
-    background-color: $color-background;
+  .navbar-toggle {
+    border-color: $color-gray-light;
+    &:hover,
+    &:focus {
+      background-color: $color-background;
+    }
+    .icon-bar {
+      background-color: $color-gray-light;
+    }
   }
-  .icon-bar {
-    background-color: $color-gray-light;
+
+.og-menu-link {
+  &.media {
+    margin-top: 0;
   }
 }

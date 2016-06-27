@@ -1,0 +1,10 @@
+name = Media
+description = Provides the Media functionality within Groups.
+core = 7.x
+package = capacity4more - Features Group
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = overview_og_media
+features_exclude[dependencies][c4m_og] = c4m_og
+features_exclude[dependencies][entity] = entity
+features_exclude[dependencies][views] = views
