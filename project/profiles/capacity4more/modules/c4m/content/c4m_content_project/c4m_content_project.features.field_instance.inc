@@ -2290,6 +2290,58 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'paragraphs_item-c4m_paragraph_system_block-c4m_number_of_items'.
+  $field_instances['paragraphs_item-c4m_paragraph_system_block-c4m_number_of_items'] = array(
+    'bundle' => 'c4m_paragraph_system_block',
+    'default_value' => array(
+      0 => array(
+        'value' => 5,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 1,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'ds_extras_field_template' => '',
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'c4m_number_of_items',
+    'label' => 'Number of items',
+    'required' => 0,
+    'settings' => array(
+      'max' => 100,
+      'min' => 0,
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'paragraphs_item-c4m_paragraph_text-c4m_heading'.
   $field_instances['paragraphs_item-c4m_paragraph_text-c4m_heading'] = array(
     'bundle' => 'c4m_paragraph_text',
@@ -2485,6 +2537,7 @@ function c4m_content_project_field_default_field_instances() {
   t('Left column content');
   t('Names of organisations & companies who fund the Project.');
   t('Names of organisations & companies who implement the project.');
+  t('Number of items');
   t('Partners');
   t('Regions & Countries');
   t('Related Projects');

@@ -247,3 +247,73 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
     ),
   );
 }
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function c4m_content_project_ds_fields_info($entity_type) {
+  $fields = array(
+    'c4m_system_block_renderer' => array(
+      'title' => t('C4M System Block Renderer'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'ui_limit' => array(),
+      'function' => 'c4m_content_project_system_block_renderer',
+    ),
+  );
+  return array($entity_type => $fields);
+}
+
+/**
+ * Callback for the system block renderer field.
+ */
+function c4m_content_project_system_block_renderer($field) {
+  if ($paragraph_id = $field['entity']->item_id) {
+    if ($paragraphs_item = paragraphs_item_load_multiple(array($paragraph_id))) {
+      $paragraphs_item = reset($paragraphs_item);
+      $block_info = explode(':', $paragraphs_item->c4m_block[LANGUAGE_NONE][0]['moddelta']);
+
+      // If the referenced block is NOT a View.
+      if ($block_info[0] != 'views') {
+        // Simply render the block.
+        $rendered_block = c4m_content_project_render_block($block_info[0], $block_info[1]);
+        return render($rendered_block);
+      }
+
+      // If a View, take into account the number of items parameter.
+      $number_of_items = isset($paragraphs_item->c4m_number_of_items) ? $paragraphs_item->c4m_number_of_items : 5;
+
+      // Get info for the View.
+      $views_info = explode('-', $block_info[1]);
+      $view = views_get_view($views_info[0]);
+
+      // Set number of items.
+      $number_of_items = $number_of_items[LANGUAGE_NONE][0]['value'];
+      $view->set_items_per_page($number_of_items);
+
+      // Render the View.
+      $output = $view->preview($views_info[1], array());
+      $view->destroy();
+
+      return $output;
+    }
+  }
+
+  return '';
+};
+
+/**
+ * Returns the render-able array for a block.
+ *
+ * @param string $module
+ *   The block's module.
+ * @param string $delta
+ *   The block's delta.
+ *
+ * @return array
+ *   Renderable array.
+ */
+function c4m_content_project_render_block($module, $delta) {
+  $block = block_load($module, $delta);
+  $render_array = _block_get_renderable_array(_block_render_blocks(array($block)));
+  return $render_array;
+}
