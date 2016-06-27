@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Media feature.
- */
-
-include_once 'c4m_features_og_media.features.inc';

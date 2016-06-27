@@ -172,3 +172,9 @@
     margin-top: 0;
   }
 }
+.view-header {
+  .node-create:after {
+    content: '\A';
+    white-space: pre;
+  }
+}
