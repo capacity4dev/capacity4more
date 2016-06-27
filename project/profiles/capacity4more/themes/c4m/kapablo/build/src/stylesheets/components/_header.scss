@@ -7,6 +7,16 @@
       margin-left: 3rem;
     }
   }
+
+  #block-c4m-features-header-c4m-header-menu {
+    display: none;
+  }
+
+  @media (min-width: $screen-tablet) {
+    #block-c4m-features-header-c4m-header-menu {
+      display: block;
+    }
+  }
 }
 
 #block-c4m-user-bar-user-signup-login {
