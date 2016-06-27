@@ -35,3 +35,26 @@ Feature: Group content access
     When  I am logged in as user "isaacnewton"
     Then  I visit "Test content" node of type "discussion"
     And   I should see "Access denied"
+
+  @javascript
+  Scenario: An anonymous user shouldn't be able to see a restricted group's content.
+    Given I am logged in as user "turing"
+    And   I change access of group "My test group" to "Restricted" with the domain "turingmachine.com"
+    When  I am an anonymous user
+    Then  I visit "Test content" node of type "discussion"
+    And   I should not see "Test content"
+    And   I should see "Please log in to continue"
+
+  @javascript
+  Scenario: A non-member of the organization shouldn't be able to see the group's content.
+    Given I am logged in as user "president"
+    Then  I visit "Test content" node of type "discussion"
+    And   I should not see "Test content"
+    And   I should see "Access denied"
+
+  @javascript
+  Scenario: A member of the organization (by email domain) should be able to see the group's content.
+    Given I am logged in as user "charlesbabbage"
+    Then  I visit "Test content" node of type "discussion"
+    And   I should not see "Access denied"
+    And   I should see "Test content"
