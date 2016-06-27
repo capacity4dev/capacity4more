@@ -86,6 +86,16 @@ function kapablo_preprocess_page(&$variables) {
 
   // Take care of the breadcrumb for OG content.
   _set_og_breadcrumbs();
+
+  // Off-canvas trigger labels.
+  $offcanvas_trigger_label_left = t('More info');
+  $offcanvas_trigger_label_right = t('More info');
+
+  drupal_alter('c4m_offcanvas_trigger_label_left', $offcanvas_trigger_label_left);
+  drupal_alter('c4m_offcanvas_trigger_label_right', $offcanvas_trigger_label_right);
+
+  $variables['offcanvas_trigger_label_left'] = $offcanvas_trigger_label_left;
+  $variables['offcanvas_trigger_label_right'] = $offcanvas_trigger_label_right;
 }
 
 /**

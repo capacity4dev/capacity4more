@@ -687,3 +687,14 @@ function _c4m_search_preprocess_facetapi_link(&$vars) {
     $vars['options']['attributes']['class'][] = drupal_html_class('facetapi-link--' . $vars['text']);
   }
 }
+
+/**
+ * Implements hook_TYPE_alter().
+ *
+ * Using hook_c4m_offcanvas_trigger_label_left_alter().
+ */
+function c4m_search_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
+  if (arg(0) == 'search') {
+    $trigger_label = t('Filter results');
+  }
+}
