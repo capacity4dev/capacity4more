@@ -112,62 +112,60 @@
   }
 }
 
+.navigation--primary {
+  border-bottom: 1px solid $color-gray-light;
 
+  li a:hover {
+    background-color: $color-background;
+  }
 
-  .navigation--primary {
-    border-bottom: 1px solid $color-gray-light;
+  @media (min-width: $grid-float-breakpoint) {
 
-    li a:hover {
-      background-color: $color-background;
+    .navbar {
+      margin-bottom: 0;
     }
 
-    @media (min-width: $grid-float-breakpoint) {
+    .navbar-collapse {
+      padding: 1rem 0;
 
-      .navbar {
-        margin-bottom: 0;
-      }
+      ul.menu {
+        @include horizontal_menu;
 
-      .navbar-collapse {
-        padding: 1rem 0;
+        li {
+          font-size: 0.85rem;
+          padding: 0 0.75rem;
 
-        ul.menu {
-          @include horizontal_menu;
+          @media (min-width: $screen-md-min) {
+            font-size: 1rem;
+            padding: 0 1.25rem;
+          }
 
-          li {
-            font-size: 0.85rem;
-            padding: 0 0.75rem;
+          a {
+            line-height: 1rem;
+            padding: 0;
+            text-transform: uppercase;
 
-            @media (min-width: $screen-md-min) {
-              font-size: 1rem;
-              padding: 0 1.25rem;
-            }
-
-            a {
-              line-height: 1rem;
-              padding: 0;
-              text-transform: uppercase;
-
-              &:hover {
-                background: none;
-                color: $color-gray-dark;
-              }
+            &:hover {
+              background: none;
+              color: $color-gray-dark;
             }
           }
         }
       }
     }
   }
+}
 
-  .navbar-toggle {
-    border-color: $color-gray-light;
-    &:hover,
-    &:focus {
-      background-color: $color-background;
-    }
-    .icon-bar {
-      background-color: $color-gray-light;
-    }
+.navbar-toggle {
+  border-color: $color-gray-light;
+  &:hover,
+  &:focus {
+    background-color: $color-background;
   }
+  .icon-bar {
+    background-color: $color-gray-light;
+  }
+}
 
 .og-menu-link {
   &.media {
