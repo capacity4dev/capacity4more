@@ -85,6 +85,7 @@ features[variable][] = node_options_project
 features[variable][] = node_preview_project
 features[variable][] = node_submitted_project
 features[variable][] = pathauto_node_project_pattern
+features[views_view][] = c4m_project_events
 features[views_view][] = c4m_project_news
 features_exclude[dependencies][views] = views
 features_exclude[field_base][field_c4m_partners] = field_c4m_partners
