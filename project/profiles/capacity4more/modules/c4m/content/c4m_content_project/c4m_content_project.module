@@ -128,6 +128,31 @@ function c4m_og_form_project_node_form_alter(&$form, &$form_state) {
     // Change submit button on creation.
     $form['actions']['submit']['#value'] = t('Request');
   }
+
+  c4m_content_project_set_number_of_items_states($form, 'c4m_left_column');
+  c4m_content_project_set_number_of_items_states($form, 'c4m_right_column');
+}
+
+/**
+ * Helper function to set the correct states for the number of items field.
+ *
+ * @param array $form
+ *   The form on which to act.
+ * @param array $element
+ *   The form element.
+ */
+function c4m_content_project_set_number_of_items_states(&$form, $element) {
+  foreach ($form[$element][LANGUAGE_NONE] as &$item) {
+    if (isset($item['#bundle']) && $item['#bundle'] == 'c4m_paragraph_system_block') {
+      $item['c4m_number_of_items']['#states'] = array(
+        'visible' => array(
+          array(
+            ':input[name="' . $element . '[und][' . $item['#delta'] . '][c4m_block][und]"]' => array('value' => 'views:c4m_project_news-block'),
+          ),
+        ),
+      );
+    }
+  }
 }
 
 /**
@@ -252,6 +277,7 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
  * Implements hook_ds_fields_info().
  */
 function c4m_content_project_ds_fields_info($entity_type) {
+  // Special field to render the block reference according to type of block.
   $fields = array(
     'c4m_system_block_renderer' => array(
       'title' => t('C4M System Block Renderer'),
@@ -265,6 +291,12 @@ function c4m_content_project_ds_fields_info($entity_type) {
 
 /**
  * Callback for the system block renderer field.
+ *
+ * @param string $field
+ *   The field which to render.
+ *
+ * @return array
+ *   Rendered output.
  */
 function c4m_content_project_system_block_renderer($field) {
   if ($paragraph_id = $field['entity']->item_id) {
