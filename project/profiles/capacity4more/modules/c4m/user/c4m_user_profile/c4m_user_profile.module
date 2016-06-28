@@ -225,6 +225,19 @@ function c4m_user_profile_user_login(&$edit, $user) {
 }
 
 /**
+ * Implements hook_email_confirm().
+ *
+ * Triggers the update info after the email change is confirmed.
+ */
+function c4m_user_profile_email_confirm($type, $uid) {
+  if ($type != 'email confirmation') {
+    return;
+  }
+  $account = user_load($uid);
+  c4m_user_update_information($account);
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function c4m_user_profile_form_user_register_form_alter(&$form, &$form_state, $form_id) {
