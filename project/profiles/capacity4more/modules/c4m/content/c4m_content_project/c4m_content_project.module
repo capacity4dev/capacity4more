@@ -187,16 +187,17 @@ function c4m_content_project_field_formatter_view($entity_type, $entity, $field,
     $source = theme('image_style', array(
       'style_name' => 'thumbnail',
       'path' => $item['uri'],
-      'title' => $title['safe_value']));
+      'title' => $title['safe_value'],
+    ));
 
     if ($url) {
       $element[] = array(
         '#markup' => l($source, $url['display_url'], array(
           'html' => TRUE,
           'attributes' => array(
-            'target' => $url['attributes']['target']
-          )
-        ))
+            'target' => $url['attributes']['target'],
+          ),
+        )),
       );
     }
     else {
