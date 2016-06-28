@@ -109,6 +109,21 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'paragraphs',
   );
 
+  // Exported field_base: 'c4m_number_of_items'.
+  $field_bases['c4m_number_of_items'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'c4m_number_of_items',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
   // Exported field_base: 'c4m_partners'.
   $field_bases['c4m_partners'] = array(
     'active' => 1,
@@ -234,21 +249,6 @@ function c4m_content_project_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
-  );
-
-  // Exported field_base: 'c4m_number_of_items'.
-  $field_bases['c4m_number_of_items'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'c4m_number_of_items',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
   );
 
   return $field_bases;

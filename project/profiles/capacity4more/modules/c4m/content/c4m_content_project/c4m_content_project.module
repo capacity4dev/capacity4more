@@ -149,6 +149,9 @@ function c4m_content_project_set_number_of_items_states(&$form, $element) {
           array(
             ':input[name="' . $element . '[und][' . $item['#delta'] . '][c4m_block][und]"]' => array('value' => 'views:c4m_project_news-block'),
           ),
+          array(
+            ':input[name="' . $element . '[und][' . $item['#delta'] . '][c4m_block][und]"]' => array('value' => 'views:c4m_project_events-block'),
+          ),
         ),
       );
     }
@@ -269,6 +272,9 @@ function c4m_content_project_c4m_content_project_blockreference_whitelist() {
     ),
     'views:c4m_project_news-block' => array(
       'label' => t('Project news'),
+    ),
+    'views:c4m_project_events-block' => array(
+      'label' => t('Project events'),
     ),
   );
 }
