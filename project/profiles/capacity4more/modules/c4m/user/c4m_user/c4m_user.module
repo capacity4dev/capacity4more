@@ -685,8 +685,68 @@ function c4m_user_menu_alter(&$items) {
   );
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
+    'title' => 'User contact form',
+    'description' => "User contact form.",
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_user_contact_form'),
+    'access arguments' => array('access content'),
+   # 'file' => 'c4m_user.admin.inc',
   );
 }
+
+function c4m_user_contact_form() {
+  global $user;
+
+  $form['c4m_user_from'] = array(
+    '#type' => 'textfield',
+    '#title' => t('From'),
+    '#description' => t("From address"),
+    '#size' => 30,
+    '#default_value' => $user->mail,
+    '#disabled' => TRUE,
+  );
+
+  $form['c4m_user_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#description' => t("Enter mail subject."),
+    '#size' => 10,
+    #'#default_value' => $account->mail,
+  );
+
+  $form['c4m_user_body'] = array(
+    '#title' => t('Body'),
+    '#description' => t('Enter mail body'),
+    '#type' => 'textarea',
+    '#maxlength' => 4096,
+  );
+
+  $form['c4m_user_checkbox'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send me a copy'),
+    '#default_value' => FALSE,
+  );
+
+  $form['c4m_user_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send'),
+  );
+
+  return $form;
+}
+
+function c4m_user_contact_form_submit($form, $form_state) {
+  // Generate and send mail here.
+
+  $path = drupal_get_path_alias();
+  $first = strpos($path, "/");
+  $last = strrpos($path, "/");
+  $uid = substr($path, $first + 1, $last - $first - 1);
+  $account = user_load($uid);
+  dpm($account->mail);
+}
+
+
 
 /**
  * Implements hook_block_info().
