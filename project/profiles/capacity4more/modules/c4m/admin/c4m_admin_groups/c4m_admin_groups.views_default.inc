@@ -570,13 +570,6 @@ function c4m_admin_groups_views_default_views() {
     'group' => 'group',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = '0';
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Status (c4m_og_status) */
   $handler->display->display_options['filters']['c4m_og_status_value']['id'] = 'c4m_og_status_value';
   $handler->display->display_options['filters']['c4m_og_status_value']['table'] = 'field_data_c4m_og_status';
