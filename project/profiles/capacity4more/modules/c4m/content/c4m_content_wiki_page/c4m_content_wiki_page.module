@@ -496,7 +496,7 @@ function c4m_content_wiki_page_c4m_helper_entity_label_info() {
       'singular' => t('wiki page'),
       'plural' => t('wiki pages'),
       'insert action' => t('created a new WIKI page'),
-      'update action' => t('updated a the WIKI page'),
+      'update action' => t('updated the WIKI page'),
       'icon' => 'fa-wikipedia-w',
     ),
   );
