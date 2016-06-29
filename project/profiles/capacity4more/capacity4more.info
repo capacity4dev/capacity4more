@@ -58,6 +58,7 @@ dependencies[] = og_purl
 dependencies[] = og_vocab
 dependencies[] = page_manager
 dependencies[] = panels
+dependencies[] = paragraphs
 dependencies[] = path_breadcrumbs
 dependencies[] = pathauto
 dependencies[] = pluggable_node_access
@@ -77,6 +78,8 @@ dependencies[] = views_bulk_operations
 dependencies[] = views_data_export
 dependencies[] = wysiwyg_filter
 
+dependencies[] = services
+dependencies[] = user_revision
 
 ; capacity4more ---------------------------------------------------------------
 
@@ -173,6 +176,7 @@ dependencies[] = c4m_search_og
 
 ; Utilities
 dependencies[] = c4m_analytics
+dependencies[] = c4m_moodle
 
 ; Message
 dependencies[] = c4m_mail

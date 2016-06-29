@@ -25,7 +25,7 @@ node_modules
 bower_components
 .sass-cache
 
-# Avoid IDE files being commited.
+# Avoid IDE files being committed.
 .idea
 *.sublime-project
 *.sublime-workspace
@@ -33,3 +33,9 @@ project/profiles/capacity4more/behat/vendor
 project/profiles/capacity4more/behat/bin
 behat.local.yml
 project/profiles/capacity4more/behat/features/dump
+
+# Avoid system files being committed.
+.DS_Store
+
+# Avoid Vagrant files being committed.
+.vagrant
