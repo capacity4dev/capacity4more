@@ -690,7 +690,6 @@ function c4m_user_menu_alter(&$items) {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_contact_form'),
     'access arguments' => array('access content'),
-   # 'file' => 'c4m_user.admin.inc',
   );
 }
 
@@ -738,12 +737,13 @@ function c4m_user_contact_form() {
 function c4m_user_contact_form_submit($form, $form_state) {
   // Generate and send mail here.
 
-  $path = drupal_get_path_alias();
+/*  $path = drupal_get_path_alias();
   $first = strpos($path, "/");
   $last = strrpos($path, "/");
   $uid = substr($path, $first + 1, $last - $first - 1);
-  $account = user_load($uid);
-  dpm($account->mail);
+  $account = user_load($uid);*/
+  dpm('hhh');
+ // dpm($uid . " " . $account->mail);
 }
 
 
