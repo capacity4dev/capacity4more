@@ -48,7 +48,7 @@ function c4m_content_photo_c4m_helper_entity_label_info() {
       'article' => t('a'),
       'singular' => t('photo'),
       'plural' => t('photos'),
-      'insert action' => t('uploaded a new photo'),
+      'insert action' => t('added new Photo'),
       'update action' => t('updated the photo'),
       'icon' => 'fa-file-picture-o',
     ),
