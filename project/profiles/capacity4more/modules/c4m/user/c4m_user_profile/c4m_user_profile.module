@@ -623,7 +623,7 @@ function c4m_user_profile_account_form_validate($form, &$form_state) {
 /**
  * Validator callback for mail field.
  */
-function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
+function c4m_user_profile_element_validate_mail($element, &$form_state, &$form) {
   // Trim whitespace from mail, to prevent confusing 'e-mail not valid'
   // warnings often caused by cutting and pasting.
   $mail = trim($form_state['values']['mail']);
@@ -633,7 +633,9 @@ function c4m_user_profile_element_validate_mail($element, &$form_state, $form) {
   $data['mail'] = $mail;
   $data['minimum_error_level'] = C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_ERROR;
   $data['form'] = &$form;
-  $data['alter_form'] = FALSE;
+  // We need to always alter the form otherwise on AJAX calls (image upload),
+  // the validation is run the form is cached but with wrong state for inputs.
+  $data['alter_form'] = TRUE;
   $data['form_state'] = &$form_state;
   $data['validation_messages'] = &$validation_messages;
 
@@ -696,22 +698,25 @@ function c4m_user_profile_c4m_user_profile_validate_email_alter(&$data) {
     }
   }
 
-  if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
-    $organisation_user = new C4mOrganisationUser($data['mail']);
-    if ($organisations = $organisation_user->getOrganisationsInfo()) {
-      $organisation = array_shift($organisations);
-      $organisation = entity_metadata_wrapper('node', $organisation);
+  $organisation_user = new C4mOrganisationUser($data['mail']);
+  if ($organisations = $organisation_user->getOrganisationsInfo()) {
+    $organisation = array_shift($organisations);
+    $organisation = entity_metadata_wrapper('node', $organisation);
 
-      $organisation_type = $organisation->c4m_organisation_type->value();
-      if (empty($organisation_name)) {
-        $organisation_name = $organisation->title->value();
-      }
+    $organisation_type = $organisation->c4m_organisation_type->value();
+    if (empty($organisation_name)) {
+      $organisation_name = $organisation->title->value();
+    }
 
-      $data['alter_form'] && $data['form']['c4m_is_organisation_user'][LANGUAGE_NONE]['#value'] = 1;
+    $data['alter_form'] && $data['form']['c4m_is_organisation_user'][LANGUAGE_NONE]['#value'] = 1;
 
+    if ($data['minimum_error_level'] <= C4M_USER_PROFILE_VALIDATION_MESSAGE_TYPE_MESSAGE) {
       $data['validation_messages'][] = array(
         'message' => t('<p>You are recognized as member of !logo - %name<br />If you do not want to be associated with this organization, please !use_another_email.</p>', array(
-          '!logo' => theme('image_style', array('path' => $organisation->c4m_icon->value()['uri'], 'style_name' => 'icon_small')),
+          '!logo' => theme('image_style', array(
+            'path' => $organisation->c4m_icon->value()['uri'],
+            'style_name' => 'icon_small',
+          )),
           '%name' => $organisation->title->value(),
           '!use_another_email' => l(t('use another email address'), '', array(
             'fragment' => ' ',
