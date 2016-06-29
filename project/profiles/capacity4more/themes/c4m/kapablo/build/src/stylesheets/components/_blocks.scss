@@ -5,3 +5,15 @@
     }
   }
 }
+
+.view {
+  &.view-display-id-page {
+    a {
+      background-color: #8ABCC7;
+      padding: 10px;
+      color: #fff;
+      border-radius: 50px;
+      text-decoration: none;
+    }
+  }
+}
