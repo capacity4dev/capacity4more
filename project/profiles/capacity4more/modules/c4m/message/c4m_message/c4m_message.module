@@ -562,7 +562,7 @@ function c4m_message_load__c4m_insert__node__photo(Message $message) {
   );
 
   $message->arguments['@photoalbum'] = array(
-    'callback' => 'c4m_message_get_photoalbum',
+    'callback' => 'c4m_message_format_photo_photoalbum',
     'pass message' => TRUE,
   );
 
@@ -727,13 +727,10 @@ function c4m_message_format_operation(Message $message) {
  * @return string
  *   The photoalbum if exists or an empty string.
  */
-function c4m_message_get_photoalbum(Message $message) {
+function c4m_message_format_photo_photoalbum(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $node = $wrapper->field_node->value();
-  $photo_wrapper = entity_metadata_wrapper('node', $node);
-  $albumlabel = $photo_wrapper->node_gallery_ref_1->label();
-  $output = ($albumlabel) ? 'to Photo album ' . $albumlabel : '';
-  return $output;
+  $album_label = $wrapper->field_node->node_gallery_ref_1->label();
+  return $album_label ? 'to Photo album ' . $album_label : '';
 }
 
 /**
