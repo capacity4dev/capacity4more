@@ -34,19 +34,19 @@ Feature: Group Events
     Then I should see the past events overview
     And I should not see the "Add an Event" link above the overview
 
-  @api
+  @api @nir
   Scenario: Check upcoming events overview as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the upcoming events overview of group "Nobel Prize"
     Then I should see the upcoming events overview
-    And I should see the "Add an Event" link above the overview
+    And I should see the "ADD AN EVENT" link above the overview
 
-  @api
+  @api @nir
   Scenario: Check past events overview as group owner
     Given I am logged in as user "alfrednobel"
     When I visit the past events overview of group "Nobel Prize"
     Then I should see the past events overview
-    And I should see the "Add an Event" link above the overview
+    And I should see the "ADD AN EVENT" link above the overview
 
   @api
   Scenario: Check event detail as an anonymous user
