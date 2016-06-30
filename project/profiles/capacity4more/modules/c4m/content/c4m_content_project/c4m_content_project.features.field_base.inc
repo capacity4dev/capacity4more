@@ -221,13 +221,13 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m__project_stage'.
-  $field_bases['c4m__project_stage'] = array(
+  // Exported field_base: 'c4m__project_stakeholdersstage'.
+  $field_bases['c4m__project_stakeholdersstage'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m__project_stage',
+    'field_name' => 'c4m__project_stakeholdersstage',
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -247,13 +247,13 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'c4m__project_stakeholders'.
-  $field_bases['c4m__project_stakeholders'] = array(
+  // Exported field_base: 'c4m__project_stakeholdersstakeholders'.
+  $field_bases['c4m__project_stakeholdersstakeholders'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m__project_stakeholders',
+    'field_name' => 'c4m__project_stakeholdersstakeholders',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -268,13 +268,13 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m__project_tag_line'.
-  $field_bases['c4m__project_tag_line'] = array(
+  // Exported field_base: 'c4m__project_stakeholderstag_line'.
+  $field_bases['c4m__project_stakeholderstag_line'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m__project_tag_line',
+    'field_name' => 'c4m__project_stakeholderstag_line',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -289,13 +289,13 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'c4m__project_type'.
-  $field_bases['c4m__project_type'] = array(
+  // Exported field_base: 'c4m__project_stakeholderstype'.
+  $field_bases['c4m__project_stakeholderstype'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m__project_type',
+    'field_name' => 'c4m__project_stakeholderstype',
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -314,13 +314,13 @@ function c4m_content_project_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'c4m__project_url'.
-  $field_bases['c4m__project_url'] = array(
+  // Exported field_base: 'c4m__project_stakeholdersurl'.
+  $field_bases['c4m__project_stakeholdersurl'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'c4m__project_url',
+    'field_name' => 'c4m__project_stakeholdersurl',
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',

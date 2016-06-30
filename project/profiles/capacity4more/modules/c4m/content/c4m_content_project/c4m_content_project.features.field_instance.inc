@@ -1938,8 +1938,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m__project_stage'.
-  $field_instances['node-project-c4m__project_stage'] = array(
+  // Exported field_instance: 'node-project-c4m__project_stakeholdersstage'.
+  $field_instances['node-project-c4m__project_stakeholdersstage'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
@@ -1973,7 +1973,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m__project_stage',
+    'field_name' => 'c4m__project_stakeholdersstage',
     'label' => 'Project stage',
     'required' => 1,
     'settings' => array(
@@ -1988,8 +1988,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m__project_stakeholders'.
-  $field_instances['node-project-c4m__project_stakeholders'] = array(
+  // Exported field_instance: 'node-project-c4m__project_stakeholdersstakeholders'.
+  $field_instances['node-project-c4m__project_stakeholdersstakeholders'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
@@ -2023,7 +2023,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m__project_stakeholders',
+    'field_name' => 'c4m__project_stakeholdersstakeholders',
     'label' => 'Project stakeholders',
     'required' => 0,
     'settings' => array(
@@ -2073,8 +2073,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m__project_tag_line'.
-  $field_instances['node-project-c4m__project_tag_line'] = array(
+  // Exported field_instance: 'node-project-c4m__project_stakeholderstag_line'.
+  $field_instances['node-project-c4m__project_stakeholderstag_line'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
@@ -2108,7 +2108,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => 'theme_ds_field_minimal',
     'entity_type' => 'node',
-    'field_name' => 'c4m__project_tag_line',
+    'field_name' => 'c4m__project_stakeholderstag_line',
     'label' => 'Project tag line',
     'required' => 0,
     'settings' => array(
@@ -2158,8 +2158,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m__project_type'.
-  $field_instances['node-project-c4m__project_type'] = array(
+  // Exported field_instance: 'node-project-c4m__project_stakeholderstype'.
+  $field_instances['node-project-c4m__project_stakeholderstype'] = array(
     'bundle' => 'project',
     'default_value' => array(
       0 => array(
@@ -2197,7 +2197,7 @@ function c4m_content_project_field_default_field_instances() {
     ),
     'ds_extras_field_template' => '',
     'entity_type' => 'node',
-    'field_name' => 'c4m__project_type',
+    'field_name' => 'c4m__project_stakeholderstype',
     'label' => 'Project type',
     'required' => 1,
     'settings' => array(
@@ -2212,8 +2212,8 @@ function c4m_content_project_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-project-c4m__project_url'.
-  $field_instances['node-project-c4m__project_url'] = array(
+  // Exported field_instance: 'node-project-c4m__project_stakeholdersurl'.
+  $field_instances['node-project-c4m__project_stakeholdersurl'] = array(
     'bundle' => 'project',
     'default_value' => NULL,
     'deleted' => 0,
@@ -2246,7 +2246,7 @@ function c4m_content_project_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'c4m__project_url',
+    'field_name' => 'c4m__project_stakeholdersurl',
     'label' => 'Project url',
     'required' => FALSE,
     'settings' => array(
