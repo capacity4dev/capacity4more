@@ -121,6 +121,26 @@ function c4m_features_og_events_views_pre_render(&$view) {
 }
 
 /**
+ * Implements hook_preprocess().
+ *
+ * Adding the icon to the button.
+ */
+function c4m_features_og_events_preprocess_views_view(&$variables) {
+  if ($variables['name'] != 'c4m_overview_og_events_landing') {
+    return;
+  }
+
+  if ($variables['display_id'] != 'page') {
+    return;
+  }
+
+  $icon = '<i class="fa fa-calendar"></i>';
+  $label = 'Add an event';
+
+  $variables['header'] = str_replace($label, $icon . ' ' . $label, $variables['header']);
+}
+
+/**
  * Implements hook_block_info().
  */
 function c4m_features_og_events_block_info() {
