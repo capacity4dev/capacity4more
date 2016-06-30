@@ -33,6 +33,32 @@ function _c4m_content_group_block_header_name_banner() {
 
   $title = $wrapper->title->value();
   $status = isset($wrapper->c4m_og_status) ? $wrapper->c4m_og_status->value() : 'published';
+
+  if ($group->type == 'project') {
+    $stage = strtoupper($wrapper->c4m_project_stage->value());
+
+    switch ($stage) {
+      case 'NOTSTARTED':
+        $flag = '-o';
+        $stage = 'NOT STARTED';
+        break;
+      case 'COMPLETED':
+        $flag = '-checkered';
+        break;
+      default:
+        $flag='';
+    }
+
+    $variables = [
+      'title' => check_plain($title),
+      'stage' => $stage,
+      'type' => strtoupper($wrapper->c4m_project_type->value()),
+      'status' => strtoupper($status),
+      'flag' => $flag,
+    ];
+    $title = theme('c4m_content_project_header_title', $variables);
+  }
+
   $tag['title']['element'] = array(
     '#tag' => 'h1',
     '#attributes' => array(
