@@ -76,11 +76,6 @@ class c4m_views_handler_area_node_add extends views_handler_area {
       ),
     );
 
-    // Check if the user has permission to add an event.
-    if (og_user_access(og_context()['group_type'], og_context()['gid'], 'create event content')) {
-      return l($link_text, 'node/add/' . $node_type, $options);
-    }
-
-    return FALSE;
+    return l($link_text, 'node/add/' . $node_type, $options);
   }
 }
