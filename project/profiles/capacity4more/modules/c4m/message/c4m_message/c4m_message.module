@@ -429,6 +429,7 @@ function c4m_messages_group_info(Message $message) {
       $group_info = t('Group: !link', array('!link' => $link));
     }
   }
+  
   return $group_info;
 }
 
@@ -715,6 +716,7 @@ function c4m_message_format_operation(Message $message) {
       $op = $info['update action'];
       break;
   }
+  
   return $op;
 }
 
@@ -730,6 +732,7 @@ function c4m_message_format_operation(Message $message) {
 function c4m_message_format_photo_photoalbum(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $album_label = $wrapper->field_node->node_gallery_ref_1->label();
+  
   return $album_label ? 'to Photo album ' . $album_label : '';
 }
 
@@ -917,6 +920,7 @@ function c4m_message_format_rendered_comment(Message $message) {
     $wrapper->field_node->value(),
     'activity_global'
   );
+  
   return drupal_render($view);
 }
 
@@ -937,6 +941,7 @@ function c4m_message__insert__comment($comment) {
   c4m_message_prepare_insert_entity($message, 'node', $node);
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $message_wrapper->field_comment->set($comment);
+  
   return $message;
 }
 
@@ -979,6 +984,7 @@ function c4m_message__update__comment($comment) {
   c4m_message_prepare_insert_entity($message, 'node', $node);
   $message_wrapper = entity_metadata_wrapper('message', $message);
   $message_wrapper->field_comment->set($comment);
+  
   return $message;
 }
 
@@ -996,6 +1002,7 @@ function c4m_message__insert__node($node) {
   $message = message_create('c4m_insert__node__' . $node->type, $values);
 
   c4m_message_prepare_insert_entity($message, 'node', $node);
+  
   return $message;
 }
 
@@ -1079,6 +1086,7 @@ function c4m_message__update__node($node, $account = NULL) {
   if ($message) {
     c4m_message_prepare_insert_entity($message, 'node', $node);
   }
+  
   return $message;
 }
 
