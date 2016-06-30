@@ -7,13 +7,15 @@
 }
 
 .view {
-  &.view-display-id-page {
+  .view-header {
     a {
-      background-color: #8ABCC7;
-      padding: 10px;
-      color: #fff;
-      border-radius: 50px;
-      text-decoration: none;
+      &.node-create-event {
+        background-color: #8ABCC7;
+        padding: 10px;
+        color: #fff;
+        border-radius: 50px;
+        text-decoration: none;
+      }
     }
   }
 }
