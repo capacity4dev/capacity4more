@@ -106,7 +106,7 @@
   <?php endif; ?>
 
   <div id="header-ec-wrapper">
-    <?php if (isset($image_banner)): ?>
+    <?php if ($image_banner): ?>
       <div class="background-banner">
         <?php print $image_banner; ?>
       </div>
@@ -135,7 +135,7 @@
         </div>
       </div>
 
-      <?php if (isset($image_banner)): ?>
+      <?php if ($image_banner): ?>
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <?php print $image_banner; ?>
