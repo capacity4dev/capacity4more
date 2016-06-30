@@ -570,7 +570,7 @@ function kapablo_preprocess_image(&$variables) {
 function kapablo_group_image_banner() {
   if (!og_context()) {
     // No OG context.
-    return '';
+    return FALSE;
   }
 
   // First establish the current group.
