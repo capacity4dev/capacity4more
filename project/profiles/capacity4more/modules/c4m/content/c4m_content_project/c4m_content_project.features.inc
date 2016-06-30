@@ -29,7 +29,7 @@ function c4m_content_project_node_info() {
       'base' => 'node_content',
       'description' => t('Create a Project to work together on projects.'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Name'),
       'help' => '',
     ),
   );
