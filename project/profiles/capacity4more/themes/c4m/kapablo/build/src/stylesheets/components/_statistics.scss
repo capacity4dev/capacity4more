@@ -64,12 +64,12 @@ ul.statistics-list {
         color: $link-color;
         text-decoration: none;
       }
+    }
 
-      i {
-        display: block;
-        clear: both;
-        margin-bottom: 5px;
-      }
+    i {
+      display: block;
+      clear: both;
+      margin-bottom: 5px;
     }
 
     @media (min-width: $screen-tablet) {
@@ -82,13 +82,13 @@ ul.statistics-list {
         display: inherit;
         margin-top: 0;
         padding-left: 1rem;
+      }
 
-        i {
-          display: inline-block;
-          clear: none;
-          line-height: inherit;
-          margin: 0 5px 0 0;
-        }
+      i {
+        display: inline-block;
+        clear: none;
+        line-height: inherit;
+        margin: 0 5px 0 0;
       }
     }
 

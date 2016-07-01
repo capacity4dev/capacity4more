@@ -39,7 +39,7 @@ function theme_c4m_website_statistics_summary(array $variables) {
     }
 
     // Format single/plural text.
-    $text = $stat['count'] . ' ' . format_plural(
+    $text = '<i class="fa ' . $icons_table[$key] . '"></i> ' . $stat['count'] . ' ' . format_plural(
         $stat['count'],
         $stat['title']['singular'],
         $stat['title']['plural']
@@ -54,15 +54,12 @@ function theme_c4m_website_statistics_summary(array $variables) {
       $options = array_merge(
         $options,
         array(
-          'attributes' => array(
-            'class' => array('text-copy', 'text-small'),
-          ),
           'html' => TRUE,
         )
       );
 
       $text = l(
-        '<i class="fa ' . $icons_table[$key] . '"></i> ' . $text,
+        $text,
         $stat['link']['path'],
         $options
       );
@@ -80,6 +77,8 @@ function theme_c4m_website_statistics_summary(array $variables) {
         'statistics-item',
         'stats-' . $key,
         implode(',', $stat_classes),
+        'text-copy',
+        'text-small',
       ),
     );
   }
