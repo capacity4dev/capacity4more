@@ -21,27 +21,33 @@ function _c4m_user_bar_block_user_signup_login() {
   }
 
   $text = t(
-    '<span class="userBar-register">!register</span><span class="userBar-login">!login</span>',
+    '<strong>!login</strong> or <strong>!register</strong>',
     array(
       '!login' => l(
         t('Log in'),
         'user/login',
         array(
-          'attributes' => array('class' => array('text-link--blue', 'text-small')),
+          'attributes' => array('class' => array('text-link--blue')),
           'query' => drupal_get_destination(),
         )
       ),
       '!register' => l(
-        t('Sign up'),
+        t('Register'),
         'user/register',
-        array('attributes' => array('class' => array('text-link--cta', 'text-small')))
+        array('attributes' => array('class' => array('text-link--cta')))
       ),
     )
   );
 
   $output = array(
+    '#type'      => 'container',
     'links' => array(
       '#markup' => $text,
+    ),
+    '#attributes' => array(
+      'class' => array(
+        'text-small',
+      ),
     ),
   );
 
