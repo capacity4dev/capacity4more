@@ -283,14 +283,14 @@
         <?php endif; ?>
 
         <?php if (!empty($page['sidebar_second']) && !empty($offcanvas_trigger_label_right)): ?>
-          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
+          <div class="trigger js-navigationButton clearfix" data-effect="animation--slideOn">
             <?php if ($offcanvas_trigger_label_left['icon']): ?>
-              <span class="trigger-label circle circle--white">
+              <span class="trigger-label pull-left circle circle--white">
                 <span class="fa fa-<?php print $offcanvas_trigger_label_right['icon']; ?>" ></span>
               </span>
             <?php endif; ?>
             <span class="trigger-text pull-left"><?php print $offcanvas_trigger_label_right['label']; ?></span>
-            <i class="pull-left fa fa-chevron-right"></i>
+            <i class="pull-right fa fa-chevron-right"></i>
           </div>
         <?php endif; ?>
 
