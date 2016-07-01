@@ -92,7 +92,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should see the suggested groups video block
 
-  @javascript
+  # @javascript
   Scenario: Change one group access to restricted.
     Given I am logged in as user "admin"
     Then  I change access of group "Nobel prize" to "Private"
@@ -103,7 +103,7 @@ Feature: Test homepage content and blocks
     When  I visit the site homepage
     Then  I should see the carousel and all the slides
 
-  @javascript
+  # @javascript
   Scenario: Anonymous user can see article activities and doesn't see filter.
     Given I am an anonymous user
     When  I visit the site homepage
@@ -111,7 +111,7 @@ Feature: Test homepage content and blocks
     And   I should not see "Nobel Prize" in the "div.activity-stream" element
     And   I should see "posted" in the "div.activity-stream" element
 
-  @javascript
+  # @javascript
   Scenario: Logged in user can see article activities and filter.
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
@@ -121,7 +121,7 @@ Feature: Test homepage content and blocks
     And   I load more activities
     And   I should see "posted" in the "div.activity-stream" element
 
-  @javascript
+  # @javascript
   Scenario: Logged in user can't see article activities when My Groups filter is chosen.
     Given I am logged in as user "isaacnewton"
     When  I visit the site homepage
@@ -130,7 +130,7 @@ Feature: Test homepage content and blocks
     And   I should not see "Football Talk" in the "div.activity-stream" element
     And   I should not see "posted an Article" in the "div.activity-stream" element
 
-  @javascript
+  # @javascript
   Scenario: Logged in, non member user can't see My group filter and restricted
   group activities
     Given I am logged in as user "president"
@@ -141,7 +141,7 @@ Feature: Test homepage content and blocks
     And   I load more activities
     And   I should see "posted" in the "div.activity-stream" element
 
-  @javascript
+  # @javascript
   Scenario: Logged in, non member user should see only activities from groups of
   interests when filter is set to My interests
     Given I am logged in as user "president"
@@ -151,7 +151,7 @@ Feature: Test homepage content and blocks
     And   I load more activities
     And   I should see "Article" in the "div.activity-stream" element
 
-  @javascript
+  # @javascript
   Scenario: Change one group access back to public.
     Given I am logged in as user "admin"
     Then  I change access of group "Nobel prize" to "Public"
