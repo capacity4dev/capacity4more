@@ -63,6 +63,7 @@
         left: 50%;
         transform: translate(-50%, 0);
         -webkit-transform: translate(-50%, 0);
+        width: 100%;
 
         @media (min-width: $screen-tablet) {
           left: 0;
@@ -190,6 +191,7 @@
 
 #c4m-features-homepage-newsletter-form {
   @include dashed_separator('top');
+
   .btn {
     width: 100%;
   }

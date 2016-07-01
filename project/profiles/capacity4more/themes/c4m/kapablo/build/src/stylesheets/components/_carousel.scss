@@ -37,7 +37,6 @@
     padding: 25px;
   }
 
-
 }
 
 .pane-content .owl-carousel {
@@ -47,11 +46,15 @@
   }
 
   .item-header {
-
     padding: 10px;
 
     h2 {
-      display: inline-block;
+      clear: both;
+      display: block;
+
+      @media (min-width: $screen-tablet) {
+        display: inline-block;
+      }
     }
 
     * {
@@ -68,17 +71,21 @@
   }
 
   .intro-text {
-    padding: 10px;
+    display: none;
 
-    a {
-      float: none;
-      margin: 30px 0;
+    @media (min-width: $screen-tablet) {
+      display: block;
+      padding: 10px;
+
+      a {
+        float: none;
+        margin: 30px 0;
+      }
     }
   }
 }
 
 .owl-theme {
-
   .owl-wrapper-outer {
     margin: 0;
 
@@ -98,7 +105,7 @@
   .owl-controls {
     .owl-buttons > div {
       top: -5px;
-      background: rgba(255,255,255, 0.2);
+      background: rgba(255, 255, 255, 0.2);
       border-radius: 5px;
       padding: 15% 2%;
       margin: 0;
