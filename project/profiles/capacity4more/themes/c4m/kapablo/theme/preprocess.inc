@@ -59,6 +59,35 @@ function kapablo_preprocess_block(&$variables) {
     case 'c4m_user_profile-user_notifications':
       $classes[] = 'col-sm-12 col-md-6';
       break;
+
+    case 'menu-c4m-og-menu':
+      // Add search form.
+      // Find current group ID.
+      $gid = c4m_og_current_group_id();
+
+      // Assemble search URL using current group.
+      $redirect_url = url(
+        'searchgroup',
+        array(
+          'purl' => array(
+            'provider' => 'og_purl|node',
+            'id' => $gid,
+          ),
+        )
+      );
+
+      $form = drupal_get_form(
+        'c4m_search_redirect_form',
+        $redirect_url,
+        NULL,
+        t(
+          'Search in @group_type...',
+          array('@group_type' => c4m_og_get_group_type(array('gid' => $gid)))
+        )
+      );
+
+      $variables['search_form'] = $form;
+      break;
   }
 }
 
@@ -79,7 +108,10 @@ function kapablo_preprocess_page(&$variables) {
     $variables['content_column_class_kapablo'] = ' class="col-sm-12"';
   }
 
-  $variables['front_page'] = url('<front>', array('purl' => array('disabled' => TRUE)));
+  $variables['front_page'] = url(
+    '<front>',
+    array('purl' => array('disabled' => TRUE))
+  );
 
   // Add search form.
   $variables['search_form'] = drupal_get_form('c4m_search_form');
@@ -91,8 +123,14 @@ function kapablo_preprocess_page(&$variables) {
   $offcanvas_trigger_label_left = t('More info');
   $offcanvas_trigger_label_right = t('More info');
 
-  drupal_alter('c4m_offcanvas_trigger_label_left', $offcanvas_trigger_label_left);
-  drupal_alter('c4m_offcanvas_trigger_label_right', $offcanvas_trigger_label_right);
+  drupal_alter(
+    'c4m_offcanvas_trigger_label_left',
+    $offcanvas_trigger_label_left
+  );
+  drupal_alter(
+    'c4m_offcanvas_trigger_label_right',
+    $offcanvas_trigger_label_right
+  );
 
   $variables['offcanvas_trigger_label_left'] = $offcanvas_trigger_label_left;
   $variables['offcanvas_trigger_label_right'] = $offcanvas_trigger_label_right;
@@ -107,10 +145,13 @@ function _set_og_breadcrumbs() {
 
   // If the current path contains 2 or less parts and
   // the first part is a Persistent URL.
-  if (count($path_elements) <= 2 && $purl = purl_load(array(
-    'provider' => 'og_purl|node',
-    'value' => $path_elements[0],
-  ))) {
+  if (count($path_elements) <= 2 && $purl = purl_load(
+      array(
+        'provider' => 'og_purl|node',
+        'value' => $path_elements[0],
+      )
+    )
+  ) {
     $breadcrumb = array();
 
     // We need to load the group to get the
@@ -429,7 +470,11 @@ function kapablo_breadcrumb($variables) {
     array_unshift(
       $breadcrumb,
       l(t('EUROPA'), 'http://ec.europa.eu'),
-      l(t('capacity4dev'), '<front>', array('purl' => array('disabled' => TRUE)))
+      l(
+        t('capacity4dev'),
+        '<front>',
+        array('purl' => array('disabled' => TRUE))
+      )
     );
 
     $num_items = count($breadcrumb);
@@ -563,7 +608,11 @@ function kapablo_menu_tree__small(&$variables) {
 function kapablo_preprocess_image(&$variables) {
   // Remove .img-responsive class for icon_small styled images.
   if (!empty($variables['style_name']) && $variables['style_name'] == 'icon_small') {
-    if (($key = array_search('img-responsive', $variables['attributes']['class'])) !== FALSE) {
+    if (($key = array_search(
+        'img-responsive',
+        $variables['attributes']['class']
+      )) !== FALSE
+    ) {
       unset($variables['attributes']['class'][$key]);
     }
   }
