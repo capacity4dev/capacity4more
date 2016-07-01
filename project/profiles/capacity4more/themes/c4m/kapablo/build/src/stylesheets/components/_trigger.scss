@@ -7,10 +7,37 @@
   @media (min-width: $screen-tablet) {
     display: none;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  i {
+    color: $color-white;
+    line-height: inherit;
+  }
+
+  .trigger-label {
+    margin: 0 15px;
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: $color-text-alternative;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+    }
+  }
 }
 
 .trigger-text {
   color: $color-white;
+
+  &.pull-right {
+    margin-right: 15px;
+  }
 }
 
 .trigger.trigger--groupInfo,
@@ -20,6 +47,11 @@
 
 .trigger--groupInfo {
   color: $color-link;
+
+  i {
+    color: $color-text-alternative;
+    line-height: inherit;
+  }
 }
 
 .trigger--groupInfo .trigger-label span {
@@ -46,19 +78,4 @@
 .trigger--membership .trigger-label{
   float: left;
   margin: 0 15px;
-}
-
-.trigger--groupInfo::after {
-  float: right;
-
-  display: inline-block;
-  content: "";
-  width: 10px;
-  height: 10px;
-  margin: 6px 0 0 0;
-  border-top: 2px solid $color-text-alternative;
-  border-right: 2px solid $color-text-alternative;
-
-  @include rotate(45deg);
-
 }

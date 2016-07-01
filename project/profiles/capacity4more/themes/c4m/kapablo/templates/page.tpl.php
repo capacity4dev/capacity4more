@@ -223,7 +223,10 @@
             <span class="fa fa-info" ></span>
           </span>
           <span class="trigger-text">Group info</span>
+          <i class="pull-right fa fa-chevron-right"></i>
         </div>
+
+        <!-- TODO: DYNAMICALLY -->
         <div class="trigger trigger--membership">
           <span class="fa fa-unlock-alt trigger-label"></span>
           <span class="trigger-text">Request membership</span>
@@ -268,14 +271,26 @@
         <?php endif; ?>
 
         <?php if (!empty($page['sidebar_first']) && !empty($offcanvas_trigger_label_left)): ?>
-          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
-            <span class="trigger-text"><?php print $offcanvas_trigger_label_left; ?></span>
+          <div class="trigger js-navigationButton clearfix" data-effect="animation--slideOn">
+            <i class="pull-left fa fa-chevron-left"></i>
+            <span class="trigger-text pull-right"><?php print $offcanvas_trigger_label_left['label']; ?></span>
+            <?php if ($offcanvas_trigger_label_left['icon']): ?>
+              <span class="trigger-label circle circle--white pull-right">
+                <span class="fa fa-<?php print $offcanvas_trigger_label_left['icon']; ?>" ></span>
+              </span>
+            <?php endif; ?>
           </div>
         <?php endif; ?>
 
         <?php if (!empty($page['sidebar_second']) && !empty($offcanvas_trigger_label_right)): ?>
           <div class="trigger js-navigationButton" data-effect="animation--slideOn">
-            <span class="trigger-text"><?php print $offcanvas_trigger_label_right; ?></span>
+            <?php if ($offcanvas_trigger_label_left['icon']): ?>
+              <span class="trigger-label circle circle--white">
+                <span class="fa fa-<?php print $offcanvas_trigger_label_right['icon']; ?>" ></span>
+              </span>
+            <?php endif; ?>
+            <span class="trigger-text pull-left"><?php print $offcanvas_trigger_label_right['label']; ?></span>
+            <i class="pull-left fa fa-chevron-right"></i>
           </div>
         <?php endif; ?>
 

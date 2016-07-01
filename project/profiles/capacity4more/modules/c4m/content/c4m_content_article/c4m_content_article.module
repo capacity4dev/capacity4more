@@ -80,6 +80,7 @@ function c4m_content_article_c4m_helper_entity_label_info() {
  */
 function c4m_content_article_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
   if (arg(0) == 'articles' && empty(arg(1))) {
-    $trigger_label = t('Filter results');
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
   }
 }

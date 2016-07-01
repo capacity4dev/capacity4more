@@ -7,7 +7,7 @@
 <div id="<?php print $block_html_id; ?>"
      class="<?php print $classes; ?> group-navigation"<?php print $attributes; ?>>
   <nav role="navigation" class="collapse navbar-collapse" id="c4m-og-menu">
-    <?php if ($search_form): ?>
+    <?php if (isset($search_form)): ?>
       <!-- SEARCH-->
       <?php print render($search_form); ?>
     <?php endif; ?>

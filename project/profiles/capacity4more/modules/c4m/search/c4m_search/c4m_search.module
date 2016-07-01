@@ -695,6 +695,7 @@ function _c4m_search_preprocess_facetapi_link(&$vars) {
  */
 function c4m_search_c4m_offcanvas_trigger_label_left_alter(&$trigger_label) {
   if (arg(0) == 'search') {
-    $trigger_label = t('Filter results');
+    $trigger_label['label'] = t('Filter results');
+    $trigger_label['icon'] = 'filter';
   }
 }
