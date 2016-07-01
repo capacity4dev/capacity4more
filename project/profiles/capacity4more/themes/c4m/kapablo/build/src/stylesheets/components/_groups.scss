@@ -18,7 +18,7 @@
   }
 }
 
-.og-context #main-wrapper {
+.og-context.front #main-wrapper {
   padding-top: 0;
 }
 
@@ -243,7 +243,7 @@
   }
 }
 
-.og-context .header-actions--navigation {
+.og-context.front .header-actions--navigation {
   position: relative;
   top: initial;
   left: initial;
@@ -268,13 +268,13 @@
   }
 }
 
-.og-context .trigger {
+.og-context.front .trigger {
   padding: 10px;
   margin-bottom: 20px;
 }
 
-.og-context .trigger.trigger--groupInfo,
-.og-context .trigger.trigger--membership {
+.og-context.front .trigger.trigger--groupInfo,
+.og-context.front .trigger.trigger--membership {
   display: block;
   cursor: pointer;
   background: $color-white;
@@ -284,11 +284,11 @@
   }
 }
 
-.og-context .trigger.trigger--groupInfo .trigger-text {
+.og-context.front .trigger.trigger--groupInfo .trigger-text {
   color: $color-text-alternative;
 }
 
-.og-context .trigger.trigger--membership {
+.og-context.front .trigger.trigger--membership {
   background: $color-text-alternative;
 }
 
