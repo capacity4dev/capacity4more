@@ -146,7 +146,6 @@
   border: none;
 
   box-shadow: none;
-  @include grain;
 
   @media (min-width: $screen-tablet) {
     padding: 19px 10px;

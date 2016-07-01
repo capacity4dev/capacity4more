@@ -197,6 +197,8 @@
 
 .offCanvasNavigation--left {
   @media (max-width: $screen-tablet) {
+    @include grain;
+
     position: fixed;
     top: 0;
     left: 0;
@@ -206,13 +208,18 @@
     width: 300px;
     height: 100%;
     overflow-y: auto;
-    background: $color-white;
+
+    box-shadow: inset -8px 0 8px -8px #696868;
 
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 
     transform: translate3d(-100%, 0, 0);
     -webkit-transform: translate3d(-100%, 0, 0);
+
+    .well {
+      background: transparent;
+    }
   }
 }
 
