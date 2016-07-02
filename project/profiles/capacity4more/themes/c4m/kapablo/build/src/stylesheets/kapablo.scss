@@ -13,7 +13,10 @@
 @import "components/captcha";
 @import "components/carousel";
 @import "components/comments";
-@import "components/group_dashboard";
+@import "components/circle";
+@import "components/events";
+@import "components/groups";
+@import "components/features";
 @import "components/fields";
 @import "components/footer";
 @import "components/forms";
@@ -21,9 +24,11 @@
 @import "components/homepage";
 @import "components/icons";
 @import "components/images";
+@import "components/navigation";
 @import "components/search";
 @import "components/social_share";
 @import "components/statistics";
+@import "components/trigger";
 @import "components/users";
 @import "components/views";
 @import "components/vocab";
@@ -33,6 +38,7 @@
 @import "states/block_list";
 @import "states/full";
 @import "states/inthe_picture";
+@import "states/logged_in";
 @import "states/teaser";
 @import "states/teaser_group";
 

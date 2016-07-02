@@ -84,17 +84,19 @@
 </div>
 
 <div class="row">
-    <section class="col-md-8" role="main">
+    <section class="col-sm-8" role="main">
       <?php print $content['left']; ?>
     </section>  <!-- /#sidebar-first -->
 
-    <aside class="col-md-4" role="complementary">
+    <aside class="col-sm-4" role="complementary">
       <?php print $content['right']; ?>
     </aside>  <!-- /#sidebar-second -->
 </div>
 
-<div class="row">
-    <div class="col-md-12">
+<div class="row features">
+    <div class="col-sm-12">
       <?php print $content['bottom']; ?>
     </div>
 </div>
+
+<!-- put global statistics here -->

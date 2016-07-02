@@ -21,7 +21,8 @@
 
   <div class="show-more-wrapper" ng-if="showMoreButton">
     <p class="show-more text-center">
-      <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()" class="btn btn-primary"><?php print t('show more') ?></a>
+      <a href="javascript://" id="load-more-button" ng-click="showMoreActivities()" ><?php print t('show more') ?></a>
+      <span class="arrow--right"></span>
     </p>
   </div>
 </div>

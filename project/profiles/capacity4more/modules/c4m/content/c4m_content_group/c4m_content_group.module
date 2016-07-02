@@ -827,3 +827,25 @@ function c4m_content_group_c4m_helper_entity_label_info() {
     ),
   );
 }
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_group_theme() {
+  $theme['c4m_content_group_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'group_type' => '',
+      'group_access' => '',
+      'group_status' => '',
+      'organisations' => array(),
+      'organisation_icons' => array(),
+      'organisation_ellipsis' => FALSE,
+      'emails' => array(),
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_group') . '/theme',
+    'template' => 'c4m-content-group-header-title',
+  );
+
+  return $theme;
+}

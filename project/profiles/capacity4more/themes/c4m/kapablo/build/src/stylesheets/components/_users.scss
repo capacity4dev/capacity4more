@@ -68,10 +68,15 @@
         }
       }
       .fullname {
-        color: $color-white;
-        display: inline-block;
-        margin-right: 0.5rem;
-        vertical-align: middle;
+        display: none;
+
+        @media (min-width: $screen-tablet) {
+          display: inline-block;
+          margin-right: 0.5rem;
+
+          color: $color-white;
+          vertical-align: middle;
+        }
       }
       .fa-chevron-down {
         color: $color-white;
@@ -109,4 +114,21 @@
 
 .field-name-c4m-job-title {
   margin-bottom: 0.5rem;
+}
+
+.userBar-login,
+.userBar-register {
+  font-weight: bold;
+}
+
+
+.userBar-login {
+  padding-left: .7rem;
+  line-height: 1rem;
+}
+
+.userBar-register {
+  border-right: 1px solid $color-gray-light;
+  padding-right: .7rem;
+  line-height: 1rem;
 }
