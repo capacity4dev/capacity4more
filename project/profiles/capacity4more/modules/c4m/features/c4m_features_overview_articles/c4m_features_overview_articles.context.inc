@@ -58,14 +58,14 @@ function c4m_features_overview_articles_context_default_contexts() {
         'views-2c363d334c50dc9097114985e613ef22' => array(
           'module' => 'views',
           'delta' => '2c363d334c50dc9097114985e613ef22',
-          'region' => 'content_top',
-          'weight' => '-10',
+          'region' => 'content_above',
+          'weight' => '-57',
         ),
         'c4m_search_filter-search_filter_interests' => array(
           'module' => 'c4m_search_filter',
           'delta' => 'search_filter_interests',
-          'region' => 'content_top',
-          'weight' => '-9',
+          'region' => 'content_above',
+          'weight' => '-56',
         ),
         'views--exp-c4m_overview_articles-page' => array(
           'module' => 'views',

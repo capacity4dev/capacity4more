@@ -23,6 +23,10 @@
   }
 }
 
+.see-more-link {
+  float: right;
+}
+
 .see-more-link, .more-link {
   text-align: right;
 }
@@ -30,7 +34,7 @@
 .pager-load-more {
   list-style: none;
   text-align: right;
-  
+
   &.pager-load-more-empty {
     display: none;
   }
@@ -38,4 +42,8 @@
 
 .er--field-access {
   float: right;
+}
+
+.view-intro-block {
+  padding: 15px;
 }

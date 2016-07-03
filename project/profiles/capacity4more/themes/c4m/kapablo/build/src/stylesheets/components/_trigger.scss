@@ -1,0 +1,64 @@
+.trigger {
+  margin: 20px 0;
+  padding: 10px;
+  background: $color-text-alternative;
+  border:1px solid $color-text-alternative;
+
+  @media (min-width: $screen-tablet) {
+    display: none;
+  }
+}
+
+.trigger-text {
+  color: $color-white;
+}
+
+.trigger.trigger--groupInfo,
+.trigger.trigger--membership {
+  display: none;
+}
+
+.trigger--groupInfo {
+  color: $color-link;
+}
+
+.trigger--groupInfo .trigger-label span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  color: $color-white;
+
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+}
+
+.trigger--membership {
+  background: $color-text-alternative;
+  color: $color-white;
+}
+
+.trigger--membership .trigger-label {
+  font-size: 1.3rem;
+}
+
+.trigger--groupInfo .trigger-label,
+.trigger--membership .trigger-label{
+  float: left;
+  margin: 0 15px;
+}
+
+.trigger--groupInfo::after {
+  float: right;
+
+  display: inline-block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin: 6px 0 0 0;
+  border-top: 2px solid $color-text-alternative;
+  border-right: 2px solid $color-text-alternative;
+
+  @include rotate(45deg);
+
+}

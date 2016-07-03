@@ -1,35 +1,78 @@
-ul.statistics-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  ul.statistics-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-  /* Graceful degradation */
-  display: table;
-  table-layout: fixed;
-
-  /* Flexbox */
-  align-content: unset;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  li {
-    color: $color-gray-dark;
-    text-align: left;
-
-    /* Graceful degradation */
-    display: table-cell;
-
-    /* Flexbox */
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-    &.last {
-      text-align: right;
+    @media (min-width: $screen-tablet) {
+      display: flex;
+
+      width: 100%;
+      table-layout: fixed;
+      flex-wrap: nowrap;
+      align-content: unset;
+      justify-content: space-between;
     }
 
-    a {
+    li {
+      display: inline-block;
+      width: calc(100% / 2);
+      padding: 20px 40px;
+
       color: $color-gray-dark;
-      padding-left: 1rem;
+      text-align: center;
+
+      &::before {
+        display: block;
+
+        @media (min-width: $screen-tablet) {
+          display: inherit;
+        }
+      }
+
+      &.last {
+        @media (min-width: $screen-tablet) {
+          text-align: right;
+        }
+      }
+
+      &:not(:nth-last-of-type(-n+2)) {
+        border-bottom: 1px dashed $color-gray-light;
+
+        @media (min-width: $screen-tablet) {
+          border-bottom: none;
+        }
+      }
+
+      &:nth-of-type(odd) {
+        border-right: 1px dashed $color-gray-light;
+
+        @media (min-width: $screen-tablet) {
+          border-right: none;
+        }
+      }
+
+      a {
+        display: inline-block;
+        margin-top: 10px;
+        color: $color-gray-dark;
+
+        @media (min-width: $screen-tablet) {
+          display: inherit;
+          margin-top: 0;
+          padding-left: 1rem;
+        }
+      }
+
+      @media (min-width: $screen-tablet) {
+        display: flex;
+
+        padding: 0;
+        text-align: left;
+      }
+
     }
   }
-}

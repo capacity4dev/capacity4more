@@ -108,7 +108,7 @@
   <div id="header-ec-wrapper">
     <div class="container">
       <div class="row">
-        <div class="col-sm-9 col-md-9 header-logo">
+        <div class="col-xs-9 col-sm-8 col-md-9 header-logo">
           <?php if ($logo): ?>
             <a class="logo pull-left" href="<?php print $front_page; ?>"
                title="<?php print t('Home'); ?>">
@@ -117,12 +117,31 @@
           <?php endif; ?>
         </div>
 
-        <div class="col-sm-3 col-md-3 header-search">
+        <div class="col-xs-3 col-sm-4 col-md-3">
+
+          <div class="header-actions">
+
+            <span class="header-actions--wrapper">
+              <span class="header-actions--search fa fa-search" data-toggle="collapse" data-target="#search"></span>
+            </span>
+            <span class="header-actions--wrapper">
+              <div class="header-actions--navigation js-navigationButton" data-effect="animation--push">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </div>
+            </span>
+          </div>
+
+        </div>
+
+
+        <div id="search" class="col-xs-4 col-sm-4 col-md-3 header-search collapse">
           <!-- SEARCH-->
           <?php print render($search_form); ?>
         </div>
       </div>
-      
+
       <div class="row">
         <div class="col-sm-12 col-md-12 header-breadcrumb">
           <?php if (!empty($breadcrumb)): print $breadcrumb; endif; ?>
@@ -197,6 +216,19 @@
 <div id="main-wrapper">
   <div class="container">
     <div class="row">
+      <div class="col-sm-12 col-md-12">
+
+        <div class="trigger trigger--groupInfo js-navigationButton" data-effect="animation--slideOn">
+          <span class="trigger-label circle circle--green">
+            <span class="fa fa-info" ></span>
+          </span>
+          <span class="trigger-text">Group info</span>
+        </div>
+        <div class="trigger trigger--membership">
+          <span class="fa fa-unlock-alt trigger-label"></span>
+          <span class="trigger-text">Request membership</span>
+        </div>
+      </div>
 
       <header role="banner" id="page-header">
         <?php if (!empty($site_slogan)): ?>
@@ -206,7 +238,7 @@
       <!-- /#page-header -->
 
       <?php if (!empty($page['sidebar_first']) || !empty($page['sidebar_first_top'])): ?>
-        <aside class="col-md-4" role="complementary">
+        <aside class="col-sm-4 off offCanvasNavigation--left" role="complementary">
           <?php print render($page['sidebar_first_top']); ?>
           <?php print render($page['sidebar_first']); ?>
         </aside>  <!-- /#sidebar-first -->
@@ -234,11 +266,25 @@
         <?php if (!empty($action_links)): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>
+
+        <?php if (!empty($page['sidebar_first'])): ?>
+          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
+            <span class="trigger-text">Trigger off-canvas left</span>
+          </div>
+        <?php endif; ?>
+
+        <?php if (!empty($page['sidebar_second'])): ?>
+          <div class="trigger js-navigationButton" data-effect="animation--slideOn">
+            <span class="trigger-text">Trigger off-canvas right</span>
+          </div>
+        <?php endif; ?>
+
+
         <?php print render($page['content']); ?>
       </section>
 
       <?php if (!empty($page['sidebar_second'])): ?>
-        <aside class="col-md-4" role="complementary">
+        <aside class="col-sm-4 offCanvasNavigation--right" role="complementary">
           <?php print render($page['sidebar_second']); ?>
         </aside>  <!-- /#sidebar-second -->
       <?php endif; ?>
