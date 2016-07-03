@@ -153,7 +153,14 @@ function capacity4more_setup_set_og_permissions() {
   );
 
   $permissions = array();
-
+  foreach ($content_types as $content_type) {
+    $permissions = array_merge($permissions, array(
+      "create $content_type content",
+      "update own $content_type content",
+      "delete own $content_type content",
+    ));
+  }
+  
   // OG Flag permissions.
   $og_flag_perms = array(
     'c4m_og_content_promote',
