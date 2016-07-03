@@ -166,3 +166,63 @@
     background-color: $color-gray-light;
   }
 }
+
+#content-project-header-title {
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .top-buffer {
+    margin-top: 10px;
+  }
+
+  .indication {
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+    color: black;
+    display: block;
+  }
+
+  .project-icon {
+    &.notstarted {
+      color: $color-green;
+    }
+
+    &.ongoing {
+      color: $color-red;
+    }
+
+    &.completed {
+      color: $color-accent;
+    }
+  }
+
+  .label {
+    &.label-stage {
+      color: $color-white;
+      border: 1px solid $color-white;
+      border-radius: 6px;
+      font-weight: normal;
+      text-transform: uppercase;
+
+      &.notstarted {
+        background-color: $color-green;
+        border-color: $color-green;
+      }
+
+      &.ongoing {
+        background-color: $color-red;
+        border-color: $color-red;
+      }
+
+      &.completed {
+        background-color: $color-accent;
+        border-color: $color-accent;
+      }
+    }
+  }
+}
+
+
