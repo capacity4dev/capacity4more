@@ -503,6 +503,19 @@ function c4m_user_c4m_content_statistics_info() {
 }
 
 /**
+ * Implements hook_c4m_helper_entity_metrics_info().
+ */
+function c4m_user_c4m_helper_entity_metrics_info() {
+  return array(
+    'c4m_user_organisations' => array(
+      'type' => 'organisations',
+      'context'  => 'user',
+      'callback' => 'c4m_user_get_organisations',
+    ),
+  );
+}
+
+/**
  * Implements hook_entity_property_info_alter().
  */
 function c4m_user_entity_property_info_alter(&$info) {
@@ -731,7 +744,10 @@ function c4m_user_update_information($account, $domain = '', $whitelist_domain =
         if ($info['country']) {
           $edit['c4m_country'][LANGUAGE_NONE]['0']['value'] = $info['country'];
         }
-        if ($domain->organisation_name) {
+        if ($info['dg']) {
+          $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $info['dg'];
+        }
+        if (empty($edit['c4m_organisation'][LANGUAGE_NONE]['0']['value']) && $domain->organisation_name) {
           $edit['c4m_organisation'][LANGUAGE_NONE]['0']['value'] = $domain->organisation_name;
         }
         $edit['c4m_is_ldap_user'][LANGUAGE_NONE]['0']['value'] = 1;
@@ -985,4 +1001,74 @@ function c4m_user_is_spammer($user) {
   }
 
   return FALSE;
+}
+
+/**
+ * Returns the organisations of an user.
+ *
+ * @param int $uid
+ *   User id.
+ *
+ * @return string
+ *   Organisations.
+ */
+function c4m_user_get_organisations($uid) {
+  $account = user_load($uid);
+
+  $show_organisations = FALSE;
+
+  $domain_user = new C4mDomainUser($account->mail);
+  // Show domains only if the user is validated in LDAP, or is present in a
+  // whitelist or the domain is not a registered email domain.
+  if ($domain = $domain_user->getEmailDomainByName()) {
+    $ldap = new C4mLDAPUser();
+    if ($ldap->isUp()) {
+      $info = $ldap->getInfo($account->mail);
+      if ($info && !empty($info['valid'])) {
+        $show_organisations = TRUE;
+      }
+      elseif ($whitelist_domain = $domain_user->getEmailDomainByWhitelist()) {
+        $show_organisations = TRUE;
+      }
+    }
+  }
+  else {
+    $show_organisations = TRUE;
+  }
+
+  $output = '';
+  if ($show_organisations) {
+    $organisation_user = new C4mOrganisationUser($account->mail);
+    if ($list = $organisation_user->getOrganisationsInfo()) {
+      $organisations = array();
+      foreach ($list as $organisation) {
+        $organisations[] = $organisation->title;
+      }
+      $output = implode(', ', $organisations);
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Returns the amount of nodes that belong to a user of the specified bundles.
+ *
+ * @param int $uid
+ *   The user ID to gather the metrics for.
+ * @param array $bundles
+ *   The bundles to query for.
+ *
+ * @return int
+ *   The amount of nodes.
+ */
+function c4m_user_get_node_metric($uid, $bundles) {
+  $arguments = array(
+    'entity_type' => 'node',
+    'bundles' => $bundles,
+    'state' => NODE_PUBLISHED,
+    'uid' => $uid,
+  );
+
+  return c4m_helper_entity_get_number_of_entities($arguments);
 }

@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * C4M Moodle module file.
+ */
+
+module_load_include('inc', 'c4m_moodle', 'c4m_moodle.filters');
+module_load_include('inc', 'c4m_moodle', 'c4m_moodle.redirect_controller');
+
+/**
+ * Implements hook_menu().
+ */
+function c4m_moodle_menu() {
+  $items = array();
+
+  $items['moodle/redirect'] = array(
+    'title' => 'Moodle redirect controller',
+    'description' => 'Redirect controller to the Moodle platform',
+    'page callback' => 'c4m_moodle_redirect_controller_callback',
+    'access arguments' => array('access content'),
+  );
+
+  $items['admin/config/c4m/moodle'] = array(
+    'title' => 'Moodle',
+    'description' => 'Configuration for integration with a Moodle platform.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('c4m_moodle_admin_moodle_configuration'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'c4m_moodle.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Callback for "moodle/redirect".
+ */
+function c4m_moodle_redirect_controller_callback() {
+  if (isset($_GET['moodle_destination'])) {
+    global $user;
+
+    $destination = rawurldecode(filter_xss($_GET['moodle_destination']));
+    $redirect_controller = new C4mMoodleRedirectController($user, $destination);
+    $redirect = $redirect_controller->getRedirect();
+
+    header('Location: ' . $redirect, TRUE, 302);
+  }
+
+  drupal_exit();
+}

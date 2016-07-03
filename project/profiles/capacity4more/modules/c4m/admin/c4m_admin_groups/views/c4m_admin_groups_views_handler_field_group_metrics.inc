@@ -53,7 +53,7 @@ class c4m_admin_groups_views_handler_field_group_metrics extends c4m_admin_group
     $metric_key = $this->options['c4m_admin_groups_group_metric'];
     if (!empty($metric_key) && $group = $this->get_og_group_from_context($values)) {
       $og_id = $group->nid;
-      return c4m_helper_entity_get_group_metric_value($metric_key, $og_id);
+      return c4m_helper_entity_get_metrics($metric_key, $og_id, 'node');
     }
   }
 
