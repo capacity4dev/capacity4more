@@ -138,7 +138,8 @@ function capacity4more_setup_set_og_permissions() {
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
-      "update $content_type content",
+      "update own $content_type content",
+      "delete own $content_type content",
     ));
   }
 
@@ -155,8 +156,7 @@ function capacity4more_setup_set_og_permissions() {
   foreach ($content_types as $content_type) {
     $permissions = array_merge($permissions, array(
       "create $content_type content",
-      "update own $content_type content",
-      "delete own $content_type content",
+      "update $content_type content",
     ));
   }
 
