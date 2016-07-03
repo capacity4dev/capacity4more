@@ -138,8 +138,6 @@ function c4m_features_og_events_preprocess_views_view(&$variables) {
   $icon = '<i class="fa fa-calendar-plus-o" aria-hidden="true"></i>';
   $label = 'Add an event';
 
-  dpm($variables['header']);
-
   // Check if the user has permission to add an event.
   if (og_user_access(og_context()['group_type'], og_context()['gid'], 'create event content')) {
     $variables['header'] = str_replace(strtoupper($label), $icon . ' ' . $label, $variables['header']);
@@ -147,8 +145,6 @@ function c4m_features_og_events_preprocess_views_view(&$variables) {
   else {
     $variables['header'] = '';
   }
-
-  dpm($variables['header']);
 }
 
 /**
