@@ -24,7 +24,7 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
 }
 
 /**
- * The group name.
+ * Og group title redesign.
  */
 function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
