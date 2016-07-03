@@ -9,7 +9,7 @@ angular.module('c4mApp')
   .controller('ActivityCtrl', function($scope, DrupalSettings, EntityResource, $timeout, $interval, $sce) {
 
     /*
-     * Re-init the Bootstrap tooltips after updating the activity stream.
+     * Init the Bootstrap tooltips.
      */
     $scope.bindBoostrapTooltips = function() {
       $timeout(function() {
