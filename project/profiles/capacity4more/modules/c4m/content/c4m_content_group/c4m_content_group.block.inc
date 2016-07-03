@@ -101,14 +101,11 @@ function _c4m_content_group_block_header_name_banner() {
     // If pluggable_node_access is set, then access is restricted.
     $group_access = 'restricted';
 
-    $restricted_info = c4m_og_get_restricted_info($group);
-
-    $organisations = array();
     $emails = array();
 
-    if (!empty($restricted_info['organisations'])) {
+    if ($organisation_info = c4m_og_get_organisations($group)) {
       $organisations = node_load_multiple(
-        array_values($restricted_info['organisations'])
+        array_values($organisation_info)
       );
 
       // Load icon + title for all organisations.
@@ -140,8 +137,8 @@ function _c4m_content_group_block_header_name_banner() {
       }
     }
 
-    if (!empty($restricted_info['domains'])) {
-      $emails = array_values($restricted_info['domains']);
+    if ($domain_info = c4m_og_get_email_domains($group)) {
+      $emails = array_values($domain_info);
       array_walk(
         $emails,
         function (&$value, $key) {
