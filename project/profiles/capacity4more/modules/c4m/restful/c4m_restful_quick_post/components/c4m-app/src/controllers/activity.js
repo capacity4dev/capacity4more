@@ -13,8 +13,7 @@ angular.module('c4mApp')
      */
     $scope.bindBoostrapTooltips = function() {
       $timeout(function() {
-        var tooltips = angular.element('[data-toggle="tooltip"]');
-        tooltips.tooltip();
+        angular.element('[data-toggle="tooltip"]').tooltip();
       }, 100);
     };
 
