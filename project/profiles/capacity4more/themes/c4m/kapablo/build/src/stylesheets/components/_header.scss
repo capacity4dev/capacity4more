@@ -186,16 +186,24 @@
   }
 
   .project-icon {
+    font-size: 16px;
+    border: 1px solid $color-white;
+    border-radius: 6px;
+    width: 30px;
+
     &.notstarted {
-      color: $color-green;
+      color: $color-gray;
+      border-color: $color-gray;
     }
 
     &.ongoing {
-      color: $color-red;
+      color: $color-blue-light;
+      border-color: $color-blue-light;
     }
 
     &.completed {
-      color: $color-accent;
+      color: $color-blue;
+      border-color: $color-blue;
     }
   }
 
@@ -208,18 +216,18 @@
       text-transform: uppercase;
 
       &.notstarted {
-        background-color: $color-green;
-        border-color: $color-green;
+        background-color: $color-gray;
+        border-color: $color-gray;
       }
 
       &.ongoing {
-        background-color: $color-red;
-        border-color: $color-red;
+        background-color: $color-blue-light;
+        border-color: $color-blue-light;
       }
 
       &.completed {
-        background-color: $color-accent;
-        border-color: $color-accent;
+        background-color: $color-blue;
+        border-color: $color-blue;
       }
     }
   }
