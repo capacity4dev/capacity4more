@@ -315,6 +315,11 @@ function c4m_user_action_info() {
  * Set's the message subject and body as configured.
  */
 function c4m_user_mail($key, &$message, $params) {
+
+  if ($key == 'user_contact_mail') {
+    return;
+  }
+
   $message['subject'] .= str_replace(array("\r", "\n"), '', $params['subject']);
   $message['body'][] = $params['body'];
 }
@@ -677,7 +682,7 @@ function c4m_user_access_denied() {
 /**
  * Implements hook_menu_alter().
  *
- * Make the user/%user/contact page just a callback.
+ * Make the user/%user/contact page.
  */
 function c4m_user_menu_alter(&$items) {
   $items['user/login'] = array(
@@ -686,15 +691,19 @@ function c4m_user_menu_alter(&$items) {
   $items['user/%user/contact'] = array(
     'type' => MENU_CALLBACK,
     'title' => 'User contact form',
-    'description' => "User contact form.",
+    'description' => 'User contact form.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('c4m_user_contact_form'),
-    'access arguments' => array('access content'),
+    'page arguments' => array('c4m_user_contact_form', 1),
+    'access arguments' => array('administer users'),
   );
 }
 
-function c4m_user_contact_form() {
+/**
+ * Create 'Contact User' form.
+ */
+function c4m_user_contact_form($form, &$form_state, $account) {
   global $user;
+  $form_state['user'] = $account;
 
   $form['c4m_user_from'] = array(
     '#type' => 'textfield',
@@ -710,14 +719,13 @@ function c4m_user_contact_form() {
     '#title' => t('Subject'),
     '#description' => t("Enter mail subject."),
     '#size' => 10,
-    #'#default_value' => $account->mail,
   );
 
   $form['c4m_user_body'] = array(
     '#title' => t('Body'),
     '#description' => t('Enter mail body'),
-    '#type' => 'textarea',
-    '#maxlength' => 4096,
+    '#type' => 'text_format',
+    '#format' => 'full_html',
   );
 
   $form['c4m_user_checkbox'] = array(
@@ -734,19 +742,80 @@ function c4m_user_contact_form() {
   return $form;
 }
 
-function c4m_user_contact_form_submit($form, $form_state) {
-  // Generate and send mail here.
+/**
+ * Validate function for contact_form.
+ *
+ * Verifies that email subject and body are not empty.
+ */
+function c4m_user_contact_form_validate($form, $form_state) {
+  $subject = $form_state['values']['c4m_user_subject'];
+  $body = $form_state['values']['c4m_user_body']['value'];
 
-/*  $path = drupal_get_path_alias();
-  $first = strpos($path, "/");
-  $last = strrpos($path, "/");
-  $uid = substr($path, $first + 1, $last - $first - 1);
-  $account = user_load($uid);*/
-  dpm('hhh');
- // dpm($uid . " " . $account->mail);
+  if (empty($subject)) {
+    form_error($form['c4m_user_subject'], 'Subject field must have a value!');
+  }
+
+  if (empty($body)) {
+    form_error($form['c4m_user_body'], 'Body field must have a value!');
+  }
 }
 
+/**
+ * Submit function for contact_form.
+ *
+ * Generates required parameters and sends an email.
+ * If 'Send copy' checkbox is checked, sends copy mail to running user.
+ */
+function c4m_user_contact_form_submit($form, $form_state) {
+  global $user;
 
+  // Generate and send mail.
+  $account = $form_state['user'];
+  $subject = $form_state['values']['c4m_user_subject'];
+  $body = $form_state['values']['c4m_user_body']['value'];
+  $send_copy = $form_state['values']['c4m_user_checkbox'] == 1;
+
+  _c4m_user_send_mail($account->mail, $user->mail, $subject, $body);
+
+  if ($send_copy) {
+    // If 'Send copy' checkbox is checked, send copy mail.
+    _c4m_user_send_mail($user->mail, $user->mail, "Copy: " . $subject, $body);
+  }
+}
+
+/**
+ * Generates and sends an email.
+ *
+ * @param string $to
+ *   Email destination address.
+ * @param string $from
+ *   Email source address - current user email.
+ * @param string $subject
+ *   Email message subject.
+ * @param string $body
+ *   Email message body.
+ */
+function _c4m_user_send_mail($to, $from, $subject, $body) {
+  $module = 'c4m_user';
+  $key = 'user_contact_mail';
+  $language = language_default();
+  $params = array();
+  $send = FALSE;
+
+  $message = drupal_mail($module, $key, $to, $language, $params, $from, $send);
+  $message['subject'] = $subject;
+  $message['body'] = array();
+  $message['body'][] = $body;
+
+  // Retrieve the responsible implementation for this message.
+  $system = drupal_mail_system($module, $key);
+
+  // Format the message body.
+  $message = $system->format($message);
+
+  // Send e-mail.
+  $message['result'] = $system->mail($message);
+}
 
 /**
  * Implements hook_block_info().
