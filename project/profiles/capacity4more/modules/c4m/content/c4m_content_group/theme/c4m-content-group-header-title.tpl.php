@@ -35,7 +35,7 @@
         <?php endforeach; ?>
 
         <?php if ($organisation_ellipsis): ?>
-          <span class="group-organisation--more">
+          <span class="group-organisation--more" data-toggle="collapse" data-target="#group-organisations" >
                 <span></span>
                 <span></span>
                 <span></span>
@@ -44,21 +44,32 @@
       </div>
     <?php endif; ?>
 
-    <div class="restricted-extra-wrapper">
+    <div class="restricted-extra-wrapper collapse" id="group-organisations">
+      <span class="extra-wrapper-close" data-toggle="collapse" data-target="#group-organisations">
+        <span class="extra-wrapper-close-background"></span>
+        <span class="extra-wrapper-close-bullet"></span>
+        <span class="extra-wrapper-close-bullet"></span>
+        <span class="extra-wrapper-close-bullet"></span>
+      </span>
+
       <div class="restricted-organisations">
+        <ul>
         <?php foreach ($organisations as $organisation) : ?>
-          <?php print $organisation; ?>
+          <li><?php print $organisation; ?></li>
         <?php endforeach; ?>
+        </ul>
       </div>
       <div class="restricted-emails">
+        <ul>
         <?php foreach ($emails as $email) : ?>
-          <?php print $email; ?>
+          <li><?php print $email; ?></li>
         <?php endforeach; ?>
+        </ul>
       </div>
     </div>
   <?php endif; ?>
 </div>
 <?php if ($group_type): ?>
-  <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span><?php endif; ?><?--php if ($group_status): --?><span class="top-buffer indication label label-default group-status"><?--php print $group_status; --?>DRAFT</span>
-<?--php endif; --?>
+  <span class="top-buffer indication label label-default group-type"><?php print $group_type; ?></span><?php endif; ?><?php if ($group_status): ?><span class="top-buffer indication label label-default group-status"><?php print $group_status; ?></span>
+<?php endif; ?>
 </div>
