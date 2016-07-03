@@ -71,6 +71,7 @@ features[field_instance][] = node-project-c4m_left_column
 features[field_instance][] = node-project-c4m_location_map
 features[field_instance][] = node-project-c4m_media
 features[field_instance][] = node-project-c4m_money
+features[field_instance][] = node-project-c4m_og_status
 features[field_instance][] = node-project-c4m_partner
 features[field_instance][] = node-project-c4m_project_stage
 features[field_instance][] = node-project-c4m_project_stakeholders
