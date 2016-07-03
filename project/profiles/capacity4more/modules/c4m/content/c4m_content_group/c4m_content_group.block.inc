@@ -42,12 +42,14 @@ function _c4m_content_group_block_header_name_banner() {
         $flag = '-o';
         $stage = 'NOT STARTED';
         break;
+
       case 'completed':
         $flag = '-checkered';
         $stage = 'COMPLETED';
         break;
+
       default:
-        $flag='';
+        $flag = '';
         $stage = 'ONGOING';
     }
 
