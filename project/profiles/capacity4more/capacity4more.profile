@@ -167,6 +167,7 @@ function capacity4more_setup_set_og_permissions() {
 
   // Set OG_ADMINISTRATOR_ROLE permissions by project.
   $content_types = array(
+    'document',
     'event',
   );
 
