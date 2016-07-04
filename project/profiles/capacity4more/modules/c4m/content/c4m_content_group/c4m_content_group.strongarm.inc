@@ -87,7 +87,7 @@ function c4m_content_group_strongarm() {
         'custom_settings' => FALSE,
       ),
       'token' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'activity_group' => array(
         'custom_settings' => FALSE,

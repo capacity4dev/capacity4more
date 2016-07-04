@@ -31,6 +31,12 @@ ACCOUNT_MAIL="admin@capacity4more.dev"
 TIKA_PATH="/home/travis/build/capacity4dev/capacity4more/tika/"
 TIKA_FILE="tika-app-1.12.jar"
 
+# File path settings
+FILE_PATH_PUBLIC="sites/default/files"
+FILE_PATH_PRIVATE="sites/default/private"
+FILE_PATH_DEFAULT_METHOD="public"
+FILE_PATH_TEMP="/tmp"
+
 ################################################################################
 # Druleton configuration.
 ################################################################################

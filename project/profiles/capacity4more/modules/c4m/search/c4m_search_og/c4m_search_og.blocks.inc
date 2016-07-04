@@ -37,7 +37,7 @@ function c4m_search_og_block_view($delta = '') {
       ));
 
       // Collect search redirect form using group search URL.
-      $form = drupal_get_form('c4m_search_redirect_form', $redirect_url, NULL, t('Search in group...'));
+      $form = drupal_get_form('c4m_search_redirect_form', $redirect_url, NULL, t('Search in @group_type...', array('@group_type' => c4m_og_get_group_type(array('gid' => $gid)))));
       $block['content'] = drupal_render($form);
       break;
   }

@@ -21,7 +21,7 @@ function c4m_content_photoalbum_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Do more through capacity4dev',
-    'weight' => '8',
+    'weight' => '6',
     'children' => array(
       0 => 'c4m_ds_content_actions',
     ),
@@ -48,7 +48,7 @@ function c4m_content_photoalbum_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Group meta author',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'c4m_user_picture',
       1 => 'c4m_user_first_and_last_name',
