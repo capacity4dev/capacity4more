@@ -12,6 +12,7 @@ angular.module('c4mApp')
      * Init the Bootstrap tooltips.
      */
     $scope.bindBoostrapTooltips = function() {
+      // Delay 100ms and allow all items to be added to the DOM before initializing the tooltips.
       $timeout(function() {
         angular.element('[data-toggle="tooltip"]').tooltip();
       }, 100);
