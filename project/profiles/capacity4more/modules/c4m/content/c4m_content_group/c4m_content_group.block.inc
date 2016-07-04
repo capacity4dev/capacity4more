@@ -24,9 +24,8 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
 }
 
 /**
- * Og group title redesign.
+ * OG group title redesign.
  *
- * There're 2 types of OG groups. Group and Project.
  * The function handles header title redesign for both group
  * and project pages.
  */

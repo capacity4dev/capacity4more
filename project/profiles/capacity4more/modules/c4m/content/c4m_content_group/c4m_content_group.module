@@ -827,4 +827,3 @@ function c4m_content_group_c4m_helper_entity_label_info() {
     ),
   );
 }
-
