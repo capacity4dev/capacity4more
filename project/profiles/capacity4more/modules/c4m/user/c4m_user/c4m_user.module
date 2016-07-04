@@ -711,7 +711,7 @@ function c4m_user_contact_form_verify_access($account) {
     return FALSE;
   }
 
-  return isset($account);
+  return !empty($account->uid);
 }
 
 /**
@@ -832,14 +832,18 @@ function _c4m_user_send_mail($to, $from, $subject, $body) {
   $message['result'] = $system->mail($message);
 
   if (!$message['result']) {
-    watchdog('mail', 'Error sending e-mail (from %from to %to).',
-             array('%from' => $message['from'], '%to' => $message['to']),
-             WATCHDOG_ERROR
+    $variables = array(
+      '%from' => $message['from'],
+      '%to' => $message['to'],
     );
-    drupal_set_message('Problem while sending the message.', 'error');
+    watchdog('c4m_user_send_mail',
+      'Attempt to send mail (from %from to %to) failed.',
+      $variables, WATCHDOG_ERROR
+    );
+    drupal_set_message('Can\'nt send the message.', 'error');
   }
   else {
-    drupal_set_message('Message sent.');
+    drupal_set_message('Message sent successfully.');
   }
 }
 
