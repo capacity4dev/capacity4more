@@ -123,7 +123,8 @@ function c4m_features_og_events_views_pre_render(&$view) {
 /**
  * Implements hook_preprocess().
  *
- * Add an icon to the "Add an event" button that appears in the event related views.
+ * Add an icon to the "Add an event" button
+ * that appears in the event related views.
  */
 function c4m_features_og_events_preprocess_views_view(&$variables) {
   if (!in_array($variables['name'], array('c4m_overview_og_events_landing', 'c4m_overview_og_events'))) {
