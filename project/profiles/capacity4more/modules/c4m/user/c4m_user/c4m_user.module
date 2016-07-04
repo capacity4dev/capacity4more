@@ -699,7 +699,7 @@ function c4m_user_menu_alter(&$items) {
     'description' => 'User contact form.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_contact_form', 1),
-    'access callback' => 'c4m_user_contact_form_verify_access',
+    'access callback' => 'c4m_user_contact_form_access',
     'access arguments' => array(1),
   );
 
@@ -719,7 +719,7 @@ function c4m_user_menu_alter(&$items) {
  *
  * Validates that user is logged in, and that account id entered at url exists.
  */
-function c4m_user_contact_form_verify_access($account) {
+function c4m_user_contact_form_access($account) {
   if (!user_is_logged_in()) {
     // If not logged in, deny access.
     return FALSE;
@@ -810,54 +810,6 @@ function c4m_user_contact_form_submit($form, $form_state) {
     // Sending a copy of the mail to the sender since the user checked
     // the "Send me a copy" checkbox on the form.
     _c4m_user_send_mail($user->mail, $user->mail, "Self copy: {$subject}", $body);
-  }
-}
-
-/**
- * Generates and sends an email.
- *
- * @param string $to
- *   Email destination address.
- * @param string $from
- *   Email source address - current user email.
- * @param string $subject
- *   Email message subject.
- * @param string $body
- *   Email message body.
- */
-function _c4m_user_send_mail($to, $from, $subject, $body) {
-  global $language;
-  $module = 'c4m_user';
-  $key = 'user_contact_mail';
-  $params = array();
-  $send = FALSE;
-
-  $message = drupal_mail($module, $key, $to, $language, $params, $from, $send);
-  $message['subject'] = $subject;
-  $message['body'] = [$body];
-
-  // Retrieve the responsible implementation for this message.
-  $system = drupal_mail_system($module, $key);
-
-  // Format the message body.
-  $message = $system->format($message);
-
-  // Send e-mail.
-  $message['result'] = $system->mail($message);
-
-  if (!$message['result']) {
-    $variables = array(
-      '%from' => $message['from'],
-      '%to' => $message['to'],
-    );
-    watchdog('c4m_user_send_mail',
-      'Attempt to send mail (from %from to %to) failed.',
-      $variables, WATCHDOG_ERROR
-    );
-    drupal_set_message('Can\'nt send the message.', 'error');
-  }
-  else {
-    drupal_set_message('Message sent successfully.');
   }
 }
 
@@ -963,14 +915,14 @@ function c4m_user_contact_multiple_form_submit($form, $form_state) {
   $silent = TRUE;
   $count_members = 0;
 
+  $subject = $form_state['values']['c4m_contact_multiple_subject'];
+  $body = $form_state['values']['c4m_contact_multiple_body']['value'];
+
   foreach($form['#user_ids'] as $user_id){
     $addressee_account = user_load($user_id);
     if(!isset($addressee_account->uid)) {
       continue;
     }
-
-    $subject = $form_state['values']['c4m_contact_multiple_subject'];
-    $body = $form_state['values']['c4m_contact_multiple_body']['value'];
 
     _c4m_user_send_mail($addressee_account->mail, $user->mail, $subject, $body, $silent);
     $count_members += 1;
@@ -996,6 +948,8 @@ function c4m_user_contact_multiple_form_submit($form, $form_state) {
  *   Email message subject.
  * @param string $body
  *   Email message body.
+ * @param bool $silent
+ *   Wither to present status message or not.
  */
 function _c4m_user_send_mail($to, $from, $subject, $body, $silent = FALSE) {
   global $language;
