@@ -13,6 +13,10 @@
         <span><?php print $video_title ?></span>
       </button>
     </div>
-    <div id="c4m-intro-video" data-youtube-video-id="<?php print $video_id; ?>"></div>
+    <button type="button" class="btn-link btn-lg" id="c4m-stop-video">
+      <i class="fa fa-times"></i>
+    </button>
+    <div id="c4m-intro-video" data-youtube-video-id="<?php print $video_id; ?>">
+    </div>
   </div>
 <?php endif; ?>
