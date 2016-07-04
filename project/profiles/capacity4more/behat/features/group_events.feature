@@ -61,7 +61,7 @@ Feature: Group Events
     Then I should see the event detail page
 
   # TODO : Setting the topic does not work on events!
-  # # @javascript
+  # @javascript
   @wip
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
@@ -72,7 +72,7 @@ Feature: Group Events
     Then  I should see "Some new event1" in the activity stream of the group "Architecture"
 
   # TODO : Setting the topic does not work on events!
-  # # @javascript
+  # @javascript
   @wip
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"

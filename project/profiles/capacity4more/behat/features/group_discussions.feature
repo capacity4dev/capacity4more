@@ -30,7 +30,7 @@ Feature: Group Discussions
     When I visit the group "discussion" detail page "Nobel Foundation"
     Then I should see the discussion detail page
 
-  # @javascript
+  @javascript
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start creating "discussion" "Some new discussion1" in group "Architecture" with file field "c4m-related-document"
@@ -39,13 +39,13 @@ Feature: Group Discussions
     And   I press "Publish"
     Then  I should see "Some new discussion1" in the activity stream of the group "Architecture"
 
-  # @javascript
+  @javascript
   Scenario: Check group reference field is filled from context and hidden
     Given I am logged in as user "mariecurie"
     When  I start editing "discussion" "Some new discussion1" in group "Architecture"
     Then  I should not see an "edit-og-group-ref-und-0-default" element
 
-  # @javascript
+  @javascript
   Scenario: Check edit own discussion of member group.
     Given I am logged in as user "galileo"
     When  a discussion "Some new discussion3" in group "Tennis Group" is created
@@ -53,7 +53,7 @@ Feature: Group Discussions
     Then  I should see "Edit discussion"
     And   I should see "Some new discussion3"
 
-  # @javascript
+  @javascript
   Scenario: Check unpublish button on node edit forms as an authenticated user
     Given I am logged in as user "alfrednobel"
     And   a discussion "Edit this discussion" in group "Nobel Prize" is created

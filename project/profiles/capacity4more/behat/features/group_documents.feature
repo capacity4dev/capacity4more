@@ -31,7 +31,7 @@ Feature: Group Documents
     Then I should see the document detail page
 
 #  Tests are commented because file uploading is not working.
-#  # @javascript @wip
+#  @javascript @wip
 #  Scenario: Check group reference field is filled from context and hidden
 #    Given I am logged in as user "mariecurie"
 #    When  I start creating "document" "Some new document1" in group "Architecture" with file field "edit-c4m-document-und-0-upload"
@@ -39,7 +39,7 @@ Feature: Group Documents
 #    And   I press "Save"
 #    Then  I should see "Some new document1" in the activity stream of the group "Architecture"
 #
-#  # @javascript
+#  @javascript
 #  Scenario: Check group reference field is filled from context and hidden
 #    Given I am logged in as user "mariecurie"
 #    When  I start editing "document" "Some new document1" in group "Architecture"
