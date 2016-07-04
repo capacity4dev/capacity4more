@@ -114,9 +114,7 @@ function c4m_domain_menu() {
  * Access callback for domain entities; Allow for admins only.
  */
 function c4m_domain_access($op, $domain = NULL, $account = NULL) {
-  global $user;
-
-  return user_access('administer site configuration', $user);
+  return user_access('administer site configuration');
 }
 
 /**
