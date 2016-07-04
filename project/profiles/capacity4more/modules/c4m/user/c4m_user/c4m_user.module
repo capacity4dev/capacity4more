@@ -317,7 +317,7 @@ function c4m_user_action_info() {
 function c4m_user_mail($key, &$message, $params) {
 
   if ($key == 'user_contact_mail') {
-    // Do not edit email message and body for user contact mail.
+    // Do not edit email subject and body for user contact mail.
     return;
   }
 
