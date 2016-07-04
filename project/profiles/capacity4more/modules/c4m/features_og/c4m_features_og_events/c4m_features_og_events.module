@@ -145,7 +145,8 @@ function c4m_features_og_events_preprocess_views_view(&$variables) {
   }
 
   $icon = '<i class="fa fa-calendar-plus-o" aria-hidden="true"></i>';
-  $variables['header'] = str_replace(t('Add an Event'), $icon . ' ' . t('Add an Event'), $variables['header']);
+  $text = t('Add an Event');
+  $variables['header'] = str_replace($text, $icon . ' ' . $text, $variables['header']);
 }
 
 /**
