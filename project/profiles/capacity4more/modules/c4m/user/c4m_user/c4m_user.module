@@ -695,7 +695,7 @@ function c4m_user_menu_alter(&$items) {
     'description' => 'User contact form.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('c4m_user_contact_form', 1),
-    'access callback' => 'c4m_user_contact_form_verify_access',
+    'access callback' => 'c4m_user_contact_form_access',
     'access arguments' => array(1),
   );
 }
@@ -705,7 +705,7 @@ function c4m_user_menu_alter(&$items) {
  *
  * Validates that user is logged in, and that account id entered at url exists.
  */
-function c4m_user_contact_form_verify_access($account) {
+function c4m_user_contact_form_access($account) {
   if (!user_is_logged_in()) {
     // If not logged in, deny access.
     return FALSE;
