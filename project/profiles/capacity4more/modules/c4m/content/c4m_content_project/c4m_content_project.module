@@ -166,3 +166,23 @@ function c4m_content_project_c4m_helper_entity_metrics_info() {
     ),
   );
 }
+
+
+/**
+ * Implements hook_theme().
+ */
+function c4m_content_project_theme() {
+  $theme['c4m_content_project_header_title'] = array(
+    'variables' => array(
+      'title' => '',
+      'stage' => '',
+      'type' => '',
+      'status' => '',
+      'flag' => '',
+    ),
+    'path' => drupal_get_path('module', 'c4m_content_project') . '/theme',
+    'template' => 'c4m-content-project-header-title',
+  );
+
+  return $theme;
+}

@@ -20,7 +20,7 @@
       </div>
       <div class="col-xs-5">
         <div class="top-buffer indication label label-stage <?php print $project_stage?>">
-          <?php print $stage; ?>
+          <?php print $stage_label; ?>
         </div>
       </div>
       <div class="col-xs-5">

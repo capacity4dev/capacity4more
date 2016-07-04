@@ -25,6 +25,10 @@ function _c4m_content_group_preprocess_header_name_banner(array &$variables) {
 
 /**
  * Og group title redesign.
+ *
+ * There're 2 types of OG groups. Group and Project.
+ * The function handles header title redesign for both group
+ * and project pages.
  */
 function _c4m_content_group_block_header_name_banner() {
   // First establish the current group.
@@ -40,22 +44,22 @@ function _c4m_content_group_block_header_name_banner() {
     switch ($project_stage) {
       case 'notstarted':
         $flag_icon = 'fa-flag-o';
-        $stage = 'not started';
+        $stage_label = 'not started';
         break;
 
       case 'completed':
         $flag_icon= 'fa-flag-checkered';
-        $stage = 'completed';
+        $stage_label = 'completed';
         break;
 
       default:
         $flag_icon = 'fa-flag';
-        $stage = 'ongoing';
+        $stage_label = 'ongoing';
     }
 
     $variables = [
       'title' => check_plain($title),
-      'stage' => $stage,
+      'stage_label' => $stage_label,
       'project_stage' => $project_stage,
       'type' => $wrapper->c4m_project_type->value(),
       'status' => $status,
